@@ -10,6 +10,14 @@ pub struct AirVarInfo {
     pub r#type: AirVarType,
 }
 
+/// All the structs that implement ExprType.
+#[derive(Copy, Clone, Debug, Serialize, Deserialize, PartialEq, Eq, PartialOrd, Ord, Default)]
+pub enum ExprTypeImpl {
+    #[default]
+    Felt,
+    // TODO: Add bool, uint16, ...
+}
+
 /// All the types of structs that implement AirVar.
 /// See var_type function in AirVar trait.
 #[derive(Clone, Debug, Serialize, Deserialize)]
