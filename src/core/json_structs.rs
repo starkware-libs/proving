@@ -10,18 +10,31 @@ pub struct AirFnEntry {
     pub input: (ProcessedAirVar, bool),
     pub output: (ProcessedAirVar, bool),
     pub air_body: Vec<AirBodyComponent>,
+    #[serde(skip)]
+    pub constraints: Vec<ProcessedFeltExpr>,
+    #[serde(skip)]
+    pub deductions: Vec<ProcessedAirVar>,
 }
 
+// Air variables as represented in the deductions list.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ProcessedAirVar {
     Struct {
+        // The name of the struct.
         id: String,
-        fields: Vec<(String, ProcessedAirVar)>,
+        // The fields of the struct. Each field is a tuple of the field type and the field name.
+        fields: Vec<(String, String)>,
     },
+    // A function call. The name of the function and its arguments.
     Call(String, Vec<ProcessedAirVar>),
+    // A constant expression represented by the type of the constant and its value.
+    ConstExpr(String, String),
+    // A variable expression represented by the type of the variable and its name.
     VarExpr(String, String),
-    BinaryExpr(Box<ProcessedAirVar>, BinaryOp, Box<ProcessedAirVar>),
-    UnaryExpr(UnaryOp, Box<ProcessedAirVar>),
+    // A binary expression represented by the left-hand side, the operator, and the right-hand side.
+    BinaryExpr(Box<ProcessedAirVar>, String, Box<ProcessedAirVar>),
+    // A unary expression represented by the operator and the expression.
+    UnaryExpr(String, Box<ProcessedAirVar>),
     Tuple(Vec<ProcessedAirVar>),
     Array(Vec<ProcessedAirVar>),
 }
@@ -49,9 +62,10 @@ impl Display for ProcessedAirVar {
                 }
                 write!(f, ")")
             }
+            ProcessedAirVar::ConstExpr(_, id) => write!(f, "const_{}", id),
             ProcessedAirVar::VarExpr(_, id) => write!(f, "{}", id),
-            ProcessedAirVar::BinaryExpr(lhs, op, rhs) => write!(f, "({} {} {})", lhs, op, rhs),
-            ProcessedAirVar::UnaryExpr(op, expr) => write!(f, "({}({}))", op, expr),
+            ProcessedAirVar::BinaryExpr(lhs, op, rhs) => write!(f, "({}.{}({}))", lhs, op, rhs),
+            ProcessedAirVar::UnaryExpr(op, expr) => write!(f, "({}.{}())", expr, op),
             ProcessedAirVar::Tuple(exprs) => {
                 write!(f, "(")?;
                 for (i, expr) in exprs.iter().enumerate() {
@@ -76,55 +90,27 @@ impl Display for ProcessedAirVar {
     }
 }
 
+// Expressions as represented in the constraints list.
+// All these expressions are written to the trace, so they are already defined with their types as part of the deduction list.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum ProcessedFeltExpr {
+    // A constant expression represented by the value of the constant.
+    ConstExpr(String),
+    // A variable expression represented by the name of the variable.
     VarExpr(String),
-    BinaryExpr(Box<ProcessedFeltExpr>, BinaryOp, Box<ProcessedFeltExpr>),
-    UnaryExpr(UnaryOp, Box<ProcessedFeltExpr>),
+    // A binary expression represented by the left-hand side, the operator, and the right-hand side.
+    BinaryExpr(Box<ProcessedFeltExpr>, String, Box<ProcessedFeltExpr>),
+    // A unary expression represented by the operator and the expression.
+    UnaryExpr(String, Box<ProcessedFeltExpr>),
 }
 impl Display for ProcessedFeltExpr {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
+            ProcessedFeltExpr::ConstExpr(id) => write!(f, "const_{}", id),
             ProcessedFeltExpr::VarExpr(id) => write!(f, "{}", id),
-            ProcessedFeltExpr::BinaryExpr(lhs, op, rhs) => write!(f, "({} {} {})", lhs, op, rhs),
-            ProcessedFeltExpr::UnaryExpr(op, expr) => write!(f, "({}({}))", op, expr),
+            ProcessedFeltExpr::BinaryExpr(lhs, op, rhs) => write!(f, "({}.{}({}))", lhs, op, rhs),
+            ProcessedFeltExpr::UnaryExpr(op, expr) => write!(f, "({}.{}())", expr, op),
         }
-    }
-}
-
-#[derive(Copy, Clone, Default, Debug, Eq, PartialEq, PartialOrd, Ord, Serialize, Deserialize)]
-pub enum BinaryOp {
-    #[default]
-    Add,
-    Sub,
-    Mul,
-    Div,
-    Eq,
-}
-impl Display for BinaryOp {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let op = match self {
-            BinaryOp::Add => "+",
-            BinaryOp::Sub => "-",
-            BinaryOp::Mul => "*",
-            BinaryOp::Div => "//",
-            BinaryOp::Eq => "==",
-        };
-        write!(f, "{}", op)
-    }
-}
-
-#[derive(Copy, Clone, Default, Debug, Eq, PartialEq, PartialOrd, Ord, Serialize, Deserialize)]
-pub enum UnaryOp {
-    #[default]
-    AsFelt,
-}
-impl Display for UnaryOp {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let op = match self {
-            UnaryOp::AsFelt => "as_felt",
-        };
-        write!(f, "{}", op)
     }
 }
 
