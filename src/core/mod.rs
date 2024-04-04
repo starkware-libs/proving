@@ -1,3 +1,3 @@
-pub mod expr_types;
-pub mod json_structs;
+pub mod autogen_structs;
+pub mod prover_types;
 pub mod variables;

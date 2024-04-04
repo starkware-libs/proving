@@ -1,36 +1,30 @@
 use std::fmt::Debug;
 use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Rem, Shl, Shr, Sub};
 
-use enum_dispatch::enum_dispatch;
 use num_integer::Integer;
 use serde::{Deserialize, Serialize};
+use stwo::core::fields::m31::BaseField;
 
 pub const PRIME: u32 = 2_u32.pow(31) - 1;
 
-pub trait AlgebraicType: ExprType + Add + Sub + Mul + Div {}
+pub trait AlgebraicType: ProverType + Add + Sub + Mul + Div {}
 impl AlgebraicType for Felt {}
 
-pub trait NumericType: ExprType + Rem + Shl + Shr + BitAnd + BitOr + BitXor {}
+pub trait NumericType: ProverType + Rem + Shl + Shr + BitAnd + BitOr + BitXor {}
 impl NumericType for UInt16 {}
 impl NumericType for UInt32 {}
 
-pub trait AsFelt {
+pub trait SingleFeltType: ProverType {
     fn as_felt(&self) -> Felt;
 }
-pub trait SingleFeltType: ExprType + AsFelt {}
-impl SingleFeltType for Felt {}
-impl SingleFeltType for UInt16 {}
-impl SingleFeltType for Bool {}
 
 /// Expression Types - the basic type of the variables composing the expression.
 /// For exaple, felt or bool. The expression types are devided into group, depending on
 /// the operations that can be performed on them.
-#[enum_dispatch]
-pub trait ExprType: Debug + Clone + Copy + Default {
+pub trait ProverType: Debug + Clone + Copy + Default {
     // Returns the calculation of the expression as a string, when all values are known.
     // Used for testing and for creating the name of constant expressions.
     fn calc(&self) -> String;
-    fn as_felts(&self) -> Vec<Felt>;
     fn r#type() -> String;
 }
 
@@ -39,12 +33,9 @@ pub struct Felt {
     pub value: u32,
 }
 
-impl ExprType for Felt {
+impl ProverType for Felt {
     fn calc(&self) -> String {
         self.value.to_string()
-    }
-    fn as_felts(&self) -> Vec<Felt> {
-        vec![*self]
     }
     fn r#type() -> String {
         "Felt".to_string()
@@ -59,9 +50,15 @@ impl Felt {
     }
 }
 
-impl AsFelt for Felt {
-    fn as_felt(&self) -> Felt {
-        *self
+impl From<u32> for Felt {
+    fn from(value: u32) -> Felt {
+        Felt { value }
+    }
+}
+
+impl From<Felt> for BaseField {
+    fn from(f: Felt) -> BaseField {
+        BaseField::from_u32_unchecked(f.value)
     }
 }
 
@@ -105,17 +102,20 @@ pub struct Bool {
     pub value: bool,
 }
 
-impl ExprType for Bool {
+impl ProverType for Bool {
     fn calc(&self) -> String {
         self.value.to_string()
     }
-    fn as_felts(&self) -> Vec<Felt> {
-        vec![Felt {
-            value: self.value as u32,
-        }]
-    }
     fn r#type() -> String {
         "Bool".to_string()
+    }
+}
+
+impl SingleFeltType for Bool {
+    fn as_felt(&self) -> Felt {
+        Felt {
+            value: if self.value { 1 } else { 0 },
+        }
     }
 }
 
@@ -127,11 +127,9 @@ impl Bool {
     }
 }
 
-impl AsFelt for Bool {
-    fn as_felt(&self) -> Felt {
-        Felt {
-            value: self.value as u32,
-        }
+impl From<bool> for Bool {
+    fn from(value: bool) -> Bool {
+        Bool { value }
     }
 }
 
@@ -140,17 +138,20 @@ pub struct UInt16 {
     pub value: u16,
 }
 
-impl ExprType for UInt16 {
+impl ProverType for UInt16 {
     fn calc(&self) -> String {
         self.value.to_string()
     }
-    fn as_felts(&self) -> Vec<Felt> {
-        vec![Felt {
-            value: self.value as u32,
-        }]
-    }
     fn r#type() -> String {
         "UInt16".to_string()
+    }
+}
+
+impl SingleFeltType for UInt16 {
+    fn as_felt(&self) -> Felt {
+        Felt {
+            value: self.value as u32,
+        }
     }
 }
 
@@ -162,11 +163,9 @@ impl UInt16 {
     }
 }
 
-impl AsFelt for UInt16 {
-    fn as_felt(&self) -> Felt {
-        Felt {
-            value: self.value as u32,
-        }
+impl From<u16> for UInt16 {
+    fn from(value: u16) -> UInt16 {
+        UInt16 { value }
     }
 }
 
@@ -230,27 +229,43 @@ impl UInt32 {
             value: self.value == other.value,
         }
     }
+
+    pub fn low(&self) -> Felt {
+        Felt {
+            value: self.value & 0xFFFF,
+        }
+    }
+
+    pub fn high(&self) -> Felt {
+        Felt {
+            value: self.value >> 16,
+        }
+    }
 }
 
-impl ExprType for UInt32 {
+impl From<u32> for UInt32 {
+    fn from(value: u32) -> UInt32 {
+        UInt32 { value }
+    }
+}
+
+impl ProverType for UInt32 {
     fn calc(&self) -> String {
         self.value.to_string()
-    }
-    fn as_felts(&self) -> Vec<Felt> {
-        vec![
-            Felt {
-                value: self.value % 2_u32.pow(16),
-            },
-            Felt {
-                value: self.value / 2_u32.pow(16),
-            },
-        ]
     }
     fn r#type() -> String {
         "UInt32".to_string()
     }
 }
 
+impl Add for UInt32 {
+    type Output = UInt32;
+    fn add(self, other: UInt32) -> UInt32 {
+        UInt32 {
+            value: self.value.wrapping_add(other.value),
+        }
+    }
+}
 impl Rem for UInt32 {
     type Output = UInt32;
     fn rem(self, other: UInt32) -> UInt32 {
