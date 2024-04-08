@@ -1,5 +1,7 @@
 use std::fmt::Debug;
 
+use super::expressions::felt_expr::*;
+
 /// Every input and output of an air function is an AirVar.
 pub trait AirVar: Clone + Debug + Default {
     fn new(name: String) -> Self;
@@ -11,6 +13,7 @@ pub trait AirVar: Clone + Debug + Default {
     // Returns whether the value of this AirVar is stored in a trace cell.
     // For example, an input to an air function is not in state when it is from the private input.
     fn in_state(&self) -> bool;
+    fn as_felts(&mut self) -> Vec<&mut FeltExpr>;
 }
 
 // Implements AirVar for arrays and tuples of air vars.
@@ -34,6 +37,9 @@ macro_rules! impl_air_var {
             }
             fn new(name: String) -> Self {
                 from_fn(|i| <$s>::new(format!("{}_{}", name, i)))
+            }
+            fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+                self.into_iter().flat_map(|s| s.as_felts()).collect()
             }
         }
     };
@@ -60,6 +66,13 @@ macro_rules! impl_air_var {
             fn new(name: String) -> Self {
                 let mut i = 0;
                 ($(<$s>::new(format!("{}_{}", name, { i += 1; i })),)+)
+            }
+            fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+                let mut res = vec!();
+                #[allow(non_snake_case)]
+                let ($($s),+) = self;
+                $(res.extend($s.as_felts());)+
+                res
             }
         }
     };

@@ -230,15 +230,15 @@ impl UInt32 {
         }
     }
 
-    pub fn low(&self) -> Felt {
-        Felt {
-            value: self.value & 0xFFFF,
+    pub fn low(&self) -> UInt16 {
+        UInt16 {
+            value: (self.value & 0xFFFF) as u16,
         }
     }
 
-    pub fn high(&self) -> Felt {
-        Felt {
-            value: self.value >> 16,
+    pub fn high(&self) -> UInt16 {
+        UInt16 {
+            value: (self.value >> 16) as u16,
         }
     }
 }
