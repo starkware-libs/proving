@@ -3,9 +3,11 @@ use serde::{Deserialize, Serialize};
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
+use super::op_expr::*;
 use crate::core::autogen_structs::*;
 
 pub type FeltConst = ConstExpr<Felt>;
+pub type FeltBinary = BinaryExpr<Felt>;
 
 // A variable of type felt. It can be a field (attribute) of another expression, like UInt16Expr, or
 // a standalone variable. It can represent a felt expression that was written to the trace.
@@ -26,6 +28,7 @@ pub struct FeltVar {
 pub enum FeltExpr {
     Const(FeltConst),
     Var(FeltVar),
+    Binary(FeltBinary),
 }
 
 impl FeltExpr {
@@ -36,7 +39,9 @@ impl FeltExpr {
             FeltExpr::Var(v) => {
                 v.name = format!("state{}", index);
                 v.state_index = Some(index);
-                v.parent = None;
+            }
+            FeltExpr::Binary(b) => {
+                *self = Self::new_var(format!("state{}", index), b.value, Some(index))
             }
             _ => panic!("Cannot convert a constant to a state"),
         }
@@ -65,6 +70,7 @@ impl Expr<Felt> for FeltExpr {
         match self {
             FeltExpr::Const(c) => Some(c.value),
             FeltExpr::Var(v) => v.value,
+            FeltExpr::Binary(b) => b.value,
         }
     }
 }
@@ -78,12 +84,18 @@ impl AirVar for FeltExpr {
         match self {
             FeltExpr::Const(c) => c.name.clone(),
             FeltExpr::Var(v) => v.name.clone(),
+            FeltExpr::Binary(b) => b.name.clone(),
         }
     }
 
-    fn create_intermediate_var(&self, _name: String) -> Self {
+    fn create_intermediate_var(&self, name: String) -> Self {
         match self {
-            FeltExpr::Var(v) => v.clone().into(),
+            FeltExpr::Var(v) => {
+                let mut res = v.clone();
+                res.name = name;
+                res.into()
+            }
+            FeltExpr::Binary(b) => Self::new_var(name, b.value, None),
             _ => panic!("Cannot create an intermediate variable from a constant"),
         }
     }
@@ -92,6 +104,7 @@ impl AirVar for FeltExpr {
         match self {
             FeltExpr::Const(_) => true,
             FeltExpr::Var(v) => v.state_index.is_some(),
+            FeltExpr::Binary(b) => b.left.in_state() && b.right.in_state(),
         }
     }
 
@@ -118,6 +131,12 @@ impl From<FeltVar> for FeltExpr {
     }
 }
 
+impl From<FeltBinary> for FeltExpr {
+    fn from(binary: FeltBinary) -> FeltExpr {
+        FeltExpr::Binary(binary)
+    }
+}
+
 impl From<FeltExpr> for ProcessedAirVar {
     fn from(expr: FeltExpr) -> ProcessedAirVar {
         match expr {
@@ -131,6 +150,7 @@ impl From<FeltExpr> for ProcessedAirVar {
                 }
                 ProcessedAirVar::Var(Felt::r#type(), v.name)
             }
+            FeltExpr::Binary(b) => b.into(),
         }
     }
 }
