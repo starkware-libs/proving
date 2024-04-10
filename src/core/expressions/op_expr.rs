@@ -1,13 +1,16 @@
 use std::fmt::Display;
-use std::ops::{Add, Div, Mul, Sub};
+use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Rem, Shl, Shr, Sub};
 
 use serde::{Deserialize, Serialize};
 
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
+use super::bool_expr::*;
 use super::expr::*;
 use super::felt_expr::*;
+use super::uint16_expr::*;
+use super::uint32_expr::*;
 // Macros
 use crate::impl_binary_op;
 
@@ -118,10 +121,30 @@ pub enum OpType {
     Static(String),
 }
 
+impl_binary_op!(Eq, eq, BoolExpr, BoolExpr, BoolBinary);
+
 impl_binary_op!(ops Add, add, FeltExpr, FeltBinary);
 impl_binary_op!(ops Sub, sub, FeltExpr, FeltBinary);
 impl_binary_op!(ops Mul, mul, FeltExpr, FeltBinary);
 impl_binary_op!(ops Div, div, FeltExpr, FeltBinary);
+impl_binary_op!(Eq, eq, FeltExpr, BoolExpr, BoolBinary);
+
+impl_binary_op!(ops Rem, rem, UInt16Expr, UInt16Binary);
+impl_binary_op!(ops Shl, shl, UInt16Expr, UInt16Binary);
+impl_binary_op!(ops Shr, shr, UInt16Expr, UInt16Binary);
+impl_binary_op!(ops BitAnd, bitand, UInt16Expr, UInt16Binary);
+impl_binary_op!(ops BitOr, bitor, UInt16Expr, UInt16Binary);
+impl_binary_op!(ops BitXor, bitxor, UInt16Expr, UInt16Binary);
+impl_binary_op!(Eq, eq, UInt16Expr, BoolExpr, BoolBinary);
+
+impl_binary_op!(ops Add, add, UInt32Expr, UInt32Binary);
+impl_binary_op!(ops Rem, rem, UInt32Expr, UInt32Binary);
+impl_binary_op!(ops Shl, shl, UInt32Expr, UInt32Binary);
+impl_binary_op!(ops Shr, shr, UInt32Expr, UInt32Binary);
+impl_binary_op!(ops BitAnd, bitand, UInt32Expr, UInt32Binary);
+impl_binary_op!(ops BitOr, bitor, UInt32Expr, UInt32Binary);
+impl_binary_op!(ops BitXor, bitxor, UInt32Expr, UInt32Binary);
+impl_binary_op!(Eq, eq, UInt32Expr, BoolExpr, BoolBinary);
 
 #[macro_export]
 macro_rules! impl_binary_op {

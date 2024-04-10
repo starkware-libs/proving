@@ -1,8 +1,9 @@
 use super::super::prover_types::*;
 use super::expr::*;
 use super::felt_expr::*;
+use super::uint32_expr::*;
 // Macros
-use crate::const_expr;
+use crate::{const_expr, const_u32_expr};
 
 #[test]
 fn test_add_sub() {
@@ -31,4 +32,12 @@ fn test_mod_sub() {
     let c = b - a;
     let res = 3 + PRIME - 5;
     assert_eq!(c.calc(), res.to_string());
+}
+
+#[test]
+fn test_uint32() {
+    let a: &UInt32Expr = &const_u32_expr!(1);
+    let b = &const_u32_expr!(2);
+    let c = a + b;
+    assert_eq!(c.calc(), 3.to_string());
 }

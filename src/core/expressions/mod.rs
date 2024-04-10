@@ -1,6 +1,9 @@
+pub mod bool_expr;
 pub mod expr;
 pub mod felt_expr;
 pub mod op_expr;
+pub mod uint16_expr;
+pub mod uint32_expr;
 
 #[cfg(test)]
 mod expr_test;

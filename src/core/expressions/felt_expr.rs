@@ -9,7 +9,7 @@ use crate::core::autogen_structs::*;
 pub type FeltConst = ConstExpr<Felt>;
 pub type FeltBinary = BinaryExpr<Felt>;
 
-// A variable of type felt. It can be a field (attribute) of another expression, like UInt16Expr, or
+// A variable of type Felt. It can be a field (attribute) of another expression, like UInt16Expr, or
 // a standalone variable. It can represent a felt expression that was written to the trace.
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
 pub struct FeltVar {
@@ -50,6 +50,8 @@ impl FeltExpr {
     pub fn set_parent(&mut self, parent: ExprImpl) {
         if let FeltExpr::Var(v) = self {
             v.parent = Some(Box::new(parent));
+        } else {
+            panic!("Cannot set parent of a non-variable");
         }
     }
 

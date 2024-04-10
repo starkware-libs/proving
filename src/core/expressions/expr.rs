@@ -1,10 +1,14 @@
 use core::array::from_fn;
+
 use serde::{Deserialize, Serialize};
 
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
+use super::bool_expr::*;
 use super::felt_expr::*;
+use super::uint16_expr::*;
+use super::uint32_expr::*;
 // Macros
 use crate::impl_air_var;
 
@@ -55,6 +59,9 @@ where
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum ExprImpl {
     Felt(FeltExpr),
+    UInt16(UInt16Expr),
+    Bool(BoolExpr),
+    UInt32(UInt32Expr),
 }
 
 impl Default for ExprImpl {
@@ -71,24 +78,36 @@ impl AirVar for ExprImpl {
     fn name(&self) -> String {
         match self {
             ExprImpl::Felt(f) => f.name(),
+            ExprImpl::UInt16(u) => u.name(),
+            ExprImpl::Bool(b) => b.name(),
+            ExprImpl::UInt32(u) => u.name(),
         }
     }
 
     fn in_state(&self) -> bool {
         match self {
             ExprImpl::Felt(f) => f.in_state(),
+            ExprImpl::UInt16(u) => u.in_state(),
+            ExprImpl::Bool(b) => b.in_state(),
+            ExprImpl::UInt32(u) => u.in_state(),
         }
     }
 
     fn create_intermediate_var(&self, name: String) -> Self {
         match self {
             ExprImpl::Felt(f) => f.create_intermediate_var(name).into(),
+            ExprImpl::UInt16(u) => u.create_intermediate_var(name).into(),
+            ExprImpl::Bool(b) => b.create_intermediate_var(name).into(),
+            ExprImpl::UInt32(u) => u.create_intermediate_var(name).into(),
         }
     }
 
     fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
         match self {
             ExprImpl::Felt(f) => f.as_felts(),
+            ExprImpl::UInt16(u) => u.as_felts(),
+            ExprImpl::Bool(b) => b.as_felts(),
+            ExprImpl::UInt32(u) => u.as_felts(),
         }
     }
 }
@@ -98,13 +117,35 @@ impl From<FeltExpr> for ExprImpl {
         ExprImpl::Felt(expr)
     }
 }
+impl From<UInt16Expr> for ExprImpl {
+    fn from(expr: UInt16Expr) -> ExprImpl {
+        ExprImpl::UInt16(expr)
+    }
+}
+impl From<BoolExpr> for ExprImpl {
+    fn from(expr: BoolExpr) -> ExprImpl {
+        ExprImpl::Bool(expr)
+    }
+}
+impl From<UInt32Expr> for ExprImpl {
+    fn from(expr: UInt32Expr) -> ExprImpl {
+        ExprImpl::UInt32(expr)
+    }
+}
 
 impl From<ExprImpl> for ProcessedAirVar {
     fn from(expr: ExprImpl) -> ProcessedAirVar {
         match expr {
             ExprImpl::Felt(f) => f.into(),
+            ExprImpl::UInt16(u) => u.into(),
+            ExprImpl::Bool(b) => b.into(),
+            ExprImpl::UInt32(u) => u.into(),
         }
     }
 }
 
 impl_air_var!([FeltExpr; 2]);
+impl_air_var!((BoolExpr, FeltExpr));
+impl_air_var!((BoolExpr, UInt16Expr));
+impl_air_var!((UInt16Expr, FeltExpr));
+impl_air_var!([UInt32Expr; 2]);
