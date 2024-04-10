@@ -124,6 +124,13 @@ impl From<BoolBinary> for BoolExpr {
     }
 }
 
+impl From<BoolExpr> for GenericAirVar {
+    fn from(expr: BoolExpr) -> GenericAirVar {
+        let expr_impl: ExprImpl = expr.into();
+        expr_impl.into()
+    }
+}
+
 impl From<BoolExpr> for ProcessedAirVar {
     fn from(expr: BoolExpr) -> ProcessedAirVar {
         match expr {

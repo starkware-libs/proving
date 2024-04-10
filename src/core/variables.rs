@@ -1,9 +1,13 @@
 use std::fmt::Debug;
 
+use serde::{Deserialize, Serialize};
+
+use super::autogen_structs::*;
+use super::expressions::expr::*;
 use super::expressions::felt_expr::*;
 
 /// Every input and output of an air function is an AirVar.
-pub trait AirVar: Clone + Debug + Default {
+pub trait AirVar: Clone + Debug + Default + Into<GenericAirVar> {
     fn new(name: String) -> Self;
     fn create_intermediate_var(&self, name: String) -> Self;
     fn name(&self) -> String;
@@ -14,6 +18,28 @@ pub trait AirVar: Clone + Debug + Default {
     // For example, an input to an air function is not in state when it is from the private input.
     fn in_state(&self) -> bool;
     fn as_felts(&mut self) -> Vec<&mut FeltExpr>;
+}
+
+// Air variables as represented in the air_body.
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub enum GenericAirVar {
+    Expr(ExprImpl),
+    Tuple(Vec<GenericAirVar>),
+    Array(Vec<GenericAirVar>),
+}
+
+impl From<GenericAirVar> for ProcessedAirVar {
+    fn from(generic: GenericAirVar) -> ProcessedAirVar {
+        match generic {
+            GenericAirVar::Expr(expr) => expr.into(),
+            GenericAirVar::Tuple(v) => {
+                ProcessedAirVar::Tuple(v.into_iter().map(|v| v.into()).collect())
+            }
+            GenericAirVar::Array(v) => {
+                ProcessedAirVar::Array(v.into_iter().map(|v| v.into()).collect())
+            }
+        }
+    }
 }
 
 // Implements AirVar for arrays and tuples of air vars.
@@ -40,6 +66,11 @@ macro_rules! impl_air_var {
             }
             fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
                 self.into_iter().flat_map(|s| s.as_felts()).collect()
+            }
+        }
+        impl From<[$s;$n]> for GenericAirVar {
+            fn from(array: [$s;$n]) -> GenericAirVar {
+                GenericAirVar::Array(array.into_iter().map(|s| s.into()).collect())
             }
         }
     };
@@ -73,6 +104,13 @@ macro_rules! impl_air_var {
                 let ($($s),+) = self;
                 $(res.extend($s.as_felts());)+
                 res
+            }
+        }
+        impl From<($($s),+)> for GenericAirVar {
+            fn from(tuple: ($($s),+)) -> GenericAirVar {
+                #[allow(non_snake_case)]
+                let ($($s),+) = tuple.clone();
+                GenericAirVar::Tuple(vec![$($s.into(),)+])
             }
         }
     };

@@ -139,6 +139,13 @@ impl From<FeltBinary> for FeltExpr {
     }
 }
 
+impl From<FeltExpr> for GenericAirVar {
+    fn from(expr: FeltExpr) -> GenericAirVar {
+        let expr_impl: ExprImpl = expr.into();
+        expr_impl.into()
+    }
+}
+
 impl From<FeltExpr> for ProcessedAirVar {
     fn from(expr: FeltExpr) -> ProcessedAirVar {
         match expr {

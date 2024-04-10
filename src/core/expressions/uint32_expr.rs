@@ -144,6 +144,13 @@ impl From<UInt32Binary> for UInt32Expr {
     }
 }
 
+impl From<UInt32Expr> for GenericAirVar {
+    fn from(expr: UInt32Expr) -> GenericAirVar {
+        let expr_impl: ExprImpl = expr.into();
+        expr_impl.into()
+    }
+}
+
 impl From<UInt32Expr> for ProcessedAirVar {
     fn from(expr: UInt32Expr) -> ProcessedAirVar {
         match expr {

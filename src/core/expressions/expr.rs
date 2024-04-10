@@ -133,6 +133,12 @@ impl From<UInt32Expr> for ExprImpl {
     }
 }
 
+impl From<ExprImpl> for GenericAirVar {
+    fn from(expr: ExprImpl) -> GenericAirVar {
+        GenericAirVar::Expr(expr)
+    }
+}
+
 impl From<ExprImpl> for ProcessedAirVar {
     fn from(expr: ExprImpl) -> ProcessedAirVar {
         match expr {
