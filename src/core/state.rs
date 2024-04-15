@@ -22,7 +22,6 @@ impl Default for State {
 }
 
 impl State {
-    #[allow(unused)]
     pub(super) fn add(&self, expr: &mut FeltExpr) {
         let len = self.row.borrow().len();
         expr.to_state(len);

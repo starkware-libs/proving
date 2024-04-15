@@ -131,7 +131,7 @@ impl AirFnRegistry {
         writer.flush().expect("flush failed");
     }
 
-    // Transform the air body and input of an air function into the autogen format.
+    // Transforms the air body and input of an air function into the autogen format.
     fn get_autogen_lists(air_body: Vec<AirBodyComponent>, input: GenericAirVar) -> AutogenLists {
         let mut constraints = vec![];
         let mut deductions = vec![];

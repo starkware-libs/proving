@@ -114,6 +114,77 @@ impl From<BinaryOp> for OpType {
     }
 }
 
+/// Unary expressions - results of unary operations on expressions.
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+pub struct UnaryExpr<T>
+where
+    T: ProverType,
+{
+    pub(super) name: String,
+    #[allow(unused)]
+    #[serde(skip)]
+    pub(super) value: Option<T>,
+    #[serde(skip)]
+    pub(super) child: Box<ExprImpl>,
+    #[serde(skip)]
+    pub(super) op: UnaryOp,
+}
+
+impl<T> UnaryExpr<T>
+where
+    T: ProverType,
+{
+    #[allow(unused)]
+    pub(super) fn new(op: UnaryOp, child: ExprImpl, value: Option<T>) -> Self {
+        let name = match op.into() {
+            OpType::Op(op) => format!("({}{})", op, child.name()),
+            OpType::Method(op) => format!("({}.{}())", child.name(), op),
+            OpType::Static(op) => format!("({}({}))", op, child.name()),
+        };
+
+        UnaryExpr {
+            name,
+            value,
+            child: Box::new(child),
+            op,
+        }
+    }
+}
+
+impl<T> From<UnaryExpr<T>> for ProcessedAirVar
+where
+    T: ProverType,
+{
+    fn from(expr: UnaryExpr<T>) -> ProcessedAirVar {
+        match expr.op.into() {
+            OpType::Op(op) => ProcessedAirVar::UnaryOp(op, Box::new((*expr.child).into())),
+            OpType::Method(op) => {
+                ProcessedAirVar::MethodCall(Box::new((*expr.child).into()), op, vec![])
+            }
+            OpType::Static(op) => ProcessedAirVar::StaticCall(op, vec![(*expr.child).into()]),
+        }
+    }
+}
+
+#[derive(Copy, Clone, Default, Debug, Eq, PartialEq, PartialOrd, Ord, Serialize, Deserialize)]
+pub enum UnaryOp {
+    #[default]
+    Neg,
+}
+impl Display for UnaryOp {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            UnaryOp::Neg => write!(f, "-"),
+        }
+    }
+}
+impl From<UnaryOp> for OpType {
+    fn from(op: UnaryOp) -> OpType {
+        // Currently, all unary operations are represented as operators.
+        OpType::Op(op.to_string())
+    }
+}
+
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub enum OpType {
     Op(String),
@@ -176,6 +247,18 @@ macro_rules! impl_binary_op {
                     other.clone().into(),
                     value,
                 ))
+            }
+        }
+    };
+}
+
+#[macro_export]
+macro_rules! impl_unary_op {
+    ($op:ident, $op_lower:ident, $it:ident, $ot:ident) => {
+        impl $it {
+            pub fn $op_lower(self) -> $ot {
+                let value = self.value().map(|c| c.$op_lower());
+                $ot::Unary(UnaryExpr::new(UnaryOp::$op, self.clone().into(), value))
             }
         }
     };
