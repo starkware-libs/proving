@@ -37,11 +37,11 @@ impl FeltExpr {
     pub fn to_state(&mut self, index: usize) {
         match self {
             FeltExpr::Var(v) => {
-                v.name = format!("state{}", index);
+                v.name = format!("state[{}]", index);
                 v.state_index = Some(index);
             }
             FeltExpr::Binary(b) => {
-                *self = Self::new_var(format!("state{}", index), b.value, Some(index))
+                *self = Self::new_var(format!("state[{}]", index), b.value, Some(index))
             }
             _ => panic!("Cannot convert a constant to a state"),
         }
@@ -175,5 +175,13 @@ macro_rules! const_expr {
 macro_rules! expr {
     ($name:expr, $val:expr) => {
         FeltExpr::new_var($name.to_string(), Some(Felt::from($val)), None)
+    };
+
+    ($name:expr, $val:expr, $in_trace:literal) => {
+        if $in_trace {
+            FeltExpr::new_var($name.to_string(), Some(Felt::from($val)), Some(0))
+        } else {
+            FeltExpr::new_var($name.to_string(), Some(Felt::from($val)), None)
+        }
     };
 }

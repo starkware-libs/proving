@@ -1,0 +1,58 @@
+use super::super::core::air_fn_registry::*;
+use super::super::core::expressions::expr::*;
+use super::super::core::expressions::uint32_expr::*;
+use super::super::core::prover_types::*;
+use super::add32::*;
+// Macros
+use crate::u32_expr;
+
+#[test]
+fn test_add32() {
+    let air_fn = Add32 {};
+    let (registry, _, lists) = AirFnRegistry::new(&air_fn);
+
+    let constraints = [
+        "(((state[0] + state[2]) - state[4]) * (((state[0] + state[2]) - state[4]) - const_65536))",
+        "((((state[1] + state[3]) - state[5]) * const_65536) + ((state[0] + state[2]) - state[4]))",
+    ];
+
+    let deductions = [
+        "tmp_0 = (Add32_input_0 + Add32_input_1)",
+        "tmp_0.low().as_felt()",
+        "tmp_0.high().as_felt()",
+    ];
+
+    assert!(
+        lists
+            .constraints
+            .iter()
+            .map(|x| x.to_string())
+            .collect::<Vec<String>>()
+            == constraints
+    );
+    assert!(
+        lists
+            .deductions
+            .iter()
+            .map(|x| x.to_string())
+            .collect::<Vec<String>>()
+            == deductions
+    );
+
+    let (state, output) = registry.run_air(
+        &air_fn,
+        [u32_expr!("x", 1_u32, true), u32_expr!("y", 1_u32, true)],
+    );
+    assert!(output.calc() == "2");
+    assert!(state.calc() == ["2", "0"]);
+
+    let (state, output) = registry.run_air(
+        &air_fn,
+        [
+            u32_expr!("x", 2_u32.pow(15), true),
+            u32_expr!("y", 2_u32.pow(15), true),
+        ],
+    );
+    assert!(output.calc() == "65536");
+    assert!(state.calc() == ["0", "1"]);
+}

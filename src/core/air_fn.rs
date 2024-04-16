@@ -121,6 +121,7 @@ impl AirBuilder {
         self.air_body.push(AirBodyComponent::Subroutine(Call {
             air_fn_name: air_fn.name(),
             input_arg: input.into(),
+            output: output.clone().into(),
             state: air_builder.state,
             air_body: air_builder.air_body,
         }));
@@ -129,12 +130,13 @@ impl AirBuilder {
 }
 
 // A Call is an air_body component that represents a call to another air function.
-// It contains the name of the air function, the input argument, the state after the call,
-// and the air_body of the called function.
+// It contains the name of the air function, the input argument, the output of the call, the state
+// after the call, and the air_body of the called function.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct Call {
     pub air_fn_name: String,
     pub input_arg: GenericAirVar,
+    pub output: GenericAirVar,
     #[serde(skip)]
     pub state: State,
     #[serde(skip)]

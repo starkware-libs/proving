@@ -129,6 +129,7 @@ impl AirFnRegistry {
         let mut writer = BufWriter::new(file);
         to_writer_pretty(&mut writer, self).expect("serialization failed");
         writer.flush().expect("flush failed");
+        writer.write_all(b"\n").expect("write failed");
     }
 
     // Transforms the air body and input of an air function into the autogen format.

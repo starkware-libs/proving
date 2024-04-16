@@ -75,6 +75,36 @@ macro_rules! impl_air_var {
         }
     };
 
+    ( Vec<$s:ty> ) => {
+        impl AirVar for Vec<$s> where $s: AirVar
+        {
+            fn name(&self) -> String {
+                format!("[{}]", self.iter().map(|s| s.name()).collect::<Vec<String>>().join(", "))
+            }
+            fn in_state(&self) -> bool {
+                self.iter().all(|s| s.in_state())
+            }
+            fn create_intermediate_var(&self, name: String) -> Self {
+                let mut res = self.clone();
+                for (i, s) in res.iter_mut().enumerate() {
+                    *s = s.create_intermediate_var(format!("{}_{}", name, i));
+                }
+                res
+            }
+            fn new(_name: String) -> Self {
+                panic!("Cannot create a new Vec AirVar with name");
+            }
+            fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+                self.into_iter().flat_map(|s| s.as_felts()).collect()
+            }
+        }
+        impl From<Vec<$s>> for GenericAirVar {
+            fn from(array: Vec<$s>) -> GenericAirVar {
+                GenericAirVar::Array(array.into_iter().map(|s| s.into()).collect())
+            }
+        }
+    };
+
     (($($s:ident),+)) => {
         impl AirVar for ($($s),+) where $($s: AirVar),+
         {
