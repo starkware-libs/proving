@@ -3,6 +3,14 @@
 version = 3
 
 [[package]]
+name = "air_code_gen"
+version = "0.1.0"
+dependencies = [
+ "air_infra",
+ "stwo",
+]
+
+[[package]]
 name = "air_infra"
 version = "0.1.0"
 dependencies = [
