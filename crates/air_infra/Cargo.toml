@@ -1,0 +1,10 @@
+[package]
+name = "air_infra"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+serde = { workspace = true, features = ["derive", "rc"] }
+serde_json.workspace = true
+num-integer.workspace = true
+stwo.workspace = true
