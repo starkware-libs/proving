@@ -3,7 +3,7 @@ use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Rem, Shl, Shr, Sub};
 
 use num_integer::Integer;
 use serde::{Deserialize, Serialize};
-use stwo::core::fields::m31::BaseField;
+use stwo_prover::core::fields::m31::BaseField;
 
 pub const PRIME: u32 = 2_u32.pow(31) - 1;
 

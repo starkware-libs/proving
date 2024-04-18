@@ -1,7 +1,10 @@
+pub mod trace;
+pub mod utils;
+
 #[cfg(test)]
 mod tests {
     use air_infra::core::prover_types::Felt;
-    use stwo::core::fields::m31::BaseField;
+    use stwo_prover::core::fields::m31::BaseField;
 
     #[test]
     fn test_felt_to_base_field() {
