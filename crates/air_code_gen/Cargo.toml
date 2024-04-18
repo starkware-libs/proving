@@ -1,0 +1,8 @@
+[package]
+name = "air_code_gen"
+version.workspace = true
+edition.workspace = true
+
+[dev-dependencies]
+stwo.workspace = true
+air_infra = { path = "../air_infra" }
