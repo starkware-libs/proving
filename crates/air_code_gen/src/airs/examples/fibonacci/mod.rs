@@ -14,31 +14,25 @@ pub struct WideFibComponent {
 #[cfg(test)]
 mod tests {
     use air_infra::core::prover_types::Felt;
-    use num_traits::Zero;
+    use num_traits::{One, Zero};
     use stwo_prover::core::fields::m31::BaseField;
     use stwo_prover::core::fields::FieldExpOps;
 
     use super::trace::write_trace_row;
-    use super::{FibInput, WideFibComponent};
+    use super::WideFibComponent;
 
     fn fill_trace(secrets: &[Felt]) -> Vec<Vec<BaseField>> {
-        let mut trace = vec![vec![BaseField::zero(); secrets.len()]; 1000];
+        let mut trace = vec![vec![BaseField::zero(); secrets.len()]; 999];
         for (i, secret) in secrets.iter().enumerate() {
-            write_trace_row(
-                &mut trace,
-                FibInput {
-                    a: Felt { value: 1 },
-                    b: *secret,
-                },
-                i,
-            );
+            write_trace_row(&mut trace, *secret, i);
         }
         trace
     }
 
     fn assert_fib_constraints(trace: &[Vec<BaseField>]) {
         for j in 0..trace[0].len() {
-            for i in 2..1000 {
+            assert_eq!(trace[0][j].square() + BaseField::one(), trace[1][j]);
+            for i in 2..999 {
                 assert_eq!(
                     trace[i][j],
                     trace[i - 1][j].square() + trace[i - 2][j].square(),
