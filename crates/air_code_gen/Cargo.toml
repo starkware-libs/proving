@@ -3,6 +3,8 @@ name = "air_code_gen"
 version.workspace = true
 edition.workspace = true
 
-[dev-dependencies]
-stwo.workspace = true
-air_infra = { path = "../air_infra" }
+[dependencies]
+genco.workspace = true
+xshell.workspace = true
+air_infra = { path  = "../air_infra" }
+stwo-prover.workspace = true

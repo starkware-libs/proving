@@ -48,6 +48,7 @@ jobs:
       - uses: actions/checkout@v3
       - uses: dtolnay/rust-toolchain@master
         with:
+          components: rustfmt
           profile: minimal
           toolchain: nightly-2024-01-04
       - uses: Swatinem/rust-cache@v2

@@ -14,4 +14,6 @@ edition = "2021"
 serde = "1.0.196"
 serde_json = "1.0.113"
 num-integer = "0.1.46"
-stwo = { git = "https://github.com/starkware-libs/stwo", branch = "dev" }
+genco = "0.17.8"
+xshell = "0.2.5"
+stwo-prover = { git = "https://github.com/starkware-libs/stwo", branch = "dev" }
