@@ -140,20 +140,23 @@ impl AirFnRegistry {
         for component in air_body {
             match component {
                 AirBodyComponent::Constraint(constraint) => {
-                    constraints.push(constraint.into());
+                    constraints.push(ConstraintOrIntermediate::Constraint(constraint.into()));
                 }
                 AirBodyComponent::Assignment {
                     constraint,
                     deduction,
                 } => {
-                    constraints.push(constraint.into());
+                    constraints.push(ConstraintOrIntermediate::Constraint(constraint.into()));
                     deductions.push(DeductionOrIntermediate::Deduction(deduction.into()));
                 }
                 AirBodyComponent::Deduction(deduction) => {
                     deductions.push(DeductionOrIntermediate::Deduction(deduction.into()));
                 }
-                AirBodyComponent::Intermediate(name, var) => {
+                AirBodyComponent::DeductionIntermediate(name, var) => {
                     deductions.push(DeductionOrIntermediate::Intermediate(name, var.into()));
+                }
+                AirBodyComponent::ConstraintIntermediate(name, var) => {
+                    constraints.push(ConstraintOrIntermediate::Intermediate(name, var.into()));
                 }
                 AirBodyComponent::Subroutine(f) => {
                     let lists = Self::get_autogen_lists(f.air_body, f.input_arg);

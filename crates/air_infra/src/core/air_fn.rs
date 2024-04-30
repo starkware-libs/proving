@@ -86,16 +86,16 @@ impl AirBuilder {
         expr.clone()
     }
 
-    pub fn create_intermediate_var<V>(&mut self, var: V) -> V
+    pub fn create_intermediate_var_for_deduction<V>(&mut self, var: V) -> V
     where
         V: AirVar,
     {
         let name = self.registry.get_intermediate_var_name();
-        self.air_body.push(AirBodyComponent::Intermediate(
+        self.air_body.push(AirBodyComponent::DeductionIntermediate(
             name.clone(),
             var.clone().into(),
         ));
-        var.create_intermediate_var(name)
+        var.create_intermediate_var_for_deduction(name)
     }
 
     pub fn call<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>, input: I) -> O
@@ -155,6 +155,7 @@ pub enum AirBodyComponent {
         constraint: FeltExpr,
         deduction: FeltExpr,
     },
-    Intermediate(String, GenericAirVar),
+    DeductionIntermediate(String, GenericAirVar),
+    ConstraintIntermediate(String, FeltExpr),
     Subroutine(Call),
 }

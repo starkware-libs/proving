@@ -15,13 +15,13 @@ impl AirFn for Add32 {
     type Out = UInt32Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, [mut a, mut b]: Self::In) -> Self::Out {
-        let mut c = air_builder.create_intermediate_var(&a + &b);
+        let mut c = air_builder.create_intermediate_var_for_deduction(&a + &b);
         let cl = air_builder.deduce(c.low().as_felt());
         let ch = air_builder.deduce(c.high().as_felt());
         // TODO: Add range check 16 for cl and ch.
 
         // TODO: Use constraint intermediate variable when possible.
-        // let carry = air_builder.create_intermediate_var(&(&*a.low().as_felt() + &*b.low().as_felt()) - &cl);
+        // let carry = air_builder.create_intermediate_var_for_deduction(&(&*a.low().as_felt() + &*b.low().as_felt()) - &cl);
         air_builder.constrain(
             &(&(&*a.low().as_felt() + &*b.low().as_felt()) - &cl)
                 * &(&(&(&*a.low().as_felt() + &*b.low().as_felt()) - &cl) - &const_expr!(1 << 16)),

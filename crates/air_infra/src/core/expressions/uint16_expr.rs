@@ -89,7 +89,7 @@ impl AirVar for UInt16Expr {
         }
     }
 
-    fn create_intermediate_var(&self, name: String) -> Self {
+    fn create_intermediate_var_for_deduction(&self, name: String) -> Self {
         match self {
             UInt16Expr::Var(v) => {
                 let mut res = v.clone();

@@ -90,7 +90,7 @@ impl AirVar for FeltExpr {
         }
     }
 
-    fn create_intermediate_var(&self, name: String) -> Self {
+    fn create_intermediate_var_for_deduction(&self, name: String) -> Self {
         match self {
             FeltExpr::Var(v) => {
                 let mut res = v.clone();

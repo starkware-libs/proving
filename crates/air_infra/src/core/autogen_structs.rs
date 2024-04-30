@@ -5,7 +5,7 @@ pub struct AutogenLists {
     pub input: ProcessedAirVar,
     // TODO: add intermediate vars to the constraints list.
     #[serde(skip)]
-    pub constraints: Vec<ProcessedAirVar>,
+    pub constraints: Vec<ConstraintOrIntermediate>,
     #[serde(skip)]
     pub deductions: Vec<DeductionOrIntermediate>,
 }
@@ -13,6 +13,12 @@ pub struct AutogenLists {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub enum DeductionOrIntermediate {
     Deduction(ProcessedAirVar),
+    Intermediate(String, ProcessedAirVar),
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
+pub enum ConstraintOrIntermediate {
+    Constraint(ProcessedAirVar),
     Intermediate(String, ProcessedAirVar),
 }
 
