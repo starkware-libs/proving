@@ -13,6 +13,7 @@ use super::uint16_expr::*;
 use super::uint32_expr::*;
 // Macros
 use crate::impl_binary_op;
+use crate::impl_unary_op;
 
 /// Binary expressions - results of binary operations on expressions.
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
@@ -109,8 +110,11 @@ impl Display for BinaryOp {
 }
 impl From<BinaryOp> for OpType {
     fn from(op: BinaryOp) -> OpType {
-        // Currently, all binary operations are represented as operators.
-        OpType::Op(op.to_string())
+        match op {
+            BinaryOp::Eq => OpType::Method(op.to_string()),
+            // Currently, the rest of the binary operations are represented as operators.
+            _ => OpType::Op(op.to_string()),
+        }
     }
 }
 
@@ -170,18 +174,28 @@ where
 pub enum UnaryOp {
     #[default]
     Neg,
+    AsFelt,
+    Low,
+    High,
 }
 impl Display for UnaryOp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             UnaryOp::Neg => write!(f, "-"),
+            UnaryOp::AsFelt => write!(f, "as_felt"),
+            UnaryOp::Low => write!(f, "low"),
+            UnaryOp::High => write!(f, "high"),
         }
     }
 }
 impl From<UnaryOp> for OpType {
     fn from(op: UnaryOp) -> OpType {
-        // Currently, all unary operations are represented as operators.
-        OpType::Op(op.to_string())
+        match op {
+            UnaryOp::Neg => OpType::Op(op.to_string()),
+            UnaryOp::AsFelt => OpType::Method(op.to_string()),
+            UnaryOp::Low => OpType::Method(op.to_string()),
+            UnaryOp::High => OpType::Method(op.to_string()),
+        }
     }
 }
 
@@ -193,6 +207,7 @@ pub enum OpType {
 }
 
 impl_binary_op!(Eq, eq, BoolExpr, BoolExpr, BoolBinary);
+impl_unary_op!(AsFelt, as_felt_op, as_felt, BoolExpr, FeltExpr);
 
 impl_binary_op!(ops Add, add, FeltExpr, FeltBinary);
 impl_binary_op!(ops Sub, sub, FeltExpr, FeltBinary);
@@ -207,6 +222,7 @@ impl_binary_op!(ops BitAnd, bitand, UInt16Expr, UInt16Binary);
 impl_binary_op!(ops BitOr, bitor, UInt16Expr, UInt16Binary);
 impl_binary_op!(ops BitXor, bitxor, UInt16Expr, UInt16Binary);
 impl_binary_op!(Eq, eq, UInt16Expr, BoolExpr, BoolBinary);
+impl_unary_op!(AsFelt, as_felt_op, as_felt, UInt16Expr, FeltExpr);
 
 impl_binary_op!(ops Add, add, UInt32Expr, UInt32Binary);
 impl_binary_op!(ops Rem, rem, UInt32Expr, UInt32Binary);
@@ -216,6 +232,8 @@ impl_binary_op!(ops BitAnd, bitand, UInt32Expr, UInt32Binary);
 impl_binary_op!(ops BitOr, bitor, UInt32Expr, UInt32Binary);
 impl_binary_op!(ops BitXor, bitxor, UInt32Expr, UInt32Binary);
 impl_binary_op!(Eq, eq, UInt32Expr, BoolExpr, BoolBinary);
+impl_unary_op!(Low, low_op, low, UInt32Expr, UInt16Expr);
+impl_unary_op!(High, high_op, high, UInt32Expr, UInt16Expr);
 
 #[macro_export]
 macro_rules! impl_binary_op {
@@ -254,9 +272,9 @@ macro_rules! impl_binary_op {
 
 #[macro_export]
 macro_rules! impl_unary_op {
-    ($op:ident, $op_lower:ident, $it:ident, $ot:ident) => {
+    ($op:ident, $name:ident, $op_lower:ident, $it:ident, $ot:ident) => {
         impl $it {
-            pub fn $op_lower(self) -> $ot {
+            pub fn $name(self) -> $ot {
                 let value = self.value().map(|c| c.$op_lower());
                 $ot::Unary(UnaryExpr::new(UnaryOp::$op, self.clone().into(), value))
             }

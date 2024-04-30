@@ -10,6 +10,7 @@ use super::uint16_expr::*;
 
 pub type UInt32Const = ConstExpr<UInt32>;
 pub type UInt32Binary = BinaryExpr<UInt32>;
+pub type UInt32Unary = UnaryExpr<UInt32>;
 
 // A variable of type UInt32. Holds its name, and value. It is represented as two UInt16 variables.
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
@@ -29,6 +30,7 @@ pub enum UInt32Expr {
     Const(UInt32Const),
     Var(UInt32Var),
     Binary(UInt32Binary),
+    Unary(UInt32Unary),
 }
 
 impl UInt32Expr {
@@ -75,6 +77,7 @@ impl Expr<UInt32> for UInt32Expr {
             UInt32Expr::Const(c) => Some(c.value),
             UInt32Expr::Var(v) => v.value,
             UInt32Expr::Binary(b) => b.value,
+            UInt32Expr::Unary(u) => u.value,
         }
     }
 }
@@ -89,6 +92,7 @@ impl AirVar for UInt32Expr {
             UInt32Expr::Const(c) => c.name.clone(),
             UInt32Expr::Var(v) => v.name.clone(),
             UInt32Expr::Binary(b) => b.name.clone(),
+            UInt32Expr::Unary(u) => u.name.clone(),
         }
     }
 
@@ -100,6 +104,7 @@ impl AirVar for UInt32Expr {
                 res.into()
             }
             UInt32Expr::Binary(b) => Self::new_var(name, b.value, None, None),
+            UInt32Expr::Unary(u) => Self::new_var(name, u.value, None, None),
             _ => panic!("Cannot create an intermediate variable from a constant"),
         }
     }
@@ -109,6 +114,7 @@ impl AirVar for UInt32Expr {
             UInt32Expr::Const(_) => true,
             UInt32Expr::Var(v) => v.low.in_state() && v.high.in_state(),
             UInt32Expr::Binary(b) => b.left.in_state() && b.right.in_state(),
+            UInt32Expr::Unary(u) => u.child.in_state(),
         }
     }
 
@@ -144,6 +150,12 @@ impl From<UInt32Binary> for UInt32Expr {
     }
 }
 
+impl From<UInt32Unary> for UInt32Expr {
+    fn from(u: UInt32Unary) -> UInt32Expr {
+        UInt32Expr::Unary(u)
+    }
+}
+
 impl From<UInt32Expr> for GenericAirVar {
     fn from(expr: UInt32Expr) -> GenericAirVar {
         let expr_impl: ExprImpl = expr.into();
@@ -154,9 +166,10 @@ impl From<UInt32Expr> for GenericAirVar {
 impl From<UInt32Expr> for ProcessedAirVar {
     fn from(expr: UInt32Expr) -> ProcessedAirVar {
         match expr {
-            UInt32Expr::Const(c) => ProcessedAirVar::Const(Bool::r#type(), c.name),
-            UInt32Expr::Var(v) => ProcessedAirVar::Var(Bool::r#type(), v.name),
+            UInt32Expr::Const(c) => ProcessedAirVar::Const(UInt32::r#type(), c.name),
+            UInt32Expr::Var(v) => ProcessedAirVar::Var(UInt32::r#type(), v.name),
             UInt32Expr::Binary(b) => b.into(),
+            UInt32Expr::Unary(u) => u.into(),
         }
     }
 }

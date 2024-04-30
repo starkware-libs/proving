@@ -8,6 +8,7 @@ use crate::core::autogen_structs::*;
 
 pub type FeltConst = ConstExpr<Felt>;
 pub type FeltBinary = BinaryExpr<Felt>;
+pub type FeltUnary = UnaryExpr<Felt>;
 
 // A variable of type Felt. It can be a field (attribute) of another expression, like UInt16Expr, or
 // a standalone variable. It can represent a felt expression that was written to the trace.
@@ -29,6 +30,7 @@ pub enum FeltExpr {
     Const(FeltConst),
     Var(FeltVar),
     Binary(FeltBinary),
+    Unary(FeltUnary),
 }
 
 impl FeltExpr {
@@ -42,6 +44,9 @@ impl FeltExpr {
             }
             FeltExpr::Binary(b) => {
                 *self = Self::new_var(format!("state[{}]", index), b.value, Some(index))
+            }
+            FeltExpr::Unary(u) => {
+                *self = Self::new_var(format!("state[{}]", index), u.value, Some(index))
             }
             _ => panic!("Cannot convert a constant to a state"),
         }
@@ -73,6 +78,7 @@ impl Expr<Felt> for FeltExpr {
             FeltExpr::Const(c) => Some(c.value),
             FeltExpr::Var(v) => v.value,
             FeltExpr::Binary(b) => b.value,
+            FeltExpr::Unary(u) => u.value,
         }
     }
 }
@@ -87,6 +93,7 @@ impl AirVar for FeltExpr {
             FeltExpr::Const(c) => c.name.clone(),
             FeltExpr::Var(v) => v.name.clone(),
             FeltExpr::Binary(b) => b.name.clone(),
+            FeltExpr::Unary(u) => u.name.clone(),
         }
     }
 
@@ -98,6 +105,7 @@ impl AirVar for FeltExpr {
                 res.into()
             }
             FeltExpr::Binary(b) => Self::new_var(name, b.value, None),
+            FeltExpr::Unary(u) => Self::new_var(name, u.value, None),
             _ => panic!("Cannot create an intermediate variable from a constant"),
         }
     }
@@ -107,6 +115,7 @@ impl AirVar for FeltExpr {
             FeltExpr::Const(_) => true,
             FeltExpr::Var(v) => v.state_index.is_some(),
             FeltExpr::Binary(b) => b.left.in_state() && b.right.in_state(),
+            FeltExpr::Unary(u) => u.child.in_state(),
         }
     }
 
@@ -146,6 +155,12 @@ impl From<FeltExpr> for GenericAirVar {
     }
 }
 
+impl From<FeltUnary> for FeltExpr {
+    fn from(unary: FeltUnary) -> FeltExpr {
+        FeltExpr::Unary(unary)
+    }
+}
+
 impl From<FeltExpr> for ProcessedAirVar {
     fn from(expr: FeltExpr) -> ProcessedAirVar {
         match expr {
@@ -160,6 +175,7 @@ impl From<FeltExpr> for ProcessedAirVar {
                 ProcessedAirVar::Var(Felt::r#type(), v.name)
             }
             FeltExpr::Binary(b) => b.into(),
+            FeltExpr::Unary(u) => u.into(),
         }
     }
 }

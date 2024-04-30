@@ -9,6 +9,7 @@ use super::op_expr::*;
 
 pub type UInt16Const = ConstExpr<UInt16>;
 pub type UInt16Binary = BinaryExpr<UInt16>;
+pub type UInt16Unary = UnaryExpr<UInt16>;
 
 // A variable of type UInt16. Holds its name, value, and Felt representation.
 // It can be a field (attribute) of another expression, like UInt32Expr, or
@@ -30,6 +31,7 @@ pub enum UInt16Expr {
     Const(UInt16Const),
     Var(UInt16Var),
     Binary(UInt16Binary),
+    Unary(UInt16Unary),
 }
 
 impl UInt16Expr {
@@ -72,6 +74,7 @@ impl Expr<UInt16> for UInt16Expr {
             UInt16Expr::Const(c) => Some(c.value),
             UInt16Expr::Var(v) => v.value,
             UInt16Expr::Binary(b) => b.value,
+            UInt16Expr::Unary(u) => u.value,
         }
     }
 }
@@ -86,6 +89,7 @@ impl AirVar for UInt16Expr {
             UInt16Expr::Const(c) => c.name.clone(),
             UInt16Expr::Var(v) => v.name.clone(),
             UInt16Expr::Binary(b) => b.name.clone(),
+            UInt16Expr::Unary(u) => u.name.clone(),
         }
     }
 
@@ -97,6 +101,7 @@ impl AirVar for UInt16Expr {
                 res.into()
             }
             UInt16Expr::Binary(b) => Self::new_var(name, b.value, None),
+            UInt16Expr::Unary(u) => Self::new_var(name, u.value, None),
             _ => panic!("Cannot create an intermediate variable from a constant"),
         }
     }
@@ -106,6 +111,7 @@ impl AirVar for UInt16Expr {
             UInt16Expr::Const(_) => true,
             UInt16Expr::Var(v) => v.as_felt.in_state(),
             UInt16Expr::Binary(b) => b.left.in_state() && b.right.in_state(),
+            UInt16Expr::Unary(u) => u.child.in_state(),
         }
     }
 
@@ -138,6 +144,12 @@ impl From<UInt16Binary> for UInt16Expr {
     }
 }
 
+impl From<UInt16Unary> for UInt16Expr {
+    fn from(u: UInt16Unary) -> UInt16Expr {
+        UInt16Expr::Unary(u)
+    }
+}
+
 impl From<UInt16Expr> for GenericAirVar {
     fn from(expr: UInt16Expr) -> GenericAirVar {
         let expr_impl: ExprImpl = expr.into();
@@ -148,15 +160,16 @@ impl From<UInt16Expr> for GenericAirVar {
 impl From<UInt16Expr> for ProcessedAirVar {
     fn from(expr: UInt16Expr) -> ProcessedAirVar {
         match expr {
-            UInt16Expr::Const(c) => ProcessedAirVar::Const(Bool::r#type(), c.name),
+            UInt16Expr::Const(c) => ProcessedAirVar::Const(UInt16::r#type(), c.name),
             UInt16Expr::Var(v) => {
                 if let Some(var) = v.parent {
                     return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
                 }
 
-                ProcessedAirVar::Var(Bool::r#type(), v.name)
+                ProcessedAirVar::Var(UInt16::r#type(), v.name)
             }
             UInt16Expr::Binary(b) => b.into(),
+            UInt16Expr::Unary(u) => u.into(),
         }
     }
 }
