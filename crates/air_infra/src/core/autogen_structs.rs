@@ -6,18 +6,36 @@ pub struct AutogenLists {
     #[serde(skip)]
     pub constraints: Vec<ConstraintOrIntermediate>,
     #[serde(skip)]
-    pub deductions: Vec<DeductionOrIntermediate>,
+    pub deductions: Vec<TraceGenerationStep>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
-pub enum DeductionOrIntermediate {
+pub enum TraceGenerationStep {
     Deduction(ProcessedAirVar),
     Intermediate(String, ProcessedAirVar),
+
+    // output_name is the name of the intermediate variable into which the lookup result should
+    // be placed
+    Lookup {
+        fn_name: String,
+        input: ProcessedAirVar,
+        output_name: String,
+    },
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub enum ConstraintOrIntermediate {
-    Constraint(ProcessedAirVar),
+    // The argument is a polynomial in in-state values. The constraint requires it
+    // to evaluate to zero.
+    InInstanceConstraint(ProcessedAirVar),
+
+    // Require a certain input-output pair to be present in a lookup component.
+    LookupConstraint {
+        fn_name: String,
+        input_felts: Vec<ProcessedAirVar>,
+        output_felts: Vec<ProcessedAirVar>,
+    },
+
     Intermediate(String, ProcessedAirVar),
 }
 

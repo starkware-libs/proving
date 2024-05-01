@@ -1,4 +1,4 @@
-use air_infra::core::autogen_structs::{DeductionOrIntermediate, ProcessedAirVar};
+use air_infra::core::autogen_structs::{ProcessedAirVar, TraceGenerationStep};
 use genco::lang::rust;
 use genco::quote;
 
@@ -65,7 +65,7 @@ pub fn parse_air_var(expr: &ProcessedAirVar) -> String {
 #[allow(dead_code)]
 pub fn gen_write_trace_code(
     input: ProcessedAirVar,
-    deductions: &[DeductionOrIntermediate],
+    deductions: &[TraceGenerationStep],
 ) -> rust::Tokens {
     // Generate the imports for the write_trace function.
     let mut imports = rust::Tokens::new();
@@ -91,18 +91,23 @@ pub fn gen_write_trace_code(
     let mut offset = 0;
     for deduction in deductions {
         match deduction {
-            DeductionOrIntermediate::Deduction(expr) => {
+            TraceGenerationStep::Deduction(expr) => {
                 write_trace_body.append(quote! {
                     let col$(offset) = $(parse_air_var(expr));
                     dst[$(offset)][row_index] = col$(offset).into();
                 });
                 offset += 1;
             }
-            DeductionOrIntermediate::Intermediate(name, expr) => {
+            TraceGenerationStep::Intermediate(name, expr) => {
                 write_trace_body.extend(quote! {
                     let $(name) = $(parse_air_var(expr));
                 });
             }
+            TraceGenerationStep::Lookup {
+                fn_name: _,
+                input: _,
+                output_name: _,
+            } => todo!(),
         }
     }
 

@@ -162,20 +162,24 @@ impl AirFnRegistry {
         for component in air_body {
             match component {
                 AirBodyComponent::Constraint(constraint) => {
-                    constraints.push(ConstraintOrIntermediate::Constraint(constraint.into()));
+                    constraints.push(ConstraintOrIntermediate::InInstanceConstraint(
+                        constraint.into(),
+                    ));
                 }
                 AirBodyComponent::Assignment {
                     constraint,
                     deduction,
                 } => {
-                    constraints.push(ConstraintOrIntermediate::Constraint(constraint.into()));
-                    deductions.push(DeductionOrIntermediate::Deduction(deduction.into()));
+                    constraints.push(ConstraintOrIntermediate::InInstanceConstraint(
+                        constraint.into(),
+                    ));
+                    deductions.push(TraceGenerationStep::Deduction(deduction.into()));
                 }
                 AirBodyComponent::Deduction(deduction) => {
-                    deductions.push(DeductionOrIntermediate::Deduction(deduction.into()));
+                    deductions.push(TraceGenerationStep::Deduction(deduction.into()));
                 }
                 AirBodyComponent::DeductionIntermediate(name, var) => {
-                    deductions.push(DeductionOrIntermediate::Intermediate(name, var.into()));
+                    deductions.push(TraceGenerationStep::Intermediate(name, var.into()));
                 }
                 AirBodyComponent::ConstraintIntermediate(name, var) => {
                     constraints.push(ConstraintOrIntermediate::Intermediate(name, var.into()));
@@ -184,6 +188,28 @@ impl AirFnRegistry {
                     let lists = Self::compile_codegen_air_fn(f.air_body, f.input_arg);
                     constraints.extend(lists.constraints);
                     deductions.extend(lists.deductions);
+                }
+                AirBodyComponent::LookupCall(call) => {
+                    deductions.push(TraceGenerationStep::Lookup {
+                        fn_name: call.air_fn_name,
+                        input: call.input_arg.into(),
+                        output_name: call.output_name,
+                    });
+                }
+                AirBodyComponent::LookupConstraint(constraint) => {
+                    constraints.push(ConstraintOrIntermediate::LookupConstraint {
+                        fn_name: constraint.air_fn_name.clone(),
+                        input_felts: constraint
+                            .input_felts
+                            .iter()
+                            .map(|x| (*x).clone().into())
+                            .collect(),
+                        output_felts: constraint
+                            .output_felts
+                            .iter()
+                            .map(|x| (*x).clone().into())
+                            .collect(),
+                    });
                 }
             }
         }

@@ -1,20 +1,30 @@
 use air_infra::core::autogen_structs::{
-    AutogenLists, ConstraintOrIntermediate, DeductionOrIntermediate, ProcessedAirVar,
+    AutogenLists, ConstraintOrIntermediate, ProcessedAirVar, TraceGenerationStep,
 };
 use genco::lang::rust;
 use genco::quote;
 
-fn get_component_columns(deductions: &[DeductionOrIntermediate]) -> usize {
+fn get_component_columns(deductions: &[TraceGenerationStep]) -> usize {
     deductions
         .iter()
-        .filter(|deduction| matches!(deduction, DeductionOrIntermediate::Deduction(_)))
+        .filter(|deduction| matches!(deduction, TraceGenerationStep::Deduction(_)))
         .count()
 }
 
 pub fn get_component_constraints(constraints: &[ConstraintOrIntermediate]) -> usize {
     constraints
         .iter()
-        .filter(|deduction| matches!(deduction, ConstraintOrIntermediate::Constraint(_)))
+        .filter(|deduction| {
+            matches!(deduction, ConstraintOrIntermediate::InInstanceConstraint(_))
+                || matches!(
+                    deduction,
+                    ConstraintOrIntermediate::LookupConstraint {
+                        fn_name: _,
+                        input_felts: _,
+                        output_felts: _
+                    }
+                )
+        })
         .count()
 }
 
@@ -67,12 +77,17 @@ fn constraint_eval_at_point_code(constraints: &[ConstraintOrIntermediate]) -> ru
                     let $(var) = $(parse_constraint_air_var(expr));
                 });
             }
-            ConstraintOrIntermediate::Constraint(expr) => {
+            ConstraintOrIntermediate::InInstanceConstraint(expr) => {
                 constraints_code.extend(quote! {
                     let numerator = $(parse_constraint_air_var(expr));
                     evaluation_accumulator.accumulate(numerator * denominator_inv);
                 });
             }
+            ConstraintOrIntermediate::LookupConstraint {
+                fn_name: _,
+                input_felts: _,
+                output_felts: _,
+            } => todo!(),
         }
     }
     constraints_code

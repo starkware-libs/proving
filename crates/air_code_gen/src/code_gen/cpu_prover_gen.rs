@@ -63,7 +63,7 @@ fn numerator_code(constraints: &[ConstraintOrIntermediate]) -> rust::Tokens {
     let mut constraint_offset = 0;
     for constraint in constraints.iter() {
         match constraint {
-            ConstraintOrIntermediate::Constraint(expr) => {
+            ConstraintOrIntermediate::InInstanceConstraint(expr) => {
                 constraints_code.extend(quote! {
                     *numer +=
                         accum.random_coeff_powers[$(n_constraints - 1 - constraint_offset)] *
@@ -76,6 +76,11 @@ fn numerator_code(constraints: &[ConstraintOrIntermediate]) -> rust::Tokens {
                     let $(var) = $(parse_cpu_prover_constraint(expr));
                 });
             }
+            ConstraintOrIntermediate::LookupConstraint {
+                fn_name: _,
+                input_felts: _,
+                output_felts: _,
+            } => todo!(),
         }
     }
     numerator_code.extend(quote! {

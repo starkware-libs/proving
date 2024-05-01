@@ -58,23 +58,56 @@ impl Display for ProcessedAirVar {
     }
 }
 
-impl Display for DeductionOrIntermediate {
+impl Display for TraceGenerationStep {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            DeductionOrIntermediate::Deduction(var) => write!(f, "{}", var),
-            DeductionOrIntermediate::Intermediate(name, var) => {
+            TraceGenerationStep::Deduction(var) => write!(f, "{}", var),
+            TraceGenerationStep::Intermediate(name, var) => {
                 write!(f, "{} = {}", name, var)
+            }
+            TraceGenerationStep::Lookup {
+                fn_name,
+                input,
+                output_name,
+            } => {
+                write!(f, "{} = {}({})", output_name, fn_name, input)
             }
         }
     }
 }
 
+fn state_vec_to_string(vec: &Vec<ProcessedAirVar>) -> String {
+    let mut parts: Vec<String> = vec![];
+
+    for pav in vec {
+        if let ProcessedAirVar::State(_) = pav {
+            parts.push(format!("{}", pav));
+        } else {
+            panic!("Unexpected element in state felts list");
+        }
+    }
+    format!("[{}]", parts.join(","))
+}
+
 impl Display for ConstraintOrIntermediate {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ConstraintOrIntermediate::Constraint(var) => write!(f, "{}", var),
+            ConstraintOrIntermediate::InInstanceConstraint(var) => write!(f, "{}", var),
             ConstraintOrIntermediate::Intermediate(name, var) => {
                 write!(f, "{} = {}", name, var)
+            }
+            ConstraintOrIntermediate::LookupConstraint {
+                fn_name,
+                input_felts,
+                output_felts,
+            } => {
+                write!(
+                    f,
+                    "{}({}) == {}",
+                    fn_name,
+                    state_vec_to_string(input_felts),
+                    state_vec_to_string(output_felts)
+                )
             }
         }
     }
