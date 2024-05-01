@@ -30,7 +30,7 @@ mod tests {
     use genco::lang::rust;
     use genco::quote;
 
-    use crate::code_gen::utils::reformat_rust_code;
+    use super::reformat_rust_code;
 
     #[test]
     fn test_reformat_rust_code() {
