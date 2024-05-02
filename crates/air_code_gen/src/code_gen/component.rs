@@ -1,5 +1,5 @@
 use air_infra::core::autogen_structs::{
-    AutogenLists, ConstraintOrIntermediate, DeductionOrIntermediate,
+    AutogenLists, ConstraintOrIntermediate, DeductionOrIntermediate, ProcessedAirVar,
 };
 use genco::lang::rust;
 use genco::quote;
@@ -19,6 +19,56 @@ fn generate_struct_code(name: &str) -> rust::Tokens {
         }
     });
     struct_code
+}
+
+/// Given a `ProcessedAirVar` expression, generates the Rust code to evaluate it at a single point
+/// using the mask items.
+fn parse_constraint_air_var(expr: &ProcessedAirVar) -> String {
+    match expr {
+        // TODO(ShaharS), consider to assert that the const values are in the correct range.
+        ProcessedAirVar::Const(ty, val) => {
+            if ty == "Felt" {
+                return format!("BaseField::from_u32_unchecked({})", val);
+            }
+            format!("{}::from({})", ty, val)
+        }
+        ProcessedAirVar::State(index) => {
+            format!("mask[{}][0]", index)
+        }
+        ProcessedAirVar::BinaryOp(lhs, op, rhs) => {
+            format!(
+                "({} {} {})",
+                parse_constraint_air_var(lhs),
+                op,
+                parse_constraint_air_var(rhs)
+            )
+        }
+        ProcessedAirVar::UnaryOp(op, val) => {
+            format!("({}{})", op, parse_constraint_air_var(val))
+        }
+        _ => unimplemented!(),
+    }
+}
+
+/// Generates code to evaluate the constraints at a given point.
+fn constraint_eval_at_point_code(constraints: &[ConstraintOrIntermediate]) -> rust::Tokens {
+    let mut constraints_code = rust::Tokens::new();
+    for constraint in constraints.iter() {
+        match constraint {
+            ConstraintOrIntermediate::Intermediate(var, expr) => {
+                constraints_code.extend(quote! {
+                    let $(var) = $(parse_constraint_air_var(expr));
+                });
+            }
+            ConstraintOrIntermediate::Constraint(expr) => {
+                constraints_code.extend(quote! {
+                    let numerator = $(parse_constraint_air_var(expr));
+                    evaluation_accumulator.accumulate(numerator * denominator_inv);
+                });
+            }
+        }
+    }
+    constraints_code
 }
 
 fn generate_component_impl(
@@ -64,12 +114,14 @@ fn generate_component_impl(
     func5.extend(quote! {
         fn evaluate_constraint_quotients_at_point(
             &self,
-            _point: CirclePoint<SecureField>,
-            _mask: &ColumnVec<Vec<SecureField>>,
-            _evaluation_accumulator: &mut PointEvaluationAccumulator,
+            point: CirclePoint<SecureField>,
+            mask: &ColumnVec<Vec<SecureField>>,
+            evaluation_accumulator: &mut PointEvaluationAccumulator,
         ) {
-        unimplemented!()
-    }
+        let constraint_zero_domain = CanonicCoset::new(self.log_n_instances).coset;
+        let denominator_inv = coset_vanishing(constraint_zero_domain, point).inverse();
+        $(constraint_eval_at_point_code(constraints))
+        }
     });
 
     let mut res_code = rust::Tokens::new();
@@ -83,6 +135,7 @@ fn generate_component_impl(
             $['\n']
             $(func4)
             $['\n']
+            #[allow(unused_parens)]
             $(func5)
         }
     });
@@ -95,7 +148,11 @@ pub fn generate_component(component_name: &str, lists: AutogenLists) -> rust::To
         use stwo_prover::core::air::mask::fixed_mask_points;
         use stwo_prover::core::air::Component;
         use stwo_prover::core::circle::CirclePoint;
+        use stwo_prover::core::constraints::coset_vanishing;
+        use stwo_prover::core::fields::FieldExpOps;
+        use stwo_prover::core::fields::m31::BaseField;
         use stwo_prover::core::fields::qm31::SecureField;
+        use stwo_prover::core::poly::circle::CanonicCoset;
         use stwo_prover::core::ColumnVec;
     };
     let n_columns = get_component_columns(&lists.deductions);
