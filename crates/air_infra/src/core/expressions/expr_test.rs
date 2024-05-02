@@ -2,8 +2,9 @@ use super::super::prover_types::*;
 use super::expr::*;
 use super::felt_expr::*;
 use super::uint32_expr::*;
+use super::uint64_expr::*;
 // Macros
-use crate::{const_expr, const_u32_expr};
+use crate::{const_expr, const_u32_expr, const_u64_expr};
 
 #[test]
 fn test_add_sub() {
@@ -36,8 +37,31 @@ fn test_mod_sub() {
 
 #[test]
 fn test_uint32() {
-    let a: &UInt32Expr = &const_u32_expr!(1);
-    let b = &const_u32_expr!(2);
+    let a: &UInt32Expr = &const_u32_expr!(0xFFFF);
+    let b = &const_u32_expr!(1);
     let c = a + b;
-    assert_eq!(c.calc(), 3.to_string());
+    assert_eq!(c.calc(), (0xFFFFu32 + 1).to_string());
+
+    let mut res = UInt32Expr::new_var("c".to_string(), Some(UInt32::from(0xFFFF + 1)), None, None);
+    assert_eq!(res.low().calc(), 0.to_string());
+    assert_eq!(res.high().calc(), 1.to_string());
+}
+
+#[test]
+fn test_uint64() {
+    let a: &UInt64Expr = &const_u64_expr!(0xFFFFFFFF);
+    let b = &const_u64_expr!(1);
+    let c = a + b;
+    assert_eq!(c.calc(), (0xFFFFFFFFu64 + 1).to_string());
+
+    let mut res = UInt64Expr::new_var(
+        "c".to_string(),
+        Some(UInt64::from(0xFFFFFFFF + 1)),
+        None,
+        None,
+        None,
+        None,
+    );
+    assert_eq!(res.low().calc(), 0.to_string());
+    assert_eq!(res.high().calc(), 1.to_string());
 }

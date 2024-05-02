@@ -11,6 +11,7 @@ use super::expr::*;
 use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
+use super::uint64_expr::*;
 // Macros
 use crate::impl_binary_op;
 use crate::impl_unary_op;
@@ -234,6 +235,17 @@ impl_binary_op!(ops BitXor, bitxor, UInt32Expr, UInt32Binary);
 impl_binary_op!(Eq, eq, UInt32Expr, BoolExpr, BoolBinary);
 impl_unary_op!(Low, low_op, low, UInt32Expr, UInt16Expr);
 impl_unary_op!(High, high_op, high, UInt32Expr, UInt16Expr);
+
+impl_binary_op!(ops Add, add, UInt64Expr, UInt64Binary);
+impl_binary_op!(ops Rem, rem, UInt64Expr, UInt64Binary);
+impl_binary_op!(ops Shl, shl, UInt64Expr, UInt64Binary);
+impl_binary_op!(ops Shr, shr, UInt64Expr, UInt64Binary);
+impl_binary_op!(ops BitAnd, bitand, UInt64Expr, UInt64Binary);
+impl_binary_op!(ops BitOr, bitor, UInt64Expr, UInt64Binary);
+impl_binary_op!(ops BitXor, bitxor, UInt64Expr, UInt64Binary);
+impl_binary_op!(Eq, eq, UInt64Expr, BoolExpr, BoolBinary);
+impl_unary_op!(Low, low_op, low, UInt64Expr, UInt32Expr);
+impl_unary_op!(High, high_op, high, UInt64Expr, UInt32Expr);
 
 #[macro_export]
 macro_rules! impl_binary_op {

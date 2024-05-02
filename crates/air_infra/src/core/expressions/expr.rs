@@ -9,6 +9,7 @@ use super::bool_expr::*;
 use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
+use super::uint64_expr::*;
 // Macros
 use crate::impl_air_var;
 
@@ -62,6 +63,7 @@ pub enum ExprImpl {
     UInt16(UInt16Expr),
     Bool(BoolExpr),
     UInt32(UInt32Expr),
+    UInt64(UInt64Expr),
 }
 
 impl Default for ExprImpl {
@@ -81,6 +83,7 @@ impl AirVar for ExprImpl {
             ExprImpl::UInt16(u) => u.name(),
             ExprImpl::Bool(b) => b.name(),
             ExprImpl::UInt32(u) => u.name(),
+            ExprImpl::UInt64(u) => u.name(),
         }
     }
 
@@ -90,6 +93,7 @@ impl AirVar for ExprImpl {
             ExprImpl::UInt16(u) => u.in_state(),
             ExprImpl::Bool(b) => b.in_state(),
             ExprImpl::UInt32(u) => u.in_state(),
+            ExprImpl::UInt64(u) => u.in_state(),
         }
     }
 
@@ -99,6 +103,7 @@ impl AirVar for ExprImpl {
             ExprImpl::UInt16(u) => u.create_intermediate_var_for_deduction(name).into(),
             ExprImpl::Bool(b) => b.create_intermediate_var_for_deduction(name).into(),
             ExprImpl::UInt32(u) => u.create_intermediate_var_for_deduction(name).into(),
+            ExprImpl::UInt64(u) => u.create_intermediate_var_for_deduction(name).into(),
         }
     }
 
@@ -108,6 +113,7 @@ impl AirVar for ExprImpl {
             ExprImpl::UInt16(u) => u.as_felts(),
             ExprImpl::Bool(b) => b.as_felts(),
             ExprImpl::UInt32(u) => u.as_felts(),
+            ExprImpl::UInt64(u) => u.as_felts(),
         }
     }
 }
@@ -132,6 +138,11 @@ impl From<UInt32Expr> for ExprImpl {
         ExprImpl::UInt32(expr)
     }
 }
+impl From<UInt64Expr> for ExprImpl {
+    fn from(expr: UInt64Expr) -> ExprImpl {
+        ExprImpl::UInt64(expr)
+    }
+}
 
 impl From<ExprImpl> for GenericAirVar {
     fn from(expr: ExprImpl) -> GenericAirVar {
@@ -146,6 +157,7 @@ impl From<ExprImpl> for ProcessedAirVar {
             ExprImpl::UInt16(u) => u.into(),
             ExprImpl::Bool(b) => b.into(),
             ExprImpl::UInt32(u) => u.into(),
+            ExprImpl::UInt64(u) => u.into(),
         }
     }
 }

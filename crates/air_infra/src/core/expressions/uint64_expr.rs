@@ -1,0 +1,215 @@
+use serde::{Deserialize, Serialize};
+
+use super::super::autogen_structs::*;
+use super::super::prover_types::*;
+use super::super::variables::*;
+use super::expr::*;
+use super::felt_expr::*;
+use super::op_expr::*;
+use super::uint32_expr::*;
+
+pub type UInt64Const = ConstExpr<UInt64>;
+pub type UInt64Binary = BinaryExpr<UInt64>;
+pub type UInt64Unary = UnaryExpr<UInt64>;
+
+// A variable of type UInt64. Holds its name, and value. It is represented as two UInt32 variables.
+#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+pub struct UInt64Var {
+    pub(super) name: String,
+    #[serde(skip)]
+    pub(super) value: Option<UInt64>,
+    #[serde(skip)]
+    pub(super) low: UInt32Expr,
+    #[serde(skip)]
+    pub(super) high: UInt32Expr,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+#[serde(untagged)]
+pub enum UInt64Expr {
+    Const(UInt64Const),
+    Var(UInt64Var),
+    Binary(UInt64Binary),
+    Unary(UInt64Unary),
+}
+
+impl UInt64Expr {
+    pub fn low(&mut self) -> &mut UInt32Expr {
+        match self {
+            UInt64Expr::Var(v) => &mut v.low,
+            _ => panic!("Cannot convert non-variable to UInt16"),
+        }
+    }
+
+    pub fn high(&mut self) -> &mut UInt32Expr {
+        match self {
+            UInt64Expr::Var(v) => &mut v.high,
+            _ => panic!("Cannot convert non-variable to UInt16"),
+        }
+    }
+
+    // Creates a new UInt64Var.
+    pub fn new_var(
+        name: String,
+        value: Option<UInt64>,
+        ll_state_index: Option<usize>,
+        lh_state_index: Option<usize>,
+        hl_state_index: Option<usize>,
+        hh_state_index: Option<usize>,
+    ) -> Self {
+        let mut res = UInt64Var {
+            name,
+            value,
+            low: UInt32Expr::new_var(
+                "low".to_string(),
+                value.map(|v| v.low()),
+                ll_state_index,
+                lh_state_index,
+            ),
+            high: UInt32Expr::new_var(
+                "high".to_string(),
+                value.map(|v| v.high()),
+                hl_state_index,
+                hh_state_index,
+            ),
+        };
+        res.low.set_parent(ExprImpl::UInt64(res.clone().into()));
+        res.high.set_parent(ExprImpl::UInt64(res.clone().into()));
+        res.into()
+    }
+}
+
+impl Expr<UInt64> for UInt64Expr {
+    fn value(&self) -> Option<UInt64> {
+        match self {
+            UInt64Expr::Const(c) => Some(c.value),
+            UInt64Expr::Var(v) => v.value,
+            UInt64Expr::Binary(b) => b.value,
+            UInt64Expr::Unary(u) => u.value,
+        }
+    }
+}
+
+impl AirVar for UInt64Expr {
+    fn new(name: String) -> Self {
+        Self::new_var(name, None, None, None, None, None)
+    }
+
+    fn name(&self) -> String {
+        match self {
+            UInt64Expr::Const(c) => c.name.clone(),
+            UInt64Expr::Var(v) => v.name.clone(),
+            UInt64Expr::Binary(b) => b.name.clone(),
+            UInt64Expr::Unary(u) => u.name.clone(),
+        }
+    }
+
+    fn create_intermediate_var_for_deduction(&self, name: String) -> Self {
+        match self {
+            UInt64Expr::Var(v) => {
+                let mut res = v.clone();
+                res.name = name;
+                res.into()
+            }
+            UInt64Expr::Binary(b) => Self::new_var(name, b.value, None, None, None, None),
+            UInt64Expr::Unary(u) => Self::new_var(name, u.value, None, None, None, None),
+            _ => panic!("Cannot create an intermediate variable from a constant"),
+        }
+    }
+
+    fn in_state(&self) -> bool {
+        match self {
+            UInt64Expr::Const(_) => true,
+            UInt64Expr::Var(v) => v.low.in_state() && v.high.in_state(),
+            UInt64Expr::Binary(b) => b.left.in_state() && b.right.in_state(),
+            UInt64Expr::Unary(u) => u.child.in_state(),
+        }
+    }
+
+    fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+        match self {
+            UInt64Expr::Var(v) => {
+                let mut res = vec![];
+                res.append(&mut v.low.as_felts());
+                res.append(&mut v.high.as_felts());
+                res
+            }
+            _ => panic!("Cannot convert non-variable to Felt"),
+        }
+    }
+}
+
+impl Default for UInt64Expr {
+    fn default() -> Self {
+        UInt64Expr::Var(UInt64Var::default())
+    }
+}
+
+impl From<UInt64Const> for UInt64Expr {
+    fn from(c: UInt64Const) -> UInt64Expr {
+        UInt64Expr::Const(c)
+    }
+}
+
+impl From<UInt64Var> for UInt64Expr {
+    fn from(v: UInt64Var) -> UInt64Expr {
+        UInt64Expr::Var(v)
+    }
+}
+
+impl From<UInt64Binary> for UInt64Expr {
+    fn from(b: UInt64Binary) -> UInt64Expr {
+        UInt64Expr::Binary(b)
+    }
+}
+
+impl From<UInt64Unary> for UInt64Expr {
+    fn from(u: UInt64Unary) -> UInt64Expr {
+        UInt64Expr::Unary(u)
+    }
+}
+
+impl From<UInt64Expr> for GenericAirVar {
+    fn from(expr: UInt64Expr) -> GenericAirVar {
+        let expr_impl: ExprImpl = expr.into();
+        expr_impl.into()
+    }
+}
+
+impl From<UInt64Expr> for ProcessedAirVar {
+    fn from(expr: UInt64Expr) -> ProcessedAirVar {
+        match expr {
+            UInt64Expr::Const(c) => ProcessedAirVar::Const(UInt64::r#type(), c.name),
+            UInt64Expr::Var(v) => ProcessedAirVar::Var(UInt64::r#type(), v.name),
+            UInt64Expr::Binary(b) => b.into(),
+            UInt64Expr::Unary(u) => u.into(),
+        }
+    }
+}
+
+#[macro_export]
+macro_rules! const_u64_expr {
+    ($val:expr) => {
+        UInt64Const::new_const($val.into()).into()
+    };
+}
+
+#[macro_export]
+macro_rules! u64_expr {
+    ($name:expr, $val:expr) => {
+        UInt64Expr::new_var($name.to_string(), Some(UInt64::from($val)), None, None)
+    };
+
+    ($name:expr, $val:expr, $in_trace:literal) => {
+        if $in_trace {
+            UInt64Expr::new_var(
+                $name.to_string(),
+                Some(UInt64::from($val)),
+                Some(0),
+                Some(1),
+            )
+        } else {
+            UInt64Expr::new_var($name.to_string(), Some(UInt64::from($val)), None, None)
+        }
+    };
+}

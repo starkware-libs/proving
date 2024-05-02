@@ -22,6 +22,8 @@ pub struct UInt32Var {
     pub(super) low: UInt16Expr,
     #[serde(skip)]
     pub(super) high: UInt16Expr,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub(super) parent: Option<Box<ExprImpl>>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -48,6 +50,16 @@ impl UInt32Expr {
         }
     }
 
+    pub fn set_parent(&mut self, parent: ExprImpl) {
+        if let UInt32Expr::Var(v) = self {
+            v.parent = Some(Box::new(parent));
+            v.low.set_parent(UInt32Expr::Var(v.clone()).into());
+            v.high.set_parent(UInt32Expr::Var(v.clone()).into());
+        } else {
+            panic!("Cannot set parent of a non-variable");
+        }
+    }
+
     // Creates a new UInt32Var.
     pub fn new_var(
         name: String,
@@ -64,6 +76,7 @@ impl UInt32Expr {
                 value.map(|v| v.high()),
                 high_state_index,
             ),
+            parent: None,
         };
         res.low.set_parent(ExprImpl::UInt32(res.clone().into()));
         res.high.set_parent(ExprImpl::UInt32(res.clone().into()));
@@ -167,7 +180,13 @@ impl From<UInt32Expr> for ProcessedAirVar {
     fn from(expr: UInt32Expr) -> ProcessedAirVar {
         match expr {
             UInt32Expr::Const(c) => ProcessedAirVar::Const(UInt32::r#type(), c.name),
-            UInt32Expr::Var(v) => ProcessedAirVar::Var(UInt32::r#type(), v.name),
+            UInt32Expr::Var(v) => {
+                if let Some(var) = v.parent {
+                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
+                }
+
+                ProcessedAirVar::Var(UInt32::r#type(), v.name)
+            }
             UInt32Expr::Binary(b) => b.into(),
             UInt32Expr::Unary(u) => u.into(),
         }

@@ -13,6 +13,7 @@ impl AlgebraicType for Felt {}
 pub trait NumericType: ProverType + Rem + Shl + Shr + BitAnd + BitOr + BitXor {}
 impl NumericType for UInt16 {}
 impl NumericType for UInt32 {}
+impl NumericType for UInt64 {}
 
 pub trait SingleFeltType: ProverType {
     fn as_felt(&self) -> Felt;
@@ -310,6 +311,103 @@ impl BitXor for UInt32 {
     type Output = UInt32;
     fn bitxor(self, other: UInt32) -> UInt32 {
         UInt32 {
+            value: self.value ^ other.value,
+        }
+    }
+}
+
+#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default)]
+pub struct UInt64 {
+    pub value: u64,
+}
+
+impl UInt64 {
+    pub fn eq(&self, other: &Self) -> Bool {
+        Bool {
+            value: self.value == other.value,
+        }
+    }
+
+    pub fn low(&self) -> UInt32 {
+        UInt32 {
+            value: (self.value & 0xFFFFFFFF) as u32,
+        }
+    }
+
+    pub fn high(&self) -> UInt32 {
+        UInt32 {
+            value: (self.value >> 32) as u32,
+        }
+    }
+}
+
+impl From<u64> for UInt64 {
+    fn from(value: u64) -> UInt64 {
+        UInt64 { value }
+    }
+}
+
+impl ProverType for UInt64 {
+    fn calc(&self) -> String {
+        self.value.to_string()
+    }
+    fn r#type() -> String {
+        "UInt64".to_string()
+    }
+}
+
+impl Add for UInt64 {
+    type Output = UInt64;
+    fn add(self, other: UInt64) -> UInt64 {
+        UInt64 {
+            value: self.value.wrapping_add(other.value),
+        }
+    }
+}
+impl Rem for UInt64 {
+    type Output = UInt64;
+    fn rem(self, other: UInt64) -> UInt64 {
+        UInt64 {
+            value: self.value % other.value,
+        }
+    }
+}
+impl Shl for UInt64 {
+    type Output = UInt64;
+    fn shl(self, other: UInt64) -> UInt64 {
+        UInt64 {
+            value: self.value << other.value,
+        }
+    }
+}
+impl Shr for UInt64 {
+    type Output = UInt64;
+    fn shr(self, other: UInt64) -> UInt64 {
+        UInt64 {
+            value: self.value >> other.value,
+        }
+    }
+}
+impl BitAnd for UInt64 {
+    type Output = UInt64;
+    fn bitand(self, other: UInt64) -> UInt64 {
+        UInt64 {
+            value: self.value & other.value,
+        }
+    }
+}
+impl BitOr for UInt64 {
+    type Output = UInt64;
+    fn bitor(self, other: UInt64) -> UInt64 {
+        UInt64 {
+            value: self.value | other.value,
+        }
+    }
+}
+impl BitXor for UInt64 {
+    type Output = UInt64;
+    fn bitxor(self, other: UInt64) -> UInt64 {
+        UInt64 {
             value: self.value ^ other.value,
         }
     }
