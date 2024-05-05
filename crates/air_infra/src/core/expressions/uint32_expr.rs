@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+use super::super::air_fn::*;
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
@@ -39,14 +40,14 @@ impl UInt32Expr {
     pub fn low(&mut self) -> &mut UInt16Expr {
         match self {
             UInt32Expr::Var(v) => &mut v.low,
-            _ => panic!("Cannot convert non-variable to Felt"),
+            _ => panic!("Cannot convert non-variable to UInt16"),
         }
     }
 
     pub fn high(&mut self) -> &mut UInt16Expr {
         match self {
             UInt32Expr::Var(v) => &mut v.high,
-            _ => panic!("Cannot convert non-variable to Felt"),
+            _ => panic!("Cannot convert non-variable to UInt16"),
         }
     }
 
@@ -178,14 +179,19 @@ impl From<UInt32Expr> for GenericAirVar {
 
 impl From<UInt32Expr> for ProcessedAirVar {
     fn from(expr: UInt32Expr) -> ProcessedAirVar {
+        let name = expr.name();
+        if name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
+            return ProcessedAirVar::Var(UInt32::r#type(), name);
+        }
+
         match expr {
-            UInt32Expr::Const(c) => ProcessedAirVar::Const(UInt32::r#type(), c.name),
+            UInt32Expr::Const(_) => ProcessedAirVar::Const(UInt32::r#type(), name),
             UInt32Expr::Var(v) => {
                 if let Some(var) = v.parent {
-                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
+                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), name, vec![]);
                 }
 
-                ProcessedAirVar::Var(UInt32::r#type(), v.name)
+                ProcessedAirVar::Var(UInt32::r#type(), name)
             }
             UInt32Expr::Binary(b) => b.into(),
             UInt32Expr::Unary(u) => u.into(),

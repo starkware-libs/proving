@@ -116,11 +116,11 @@ impl AirFnRegistry {
         (air_builder, input, output)
     }
 
-    pub(super) fn get_intermediate_var_name(&self) -> String {
+    pub(super) fn get_intermediate_var_index(&self) -> String {
         let mut index = self.intermediate_vars_index.borrow_mut();
-        let name = format!("tmp_{}", *index);
+        let index_as_str = format!("{}", *index);
         *index += 1;
-        name
+        index_as_str
     }
 
     // Dumps the registry to a file.

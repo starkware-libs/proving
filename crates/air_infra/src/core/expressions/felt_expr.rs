@@ -2,8 +2,11 @@ use serde::{Deserialize, Serialize};
 
 use super::super::prover_types::*;
 use super::super::variables::*;
+use super::bool_expr::*;
 use super::expr::*;
 use super::op_expr::*;
+use crate::core::air_fn::CONSTRAINT_INTERMEDIATE_VAR_PREFIX;
+use crate::core::air_fn::DEDUCTION_INTERMEDIATE_VAR_PREFIX;
 use crate::core::autogen_structs::*;
 
 pub type FeltConst = ConstExpr<Felt>;
@@ -70,6 +73,24 @@ impl FeltExpr {
         }
         .into()
     }
+
+    pub fn let_for_constraint(&self, name: String) -> Self {
+        assert!(self.in_state());
+        assert!(name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
+
+        match self {
+            FeltExpr::Const(_) => panic!("Cannot create an intermediate variable from a constant"),
+            _ => Self::new_var(name, self.value(), None),
+        }
+    }
+
+    pub fn as_bool(&self) -> BoolExpr {
+        let value = self.value().map(|v| v.as_bool());
+        match self {
+            FeltExpr::Const(_) => panic!("Cannot create an intermediate variable from a constant"),
+            _ => BoolExpr::new_var(self.name(), value, None),
+        }
+    }
 }
 
 impl Expr<Felt> for FeltExpr {
@@ -113,7 +134,16 @@ impl AirVar for FeltExpr {
     fn in_state(&self) -> bool {
         match self {
             FeltExpr::Const(_) => true,
-            FeltExpr::Var(v) => v.state_index.is_some(),
+            FeltExpr::Var(v) => {
+                v.state_index.is_some()
+                    || v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
+                    || (v.parent.is_some()
+                        && v.parent
+                            .as_ref()
+                            .unwrap()
+                            .name()
+                            .starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX))
+            }
             FeltExpr::Binary(b) => b.left.in_state() && b.right.in_state(),
             FeltExpr::Unary(u) => u.child.in_state(),
         }
@@ -163,16 +193,26 @@ impl From<FeltUnary> for FeltExpr {
 
 impl From<FeltExpr> for ProcessedAirVar {
     fn from(expr: FeltExpr) -> ProcessedAirVar {
+        let name = expr.name();
+        if name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
+            || name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX)
+        {
+            return ProcessedAirVar::Var(Felt::r#type(), name);
+        }
+
         match expr {
-            FeltExpr::Const(c) => ProcessedAirVar::Const(Felt::r#type(), c.name),
+            FeltExpr::Const(_) => ProcessedAirVar::Const(Felt::r#type(), name),
             FeltExpr::Var(v) => {
                 if let Some(i) = v.state_index {
                     return ProcessedAirVar::State(i);
                 }
                 if let Some(var) = v.parent {
-                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
+                    if var.name().starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX) {
+                        return ProcessedAirVar::Var(Felt::r#type(), var.name());
+                    }
+                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), name, vec![]);
                 }
-                ProcessedAirVar::Var(Felt::r#type(), v.name)
+                ProcessedAirVar::Var(Felt::r#type(), name)
             }
             FeltExpr::Binary(b) => b.into(),
             FeltExpr::Unary(u) => u.into(),

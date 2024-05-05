@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+use super::super::air_fn::*;
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
@@ -37,14 +38,14 @@ impl UInt64Expr {
     pub fn low(&mut self) -> &mut UInt32Expr {
         match self {
             UInt64Expr::Var(v) => &mut v.low,
-            _ => panic!("Cannot convert non-variable to UInt16"),
+            _ => panic!("Cannot convert non-variable to UInt32"),
         }
     }
 
     pub fn high(&mut self) -> &mut UInt32Expr {
         match self {
             UInt64Expr::Var(v) => &mut v.high,
-            _ => panic!("Cannot convert non-variable to UInt16"),
+            _ => panic!("Cannot convert non-variable to UInt32"),
         }
     }
 
@@ -178,9 +179,14 @@ impl From<UInt64Expr> for GenericAirVar {
 
 impl From<UInt64Expr> for ProcessedAirVar {
     fn from(expr: UInt64Expr) -> ProcessedAirVar {
+        let name = expr.name();
+        if name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
+            return ProcessedAirVar::Var(UInt64::r#type(), name);
+        }
+
         match expr {
-            UInt64Expr::Const(c) => ProcessedAirVar::Const(UInt64::r#type(), c.name),
-            UInt64Expr::Var(v) => ProcessedAirVar::Var(UInt64::r#type(), v.name),
+            UInt64Expr::Const(_) => ProcessedAirVar::Const(UInt64::r#type(), name),
+            UInt64Expr::Var(_) => ProcessedAirVar::Var(UInt64::r#type(), name),
             UInt64Expr::Binary(b) => b.into(),
             UInt64Expr::Unary(u) => u.into(),
         }

@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+use super::super::air_fn::*;
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
@@ -159,14 +160,19 @@ impl From<UInt16Expr> for GenericAirVar {
 
 impl From<UInt16Expr> for ProcessedAirVar {
     fn from(expr: UInt16Expr) -> ProcessedAirVar {
+        let name = expr.name();
+        if name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
+            return ProcessedAirVar::Var(UInt16::r#type(), name);
+        }
+
         match expr {
-            UInt16Expr::Const(c) => ProcessedAirVar::Const(UInt16::r#type(), c.name),
+            UInt16Expr::Const(_) => ProcessedAirVar::Const(UInt16::r#type(), name),
             UInt16Expr::Var(v) => {
                 if let Some(var) = v.parent {
-                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
+                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), name, vec![]);
                 }
 
-                ProcessedAirVar::Var(UInt16::r#type(), v.name)
+                ProcessedAirVar::Var(UInt16::r#type(), name)
             }
             UInt16Expr::Binary(b) => b.into(),
             UInt16Expr::Unary(u) => u.into(),

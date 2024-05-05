@@ -49,6 +49,16 @@ impl Felt {
             value: self.value == other.value,
         }
     }
+
+    pub fn as_bool(&self) -> Bool {
+        assert!(
+            self.value == 0 || self.value == 1,
+            "Felt value is not a bool"
+        );
+        Bool {
+            value: self.value != 0,
+        }
+    }
 }
 
 impl From<u32> for Felt {

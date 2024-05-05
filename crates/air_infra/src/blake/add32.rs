@@ -20,15 +20,12 @@ impl AirFn for Add32 {
         let ch = air_builder.deduce(c.high().as_felt());
         // TODO: Add range check 16 for cl and ch.
 
-        // TODO: Use constraint intermediate variable when possible.
-        // let carry = air_builder.create_intermediate_var_for_deduction(&(&*a.low().as_felt() + &*b.low().as_felt()) - &cl);
+        let carry =
+            air_builder.let_for_constraint(&(&(&*a.low().as_felt() + &b.low().as_felt()) - &cl));
+        air_builder.constrain(&carry * &(&carry - &const_expr!(1 << 16)));
         air_builder.constrain(
-            &(&(&*a.low().as_felt() + &*b.low().as_felt()) - &cl)
-                * &(&(&(&*a.low().as_felt() + &*b.low().as_felt()) - &cl) - &const_expr!(1 << 16)),
-        );
-        air_builder.constrain(
-            &(&(&(&*a.high().as_felt() + &*b.high().as_felt()) - &ch) * &const_expr!(1 << 16))
-                + &(&(&*a.low().as_felt() + &*b.low().as_felt()) - &cl),
+            &(&(&(&*a.high().as_felt() + &b.high().as_felt()) - &ch) * &const_expr!(1 << 16))
+                + &carry,
         );
 
         c

@@ -3,7 +3,6 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub struct AutogenLists {
     pub input: ProcessedAirVar,
-    // TODO: add intermediate vars to the constraints list.
     #[serde(skip)]
     pub constraints: Vec<ConstraintOrIntermediate>,
     #[serde(skip)]

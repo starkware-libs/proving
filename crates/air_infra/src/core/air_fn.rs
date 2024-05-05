@@ -6,10 +6,13 @@ use serde::{Deserialize, Serialize};
 
 use super::air_fn_registry::*;
 #[cfg(test)]
-use super::expressions::expr::Expr;
+use super::expressions::expr::*;
 use super::expressions::felt_expr::*;
 use super::state::*;
 use super::variables::*;
+
+pub const CONSTRAINT_INTERMEDIATE_VAR_PREFIX: &str = "constraint_tmp_";
+pub const DEDUCTION_INTERMEDIATE_VAR_PREFIX: &str = "deduction_tmp_";
 
 // An air function should define a struct that implements the AirFn trait.
 // The AirFn trait has two associated types, In and Out, which are the input and output types of the
@@ -90,12 +93,23 @@ impl AirBuilder {
     where
         V: AirVar,
     {
-        let name = self.registry.get_intermediate_var_name();
+        let index = self.registry.get_intermediate_var_index();
+        let name = format!("{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, index);
         self.air_body.push(AirBodyComponent::DeductionIntermediate(
             name.clone(),
             var.clone().into(),
         ));
         var.create_intermediate_var_for_deduction(name)
+    }
+
+    pub fn let_for_constraint(&mut self, expr: &FeltExpr) -> FeltExpr {
+        let index = self.registry.get_intermediate_var_index();
+        let name = format!("{}{}", CONSTRAINT_INTERMEDIATE_VAR_PREFIX, index);
+        self.air_body.push(AirBodyComponent::ConstraintIntermediate(
+            name.clone(),
+            expr.clone(),
+        ));
+        expr.let_for_constraint(name)
     }
 
     pub fn call<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>, input: I) -> O

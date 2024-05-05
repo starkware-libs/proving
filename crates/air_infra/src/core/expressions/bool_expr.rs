@@ -1,5 +1,6 @@
 use serde::{Deserialize, Serialize};
 
+use super::super::air_fn::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -133,9 +134,14 @@ impl From<BoolExpr> for GenericAirVar {
 
 impl From<BoolExpr> for ProcessedAirVar {
     fn from(expr: BoolExpr) -> ProcessedAirVar {
+        let name = expr.name();
+        if name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
+            return ProcessedAirVar::Var(Bool::r#type(), name);
+        }
+
         match expr {
-            BoolExpr::Const(c) => ProcessedAirVar::Const(Bool::r#type(), c.name),
-            BoolExpr::Var(v) => ProcessedAirVar::Var(Bool::r#type(), v.name),
+            BoolExpr::Const(_) => ProcessedAirVar::Const(Bool::r#type(), name),
+            BoolExpr::Var(_) => ProcessedAirVar::Var(Bool::r#type(), name),
             BoolExpr::Binary(b) => b.into(),
         }
     }
