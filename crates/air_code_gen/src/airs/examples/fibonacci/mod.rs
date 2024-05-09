@@ -1,6 +1,11 @@
 use air_infra::core::prover_types::Felt;
+use stwo_prover::core::air::{Air, AirProver, Component, ComponentProver};
+use stwo_prover::core::backend::CPUBackend;
+
+use self::component::Fib__1000;
 
 pub mod component;
+pub mod cpu_prover;
 pub mod trace;
 
 pub struct FibInput {
@@ -8,16 +13,41 @@ pub struct FibInput {
     pub b: Felt,
 }
 
+// TODO(ShaharS): move this struct to another file and autogenerate it.
+pub struct FibAir {
+    component: Fib__1000,
+}
+
+impl Air for FibAir {
+    fn components(&self) -> Vec<&dyn Component> {
+        vec![&self.component]
+    }
+}
+
+impl AirProver<CPUBackend> for FibAir {
+    fn prover_components(&self) -> Vec<&dyn ComponentProver<CPUBackend>> {
+        vec![&self.component]
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use air_infra::core::prover_types::Felt;
+    use itertools::Itertools;
     use num_traits::{One, Zero};
     use stwo_prover::core::air::Component;
+    use stwo_prover::core::backend::cpu::CPUCircleEvaluation;
+    use stwo_prover::core::channel::{Blake2sChannel, Channel};
     use stwo_prover::core::fields::m31::BaseField;
     use stwo_prover::core::fields::FieldExpOps;
+    use stwo_prover::core::poly::circle::CanonicCoset;
+    use stwo_prover::core::poly::BitReversedOrder;
+    use stwo_prover::core::prover::{prove, verify};
+    use stwo_prover::core::vcs::blake2_hash::Blake2sHash;
 
     use super::component::Fib__1000;
     use super::trace::write_trace_row;
+    use super::FibAir;
 
     fn fill_trace(component: &dyn Component, secrets: &[Felt]) -> Vec<Vec<BaseField>> {
         let n_columns = component.trace_log_degree_bounds().len();
@@ -51,5 +81,30 @@ mod tests {
 
         let trace = fill_trace(&fib_component, &secrets);
         assert_fib_constraints(&fib_component, &trace);
+    }
+
+    #[test]
+    fn test_prove() {
+        let fib_component = Fib__1000 { log_n_instances: 7 };
+        let air = FibAir {
+            component: fib_component,
+        };
+        let inputs = (0..1 << air.component.log_n_instances)
+            .map(Felt::from)
+            .collect_vec();
+        let trace = fill_trace(&air.component, &inputs);
+
+        let trace_domain = CanonicCoset::new(air.component.log_n_instances).circle_domain();
+        let trace = trace
+            .into_iter()
+            .map(|eval| CPUCircleEvaluation::<BaseField, BitReversedOrder>::new(trace_domain, eval))
+            .collect_vec();
+
+        // TODO(ShaharS): update channel digest with initial seed.
+        let prover_channel = &mut Blake2sChannel::new(Blake2sHash::default());
+        let proof = prove(&air, prover_channel, trace).unwrap();
+
+        let verifier_channel = &mut Blake2sChannel::new(Blake2sHash::default());
+        verify(proof, &air, verifier_channel).unwrap();
     }
 }
