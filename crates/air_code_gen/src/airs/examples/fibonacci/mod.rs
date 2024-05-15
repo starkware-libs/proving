@@ -1,14 +1,6 @@
-use air_infra::core::prover_types::Felt;
-
 pub mod component;
 pub mod cpu_prover;
 pub mod trace;
-
-// TODO(ShaharS): move this struct to another file and autogenerate it.
-pub struct FibInput {
-    pub a: Felt,
-    pub b: Felt,
-}
 
 #[cfg(test)]
 mod tests {
