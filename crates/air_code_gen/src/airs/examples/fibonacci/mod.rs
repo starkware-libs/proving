@@ -12,9 +12,12 @@ pub struct FibInput {
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
     use std::iter::zip;
 
+    use air_infra::core::air_fn_registry::AirFnRegistry;
     use air_infra::core::prover_types::Felt;
+    use air_infra::fibonacci::fib::Fib;
     use itertools::Itertools;
     use num_traits::{One, Zero};
     use stwo_prover::core::air::Component;
@@ -27,6 +30,10 @@ mod tests {
     use super::component::{Fib__1000, Fib__1000TestAIR};
     use super::trace::write_trace_row;
     use crate::airs::examples::test_utils::{assert_cpu_constraints, test_prove};
+    use crate::code_gen::component_gen::generate_component;
+    use crate::code_gen::cpu_prover_gen::generate_cpu_prover_component;
+    use crate::code_gen::trace_gen::gen_write_trace_code;
+    use crate::code_gen::utils::{project_root, reformat_rust_code};
 
     fn fill_trace(
         component: &dyn Component,
@@ -64,6 +71,28 @@ mod tests {
                 );
             }
         }
+    }
+
+    #[test]
+    fn fib_code_gen() {
+        let air_fn = Fib { claim_index: 1000 };
+        let (_, air_entry, lists) = AirFnRegistry::new(&air_fn);
+
+        let mut folder_path = project_root();
+        folder_path.push("src/airs/examples/fibonacci");
+
+        let trace_tokens = gen_write_trace_code(lists.input.clone(), &lists.deductions.clone());
+        let cpu_prover_tokens =
+            generate_cpu_prover_component(&air_entry.name, &lists.constraints.clone());
+        let component_tokens = generate_component(&air_entry.name, lists);
+
+        // Write the generated code to files.
+        let text = reformat_rust_code(trace_tokens.to_string().unwrap());
+        fs::write(folder_path.join("trace.rs"), text).unwrap();
+        let text = reformat_rust_code(cpu_prover_tokens.to_string().unwrap());
+        fs::write(folder_path.join("cpu_prover.rs"), text).unwrap();
+        let text = reformat_rust_code(component_tokens.to_string().unwrap());
+        fs::write(folder_path.join("component.rs"), text).unwrap();
     }
 
     #[test]

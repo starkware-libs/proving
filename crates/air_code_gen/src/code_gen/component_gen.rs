@@ -186,27 +186,3 @@ pub fn generate_component(component_name: &str, lists: AutogenLists) -> rust::To
         $(component_impl_code)
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use std::fs;
-
-    use air_infra::core::air_fn_registry::AirFnRegistry;
-    use air_infra::fibonacci::fib::Fib;
-
-    use super::generate_component;
-    use crate::code_gen::utils::{project_root, reformat_rust_code};
-
-    #[test]
-    fn comoponent_gen() {
-        let air_fn = Fib { claim_index: 1000 };
-        let (_, air_fn, lists) = AirFnRegistry::new(&air_fn);
-
-        let tokens = generate_component(&air_fn.name, lists);
-        let text = reformat_rust_code(tokens.to_string().expect("Could not format Rust code."));
-
-        let mut path = project_root();
-        path.push("src/airs/examples/fibonacci/component.rs");
-        fs::write(path, text).unwrap();
-    }
-}

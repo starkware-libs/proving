@@ -163,27 +163,3 @@ fn parse_cpu_prover_constraint(expr: &ProcessedAirVar) -> String {
         ProcessedAirVar::Array(_) => unimplemented!(),
     }
 }
-
-#[cfg(test)]
-mod tests {
-    use std::fs;
-
-    use air_infra::core::air_fn_registry::AirFnRegistry;
-    use air_infra::fibonacci::fib::Fib;
-
-    use crate::code_gen::cpu_prover_gen::generate_cpu_prover_component;
-    use crate::code_gen::utils::{project_root, reformat_rust_code};
-
-    #[test]
-    fn test_generate_cpu_prover_component() {
-        let air_fn = Fib { claim_index: 1000 };
-        let (_, air_fn, lists) = AirFnRegistry::new(&air_fn);
-
-        let tokens = generate_cpu_prover_component(&air_fn.name, &lists.constraints);
-        let text = reformat_rust_code(tokens.to_string().expect("Could not format Rust code."));
-
-        let mut path = project_root();
-        path.push("src/airs/examples/fibonacci/cpu_prover.rs");
-        fs::write(path, text).unwrap();
-    }
-}

@@ -63,7 +63,7 @@ pub fn parse_air_var(expr: &ProcessedAirVar) -> String {
 
 /// Outputs the code for the write_trace function.
 #[allow(dead_code)]
-fn gen_write_trace_code(
+pub fn gen_write_trace_code(
     input: ProcessedAirVar,
     deductions: &[DeductionOrIntermediate],
 ) -> rust::Tokens {
@@ -116,28 +116,4 @@ fn gen_write_trace_code(
         }
     });
     code
-}
-
-#[cfg(test)]
-mod tests {
-    use std::fs;
-
-    use air_infra::core::air_fn_registry::AirFnRegistry;
-    use air_infra::fibonacci::fib::Fib;
-
-    use super::gen_write_trace_code;
-    use crate::code_gen::utils::{project_root, reformat_rust_code};
-
-    #[test]
-    fn fib_trace_gen() {
-        let air_fn = Fib { claim_index: 1000 };
-        let (_, _, lists) = AirFnRegistry::new(&air_fn);
-
-        let tokens = gen_write_trace_code(lists.input, &lists.deductions);
-
-        let text = reformat_rust_code(tokens.to_string().expect("Could not format Rust code."));
-        let mut path = project_root();
-        path.push("src/airs/examples/fibonacci/trace.rs");
-        fs::write(path, text).unwrap();
-    }
 }
