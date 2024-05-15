@@ -1,5 +1,6 @@
 pub mod component_gen;
 pub mod cpu_prover_gen;
+pub mod test_utils_gen;
 pub mod trace_gen;
 pub mod utils;
 

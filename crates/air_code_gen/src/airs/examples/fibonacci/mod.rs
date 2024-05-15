@@ -1,5 +1,7 @@
 pub mod component;
 pub mod cpu_prover;
+#[cfg(test)]
+pub mod test_utils;
 pub mod trace;
 
 #[cfg(test)]
@@ -19,11 +21,13 @@ mod tests {
     use stwo_prover::core::poly::circle::CanonicCoset;
     use stwo_prover::core::poly::BitReversedOrder;
 
-    use super::component::{Fib__100, Fib__100TestAIR};
+    use super::component::Fib__100;
+    use super::test_utils::Fib__100TestAIR;
     use super::trace::write_trace_row;
     use crate::airs::examples::test_utils::{assert_cpu_constraints, test_prove};
     use crate::code_gen::component_gen::generate_component;
     use crate::code_gen::cpu_prover_gen::generate_cpu_prover_component;
+    use crate::code_gen::test_utils_gen::generate_test_air_code;
     use crate::code_gen::trace_gen::gen_write_trace_code;
     use crate::code_gen::utils::{project_root, reformat_rust_code};
 
@@ -77,6 +81,7 @@ mod tests {
         let cpu_prover_tokens =
             generate_cpu_prover_component(&air_entry.name, &lists.constraints.clone());
         let component_tokens = generate_component(&air_entry.name, lists);
+        let test_utils_tokens = generate_test_air_code(&air_entry.name);
 
         // Write the generated code to files.
         let text = reformat_rust_code(trace_tokens.to_string().unwrap());
@@ -85,6 +90,8 @@ mod tests {
         fs::write(folder_path.join("cpu_prover.rs"), text).unwrap();
         let text = reformat_rust_code(component_tokens.to_string().unwrap());
         fs::write(folder_path.join("component.rs"), text).unwrap();
+        let text = reformat_rust_code(test_utils_tokens.to_string().unwrap());
+        fs::write(folder_path.join("test_utils.rs"), text).unwrap();
     }
 
     #[test]
