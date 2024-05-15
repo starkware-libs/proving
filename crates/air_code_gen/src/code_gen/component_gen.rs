@@ -4,6 +4,8 @@ use air_infra::core::autogen_structs::{
 use genco::lang::rust;
 use genco::quote;
 
+pub const TEST_AIR_SUFFIX: &str = "TestAIR";
+
 fn get_component_columns(deductions: &[DeductionOrIntermediate]) -> usize {
     deductions
         .iter()
@@ -14,10 +16,26 @@ fn get_component_columns(deductions: &[DeductionOrIntermediate]) -> usize {
 fn generate_struct_code(name: &str) -> rust::Tokens {
     let mut struct_code = rust::Tokens::new();
     struct_code.append(quote! {
+        #[allow(non_camel_case_types)]
         pub struct $(name) {
             pub log_n_instances: u32,
         }
     });
+
+    // TODO(ShaharS): support multiple components and move to test module.
+    struct_code.append(quote! {
+        #[allow(non_camel_case_types)]
+        pub struct $(name)$(TEST_AIR_SUFFIX) {
+            pub component: $(name),
+        }
+
+        impl Air for $(name)$(TEST_AIR_SUFFIX) {
+            fn components(&self) -> Vec<&dyn Component> {
+                vec![&self.component]
+            }
+        }
+    });
+
     struct_code
 }
 
@@ -146,7 +164,7 @@ pub fn generate_component(component_name: &str, lists: AutogenLists) -> rust::To
     let imports = quote! {
         use stwo_prover::core::air::accumulation::PointEvaluationAccumulator;
         use stwo_prover::core::air::mask::fixed_mask_points;
-        use stwo_prover::core::air::Component;
+        use stwo_prover::core::air::{Air, Component};
         use stwo_prover::core::circle::CirclePoint;
         use stwo_prover::core::constraints::coset_vanishing;
         use stwo_prover::core::fields::FieldExpOps;
@@ -163,7 +181,6 @@ pub fn generate_component(component_name: &str, lists: AutogenLists) -> rust::To
     quote! {
         $(imports)
         $['\n']
-        #[allow(non_camel_case_types)]
         $(struct_code)
         $['\n']
         $(component_impl_code)

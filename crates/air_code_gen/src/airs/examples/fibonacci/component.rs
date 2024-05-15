@@ -1,6 +1,6 @@
 use stwo_prover::core::air::accumulation::PointEvaluationAccumulator;
 use stwo_prover::core::air::mask::fixed_mask_points;
-use stwo_prover::core::air::Component;
+use stwo_prover::core::air::{Air, Component};
 use stwo_prover::core::circle::CirclePoint;
 use stwo_prover::core::constraints::coset_vanishing;
 use stwo_prover::core::fields::m31::BaseField;
@@ -12,6 +12,16 @@ use stwo_prover::core::ColumnVec;
 #[allow(non_camel_case_types)]
 pub struct Fib__1000 {
     pub log_n_instances: u32,
+}
+#[allow(non_camel_case_types)]
+pub struct Fib__1000TestAIR {
+    pub component: Fib__1000,
+}
+
+impl Air for Fib__1000TestAIR {
+    fn components(&self) -> Vec<&dyn Component> {
+        vec![&self.component]
+    }
 }
 
 impl Component for Fib__1000 {

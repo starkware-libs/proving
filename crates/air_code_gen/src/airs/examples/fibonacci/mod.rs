@@ -1,33 +1,13 @@
 use air_infra::core::prover_types::Felt;
-use stwo_prover::core::air::{Air, AirProver, Component, ComponentProver};
-use stwo_prover::core::backend::CPUBackend;
-
-use self::component::Fib__1000;
 
 pub mod component;
 pub mod cpu_prover;
 pub mod trace;
 
+// TODO(ShaharS): move this struct to another file and autogenerate it.
 pub struct FibInput {
     pub a: Felt,
     pub b: Felt,
-}
-
-// TODO(ShaharS): move this struct to another file and autogenerate it.
-pub struct FibAir {
-    component: Fib__1000,
-}
-
-impl Air for FibAir {
-    fn components(&self) -> Vec<&dyn Component> {
-        vec![&self.component]
-    }
-}
-
-impl AirProver<CPUBackend> for FibAir {
-    fn prover_components(&self) -> Vec<&dyn ComponentProver<CPUBackend>> {
-        vec![&self.component]
-    }
 }
 
 #[cfg(test)]
@@ -45,9 +25,8 @@ mod tests {
     use stwo_prover::core::prover::{prove, verify};
     use stwo_prover::core::vcs::blake2_hash::Blake2sHash;
 
-    use super::component::Fib__1000;
+    use super::component::{Fib__1000, Fib__1000TestAIR};
     use super::trace::write_trace_row;
-    use super::FibAir;
 
     fn fill_trace(component: &dyn Component, secrets: &[Felt]) -> Vec<Vec<BaseField>> {
         let n_columns = component.trace_log_degree_bounds().len();
@@ -86,7 +65,7 @@ mod tests {
     #[test]
     fn test_prove() {
         let fib_component = Fib__1000 { log_n_instances: 7 };
-        let air = FibAir {
+        let air = Fib__1000TestAIR {
             component: fib_component,
         };
         let inputs = (0..1 << air.component.log_n_instances)
