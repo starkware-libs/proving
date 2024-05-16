@@ -1,6 +1,6 @@
 use num_traits::identities::Zero;
 use stwo_prover::core::air::accumulation::DomainEvaluationAccumulator;
-use stwo_prover::core::air::{AirProver, Component, ComponentProver, ComponentTrace};
+use stwo_prover::core::air::{Component, ComponentProver, ComponentTrace};
 use stwo_prover::core::backend::{CPUBackend, Column};
 use stwo_prover::core::constraints::coset_vanishing;
 use stwo_prover::core::fields::m31::BaseField;
@@ -9,13 +9,7 @@ use stwo_prover::core::fields::FieldExpOps;
 use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::utils::bit_reverse;
 
-use super::component::{Fib__100, Fib__100TestAIR};
-
-impl AirProver<CPUBackend> for Fib__100TestAIR {
-    fn prover_components(&self) -> Vec<&dyn ComponentProver<CPUBackend>> {
-        vec![&self.component]
-    }
-}
+use super::component::Fib__100;
 
 impl ComponentProver<CPUBackend> for Fib__100 {
     fn evaluate_constraint_quotients_on_domain(

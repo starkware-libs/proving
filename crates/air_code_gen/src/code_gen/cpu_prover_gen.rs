@@ -2,21 +2,12 @@ use air_infra::core::autogen_structs::{ConstraintOrIntermediate, ProcessedAirVar
 use genco::lang::rust;
 use genco::quote;
 
-use crate::code_gen::component_gen::TEST_AIR_SUFFIX;
-
 pub fn generate_cpu_prover_component(
     component_name: &str,
     constraints: &[ConstraintOrIntermediate],
 ) -> rust::Tokens {
     quote! {
         $(imports_code(component_name))
-        $['\n']
-
-        impl AirProver<CPUBackend> for $(component_name)$(TEST_AIR_SUFFIX) {
-            fn prover_components(&self) -> Vec<&dyn ComponentProver<CPUBackend>> {
-                vec![&self.component]
-            }
-        }
         $['\n']
         impl ComponentProver<CPUBackend> for $(component_name) {
             fn evaluate_constraint_quotients_on_domain(
@@ -39,7 +30,7 @@ fn imports_code(component_name: &str) -> rust::Tokens {
     quote! {
         use num_traits::identities::Zero;
         use stwo_prover::core::air::accumulation::DomainEvaluationAccumulator;
-        use stwo_prover::core::air::{AirProver, Component, ComponentProver, ComponentTrace};
+        use stwo_prover::core::air::{Component, ComponentProver, ComponentTrace};
         use stwo_prover::core::backend::{CPUBackend, Column};
         use stwo_prover::core::constraints::coset_vanishing;
         use stwo_prover::core::fields::m31::BaseField;
@@ -48,7 +39,7 @@ fn imports_code(component_name: &str) -> rust::Tokens {
         use stwo_prover::core::poly::circle::CanonicCoset;
         use stwo_prover::core::utils::bit_reverse;
 
-        use super::component::{$(component_name), $(component_name)$(TEST_AIR_SUFFIX)};
+        use super::component::$(component_name);
     }
 }
 
