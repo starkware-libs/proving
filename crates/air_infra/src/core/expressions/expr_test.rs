@@ -1,10 +1,11 @@
 use super::super::prover_types::*;
 use super::expr::*;
+use super::felt252_expr::*;
 use super::felt_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
 // Macros
-use crate::{const_expr, const_u32_expr, const_u64_expr};
+use crate::{const_expr, const_u32_expr, const_u64_expr, felt252_expr};
 
 #[test]
 fn test_add_sub() {
@@ -64,4 +65,18 @@ fn test_uint64() {
     );
     assert_eq!(res.low().calc(), 0.to_string());
     assert_eq!(res.high().calc(), 1.to_string());
+}
+
+#[test]
+fn test_felt252() {
+    let mut v: Felt252Expr = felt252_expr!("v".to_string(), 0xFFF, 0xFFF);
+
+    let felts = v.as_felt_exprs();
+    assert_eq!(
+        felts.iter().map(|f| f.calc()).collect::<Vec<String>>(),
+        [
+            "4095", "0", "0", "0", "0", "0", "0", "0", "0", "0", "3840", "255", "0", "0", "0", "0",
+            "0", "0", "0", "0", "0"
+        ]
+    );
 }

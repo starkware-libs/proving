@@ -1,3 +1,4 @@
+use std::array::from_fn;
 use std::fmt::Debug;
 use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Rem, Shl, Shr, Sub};
 
@@ -420,5 +421,57 @@ impl BitXor for UInt64 {
         UInt64 {
             value: self.value ^ other.value,
         }
+    }
+}
+
+pub const FELT252_N_WORDS: usize = 21;
+pub const FELT252_BITS_PER_WORD: usize = 12;
+
+// A non-redundant representation of a 252-bit element in the field of numbers
+// modulo the prime 2**251 + 17 * 2**192 + 1.
+#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default)]
+pub struct Felt252 {
+    pub low: u128,
+    pub high: u128,
+}
+
+impl Felt252 {
+    pub fn eq(&self, other: &Self) -> Bool {
+        Bool {
+            value: self.low == other.low && self.high == other.high,
+        }
+    }
+
+    pub fn as_felts(&self) -> [Felt; FELT252_N_WORDS] {
+        let mut shift = 0;
+        from_fn(|_| {
+            let value = if shift + FELT252_BITS_PER_WORD <= 128 {
+                ((self.low >> shift) & 0xFFF) as u32
+            } else if shift >= 128 {
+                ((self.high >> (shift - 128)) & 0xFFF) as u32
+            } else {
+                let low_bits = 128 - shift;
+                let high_shift = 128 - (FELT252_BITS_PER_WORD - low_bits);
+                ((self.low >> shift) | (((self.high << high_shift) >> high_shift) << low_bits))
+                    as u32
+            };
+            shift += FELT252_BITS_PER_WORD;
+            Felt { value }
+        })
+    }
+}
+
+impl From<(u128, u128)> for Felt252 {
+    fn from((low, high): (u128, u128)) -> Felt252 {
+        Felt252 { low, high }
+    }
+}
+
+impl ProverType for Felt252 {
+    fn calc(&self) -> String {
+        format!("({}, {})", self.low, self.high)
+    }
+    fn r#type() -> String {
+        "Felt252".to_string()
     }
 }

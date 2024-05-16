@@ -1,4 +1,4 @@
-use core::array::from_fn;
+use std::array::from_fn;
 
 use serde::{Deserialize, Serialize};
 
@@ -6,6 +6,7 @@ use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::bool_expr::*;
+use super::felt252_expr::*;
 use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
@@ -64,6 +65,7 @@ pub enum ExprImpl {
     Bool(BoolExpr),
     UInt32(UInt32Expr),
     UInt64(UInt64Expr),
+    Felt252(Felt252Expr),
 }
 
 impl Default for ExprImpl {
@@ -84,6 +86,7 @@ impl AirVar for ExprImpl {
             ExprImpl::Bool(b) => b.name(),
             ExprImpl::UInt32(u) => u.name(),
             ExprImpl::UInt64(u) => u.name(),
+            ExprImpl::Felt252(f) => f.name(),
         }
     }
 
@@ -94,6 +97,7 @@ impl AirVar for ExprImpl {
             ExprImpl::Bool(b) => b.in_state(),
             ExprImpl::UInt32(u) => u.in_state(),
             ExprImpl::UInt64(u) => u.in_state(),
+            ExprImpl::Felt252(f) => f.in_state(),
         }
     }
 
@@ -104,6 +108,7 @@ impl AirVar for ExprImpl {
             ExprImpl::Bool(b) => b.create_intermediate_var_for_deduction(name).into(),
             ExprImpl::UInt32(u) => u.create_intermediate_var_for_deduction(name).into(),
             ExprImpl::UInt64(u) => u.create_intermediate_var_for_deduction(name).into(),
+            ExprImpl::Felt252(f) => f.create_intermediate_var_for_deduction(name).into(),
         }
     }
 
@@ -114,6 +119,7 @@ impl AirVar for ExprImpl {
             ExprImpl::Bool(b) => b.as_felts(),
             ExprImpl::UInt32(u) => u.as_felts(),
             ExprImpl::UInt64(u) => u.as_felts(),
+            ExprImpl::Felt252(f) => f.as_felts(),
         }
     }
 }
@@ -143,6 +149,11 @@ impl From<UInt64Expr> for ExprImpl {
         ExprImpl::UInt64(expr)
     }
 }
+impl From<Felt252Expr> for ExprImpl {
+    fn from(expr: Felt252Expr) -> ExprImpl {
+        ExprImpl::Felt252(expr)
+    }
+}
 
 impl From<ExprImpl> for GenericAirVar {
     fn from(expr: ExprImpl) -> GenericAirVar {
@@ -158,6 +169,7 @@ impl From<ExprImpl> for ProcessedAirVar {
             ExprImpl::Bool(b) => b.into(),
             ExprImpl::UInt32(u) => u.into(),
             ExprImpl::UInt64(u) => u.into(),
+            ExprImpl::Felt252(f) => f.into(),
         }
     }
 }
