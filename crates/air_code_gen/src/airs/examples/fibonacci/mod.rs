@@ -19,7 +19,7 @@ mod tests {
     use stwo_prover::core::poly::circle::CanonicCoset;
     use stwo_prover::core::poly::BitReversedOrder;
 
-    use super::component::{Fib__1000, Fib__1000TestAIR};
+    use super::component::{Fib__100, Fib__100TestAIR};
     use super::trace::write_trace_row;
     use crate::airs::examples::test_utils::{assert_cpu_constraints, test_prove};
     use crate::code_gen::component_gen::generate_component;
@@ -67,7 +67,7 @@ mod tests {
 
     #[test]
     fn fib_code_gen() {
-        let air_fn = Fib { claim_index: 1000 };
+        let air_fn = Fib { claim_index: 100 };
         let (_, air_entry, lists) = AirFnRegistry::new(&air_fn);
 
         let mut folder_path = project_root();
@@ -89,7 +89,7 @@ mod tests {
 
     #[test]
     fn test_write_trace() {
-        let fib_component = Fib__1000 { log_n_instances: 2 };
+        let fib_component = Fib__100 { log_n_instances: 2 };
         let secrets = (0..1 << fib_component.log_n_instances)
             .map(Felt::from)
             .collect::<Vec<_>>();
@@ -100,7 +100,7 @@ mod tests {
 
     #[test]
     fn test_fib_constraints() {
-        let fib_component = Fib__1000 { log_n_instances: 7 };
+        let fib_component = Fib__100 { log_n_instances: 7 };
         let inputs = (0..1 << fib_component.log_n_instances)
             .map(Felt::from)
             .collect_vec();
@@ -111,8 +111,8 @@ mod tests {
 
     #[test]
     fn test_fib_prove() {
-        let air = Fib__1000TestAIR {
-            component: Fib__1000 { log_n_instances: 7 },
+        let air = Fib__100TestAIR {
+            component: Fib__100 { log_n_instances: 7 },
         };
         let inputs = (0..1 << air.component.log_n_instances)
             .map(Felt::from)
