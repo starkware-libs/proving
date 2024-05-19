@@ -70,7 +70,8 @@ pub fn gen_write_trace_code(
     // Generate the imports for the write_trace function.
     let mut imports = rust::Tokens::new();
     imports.append(quote! {
-        use air_infra::core::prover_types::Felt;
+        // TODO(Shahars): import only the necessary types.
+        use air_infra::core::prover_types::*;
         use stwo_prover::core::fields::m31::BaseField;
     });
 

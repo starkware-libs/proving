@@ -52,6 +52,7 @@ fn parse_constraint_air_var(expr: &ProcessedAirVar) -> String {
         ProcessedAirVar::UnaryOp(op, val) => {
             format!("({}{})", op, parse_constraint_air_var(val))
         }
+        ProcessedAirVar::Var(_, id) => id.to_string(),
         _ => unimplemented!(),
     }
 }
