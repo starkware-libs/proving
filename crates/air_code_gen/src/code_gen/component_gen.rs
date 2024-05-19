@@ -11,6 +11,13 @@ fn get_component_columns(deductions: &[DeductionOrIntermediate]) -> usize {
         .count()
 }
 
+pub fn get_component_constraints(constraints: &[ConstraintOrIntermediate]) -> usize {
+    constraints
+        .iter()
+        .filter(|deduction| matches!(deduction, ConstraintOrIntermediate::Constraint(_)))
+        .count()
+}
+
 fn generate_struct_code(name: &str) -> rust::Tokens {
     quote! {
         #[allow(non_camel_case_types)]
@@ -78,7 +85,7 @@ fn generate_component_impl(
     let mut func1 = rust::Tokens::new();
     func1.extend(quote! {
         fn n_constraints(&self) -> usize {
-            $(constraints.len())
+            $(get_component_constraints(constraints))
         }
     });
 
