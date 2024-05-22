@@ -1,10 +1,10 @@
 use std::collections::BTreeMap;
 use std::fmt::Debug;
 
-use super::super::core::air_fn::*;
-use super::super::core::expressions::felt_expr::*;
-use super::super::core::prover_types::*;
 use super::fib_step::*;
+use crate::core::air_fn::*;
+use crate::core::expressions::felt_expr::*;
+use crate::core::prover_types::*;
 // Macros
 use crate::const_expr;
 

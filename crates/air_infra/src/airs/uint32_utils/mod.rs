@@ -1,4 +1,3 @@
 pub mod add32;
-
 #[cfg(test)]
-mod test;
+mod add32_test;

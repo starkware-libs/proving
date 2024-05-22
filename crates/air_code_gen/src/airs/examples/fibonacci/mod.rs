@@ -9,9 +9,9 @@ mod tests {
     use std::fs;
     use std::iter::zip;
 
+    use air_infra::airs::examples::fibonacci::fib::Fib;
     use air_infra::core::air_fn_registry::AirFnRegistry;
     use air_infra::core::prover_types::Felt;
-    use air_infra::fibonacci::fib::Fib;
     use itertools::Itertools;
     use num_traits::{One, Zero};
     use stwo_prover::core::air::Component;

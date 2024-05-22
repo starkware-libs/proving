@@ -1,8 +1,8 @@
-use super::super::core::air_fn_registry::*;
-use super::super::core::expressions::expr::*;
-use super::super::core::expressions::uint32_expr::*;
-use super::super::core::prover_types::*;
 use super::add32::*;
+use crate::core::air_fn_registry::*;
+use crate::core::expressions::expr::*;
+use crate::core::expressions::uint32_expr::*;
+use crate::core::prover_types::*;
 // Macros
 use crate::u32_expr;
 

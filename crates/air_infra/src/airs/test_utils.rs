@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use super::autogen_structs::*;
+use crate::core::autogen_structs::*;
 
 impl Display for ProcessedAirVar {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {

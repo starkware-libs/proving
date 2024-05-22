@@ -1,8 +1,8 @@
 use std::fmt::Debug;
 
 // Macros
-use super::super::core::air_fn::*;
-use super::super::core::expressions::felt_expr::*;
+use crate::core::air_fn::*;
+use crate::core::expressions::felt_expr::*;
 
 /// Calculates the sum of the squares of the two input numbers.
 

@@ -1,7 +1,7 @@
-use super::super::core::air_fn::*;
-use super::super::core::expressions::felt_expr::*;
-use super::super::core::expressions::uint32_expr::*;
-use super::super::core::prover_types::*;
+use crate::core::air_fn::*;
+use crate::core::expressions::felt_expr::*;
+use crate::core::expressions::uint32_expr::*;
+use crate::core::prover_types::*;
 // Macros
 use crate::const_expr;
 

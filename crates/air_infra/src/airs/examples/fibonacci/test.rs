@@ -1,8 +1,8 @@
-use super::super::core::air_fn_registry::*;
-use super::super::core::expressions::expr::*;
-use super::super::core::expressions::felt_expr::*;
-use super::super::core::prover_types::*;
 use super::fib::Fib;
+use crate::core::air_fn_registry::*;
+use crate::core::expressions::expr::*;
+use crate::core::expressions::felt_expr::*;
+use crate::core::prover_types::*;
 use crate::expr;
 
 #[test]

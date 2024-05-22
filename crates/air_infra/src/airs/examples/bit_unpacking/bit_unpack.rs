@@ -1,10 +1,10 @@
 use std::collections::BTreeMap;
 use std::fmt::Debug;
 
-use super::super::core::air_fn::*;
-use super::super::core::expressions::bool_expr::*;
-use super::super::core::expressions::uint16_expr::*;
 use super::div2::Div2;
+use crate::core::air_fn::*;
+use crate::core::expressions::bool_expr::*;
+use crate::core::expressions::uint16_expr::*;
 
 /// Unpacks a 16-bit unsigned integer into a vector of bits.
 
