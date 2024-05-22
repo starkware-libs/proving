@@ -2,6 +2,8 @@ use air_infra::core::autogen_structs::{ConstraintOrIntermediate, ProcessedAirVar
 use genco::lang::rust;
 use genco::quote;
 
+use super::component_gen::get_component_constraints;
+
 pub fn generate_cpu_prover_component(
     component_name: &str,
     constraints: &[ConstraintOrIntermediate],
@@ -56,7 +58,7 @@ fn numerator_code(constraints: &[ConstraintOrIntermediate]) -> rust::Tokens {
     };
 
     let mut constraints_code = quote! {};
-    let n_constraints = constraints.len();
+    let n_constraints = get_component_constraints(constraints);
     let mut constraint_offset = 0;
     for constraint in constraints.iter() {
         match constraint {
