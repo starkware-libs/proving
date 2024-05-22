@@ -94,16 +94,17 @@ impl AirVar for UInt16Expr {
         }
     }
 
-    fn create_intermediate_var_for_deduction(&self, name: String) -> Self {
+    fn let_for_deduction(&self, name: String) -> Self {
         match self {
             UInt16Expr::Var(v) => {
                 let mut res = v.clone();
                 res.name = name;
                 res.into()
             }
-            UInt16Expr::Binary(b) => Self::new_var(name, b.value, None),
-            UInt16Expr::Unary(u) => Self::new_var(name, u.value, None),
-            _ => panic!("Cannot create an intermediate variable from a constant"),
+            UInt16Expr::Const(_) => {
+                panic!("Cannot create an intermediate variable from a constant")
+            }
+            _ => Self::new_var(name, self.value(), None),
         }
     }
 

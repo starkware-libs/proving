@@ -12,13 +12,13 @@ fn test_add32() {
     let (registry, _, lists) = AirFnRegistry::new(&air_fn);
 
     let constraints = [
-        "constraint_tmp_1 = ((state[0] + state[2]) - state[4])",
+        "constraint_tmp_1 = ((Add32_input[0].low().as_felt() + Add32_input[1].low().as_felt()) - state[0])",
         "(constraint_tmp_1 * (constraint_tmp_1 - const_65536))",
-        "((((state[1] + state[3]) - state[5]) * const_65536) + constraint_tmp_1)",
+        "((((Add32_input[0].high().as_felt() + Add32_input[1].high().as_felt()) - state[1]) * const_65536) + constraint_tmp_1)",
     ];
 
     let deductions = [
-        "deduction_tmp_0 = (Add32_input_0 + Add32_input_1)",
+        "deduction_tmp_0 = (Add32_input[0] + Add32_input[1])",
         "deduction_tmp_0.low().as_felt()",
         "deduction_tmp_0.high().as_felt()",
     ];

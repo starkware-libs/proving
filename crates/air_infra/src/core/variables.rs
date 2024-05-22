@@ -9,7 +9,7 @@ use super::expressions::felt_expr::*;
 /// Every input and output of an air function is an AirVar.
 pub trait AirVar: Clone + Debug + Default + Into<GenericAirVar> {
     fn new(name: String) -> Self;
-    fn create_intermediate_var_for_deduction(&self, name: String) -> Self;
+    fn let_for_deduction(&self, name: String) -> Self;
     fn name(&self) -> String;
     fn description(&self) -> String {
         self.name()
@@ -54,15 +54,15 @@ macro_rules! impl_air_var {
             fn in_state(&self) -> bool {
                 self.iter().all(|s| s.in_state())
             }
-            fn create_intermediate_var_for_deduction(&self, name: String) -> Self {
+            fn let_for_deduction(&self, name: String) -> Self {
                 let mut res = self.clone();
                 for (i, s) in res.iter_mut().enumerate() {
-                    *s = s.create_intermediate_var_for_deduction(format!("{}_{}", name, i));
+                    *s = s.let_for_deduction(format!("{}[{}]", name, i));
                 }
                 res
             }
             fn new(name: String) -> Self {
-                from_fn(|i| <$s>::new(format!("{}_{}", name, i)))
+                from_fn(|i| <$s>::new(format!("{}[{}]", name, i)))
             }
             fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
                 self.into_iter().flat_map(|s| s.as_felts()).collect()
@@ -84,10 +84,10 @@ macro_rules! impl_air_var {
             fn in_state(&self) -> bool {
                 self.iter().all(|s| s.in_state())
             }
-            fn create_intermediate_var_for_deduction(&self, name: String) -> Self {
+            fn let_for_deduction(&self, name: String) -> Self {
                 let mut res = self.clone();
                 for (i, s) in res.iter_mut().enumerate() {
-                    *s = s.create_intermediate_var_for_deduction(format!("{}_{}", name, i));
+                    *s = s.let_for_deduction(format!("{}[{}]", name, i));
                 }
                 res
             }
@@ -118,15 +118,15 @@ macro_rules! impl_air_var {
                 let ($($s),+) = self;
                 $($s.in_state() &&)+ true
             }
-            fn create_intermediate_var_for_deduction(&self, name: String) -> Self {
+            fn let_for_deduction(&self, name: String) -> Self {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
                 let mut i = 0;
-                ($($s.create_intermediate_var_for_deduction(format!("{}_{}", name, { i += 1; i })),)+)
+                ($($s.let_for_deduction(format!("{}.{}", name, { i += 1; i })),)+)
             }
             fn new(name: String) -> Self {
                 let mut i = 0;
-                ($(<$s>::new(format!("{}_{}", name, { i += 1; i })),)+)
+                ($(<$s>::new(format!("{}.{}", name, { i += 1; i })),)+)
             }
             fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
                 let mut res = vec!();

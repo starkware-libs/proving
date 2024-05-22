@@ -101,14 +101,14 @@ impl AirVar for ExprImpl {
         }
     }
 
-    fn create_intermediate_var_for_deduction(&self, name: String) -> Self {
+    fn let_for_deduction(&self, name: String) -> Self {
         match self {
-            ExprImpl::Felt(f) => f.create_intermediate_var_for_deduction(name).into(),
-            ExprImpl::UInt16(u) => u.create_intermediate_var_for_deduction(name).into(),
-            ExprImpl::Bool(b) => b.create_intermediate_var_for_deduction(name).into(),
-            ExprImpl::UInt32(u) => u.create_intermediate_var_for_deduction(name).into(),
-            ExprImpl::UInt64(u) => u.create_intermediate_var_for_deduction(name).into(),
-            ExprImpl::Felt252(f) => f.create_intermediate_var_for_deduction(name).into(),
+            ExprImpl::Felt(f) => f.let_for_deduction(name).into(),
+            ExprImpl::UInt16(u) => u.let_for_deduction(name).into(),
+            ExprImpl::Bool(b) => b.let_for_deduction(name).into(),
+            ExprImpl::UInt32(u) => u.let_for_deduction(name).into(),
+            ExprImpl::UInt64(u) => u.let_for_deduction(name).into(),
+            ExprImpl::Felt252(f) => f.let_for_deduction(name).into(),
         }
     }
 

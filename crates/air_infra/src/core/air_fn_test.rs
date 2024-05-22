@@ -46,7 +46,7 @@ impl AirFn for AirFnWithUInt32 {
     type Out = UInt32Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
-        let mut x = air_builder.create_intermediate_var_for_deduction(&input + &const_u32_expr!(4));
+        let mut x = air_builder.let_for_deduction(&input + &const_u32_expr!(4));
 
         let x0 = air_builder.deduce(x.low().as_felt());
         let x1 = air_builder.deduce(x.high().as_felt());

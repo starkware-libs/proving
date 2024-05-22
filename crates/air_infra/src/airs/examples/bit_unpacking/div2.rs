@@ -19,7 +19,7 @@ impl AirFn for Div2 {
     type Out = (BoolExpr, UInt16Expr);
 
     fn call(&self, air_builder: &mut AirBuilder, mut x0: Self::In) -> Self::Out {
-        let mut x1 = air_builder.create_intermediate_var_for_deduction(&x0 >> &const_u16_expr!(1));
+        let mut x1 = air_builder.let_for_deduction(&x0 >> &const_u16_expr!(1));
         let x1_felt = air_builder.deduce(x1.as_felt());
         // Calculate the least significant bit of the input = x0 - 2 * x1
         let lsb = air_builder.let_for_constraint(&(&*x0.as_felt() - &(&x1_felt * &const_expr!(2))));

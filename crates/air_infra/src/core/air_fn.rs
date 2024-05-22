@@ -56,13 +56,13 @@ pub struct AirBuilder {
 }
 impl AirBuilder {
     pub fn constrain(&mut self, expr: FeltExpr) {
-        assert!(
-            expr.in_state(),
-            "The mask of the constraint must be in the trace."
-        );
-
         #[cfg(test)]
         if self.run {
+            assert!(
+                expr.in_state(),
+                "The mask of the constraint must be in the trace."
+            );
+
             assert!(
                 expr.calc() == 0.to_string(),
                 "Added incorrect constraint (does not evalutate to 0)"
@@ -78,6 +78,14 @@ impl AirBuilder {
         expr.clone()
     }
     pub fn assign(&mut self, expr: &mut FeltExpr) -> FeltExpr {
+        #[cfg(test)]
+        if self.run {
+            assert!(
+                expr.in_state(),
+                "The mask of the constraint must be in the trace."
+            );
+        }
+
         let before = expr.clone();
         self.state.add(expr);
 
@@ -89,7 +97,7 @@ impl AirBuilder {
         expr.clone()
     }
 
-    pub fn create_intermediate_var_for_deduction<V>(&mut self, var: V) -> V
+    pub fn let_for_deduction<V>(&mut self, var: V) -> V
     where
         V: AirVar,
     {
@@ -99,10 +107,17 @@ impl AirBuilder {
             name.clone(),
             var.clone().into(),
         ));
-        var.create_intermediate_var_for_deduction(name)
+        var.let_for_deduction(name)
     }
 
     pub fn let_for_constraint(&mut self, expr: &FeltExpr) -> FeltExpr {
+        #[cfg(test)]
+        if self.run {
+            assert!(
+                expr.in_state(),
+                "The mask of the intermediate variable for constraints must be in the trace."
+            );
+        }
         let index = self.registry.get_intermediate_var_index();
         let name = format!("{}{}", CONSTRAINT_INTERMEDIATE_VAR_PREFIX, index);
         self.air_body.push(AirBodyComponent::ConstraintIntermediate(
@@ -132,7 +147,7 @@ impl AirBuilder {
             registry: self.registry.clone(),
         };
         let output = air_fn.call(&mut air_builder, input.clone());
-        self.air_body.push(AirBodyComponent::Subroutine(Call {
+        self.air_body.push(AirBodyComponent::Call(Call {
             air_fn_name: air_fn.name(),
             input_arg: input.into(),
             output: output.clone().into(),
@@ -171,5 +186,5 @@ pub enum AirBodyComponent {
     },
     DeductionIntermediate(String, GenericAirVar),
     ConstraintIntermediate(String, FeltExpr),
-    Subroutine(Call),
+    Call(Call),
 }

@@ -99,7 +99,7 @@ impl AirFnRegistry {
         I: AirVar,
         O: AirVar,
     {
-        let mut input = I::new(format!("{}_input", air_fn.name()));
+        let input = I::new(format!("{}_input", air_fn.name()));
         let mut air_builder = AirBuilder {
             state: State::default(),
             air_body: vec![],
@@ -107,11 +107,6 @@ impl AirFnRegistry {
             run: false,
             registry: self.clone(),
         };
-        if air_fn.input_in_trace() {
-            for felt_expr in input.as_felts() {
-                air_builder.state.add(felt_expr);
-            }
-        }
         let output = air_fn.call(&mut air_builder, input.clone());
         (air_builder, input, output)
     }
@@ -158,7 +153,7 @@ impl AirFnRegistry {
                 AirBodyComponent::ConstraintIntermediate(name, var) => {
                     constraints.push(ConstraintOrIntermediate::Intermediate(name, var.into()));
                 }
-                AirBodyComponent::Subroutine(f) => {
+                AirBodyComponent::Call(f) => {
                     let lists = Self::get_autogen_lists(f.air_body, f.input_arg);
                     constraints.extend(lists.constraints);
                     deductions.extend(lists.deductions);

@@ -15,7 +15,7 @@ impl AirFn for Add32 {
     type Out = UInt32Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, [mut a, mut b]: Self::In) -> Self::Out {
-        let mut c = air_builder.create_intermediate_var_for_deduction(&a + &b);
+        let mut c = air_builder.let_for_deduction(&a + &b);
         let cl = air_builder.deduce(c.low().as_felt());
         let ch = air_builder.deduce(c.high().as_felt());
         // TODO: Add range check 16 for cl and ch.
