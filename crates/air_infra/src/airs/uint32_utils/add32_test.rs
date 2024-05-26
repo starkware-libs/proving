@@ -9,7 +9,8 @@ use crate::u32_expr;
 #[test]
 fn test_add32() {
     let air_fn = Add32 {};
-    let (registry, _, lists) = AirFnRegistry::new(&air_fn);
+    let registry = AirFnRegistry::new(&air_fn);
+    let lists = registry.get_codegen_air_fn(&air_fn);
 
     let constraints = [
         "constraint_tmp_1 = ((Add32_input[0].low().as_felt() + Add32_input[1].low().as_felt()) - state[0])",

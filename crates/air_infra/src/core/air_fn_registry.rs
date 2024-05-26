@@ -2,6 +2,7 @@ use std::cell::RefCell;
 use std::collections::BTreeMap;
 use std::fs::File;
 use std::io::{BufWriter, Write};
+use std::path::PathBuf;
 use std::rc::Rc;
 
 use serde::{Deserialize, Serialize};
@@ -55,7 +56,7 @@ pub struct AirFnRegistry {
 }
 
 impl AirFnRegistry {
-    pub fn new<I, O>(air_fn: &dyn AirFn<In = I, Out = O>) -> (Self, AirFnEntry, AutogenLists)
+    pub fn new<I, O>(air_fn: &dyn AirFn<In = I, Out = O>) -> Self
     where
         I: AirVar,
         O: AirVar,
@@ -65,13 +66,9 @@ impl AirFnRegistry {
             air_fns: Rc::new(RefCell::new(BTreeMap::new())),
             intermediate_vars_index: Rc::new(RefCell::new(0)),
         };
-
         // Add the function to the registry.
-        let entry = AirFnEntry::new(&registry, air_fn);
-
-        // Get the autogen lists.
-        let lists = Self::get_autogen_lists(entry.air_body.clone(), entry.input.clone());
-        (registry, entry, lists)
+        AirFnEntry::new(&registry, air_fn);
+        registry
     }
 
     // Runs the air function on a given input and returns the resulting state and output.
@@ -120,15 +117,45 @@ impl AirFnRegistry {
 
     // Dumps the registry to a file.
     pub fn dump_to_file(&self, file_name: &str) {
-        let file = File::create(file_name).expect("Unable to create file");
+        let mut path = Self::project_root();
+        path.push(format!("src/{}", file_name));
+        let file = File::create(path).expect("Unable to create file");
         let mut writer = BufWriter::new(file);
         to_writer_pretty(&mut writer, self).expect("serialization failed");
         writer.flush().expect("flush failed");
         writer.write_all(b"\n").expect("write failed");
     }
 
+    fn project_root() -> PathBuf {
+        PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap())
+    }
+
+    pub fn get_air_fn_entry<I, O>(&self, air_fn: &dyn AirFn<In = I, Out = O>) -> AirFnEntry
+    where
+        I: AirVar,
+        O: AirVar,
+    {
+        self.air_fns
+            .borrow()
+            .get(&air_fn.name())
+            .expect("Air function not found")
+            .clone()
+    }
+
+    pub fn get_codegen_air_fn<I, O>(&self, air_fn: &dyn AirFn<In = I, Out = O>) -> AutogenLists
+    where
+        I: AirVar,
+        O: AirVar,
+    {
+        let entry = self.get_air_fn_entry(air_fn);
+        Self::compile_codegen_air_fn(entry.air_body, entry.input)
+    }
+
     // Transforms the air body and input of an air function into the autogen format.
-    fn get_autogen_lists(air_body: Vec<AirBodyComponent>, input: GenericAirVar) -> AutogenLists {
+    fn compile_codegen_air_fn(
+        air_body: Vec<AirBodyComponent>,
+        input: GenericAirVar,
+    ) -> AutogenLists {
         let mut constraints = vec![];
         let mut deductions = vec![];
 
@@ -154,7 +181,7 @@ impl AirFnRegistry {
                     constraints.push(ConstraintOrIntermediate::Intermediate(name, var.into()));
                 }
                 AirBodyComponent::Call(f) => {
-                    let lists = Self::get_autogen_lists(f.air_body, f.input_arg);
+                    let lists = Self::compile_codegen_air_fn(f.air_body, f.input_arg);
                     constraints.extend(lists.constraints);
                     deductions.extend(lists.deductions);
                 }

@@ -34,7 +34,7 @@ impl AirFn for AirFnWithIncorrectConstraint {
 #[should_panic(expected = "incorrect constraint")]
 fn test_incompleteness() {
     let func = AirFnWithIncorrectConstraint {};
-    let (registry, ..) = AirFnRegistry::new(&func);
+    let registry = AirFnRegistry::new(&func);
     registry.run_air(&func, expr!("x", 1234));
 }
 
@@ -64,7 +64,7 @@ impl AirFn for AirFnWithUInt32 {
 #[test]
 fn test_uint32_deduce() {
     let func = AirFnWithUInt32 {};
-    let (registry, ..) = AirFnRegistry::new(&func);
+    let registry = AirFnRegistry::new(&func);
 
     let (_, out) = registry.run_air(&func, u32_expr!("x", 5));
     assert!(out.in_state());

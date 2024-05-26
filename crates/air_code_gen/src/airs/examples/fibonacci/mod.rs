@@ -72,12 +72,14 @@ mod tests {
     #[test]
     fn fib_code_gen() {
         let air_fn = Fib { claim_index: 100 };
-        let (_, air_entry, lists) = AirFnRegistry::new(&air_fn);
+        let resigtry = AirFnRegistry::new(&air_fn);
 
         let mut folder_path = project_root();
         folder_path.push("src/airs/examples/fibonacci");
 
+        let lists = resigtry.get_codegen_air_fn(&air_fn);
         let trace_tokens = gen_write_trace_code(lists.input.clone(), &lists.deductions.clone());
+        let air_entry = resigtry.get_air_fn_entry(&air_fn);
         let cpu_prover_tokens =
             generate_cpu_prover_component(&air_entry.name, &lists.constraints.clone());
         let component_tokens = generate_component(&air_entry.name, lists);

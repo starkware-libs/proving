@@ -8,7 +8,8 @@ use crate::expr;
 #[test]
 fn test_fibonacci() {
     let air_fn = Fib { claim_index: 6 };
-    let (registry, _, lists) = AirFnRegistry::new(&air_fn);
+    let registry = AirFnRegistry::new(&air_fn);
+    let lists = registry.get_codegen_air_fn(&air_fn);
 
     let constraints = [
         "(state[1] - ((const_1 * const_1) + (state[0] * state[0])))",
