@@ -11,11 +11,11 @@ pub fn generate_cpu_prover_component(
     quote! {
         $(imports_code(component_name))
         $['\n']
-        impl ComponentProver<CPUBackend> for $(component_name) {
+        impl ComponentProver<CpuBackend> for $(component_name) {
             fn evaluate_constraint_quotients_on_domain(
                 &self,
-                trace: &ComponentTrace<'_, CPUBackend>,
-                evaluation_accumulator: &mut DomainEvaluationAccumulator<CPUBackend>,
+                trace: &ComponentTrace<'_, CpuBackend>,
+                evaluation_accumulator: &mut DomainEvaluationAccumulator<CpuBackend>,
             ) {
                 $("// Numerator computation.")
                 $(numerator_code(constraints))
@@ -33,7 +33,7 @@ fn imports_code(component_name: &str) -> rust::Tokens {
         use num_traits::identities::Zero;
         use stwo_prover::core::air::accumulation::DomainEvaluationAccumulator;
         use stwo_prover::core::air::{Component, ComponentProver, ComponentTrace};
-        use stwo_prover::core::backend::{CPUBackend, Column};
+        use stwo_prover::core::backend::{CpuBackend, Column};
         use stwo_prover::core::constraints::coset_vanishing;
         use stwo_prover::core::fields::m31::BaseField;
         use stwo_prover::core::fields::qm31::SecureField;
