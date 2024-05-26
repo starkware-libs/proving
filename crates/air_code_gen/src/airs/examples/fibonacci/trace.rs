@@ -1,4 +1,4 @@
-use air_infra::core::prover_types::Felt;
+use air_infra::core::prover_types::*;
 use stwo_prover::core::fields::m31::BaseField;
 
 #[allow(non_snake_case)]

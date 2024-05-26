@@ -12,6 +12,7 @@ use stwo_prover::core::utils::bit_reverse;
 use super::component::Fib__100;
 
 impl ComponentProver<CpuBackend> for Fib__100 {
+    #[allow(unused_parens)]
     fn evaluate_constraint_quotients_on_domain(
         &self,
         trace: &ComponentTrace<'_, CpuBackend>,

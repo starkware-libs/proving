@@ -12,6 +12,7 @@ pub fn generate_cpu_prover_component(
         $(imports_code(component_name))
         $['\n']
         impl ComponentProver<CpuBackend> for $(component_name) {
+            #[allow(unused_parens)]
             fn evaluate_constraint_quotients_on_domain(
                 &self,
                 trace: &ComponentTrace<'_, CpuBackend>,
