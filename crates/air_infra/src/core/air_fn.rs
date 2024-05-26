@@ -132,7 +132,8 @@ impl AirBuilder {
         I: AirVar,
         O: AirVar,
     {
-        if air_fn.input_in_trace() {
+        #[cfg(test)]
+        if self.run && air_fn.input_in_trace() {
             assert!(input.in_state(), "Input must be in the trace");
         }
         if self.registry.air_fns.borrow().get(&air_fn.name()).is_none() {

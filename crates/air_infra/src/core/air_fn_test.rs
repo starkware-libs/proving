@@ -94,7 +94,7 @@ impl AirFn for AirFnWithArray {
 #[test]
 fn test_array_deduce() {
     let func = AirFnWithArray {};
-    let (registry, ..) = AirFnRegistry::new(&func);
+    let registry = AirFnRegistry::new(&func);
 
     let (_, out) = registry.run_air(&func, [expr!("x", 5), expr!("y", 5)]);
     assert!(out.in_state());
