@@ -2,6 +2,7 @@ use std::array::from_fn;
 
 use serde::{Deserialize, Serialize};
 
+use super::super::air_fn::*;
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
@@ -93,6 +94,8 @@ impl AirVar for Felt252Expr {
     }
 
     fn let_for_deduction(&self, name: String) -> Self {
+        assert!(name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX));
+
         match self {
             Felt252Expr::Var(v) => {
                 let mut res = v.clone();

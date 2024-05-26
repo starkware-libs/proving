@@ -77,6 +77,8 @@ impl AirVar for BoolExpr {
     }
 
     fn let_for_deduction(&self, name: String) -> Self {
+        assert!(name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX));
+
         match self {
             BoolExpr::Var(v) => {
                 let mut res = v.clone();

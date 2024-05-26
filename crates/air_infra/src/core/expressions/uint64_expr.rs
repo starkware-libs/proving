@@ -106,6 +106,8 @@ impl AirVar for UInt64Expr {
     }
 
     fn let_for_deduction(&self, name: String) -> Self {
+        assert!(name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX));
+
         match self {
             UInt64Expr::Var(v) => {
                 let mut res = v.clone();

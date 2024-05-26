@@ -70,3 +70,33 @@ fn test_uint32_deduce() {
     assert!(out.in_state());
     assert!(out.calc() == "9");
 }
+
+#[derive(Debug)]
+struct AirFnWithArray {}
+
+impl AirFn for AirFnWithArray {
+    type In = [FeltExpr; 2];
+    type Out = [FeltExpr; 2];
+
+    fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
+        let mut x = air_builder.let_for_deduction(input);
+
+        let _x0 = air_builder.deduce(&mut x[0]);
+        let _x1 = air_builder.deduce(&mut x[1]);
+        x
+    }
+
+    fn input_in_trace(&self) -> bool {
+        false
+    }
+}
+
+#[test]
+fn test_array_deduce() {
+    let func = AirFnWithArray {};
+    let (registry, ..) = AirFnRegistry::new(&func);
+
+    let (_, out) = registry.run_air(&func, [expr!("x", 5), expr!("y", 5)]);
+    assert!(out.in_state());
+    assert!(out[0].name() == "deduction_tmp_1[0]");
+}
