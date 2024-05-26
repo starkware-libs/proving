@@ -1,5 +1,5 @@
 use stwo_prover::core::air::{Air, AirProver, Component, ComponentProver};
-use stwo_prover::core::backend::CPUBackend;
+use stwo_prover::core::backend::CpuBackend;
 
 use super::component::Fib__100;
 
@@ -14,8 +14,8 @@ impl Air for Fib__100TestAIR {
     }
 }
 
-impl AirProver<CPUBackend> for Fib__100TestAIR {
-    fn prover_components(&self) -> Vec<&dyn ComponentProver<CPUBackend>> {
+impl AirProver<CpuBackend> for Fib__100TestAIR {
+    fn prover_components(&self) -> Vec<&dyn ComponentProver<CpuBackend>> {
         vec![&self.component]
     }
 }

@@ -6,7 +6,7 @@ pub const TEST_AIR_SUFFIX: &str = "TestAIR";
 pub fn generate_test_air_code(component_name: &str) -> rust::Tokens {
     quote! {
         use stwo_prover::core::air::{Air, AirProver, Component, ComponentProver};
-        use stwo_prover::core::backend::CPUBackend;
+        use stwo_prover::core::backend::CpuBackend;
         $['\n']
 
         use super::component::$(component_name);
@@ -23,8 +23,8 @@ pub fn generate_test_air_code(component_name: &str) -> rust::Tokens {
             }
         }
 
-        impl AirProver<CPUBackend> for $(component_name)$(TEST_AIR_SUFFIX) {
-            fn prover_components(&self) -> Vec<&dyn ComponentProver<CPUBackend>> {
+        impl AirProver<CpuBackend> for $(component_name)$(TEST_AIR_SUFFIX) {
+            fn prover_components(&self) -> Vec<&dyn ComponentProver<CpuBackend>> {
                 vec![&self.component]
             }
         }

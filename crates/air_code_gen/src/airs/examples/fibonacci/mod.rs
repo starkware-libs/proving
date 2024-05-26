@@ -15,7 +15,7 @@ mod tests {
     use itertools::Itertools;
     use num_traits::{One, Zero};
     use stwo_prover::core::air::Component;
-    use stwo_prover::core::backend::cpu::CPUCircleEvaluation;
+    use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
     use stwo_prover::core::fields::m31::BaseField;
     use stwo_prover::core::fields::FieldExpOps;
     use stwo_prover::core::poly::circle::CanonicCoset;
@@ -34,7 +34,7 @@ mod tests {
     fn fill_trace(
         component: &dyn Component,
         secrets: &[Felt],
-    ) -> Vec<CPUCircleEvaluation<BaseField, BitReversedOrder>> {
+    ) -> Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>> {
         let n_columns = component.trace_log_degree_bounds().len();
         let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_columns];
         for (i, secret) in secrets.iter().enumerate() {
@@ -46,7 +46,7 @@ mod tests {
             .collect_vec();
         zip(trace_values, trace_domains)
             .map(|(eval, trace_domain)| {
-                CPUCircleEvaluation::<BaseField, BitReversedOrder>::new(trace_domain, eval)
+                CpuCircleEvaluation::<BaseField, BitReversedOrder>::new(trace_domain, eval)
             })
             .collect_vec()
     }
@@ -54,7 +54,7 @@ mod tests {
     // TODO(ShaharS): autogenerate this function and move to a test_utils file.
     fn assert_fib_constraints_on_trace(
         component: &dyn Component,
-        trace: &[CPUCircleEvaluation<BaseField, BitReversedOrder>],
+        trace: &[CpuCircleEvaluation<BaseField, BitReversedOrder>],
     ) {
         for j in 0..trace[0].len() {
             assert_eq!(trace[0][j].square() + BaseField::one(), trace[1][j]);

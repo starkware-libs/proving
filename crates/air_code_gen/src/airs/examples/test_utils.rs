@@ -6,8 +6,8 @@ use stwo_prover::core::air::accumulation::{
     DomainEvaluationAccumulator, PointEvaluationAccumulator,
 };
 use stwo_prover::core::air::{AirProver, ComponentProver, ComponentTrace};
-use stwo_prover::core::backend::cpu::CPUCircleEvaluation;
-use stwo_prover::core::backend::CPUBackend;
+use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
+use stwo_prover::core::backend::CpuBackend;
 use stwo_prover::core::channel::{Blake2sChannel, Channel};
 use stwo_prover::core::circle::{CirclePoint, SECURE_FIELD_CIRCLE_ORDER};
 use stwo_prover::core::fields::m31::{BaseField, P};
@@ -20,8 +20,8 @@ use stwo_prover::core::vcs::blake2_hash::Blake2sHash;
 /// Asserts that the component constraints are satisfied on the trace.
 /// Should only be used for testing.
 pub fn assert_cpu_constraints(
-    component: &dyn ComponentProver<CPUBackend>,
-    trace: Vec<CPUCircleEvaluation<BaseField, BitReversedOrder>>,
+    component: &dyn ComponentProver<CpuBackend>,
+    trace: Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>>,
 ) {
     let mut rng = rand::thread_rng();
 
@@ -50,7 +50,7 @@ pub fn assert_cpu_constraints(
         rng.gen_range(0..P),
         rng.gen_range(0..P),
     );
-    let mut composition_polynomial_acc = DomainEvaluationAccumulator::<CPUBackend>::new(
+    let mut composition_polynomial_acc = DomainEvaluationAccumulator::<CpuBackend>::new(
         random_coeff,
         component.max_constraint_log_degree_bound(),
         component.n_constraints(),
@@ -84,8 +84,8 @@ pub fn assert_cpu_constraints(
 }
 
 pub fn test_prove(
-    air: &impl AirProver<CPUBackend>,
-    trace: Vec<CPUCircleEvaluation<BaseField, BitReversedOrder>>,
+    air: &impl AirProver<CpuBackend>,
+    trace: Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>>,
 ) {
     // TODO(ShaharS): Mix channel `initial_seed` with the private input.
     let initial_seed = Blake2sHash::default();
