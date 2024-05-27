@@ -98,5 +98,5 @@ fn test_array_deduce() {
 
     let (_, out) = registry.run_air(&func, [expr!("x", 5), expr!("y", 5)]);
     assert!(out.in_state());
-    assert!(out[0].name() == "deduction_tmp_1[0]");
+    assert!(out[0].name() == "state[0]");
 }

@@ -40,17 +40,16 @@ impl FeltExpr {
     // When an expression is written to the trace, this function is called to change the expression
     // into a variable that has a state index.
     pub fn to_state(&mut self, index: usize) {
-        let mut name = self.name();
-        if !name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
-            && !name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX)
-        {
-            name = format!("state[{}]", index);
-        }
+        assert!(!self.name().starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
 
+        let name = format!("state[{}]", index);
         let value = self.value();
         match self {
             FeltExpr::Const(_) => panic!("Cannot convert a constant to a state"),
-            FeltExpr::Var(v) => v.state_index = Some(index),
+            FeltExpr::Var(v) => {
+                v.name = name;
+                v.state_index = Some(index)
+            }
             _ => *self = Self::new_var(name, value, Some(index)),
         }
     }
