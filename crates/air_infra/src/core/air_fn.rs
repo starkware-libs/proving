@@ -43,6 +43,49 @@ pub trait AirFn: Debug {
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out;
 }
 
+// An AirFn that is intended to be a separate component in the trace and be called
+// using lookup_call
+pub trait LookupAirFn: AirFn<In = Self::InL, Out = Self::OutL> {
+    // These are called InL and OutL instead of In, Out to not shadow the In, Out types in AirFn
+    type InL: AirVar;
+    type OutL: AirVar;
+
+    fn call(
+        &self,
+        air_builder: &mut AirBuilder,
+        input: <Self as AirFn>::In,
+    ) -> <Self as AirFn>::Out;
+
+    fn inst_def(&self) -> BTreeMap<String, String> {
+        BTreeMap::new()
+    }
+}
+
+impl<A> AirFn for A
+where
+    A: LookupAirFn,
+{
+    type In = <Self as LookupAirFn>::InL;
+    type Out = <Self as LookupAirFn>::OutL;
+
+    fn input_in_trace(&self) -> bool {
+        false
+    }
+
+    fn inst_def(&self) -> BTreeMap<String, String> {
+        <Self as LookupAirFn>::inst_def(self)
+    }
+
+    fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
+        let mut input_in_state = input.clone();
+        input_in_state = air_builder.let_for_deduction(input_in_state);
+        for felt in input_in_state.as_felts() {
+            air_builder.deduce(felt);
+        }
+        <Self as LookupAirFn>::call(self, air_builder, input_in_state)
+    }
+}
+
 // AirBuilder is a struct that is used to build an air function.
 // It is passed to the call method of an air function, and is used to add constraints, deductions,
 // assignments and intermediate variables to the air function.
@@ -157,6 +200,62 @@ impl AirBuilder {
         }));
         output
     }
+
+    pub fn lookup_call<I, O>(
+        &mut self,
+        air_fn: &dyn LookupAirFn<In = I, Out = O, InL = I, OutL = O>,
+        mut input: I,
+    ) -> O
+    where
+        I: AirVar,
+        O: AirVar,
+    {
+        #[cfg(test)]
+        if self.run {
+            todo!()
+        }
+
+        // Make sure the callee is in the registry
+        if self
+            .registry
+            .air_fns
+            .borrow()
+            .get(&(air_fn.name()))
+            .is_none()
+        {
+            AirFnEntry::new(&self.registry, air_fn);
+        }
+
+        let output_intermediate_name = format!(
+            "{}{}",
+            DEDUCTION_INTERMEDIATE_VAR_PREFIX,
+            self.registry.get_intermediate_var_index()
+        );
+        let mut intermediate = O::new(output_intermediate_name.clone());
+
+        self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
+            air_fn_name: air_fn.name(),
+            input_arg: input.clone().into(),
+            output_name: output_intermediate_name,
+        }));
+
+        for felt in intermediate.as_felts() {
+            self.deduce(felt);
+        }
+
+        self.air_body
+            .push(AirBodyComponent::LookupConstraint(LookupConstraint {
+                air_fn_name: air_fn.name(),
+                input_felts: input.as_felts().into_iter().map(|x| x.clone()).collect(),
+                output_felts: intermediate
+                    .as_felts()
+                    .into_iter()
+                    .map(|x| x.clone())
+                    .collect(),
+            }));
+
+        intermediate
+    }
 }
 
 // A Call is an air_body component that represents a call to another air function.
@@ -171,6 +270,21 @@ pub struct Call {
     pub state: State,
     #[serde(skip)]
     pub air_body: Vec<AirBodyComponent>,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct LookupCall {
+    pub air_fn_name: String,
+    pub input_arg: GenericAirVar,
+    pub output_name: String,
+}
+
+#[derive(Clone, Debug, Serialize, Deserialize)]
+pub struct LookupConstraint {
+    pub air_fn_name: String,
+
+    pub input_felts: Vec<FeltExpr>,
+    pub output_felts: Vec<FeltExpr>,
 }
 
 // Each air function has an air_body, which is a vector of AirBodyComponent.
@@ -188,4 +302,6 @@ pub enum AirBodyComponent {
     DeductionIntermediate(String, GenericAirVar),
     ConstraintIntermediate(String, FeltExpr),
     Call(Call),
+    LookupCall(LookupCall),
+    LookupConstraint(LookupConstraint),
 }
