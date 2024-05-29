@@ -1,6 +1,7 @@
 pub mod component;
 pub mod cpu_prover;
 pub mod simd_prover;
+pub mod simd_trace;
 #[cfg(test)]
 pub mod test_utils;
 pub mod trace;
@@ -13,7 +14,7 @@ mod tests {
     use air_infra::airs::examples::fibonacci::fib::Fib;
     use air_infra::core::air_fn_registry::AirFnRegistry;
     use air_infra::core::prover_types::Felt;
-    use itertools::Itertools;
+    use itertools::{all, Itertools};
     use num_traits::{One, Zero};
     use stwo_prover::core::air::Component;
     use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
@@ -31,8 +32,9 @@ mod tests {
     use crate::code_gen::component_gen::generate_component;
     use crate::code_gen::cpu_prover_gen::generate_cpu_prover_component;
     use crate::code_gen::simd_prover_gen::generate_simd_prover_component;
+    use crate::code_gen::simd_trace_gen::generate_simd_write_trace_code;
     use crate::code_gen::test_utils_gen::generate_test_air_code;
-    use crate::code_gen::trace_gen::gen_write_trace_code;
+    use crate::code_gen::trace_gen::generate_write_trace_code;
     use crate::code_gen::utils::{project_root, reformat_rust_code};
 
     fn fill_trace(
@@ -108,7 +110,10 @@ mod tests {
         folder_path.push("src/airs/examples/fibonacci");
 
         let lists = resigtry.get_codegen_air_fn(&air_fn);
-        let trace_tokens = gen_write_trace_code(lists.input.clone(), &lists.deductions.clone());
+        let trace_tokens =
+            generate_write_trace_code(lists.input.clone(), &lists.deductions.clone());
+        let simd_trace_tokens =
+            generate_simd_write_trace_code(lists.input.clone(), &lists.deductions.clone());
         let air_entry = resigtry.get_air_fn_entry(&air_fn);
         let cpu_prover_tokens =
             generate_cpu_prover_component(&air_entry.name, &lists.constraints.clone());
@@ -120,6 +125,8 @@ mod tests {
         // Write the generated code to files.
         let text = reformat_rust_code(trace_tokens.to_string().unwrap());
         fs::write(folder_path.join("trace.rs"), text).unwrap();
+        let text = reformat_rust_code(simd_trace_tokens.to_string().unwrap());
+        fs::write(folder_path.join("simd_trace.rs"), text).unwrap();
         let text = reformat_rust_code(cpu_prover_tokens.to_string().unwrap());
         fs::write(folder_path.join("cpu_prover.rs"), text).unwrap();
         let text = reformat_rust_code(simd_prover_tokens.to_string().unwrap());
@@ -139,6 +146,35 @@ mod tests {
 
         let trace = fill_trace(&fib_component, &secrets);
         assert_fib_constraints_on_trace(&fib_component, &trace);
+    }
+
+    #[test]
+    fn test_simd_write_trace() {
+        let fib_component = Fib__100 { log_n_instances: 2 };
+        let secrets = (0..1 << fib_component.log_n_instances)
+            .map(Felt::from)
+            .collect::<Vec<_>>();
+
+        // Convert trace to raw values. Backends should produce the same values.
+        let raw_cpu_trace = fill_trace(&fib_component, &secrets)
+            .into_iter()
+            .map(|eval| eval.as_slice().to_vec())
+            .collect_vec();
+
+        let raw_simd_trace = fill_trace_simd(&fib_component, &secrets)
+            .into_iter()
+            .map(|eval| eval.as_slice().to_vec())
+            .collect_vec();
+
+        assert!(all(
+            raw_cpu_trace.iter().zip_eq(raw_simd_trace),
+            |(cpu_col, simd_col)| {
+                cpu_col
+                    .iter()
+                    .zip_eq(simd_col)
+                    .all(|(&cpu, simd)| cpu == simd)
+            }
+        ))
     }
 
     #[test]

@@ -3,10 +3,15 @@ use genco::lang::rust;
 use genco::quote;
 
 /// Parses a `ProcessedAirVar` into a string for the write_trace function.
-pub fn parse_air_var(expr: &ProcessedAirVar) -> String {
+pub fn simd_parse_air_var(expr: &ProcessedAirVar) -> String {
     match expr {
         ProcessedAirVar::Const(ty, val) => {
-            format!("{}::from({})", ty, val)
+            format!(
+                "{}::broadcast({}::from({}).into())",
+                packed_name(ty),
+                ty,
+                val
+            )
         }
         ProcessedAirVar::Var(_, id) => id.to_string(),
         ProcessedAirVar::State(index) => {
@@ -18,7 +23,7 @@ pub fn parse_air_var(expr: &ProcessedAirVar) -> String {
                 if i > 0 {
                     arg_str.push_str(", ");
                 }
-                arg_str.push_str(&parse_air_var(arg));
+                arg_str.push_str(&simd_parse_air_var(arg));
             }
             format!("{}({})", id, arg_str)
         }
@@ -28,15 +33,20 @@ pub fn parse_air_var(expr: &ProcessedAirVar) -> String {
                 if i > 0 {
                     arg_str.push_str(", ");
                 }
-                arg_str.push_str(&parse_air_var(arg));
+                arg_str.push_str(&simd_parse_air_var(arg));
             }
-            format!("{}.{}({})", parse_air_var(id), func, arg_str)
+            format!("{}.{}({})", simd_parse_air_var(id), func, arg_str)
         }
         ProcessedAirVar::UnaryOp(op, expr) => {
-            format!("{}({})", op, parse_air_var(expr))
+            format!("{}({})", op, simd_parse_air_var(expr))
         }
         ProcessedAirVar::BinaryOp(lhs, op, rhs) => {
-            format!("({}) {} ({})", parse_air_var(lhs), op, parse_air_var(rhs))
+            format!(
+                "({}) {} ({})",
+                simd_parse_air_var(lhs),
+                op,
+                simd_parse_air_var(rhs)
+            )
         }
         ProcessedAirVar::Tuple(exprs) => {
             let mut expr_str = String::new();
@@ -44,7 +54,7 @@ pub fn parse_air_var(expr: &ProcessedAirVar) -> String {
                 if i > 0 {
                     expr_str.push_str(", ");
                 }
-                expr_str.push_str(&parse_air_var(expr));
+                expr_str.push_str(&simd_parse_air_var(expr));
             }
             format!("({})", expr_str)
         }
@@ -54,16 +64,20 @@ pub fn parse_air_var(expr: &ProcessedAirVar) -> String {
                 if i > 0 {
                     expr_str.push_str(", ");
                 }
-                expr_str.push_str(&parse_air_var(expr));
+                expr_str.push_str(&simd_parse_air_var(expr));
             }
             format!("[{}]", expr_str)
         }
     }
 }
 
+fn packed_name(ty: &str) -> String {
+    format!("Packed{}", ty)
+}
+
 /// Outputs the code for the write_trace function.
 #[allow(dead_code)]
-pub fn generate_write_trace_code(
+pub fn generate_simd_write_trace_code(
     input: ProcessedAirVar,
     deductions: &[TraceGenerationStep],
 ) -> rust::Tokens {
@@ -72,7 +86,10 @@ pub fn generate_write_trace_code(
     imports.append(quote! {
         // TODO(Shahars): import only the necessary types.
         use air_infra::core::prover_types::*;
-        use stwo_prover::core::fields::m31::BaseField;
+        use stwo_prover::core::backend::simd::m31::PackedBaseField;
+
+        use crate::code_gen::packed_types::*;
+
     });
 
     // Generate the parameters for the write_trace function.
@@ -80,7 +97,7 @@ pub fn generate_write_trace_code(
     match input {
         ProcessedAirVar::Var(ty, id) => {
             write_trace_params.extend(quote! {
-                $(id): $(ty)
+                $(id): $(packed_name(&ty))
             });
         }
         _ => panic!("Expected input to be a variable."),
@@ -93,14 +110,14 @@ pub fn generate_write_trace_code(
         match deduction {
             TraceGenerationStep::Deduction(expr) => {
                 write_trace_body.append(quote! {
-                    let col$(offset) = $(parse_air_var(expr));
-                    dst[$(offset)][row_index] = col$(offset).into();
+                    let col$(offset) = $(simd_parse_air_var(expr));
+                    dst[$(offset)][row_index] = col$(offset);
                 });
                 offset += 1;
             }
             TraceGenerationStep::Intermediate(name, expr) => {
                 write_trace_body.extend(quote! {
-                    let $(name) = $(parse_air_var(expr));
+                    let $(name) = $(simd_parse_air_var(expr));
                 });
             }
             TraceGenerationStep::Lookup {
@@ -112,13 +129,15 @@ pub fn generate_write_trace_code(
     }
 
     // Generate the final write_trace function.
+    // TODO(Ohad): remove the `allow(clippy::useless_conversion)` when stwo and infra felt type is
+    // unified.
     let mut code = rust::Tokens::new();
     code.extend(quote! {
         $(imports)
         $['\n']
         #[allow(non_snake_case)]
         #[allow(clippy::useless_conversion)]
-        pub fn write_trace_row(dst: &mut [Vec<BaseField>], $(write_trace_params), row_index: usize) {
+        pub fn write_trace_row(dst: &mut [Vec<PackedBaseField>], $(write_trace_params), row_index: usize) {
             $(write_trace_body)
         }
     });
