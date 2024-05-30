@@ -7,6 +7,7 @@ pub fn generate_test_air_code(component_name: &str) -> rust::Tokens {
     quote! {
         use stwo_prover::core::air::{Air, AirProver, Component, ComponentProver};
         use stwo_prover::core::backend::CpuBackend;
+        use stwo_prover::core::backend::simd::SimdBackend;
         $['\n']
 
         use super::component::$(component_name);
@@ -25,6 +26,12 @@ pub fn generate_test_air_code(component_name: &str) -> rust::Tokens {
 
         impl AirProver<CpuBackend> for $(component_name)$(TEST_AIR_SUFFIX) {
             fn prover_components(&self) -> Vec<&dyn ComponentProver<CpuBackend>> {
+                vec![&self.component]
+            }
+        }
+
+        impl AirProver<SimdBackend> for $(component_name)$(TEST_AIR_SUFFIX) {
+            fn prover_components(&self) -> Vec<&dyn ComponentProver<SimdBackend>> {
                 vec![&self.component]
             }
         }

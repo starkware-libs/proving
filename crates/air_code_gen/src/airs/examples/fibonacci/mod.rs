@@ -1,5 +1,6 @@
 pub mod component;
 pub mod cpu_prover;
+pub mod simd_prover;
 #[cfg(test)]
 pub mod test_utils;
 pub mod trace;
@@ -16,9 +17,11 @@ mod tests {
     use num_traits::{One, Zero};
     use stwo_prover::core::air::Component;
     use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
+    use stwo_prover::core::backend::simd::column::BaseFieldVec;
+    use stwo_prover::core::backend::simd::SimdBackend;
     use stwo_prover::core::fields::m31::BaseField;
     use stwo_prover::core::fields::FieldExpOps;
-    use stwo_prover::core::poly::circle::CanonicCoset;
+    use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
     use stwo_prover::core::poly::BitReversedOrder;
 
     use super::component::Fib__100;
@@ -27,6 +30,7 @@ mod tests {
     use crate::airs::examples::test_utils::{assert_cpu_constraints, test_prove};
     use crate::code_gen::component_gen::generate_component;
     use crate::code_gen::cpu_prover_gen::generate_cpu_prover_component;
+    use crate::code_gen::simd_prover_gen::generate_simd_prover_component;
     use crate::code_gen::test_utils_gen::generate_test_air_code;
     use crate::code_gen::trace_gen::gen_write_trace_code;
     use crate::code_gen::utils::{project_root, reformat_rust_code};
@@ -47,6 +51,32 @@ mod tests {
         zip(trace_values, trace_domains)
             .map(|(eval, trace_domain)| {
                 CpuCircleEvaluation::<BaseField, BitReversedOrder>::new(trace_domain, eval)
+            })
+            .collect_vec()
+    }
+
+    // Not actually simd
+    fn fill_trace_simd(
+        component: &dyn Component,
+        secrets: &[Felt],
+    ) -> Vec<CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>> {
+        let n_columns = component.trace_log_degree_bounds().len();
+        let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_columns];
+        for (i, secret) in secrets.iter().enumerate() {
+            // TODO(Ohad): make this simd.
+            write_trace_row(&mut trace_values, *secret, i);
+        }
+        let trace_domains = trace_values
+            .iter()
+            .map(|col| CanonicCoset::new(col.len().ilog2()).circle_domain())
+            .collect_vec();
+        zip(trace_values, trace_domains)
+            .map(|(eval, trace_domain)| {
+                let eval = BaseFieldVec::from_iter(eval);
+                CircleEvaluation::<SimdBackend, BaseField, BitReversedOrder>::new(
+                    trace_domain,
+                    eval,
+                )
             })
             .collect_vec()
     }
@@ -82,6 +112,8 @@ mod tests {
         let air_entry = resigtry.get_air_fn_entry(&air_fn);
         let cpu_prover_tokens =
             generate_cpu_prover_component(&air_entry.name, &lists.constraints.clone());
+        let simd_prover_tokens =
+            generate_simd_prover_component(&air_entry.name, &lists.constraints.clone());
         let component_tokens = generate_component(&air_entry.name, lists);
         let test_utils_tokens = generate_test_air_code(&air_entry.name);
 
@@ -90,6 +122,8 @@ mod tests {
         fs::write(folder_path.join("trace.rs"), text).unwrap();
         let text = reformat_rust_code(cpu_prover_tokens.to_string().unwrap());
         fs::write(folder_path.join("cpu_prover.rs"), text).unwrap();
+        let text = reformat_rust_code(simd_prover_tokens.to_string().unwrap());
+        fs::write(folder_path.join("simd_prover.rs"), text).unwrap();
         let text = reformat_rust_code(component_tokens.to_string().unwrap());
         fs::write(folder_path.join("component.rs"), text).unwrap();
         let text = reformat_rust_code(test_utils_tokens.to_string().unwrap());
@@ -130,5 +164,19 @@ mod tests {
         let trace = fill_trace(&air.component, &inputs);
 
         test_prove(&air, trace);
+    }
+
+    #[test]
+    fn test_fib_simd_prove() {
+        let air = Fib__100TestAIR {
+            component: Fib__100 { log_n_instances: 7 },
+        };
+        let inputs = (0..1 << air.component.log_n_instances)
+            .map(Felt::from)
+            .collect_vec();
+
+        let trace = fill_trace_simd(&air.component, &inputs);
+
+        test_prove::<SimdBackend>(&air, trace);
     }
 }

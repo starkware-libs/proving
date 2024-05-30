@@ -7,15 +7,17 @@ use stwo_prover::core::air::accumulation::{
 };
 use stwo_prover::core::air::{AirProver, ComponentProver, ComponentTrace};
 use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
-use stwo_prover::core::backend::CpuBackend;
+use stwo_prover::core::backend::{Backend, CpuBackend};
 use stwo_prover::core::channel::{Blake2sChannel, Channel};
 use stwo_prover::core::circle::{CirclePoint, SECURE_FIELD_CIRCLE_ORDER};
 use stwo_prover::core::fields::m31::{BaseField, P};
 use stwo_prover::core::fields::qm31::SecureField;
-use stwo_prover::core::poly::circle::CanonicCoset;
+use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::prover::{prove, verify};
 use stwo_prover::core::vcs::blake2_hash::Blake2sHash;
+use stwo_prover::core::vcs::blake2_merkle::Blake2sMerkleHasher;
+use stwo_prover::core::vcs::ops::MerkleOps;
 
 /// Asserts that the component constraints are satisfied on the trace.
 /// Should only be used for testing.
@@ -83,9 +85,9 @@ pub fn assert_cpu_constraints(
     );
 }
 
-pub fn test_prove(
-    air: &impl AirProver<CpuBackend>,
-    trace: Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>>,
+pub fn test_prove<B: Backend + MerkleOps<Blake2sMerkleHasher>>(
+    air: &impl AirProver<B>,
+    trace: Vec<CircleEvaluation<B, BaseField, BitReversedOrder>>,
 ) {
     // TODO(ShaharS): Mix channel `initial_seed` with the private input.
     let initial_seed = Blake2sHash::default();
