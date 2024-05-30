@@ -5,7 +5,6 @@ use serde::{Deserialize, Serialize};
 
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
-use super::super::variables::*;
 use super::bool_expr::*;
 use super::expr::*;
 use super::felt_expr::*;
@@ -38,9 +37,9 @@ where
 {
     pub fn new(left: ExprImpl, op: BinaryOp, right: ExprImpl, value: Option<T>) -> Self {
         let name = match op.into() {
-            OpType::Op(op) => format!("({} {} {})", left.name(), op, right.name()),
-            OpType::Method(op) => format!("({}.{}({}))", left.name(), op, right.name()),
-            OpType::Static(op) => format!("({}({}, {}))", op, left.name(), right.name()),
+            OpType::Op(op) => format!("({} {} {})", left, op, right),
+            OpType::Method(op) => format!("({}.{}({}))", left, op, right),
+            OpType::Static(op) => format!("({}({}, {}))", op, left, right),
         };
 
         BinaryExpr {
@@ -141,9 +140,9 @@ where
     #[allow(unused)]
     pub(super) fn new(op: UnaryOp, child: ExprImpl, value: Option<T>) -> Self {
         let name = match op.into() {
-            OpType::Op(op) => format!("({}{})", op, child.name()),
-            OpType::Method(op) => format!("({}.{}())", child.name(), op),
-            OpType::Static(op) => format!("({}({}))", op, child.name()),
+            OpType::Op(op) => format!("({}{})", op, child),
+            OpType::Method(op) => format!("({}.{}())", child, op),
+            OpType::Static(op) => format!("({}({}))", op, child),
         };
 
         UnaryExpr {

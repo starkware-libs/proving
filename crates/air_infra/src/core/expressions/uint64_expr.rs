@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::fmt::Display;
 
 use super::super::air_fn_registry::*;
 use super::super::autogen_structs::*;
@@ -193,6 +194,12 @@ impl From<UInt64Expr> for ProcessedAirVar {
             UInt64Expr::Binary(b) => b.into(),
             UInt64Expr::Unary(u) => u.into(),
         }
+    }
+}
+
+impl Display for UInt64Expr {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.name())
     }
 }
 

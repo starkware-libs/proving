@@ -1,4 +1,5 @@
 use std::array::from_fn;
+use std::fmt::Display;
 
 use serde::{Deserialize, Serialize};
 
@@ -177,6 +178,12 @@ impl From<Felt252Expr> for ProcessedAirVar {
             Felt252Expr::Binary(b) => b.into(),
             Felt252Expr::Unary(u) => u.into(),
         }
+    }
+}
+
+impl Display for Felt252Expr {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.name())
     }
 }
 

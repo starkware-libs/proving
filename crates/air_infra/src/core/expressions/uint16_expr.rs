@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::fmt::Display;
 
 use super::super::air_fn_registry::*;
 use super::super::autogen_structs::*;
@@ -180,6 +181,22 @@ impl From<UInt16Expr> for ProcessedAirVar {
             UInt16Expr::Binary(b) => b.into(),
             UInt16Expr::Unary(u) => u.into(),
         }
+    }
+}
+
+impl Display for UInt16Expr {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = self.name();
+
+        if let UInt16Expr::Var(v) = self {
+            if !name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
+                if let Some(p) = v.parent.clone() {
+                    return write!(f, "{}.{}()", *p, name);
+                }
+            }
+        }
+
+        write!(f, "{}", name)
     }
 }
 

@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::fmt::Display;
 
 use super::super::prover_types::*;
 use super::super::variables::*;
@@ -215,6 +216,25 @@ impl From<FeltExpr> for ProcessedAirVar {
             FeltExpr::Binary(b) => b.into(),
             FeltExpr::Unary(u) => u.into(),
         }
+    }
+}
+
+impl Display for FeltExpr {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let name = self.name();
+
+        if let FeltExpr::Var(v) = self {
+            if !name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
+                && !name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX)
+                && v.state_index.is_none()
+            {
+                if let Some(p) = v.parent.clone() {
+                    return write!(f, "{}.{}()", *p, name);
+                }
+            }
+        }
+
+        write!(f, "{}", name)
     }
 }
 

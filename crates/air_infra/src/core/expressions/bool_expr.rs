@@ -1,4 +1,5 @@
 use serde::{Deserialize, Serialize};
+use std::fmt::Display;
 
 use super::super::air_fn_registry::*;
 use super::super::prover_types::*;
@@ -146,6 +147,12 @@ impl From<BoolExpr> for ProcessedAirVar {
             BoolExpr::Var(_) => ProcessedAirVar::Var(Bool::r#type(), name),
             BoolExpr::Binary(b) => b.into(),
         }
+    }
+}
+
+impl Display for BoolExpr {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", self.name())
     }
 }
 
