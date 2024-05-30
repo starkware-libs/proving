@@ -7,5 +7,5 @@ use add32::*;
 
 pub fn create_add32_json() {
     let registry = AirFnRegistry::new(&Add32 {});
-    registry.dump_to_file("blake/add32.json");
+    registry.dump_to_file("airs/uint32_utils/add32.json");
 }

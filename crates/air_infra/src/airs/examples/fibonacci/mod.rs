@@ -11,5 +11,5 @@ use fib::*;
 
 pub fn create_fibonacci_json() {
     let registry = AirFnRegistry::new(&Fib { claim_index: 6 });
-    registry.dump_to_file("fibonacci/air.json");
+    registry.dump_to_file("airs/examples/fibonacci/air.json");
 }
