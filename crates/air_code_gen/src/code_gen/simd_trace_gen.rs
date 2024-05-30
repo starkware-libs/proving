@@ -77,21 +77,10 @@ fn packed_name(ty: &str) -> String {
 
 /// Outputs the code for the write_trace function.
 #[allow(dead_code)]
-pub fn generate_simd_write_trace_code(
+pub fn generate_simd_write_trace_row_code(
     input: ProcessedAirVar,
     deductions: &[TraceGenerationStep],
 ) -> rust::Tokens {
-    // Generate the imports for the write_trace function.
-    let mut imports = rust::Tokens::new();
-    imports.append(quote! {
-        // TODO(Shahars): import only the necessary types.
-        use air_infra::core::prover_types::*;
-        use stwo_prover::core::backend::simd::m31::PackedBaseField;
-
-        use crate::code_gen::packed_types::*;
-
-    });
-
     // Generate the parameters for the write_trace function.
     let mut write_trace_params = rust::Tokens::new();
     match input {
@@ -133,13 +122,84 @@ pub fn generate_simd_write_trace_code(
     // unified.
     let mut code = rust::Tokens::new();
     code.extend(quote! {
-        $(imports)
-        $['\n']
         #[allow(non_snake_case)]
         #[allow(clippy::useless_conversion)]
         pub fn write_trace_row(dst: &mut [Vec<PackedBaseField>], $(write_trace_params), row_index: usize) {
             $(write_trace_body)
         }
     });
+    code
+}
+
+#[allow(dead_code)]
+pub fn generate_simd_write_trace_code(
+    component_name: &str,
+    input: ProcessedAirVar,
+    deductions: &[TraceGenerationStep],
+) -> rust::Tokens {
+    // Generate the imports for the write_trace function.
+    let mut imports = rust::Tokens::new();
+    imports.append(quote! {
+        // TODO(Shahars): import only the necessary types.
+        use std::iter::zip;
+
+        use air_infra::core::prover_types::*;
+        use crate::code_gen::packed_types::*;
+        use itertools::Itertools;
+        use num_traits::Zero;
+        use stwo_prover::core::air::Component;
+        use stwo_prover::core::backend::simd::column::BaseFieldVec;
+        use stwo_prover::core::backend::simd::m31::PackedBaseField;
+        use stwo_prover::core::backend::simd::SimdBackend;
+        use stwo_prover::core::fields::m31::BaseField;
+        use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
+        use stwo_prover::core::poly::BitReversedOrder;
+
+        use super::component::$component_name;
+    });
+
+    let input_type = match input {
+        ProcessedAirVar::Var(ref ty, _) => ty,
+        _ => panic!("Expected input to be a variable."),
+    }
+    .to_owned();
+
+    // Generate the final write_trace function.
+    let mut code = rust::Tokens::new();
+    code.extend(quote! {
+        $(imports)
+        $['\n']
+        pub fn write_trace_simd(
+            component: &$component_name,
+            secrets: &[$(packed_name(&input_type))],
+        ) -> Vec<CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>> {
+            let n_columns = component.trace_log_degree_bounds().len();
+            let mut trace_values = vec![vec![PackedBaseField::zero(); secrets.len()]; n_columns];
+            for (i, secret) in secrets.iter().copied().enumerate() {
+                super::simd_trace::write_trace_row(&mut trace_values, secret, i);
+            }
+            let trace_domains = trace_values
+                .iter()
+                .map(|col| CanonicCoset::new((col.len() * N_LANES)
+                    .checked_ilog2()
+                    .expect("Input not a power of 2!")).circle_domain())
+                    .collect_vec();
+            zip(trace_values, trace_domains)
+                .map(|(eval, trace_domain)| {
+                    let length = eval.len() * N_LANES;
+                    let eval = BaseFieldVec{
+                        data: eval,
+                        length,
+                    };
+                    CircleEvaluation::<SimdBackend, BaseField, BitReversedOrder>::new(
+                        trace_domain,
+                        eval,
+                    )
+                })
+                .collect_vec()
+        }
+        $['\n']
+    });
+    code.extend(generate_simd_write_trace_row_code(input, deductions));
     code
 }

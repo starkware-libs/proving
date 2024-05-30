@@ -1,7 +1,47 @@
-use air_infra::core::prover_types::*;
-use stwo_prover::core::backend::simd::m31::PackedBaseField;
+use std::iter::zip;
 
+use air_infra::core::prover_types::*;
+use itertools::Itertools;
+use num_traits::Zero;
+use stwo_prover::core::air::Component;
+use stwo_prover::core::backend::simd::column::BaseFieldVec;
+use stwo_prover::core::backend::simd::m31::PackedBaseField;
+use stwo_prover::core::backend::simd::SimdBackend;
+use stwo_prover::core::fields::m31::BaseField;
+use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
+use stwo_prover::core::poly::BitReversedOrder;
+
+use super::component::BitUnpack__12;
 use crate::code_gen::packed_types::*;
+
+pub fn write_trace_simd(
+    component: &BitUnpack__12,
+    secrets: &[PackedUInt16],
+) -> Vec<CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>> {
+    let n_columns = component.trace_log_degree_bounds().len();
+    let mut trace_values = vec![vec![PackedBaseField::zero(); secrets.len()]; n_columns];
+    for (i, secret) in secrets.iter().copied().enumerate() {
+        super::simd_trace::write_trace_row(&mut trace_values, secret, i);
+    }
+    let trace_domains = trace_values
+        .iter()
+        .map(|col| {
+            CanonicCoset::new(
+                (col.len() * N_LANES)
+                    .checked_ilog2()
+                    .expect("Input not a power of 2!"),
+            )
+            .circle_domain()
+        })
+        .collect_vec();
+    zip(trace_values, trace_domains)
+        .map(|(eval, trace_domain)| {
+            let length = eval.len() * N_LANES;
+            let eval = BaseFieldVec { data: eval, length };
+            CircleEvaluation::<SimdBackend, BaseField, BitReversedOrder>::new(trace_domain, eval)
+        })
+        .collect_vec()
+}
 
 #[allow(non_snake_case)]
 #[allow(clippy::useless_conversion)]

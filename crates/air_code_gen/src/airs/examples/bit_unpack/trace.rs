@@ -1,5 +1,37 @@
 use air_infra::core::prover_types::*;
+use itertools::Itertools;
+use num_traits::Zero;
+use stwo_prover::core::air::Component;
+use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
 use stwo_prover::core::fields::m31::BaseField;
+use stwo_prover::core::poly::circle::CanonicCoset;
+use stwo_prover::core::poly::BitReversedOrder;
+
+use super::component::BitUnpack__12;
+
+pub fn write_trace(
+    component: &BitUnpack__12,
+    secrets: &[UInt16],
+) -> Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>> {
+    let n_columns = component.trace_log_degree_bounds().len();
+    let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_columns];
+    for (i, secret) in secrets.iter().enumerate() {
+        write_trace_row(&mut trace_values, *secret, i);
+    }
+
+    let trace_domains = trace_values
+        .iter()
+        .map(|col| {
+            CanonicCoset::new(col.len().checked_ilog2().expect("Input not a power of 2!"))
+                .circle_domain()
+        })
+        .collect_vec();
+    std::iter::zip(trace_values, trace_domains)
+        .map(|(eval, trace_domain)| {
+            CpuCircleEvaluation::<BaseField, BitReversedOrder>::new(trace_domain, eval)
+        })
+        .collect_vec()
+}
 
 #[allow(non_snake_case)]
 #[allow(clippy::useless_conversion)]
