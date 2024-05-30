@@ -13,6 +13,9 @@ use super::autogen_structs::*;
 use super::state::*;
 use super::variables::*;
 
+pub const CONSTRAINT_INTERMEDIATE_VAR_PREFIX: &str = "constraint_tmp_";
+pub const DEDUCTION_INTERMEDIATE_VAR_PREFIX: &str = "deduction_tmp_";
+
 // AirFnEntry describes everything we know about an Air function.
 #[derive(Debug, Clone, Serialize, Deserialize)]
 pub struct AirFnEntry {
@@ -219,5 +222,15 @@ impl AirFnRegistry {
             constraints,
             deductions,
         }
+    }
+
+    pub(super) fn get_deduction_intermediate_var_name(&self) -> String {
+        let index = self.get_intermediate_var_index();
+        format!("{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, index)
+    }
+
+    pub(super) fn get_constraint_intermediate_var_name(&self) -> String {
+        let index = self.get_intermediate_var_index();
+        format!("{}{}", CONSTRAINT_INTERMEDIATE_VAR_PREFIX, index)
     }
 }

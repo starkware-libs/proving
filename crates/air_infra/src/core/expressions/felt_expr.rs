@@ -5,8 +5,7 @@ use super::super::variables::*;
 use super::bool_expr::*;
 use super::expr::*;
 use super::op_expr::*;
-use crate::core::air_fn::CONSTRAINT_INTERMEDIATE_VAR_PREFIX;
-use crate::core::air_fn::DEDUCTION_INTERMEDIATE_VAR_PREFIX;
+use crate::core::air_fn_registry::*;
 use crate::core::autogen_structs::*;
 
 pub type FeltConst = ConstExpr<Felt>;

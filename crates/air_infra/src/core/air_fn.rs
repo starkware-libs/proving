@@ -11,9 +11,6 @@ use super::expressions::felt_expr::*;
 use super::state::*;
 use super::variables::*;
 
-pub const CONSTRAINT_INTERMEDIATE_VAR_PREFIX: &str = "constraint_tmp_";
-pub const DEDUCTION_INTERMEDIATE_VAR_PREFIX: &str = "deduction_tmp_";
-
 // An air function should define a struct that implements the AirFn trait.
 // The AirFn trait has two associated types, In and Out, which are the input and output types of the
 // air function. It also defines whether the input is in the trace or not.
@@ -144,8 +141,7 @@ impl AirBuilder {
     where
         V: AirVar,
     {
-        let index = self.registry.get_intermediate_var_index();
-        let name = format!("{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, index);
+        let name = self.registry.get_deduction_intermediate_var_name();
         self.air_body.push(AirBodyComponent::DeductionIntermediate(
             name.clone(),
             var.clone().into(),
@@ -161,8 +157,7 @@ impl AirBuilder {
                 "The mask of the intermediate variable for constraints must be in the trace."
             );
         }
-        let index = self.registry.get_intermediate_var_index();
-        let name = format!("{}{}", CONSTRAINT_INTERMEDIATE_VAR_PREFIX, index);
+        let name = self.registry.get_constraint_intermediate_var_name();
         self.air_body.push(AirBodyComponent::ConstraintIntermediate(
             name.clone(),
             expr.clone(),
@@ -226,11 +221,7 @@ impl AirBuilder {
             AirFnEntry::new(&self.registry, air_fn);
         }
 
-        let output_intermediate_name = format!(
-            "{}{}",
-            DEDUCTION_INTERMEDIATE_VAR_PREFIX,
-            self.registry.get_intermediate_var_index()
-        );
+        let output_intermediate_name = self.registry.get_deduction_intermediate_var_name();
         let mut intermediate = O::new(output_intermediate_name.clone());
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {

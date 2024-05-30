@@ -2,7 +2,7 @@ use std::array::from_fn;
 
 use serde::{Deserialize, Serialize};
 
-use super::super::air_fn::*;
+use super::super::air_fn_registry::*;
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;

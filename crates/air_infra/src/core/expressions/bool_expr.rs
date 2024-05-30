@@ -1,6 +1,6 @@
 use serde::{Deserialize, Serialize};
 
-use super::super::air_fn::*;
+use super::super::air_fn_registry::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
