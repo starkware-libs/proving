@@ -1,9 +1,55 @@
 use super::fib::Fib;
+use crate::airs::examples::fibonacci::wide_fib::WideFib;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::prover_types::*;
 use crate::expr;
+
+#[test]
+fn test_wide_fibonacci() {
+    let air_fn = WideFib {
+        num_narrow: 2,
+        narrow_size: 2,
+    };
+    let registry = AirFnRegistry::new(&air_fn);
+    let lists = registry.get_codegen_air_fn(&air_fn);
+    let (_, output) = registry.run_air(&air_fn, expr!("secret", 1));
+
+    let constraints = [
+        "NarrowFib__2([state[0],state[1]]) == [state[2],state[3]]",
+        "NarrowFib__2([state[2],state[3]]) == [state[4],state[5]]",
+    ];
+
+    let deductions = [
+        "1",
+        "WideFib_input",
+        "deduction_tmp_1 = NarrowFib__2([state[0], state[1]])",
+        "deduction_tmp_1[0]",
+        "deduction_tmp_1[1]",
+        "deduction_tmp_2 = NarrowFib__2([state[2], state[3]])",
+        "deduction_tmp_2[0]",
+        "deduction_tmp_2[1]",
+    ];
+
+    assert!(
+        lists
+            .constraints
+            .iter()
+            .map(|x| x.to_string())
+            .collect::<Vec<String>>()
+            == constraints
+    );
+    assert!(
+        lists
+            .deductions
+            .iter()
+            .map(|x| x.to_string())
+            .collect::<Vec<String>>()
+            == deductions
+    );
+    assert!(output.calc() == *"866");
+}
 
 #[test]
 fn test_fibonacci() {

@@ -197,7 +197,6 @@ impl AirBuilder {
             air_fn_name: air_fn.name(),
             input_arg: input.into(),
             output: output.clone().into(),
-            state: air_builder.state,
             air_body: air_builder.air_body,
         }));
         output
@@ -212,11 +211,6 @@ impl AirBuilder {
         I: AirVar,
         O: AirVar,
     {
-        #[cfg(test)]
-        if self.run {
-            todo!()
-        }
-
         // Make sure the callee is in the registry
         if self
             .registry
@@ -230,6 +224,19 @@ impl AirBuilder {
 
         let output_intermediate_name = self.registry.get_deduction_intermediate_var_name();
         let mut intermediate = O::new(output_intermediate_name.clone());
+
+        #[cfg(test)]
+        if self.run {
+            let mut air_builder = Self {
+                state: State::default(),
+                air_body: vec![],
+                #[cfg(test)]
+                run: self.run,
+                registry: self.registry.clone(),
+            };
+            let output = AirFn::call(air_fn, &mut air_builder, input.clone());
+            intermediate = output.let_for_deduction(output_intermediate_name.clone())
+        }
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: air_fn.name(),
@@ -326,8 +333,6 @@ pub struct Call {
     pub air_fn_name: String,
     pub input_arg: GenericAirVar,
     pub output: GenericAirVar,
-    #[serde(skip)]
-    pub state: State,
     #[serde(skip)]
     pub air_body: Vec<AirBodyComponent>,
 }
