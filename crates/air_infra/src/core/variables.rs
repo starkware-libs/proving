@@ -5,6 +5,8 @@ use serde::{Deserialize, Serialize};
 use super::autogen_structs::*;
 use super::expressions::expr::*;
 use super::expressions::felt_expr::*;
+#[cfg(test)]
+use super::prover_types::*;
 
 /// Every input and output of an air function is an AirVar.
 pub trait AirVar: Clone + Debug + Default + Into<GenericAirVar> {
@@ -18,6 +20,14 @@ pub trait AirVar: Clone + Debug + Default + Into<GenericAirVar> {
     // For example, an input to an air function is not in state when it is from the private input.
     fn in_state(&self) -> bool;
     fn as_felts(&mut self) -> Vec<&mut FeltExpr>;
+    #[cfg(test)]
+    fn to_values(&self) -> Vec<Felt> {
+        self.clone()
+            .as_felts()
+            .into_iter()
+            .map(|f| f.value().unwrap())
+            .collect()
+    }
 }
 
 // Air variables as represented in the air_body.

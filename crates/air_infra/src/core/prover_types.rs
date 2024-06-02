@@ -29,7 +29,7 @@ pub trait ProverType: Debug + Clone + Copy + Default {
     fn r#type() -> String;
 }
 
-#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default)]
+#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
 pub struct Felt {
     pub value: u32,
 }
@@ -108,7 +108,7 @@ impl Div for Felt {
     }
 }
 
-#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default)]
+#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
 pub struct Bool {
     pub value: bool,
 }
@@ -144,7 +144,7 @@ impl From<bool> for Bool {
     }
 }
 
-#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default)]
+#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
 pub struct UInt16 {
     pub value: u16,
 }
@@ -229,7 +229,7 @@ impl BitXor for UInt16 {
     }
 }
 
-#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default)]
+#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
 pub struct UInt32 {
     pub value: u32,
 }
@@ -326,7 +326,7 @@ impl BitXor for UInt32 {
     }
 }
 
-#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default)]
+#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
 pub struct UInt64 {
     pub value: u64,
 }
@@ -428,7 +428,7 @@ pub const FELT252_BITS_PER_WORD: usize = 12;
 
 // A non-redundant representation of a 252-bit element in the field of numbers
 // modulo the prime 2**251 + 17 * 2**192 + 1.
-#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default)]
+#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
 pub struct Felt252 {
     pub low: u128,
     pub high: u128,

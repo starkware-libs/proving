@@ -8,6 +8,7 @@ use super::air_fn_registry::*;
 #[cfg(test)]
 use super::expressions::expr::*;
 use super::expressions::felt_expr::*;
+use super::memory::*;
 use super::state::*;
 use super::variables::*;
 
@@ -252,6 +253,68 @@ impl AirBuilder {
             }));
 
         intermediate
+    }
+
+    #[allow(unused_variables)]
+    // Reads the value from the memory, creates an intermediate variable for the value, and returns
+    // it. Does not add any constraints or deductions.
+    pub fn get_from_memory<K, V>(&mut self, memory: &Memory<K, V>, key: &K) -> V
+    where
+        K: AirVar,
+        V: AirVar,
+    {
+        let value_name = self.registry.get_deduction_intermediate_var_name();
+
+        self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
+            air_fn_name: memory.name(),
+            input_arg: key.clone().into(),
+            output_name: value_name.clone(),
+        }));
+
+        #[allow(unused_mut)]
+        let mut value = V::new(value_name.clone());
+
+        #[cfg(test)]
+        if self.run {
+            value = memory.get(key).unwrap();
+            value = value.let_for_deduction(value_name);
+        }
+
+        value
+    }
+
+    #[allow(unused_variables)]
+    // Assumes the key and value are in the state (of the caller). Adds a lookup constraint.
+    // Writes the value to the memory in run and cairo run modes.
+    pub fn set_in_memory<K, V>(&mut self, memory: &Memory<K, V>, mut key: K, mut value: V)
+    where
+        K: AirVar,
+        V: AirVar,
+    {
+        #[cfg(test)]
+        if self.run {
+            assert!(key.in_state(), "The key must be in the trace.");
+            assert!(value.in_state(), "The value must be in the trace.");
+
+            memory.set(key.clone(), value.clone());
+        }
+
+        if self
+            .registry
+            .air_fns
+            .borrow()
+            .get(&(memory.name()))
+            .is_none()
+        {
+            AirFnEntry::new(&self.registry, memory);
+        }
+
+        self.air_body
+            .push(AirBodyComponent::LookupConstraint(LookupConstraint {
+                air_fn_name: memory.name(),
+                input_felts: key.as_felts().into_iter().map(|x| x.clone()).collect(),
+                output_felts: value.as_felts().into_iter().map(|x| x.clone()).collect(),
+            }));
     }
 }
 
