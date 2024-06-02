@@ -22,10 +22,16 @@ pub trait AirFn: Debug {
 
     fn name(&self) -> String {
         let mut name = type_name::<Self>().to_string();
-        name = name
-            .rfind("::")
-            .map(|i| name[i + 2..].to_string())
-            .unwrap_or(name);
+        let names: Vec<&str> = name.split(&['<', '>', ',']).collect::<Vec<_>>();
+        name = names
+            .into_iter()
+            .map(|s| {
+                s.rfind("::")
+                    .map(|i| s[i + 2..].to_string())
+                    .unwrap_or(s.to_string())
+            })
+            .collect::<Vec<_>>()
+            .join("_;_");
         self.inst_def().iter().for_each(|(_, v)| {
             name.push_str(format!("__{}", v).as_str());
         });
