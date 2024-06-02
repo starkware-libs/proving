@@ -23,7 +23,7 @@ pub struct FeltVar {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub(super) state_index: Option<usize>,
     #[serde(skip_serializing_if = "Option::is_none")]
-    pub(super) parent: Option<Box<ExprImpl>>,
+    pub(super) parent: Option<(Box<ExprImpl>, Option<usize>)>,
 }
 
 // A felt expression can be a constant, a variable, a binary operation, or a unary operation.
@@ -54,9 +54,9 @@ impl FeltExpr {
         }
     }
 
-    pub fn set_parent(&mut self, parent: ExprImpl) {
+    pub fn set_parent(&mut self, parent: ExprImpl, index: Option<usize>) {
         if let FeltExpr::Var(v) = self {
-            v.parent = Some(Box::new(parent));
+            v.parent = Some((Box::new(parent), index));
         } else {
             panic!("Cannot set parent of a non-variable");
         }
@@ -140,6 +140,7 @@ impl AirVar for FeltExpr {
                         && v.parent
                             .as_ref()
                             .unwrap()
+                            .0
                             .name()
                             .starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX))
             }
@@ -205,9 +206,19 @@ impl From<FeltExpr> for ProcessedAirVar {
                 if let Some(i) = v.state_index {
                     return ProcessedAirVar::State(i);
                 }
-                if let Some(var) = v.parent {
+                if let Some((var, index)) = v.parent {
+                    // This can happen when a felt intermediate variable is passed on as a bool
+                    // (by calling as_bool()), for example (see test_bit_mux).
                     if var.name().starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX) {
                         return ProcessedAirVar::Var(Felt::r#type(), var.name());
+                    }
+                    if let Some(i) = index {
+                        let index_var = ProcessedAirVar::Const("usize".to_string(), i.to_string());
+                        return ProcessedAirVar::MethodCall(
+                            Box::new((*var).into()),
+                            name,
+                            vec![index_var],
+                        );
                     }
                     return ProcessedAirVar::MethodCall(Box::new((*var).into()), name, vec![]);
                 }
@@ -228,7 +239,10 @@ impl Display for FeltExpr {
                 && !name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX)
                 && v.state_index.is_none()
             {
-                if let Some(p) = v.parent.clone() {
+                if let Some((p, index)) = v.parent.clone() {
+                    if let Some(i) = index {
+                        return write!(f, "{}.{}({})", *p, name, i);
+                    }
                     return write!(f, "{}.{}()", *p, name);
                 }
             }

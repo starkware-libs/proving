@@ -36,34 +36,26 @@ pub enum Felt252Expr {
 }
 
 impl Felt252Expr {
-    pub fn as_felt_exprs(&mut self) -> &mut [FeltExpr; FELT252_N_WORDS] {
-        match self {
-            Felt252Expr::Var(v) => &mut v.felts,
-            _ => panic!("Cannot convert non-variable to felts."),
-        }
-    }
-
     // Creates a new Felt252Var.
     pub fn new_var(
         name: String,
         value: Option<Felt252>,
         state_indices: Option<[usize; FELT252_N_WORDS]>,
     ) -> Self {
-        let felts = value.map(|v| v.as_felts());
         let mut res = Felt252Var {
             name,
             value,
             felts: from_fn(|i| {
                 FeltExpr::new_var(
-                    format!("felt_{}", i),
-                    value.map(|_| felts.unwrap()[i]),
+                    "get_felt".to_string(),
+                    value.map(|v| v.get_felt(i)),
                     state_indices.map(|is| is[i]),
                 )
             }),
         };
         let res_expr: Felt252Expr = res.clone().into();
-        for felt in res.felts.iter_mut() {
-            felt.set_parent(ExprImpl::Felt252(res_expr.clone()));
+        for (index, felt) in res.felts.iter_mut().enumerate() {
+            felt.set_parent(ExprImpl::Felt252(res_expr.clone()), Some(index));
         }
         res.into()
     }

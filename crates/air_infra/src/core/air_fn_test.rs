@@ -1,11 +1,12 @@
 use super::air_fn::*;
 use super::air_fn_registry::*;
 use super::expressions::expr::*;
+use super::expressions::felt252_expr::*;
 use super::expressions::felt_expr::*;
 use super::expressions::uint32_expr::*;
 use super::prover_types::*;
 use super::variables::*;
-use crate::{const_expr, const_u32_expr, expr, u32_expr};
+use crate::{const_expr, const_u32_expr, expr, felt252_expr, u32_expr};
 
 #[derive(Debug)]
 struct AirFnWithIncorrectConstraint {}
@@ -99,4 +100,42 @@ fn test_array_deduce() {
     let (_, out) = registry.run_air(&func, [expr!("x", 5), expr!("y", 5)]);
     assert!(out.in_state());
     assert!(out[0].name() == "state[0]");
+}
+
+#[derive(Debug)]
+struct AirFnWithFelt252 {}
+
+impl AirFn for AirFnWithFelt252 {
+    type In = Felt252Expr;
+    type Out = FeltExpr;
+
+    fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
+        let mut x = air_builder.let_for_deduction(input);
+
+        for felt in x.as_felts() {
+            air_builder.deduce(felt);
+        }
+
+        x.as_felts()[0].clone()
+    }
+
+    fn input_in_trace(&self) -> bool {
+        false
+    }
+}
+
+#[test]
+fn test_felt252_deduce() {
+    let func = AirFnWithFelt252 {};
+    let registry = AirFnRegistry::new(&func);
+
+    let (_, out) = registry.run_air(&func, felt252_expr!("x", 5, 0));
+    assert!(out.in_state());
+    assert!(out.calc() == "5");
+
+    let lists = registry.get_codegen_air_fn(&func);
+    assert_eq!(
+        "AirFnWithFelt252_input.get_felt(const_0)",
+        lists.deductions[1].to_string()
+    );
 }

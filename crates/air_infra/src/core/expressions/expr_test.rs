@@ -1,4 +1,5 @@
 use super::super::prover_types::*;
+use super::super::variables::*;
 use super::expr::*;
 use super::felt252_expr::*;
 use super::felt_expr::*;
@@ -71,7 +72,7 @@ fn test_uint64() {
 fn test_felt252() {
     let mut v: Felt252Expr = felt252_expr!("v".to_string(), 0xFFF, 0xFFF);
 
-    let felts = v.as_felt_exprs();
+    let felts = v.as_felts();
     assert_eq!(
         felts.iter().map(|f| f.calc()).collect::<Vec<String>>(),
         [

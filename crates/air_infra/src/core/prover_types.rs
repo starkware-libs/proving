@@ -1,4 +1,3 @@
-use std::array::from_fn;
 use std::fmt::Debug;
 use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Rem, Shl, Shr, Sub};
 
@@ -442,22 +441,18 @@ impl Felt252 {
         }
     }
 
-    pub fn as_felts(&self) -> [Felt; FELT252_N_WORDS] {
-        let mut shift = 0;
-        from_fn(|_| {
-            let value = if shift + FELT252_BITS_PER_WORD <= 128 {
-                ((self.low >> shift) & 0xFFF) as u32
-            } else if shift >= 128 {
-                ((self.high >> (shift - 128)) & 0xFFF) as u32
-            } else {
-                let low_bits = 128 - shift;
-                let high_shift = 128 - (FELT252_BITS_PER_WORD - low_bits);
-                ((self.low >> shift) | (((self.high << high_shift) >> high_shift) << low_bits))
-                    as u32
-            };
-            shift += FELT252_BITS_PER_WORD;
-            Felt { value }
-        })
+    pub fn get_felt(&self, index: usize) -> Felt {
+        let shift = FELT252_BITS_PER_WORD * index;
+        let value = if shift + FELT252_BITS_PER_WORD <= 128 {
+            ((self.low >> shift) & 0xFFF) as u32
+        } else if shift >= 128 {
+            ((self.high >> (shift - 128)) & 0xFFF) as u32
+        } else {
+            let low_bits = 128 - shift;
+            let high_shift = 128 - (FELT252_BITS_PER_WORD - low_bits);
+            ((self.low >> shift) | (((self.high << high_shift) >> high_shift) << low_bits)) as u32
+        };
+        Felt { value }
     }
 }
 

@@ -49,7 +49,8 @@ impl BoolExpr {
                 state_index,
             ),
         };
-        res.as_felt.set_parent(ExprImpl::Bool(res.clone().into()));
+        res.as_felt
+            .set_parent(ExprImpl::Bool(res.clone().into()), None);
         res.into()
     }
 }

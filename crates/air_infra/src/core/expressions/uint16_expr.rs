@@ -47,7 +47,8 @@ impl UInt16Expr {
     pub fn set_parent(&mut self, parent: ExprImpl) {
         if let UInt16Expr::Var(v) = self {
             v.parent = Some(Box::new(parent));
-            v.as_felt.set_parent(UInt16Expr::Var(v.clone()).into());
+            v.as_felt
+                .set_parent(UInt16Expr::Var(v.clone()).into(), None);
         } else {
             panic!("Cannot set parent of a non-variable");
         }
@@ -65,7 +66,8 @@ impl UInt16Expr {
             ),
             parent: None,
         };
-        res.as_felt.set_parent(ExprImpl::UInt16(res.clone().into()));
+        res.as_felt
+            .set_parent(ExprImpl::UInt16(res.clone().into()), None);
         res.into()
     }
 }
