@@ -44,12 +44,6 @@ impl ProverType for Felt {
 }
 
 impl Felt {
-    pub fn eq(&self, other: &Self) -> Bool {
-        Bool {
-            value: self.value == other.value,
-        }
-    }
-
     pub fn as_bool(&self) -> Bool {
         assert!(
             self.value == 0 || self.value == 1,
@@ -130,14 +124,6 @@ impl SingleFeltType for Bool {
     }
 }
 
-impl Bool {
-    pub fn eq(&self, other: &Self) -> Bool {
-        Bool {
-            value: self.value == other.value,
-        }
-    }
-}
-
 impl From<bool> for Bool {
     fn from(value: bool) -> Bool {
         Bool { value }
@@ -162,14 +148,6 @@ impl SingleFeltType for UInt16 {
     fn as_felt(&self) -> Felt {
         Felt {
             value: self.value as u32,
-        }
-    }
-}
-
-impl UInt16 {
-    pub fn eq(&self, other: &Self) -> Bool {
-        Bool {
-            value: self.value == other.value,
         }
     }
 }
@@ -235,12 +213,6 @@ pub struct UInt32 {
 }
 
 impl UInt32 {
-    pub fn eq(&self, other: &Self) -> Bool {
-        Bool {
-            value: self.value == other.value,
-        }
-    }
-
     pub fn low(&self) -> UInt16 {
         UInt16 {
             value: (self.value & 0xFFFF) as u16,
@@ -332,12 +304,6 @@ pub struct UInt64 {
 }
 
 impl UInt64 {
-    pub fn eq(&self, other: &Self) -> Bool {
-        Bool {
-            value: self.value == other.value,
-        }
-    }
-
     pub fn low(&self) -> UInt32 {
         UInt32 {
             value: (self.value & 0xFFFFFFFF) as u32,
@@ -435,12 +401,6 @@ pub struct Felt252 {
 }
 
 impl Felt252 {
-    pub fn eq(&self, other: &Self) -> Bool {
-        Bool {
-            value: self.low == other.low && self.high == other.high,
-        }
-    }
-
     pub fn get_felt(&self, index: usize) -> Felt {
         let shift = FELT252_BITS_PER_WORD * index;
         let value = if shift + FELT252_BITS_PER_WORD <= 128 {

@@ -253,7 +253,7 @@ macro_rules! impl_binary_op {
                 let value = self
                     .value()
                     .zip(other.value())
-                    .map(|(l, r)| l.$op_lower(&r));
+                    .map(|(l, r)| l.$op_lower(&r).into());
                 $ot::Binary($b::new(
                     self.clone().into(),
                     BinaryOp::$op,
