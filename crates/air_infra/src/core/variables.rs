@@ -52,6 +52,32 @@ impl From<GenericAirVar> for ProcessedAirVar {
     }
 }
 
+impl From<()> for GenericAirVar {
+    fn from(_value: ()) -> Self {
+        GenericAirVar::Tuple(vec![])
+    }
+}
+
+impl AirVar for () {
+    fn new(_name: String) -> Self {}
+
+    fn let_for_deduction(&self, name: String) -> Self {
+        <Self as AirVar>::new(name)
+    }
+
+    fn name(&self) -> String {
+        "()".to_string()
+    }
+
+    fn in_state(&self) -> bool {
+        true
+    }
+
+    fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+        vec![]
+    }
+}
+
 // Implements AirVar for arrays and tuples of air vars.
 #[macro_export]
 macro_rules! impl_air_var {

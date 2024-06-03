@@ -23,6 +23,7 @@ pub struct AirFnEntry {
     pub inst_def: BTreeMap<String, String>,
     pub input: GenericAirVar,
     pub output: GenericAirVar,
+    pub trace_type: TraceType,
     pub air_body: Vec<AirBodyComponent>,
 }
 
@@ -38,6 +39,7 @@ impl AirFnEntry {
             inst_def: air_fn.inst_def(),
             input: input.into(),
             output: output.into(),
+            trace_type: air_fn.trace_type(),
             air_body: air_builder.air_body.clone(),
         };
         air_builder
@@ -107,7 +109,14 @@ impl AirFnRegistry {
             run: false,
             registry: self.clone(),
         };
-        let output = air_fn.call(&mut air_builder, input.clone());
+        let output = match air_fn.trace_type() {
+            TraceType::Inline => air_fn.call(&mut air_builder, input.clone()),
+            TraceType::Component => air_fn.lookup_call(&mut air_builder, input.clone()),
+
+            // For constant AirFns the value of <output> is meaningless, as we don't
+            // output any constraints or deductions. It just has to be of the correct type.
+            TraceType::Const => O::new(format!("{}_output", air_fn.name())),
+        };
         (air_builder, input, output)
     }
 

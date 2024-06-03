@@ -67,13 +67,13 @@ where
     }
 }
 
-impl<K, V> LookupAirFn for Memory<K, V>
+impl<K, V> AirFn for Memory<K, V>
 where
     K: AirVar,
     V: AirVar,
 {
-    type InL = K;
-    type OutL = V;
+    type In = K;
+    type Out = V;
 
     #[allow(unused_variables)]
     fn call(&self, air_builder: &mut AirBuilder, key: Self::In) -> Self::Out {
@@ -83,5 +83,13 @@ where
         }
 
         Self::Out::default()
+    }
+
+    fn trace_type(&self) -> TraceType {
+        TraceType::Const
+    }
+
+    fn input_in_trace(&self) -> bool {
+        true
     }
 }

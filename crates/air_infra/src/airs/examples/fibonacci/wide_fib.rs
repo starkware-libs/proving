@@ -1,8 +1,8 @@
 use super::narrow_fib::NarrowFib;
-use crate::{
-    core::{air_fn::AirFn, expressions::felt_expr::FeltExpr, prover_types::Felt},
-    expr,
-};
+use crate::core::air_fn::AirFn;
+use crate::core::expressions::felt_expr::FeltExpr;
+use crate::core::prover_types::Felt;
+use crate::expr;
 
 #[derive(Debug)]
 pub struct WideFib {

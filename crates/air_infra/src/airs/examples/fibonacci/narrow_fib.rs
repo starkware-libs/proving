@@ -12,9 +12,9 @@ pub struct NarrowFib {
     pub num_steps: usize,
 }
 
-impl LookupAirFn for NarrowFib {
-    type InL = [FeltExpr; 2];
-    type OutL = [FeltExpr; 2];
+impl AirFn for NarrowFib {
+    type In = [FeltExpr; 2];
+    type Out = [FeltExpr; 2];
 
     fn call(&self, air_builder: &mut AirBuilder, initial_state: Self::In) -> Self::Out {
         let mut input = initial_state;
@@ -30,5 +30,13 @@ impl LookupAirFn for NarrowFib {
 
     fn inst_def(&self) -> BTreeMap<String, String> {
         [("num_steps".to_string(), self.num_steps.to_string())].into()
+    }
+
+    fn trace_type(&self) -> TraceType {
+        TraceType::Component
+    }
+
+    fn input_in_trace(&self) -> bool {
+        true
     }
 }
