@@ -12,6 +12,20 @@ use super::memory::*;
 use super::state::*;
 use super::variables::*;
 
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub enum TraceType {
+    // Doesn't have its own component in the trace, always inlined into its caller.
+    Inline,
+
+    // Has its own component in the trace. Each call generates a new row in that component.
+    Component,
+
+    // Has its own component in the trace. The trace for this component is pre-filled
+    // with rows for all possible inputs by external means. Doesn't generate deductions
+    // or constraints.
+    Const,
+}
+
 // An air function should define a struct that implements the AirFn trait.
 // The AirFn trait has two associated types, In and Out, which are the input and output types of the
 // air function. It also defines whether the input is in the trace or not.
@@ -39,54 +53,25 @@ pub trait AirFn: Debug {
         name.to_string()
     }
 
+    fn trace_type(&self) -> TraceType {
+        TraceType::Inline
+    }
+
     fn input_in_trace(&self) -> bool;
     fn inst_def(&self) -> BTreeMap<String, String> {
         BTreeMap::new()
     }
 
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out;
-}
 
-// An AirFn that is intended to be a separate component in the trace and be called
-// using lookup_call
-pub trait LookupAirFn: AirFn<In = Self::InL, Out = Self::OutL> {
-    // These are called InL and OutL instead of In, Out to not shadow the In, Out types in AirFn
-    type InL: AirVar;
-    type OutL: AirVar;
-
-    fn call(
-        &self,
-        air_builder: &mut AirBuilder,
-        input: <Self as AirFn>::In,
-    ) -> <Self as AirFn>::Out;
-
-    fn inst_def(&self) -> BTreeMap<String, String> {
-        BTreeMap::new()
-    }
-}
-
-impl<A> AirFn for A
-where
-    A: LookupAirFn,
-{
-    type In = <Self as LookupAirFn>::InL;
-    type Out = <Self as LookupAirFn>::OutL;
-
-    fn input_in_trace(&self) -> bool {
-        false
-    }
-
-    fn inst_def(&self) -> BTreeMap<String, String> {
-        <Self as LookupAirFn>::inst_def(self)
-    }
-
-    fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
+    fn lookup_call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
+        assert!(self.trace_type() == TraceType::Component);
         let mut input_in_state = input.clone();
         input_in_state = air_builder.let_for_deduction(input_in_state);
         for felt in input_in_state.as_felts() {
             air_builder.deduce(felt);
         }
-        <Self as LookupAirFn>::call(self, air_builder, input_in_state)
+        self.call(air_builder, input_in_state)
     }
 }
 
@@ -177,6 +162,12 @@ impl AirBuilder {
         I: AirVar,
         O: AirVar,
     {
+        // It is technically possible to inline-call an AirFn that has TraceType::Component
+        // (by adding the constraints and deductions of that component to the current
+        // component), but doing so is usually a mistake as it is less efficient than
+        // doing a lookup. Therefore we only allow calling AirFns with TraceType::Inline
+        assert!(air_fn.trace_type() == TraceType::Inline);
+
         #[cfg(test)]
         if self.run && air_fn.input_in_trace() {
             assert!(input.in_state(), "Input must be in the trace");
@@ -202,15 +193,18 @@ impl AirBuilder {
         output
     }
 
-    pub fn lookup_call<I, O>(
-        &mut self,
-        air_fn: &dyn LookupAirFn<In = I, Out = O, InL = I, OutL = O>,
-        mut input: I,
-    ) -> O
+    pub fn lookup_call<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>, mut input: I) -> O
     where
         I: AirVar,
         O: AirVar,
     {
+        match air_fn.trace_type() {
+            TraceType::Inline => {
+                panic!("Lookup call cannot be used with an AirFn that is not a separate component")
+            }
+            TraceType::Component | TraceType::Const => (),
+        }
+
         // Make sure the callee is in the registry
         if self
             .registry
@@ -234,7 +228,17 @@ impl AirBuilder {
                 run: self.run,
                 registry: self.registry.clone(),
             };
-            let output = AirFn::call(air_fn, &mut air_builder, input.clone());
+            let output = match air_fn.trace_type() {
+                // For const components, use call() to compute the output
+                TraceType::Const => air_fn.call(&mut air_builder, input.clone()),
+
+                // For regular components, call() is not supposed to be called directly but
+                // only through lookup_call().
+                TraceType::Component => air_fn.lookup_call(&mut air_builder, input.clone()),
+
+                _ => panic!(),
+            };
+
             intermediate = output.let_for_deduction(output_intermediate_name.clone())
         }
 

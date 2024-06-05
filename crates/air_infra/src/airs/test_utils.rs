@@ -76,15 +76,11 @@ impl Display for TraceGenerationStep {
     }
 }
 
-fn state_vec_to_string(vec: &Vec<ProcessedAirVar>) -> String {
+fn processed_air_var_vec_to_string(vec: &Vec<ProcessedAirVar>) -> String {
     let mut parts: Vec<String> = vec![];
 
     for pav in vec {
-        if let ProcessedAirVar::State(_) = pav {
-            parts.push(format!("{}", pav));
-        } else {
-            panic!("Unexpected element in state felts list");
-        }
+        parts.push(format!("{}", pav));
     }
     format!("[{}]", parts.join(","))
 }
@@ -105,8 +101,8 @@ impl Display for ConstraintOrIntermediate {
                     f,
                     "{}({}) == {}",
                     fn_name,
-                    state_vec_to_string(input_felts),
-                    state_vec_to_string(output_felts)
+                    processed_air_var_vec_to_string(input_felts),
+                    processed_air_var_vec_to_string(output_felts)
                 )
             }
         }
