@@ -2,6 +2,7 @@ use air_infra::core::prover_types::*;
 use stwo_prover::core::fields::m31::BaseField;
 
 #[allow(non_snake_case)]
+#[allow(clippy::useless_conversion)]
 pub fn write_trace_row(dst: &mut [Vec<BaseField>], Fib__100_input: Felt, row_index: usize) {
     let col0 = Fib__100_input;
     dst[0][row_index] = col0.into();

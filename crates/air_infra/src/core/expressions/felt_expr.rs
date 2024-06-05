@@ -83,7 +83,7 @@ impl FeltExpr {
     }
 
     pub fn as_bool(&self) -> BoolExpr {
-        let value = self.value().map(|v| v.as_bool());
+        let value = self.value().map(felt_as_bool);
         match self {
             FeltExpr::Const(_) => panic!("Cannot create an intermediate variable from a constant"),
             _ => BoolExpr::new_var(self.name(), value, None),
@@ -255,7 +255,7 @@ impl Display for FeltExpr {
 #[macro_export]
 macro_rules! const_expr {
     ($val:expr) => {
-        FeltConst::new_const(Felt { value: $val }).into()
+        FeltConst::new_const(Felt::from_u32_unchecked($val)).into()
     };
 }
 

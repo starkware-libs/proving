@@ -1,9 +1,8 @@
 use std::fmt::Debug;
 use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Rem, Shl, Shr, Sub};
 
-use num_integer::Integer;
 use serde::{Deserialize, Serialize};
-use stwo_prover::core::fields::m31::BaseField;
+use stwo_prover::core::fields::m31::M31;
 
 pub const PRIME: u32 = 2_u32.pow(31) - 1;
 
@@ -29,77 +28,20 @@ pub trait ProverType: Debug + Clone + Copy + Default {
     fn r#type() -> String;
 }
 
-#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
-pub struct Felt {
-    pub value: u32,
-}
+pub type Felt = M31;
 
 impl ProverType for Felt {
     fn calc(&self) -> String {
-        self.value.to_string()
+        self.to_string()
     }
     fn r#type() -> String {
         "Felt".to_string()
     }
 }
 
-impl Felt {
-    pub fn as_bool(&self) -> Bool {
-        assert!(
-            self.value == 0 || self.value == 1,
-            "Felt value is not a bool"
-        );
-        Bool {
-            value: self.value != 0,
-        }
-    }
-}
-
-impl From<u32> for Felt {
-    fn from(value: u32) -> Felt {
-        Felt { value }
-    }
-}
-
-impl From<Felt> for BaseField {
-    fn from(f: Felt) -> BaseField {
-        BaseField::from_u32_unchecked(f.value)
-    }
-}
-
-impl Add for Felt {
-    type Output = Felt;
-    fn add(self, other: Felt) -> Felt {
-        Felt {
-            value: ((self.value + other.value) % PRIME),
-        }
-    }
-}
-impl Sub for Felt {
-    type Output = Felt;
-    fn sub(self, other: Felt) -> Felt {
-        Felt {
-            value: ((self.value + (PRIME - other.value)) % PRIME),
-        }
-    }
-}
-impl Mul for Felt {
-    type Output = Felt;
-    fn mul(self, other: Felt) -> Felt {
-        Felt {
-            value: ((self.value as u64 * other.value as u64) % PRIME as u64) as u32,
-        }
-    }
-}
-impl Div for Felt {
-    type Output = Felt;
-    fn div(self, other: Felt) -> Felt {
-        let egcd = Integer::extended_gcd(&(other.value as i64), &(PRIME as i64));
-        let inv_other = ((egcd.x + PRIME as i64) % PRIME as i64) as u32;
-        Felt {
-            value: ((self.value as u64 * inv_other as u64) % PRIME as u64) as u32,
-        }
-    }
+pub fn felt_as_bool(felt: Felt) -> Bool {
+    assert!(felt.0 == 0 || felt.0 == 1, "Felt value is not a bool");
+    Bool { value: felt.0 != 0 }
 }
 
 #[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
@@ -118,9 +60,7 @@ impl ProverType for Bool {
 
 impl SingleFeltType for Bool {
     fn as_felt(&self) -> Felt {
-        Felt {
-            value: if self.value { 1 } else { 0 },
-        }
+        Felt::from_u32_unchecked(if self.value { 1 } else { 0 })
     }
 }
 
@@ -146,9 +86,7 @@ impl ProverType for UInt16 {
 
 impl SingleFeltType for UInt16 {
     fn as_felt(&self) -> Felt {
-        Felt {
-            value: self.value as u32,
-        }
+        Felt::from_u32_unchecked(self.value as u32)
     }
 }
 
@@ -412,7 +350,7 @@ impl Felt252 {
             let high_shift = 128 - (FELT252_BITS_PER_WORD - low_bits);
             ((self.low >> shift) | (((self.high << high_shift) >> high_shift) << low_bits)) as u32
         };
-        Felt { value }
+        Felt::from_u32_unchecked(value)
     }
 }
 

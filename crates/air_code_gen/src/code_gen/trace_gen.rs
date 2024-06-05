@@ -117,6 +117,7 @@ pub fn gen_write_trace_code(
         $(imports)
         $['\n']
         #[allow(non_snake_case)]
+        #[allow(clippy::useless_conversion)]
         pub fn write_trace_row(dst: &mut [Vec<BaseField>], $(write_trace_params), row_index: usize) {
             $(write_trace_body)
         }
