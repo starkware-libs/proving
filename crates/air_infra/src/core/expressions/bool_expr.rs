@@ -11,6 +11,7 @@ use crate::core::autogen_structs::*;
 
 pub type BoolConst = ConstExpr<Bool>;
 pub type BoolBinary = BinaryExpr<Bool>;
+pub type BoolUnary = UnaryExpr<Bool>;
 
 // A variable of type Bool. Holds its name, value, and Felt representation.
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
@@ -28,6 +29,7 @@ pub enum BoolExpr {
     Const(BoolConst),
     Var(BoolVar),
     Binary(BoolBinary),
+    Unary(BoolUnary),
 }
 
 impl BoolExpr {
@@ -61,6 +63,7 @@ impl Expr<Bool> for BoolExpr {
             BoolExpr::Const(c) => Some(c.value),
             BoolExpr::Var(v) => v.value,
             BoolExpr::Binary(b) => b.value,
+            BoolExpr::Unary(u) => u.value,
         }
     }
 }
@@ -75,6 +78,7 @@ impl AirVar for BoolExpr {
             BoolExpr::Const(c) => c.name.clone(),
             BoolExpr::Var(v) => v.name.clone(),
             BoolExpr::Binary(b) => b.name.clone(),
+            BoolExpr::Unary(u) => u.name.clone(),
         }
     }
 
@@ -97,6 +101,7 @@ impl AirVar for BoolExpr {
             BoolExpr::Const(_) => true,
             BoolExpr::Var(v) => v.as_felt.in_state(),
             BoolExpr::Binary(b) => b.left.in_state() && b.right.in_state(),
+            BoolExpr::Unary(u) => u.child.in_state(),
         }
     }
 
@@ -129,6 +134,12 @@ impl From<BoolBinary> for BoolExpr {
     }
 }
 
+impl From<BoolUnary> for BoolExpr {
+    fn from(u: BoolUnary) -> BoolExpr {
+        BoolExpr::Unary(u)
+    }
+}
+
 impl From<BoolExpr> for GenericAirVar {
     fn from(expr: BoolExpr) -> GenericAirVar {
         let expr_impl: ExprImpl = expr.into();
@@ -147,6 +158,7 @@ impl From<BoolExpr> for ProcessedAirVar {
             BoolExpr::Const(_) => ProcessedAirVar::Const(Bool::r#type(), name),
             BoolExpr::Var(_) => ProcessedAirVar::Var(Bool::r#type(), name),
             BoolExpr::Binary(b) => b.into(),
+            BoolExpr::Unary(u) => u.into(),
         }
     }
 }
