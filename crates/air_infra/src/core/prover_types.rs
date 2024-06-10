@@ -84,6 +84,15 @@ impl ProverType for UInt16 {
     }
 }
 
+impl Add for UInt16 {
+    type Output = UInt16;
+    fn add(self, other: UInt16) -> UInt16 {
+        UInt16 {
+            value: self.value.wrapping_add(other.value),
+        }
+    }
+}
+
 impl SingleFeltType for UInt16 {
     fn as_felt(&self) -> Felt {
         Felt::from_u32_unchecked(self.value as u32)

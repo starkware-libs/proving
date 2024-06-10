@@ -204,6 +204,7 @@ impl_binary_op!(ops Mul, mul, FeltExpr, FeltBinary);
 impl_binary_op!(ops Div, div, FeltExpr, FeltBinary);
 impl_binary_op!(Eq, eq, FeltExpr, BoolExpr, BoolBinary);
 
+impl_binary_op!(ops Add, add, UInt16Expr, UInt16Binary);
 impl_binary_op!(ops Rem, rem, UInt16Expr, UInt16Binary);
 impl_binary_op!(ops Shl, shl, UInt16Expr, UInt16Binary);
 impl_binary_op!(ops Shr, shr, UInt16Expr, UInt16Binary);
