@@ -2,7 +2,7 @@ use crate::core::air_fn::{AirFn, TraceType};
 use crate::core::air_fn_registry::AirFnRegistry;
 use crate::core::expressions::felt_expr::FeltExpr;
 
-use super::range_check::RangeCheck16;
+use super::range_check::RangeCheck;
 
 #[derive(Debug)]
 struct SmallAdd {}
@@ -27,7 +27,7 @@ impl AirFn for SmallAdd {
         air_builder: &mut crate::core::air_fn::AirBuilder,
         [mut a, mut b]: Self::In,
     ) -> Self::Out {
-        let rc_air_fn = RangeCheck16 {};
+        let rc_air_fn = RangeCheck { bits: 16 };
 
         air_builder.deduce(&mut a);
         air_builder.deduce(&mut b);
