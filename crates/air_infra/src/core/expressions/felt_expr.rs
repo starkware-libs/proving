@@ -3,7 +3,6 @@ use std::fmt::Display;
 
 use super::super::prover_types::*;
 use super::super::variables::*;
-use super::bool_expr::*;
 use super::expr::*;
 use super::op_expr::*;
 use crate::core::air_fn_registry::*;
@@ -81,14 +80,6 @@ impl FeltExpr {
             _ => Self::new_var(name, self.value(), None),
         }
     }
-
-    pub fn as_bool(&self) -> BoolExpr {
-        let value = self.value().map(felt_as_bool);
-        match self {
-            FeltExpr::Const(_) => panic!("Cannot create an intermediate variable from a constant"),
-            _ => BoolExpr::new_var(self.name(), value, None),
-        }
-    }
 }
 
 impl Expr<Felt> for FeltExpr {
@@ -134,15 +125,7 @@ impl AirVar for FeltExpr {
         match self {
             FeltExpr::Const(_) => true,
             FeltExpr::Var(v) => {
-                v.state_index.is_some()
-                    || v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
-                    || (v.parent.is_some()
-                        && v.parent
-                            .as_ref()
-                            .unwrap()
-                            .0
-                            .name()
-                            .starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX))
+                v.state_index.is_some() || v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
             }
             FeltExpr::Binary(b) => b.left.in_state() && b.right.in_state(),
             FeltExpr::Unary(u) => u.child.in_state(),
@@ -207,11 +190,6 @@ impl From<FeltExpr> for ProcessedAirVar {
                     return ProcessedAirVar::State(i);
                 }
                 if let Some((var, index)) = v.parent {
-                    // This can happen when a felt intermediate variable is passed on as a bool
-                    // (by calling as_bool()), for example (see test_bit_mux).
-                    if var.name().starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX) {
-                        return ProcessedAirVar::Var(Felt::r#type(), var.name());
-                    }
                     if let Some(i) = index {
                         let index_var = ProcessedAirVar::Const("usize".to_string(), i.to_string());
                         return ProcessedAirVar::MethodCall(

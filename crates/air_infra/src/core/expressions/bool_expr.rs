@@ -36,7 +36,17 @@ impl BoolExpr {
     pub fn as_felt(&mut self) -> &mut FeltExpr {
         match self {
             BoolExpr::Var(v) => &mut v.as_felt,
-            _ => panic!("Cannot convert non-variable to Felt"),
+            BoolExpr::Unary(u) => {
+                if u.op == UnaryOp::FeltAsBool {
+                    if let ExprImpl::Felt(felt_expr) = &mut *u.child {
+                        if let FeltExpr::Var(_) = felt_expr {
+                            return felt_expr;
+                        }
+                    }
+                }
+                panic!("Cannot convert to a Felt");
+            }
+            _ => panic!("Cannot convert to a Felt"),
         }
     }
 

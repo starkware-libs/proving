@@ -1,3 +1,5 @@
+use super::super::air_fn_registry::*;
+use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -6,7 +8,7 @@ use super::felt_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
 // Macros
-use crate::{const_expr, const_u32_expr, const_u64_expr, felt252_expr};
+use crate::{const_expr, const_u32_expr, const_u64_expr, expr, felt252_expr};
 
 #[test]
 fn test_add_sub() {
@@ -79,5 +81,32 @@ fn test_felt252() {
             "4095", "0", "0", "0", "0", "0", "0", "0", "0", "0", "3840", "255", "0", "0", "0", "0",
             "0", "0", "0", "0", "0"
         ]
+    );
+}
+
+#[test]
+fn test_conversion_felt_to_bool() {
+    let mut f = expr!("x", 1, true);
+    let mut b = f.clone().as_bool();
+    assert_eq!(b.calc(), "true");
+    assert!(b.in_state());
+    let compiled_felt: ProcessedAirVar = b.as_felt().clone().into();
+    assert_eq!(compiled_felt.to_string(), "state[0]".to_string());
+    let compiled_bool: ProcessedAirVar = b.into();
+    assert_eq!(
+        compiled_bool.to_string(),
+        "felt_as_bool(state[0])".to_string()
+    );
+
+    f = f.let_for_constraint(format!("{}0", CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
+    let mut b = f.as_bool();
+    assert_eq!(b.calc(), "true");
+    assert!(b.in_state());
+    let compiled_felt: ProcessedAirVar = b.as_felt().clone().into();
+    assert_eq!(compiled_felt.to_string(), "constraint_tmp_0".to_string());
+    let compiled_bool: ProcessedAirVar = b.into();
+    assert_eq!(
+        compiled_bool.to_string(),
+        "felt_as_bool(constraint_tmp_0)".to_string()
     );
 }

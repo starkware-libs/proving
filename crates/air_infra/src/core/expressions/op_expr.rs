@@ -13,6 +13,7 @@ use super::uint32_expr::*;
 use super::uint64_expr::*;
 // Macros
 use crate::impl_binary_op;
+use crate::impl_unary_op;
 
 /// Binary expressions - results of binary operations on expressions.
 #[derive(Clone, Debug, Default, Serialize, Deserialize)]
@@ -173,11 +174,13 @@ where
 pub enum UnaryOp {
     #[default]
     Neg,
+    FeltAsBool,
 }
 impl Display for UnaryOp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             UnaryOp::Neg => write!(f, "-"),
+            UnaryOp::FeltAsBool => write!(f, "felt_as_bool"),
         }
     }
 }
@@ -185,6 +188,7 @@ impl From<UnaryOp> for OpType {
     fn from(op: UnaryOp) -> OpType {
         match op {
             UnaryOp::Neg => OpType::Op(op.to_string()),
+            UnaryOp::FeltAsBool => OpType::Static(op.to_string()),
         }
     }
 }
@@ -203,6 +207,7 @@ impl_binary_op!(ops Sub, sub, FeltExpr, FeltBinary);
 impl_binary_op!(ops Mul, mul, FeltExpr, FeltBinary);
 impl_binary_op!(ops Div, div, FeltExpr, FeltBinary);
 impl_binary_op!(Eq, eq, FeltExpr, BoolExpr, BoolBinary);
+impl_unary_op!(static FeltAsBool, as_bool, felt_as_bool, FeltExpr, BoolExpr);
 
 impl_binary_op!(ops Add, add, UInt16Expr, UInt16Binary);
 impl_binary_op!(ops Rem, rem, UInt16Expr, UInt16Binary);
@@ -272,6 +277,15 @@ macro_rules! impl_unary_op {
         impl $it {
             pub fn $name(self) -> $ot {
                 let value = self.value().map(|c| c.$op_lower());
+                $ot::Unary(UnaryExpr::new(UnaryOp::$op, self.clone().into(), value))
+            }
+        }
+    };
+
+    (static $op:ident, $name:ident, $op_lower:ident, $it:ident, $ot:ident) => {
+        impl $it {
+            pub fn $name(self) -> $ot {
+                let value = self.value().map(|c| $op_lower(c));
                 $ot::Unary(UnaryExpr::new(UnaryOp::$op, self.clone().into(), value))
             }
         }
