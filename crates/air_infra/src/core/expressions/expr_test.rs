@@ -2,13 +2,14 @@ use super::super::air_fn_registry::*;
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
+use super::bool_expr::*;
 use super::expr::*;
 use super::felt252_expr::*;
 use super::felt_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
 // Macros
-use crate::{const_expr, const_u32_expr, const_u64_expr, expr, felt252_expr};
+use crate::{bool_expr, const_expr, const_u32_expr, const_u64_expr, expr, felt252_expr};
 
 #[test]
 fn test_add_sub() {
@@ -109,4 +110,35 @@ fn test_conversion_felt_to_bool() {
         compiled_bool.to_string(),
         "felt_as_bool(constraint_tmp_0)".to_string()
     );
+}
+
+#[test]
+fn test_conversion_bool_to_uint16() {
+    let mut b: BoolExpr = bool_expr!("x", true);
+    b = b.let_for_deduction(format!("{}0", DEDUCTION_INTERMEDIATE_VAR_PREFIX));
+    let mut i = b.clone().as_uint16();
+    assert_eq!(i.calc(), "1");
+    let compiled_felt: ProcessedAirVar = i.as_felt().clone().into();
+    assert_eq!(
+        compiled_felt.to_string(),
+        "deduction_tmp_0.as_felt()".to_string() // This will be fixed in PR 68
+    );
+
+    b.as_felt().to_state(0);
+    let mut i = b.clone().as_uint16();
+    assert!(i.in_state());
+    let compiled_felt: ProcessedAirVar = i.as_felt().clone().into();
+    assert_eq!(compiled_felt.to_string(), "state[0]".to_string());
+    let compiled_i: ProcessedAirVar = i.into();
+    assert_eq!(
+        compiled_i.to_string(),
+        "deduction_tmp_0.as_uint16()".to_string()
+    );
+
+    let f = b
+        .as_felt()
+        .let_for_constraint(format!("{}0", CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
+    i = f.as_bool().as_uint16();
+    let compiled_felt: ProcessedAirVar = i.as_felt().clone().into();
+    assert_eq!(compiled_felt.to_string(), "constraint_tmp_0".to_string());
 }

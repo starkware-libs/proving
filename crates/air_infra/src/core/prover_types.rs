@@ -64,6 +64,14 @@ impl SingleFeltType for Bool {
     }
 }
 
+impl Bool {
+    pub fn as_uint16(&self) -> UInt16 {
+        UInt16 {
+            value: if self.value { 1 } else { 0 },
+        }
+    }
+}
+
 impl From<bool> for Bool {
     fn from(value: bool) -> Bool {
         Bool { value }

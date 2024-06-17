@@ -51,7 +51,15 @@ impl UInt16Expr {
     pub fn as_felt(&mut self) -> &mut FeltExpr {
         match self {
             UInt16Expr::Var(v) => &mut v.as_felt,
-            _ => panic!("Cannot convert non-variable to Felt"),
+            UInt16Expr::Unary(u) => {
+                if u.op == UnaryOp::AsUInt16 {
+                    if let ExprImpl::Bool(bool_expr) = &mut *u.child {
+                        return bool_expr.as_felt();
+                    }
+                }
+                panic!("Cannot convert to a Felt");
+            }
+            _ => panic!("Cannot convert to a Felt"),
         }
     }
 

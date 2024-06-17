@@ -175,12 +175,14 @@ pub enum UnaryOp {
     #[default]
     Neg,
     FeltAsBool,
+    AsUInt16,
 }
 impl Display for UnaryOp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             UnaryOp::Neg => write!(f, "-"),
             UnaryOp::FeltAsBool => write!(f, "felt_as_bool"),
+            UnaryOp::AsUInt16 => write!(f, "as_uint16"),
         }
     }
 }
@@ -189,6 +191,7 @@ impl From<UnaryOp> for OpType {
         match op {
             UnaryOp::Neg => OpType::Op(op.to_string()),
             UnaryOp::FeltAsBool => OpType::Static(op.to_string()),
+            UnaryOp::AsUInt16 => OpType::Method(op.to_string()),
         }
     }
 }
@@ -201,6 +204,7 @@ pub enum OpType {
 }
 
 impl_binary_op!(Eq, eq, BoolExpr, BoolExpr, BoolBinary);
+impl_unary_op!(AsUInt16, as_uint16, as_uint16, BoolExpr, UInt16Expr);
 
 impl_binary_op!(ops Add, add, FeltExpr, FeltBinary);
 impl_binary_op!(ops Sub, sub, FeltExpr, FeltBinary);
