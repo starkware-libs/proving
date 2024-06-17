@@ -27,6 +27,17 @@ pub struct UInt16Var {
     pub(super) parent: Option<Box<ExprImpl>>,
 }
 
+impl UInt16Var {
+    // Updates the Felt representation of the variable.
+    // Called whenever a variable is created (see new_var, let_for_deduction and set_parent).
+    fn update_as_felt(&mut self) {
+        let mut self_copy = self.clone();
+        self_copy.as_felt = FeltExpr::default();
+        self.as_felt
+            .set_parent(UInt16Expr::Var(self_copy).into(), None);
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UInt16Expr {
@@ -44,11 +55,11 @@ impl UInt16Expr {
         }
     }
 
+    // Called whenever a parent variable is created (see update_parts of UInt32Expr).
     pub fn set_parent(&mut self, parent: ExprImpl) {
         if let UInt16Expr::Var(v) = self {
             v.parent = Some(Box::new(parent));
-            v.as_felt
-                .set_parent(UInt16Expr::Var(v.clone()).into(), None);
+            v.update_as_felt();
         } else {
             panic!("Cannot set parent of a non-variable");
         }
@@ -66,8 +77,7 @@ impl UInt16Expr {
             ),
             parent: None,
         };
-        res.as_felt
-            .set_parent(ExprImpl::UInt16(res.clone().into()), None);
+        res.update_as_felt();
         res.into()
     }
 }
@@ -104,6 +114,7 @@ impl AirVar for UInt16Expr {
             UInt16Expr::Var(v) => {
                 let mut res = v.clone();
                 res.name = name;
+                res.update_as_felt();
                 res.into()
             }
             UInt16Expr::Const(_) => {

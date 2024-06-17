@@ -135,7 +135,7 @@ fn test_felt252_deduce() {
 
     let lists = registry.get_codegen_air_fn(&func);
     assert_eq!(
-        "AirFnWithFelt252_input.get_felt(const_0)",
+        "deduction_tmp_0.get_felt(const_0)",
         lists.deductions[1].to_string()
     );
 }

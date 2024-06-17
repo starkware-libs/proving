@@ -26,6 +26,19 @@ pub struct Felt252Var {
     pub(super) felts: [FeltExpr; FELT252_N_WORDS],
 }
 
+impl Felt252Var {
+    // Updates the Felts representation of the variable.
+    // Called whenever a variable is created (see new_var and let_for_deduction).
+    fn update_parts(&mut self) {
+        let mut self_copy = self.clone();
+        self_copy.felts = from_fn(|_| FeltExpr::default());
+        let parent: ExprImpl = Felt252Expr::Var(self_copy.clone()).into();
+        for (index, felt) in self.felts.iter_mut().enumerate() {
+            felt.set_parent(parent.clone(), Some(index));
+        }
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Felt252Expr {
@@ -53,10 +66,7 @@ impl Felt252Expr {
                 )
             }),
         };
-        let res_expr: Felt252Expr = res.clone().into();
-        for (index, felt) in res.felts.iter_mut().enumerate() {
-            felt.set_parent(ExprImpl::Felt252(res_expr.clone()), Some(index));
-        }
+        res.update_parts();
         res.into()
     }
 }
@@ -93,6 +103,7 @@ impl AirVar for Felt252Expr {
             Felt252Expr::Var(v) => {
                 let mut res = v.clone();
                 res.name = name;
+                res.update_parts();
                 res.into()
             }
             Felt252Expr::Const(_) => {

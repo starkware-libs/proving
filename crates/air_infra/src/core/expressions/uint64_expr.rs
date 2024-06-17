@@ -26,6 +26,19 @@ pub struct UInt64Var {
     pub(super) high: UInt32Expr,
 }
 
+impl UInt64Var {
+    // Updates the low and high parts of the variable.
+    // Called whenever a variable is created (see new_var and let_for_deduction).
+    fn update_parts(&mut self) {
+        let mut self_copy = self.clone();
+        self_copy.low = UInt32Expr::default();
+        self_copy.high = UInt32Expr::default();
+        let parent: ExprImpl = UInt64Expr::Var(self_copy.clone()).into();
+        self.low.set_parent(parent.clone());
+        self.high.set_parent(parent);
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UInt64Expr {
@@ -75,8 +88,7 @@ impl UInt64Expr {
                 hh_state_index,
             ),
         };
-        res.low.set_parent(ExprImpl::UInt64(res.clone().into()));
-        res.high.set_parent(ExprImpl::UInt64(res.clone().into()));
+        res.update_parts();
         res.into()
     }
 }
@@ -113,6 +125,7 @@ impl AirVar for UInt64Expr {
             UInt64Expr::Var(v) => {
                 let mut res = v.clone();
                 res.name = name;
+                res.update_parts();
                 res.into()
             }
             UInt64Expr::Const(_) => {

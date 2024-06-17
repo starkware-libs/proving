@@ -23,6 +23,17 @@ pub struct BoolVar {
     pub(super) as_felt: FeltExpr,
 }
 
+impl BoolVar {
+    // Updates the Felt representation of the variable.
+    // Called whenever a variable is created (see new_var and let_for_deduction).
+    fn update_as_felt(&mut self) {
+        let mut self_copy = self.clone();
+        self_copy.as_felt = FeltExpr::default();
+        self.as_felt
+            .set_parent(BoolExpr::Var(self_copy).into(), None);
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum BoolExpr {
@@ -61,8 +72,7 @@ impl BoolExpr {
                 state_index,
             ),
         };
-        res.as_felt
-            .set_parent(ExprImpl::Bool(res.clone().into()), None);
+        res.update_as_felt();
         res.into()
     }
 }
@@ -99,6 +109,7 @@ impl AirVar for BoolExpr {
             BoolExpr::Var(v) => {
                 let mut res = v.clone();
                 res.name = name;
+                res.update_as_felt();
                 res.into()
             }
             BoolExpr::Const(_) => panic!("Cannot create an intermediate variable from a constant"),

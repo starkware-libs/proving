@@ -28,6 +28,19 @@ pub struct UInt32Var {
     pub(super) parent: Option<Box<ExprImpl>>,
 }
 
+impl UInt32Var {
+    // Updates the low and high parts of the variable.
+    // Called whenever a variable is created (see new_var and let_for_deduction).
+    fn update_parts(&mut self) {
+        let mut self_copy = self.clone();
+        self_copy.low = UInt16Expr::default();
+        self_copy.high = UInt16Expr::default();
+        let parent: ExprImpl = UInt32Expr::Var(self_copy.clone()).into();
+        self.low.set_parent(parent.clone());
+        self.high.set_parent(parent);
+    }
+}
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UInt32Expr {
@@ -52,11 +65,11 @@ impl UInt32Expr {
         }
     }
 
+    // Called whenever a parent variable is created (see update_parts of UInt64Expr).
     pub fn set_parent(&mut self, parent: ExprImpl) {
         if let UInt32Expr::Var(v) = self {
             v.parent = Some(Box::new(parent));
-            v.low.set_parent(UInt32Expr::Var(v.clone()).into());
-            v.high.set_parent(UInt32Expr::Var(v.clone()).into());
+            v.update_parts();
         } else {
             panic!("Cannot set parent of a non-variable");
         }
@@ -80,8 +93,7 @@ impl UInt32Expr {
             ),
             parent: None,
         };
-        res.low.set_parent(ExprImpl::UInt32(res.clone().into()));
-        res.high.set_parent(ExprImpl::UInt32(res.clone().into()));
+        res.update_parts();
         res.into()
     }
 }
@@ -118,6 +130,7 @@ impl AirVar for UInt32Expr {
             UInt32Expr::Var(v) => {
                 let mut res = v.clone();
                 res.name = name;
+                res.update_parts();
                 res.into()
             }
             UInt32Expr::Const(_) => {
