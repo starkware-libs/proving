@@ -7,6 +7,7 @@ use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::bool_expr::*;
 use super::expr::*;
+use super::felt252_expr::*;
 use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
@@ -176,6 +177,7 @@ pub enum UnaryOp {
     Neg,
     FeltAsBool,
     AsUInt16,
+    FeltAsFelt252,
 }
 impl Display for UnaryOp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -183,6 +185,7 @@ impl Display for UnaryOp {
             UnaryOp::Neg => write!(f, "-"),
             UnaryOp::FeltAsBool => write!(f, "felt_as_bool"),
             UnaryOp::AsUInt16 => write!(f, "as_uint16"),
+            UnaryOp::FeltAsFelt252 => write!(f, "felt_as_felt252"),
         }
     }
 }
@@ -192,6 +195,7 @@ impl From<UnaryOp> for OpType {
             UnaryOp::Neg => OpType::Op(op.to_string()),
             UnaryOp::FeltAsBool => OpType::Static(op.to_string()),
             UnaryOp::AsUInt16 => OpType::Method(op.to_string()),
+            UnaryOp::FeltAsFelt252 => OpType::Static(op.to_string()),
         }
     }
 }
@@ -212,6 +216,7 @@ impl_binary_op!(ops Mul, mul, FeltExpr, FeltBinary);
 impl_binary_op!(ops Div, div, FeltExpr, FeltBinary);
 impl_binary_op!(Eq, eq, FeltExpr, BoolExpr, BoolBinary);
 impl_unary_op!(static FeltAsBool, as_bool, felt_as_bool, FeltExpr, BoolExpr);
+impl_unary_op!(static FeltAsFelt252, as_felt252, felt_as_felt252, FeltExpr, Felt252Expr);
 
 impl_binary_op!(ops Add, add, UInt16Expr, UInt16Binary);
 impl_binary_op!(ops Rem, rem, UInt16Expr, UInt16Binary);

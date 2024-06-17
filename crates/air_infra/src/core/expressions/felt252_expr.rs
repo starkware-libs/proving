@@ -131,7 +131,18 @@ impl AirVar for Felt252Expr {
                 }
                 res
             }
-            _ => panic!("Cannot convert non-variable to Felt"),
+            Felt252Expr::Unary(u) => {
+                if u.op == UnaryOp::FeltAsFelt252 {
+                    if let ExprImpl::Felt(felt_expr) = &mut *u.child {
+                        if let FeltExpr::Var(_) = felt_expr {
+                            // Should we return FELT252_N_WORDS felts?
+                            return vec![felt_expr];
+                        }
+                    }
+                }
+                panic!("Cannot convert to felts");
+            }
+            _ => panic!("Cannot convert to felts"),
         }
     }
 }

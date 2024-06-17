@@ -142,3 +142,30 @@ fn test_conversion_bool_to_uint16() {
     let compiled_felt: ProcessedAirVar = i.as_felt().clone().into();
     assert_eq!(compiled_felt.to_string(), "constraint_tmp_0".to_string());
 }
+
+#[test]
+fn test_conversion_felt_to_felt252() {
+    let mut f = expr!("x", 1, true);
+    let mut e = f.clone().as_felt252();
+    assert_eq!(e.calc(), "(1, 0)");
+    assert!(e.in_state());
+    let compiled_felt: ProcessedAirVar = e.as_felts()[0].clone().into();
+    assert_eq!(compiled_felt.to_string(), "state[0]".to_string());
+    let compiled_expr: ProcessedAirVar = e.into();
+    assert_eq!(
+        compiled_expr.to_string(),
+        "felt_as_felt252(state[0])".to_string()
+    );
+
+    f = f.let_for_constraint(format!("{}0", CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
+    let mut e = f.as_felt252();
+    assert_eq!(e.calc(), "(1, 0)");
+    assert!(e.in_state());
+    let compiled_felt: ProcessedAirVar = e.as_felts()[0].clone().into();
+    assert_eq!(compiled_felt.to_string(), "constraint_tmp_0".to_string());
+    let compiled_expr: ProcessedAirVar = e.into();
+    assert_eq!(
+        compiled_expr.to_string(),
+        "felt_as_felt252(constraint_tmp_0)".to_string()
+    );
+}

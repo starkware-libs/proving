@@ -44,6 +44,13 @@ pub fn felt_as_bool(felt: Felt) -> Bool {
     Bool { value: felt.0 != 0 }
 }
 
+pub fn felt_as_felt252(felt: Felt) -> Felt252 {
+    Felt252 {
+        low: felt.0 as u128,
+        high: 0,
+    }
+}
+
 #[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
 pub struct Bool {
     pub value: bool,
