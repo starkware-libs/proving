@@ -41,6 +41,13 @@ fn test_mod_sub() {
 }
 
 #[test]
+fn test_bool_not() {
+    let a: &BoolExpr = &bool_expr!("a".to_string(), true);
+    let b = !a;
+    assert_eq!(b.calc(), "false");
+}
+
+#[test]
 fn test_uint32() {
     let a: &UInt32Expr = &const_u32_expr!(0xFFFF);
     let b = &const_u32_expr!(1);

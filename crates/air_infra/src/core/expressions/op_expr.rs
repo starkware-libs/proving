@@ -1,5 +1,5 @@
 use std::fmt::Display;
-use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Rem, Shl, Shr, Sub};
+use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 
 use serde::{Deserialize, Serialize};
 
@@ -178,6 +178,7 @@ pub enum UnaryOp {
     FeltAsBool,
     AsUInt16,
     FeltAsFelt252,
+    Not,
 }
 impl Display for UnaryOp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -186,6 +187,7 @@ impl Display for UnaryOp {
             UnaryOp::FeltAsBool => write!(f, "felt_as_bool"),
             UnaryOp::AsUInt16 => write!(f, "as_uint16"),
             UnaryOp::FeltAsFelt252 => write!(f, "felt_as_felt252"),
+            UnaryOp::Not => write!(f, "!"),
         }
     }
 }
@@ -196,6 +198,7 @@ impl From<UnaryOp> for OpType {
             UnaryOp::FeltAsBool => OpType::Static(op.to_string()),
             UnaryOp::AsUInt16 => OpType::Method(op.to_string()),
             UnaryOp::FeltAsFelt252 => OpType::Static(op.to_string()),
+            UnaryOp::Not => OpType::Op(op.to_string()),
         }
     }
 }
@@ -209,6 +212,7 @@ pub enum OpType {
 
 impl_binary_op!(Eq, eq, BoolExpr, BoolExpr, BoolBinary);
 impl_unary_op!(AsUInt16, as_uint16, as_uint16, BoolExpr, UInt16Expr);
+impl_unary_op!(ops Not, not, BoolExpr);
 
 impl_binary_op!(ops Add, add, FeltExpr, FeltBinary);
 impl_binary_op!(ops Sub, sub, FeltExpr, FeltBinary);
@@ -282,6 +286,16 @@ macro_rules! impl_binary_op {
 
 #[macro_export]
 macro_rules! impl_unary_op {
+    (ops $op:ident, $op_lower:ident, $t:ident) => {
+        impl $op for &$t {
+            type Output = $t;
+            fn $op_lower(self) -> $t {
+                let value = self.value().map(|c| c.$op_lower());
+                $t::Unary(UnaryExpr::new(UnaryOp::$op, self.clone().into(), value))
+            }
+        }
+    };
+
     ($op:ident, $name:ident, $op_lower:ident, $it:ident, $ot:ident) => {
         impl $it {
             pub fn $name(self) -> $ot {

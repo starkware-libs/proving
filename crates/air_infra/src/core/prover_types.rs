@@ -1,5 +1,5 @@
 use std::fmt::Debug;
-use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Rem, Shl, Shr, Sub};
+use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 
 use serde::{Deserialize, Serialize};
 use stwo_prover::core::fields::m31::M31;
@@ -82,6 +82,13 @@ impl Bool {
 impl From<bool> for Bool {
     fn from(value: bool) -> Bool {
         Bool { value }
+    }
+}
+
+impl Not for Bool {
+    type Output = Bool;
+    fn not(self) -> Bool {
+        Bool { value: !self.value }
     }
 }
 
