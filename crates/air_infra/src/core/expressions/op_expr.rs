@@ -5,6 +5,7 @@ use serde::{Deserialize, Serialize};
 
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
+use super::super::variables::*;
 use super::bool_expr::*;
 use super::expr::*;
 use super::felt252_expr::*;
@@ -26,9 +27,9 @@ where
     #[serde(skip)]
     pub(super) value: Option<T>,
     #[serde(skip)]
-    pub(super) left: Box<ExprImpl>,
+    pub(super) left: Box<GenericAirVar>,
     #[serde(skip)]
-    pub(super) right: Box<ExprImpl>,
+    pub(super) right: Box<GenericAirVar>,
     #[serde(skip)]
     pub(super) op: BinaryOp,
 }
@@ -37,7 +38,7 @@ impl<T> BinaryExpr<T>
 where
     T: ProverType,
 {
-    pub fn new(left: ExprImpl, op: BinaryOp, right: ExprImpl, value: Option<T>) -> Self {
+    pub fn new(left: GenericAirVar, op: BinaryOp, right: GenericAirVar, value: Option<T>) -> Self {
         let name = match op.into() {
             OpType::Op(op) => format!("({} {} {})", left, op, right),
             OpType::Method(op) => format!("({}.{}({}))", left, op, right),
@@ -132,7 +133,7 @@ where
     #[serde(skip)]
     pub(super) value: Option<T>,
     #[serde(skip)]
-    pub(super) child: Box<ExprImpl>,
+    pub(super) child: Box<GenericAirVar>,
     #[serde(skip)]
     pub(super) op: UnaryOp,
 }
@@ -142,7 +143,7 @@ where
     T: ProverType,
 {
     #[allow(unused)]
-    pub(super) fn new(op: UnaryOp, child: ExprImpl, value: Option<T>) -> Self {
+    pub(super) fn new(op: UnaryOp, child: GenericAirVar, value: Option<T>) -> Self {
         let name = match op.into() {
             OpType::Op(op) => format!("({}{})", op, child),
             OpType::Method(op) => format!("({}.{}())", child, op),
