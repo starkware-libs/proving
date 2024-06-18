@@ -92,6 +92,8 @@ pub enum BinaryOp {
     BitOr,
     BitXor,
 }
+
+// Note that all operations from the same type should have different names for the code generation.
 impl Display for BinaryOp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
@@ -175,18 +177,20 @@ where
 pub enum UnaryOp {
     #[default]
     Neg,
-    FeltAsBool,
-    AsUInt16,
-    FeltAsFelt252,
+    BoolFromFelt,
+    UInt16FromBool,
+    Felt252FromFelt,
     Not,
 }
+
+// Note that all operations from the same type should have different names for the code generation.
 impl Display for UnaryOp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             UnaryOp::Neg => write!(f, "-"),
-            UnaryOp::FeltAsBool => write!(f, "felt_as_bool"),
-            UnaryOp::AsUInt16 => write!(f, "as_uint16"),
-            UnaryOp::FeltAsFelt252 => write!(f, "felt_as_felt252"),
+            UnaryOp::BoolFromFelt => write!(f, "Bool::from"),
+            UnaryOp::UInt16FromBool => write!(f, "UInt16::from"),
+            UnaryOp::Felt252FromFelt => write!(f, "Felt252::from"),
             UnaryOp::Not => write!(f, "!"),
         }
     }
@@ -195,9 +199,9 @@ impl From<UnaryOp> for OpType {
     fn from(op: UnaryOp) -> OpType {
         match op {
             UnaryOp::Neg => OpType::Op(op.to_string()),
-            UnaryOp::FeltAsBool => OpType::Static(op.to_string()),
-            UnaryOp::AsUInt16 => OpType::Method(op.to_string()),
-            UnaryOp::FeltAsFelt252 => OpType::Static(op.to_string()),
+            UnaryOp::BoolFromFelt => OpType::Static(op.to_string()),
+            UnaryOp::UInt16FromBool => OpType::Static(op.to_string()),
+            UnaryOp::Felt252FromFelt => OpType::Static(op.to_string()),
             UnaryOp::Not => OpType::Op(op.to_string()),
         }
     }
@@ -211,7 +215,7 @@ pub enum OpType {
 }
 
 impl_binary_op!(Eq, eq, BoolExpr, BoolExpr, BoolBinary);
-impl_unary_op!(AsUInt16, as_uint16, as_uint16, BoolExpr, UInt16Expr);
+impl_unary_op!(from UInt16FromBool, BoolExpr, UInt16Expr);
 impl_unary_op!(ops Not, not, BoolExpr);
 
 impl_binary_op!(ops Add, add, FeltExpr, FeltBinary);
@@ -219,8 +223,8 @@ impl_binary_op!(ops Sub, sub, FeltExpr, FeltBinary);
 impl_binary_op!(ops Mul, mul, FeltExpr, FeltBinary);
 impl_binary_op!(ops Div, div, FeltExpr, FeltBinary);
 impl_binary_op!(Eq, eq, FeltExpr, BoolExpr, BoolBinary);
-impl_unary_op!(static FeltAsBool, as_bool, felt_as_bool, FeltExpr, BoolExpr);
-impl_unary_op!(static FeltAsFelt252, as_felt252, felt_as_felt252, FeltExpr, Felt252Expr);
+impl_unary_op!(from BoolFromFelt, FeltExpr, BoolExpr);
+impl_unary_op!(from Felt252FromFelt, FeltExpr, Felt252Expr);
 
 impl_binary_op!(ops Add, add, UInt16Expr, UInt16Binary);
 impl_binary_op!(ops Rem, rem, UInt16Expr, UInt16Binary);
@@ -292,6 +296,15 @@ macro_rules! impl_unary_op {
             fn $op_lower(self) -> $t {
                 let value = self.value().map(|c| c.$op_lower());
                 $t::Unary(UnaryExpr::new(UnaryOp::$op, self.clone().into(), value))
+            }
+        }
+    };
+
+    (from $op:ident, $it:ident, $ot:ident) => {
+        impl From<$it> for $ot {
+            fn from(input: $it) -> Self {
+                let value = input.value().map(|c| c.into());
+                $ot::Unary(UnaryExpr::new(UnaryOp::$op, input.clone().into(), value))
             }
         }
     };
