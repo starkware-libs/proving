@@ -88,8 +88,4 @@ where
     fn trace_type(&self) -> TraceType {
         TraceType::Const
     }
-
-    fn input_in_trace(&self) -> bool {
-        true
-    }
 }

@@ -1,3 +1,5 @@
+use std::array::from_fn;
+
 use super::air_fn::*;
 use super::air_fn_registry::*;
 use super::expressions::expr::*;
@@ -25,10 +27,6 @@ impl AirFn for AirFnWithIncorrectConstraint {
 
         input
     }
-
-    fn input_in_trace(&self) -> bool {
-        false
-    }
 }
 
 #[test]
@@ -36,7 +34,7 @@ impl AirFn for AirFnWithIncorrectConstraint {
 fn test_incompleteness() {
     let func = AirFnWithIncorrectConstraint {};
     let registry = AirFnRegistry::new(&func);
-    registry.run_air(&func, expr!("x", 1234));
+    registry.run_air(&func, expr!("x", 1234, true));
 }
 
 #[derive(Debug)]
@@ -56,10 +54,6 @@ impl AirFn for AirFnWithUInt32 {
 
         x
     }
-
-    fn input_in_trace(&self) -> bool {
-        false
-    }
 }
 
 #[test]
@@ -67,7 +61,7 @@ fn test_uint32_deduce() {
     let func = AirFnWithUInt32 {};
     let registry = AirFnRegistry::new(&func);
 
-    let (_, out) = registry.run_air(&func, u32_expr!("x", 5));
+    let (_, out) = registry.run_air(&func, u32_expr!("x", 5, true));
     assert!(out.in_state());
     assert!(out.calc() == "9");
 }
@@ -86,10 +80,6 @@ impl AirFn for AirFnWithArray {
         let _x1 = air_builder.deduce(&mut x[1]);
         x
     }
-
-    fn input_in_trace(&self) -> bool {
-        false
-    }
 }
 
 #[test]
@@ -97,7 +87,7 @@ fn test_array_deduce() {
     let func = AirFnWithArray {};
     let registry = AirFnRegistry::new(&func);
 
-    let (_, out) = registry.run_air(&func, [expr!("x", 5), expr!("y", 5)]);
+    let (_, out) = registry.run_air(&func, [expr!("x", 5, true), expr!("y", 5, true)]);
     assert!(out.in_state());
     assert!(out[0].name() == "state[0]");
 }
@@ -118,10 +108,6 @@ impl AirFn for AirFnWithFelt252 {
 
         x.as_felts()[0].clone()
     }
-
-    fn input_in_trace(&self) -> bool {
-        false
-    }
 }
 
 #[test]
@@ -129,7 +115,7 @@ fn test_felt252_deduce() {
     let func = AirFnWithFelt252 {};
     let registry = AirFnRegistry::new(&func);
 
-    let (_, out) = registry.run_air(&func, felt252_expr!("x", 5, 0));
+    let (_, out) = registry.run_air(&func, felt252_expr!("x", 5, 0, true));
     assert!(out.in_state());
     assert!(out.calc() == "5");
 

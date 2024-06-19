@@ -14,7 +14,7 @@ fn test_wide_fibonacci() {
     };
     let registry = AirFnRegistry::new(&air_fn);
     let lists = registry.get_codegen_air_fn(&air_fn);
-    let (_, output) = registry.run_air(&air_fn, expr!("secret", 1));
+    let (_, output) = registry.run_air(&air_fn, expr!("secret", 1, true));
 
     let constraints = [
         "NarrowFib__2([state[0],state[1]]) == [state[2],state[3]]",
@@ -89,7 +89,7 @@ fn test_fibonacci() {
             == deductions
     );
 
-    let (state, output) = registry.run_air(&air_fn, expr!("secret", 1));
+    let (state, output) = registry.run_air(&air_fn, expr!("secret", 1, true));
     assert!(output.calc() == "866");
     assert!(state.calc() == ["1", "2", "5", "29", "866"]);
 }

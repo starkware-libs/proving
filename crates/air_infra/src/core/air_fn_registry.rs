@@ -91,7 +91,14 @@ impl AirFnRegistry {
             run: true,
             registry: self.clone(),
         };
-        let output = air_fn.call(&mut air_builder, input);
+        let output = match air_fn.trace_type() {
+            TraceType::Inline => {
+                assert!(input.in_state(), "Input must be in the trace");
+                air_fn.call(&mut air_builder, input)
+            }
+            TraceType::Component => air_fn.lookup_call(&mut air_builder, input),
+            TraceType::Const => air_fn.call(&mut air_builder, input),
+        };
         (air_builder.state, output)
     }
 

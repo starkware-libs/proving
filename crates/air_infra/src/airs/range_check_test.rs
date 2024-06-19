@@ -18,10 +18,6 @@ impl AirFn for SmallAdd {
         TraceType::Inline
     }
 
-    fn input_in_trace(&self) -> bool {
-        false
-    }
-
     fn call(
         &self,
         air_builder: &mut crate::core::air_fn::AirBuilder,

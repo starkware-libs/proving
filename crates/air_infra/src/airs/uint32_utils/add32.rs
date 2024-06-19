@@ -30,8 +30,4 @@ impl AirFn for Add32 {
 
         c
     }
-
-    fn input_in_trace(&self) -> bool {
-        true
-    }
 }

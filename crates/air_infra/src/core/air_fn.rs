@@ -57,11 +57,11 @@ pub trait AirFn: Debug {
         TraceType::Inline
     }
 
-    fn input_in_trace(&self) -> bool;
     fn inst_def(&self) -> BTreeMap<String, String> {
         BTreeMap::new()
     }
 
+    // Assumes the input was written to the trace
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out;
 
     fn lookup_call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
@@ -169,7 +169,7 @@ impl AirBuilder {
         assert!(air_fn.trace_type() == TraceType::Inline);
 
         #[cfg(test)]
-        if self.run && air_fn.input_in_trace() {
+        if self.run {
             assert!(input.in_state(), "Input must be in the trace");
         }
         if self.registry.air_fns.borrow().get(&air_fn.name()).is_none() {
