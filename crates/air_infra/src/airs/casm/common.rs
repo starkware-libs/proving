@@ -51,21 +51,23 @@ pub fn opcode_from_flags(
     flag_opcode_ret: BoolExpr,
     flag_opcode_assert_eq: BoolExpr,
 ) -> UInt16Expr {
-    &(&(&(&(&flag_dst_base_fp.as_uint16() << &const_u16_expr!(DST_REG_BIT))
-        + &(&flag_op0_base_fp.as_uint16() << &const_u16_expr!(OP0_REG_BIT)))
-        + &(&(&flag_op1_imm.as_uint16() << &const_u16_expr!(OP1_IMM_BIT))
-            + &(&flag_op1_base_fp.as_uint16() << &const_u16_expr!(OP1_FP_BIT))))
-        + &(&(&(&flag_op1_base_ap.as_uint16() << &const_u16_expr!(OP1_AP_BIT))
-            + &(&flag_res_add.as_uint16() << &const_u16_expr!(RES_ADD_BIT)))
-            + &(&(&flag_res_mul.as_uint16() << &const_u16_expr!(RES_MUL_BIT))
-                + &(&flag_pc_update_jump.as_uint16() << &const_u16_expr!(PC_JUMP_ABS_BIT)))))
-        + &(&(&(&(&flag_pc_update_jump_rel.as_uint16() << &const_u16_expr!(PC_JUMP_REL_BIT))
-            + &(&flag_pc_update_jnz.as_uint16() << &const_u16_expr!(PC_JNZ_BIT)))
-            + &(&(&flag_ap_update_add.as_uint16() << &const_u16_expr!(AP_ADD_BIT))
-                + &(&flag_ap_update_add_1.as_uint16() << &const_u16_expr!(AP_ADD1_BIT))))
-            + &(&(&(&flag_opcode_call.as_uint16() << &const_u16_expr!(OPCODE_CALL_BIT))
-                + &(&flag_opcode_ret.as_uint16() << &const_u16_expr!(OPCODE_RET_BIT)))
-                + &(&flag_opcode_assert_eq.as_uint16() << &const_u16_expr!(OPCODE_ASSERT_EQ_BIT))))
+    &(&(&(&(&UInt16Expr::from(flag_dst_base_fp) << &const_u16_expr!(DST_REG_BIT))
+        + &(&UInt16Expr::from(flag_op0_base_fp) << &const_u16_expr!(OP0_REG_BIT)))
+        + &(&(&UInt16Expr::from(flag_op1_imm) << &const_u16_expr!(OP1_IMM_BIT))
+            + &(&UInt16Expr::from(flag_op1_base_fp) << &const_u16_expr!(OP1_FP_BIT))))
+        + &(&(&(&UInt16Expr::from(flag_op1_base_ap) << &const_u16_expr!(OP1_AP_BIT))
+            + &(&UInt16Expr::from(flag_res_add) << &const_u16_expr!(RES_ADD_BIT)))
+            + &(&(&UInt16Expr::from(flag_res_mul) << &const_u16_expr!(RES_MUL_BIT))
+                + &(&UInt16Expr::from(flag_pc_update_jump) << &const_u16_expr!(PC_JUMP_ABS_BIT)))))
+        + &(&(&(&(&UInt16Expr::from(flag_pc_update_jump_rel)
+            << &const_u16_expr!(PC_JUMP_REL_BIT))
+            + &(&UInt16Expr::from(flag_pc_update_jnz) << &const_u16_expr!(PC_JNZ_BIT)))
+            + &(&(&UInt16Expr::from(flag_ap_update_add) << &const_u16_expr!(AP_ADD_BIT))
+                + &(&UInt16Expr::from(flag_ap_update_add_1) << &const_u16_expr!(AP_ADD1_BIT))))
+            + &(&(&(&UInt16Expr::from(flag_opcode_call) << &const_u16_expr!(OPCODE_CALL_BIT))
+                + &(&UInt16Expr::from(flag_opcode_ret) << &const_u16_expr!(OPCODE_RET_BIT)))
+                + &(&UInt16Expr::from(flag_opcode_assert_eq)
+                    << &const_u16_expr!(OPCODE_ASSERT_EQ_BIT))))
 }
 
 pub fn offset_as_u16(offset: i16) -> UInt16Expr {
