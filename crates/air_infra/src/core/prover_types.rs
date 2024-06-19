@@ -386,12 +386,27 @@ impl From<(u128, u128)> for Felt252 {
     }
 }
 
-impl From<Felt> for Felt252 {
-    fn from(felt: Felt) -> Felt252 {
-        Felt252 {
-            low: felt.0 as u128,
-            high: 0,
+impl From<Vec<Felt>> for Felt252 {
+    fn from(felts: Vec<Felt>) -> Felt252 {
+        assert!(felts.len() <= FELT252_N_WORDS, "Invalid number of felts");
+
+        let mut low = 0;
+        let mut high = 0;
+        for (index, felt) in felts.iter().enumerate() {
+            let shift = FELT252_BITS_PER_WORD * index;
+            if shift + FELT252_BITS_PER_WORD <= 128 {
+                low |= (felt.0 as u128) << shift;
+            } else if shift >= 128 {
+                high |= (felt.0 as u128) << (shift - 128);
+            } else {
+                let low_bits = 128 - shift;
+                let high_felt = (felt.0 as u128) << low_bits;
+                low |= ((felt.0 as u128) - (high_felt >> low_bits)) << shift;
+                high |= high_felt;
+            }
         }
+
+        Felt252 { low, high }
     }
 }
 

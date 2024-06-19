@@ -152,28 +152,46 @@ fn test_conversion_bool_to_uint16() {
 }
 
 #[test]
-fn test_conversion_felt_to_felt252() {
-    let mut f = expr!("x", 1, true);
-    let mut e: Felt252Expr = f.clone().into();
-    assert_eq!(e.calc(), "(1, 0)");
-    assert!(e.in_state());
-    let compiled_felt: ProcessedAirVar = e.as_felts()[0].clone().into();
-    assert_eq!(compiled_felt.to_string(), "state[0]".to_string());
+fn test_conversion_felts_to_felt252() {
+    let mut f1 = expr!("x1", 1, true);
+    let mut f2 = expr!("x2", 2, false);
+    let mut e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
+    assert_eq!(e.calc(), "(8193, 0)");
+    assert_eq!(e.as_felts()[0].calc(), f1.calc());
+    assert_eq!(e.as_felts()[1].calc(), f2.calc());
+    assert!(!e.in_state());
+    let compiled_felt1: ProcessedAirVar = e.as_felts()[0].clone().into();
+    assert_eq!(compiled_felt1.to_string(), "state[0]".to_string());
+    let compiled_felt2: ProcessedAirVar = e.as_felts()[1].clone().into();
+    assert_eq!(compiled_felt2.to_string(), "x2".to_string());
     let compiled_expr: ProcessedAirVar = e.into();
     assert_eq!(
         compiled_expr.to_string(),
-        "Felt252::from(state[0])".to_string()
+        "Felt252::from([state[0], x2])".to_string()
     );
 
-    f = f.let_for_constraint(format!("{}0", CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
-    let mut e: Felt252Expr = f.into();
-    assert_eq!(e.calc(), "(1, 0)");
+    f2 = expr!("x2", 2, true);
+    f1 = f1.let_for_constraint(format!("{}0", CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
+    let mut e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
     assert!(e.in_state());
-    let compiled_felt: ProcessedAirVar = e.as_felts()[0].clone().into();
-    assert_eq!(compiled_felt.to_string(), "constraint_tmp_0".to_string());
+    let compiled_felt1: ProcessedAirVar = e.as_felts()[0].clone().into();
+    assert_eq!(compiled_felt1.to_string(), "constraint_tmp_0".to_string());
+    let compiled_felt2: ProcessedAirVar = e.as_felts()[0].clone().into();
+    assert_eq!(compiled_felt2.to_string(), "constraint_tmp_0".to_string());
     let compiled_expr: ProcessedAirVar = e.into();
     assert_eq!(
         compiled_expr.to_string(),
-        "Felt252::from(constraint_tmp_0)".to_string()
+        "Felt252::from([constraint_tmp_0, state[0]])".to_string()
     );
+
+    let mut v: Felt252Expr = felt252_expr!("v".to_string(), 0xFFF, 0xFFF);
+    let felts = v
+        .as_felts()
+        .into_iter()
+        .map(|f| f.clone())
+        .collect::<Vec<FeltExpr>>();
+    let mut e = Felt252Expr::from(felts);
+    for (i, f) in e.as_felts().iter().enumerate() {
+        assert_eq!(f.calc(), v.as_felts()[i].calc());
+    }
 }

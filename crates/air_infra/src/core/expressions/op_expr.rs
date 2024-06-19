@@ -180,7 +180,7 @@ pub enum UnaryOp {
     Neg,
     BoolFromFelt,
     UInt16FromBool,
-    Felt252FromFelt,
+    Felt252FromFeltsArray,
     Not,
 }
 
@@ -191,7 +191,7 @@ impl Display for UnaryOp {
             UnaryOp::Neg => write!(f, "-"),
             UnaryOp::BoolFromFelt => write!(f, "Bool::from"),
             UnaryOp::UInt16FromBool => write!(f, "UInt16::from"),
-            UnaryOp::Felt252FromFelt => write!(f, "Felt252::from"),
+            UnaryOp::Felt252FromFeltsArray => write!(f, "Felt252::from"),
             UnaryOp::Not => write!(f, "!"),
         }
     }
@@ -202,7 +202,7 @@ impl From<UnaryOp> for OpType {
             UnaryOp::Neg => OpType::Op(op.to_string()),
             UnaryOp::BoolFromFelt => OpType::Static(op.to_string()),
             UnaryOp::UInt16FromBool => OpType::Static(op.to_string()),
-            UnaryOp::Felt252FromFelt => OpType::Static(op.to_string()),
+            UnaryOp::Felt252FromFeltsArray => OpType::Static(op.to_string()),
             UnaryOp::Not => OpType::Op(op.to_string()),
         }
     }
@@ -225,7 +225,6 @@ impl_binary_op!(ops Mul, mul, FeltExpr, FeltBinary);
 impl_binary_op!(ops Div, div, FeltExpr, FeltBinary);
 impl_binary_op!(Eq, eq, FeltExpr, BoolExpr, BoolBinary);
 impl_unary_op!(from BoolFromFelt, FeltExpr, BoolExpr);
-impl_unary_op!(from Felt252FromFelt, FeltExpr, Felt252Expr);
 
 impl_binary_op!(ops Add, add, UInt16Expr, UInt16Binary);
 impl_binary_op!(ops Rem, rem, UInt16Expr, UInt16Binary);
@@ -253,6 +252,35 @@ impl_binary_op!(ops BitAnd, bitand, UInt64Expr, UInt64Binary);
 impl_binary_op!(ops BitOr, bitor, UInt64Expr, UInt64Binary);
 impl_binary_op!(ops BitXor, bitxor, UInt64Expr, UInt64Binary);
 impl_binary_op!(Eq, eq, UInt64Expr, BoolExpr, BoolBinary);
+
+impl From<Vec<FeltExpr>> for Felt252Expr {
+    fn from(felts: Vec<FeltExpr>) -> Felt252Expr {
+        assert!(
+            felts.len() <= FELT252_N_WORDS,
+            "Felt252Expr can have at most {FELT252_N_WORDS} felts"
+        );
+
+        let values = felts
+            .iter()
+            .filter_map(|f| f.value())
+            .collect::<Vec<Felt>>();
+        let value = if values.len() == felts.len() {
+            Some(Felt252::from(values))
+        } else {
+            None
+        };
+
+        let arr = felts
+            .into_iter()
+            .map(|f| f.into())
+            .collect::<Vec<GenericAirVar>>();
+        Felt252Expr::Unary(UnaryExpr::new(
+            UnaryOp::Felt252FromFeltsArray,
+            GenericAirVar::Array(arr),
+            value,
+        ))
+    }
+}
 
 #[macro_export]
 macro_rules! impl_binary_op {
