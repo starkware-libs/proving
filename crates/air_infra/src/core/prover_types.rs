@@ -117,7 +117,7 @@ impl From<u16> for UInt16 {
 impl From<Bool> for UInt16 {
     fn from(val: Bool) -> Self {
         Self {
-            value: if val.value { 1 } else { 0 },
+            value: val.value as u16,
         }
     }
 }
