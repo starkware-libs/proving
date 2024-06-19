@@ -39,18 +39,6 @@ impl ProverType for Felt {
     }
 }
 
-pub fn felt_as_bool(felt: Felt) -> Bool {
-    assert!(felt.0 == 0 || felt.0 == 1, "Felt value is not a bool");
-    Bool { value: felt.0 != 0 }
-}
-
-pub fn felt_as_felt252(felt: Felt) -> Felt252 {
-    Felt252 {
-        low: felt.0 as u128,
-        high: 0,
-    }
-}
-
 #[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
 pub struct Bool {
     pub value: bool,
@@ -71,17 +59,16 @@ impl SingleFeltType for Bool {
     }
 }
 
-impl Bool {
-    pub fn as_uint16(&self) -> UInt16 {
-        UInt16 {
-            value: if self.value { 1 } else { 0 },
-        }
-    }
-}
-
 impl From<bool> for Bool {
     fn from(value: bool) -> Bool {
         Bool { value }
+    }
+}
+
+impl From<Felt> for Bool {
+    fn from(felt: Felt) -> Bool {
+        assert!(felt.0 == 0 || felt.0 == 1, "Felt value is not a bool");
+        Bool { value: felt.0 != 0 }
     }
 }
 
@@ -124,6 +111,14 @@ impl SingleFeltType for UInt16 {
 impl From<u16> for UInt16 {
     fn from(value: u16) -> UInt16 {
         UInt16 { value }
+    }
+}
+
+impl From<Bool> for UInt16 {
+    fn from(val: Bool) -> Self {
+        Self {
+            value: val.value as u16,
+        }
     }
 }
 
@@ -388,6 +383,15 @@ impl Felt252 {
 impl From<(u128, u128)> for Felt252 {
     fn from((low, high): (u128, u128)) -> Felt252 {
         Felt252 { low, high }
+    }
+}
+
+impl From<Felt> for Felt252 {
+    fn from(felt: Felt) -> Felt252 {
+        Felt252 {
+            low: felt.0 as u128,
+            high: 0,
+        }
     }
 }
 

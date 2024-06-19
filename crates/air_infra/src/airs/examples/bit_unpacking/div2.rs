@@ -26,7 +26,7 @@ impl AirFn for Div2 {
         // Constrain the least significant bit to be 0 or 1, i.e. (x0 - 2x1) * (x0 - 2x1 - 1) = 0
         air_builder.constrain(&lsb * &(&lsb - &const_expr!(1)));
 
-        (lsb.as_bool(), x1)
+        (lsb.into(), x1)
     }
 
     fn input_in_trace(&self) -> bool {

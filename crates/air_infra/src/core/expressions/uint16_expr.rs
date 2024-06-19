@@ -52,7 +52,7 @@ impl UInt16Expr {
         match self {
             UInt16Expr::Var(v) => &mut v.as_felt,
             UInt16Expr::Unary(u) => {
-                if u.op == UnaryOp::AsUInt16 {
+                if u.op == UnaryOp::UInt16FromBool {
                     if let ExprImpl::Bool(bool_expr) = &mut *u.child {
                         return bool_expr.as_felt();
                     }
