@@ -133,7 +133,7 @@ impl AirVar for Felt252Expr {
             }
             Felt252Expr::Unary(u) => {
                 if u.op == UnaryOp::Felt252FromFelt {
-                    if let ExprImpl::Felt(felt_expr) = &mut *u.child {
+                    if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = &mut *u.child {
                         if let FeltExpr::Var(_) = felt_expr {
                             // Should we return FELT252_N_WORDS felts?
                             return vec![felt_expr];

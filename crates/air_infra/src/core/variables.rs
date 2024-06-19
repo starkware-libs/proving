@@ -1,4 +1,4 @@
-use std::fmt::Debug;
+use std::fmt::{Debug, Display};
 
 use serde::{Deserialize, Serialize};
 
@@ -36,6 +36,50 @@ pub enum GenericAirVar {
     Expr(ExprImpl),
     Tuple(Vec<GenericAirVar>),
     Array(Vec<GenericAirVar>),
+}
+
+impl GenericAirVar {
+    pub fn in_state(&self) -> bool {
+        match self {
+            GenericAirVar::Expr(expr) => expr.in_state(),
+            GenericAirVar::Tuple(vars) => vars.iter().all(|v| v.in_state()),
+            GenericAirVar::Array(vars) => vars.iter().all(|v| v.in_state()),
+        }
+    }
+}
+
+impl Default for GenericAirVar {
+    fn default() -> Self {
+        GenericAirVar::Expr(ExprImpl::default())
+    }
+}
+
+impl Display for GenericAirVar {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            GenericAirVar::Expr(expr) => write!(f, "{}", expr),
+            GenericAirVar::Tuple(vars) => {
+                write!(f, "(")?;
+                for (i, var) in vars.iter().enumerate() {
+                    if i > 0 {
+                        write!(f, ", ")?;
+                    }
+                    write!(f, "{}", var)?;
+                }
+                write!(f, ")")
+            }
+            GenericAirVar::Array(vars) => {
+                write!(f, "[")?;
+                for (i, var) in vars.iter().enumerate() {
+                    if i > 0 {
+                        write!(f, ", ")?;
+                    }
+                    write!(f, "{}", var)?;
+                }
+                write!(f, "]")
+            }
+        }
+    }
 }
 
 impl From<GenericAirVar> for ProcessedAirVar {
