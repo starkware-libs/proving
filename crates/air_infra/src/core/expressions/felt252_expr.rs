@@ -219,7 +219,7 @@ macro_rules! felt252_expr {
             Felt252Expr::new_var(
                 $name.to_string(),
                 Some(Felt252::from(($low, $high))),
-                Some((0..FELT252_N_WORDS).collect::<Vec<usize>>().as_slice()),
+                Some(from_fn(|i| i)),
             )
         } else {
             Felt252Expr::new_var($name.to_string(), Some(Felt252::from(($low, $high))), None)

@@ -30,10 +30,6 @@ impl AirFn for SimpleMemoryAirFn {
     type In = FeltExpr;
     type Out = FeltExpr;
 
-    fn input_in_trace(&self) -> bool {
-        false
-    }
-
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
         let mut value = air_builder.get_from_memory(&self.memory, &input);
 

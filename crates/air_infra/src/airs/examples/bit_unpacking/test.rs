@@ -58,7 +58,7 @@ fn test_bit_unpacking() {
             == deductions
     );
 
-    let (state, output) = registry.run_air(&func, u16_expr!("x", 10));
+    let (state, output) = registry.run_air(&func, u16_expr!("x", 10, true));
     assert!(state.calc() == ["10", "5", "2", "1", "0"]);
     assert!(
         output.iter().map(|x| x.calc()).collect::<Vec<String>>()
@@ -83,10 +83,6 @@ impl AirFn for AirFnBitMux {
                 + &(&(&const_expr!(1) - &*bit.as_felt()) * &(&*x.as_felt() - &const_expr!(2))),
         );
         bit
-    }
-
-    fn input_in_trace(&self) -> bool {
-        false
     }
 }
 
@@ -125,6 +121,6 @@ fn test_bit_mux() {
             == deductions
     );
 
-    let (_, out) = registry.run_air(&func, u16_expr!("x", 2));
+    let (_, out) = registry.run_air(&func, u16_expr!("x", 2, true));
     assert!(out.calc() == "false");
 }

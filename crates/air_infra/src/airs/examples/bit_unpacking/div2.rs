@@ -28,8 +28,4 @@ impl AirFn for Div2 {
 
         (lsb.into(), x1)
     }
-
-    fn input_in_trace(&self) -> bool {
-        true
-    }
 }

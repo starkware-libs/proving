@@ -36,10 +36,6 @@ impl AirFn for RangeCheck {
         TraceType::Const
     }
 
-    fn input_in_trace(&self) -> bool {
-        true
-    }
-
     fn inst_def(&self) -> BTreeMap<String, String> {
         [("bits".to_string(), self.bits.to_string())].into()
     }

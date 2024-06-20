@@ -35,8 +35,4 @@ impl AirFn for NarrowFib {
     fn trace_type(&self) -> TraceType {
         TraceType::Component
     }
-
-    fn input_in_trace(&self) -> bool {
-        true
-    }
 }

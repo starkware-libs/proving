@@ -34,8 +34,4 @@ impl AirFn for Fib {
     fn inst_def(&self) -> BTreeMap<String, String> {
         [("claim_index".to_string(), self.claim_index.to_string())].into()
     }
-
-    fn input_in_trace(&self) -> bool {
-        false
-    }
 }

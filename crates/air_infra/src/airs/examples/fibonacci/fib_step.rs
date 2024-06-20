@@ -16,8 +16,4 @@ impl AirFn for FibStep {
     fn call(&self, air_builder: &mut AirBuilder, [x, y]: Self::In) -> Self::Out {
         air_builder.assign(&mut (&(&x * &x) + &(&y * &y)))
     }
-
-    fn input_in_trace(&self) -> bool {
-        true
-    }
 }

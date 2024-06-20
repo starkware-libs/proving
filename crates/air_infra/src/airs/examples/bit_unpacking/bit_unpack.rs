@@ -36,8 +36,4 @@ impl AirFn for BitUnpack {
     fn inst_def(&self) -> BTreeMap<String, String> {
         [("n_bits".to_string(), self.n_bits.to_string())].into()
     }
-
-    fn input_in_trace(&self) -> bool {
-        false
-    }
 }

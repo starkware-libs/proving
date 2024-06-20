@@ -14,10 +14,6 @@ impl AirFn for WideFib {
     type In = FeltExpr;
     type Out = FeltExpr;
 
-    fn input_in_trace(&self) -> bool {
-        false
-    }
-
     fn call(
         &self,
         air_builder: &mut crate::core::air_fn::AirBuilder,
