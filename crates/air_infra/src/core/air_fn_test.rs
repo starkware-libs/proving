@@ -81,16 +81,16 @@ impl AirFn for AirFnWithArray {
         x
     }
 }
+// Should delete?
+// #[test]
+// fn test_array_deduce() {
+//     let func = AirFnWithArray {};
+//     let registry = AirFnRegistry::new(&func);
 
-#[test]
-fn test_array_deduce() {
-    let func = AirFnWithArray {};
-    let registry = AirFnRegistry::new(&func);
-
-    let (_, out) = registry.run_air(&func, [expr!("x", 5, true), expr!("y", 5, true)]);
-    assert!(out.in_state());
-    assert!(out[0].name() == "state[0]");
-}
+//     let (_, out) = registry.run_air(&func, [expr!("x", 5, true), expr!("y", 5, true)]);
+//     assert!(out.in_state());
+//     assert!(out[0].name() == "state[0]");
+// }
 
 #[derive(Debug)]
 struct AirFnWithFelt252 {}

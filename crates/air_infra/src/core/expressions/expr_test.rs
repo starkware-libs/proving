@@ -11,6 +11,7 @@ use super::uint32_expr::*;
 use super::uint64_expr::*;
 // Macros
 use crate::{bool_expr, const_expr, const_u32_expr, const_u64_expr, expr, felt252_expr};
+pub const DEDUCTION_INTERMEDIATE_VAR_PREFIX: &str = "deduction_tmp_";
 
 #[test]
 fn test_add_sub() {
@@ -177,3 +178,87 @@ fn test_conversion_felt_to_felt252() {
         "Felt252::from(constraint_tmp_0)".to_string()
     );
 }
+
+
+#[test]
+fn test_expr_array() {
+
+    // Array should be marked as "in state" only if *all* of its elements changed to state.
+    let mut array = [expr!("x", 5), expr!("y", 5)]; 
+    assert!(!array.in_state());
+    array[0].to_state(0);
+    assert!(!array.in_state());
+    array[1].to_state(1);
+    assert!(array.in_state());
+
+    // Assert let for deduction changes the element's names.
+    let mut array = [expr!("x", 5), expr!("y", 5)]; 
+    assert!(array[0].name() == "x");
+    assert!(array[1].name() == "y");
+    array = array.let_for_deduction(format!("{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, 0));
+    assert!(array[0].name() == format!("{}{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, 0, "[0]"));
+    assert!(array[1].name() == format!("{}{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, 0, "[1]"));
+
+    // Assert as felts return the array elements as felts .
+    let mut array = [expr!("x", 5), expr!("y", 5)]; 
+    let felts_vec =array.as_felts();
+    // Cannot compare to array[0].name since as_felts borrow immutable reference
+    assert!(felts_vec[0].name() == (expr!("x", 5).name()));
+    assert!(felts_vec[1].name() == (expr!("y", 5).name()));
+
+}
+
+#[test]
+fn test_expr_vector() {
+
+    // Vec should be marked as "in state" only if *all* of its elements changed to state.
+    let mut vec =  Vec::<FeltExpr>::from([expr!("x", 5), expr!("y", 5)]);
+    assert!(!vec.in_state());
+    vec[0].to_state(0);
+    assert!(!vec.in_state());
+    vec[1].to_state(1);
+    assert!(vec.in_state());
+
+    // // Assert let for deduction changes the element's names.
+    let mut vec =  Vec::<FeltExpr>::from([expr!("x", 5), expr!("y", 5)]);
+    assert!(vec[0].name() == "x");
+    assert!(vec[1].name() == "y");
+    vec = vec.let_for_deduction(format!("{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, 0));
+    assert!(vec[0].name() == format!("{}{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, 0, "[0]"));
+    assert!(vec[1].name() == format!("{}{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, 0, "[1]"));
+
+    // Assert as felts return the vector elements as felts .
+    let mut vec =  Vec::<FeltExpr>::from([expr!("x", 5), expr!("y", 5)]);
+    let felts_vec =vec.as_felts();
+    assert!(felts_vec[0].name() == (expr!("x", 5).name()));
+    assert!(felts_vec[1].name() == (expr!("y", 5).name()));
+}
+
+#[test]
+//problems here
+fn test_expr_tuple() {
+
+    // Tupples with bool should not be marked as "in state".
+    let mut tup = (bool_expr!("y", true), expr!("x", 5));
+    assert!(!tup.in_state());
+    tup.1.to_state(0);
+    assert!(!tup.in_state());
+
+    // // Assert let for deduction changes the element's names.
+    let mut tup = (bool_expr!("y", true), expr!("x", 5));
+    assert!(tup.0.name() == "y");
+    assert!(tup.1.name() == "x");
+    tup = tup.let_for_deduction(format!("{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, 0));
+    println!("{}", tup.0.name());
+    println!("{}", tup.1.name());
+    assert!(tup.0.name() == format!("{}{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, 0, ".1"));
+    assert!(tup.1.name() == format!("{}{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, 0, ".2"));
+
+    // Assert as felts return the vector elements as felts .
+    let mut tup = (bool_expr!("y", true), expr!("x", 5));
+    let felts_vec =tup.as_felts();
+    println!("{}", felts_vec[0].name() );
+    assert!(felts_vec[0].name() == bool_expr!("y", true).name());
+    assert!(felts_vec[1].name() == (expr!("x", 5).name()));
+}
+
