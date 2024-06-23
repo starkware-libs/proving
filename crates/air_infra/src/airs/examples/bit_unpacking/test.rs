@@ -74,13 +74,13 @@ impl AirFn for AirFnBitMux {
     type Out = BoolExpr;
 
     fn call(&self, air_builder: &mut AirBuilder, mut x: Self::In) -> Self::Out {
-        air_builder.deduce(x.as_felt());
+        let x_f = air_builder.deduce(x.as_felt());
         let air_fn = Div2 {};
 
         let (mut bit, _) = air_builder.call(&air_fn, x.clone());
         air_builder.constrain(
-            &(&*bit.as_felt() * &x.as_felt())
-                + &(&(&const_expr!(1) - &*bit.as_felt()) * &(&*x.as_felt() - &const_expr!(2))),
+            (bit.as_felt().clone() * x_f.clone())
+                + ((const_expr!(1) - bit.as_felt().clone()) * (x_f - const_expr!(2))),
         );
         bit
     }

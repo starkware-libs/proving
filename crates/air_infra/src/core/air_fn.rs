@@ -125,7 +125,7 @@ impl AirBuilder {
         let before = expr.clone();
         self.state.add(expr);
 
-        let constraint = &*expr - &before;
+        let constraint = expr.clone() - before.clone();
         self.air_body.push(AirBodyComponent::Assignment {
             constraint: constraint.clone(),
             deduction: before,
@@ -145,7 +145,7 @@ impl AirBuilder {
         var.let_for_deduction(name)
     }
 
-    pub fn let_for_constraint(&mut self, expr: &FeltExpr) -> FeltExpr {
+    pub fn let_for_constraint(&mut self, expr: FeltExpr) -> FeltExpr {
         #[cfg(test)]
         if self.run {
             assert!(

@@ -33,7 +33,7 @@ impl AirFn for SmallAdd {
         air_builder.lookup_call(&rc_air_fn, a.clone());
         air_builder.lookup_call(&rc_air_fn, b.clone());
 
-        let result = &a + &b;
+        let result = a + b;
 
         air_builder.lookup_call(&rc_air_fn, result.clone());
 

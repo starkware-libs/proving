@@ -16,18 +16,19 @@ impl AirFn for Add32 {
     type Out = UInt32Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, [mut a, mut b]: Self::In) -> Self::Out {
-        let mut c = air_builder.let_for_deduction(&a + &b);
+        let mut c = air_builder.let_for_deduction(a.clone() + b.clone());
         let cl = air_builder.deduce(c.low().as_felt());
         let ch = air_builder.deduce(c.high().as_felt());
         air_builder.lookup_call(&RangeCheck { bits: 16 }, cl.clone());
         air_builder.lookup_call(&RangeCheck { bits: 16 }, ch.clone());
 
-        let carry =
-            air_builder.let_for_constraint(&(&(&*a.low().as_felt() + &b.low().as_felt()) - &cl));
-        air_builder.constrain(&carry * &(&carry - &const_expr!(1 << 16)));
+        let carry = air_builder
+            .let_for_constraint((a.low().as_felt().clone() + b.low().as_felt().clone()) - cl);
+        air_builder.constrain(carry.clone() * (carry.clone() - const_expr!(1 << 16)));
         air_builder.constrain(
-            &(&(&(&*a.high().as_felt() + &b.high().as_felt()) - &ch) * &const_expr!(1 << 16))
-                + &carry,
+            (((a.high().as_felt().clone() + b.high().as_felt().clone()) - ch)
+                * const_expr!(1 << 16))
+                + carry,
         );
 
         c

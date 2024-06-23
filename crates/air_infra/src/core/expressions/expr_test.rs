@@ -18,28 +18,28 @@ use crate::{
 
 #[test]
 fn test_add_sub() {
-    let a: &FeltExpr = &const_expr!(1);
-    let b = &const_expr!(2);
-    let c = a + b;
+    let a = const_expr!(1);
+    let b = const_expr!(2);
+    let c = a.clone() + b.clone();
     assert_eq!(c.calc(), 3.to_string());
-    let d = &c - b;
+    let d = c - b;
     assert_eq!(d.calc(), a.calc());
 }
 
 #[test]
 fn test_mul_div() {
-    let a: &FeltExpr = &const_expr!(2);
-    let b = &const_expr!(3);
-    let c = a * b;
+    let a = const_expr!(2);
+    let b = const_expr!(3);
+    let c = a.clone() * b.clone();
     assert_eq!(c.calc(), 6.to_string());
-    let d = &c / b;
+    let d = c / b;
     assert_eq!(d.calc(), a.calc());
 }
 
 #[test]
 fn test_mod_sub() {
-    let a: &FeltExpr = &const_expr!(5);
-    let b = &const_expr!(3);
+    let a = const_expr!(5);
+    let b = const_expr!(3);
     let c = b - a;
     let res = 3 + PRIME - 5;
     assert_eq!(c.calc(), res.to_string());
@@ -47,15 +47,15 @@ fn test_mod_sub() {
 
 #[test]
 fn test_bool_not() {
-    let a: &BoolExpr = &bool_expr!("a".to_string(), true);
+    let a = bool_expr!("a".to_string(), true);
     let b = !a;
     assert_eq!(b.calc(), "false");
 }
 
 #[test]
 fn test_uint32() {
-    let a: &UInt32Expr = &const_u32_expr!(0xFFFF);
-    let b = &const_u32_expr!(1);
+    let a = const_u32_expr!(0xFFFF);
+    let b = const_u32_expr!(1);
     let c = a + b;
     assert_eq!(c.calc(), (0xFFFFu32 + 1).to_string());
 
@@ -66,8 +66,8 @@ fn test_uint32() {
 
 #[test]
 fn test_uint64() {
-    let a: &UInt64Expr = &const_u64_expr!(0xFFFFFFFF);
-    let b = &const_u64_expr!(1);
+    let a = const_u64_expr!(0xFFFFFFFF);
+    let b = const_u64_expr!(1);
     let c = a + b;
     assert_eq!(c.calc(), (0xFFFFFFFFu64 + 1).to_string());
 

@@ -14,6 +14,6 @@ impl AirFn for FibStep {
     type Out = FeltExpr;
 
     fn call(&self, air_builder: &mut AirBuilder, [x, y]: Self::In) -> Self::Out {
-        air_builder.assign(&mut (&(&x * &x) + &(&y * &y)))
+        air_builder.assign(&mut ((x.clone() * x) + (y.clone() * y)))
     }
 }
