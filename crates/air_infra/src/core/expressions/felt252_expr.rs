@@ -11,7 +11,6 @@ use super::expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
 
-pub type Felt252Const = ConstExpr<Felt252>;
 pub type Felt252Binary = BinaryExpr<Felt252>;
 pub type Felt252Unary = UnaryExpr<Felt252>;
 
@@ -24,6 +23,7 @@ pub struct Felt252Var {
     pub(super) value: Option<Felt252>,
     #[serde(skip)]
     pub(super) felts: [FeltExpr; FELT252_N_WORDS],
+    pub(super) is_const: bool,
 }
 
 impl Felt252Var {
@@ -42,7 +42,6 @@ impl Felt252Var {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum Felt252Expr {
-    Const(Felt252Const),
     Var(Felt252Var),
     Binary(Felt252Binary),
     Unary(Felt252Unary),
@@ -54,6 +53,7 @@ impl Felt252Expr {
         name: String,
         value: Option<Felt252>,
         state_indices: Option<[usize; FELT252_N_WORDS]>,
+        is_const: bool,
     ) -> Self {
         let mut res = Felt252Var {
             name,
@@ -63,18 +63,24 @@ impl Felt252Expr {
                     "get_felt".to_string(),
                     value.map(|v| v.get_felt(i)),
                     state_indices.map(|is| is[i]),
+                    is_const,
                 )
             }),
+            is_const,
         };
         res.update_parts();
         res.into()
+    }
+
+    // Creates a new constant Felt252Var.
+    pub fn new_const(value: Felt252) -> Self {
+        Self::new_var(value.calc(), Some(value), None, true)
     }
 }
 
 impl Expr<Felt252> for Felt252Expr {
     fn value(&self) -> Option<Felt252> {
         match self {
-            Felt252Expr::Const(c) => Some(c.value),
             Felt252Expr::Var(v) => v.value,
             Felt252Expr::Binary(b) => b.value,
             Felt252Expr::Unary(u) => u.value,
@@ -84,12 +90,11 @@ impl Expr<Felt252> for Felt252Expr {
 
 impl AirVar for Felt252Expr {
     fn new(name: String) -> Self {
-        Self::new_var(name, None, None)
+        Self::new_var(name, None, None, false)
     }
 
     fn name(&self) -> String {
         match self {
-            Felt252Expr::Const(c) => c.name.clone(),
             Felt252Expr::Var(v) => v.name.clone(),
             Felt252Expr::Binary(b) => b.name.clone(),
             Felt252Expr::Unary(u) => u.name.clone(),
@@ -106,16 +111,12 @@ impl AirVar for Felt252Expr {
                 res.update_parts();
                 res.into()
             }
-            Felt252Expr::Const(_) => {
-                panic!("Cannot create an intermediate variable from a constant")
-            }
-            _ => Self::new_var(name, self.value(), None),
+            _ => Self::new_var(name, self.value(), None, self.is_const()),
         }
     }
 
     fn in_state(&self) -> bool {
         match self {
-            Felt252Expr::Const(_) => true,
             Felt252Expr::Var(v) => v.felts.iter().all(|f| f.in_state()),
             Felt252Expr::Binary(b) => b.left.in_state() && b.right.in_state(),
             Felt252Expr::Unary(u) => u.child.in_state(),
@@ -154,17 +155,19 @@ impl AirVar for Felt252Expr {
             _ => panic!("Cannot convert to felts"),
         }
     }
+
+    fn is_const(&self) -> bool {
+        match self {
+            Felt252Expr::Var(v) => v.is_const,
+            Felt252Expr::Binary(b) => b.left.is_const() && b.right.is_const(),
+            Felt252Expr::Unary(u) => u.child.is_const(),
+        }
+    }
 }
 
 impl Default for Felt252Expr {
     fn default() -> Self {
         Felt252Expr::Var(Felt252Var::default())
-    }
-}
-
-impl From<Felt252Const> for Felt252Expr {
-    fn from(c: Felt252Const) -> Felt252Expr {
-        Felt252Expr::Const(c)
     }
 }
 
@@ -196,8 +199,15 @@ impl From<Felt252Expr> for GenericAirVar {
 impl From<Felt252Expr> for ProcessedAirVar {
     fn from(expr: Felt252Expr) -> ProcessedAirVar {
         match expr {
-            Felt252Expr::Const(c) => ProcessedAirVar::Const(Felt252::r#type(), c.name),
-            Felt252Expr::Var(v) => ProcessedAirVar::Var(Felt252::r#type(), v.name),
+            Felt252Expr::Var(v) => {
+                if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
+                    return ProcessedAirVar::Var(UInt64::r#type(), v.name);
+                }
+                if v.is_const {
+                    return ProcessedAirVar::Const(UInt32::r#type(), v.name);
+                }
+                ProcessedAirVar::Var(Felt252::r#type(), v.name)
+            }
             Felt252Expr::Binary(b) => b.into(),
             Felt252Expr::Unary(u) => u.into(),
         }
@@ -213,14 +223,19 @@ impl Display for Felt252Expr {
 #[macro_export]
 macro_rules! const_felt252_expr {
     ($low:expr, $high:expr) => {
-        Felt252Const::new_const(($low, $high).into()).into()
+        Felt252Expr::new_const(($low, $high).into())
     };
 }
 
 #[macro_export]
 macro_rules! felt252_expr {
     ($name:expr, $low:expr, $high:expr) => {
-        Felt252Expr::new_var($name.to_string(), Some(Felt252::from(($low, $high))), None)
+        Felt252Expr::new_var(
+            $name.to_string(),
+            Some(Felt252::from(($low, $high))),
+            None,
+            false,
+        )
     };
 
     ($name:expr, $low:expr, $high:expr,  $in_trace:literal) => {
@@ -229,9 +244,15 @@ macro_rules! felt252_expr {
                 $name.to_string(),
                 Some(Felt252::from(($low, $high))),
                 Some(from_fn(|i| i)),
+                false,
             )
         } else {
-            Felt252Expr::new_var($name.to_string(), Some(Felt252::from(($low, $high))), None)
+            Felt252Expr::new_var(
+                $name.to_string(),
+                Some(Felt252::from(($low, $high))),
+                None,
+                false,
+            )
         }
     };
 }

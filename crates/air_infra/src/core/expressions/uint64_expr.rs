@@ -10,7 +10,6 @@ use super::felt_expr::*;
 use super::op_expr::*;
 use super::uint32_expr::*;
 
-pub type UInt64Const = ConstExpr<UInt64>;
 pub type UInt64Binary = BinaryExpr<UInt64>;
 pub type UInt64Unary = UnaryExpr<UInt64>;
 
@@ -24,6 +23,7 @@ pub struct UInt64Var {
     pub(super) low: UInt32Expr,
     #[serde(skip)]
     pub(super) high: UInt32Expr,
+    pub(super) is_const: bool,
 }
 
 impl UInt64Var {
@@ -42,7 +42,6 @@ impl UInt64Var {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UInt64Expr {
-    Const(UInt64Const),
     Var(UInt64Var),
     Binary(UInt64Binary),
     Unary(UInt64Unary),
@@ -71,6 +70,7 @@ impl UInt64Expr {
         lh_state_index: Option<usize>,
         hl_state_index: Option<usize>,
         hh_state_index: Option<usize>,
+        is_const: bool,
     ) -> Self {
         let mut res = UInt64Var {
             name,
@@ -80,23 +80,30 @@ impl UInt64Expr {
                 value.map(|v| v.low()),
                 ll_state_index,
                 lh_state_index,
+                is_const,
             ),
             high: UInt32Expr::new_var(
                 "high".to_string(),
                 value.map(|v| v.high()),
                 hl_state_index,
                 hh_state_index,
+                is_const,
             ),
+            is_const,
         };
         res.update_parts();
         res.into()
+    }
+
+    // Creates a new constant UInt64Var.
+    pub fn new_const(value: UInt64) -> Self {
+        Self::new_var(value.calc(), Some(value), None, None, None, None, true)
     }
 }
 
 impl Expr<UInt64> for UInt64Expr {
     fn value(&self) -> Option<UInt64> {
         match self {
-            UInt64Expr::Const(c) => Some(c.value),
             UInt64Expr::Var(v) => v.value,
             UInt64Expr::Binary(b) => b.value,
             UInt64Expr::Unary(u) => u.value,
@@ -106,12 +113,11 @@ impl Expr<UInt64> for UInt64Expr {
 
 impl AirVar for UInt64Expr {
     fn new(name: String) -> Self {
-        Self::new_var(name, None, None, None, None, None)
+        Self::new_var(name, None, None, None, None, None, false)
     }
 
     fn name(&self) -> String {
         match self {
-            UInt64Expr::Const(c) => c.name.clone(),
             UInt64Expr::Var(v) => v.name.clone(),
             UInt64Expr::Binary(b) => b.name.clone(),
             UInt64Expr::Unary(u) => u.name.clone(),
@@ -128,16 +134,12 @@ impl AirVar for UInt64Expr {
                 res.update_parts();
                 res.into()
             }
-            UInt64Expr::Const(_) => {
-                panic!("Cannot create an intermediate variable from a constant")
-            }
-            _ => Self::new_var(name, self.value(), None, None, None, None),
+            _ => Self::new_var(name, self.value(), None, None, None, None, self.is_const()),
         }
     }
 
     fn in_state(&self) -> bool {
         match self {
-            UInt64Expr::Const(_) => true,
             UInt64Expr::Var(v) => v.low.in_state() && v.high.in_state(),
             UInt64Expr::Binary(b) => b.left.in_state() && b.right.in_state(),
             UInt64Expr::Unary(u) => u.child.in_state(),
@@ -155,17 +157,19 @@ impl AirVar for UInt64Expr {
             _ => panic!("Cannot convert non-variable to Felt"),
         }
     }
+
+    fn is_const(&self) -> bool {
+        match self {
+            UInt64Expr::Var(v) => v.is_const,
+            UInt64Expr::Binary(b) => b.left.is_const() && b.right.is_const(),
+            UInt64Expr::Unary(u) => u.child.is_const(),
+        }
+    }
 }
 
 impl Default for UInt64Expr {
     fn default() -> Self {
         UInt64Expr::Var(UInt64Var::default())
-    }
-}
-
-impl From<UInt64Const> for UInt64Expr {
-    fn from(c: UInt64Const) -> UInt64Expr {
-        UInt64Expr::Const(c)
     }
 }
 
@@ -196,14 +200,16 @@ impl From<UInt64Expr> for GenericAirVar {
 
 impl From<UInt64Expr> for ProcessedAirVar {
     fn from(expr: UInt64Expr) -> ProcessedAirVar {
-        let name = expr.name();
-        if name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-            return ProcessedAirVar::Var(UInt64::r#type(), name);
-        }
-
         match expr {
-            UInt64Expr::Const(_) => ProcessedAirVar::Const(UInt64::r#type(), name),
-            UInt64Expr::Var(_) => ProcessedAirVar::Var(UInt64::r#type(), name),
+            UInt64Expr::Var(v) => {
+                if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
+                    return ProcessedAirVar::Var(UInt64::r#type(), v.name);
+                }
+                if v.is_const {
+                    return ProcessedAirVar::Const(UInt64::r#type(), v.name);
+                }
+                ProcessedAirVar::Var(UInt64::r#type(), v.name)
+            }
             UInt64Expr::Binary(b) => b.into(),
             UInt64Expr::Unary(u) => u.into(),
         }
@@ -219,14 +225,22 @@ impl Display for UInt64Expr {
 #[macro_export]
 macro_rules! const_u64_expr {
     ($val:expr) => {
-        UInt64Const::new_const($val.into()).into()
+        UInt64Expr::new_const($val.into())
     };
 }
 
 #[macro_export]
 macro_rules! u64_expr {
     ($name:expr, $val:expr) => {
-        UInt64Expr::new_var($name.to_string(), Some(UInt64::from($val)), None, None)
+        UInt64Expr::new_var(
+            $name.to_string(),
+            Some(UInt64::from($val)),
+            None,
+            None,
+            None,
+            None,
+            false,
+        )
     };
 
     ($name:expr, $val:expr, $in_trace:literal) => {
@@ -236,9 +250,20 @@ macro_rules! u64_expr {
                 Some(UInt64::from($val)),
                 Some(0),
                 Some(1),
+                Some(2),
+                Some(3),
+                false,
             )
         } else {
-            UInt64Expr::new_var($name.to_string(), Some(UInt64::from($val)), None, None)
+            UInt64Expr::new_var(
+                $name.to_string(),
+                Some(UInt64::from($val)),
+                None,
+                None,
+                None,
+                None,
+                false,
+            )
         }
     };
 }

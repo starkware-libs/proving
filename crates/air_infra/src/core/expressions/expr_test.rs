@@ -9,8 +9,11 @@ use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
+
 // Macros
-use crate::{bool_expr, const_expr, const_u32_expr, const_u64_expr, expr, felt252_expr};
+use crate::{
+    bool_expr, const_expr, const_u32_expr, const_u64_expr, expr, felt252_expr, u32_expr, u64_expr,
+};
 
 #[test]
 fn test_add_sub() {
@@ -55,7 +58,7 @@ fn test_uint32() {
     let c = a + b;
     assert_eq!(c.calc(), (0xFFFFu32 + 1).to_string());
 
-    let mut res = UInt32Expr::new_var("c".to_string(), Some(UInt32::from(0xFFFF + 1)), None, None);
+    let mut res = u32_expr!("c".to_string(), 0xFFFF + 1);
     assert_eq!(res.low().calc(), 0.to_string());
     assert_eq!(res.high().calc(), 1.to_string());
 }
@@ -67,14 +70,7 @@ fn test_uint64() {
     let c = a + b;
     assert_eq!(c.calc(), (0xFFFFFFFFu64 + 1).to_string());
 
-    let mut res = UInt64Expr::new_var(
-        "c".to_string(),
-        Some(UInt64::from(0xFFFFFFFF + 1)),
-        None,
-        None,
-        None,
-        None,
-    );
+    let mut res = u64_expr!("c".to_string(), 0xFFFFFFFF + 1);
     assert_eq!(res.low().calc(), 0.to_string());
     assert_eq!(res.high().calc(), 1.to_string());
 }

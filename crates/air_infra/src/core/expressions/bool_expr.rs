@@ -9,7 +9,6 @@ use super::felt_expr::*;
 use super::op_expr::*;
 use crate::core::autogen_structs::*;
 
-pub type BoolConst = ConstExpr<Bool>;
 pub type BoolBinary = BinaryExpr<Bool>;
 pub type BoolUnary = UnaryExpr<Bool>;
 
@@ -21,6 +20,7 @@ pub struct BoolVar {
     pub(super) value: Option<Bool>,
     #[serde(skip)]
     pub(super) as_felt: FeltExpr,
+    pub(super) is_const: bool,
 }
 
 impl BoolVar {
@@ -37,7 +37,6 @@ impl BoolVar {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum BoolExpr {
-    Const(BoolConst),
     Var(BoolVar),
     Binary(BoolBinary),
     Unary(BoolUnary),
@@ -62,7 +61,12 @@ impl BoolExpr {
     }
 
     // Creates a new BoolVar.
-    pub fn new_var(name: String, value: Option<Bool>, state_index: Option<usize>) -> Self {
+    pub fn new_var(
+        name: String,
+        value: Option<Bool>,
+        state_index: Option<usize>,
+        is_const: bool,
+    ) -> Self {
         let mut res = BoolVar {
             name,
             value,
@@ -70,17 +74,23 @@ impl BoolExpr {
                 "as_felt".to_string(),
                 value.map(|v| v.as_felt()),
                 state_index,
+                is_const,
             ),
+            is_const,
         };
         res.update_as_felt();
         res.into()
+    }
+
+    // Creates a new constant BoolVar.
+    pub fn new_const(value: Bool) -> Self {
+        Self::new_var(value.calc(), Some(value), None, true)
     }
 }
 
 impl Expr<Bool> for BoolExpr {
     fn value(&self) -> Option<Bool> {
         match self {
-            BoolExpr::Const(c) => Some(c.value),
             BoolExpr::Var(v) => v.value,
             BoolExpr::Binary(b) => b.value,
             BoolExpr::Unary(u) => u.value,
@@ -90,12 +100,11 @@ impl Expr<Bool> for BoolExpr {
 
 impl AirVar for BoolExpr {
     fn new(name: String) -> Self {
-        Self::new_var(name, None, None)
+        Self::new_var(name, None, None, false)
     }
 
     fn name(&self) -> String {
         match self {
-            BoolExpr::Const(c) => c.name.clone(),
             BoolExpr::Var(v) => v.name.clone(),
             BoolExpr::Binary(b) => b.name.clone(),
             BoolExpr::Unary(u) => u.name.clone(),
@@ -112,14 +121,12 @@ impl AirVar for BoolExpr {
                 res.update_as_felt();
                 res.into()
             }
-            BoolExpr::Const(_) => panic!("Cannot create an intermediate variable from a constant"),
-            _ => Self::new_var(name, self.value(), None),
+            _ => Self::new_var(name, self.value(), None, self.is_const()),
         }
     }
 
     fn in_state(&self) -> bool {
         match self {
-            BoolExpr::Const(_) => true,
             BoolExpr::Var(v) => v.as_felt.in_state(),
             BoolExpr::Binary(b) => b.left.in_state() && b.right.in_state(),
             BoolExpr::Unary(u) => u.child.in_state(),
@@ -129,17 +136,19 @@ impl AirVar for BoolExpr {
     fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
         vec![self.as_felt()]
     }
+
+    fn is_const(&self) -> bool {
+        match self {
+            BoolExpr::Var(v) => v.is_const,
+            BoolExpr::Binary(b) => b.left.is_const() && b.right.is_const(),
+            BoolExpr::Unary(u) => u.child.is_const(),
+        }
+    }
 }
 
 impl Default for BoolExpr {
     fn default() -> Self {
         BoolExpr::Var(BoolVar::default())
-    }
-}
-
-impl From<BoolConst> for BoolExpr {
-    fn from(c: BoolConst) -> BoolExpr {
-        BoolExpr::Const(c)
     }
 }
 
@@ -170,14 +179,16 @@ impl From<BoolExpr> for GenericAirVar {
 
 impl From<BoolExpr> for ProcessedAirVar {
     fn from(expr: BoolExpr) -> ProcessedAirVar {
-        let name = expr.name();
-        if name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-            return ProcessedAirVar::Var(Bool::r#type(), name);
-        }
-
         match expr {
-            BoolExpr::Const(_) => ProcessedAirVar::Const(Bool::r#type(), name),
-            BoolExpr::Var(_) => ProcessedAirVar::Var(Bool::r#type(), name),
+            BoolExpr::Var(v) => {
+                if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
+                    return ProcessedAirVar::Var(Bool::r#type(), v.name);
+                }
+                if v.is_const {
+                    return ProcessedAirVar::Const(Bool::r#type(), v.name);
+                }
+                ProcessedAirVar::Var(Bool::r#type(), v.name)
+            }
             BoolExpr::Binary(b) => b.into(),
             BoolExpr::Unary(u) => u.into(),
         }
@@ -193,13 +204,13 @@ impl Display for BoolExpr {
 #[macro_export]
 macro_rules! const_bool_expr {
     ($val:expr) => {
-        BoolConst::new_const(Bool { value: $val }).into()
+        BoolExpr::new_const(Bool { value: $val })
     };
 }
 
 #[macro_export]
 macro_rules! bool_expr {
     ($name:expr, $val:expr) => {
-        BoolExpr::new_var($name.to_string(), Some(Bool::from($val)), None)
+        BoolExpr::new_var($name.to_string(), Some(Bool::from($val)), None, false)
     };
 }

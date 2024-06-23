@@ -8,7 +8,6 @@ use super::op_expr::*;
 use crate::core::air_fn_registry::*;
 use crate::core::autogen_structs::*;
 
-pub type FeltConst = ConstExpr<Felt>;
 pub type FeltBinary = BinaryExpr<Felt>;
 pub type FeltUnary = UnaryExpr<Felt>;
 
@@ -23,13 +22,13 @@ pub struct FeltVar {
     pub(super) state_index: Option<usize>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub(super) parent: Option<(Box<ExprImpl>, Option<usize>)>,
+    pub(super) is_const: bool,
 }
 
 // A felt expression can be a constant, a variable, a binary operation, or a unary operation.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum FeltExpr {
-    Const(FeltConst),
     Var(FeltVar),
     Binary(FeltBinary),
     Unary(FeltUnary),
@@ -40,16 +39,16 @@ impl FeltExpr {
     // into a variable that has a state index.
     pub fn to_state(&mut self, index: usize) {
         assert!(!self.name().starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
+        assert!(!self.is_const());
 
         let name = format!("state[{}]", index);
         let value = self.value();
         match self {
-            FeltExpr::Const(_) => panic!("Cannot convert a constant to a state"),
             FeltExpr::Var(v) => {
                 v.name = name;
                 v.state_index = Some(index)
             }
-            _ => *self = Self::new_var(name, value, Some(index)),
+            _ => *self = Self::new_var(name, value, Some(index), false),
         }
     }
 
@@ -62,30 +61,37 @@ impl FeltExpr {
     }
 
     // Creates a new FeltVar.
-    pub fn new_var(name: String, value: Option<Felt>, state_index: Option<usize>) -> Self {
+    pub fn new_var(
+        name: String,
+        value: Option<Felt>,
+        state_index: Option<usize>,
+        is_const: bool,
+    ) -> Self {
         FeltVar {
             name,
             value,
             state_index,
             parent: None,
+            is_const,
         }
         .into()
+    }
+
+    // Creates a new constant FeltVar.
+    pub fn new_const(value: Felt) -> Self {
+        Self::new_var(value.calc(), Some(value), None, true)
     }
 
     pub fn let_for_constraint(&self, name: String) -> Self {
         assert!(name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
 
-        match self {
-            FeltExpr::Const(_) => panic!("Cannot create an intermediate variable from a constant"),
-            _ => Self::new_var(name, self.value(), None),
-        }
+        Self::new_var(name, self.value(), None, self.is_const())
     }
 }
 
 impl Expr<Felt> for FeltExpr {
     fn value(&self) -> Option<Felt> {
         match self {
-            FeltExpr::Const(c) => Some(c.value),
             FeltExpr::Var(v) => v.value,
             FeltExpr::Binary(b) => b.value,
             FeltExpr::Unary(u) => u.value,
@@ -95,12 +101,11 @@ impl Expr<Felt> for FeltExpr {
 
 impl AirVar for FeltExpr {
     fn new(name: String) -> Self {
-        Self::new_var(name, None, None)
+        Self::new_var(name, None, None, false)
     }
 
     fn name(&self) -> String {
         match self {
-            FeltExpr::Const(c) => c.name.clone(),
             FeltExpr::Var(v) => v.name.clone(),
             FeltExpr::Binary(b) => b.name.clone(),
             FeltExpr::Unary(u) => u.name.clone(),
@@ -116,16 +121,16 @@ impl AirVar for FeltExpr {
                 res.name = name;
                 res.into()
             }
-            FeltExpr::Const(_) => panic!("Cannot create an intermediate variable from a constant"),
-            _ => Self::new_var(name, self.value(), None),
+            _ => Self::new_var(name, self.value(), None, self.is_const()),
         }
     }
 
     fn in_state(&self) -> bool {
         match self {
-            FeltExpr::Const(_) => true,
             FeltExpr::Var(v) => {
-                v.state_index.is_some() || v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
+                v.state_index.is_some()
+                    || v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
+                    || v.is_const
             }
             FeltExpr::Binary(b) => b.left.in_state() && b.right.in_state(),
             FeltExpr::Unary(u) => u.child.in_state(),
@@ -135,17 +140,19 @@ impl AirVar for FeltExpr {
     fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
         vec![self]
     }
+
+    fn is_const(&self) -> bool {
+        match self {
+            FeltExpr::Var(v) => v.is_const,
+            FeltExpr::Binary(b) => b.left.is_const() && b.right.is_const(),
+            FeltExpr::Unary(u) => u.child.is_const(),
+        }
+    }
 }
 
 impl Default for FeltExpr {
     fn default() -> Self {
         FeltExpr::Var(FeltVar::default())
-    }
-}
-
-impl From<FeltConst> for FeltExpr {
-    fn from(constant: FeltConst) -> FeltExpr {
-        FeltExpr::Const(constant)
     }
 }
 
@@ -176,16 +183,16 @@ impl From<FeltUnary> for FeltExpr {
 
 impl From<FeltExpr> for ProcessedAirVar {
     fn from(expr: FeltExpr) -> ProcessedAirVar {
-        let name = expr.name();
-        if name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
-            || name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX)
-        {
-            return ProcessedAirVar::Var(Felt::r#type(), name);
-        }
-
         match expr {
-            FeltExpr::Const(_) => ProcessedAirVar::Const(Felt::r#type(), name),
             FeltExpr::Var(v) => {
+                if v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
+                    || v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX)
+                {
+                    return ProcessedAirVar::Var(Felt::r#type(), v.name);
+                }
+                if v.is_const {
+                    return ProcessedAirVar::Const(Felt::r#type(), v.name);
+                }
                 if let Some(i) = v.state_index {
                     return ProcessedAirVar::State(i);
                 }
@@ -194,13 +201,13 @@ impl From<FeltExpr> for ProcessedAirVar {
                         let index_var = ProcessedAirVar::Const("usize".to_string(), i.to_string());
                         return ProcessedAirVar::MethodCall(
                             Box::new((*var).into()),
-                            name,
+                            v.name,
                             vec![index_var],
                         );
                     }
-                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), name, vec![]);
+                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
                 }
-                ProcessedAirVar::Var(Felt::r#type(), name)
+                ProcessedAirVar::Var(Felt::r#type(), v.name)
             }
             FeltExpr::Binary(b) => b.into(),
             FeltExpr::Unary(u) => u.into(),
@@ -233,21 +240,21 @@ impl Display for FeltExpr {
 #[macro_export]
 macro_rules! const_expr {
     ($val:expr) => {
-        FeltExpr::Const(FeltConst::new_const(Felt::from_u32_unchecked($val)))
+        FeltExpr::new_const(Felt::from_u32_unchecked($val))
     };
 }
 
 #[macro_export]
 macro_rules! expr {
     ($name:expr, $val:expr) => {
-        FeltExpr::new_var($name.to_string(), Some(Felt::from($val)), None)
+        FeltExpr::new_var($name.to_string(), Some(Felt::from($val)), None, false)
     };
 
     ($name:expr, $val:expr, $in_trace:literal) => {
         if $in_trace {
-            FeltExpr::new_var($name.to_string(), Some(Felt::from($val)), Some(0))
+            FeltExpr::new_var($name.to_string(), Some(Felt::from($val)), Some(0), false)
         } else {
-            FeltExpr::new_var($name.to_string(), Some(Felt::from($val)), None)
+            FeltExpr::new_var($name.to_string(), Some(Felt::from($val)), None, false)
         }
     };
 }
