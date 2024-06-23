@@ -233,7 +233,7 @@ impl Display for FeltExpr {
 #[macro_export]
 macro_rules! const_expr {
     ($val:expr) => {
-        FeltConst::new_const(Felt::from_u32_unchecked($val)).into()
+        FeltExpr::Const(FeltConst::new_const(Felt::from_u32_unchecked($val)))
     };
 }
 
