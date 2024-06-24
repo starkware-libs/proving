@@ -67,6 +67,10 @@ impl BoolExpr {
         state_index: Option<usize>,
         is_const: bool,
     ) -> Self {
+        if is_const {
+            assert!(value.is_some());
+        }
+
         let mut res = BoolVar {
             name,
             value,
@@ -185,7 +189,7 @@ impl From<BoolExpr> for ProcessedAirVar {
                     return ProcessedAirVar::Var(Bool::r#type(), v.name);
                 }
                 if v.is_const {
-                    return ProcessedAirVar::Const(Bool::r#type(), v.name);
+                    return ProcessedAirVar::Const(Bool::r#type(), v.value.unwrap().calc());
                 }
                 ProcessedAirVar::Var(Bool::r#type(), v.name)
             }

@@ -72,6 +72,10 @@ impl UInt64Expr {
         hh_state_index: Option<usize>,
         is_const: bool,
     ) -> Self {
+        if is_const {
+            assert!(value.is_some());
+        }
+
         let mut res = UInt64Var {
             name,
             value,
@@ -206,7 +210,7 @@ impl From<UInt64Expr> for ProcessedAirVar {
                     return ProcessedAirVar::Var(UInt64::r#type(), v.name);
                 }
                 if v.is_const {
-                    return ProcessedAirVar::Const(UInt64::r#type(), v.name);
+                    return ProcessedAirVar::Const(UInt64::r#type(), v.value.unwrap().calc());
                 }
                 ProcessedAirVar::Var(UInt64::r#type(), v.name)
             }

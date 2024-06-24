@@ -79,6 +79,10 @@ impl UInt16Expr {
         state_index: Option<usize>,
         is_const: bool,
     ) -> Self {
+        if is_const {
+            assert!(value.is_some());
+        }
+
         let mut res = UInt16Var {
             name,
             value,
@@ -198,7 +202,7 @@ impl From<UInt16Expr> for ProcessedAirVar {
                     return ProcessedAirVar::Var(UInt16::r#type(), v.name);
                 }
                 if v.is_const {
-                    return ProcessedAirVar::Const(UInt16::r#type(), v.name);
+                    return ProcessedAirVar::Const(UInt16::r#type(), v.value.unwrap().calc());
                 }
                 if let Some(var) = v.parent {
                     return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
@@ -238,7 +242,7 @@ macro_rules! const_u16_expr {
 #[macro_export]
 macro_rules! u16_expr {
     ($name:expr, $val:expr) => {
-        UInt16Expr::new_var($name.to_string(), Some(UInt16::from($val)), None)
+        UInt16Expr::new_var($name.to_string(), Some(UInt16::from($val)), None, false)
     };
 
     ($name:expr, $val:expr, $in_trace:literal) => {

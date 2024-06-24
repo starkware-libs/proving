@@ -67,6 +67,10 @@ impl FeltExpr {
         state_index: Option<usize>,
         is_const: bool,
     ) -> Self {
+        if is_const {
+            assert!(value.is_some());
+        }
+
         FeltVar {
             name,
             value,
@@ -185,17 +189,24 @@ impl From<FeltExpr> for ProcessedAirVar {
     fn from(expr: FeltExpr) -> ProcessedAirVar {
         match expr {
             FeltExpr::Var(v) => {
+                // v is an intermediate variable
                 if v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
                     || v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX)
                 {
                     return ProcessedAirVar::Var(Felt::r#type(), v.name);
                 }
+
+                // v is a constant
                 if v.is_const {
-                    return ProcessedAirVar::Const(Felt::r#type(), v.name);
+                    return ProcessedAirVar::Const(Felt::r#type(), v.value.unwrap().calc());
                 }
+
+                // v was written to the trace
                 if let Some(i) = v.state_index {
                     return ProcessedAirVar::State(i);
                 }
+
+                // v is a field of another variable
                 if let Some((var, index)) = v.parent {
                     if let Some(i) = index {
                         let index_var = ProcessedAirVar::Const("usize".to_string(), i.to_string());
@@ -207,6 +218,8 @@ impl From<FeltExpr> for ProcessedAirVar {
                     }
                     return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
                 }
+
+                // v is a standalone variable
                 ProcessedAirVar::Var(Felt::r#type(), v.name)
             }
             FeltExpr::Binary(b) => b.into(),

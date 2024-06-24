@@ -55,6 +55,10 @@ impl Felt252Expr {
         state_indices: Option<[usize; FELT252_N_WORDS]>,
         is_const: bool,
     ) -> Self {
+        if is_const {
+            assert!(value.is_some());
+        }
+
         let mut res = Felt252Var {
             name,
             value,
@@ -201,10 +205,10 @@ impl From<Felt252Expr> for ProcessedAirVar {
         match expr {
             Felt252Expr::Var(v) => {
                 if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-                    return ProcessedAirVar::Var(UInt64::r#type(), v.name);
+                    return ProcessedAirVar::Var(Felt252::r#type(), v.name);
                 }
                 if v.is_const {
-                    return ProcessedAirVar::Const(UInt32::r#type(), v.name);
+                    return ProcessedAirVar::Const(Felt252::r#type(), v.value.unwrap().calc());
                 }
                 ProcessedAirVar::Var(Felt252::r#type(), v.name)
             }
