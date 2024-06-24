@@ -202,11 +202,11 @@ macro_rules! impl_air_var {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
                 let mut i = 0;
-                ($($s.let_for_deduction(format!("{}.{}", name, { i += 1; i })),)+)
+                ($($s.let_for_deduction(format!("{}.{}", name, { i += 1; i - 1 })),)+)
             }
             fn new(name: String) -> Self {
                 let mut i = 0;
-                ($(<$s>::new(format!("{}.{}", name, { i += 1; i })),)+)
+                ($(<$s>::new(format!("{}.{}", name, { i += 1; i - 1 })),)+)
             }
             fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
                 let mut res = vec!();

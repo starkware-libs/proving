@@ -194,3 +194,4 @@ impl_air_var!((BoolExpr, UInt16Expr));
 impl_air_var!((UInt16Expr, FeltExpr));
 impl_air_var!([UInt32Expr; 2]);
 impl_air_var!(Vec<BoolExpr>);
+impl_air_var!(Vec<FeltExpr>);
