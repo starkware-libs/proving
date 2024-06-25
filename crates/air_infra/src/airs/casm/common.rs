@@ -47,5 +47,16 @@ impl From<NamedFlags> for [bool; 15] {
 }
 
 pub fn offset_as_u16(offset: i16) -> u16 {
-    (offset + (1 << (OFFSET_BITS - 1))) as u16
+    ((offset as i32) + (1 << (OFFSET_BITS - 1))) as u16
+}
+
+pub fn assemble_instruction(off_dst: i16, off_0: i16, off_1: i16, flags: [bool; 15]) -> u64 {
+    let mut flags_int: u64 = 0;
+    for (idx, flag) in flags.iter().enumerate() {
+        flags_int += (*flag as u64) << idx;
+    }
+    let biased_off_dst: u64 = offset_as_u16(off_dst) as u64;
+    let biased_off_0: u64 = offset_as_u16(off_0) as u64;
+    let biased_off_1: u64 = offset_as_u16(off_1) as u64;
+    (flags_int << 48) + (biased_off_1 << 32) + (biased_off_0 << 16) + biased_off_dst
 }
