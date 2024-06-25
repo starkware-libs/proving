@@ -44,6 +44,13 @@ pub struct Bool {
     pub value: bool,
 }
 
+impl Bool {
+    pub fn from_felt(felt: Felt) -> Self {
+        assert!(felt.0 == 0 || felt.0 == 1, "Felt value is not a bool");
+        Self { value: felt.0 != 0 }
+    }
+}
+
 impl ProverType for Bool {
     fn calc(&self) -> String {
         self.value.to_string()
@@ -65,13 +72,6 @@ impl From<bool> for Bool {
     }
 }
 
-impl From<Felt> for Bool {
-    fn from(felt: Felt) -> Bool {
-        assert!(felt.0 == 0 || felt.0 == 1, "Felt value is not a bool");
-        Bool { value: felt.0 != 0 }
-    }
-}
-
 impl Not for Bool {
     type Output = Bool;
     fn not(self) -> Bool {
@@ -82,6 +82,24 @@ impl Not for Bool {
 #[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
 pub struct UInt16 {
     pub value: u16,
+}
+
+impl UInt16 {
+    pub fn from_bool(val: Bool) -> Self {
+        Self {
+            value: val.value as u16,
+        }
+    }
+
+    pub fn from_felt(felt: Felt) -> Self {
+        assert!(
+            felt < Felt::from_u32_unchecked(2_u32.pow(16)),
+            "Felt value is not a u16"
+        );
+        Self {
+            value: felt.0 as u16,
+        }
+    }
 }
 
 impl ProverType for UInt16 {
@@ -120,14 +138,6 @@ impl SingleFeltType for UInt16 {
 impl From<u16> for UInt16 {
     fn from(value: u16) -> UInt16 {
         UInt16 { value }
-    }
-}
-
-impl From<Bool> for UInt16 {
-    fn from(val: Bool) -> Self {
-        Self {
-            value: val.value as u16,
-        }
     }
 }
 
@@ -387,16 +397,8 @@ impl Felt252 {
         };
         Felt::from_u32_unchecked(value)
     }
-}
 
-impl From<(u128, u128)> for Felt252 {
-    fn from((low, high): (u128, u128)) -> Felt252 {
-        Felt252 { low, high }
-    }
-}
-
-impl From<Vec<Felt>> for Felt252 {
-    fn from(felts: Vec<Felt>) -> Felt252 {
+    pub fn from_felts(felts: Vec<Felt>) -> Self {
         assert!(felts.len() <= FELT252_N_WORDS, "Invalid number of felts");
 
         let mut low = 0;
@@ -415,6 +417,12 @@ impl From<Vec<Felt>> for Felt252 {
             }
         }
 
+        Self { low, high }
+    }
+}
+
+impl From<(u128, u128)> for Felt252 {
+    fn from((low, high): (u128, u128)) -> Felt252 {
         Felt252 { low, high }
     }
 }

@@ -180,6 +180,7 @@ pub enum UnaryOp {
     Neg,
     BoolFromFelt,
     UInt16FromBool,
+    UInt16FromFelt,
     Felt252FromFeltsArray,
     Not,
 }
@@ -189,9 +190,10 @@ impl Display for UnaryOp {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             UnaryOp::Neg => write!(f, "-"),
-            UnaryOp::BoolFromFelt => write!(f, "Bool::from"),
-            UnaryOp::UInt16FromBool => write!(f, "UInt16::from"),
-            UnaryOp::Felt252FromFeltsArray => write!(f, "Felt252::from"),
+            UnaryOp::BoolFromFelt => write!(f, "Bool::from_felt"),
+            UnaryOp::UInt16FromBool => write!(f, "UInt16::from_bool"),
+            UnaryOp::UInt16FromFelt => write!(f, "UInt16::from_felt"),
+            UnaryOp::Felt252FromFeltsArray => write!(f, "Felt252::from_felts"),
             UnaryOp::Not => write!(f, "!"),
         }
     }
@@ -202,6 +204,7 @@ impl From<UnaryOp> for OpType {
             UnaryOp::Neg => OpType::Op(op.to_string()),
             UnaryOp::BoolFromFelt => OpType::Static(op.to_string()),
             UnaryOp::UInt16FromBool => OpType::Static(op.to_string()),
+            UnaryOp::UInt16FromFelt => OpType::Static(op.to_string()),
             UnaryOp::Felt252FromFeltsArray => OpType::Static(op.to_string()),
             UnaryOp::Not => OpType::Op(op.to_string()),
         }
@@ -216,7 +219,7 @@ pub enum OpType {
 }
 
 impl_binary_op!(Eq, eq, BoolExpr, BoolExpr, BoolBinary);
-impl_unary_op!(from UInt16FromBool, BoolExpr, UInt16Expr);
+impl_unary_op!(from UInt16FromBool, from_bool, BoolExpr, UInt16Expr, UInt16);
 impl_unary_op!(ops Not, not, BoolExpr);
 
 impl_binary_op!(ops Add, add, FeltExpr, FeltBinary);
@@ -224,7 +227,8 @@ impl_binary_op!(ops Sub, sub, FeltExpr, FeltBinary);
 impl_binary_op!(ops Mul, mul, FeltExpr, FeltBinary);
 impl_binary_op!(ops Div, div, FeltExpr, FeltBinary);
 impl_binary_op!(Eq, eq, FeltExpr, BoolExpr, BoolBinary);
-impl_unary_op!(from BoolFromFelt, FeltExpr, BoolExpr);
+impl_unary_op!(from BoolFromFelt, from_felt, FeltExpr, BoolExpr, Bool);
+impl_unary_op!(from UInt16FromFelt, from_felt, FeltExpr, UInt16Expr, UInt16);
 
 impl_binary_op!(ops Add, add, UInt16Expr, UInt16Binary);
 impl_binary_op!(ops Sub, sub, UInt16Expr, UInt16Binary);
@@ -266,7 +270,7 @@ impl From<Vec<FeltExpr>> for Felt252Expr {
             .filter_map(|f| f.value())
             .collect::<Vec<Felt>>();
         let value = if values.len() == felts.len() {
-            Some(Felt252::from(values))
+            Some(Felt252::from_felts(values))
         } else {
             None
         };
@@ -330,10 +334,10 @@ macro_rules! impl_unary_op {
         }
     };
 
-    (from $op:ident, $it:ident, $ot:ident) => {
+    (from $op:ident, $op_lower:ident, $it:ident, $ot:ident, $ot_lower: ident) => {
         impl From<$it> for $ot {
             fn from(input: $it) -> Self {
-                let value = input.value().map(|c| c.into());
+                let value = input.value().map(|c| $ot_lower::$op_lower(c));
                 $ot::Unary(UnaryExpr::new(UnaryOp::$op, input.clone().into(), value))
             }
         }

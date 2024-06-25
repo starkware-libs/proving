@@ -55,6 +55,10 @@ impl UInt16Expr {
                     if let GenericAirVar::Expr(ExprImpl::Bool(bool_expr)) = &mut *u.child {
                         return bool_expr.as_felt();
                     }
+                } else if u.op == UnaryOp::UInt16FromFelt {
+                    if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = &mut *u.child {
+                        return felt_expr;
+                    }
                 }
                 panic!("Cannot convert to a Felt");
             }
