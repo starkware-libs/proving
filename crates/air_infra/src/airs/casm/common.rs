@@ -1,6 +1,7 @@
 use std::array::from_fn;
 
 use crate::core::expressions::bool_expr::*;
+use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::core::expressions::uint64_expr::*;
@@ -13,7 +14,10 @@ use crate::impl_air_var;
 pub type CasmAddress = FeltExpr;
 // The state is the triple [pc, ap, fp].
 pub type CasmState = [CasmAddress; 3];
+pub type Flags = [BoolExpr; 15];
 pub type Instruction = UInt64Expr;
+type Offsets = [UInt16Expr; 3];
+type OffsetsInState = [FeltExpr; 3];
 
 pub const OFFSET_BITS: u32 = 16;
 
@@ -76,3 +80,7 @@ pub fn offset_as_u16(offset: i16) -> UInt16Expr {
 
 impl_air_var!([CasmAddress; 3]);
 impl_air_var!((CasmState, UInt16Expr));
+impl_air_var!([BoolExpr; 15]);
+impl_air_var!([UInt16Expr; 3]);
+impl_air_var!((Offsets, Flags));
+impl_air_var!((Felt252Expr, OffsetsInState));
