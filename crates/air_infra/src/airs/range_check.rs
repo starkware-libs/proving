@@ -1,7 +1,13 @@
 use std::collections::BTreeMap;
 
 use crate::core::air_fn::{AirFn, TraceType};
+
+#[allow(unused_imports)] // import only used in cfg(test)
+use crate::core::expressions::expr::Expr;
 use crate::core::expressions::felt_expr::FeltExpr;
+
+#[allow(unused_imports)] // import only used in cfg(test)
+use crate::core::variables::*;
 
 const STWO_COMPONENT_TYPE_RANGE_CHECK_3: &str = "RangeCheck3";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_4: &str = "RangeCheck4";
@@ -45,7 +51,15 @@ impl AirFn for RangeCheck {
         _air_builder: &mut crate::core::air_fn::AirBuilder,
         _input: Self::In,
     ) -> Self::Out {
-        // TODO: In run mode, assert input < 2**self.bits
-        Self::Out::default()
+        #[cfg(test)]
+        if _air_builder.is_run_mode() {
+            let in_value = _input.to_values()[0].0;
+            assert!(
+                in_value < (1u32 << self.bits),
+                "RangeCheck{} failed (input {})",
+                self.bits,
+                in_value
+            );
+        }
     }
 }

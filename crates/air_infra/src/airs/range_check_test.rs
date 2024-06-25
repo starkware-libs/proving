@@ -1,8 +1,10 @@
-use crate::core::air_fn::{AirFn, TraceType};
-use crate::core::air_fn_registry::AirFnRegistry;
-use crate::core::expressions::felt_expr::FeltExpr;
+use crate::core::air_fn::*;
+use crate::core::air_fn_registry::*;
+use crate::core::expressions::felt_expr::*;
+use crate::core::prover_types::*;
+use crate::expr;
 
-use super::range_check::RangeCheck;
+use super::range_check::*;
 
 #[derive(Debug)]
 struct SmallAdd {}
@@ -75,4 +77,23 @@ fn test_range_check() {
             .collect::<Vec<String>>()
             == deductions
     );
+}
+
+#[test]
+#[should_panic(expected = "RangeCheck16 failed")]
+fn test_range_check_runtime_failure() {
+    let air_fn = SmallAdd {};
+    let registry = AirFnRegistry::new(&air_fn);
+    let a = expr!("a", 40000, true);
+    let b = expr!("b", 40000, true);
+    registry.run_air(&air_fn, [a, b]);
+}
+
+#[test]
+fn test_range_check_runtime_success() {
+    let air_fn = SmallAdd {};
+    let registry = AirFnRegistry::new(&air_fn);
+    let a = expr!("a", 20000, true);
+    let b = expr!("b", 20000, true);
+    registry.run_air(&air_fn, [a, b]);
 }
