@@ -87,6 +87,10 @@ pub struct AirBuilder {
     pub(super) registry: AirFnRegistry,
 }
 impl AirBuilder {
+    #[cfg(test)]
+    pub fn is_run_mode(&self) -> bool {
+        self.run
+    }
     pub fn constrain(&mut self, expr: FeltExpr) {
         #[cfg(test)]
         if self.run {
