@@ -34,7 +34,6 @@ impl FeltExpr {
     // into a variable that has a state index.
     pub fn to_state(&mut self, index: usize) {
         assert!(!self.name().starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
-        assert!(!self.is_const());
 
         let name = format!("state[{}]", index);
         let value = self.value();
@@ -240,6 +239,7 @@ macro_rules! const_expr {
     };
 }
 
+#[cfg(test)]
 #[macro_export]
 macro_rules! expr {
     ($name:expr, $val:expr) => {

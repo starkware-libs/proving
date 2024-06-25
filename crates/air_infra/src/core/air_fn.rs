@@ -65,12 +65,27 @@ pub trait AirFn: Debug {
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out;
 
     fn lookup_call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
-        assert!(self.trace_type() == TraceType::Component);
-        let mut input_in_state = input.clone();
-        input_in_state = air_builder.let_for_deduction(input_in_state);
+        assert!(
+            self.trace_type() != TraceType::Inline,
+            "Lookup call cannot be used with an AirFn that is not a separate component"
+        );
+
+        let mut input_in_state = air_builder.let_for_deduction(input);
         for felt in input_in_state.as_felts_mut() {
+            #[cfg(test)]
+            if air_builder.internal_component {
+                // Makes sure that the input is in_state, by giving meaningless state indices to its felts.
+                // This allows us to run a lookup air function when we want its output, and don't need
+                // to produce its state, i.e. in run mode when calling air_builder.lookup_call
+                // (internal_component is true).
+                // TODO: Find a better way to mark felts in_state.
+                felt.to_state(0);
+                continue;
+            }
+
             air_builder.deduce(felt);
         }
+
         self.call(air_builder, input_in_state)
     }
 }
@@ -84,6 +99,8 @@ pub struct AirBuilder {
     pub(super) air_body: Vec<AirBodyComponent>,
     #[cfg(test)]
     pub(super) run: bool,
+    #[cfg(test)]
+    pub(super) internal_component: bool,
     pub(super) registry: AirFnRegistry,
 }
 impl AirBuilder {
@@ -108,6 +125,8 @@ impl AirBuilder {
         self.air_body.push(AirBodyComponent::Constraint(expr));
     }
     pub fn deduce(&mut self, expr: &mut FeltExpr) -> FeltExpr {
+        assert!(!expr.is_const());
+
         self.air_body
             .push(AirBodyComponent::Deduction(expr.clone()));
         self.state.add(expr);
@@ -170,12 +189,17 @@ impl AirBuilder {
         // (by adding the constraints and deductions of that component to the current
         // component), but doing so is usually a mistake as it is less efficient than
         // doing a lookup. Therefore we only allow calling AirFns with TraceType::Inline
-        assert!(air_fn.trace_type() == TraceType::Inline);
+        assert!(
+            air_fn.trace_type() == TraceType::Inline,
+            "AirFn must be inline"
+        );
 
         #[cfg(test)]
         if self.run {
             assert!(input.in_state(), "Input must be in the trace");
         }
+
+        // Make sure the callee is in the registry
         if self.registry.air_fns.borrow().get(&air_fn.name()).is_none() {
             AirFnEntry::new(&self.registry, air_fn);
         }
@@ -185,6 +209,8 @@ impl AirBuilder {
             air_body: vec![],
             #[cfg(test)]
             run: self.run,
+            #[cfg(test)]
+            internal_component: self.internal_component,
             registry: self.registry.clone(),
         };
         let output = air_fn.call(&mut air_builder, input.clone());
@@ -202,12 +228,10 @@ impl AirBuilder {
         I: AirVar,
         O: AirVar,
     {
-        match air_fn.trace_type() {
-            TraceType::Inline => {
-                panic!("Lookup call cannot be used with an AirFn that is not a separate component")
-            }
-            TraceType::Component | TraceType::Const => (),
-        }
+        assert!(
+            air_fn.trace_type() != TraceType::Inline,
+            "Lookup call cannot be used with an AirFn that is not a separate component"
+        );
 
         // Make sure the callee is in the registry
         if self
@@ -230,19 +254,11 @@ impl AirBuilder {
                 air_body: vec![],
                 #[cfg(test)]
                 run: self.run,
+                #[cfg(test)]
+                internal_component: true,
                 registry: self.registry.clone(),
             };
-            let output = match air_fn.trace_type() {
-                // For const components, use call() to compute the output
-                TraceType::Const => air_fn.call(&mut air_builder, input.clone()),
-
-                // For regular components, call() is not supposed to be called directly but
-                // only through lookup_call().
-                TraceType::Component => air_fn.lookup_call(&mut air_builder, input.clone()),
-
-                _ => panic!(),
-            };
-
+            let output = air_fn.lookup_call(&mut air_builder, input.clone());
             intermediate = output.let_for_deduction(output_intermediate_name.clone())
         }
 

@@ -214,6 +214,7 @@ macro_rules! const_bool_expr {
     };
 }
 
+#[cfg(test)]
 #[macro_export]
 macro_rules! bool_expr {
     ($name:expr, $val:expr) => {
