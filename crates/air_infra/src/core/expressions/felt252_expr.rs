@@ -121,7 +121,7 @@ impl AirVar for Felt252Expr {
         }
     }
 
-    fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         match self {
             Felt252Expr::Var(v) => {
                 let mut res = Vec::new();

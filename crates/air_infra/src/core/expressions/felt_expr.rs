@@ -136,7 +136,7 @@ impl AirVar for FeltExpr {
         }
     }
 
-    fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         vec![self]
     }
 

@@ -100,14 +100,14 @@ impl AirVar for ExprImpl {
         }
     }
 
-    fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         match self {
-            ExprImpl::Felt(f) => f.as_felts(),
-            ExprImpl::UInt16(u) => u.as_felts(),
-            ExprImpl::Bool(b) => b.as_felts(),
-            ExprImpl::UInt32(u) => u.as_felts(),
-            ExprImpl::UInt64(u) => u.as_felts(),
-            ExprImpl::Felt252(f) => f.as_felts(),
+            ExprImpl::Felt(f) => f.as_felts_mut(),
+            ExprImpl::UInt16(u) => u.as_felts_mut(),
+            ExprImpl::Bool(b) => b.as_felts_mut(),
+            ExprImpl::UInt32(u) => u.as_felts_mut(),
+            ExprImpl::UInt64(u) => u.as_felts_mut(),
+            ExprImpl::Felt252(f) => f.as_felts_mut(),
         }
     }
 
