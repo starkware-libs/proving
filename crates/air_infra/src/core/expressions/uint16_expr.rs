@@ -9,7 +9,6 @@ use super::expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
 
-pub type UInt16Const = ConstExpr<UInt16>;
 pub type UInt16Binary = BinaryExpr<UInt16>;
 pub type UInt16Unary = UnaryExpr<UInt16>;
 
@@ -25,6 +24,7 @@ pub struct UInt16Var {
     pub(super) as_felt: FeltExpr,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub(super) parent: Option<Box<ExprImpl>>,
+    pub(super) is_const: bool,
 }
 
 impl UInt16Var {
@@ -41,7 +41,6 @@ impl UInt16Var {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UInt16Expr {
-    Const(UInt16Const),
     Var(UInt16Var),
     Binary(UInt16Binary),
     Unary(UInt16Unary),
@@ -74,7 +73,16 @@ impl UInt16Expr {
     }
 
     // Creates a new UInt16Var.
-    pub fn new_var(name: String, value: Option<UInt16>, state_index: Option<usize>) -> Self {
+    pub fn new_var(
+        name: String,
+        value: Option<UInt16>,
+        state_index: Option<usize>,
+        is_const: bool,
+    ) -> Self {
+        if is_const {
+            assert!(value.is_some());
+        }
+
         let mut res = UInt16Var {
             name,
             value,
@@ -82,18 +90,24 @@ impl UInt16Expr {
                 "as_felt".to_string(),
                 value.map(|v| v.as_felt()),
                 state_index,
+                is_const,
             ),
             parent: None,
+            is_const,
         };
         res.update_as_felt();
         res.into()
+    }
+
+    // Creates a new constant UInt16Var.
+    pub fn new_const(value: UInt16) -> Self {
+        Self::new_var(value.calc(), Some(value), None, true)
     }
 }
 
 impl Expr<UInt16> for UInt16Expr {
     fn value(&self) -> Option<UInt16> {
         match self {
-            UInt16Expr::Const(c) => Some(c.value),
             UInt16Expr::Var(v) => v.value,
             UInt16Expr::Binary(b) => b.value,
             UInt16Expr::Unary(u) => u.value,
@@ -103,12 +117,11 @@ impl Expr<UInt16> for UInt16Expr {
 
 impl AirVar for UInt16Expr {
     fn new(name: String) -> Self {
-        Self::new_var(name, None, None)
+        Self::new_var(name, None, None, false)
     }
 
     fn name(&self) -> String {
         match self {
-            UInt16Expr::Const(c) => c.name.clone(),
             UInt16Expr::Var(v) => v.name.clone(),
             UInt16Expr::Binary(b) => b.name.clone(),
             UInt16Expr::Unary(u) => u.name.clone(),
@@ -125,16 +138,12 @@ impl AirVar for UInt16Expr {
                 res.update_as_felt();
                 res.into()
             }
-            UInt16Expr::Const(_) => {
-                panic!("Cannot create an intermediate variable from a constant")
-            }
-            _ => Self::new_var(name, self.value(), None),
+            _ => Self::new_var(name, self.value(), None, self.is_const()),
         }
     }
 
     fn in_state(&self) -> bool {
         match self {
-            UInt16Expr::Const(_) => true,
             UInt16Expr::Var(v) => v.as_felt.in_state(),
             UInt16Expr::Binary(b) => b.left.in_state() && b.right.in_state(),
             UInt16Expr::Unary(u) => u.child.in_state(),
@@ -144,17 +153,19 @@ impl AirVar for UInt16Expr {
     fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
         vec![self.as_felt()]
     }
+
+    fn is_const(&self) -> bool {
+        match self {
+            UInt16Expr::Var(v) => v.is_const,
+            UInt16Expr::Binary(b) => b.left.is_const() && b.right.is_const(),
+            UInt16Expr::Unary(u) => u.child.is_const(),
+        }
+    }
 }
 
 impl Default for UInt16Expr {
     fn default() -> Self {
         UInt16Expr::Var(UInt16Var::default())
-    }
-}
-
-impl From<UInt16Const> for UInt16Expr {
-    fn from(c: UInt16Const) -> UInt16Expr {
-        UInt16Expr::Const(c)
     }
 }
 
@@ -185,19 +196,19 @@ impl From<UInt16Expr> for GenericAirVar {
 
 impl From<UInt16Expr> for ProcessedAirVar {
     fn from(expr: UInt16Expr) -> ProcessedAirVar {
-        let name = expr.name();
-        if name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-            return ProcessedAirVar::Var(UInt16::r#type(), name);
-        }
-
         match expr {
-            UInt16Expr::Const(_) => ProcessedAirVar::Const(UInt16::r#type(), name),
             UInt16Expr::Var(v) => {
+                if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
+                    return ProcessedAirVar::Var(UInt16::r#type(), v.name);
+                }
+                if v.is_const {
+                    return ProcessedAirVar::Const(UInt16::r#type(), v.value.unwrap().calc());
+                }
                 if let Some(var) = v.parent {
-                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), name, vec![]);
+                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
                 }
 
-                ProcessedAirVar::Var(UInt16::r#type(), name)
+                ProcessedAirVar::Var(UInt16::r#type(), v.name)
             }
             UInt16Expr::Binary(b) => b.into(),
             UInt16Expr::Unary(u) => u.into(),
@@ -224,21 +235,21 @@ impl Display for UInt16Expr {
 #[macro_export]
 macro_rules! const_u16_expr {
     ($val:expr) => {
-        UInt16Const::new_const(UInt16 { value: $val }).into()
+        UInt16Expr::new_const(UInt16 { value: $val })
     };
 }
 
 #[macro_export]
 macro_rules! u16_expr {
     ($name:expr, $val:expr) => {
-        UInt16Expr::new_var($name.to_string(), Some(UInt16::from($val)), None)
+        UInt16Expr::new_var($name.to_string(), Some(UInt16::from($val)), None, false)
     };
 
     ($name:expr, $val:expr, $in_trace:literal) => {
         if $in_trace {
-            UInt16Expr::new_var($name.to_string(), Some(UInt16::from($val)), Some(0))
+            UInt16Expr::new_var($name.to_string(), Some(UInt16::from($val)), Some(0), false)
         } else {
-            UInt16Expr::new_var($name.to_string(), Some(UInt16::from($val)), None)
+            UInt16Expr::new_var($name.to_string(), Some(UInt16::from($val)), None, false)
         }
     };
 }

@@ -10,7 +10,6 @@ use super::felt_expr::*;
 use super::op_expr::*;
 use super::uint16_expr::*;
 
-pub type UInt32Const = ConstExpr<UInt32>;
 pub type UInt32Binary = BinaryExpr<UInt32>;
 pub type UInt32Unary = UnaryExpr<UInt32>;
 
@@ -26,6 +25,7 @@ pub struct UInt32Var {
     pub(super) high: UInt16Expr,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub(super) parent: Option<Box<ExprImpl>>,
+    pub(super) is_const: bool,
 }
 
 impl UInt32Var {
@@ -44,7 +44,6 @@ impl UInt32Var {
 #[derive(Clone, Debug, Serialize, Deserialize)]
 #[serde(untagged)]
 pub enum UInt32Expr {
-    Const(UInt32Const),
     Var(UInt32Var),
     Binary(UInt32Binary),
     Unary(UInt32Unary),
@@ -81,27 +80,43 @@ impl UInt32Expr {
         value: Option<UInt32>,
         low_state_index: Option<usize>,
         high_state_index: Option<usize>,
+        is_const: bool,
     ) -> Self {
+        if is_const {
+            assert!(value.is_some());
+        }
+
         let mut res = UInt32Var {
             name,
             value,
-            low: UInt16Expr::new_var("low".to_string(), value.map(|v| v.low()), low_state_index),
+            low: UInt16Expr::new_var(
+                "low".to_string(),
+                value.map(|v| v.low()),
+                low_state_index,
+                is_const,
+            ),
             high: UInt16Expr::new_var(
                 "high".to_string(),
                 value.map(|v| v.high()),
                 high_state_index,
+                is_const,
             ),
             parent: None,
+            is_const,
         };
         res.update_parts();
         res.into()
+    }
+
+    // Creates a new constant UInt32Var.
+    pub fn new_const(value: UInt32) -> Self {
+        Self::new_var(value.calc(), Some(value), None, None, true)
     }
 }
 
 impl Expr<UInt32> for UInt32Expr {
     fn value(&self) -> Option<UInt32> {
         match self {
-            UInt32Expr::Const(c) => Some(c.value),
             UInt32Expr::Var(v) => v.value,
             UInt32Expr::Binary(b) => b.value,
             UInt32Expr::Unary(u) => u.value,
@@ -111,12 +126,11 @@ impl Expr<UInt32> for UInt32Expr {
 
 impl AirVar for UInt32Expr {
     fn new(name: String) -> Self {
-        Self::new_var(name, None, None, None)
+        Self::new_var(name, None, None, None, false)
     }
 
     fn name(&self) -> String {
         match self {
-            UInt32Expr::Const(c) => c.name.clone(),
             UInt32Expr::Var(v) => v.name.clone(),
             UInt32Expr::Binary(b) => b.name.clone(),
             UInt32Expr::Unary(u) => u.name.clone(),
@@ -133,16 +147,12 @@ impl AirVar for UInt32Expr {
                 res.update_parts();
                 res.into()
             }
-            UInt32Expr::Const(_) => {
-                panic!("Cannot create an intermediate variable from a constant")
-            }
-            _ => Self::new_var(name, self.value(), None, None),
+            _ => Self::new_var(name, self.value(), None, None, self.is_const()),
         }
     }
 
     fn in_state(&self) -> bool {
         match self {
-            UInt32Expr::Const(_) => true,
             UInt32Expr::Var(v) => v.low.in_state() && v.high.in_state(),
             UInt32Expr::Binary(b) => b.left.in_state() && b.right.in_state(),
             UInt32Expr::Unary(u) => u.child.in_state(),
@@ -155,17 +165,19 @@ impl AirVar for UInt32Expr {
             _ => panic!("Cannot convert non-variable to Felt"),
         }
     }
+
+    fn is_const(&self) -> bool {
+        match self {
+            UInt32Expr::Var(v) => v.is_const,
+            UInt32Expr::Binary(b) => b.left.is_const() && b.right.is_const(),
+            UInt32Expr::Unary(u) => u.child.is_const(),
+        }
+    }
 }
 
 impl Default for UInt32Expr {
     fn default() -> Self {
         UInt32Expr::Var(UInt32Var::default())
-    }
-}
-
-impl From<UInt32Const> for UInt32Expr {
-    fn from(c: UInt32Const) -> UInt32Expr {
-        UInt32Expr::Const(c)
     }
 }
 
@@ -196,19 +208,19 @@ impl From<UInt32Expr> for GenericAirVar {
 
 impl From<UInt32Expr> for ProcessedAirVar {
     fn from(expr: UInt32Expr) -> ProcessedAirVar {
-        let name = expr.name();
-        if name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-            return ProcessedAirVar::Var(UInt32::r#type(), name);
-        }
-
         match expr {
-            UInt32Expr::Const(_) => ProcessedAirVar::Const(UInt32::r#type(), name),
             UInt32Expr::Var(v) => {
+                if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
+                    return ProcessedAirVar::Var(UInt32::r#type(), v.name);
+                }
+                if v.is_const {
+                    return ProcessedAirVar::Const(UInt32::r#type(), v.value.unwrap().calc());
+                }
                 if let Some(var) = v.parent {
-                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), name, vec![]);
+                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
                 }
 
-                ProcessedAirVar::Var(UInt32::r#type(), name)
+                ProcessedAirVar::Var(UInt32::r#type(), v.name)
             }
             UInt32Expr::Binary(b) => b.into(),
             UInt32Expr::Unary(u) => u.into(),
@@ -235,14 +247,20 @@ impl Display for UInt32Expr {
 #[macro_export]
 macro_rules! const_u32_expr {
     ($val:expr) => {
-        UInt32Const::new_const($val.into()).into()
+        UInt32Expr::new_const($val.into())
     };
 }
 
 #[macro_export]
 macro_rules! u32_expr {
     ($name:expr, $val:expr) => {
-        UInt32Expr::new_var($name.to_string(), Some(UInt32::from($val)), None, None)
+        UInt32Expr::new_var(
+            $name.to_string(),
+            Some(UInt32::from($val)),
+            None,
+            None,
+            false,
+        )
     };
 
     ($name:expr, $val:expr, $in_trace:literal) => {
@@ -252,9 +270,16 @@ macro_rules! u32_expr {
                 Some(UInt32::from($val)),
                 Some(0),
                 Some(1),
+                false,
             )
         } else {
-            UInt32Expr::new_var($name.to_string(), Some(UInt32::from($val)), None, None)
+            UInt32Expr::new_var(
+                $name.to_string(),
+                Some(UInt32::from($val)),
+                None,
+                None,
+                false,
+            )
         }
     };
 }

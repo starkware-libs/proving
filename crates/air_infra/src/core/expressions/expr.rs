@@ -35,29 +35,6 @@ where
     }
 }
 
-/// Constant expressions.
-#[derive(Clone, Debug, Default, Serialize, Deserialize)]
-pub struct ConstExpr<T>
-where
-    T: ProverType,
-{
-    pub(super) name: String,
-    #[serde(skip)]
-    pub(super) value: T,
-}
-
-impl<T> ConstExpr<T>
-where
-    T: ProverType,
-{
-    pub fn new_const(value: T) -> Self {
-        ConstExpr {
-            name: value.calc(),
-            value,
-        }
-    }
-}
-
 // All expressions.
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub enum ExprImpl {
@@ -121,6 +98,17 @@ impl AirVar for ExprImpl {
             ExprImpl::UInt32(u) => u.as_felts(),
             ExprImpl::UInt64(u) => u.as_felts(),
             ExprImpl::Felt252(f) => f.as_felts(),
+        }
+    }
+
+    fn is_const(&self) -> bool {
+        match self {
+            ExprImpl::Felt(f) => f.is_const(),
+            ExprImpl::UInt16(u) => u.is_const(),
+            ExprImpl::Bool(b) => b.is_const(),
+            ExprImpl::UInt32(u) => u.is_const(),
+            ExprImpl::UInt64(u) => u.is_const(),
+            ExprImpl::Felt252(f) => f.is_const(),
         }
     }
 }

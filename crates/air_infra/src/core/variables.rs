@@ -28,6 +28,7 @@ pub trait AirVar: Clone + Debug + Default + Into<GenericAirVar> {
             .map(|f| f.value().unwrap())
             .collect()
     }
+    fn is_const(&self) -> bool;
 }
 
 // Air variables as represented in the air_body.
@@ -44,6 +45,14 @@ impl GenericAirVar {
             GenericAirVar::Expr(expr) => expr.in_state(),
             GenericAirVar::Tuple(vars) => vars.iter().all(|v| v.in_state()),
             GenericAirVar::Array(vars) => vars.iter().all(|v| v.in_state()),
+        }
+    }
+
+    pub fn is_const(&self) -> bool {
+        match self {
+            GenericAirVar::Expr(expr) => expr.is_const(),
+            GenericAirVar::Tuple(vars) => vars.iter().all(|v| v.is_const()),
+            GenericAirVar::Array(vars) => vars.iter().all(|v| v.is_const()),
         }
     }
 }
@@ -120,6 +129,10 @@ impl AirVar for () {
     fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
         vec![]
     }
+
+    fn is_const(&self) -> bool {
+        true
+    }
 }
 
 // Implements AirVar for arrays and tuples of air vars.
@@ -133,6 +146,9 @@ macro_rules! impl_air_var {
             }
             fn in_state(&self) -> bool {
                 self.iter().all(|s| s.in_state())
+            }
+            fn is_const(&self) -> bool {
+                self.iter().all(|s| s.is_const())
             }
             fn let_for_deduction(&self, name: String) -> Self {
                 let mut res = self.clone();
@@ -163,6 +179,9 @@ macro_rules! impl_air_var {
             }
             fn in_state(&self) -> bool {
                 self.iter().all(|s| s.in_state())
+            }
+            fn is_const(&self) -> bool {
+                self.iter().all(|s| s.is_const())
             }
             fn let_for_deduction(&self, name: String) -> Self {
                 let mut res = self.clone();
@@ -197,6 +216,11 @@ macro_rules! impl_air_var {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
                 $($s.in_state() &&)+ true
+            }
+            fn is_const(&self) -> bool {
+                #[allow(non_snake_case)]
+                let ($($s),+) = self;
+                $($s.is_const() &&)+ true
             }
             fn let_for_deduction(&self, name: String) -> Self {
                 #[allow(non_snake_case)]
