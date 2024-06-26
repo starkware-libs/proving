@@ -49,9 +49,7 @@ impl BoolExpr {
             BoolExpr::Unary(u) => {
                 if u.op == UnaryOp::BoolFromFelt {
                     if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = &mut *u.child {
-                        if let FeltExpr::Var(_) = felt_expr {
-                            return felt_expr;
-                        }
+                        return felt_expr;
                     }
                 }
                 panic!("Cannot convert to a Felt");
