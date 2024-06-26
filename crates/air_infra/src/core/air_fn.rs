@@ -66,23 +66,12 @@ pub trait AirFn: Debug {
 
     fn lookup_call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
         assert!(
-            self.trace_type() != TraceType::Inline,
-            "Lookup call cannot be used with an AirFn that is not a separate component"
+            self.trace_type() == TraceType::Component,
+            "AirFn must be a component"
         );
 
         let mut input_in_state = air_builder.let_for_deduction(input);
         for felt in input_in_state.as_felts_mut() {
-            #[cfg(test)]
-            if air_builder.internal_component {
-                // Makes sure that the input is in_state, by giving meaningless state indices to its felts.
-                // This allows us to run a lookup air function when we want its output, and don't need
-                // to produce its state, i.e. in run mode when calling air_builder.lookup_call
-                // (internal_component is true).
-                // TODO: Find a better way to mark felts in_state.
-                felt.to_state(0);
-                continue;
-            }
-
             air_builder.deduce(felt);
         }
 
@@ -108,9 +97,11 @@ impl AirBuilder {
     pub fn is_run_mode(&self) -> bool {
         self.run
     }
+
     pub fn constrain(&mut self, expr: FeltExpr) {
         #[cfg(test)]
         if self.run {
+            // Cannot assert this in build mode, since we don't put the inputs in the state.
             assert!(
                 expr.in_state(),
                 "The mask of the constraint must be in the trace."
@@ -124,17 +115,30 @@ impl AirBuilder {
 
         self.air_body.push(AirBodyComponent::Constraint(expr));
     }
+
     pub fn deduce(&mut self, expr: &mut FeltExpr) -> FeltExpr {
-        assert!(!expr.is_const());
+        #[cfg(test)]
+        if !self.run || !self.internal_component {
+            // Cannot assert this in run mode on internal component, where we might deduce constants.
+            assert!(!expr.is_const());
+        }
 
         self.air_body
             .push(AirBodyComponent::Deduction(expr.clone()));
         self.state.add(expr);
         expr.clone()
     }
+
     pub fn assign(&mut self, expr: &mut FeltExpr) -> FeltExpr {
         #[cfg(test)]
+        if !self.run || !self.internal_component {
+            // Cannot assert this in run mode on internal component, where we might deduce constants.
+            assert!(!expr.is_const());
+        }
+
+        #[cfg(test)]
         if self.run {
+            // Cannot assert this in build mode, since we don't put the inputs in the state.
             assert!(
                 expr.in_state(),
                 "The mask of the constraint must be in the trace."
@@ -228,10 +232,12 @@ impl AirBuilder {
         I: AirVar,
         O: AirVar,
     {
-        assert!(
-            air_fn.trace_type() != TraceType::Inline,
-            "Lookup call cannot be used with an AirFn that is not a separate component"
-        );
+        match air_fn.trace_type() {
+            TraceType::Inline => {
+                panic!("Lookup call cannot be used with an AirFn that is not a separate component")
+            }
+            TraceType::Component | TraceType::Const => (),
+        }
 
         // Make sure the callee is in the registry
         if self
@@ -258,7 +264,17 @@ impl AirBuilder {
                 internal_component: true,
                 registry: self.registry.clone(),
             };
-            let output = air_fn.lookup_call(&mut air_builder, input.clone());
+            let output = match air_fn.trace_type() {
+                // For const components, use call() to compute the output
+                TraceType::Const => air_fn.call(&mut air_builder, input.clone()),
+
+                // For regular components, call() is not supposed to be called directly but
+                // only through lookup_call().
+                TraceType::Component => air_fn.lookup_call(&mut air_builder, input.clone()),
+
+                _ => panic!(),
+            };
+
             intermediate = output.let_for_deduction(output_intermediate_name.clone())
         }
 

@@ -17,8 +17,10 @@ pub trait AirVar: Clone + Debug + Default + Into<GenericAirVar> {
     fn description(&self) -> String {
         self.name()
     }
-    // Returns whether the value of this AirVar is stored in a trace cell.
-    // For example, an input to an air function is not in state when it is from the private input.
+    // An AirVar is in_state if it is stored in a trace cell or a polynomial of felts stored in trace cells.
+    // Used to verify that expressions of constraints are polynomials of felts written to the trace.
+    // We check this in run mode, since when building an air body, we want all constraints to refer to sepecial
+    // inputs carrying the AirFn name.
     fn in_state(&self) -> bool;
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr>;
     fn as_felts(&self) -> Vec<FeltExpr> {
@@ -32,6 +34,12 @@ pub trait AirVar: Clone + Debug + Default + Into<GenericAirVar> {
     fn to_values(&self) -> Vec<Felt> {
         self.as_felts().iter().map(|f| f.value().unwrap()).collect()
     }
+    // An AirVar is_const if was created with a value and the flag is_const = true, or if it is the result of
+    // operations on other constants.
+    // Used to verify that a constant variable is not written to the trace in a top-level AirFn, since this
+    // would create a constant column in the trace.
+    // Note that in runtime, we allow deduction of constant variables in internal calls, since an AirFn can
+    // be called with different inputs in different calls.
     fn is_const(&self) -> bool;
 }
 
