@@ -143,10 +143,8 @@ impl AirVar for Felt252Expr {
                         let mut felts = vec![];
                         for g in arr {
                             if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = g {
-                                if let FeltExpr::Var(_) = felt_expr {
-                                    // Should we return FELT252_N_WORDS felts?
-                                    felts.push(felt_expr);
-                                }
+                                // Should we return FELT252_N_WORDS felts?
+                                felts.push(felt_expr);
                             }
                         }
                         if felts.len() == len {
