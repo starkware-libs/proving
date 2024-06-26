@@ -179,8 +179,10 @@ pub enum UnaryOp {
     #[default]
     Neg,
     BoolFromFelt,
+    ConstBoolToFelt,
     UInt16FromBool,
     UInt16FromFelt,
+    ConstUint16ToFelt,
     Felt252FromFeltsArray,
     Not,
 }
@@ -191,8 +193,10 @@ impl Display for UnaryOp {
         match self {
             UnaryOp::Neg => write!(f, "-"),
             UnaryOp::BoolFromFelt => write!(f, "Bool::from_felt"),
+            UnaryOp::ConstBoolToFelt => write!(f, "as_felt"),
             UnaryOp::UInt16FromBool => write!(f, "UInt16::from_bool"),
             UnaryOp::UInt16FromFelt => write!(f, "UInt16::from_felt"),
+            UnaryOp::ConstUint16ToFelt => write!(f, "as_felt"),
             UnaryOp::Felt252FromFeltsArray => write!(f, "Felt252::from_felts"),
             UnaryOp::Not => write!(f, "!"),
         }
@@ -203,8 +207,10 @@ impl From<UnaryOp> for OpType {
         match op {
             UnaryOp::Neg => OpType::Op(op.to_string()),
             UnaryOp::BoolFromFelt => OpType::Static(op.to_string()),
+            UnaryOp::ConstBoolToFelt => OpType::Method(op.to_string()),
             UnaryOp::UInt16FromBool => OpType::Static(op.to_string()),
             UnaryOp::UInt16FromFelt => OpType::Static(op.to_string()),
+            UnaryOp::ConstUint16ToFelt => OpType::Method(op.to_string()),
             UnaryOp::Felt252FromFeltsArray => OpType::Static(op.to_string()),
             UnaryOp::Not => OpType::Op(op.to_string()),
         }

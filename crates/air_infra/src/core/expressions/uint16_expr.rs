@@ -66,6 +66,18 @@ impl UInt16Expr {
         }
     }
 
+    // Converts a constant UInt16Expr to a FeltExpr.
+    pub fn const_to_felt(&self) -> FeltExpr {
+        assert!(self.is_const());
+
+        let value = self.value().map(|c| c.as_felt());
+        FeltExpr::Unary(UnaryExpr::new(
+            UnaryOp::ConstUint16ToFelt,
+            self.clone().into(),
+            value,
+        ))
+    }
+
     // Called whenever a parent variable is created (see update_parts of UInt32Expr).
     pub fn set_parent(&mut self, parent: ExprImpl) {
         if let UInt16Expr::Var(v) = self {

@@ -60,6 +60,18 @@ impl BoolExpr {
         }
     }
 
+    // Converts a constant BoolExpr to a FeltExpr.
+    pub fn const_to_felt(&self) -> FeltExpr {
+        assert!(self.is_const());
+
+        let value = self.value().map(|c| c.as_felt());
+        FeltExpr::Unary(UnaryExpr::new(
+            UnaryOp::ConstBoolToFelt,
+            self.clone().into(),
+            value,
+        ))
+    }
+
     // Creates a new BoolVar.
     pub fn new_var(
         name: String,
