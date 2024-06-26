@@ -184,6 +184,7 @@ pub enum UnaryOp {
     UInt16FromFelt,
     ConstUint16ToFelt,
     Felt252FromFeltsArray,
+    UInt32FromFelt,
     Not,
 }
 
@@ -198,6 +199,7 @@ impl Display for UnaryOp {
             UnaryOp::UInt16FromFelt => write!(f, "UInt16::from_felt"),
             UnaryOp::ConstUint16ToFelt => write!(f, "as_felt"),
             UnaryOp::Felt252FromFeltsArray => write!(f, "Felt252::from_felts"),
+            UnaryOp::UInt32FromFelt => write!(f, "UInt32::from_felt"),
             UnaryOp::Not => write!(f, "!"),
         }
     }
@@ -212,6 +214,7 @@ impl From<UnaryOp> for OpType {
             UnaryOp::UInt16FromFelt => OpType::Static(op.to_string()),
             UnaryOp::ConstUint16ToFelt => OpType::Method(op.to_string()),
             UnaryOp::Felt252FromFeltsArray => OpType::Static(op.to_string()),
+            UnaryOp::UInt32FromFelt => OpType::Static(op.to_string()),
             UnaryOp::Not => OpType::Op(op.to_string()),
         }
     }
@@ -235,6 +238,7 @@ impl_binary_op!(ops Div, div, FeltExpr, FeltBinary);
 impl_binary_op!(Eq, eq, FeltExpr, BoolExpr, BoolBinary);
 impl_unary_op!(from BoolFromFelt, from_felt, FeltExpr, BoolExpr, Bool);
 impl_unary_op!(from UInt16FromFelt, from_felt, FeltExpr, UInt16Expr, UInt16);
+impl_unary_op!(from UInt32FromFelt, from_felt, FeltExpr, UInt32Expr, UInt32);
 
 impl_binary_op!(ops Add, add, UInt16Expr, UInt16Binary);
 impl_binary_op!(ops Sub, sub, UInt16Expr, UInt16Binary);
