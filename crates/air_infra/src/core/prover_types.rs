@@ -207,6 +207,10 @@ impl UInt32 {
             value: (self.value >> 16) as u16,
         }
     }
+
+    pub fn from_felt(felt: Felt) -> Self {
+        Self { value: felt.0 }
+    }
 }
 
 impl From<u32> for UInt32 {
