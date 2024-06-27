@@ -1,4 +1,4 @@
-#![allow(unused_variables)]
+#![allow(unused_imports)]
 use num_traits::identities::Zero;
 use stwo_prover::core::air::accumulation::DomainEvaluationAccumulator;
 use stwo_prover::core::air::{Component, ComponentProver, ComponentTrace};

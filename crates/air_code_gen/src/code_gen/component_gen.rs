@@ -183,6 +183,7 @@ fn generate_component_impl(
 
 pub fn generate_component(component_name: &str, lists: AutogenLists) -> rust::Tokens {
     let imports = quote! {
+        #![allow(unused_imports)]
         use stwo_prover::core::air::accumulation::PointEvaluationAccumulator;
         use stwo_prover::core::air::mask::fixed_mask_points;
         use stwo_prover::core::air::Component;

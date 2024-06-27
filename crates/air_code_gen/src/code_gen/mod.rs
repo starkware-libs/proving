@@ -19,7 +19,6 @@ pub fn generate_prover_component(
     accumulation_code: rust::Tokens,
 ) -> rust::Tokens {
     quote! {
-        #![allow(unused_variables)]
         $(imports_code)
         $['\n']
         impl ComponentProver<$(backend_type)> for $(component_name) {

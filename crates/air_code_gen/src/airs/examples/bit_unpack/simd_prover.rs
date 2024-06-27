@@ -1,4 +1,4 @@
-#![allow(unused_variables)]
+#![allow(unused_imports)]
 use stwo_prover::core::air::accumulation::DomainEvaluationAccumulator;
 use stwo_prover::core::air::{Component, ComponentProver, ComponentTrace};
 use stwo_prover::core::backend::simd::column::{BaseFieldVec, SecureFieldVec};

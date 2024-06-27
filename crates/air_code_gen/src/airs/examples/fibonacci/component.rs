@@ -1,3 +1,4 @@
+#![allow(unused_imports)]
 use stwo_prover::core::air::accumulation::PointEvaluationAccumulator;
 use stwo_prover::core::air::mask::fixed_mask_points;
 use stwo_prover::core::air::Component;
