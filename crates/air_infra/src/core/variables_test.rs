@@ -86,3 +86,19 @@ fn test_expr_tuple() {
     assert!(felts_vec[0].calc() == "1");
     assert!(felts_vec[1].calc() == val1);
 }
+
+#[test]
+fn test_option() {
+    let mut opt = Some(expr!("x", 5));
+    assert_eq!(&opt.name(), "Some(x)");
+    let felts_vec = opt.as_mut().unwrap().as_felts();
+    assert_eq!(&felts_vec[0].calc(), "5");
+
+    let name = format!("{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, 0);
+    opt = opt.let_for_deduction(name.clone());
+    assert_eq!(opt.as_ref().unwrap().name(), name);
+
+    assert!(!opt.in_state());
+    opt.as_mut().unwrap().to_state(0);
+    assert!(opt.in_state());
+}
