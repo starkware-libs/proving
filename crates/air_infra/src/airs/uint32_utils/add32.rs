@@ -1,3 +1,4 @@
+use crate::airs::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
@@ -18,7 +19,8 @@ impl AirFn for Add32 {
         let mut c = air_builder.let_for_deduction(&a + &b);
         let cl = air_builder.deduce(c.low().as_felt());
         let ch = air_builder.deduce(c.high().as_felt());
-        // TODO: Add range check 16 for cl and ch.
+        air_builder.lookup_call(&RangeCheck { bits: 16 }, cl.clone());
+        air_builder.lookup_call(&RangeCheck { bits: 16 }, ch.clone());
 
         let carry =
             air_builder.let_for_constraint(&(&(&*a.low().as_felt() + &b.low().as_felt()) - &cl));
