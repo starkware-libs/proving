@@ -204,6 +204,59 @@ macro_rules! impl_air_var {
         }
     };
 
+    ( Option<$s:ty> ) => {
+        impl AirVar for Option<$s> where $s: AirVar
+        {
+            fn name(&self) -> String {
+                if self.is_some() {
+                    format!("Some({})", self.as_ref().unwrap().name())
+                } else {
+                    "None".to_string()
+                }
+            }
+            fn in_state(&self) -> bool {
+                if self.is_some() {
+                    self.as_ref().unwrap().in_state()
+                } else {
+                    true
+                }
+            }
+            fn is_const(&self) -> bool {
+                if self.is_some() {
+                    self.as_ref().unwrap().is_const()
+                } else {
+                    true
+                }
+            }
+            fn let_for_deduction(&self, name: String) -> Self {
+                if self.is_some() {
+                    Some(self.as_ref().unwrap().let_for_deduction(format!("{}", name)))
+                } else {
+                    panic!("Cannot let_for_deduction on None");
+                }
+            }
+            fn new(_name: String) -> Self {
+                panic!("Cannot create a new Option AirVar with name");
+            }
+            fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+                if self.is_some() {
+                    self.as_mut().unwrap().as_felts()
+                } else {
+                    vec![]
+                }
+            }
+        }
+        impl From<Option<$s>> for GenericAirVar {
+            fn from(o: Option<$s>) -> GenericAirVar {
+                if o.is_some() {
+                    GenericAirVar::from(o.unwrap())
+                } else {
+                    panic!("Cannot convert None to GenericAirVar");
+                }
+            }
+        }
+    };
+
     (($($s:ident),+)) => {
         impl AirVar for ($($s),+) where $($s: AirVar),+
         {
