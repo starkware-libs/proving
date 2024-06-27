@@ -1,3 +1,4 @@
+#![allow(unused_imports)]
 use std::iter::zip;
 
 use air_infra::core::prover_types::*;
@@ -7,19 +8,56 @@ use stwo_prover::core::air::Component;
 use stwo_prover::core::backend::simd::column::BaseFieldVec;
 use stwo_prover::core::backend::simd::m31::PackedBaseField;
 use stwo_prover::core::backend::simd::SimdBackend;
-use stwo_prover::core::fields::m31::BaseField;
 use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
+use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
+use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
 use super::component::BitUnpack__12;
 use crate::code_gen::packed_types::*;
 
+#[allow(non_camel_case_types)]
+#[derive(Default)]
+pub struct BitUnpack__12SimdTraceGenerator {
+    pub inputs: Vec<PackedUInt16>,
+}
+impl ComponentGen for BitUnpack__12SimdTraceGenerator {}
+
+impl TraceGenerator<SimdBackend> for BitUnpack__12SimdTraceGenerator {
+    type Component = BitUnpack__12;
+    type Inputs = Vec<PackedUInt16>;
+
+    fn write_trace(
+        component_id: &str,
+        registry: &mut ComponentGenerationRegistry,
+    ) -> Vec<CircleEvaluation<SimdBackend, Felt, BitReversedOrder>> {
+        let generator = registry.get_generator::<BitUnpack__12SimdTraceGenerator>(component_id);
+        write_trace_simd(&generator.component(), &generator.inputs)
+    }
+
+    fn add_inputs(&mut self, inputs: &Self::Inputs) {
+        self.inputs.extend(inputs);
+    }
+
+    fn component(&self) -> BitUnpack__12 {
+        BitUnpack__12 {
+            log_n_instances: self
+                .inputs
+                .len()
+                .checked_ilog2()
+                .expect("Input not a power of 2!")
+                + LOG_N_LANES,
+        }
+    }
+}
+
+#[allow(clippy::ptr_arg)]
 pub fn write_trace_simd(
     component: &BitUnpack__12,
-    secrets: &[PackedUInt16],
-) -> Vec<CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>> {
-    let n_columns = component.trace_log_degree_bounds()[0].len();
-    let mut trace_values = vec![vec![PackedBaseField::zero(); secrets.len()]; n_columns];
+    secrets: &Vec<PackedUInt16>,
+) -> Vec<CircleEvaluation<SimdBackend, Felt, BitReversedOrder>> {
+    let n_trace_columns = component.trace_log_degree_bounds()[0].len();
+    let mut trace_values = vec![vec![PackedBaseField::zero(); secrets.len()]; n_trace_columns];
     for (i, secret) in secrets.iter().copied().enumerate() {
         super::simd_trace::write_trace_row(&mut trace_values, secret, i);
     }
@@ -38,7 +76,7 @@ pub fn write_trace_simd(
         .map(|(eval, trace_domain)| {
             let length = eval.len() * N_LANES;
             let eval = BaseFieldVec { data: eval, length };
-            CircleEvaluation::<SimdBackend, BaseField, BitReversedOrder>::new(trace_domain, eval)
+            CircleEvaluation::<SimdBackend, Felt, BitReversedOrder>::new(trace_domain, eval)
         })
         .collect_vec()
 }

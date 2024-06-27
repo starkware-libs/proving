@@ -3,18 +3,56 @@ use itertools::Itertools;
 use num_traits::Zero;
 use stwo_prover::core::air::Component;
 use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
+use stwo_prover::core::backend::CpuBackend;
 use stwo_prover::core::fields::m31::BaseField;
 use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::poly::BitReversedOrder;
+use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
+use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
 use super::component::Fib__100;
 
-pub fn write_trace(
+#[allow(non_camel_case_types)]
+#[derive(Default)]
+pub struct Fib__100CpuTraceGenerator {
+    pub inputs: Vec<Felt>,
+}
+impl ComponentGen for Fib__100CpuTraceGenerator {}
+
+impl TraceGenerator<CpuBackend> for Fib__100CpuTraceGenerator {
+    type Component = Fib__100;
+    type Inputs = Vec<Felt>;
+
+    fn write_trace(
+        component_id: &str,
+        registry: &mut ComponentGenerationRegistry,
+    ) -> Vec<CpuCircleEvaluation<Felt, BitReversedOrder>> {
+        let generator = registry.get_generator::<Fib__100CpuTraceGenerator>(component_id);
+        write_trace_cpu(&generator.component(), &generator.inputs)
+    }
+
+    fn add_inputs(&mut self, inputs: &Self::Inputs) {
+        self.inputs.extend(inputs);
+    }
+
+    fn component(&self) -> Fib__100 {
+        Fib__100 {
+            log_n_instances: self
+                .inputs
+                .len()
+                .checked_ilog2()
+                .expect("Input not a power of 2!"),
+        }
+    }
+}
+
+#[allow(clippy::ptr_arg)]
+pub fn write_trace_cpu(
     component: &Fib__100,
-    secrets: &[Felt],
+    secrets: &Vec<Felt>,
 ) -> Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>> {
-    let n_columns = component.trace_log_degree_bounds()[0].len();
-    let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_columns];
+    let n_trace_columns = component.trace_log_degree_bounds()[0].len();
+    let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_trace_columns];
     for (i, secret) in secrets.iter().enumerate() {
         write_trace_row(&mut trace_values, *secret, i);
     }
@@ -35,7 +73,7 @@ pub fn write_trace(
 
 #[allow(non_snake_case)]
 #[allow(clippy::useless_conversion)]
-pub fn write_trace_row(dst: &mut [Vec<BaseField>], Fib__100_input: Felt, row_index: usize) {
+fn write_trace_row(dst: &mut [Vec<BaseField>], Fib__100_input: Felt, row_index: usize) {
     let col0 = Fib__100_input;
     dst[0][row_index] = col0.into();
     let col1 = ((Felt::from(1)) * (Felt::from(1))) + ((col0) * (col0));

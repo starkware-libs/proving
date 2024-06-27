@@ -3,18 +3,56 @@ use itertools::Itertools;
 use num_traits::Zero;
 use stwo_prover::core::air::Component;
 use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
+use stwo_prover::core::backend::CpuBackend;
 use stwo_prover::core::fields::m31::BaseField;
 use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::poly::BitReversedOrder;
+use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
+use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
 use super::component::BitUnpack__12;
 
-pub fn write_trace(
+#[allow(non_camel_case_types)]
+#[derive(Default)]
+pub struct BitUnpack__12CpuTraceGenerator {
+    pub inputs: Vec<UInt16>,
+}
+impl ComponentGen for BitUnpack__12CpuTraceGenerator {}
+
+impl TraceGenerator<CpuBackend> for BitUnpack__12CpuTraceGenerator {
+    type Component = BitUnpack__12;
+    type Inputs = Vec<UInt16>;
+
+    fn write_trace(
+        component_id: &str,
+        registry: &mut ComponentGenerationRegistry,
+    ) -> Vec<CpuCircleEvaluation<Felt, BitReversedOrder>> {
+        let generator = registry.get_generator::<BitUnpack__12CpuTraceGenerator>(component_id);
+        write_trace_cpu(&generator.component(), &generator.inputs)
+    }
+
+    fn add_inputs(&mut self, inputs: &Self::Inputs) {
+        self.inputs.extend(inputs);
+    }
+
+    fn component(&self) -> BitUnpack__12 {
+        BitUnpack__12 {
+            log_n_instances: self
+                .inputs
+                .len()
+                .checked_ilog2()
+                .expect("Input not a power of 2!"),
+        }
+    }
+}
+
+#[allow(clippy::ptr_arg)]
+pub fn write_trace_cpu(
     component: &BitUnpack__12,
-    secrets: &[UInt16],
+    secrets: &Vec<UInt16>,
 ) -> Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>> {
-    let n_columns = component.trace_log_degree_bounds()[0].len();
-    let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_columns];
+    let n_trace_columns = component.trace_log_degree_bounds()[0].len();
+    let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_trace_columns];
     for (i, secret) in secrets.iter().enumerate() {
         write_trace_row(&mut trace_values, *secret, i);
     }
@@ -35,7 +73,7 @@ pub fn write_trace(
 
 #[allow(non_snake_case)]
 #[allow(clippy::useless_conversion)]
-pub fn write_trace_row(dst: &mut [Vec<BaseField>], BitUnpack__12_input: UInt16, row_index: usize) {
+fn write_trace_row(dst: &mut [Vec<BaseField>], BitUnpack__12_input: UInt16, row_index: usize) {
     let col0 = BitUnpack__12_input.as_felt();
     dst[0][row_index] = col0.into();
     let deduction_tmp_2 = (BitUnpack__12_input) >> (UInt16::from(1));
