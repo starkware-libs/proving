@@ -1,3 +1,4 @@
+#![allow(unused_variables)]
 use stwo_prover::core::air::accumulation::DomainEvaluationAccumulator;
 use stwo_prover::core::air::{Component, ComponentProver, ComponentTrace};
 use stwo_prover::core::backend::simd::column::{BaseFieldVec, SecureFieldVec};
@@ -9,6 +10,7 @@ use stwo_prover::core::constraints::coset_vanishing;
 use stwo_prover::core::fields::m31::BaseField;
 use stwo_prover::core::fields::FieldOps;
 use stwo_prover::core::poly::circle::CanonicCoset;
+use stwo_prover::core::InteractionElements;
 
 use super::component::Fib__100;
 
@@ -18,9 +20,10 @@ impl ComponentProver<SimdBackend> for Fib__100 {
         &self,
         trace: &ComponentTrace<'_, SimdBackend>,
         evaluation_accumulator: &mut DomainEvaluationAccumulator<SimdBackend>,
+        _interaction_elements: &InteractionElements,
     ) {
         // Numerator computation.
-        let trace_evals = &trace.evals;
+        let trace_evals = &trace.evals[0];
         let mut numerators = SecureFieldVec::zeros(1 << (self.max_constraint_log_degree_bound()));
         let [accum] = evaluation_accumulator
             .columns([(self.max_constraint_log_degree_bound(), self.n_constraints())]);

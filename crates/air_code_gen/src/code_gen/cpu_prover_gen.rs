@@ -31,6 +31,7 @@ fn imports_code(component_name: &str) -> rust::Tokens {
         use stwo_prover::core::fields::FieldExpOps;
         use stwo_prover::core::poly::circle::CanonicCoset;
         use stwo_prover::core::utils::bit_reverse;
+        use stwo_prover::core::InteractionElements;
 
         use super::component::$(component_name);
     }
@@ -39,7 +40,7 @@ fn imports_code(component_name: &str) -> rust::Tokens {
 fn numerator_code(constraints: &[ConstraintOrIntermediate]) -> rust::Tokens {
     // TODO(ShaharS): accumulate each constraint according to its degree.
     let mut numerator_code = quote! {
-        let trace_evals = &trace.evals;
+        let trace_evals = &trace.evals[0];
         let mut numerators =
             vec![SecureField::zero(); 1 << (self.max_constraint_log_degree_bound())];
         let [mut accum] =

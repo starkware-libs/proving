@@ -13,7 +13,7 @@ pub fn write_trace(
     component: &BitUnpack__12,
     secrets: &[UInt16],
 ) -> Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>> {
-    let n_columns = component.trace_log_degree_bounds().len();
+    let n_columns = component.trace_log_degree_bounds()[0].len();
     let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_columns];
     for (i, secret) in secrets.iter().enumerate() {
         write_trace_row(&mut trace_values, *secret, i);

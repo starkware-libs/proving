@@ -114,21 +114,23 @@ fn generate_component_impl(
     });
 
     // Assumes that the component trace is rectangular.
+    // TODO(Ohad): add interaction log degree bounds.
     let mut func3 = rust::Tokens::new();
     func3.extend(quote! {
-        fn trace_log_degree_bounds(&self) -> Vec<u32> {
-            vec![self.log_n_instances; $(n_columns)]
+        fn trace_log_degree_bounds(&self) -> TreeVec<Vec<u32>> {
+            TreeVec(vec![vec![self.log_n_instances; $(n_columns)],vec![]])
         }
     });
 
     // Assumes that each of the constraints applies on a single row.
+    // TODO(Ohad): add interaction mask points.
     let mut func4 = rust::Tokens::new();
     func4.extend(quote! {
         fn mask_points(
             &self,
             point: CirclePoint<SecureField>,
-        ) -> ColumnVec<Vec<CirclePoint<SecureField>>> {
-            fixed_mask_points(&vec![vec![0_usize]; $(n_columns)], point)
+        ) -> TreeVec<ColumnVec<Vec<CirclePoint<SecureField>>>> {
+            TreeVec(vec![fixed_mask_points(&vec![vec![0_usize]; $(n_columns)], point), vec![]])
         }
     });
 
@@ -139,10 +141,23 @@ fn generate_component_impl(
             point: CirclePoint<SecureField>,
             mask: &ColumnVec<Vec<SecureField>>,
             evaluation_accumulator: &mut PointEvaluationAccumulator,
+            _interaction_elements: &InteractionElements,
         ) {
         let constraint_zero_domain = CanonicCoset::new(self.log_n_instances).coset;
         let denominator_inv = coset_vanishing(constraint_zero_domain, point).inverse();
         $(constraint_eval_at_point_code(constraints))
+        }
+    });
+
+    // TODO(Ohad): implement.
+    let mut func6 = rust::Tokens::new();
+    func6.extend(quote! {
+        fn n_interaction_phases(&self) -> u32 {
+            1
+        }
+
+        fn interaction_element_ids(&self) -> Vec<String> {
+            vec![]
         }
     });
 
@@ -159,6 +174,8 @@ fn generate_component_impl(
             $['\n']
             #[allow(unused_parens)]
             $(func5)
+            $['\n']
+            $(func6)
         }
     });
     res_code
@@ -174,8 +191,9 @@ pub fn generate_component(component_name: &str, lists: AutogenLists) -> rust::To
         use stwo_prover::core::fields::FieldExpOps;
         use stwo_prover::core::fields::m31::BaseField;
         use stwo_prover::core::fields::qm31::SecureField;
+        use stwo_prover::core::pcs::TreeVec;
         use stwo_prover::core::poly::circle::CanonicCoset;
-        use stwo_prover::core::ColumnVec;
+        use stwo_prover::core::{ColumnVec, InteractionElements};
     };
     let n_columns = get_component_columns(&lists.deductions);
     let struct_code = generate_struct_code(component_name);

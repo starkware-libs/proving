@@ -5,19 +5,21 @@ use rand::Rng;
 use stwo_prover::core::air::accumulation::{
     DomainEvaluationAccumulator, PointEvaluationAccumulator,
 };
-use stwo_prover::core::air::{AirProver, ComponentProver, ComponentTrace};
+use stwo_prover::core::air::{AirProver, AirTraceWriter, ComponentProver, ComponentTrace};
 use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
 use stwo_prover::core::backend::{Backend, CpuBackend};
 use stwo_prover::core::channel::{Blake2sChannel, Channel};
 use stwo_prover::core::circle::{CirclePoint, SECURE_FIELD_CIRCLE_ORDER};
 use stwo_prover::core::fields::m31::{BaseField, P};
 use stwo_prover::core::fields::qm31::SecureField;
+use stwo_prover::core::pcs::TreeVec;
 use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::prover::{prove, verify};
 use stwo_prover::core::vcs::blake2_hash::Blake2sHash;
 use stwo_prover::core::vcs::blake2_merkle::Blake2sMerkleHasher;
 use stwo_prover::core::vcs::ops::MerkleOps;
+use stwo_prover::core::InteractionElements;
 
 /// Asserts that the component constraints are satisfied on the trace.
 /// Should only be used for testing.
@@ -41,8 +43,8 @@ pub fn assert_cpu_constraints(
         .collect_vec();
 
     let component_trace = ComponentTrace {
-        polys: trace_polys.iter().collect(),
-        evals: trace_evals.iter().collect(),
+        polys: TreeVec(vec![trace_polys.iter().collect()]),
+        evals: TreeVec(vec![trace_evals.iter().collect()]),
     };
 
     // Accumulate constraints to get the constraint polynomial.
@@ -57,14 +59,17 @@ pub fn assert_cpu_constraints(
         component.max_constraint_log_degree_bound(),
         component.n_constraints(),
     );
-    component
-        .evaluate_constraint_quotients_on_domain(&component_trace, &mut composition_polynomial_acc);
+    component.evaluate_constraint_quotients_on_domain(
+        &component_trace,
+        &mut composition_polynomial_acc,
+        &InteractionElements::default(),
+    );
     let composition_polynomial = composition_polynomial_acc.finalize();
 
     // Evaluate constraints at a random point.
     let oods_point = CirclePoint::get_point(rng.gen_range(0..SECURE_FIELD_CIRCLE_ORDER));
     let oods_mask_points = component.mask_points(oods_point);
-    let oods_mask_values = zip(&oods_mask_points, &component_trace.polys)
+    let oods_mask_values = zip(&oods_mask_points[0], &component_trace.polys[0])
         .map(|(col_points, col)| {
             col_points
                 .iter()
@@ -77,6 +82,7 @@ pub fn assert_cpu_constraints(
         oods_point,
         &oods_mask_values,
         &mut oods_mask_accumulator,
+        &InteractionElements::default(),
     );
 
     assert_eq!(
@@ -86,7 +92,7 @@ pub fn assert_cpu_constraints(
 }
 
 pub fn test_prove<B: Backend + MerkleOps<Blake2sMerkleHasher>>(
-    air: &impl AirProver<B>,
+    air: &(impl AirProver<B> + AirTraceWriter<B>),
     trace: Vec<CircleEvaluation<B, BaseField, BitReversedOrder>>,
 ) {
     // TODO(ShaharS): Mix channel `initial_seed` with the private input.

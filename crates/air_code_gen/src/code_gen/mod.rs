@@ -19,6 +19,7 @@ pub fn generate_prover_component(
     accumulation_code: rust::Tokens,
 ) -> rust::Tokens {
     quote! {
+        #![allow(unused_variables)]
         $(imports_code)
         $['\n']
         impl ComponentProver<$(backend_type)> for $(component_name) {
@@ -27,6 +28,7 @@ pub fn generate_prover_component(
                 &self,
                 trace: &ComponentTrace<'_, $(backend_type)>,
                 evaluation_accumulator: &mut DomainEvaluationAccumulator<$(backend_type)>,
+                _interaction_elements: &InteractionElements,
             ) {
                 $("// Numerator computation.")
                 $(numerator_code)

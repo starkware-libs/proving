@@ -6,8 +6,9 @@ use stwo_prover::core::constraints::coset_vanishing;
 use stwo_prover::core::fields::m31::BaseField;
 use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::FieldExpOps;
+use stwo_prover::core::pcs::TreeVec;
 use stwo_prover::core::poly::circle::CanonicCoset;
-use stwo_prover::core::ColumnVec;
+use stwo_prover::core::{ColumnVec, InteractionElements};
 
 #[allow(non_camel_case_types)]
 pub struct BitUnpack__12 {
@@ -23,15 +24,18 @@ impl Component for BitUnpack__12 {
         self.log_n_instances + 1
     }
 
-    fn trace_log_degree_bounds(&self) -> Vec<u32> {
-        vec![self.log_n_instances; 13]
+    fn trace_log_degree_bounds(&self) -> TreeVec<Vec<u32>> {
+        TreeVec(vec![vec![self.log_n_instances; 13], vec![]])
     }
 
     fn mask_points(
         &self,
         point: CirclePoint<SecureField>,
-    ) -> ColumnVec<Vec<CirclePoint<SecureField>>> {
-        fixed_mask_points(&vec![vec![0_usize]; 13], point)
+    ) -> TreeVec<ColumnVec<Vec<CirclePoint<SecureField>>>> {
+        TreeVec(vec![
+            fixed_mask_points(&vec![vec![0_usize]; 13], point),
+            vec![],
+        ])
     }
 
     #[allow(unused_parens)]
@@ -40,6 +44,7 @@ impl Component for BitUnpack__12 {
         point: CirclePoint<SecureField>,
         mask: &ColumnVec<Vec<SecureField>>,
         evaluation_accumulator: &mut PointEvaluationAccumulator,
+        _interaction_elements: &InteractionElements,
     ) {
         let constraint_zero_domain = CanonicCoset::new(self.log_n_instances).coset;
         let denominator_inv = coset_vanishing(constraint_zero_domain, point).inverse();
@@ -89,5 +94,13 @@ impl Component for BitUnpack__12 {
         evaluation_accumulator.accumulate(numerator * denominator_inv);
         let numerator = mask[12][0];
         evaluation_accumulator.accumulate(numerator * denominator_inv);
+    }
+
+    fn n_interaction_phases(&self) -> u32 {
+        1
+    }
+
+    fn interaction_element_ids(&self) -> Vec<String> {
+        vec![]
     }
 }

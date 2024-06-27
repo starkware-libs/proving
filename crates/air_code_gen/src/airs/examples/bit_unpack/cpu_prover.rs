@@ -1,3 +1,4 @@
+#![allow(unused_variables)]
 use num_traits::identities::Zero;
 use stwo_prover::core::air::accumulation::DomainEvaluationAccumulator;
 use stwo_prover::core::air::{Component, ComponentProver, ComponentTrace};
@@ -8,6 +9,7 @@ use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::FieldExpOps;
 use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::utils::bit_reverse;
+use stwo_prover::core::InteractionElements;
 
 use super::component::BitUnpack__12;
 
@@ -17,9 +19,10 @@ impl ComponentProver<CpuBackend> for BitUnpack__12 {
         &self,
         trace: &ComponentTrace<'_, CpuBackend>,
         evaluation_accumulator: &mut DomainEvaluationAccumulator<CpuBackend>,
+        _interaction_elements: &InteractionElements,
     ) {
         // Numerator computation.
-        let trace_evals = &trace.evals;
+        let trace_evals = &trace.evals[0];
         let mut numerators =
             vec![SecureField::zero(); 1 << (self.max_constraint_log_degree_bound())];
         let [mut accum] = evaluation_accumulator

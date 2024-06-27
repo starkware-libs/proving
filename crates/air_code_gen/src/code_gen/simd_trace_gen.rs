@@ -173,7 +173,7 @@ pub fn generate_simd_write_trace_code(
             component: &$component_name,
             secrets: &[$(packed_name(&input_type))],
         ) -> Vec<CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>> {
-            let n_columns = component.trace_log_degree_bounds().len();
+            let n_columns = component.trace_log_degree_bounds()[0].len();
             let mut trace_values = vec![vec![PackedBaseField::zero(); secrets.len()]; n_columns];
             for (i, secret) in secrets.iter().copied().enumerate() {
                 super::simd_trace::write_trace_row(&mut trace_values, secret, i);
