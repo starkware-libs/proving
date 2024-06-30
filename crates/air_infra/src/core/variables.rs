@@ -1,6 +1,6 @@
 use std::fmt::{Debug, Display};
 
-use serde::{Deserialize, Serialize};
+use serde::{Serialize, Serializer};
 
 use super::autogen_structs::*;
 use super::expressions::expr::*;
@@ -32,7 +32,7 @@ pub trait AirVar: Clone + Debug + Default + Into<GenericAirVar> {
 }
 
 // Air variables as represented in the air_body.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug)]
 pub enum GenericAirVar {
     Expr(ExprImpl),
     Tuple(Vec<GenericAirVar>),
@@ -57,6 +57,16 @@ impl GenericAirVar {
     }
 }
 
+impl Serialize for GenericAirVar {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let var: ProcessedAirVar = self.clone().into();
+        serializer.collect_str(&var.to_string())
+    }
+}
+
 impl Default for GenericAirVar {
     fn default() -> Self {
         GenericAirVar::Expr(ExprImpl::default())
@@ -66,7 +76,10 @@ impl Default for GenericAirVar {
 impl Display for GenericAirVar {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            GenericAirVar::Expr(expr) => write!(f, "{}", expr),
+            GenericAirVar::Expr(expr) => {
+                let var: ProcessedAirVar = expr.clone().into();
+                write!(f, "{}", var)
+            }
             GenericAirVar::Tuple(vars) => {
                 write!(f, "(")?;
                 for (i, var) in vars.iter().enumerate() {

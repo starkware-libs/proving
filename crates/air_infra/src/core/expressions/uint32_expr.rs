@@ -1,6 +1,3 @@
-use serde::{Deserialize, Serialize};
-use std::fmt::Display;
-
 use super::super::air_fn_registry::*;
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
@@ -14,16 +11,12 @@ pub type UInt32Binary = BinaryExpr<UInt32>;
 pub type UInt32Unary = UnaryExpr<UInt32>;
 
 // A variable of type UInt32. Holds its name, and value. It is represented as two UInt16 variables.
-#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default)]
 pub struct UInt32Var {
     pub(super) name: String,
-    #[serde(skip)]
     pub(super) value: Option<UInt32>,
-    #[serde(skip)]
     pub(super) low: UInt16Expr,
-    #[serde(skip)]
     pub(super) high: UInt16Expr,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub(super) parent: Option<Box<ExprImpl>>,
     pub(super) is_const: bool,
 }
@@ -41,8 +34,7 @@ impl UInt32Var {
     }
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(untagged)]
+#[derive(Clone, Debug)]
 pub enum UInt32Expr {
     Var(UInt32Var),
     Binary(UInt32Binary),
@@ -225,22 +217,6 @@ impl From<UInt32Expr> for ProcessedAirVar {
             UInt32Expr::Binary(b) => b.into(),
             UInt32Expr::Unary(u) => u.into(),
         }
-    }
-}
-
-impl Display for UInt32Expr {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let name = self.name();
-
-        if let UInt32Expr::Var(v) = self {
-            if !name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-                if let Some(p) = v.parent.clone() {
-                    return write!(f, "{}.{}()", *p, name);
-                }
-            }
-        }
-
-        write!(f, "{}", name)
     }
 }
 

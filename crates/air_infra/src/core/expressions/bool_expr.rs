@@ -1,24 +1,19 @@
-use serde::{Deserialize, Serialize};
-use std::fmt::Display;
-
 use super::super::air_fn_registry::*;
+use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
-use crate::core::autogen_structs::*;
 
 pub type BoolBinary = BinaryExpr<Bool>;
 pub type BoolUnary = UnaryExpr<Bool>;
 
 // A variable of type Bool. Holds its name, value, and Felt representation.
-#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default)]
 pub struct BoolVar {
     pub(super) name: String,
-    #[serde(skip)]
     pub(super) value: Option<Bool>,
-    #[serde(skip)]
     pub(super) as_felt: FeltExpr,
     pub(super) is_const: bool,
 }
@@ -34,8 +29,7 @@ impl BoolVar {
     }
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(untagged)]
+#[derive(Clone, Debug)]
 pub enum BoolExpr {
     Var(BoolVar),
     Binary(BoolBinary),
@@ -206,12 +200,6 @@ impl From<BoolExpr> for ProcessedAirVar {
             BoolExpr::Binary(b) => b.into(),
             BoolExpr::Unary(u) => u.into(),
         }
-    }
-}
-
-impl Display for BoolExpr {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.name())
     }
 }
 

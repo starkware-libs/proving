@@ -1,6 +1,3 @@
-use serde::{Deserialize, Serialize};
-use std::fmt::Display;
-
 use super::super::air_fn_registry::*;
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
@@ -15,14 +12,11 @@ pub type UInt16Unary = UnaryExpr<UInt16>;
 // A variable of type UInt16. Holds its name, value, and Felt representation.
 // It can be a field (attribute) of another expression, like UInt32Expr, or
 // a standalone variable.
-#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default)]
 pub struct UInt16Var {
     pub(super) name: String,
-    #[serde(skip)]
     pub(super) value: Option<UInt16>,
-    #[serde(skip)]
     pub(super) as_felt: FeltExpr,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub(super) parent: Option<Box<ExprImpl>>,
     pub(super) is_const: bool,
 }
@@ -38,8 +32,7 @@ impl UInt16Var {
     }
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(untagged)]
+#[derive(Clone, Debug)]
 pub enum UInt16Expr {
     Var(UInt16Var),
     Binary(UInt16Binary),
@@ -229,22 +222,6 @@ impl From<UInt16Expr> for ProcessedAirVar {
             UInt16Expr::Binary(b) => b.into(),
             UInt16Expr::Unary(u) => u.into(),
         }
-    }
-}
-
-impl Display for UInt16Expr {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let name = self.name();
-
-        if let UInt16Expr::Var(v) = self {
-            if !name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-                if let Some(p) = v.parent.clone() {
-                    return write!(f, "{}.{}()", *p, name);
-                }
-            }
-        }
-
-        write!(f, "{}", name)
     }
 }
 

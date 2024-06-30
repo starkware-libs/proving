@@ -2,13 +2,13 @@ use std::cell::RefCell;
 use std::fmt::Debug;
 use std::rc::Rc;
 
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 
 #[cfg(test)]
 use super::expressions::expr::Expr;
 use super::expressions::felt_expr::*;
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize)]
 pub struct State {
     pub row: Rc<RefCell<Vec<FeltExpr>>>,
 }

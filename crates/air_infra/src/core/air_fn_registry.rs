@@ -5,7 +5,7 @@ use std::io::{BufWriter, Write};
 use std::path::PathBuf;
 use std::rc::Rc;
 
-use serde::{Deserialize, Serialize};
+use serde::Serialize;
 use serde_json::to_writer_pretty;
 
 use super::air_fn::*;
@@ -17,7 +17,7 @@ pub const CONSTRAINT_INTERMEDIATE_VAR_PREFIX: &str = "constraint_tmp_";
 pub const DEDUCTION_INTERMEDIATE_VAR_PREFIX: &str = "deduction_tmp_";
 
 // AirFnEntry describes everything we know about an Air function.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct AirFnEntry {
     pub name: String,
     pub inst_def: BTreeMap<String, String>,
@@ -53,7 +53,7 @@ impl AirFnEntry {
 
 // AirFnRegistry is created for a specific air function. It keeps all the air function entries
 // for the air function and its subroutines.
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize)]
 pub struct AirFnRegistry {
     pub air_fns: Rc<RefCell<BTreeMap<String, AirFnEntry>>>,
     #[serde(skip)]

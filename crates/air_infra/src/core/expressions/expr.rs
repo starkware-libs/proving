@@ -1,7 +1,4 @@
 use std::array::from_fn;
-use std::fmt::Display;
-
-use serde::{Deserialize, Serialize};
 
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
@@ -36,7 +33,7 @@ where
 }
 
 // All expressions.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug)]
 pub enum ExprImpl {
     Felt(FeltExpr),
     UInt16(UInt16Expr),
@@ -159,19 +156,6 @@ impl From<ExprImpl> for ProcessedAirVar {
             ExprImpl::UInt32(u) => u.into(),
             ExprImpl::UInt64(u) => u.into(),
             ExprImpl::Felt252(f) => f.into(),
-        }
-    }
-}
-
-impl Display for ExprImpl {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ExprImpl::Felt(e) => write!(f, "{}", e),
-            ExprImpl::UInt16(u) => write!(f, "{}", u),
-            ExprImpl::Bool(b) => write!(f, "{}", b),
-            ExprImpl::UInt32(u) => write!(f, "{}", u),
-            ExprImpl::UInt64(u) => write!(f, "{}", u),
-            ExprImpl::Felt252(e) => write!(f, "{}", e),
         }
     }
 }
