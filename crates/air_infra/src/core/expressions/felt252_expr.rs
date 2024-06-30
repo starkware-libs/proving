@@ -165,6 +165,18 @@ impl AirVar for Felt252Expr {
             Felt252Expr::Unary(u) => u.child.is_const(),
         }
     }
+
+    #[cfg(test)]
+    fn to_values(&self) -> Vec<Felt> {
+        let mut v: Vec<Felt> = self
+            .clone()
+            .as_felts()
+            .into_iter()
+            .map(|f| f.value().unwrap())
+            .collect();
+        v.resize(FELT252_N_WORDS, Felt::from_u32_unchecked(0));
+        v
+    }
 }
 
 impl Default for Felt252Expr {
