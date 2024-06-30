@@ -6,8 +6,7 @@ use super::expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
 
-pub type UInt16Binary = BinaryExpr<UInt16>;
-pub type UInt16Unary = UnaryExpr<UInt16>;
+pub type UInt16Operation = OpExpr<UInt16>;
 
 // A variable of type UInt16. Holds its name, value, and Felt representation.
 // It can be a field (attribute) of another expression, like UInt32Expr, or
@@ -35,27 +34,25 @@ impl UInt16Var {
 #[derive(Clone, Debug)]
 pub enum UInt16Expr {
     Var(UInt16Var),
-    Binary(UInt16Binary),
-    Unary(UInt16Unary),
+    Op(UInt16Operation),
 }
 
 impl UInt16Expr {
     pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
         match self {
             UInt16Expr::Var(v) => &mut v.as_felt,
-            UInt16Expr::Unary(u) => {
-                if u.op == UnaryOp::UInt16FromBool {
-                    if let GenericAirVar::Expr(ExprImpl::Bool(bool_expr)) = &mut *u.child {
+            UInt16Expr::Op(op) => {
+                if op.op == Operation::UInt16FromBool {
+                    if let GenericAirVar::Expr(ExprImpl::Bool(bool_expr)) = &mut op.children[0] {
                         return bool_expr.as_felt_mut();
                     }
-                } else if u.op == UnaryOp::UInt16FromFelt {
-                    if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = &mut *u.child {
+                } else if op.op == Operation::UInt16FromFelt {
+                    if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = &mut op.children[0] {
                         return felt_expr;
                     }
                 }
                 panic!("Cannot convert to a Felt");
             }
-            _ => panic!("Cannot convert to a Felt"),
         }
     }
 
@@ -64,9 +61,9 @@ impl UInt16Expr {
         assert!(self.is_const());
 
         let value = self.value().map(|c| c.as_felt());
-        FeltExpr::Unary(UnaryExpr::new(
-            UnaryOp::ConstUint16ToFelt,
-            self.clone().into(),
+        FeltExpr::Op(OpExpr::new(
+            Operation::ConstUint16ToFelt,
+            vec![self.clone().into()],
             value,
         ))
     }
@@ -121,8 +118,7 @@ impl Expr<UInt16> for UInt16Expr {
     fn value(&self) -> Option<UInt16> {
         match self {
             UInt16Expr::Var(v) => v.value,
-            UInt16Expr::Binary(b) => b.value,
-            UInt16Expr::Unary(u) => u.value,
+            UInt16Expr::Op(op) => op.value,
         }
     }
 }
@@ -135,8 +131,7 @@ impl AirVar for UInt16Expr {
     fn name(&self) -> String {
         match self {
             UInt16Expr::Var(v) => v.name.clone(),
-            UInt16Expr::Binary(b) => b.name.clone(),
-            UInt16Expr::Unary(u) => u.name.clone(),
+            UInt16Expr::Op(op) => op.name.clone(),
         }
     }
 
@@ -157,8 +152,7 @@ impl AirVar for UInt16Expr {
     fn in_state(&self) -> bool {
         match self {
             UInt16Expr::Var(v) => v.as_felt.in_state(),
-            UInt16Expr::Binary(b) => b.left.in_state() && b.right.in_state(),
-            UInt16Expr::Unary(u) => u.child.in_state(),
+            UInt16Expr::Op(op) => op.children.iter().all(|c| c.in_state()),
         }
     }
 
@@ -169,8 +163,7 @@ impl AirVar for UInt16Expr {
     fn is_const(&self) -> bool {
         match self {
             UInt16Expr::Var(v) => v.is_const,
-            UInt16Expr::Binary(b) => b.left.is_const() && b.right.is_const(),
-            UInt16Expr::Unary(u) => u.child.is_const(),
+            UInt16Expr::Op(op) => op.children.iter().all(|c| c.is_const()),
         }
     }
 }
@@ -187,15 +180,9 @@ impl From<UInt16Var> for UInt16Expr {
     }
 }
 
-impl From<UInt16Binary> for UInt16Expr {
-    fn from(b: UInt16Binary) -> UInt16Expr {
-        UInt16Expr::Binary(b)
-    }
-}
-
-impl From<UInt16Unary> for UInt16Expr {
-    fn from(u: UInt16Unary) -> UInt16Expr {
-        UInt16Expr::Unary(u)
+impl From<UInt16Operation> for UInt16Expr {
+    fn from(b: UInt16Operation) -> UInt16Expr {
+        UInt16Expr::Op(b)
     }
 }
 
@@ -222,8 +209,7 @@ impl From<UInt16Expr> for ProcessedAirVar {
 
                 ProcessedAirVar::Var(UInt16::r#type(), v.name)
             }
-            UInt16Expr::Binary(b) => b.into(),
-            UInt16Expr::Unary(u) => u.into(),
+            UInt16Expr::Op(op) => op.into(),
         }
     }
 }

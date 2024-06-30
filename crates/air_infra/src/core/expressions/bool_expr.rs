@@ -6,9 +6,7 @@ use super::expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
 
-pub type BoolBinary = BinaryExpr<Bool>;
-pub type BoolUnary = UnaryExpr<Bool>;
-
+pub type BoolOperation = OpExpr<Bool>;
 // A variable of type Bool. Holds its name, value, and Felt representation.
 #[derive(Clone, Debug, Default)]
 pub struct BoolVar {
@@ -32,23 +30,21 @@ impl BoolVar {
 #[derive(Clone, Debug)]
 pub enum BoolExpr {
     Var(BoolVar),
-    Binary(BoolBinary),
-    Unary(BoolUnary),
+    Op(BoolOperation),
 }
 
 impl BoolExpr {
     pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
         match self {
             BoolExpr::Var(v) => &mut v.as_felt,
-            BoolExpr::Unary(u) => {
-                if u.op == UnaryOp::BoolFromFelt {
-                    if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = &mut *u.child {
+            BoolExpr::Op(u) => {
+                if u.op == Operation::BoolFromFelt {
+                    if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = &mut u.children[0] {
                         return felt_expr;
                     }
                 }
                 panic!("Cannot convert to a Felt");
             }
-            _ => panic!("Cannot convert to a Felt"),
         }
     }
 
@@ -57,9 +53,9 @@ impl BoolExpr {
         assert!(self.is_const());
 
         let value = self.value().map(|c| c.as_felt());
-        FeltExpr::Unary(UnaryExpr::new(
-            UnaryOp::ConstBoolToFelt,
-            self.clone().into(),
+        FeltExpr::Op(OpExpr::new(
+            Operation::ConstBoolToFelt,
+            vec![self.clone().into()],
             value,
         ))
     }
@@ -104,8 +100,7 @@ impl Expr<Bool> for BoolExpr {
     fn value(&self) -> Option<Bool> {
         match self {
             BoolExpr::Var(v) => v.value,
-            BoolExpr::Binary(b) => b.value,
-            BoolExpr::Unary(u) => u.value,
+            BoolExpr::Op(b) => b.value,
         }
     }
 }
@@ -118,8 +113,7 @@ impl AirVar for BoolExpr {
     fn name(&self) -> String {
         match self {
             BoolExpr::Var(v) => v.name.clone(),
-            BoolExpr::Binary(b) => b.name.clone(),
-            BoolExpr::Unary(u) => u.name.clone(),
+            BoolExpr::Op(b) => b.name.clone(),
         }
     }
 
@@ -140,8 +134,7 @@ impl AirVar for BoolExpr {
     fn in_state(&self) -> bool {
         match self {
             BoolExpr::Var(v) => v.as_felt.in_state(),
-            BoolExpr::Binary(b) => b.left.in_state() && b.right.in_state(),
-            BoolExpr::Unary(u) => u.child.in_state(),
+            BoolExpr::Op(op) => op.children.iter().all(|c| c.in_state()),
         }
     }
 
@@ -152,8 +145,7 @@ impl AirVar for BoolExpr {
     fn is_const(&self) -> bool {
         match self {
             BoolExpr::Var(v) => v.is_const,
-            BoolExpr::Binary(b) => b.left.is_const() && b.right.is_const(),
-            BoolExpr::Unary(u) => u.child.is_const(),
+            BoolExpr::Op(op) => op.children.iter().all(|c| c.is_const()),
         }
     }
 }
@@ -170,15 +162,9 @@ impl From<BoolVar> for BoolExpr {
     }
 }
 
-impl From<BoolBinary> for BoolExpr {
-    fn from(b: BoolBinary) -> BoolExpr {
-        BoolExpr::Binary(b)
-    }
-}
-
-impl From<BoolUnary> for BoolExpr {
-    fn from(u: BoolUnary) -> BoolExpr {
-        BoolExpr::Unary(u)
+impl From<BoolOperation> for BoolExpr {
+    fn from(b: BoolOperation) -> BoolExpr {
+        BoolExpr::Op(b)
     }
 }
 
@@ -201,8 +187,7 @@ impl From<BoolExpr> for ProcessedAirVar {
                 }
                 ProcessedAirVar::Var(Bool::r#type(), v.name)
             }
-            BoolExpr::Binary(b) => b.into(),
-            BoolExpr::Unary(u) => u.into(),
+            BoolExpr::Op(op) => op.into(),
         }
     }
 }

@@ -7,9 +7,7 @@ use super::felt_expr::*;
 use super::op_expr::*;
 use super::uint16_expr::*;
 
-pub type UInt32Binary = BinaryExpr<UInt32>;
-pub type UInt32Unary = UnaryExpr<UInt32>;
-
+pub type UInt32Operation = OpExpr<UInt32>;
 // A variable of type UInt32. Holds its name, and value. It is represented as two UInt16 variables.
 #[derive(Clone, Debug, Default)]
 pub struct UInt32Var {
@@ -37,8 +35,7 @@ impl UInt32Var {
 #[derive(Clone, Debug)]
 pub enum UInt32Expr {
     Var(UInt32Var),
-    Binary(UInt32Binary),
-    Unary(UInt32Unary),
+    Op(UInt32Operation),
 }
 
 impl UInt32Expr {
@@ -118,8 +115,7 @@ impl Expr<UInt32> for UInt32Expr {
     fn value(&self) -> Option<UInt32> {
         match self {
             UInt32Expr::Var(v) => v.value,
-            UInt32Expr::Binary(b) => b.value,
-            UInt32Expr::Unary(u) => u.value,
+            UInt32Expr::Op(op) => op.value,
         }
     }
 }
@@ -132,8 +128,7 @@ impl AirVar for UInt32Expr {
     fn name(&self) -> String {
         match self {
             UInt32Expr::Var(v) => v.name.clone(),
-            UInt32Expr::Binary(b) => b.name.clone(),
-            UInt32Expr::Unary(u) => u.name.clone(),
+            UInt32Expr::Op(op) => op.name.clone(),
         }
     }
 
@@ -154,11 +149,9 @@ impl AirVar for UInt32Expr {
     fn in_state(&self) -> bool {
         match self {
             UInt32Expr::Var(v) => v.low.in_state() && v.high.in_state(),
-            UInt32Expr::Binary(b) => b.left.in_state() && b.right.in_state(),
-            UInt32Expr::Unary(u) => u.child.in_state(),
+            UInt32Expr::Op(op) => op.children.iter().all(|c| c.in_state()),
         }
     }
-
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         match self {
             UInt32Expr::Var(v) => vec![v.low.as_felt_mut(), v.high.as_felt_mut()],
@@ -169,8 +162,7 @@ impl AirVar for UInt32Expr {
     fn is_const(&self) -> bool {
         match self {
             UInt32Expr::Var(v) => v.is_const,
-            UInt32Expr::Binary(b) => b.left.is_const() && b.right.is_const(),
-            UInt32Expr::Unary(u) => u.child.is_const(),
+            UInt32Expr::Op(op) => op.children.iter().all(|c| c.is_const()),
         }
     }
 }
@@ -187,15 +179,9 @@ impl From<UInt32Var> for UInt32Expr {
     }
 }
 
-impl From<UInt32Binary> for UInt32Expr {
-    fn from(b: UInt32Binary) -> UInt32Expr {
-        UInt32Expr::Binary(b)
-    }
-}
-
-impl From<UInt32Unary> for UInt32Expr {
-    fn from(u: UInt32Unary) -> UInt32Expr {
-        UInt32Expr::Unary(u)
+impl From<UInt32Operation> for UInt32Expr {
+    fn from(b: UInt32Operation) -> UInt32Expr {
+        UInt32Expr::Op(b)
     }
 }
 
@@ -222,8 +208,7 @@ impl From<UInt32Expr> for ProcessedAirVar {
 
                 ProcessedAirVar::Var(UInt32::r#type(), v.name)
             }
-            UInt32Expr::Binary(b) => b.into(),
-            UInt32Expr::Unary(u) => u.into(),
+            UInt32Expr::Op(op) => op.into(),
         }
     }
 }

@@ -8,8 +8,7 @@ use super::expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
 
-pub type Felt252Binary = BinaryExpr<Felt252>;
-pub type Felt252Unary = UnaryExpr<Felt252>;
+pub type Felt252Operation = OpExpr<Felt252>;
 
 // A variable of type Felt252. Holds its name, and value. It is represented as FELT252_N_WORDS felts,
 // FELT252_BITS_PER_WORD bits each.
@@ -37,8 +36,7 @@ impl Felt252Var {
 #[derive(Clone, Debug)]
 pub enum Felt252Expr {
     Var(Felt252Var),
-    Binary(Felt252Binary),
-    Unary(Felt252Unary),
+    Op(Felt252Operation),
 }
 
 impl Felt252Expr {
@@ -80,8 +78,7 @@ impl Expr<Felt252> for Felt252Expr {
     fn value(&self) -> Option<Felt252> {
         match self {
             Felt252Expr::Var(v) => v.value,
-            Felt252Expr::Binary(b) => b.value,
-            Felt252Expr::Unary(u) => u.value,
+            Felt252Expr::Op(op) => op.value,
         }
     }
 }
@@ -94,8 +91,7 @@ impl AirVar for Felt252Expr {
     fn name(&self) -> String {
         match self {
             Felt252Expr::Var(v) => v.name.clone(),
-            Felt252Expr::Binary(b) => b.name.clone(),
-            Felt252Expr::Unary(u) => u.name.clone(),
+            Felt252Expr::Op(op) => op.name.clone(),
         }
     }
 
@@ -116,8 +112,7 @@ impl AirVar for Felt252Expr {
     fn in_state(&self) -> bool {
         match self {
             Felt252Expr::Var(v) => v.felts.iter().all(|f| f.in_state()),
-            Felt252Expr::Binary(b) => b.left.in_state() && b.right.in_state(),
-            Felt252Expr::Unary(u) => u.child.in_state(),
+            Felt252Expr::Op(op) => op.children.iter().all(|c| c.in_state()),
         }
     }
 
@@ -130,9 +125,9 @@ impl AirVar for Felt252Expr {
                 }
                 res
             }
-            Felt252Expr::Unary(u) => {
-                if u.op == UnaryOp::Felt252FromFeltsArray {
-                    if let GenericAirVar::Array(arr) = &mut *u.child {
+            Felt252Expr::Op(op) => {
+                if op.op == Operation::Felt252FromFeltsArray {
+                    if let GenericAirVar::Array(arr) = &mut op.children[0] {
                         let len = arr.len();
                         let mut felts = vec![];
                         for g in arr {
@@ -147,15 +142,13 @@ impl AirVar for Felt252Expr {
                 }
                 panic!("Cannot convert to felts");
             }
-            _ => panic!("Cannot convert to felts"),
         }
     }
 
     fn is_const(&self) -> bool {
         match self {
             Felt252Expr::Var(v) => v.is_const,
-            Felt252Expr::Binary(b) => b.left.is_const() && b.right.is_const(),
-            Felt252Expr::Unary(u) => u.child.is_const(),
+            Felt252Expr::Op(op) => op.children.iter().all(|c| c.is_const()),
         }
     }
 }
@@ -172,15 +165,9 @@ impl From<Felt252Var> for Felt252Expr {
     }
 }
 
-impl From<Felt252Binary> for Felt252Expr {
-    fn from(b: Felt252Binary) -> Felt252Expr {
-        Felt252Expr::Binary(b)
-    }
-}
-
-impl From<Felt252Unary> for Felt252Expr {
-    fn from(u: Felt252Unary) -> Felt252Expr {
-        Felt252Expr::Unary(u)
+impl From<Felt252Operation> for Felt252Expr {
+    fn from(b: Felt252Operation) -> Felt252Expr {
+        Felt252Expr::Op(b)
     }
 }
 
@@ -203,8 +190,7 @@ impl From<Felt252Expr> for ProcessedAirVar {
                 }
                 ProcessedAirVar::Var(Felt252::r#type(), v.name)
             }
-            Felt252Expr::Binary(b) => b.into(),
-            Felt252Expr::Unary(u) => u.into(),
+            Felt252Expr::Op(op) => op.into(),
         }
     }
 }
