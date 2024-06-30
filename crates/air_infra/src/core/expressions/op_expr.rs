@@ -269,7 +269,7 @@ impl_binary_op!(ops BitXor, bitxor, UInt64Expr, UInt64Binary);
 impl_binary_op!(Eq, eq, UInt64Expr, BoolExpr, BoolBinary);
 
 impl From<Vec<FeltExpr>> for Felt252Expr {
-    fn from(felts: Vec<FeltExpr>) -> Felt252Expr {
+    fn from(mut felts: Vec<FeltExpr>) -> Felt252Expr {
         assert!(
             felts.len() <= FELT252_N_WORDS,
             "Felt252Expr can have at most {FELT252_N_WORDS} felts"
@@ -285,6 +285,7 @@ impl From<Vec<FeltExpr>> for Felt252Expr {
             None
         };
 
+        felts.resize(FELT252_N_WORDS, FeltExpr::new_const(Felt::from(0)));
         let arr = felts
             .into_iter()
             .map(|f| f.into())
