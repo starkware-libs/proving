@@ -1,5 +1,6 @@
 use std::fmt::{Debug, Display};
 
+use serde::ser::SerializeSeq;
 use serde::{Serialize, Serializer};
 
 use super::autogen_structs::*;
@@ -62,8 +63,19 @@ impl Serialize for GenericAirVar {
     where
         S: Serializer,
     {
-        let var: ProcessedAirVar = self.clone().into();
-        serializer.collect_str(&var.to_string())
+        match self {
+            GenericAirVar::Expr(expr) => {
+                let var: ProcessedAirVar = expr.clone().into();
+                serializer.collect_str(&format!("{} (type: {})", var, expr.r#type()))
+            }
+            GenericAirVar::Tuple(vars) | GenericAirVar::Array(vars) => {
+                let mut seq = serializer.serialize_seq(Some(vars.len()))?;
+                for var in vars {
+                    seq.serialize_element(var)?;
+                }
+                seq.end()
+            }
+        }
     }
 }
 

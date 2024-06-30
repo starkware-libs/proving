@@ -43,6 +43,19 @@ pub enum ExprImpl {
     Felt252(Felt252Expr),
 }
 
+impl ExprImpl {
+    pub fn r#type(&self) -> String {
+        match self {
+            ExprImpl::Felt(_) => Felt::r#type(),
+            ExprImpl::UInt16(_) => UInt16::r#type(),
+            ExprImpl::Bool(_) => Bool::r#type(),
+            ExprImpl::UInt32(_) => UInt32::r#type(),
+            ExprImpl::UInt64(_) => UInt64::r#type(),
+            ExprImpl::Felt252(_) => Felt252::r#type(),
+        }
+    }
+}
+
 impl Default for ExprImpl {
     fn default() -> Self {
         ExprImpl::Felt(FeltExpr::default())
