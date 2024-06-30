@@ -1,33 +1,28 @@
-use serde::{Deserialize, Serialize};
-use std::fmt::Display;
+use serde::{Serialize, Serializer};
 
+use super::super::air_fn_registry::*;
+use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
 use super::op_expr::*;
-use crate::core::air_fn_registry::*;
-use crate::core::autogen_structs::*;
 
 pub type FeltBinary = BinaryExpr<Felt>;
 pub type FeltUnary = UnaryExpr<Felt>;
 
 // A variable of type Felt. It can be a field (attribute) of another expression, like UInt16Expr, or
 // a standalone variable. It can represent a felt expression that was written to the trace.
-#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default)]
 pub struct FeltVar {
     pub(super) name: String,
-    #[serde(skip)]
     pub(super) value: Option<Felt>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub(super) state_index: Option<usize>,
-    #[serde(skip_serializing_if = "Option::is_none")]
     pub(super) parent: Option<(Box<ExprImpl>, Option<usize>)>,
     pub(super) is_const: bool,
 }
 
 // A felt expression can be a constant, a variable, a binary operation, or a unary operation.
-#[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(untagged)]
+#[derive(Clone, Debug)]
 pub enum FeltExpr {
     Var(FeltVar),
     Binary(FeltBinary),
@@ -228,25 +223,13 @@ impl From<FeltExpr> for ProcessedAirVar {
     }
 }
 
-impl Display for FeltExpr {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let name = self.name();
-
-        if let FeltExpr::Var(v) = self {
-            if !name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
-                && !name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX)
-                && v.state_index.is_none()
-            {
-                if let Some((p, index)) = v.parent.clone() {
-                    if let Some(i) = index {
-                        return write!(f, "{}.{}({})", *p, name, i);
-                    }
-                    return write!(f, "{}.{}()", *p, name);
-                }
-            }
-        }
-
-        write!(f, "{}", name)
+impl Serialize for FeltExpr {
+    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
+    where
+        S: Serializer,
+    {
+        let var: ProcessedAirVar = self.clone().into();
+        serializer.collect_str(&var.to_string())
     }
 }
 

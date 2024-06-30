@@ -336,7 +336,7 @@ impl AirBuilder {
 // A Call is an air_body component that represents a call to another air function.
 // It contains the name of the air function, the input argument, the output of the call, the state
 // after the call, and the air_body of the called function.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize)]
 pub struct Call {
     pub air_fn_name: String,
     pub input_arg: GenericAirVar,
@@ -345,14 +345,14 @@ pub struct Call {
     pub air_body: Vec<AirBodyComponent>,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize)]
 pub struct LookupCall {
     pub air_fn_name: String,
     pub input_arg: GenericAirVar,
     pub output_name: String,
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize)]
 pub struct LookupConstraint {
     pub air_fn_name: String,
 
@@ -362,7 +362,7 @@ pub struct LookupConstraint {
 
 // Each air function has an air_body, which is a vector of AirBodyComponent.
 // These are the components of the air function.
-#[derive(Clone, Debug, Serialize, Deserialize)]
+#[derive(Clone, Debug, Serialize)]
 pub enum AirBodyComponent {
     Constraint(FeltExpr),
     Deduction(FeltExpr),

@@ -1,6 +1,3 @@
-use serde::{Deserialize, Serialize};
-use std::fmt::Display;
-
 use super::super::air_fn_registry::*;
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
@@ -14,14 +11,11 @@ pub type UInt64Binary = BinaryExpr<UInt64>;
 pub type UInt64Unary = UnaryExpr<UInt64>;
 
 // A variable of type UInt64. Holds its name, and value. It is represented as two UInt32 variables.
-#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default)]
 pub struct UInt64Var {
     pub(super) name: String,
-    #[serde(skip)]
     pub(super) value: Option<UInt64>,
-    #[serde(skip)]
     pub(super) low: UInt32Expr,
-    #[serde(skip)]
     pub(super) high: UInt32Expr,
     pub(super) is_const: bool,
 }
@@ -39,8 +33,7 @@ impl UInt64Var {
     }
 }
 
-#[derive(Clone, Debug, Serialize, Deserialize)]
-#[serde(untagged)]
+#[derive(Clone, Debug)]
 pub enum UInt64Expr {
     Var(UInt64Var),
     Binary(UInt64Binary),
@@ -217,12 +210,6 @@ impl From<UInt64Expr> for ProcessedAirVar {
             UInt64Expr::Binary(b) => b.into(),
             UInt64Expr::Unary(u) => u.into(),
         }
-    }
-}
-
-impl Display for UInt64Expr {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", self.name())
     }
 }
 

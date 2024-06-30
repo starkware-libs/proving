@@ -5,6 +5,7 @@ pub mod expressions;
 pub mod memory;
 pub mod prover_types;
 pub mod state;
+pub mod utils;
 pub mod variables;
 
 #[cfg(test)]
