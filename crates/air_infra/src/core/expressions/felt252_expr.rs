@@ -143,7 +143,6 @@ impl AirVar for Felt252Expr {
                         let mut felts = vec![];
                         for g in arr {
                             if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = g {
-                                // Should we return FELT252_N_WORDS felts?
                                 felts.push(felt_expr);
                             }
                         }
@@ -164,18 +163,6 @@ impl AirVar for Felt252Expr {
             Felt252Expr::Binary(b) => b.left.is_const() && b.right.is_const(),
             Felt252Expr::Unary(u) => u.child.is_const(),
         }
-    }
-
-    #[cfg(test)]
-    fn to_values(&self) -> Vec<Felt> {
-        let mut v: Vec<Felt> = self
-            .clone()
-            .as_felts()
-            .into_iter()
-            .map(|f| f.value().unwrap())
-            .collect();
-        v.resize(FELT252_N_WORDS, Felt::from_u32_unchecked(0));
-        v
     }
 }
 

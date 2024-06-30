@@ -200,7 +200,8 @@ fn test_conversion_felts_to_felt252() {
     let compiled_expr: ProcessedAirVar = e.into();
     assert_eq!(
         &compiled_expr.to_string(),
-        "Felt252::from_felts([state[0], x2])"
+        "Felt252::from_felts([state[0], x2, const_0, const_0, const_0, const_0, const_0, const_0, const_0, \
+        const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0])"
     );
 
     f2 = expr!("x2", 2, true);
@@ -214,7 +215,8 @@ fn test_conversion_felts_to_felt252() {
     let compiled_expr: ProcessedAirVar = e.into();
     assert_eq!(
         &compiled_expr.to_string(),
-        "Felt252::from_felts([constraint_tmp_0, state[0]])"
+        "Felt252::from_felts([constraint_tmp_0, state[0], const_0, const_0, const_0, const_0, const_0, const_0, const_0, \
+        const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0])"
     );
 
     let mut v: Felt252Expr = felt252_expr!("v".to_string(), 0xFFF, 0xFFF);
