@@ -300,9 +300,9 @@ impl From<Vec<FeltExpr>> for Felt252Expr {
 #[macro_export]
 macro_rules! impl_binary_op {
     (ops $op:ident, $op_lower:ident, $t:ident, $b:ident) => {
-        impl $op for &$t {
+        impl $op for $t {
             type Output = $t;
-            fn $op_lower(self, other: &$t) -> $t {
+            fn $op_lower(self, other: $t) -> $t {
                 let value = self.value().zip(other.value()).map(|(l, r)| l.$op_lower(r));
                 $t::Binary($b::new(
                     self.clone().into(),
@@ -335,7 +335,7 @@ macro_rules! impl_binary_op {
 #[macro_export]
 macro_rules! impl_unary_op {
     (ops $op:ident, $op_lower:ident, $t:ident) => {
-        impl $op for &$t {
+        impl $op for $t {
             type Output = $t;
             fn $op_lower(self) -> $t {
                 let value = self.value().map(|c| c.$op_lower());

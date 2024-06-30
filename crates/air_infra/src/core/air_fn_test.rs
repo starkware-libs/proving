@@ -23,7 +23,7 @@ impl AirFn for AirFnWithIncorrectConstraint {
         let x1 = air_builder.deduce(&mut input);
 
         // Add incorrect constraint
-        air_builder.constrain(&(&x0 - &x1) - &const_expr!(1));
+        air_builder.constrain((x0 - x1) - const_expr!(1));
 
         input
     }
@@ -45,12 +45,12 @@ impl AirFn for AirFnWithUInt32 {
     type Out = UInt32Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
-        let mut x = air_builder.let_for_deduction(&input + &const_u32_expr!(4));
+        let mut x = air_builder.let_for_deduction(input + const_u32_expr!(4));
 
-        let x0 = air_builder.deduce(x.low().as_felt());
-        let x1 = air_builder.deduce(x.high().as_felt());
+        let x0 = air_builder.deduce(x.low_mut().as_felt_mut());
+        let x1 = air_builder.deduce(x.high_mut().as_felt_mut());
 
-        air_builder.constrain(&(&x0 + &(&x1 * &const_expr!(2_u32.pow(16)))) - &const_expr!(9));
+        air_builder.constrain((x0 + (x1 * const_expr!(2_u32.pow(16)))) - const_expr!(9));
 
         x
     }
@@ -76,11 +76,11 @@ impl AirFn for AirFnWithFelt252 {
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
         let mut x = air_builder.let_for_deduction(input);
 
-        for felt in x.as_felts() {
+        for felt in x.as_felts_mut() {
             air_builder.deduce(felt);
         }
 
-        x.as_felts()[0].clone()
+        x.as_felts().remove(0)
     }
 }
 

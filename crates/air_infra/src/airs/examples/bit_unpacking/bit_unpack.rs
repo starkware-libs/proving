@@ -18,7 +18,7 @@ impl AirFn for BitUnpack {
     type Out = Vec<BoolExpr>;
 
     fn call(&self, air_builder: &mut AirBuilder, mut x: Self::In) -> Self::Out {
-        air_builder.deduce(x.as_felt());
+        air_builder.deduce(x.as_felt_mut());
         let mut input = x;
         let mut output = vec![];
         let air_fn = Div2 {};
@@ -29,7 +29,7 @@ impl AirFn for BitUnpack {
             output.push(bit);
         }
 
-        air_builder.constrain(input.as_felt().clone());
+        air_builder.constrain(input.as_felt());
         output
     }
 

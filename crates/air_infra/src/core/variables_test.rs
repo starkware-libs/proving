@@ -49,7 +49,7 @@ where
 }
 
 // As felts should return the same expression elements as felts.
-fn test_as_felt<T>(mut expr: T)
+fn test_as_felt<T>(expr: T)
 where
     T: AirVar + IndexMut<usize, Output = FeltExpr>,
 {
@@ -65,7 +65,7 @@ fn test_expr_tuple() {
     // Tuples should be marked as "in state" only if *all* of its elements changed to state.
     let mut tup = (bool_expr!("y", true), expr!("x", 5));
     assert!(!tup.in_state());
-    tup.0.as_felt().to_state(0);
+    tup.0.as_felt_mut().to_state(0);
     assert!(!tup.in_state());
     tup.1.to_state(1);
     assert!(tup.in_state());
@@ -80,7 +80,7 @@ fn test_expr_tuple() {
     assert!(tup.1.name() == format!("{}{}", prefix, ".1"));
 
     // Assert as felts return the vector elements as felts.
-    let mut tup = (bool_expr!("y", true), expr!("x", 5));
+    let tup = (bool_expr!("y", true), expr!("x", 5));
     let val1 = tup.1.calc();
     let felts_vec = tup.as_felts();
     assert!(felts_vec[0].calc() == "1");

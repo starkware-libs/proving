@@ -34,13 +34,13 @@ impl AirFn for SimpleMemoryAirFn {
         let mut value = air_builder.get_from_memory(&self.memory, &input);
 
         value = air_builder.let_for_deduction(value);
-        for f in value.as_felts() {
+        for f in value.as_felts_mut() {
             air_builder.deduce(f);
         }
 
-        air_builder.set_in_memory(&self.memory, &input + &const_expr!(1), value.clone());
+        air_builder.set_in_memory(&self.memory, input + const_expr!(1), value.clone());
 
-        value.as_felts()[0].clone()
+        value.as_felts().remove(0)
     }
 }
 
@@ -57,7 +57,7 @@ fn test_memory_air_fn() {
     let (_state, v) = registry.run_air(&func, k.clone());
     assert_eq!(v.calc(), "3".to_string());
 
-    let (_state, v) = registry.run_air(&func, &k + &const_expr!(1));
+    let (_state, v) = registry.run_air(&func, k + const_expr!(1));
     assert_eq!(v.calc(), "3".to_string());
 
     assert_eq!(memory.data.borrow().len(), 3);

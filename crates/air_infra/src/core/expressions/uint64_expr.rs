@@ -41,18 +41,26 @@ pub enum UInt64Expr {
 }
 
 impl UInt64Expr {
-    pub fn low(&mut self) -> &mut UInt32Expr {
+    pub fn low_mut(&mut self) -> &mut UInt32Expr {
         match self {
             UInt64Expr::Var(v) => &mut v.low,
             _ => panic!("Cannot convert non-variable to UInt32"),
         }
     }
 
-    pub fn high(&mut self) -> &mut UInt32Expr {
+    pub fn high_mut(&mut self) -> &mut UInt32Expr {
         match self {
             UInt64Expr::Var(v) => &mut v.high,
             _ => panic!("Cannot convert non-variable to UInt32"),
         }
+    }
+
+    pub fn low(&self) -> UInt32Expr {
+        self.clone().low_mut().clone()
+    }
+
+    pub fn high(&self) -> UInt32Expr {
+        self.clone().high_mut().clone()
     }
 
     // Creates a new UInt64Var.
@@ -143,12 +151,12 @@ impl AirVar for UInt64Expr {
         }
     }
 
-    fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         match self {
             UInt64Expr::Var(v) => {
                 let mut res = vec![];
-                res.append(&mut v.low.as_felts());
-                res.append(&mut v.high.as_felts());
+                res.append(&mut v.low.as_felts_mut());
+                res.append(&mut v.high.as_felts_mut());
                 res
             }
             _ => panic!("Cannot convert non-variable to Felt"),

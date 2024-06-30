@@ -68,7 +68,7 @@ pub trait AirFn: Debug {
         assert!(self.trace_type() == TraceType::Component);
         let mut input_in_state = input.clone();
         input_in_state = air_builder.let_for_deduction(input_in_state);
-        for felt in input_in_state.as_felts() {
+        for felt in input_in_state.as_felts_mut() {
             air_builder.deduce(felt);
         }
         self.call(air_builder, input_in_state)
@@ -125,7 +125,7 @@ impl AirBuilder {
         let before = expr.clone();
         self.state.add(expr);
 
-        let constraint = &*expr - &before;
+        let constraint = expr.clone() - before.clone();
         self.air_body.push(AirBodyComponent::Assignment {
             constraint: constraint.clone(),
             deduction: before,
@@ -145,7 +145,7 @@ impl AirBuilder {
         var.let_for_deduction(name)
     }
 
-    pub fn let_for_constraint(&mut self, expr: &FeltExpr) -> FeltExpr {
+    pub fn let_for_constraint(&mut self, expr: FeltExpr) -> FeltExpr {
         #[cfg(test)]
         if self.run {
             assert!(
@@ -197,7 +197,7 @@ impl AirBuilder {
         output
     }
 
-    pub fn lookup_call<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>, mut input: I) -> O
+    pub fn lookup_call<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>, input: I) -> O
     where
         I: AirVar,
         O: AirVar,
@@ -252,19 +252,15 @@ impl AirBuilder {
             output_name: output_intermediate_name,
         }));
 
-        for felt in intermediate.as_felts() {
+        for felt in intermediate.as_felts_mut() {
             self.deduce(felt);
         }
 
         self.air_body
             .push(AirBodyComponent::LookupConstraint(LookupConstraint {
                 air_fn_name: air_fn.name(),
-                input_felts: input.as_felts().into_iter().map(|x| x.clone()).collect(),
-                output_felts: intermediate
-                    .as_felts()
-                    .into_iter()
-                    .map(|x| x.clone())
-                    .collect(),
+                input_felts: input.as_felts(),
+                output_felts: intermediate.as_felts(),
             }));
 
         intermediate
@@ -301,7 +297,7 @@ impl AirBuilder {
     #[allow(unused_variables)]
     // Assumes the key and value are in the state (of the caller). Adds a lookup constraint.
     // Writes the value to the memory in run and cairo run modes.
-    pub fn set_in_memory<K, V>(&mut self, memory: &Memory<K, V>, mut key: K, mut value: V)
+    pub fn set_in_memory<K, V>(&mut self, memory: &Memory<K, V>, key: K, value: V)
     where
         K: AirVar,
         V: AirVar,
@@ -327,8 +323,8 @@ impl AirBuilder {
         self.air_body
             .push(AirBodyComponent::LookupConstraint(LookupConstraint {
                 air_fn_name: memory.name(),
-                input_felts: key.as_felts().into_iter().map(|x| x.clone()).collect(),
-                output_felts: value.as_felts().into_iter().map(|x| x.clone()).collect(),
+                input_felts: key.as_felts(),
+                output_felts: value.as_felts(),
             }));
     }
 }

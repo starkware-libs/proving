@@ -40,13 +40,13 @@ pub enum UInt16Expr {
 }
 
 impl UInt16Expr {
-    pub fn as_felt(&mut self) -> &mut FeltExpr {
+    pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
         match self {
             UInt16Expr::Var(v) => &mut v.as_felt,
             UInt16Expr::Unary(u) => {
                 if u.op == UnaryOp::UInt16FromBool {
                     if let GenericAirVar::Expr(ExprImpl::Bool(bool_expr)) = &mut *u.child {
-                        return bool_expr.as_felt();
+                        return bool_expr.as_felt_mut();
                     }
                 } else if u.op == UnaryOp::UInt16FromFelt {
                     if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = &mut *u.child {
@@ -69,6 +69,9 @@ impl UInt16Expr {
             self.clone().into(),
             value,
         ))
+    }
+    pub fn as_felt(&self) -> FeltExpr {
+        self.clone().as_felt_mut().clone()
     }
 
     // Called whenever a parent variable is created (see update_parts of UInt32Expr).
@@ -159,8 +162,8 @@ impl AirVar for UInt16Expr {
         }
     }
 
-    fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
-        vec![self.as_felt()]
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        vec![self.as_felt_mut()]
     }
 
     fn is_const(&self) -> bool {

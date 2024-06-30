@@ -37,7 +37,7 @@ pub enum BoolExpr {
 }
 
 impl BoolExpr {
-    pub fn as_felt(&mut self) -> &mut FeltExpr {
+    pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
         match self {
             BoolExpr::Var(v) => &mut v.as_felt,
             BoolExpr::Unary(u) => {
@@ -62,6 +62,10 @@ impl BoolExpr {
             self.clone().into(),
             value,
         ))
+    }
+
+    pub fn as_felt(&self) -> FeltExpr {
+        self.clone().as_felt_mut().clone()
     }
 
     // Creates a new BoolVar.
@@ -141,8 +145,8 @@ impl AirVar for BoolExpr {
         }
     }
 
-    fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
-        vec![self.as_felt()]
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        vec![self.as_felt_mut()]
     }
 
     fn is_const(&self) -> bool {

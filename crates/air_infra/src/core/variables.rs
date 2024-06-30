@@ -20,14 +20,17 @@ pub trait AirVar: Clone + Debug + Default + Into<GenericAirVar> {
     // Returns whether the value of this AirVar is stored in a trace cell.
     // For example, an input to an air function is not in state when it is from the private input.
     fn in_state(&self) -> bool;
-    fn as_felts(&mut self) -> Vec<&mut FeltExpr>;
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr>;
+    fn as_felts(&self) -> Vec<FeltExpr> {
+        self.clone()
+            .as_felts_mut()
+            .into_iter()
+            .map(|f| f.clone())
+            .collect()
+    }
     #[cfg(test)]
     fn to_values(&self) -> Vec<Felt> {
-        self.clone()
-            .as_felts()
-            .into_iter()
-            .map(|f| f.value().unwrap())
-            .collect()
+        self.as_felts().iter().map(|f| f.value().unwrap()).collect()
     }
     fn is_const(&self) -> bool;
 }
@@ -151,7 +154,7 @@ impl AirVar for () {
         true
     }
 
-    fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         vec![]
     }
 
@@ -185,8 +188,8 @@ macro_rules! impl_air_var {
             fn new(name: String) -> Self {
                 from_fn(|i| <$s>::new(format!("{}[{}]", name, i)))
             }
-            fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
-                self.into_iter().flat_map(|s| s.as_felts()).collect()
+            fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+                self.into_iter().flat_map(|s| s.as_felts_mut()).collect()
             }
         }
         impl From<[$s;$n]> for GenericAirVar {
@@ -218,8 +221,8 @@ macro_rules! impl_air_var {
             fn new(_name: String) -> Self {
                 panic!("Cannot create a new Vec AirVar with name");
             }
-            fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
-                self.into_iter().flat_map(|s| s.as_felts()).collect()
+            fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+                self.into_iter().flat_map(|s| s.as_felts_mut()).collect()
             }
         }
         impl From<Vec<$s>> for GenericAirVar {
@@ -263,9 +266,9 @@ macro_rules! impl_air_var {
             fn new(_name: String) -> Self {
                 panic!("Cannot create a new Option AirVar with name");
             }
-            fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+            fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
                 if self.is_some() {
-                    self.as_mut().unwrap().as_felts()
+                    self.as_mut().unwrap().as_felts_mut()
                 } else {
                     vec![]
                 }
@@ -310,11 +313,11 @@ macro_rules! impl_air_var {
                 let mut i = 0;
                 ($(<$s>::new(format!("{}.{}", name, { i += 1; i - 1 })),)+)
             }
-            fn as_felts(&mut self) -> Vec<&mut FeltExpr> {
+            fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
                 let mut res = vec!();
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
-                $(res.extend($s.as_felts());)+
+                $(res.extend($s.as_felts_mut());)+
                 res
             }
         }
