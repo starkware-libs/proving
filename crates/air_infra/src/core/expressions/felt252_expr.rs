@@ -216,6 +216,7 @@ macro_rules! const_felt252_expr {
     };
 }
 
+#[cfg(test)]
 #[macro_export]
 macro_rules! felt252_expr {
     ($name:expr, $low:expr, $high:expr) => {

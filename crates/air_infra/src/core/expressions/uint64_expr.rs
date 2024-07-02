@@ -228,6 +228,7 @@ macro_rules! const_u64_expr {
     };
 }
 
+#[cfg(test)]
 #[macro_export]
 macro_rules! u64_expr {
     ($name:expr, $val:expr) => {

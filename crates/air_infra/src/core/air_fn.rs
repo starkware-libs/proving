@@ -65,12 +65,16 @@ pub trait AirFn: Debug {
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out;
 
     fn lookup_call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
-        assert!(self.trace_type() == TraceType::Component);
-        let mut input_in_state = input.clone();
-        input_in_state = air_builder.let_for_deduction(input_in_state);
+        assert!(
+            self.trace_type() == TraceType::Component,
+            "AirFn must be a component"
+        );
+
+        let mut input_in_state = air_builder.let_for_deduction(input);
         for felt in input_in_state.as_felts_mut() {
             air_builder.deduce(felt);
         }
+
         self.call(air_builder, input_in_state)
     }
 }
@@ -84,6 +88,8 @@ pub struct AirBuilder {
     pub(super) air_body: Vec<AirBodyComponent>,
     #[cfg(test)]
     pub(super) run: bool,
+    #[cfg(test)]
+    pub(super) internal_component: bool,
     pub(super) registry: AirFnRegistry,
 }
 impl AirBuilder {
@@ -91,9 +97,11 @@ impl AirBuilder {
     pub fn is_run_mode(&self) -> bool {
         self.run
     }
+
     pub fn constrain(&mut self, expr: FeltExpr) {
         #[cfg(test)]
         if self.run {
+            // Cannot assert this in build mode, since we don't put the inputs in the state.
             assert!(
                 expr.in_state(),
                 "The mask of the constraint must be in the trace."
@@ -107,15 +115,30 @@ impl AirBuilder {
 
         self.air_body.push(AirBodyComponent::Constraint(expr));
     }
+
     pub fn deduce(&mut self, expr: &mut FeltExpr) -> FeltExpr {
+        #[cfg(test)]
+        if !self.run || !self.internal_component {
+            // Cannot assert this in run mode on internal component, where we might deduce constants.
+            assert!(!expr.is_const());
+        }
+
         self.air_body
             .push(AirBodyComponent::Deduction(expr.clone()));
         self.state.add(expr);
         expr.clone()
     }
+
     pub fn assign(&mut self, expr: &mut FeltExpr) -> FeltExpr {
         #[cfg(test)]
+        if !self.run || !self.internal_component {
+            // Cannot assert this in run mode on internal component, where we might deduce constants.
+            assert!(!expr.is_const());
+        }
+
+        #[cfg(test)]
         if self.run {
+            // Cannot assert this in build mode, since we don't put the inputs in the state.
             assert!(
                 expr.in_state(),
                 "The mask of the constraint must be in the trace."
@@ -170,12 +193,17 @@ impl AirBuilder {
         // (by adding the constraints and deductions of that component to the current
         // component), but doing so is usually a mistake as it is less efficient than
         // doing a lookup. Therefore we only allow calling AirFns with TraceType::Inline
-        assert!(air_fn.trace_type() == TraceType::Inline);
+        assert!(
+            air_fn.trace_type() == TraceType::Inline,
+            "AirFn must be inline"
+        );
 
         #[cfg(test)]
         if self.run {
             assert!(input.in_state(), "Input must be in the trace");
         }
+
+        // Make sure the callee is in the registry
         if self.registry.air_fns.borrow().get(&air_fn.name()).is_none() {
             AirFnEntry::new(&self.registry, air_fn);
         }
@@ -185,6 +213,8 @@ impl AirBuilder {
             air_body: vec![],
             #[cfg(test)]
             run: self.run,
+            #[cfg(test)]
+            internal_component: self.internal_component,
             registry: self.registry.clone(),
         };
         let output = air_fn.call(&mut air_builder, input.clone());
@@ -230,6 +260,8 @@ impl AirBuilder {
                 air_body: vec![],
                 #[cfg(test)]
                 run: self.run,
+                #[cfg(test)]
+                internal_component: true,
                 registry: self.registry.clone(),
             };
             let output = match air_fn.trace_type() {

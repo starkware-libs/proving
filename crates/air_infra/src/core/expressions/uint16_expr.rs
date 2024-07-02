@@ -235,6 +235,7 @@ macro_rules! const_u16_expr {
     };
 }
 
+#[cfg(test)]
 #[macro_export]
 macro_rules! u16_expr {
     ($name:expr, $val:expr) => {

@@ -235,6 +235,7 @@ macro_rules! const_u32_expr {
     };
 }
 
+#[cfg(test)]
 #[macro_export]
 macro_rules! u32_expr {
     ($name:expr, $val:expr) => {

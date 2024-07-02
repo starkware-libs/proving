@@ -1,8 +1,11 @@
 use super::narrow_fib::NarrowFib;
-use crate::core::air_fn::AirFn;
-use crate::core::expressions::felt_expr::FeltExpr;
-use crate::core::prover_types::Felt;
-use crate::expr;
+
+use crate::core::air_fn::*;
+use crate::core::expressions::felt_expr::*;
+use crate::core::prover_types::*;
+
+// Macros
+use crate::const_expr;
 
 #[derive(Debug)]
 pub struct WideFib {
@@ -17,16 +20,14 @@ impl AirFn for WideFib {
     fn call(
         &self,
         air_builder: &mut crate::core::air_fn::AirBuilder,
-        input: Self::In,
+        mut input: Self::In,
     ) -> Self::Out {
         let narrow_fn = NarrowFib {
             num_steps: self.narrow_size,
         };
 
-        let x = air_builder.deduce(&mut expr!("1", 1));
-        let y = air_builder.deduce(&mut (input.clone()));
-
-        let mut narrow_output = [x, y];
+        air_builder.deduce(&mut input);
+        let mut narrow_output = [const_expr!(1), input];
 
         for _ in 0..self.num_narrow {
             narrow_output = air_builder.lookup_call(&narrow_fn, narrow_output);
