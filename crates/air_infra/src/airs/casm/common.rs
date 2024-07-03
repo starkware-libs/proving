@@ -15,7 +15,7 @@ pub type CasmAddress = FeltExpr;
 // The state is the triple [pc, ap, fp].
 pub type CasmState = [CasmAddress; 3];
 pub type Flags = [BoolExpr; 15];
-pub type Offsets = Vec<UInt16Expr>;
+pub type Offsets = [UInt16Expr; 3];
 
 pub const OFFSET_BITS: u32 = 16;
 
@@ -66,5 +66,4 @@ pub fn offset_as_u16(offset: i16) -> UInt16Expr {
 impl_air_var!([CasmAddress; 3]);
 impl_air_var!([BoolExpr; 15]);
 impl_air_var!([UInt16Expr; 3]);
-impl_air_var!(Vec<UInt16Expr>);
 impl_air_var!((FeltExpr, Offsets, Flags));

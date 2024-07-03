@@ -31,31 +31,33 @@ pub struct CheckInstruction {
 // returns the felts of the non-constant offsets pieced back together.
 impl AirFn for CheckInstruction {
     type In = (FeltExpr, Offsets, Flags);
-    type Out = Vec<FeltExpr>;
+    type Out = [FeltExpr; 3];
 
-    fn call(&self, ab: &mut AirBuilder, (pc, mut offsets, flags): Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, (pc, offsets, flags): Self::In) -> Self::Out {
         let instruction_for_deduction = ab.get_from_memory(&self.memory, &pc);
-        let (mut res_off, mut off_l_f, mut off_h_f) = (vec![], vec![], vec![]);
+        let mut offsets_parts = vec![];
 
         for (ind, &curr_off_is_const) in self.off_is_const.iter().enumerate() {
             let mut curr_offset = None;
             if curr_off_is_const {
-                curr_offset = Some(offsets.remove(0));
+                curr_offset = Some(offsets[ind].clone());
             }
-            let (curr_off_l_f, curr_off_h_f, curr_res_off) =
-                check_offset(ind, ab, curr_offset, instruction_for_deduction.clone());
-            off_l_f.push(curr_off_l_f);
-            off_h_f.push(curr_off_h_f);
-            if let Some(o) = curr_res_off {
-                res_off.push(o)
-            }
+            offsets_parts.push(check_offset(
+                ind,
+                ab,
+                curr_offset,
+                instruction_for_deduction.clone(),
+            ));
         }
+        let [off_dst, off_0, off_1] = offsets_parts
+            .try_into()
+            .expect("offsets_parts should have 3 offsets.");
 
         // Compute the 12 bit components.
-        let felt0 = off_l_f[0].clone();
-        let felt1 = off_h_f[0].clone() + (off_l_f[1].clone() * const_expr!(1 << 4));
-        let felt2 = off_h_f[1].clone() + (off_l_f[2].clone() * const_expr!(1 << 8));
-        let felt3 = off_h_f[2].clone();
+        let felt0 = off_dst.low;
+        let felt1 = off_dst.high + (off_0.low * const_expr!(1 << 4));
+        let felt2 = off_0.high + (off_1.low * const_expr!(1 << 8));
+        let felt3 = off_1.high;
 
         let felt4 = ((((((((((flags[0].as_felt()
             + (flags[1].as_felt() * const_expr!(1 << 1)))
@@ -79,7 +81,7 @@ impl AirFn for CheckInstruction {
             Felt252Expr::from(vec![felt0, felt1, felt2, felt3, felt4, felt5]),
         );
 
-        res_off
+        [off_dst.val, off_0.val, off_1.val]
     }
 
     fn inst_def(&self) -> BTreeMap<String, String> {
@@ -108,24 +110,23 @@ impl MemoryAirFn for CheckInstruction {
 // Breaks the offset into 2 felt parts according to it's position in the instruction and
 // returns them. If the offset isn't constant it deduces both parts, range checks those that
 // aren't 12 bits and returns the concatenation of the parts (otherwise returns it as None).
-pub fn check_offset(
+fn check_offset(
     offset_index: usize,
     ab: &mut AirBuilder,
     offset: Option<UInt16Expr>,
     mut instruction_for_deduction: Felt252Expr,
-) -> (FeltExpr, FeltExpr, Option<FeltExpr>) {
-    let mut res_off = None;
+) -> OffsetParts {
     let off_begin = (offset_index * 16) % FELT252_BITS_PER_WORD;
     let off_l_len = FELT252_BITS_PER_WORD - off_begin;
 
-    let (off_l_f, off_h_f) = if let Some(off) = offset {
+    let (low, high) = if let Some(off) = offset {
         // Split the offset into high and low parts.
-        let off_h = off.clone() >> const_u16_expr!(off_l_len as u16);
-        let off_l = off & const_u16_expr!((1 << off_l_len as u16) - 1);
-        (off_l.const_to_felt(), off_h.const_to_felt())
+        let high_u16 = off.clone() >> const_u16_expr!(off_l_len as u16);
+        let low_u16 = off & const_u16_expr!((1 << off_l_len as u16) - 1);
+        (low_u16.const_to_felt(), high_u16.const_to_felt())
     } else {
         // Find the low part of the offset.
-        let off_l_f = check_offset_part(
+        let low = check_offset_part(
             off_begin,
             off_l_len,
             ab,
@@ -133,19 +134,19 @@ pub fn check_offset(
         );
 
         // Find the high part of the offset.
-        let off_h_f = check_offset_part(
+        let high = check_offset_part(
             0,
             16 - off_l_len,
             ab,
             instruction_for_deduction.as_felts_mut()[offset_index + 1],
         );
 
-        // Reconstruct the offset as felt from the high and low parts.
-        res_off = Some(off_l_f.clone() + (off_h_f.clone() * const_expr!(1 << off_l_len)));
-        (off_l_f, off_h_f)
+        (low, high)
     };
 
-    (off_l_f, off_h_f, res_off)
+    // Reconstruct the offset as felt from the high and low parts.
+    let val = low.clone() + (high.clone() * const_expr!(1 << off_l_len));
+    OffsetParts { low, high, val }
 }
 
 // Recieves begining bit and the bit length of an offset part, a felt to split and returns the part
@@ -169,4 +170,11 @@ fn check_offset_part(
         ab.lookup_call(&RangeCheck { bits: len as u16 }, off_f.clone());
         off_f
     }
+}
+
+#[derive(Default, Debug)]
+struct OffsetParts {
+    low: FeltExpr,
+    high: FeltExpr,
+    val: FeltExpr,
 }
