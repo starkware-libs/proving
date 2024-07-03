@@ -319,7 +319,7 @@ macro_rules! impl_air_var {
             }
             fn new(name: String) -> Self {
                 let mut i = 0;
-                ($(<$s>::new(format!("{}.{}", name, { i += 1; i - 1 })),)+)
+                ($(<$s as AirVar>::new(format!("{}.{}", name, { i += 1; i - 1 })),)+)
             }
             fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
                 let mut res = vec!();

@@ -2,7 +2,6 @@ use std::array::from_fn;
 use std::vec;
 
 use crate::core::expressions::bool_expr::*;
-use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::core::prover_types::*;
@@ -16,8 +15,7 @@ pub type CasmAddress = FeltExpr;
 // The state is the triple [pc, ap, fp].
 pub type CasmState = [CasmAddress; 3];
 pub type Flags = [BoolExpr; 15];
-pub type Offsets = [UInt16Expr; 3];
-pub type OffsetsInState = [FeltExpr; 3];
+pub type Offsets = Vec<UInt16Expr>;
 
 pub const OFFSET_BITS: u32 = 16;
 
@@ -68,5 +66,5 @@ pub fn offset_as_u16(offset: i16) -> UInt16Expr {
 impl_air_var!([CasmAddress; 3]);
 impl_air_var!([BoolExpr; 15]);
 impl_air_var!([UInt16Expr; 3]);
-impl_air_var!((Offsets, Flags));
-impl_air_var!((Felt252Expr, OffsetsInState));
+impl_air_var!(Vec<UInt16Expr>);
+impl_air_var!((FeltExpr, Offsets, Flags));
