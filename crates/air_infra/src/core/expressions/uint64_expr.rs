@@ -7,8 +7,7 @@ use super::felt_expr::*;
 use super::op_expr::*;
 use super::uint32_expr::*;
 
-pub type UInt64Binary = BinaryExpr<UInt64>;
-pub type UInt64Unary = UnaryExpr<UInt64>;
+pub type UInt64Operation = OpExpr<UInt64>;
 
 // A variable of type UInt64. Holds its name, and value. It is represented as two UInt32 variables.
 #[derive(Clone, Debug, Default)]
@@ -36,8 +35,7 @@ impl UInt64Var {
 #[derive(Clone, Debug)]
 pub enum UInt64Expr {
     Var(UInt64Var),
-    Binary(UInt64Binary),
-    Unary(UInt64Unary),
+    Op(UInt64Operation),
 }
 
 impl UInt64Expr {
@@ -110,8 +108,7 @@ impl Expr<UInt64> for UInt64Expr {
     fn value(&self) -> Option<UInt64> {
         match self {
             UInt64Expr::Var(v) => v.value,
-            UInt64Expr::Binary(b) => b.value,
-            UInt64Expr::Unary(u) => u.value,
+            UInt64Expr::Op(op) => op.value,
         }
     }
 }
@@ -124,8 +121,7 @@ impl AirVar for UInt64Expr {
     fn name(&self) -> String {
         match self {
             UInt64Expr::Var(v) => v.name.clone(),
-            UInt64Expr::Binary(b) => b.name.clone(),
-            UInt64Expr::Unary(u) => u.name.clone(),
+            UInt64Expr::Op(op) => op.name.clone(),
         }
     }
 
@@ -146,8 +142,7 @@ impl AirVar for UInt64Expr {
     fn in_state(&self) -> bool {
         match self {
             UInt64Expr::Var(v) => v.low.in_state() && v.high.in_state(),
-            UInt64Expr::Binary(b) => b.left.in_state() && b.right.in_state(),
-            UInt64Expr::Unary(u) => u.child.in_state(),
+            UInt64Expr::Op(op) => op.children.iter().all(|c| c.in_state()),
         }
     }
 
@@ -166,8 +161,7 @@ impl AirVar for UInt64Expr {
     fn is_const(&self) -> bool {
         match self {
             UInt64Expr::Var(v) => v.is_const,
-            UInt64Expr::Binary(b) => b.left.is_const() && b.right.is_const(),
-            UInt64Expr::Unary(u) => u.child.is_const(),
+            UInt64Expr::Op(op) => op.children.iter().all(|c| c.is_const()),
         }
     }
 }
@@ -184,15 +178,9 @@ impl From<UInt64Var> for UInt64Expr {
     }
 }
 
-impl From<UInt64Binary> for UInt64Expr {
-    fn from(b: UInt64Binary) -> UInt64Expr {
-        UInt64Expr::Binary(b)
-    }
-}
-
-impl From<UInt64Unary> for UInt64Expr {
-    fn from(u: UInt64Unary) -> UInt64Expr {
-        UInt64Expr::Unary(u)
+impl From<UInt64Operation> for UInt64Expr {
+    fn from(b: UInt64Operation) -> UInt64Expr {
+        UInt64Expr::Op(b)
     }
 }
 
@@ -215,8 +203,7 @@ impl From<UInt64Expr> for ProcessedAirVar {
                 }
                 ProcessedAirVar::Var(UInt64::r#type(), v.name)
             }
-            UInt64Expr::Binary(b) => b.into(),
-            UInt64Expr::Unary(u) => u.into(),
+            UInt64Expr::Op(op) => op.into(),
         }
     }
 }

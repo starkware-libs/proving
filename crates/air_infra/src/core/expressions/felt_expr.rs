@@ -7,8 +7,7 @@ use super::super::variables::*;
 use super::expr::*;
 use super::op_expr::*;
 
-pub type FeltBinary = BinaryExpr<Felt>;
-pub type FeltUnary = UnaryExpr<Felt>;
+pub type FeltOperation = OpExpr<Felt>;
 
 // A variable of type Felt. It can be a field (attribute) of another expression, like UInt16Expr, or
 // a standalone variable. It can represent a felt expression that was written to the trace.
@@ -25,8 +24,7 @@ pub struct FeltVar {
 #[derive(Clone, Debug)]
 pub enum FeltExpr {
     Var(FeltVar),
-    Binary(FeltBinary),
-    Unary(FeltUnary),
+    Op(FeltOperation),
 }
 
 impl FeltExpr {
@@ -91,8 +89,7 @@ impl Expr<Felt> for FeltExpr {
     fn value(&self) -> Option<Felt> {
         match self {
             FeltExpr::Var(v) => v.value,
-            FeltExpr::Binary(b) => b.value,
-            FeltExpr::Unary(u) => u.value,
+            FeltExpr::Op(b) => b.value,
         }
     }
 }
@@ -105,8 +102,7 @@ impl AirVar for FeltExpr {
     fn name(&self) -> String {
         match self {
             FeltExpr::Var(v) => v.name.clone(),
-            FeltExpr::Binary(b) => b.name.clone(),
-            FeltExpr::Unary(u) => u.name.clone(),
+            FeltExpr::Op(b) => b.name.clone(),
         }
     }
 
@@ -130,8 +126,7 @@ impl AirVar for FeltExpr {
                     || v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
                     || v.is_const
             }
-            FeltExpr::Binary(b) => b.left.in_state() && b.right.in_state(),
-            FeltExpr::Unary(u) => u.child.in_state(),
+            FeltExpr::Op(op) => op.children.iter().all(|c| c.in_state()),
         }
     }
 
@@ -142,8 +137,7 @@ impl AirVar for FeltExpr {
     fn is_const(&self) -> bool {
         match self {
             FeltExpr::Var(v) => v.is_const,
-            FeltExpr::Binary(b) => b.left.is_const() && b.right.is_const(),
-            FeltExpr::Unary(u) => u.child.is_const(),
+            FeltExpr::Op(op) => op.children.iter().all(|c| c.is_const()),
         }
     }
 }
@@ -160,9 +154,9 @@ impl From<FeltVar> for FeltExpr {
     }
 }
 
-impl From<FeltBinary> for FeltExpr {
-    fn from(binary: FeltBinary) -> FeltExpr {
-        FeltExpr::Binary(binary)
+impl From<FeltOperation> for FeltExpr {
+    fn from(binary: FeltOperation) -> FeltExpr {
+        FeltExpr::Op(binary)
     }
 }
 
@@ -170,12 +164,6 @@ impl From<FeltExpr> for GenericAirVar {
     fn from(expr: FeltExpr) -> GenericAirVar {
         let expr_impl: ExprImpl = expr.into();
         expr_impl.into()
-    }
-}
-
-impl From<FeltUnary> for FeltExpr {
-    fn from(unary: FeltUnary) -> FeltExpr {
-        FeltExpr::Unary(unary)
     }
 }
 
@@ -216,8 +204,7 @@ impl From<FeltExpr> for ProcessedAirVar {
                 // v is a standalone variable
                 ProcessedAirVar::Var(Felt::r#type(), v.name)
             }
-            FeltExpr::Binary(b) => b.into(),
-            FeltExpr::Unary(u) => u.into(),
+            FeltExpr::Op(op) => op.into(),
         }
     }
 }
