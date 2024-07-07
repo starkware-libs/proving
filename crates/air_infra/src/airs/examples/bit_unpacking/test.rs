@@ -13,7 +13,7 @@ use crate::u16_expr;
 
 #[test]
 fn test_bit_unpacking() {
-    let func = BitUnpack { n_bits: 4 };
+    let func = BitUnpack::<4> {};
     let registry = AirFnRegistry::new(&func);
     let lists = registry.get_codegen_air_fn(&func);
 

@@ -1,5 +1,3 @@
-use std::array::from_fn;
-
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
@@ -9,8 +7,6 @@ use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
-// Macros
-use crate::impl_air_var;
 
 /// Experssions can be manipulated with binary and unary operations.
 /// They have a type that determines the operations that can be performed on them.
@@ -172,12 +168,3 @@ impl From<ExprImpl> for ProcessedAirVar {
         }
     }
 }
-
-impl_air_var!([FeltExpr; 2]);
-impl_air_var!((BoolExpr, FeltExpr));
-impl_air_var!((BoolExpr, UInt16Expr));
-impl_air_var!((UInt16Expr, FeltExpr));
-impl_air_var!([UInt32Expr; 2]);
-impl_air_var!(Vec<BoolExpr>);
-impl_air_var!(Vec<FeltExpr>);
-impl_air_var!(Option<FeltExpr>);

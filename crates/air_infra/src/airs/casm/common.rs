@@ -1,11 +1,4 @@
-use std::array::from_fn;
-
 use crate::core::expressions::felt_expr::*;
-use crate::core::expressions::uint16_expr::*;
-use crate::core::variables::*;
-
-// Macros
-use crate::impl_air_var;
 
 pub type CasmAddress = FeltExpr;
 // The state is the triple [pc, ap, fp].
@@ -56,6 +49,3 @@ impl From<NamedFlags> for [bool; 15] {
 pub fn offset_as_u16(offset: i16) -> u16 {
     (offset + (1 << (OFFSET_BITS - 1))) as u16
 }
-
-impl_air_var!([CasmAddress; 3]);
-impl_air_var!([UInt16Expr; 3]);

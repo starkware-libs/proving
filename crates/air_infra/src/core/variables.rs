@@ -1,16 +1,24 @@
+use std::array::from_fn;
 use std::fmt::{Debug, Display};
 
 use serde::ser::SerializeSeq;
 use serde::{Serialize, Serializer};
 
 use super::autogen_structs::*;
+use super::expressions::bool_expr::*;
 use super::expressions::expr::*;
 use super::expressions::felt_expr::*;
+use super::expressions::uint16_expr::*;
+use super::expressions::uint32_expr::*;
+
 #[cfg(test)]
 use super::prover_types::*;
 
+// Macros
+use crate::impl_air_var;
+
 /// Every input and output of an air function is an AirVar.
-pub trait AirVar: Clone + Debug + Default + Into<GenericAirVar> {
+pub trait AirVar: Clone + Debug + Into<GenericAirVar> {
     fn new(name: String) -> Self;
     fn let_for_deduction(&self, name: String) -> Self;
     fn name(&self) -> String;
@@ -150,9 +158,7 @@ impl From<()> for GenericAirVar {
 impl AirVar for () {
     fn new(_name: String) -> Self {}
 
-    fn let_for_deduction(&self, name: String) -> Self {
-        <Self as AirVar>::new(name)
-    }
+    fn let_for_deduction(&self, _name: String) -> Self {}
 
     fn name(&self) -> String {
         "()".to_string()
@@ -171,11 +177,19 @@ impl AirVar for () {
     }
 }
 
+impl_air_var!((BoolExpr, FeltExpr));
+impl_air_var!((BoolExpr, UInt16Expr));
+impl_air_var!((UInt16Expr, FeltExpr));
+impl_air_var!([UInt32Expr]);
+impl_air_var!([BoolExpr]);
+impl_air_var!([FeltExpr]);
+impl_air_var!([UInt16Expr]);
+
 // Implements AirVar for arrays and tuples of air vars.
 #[macro_export]
 macro_rules! impl_air_var {
-    ( [$s:ty;$n:literal] ) => {
-        impl AirVar for [$s;$n] where $s: AirVar
+    ( [$s:ty] ) => {
+        impl<const N:usize> AirVar for [$s;N] where $s: AirVar
         {
             fn name(&self) -> String {
                 format!("[{}]", self.iter().map(|s| s.name()).collect::<Vec<String>>().join(", "))
@@ -194,101 +208,16 @@ macro_rules! impl_air_var {
                 res
             }
             fn new(name: String) -> Self {
-                from_fn(|i| <$s>::new(format!("{}[{}]", name, i)))
+                from_fn(|i| <$s as AirVar>::new(format!("{}[{}]", name, i)))
             }
             fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
                 self.into_iter().flat_map(|s| s.as_felts_mut()).collect()
             }
         }
-        impl From<[$s;$n]> for GenericAirVar {
-            fn from(array: [$s;$n]) -> GenericAirVar {
-                GenericAirVar::Array(array.into_iter().map(|s| s.into()).collect())
-            }
-        }
-    };
 
-    ( Vec<$s:ty> ) => {
-        impl AirVar for Vec<$s> where $s: AirVar
-        {
-            fn name(&self) -> String {
-                format!("[{}]", self.iter().map(|s| s.name()).collect::<Vec<String>>().join(", "))
-            }
-            fn in_state(&self) -> bool {
-                self.iter().all(|s| s.in_state())
-            }
-            fn is_const(&self) -> bool {
-                self.iter().all(|s| s.is_const())
-            }
-            fn let_for_deduction(&self, name: String) -> Self {
-                let mut res = self.clone();
-                for (i, s) in res.iter_mut().enumerate() {
-                    *s = s.let_for_deduction(format!("{}[{}]", name, i));
-                }
-                res
-            }
-            fn new(_name: String) -> Self {
-                panic!("Cannot create a new Vec AirVar with name");
-            }
-            fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-                self.into_iter().flat_map(|s| s.as_felts_mut()).collect()
-            }
-        }
-        impl From<Vec<$s>> for GenericAirVar {
-            fn from(array: Vec<$s>) -> GenericAirVar {
+        impl<const N:usize> From<[$s;N]> for GenericAirVar {
+            fn from(array: [$s;N]) -> GenericAirVar {
                 GenericAirVar::Array(array.into_iter().map(|s| s.into()).collect())
-            }
-        }
-    };
-
-    ( Option<$s:ty> ) => {
-        impl AirVar for Option<$s> where $s: AirVar
-        {
-            fn name(&self) -> String {
-                if self.is_some() {
-                    format!("Some({})", self.as_ref().unwrap().name())
-                } else {
-                    "None".to_string()
-                }
-            }
-            fn in_state(&self) -> bool {
-                if self.is_some() {
-                    self.as_ref().unwrap().in_state()
-                } else {
-                    true
-                }
-            }
-            fn is_const(&self) -> bool {
-                if self.is_some() {
-                    self.as_ref().unwrap().is_const()
-                } else {
-                    true
-                }
-            }
-            fn let_for_deduction(&self, name: String) -> Self {
-                if self.is_some() {
-                    Some(self.as_ref().unwrap().let_for_deduction(format!("{}", name)))
-                } else {
-                    panic!("Cannot let_for_deduction on None");
-                }
-            }
-            fn new(_name: String) -> Self {
-                panic!("Cannot create a new Option AirVar with name");
-            }
-            fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-                if self.is_some() {
-                    self.as_mut().unwrap().as_felts_mut()
-                } else {
-                    vec![]
-                }
-            }
-        }
-        impl From<Option<$s>> for GenericAirVar {
-            fn from(o: Option<$s>) -> GenericAirVar {
-                if o.is_some() {
-                    GenericAirVar::from(o.unwrap())
-                } else {
-                    panic!("Cannot convert None to GenericAirVar");
-                }
             }
         }
     };
@@ -329,6 +258,7 @@ macro_rules! impl_air_var {
                 res
             }
         }
+
         impl From<($($s),+)> for GenericAirVar {
             fn from(tuple: ($($s),+)) -> GenericAirVar {
                 #[allow(non_snake_case)]

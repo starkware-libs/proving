@@ -72,7 +72,7 @@ where
 impl<K, V> AirFn for Memory<K, V>
 where
     K: AirVar,
-    V: AirVar,
+    V: AirVar + Default,
 {
     type In = K;
     type Out = V;

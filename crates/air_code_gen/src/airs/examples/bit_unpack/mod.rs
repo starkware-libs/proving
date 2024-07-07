@@ -31,7 +31,7 @@ mod tests {
 
     #[test]
     fn bit_unpack_code_gen() {
-        let air_fn = BitUnpack { n_bits: 12 };
+        let air_fn = BitUnpack::<12> {};
         let resigtry = AirFnRegistry::new(&air_fn);
 
         let mut folder_path = project_root();

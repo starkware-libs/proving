@@ -37,19 +37,21 @@ pub trait AirFn: Debug {
 
     fn name(&self) -> String {
         let mut name = type_name::<Self>().to_string();
+        self.inst_def().iter().for_each(|(_, v)| {
+            name.push_str(format!("__{}", v).as_str());
+        });
         let names: Vec<&str> = name.split(&['<', '>', ',']).collect::<Vec<_>>();
         name = names
             .into_iter()
+            .filter(|s| !s.is_empty())
             .map(|s| {
+                let s: String = s.chars().filter(|c| !c.is_whitespace()).collect();
                 s.rfind("::")
                     .map(|i| s[i + 2..].to_string())
                     .unwrap_or(s.to_string())
             })
             .collect::<Vec<_>>()
-            .join("_;_");
-        self.inst_def().iter().for_each(|(_, v)| {
-            name.push_str(format!("__{}", v).as_str());
-        });
+            .join("__");
         name.to_string()
     }
 
@@ -304,7 +306,7 @@ impl AirBuilder {
     pub fn get_from_memory<K, V>(&mut self, memory: &Memory<K, V>, key: &K) -> V
     where
         K: AirVar,
-        V: AirVar,
+        V: AirVar + Default,
     {
         let value_name = self.registry.get_deduction_intermediate_var_name();
 
@@ -332,7 +334,7 @@ impl AirBuilder {
     pub fn set_in_memory<K, V>(&mut self, memory: &Memory<K, V>, key: K, value: V)
     where
         K: AirVar,
-        V: AirVar,
+        V: AirVar + Default,
     {
         #[cfg(test)]
         if self.run {
