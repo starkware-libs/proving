@@ -49,18 +49,22 @@ impl BoolExpr {
     }
 
     // Converts a constant BoolExpr to a FeltExpr.
-    pub fn const_to_felt(&self) -> FeltExpr {
+    fn const_to_felt(&self) -> FeltExpr {
         assert!(self.is_const());
 
         let value = self.value().map(|c| c.as_felt());
         FeltExpr::Op(OpExpr::new(
-            Operation::ConstBoolToFelt,
+            Operation::ConstToFelt,
             vec![self.clone().into()],
             value,
         ))
     }
 
     pub fn as_felt(&self) -> FeltExpr {
+        if self.is_const() {
+            return self.const_to_felt();
+        }
+
         self.clone().as_felt_mut().clone()
     }
 

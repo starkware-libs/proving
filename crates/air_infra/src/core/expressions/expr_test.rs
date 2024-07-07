@@ -230,13 +230,13 @@ fn test_conversion_felts_to_felt252() {
 #[test]
 fn test_const_to_felt() {
     let b = !const_bool_expr!(true);
-    let f = b.const_to_felt();
+    let f = b.as_felt();
     assert_eq!(f.calc(), "0");
     let compiled_felt: ProcessedAirVar = f.into();
     assert_eq!(&compiled_felt.to_string(), "(! const_true).as_felt()");
 
     let i = const_u16_expr!(0xFFF) + const_u16_expr!(1);
-    let f = i.const_to_felt();
+    let f = i.as_felt();
     assert_eq!(f.calc(), "4096");
     let compiled_felt: ProcessedAirVar = f.into();
     assert_eq!(
