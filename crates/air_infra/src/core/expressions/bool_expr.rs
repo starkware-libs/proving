@@ -110,15 +110,21 @@ impl Expr<Bool> for BoolExpr {
 }
 
 impl AirVar for BoolExpr {
-    fn new(name: String) -> Self {
-        Self::new_var(name, None, None, false)
-    }
-
     fn name(&self) -> String {
         match self {
             BoolExpr::Var(v) => v.name.clone(),
             BoolExpr::Op(b) => b.name.clone(),
         }
+    }
+
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        vec![self.as_felt_mut()]
+    }
+}
+
+impl InternalAirVarActions for BoolExpr {
+    fn new(name: String) -> Self {
+        Self::new_var(name, None, None, false)
     }
 
     fn let_for_deduction(&self, name: String) -> Self {
@@ -134,16 +140,14 @@ impl AirVar for BoolExpr {
             _ => Self::new_var(name, self.value(), None, self.is_const()),
         }
     }
+}
 
+impl InternalAirVarInfo for BoolExpr {
     fn in_state(&self) -> bool {
         match self {
             BoolExpr::Var(v) => v.as_felt.in_state(),
             BoolExpr::Op(op) => op.children.iter().all(|c| c.in_state()),
         }
-    }
-
-    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        vec![self.as_felt_mut()]
     }
 
     fn is_const(&self) -> bool {
@@ -169,13 +173,6 @@ impl From<BoolVar> for BoolExpr {
 impl From<BoolOperation> for BoolExpr {
     fn from(b: BoolOperation) -> BoolExpr {
         BoolExpr::Op(b)
-    }
-}
-
-impl From<BoolExpr> for GenericAirVar {
-    fn from(expr: BoolExpr) -> GenericAirVar {
-        let expr_impl: ExprImpl = expr.into();
-        expr_impl.into()
     }
 }
 

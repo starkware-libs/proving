@@ -84,35 +84,10 @@ impl Expr<Felt252> for Felt252Expr {
 }
 
 impl AirVar for Felt252Expr {
-    fn new(name: String) -> Self {
-        Self::new_var(name, None, None, false)
-    }
-
     fn name(&self) -> String {
         match self {
             Felt252Expr::Var(v) => v.name.clone(),
             Felt252Expr::Op(op) => op.name.clone(),
-        }
-    }
-
-    fn let_for_deduction(&self, name: String) -> Self {
-        assert!(name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX));
-
-        match self {
-            Felt252Expr::Var(v) => {
-                let mut res = v.clone();
-                res.name = name;
-                res.update_parts();
-                res.into()
-            }
-            _ => Self::new_var(name, self.value(), None, self.is_const()),
-        }
-    }
-
-    fn in_state(&self) -> bool {
-        match self {
-            Felt252Expr::Var(v) => v.felts.iter().all(|f| f.in_state()),
-            Felt252Expr::Op(op) => op.children.iter().all(|c| c.in_state()),
         }
     }
 
@@ -144,6 +119,35 @@ impl AirVar for Felt252Expr {
             }
         }
     }
+}
+
+impl InternalAirVarActions for Felt252Expr {
+    fn new(name: String) -> Self {
+        Self::new_var(name, None, None, false)
+    }
+
+    fn let_for_deduction(&self, name: String) -> Self {
+        assert!(name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX));
+
+        match self {
+            Felt252Expr::Var(v) => {
+                let mut res = v.clone();
+                res.name = name;
+                res.update_parts();
+                res.into()
+            }
+            _ => Self::new_var(name, self.value(), None, self.is_const()),
+        }
+    }
+}
+
+impl InternalAirVarInfo for Felt252Expr {
+    fn in_state(&self) -> bool {
+        match self {
+            Felt252Expr::Var(v) => v.felts.iter().all(|f| f.in_state()),
+            Felt252Expr::Op(op) => op.children.iter().all(|c| c.in_state()),
+        }
+    }
 
     fn is_const(&self) -> bool {
         match self {
@@ -168,13 +172,6 @@ impl From<Felt252Var> for Felt252Expr {
 impl From<Felt252Operation> for Felt252Expr {
     fn from(b: Felt252Operation) -> Felt252Expr {
         Felt252Expr::Op(b)
-    }
-}
-
-impl From<Felt252Expr> for GenericAirVar {
-    fn from(expr: Felt252Expr) -> GenericAirVar {
-        let expr_impl: ExprImpl = expr.into();
-        expr_impl.into()
     }
 }
 

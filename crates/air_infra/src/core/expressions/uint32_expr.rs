@@ -121,15 +121,24 @@ impl Expr<UInt32> for UInt32Expr {
 }
 
 impl AirVar for UInt32Expr {
-    fn new(name: String) -> Self {
-        Self::new_var(name, None, None, None, false)
-    }
-
     fn name(&self) -> String {
         match self {
             UInt32Expr::Var(v) => v.name.clone(),
             UInt32Expr::Op(op) => op.name.clone(),
         }
+    }
+
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        match self {
+            UInt32Expr::Var(v) => vec![v.low.as_felt_mut(), v.high.as_felt_mut()],
+            _ => panic!("Cannot convert non-variable to Felt"),
+        }
+    }
+}
+
+impl InternalAirVarActions for UInt32Expr {
+    fn new(name: String) -> Self {
+        Self::new_var(name, None, None, None, false)
     }
 
     fn let_for_deduction(&self, name: String) -> Self {
@@ -145,17 +154,13 @@ impl AirVar for UInt32Expr {
             _ => Self::new_var(name, self.value(), None, None, self.is_const()),
         }
     }
+}
 
+impl InternalAirVarInfo for UInt32Expr {
     fn in_state(&self) -> bool {
         match self {
             UInt32Expr::Var(v) => v.low.in_state() && v.high.in_state(),
             UInt32Expr::Op(op) => op.children.iter().all(|c| c.in_state()),
-        }
-    }
-    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        match self {
-            UInt32Expr::Var(v) => vec![v.low.as_felt_mut(), v.high.as_felt_mut()],
-            _ => panic!("Cannot convert non-variable to Felt"),
         }
     }
 
@@ -182,13 +187,6 @@ impl From<UInt32Var> for UInt32Expr {
 impl From<UInt32Operation> for UInt32Expr {
     fn from(b: UInt32Operation) -> UInt32Expr {
         UInt32Expr::Op(b)
-    }
-}
-
-impl From<UInt32Expr> for GenericAirVar {
-    fn from(expr: UInt32Expr) -> GenericAirVar {
-        let expr_impl: ExprImpl = expr.into();
-        expr_impl.into()
     }
 }
 

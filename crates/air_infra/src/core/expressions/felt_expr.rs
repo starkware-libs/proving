@@ -95,15 +95,21 @@ impl Expr<Felt> for FeltExpr {
 }
 
 impl AirVar for FeltExpr {
-    fn new(name: String) -> Self {
-        Self::new_var(name, None, None, false)
-    }
-
     fn name(&self) -> String {
         match self {
             FeltExpr::Var(v) => v.name.clone(),
             FeltExpr::Op(b) => b.name.clone(),
         }
+    }
+
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        vec![self]
+    }
+}
+
+impl InternalAirVarActions for FeltExpr {
+    fn new(name: String) -> Self {
+        Self::new_var(name, None, None, false)
     }
 
     fn let_for_deduction(&self, name: String) -> Self {
@@ -118,7 +124,9 @@ impl AirVar for FeltExpr {
             _ => Self::new_var(name, self.value(), None, self.is_const()),
         }
     }
+}
 
+impl InternalAirVarInfo for FeltExpr {
     fn in_state(&self) -> bool {
         match self {
             FeltExpr::Var(v) => {
@@ -128,10 +136,6 @@ impl AirVar for FeltExpr {
             }
             FeltExpr::Op(op) => op.children.iter().all(|c| c.in_state()),
         }
-    }
-
-    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        vec![self]
     }
 
     fn is_const(&self) -> bool {
@@ -157,13 +161,6 @@ impl From<FeltVar> for FeltExpr {
 impl From<FeltOperation> for FeltExpr {
     fn from(binary: FeltOperation) -> FeltExpr {
         FeltExpr::Op(binary)
-    }
-}
-
-impl From<FeltExpr> for GenericAirVar {
-    fn from(expr: FeltExpr) -> GenericAirVar {
-        let expr_impl: ExprImpl = expr.into();
-        expr_impl.into()
     }
 }
 

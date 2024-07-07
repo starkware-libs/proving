@@ -129,15 +129,21 @@ impl Expr<UInt16> for UInt16Expr {
 }
 
 impl AirVar for UInt16Expr {
-    fn new(name: String) -> Self {
-        Self::new_var(name, None, None, false)
-    }
-
     fn name(&self) -> String {
         match self {
             UInt16Expr::Var(v) => v.name.clone(),
             UInt16Expr::Op(op) => op.name.clone(),
         }
+    }
+
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        vec![self.as_felt_mut()]
+    }
+}
+
+impl InternalAirVarActions for UInt16Expr {
+    fn new(name: String) -> Self {
+        Self::new_var(name, None, None, false)
     }
 
     fn let_for_deduction(&self, name: String) -> Self {
@@ -153,16 +159,14 @@ impl AirVar for UInt16Expr {
             _ => Self::new_var(name, self.value(), None, self.is_const()),
         }
     }
+}
 
+impl InternalAirVarInfo for UInt16Expr {
     fn in_state(&self) -> bool {
         match self {
             UInt16Expr::Var(v) => v.as_felt.in_state(),
             UInt16Expr::Op(op) => op.children.iter().all(|c| c.in_state()),
         }
-    }
-
-    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        vec![self.as_felt_mut()]
     }
 
     fn is_const(&self) -> bool {
@@ -188,13 +192,6 @@ impl From<UInt16Var> for UInt16Expr {
 impl From<UInt16Operation> for UInt16Expr {
     fn from(b: UInt16Operation) -> UInt16Expr {
         UInt16Expr::Op(b)
-    }
-}
-
-impl From<UInt16Expr> for GenericAirVar {
-    fn from(expr: UInt16Expr) -> GenericAirVar {
-        let expr_impl: ExprImpl = expr.into();
-        expr_impl.into()
     }
 }
 

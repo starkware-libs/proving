@@ -114,15 +114,29 @@ impl Expr<UInt64> for UInt64Expr {
 }
 
 impl AirVar for UInt64Expr {
-    fn new(name: String) -> Self {
-        Self::new_var(name, None, None, None, None, None, false)
-    }
-
     fn name(&self) -> String {
         match self {
             UInt64Expr::Var(v) => v.name.clone(),
             UInt64Expr::Op(op) => op.name.clone(),
         }
+    }
+
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        match self {
+            UInt64Expr::Var(v) => {
+                let mut res = vec![];
+                res.append(&mut v.low.as_felts_mut());
+                res.append(&mut v.high.as_felts_mut());
+                res
+            }
+            _ => panic!("Cannot convert non-variable to Felt"),
+        }
+    }
+}
+
+impl InternalAirVarActions for UInt64Expr {
+    fn new(name: String) -> Self {
+        Self::new_var(name, None, None, None, None, None, false)
     }
 
     fn let_for_deduction(&self, name: String) -> Self {
@@ -138,23 +152,13 @@ impl AirVar for UInt64Expr {
             _ => Self::new_var(name, self.value(), None, None, None, None, self.is_const()),
         }
     }
+}
 
+impl InternalAirVarInfo for UInt64Expr {
     fn in_state(&self) -> bool {
         match self {
             UInt64Expr::Var(v) => v.low.in_state() && v.high.in_state(),
             UInt64Expr::Op(op) => op.children.iter().all(|c| c.in_state()),
-        }
-    }
-
-    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        match self {
-            UInt64Expr::Var(v) => {
-                let mut res = vec![];
-                res.append(&mut v.low.as_felts_mut());
-                res.append(&mut v.high.as_felts_mut());
-                res
-            }
-            _ => panic!("Cannot convert non-variable to Felt"),
         }
     }
 
@@ -181,13 +185,6 @@ impl From<UInt64Var> for UInt64Expr {
 impl From<UInt64Operation> for UInt64Expr {
     fn from(b: UInt64Operation) -> UInt64Expr {
         UInt64Expr::Op(b)
-    }
-}
-
-impl From<UInt64Expr> for GenericAirVar {
-    fn from(expr: UInt64Expr) -> GenericAirVar {
-        let expr_impl: ExprImpl = expr.into();
-        expr_impl.into()
     }
 }
 

@@ -1,3 +1,5 @@
+use enum_dispatch::enum_dispatch;
+
 use super::super::autogen_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
@@ -30,6 +32,7 @@ where
 
 // All expressions.
 #[derive(Clone, Debug)]
+#[enum_dispatch(InternalAirVarInfo)]
 pub enum ExprImpl {
     Felt(FeltExpr),
     UInt16(UInt16Expr),
@@ -58,101 +61,12 @@ impl Default for ExprImpl {
     }
 }
 
-impl AirVar for ExprImpl {
-    fn new(name: String) -> Self {
-        ExprImpl::Felt(FeltExpr::new(name))
-    }
-
-    fn name(&self) -> String {
-        match self {
-            ExprImpl::Felt(f) => f.name(),
-            ExprImpl::UInt16(u) => u.name(),
-            ExprImpl::Bool(b) => b.name(),
-            ExprImpl::UInt32(u) => u.name(),
-            ExprImpl::UInt64(u) => u.name(),
-            ExprImpl::Felt252(f) => f.name(),
-        }
-    }
-
-    fn in_state(&self) -> bool {
-        match self {
-            ExprImpl::Felt(f) => f.in_state(),
-            ExprImpl::UInt16(u) => u.in_state(),
-            ExprImpl::Bool(b) => b.in_state(),
-            ExprImpl::UInt32(u) => u.in_state(),
-            ExprImpl::UInt64(u) => u.in_state(),
-            ExprImpl::Felt252(f) => f.in_state(),
-        }
-    }
-
-    fn let_for_deduction(&self, name: String) -> Self {
-        match self {
-            ExprImpl::Felt(f) => f.let_for_deduction(name).into(),
-            ExprImpl::UInt16(u) => u.let_for_deduction(name).into(),
-            ExprImpl::Bool(b) => b.let_for_deduction(name).into(),
-            ExprImpl::UInt32(u) => u.let_for_deduction(name).into(),
-            ExprImpl::UInt64(u) => u.let_for_deduction(name).into(),
-            ExprImpl::Felt252(f) => f.let_for_deduction(name).into(),
-        }
-    }
-
-    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        match self {
-            ExprImpl::Felt(f) => f.as_felts_mut(),
-            ExprImpl::UInt16(u) => u.as_felts_mut(),
-            ExprImpl::Bool(b) => b.as_felts_mut(),
-            ExprImpl::UInt32(u) => u.as_felts_mut(),
-            ExprImpl::UInt64(u) => u.as_felts_mut(),
-            ExprImpl::Felt252(f) => f.as_felts_mut(),
-        }
-    }
-
-    fn is_const(&self) -> bool {
-        match self {
-            ExprImpl::Felt(f) => f.is_const(),
-            ExprImpl::UInt16(u) => u.is_const(),
-            ExprImpl::Bool(b) => b.is_const(),
-            ExprImpl::UInt32(u) => u.is_const(),
-            ExprImpl::UInt64(u) => u.is_const(),
-            ExprImpl::Felt252(f) => f.is_const(),
-        }
-    }
-}
-
-impl From<FeltExpr> for ExprImpl {
-    fn from(expr: FeltExpr) -> ExprImpl {
-        ExprImpl::Felt(expr)
-    }
-}
-impl From<UInt16Expr> for ExprImpl {
-    fn from(expr: UInt16Expr) -> ExprImpl {
-        ExprImpl::UInt16(expr)
-    }
-}
-impl From<BoolExpr> for ExprImpl {
-    fn from(expr: BoolExpr) -> ExprImpl {
-        ExprImpl::Bool(expr)
-    }
-}
-impl From<UInt32Expr> for ExprImpl {
-    fn from(expr: UInt32Expr) -> ExprImpl {
-        ExprImpl::UInt32(expr)
-    }
-}
-impl From<UInt64Expr> for ExprImpl {
-    fn from(expr: UInt64Expr) -> ExprImpl {
-        ExprImpl::UInt64(expr)
-    }
-}
-impl From<Felt252Expr> for ExprImpl {
-    fn from(expr: Felt252Expr) -> ExprImpl {
-        ExprImpl::Felt252(expr)
-    }
-}
-
-impl From<ExprImpl> for GenericAirVar {
-    fn from(expr: ExprImpl) -> GenericAirVar {
-        GenericAirVar::Expr(expr)
+impl<E> From<E> for GenericAirVar
+where
+    E: Into<ExprImpl>,
+{
+    fn from(expr: E) -> GenericAirVar {
+        GenericAirVar::Expr(expr.into())
     }
 }
 

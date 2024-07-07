@@ -1,15 +1,18 @@
 use std::array::from_fn;
 use std::fmt::{Debug, Display};
 
+use enum_dispatch::enum_dispatch;
 use serde::ser::SerializeSeq;
 use serde::{Serialize, Serializer};
 
 use super::autogen_structs::*;
 use super::expressions::bool_expr::*;
 use super::expressions::expr::*;
+use super::expressions::felt252_expr::*;
 use super::expressions::felt_expr::*;
 use super::expressions::uint16_expr::*;
 use super::expressions::uint32_expr::*;
+use super::expressions::uint64_expr::*;
 
 #[cfg(test)]
 use super::prover_types::*;
@@ -18,18 +21,11 @@ use super::prover_types::*;
 use crate::impl_air_var;
 
 /// Every input and output of an air function is an AirVar.
-pub trait AirVar: Clone + Debug + Into<GenericAirVar> {
-    fn new(name: String) -> Self;
-    fn let_for_deduction(&self, name: String) -> Self;
+pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
     fn name(&self) -> String;
     fn description(&self) -> String {
         self.name()
     }
-    // An AirVar is in_state if it is stored in a trace cell or a polynomial of felts stored in trace cells.
-    // Used to verify that expressions of constraints are polynomials of felts written to the trace.
-    // We check this in run mode, since when building an air body, we want all constraints to refer to sepecial
-    // inputs carrying the AirFn name.
-    fn in_state(&self) -> bool;
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr>;
     fn as_felts(&self) -> Vec<FeltExpr> {
         self.clone()
@@ -42,6 +38,17 @@ pub trait AirVar: Clone + Debug + Into<GenericAirVar> {
     fn to_values(&self) -> Vec<Felt> {
         self.as_felts().iter().map(|f| f.value().unwrap()).collect()
     }
+}
+
+// Information about air variables used by the air builder.
+#[enum_dispatch]
+pub trait InternalAirVarInfo: Debug {
+    // An AirVar is in_state if it is stored in a trace cell or a polynomial of felts stored in trace cells.
+    // Used to verify that expressions of constraints are polynomials of felts written to the trace.
+    // We check this in run mode, since when building an air body, we want all constraints to refer to sepecial
+    // inputs carrying the AirFn name.
+    fn in_state(&self) -> bool;
+
     // An AirVar is_const if was created with a value and the flag is_const = true, or if it is the result of
     // operations on other constants.
     // Used to verify that a constant variable is not written to the trace in a top-level AirFn, since this
@@ -49,6 +56,12 @@ pub trait AirVar: Clone + Debug + Into<GenericAirVar> {
     // Note that in runtime, we allow deduction of constant variables in internal calls, since an AirFn can
     // be called with different inputs in different calls.
     fn is_const(&self) -> bool;
+}
+
+// Actions on air variables used by the air builder.
+pub trait InternalAirVarActions: Clone + Into<GenericAirVar> {
+    fn new(name: String) -> Self;
+    fn let_for_deduction(&self, name: String) -> Self;
 }
 
 // Air variables as represented in the air_body.
@@ -59,8 +72,8 @@ pub enum GenericAirVar {
     Array(Vec<GenericAirVar>),
 }
 
-impl GenericAirVar {
-    pub fn in_state(&self) -> bool {
+impl InternalAirVarInfo for GenericAirVar {
+    fn in_state(&self) -> bool {
         match self {
             GenericAirVar::Expr(expr) => expr.in_state(),
             GenericAirVar::Tuple(vars) => vars.iter().all(|v| v.in_state()),
@@ -68,7 +81,7 @@ impl GenericAirVar {
         }
     }
 
-    pub fn is_const(&self) -> bool {
+    fn is_const(&self) -> bool {
         match self {
             GenericAirVar::Expr(expr) => expr.is_const(),
             GenericAirVar::Tuple(vars) => vars.iter().all(|v| v.is_const()),
@@ -156,25 +169,28 @@ impl From<()> for GenericAirVar {
 }
 
 impl AirVar for () {
-    fn new(_name: String) -> Self {}
-
-    fn let_for_deduction(&self, _name: String) -> Self {}
-
     fn name(&self) -> String {
         "()".to_string()
-    }
-
-    fn in_state(&self) -> bool {
-        true
     }
 
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         vec![]
     }
+}
+
+impl InternalAirVarInfo for () {
+    fn in_state(&self) -> bool {
+        true
+    }
 
     fn is_const(&self) -> bool {
         true
     }
+}
+
+impl InternalAirVarActions for () {
+    fn new(_name: String) -> Self {}
+    fn let_for_deduction(&self, _name: String) -> Self {}
 }
 
 impl_air_var!((BoolExpr, FeltExpr));
@@ -194,12 +210,21 @@ macro_rules! impl_air_var {
             fn name(&self) -> String {
                 format!("[{}]", self.iter().map(|s| s.name()).collect::<Vec<String>>().join(", "))
             }
+            fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+                self.into_iter().flat_map(|s| s.as_felts_mut()).collect()
+            }
+        }
+
+        impl<const N:usize> InternalAirVarInfo for [$s;N] where $s: InternalAirVarInfo {
             fn in_state(&self) -> bool {
                 self.iter().all(|s| s.in_state())
             }
             fn is_const(&self) -> bool {
                 self.iter().all(|s| s.is_const())
             }
+        }
+
+        impl<const N:usize> InternalAirVarActions for [$s;N] where $s: InternalAirVarActions {
             fn let_for_deduction(&self, name: String) -> Self {
                 let mut res = self.clone();
                 for (i, s) in res.iter_mut().enumerate() {
@@ -208,10 +233,7 @@ macro_rules! impl_air_var {
                 res
             }
             fn new(name: String) -> Self {
-                from_fn(|i| <$s as AirVar>::new(format!("{}[{}]", name, i)))
-            }
-            fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-                self.into_iter().flat_map(|s| s.as_felts_mut()).collect()
+                from_fn(|i| <$s as InternalAirVarActions>::new(format!("{}[{}]", name, i)))
             }
         }
 
@@ -230,6 +252,17 @@ macro_rules! impl_air_var {
                 let ($($s),+) = self;
                 format!("({})", vec![$($s.name(), )+].join(", "))
             }
+            fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+                let mut res = vec!();
+                #[allow(non_snake_case)]
+                let ($($s),+) = self;
+                $(res.extend($s.as_felts_mut());)+
+                res
+            }
+        }
+
+        impl InternalAirVarInfo for ($($s),+) where $($s: InternalAirVarInfo),+
+        {
             fn in_state(&self) -> bool {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
@@ -240,6 +273,10 @@ macro_rules! impl_air_var {
                 let ($($s),+) = self;
                 $($s.is_const() &&)+ true
             }
+        }
+
+        impl InternalAirVarActions for ($($s),+) where $($s: InternalAirVarActions),+
+        {
             fn let_for_deduction(&self, name: String) -> Self {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
@@ -248,14 +285,7 @@ macro_rules! impl_air_var {
             }
             fn new(name: String) -> Self {
                 let mut i = 0;
-                ($(<$s as AirVar>::new(format!("{}.{}", name, { i += 1; i - 1 })),)+)
-            }
-            fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-                let mut res = vec!();
-                #[allow(non_snake_case)]
-                let ($($s),+) = self;
-                $(res.extend($s.as_felts_mut());)+
-                res
+                ($(<$s as InternalAirVarActions>::new(format!("{}.{}", name, { i += 1; i - 1 })),)+)
             }
         }
 
