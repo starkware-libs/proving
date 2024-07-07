@@ -1,5 +1,4 @@
-use super::check_instruction::*;
-use super::common::*;
+use std::collections::BTreeMap;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
@@ -8,21 +7,24 @@ use crate::core::memory::*;
 use crate::core::prover_types::*;
 use crate::core::variables::*;
 
+use super::check_instruction::*;
+use super::common::*;
+
 // Macros
 use crate::const_expr;
 
 /// The jump opcode.
 /// Implements the Cairo0 instructions:
-/// - jump rel
-/// - jump abs
+/// - jump rel imm
+/// - jump abs [ap + offset]
+/// - jump abs [fp + offset]
 
 #[derive(Clone, Debug)]
 pub struct JumpOpcode {
-    is_rel: bool,
-    flag_op1_base_fp: bool,
-    flag_ap_update_add: bool,
-
-    memory: Memory<FeltExpr, Felt252Expr>,
+    pub is_rel: bool,
+    pub flag_op1_base_fp: bool,
+    pub flag_ap_update_add_1: bool,
+    pub memory: Memory<FeltExpr, Felt252Expr>,
 }
 
 impl AirFn for JumpOpcode {
@@ -33,6 +35,12 @@ impl AirFn for JumpOpcode {
         // Create the constant offsets.
         let offset0 = offset_as_u16(-1);
         let offset1 = offset_as_u16(-1);
+        let offset2 = if self.is_rel {
+            Some(offset_as_u16(1))
+        } else {
+            None
+        };
+
         // Create the flags.
         let flag_op1_base_ap = if self.is_rel {
             assert!(!self.flag_op1_base_fp);
@@ -40,59 +48,77 @@ impl AirFn for JumpOpcode {
         } else {
             !self.flag_op1_base_fp
         };
-        let flags = NamedFlags {
-            dst_base_fp: true,
-            op0_base_fp: true,
-            op1_imm: self.is_rel,
-            op1_base_fp: self.flag_op1_base_fp,
-            op1_base_ap: flag_op1_base_ap,
-            res_add: false,
-            res_mul: false,
-            pc_update_jump_rel: self.is_rel,
-            pc_update_jump: !self.is_rel,
-            pc_update_jnz: false,
-            ap_update_add: false,
-            ap_update_add_1: self.flag_ap_update_add,
-            opcode_call: false,
-            opcode_ret: false,
-            opcode_assert_eq: false,
+        let flags = Flags {
+            dst_base_fp: Some(true),
+            op0_base_fp: Some(true),
+            op1_imm: Some(self.is_rel),
+            op1_base_fp: Some(self.flag_op1_base_fp),
+            op1_base_ap: Some(flag_op1_base_ap),
+            res_add: Some(false),
+            res_mul: Some(false),
+            pc_update_jump: Some(!self.is_rel),
+            pc_update_jump_rel: Some(self.is_rel),
+            pc_update_jnz: Some(false),
+            ap_update_add: Some(false),
+            ap_update_add_1: Some(self.flag_ap_update_add_1),
+            opcode_call: Some(false),
+            opcode_ret: Some(false),
+            opcode_assert_eq: Some(false),
         };
 
         // Check the instruction.
         let [_, _, offset2] = ab.call(
             &CheckInstruction {
-                const_offsets: [Some(offset0), Some(offset1), None],
-                const_flags: flags.into(),
+                const_offsets: [Some(offset0), Some(offset1), offset2],
+                const_flags: flags,
                 memory: self.memory.clone(),
             },
             pc.clone(),
         );
-        // Fetch op1.
-        let mem1_base = match self.is_rel {
-            true => pc.clone(),
-            false => match self.flag_op1_base_fp {
-                true => fp.clone(),
-                false => ap.clone(),
-            },
-        };
 
+        // Fetch op1.
+        let mem1_base = if self.is_rel {
+            pc.clone()
+        } else if self.flag_op1_base_fp {
+            fp.clone()
+        } else {
+            ap.clone()
+        };
         let key = mem1_base + offset2;
         let mut op1_value = ab.get_from_memory(&self.memory, &key);
         let op1 = ab.deduce(op1_value.as_felts_mut()[0]);
-        //should we write the key as well? set in memory assume they both in state
         ab.set_in_memory(&self.memory, key, Felt252Expr::from(vec![op1.clone()]));
 
-        let next_pc = match self.is_rel {
-            true => pc + op1,
-            false => op1,
-        };
+        // Calculate the next pc
+        let next_pc = if self.is_rel { pc + op1 } else { op1 };
 
-        let next_ap = match self.flag_ap_update_add {
-            true => ap + const_expr!(1),
-            false => ap,
+        // Calculate the next ap
+        let next_ap = if self.flag_ap_update_add_1 {
+            ap + const_expr!(1)
+        } else {
+            ap
         };
 
         [next_pc, next_ap, fp]
+    }
+
+    fn inst_def(&self) -> BTreeMap<String, String> {
+        [
+            ("is_rel".to_string(), self.is_rel.to_string()),
+            (
+                "flag_op1_base_fp".to_string(),
+                self.flag_op1_base_fp.to_string(),
+            ),
+            (
+                "flag_ap_update_add".to_string(),
+                self.flag_ap_update_add_1.to_string(),
+            ),
+        ]
+        .into()
+    }
+
+    fn trace_type(&self) -> TraceType {
+        TraceType::Component
     }
 }
 
