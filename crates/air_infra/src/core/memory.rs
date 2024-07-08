@@ -50,6 +50,15 @@ where
     }
 
     #[cfg(test)]
+    pub fn new_with_values(values: Vec<(Vec<Felt>, V)>) -> Self {
+        Self {
+            data: Rc::new(RefCell::new(values.into_iter().collect::<HashMap<_, _>>())),
+            key_type: PhantomData,
+            value_type: PhantomData,
+        }
+    }
+
+    #[cfg(test)]
     pub(super) fn get(&self, key: &K) -> Option<V> {
         let actual_key = key.to_values();
         self.data.borrow().get(&actual_key).cloned()
