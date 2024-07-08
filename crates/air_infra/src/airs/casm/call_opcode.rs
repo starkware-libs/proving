@@ -121,6 +121,10 @@ impl AirFn for CallOpcode {
         ]
         .into()
     }
+
+    fn trace_type(&self) -> TraceType {
+        TraceType::Component
+    }
 }
 
 impl MemoryAirFn for CallOpcode {
