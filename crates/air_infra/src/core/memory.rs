@@ -50,6 +50,15 @@ where
     }
 
     #[cfg(test)]
+    pub fn new_with_values(values: Vec<(Vec<Felt>, V)>) -> Self {
+        Self {
+            data: Rc::new(RefCell::new(values.into_iter().collect::<HashMap<_, _>>())),
+            key_type: PhantomData,
+            value_type: PhantomData,
+        }
+    }
+
+    #[cfg(test)]
     pub(super) fn get(&self, key: &K) -> Option<V> {
         let actual_key = key.to_values();
         self.data.borrow().get(&actual_key).cloned()
@@ -57,10 +66,10 @@ where
 
     #[cfg(test)]
     pub(super) fn set(&self, key: K, value: V) {
-        assert!(!value.is_const());
-
         let actual_key = key.to_values();
+
         if !self.data.borrow().contains_key(&actual_key) {
+            assert!(!value.is_const());
             self.data.borrow_mut().insert(actual_key, value);
         } else {
             let v = self.data.borrow().get(&actual_key).cloned().unwrap();
