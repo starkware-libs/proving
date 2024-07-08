@@ -113,30 +113,32 @@ fn check_offset(
     let off_begin = (offset_index * 16) % FELT252_BITS_PER_WORD;
     let off_l_len = FELT252_BITS_PER_WORD - off_begin;
 
-    let (low, high) = if let Some(off) = offset {
+    if let Some(off) = offset {
         // Split the offset into high and low parts.
         let high_u16 = off >> (off_l_len as u16);
         let low_u16 = off & ((1 << off_l_len as u16) - 1);
-        (const_expr!(low_u16 as u32), const_expr!(high_u16 as u32))
-    } else {
-        // Find the low part of the offset.
-        let low = check_offset_part(
-            off_begin,
-            off_l_len,
-            ab,
-            instruction_for_deduction.as_felts_mut()[offset_index],
-        );
+        return OffsetParts {
+            low: const_expr!(low_u16 as u32),
+            high: const_expr!(high_u16 as u32),
+            val: const_expr!(*off as u32),
+        };
+    }
 
-        // Find the high part of the offset.
-        let high = check_offset_part(
-            0,
-            16 - off_l_len,
-            ab,
-            instruction_for_deduction.as_felts_mut()[offset_index + 1],
-        );
+    // Find the low part of the offset.
+    let low = check_offset_part(
+        off_begin,
+        off_l_len,
+        ab,
+        instruction_for_deduction.as_felts_mut()[offset_index],
+    );
 
-        (low, high)
-    };
+    // Find the high part of the offset.
+    let high = check_offset_part(
+        0,
+        16 - off_l_len,
+        ab,
+        instruction_for_deduction.as_felts_mut()[offset_index + 1],
+    );
 
     // Reconstruct the offset as felt from the high and low parts.
     let val = low.clone() + (high.clone() * const_expr!(1 << off_l_len));

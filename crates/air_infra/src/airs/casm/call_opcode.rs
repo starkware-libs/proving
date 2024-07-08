@@ -1,3 +1,5 @@
+use std::collections::BTreeMap;
+
 use super::check_instruction::*;
 use super::common::*;
 
@@ -98,6 +100,17 @@ impl AirFn for CallOpcode {
         ab.set_in_memory(&self.memory, key, Felt252Expr::from(vec![op1.clone()]));
 
         [op1, ap.clone() + const_expr!(2), ap + const_expr!(2)]
+    }
+
+    fn inst_def(&self) -> BTreeMap<String, String> {
+        [
+            ("is_rel".to_string(), self.is_rel.to_string()),
+            (
+                "flag_op1_base_fp".to_string(),
+                self.flag_op1_base_fp.to_string(),
+            ),
+        ]
+        .into()
     }
 }
 
