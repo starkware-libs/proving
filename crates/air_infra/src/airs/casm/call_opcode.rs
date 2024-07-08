@@ -35,6 +35,11 @@ impl AirFn for CallOpcode {
         // Create the constant offsets.
         let offset0 = offset_as_u16(0);
         let offset1 = offset_as_u16(1);
+        let offset2 = if self.is_rel {
+            Some(offset_as_u16(1))
+        } else {
+            None
+        };
 
         // Create the constant flags.
         let flag_op1_imm = self.is_rel;
@@ -65,7 +70,7 @@ impl AirFn for CallOpcode {
         // Check the instruction.
         let [_, _, offset2] = ab.call(
             &CheckInstruction {
-                const_offsets: [Some(offset0), Some(offset1), None],
+                const_offsets: [Some(offset0), Some(offset1), offset2],
                 const_flags: flags.into(),
                 memory: self.memory.clone(),
             },
@@ -88,10 +93,11 @@ impl AirFn for CallOpcode {
 
         // Fetch op1.
         let mem1_base = if self.is_rel {
-            pc
+            pc.clone()
+        } else if self.flag_op1_base_fp {
+            fp
         } else {
-            (const_expr!(self.flag_op1_base_fp as u32) * fp)
-                + (const_expr!(flag_op1_base_ap as u32) * ap.clone())
+            ap.clone()
         };
 
         let key = mem1_base + offset2;
@@ -99,7 +105,10 @@ impl AirFn for CallOpcode {
         let op1 = ab.deduce(op1_value.as_felts_mut()[0]);
         ab.set_in_memory(&self.memory, key, Felt252Expr::from(vec![op1.clone()]));
 
-        [op1, ap.clone() + const_expr!(2), ap + const_expr!(2)]
+        // Update pc.
+        let next_pc = if self.is_rel { op1 } else { pc + op1 };
+
+        [next_pc, ap.clone() + const_expr!(2), ap + const_expr!(2)]
     }
 
     fn inst_def(&self) -> BTreeMap<String, String> {
