@@ -1,0 +1,82 @@
+use crate::const_expr;
+use crate::core::air_fn::*;
+use crate::core::expressions::felt252_expr::*;
+use crate::core::expressions::felt_expr::*;
+use crate::core::memory::*;
+use crate::core::prover_types::*;
+use crate::core::variables::*;
+
+use super::check_instruction::*;
+use super::common::*;
+use super::read_small_felt252::*;
+
+pub const RET_FLAGS: NamedFlags = NamedFlags {
+    dst_base_fp: true,
+    op0_base_fp: true,
+    op1_imm: false,
+    op1_base_fp: true,
+    op1_base_ap: false,
+    res_add: false,
+    res_mul: false,
+    pc_update_jump: true,
+    pc_update_jump_rel: false,
+    pc_update_jnz: false,
+    ap_update_add: false,
+    ap_update_add_1: false,
+    opcode_call: false,
+    opcode_ret: true,
+    opcode_assert_eq: false,
+};
+
+#[derive(Debug, Default)]
+pub struct RetOpcode {
+    memory: Memory<FeltExpr, Felt252Expr>,
+}
+
+impl MemoryAirFn for RetOpcode {
+    type K = FeltExpr;
+
+    type V = Felt252Expr;
+
+    fn init_memory(&mut self, memory: &Memory<Self::K, Self::V>) {
+        self.memory = memory.clone();
+    }
+}
+
+impl AirFn for RetOpcode {
+    type In = CasmState;
+
+    type Out = CasmState;
+
+    fn call(&self, air_builder: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
+        let read_24bit_felt = ReadSmallFelt252 {
+            num_limbs: 2,
+            memory: self.memory.clone(),
+        };
+        let check_instruction = CheckInstruction {
+            const_offsets: [
+                Some(offset_as_u16(-2)),
+                Some(offset_as_u16(-1)),
+                Some(offset_as_u16(-1)),
+            ],
+            const_flags: RET_FLAGS.into(),
+            memory: self.memory.clone(),
+        };
+
+        air_builder.call(&check_instruction, pc);
+
+        // Read the saved pc and fp as "small felt252"s. pc and fp contain memory addresses,
+        // so we don't support values > 2**24 for them.
+        let next_pc = air_builder.call(&read_24bit_felt, fp.clone() - const_expr!(1));
+        let next_pc_felts = next_pc.as_felts();
+
+        let next_fp = air_builder.call(&read_24bit_felt, fp - const_expr!(2));
+        let next_fp_felts = next_fp.as_felts();
+
+        [
+            next_pc_felts[0].clone() + (next_pc_felts[1].clone() * const_expr!(1 << 12)),
+            ap,
+            next_fp_felts[0].clone() + (next_fp_felts[1].clone() * const_expr!(1 << 12)),
+        ]
+    }
+}
