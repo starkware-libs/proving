@@ -50,9 +50,11 @@ where
     }
 
     #[cfg(test)]
-    pub fn new_with_values(values: Vec<(Vec<Felt>, V)>) -> Self {
+    pub fn new_with_data(data: Vec<(K, V)>) -> Self {
         Self {
-            data: Rc::new(RefCell::new(values.into_iter().collect::<HashMap<_, _>>())),
+            data: Rc::new(RefCell::new(
+                data.into_iter().map(|(k, v)| (k.to_values(), v)).collect(),
+            )),
             key_type: PhantomData,
             value_type: PhantomData,
         }

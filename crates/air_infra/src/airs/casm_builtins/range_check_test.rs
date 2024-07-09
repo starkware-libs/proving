@@ -4,7 +4,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 use crate::core::prover_types::*;
-use crate::core::variables::*;
 use crate::expr;
 use crate::felt252_expr;
 
@@ -27,8 +26,8 @@ fn test_range_check() {
         "RangeCheck8([state[3]]) == []",
     ];
 
-    let memory = Memory::new_with_values(vec![(
-        const_expr!(0).to_values(),
+    let memory = Memory::new_with_data(vec![(
+        const_expr!(0),
         felt252_expr!("value_to_check", (1 << 17), 0),
     )]);
 
@@ -61,7 +60,7 @@ fn test_range_check() {
 
 fn run_range_check(value: Felt252Expr, bits: usize) {
     let address = 0;
-    let memory = Memory::new_with_values(vec![(const_expr!(address).to_values(), value)]);
+    let memory = Memory::new_with_data(vec![(const_expr!(address), value)]);
 
     let rc = RangeCheckBuiltin {
         bits,
