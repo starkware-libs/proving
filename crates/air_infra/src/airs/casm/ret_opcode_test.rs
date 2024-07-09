@@ -5,7 +5,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 use crate::core::prover_types::*;
-use crate::core::variables::*;
 use crate::felt252_expr;
 
 use super::common::*;
@@ -44,17 +43,14 @@ fn test_ret_opcode() {
     let fp: FeltExpr = const_expr!(fp_value);
 
     // Fill memory
-    let memory = Memory::<FeltExpr, Felt252Expr>::new_with_values(vec![
+    let memory = Memory::<FeltExpr, Felt252Expr>::new_with_data(vec![
+        (pc.clone(), felt252_expr!("op", assemble_ret() as u128, 0)),
         (
-            pc.clone().to_values(),
-            felt252_expr!("op", assemble_ret() as u128, 0),
-        ),
-        (
-            const_expr!(fp_value - 1).to_values(),
+            const_expr!(fp_value - 1),
             felt252_expr!("saved_pc", saved_pc, 0),
         ),
         (
-            const_expr!(fp_value - 2).to_values(),
+            const_expr!(fp_value - 2),
             felt252_expr!("saved_fp", saved_fp, 0),
         ),
     ]);
