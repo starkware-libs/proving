@@ -79,4 +79,8 @@ impl AirFn for RetOpcode {
             next_fp_felts[0].clone() + (next_fp_felts[1].clone() * const_expr!(1 << 12)),
         ]
     }
+
+    fn trace_type(&self) -> TraceType {
+        TraceType::Component
+    }
 }
