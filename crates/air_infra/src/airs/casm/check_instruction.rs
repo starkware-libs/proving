@@ -18,7 +18,7 @@ use crate::const_u32_expr;
 // Holds the constant offsets, constant flags and memory.
 #[derive(Clone, Debug)]
 pub struct CheckInstruction {
-    pub const_offsets: [Option<u16>; 3], // off_dst, off_0, off_1
+    pub const_offsets: [Option<u16>; 3], // off_0, off_1, off_2
     // TODO: deal with non-const flags.
     pub const_flags: [bool; 15],
     pub memory: Memory<FeltExpr, Felt252Expr>,
@@ -38,15 +38,15 @@ impl AirFn for CheckInstruction {
         for (i, off) in self.const_offsets.iter().enumerate() {
             offsets_parts.push(check_offset(i, ab, off, instruction_for_deduction.clone()));
         }
-        let [off_dst, off_0, off_1] = offsets_parts
+        let [off_0, off_1, off_2] = offsets_parts
             .try_into()
             .expect("offsets_parts should have 3 offsets.");
 
         // Compute the 12 bit components.
-        let felt0 = off_dst.low;
-        let felt1 = off_dst.high + (off_0.low * const_expr!(1 << 4));
-        let felt2 = off_0.high + (off_1.low * const_expr!(1 << 8));
-        let felt3 = off_1.high;
+        let felt0 = off_0.low;
+        let felt1 = off_0.high + (off_1.low * const_expr!(1 << 4));
+        let felt2 = off_1.high + (off_2.low * const_expr!(1 << 8));
+        let felt3 = off_2.high;
 
         let felt4 = const_expr!(
             self.const_flags[0] as u32
@@ -75,7 +75,7 @@ impl AirFn for CheckInstruction {
             Felt252Expr::from(vec![felt0, felt1, felt2, felt3, felt4, felt5]),
         );
 
-        [off_dst.val, off_0.val, off_1.val]
+        [off_0.val, off_1.val, off_2.val]
     }
 
     fn inst_def(&self) -> BTreeMap<String, String> {

@@ -12,10 +12,10 @@ use super::common::*;
 use super::ret_opcode::*;
 
 pub fn assemble_ret() -> u64 {
-    let ret_dst_off = -2;
-    let ret_op0_off = -1;
-    let ret_op1_off = -1;
-    assemble_instruction(ret_dst_off, ret_op0_off, ret_op1_off, RET_FLAGS.into())
+    let ret_off_0 = -2;
+    let ret_off_1 = -1;
+    let ret_off_2 = -1;
+    assemble_instruction(ret_off_0, ret_off_1, ret_off_2, RET_FLAGS.into())
 }
 
 #[test]
