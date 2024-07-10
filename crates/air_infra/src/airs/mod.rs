@@ -1,4 +1,5 @@
 pub mod casm;
+pub mod casm_builtins;
 pub mod examples;
 pub mod range_check;
 #[cfg(test)]
