@@ -49,29 +49,29 @@ impl AirFn for CallOpcode {
         } else {
             !self.flag_op1_base_fp
         };
-        let flags = NamedFlags {
-            dst_base_fp: false,
-            op0_base_fp: false,
-            op1_imm: flag_op1_imm,
-            op1_base_fp: self.flag_op1_base_fp,
-            op1_base_ap: flag_op1_base_ap,
-            res_add: false,
-            res_mul: false,
-            pc_update_jump: !self.is_rel,
-            pc_update_jump_rel: self.is_rel,
-            pc_update_jnz: false,
-            ap_update_add: false,
-            ap_update_add_1: false,
-            opcode_call: true,
-            opcode_ret: false,
-            opcode_assert_eq: false,
+        let flags = Flags {
+            dst_base_fp: Some(false),
+            op0_base_fp: Some(false),
+            op1_imm: Some(flag_op1_imm),
+            op1_base_fp: Some(self.flag_op1_base_fp),
+            op1_base_ap: Some(flag_op1_base_ap),
+            res_add: Some(false),
+            res_mul: Some(false),
+            pc_update_jump: Some(!self.is_rel),
+            pc_update_jump_rel: Some(self.is_rel),
+            pc_update_jnz: Some(false),
+            ap_update_add: Some(false),
+            ap_update_add_1: Some(false),
+            opcode_call: Some(true),
+            opcode_ret: Some(false),
+            opcode_assert_eq: Some(false),
         };
 
         // Check the instruction.
         let [_, _, offset2] = ab.call(
             &CheckInstruction {
                 const_offsets: [Some(offset0), Some(offset1), offset2],
-                const_flags: flags.into(),
+                const_flags: flags,
                 memory: self.memory.clone(),
             },
             pc.clone(),

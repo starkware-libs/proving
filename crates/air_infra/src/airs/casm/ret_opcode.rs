@@ -10,22 +10,22 @@ use super::check_instruction::*;
 use super::common::*;
 use super::read_small_felt252::*;
 
-pub const RET_FLAGS: NamedFlags = NamedFlags {
-    dst_base_fp: true,
-    op0_base_fp: true,
-    op1_imm: false,
-    op1_base_fp: true,
-    op1_base_ap: false,
-    res_add: false,
-    res_mul: false,
-    pc_update_jump: true,
-    pc_update_jump_rel: false,
-    pc_update_jnz: false,
-    ap_update_add: false,
-    ap_update_add_1: false,
-    opcode_call: false,
-    opcode_ret: true,
-    opcode_assert_eq: false,
+pub const RET_FLAGS: Flags = Flags {
+    dst_base_fp: Some(true),
+    op0_base_fp: Some(true),
+    op1_imm: Some(false),
+    op1_base_fp: Some(true),
+    op1_base_ap: Some(false),
+    res_add: Some(false),
+    res_mul: Some(false),
+    pc_update_jump: Some(true),
+    pc_update_jump_rel: Some(false),
+    pc_update_jnz: Some(false),
+    ap_update_add: Some(false),
+    ap_update_add_1: Some(false),
+    opcode_call: Some(false),
+    opcode_ret: Some(true),
+    opcode_assert_eq: Some(false),
 };
 
 #[derive(Debug, Default)]
@@ -59,7 +59,7 @@ impl AirFn for RetOpcode {
                 Some(offset_as_u16(-1)),
                 Some(offset_as_u16(-1)),
             ],
-            const_flags: RET_FLAGS.into(),
+            const_flags: RET_FLAGS,
             memory: self.memory.clone(),
         };
 

@@ -1,6 +1,7 @@
 use std::collections::BTreeMap;
 
 use super::super::range_check::*;
+use super::common::*;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
@@ -19,8 +20,7 @@ use crate::const_u32_expr;
 #[derive(Clone, Debug)]
 pub struct CheckInstruction {
     pub const_offsets: [Option<u16>; 3], // off_0, off_1, off_2
-    // TODO: deal with non-const flags.
-    pub const_flags: [bool; 15],
+    pub const_flags: Flags,
     pub memory: Memory<FeltExpr, Felt252Expr>,
 }
 
@@ -32,6 +32,11 @@ impl AirFn for CheckInstruction {
     type Out = [FeltExpr; 3];
 
     fn call(&self, ab: &mut AirBuilder, pc: Self::In) -> Self::Out {
+        assert_eq!(
+            FELT252_BITS_PER_WORD, 12,
+            "CheckInstruction assumes there are 12 bits per felt in a felt252"
+        );
+
         let instruction_for_deduction = ab.get_from_memory(&self.memory, &pc);
         let mut offsets_parts = vec![];
 
@@ -48,26 +53,17 @@ impl AirFn for CheckInstruction {
         let felt2 = off_1.high + (off_2.low * const_expr!(1 << 8));
         let felt3 = off_2.high;
 
-        let felt4 = const_expr!(
-            self.const_flags[0] as u32
-                + ((self.const_flags[1] as u32) << 1_u32)
-                + ((self.const_flags[2] as u32) << 2_u32)
-                + ((self.const_flags[3] as u32) << 3_u32)
-                + ((self.const_flags[4] as u32) << 4_u32)
-                + ((self.const_flags[5] as u32) << 5_u32)
-                + ((self.const_flags[6] as u32) << 6_u32)
-                + ((self.const_flags[7] as u32) << 7_u32)
-                + ((self.const_flags[8] as u32) << 8_u32)
-                + ((self.const_flags[9] as u32) << 9_u32)
-                + ((self.const_flags[10] as u32) << 10_u32)
-                + ((self.const_flags[11] as u32) << 11_u32)
-        );
-
-        let felt5 = const_expr!(
-            self.const_flags[12] as u32
-                + ((self.const_flags[13] as u32) << 1_u32)
-                + ((self.const_flags[14] as u32) << 2_u32)
-        );
+        let mut felt4 = self.const_flags.sum_consts(0, 12);
+        let mut felt5 = self.const_flags.sum_consts(12, 15);
+        let felts = instruction_for_deduction.as_felts();
+        for i in self.const_flags.get_non_consts_indices() {
+            if i < 12 {
+                felt4 = felt4 + (check_flag(ab, i, felts[4].clone()) * const_expr!(1 << i));
+            } else {
+                felt5 =
+                    felt5 + (check_flag(ab, i - 12, felts[5].clone()) * const_expr!(1 << (i - 12)));
+            }
+        }
 
         ab.set_in_memory(
             &self.memory,
@@ -84,7 +80,7 @@ impl AirFn for CheckInstruction {
                 "const_offsets".to_string(),
                 format!("{:?}", self.const_offsets),
             ),
-            ("const_flags".to_string(), format!("{:?}", self.const_flags)),
+            ("const_flags".to_string(), format!("{}", self.const_flags)),
         ]
         .into()
     }
@@ -99,8 +95,24 @@ impl MemoryAirFn for CheckInstruction {
     }
 }
 
+// Receives the felt where this flag is stored and the index in this felt.
+// Deduces the flag and adds a constraint that the flag is either 0 or 1.
+fn check_flag(ab: &mut AirBuilder, index: usize, felt: FeltExpr) -> FeltExpr {
+    let mut flag = if index == 0 {
+        UInt32Expr::from(felt) & const_u32_expr!(1)
+    } else {
+        (UInt32Expr::from(felt) >> const_u32_expr!(index as u32)) & const_u32_expr!(1)
+    };
+
+    flag = ab.let_for_deduction(flag);
+    let flag_f = ab.deduce(flag.low_mut().as_felt_mut());
+    ab.constrain(flag_f.clone() * (const_expr!(1) - flag_f.clone()));
+
+    flag_f
+}
+
 // Receives the index of the offset, a optional u16 of a constant offset (None if the offset isn't
-//  constant) and the original instruction.
+// constant) and the original instruction.
 // Breaks the offset into 2 felt parts according to it's position in the instruction and
 // returns them. If the offset isn't constant it deduces both parts, range checks those that
 // aren't 12 bits and returns the concatenation of the parts (otherwise returns it as None).
@@ -110,8 +122,8 @@ fn check_offset(
     offset: &Option<u16>,
     mut instruction_for_deduction: Felt252Expr,
 ) -> OffsetParts {
-    let off_begin = (offset_index * 16) % FELT252_BITS_PER_WORD;
-    let off_l_len = FELT252_BITS_PER_WORD - off_begin;
+    let off_begin = (offset_index * 16) % 12;
+    let off_l_len = 12 - off_begin;
 
     if let Some(off) = offset {
         // Split the offset into high and low parts.
@@ -154,12 +166,15 @@ fn check_offset_part(
     ab: &mut AirBuilder,
     felt_to_split: &mut FeltExpr,
 ) -> FeltExpr {
-    if len == FELT252_BITS_PER_WORD {
+    if len == 12 {
         ab.deduce(felt_to_split)
     } else {
         let inst_f_curr: UInt32Expr = felt_to_split.clone().into();
-        let mut off =
-            (inst_f_curr >> const_u32_expr!(begin as u32)) & const_u32_expr!((1 << len) - 1);
+        let mut off = if begin == 0 {
+            inst_f_curr & const_u32_expr!((1 << len) - 1)
+        } else {
+            (inst_f_curr >> const_u32_expr!(begin as u32)) & const_u32_expr!((1 << len) - 1)
+        };
 
         off = ab.let_for_deduction(off);
         let off_f = ab.deduce(off.low_mut().as_felt_mut());

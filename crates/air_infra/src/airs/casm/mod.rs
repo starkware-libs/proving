@@ -6,6 +6,3 @@ pub mod ret_opcode;
 
 #[cfg(test)]
 pub mod ret_opcode_test;
-
-#[cfg(test)]
-pub mod test_utils;
