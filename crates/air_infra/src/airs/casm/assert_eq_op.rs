@@ -1,86 +1,175 @@
-use crate::const_expr;
+use std::collections::BTreeMap;
+
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::*;
 use crate::core::variables::*;
 
 use super::check_instruction::*;
 use super::common::*;
-use super::read_small_felt252::*;
 
-pub const RET_FLAGS: NamedFlags = NamedFlags {
-    dst_base_fp: true,
-    op0_base_fp: true,
-    op1_imm: false,
-    op1_base_fp: true,
-    op1_base_ap: false,
-    res_add: false,
-    res_mul: false,
-    pc_update_jump: true,
-    pc_update_jump_rel: false,
-    pc_update_jnz: false,
-    ap_update_add: false,
-    ap_update_add_1: false,
-    opcode_call: false,
-    opcode_ret: true,
-    opcode_assert_eq: false,
-};
+// Macros
+use crate::const_expr;
 
-#[derive(Debug, Default)]
-pub struct RetOpcode {
-    memory: Memory<FeltExpr, Felt252Expr>,
+/// The assert_eq opcode.
+/// Implements the Cairo0 instructions:
+/// - [fp + offset] / [ap + offset] = [ap + offset] / [fp + offset]/ [offset + [ap/fp + offset]] / imm
+
+#[derive(Clone, Debug)]
+pub struct AssertEqOpcode {
+    pub flag_dst_base_fp: bool,
+    pub flag_op0_base_fp: bool,
+    pub flag_op1_imm: bool,
+    pub flag_op1_base_fp: bool,
+    pub flag_op1_base_ap: bool,
+    pub flag_ap_update_add_1: bool,
+    pub memory: Memory<FeltExpr, Felt252Expr>,
 }
 
-impl MemoryAirFn for RetOpcode {
-    type K = FeltExpr;
-
-    type V = Felt252Expr;
-
-    fn init_memory(&mut self, memory: &Memory<Self::K, Self::V>) {
-        self.memory = memory.clone();
-    }
-}
-
-impl AirFn for RetOpcode {
+impl AirFn for AssertEqOpcode {
     type In = CasmState;
-
     type Out = CasmState;
 
-    fn call(&self, air_builder: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
-        let read_24bit_felt = ReadSmallFelt252 {
-            num_limbs: 2,
-            memory: self.memory.clone(),
+    fn call(&self, ab: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
+        let double_deref = !self.flag_op1_imm && !self.flag_op1_base_fp && !self.flag_op1_base_ap;
+
+        // Create the constant offsets.
+        let offset1 = if double_deref {
+            None
+        } else {
+            Some(offset_as_u16(-1))
         };
-        let check_instruction = CheckInstruction {
-            const_offsets: [
-                Some(offset_as_u16(-2)),
-                Some(offset_as_u16(-1)),
-                Some(offset_as_u16(-1)),
-            ],
-            const_flags: RET_FLAGS.into(),
-            memory: self.memory.clone(),
+        let offset2 = if self.flag_op1_imm {
+            Some(offset_as_u16(1))
+        } else {
+            None
         };
 
-        air_builder.call(&check_instruction, pc);
+        // Create the flags.
+        let flags = Flags {
+            dst_base_fp: Some(self.flag_dst_base_fp),
+            op0_base_fp: Some(self.flag_op0_base_fp),
+            op1_imm: Some(self.flag_op1_imm),
+            op1_base_fp: Some(self.flag_op1_base_fp),
+            op1_base_ap: Some(self.flag_op1_base_ap),
+            res_add: Some(false),
+            res_mul: Some(false),
+            pc_update_jump: Some(false),
+            pc_update_jump_rel: Some(false),
+            pc_update_jnz: Some(false),
+            ap_update_add: Some(false),
+            ap_update_add_1: Some(self.flag_ap_update_add_1),
+            opcode_call: Some(false),
+            opcode_ret: Some(false),
+            opcode_assert_eq: Some(true),
+        };
 
-        // Read the saved pc and fp as "small felt252"s. pc and fp contain memory addresses,
-        // so we don't support values > 2**24 for them.
-        let next_pc = air_builder.call(&read_24bit_felt, fp.clone() - const_expr!(1));
-        let next_pc_felts = next_pc.as_felts();
+        // Check the instruction.
+        let [offset0, offset1, offset2] = ab.call(
+            &CheckInstruction {
+                const_offsets: [None, offset1, offset2],
+                const_flags: flags,
+                memory: self.memory.clone(),
+            },
+            pc.clone(),
+        );
 
-        let next_fp = air_builder.call(&read_24bit_felt, fp - const_expr!(2));
-        let next_fp_felts = next_fp.as_felts();
+        // Fetch op0
+        let mem_dst_base = if self.flag_dst_base_fp {
+            fp.clone()
+        } else {
+            ap.clone()
+        };
+        let key = mem_dst_base + offset0;
+        let mut op0_value = ab.get_from_memory(&self.memory, &key);
+        let op0 = ab.deduce(op0_value.as_felts_mut()[0]);
+        ab.set_in_memory(&self.memory, key, Felt252Expr::from(vec![op0.clone()]));
 
+        // Fetch op1
+        let op1 = if double_deref {
+            let mem0_base = if self.flag_op0_base_fp {
+                fp.clone()
+            } else {
+                ap.clone()
+            };
+            let key = mem0_base + offset1;
+            let mut op1_value = ab.get_from_memory(&self.memory, &key);
+            let op1 = ab.deduce(op1_value.as_felts_mut()[0]);
+            ab.set_in_memory(&self.memory, key, Felt252Expr::from(vec![op1.clone()]));
+            Some(op1)
+        } else {
+            None
+        };
+
+        // Fetch op2
+        let mem1_base = if double_deref {
+            op1.unwrap()
+        } else if self.flag_op1_imm {
+            assert!(!self.flag_op1_base_fp);
+            assert!(!self.flag_op1_base_ap);
+            pc.clone()
+        } else if self.flag_op1_base_ap {
+            assert!(!self.flag_op1_base_fp);
+            ap.clone()
+        } else {
+            fp.clone()
+        };
+        let key = mem1_base.clone() + offset2.clone();
+        let mut op2_value = ab.get_from_memory(&self.memory, &key);
+        let op2 = ab.deduce(op2_value.as_felts_mut()[0]);
+        ab.set_in_memory(&self.memory, key, Felt252Expr::from(vec![op2.clone()]));
+
+        // Calculate the next ap
+        let next_ap = if self.flag_ap_update_add_1 {
+            ap + const_expr!(1)
+        } else {
+            ap
+        };
+
+        // Assert that op0 == op2
+        ab.constrain(op0 - op2);
+
+        [pc, next_ap, fp]
+    }
+
+    fn inst_def(&self) -> BTreeMap<String, String> {
         [
-            next_pc_felts[0].clone() + (next_pc_felts[1].clone() * const_expr!(1 << 12)),
-            ap,
-            next_fp_felts[0].clone() + (next_fp_felts[1].clone() * const_expr!(1 << 12)),
+            (
+                "flag_dst_base_fp".to_string(),
+                self.flag_dst_base_fp.to_string(),
+            ),
+            (
+                "flag_op0_base_fp".to_string(),
+                self.flag_op0_base_fp.to_string(),
+            ),
+            ("flag_op1_imm".to_string(), self.flag_op1_imm.to_string()),
+            (
+                "flag_op1_base_fp".to_string(),
+                self.flag_op1_base_fp.to_string(),
+            ),
+            (
+                "flag_op1_base_ap".to_string(),
+                self.flag_op1_base_ap.to_string(),
+            ),
+            (
+                "flag_ap_update_add_1".to_string(),
+                self.flag_ap_update_add_1.to_string(),
+            ),
         ]
+        .into()
     }
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
+    }
+}
+
+impl MemoryAirFn for AssertEqOpcode {
+    type K = FeltExpr;
+    type V = Felt252Expr;
+
+    fn init_memory(&mut self, memory: &Memory<FeltExpr, Felt252Expr>) {
+        self.memory = memory.clone();
     }
 }
