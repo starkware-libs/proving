@@ -128,11 +128,13 @@ impl InternalAirVarActions for FeltExpr {
 
 impl InternalAirVarInfo for FeltExpr {
     fn in_state(&self) -> bool {
+        if self.is_const() {
+            return true;
+        }
+
         match self {
             FeltExpr::Var(v) => {
-                v.state_index.is_some()
-                    || v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
-                    || v.is_const
+                v.state_index.is_some() || v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
             }
             FeltExpr::Op(op) => op.children.iter().all(|c| c.in_state()),
         }

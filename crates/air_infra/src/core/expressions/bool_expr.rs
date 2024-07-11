@@ -128,6 +128,10 @@ impl InternalAirVarActions for BoolExpr {
 
 impl InternalAirVarInfo for BoolExpr {
     fn in_state(&self) -> bool {
+        if self.is_const() {
+            return true;
+        }
+
         match self {
             BoolExpr::Var(v) => v.as_felt.in_state(),
             BoolExpr::Op(op) => op.children.iter().all(|c| c.in_state()),

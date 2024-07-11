@@ -158,6 +158,10 @@ impl InternalAirVarActions for UInt32Expr {
 
 impl InternalAirVarInfo for UInt32Expr {
     fn in_state(&self) -> bool {
+        if self.is_const() {
+            return true;
+        }
+
         match self {
             UInt32Expr::Var(v) => v.low.in_state() && v.high.in_state(),
             UInt32Expr::Op(op) => op.children.iter().all(|c| c.in_state()),

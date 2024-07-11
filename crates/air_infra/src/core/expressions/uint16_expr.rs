@@ -147,6 +147,10 @@ impl InternalAirVarActions for UInt16Expr {
 
 impl InternalAirVarInfo for UInt16Expr {
     fn in_state(&self) -> bool {
+        if self.is_const() {
+            return true;
+        }
+
         match self {
             UInt16Expr::Var(v) => v.as_felt.in_state(),
             UInt16Expr::Op(op) => op.children.iter().all(|c| c.in_state()),

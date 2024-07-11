@@ -3,6 +3,14 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub struct AutogenLists {
     pub input: ProcessedAirVar,
+    pub output: ProcessedAirVar,
+
+    // The input_num_of_felts is relevant just for non-inline components.
+    #[serde(skip)]
+    pub input_num_of_felts: usize,
+    #[serde(skip)]
+    pub output_felts: Vec<ProcessedAirVar>,
+
     #[serde(skip)]
     pub constraints: Vec<ConstraintOrIntermediate>,
     #[serde(skip)]

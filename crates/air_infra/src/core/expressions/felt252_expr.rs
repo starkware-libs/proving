@@ -143,6 +143,10 @@ impl InternalAirVarActions for Felt252Expr {
 
 impl InternalAirVarInfo for Felt252Expr {
     fn in_state(&self) -> bool {
+        if self.is_const() {
+            return true;
+        }
+
         match self {
             Felt252Expr::Var(v) => v.felts.iter().all(|f| f.in_state()),
             Felt252Expr::Op(op) => op.children.iter().all(|c| c.in_state()),

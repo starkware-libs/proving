@@ -10,6 +10,7 @@ use serde_json::to_writer_pretty;
 
 use super::air_fn::*;
 use super::autogen_structs::*;
+use super::expressions::felt_expr::*;
 use super::state::*;
 use super::variables::*;
 
@@ -22,7 +23,9 @@ pub struct AirFnEntry {
     pub name: String,
     pub inst_def: BTreeMap<String, String>,
     pub input: GenericAirVar,
+    pub input_num_of_felts: usize,
     pub output: GenericAirVar,
+    pub output_felts: Vec<FeltExpr>,
     pub trace_type: TraceType,
     pub air_body: Vec<AirBodyComponent>,
 }
@@ -37,8 +40,10 @@ impl AirFnEntry {
         let entry = Self {
             name: air_fn.name(),
             inst_def: air_fn.inst_def(),
-            input: input.into(),
-            output: output.into(),
+            input: input.clone().into(),
+            input_num_of_felts: input.as_felts().len(),
+            output: output.clone().into(),
+            output_felts: output.as_felts(),
             trace_type: air_fn.trace_type(),
             air_body: air_builder.air_body.clone(),
         };
@@ -102,6 +107,9 @@ impl AirFnRegistry {
             // For constant AirFns there are no constraints or deductions, so we just return the output.
             TraceType::Const => air_fn.call(&mut air_builder, input),
         };
+
+        // Make sure that the output is in the state.
+        assert!(output.in_state());
         (air_builder.state, output)
     }
 
@@ -129,6 +137,9 @@ impl AirFnRegistry {
             // output any constraints or deductions. It just has to be of the correct type.
             TraceType::Const => O::new(format!("{}_output", air_fn.name())),
         };
+
+        // Make sure that the output is a variable or a felt expression.
+        let _output_felts = output.as_felts();
         (air_builder, input, output)
     }
 
@@ -172,14 +183,25 @@ impl AirFnRegistry {
         O: AirVar,
     {
         let entry = self.get_air_fn_entry(air_fn);
-        Self::compile_codegen_air_fn(entry.air_body, entry.input)
+        let (deductions, constraints) = Self::compile_codegen_air_fn(entry.air_body);
+        AutogenLists {
+            input: entry.input.into(),
+            output: entry.output.into(),
+            input_num_of_felts: entry.input_num_of_felts,
+            output_felts: entry
+                .output_felts
+                .into_iter()
+                .map(ProcessedAirVar::from)
+                .collect(),
+            constraints,
+            deductions,
+        }
     }
 
     // Transforms the air body and input of an air function into the autogen format.
     fn compile_codegen_air_fn(
         air_body: Vec<AirBodyComponent>,
-        input: GenericAirVar,
-    ) -> AutogenLists {
+    ) -> (Vec<TraceGenerationStep>, Vec<ConstraintOrIntermediate>) {
         let mut constraints = vec![];
         let mut deductions = vec![];
 
@@ -209,9 +231,10 @@ impl AirFnRegistry {
                     constraints.push(ConstraintOrIntermediate::Intermediate(name, var.into()));
                 }
                 AirBodyComponent::Call(f) => {
-                    let lists = Self::compile_codegen_air_fn(f.air_body, f.input_arg);
-                    constraints.extend(lists.constraints);
-                    deductions.extend(lists.deductions);
+                    let (new_deductions, new_constraints) =
+                        Self::compile_codegen_air_fn(f.air_body);
+                    constraints.extend(new_constraints);
+                    deductions.extend(new_deductions);
                 }
                 AirBodyComponent::LookupCall(call) => {
                     deductions.push(TraceGenerationStep::Lookup {
@@ -225,24 +248,20 @@ impl AirFnRegistry {
                         fn_name: constraint.air_fn_name.clone(),
                         input_felts: constraint
                             .input_felts
-                            .iter()
-                            .map(|x| (*x).clone().into())
+                            .into_iter()
+                            .map(|x| x.into())
                             .collect(),
                         output_felts: constraint
                             .output_felts
-                            .iter()
-                            .map(|x| (*x).clone().into())
+                            .into_iter()
+                            .map(|x| x.into())
                             .collect(),
                     });
                 }
             }
         }
 
-        AutogenLists {
-            input: input.into(),
-            constraints,
-            deductions,
-        }
+        (deductions, constraints)
     }
 
     pub(super) fn get_deduction_intermediate_var_name(&self) -> String {
