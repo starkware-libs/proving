@@ -76,7 +76,7 @@ pub fn write_trace_cpu(
 fn write_trace_row(dst: &mut [Vec<BaseField>], Fib__100_input: Felt, row_index: usize) {
     let col0 = Fib__100_input;
     dst[0][row_index] = col0.into();
-    let col1 = ((Felt::from(1)) * (Felt::from(1))) + ((col0) * (col0));
+    let col1 = (Felt::from(1)) + ((col0) * (col0));
     dst[1][row_index] = col1.into();
     let col2 = ((col0) * (col0)) + ((col1) * (col1));
     dst[2][row_index] = col2.into();

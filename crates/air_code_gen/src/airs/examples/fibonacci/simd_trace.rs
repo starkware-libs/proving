@@ -90,9 +90,7 @@ pub fn write_trace_row(
 ) {
     let col0 = Fib__100_input;
     dst[0][row_index] = col0;
-    let col1 = ((PackedFelt::broadcast(Felt::from(1).into()))
-        * (PackedFelt::broadcast(Felt::from(1).into())))
-        + ((col0) * (col0));
+    let col1 = (PackedFelt::broadcast(Felt::from(1).into())) + ((col0) * (col0));
     dst[1][row_index] = col1;
     let col2 = ((col0) * (col0)) + ((col1) * (col1));
     dst[2][row_index] = col2;

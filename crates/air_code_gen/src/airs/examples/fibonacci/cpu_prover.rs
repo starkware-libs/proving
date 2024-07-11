@@ -30,7 +30,7 @@ impl ComponentProver<CpuBackend> for Fib__100 {
         for (i, numer) in numerators.iter_mut().enumerate() {
             *numer += accum.random_coeff_powers[97]
                 * (trace_evals[1].values.at(i)
-                    - ((BaseField::from_u32_unchecked(1) * BaseField::from_u32_unchecked(1))
+                    - (BaseField::from_u32_unchecked(1)
                         + (trace_evals[0].values.at(i) * trace_evals[0].values.at(i))));
             *numer += accum.random_coeff_powers[96]
                 * (trace_evals[2].values.at(i)

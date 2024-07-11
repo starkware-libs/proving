@@ -57,7 +57,7 @@ fn test_fibonacci() {
     let lists = registry.get_codegen_air_fn(&air_fn);
 
     let constraints = [
-        "(state[1] - ((const_1 * const_1) + (state[0] * state[0])))",
+        "(state[1] - (const_1 + (state[0] * state[0])))",
         "(state[2] - ((state[0] * state[0]) + (state[1] * state[1])))",
         "(state[3] - ((state[1] * state[1]) + (state[2] * state[2])))",
         "(state[4] - ((state[2] * state[2]) + (state[3] * state[3])))",
@@ -65,7 +65,7 @@ fn test_fibonacci() {
 
     let deductions = [
         "Fib__6_input",
-        "((const_1 * const_1) + (state[0] * state[0]))",
+        "(const_1 + (state[0] * state[0]))",
         "((state[0] * state[0]) + (state[1] * state[1]))",
         "((state[1] * state[1]) + (state[2] * state[2]))",
         "((state[2] * state[2]) + (state[3] * state[3]))",

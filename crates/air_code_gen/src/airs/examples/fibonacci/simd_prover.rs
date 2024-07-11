@@ -32,8 +32,7 @@ impl ComponentProver<SimdBackend> for Fib__100 {
             let random_coeff = PackedSecureField::broadcast(random_coeff_powers[97]);
             *numer += random_coeff
                 * (trace_evals[1].data[i]
-                    - ((PackedBaseField::broadcast(BaseField::from_u32_unchecked(1))
-                        * PackedBaseField::broadcast(BaseField::from_u32_unchecked(1)))
+                    - (PackedBaseField::broadcast(BaseField::from_u32_unchecked(1))
                         + (trace_evals[0].data[i] * trace_evals[0].data[i])));
             let random_coeff = PackedSecureField::broadcast(random_coeff_powers[96]);
             *numer += random_coeff

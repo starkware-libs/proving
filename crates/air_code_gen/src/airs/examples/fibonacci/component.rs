@@ -49,9 +49,8 @@ impl Component for Fib__100 {
     ) {
         let constraint_zero_domain = CanonicCoset::new(self.log_n_instances).coset;
         let denominator_inv = coset_vanishing(constraint_zero_domain, point).inverse();
-        let numerator = (mask[1][0]
-            - ((BaseField::from_u32_unchecked(1) * BaseField::from_u32_unchecked(1))
-                + (mask[0][0] * mask[0][0])));
+        let numerator =
+            (mask[1][0] - (BaseField::from_u32_unchecked(1) + (mask[0][0] * mask[0][0])));
         evaluation_accumulator.accumulate(numerator * denominator_inv);
         let numerator = (mask[2][0] - ((mask[0][0] * mask[0][0]) + (mask[1][0] * mask[1][0])));
         evaluation_accumulator.accumulate(numerator * denominator_inv);

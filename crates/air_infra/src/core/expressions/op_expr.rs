@@ -112,7 +112,6 @@ pub enum Operation {
     BitXor,
     Neg,
     BoolFromFelt,
-    ConstToFelt,
     UInt16FromBool,
     UInt16FromFelt,
     Felt252FromFeltsArray,
@@ -137,7 +136,6 @@ impl Display for Operation {
             Operation::BitXor => write!(f, "^"),
             Operation::Neg => write!(f, "-"),
             Operation::BoolFromFelt => write!(f, "Bool::from_felt"),
-            Operation::ConstToFelt => write!(f, "as_felt"),
             Operation::UInt16FromBool => write!(f, "UInt16::from_bool"),
             Operation::UInt16FromFelt => write!(f, "UInt16::from_felt"),
             Operation::Felt252FromFeltsArray => write!(f, "Felt252::from_felts"),
@@ -151,7 +149,6 @@ impl From<Operation> for OpType {
         match op {
             Operation::Eq => OpType::Method(op.to_string()),
             Operation::BoolFromFelt => OpType::Static(op.to_string()),
-            Operation::ConstToFelt => OpType::Method(op.to_string()),
             Operation::UInt16FromBool => OpType::Static(op.to_string()),
             Operation::UInt16FromFelt => OpType::Static(op.to_string()),
             Operation::Felt252FromFeltsArray => OpType::Static(op.to_string()),
@@ -247,6 +244,10 @@ macro_rules! impl_binary_op {
             type Output = $t;
             fn $op_lower(self, other: $t) -> $t {
                 let value = self.value().zip(other.value()).map(|(l, r)| l.$op_lower(r));
+                if self.is_const() && other.is_const() {
+                    return $t::new_const(value.unwrap());
+                }
+
                 $t::Op($b::new(
                     Operation::$op,
                     vec![self.into(), other.into()],
@@ -280,6 +281,10 @@ macro_rules! impl_unary_op {
             type Output = $t;
             fn $op_lower(self) -> $t {
                 let value = self.value().map(|c| c.$op_lower());
+                if self.is_const() {
+                    return $t::new_const(value.unwrap());
+                }
+
                 $t::Op(OpExpr::new(Operation::$op, vec![self.into()], value))
             }
         }

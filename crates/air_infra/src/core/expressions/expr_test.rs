@@ -12,8 +12,7 @@ use super::uint64_expr::*;
 
 // Macros
 use crate::{
-    bool_expr, const_bool_expr, const_expr, const_u16_expr, const_u32_expr, const_u64_expr, expr,
-    felt252_expr, u32_expr, u64_expr,
+    bool_expr, const_expr, const_u32_expr, const_u64_expr, expr, felt252_expr, u32_expr, u64_expr,
 };
 
 #[test]
@@ -225,22 +224,4 @@ fn test_conversion_felts_to_felt252() {
     for (i, f) in e.as_felts_mut().iter().enumerate() {
         assert_eq!(f.calc(), v.as_felts_mut()[i].calc());
     }
-}
-
-#[test]
-fn test_const_to_felt() {
-    let b = !const_bool_expr!(true);
-    let f = b.as_felt();
-    assert_eq!(f.calc(), "0");
-    let compiled_felt: ProcessedAirVar = f.into();
-    assert_eq!(&compiled_felt.to_string(), "(! const_true).as_felt()");
-
-    let i = const_u16_expr!(0xFFF) + const_u16_expr!(1);
-    let f = i.as_felt();
-    assert_eq!(f.calc(), "4096");
-    let compiled_felt: ProcessedAirVar = f.into();
-    assert_eq!(
-        &compiled_felt.to_string(),
-        "(const_4095 + const_1).as_felt()"
-    );
 }
