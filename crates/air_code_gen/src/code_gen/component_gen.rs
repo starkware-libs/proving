@@ -1,24 +1,24 @@
-use air_infra::core::autogen_structs::{
-    AutogenLists, ConstraintOrIntermediate, ProcessedAirVar, TraceGenerationStep,
+use air_infra::core::compiled_structs::{
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, TraceGenStep,
 };
 use genco::lang::rust;
 use genco::quote;
 
-fn get_component_columns(deductions: &[TraceGenerationStep]) -> usize {
+fn get_component_columns(deductions: &[TraceGenStep]) -> usize {
     deductions
         .iter()
-        .filter(|deduction| matches!(deduction, TraceGenerationStep::Deduction(_)))
+        .filter(|deduction| matches!(deduction, TraceGenStep::Deduction(_)))
         .count()
 }
 
-pub fn get_component_constraints(constraints: &[ConstraintOrIntermediate]) -> usize {
+pub fn get_component_constraints(constraints: &[ConstraintEvalStep]) -> usize {
     constraints
         .iter()
         .filter(|deduction| {
-            matches!(deduction, ConstraintOrIntermediate::InInstanceConstraint(_))
+            matches!(deduction, ConstraintEvalStep::InInstanceConstraint(_))
                 || matches!(
                     deduction,
-                    ConstraintOrIntermediate::LookupConstraint {
+                    ConstraintEvalStep::LookupConstraint {
                         fn_name: _,
                         input_felts: _,
                         output_felts: _
@@ -37,21 +37,21 @@ fn generate_struct_code(name: &str) -> rust::Tokens {
     }
 }
 
-/// Given a `ProcessedAirVar` expression, generates the Rust code to evaluate it at a single point
+/// Given a `CompiledAirVar` expression, generates the Rust code to evaluate it at a single point
 /// using the mask items.
-fn parse_constraint_air_var(expr: &ProcessedAirVar) -> String {
+fn parse_constraint_air_var(expr: &CompiledAirVar) -> String {
     match expr {
         // TODO(ShaharS), consider to assert that the const values are in the correct range.
-        ProcessedAirVar::Const(ty, val) => {
+        CompiledAirVar::Const(ty, val) => {
             if ty == "Felt" {
                 return format!("BaseField::from_u32_unchecked({})", val);
             }
             format!("{}::from({})", ty, val)
         }
-        ProcessedAirVar::State(index) => {
+        CompiledAirVar::State(index) => {
             format!("mask[{}][0]", index)
         }
-        ProcessedAirVar::BinaryOp(lhs, op, rhs) => {
+        CompiledAirVar::BinaryOp(lhs, op, rhs) => {
             format!(
                 "({} {} {})",
                 parse_constraint_air_var(lhs),
@@ -59,31 +59,31 @@ fn parse_constraint_air_var(expr: &ProcessedAirVar) -> String {
                 parse_constraint_air_var(rhs)
             )
         }
-        ProcessedAirVar::UnaryOp(op, val) => {
+        CompiledAirVar::UnaryOp(op, val) => {
             format!("({}{})", op, parse_constraint_air_var(val))
         }
-        ProcessedAirVar::Var(_, id) => id.to_string(),
+        CompiledAirVar::Var(_, id) => id.to_string(),
         _ => unimplemented!(),
     }
 }
 
 /// Generates code to evaluate the constraints at a given point.
-fn constraint_eval_at_point_code(constraints: &[ConstraintOrIntermediate]) -> rust::Tokens {
+fn constraint_eval_at_point_code(constraints: &[ConstraintEvalStep]) -> rust::Tokens {
     let mut constraints_code = rust::Tokens::new();
     for constraint in constraints.iter() {
         match constraint {
-            ConstraintOrIntermediate::Intermediate(var, expr) => {
+            ConstraintEvalStep::Intermediate(var, expr) => {
                 constraints_code.extend(quote! {
                     let $(var) = $(parse_constraint_air_var(expr));
                 });
             }
-            ConstraintOrIntermediate::InInstanceConstraint(expr) => {
+            ConstraintEvalStep::InInstanceConstraint(expr) => {
                 constraints_code.extend(quote! {
                     let numerator = $(parse_constraint_air_var(expr));
                     evaluation_accumulator.accumulate(numerator * denominator_inv);
                 });
             }
-            ConstraintOrIntermediate::LookupConstraint {
+            ConstraintEvalStep::LookupConstraint {
                 fn_name: _,
                 input_felts: _,
                 output_felts: _,
@@ -96,7 +96,7 @@ fn constraint_eval_at_point_code(constraints: &[ConstraintOrIntermediate]) -> ru
 fn generate_component_impl(
     name: &str,
     n_columns: usize,
-    constraints: &[ConstraintOrIntermediate],
+    constraints: &[ConstraintEvalStep],
 ) -> rust::Tokens {
     let mut func1 = rust::Tokens::new();
     func1.extend(quote! {
@@ -181,7 +181,7 @@ fn generate_component_impl(
     res_code
 }
 
-pub fn generate_component(component_name: &str, lists: AutogenLists) -> rust::Tokens {
+pub fn generate_component(component_name: &str, lists: CompiledAirFn) -> rust::Tokens {
     let imports = quote! {
         #![allow(unused_imports)]
         use stwo_prover::core::air::accumulation::PointEvaluationAccumulator;

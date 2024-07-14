@@ -1,4 +1,4 @@
-use air_infra::core::autogen_structs::{ConstraintOrIntermediate, ProcessedAirVar};
+use air_infra::core::compiled_structs::{CompiledAirVar, ConstraintEvalStep};
 use genco::lang::rust;
 use genco::quote;
 
@@ -7,7 +7,7 @@ use super::generate_prover_component;
 
 pub fn generate_simd_prover_component(
     component_name: &str,
-    constraints: &[ConstraintOrIntermediate],
+    constraints: &[ConstraintEvalStep],
 ) -> rust::Tokens {
     generate_prover_component(
         component_name,
@@ -39,7 +39,7 @@ fn imports_code(component_name: &str) -> rust::Tokens {
     }
 }
 
-fn numerator_code(constraints: &[ConstraintOrIntermediate]) -> rust::Tokens {
+fn numerator_code(constraints: &[ConstraintEvalStep]) -> rust::Tokens {
     // TODO(ShaharS): accumulate each constraint according to its degree.
     let mut numerator_code = quote! {
         let trace_evals = &trace.evals[0];
@@ -56,19 +56,19 @@ fn numerator_code(constraints: &[ConstraintOrIntermediate]) -> rust::Tokens {
     let mut constraint_offset = 0;
     for constraint in constraints.iter() {
         match constraint {
-            ConstraintOrIntermediate::InInstanceConstraint(expr) => {
+            ConstraintEvalStep::InInstanceConstraint(expr) => {
                 constraints_code.extend(quote! {
                     let random_coeff = PackedSecureField::broadcast(random_coeff_powers[$(n_constraints - 1 - constraint_offset)]);
                     *numer += random_coeff * ($(parse_simd_prover_constraint(expr)));
                 });
                 constraint_offset += 1;
             }
-            ConstraintOrIntermediate::Intermediate(var, expr) => {
+            ConstraintEvalStep::Intermediate(var, expr) => {
                 constraints_code.extend(quote! {
                     let $(var) = $(parse_simd_prover_constraint(expr));
                 });
             }
-            ConstraintOrIntermediate::LookupConstraint {
+            ConstraintEvalStep::LookupConstraint {
                 fn_name: _,
                 input_felts: _,
                 output_felts: _,
@@ -110,9 +110,9 @@ fn accumulation_code() -> rust::Tokens {
     }
 }
 
-fn parse_simd_prover_constraint(expr: &ProcessedAirVar) -> String {
+fn parse_simd_prover_constraint(expr: &CompiledAirVar) -> String {
     match expr {
-        ProcessedAirVar::Const(ty, val) => {
+        CompiledAirVar::Const(ty, val) => {
             if ty == "Felt" {
                 return format!(
                     "PackedBaseField::broadcast(BaseField::from_u32_unchecked({}))",
@@ -121,10 +121,10 @@ fn parse_simd_prover_constraint(expr: &ProcessedAirVar) -> String {
             }
             format!("{ty}::from({val})")
         }
-        ProcessedAirVar::State(index) => {
+        CompiledAirVar::State(index) => {
             format!("trace_evals[{index}].data[i]")
         }
-        ProcessedAirVar::StaticCall(id, args) => {
+        CompiledAirVar::StaticCall(id, args) => {
             let mut arg_str = String::new();
             for (i, arg) in args.iter().enumerate() {
                 if i > 0 {
@@ -134,7 +134,7 @@ fn parse_simd_prover_constraint(expr: &ProcessedAirVar) -> String {
             }
             format!("{}({})", id, arg_str)
         }
-        ProcessedAirVar::MethodCall(id, func, args) => {
+        CompiledAirVar::MethodCall(id, func, args) => {
             let mut arg_str = String::new();
             for (i, arg) in args.iter().enumerate() {
                 if i > 0 {
@@ -144,18 +144,18 @@ fn parse_simd_prover_constraint(expr: &ProcessedAirVar) -> String {
             }
             format!("{}.{}({})", parse_simd_prover_constraint(id), func, arg_str)
         }
-        ProcessedAirVar::Var(_, id) => id.to_string(),
-        ProcessedAirVar::BinaryOp(lhs, op, rhs) => {
+        CompiledAirVar::Var(_, id) => id.to_string(),
+        CompiledAirVar::BinaryOp(lhs, op, rhs) => {
             format!(
                 "({} {op} {})",
                 parse_simd_prover_constraint(lhs),
                 parse_simd_prover_constraint(rhs)
             )
         }
-        ProcessedAirVar::UnaryOp(op, expr) => {
+        CompiledAirVar::UnaryOp(op, expr) => {
             format!("({op}{})", parse_simd_prover_constraint(expr))
         }
-        ProcessedAirVar::Tuple(_) => unimplemented!(),
-        ProcessedAirVar::Array(_) => unimplemented!(),
+        CompiledAirVar::Tuple(_) => unimplemented!(),
+        CompiledAirVar::Array(_) => unimplemented!(),
     }
 }

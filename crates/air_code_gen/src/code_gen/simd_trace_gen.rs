@@ -1,4 +1,4 @@
-use air_infra::core::autogen_structs::{ProcessedAirVar, TraceGenerationStep};
+use air_infra::core::compiled_structs::{CompiledAirVar, TraceGenStep};
 use genco::lang::rust;
 use genco::quote;
 
@@ -6,8 +6,8 @@ use super::trace_gen::air_var_input_name;
 
 pub fn generate_simd_trace_writer_code(
     component_name: &str,
-    input: &ProcessedAirVar,
-    deductions: &[TraceGenerationStep],
+    input: &CompiledAirVar,
+    deductions: &[TraceGenStep],
 ) -> rust::Tokens {
     let imports_code = generate_imports_code(component_name);
     let struct_code = generate_simd_trace_gen_struct_code(component_name, input);
@@ -25,8 +25,8 @@ pub fn generate_simd_trace_writer_code(
 /// Outputs the code for the write_trace function.
 #[allow(dead_code)]
 pub fn generate_simd_write_trace_row_code(
-    input: &ProcessedAirVar,
-    deductions: &[TraceGenerationStep],
+    input: &CompiledAirVar,
+    deductions: &[TraceGenStep],
 ) -> rust::Tokens {
     // Generate the parameters for the write_trace function.
     let write_trace_params = quote! {
@@ -38,19 +38,19 @@ pub fn generate_simd_write_trace_row_code(
     let mut offset = 0;
     for deduction in deductions {
         match deduction {
-            TraceGenerationStep::Deduction(expr) => {
+            TraceGenStep::Deduction(expr) => {
                 write_trace_body.append(quote! {
                     let col$(offset) = $(simd_parse_air_var(expr));
                     dst[$(offset)][row_index] = col$(offset);
                 });
                 offset += 1;
             }
-            TraceGenerationStep::Intermediate(name, expr) => {
+            TraceGenStep::Intermediate(name, expr) => {
                 write_trace_body.extend(quote! {
                     let $(name) = $(simd_parse_air_var(expr));
                 });
             }
-            TraceGenerationStep::Lookup {
+            TraceGenStep::Lookup {
                 fn_name: _,
                 input: _,
                 output_name: _,
@@ -73,8 +73,8 @@ pub fn generate_simd_write_trace_row_code(
 #[allow(dead_code)]
 pub fn generate_simd_write_trace_code(
     component_name: &str,
-    input: &ProcessedAirVar,
-    deductions: &[TraceGenerationStep],
+    input: &CompiledAirVar,
+    deductions: &[TraceGenStep],
 ) -> rust::Tokens {
     let input_type = parse_inputs_simd_type(input);
 
@@ -119,7 +119,7 @@ pub fn generate_simd_write_trace_code(
 
 pub fn generate_simd_trace_gen_struct_code(
     component_name: &str,
-    input: &ProcessedAirVar,
+    input: &CompiledAirVar,
 ) -> rust::Tokens {
     let input_ty = parse_inputs_simd_type(input);
     let struct_name = trace_gen_struct_name(component_name, "Simd");
@@ -140,7 +140,7 @@ fn trace_gen_struct_name(component_name: &str, backend: &str) -> String {
     format!("{}{}TraceGenerator", component_name, backend)
 }
 
-pub fn generate_trace_gen_impl_code(component_name: &str, input: &ProcessedAirVar) -> rust::Tokens {
+pub fn generate_trace_gen_impl_code(component_name: &str, input: &CompiledAirVar) -> rust::Tokens {
     let struct_name = trace_gen_struct_name(component_name, "Simd");
     let inputs_ty = parse_inputs_simd_type(input);
     let mut code = rust::Tokens::new();
@@ -215,10 +215,10 @@ fn generate_imports_code(component_name: &str) -> rust::Tokens {
     }
 }
 
-/// Parses a `ProcessedAirVar` into a string for the write_trace function.
-pub fn simd_parse_air_var(expr: &ProcessedAirVar) -> String {
+/// Parses a `CompiledAirVar` into a string for the write_trace function.
+pub fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
     match expr {
-        ProcessedAirVar::Const(ty, val) => {
+        CompiledAirVar::Const(ty, val) => {
             format!(
                 "{}::broadcast({}::from({}).into())",
                 packed_name(ty),
@@ -226,11 +226,11 @@ pub fn simd_parse_air_var(expr: &ProcessedAirVar) -> String {
                 val
             )
         }
-        ProcessedAirVar::Var(_, id) => id.to_string(),
-        ProcessedAirVar::State(index) => {
+        CompiledAirVar::Var(_, id) => id.to_string(),
+        CompiledAirVar::State(index) => {
             format!("col{}", index)
         }
-        ProcessedAirVar::StaticCall(id, args) => {
+        CompiledAirVar::StaticCall(id, args) => {
             let mut arg_str = String::new();
             for (i, arg) in args.iter().enumerate() {
                 if i > 0 {
@@ -240,7 +240,7 @@ pub fn simd_parse_air_var(expr: &ProcessedAirVar) -> String {
             }
             format!("{}({})", id, arg_str)
         }
-        ProcessedAirVar::MethodCall(id, func, args) => {
+        CompiledAirVar::MethodCall(id, func, args) => {
             let mut arg_str = String::new();
             for (i, arg) in args.iter().enumerate() {
                 if i > 0 {
@@ -250,10 +250,10 @@ pub fn simd_parse_air_var(expr: &ProcessedAirVar) -> String {
             }
             format!("{}.{}({})", simd_parse_air_var(id), func, arg_str)
         }
-        ProcessedAirVar::UnaryOp(op, expr) => {
+        CompiledAirVar::UnaryOp(op, expr) => {
             format!("{}({})", op, simd_parse_air_var(expr))
         }
-        ProcessedAirVar::BinaryOp(lhs, op, rhs) => {
+        CompiledAirVar::BinaryOp(lhs, op, rhs) => {
             format!(
                 "({}) {} ({})",
                 simd_parse_air_var(lhs),
@@ -261,7 +261,7 @@ pub fn simd_parse_air_var(expr: &ProcessedAirVar) -> String {
                 simd_parse_air_var(rhs)
             )
         }
-        ProcessedAirVar::Tuple(exprs) => {
+        CompiledAirVar::Tuple(exprs) => {
             let mut expr_str = String::new();
             for (i, expr) in exprs.iter().enumerate() {
                 if i > 0 {
@@ -271,7 +271,7 @@ pub fn simd_parse_air_var(expr: &ProcessedAirVar) -> String {
             }
             format!("({})", expr_str)
         }
-        ProcessedAirVar::Array(exprs) => {
+        CompiledAirVar::Array(exprs) => {
             let mut expr_str = String::new();
             for (i, expr) in exprs.iter().enumerate() {
                 if i > 0 {
@@ -290,33 +290,33 @@ fn packed_name(ty: &str) -> String {
 
 // Parses the collection type of the input.
 // E.g. for a Felt input, it will return Vec<Felt>.
-fn parse_inputs_simd_type(inputs_var: &ProcessedAirVar) -> String {
+fn parse_inputs_simd_type(inputs_var: &CompiledAirVar) -> String {
     format!("Vec<{}>", air_var_type_simd(inputs_var))
 }
 
-pub fn air_var_type_simd(expr: &ProcessedAirVar) -> String {
+pub fn air_var_type_simd(expr: &CompiledAirVar) -> String {
     match expr {
-        ProcessedAirVar::Const(ty, _) => packed_name(ty),
-        ProcessedAirVar::Var(ty, _) => packed_name(ty),
-        ProcessedAirVar::State(_) => packed_name("Felt"),
-        ProcessedAirVar::StaticCall(..) => {
+        CompiledAirVar::Const(ty, _) => packed_name(ty),
+        CompiledAirVar::Var(ty, _) => packed_name(ty),
+        CompiledAirVar::State(_) => packed_name("Felt"),
+        CompiledAirVar::StaticCall(..) => {
             panic!("StaticCall not supported yet.")
         }
-        ProcessedAirVar::MethodCall(..) => {
+        CompiledAirVar::MethodCall(..) => {
             panic!("MethodCall not supported yet.")
         }
-        ProcessedAirVar::UnaryOp(..) => {
+        CompiledAirVar::UnaryOp(..) => {
             panic!("UnaryOp not supported yet.")
         }
-        ProcessedAirVar::BinaryOp(..) => {
+        CompiledAirVar::BinaryOp(..) => {
             panic!("BinaryOp not supported yet.")
         }
-        ProcessedAirVar::Tuple(tuple) => {
+        CompiledAirVar::Tuple(tuple) => {
             let left_type = air_var_type_simd(&tuple[0]);
             let right_type = air_var_type_simd(&tuple[1]);
             format!("({}, {})", left_type, right_type)
         }
-        ProcessedAirVar::Array(arr) => {
+        CompiledAirVar::Array(arr) => {
             let ty = air_var_type_simd(&arr[0]);
             let len = arr.len();
             format!("[{};{}]", ty, len)

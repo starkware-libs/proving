@@ -3,7 +3,7 @@ use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 
 use serde::{Deserialize, Serialize};
 
-use super::super::autogen_structs::*;
+use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::bool_expr::*;
@@ -27,7 +27,7 @@ where
     #[serde(skip)]
     pub(super) value: Option<T>,
     #[serde(skip)]
-    pub(super) children: Vec<GenericAirVar>,
+    pub(super) children: Vec<AirVarImpl>,
     #[serde(skip)]
     pub(super) op: Operation,
 }
@@ -36,7 +36,7 @@ impl<T> OpExpr<T>
 where
     T: ProverType,
 {
-    pub fn new(op: Operation, children: Vec<GenericAirVar>, value: Option<T>) -> Self {
+    pub fn new(op: Operation, children: Vec<AirVarImpl>, value: Option<T>) -> Self {
         let name = match op.into() {
             OpType::Op(_) => match children.len() {
                 1 => format!("({}{})", op, children[0]),
@@ -64,31 +64,29 @@ where
     }
 }
 
-impl<T> From<OpExpr<T>> for ProcessedAirVar
+impl<T> From<OpExpr<T>> for CompiledAirVar
 where
     T: ProverType,
 {
-    fn from(expr: OpExpr<T>) -> ProcessedAirVar {
+    fn from(expr: OpExpr<T>) -> CompiledAirVar {
         match expr.children.len() {
             1 => {
                 let child = expr.children[0].clone().into();
                 match expr.op.into() {
-                    OpType::Op(op) => ProcessedAirVar::UnaryOp(op, Box::new(child)),
-                    OpType::Method(op) => ProcessedAirVar::MethodCall(Box::new(child), op, vec![]),
-                    OpType::Static(op) => ProcessedAirVar::StaticCall(op, vec![child]),
+                    OpType::Op(op) => CompiledAirVar::UnaryOp(op, Box::new(child)),
+                    OpType::Method(op) => CompiledAirVar::MethodCall(Box::new(child), op, vec![]),
+                    OpType::Static(op) => CompiledAirVar::StaticCall(op, vec![child]),
                 }
             }
             2 => {
                 let left = expr.children[0].clone().into();
                 let right = expr.children[1].clone().into();
                 match expr.op.into() {
-                    OpType::Op(op) => {
-                        ProcessedAirVar::BinaryOp(Box::new(left), op, Box::new(right))
-                    }
+                    OpType::Op(op) => CompiledAirVar::BinaryOp(Box::new(left), op, Box::new(right)),
                     OpType::Method(op) => {
-                        ProcessedAirVar::MethodCall(Box::new(left), op, vec![right])
+                        CompiledAirVar::MethodCall(Box::new(left), op, vec![right])
                     }
-                    OpType::Static(op) => ProcessedAirVar::StaticCall(op, vec![left, right]),
+                    OpType::Static(op) => CompiledAirVar::StaticCall(op, vec![left, right]),
                 }
             }
             _ => panic!("Invalid number of children for operation"),
@@ -228,10 +226,10 @@ impl From<Vec<FeltExpr>> for Felt252Expr {
         let arr = felts
             .into_iter()
             .map(|f| f.into())
-            .collect::<Vec<GenericAirVar>>();
+            .collect::<Vec<AirVarImpl>>();
         Felt252Expr::Op(OpExpr::new(
             Operation::Felt252FromFeltsArray,
-            vec![GenericAirVar::Array(arr)],
+            vec![AirVarImpl::Array(arr)],
             value,
         ))
     }

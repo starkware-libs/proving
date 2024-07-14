@@ -369,8 +369,8 @@ impl AirBuilder {
 #[derive(Clone, Debug, Serialize)]
 pub struct Call {
     pub air_fn_name: String,
-    pub input_arg: GenericAirVar,
-    pub output: GenericAirVar,
+    pub input_arg: AirVarImpl,
+    pub output: AirVarImpl,
     #[serde(skip)]
     pub air_body: Vec<AirBodyComponent>,
 }
@@ -378,7 +378,7 @@ pub struct Call {
 #[derive(Clone, Debug, Serialize)]
 pub struct LookupCall {
     pub air_fn_name: String,
-    pub input_arg: GenericAirVar,
+    pub input_arg: AirVarImpl,
     pub output_name: String,
 }
 
@@ -402,7 +402,7 @@ pub enum AirBodyComponent {
         constraint: FeltExpr,
         deduction: FeltExpr,
     },
-    DeductionIntermediate(String, GenericAirVar),
+    DeductionIntermediate(String, AirVarImpl),
     ConstraintIntermediate(String, FeltExpr),
     Call(Call),
     LookupCall(LookupCall),

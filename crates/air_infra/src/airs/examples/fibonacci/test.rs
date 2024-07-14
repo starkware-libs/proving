@@ -13,7 +13,7 @@ fn test_wide_fibonacci() {
         narrow_size: 2,
     };
     let registry = AirFnRegistry::new(&air_fn);
-    let lists = registry.get_codegen_air_fn(&air_fn);
+    let lists = registry.get_compiled_air_fn(&air_fn);
     let (_, output) = registry.run_air(&air_fn, expr!("secret", 1, true));
 
     let constraints = [
@@ -54,7 +54,7 @@ fn test_wide_fibonacci() {
 fn test_fibonacci() {
     let air_fn = Fib { claim_index: 6 };
     let registry = AirFnRegistry::new(&air_fn);
-    let lists = registry.get_codegen_air_fn(&air_fn);
+    let lists = registry.get_compiled_air_fn(&air_fn);
 
     let constraints = [
         "(state[1] - (const_1 + (state[0] * state[0])))",

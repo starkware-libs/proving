@@ -1,6 +1,6 @@
 use enum_dispatch::enum_dispatch;
 
-use super::super::autogen_structs::*;
+use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::bool_expr::*;
@@ -61,17 +61,17 @@ impl Default for ExprImpl {
     }
 }
 
-impl<E> From<E> for GenericAirVar
+impl<E> From<E> for AirVarImpl
 where
     E: Into<ExprImpl>,
 {
-    fn from(expr: E) -> GenericAirVar {
-        GenericAirVar::Expr(expr.into())
+    fn from(expr: E) -> AirVarImpl {
+        AirVarImpl::Expr(expr.into())
     }
 }
 
-impl From<ExprImpl> for ProcessedAirVar {
-    fn from(expr: ExprImpl) -> ProcessedAirVar {
+impl From<ExprImpl> for CompiledAirVar {
+    fn from(expr: ExprImpl) -> CompiledAirVar {
         match expr {
             ExprImpl::Felt(f) => f.into(),
             ExprImpl::UInt16(u) => u.into(),

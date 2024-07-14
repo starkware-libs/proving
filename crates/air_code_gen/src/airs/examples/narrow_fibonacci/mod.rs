@@ -76,7 +76,7 @@ mod tests {
         let mut folder_path = project_root();
         folder_path.push("src/airs/examples/narrow_fibonacci");
 
-        let lists = resigtry.get_codegen_air_fn(&air_fn);
+        let lists = resigtry.get_compiled_air_fn(&air_fn);
         let air_entry = resigtry.get_air_fn_entry(&air_fn);
         let trace_tokens = generate_trace_writer_code(
             &air_entry.name,

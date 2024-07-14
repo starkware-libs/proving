@@ -1,7 +1,7 @@
 use serde::{Serialize, Serializer};
 
 use super::super::air_fn_registry::*;
-use super::super::autogen_structs::*;
+use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -166,42 +166,42 @@ impl From<FeltOperation> for FeltExpr {
     }
 }
 
-impl From<FeltExpr> for ProcessedAirVar {
-    fn from(expr: FeltExpr) -> ProcessedAirVar {
+impl From<FeltExpr> for CompiledAirVar {
+    fn from(expr: FeltExpr) -> CompiledAirVar {
         match expr {
             FeltExpr::Var(v) => {
                 // v is an intermediate variable
                 if v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
                     || v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX)
                 {
-                    return ProcessedAirVar::Var(Felt::r#type(), v.name);
+                    return CompiledAirVar::Var(Felt::r#type(), v.name);
                 }
 
                 // v is a constant
                 if v.is_const {
-                    return ProcessedAirVar::Const(Felt::r#type(), v.value.unwrap().calc());
+                    return CompiledAirVar::Const(Felt::r#type(), v.value.unwrap().calc());
                 }
 
                 // v was written to the trace
                 if let Some(i) = v.state_index {
-                    return ProcessedAirVar::State(i);
+                    return CompiledAirVar::State(i);
                 }
 
                 // v is a field of another variable
                 if let Some((var, index)) = v.parent {
                     if let Some(i) = index {
-                        let index_var = ProcessedAirVar::Const("usize".to_string(), i.to_string());
-                        return ProcessedAirVar::MethodCall(
+                        let index_var = CompiledAirVar::Const("usize".to_string(), i.to_string());
+                        return CompiledAirVar::MethodCall(
                             Box::new((*var).into()),
                             v.name,
                             vec![index_var],
                         );
                     }
-                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
+                    return CompiledAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
                 }
 
                 // v is a standalone variable
-                ProcessedAirVar::Var(Felt::r#type(), v.name)
+                CompiledAirVar::Var(Felt::r#type(), v.name)
             }
             FeltExpr::Op(op) => op.into(),
         }
@@ -213,7 +213,7 @@ impl Serialize for FeltExpr {
     where
         S: Serializer,
     {
-        let var: ProcessedAirVar = self.clone().into();
+        let var: CompiledAirVar = self.clone().into();
         serializer.collect_str(&var.to_string())
     }
 }

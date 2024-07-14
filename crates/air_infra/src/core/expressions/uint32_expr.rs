@@ -1,5 +1,5 @@
 use super::super::air_fn_registry::*;
-use super::super::autogen_structs::*;
+use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -194,21 +194,21 @@ impl From<UInt32Operation> for UInt32Expr {
     }
 }
 
-impl From<UInt32Expr> for ProcessedAirVar {
-    fn from(expr: UInt32Expr) -> ProcessedAirVar {
+impl From<UInt32Expr> for CompiledAirVar {
+    fn from(expr: UInt32Expr) -> CompiledAirVar {
         match expr {
             UInt32Expr::Var(v) => {
                 if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-                    return ProcessedAirVar::Var(UInt32::r#type(), v.name);
+                    return CompiledAirVar::Var(UInt32::r#type(), v.name);
                 }
                 if v.is_const {
-                    return ProcessedAirVar::Const(UInt32::r#type(), v.value.unwrap().calc());
+                    return CompiledAirVar::Const(UInt32::r#type(), v.value.unwrap().calc());
                 }
                 if let Some(var) = v.parent {
-                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
+                    return CompiledAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
                 }
 
-                ProcessedAirVar::Var(UInt32::r#type(), v.name)
+                CompiledAirVar::Var(UInt32::r#type(), v.name)
             }
             UInt32Expr::Op(op) => op.into(),
         }

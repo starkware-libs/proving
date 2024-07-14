@@ -1,5 +1,5 @@
 use super::super::air_fn_registry::*;
-use super::super::autogen_structs::*;
+use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -192,17 +192,17 @@ impl From<UInt64Operation> for UInt64Expr {
     }
 }
 
-impl From<UInt64Expr> for ProcessedAirVar {
-    fn from(expr: UInt64Expr) -> ProcessedAirVar {
+impl From<UInt64Expr> for CompiledAirVar {
+    fn from(expr: UInt64Expr) -> CompiledAirVar {
         match expr {
             UInt64Expr::Var(v) => {
                 if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-                    return ProcessedAirVar::Var(UInt64::r#type(), v.name);
+                    return CompiledAirVar::Var(UInt64::r#type(), v.name);
                 }
                 if v.is_const {
-                    return ProcessedAirVar::Const(UInt64::r#type(), v.value.unwrap().calc());
+                    return CompiledAirVar::Const(UInt64::r#type(), v.value.unwrap().calc());
                 }
-                ProcessedAirVar::Var(UInt64::r#type(), v.name)
+                CompiledAirVar::Var(UInt64::r#type(), v.name)
             }
             UInt64Expr::Op(op) => op.into(),
         }

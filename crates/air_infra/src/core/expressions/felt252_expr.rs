@@ -1,7 +1,7 @@
 use std::array::from_fn;
 
 use super::super::air_fn_registry::*;
-use super::super::autogen_structs::*;
+use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -102,11 +102,11 @@ impl AirVar for Felt252Expr {
             }
             Felt252Expr::Op(op) => {
                 if op.op == Operation::Felt252FromFeltsArray {
-                    if let GenericAirVar::Array(arr) = &mut op.children[0] {
+                    if let AirVarImpl::Array(arr) = &mut op.children[0] {
                         let len = arr.len();
                         let mut felts = vec![];
                         for g in arr {
-                            if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = g {
+                            if let AirVarImpl::Expr(ExprImpl::Felt(felt_expr)) = g {
                                 felts.push(felt_expr);
                             }
                         }
@@ -179,17 +179,17 @@ impl From<Felt252Operation> for Felt252Expr {
     }
 }
 
-impl From<Felt252Expr> for ProcessedAirVar {
-    fn from(expr: Felt252Expr) -> ProcessedAirVar {
+impl From<Felt252Expr> for CompiledAirVar {
+    fn from(expr: Felt252Expr) -> CompiledAirVar {
         match expr {
             Felt252Expr::Var(v) => {
                 if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-                    return ProcessedAirVar::Var(Felt252::r#type(), v.name);
+                    return CompiledAirVar::Var(Felt252::r#type(), v.name);
                 }
                 if v.is_const {
-                    return ProcessedAirVar::Const(Felt252::r#type(), v.value.unwrap().calc());
+                    return CompiledAirVar::Const(Felt252::r#type(), v.value.unwrap().calc());
                 }
-                ProcessedAirVar::Var(Felt252::r#type(), v.name)
+                CompiledAirVar::Var(Felt252::r#type(), v.name)
             }
             Felt252Expr::Op(op) => op.into(),
         }

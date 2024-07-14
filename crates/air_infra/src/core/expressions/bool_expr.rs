@@ -1,5 +1,5 @@
 use super::super::air_fn_registry::*;
-use super::super::autogen_structs::*;
+use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -39,7 +39,7 @@ impl BoolExpr {
             BoolExpr::Var(v) => &mut v.as_felt,
             BoolExpr::Op(u) => {
                 if u.op == Operation::BoolFromFelt {
-                    if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = &mut u.children[0] {
+                    if let AirVarImpl::Expr(ExprImpl::Felt(felt_expr)) = &mut u.children[0] {
                         return felt_expr;
                     }
                 }
@@ -164,17 +164,17 @@ impl From<BoolOperation> for BoolExpr {
     }
 }
 
-impl From<BoolExpr> for ProcessedAirVar {
-    fn from(expr: BoolExpr) -> ProcessedAirVar {
+impl From<BoolExpr> for CompiledAirVar {
+    fn from(expr: BoolExpr) -> CompiledAirVar {
         match expr {
             BoolExpr::Var(v) => {
                 if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-                    return ProcessedAirVar::Var(Bool::r#type(), v.name);
+                    return CompiledAirVar::Var(Bool::r#type(), v.name);
                 }
                 if v.is_const {
-                    return ProcessedAirVar::Const(Bool::r#type(), v.value.unwrap().calc());
+                    return CompiledAirVar::Const(Bool::r#type(), v.value.unwrap().calc());
                 }
-                ProcessedAirVar::Var(Bool::r#type(), v.name)
+                CompiledAirVar::Var(Bool::r#type(), v.name)
             }
             BoolExpr::Op(op) => op.into(),
         }

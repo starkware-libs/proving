@@ -1,6 +1,6 @@
 pub mod air_fn;
 pub mod air_fn_registry;
-pub mod autogen_structs;
+pub mod compiled_structs;
 pub mod expressions;
 pub mod memory;
 pub mod prover_types;

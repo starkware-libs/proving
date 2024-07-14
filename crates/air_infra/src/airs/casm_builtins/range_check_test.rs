@@ -37,7 +37,7 @@ fn test_range_check() {
     };
 
     let registry = AirFnRegistry::new(&rc);
-    let lists = registry.get_codegen_air_fn(&rc);
+    let lists = registry.get_compiled_air_fn(&rc);
 
     assert!(
         lists

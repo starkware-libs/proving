@@ -41,7 +41,7 @@ mod tests {
         folder_path.push("src/airs/examples/bit_unpack");
 
         let air_entry = resigtry.get_air_fn_entry(&air_fn);
-        let lists = resigtry.get_codegen_air_fn(&air_fn);
+        let lists = resigtry.get_compiled_air_fn(&air_fn);
         let trace_tokens =
             generate_trace_writer_code(&air_entry.name, &lists.input, &lists.deductions);
         let simd_trace_tokens = generate_simd_trace_writer_code(

@@ -1,11 +1,11 @@
 use std::fmt::Display;
 
-use crate::core::autogen_structs::*;
+use crate::core::compiled_structs::*;
 
-impl Display for ProcessedAirVar {
+impl Display for CompiledAirVar {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ProcessedAirVar::StaticCall(id, args) => {
+            CompiledAirVar::StaticCall(id, args) => {
                 write!(f, "{}(", id)?;
                 for (i, arg) in args.iter().enumerate() {
                     if i > 0 {
@@ -15,7 +15,7 @@ impl Display for ProcessedAirVar {
                 }
                 write!(f, ")")
             }
-            ProcessedAirVar::MethodCall(left, id, args) => {
+            CompiledAirVar::MethodCall(left, id, args) => {
                 write!(f, "{}.{}(", left, id)?;
                 for (i, arg) in args.iter().enumerate() {
                     if i > 0 {
@@ -25,16 +25,16 @@ impl Display for ProcessedAirVar {
                 }
                 write!(f, ")")
             }
-            ProcessedAirVar::Const(_, id) => write!(f, "const_{}", id),
-            ProcessedAirVar::Var(_, id) => write!(f, "{}", id),
-            ProcessedAirVar::State(i) => write!(f, "state[{}]", i),
-            ProcessedAirVar::BinaryOp(lhs, op, rhs) => {
+            CompiledAirVar::Const(_, id) => write!(f, "const_{}", id),
+            CompiledAirVar::Var(_, id) => write!(f, "{}", id),
+            CompiledAirVar::State(i) => write!(f, "state[{}]", i),
+            CompiledAirVar::BinaryOp(lhs, op, rhs) => {
                 write!(f, "({} {} {})", lhs, op, rhs)
             }
-            ProcessedAirVar::UnaryOp(op, expr) => {
+            CompiledAirVar::UnaryOp(op, expr) => {
                 write!(f, "({} {})", op, expr)
             }
-            ProcessedAirVar::Tuple(exprs) => {
+            CompiledAirVar::Tuple(exprs) => {
                 write!(f, "(")?;
                 for (i, expr) in exprs.iter().enumerate() {
                     if i > 0 {
@@ -44,7 +44,7 @@ impl Display for ProcessedAirVar {
                 }
                 write!(f, ")")
             }
-            ProcessedAirVar::Array(exprs) => {
+            CompiledAirVar::Array(exprs) => {
                 write!(f, "[")?;
                 for (i, expr) in exprs.iter().enumerate() {
                     if i > 0 {
@@ -58,14 +58,14 @@ impl Display for ProcessedAirVar {
     }
 }
 
-impl Display for TraceGenerationStep {
+impl Display for TraceGenStep {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            TraceGenerationStep::Deduction(var) => write!(f, "{}", var),
-            TraceGenerationStep::Intermediate(name, var) => {
+            TraceGenStep::Deduction(var) => write!(f, "{}", var),
+            TraceGenStep::Intermediate(name, var) => {
                 write!(f, "{} = {}", name, var)
             }
-            TraceGenerationStep::Lookup {
+            TraceGenStep::Lookup {
                 fn_name,
                 input,
                 output_name,
@@ -76,7 +76,7 @@ impl Display for TraceGenerationStep {
     }
 }
 
-fn felts_to_string(felts: &[ProcessedAirVar]) -> String {
+fn felts_to_string(felts: &[CompiledAirVar]) -> String {
     let mut strs = felts.iter().map(ToString::to_string).collect::<Vec<_>>();
     let mut i = 0;
     for s in strs.iter().rev() {
@@ -90,14 +90,14 @@ fn felts_to_string(felts: &[ProcessedAirVar]) -> String {
     format!("[{}]", strs.join(", "))
 }
 
-impl Display for ConstraintOrIntermediate {
+impl Display for ConstraintEvalStep {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            ConstraintOrIntermediate::InInstanceConstraint(var) => write!(f, "{}", var),
-            ConstraintOrIntermediate::Intermediate(name, var) => {
+            ConstraintEvalStep::InInstanceConstraint(var) => write!(f, "{}", var),
+            ConstraintEvalStep::Intermediate(name, var) => {
                 write!(f, "{} = {}", name, var)
             }
-            ConstraintOrIntermediate::LookupConstraint {
+            ConstraintEvalStep::LookupConstraint {
                 fn_name,
                 input_felts,
                 output_felts,

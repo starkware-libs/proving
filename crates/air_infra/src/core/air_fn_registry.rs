@@ -9,7 +9,7 @@ use serde::Serialize;
 use serde_json::to_writer_pretty;
 
 use super::air_fn::*;
-use super::autogen_structs::*;
+use super::compiled_structs::*;
 use super::expressions::felt_expr::*;
 use super::state::*;
 use super::variables::*;
@@ -22,9 +22,9 @@ pub const DEDUCTION_INTERMEDIATE_VAR_PREFIX: &str = "deduction_tmp_";
 pub struct AirFnEntry {
     pub name: String,
     pub inst_def: BTreeMap<String, String>,
-    pub input: GenericAirVar,
+    pub input: AirVarImpl,
     pub input_num_of_felts: usize,
-    pub output: GenericAirVar,
+    pub output: AirVarImpl,
     pub output_felts: Vec<FeltExpr>,
     pub trace_type: TraceType,
     pub air_body: Vec<AirBodyComponent>,
@@ -177,75 +177,70 @@ impl AirFnRegistry {
             .clone()
     }
 
-    pub fn get_codegen_air_fn<I, O>(&self, air_fn: &dyn AirFn<In = I, Out = O>) -> AutogenLists
+    pub fn get_compiled_air_fn<I, O>(&self, air_fn: &dyn AirFn<In = I, Out = O>) -> CompiledAirFn
     where
         I: AirVar,
         O: AirVar,
     {
         let entry = self.get_air_fn_entry(air_fn);
-        let (deductions, constraints) = Self::compile_codegen_air_fn(entry.air_body);
-        AutogenLists {
+        let (deductions, constraints) = Self::compile_air_fn(entry.air_body);
+        CompiledAirFn {
             input: entry.input.into(),
             output: entry.output.into(),
             input_num_of_felts: entry.input_num_of_felts,
             output_felts: entry
                 .output_felts
                 .into_iter()
-                .map(ProcessedAirVar::from)
+                .map(CompiledAirVar::from)
                 .collect(),
             constraints,
             deductions,
         }
     }
 
-    // Transforms the air body and input of an air function into the autogen format.
-    fn compile_codegen_air_fn(
+    // Transforms the air body of an air function into the compiled air fn format.
+    fn compile_air_fn(
         air_body: Vec<AirBodyComponent>,
-    ) -> (Vec<TraceGenerationStep>, Vec<ConstraintOrIntermediate>) {
+    ) -> (Vec<TraceGenStep>, Vec<ConstraintEvalStep>) {
         let mut constraints = vec![];
         let mut deductions = vec![];
 
         for component in air_body {
             match component {
                 AirBodyComponent::Constraint(constraint) => {
-                    constraints.push(ConstraintOrIntermediate::InInstanceConstraint(
-                        constraint.into(),
-                    ));
+                    constraints.push(ConstraintEvalStep::InInstanceConstraint(constraint.into()));
                 }
                 AirBodyComponent::Assignment {
                     constraint,
                     deduction,
                 } => {
-                    constraints.push(ConstraintOrIntermediate::InInstanceConstraint(
-                        constraint.into(),
-                    ));
-                    deductions.push(TraceGenerationStep::Deduction(deduction.into()));
+                    constraints.push(ConstraintEvalStep::InInstanceConstraint(constraint.into()));
+                    deductions.push(TraceGenStep::Deduction(deduction.into()));
                 }
                 AirBodyComponent::Deduction(deduction) => {
-                    deductions.push(TraceGenerationStep::Deduction(deduction.into()));
+                    deductions.push(TraceGenStep::Deduction(deduction.into()));
                 }
                 AirBodyComponent::DeductionIntermediate(name, var) => {
-                    deductions.push(TraceGenerationStep::Intermediate(name, var.into()));
+                    deductions.push(TraceGenStep::Intermediate(name, var.into()));
                 }
                 AirBodyComponent::ConstraintIntermediate(name, var) => {
-                    constraints.push(ConstraintOrIntermediate::Intermediate(name, var.into()));
+                    constraints.push(ConstraintEvalStep::Intermediate(name, var.into()));
                 }
                 AirBodyComponent::Call(f) => {
-                    let (new_deductions, new_constraints) =
-                        Self::compile_codegen_air_fn(f.air_body);
+                    let (new_deductions, new_constraints) = Self::compile_air_fn(f.air_body);
                     constraints.extend(new_constraints);
                     deductions.extend(new_deductions);
                 }
                 AirBodyComponent::LookupCall(call) => {
-                    deductions.push(TraceGenerationStep::Lookup {
+                    deductions.push(TraceGenStep::Lookup {
                         fn_name: call.air_fn_name,
                         input: call.input_arg.into(),
                         output_name: call.output_name,
                     });
                 }
                 AirBodyComponent::LookupConstraint(constraint) => {
-                    constraints.push(ConstraintOrIntermediate::LookupConstraint {
-                        fn_name: constraint.air_fn_name.clone(),
+                    constraints.push(ConstraintEvalStep::LookupConstraint {
+                        fn_name: constraint.air_fn_name,
                         input_felts: constraint
                             .input_felts
                             .into_iter()

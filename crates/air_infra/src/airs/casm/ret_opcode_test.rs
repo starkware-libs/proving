@@ -73,7 +73,7 @@ fn test_ret_opcode() {
     assert_eq!(next_ap.calc(), ap_value.to_string());
     assert_eq!(state.calc(), ["3", "11", "6", "1", "0", "4", "0"]);
 
-    let lists = registry.get_codegen_air_fn(&func);
+    let lists = registry.get_compiled_air_fn(&func);
 
     assert!(
         lists

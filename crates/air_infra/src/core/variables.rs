@@ -5,7 +5,7 @@ use enum_dispatch::enum_dispatch;
 use serde::ser::SerializeSeq;
 use serde::{Serialize, Serializer};
 
-use super::autogen_structs::*;
+use super::compiled_structs::*;
 use super::expressions::bool_expr::*;
 use super::expressions::expr::*;
 use super::expressions::felt252_expr::*;
@@ -59,48 +59,48 @@ pub trait InternalAirVarInfo: Debug {
 }
 
 // Actions on air variables used by the air builder.
-pub trait InternalAirVarActions: Clone + Into<GenericAirVar> {
+pub trait InternalAirVarActions: Clone + Into<AirVarImpl> {
     fn new(name: String) -> Self;
     fn let_for_deduction(&self, name: String) -> Self;
 }
 
 // Air variables as represented in the air_body.
 #[derive(Clone, Debug)]
-pub enum GenericAirVar {
+pub enum AirVarImpl {
     Expr(ExprImpl),
-    Tuple(Vec<GenericAirVar>),
-    Array(Vec<GenericAirVar>),
+    Tuple(Vec<AirVarImpl>),
+    Array(Vec<AirVarImpl>),
 }
 
-impl InternalAirVarInfo for GenericAirVar {
+impl InternalAirVarInfo for AirVarImpl {
     fn in_state(&self) -> bool {
         match self {
-            GenericAirVar::Expr(expr) => expr.in_state(),
-            GenericAirVar::Tuple(vars) => vars.iter().all(|v| v.in_state()),
-            GenericAirVar::Array(vars) => vars.iter().all(|v| v.in_state()),
+            AirVarImpl::Expr(expr) => expr.in_state(),
+            AirVarImpl::Tuple(vars) => vars.iter().all(|v| v.in_state()),
+            AirVarImpl::Array(vars) => vars.iter().all(|v| v.in_state()),
         }
     }
 
     fn is_const(&self) -> bool {
         match self {
-            GenericAirVar::Expr(expr) => expr.is_const(),
-            GenericAirVar::Tuple(vars) => vars.iter().all(|v| v.is_const()),
-            GenericAirVar::Array(vars) => vars.iter().all(|v| v.is_const()),
+            AirVarImpl::Expr(expr) => expr.is_const(),
+            AirVarImpl::Tuple(vars) => vars.iter().all(|v| v.is_const()),
+            AirVarImpl::Array(vars) => vars.iter().all(|v| v.is_const()),
         }
     }
 }
 
-impl Serialize for GenericAirVar {
+impl Serialize for AirVarImpl {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where
         S: Serializer,
     {
         match self {
-            GenericAirVar::Expr(expr) => {
-                let var: ProcessedAirVar = expr.clone().into();
+            AirVarImpl::Expr(expr) => {
+                let var: CompiledAirVar = expr.clone().into();
                 serializer.collect_str(&format!("{} (type: {})", var, expr.r#type()))
             }
-            GenericAirVar::Tuple(vars) | GenericAirVar::Array(vars) => {
+            AirVarImpl::Tuple(vars) | AirVarImpl::Array(vars) => {
                 let mut seq = serializer.serialize_seq(Some(vars.len()))?;
                 for var in vars {
                     seq.serialize_element(var)?;
@@ -111,20 +111,20 @@ impl Serialize for GenericAirVar {
     }
 }
 
-impl Default for GenericAirVar {
+impl Default for AirVarImpl {
     fn default() -> Self {
-        GenericAirVar::Expr(ExprImpl::default())
+        AirVarImpl::Expr(ExprImpl::default())
     }
 }
 
-impl Display for GenericAirVar {
+impl Display for AirVarImpl {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            GenericAirVar::Expr(expr) => {
-                let var: ProcessedAirVar = expr.clone().into();
+            AirVarImpl::Expr(expr) => {
+                let var: CompiledAirVar = expr.clone().into();
                 write!(f, "{}", var)
             }
-            GenericAirVar::Tuple(vars) => {
+            AirVarImpl::Tuple(vars) => {
                 write!(f, "(")?;
                 for (i, var) in vars.iter().enumerate() {
                     if i > 0 {
@@ -134,7 +134,7 @@ impl Display for GenericAirVar {
                 }
                 write!(f, ")")
             }
-            GenericAirVar::Array(vars) => {
+            AirVarImpl::Array(vars) => {
                 write!(f, "[")?;
                 for (i, var) in vars.iter().enumerate() {
                     if i > 0 {
@@ -148,23 +148,23 @@ impl Display for GenericAirVar {
     }
 }
 
-impl From<GenericAirVar> for ProcessedAirVar {
-    fn from(generic: GenericAirVar) -> ProcessedAirVar {
+impl From<AirVarImpl> for CompiledAirVar {
+    fn from(generic: AirVarImpl) -> CompiledAirVar {
         match generic {
-            GenericAirVar::Expr(expr) => expr.into(),
-            GenericAirVar::Tuple(v) => {
-                ProcessedAirVar::Tuple(v.into_iter().map(|v| v.into()).collect())
+            AirVarImpl::Expr(expr) => expr.into(),
+            AirVarImpl::Tuple(v) => {
+                CompiledAirVar::Tuple(v.into_iter().map(|v| v.into()).collect())
             }
-            GenericAirVar::Array(v) => {
-                ProcessedAirVar::Array(v.into_iter().map(|v| v.into()).collect())
+            AirVarImpl::Array(v) => {
+                CompiledAirVar::Array(v.into_iter().map(|v| v.into()).collect())
             }
         }
     }
 }
 
-impl From<()> for GenericAirVar {
+impl From<()> for AirVarImpl {
     fn from(_value: ()) -> Self {
-        GenericAirVar::Tuple(vec![])
+        AirVarImpl::Tuple(vec![])
     }
 }
 
@@ -237,9 +237,9 @@ macro_rules! impl_air_var {
             }
         }
 
-        impl<const N:usize> From<[$s;N]> for GenericAirVar {
-            fn from(array: [$s;N]) -> GenericAirVar {
-                GenericAirVar::Array(array.into_iter().map(|s| s.into()).collect())
+        impl<const N:usize> From<[$s;N]> for AirVarImpl {
+            fn from(array: [$s;N]) -> AirVarImpl {
+                AirVarImpl::Array(array.into_iter().map(|s| s.into()).collect())
             }
         }
     };
@@ -289,11 +289,11 @@ macro_rules! impl_air_var {
             }
         }
 
-        impl From<($($s),+)> for GenericAirVar {
-            fn from(tuple: ($($s),+)) -> GenericAirVar {
+        impl From<($($s),+)> for AirVarImpl {
+            fn from(tuple: ($($s),+)) -> AirVarImpl {
                 #[allow(non_snake_case)]
                 let ($($s),+) = tuple.clone();
-                GenericAirVar::Tuple(vec![$($s.into(),)+])
+                AirVarImpl::Tuple(vec![$($s.into(),)+])
             }
         }
     };

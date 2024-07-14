@@ -93,7 +93,7 @@ fn test_felt252_deduce() {
     assert!(out.in_state());
     assert!(out.calc() == "5");
 
-    let lists = registry.get_codegen_air_fn(&func);
+    let lists = registry.get_compiled_air_fn(&func);
     assert_eq!(
         "deduction_tmp_0.get_felt(const_0)",
         lists.deductions[1].to_string()

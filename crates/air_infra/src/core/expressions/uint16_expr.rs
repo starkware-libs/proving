@@ -1,5 +1,5 @@
 use super::super::air_fn_registry::*;
-use super::super::autogen_structs::*;
+use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -43,11 +43,11 @@ impl UInt16Expr {
             UInt16Expr::Var(v) => &mut v.as_felt,
             UInt16Expr::Op(op) => {
                 if op.op == Operation::UInt16FromBool {
-                    if let GenericAirVar::Expr(ExprImpl::Bool(bool_expr)) = &mut op.children[0] {
+                    if let AirVarImpl::Expr(ExprImpl::Bool(bool_expr)) = &mut op.children[0] {
                         return bool_expr.as_felt_mut();
                     }
                 } else if op.op == Operation::UInt16FromFelt {
-                    if let GenericAirVar::Expr(ExprImpl::Felt(felt_expr)) = &mut op.children[0] {
+                    if let AirVarImpl::Expr(ExprImpl::Felt(felt_expr)) = &mut op.children[0] {
                         return felt_expr;
                     }
                 }
@@ -183,21 +183,21 @@ impl From<UInt16Operation> for UInt16Expr {
     }
 }
 
-impl From<UInt16Expr> for ProcessedAirVar {
-    fn from(expr: UInt16Expr) -> ProcessedAirVar {
+impl From<UInt16Expr> for CompiledAirVar {
+    fn from(expr: UInt16Expr) -> CompiledAirVar {
         match expr {
             UInt16Expr::Var(v) => {
                 if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-                    return ProcessedAirVar::Var(UInt16::r#type(), v.name);
+                    return CompiledAirVar::Var(UInt16::r#type(), v.name);
                 }
                 if v.is_const {
-                    return ProcessedAirVar::Const(UInt16::r#type(), v.value.unwrap().calc());
+                    return CompiledAirVar::Const(UInt16::r#type(), v.value.unwrap().calc());
                 }
                 if let Some(var) = v.parent {
-                    return ProcessedAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
+                    return CompiledAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
                 }
 
-                ProcessedAirVar::Var(UInt16::r#type(), v.name)
+                CompiledAirVar::Var(UInt16::r#type(), v.name)
             }
             UInt16Expr::Op(op) => op.into(),
         }
