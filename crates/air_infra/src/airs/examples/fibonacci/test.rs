@@ -17,8 +17,8 @@ fn test_wide_fibonacci() {
     let (_, output) = registry.run_air(&air_fn, expr!("secret", 1, true));
 
     let constraints = [
-        "NarrowFib__2([const_1,state[0]]) == [state[1],state[2]]",
-        "NarrowFib__2([state[1],state[2]]) == [state[3],state[4]]",
+        "NarrowFib__2([const_1, state[0]]) == [state[1], state[2]]",
+        "NarrowFib__2([state[1], state[2]]) == [state[3], state[4]]",
     ];
 
     let deductions = [

@@ -76,13 +76,18 @@ impl Display for TraceGenerationStep {
     }
 }
 
-fn processed_air_var_vec_to_string(vec: &Vec<ProcessedAirVar>) -> String {
-    let mut parts: Vec<String> = vec![];
-
-    for pav in vec {
-        parts.push(format!("{}", pav));
+fn felts_to_string(felts: &[ProcessedAirVar]) -> String {
+    let mut strs = felts.iter().map(ToString::to_string).collect::<Vec<_>>();
+    let mut i = 0;
+    for s in strs.iter().rev() {
+        if s == "const_0" {
+            i += 1;
+        } else {
+            break;
+        }
     }
-    format!("[{}]", parts.join(","))
+    strs.truncate(strs.len() - i);
+    format!("[{}]", strs.join(", "))
 }
 
 impl Display for ConstraintOrIntermediate {
@@ -101,8 +106,8 @@ impl Display for ConstraintOrIntermediate {
                     f,
                     "{}({}) == {}",
                     fn_name,
-                    processed_air_var_vec_to_string(input_felts),
-                    processed_air_var_vec_to_string(output_felts)
+                    felts_to_string(input_felts),
+                    felts_to_string(output_felts)
                 )
             }
         }

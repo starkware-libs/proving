@@ -22,7 +22,7 @@ fn test_range_check() {
     ];
 
     let constraints = [
-        "Memory__FeltExpr__Felt252Expr([state[0]]) == [state[1],state[2],state[3],const_0,const_0,const_0,const_0,const_0,const_0,const_0,const_0,const_0,const_0,const_0,const_0,const_0,const_0,const_0,const_0,const_0,const_0]",
+        "Memory__FeltExpr__Felt252Expr([state[0]]) == [state[1], state[2], state[3]]",
         "RangeCheck8([state[3]]) == []",
     ];
 
