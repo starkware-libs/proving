@@ -4,14 +4,17 @@ use air_infra::core::compiled_structs::{
 use genco::lang::rust;
 use genco::quote;
 
-fn get_component_columns(deductions: &[TraceGenStep]) -> usize {
+// BUG: constant input adds an empty column.
+// TODO(Ohad): add 'is_witness' to `TraceGenerationStep`.
+// TODO(Ohad): address lookups properly.
+fn component_n_columns(deductions: &[TraceGenStep]) -> usize {
     deductions
         .iter()
         .filter(|deduction| matches!(deduction, TraceGenStep::Deduction(_)))
         .count()
 }
 
-pub fn get_component_constraints(constraints: &[ConstraintEvalStep]) -> usize {
+pub fn component_n_constraints(constraints: &[ConstraintEvalStep]) -> usize {
     constraints
         .iter()
         .filter(|deduction| {
@@ -83,11 +86,12 @@ fn constraint_eval_at_point_code(constraints: &[ConstraintEvalStep]) -> rust::To
                     evaluation_accumulator.accumulate(numerator * denominator_inv);
                 });
             }
+            // TODO(Ohad): implement.
             ConstraintEvalStep::LookupConstraint {
                 fn_name: _,
                 input_felts: _,
                 output_felts: _,
-            } => todo!(),
+            } => (),
         }
     }
     constraints_code
@@ -101,7 +105,7 @@ fn generate_component_impl(
     let mut func1 = rust::Tokens::new();
     func1.extend(quote! {
         fn n_constraints(&self) -> usize {
-            $(get_component_constraints(constraints))
+            $(component_n_constraints(constraints))
         }
     });
 
@@ -196,7 +200,7 @@ pub fn generate_component(component_name: &str, lists: CompiledAirFn) -> rust::T
         use stwo_prover::core::poly::circle::CanonicCoset;
         use stwo_prover::core::{ColumnVec, InteractionElements};
     };
-    let n_columns = get_component_columns(&lists.deductions);
+    let n_columns = component_n_columns(&lists.deductions);
     let struct_code = generate_struct_code(component_name);
     let component_impl_code =
         generate_component_impl(component_name, n_columns, &lists.constraints);

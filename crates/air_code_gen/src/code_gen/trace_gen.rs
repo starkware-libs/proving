@@ -9,8 +9,8 @@ pub fn generate_trace_writer_code(
 ) -> rust::Tokens {
     let imports_code = generate_imports_code(component_name);
     let struct_code = generate_trace_gen_struct_code(component_name, input);
-    let impl_code = generate_trace_gen_impl_code(component_name, input);
-    let write_trace_code = generate_write_trace_code(component_name, input, deductions);
+    let impl_code = generate_trace_gen_impl_code(component_name, input, deductions);
+    let write_trace_code = generate_cpu_write_trace_code(component_name, input, deductions);
 
     let mut code = rust::Tokens::new();
     code.extend(imports_code);
@@ -34,6 +34,7 @@ pub fn generate_write_trace_row_code(
     // Generate the body of the write_trace function.
     let mut write_trace_body = rust::Tokens::new();
     let mut offset = 0;
+    let mut n_fn_calls = 0;
     for deduction in deductions {
         match deduction {
             TraceGenStep::Deduction(expr) => {
@@ -49,19 +50,31 @@ pub fn generate_write_trace_row_code(
                 });
             }
             TraceGenStep::Lookup {
-                fn_name: _,
-                input: _,
-                output_name: _,
-            } => todo!(),
+                fn_name,
+                input,
+                output_name,
+            } => {
+                write_trace_body.extend(quote! {
+                    returned_inputs.$(n_fn_calls).push($(parse_air_var(input)));
+                    let $(output_name) = $(fn_name)CpuTraceGenerator::deduce_output($(parse_air_var(input)));
+                });
+                n_fn_calls += 1;
+            }
         }
     }
 
-    // Generate the final write_trace function.
+    // Generate the final write_trace_row function.
     let mut code = rust::Tokens::new();
     code.extend(quote! {
         #[allow(non_snake_case)]
         #[allow(clippy::useless_conversion)]
-        fn write_trace_row(dst: &mut [Vec<BaseField>], $(write_trace_params), row_index: usize) {
+        #[allow(clippy::type_complexity)]
+        fn write_trace_row(
+            dst: &mut [Vec<BaseField>],
+            $(write_trace_params),
+            row_index: usize,
+            #[allow(unused_variables)]
+            returned_inputs: &mut ReturnedInputs) {
             $(write_trace_body)
         }
         $['\n']
@@ -69,38 +82,46 @@ pub fn generate_write_trace_row_code(
     code
 }
 
-#[allow(dead_code)]
-pub fn generate_write_trace_code(
+// Generates the final write_trace function.
+pub fn generate_cpu_write_trace_code(
     component_name: &str,
     input: &CompiledAirVar,
     deductions: &[TraceGenStep],
 ) -> rust::Tokens {
     let input_type = parse_inputs_cpu_type(input);
 
-    // Generate the final write_trace function.
     let mut code = rust::Tokens::new();
     code.extend(quote! {
+            $(generate_write_trace_inputs_return_struct(deductions))
+
             #[allow(clippy::ptr_arg)]
+            #[allow(clippy::type_complexity)]
+            #[allow(clippy::let_unit_value)]
             pub fn write_trace_cpu(
                 component: &$component_name,
                 secrets: &$input_type,
-            ) -> Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>> {
+            ) -> (Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>>, ReturnedInputs)
+                {
                 let n_trace_columns = component.trace_log_degree_bounds()[0].len();
                 let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_trace_columns];
-                for (i, secret) in secrets.iter().enumerate() {
-                    write_trace_row(&mut trace_values, *secret, i);
-                }
+                let mut sub_components_inputs = ReturnedInputs::with_capacity(secrets.len());
+                secrets
+                    .iter()
+                    .enumerate()
+                    .for_each(|(i, secret)| {
+                        write_trace_row(&mut trace_values, *secret, i, &mut sub_components_inputs)
+                    });
 
                 // TODO(Ohad): make this a function. support non-power of 2 inputs.
-                let trace_domains = trace_values
-                .iter()
-                .map(|col| CanonicCoset::new(col.len().checked_ilog2().expect("Input not a power of 2!")).circle_domain())
+                let trace = trace_values.into_iter()
+                .map(|eval| {
+                    let domain = CanonicCoset::new(eval.len().checked_ilog2().expect("Input not a power of 2!"))
+                    .circle_domain();
+                    CpuCircleEvaluation::<BaseField, BitReversedOrder>::new(domain, eval)
+                })
                 .collect_vec();
-            std::iter::zip(trace_values, trace_domains)
-            .map(|(eval, trace_domain)| {
-                CpuCircleEvaluation::<BaseField, BitReversedOrder>::new(trace_domain, eval)
-            })
-            .collect_vec()
+
+            (trace, sub_components_inputs)
         }
         $['\n']
     });
@@ -108,10 +129,64 @@ pub fn generate_write_trace_code(
     code
 }
 
-pub fn generate_trace_gen_struct_code(
-    component_name: &str,
-    input: &CompiledAirVar,
-) -> rust::Tokens {
+fn generate_write_trace_trait_body(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut code = rust::Tokens::new();
+    code.extend(quote! {let generator = registry.get_generator::<Self>(component_id);});
+    code.extend(quote! {
+        #[allow(unused_variables)]
+        let (trace, sub_component_inputs) =
+            write_trace_cpu(&generator.component(), &generator.inputs);
+    });
+
+    for (i, fn_name) in deductions
+        .iter()
+        .filter_map(|d| match d {
+            TraceGenStep::Lookup { fn_name, .. } => Some(fn_name),
+            _ => None,
+        })
+        .enumerate()
+    {
+        let component_id = format!("\"{}\"", fn_name);
+        code.extend(quote! {
+            let sub_component_i =
+                registry.get_generator_mut::<$(fn_name)CpuTraceGenerator>($component_id);
+            sub_component_i.add_inputs(&sub_component_inputs.$(i));
+        });
+    }
+
+    code.extend(quote! {
+        trace
+    });
+
+    code
+}
+
+fn generate_write_trace_inputs_return_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut members_code = rust::Tokens::new();
+    let mut initialization_code = rust::Tokens::new();
+    for input_type in deductions.iter().filter_map(|d| match d {
+        TraceGenStep::Lookup { input, .. } => Some(air_var_type(input)),
+        _ => None,
+    }) {
+        members_code.extend(quote!(pub Vec<$input_type>, ));
+        initialization_code.extend(quote!(Vec::with_capacity(capacity),));
+    }
+
+    quote! {
+        pub struct ReturnedInputs
+        ($(members_code));
+
+        impl ReturnedInputs {
+            #[allow(unused_variables)]
+            fn with_capacity(capacity: usize) -> Self {
+                Self ($(initialization_code))
+
+            }
+        }
+    }
+}
+
+fn generate_trace_gen_struct_code(component_name: &str, input: &CompiledAirVar) -> rust::Tokens {
     let input_ty = parse_inputs_cpu_type(input);
     let struct_name = trace_gen_struct_name(component_name, "Cpu");
     let mut code = rust::Tokens::new();
@@ -131,7 +206,11 @@ fn trace_gen_struct_name(component_name: &str, backend: &str) -> String {
     format!("{}{}TraceGenerator", component_name, backend)
 }
 
-pub fn generate_trace_gen_impl_code(component_name: &str, input: &CompiledAirVar) -> rust::Tokens {
+fn generate_trace_gen_impl_code(
+    component_name: &str,
+    input: &CompiledAirVar,
+    deductions: &[TraceGenStep],
+) -> rust::Tokens {
     let struct_name = trace_gen_struct_name(component_name, "Cpu");
     let inputs_ty = parse_inputs_cpu_type(input);
     let mut code = rust::Tokens::new();
@@ -144,15 +223,14 @@ pub fn generate_trace_gen_impl_code(component_name: &str, input: &CompiledAirVar
                 component_id: &str,
                 registry: &mut ComponentGenerationRegistry,
             ) -> Vec<CpuCircleEvaluation<Felt, BitReversedOrder>> {
-                let generator = registry.get_generator::<$(&struct_name)>(component_id);
-                write_trace_cpu(&generator.component(), &generator.inputs)
+                $(generate_write_trace_trait_body(deductions))
             }
 
             fn add_inputs(
                 &mut self,
                 inputs: &Self::Inputs,
             ) {
-                $(add_inputs_body());
+                $(add_inputs_body())
             }
 
             // TODO(Ohad): extend this to support non-power of 2 inputs.
@@ -183,6 +261,7 @@ fn to_component_body(component_name: &str) -> rust::Tokens {
 
 fn generate_imports_code(component_name: &str) -> rust::Tokens {
     quote! {
+        #![allow(unused_imports)]
         use air_infra::core::prover_types::*;
         use itertools::Itertools;
         use num_traits::Zero;
@@ -194,8 +273,42 @@ fn generate_imports_code(component_name: &str) -> rust::Tokens {
         use stwo_prover::core::poly::BitReversedOrder;
         use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
         use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
-        use super::component::$component_name;
+
+        $(generate_components_imports(component_name))
         $['\n']
+    }
+}
+
+// TODO(Ohad): import only the necessary sub-components.
+pub fn generate_components_imports(component_name: &str) -> rust::Tokens {
+    match component_name {
+        "Fib__100" => {
+            quote! {
+                use super::component::Fib__100;
+            }
+        }
+        "NarrowFib__20" => {
+            quote! {
+                use super::component::NarrowFib__20;
+            }
+        }
+        "BitUnpack__12" => {
+            quote! {
+                use super::component::BitUnpack__12;
+            }
+        }
+        "WideFib__8" => {
+            quote! {
+                use super::component::WideFib__8;
+                use crate::airs::examples::narrow_fibonacci::
+                            trace::NarrowFib__20CpuTraceGenerator;
+                use crate::airs::examples::narrow_fibonacci::
+                            simd_trace::NarrowFib__20SimdTraceGenerator;
+            }
+        }
+        _ => {
+            panic!("Component {} not supported yet.", component_name);
+        }
     }
 }
 
@@ -309,4 +422,13 @@ pub fn parse_air_var(expr: &CompiledAirVar) -> String {
             format!("[{}]", expr_str)
         }
     }
+}
+
+pub fn contains_lookup(deductions: &[TraceGenStep]) -> bool {
+    for deduction in deductions {
+        if let TraceGenStep::Lookup { .. } = deduction {
+            return true;
+        }
+    }
+    false
 }

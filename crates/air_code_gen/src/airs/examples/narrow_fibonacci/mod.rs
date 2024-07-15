@@ -133,7 +133,7 @@ mod tests {
             .map(|i| [Felt::from(i + 1), Felt::from(i + 4)])
             .collect::<Vec<_>>();
 
-        let trace = write_trace_cpu(&fib_component, &secrets);
+        let trace = write_trace_cpu(&fib_component, &secrets).0;
         assert_fib_constraints_on_trace(&fib_component, &trace);
     }
 
@@ -156,11 +156,13 @@ mod tests {
             .collect();
         // Convert trace to raw values. Backends should produce the same values.
         let raw_cpu_trace = write_trace_cpu(&narrow_fib_component, &secrets)
+            .0
             .into_iter()
             .map(|eval| eval.as_slice().to_vec())
             .collect_vec();
 
         let raw_simd_trace = write_trace_simd(&narrow_fib_component, &simd_secrets)
+            .0
             .into_iter()
             .map(|eval| eval.as_slice().to_vec())
             .collect_vec();
@@ -182,7 +184,7 @@ mod tests {
         let inputs = (0..1 << fib_component.log_n_instances)
             .map(|i| [Felt::from(i + 1), Felt::from(i + 4)])
             .collect_vec();
-        let trace = write_trace_cpu(&fib_component, &inputs);
+        let trace = write_trace_cpu(&fib_component, &inputs).0;
 
         assert_cpu_constraints(&fib_component, trace);
     }

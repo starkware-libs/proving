@@ -2,7 +2,7 @@ use air_infra::core::compiled_structs::{CompiledAirVar, ConstraintEvalStep};
 use genco::lang::rust;
 use genco::quote;
 
-use super::component_gen::get_component_constraints;
+use super::component_gen::component_n_constraints;
 use super::generate_prover_component;
 
 pub fn generate_simd_prover_component(
@@ -52,7 +52,7 @@ fn numerator_code(constraints: &[ConstraintEvalStep]) -> rust::Tokens {
     };
 
     let mut constraints_code = quote! {};
-    let n_constraints = get_component_constraints(constraints);
+    let n_constraints = component_n_constraints(constraints);
     let mut constraint_offset = 0;
     for constraint in constraints.iter() {
         match constraint {
@@ -68,11 +68,12 @@ fn numerator_code(constraints: &[ConstraintEvalStep]) -> rust::Tokens {
                     let $(var) = $(parse_simd_prover_constraint(expr));
                 });
             }
+            // TODO(Ohad): implement.
             ConstraintEvalStep::LookupConstraint {
                 fn_name: _,
                 input_felts: _,
                 output_felts: _,
-            } => todo!(),
+            } => (),
         }
     }
     numerator_code.extend(quote! {

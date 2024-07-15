@@ -1,3 +1,4 @@
+#![allow(unused_imports)]
 use air_infra::core::prover_types::*;
 use itertools::Itertools;
 use num_traits::Zero;
@@ -27,8 +28,11 @@ impl TraceGenerator<CpuBackend> for BitUnpack__12CpuTraceGenerator {
         component_id: &str,
         registry: &mut ComponentGenerationRegistry,
     ) -> Vec<CpuCircleEvaluation<Felt, BitReversedOrder>> {
-        let generator = registry.get_generator::<BitUnpack__12CpuTraceGenerator>(component_id);
-        write_trace_cpu(&generator.component(), &generator.inputs)
+        let generator = registry.get_generator::<Self>(component_id);
+        #[allow(unused_variables)]
+        let (trace, sub_component_inputs) =
+            write_trace_cpu(&generator.component(), &generator.inputs);
+        trace
     }
 
     fn add_inputs(&mut self, inputs: &Self::Inputs) {
@@ -46,34 +50,54 @@ impl TraceGenerator<CpuBackend> for BitUnpack__12CpuTraceGenerator {
     }
 }
 
+pub struct ReturnedInputs();
+
+impl ReturnedInputs {
+    #[allow(unused_variables)]
+    fn with_capacity(capacity: usize) -> Self {
+        Self()
+    }
+}
+
 #[allow(clippy::ptr_arg)]
+#[allow(clippy::type_complexity)]
+#[allow(clippy::let_unit_value)]
 pub fn write_trace_cpu(
     component: &BitUnpack__12,
     secrets: &Vec<UInt16>,
-) -> Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>> {
+) -> (
+    Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>>,
+    ReturnedInputs,
+) {
     let n_trace_columns = component.trace_log_degree_bounds()[0].len();
     let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_trace_columns];
-    for (i, secret) in secrets.iter().enumerate() {
-        write_trace_row(&mut trace_values, *secret, i);
-    }
+    let mut sub_components_inputs = ReturnedInputs::with_capacity(secrets.len());
+    secrets.iter().enumerate().for_each(|(i, secret)| {
+        write_trace_row(&mut trace_values, *secret, i, &mut sub_components_inputs)
+    });
 
-    let trace_domains = trace_values
-        .iter()
-        .map(|col| {
-            CanonicCoset::new(col.len().checked_ilog2().expect("Input not a power of 2!"))
-                .circle_domain()
+    let trace = trace_values
+        .into_iter()
+        .map(|eval| {
+            let domain =
+                CanonicCoset::new(eval.len().checked_ilog2().expect("Input not a power of 2!"))
+                    .circle_domain();
+            CpuCircleEvaluation::<BaseField, BitReversedOrder>::new(domain, eval)
         })
         .collect_vec();
-    std::iter::zip(trace_values, trace_domains)
-        .map(|(eval, trace_domain)| {
-            CpuCircleEvaluation::<BaseField, BitReversedOrder>::new(trace_domain, eval)
-        })
-        .collect_vec()
+
+    (trace, sub_components_inputs)
 }
 
 #[allow(non_snake_case)]
 #[allow(clippy::useless_conversion)]
-fn write_trace_row(dst: &mut [Vec<BaseField>], BitUnpack__12_input: UInt16, row_index: usize) {
+#[allow(clippy::type_complexity)]
+fn write_trace_row(
+    dst: &mut [Vec<BaseField>],
+    BitUnpack__12_input: UInt16,
+    row_index: usize,
+    #[allow(unused_variables)] returned_inputs: &mut ReturnedInputs,
+) {
     let col0 = BitUnpack__12_input.as_felt();
     dst[0][row_index] = col0.into();
     let deduction_tmp_2 = (BitUnpack__12_input) >> (UInt16::from(1));

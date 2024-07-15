@@ -78,7 +78,7 @@ mod tests {
             .map(UInt16::from)
             .collect_vec();
 
-        let trace = write_trace_cpu(&component, &inputs);
+        let trace = write_trace_cpu(&component, &inputs).0;
 
         assert_cpu_constraints(&component, trace);
     }

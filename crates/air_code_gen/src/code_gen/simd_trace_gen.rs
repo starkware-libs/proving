@@ -3,6 +3,7 @@ use genco::lang::rust;
 use genco::quote;
 
 use super::trace_gen::air_var_input_name;
+use crate::code_gen::trace_gen::generate_components_imports;
 
 pub fn generate_simd_trace_writer_code(
     component_name: &str,
@@ -11,7 +12,7 @@ pub fn generate_simd_trace_writer_code(
 ) -> rust::Tokens {
     let imports_code = generate_imports_code(component_name);
     let struct_code = generate_simd_trace_gen_struct_code(component_name, input);
-    let impl_code = generate_trace_gen_impl_code(component_name, input);
+    let impl_code = generate_trace_gen_impl_code(component_name, input, deductions);
     let write_trace_code = generate_simd_write_trace_code(component_name, input, deductions);
 
     let mut code = rust::Tokens::new();
@@ -36,6 +37,7 @@ pub fn generate_simd_write_trace_row_code(
     // Generate the body of the write_trace function.
     let mut write_trace_body = rust::Tokens::new();
     let mut offset = 0;
+    let mut n_fn_calls = 0;
     for deduction in deductions {
         match deduction {
             TraceGenStep::Deduction(expr) => {
@@ -51,21 +53,34 @@ pub fn generate_simd_write_trace_row_code(
                 });
             }
             TraceGenStep::Lookup {
-                fn_name: _,
-                input: _,
-                output_name: _,
-            } => todo!(),
+                fn_name,
+                input,
+                output_name,
+            } => {
+                write_trace_body.extend(quote! {
+
+                    returned_inputs.$(n_fn_calls).push($(simd_parse_air_var(input)));
+                    let $(output_name) =
+                        $(fn_name)SimdTraceGenerator::deduce_output($(simd_parse_air_var(input)));
+                });
+                n_fn_calls += 1;
+            }
         }
     }
 
-    // Generate the final write_trace function.
+    // Generate the final write_trace_row function.
     let mut code = rust::Tokens::new();
     code.extend(quote! {
         #[allow(non_snake_case)]
         #[allow(clippy::useless_conversion)]
-        pub fn write_trace_row(dst: &mut [Vec<PackedBaseField>], $(write_trace_params), row_index: usize) {
+        #[allow(clippy::type_complexity)]
+        fn write_trace_row(dst: &mut [Vec<PackedBaseField>],
+            $(write_trace_params), row_index: usize,
+            #[allow(unused_variables)]
+            returned_inputs: &mut ReturnedInputs){
             $(write_trace_body)
         }
+        $['\n']
     });
     code
 }
@@ -77,39 +92,46 @@ pub fn generate_simd_write_trace_code(
     deductions: &[TraceGenStep],
 ) -> rust::Tokens {
     let input_type = parse_inputs_simd_type(input);
-
-    // Generate the final write_trace function.
     let mut code = rust::Tokens::new();
     code.extend(quote! {
+        $(generate_write_trace_inputs_return_struct(deductions))
+
         #[allow(clippy::ptr_arg)]
+        #[allow(clippy::type_complexity)]
+        #[allow(clippy::let_unit_value)]
         pub fn write_trace_simd(
             component: &$component_name,
             secrets: &$(&input_type),
-        ) -> Vec<CircleEvaluation<SimdBackend, Felt, BitReversedOrder>> {
+        ) -> (Vec<CircleEvaluation<SimdBackend, Felt, BitReversedOrder>> , ReturnedInputs) {
             let n_trace_columns = component.trace_log_degree_bounds()[0].len();
-            let mut trace_values = vec![vec![PackedBaseField::zero(); secrets.len()]; n_trace_columns];
-            for (i, secret) in secrets.iter().copied().enumerate() {
-                super::simd_trace::write_trace_row(&mut trace_values, secret, i);
-            }
-            let trace_domains = trace_values
+            let mut trace_values =
+                        vec![vec![PackedBaseField::zero(); secrets.len()]; n_trace_columns];
+            let mut sub_components_inputs = ReturnedInputs::with_capacity(secrets.len());
+            secrets
                 .iter()
-                .map(|col| CanonicCoset::new((col.len() * N_LANES)
-                    .checked_ilog2()
-                    .expect("Input not a power of 2!")).circle_domain())
-                    .collect_vec();
-            zip(trace_values, trace_domains)
-                .map(|(eval, trace_domain)| {
+                .enumerate()
+                .for_each(|(i, secret)| {
+                    write_trace_row(&mut trace_values, *secret, i, &mut sub_components_inputs)
+                });
+
+            let trace = trace_values.into_iter()
+                .map(|eval| {
                     let length = eval.len() * N_LANES;
                     let eval = BaseFieldVec{
                         data: eval,
                         length,
                     };
+
+                    let trace_domain = CanonicCoset::new(length.checked_ilog2()
+                        .expect("Input not a power of 2!")).circle_domain();
                     CircleEvaluation::<SimdBackend, Felt, BitReversedOrder>::new(
                         trace_domain,
                         eval,
                     )
                 })
-                .collect_vec()
+                .collect_vec();
+
+            (trace, sub_components_inputs)
         }
         $['\n']
     });
@@ -140,7 +162,11 @@ fn trace_gen_struct_name(component_name: &str, backend: &str) -> String {
     format!("{}{}TraceGenerator", component_name, backend)
 }
 
-pub fn generate_trace_gen_impl_code(component_name: &str, input: &CompiledAirVar) -> rust::Tokens {
+pub fn generate_trace_gen_impl_code(
+    component_name: &str,
+    input: &CompiledAirVar,
+    deductions: &[TraceGenStep],
+) -> rust::Tokens {
     let struct_name = trace_gen_struct_name(component_name, "Simd");
     let inputs_ty = parse_inputs_simd_type(input);
     let mut code = rust::Tokens::new();
@@ -153,8 +179,7 @@ pub fn generate_trace_gen_impl_code(component_name: &str, input: &CompiledAirVar
                 component_id: &str,
                 registry: &mut ComponentGenerationRegistry,
             ) -> Vec<CircleEvaluation<SimdBackend, Felt, BitReversedOrder>> {
-                let generator = registry.get_generator::<$(&struct_name)>(component_id);
-                write_trace_simd(&generator.component(), &generator.inputs)
+                $(write_trace_body_simd(deductions))
             }
 
             fn add_inputs(
@@ -171,6 +196,63 @@ pub fn generate_trace_gen_impl_code(component_name: &str, input: &CompiledAirVar
         }
         $['\n']
     });
+    code
+}
+
+fn generate_write_trace_inputs_return_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut members_code = rust::Tokens::new();
+    let mut initialization_code = rust::Tokens::new();
+    for input_type in deductions.iter().filter_map(|d| match d {
+        TraceGenStep::Lookup { input, .. } => Some(air_var_type_simd(input)),
+        _ => None,
+    }) {
+        members_code.extend(quote!(pub Vec<$input_type>, ));
+        initialization_code.extend(quote!(Vec::with_capacity(capacity),));
+    }
+
+    quote! {
+        pub struct ReturnedInputs
+        ($(members_code));
+
+        impl ReturnedInputs {
+            #[allow(unused_variables)]
+            fn with_capacity(capacity: usize) -> Self {
+                Self ($(initialization_code))
+
+            }
+        }
+    }
+}
+
+fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut code = rust::Tokens::new();
+    code.extend(quote! {let generator = registry.get_generator::<Self>(component_id);});
+    code.extend(quote! {
+        #[allow(unused_variables)]
+        let (trace, sub_component_inputs) =
+            write_trace_simd(&generator.component(), &generator.inputs);
+    });
+
+    for (i, fn_name) in deductions
+        .iter()
+        .filter_map(|d| match d {
+            TraceGenStep::Lookup { fn_name, .. } => Some(fn_name),
+            _ => None,
+        })
+        .enumerate()
+    {
+        let component_id = format!("\"{}\"", fn_name);
+        code.extend(quote! {
+            let sub_component_i =
+                registry.get_generator_mut::<$(fn_name)SimdTraceGenerator>($component_id);
+            sub_component_i.add_inputs(&sub_component_inputs.$(i));
+        });
+    }
+
+    code.extend(quote! {
+        trace
+    });
+
     code
 }
 
@@ -210,7 +292,7 @@ fn generate_imports_code(component_name: &str) -> rust::Tokens {
         use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
         use crate::code_gen::packed_types::*;
-        use super::component::$component_name;
+        $(generate_components_imports(component_name))
         $['\n']
     }
 }

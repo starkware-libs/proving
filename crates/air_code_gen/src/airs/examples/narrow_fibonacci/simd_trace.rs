@@ -31,8 +31,11 @@ impl TraceGenerator<SimdBackend> for NarrowFib__20SimdTraceGenerator {
         component_id: &str,
         registry: &mut ComponentGenerationRegistry,
     ) -> Vec<CircleEvaluation<SimdBackend, Felt, BitReversedOrder>> {
-        let generator = registry.get_generator::<NarrowFib__20SimdTraceGenerator>(component_id);
-        write_trace_simd(&generator.component(), &generator.inputs)
+        let generator = registry.get_generator::<Self>(component_id);
+        #[allow(unused_variables)]
+        let (trace, sub_component_inputs) =
+            write_trace_simd(&generator.component(), &generator.inputs);
+        trace
     }
 
     fn add_inputs(&mut self, inputs: &Self::Inputs) {
@@ -51,42 +54,56 @@ impl TraceGenerator<SimdBackend> for NarrowFib__20SimdTraceGenerator {
     }
 }
 
+pub struct ReturnedInputs();
+
+impl ReturnedInputs {
+    #[allow(unused_variables)]
+    fn with_capacity(capacity: usize) -> Self {
+        Self()
+    }
+}
+
 #[allow(clippy::ptr_arg)]
+#[allow(clippy::type_complexity)]
+#[allow(clippy::let_unit_value)]
 pub fn write_trace_simd(
     component: &NarrowFib__20,
     secrets: &Vec<[PackedFelt; 2]>,
-) -> Vec<CircleEvaluation<SimdBackend, Felt, BitReversedOrder>> {
+) -> (
+    Vec<CircleEvaluation<SimdBackend, Felt, BitReversedOrder>>,
+    ReturnedInputs,
+) {
     let n_trace_columns = component.trace_log_degree_bounds()[0].len();
     let mut trace_values = vec![vec![PackedBaseField::zero(); secrets.len()]; n_trace_columns];
-    for (i, secret) in secrets.iter().copied().enumerate() {
-        super::simd_trace::write_trace_row(&mut trace_values, secret, i);
-    }
-    let trace_domains = trace_values
-        .iter()
-        .map(|col| {
-            CanonicCoset::new(
-                (col.len() * N_LANES)
-                    .checked_ilog2()
-                    .expect("Input not a power of 2!"),
-            )
-            .circle_domain()
-        })
-        .collect_vec();
-    zip(trace_values, trace_domains)
-        .map(|(eval, trace_domain)| {
+    let mut sub_components_inputs = ReturnedInputs::with_capacity(secrets.len());
+    secrets.iter().enumerate().for_each(|(i, secret)| {
+        write_trace_row(&mut trace_values, *secret, i, &mut sub_components_inputs)
+    });
+
+    let trace = trace_values
+        .into_iter()
+        .map(|eval| {
             let length = eval.len() * N_LANES;
             let eval = BaseFieldVec { data: eval, length };
+
+            let trace_domain =
+                CanonicCoset::new(length.checked_ilog2().expect("Input not a power of 2!"))
+                    .circle_domain();
             CircleEvaluation::<SimdBackend, Felt, BitReversedOrder>::new(trace_domain, eval)
         })
-        .collect_vec()
+        .collect_vec();
+
+    (trace, sub_components_inputs)
 }
 
 #[allow(non_snake_case)]
 #[allow(clippy::useless_conversion)]
-pub fn write_trace_row(
+#[allow(clippy::type_complexity)]
+fn write_trace_row(
     dst: &mut [Vec<PackedBaseField>],
     NarrowFib__20_input: [PackedFelt; 2],
     row_index: usize,
+    #[allow(unused_variables)] returned_inputs: &mut ReturnedInputs,
 ) {
     let deduction_tmp_0 = [NarrowFib__20_input[0], NarrowFib__20_input[1]];
     let col0 = deduction_tmp_0[0];
