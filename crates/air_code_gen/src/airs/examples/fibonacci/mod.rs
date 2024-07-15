@@ -8,10 +8,7 @@ pub mod trace;
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
-
     use air_infra::airs::examples::fibonacci::fib::Fib;
-    use air_infra::core::air_fn_registry::AirFnRegistry;
     use itertools::{all, Itertools};
     use num_traits::One;
     use stwo_prover::core::air::Component;
@@ -29,14 +26,8 @@ mod tests {
     use crate::airs::examples::fibonacci::simd_trace::Fib__100SimdTraceGenerator;
     use crate::airs::examples::fibonacci::trace::Fib__100CpuTraceGenerator;
     use crate::airs::examples::test_utils::{assert_cpu_constraints, test_prove};
-    use crate::code_gen::component_gen::generate_component;
-    use crate::code_gen::cpu_prover_gen::generate_cpu_prover_component;
     use crate::code_gen::packed_types::N_LANES;
-    use crate::code_gen::simd_prover_gen::generate_simd_prover_component;
-    use crate::code_gen::simd_trace_gen::generate_simd_trace_writer_code;
-    use crate::code_gen::test_utils_gen::generate_test_air_code;
-    use crate::code_gen::trace_gen::generate_trace_writer_code;
-    use crate::code_gen::utils::{project_root, reformat_rust_code};
+    use crate::code_gen::utils::{compare_contents_or_fix_with_path, project_root};
 
     // TODO(ShaharS): autogenerate this function and move to a test_utils file.
     fn assert_fib_constraints_on_trace(
@@ -54,45 +45,6 @@ mod tests {
                 );
             }
         }
-    }
-
-    #[test]
-    fn fib_code_gen() {
-        let air_fn = Fib { claim_index: 100 };
-        let resigtry = AirFnRegistry::new(&air_fn);
-
-        let mut folder_path = project_root();
-        folder_path.push("src/airs/examples/fibonacci");
-
-        let lists = resigtry.get_compiled_air_fn(&air_fn);
-        let air_entry = resigtry.get_air_fn_entry(&air_fn);
-        let trace_tokens =
-            generate_trace_writer_code(&air_entry.name, &lists.input, &lists.deductions);
-        let simd_trace_tokens = generate_simd_trace_writer_code(
-            &air_entry.name,
-            &lists.input.clone(),
-            &lists.deductions.clone(),
-        );
-        let cpu_prover_tokens =
-            generate_cpu_prover_component(&air_entry.name, &lists.constraints.clone());
-        let simd_prover_tokens =
-            generate_simd_prover_component(&air_entry.name, &lists.constraints.clone());
-        let component_tokens = generate_component(&air_entry.name, lists);
-        let test_utils_tokens = generate_test_air_code(&air_entry.name);
-
-        // Write the generated code to files.
-        let text = reformat_rust_code(trace_tokens.to_string().unwrap());
-        fs::write(folder_path.join("trace.rs"), text).unwrap();
-        let text = reformat_rust_code(simd_trace_tokens.to_string().unwrap());
-        fs::write(folder_path.join("simd_trace.rs"), text).unwrap();
-        let text = reformat_rust_code(cpu_prover_tokens.to_string().unwrap());
-        fs::write(folder_path.join("cpu_prover.rs"), text).unwrap();
-        let text = reformat_rust_code(simd_prover_tokens.to_string().unwrap());
-        fs::write(folder_path.join("simd_prover.rs"), text).unwrap();
-        let text = reformat_rust_code(component_tokens.to_string().unwrap());
-        fs::write(folder_path.join("component.rs"), text).unwrap();
-        let text = reformat_rust_code(test_utils_tokens.to_string().unwrap());
-        fs::write(folder_path.join("test_utils.rs"), text).unwrap();
     }
 
     #[test]
@@ -193,5 +145,12 @@ mod tests {
 
         let air = Fib__100TestAIR { component };
         test_prove(&air, trace);
+    }
+
+    #[test]
+    fn generated_code_is_the_same_test() {
+        let air_fn = Fib { claim_index: 100 };
+        let folder_path = project_root().join("src/airs/examples/fibonacci");
+        compare_contents_or_fix_with_path(&air_fn, &folder_path);
     }
 }
