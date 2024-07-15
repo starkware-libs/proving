@@ -1,5 +1,4 @@
 use super::expressions::felt_expr::*;
-use super::prover_types::*;
 use super::state::*;
 use super::variables::*;
 // Macros

@@ -1,7 +1,8 @@
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::prover_types::*;
+use crate::core::Felt;
+
 use crate::expr;
 
 use super::range_check::*;

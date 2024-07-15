@@ -25,8 +25,8 @@ fn imports_code(component_name: &str) -> rust::Tokens {
     use stwo_prover::core::air::accumulation::DomainEvaluationAccumulator;
     use stwo_prover::core::air::{Component, ComponentProver, ComponentTrace};
     use stwo_prover::core::backend::simd::column::{BaseFieldVec, SecureFieldVec};
-    use stwo_prover::core::backend::simd::m31::PackedBaseField;
     use stwo_prover::core::backend::simd::qm31::PackedSecureField;
+    use stwo_prover::core::backend::simd::m31::PackedBaseField;
     use stwo_prover::core::backend::simd::SimdBackend;
     use stwo_prover::core::backend::{Column, ColumnOps};
     use stwo_prover::core::constraints::coset_vanishing;
@@ -114,13 +114,13 @@ fn accumulation_code() -> rust::Tokens {
 fn parse_simd_prover_constraint(expr: &CompiledAirVar) -> String {
     match expr {
         CompiledAirVar::Const(ty, val) => {
-            if ty == "Felt" {
+            if ty == "Felt" || ty == "M31" {
                 return format!(
                     "PackedBaseField::broadcast(BaseField::from_u32_unchecked({}))",
                     val
                 );
             }
-            format!("{ty}::from({val})")
+            format!("Packed{ty}::broadcast({ty}::from({val}))")
         }
         CompiledAirVar::State(index) => {
             format!("trace_evals[{index}].data[i]")

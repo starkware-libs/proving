@@ -5,7 +5,7 @@ use num_traits::Zero;
 use stwo_prover::core::air::Component;
 use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
 use stwo_prover::core::backend::CpuBackend;
-use stwo_prover::core::fields::m31::BaseField;
+use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
@@ -16,18 +16,18 @@ use super::component::NarrowFib__20;
 #[allow(non_camel_case_types)]
 #[derive(Default)]
 pub struct NarrowFib__20CpuTraceGenerator {
-    pub inputs: Vec<[Felt; 2]>,
+    pub inputs: Vec<[M31; 2]>,
 }
 impl ComponentGen for NarrowFib__20CpuTraceGenerator {}
 
 impl TraceGenerator<CpuBackend> for NarrowFib__20CpuTraceGenerator {
     type Component = NarrowFib__20;
-    type Inputs = Vec<[Felt; 2]>;
+    type Inputs = Vec<[M31; 2]>;
 
     fn write_trace(
         component_id: &str,
         registry: &mut ComponentGenerationRegistry,
-    ) -> Vec<CpuCircleEvaluation<Felt, BitReversedOrder>> {
+    ) -> Vec<CpuCircleEvaluation<M31, BitReversedOrder>> {
         let generator = registry.get_generator::<Self>(component_id);
         #[allow(unused_variables)]
         let (trace, sub_component_inputs) =
@@ -64,13 +64,13 @@ impl ReturnedInputs {
 #[allow(clippy::let_unit_value)]
 pub fn write_trace_cpu(
     component: &NarrowFib__20,
-    secrets: &Vec<[Felt; 2]>,
+    secrets: &Vec<[M31; 2]>,
 ) -> (
-    Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>>,
+    Vec<CpuCircleEvaluation<M31, BitReversedOrder>>,
     ReturnedInputs,
 ) {
     let n_trace_columns = component.trace_log_degree_bounds()[0].len();
-    let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_trace_columns];
+    let mut trace_values = vec![vec![M31::zero(); secrets.len()]; n_trace_columns];
     let mut sub_components_inputs = ReturnedInputs::with_capacity(secrets.len());
     secrets.iter().enumerate().for_each(|(i, secret)| {
         write_trace_row(&mut trace_values, *secret, i, &mut sub_components_inputs)
@@ -82,7 +82,7 @@ pub fn write_trace_cpu(
             let domain =
                 CanonicCoset::new(eval.len().checked_ilog2().expect("Input not a power of 2!"))
                     .circle_domain();
-            CpuCircleEvaluation::<BaseField, BitReversedOrder>::new(domain, eval)
+            CpuCircleEvaluation::<M31, BitReversedOrder>::new(domain, eval)
         })
         .collect_vec();
 
@@ -93,8 +93,8 @@ pub fn write_trace_cpu(
 #[allow(clippy::useless_conversion)]
 #[allow(clippy::type_complexity)]
 fn write_trace_row(
-    dst: &mut [Vec<BaseField>],
-    NarrowFib__20_input: [Felt; 2],
+    dst: &mut [Vec<M31>],
+    NarrowFib__20_input: [M31; 2],
     row_index: usize,
     #[allow(unused_variables)] returned_inputs: &mut ReturnedInputs,
 ) {

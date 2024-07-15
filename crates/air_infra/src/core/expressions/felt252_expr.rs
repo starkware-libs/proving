@@ -57,7 +57,7 @@ impl Felt252Expr {
             felts: from_fn(|i| {
                 FeltExpr::new_var(
                     "get_felt".to_string(),
-                    value.map(|v| v.get_felt(i)),
+                    value.map(|v| v.get_m31(i)),
                     state_indices.map(|is| is[i]),
                     is_const,
                 )

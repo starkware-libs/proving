@@ -12,12 +12,12 @@ mod tests {
 
     use air_infra::airs::examples::fibonacci::fib::Fib;
     use air_infra::core::air_fn_registry::AirFnRegistry;
-    use air_infra::core::prover_types::Felt;
     use itertools::{all, Itertools};
     use num_traits::One;
     use stwo_prover::core::air::Component;
     use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
-    use stwo_prover::core::fields::m31::BaseField;
+    use stwo_prover::core::backend::simd::m31::PackedM31;
+    use stwo_prover::core::fields::m31::M31;
     use stwo_prover::core::fields::FieldExpOps;
     use stwo_prover::core::poly::BitReversedOrder;
     use stwo_prover::trace_generation::{registry, TraceGenerator};
@@ -31,7 +31,7 @@ mod tests {
     use crate::airs::examples::test_utils::{assert_cpu_constraints, test_prove};
     use crate::code_gen::component_gen::generate_component;
     use crate::code_gen::cpu_prover_gen::generate_cpu_prover_component;
-    use crate::code_gen::packed_types::{PackedFelt, N_LANES};
+    use crate::code_gen::packed_types::N_LANES;
     use crate::code_gen::simd_prover_gen::generate_simd_prover_component;
     use crate::code_gen::simd_trace_gen::generate_simd_trace_writer_code;
     use crate::code_gen::test_utils_gen::generate_test_air_code;
@@ -41,10 +41,10 @@ mod tests {
     // TODO(ShaharS): autogenerate this function and move to a test_utils file.
     fn assert_fib_constraints_on_trace(
         component: &dyn Component,
-        trace: &[CpuCircleEvaluation<BaseField, BitReversedOrder>],
+        trace: &[CpuCircleEvaluation<M31, BitReversedOrder>],
     ) {
         for j in 0..trace[0].len() {
-            assert_eq!(trace[0][j].square() + BaseField::one(), trace[1][j]);
+            assert_eq!(trace[0][j].square() + M31::one(), trace[1][j]);
             for i in 2..component.n_constraints() {
                 assert_eq!(
                     trace[i][j],
@@ -99,7 +99,7 @@ mod tests {
     fn test_write_trace() {
         let fib_component = Fib__100 { log_n_instances: 2 };
         let secrets = (0..1 << fib_component.log_n_instances)
-            .map(Felt::from)
+            .map(M31::from)
             .collect::<Vec<_>>();
 
         let trace = write_trace_cpu(&fib_component, &secrets).0;
@@ -110,13 +110,13 @@ mod tests {
     fn test_simd_write_trace() {
         let fib_component = Fib__100 { log_n_instances: 7 };
         let secrets = (0..1 << fib_component.log_n_instances)
-            .map(Felt::from)
+            .map(M31::from)
             .collect::<Vec<_>>();
         let simd_secrets = secrets
             .iter()
             .copied()
             .array_chunks::<N_LANES>()
-            .map(PackedFelt::from)
+            .map(PackedM31::from)
             .collect::<Vec<_>>();
 
         // Convert trace to raw values. Backends should produce the same values.
@@ -147,7 +147,7 @@ mod tests {
     fn test_fib_constraints() {
         let fib_component = Fib__100 { log_n_instances: 7 };
         let inputs = (0..1 << fib_component.log_n_instances)
-            .map(Felt::from)
+            .map(M31::from)
             .collect_vec();
         let trace = write_trace_cpu(&fib_component, &inputs).0;
 
@@ -161,7 +161,7 @@ mod tests {
         let fib_trace_gen = Fib__100CpuTraceGenerator::default();
         registry.register("fibonacci", fib_trace_gen);
 
-        let inputs = (0..1 << LOG_N_INSTANCES).map(Felt::from).collect_vec();
+        let inputs = (0..1 << LOG_N_INSTANCES).map(M31::from).collect_vec();
         let trace_generator = registry.get_generator_mut::<Fib__100CpuTraceGenerator>("fibonacci");
         trace_generator.add_inputs(&inputs);
         let trace = Fib__100CpuTraceGenerator::write_trace("fibonacci", &mut registry);
@@ -180,9 +180,9 @@ mod tests {
         registry.register("fibonacci", fib_simd_trace_gen);
 
         let inputs = (0..1 << LOG_N_INSTANCES)
-            .map(Felt::from)
+            .map(M31::from)
             .array_chunks::<N_LANES>()
-            .map(PackedFelt::from)
+            .map(PackedM31::from)
             .collect::<Vec<_>>();
 
         let trace_generator = registry.get_generator_mut::<Fib__100SimdTraceGenerator>("fibonacci");

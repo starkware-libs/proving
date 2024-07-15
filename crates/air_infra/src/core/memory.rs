@@ -8,9 +8,9 @@ use std::marker::PhantomData;
 use std::rc::Rc;
 
 use super::air_fn::*;
-#[cfg(test)]
-use super::prover_types::*;
 use super::variables::*;
+#[cfg(test)]
+use super::Felt;
 
 // Air functions (or lookup air functions) that need to access memory should implement this trait.
 // This will allow the registry or other external code to initialize the same memory for all related air functions.

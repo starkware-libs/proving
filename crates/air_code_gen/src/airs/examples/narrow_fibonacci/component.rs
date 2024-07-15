@@ -4,7 +4,7 @@ use stwo_prover::core::air::mask::fixed_mask_points;
 use stwo_prover::core::air::Component;
 use stwo_prover::core::circle::CirclePoint;
 use stwo_prover::core::constraints::coset_vanishing;
-use stwo_prover::core::fields::m31::BaseField;
+use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::FieldExpOps;
 use stwo_prover::core::pcs::TreeVec;

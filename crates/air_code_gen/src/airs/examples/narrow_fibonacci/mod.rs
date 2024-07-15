@@ -1,9 +1,8 @@
-use air_infra::core::prover_types::Felt;
 use simd_trace::NarrowFib__20SimdTraceGenerator;
+use stwo_prover::core::backend::simd::m31::PackedM31;
+use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::fields::FieldExpOps;
 use trace::NarrowFib__20CpuTraceGenerator;
-
-use crate::code_gen::packed_types::PackedFelt;
 
 pub mod component;
 pub mod cpu_prover;
@@ -12,7 +11,7 @@ pub mod simd_trace;
 pub mod trace;
 
 impl NarrowFib__20CpuTraceGenerator {
-    pub fn deduce_output(input: [Felt; 2]) -> [Felt; 2] {
+    pub fn deduce_output(input: [M31; 2]) -> [M31; 2] {
         let mut state = input;
         for _ in 0..20 {
             let next = [state[1], state[0].square() + state[1].square()];
@@ -23,7 +22,7 @@ impl NarrowFib__20CpuTraceGenerator {
 }
 
 impl NarrowFib__20SimdTraceGenerator {
-    pub fn deduce_output(input: [PackedFelt; 2]) -> [PackedFelt; 2] {
+    pub fn deduce_output(input: [PackedM31; 2]) -> [PackedM31; 2] {
         let mut state = input;
         for _ in 0..20 {
             let next = [state[1], state[0].square() + state[1].square()];
@@ -41,12 +40,12 @@ mod tests {
 
     use air_infra::airs::examples::fibonacci::narrow_fib::NarrowFib;
     use air_infra::core::air_fn_registry::AirFnRegistry;
-    use air_infra::core::prover_types::Felt;
     use itertools::{all, Itertools};
     use stwo_prover::core::air::Component;
     use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
+    use stwo_prover::core::backend::simd::m31::PackedM31;
     use stwo_prover::core::backend::simd::SimdBackend;
-    use stwo_prover::core::fields::m31::BaseField;
+    use stwo_prover::core::fields::m31::{BaseField, M31};
     use stwo_prover::core::fields::FieldExpOps;
     use stwo_prover::core::poly::BitReversedOrder;
     use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
@@ -61,7 +60,7 @@ mod tests {
     use crate::airs::examples::test_utils::{assert_cpu_constraints, test_prove};
     use crate::code_gen::component_gen::generate_component;
     use crate::code_gen::cpu_prover_gen::generate_cpu_prover_component;
-    use crate::code_gen::packed_types::{PackedFelt, N_LANES};
+    use crate::code_gen::packed_types::N_LANES;
     use crate::code_gen::simd_prover_gen::generate_simd_prover_component;
     use crate::code_gen::simd_trace_gen::generate_simd_trace_writer_code;
     use crate::code_gen::test_utils_gen::generate_test_air_code;
@@ -130,7 +129,7 @@ mod tests {
     fn test_write_trace() {
         let fib_component = NarrowFib__20 { log_n_instances: 2 };
         let secrets = (0..1 << fib_component.log_n_instances)
-            .map(|i| [Felt::from(i + 1), Felt::from(i + 4)])
+            .map(|i| [M31::from(i + 1), M31::from(i + 4)])
             .collect::<Vec<_>>();
 
         let trace = write_trace_cpu(&fib_component, &secrets).0;
@@ -141,16 +140,16 @@ mod tests {
     fn test_simd_write_trace() {
         let narrow_fib_component = NarrowFib__20 { log_n_instances: 7 };
         let secrets = (0..1 << narrow_fib_component.log_n_instances)
-            .map(|i| [Felt::from(i + 1), Felt::from(i + 4)])
+            .map(|i| [M31::from(i + 1), M31::from(i + 4)])
             .collect::<Vec<_>>();
-        let simd_secrets: Vec<[PackedFelt; 2]> = secrets
+        let simd_secrets: Vec<[PackedM31; 2]> = secrets
             .iter()
             .copied()
             .array_chunks::<N_LANES>()
             .map(|c| {
                 [
-                    PackedFelt::from_array(std::array::from_fn(|i| c[i][0])),
-                    PackedFelt::from_array(std::array::from_fn(|i| c[i][1])),
+                    PackedM31::from_array(std::array::from_fn(|i| c[i][0])),
+                    PackedM31::from_array(std::array::from_fn(|i| c[i][1])),
                 ]
             })
             .collect();
@@ -182,7 +181,7 @@ mod tests {
     fn test_fib_constraints() {
         let fib_component = NarrowFib__20 { log_n_instances: 7 };
         let inputs = (0..1 << fib_component.log_n_instances)
-            .map(|i| [Felt::from(i + 1), Felt::from(i + 4)])
+            .map(|i| [M31::from(i + 1), M31::from(i + 4)])
             .collect_vec();
         let trace = write_trace_cpu(&fib_component, &inputs).0;
 
@@ -198,7 +197,7 @@ mod tests {
         let trace_generator =
             registry.get_generator_mut::<NarrowFib__20CpuTraceGenerator>("narrow_fib");
         let inputs = (0..1 << LOG_N_INSTANCES)
-            .map(|i| [Felt::from(i + 1), Felt::from(i + 4)])
+            .map(|i| [M31::from(i + 1), M31::from(i + 4)])
             .collect_vec();
         trace_generator.add_inputs(&inputs);
         let trace = NarrowFib__20CpuTraceGenerator::write_trace("narrow_fib", &mut registry);
@@ -219,16 +218,16 @@ mod tests {
         registry.register("narrow_fib", fib_trace_gen);
 
         let secrets = (0..1 << LOG_N_INSTANCES)
-            .map(|i| [Felt::from(i + 1), Felt::from(i + 4)])
+            .map(|i| [M31::from(i + 1), M31::from(i + 4)])
             .collect::<Vec<_>>();
-        let simd_secrets: Vec<[PackedFelt; 2]> = secrets
+        let simd_secrets: Vec<[PackedM31; 2]> = secrets
             .iter()
             .copied()
             .array_chunks::<N_LANES>()
             .map(|c| {
                 [
-                    PackedFelt::from_array(std::array::from_fn(|i| c[i][0])),
-                    PackedFelt::from_array(std::array::from_fn(|i| c[i][1])),
+                    PackedM31::from_array(std::array::from_fn(|i| c[i][0])),
+                    PackedM31::from_array(std::array::from_fn(|i| c[i][1])),
                 ]
             })
             .collect();

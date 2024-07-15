@@ -5,7 +5,7 @@ use num_traits::Zero;
 use stwo_prover::core::air::Component;
 use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
 use stwo_prover::core::backend::CpuBackend;
-use stwo_prover::core::fields::m31::BaseField;
+use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
@@ -18,18 +18,18 @@ use crate::airs::examples::narrow_fibonacci::trace::NarrowFib__20CpuTraceGenerat
 #[allow(non_camel_case_types)]
 #[derive(Default)]
 pub struct WideFib__8CpuTraceGenerator {
-    pub inputs: Vec<Felt>,
+    pub inputs: Vec<M31>,
 }
 impl ComponentGen for WideFib__8CpuTraceGenerator {}
 
 impl TraceGenerator<CpuBackend> for WideFib__8CpuTraceGenerator {
     type Component = WideFib__8;
-    type Inputs = Vec<Felt>;
+    type Inputs = Vec<M31>;
 
     fn write_trace(
         component_id: &str,
         registry: &mut ComponentGenerationRegistry,
-    ) -> Vec<CpuCircleEvaluation<Felt, BitReversedOrder>> {
+    ) -> Vec<CpuCircleEvaluation<M31, BitReversedOrder>> {
         let generator = registry.get_generator::<Self>(component_id);
         #[allow(unused_variables)]
         let (trace, sub_component_inputs) =
@@ -77,14 +77,14 @@ impl TraceGenerator<CpuBackend> for WideFib__8CpuTraceGenerator {
 }
 
 pub struct ReturnedInputs(
-    pub Vec<[Felt; 2]>,
-    pub Vec<[Felt; 2]>,
-    pub Vec<[Felt; 2]>,
-    pub Vec<[Felt; 2]>,
-    pub Vec<[Felt; 2]>,
-    pub Vec<[Felt; 2]>,
-    pub Vec<[Felt; 2]>,
-    pub Vec<[Felt; 2]>,
+    pub Vec<[M31; 2]>,
+    pub Vec<[M31; 2]>,
+    pub Vec<[M31; 2]>,
+    pub Vec<[M31; 2]>,
+    pub Vec<[M31; 2]>,
+    pub Vec<[M31; 2]>,
+    pub Vec<[M31; 2]>,
+    pub Vec<[M31; 2]>,
 );
 
 impl ReturnedInputs {
@@ -108,13 +108,13 @@ impl ReturnedInputs {
 #[allow(clippy::let_unit_value)]
 pub fn write_trace_cpu(
     component: &WideFib__8,
-    secrets: &Vec<Felt>,
+    secrets: &Vec<M31>,
 ) -> (
-    Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>>,
+    Vec<CpuCircleEvaluation<M31, BitReversedOrder>>,
     ReturnedInputs,
 ) {
     let n_trace_columns = component.trace_log_degree_bounds()[0].len();
-    let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_trace_columns];
+    let mut trace_values = vec![vec![M31::zero(); secrets.len()]; n_trace_columns];
     let mut sub_components_inputs = ReturnedInputs::with_capacity(secrets.len());
     secrets.iter().enumerate().for_each(|(i, secret)| {
         write_trace_row(&mut trace_values, *secret, i, &mut sub_components_inputs)
@@ -126,7 +126,7 @@ pub fn write_trace_cpu(
             let domain =
                 CanonicCoset::new(eval.len().checked_ilog2().expect("Input not a power of 2!"))
                     .circle_domain();
-            CpuCircleEvaluation::<BaseField, BitReversedOrder>::new(domain, eval)
+            CpuCircleEvaluation::<M31, BitReversedOrder>::new(domain, eval)
         })
         .collect_vec();
 
@@ -137,15 +137,15 @@ pub fn write_trace_cpu(
 #[allow(clippy::useless_conversion)]
 #[allow(clippy::type_complexity)]
 fn write_trace_row(
-    dst: &mut [Vec<BaseField>],
-    WideFib_input: Felt,
+    dst: &mut [Vec<M31>],
+    WideFib_input: M31,
     row_index: usize,
     #[allow(unused_variables)] returned_inputs: &mut ReturnedInputs,
 ) {
     let col0 = WideFib_input;
     dst[0][row_index] = col0.into();
-    returned_inputs.0.push([Felt::from(1), col0]);
-    let deduction_tmp_1 = NarrowFib__20CpuTraceGenerator::deduce_output([Felt::from(1), col0]);
+    returned_inputs.0.push([M31::from(1), col0]);
+    let deduction_tmp_1 = NarrowFib__20CpuTraceGenerator::deduce_output([M31::from(1), col0]);
     let col1 = deduction_tmp_1[0];
     dst[1][row_index] = col1.into();
     let col2 = deduction_tmp_1[1];

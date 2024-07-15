@@ -1,7 +1,6 @@
 use std::fmt::Display;
 
 use crate::core::expressions::felt_expr::*;
-use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;

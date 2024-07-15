@@ -74,7 +74,7 @@ pub fn generate_simd_write_trace_row_code(
         #[allow(non_snake_case)]
         #[allow(clippy::useless_conversion)]
         #[allow(clippy::type_complexity)]
-        fn write_trace_row(dst: &mut [Vec<PackedBaseField>],
+        fn write_trace_row(dst: &mut [Vec<PackedM31>],
             $(write_trace_params), row_index: usize,
             #[allow(unused_variables)]
             returned_inputs: &mut ReturnedInputs){
@@ -102,10 +102,10 @@ pub fn generate_simd_write_trace_code(
         pub fn write_trace_simd(
             component: &$component_name,
             secrets: &$(&input_type),
-        ) -> (Vec<CircleEvaluation<SimdBackend, Felt, BitReversedOrder>> , ReturnedInputs) {
+        ) -> (Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>> , ReturnedInputs) {
             let n_trace_columns = component.trace_log_degree_bounds()[0].len();
             let mut trace_values =
-                        vec![vec![PackedBaseField::zero(); secrets.len()]; n_trace_columns];
+                        vec![vec![PackedM31::zero(); secrets.len()]; n_trace_columns];
             let mut sub_components_inputs = ReturnedInputs::with_capacity(secrets.len());
             secrets
                 .iter()
@@ -124,7 +124,7 @@ pub fn generate_simd_write_trace_code(
 
                     let trace_domain = CanonicCoset::new(length.checked_ilog2()
                         .expect("Input not a power of 2!")).circle_domain();
-                    CircleEvaluation::<SimdBackend, Felt, BitReversedOrder>::new(
+                    CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(
                         trace_domain,
                         eval,
                     )
@@ -178,7 +178,7 @@ pub fn generate_trace_gen_impl_code(
             fn write_trace(
                 component_id: &str,
                 registry: &mut ComponentGenerationRegistry,
-            ) -> Vec<CircleEvaluation<SimdBackend, Felt, BitReversedOrder>> {
+            ) -> Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>> {
                 $(write_trace_body_simd(deductions))
             }
 
@@ -227,11 +227,11 @@ fn generate_write_trace_inputs_return_struct(deductions: &[TraceGenStep]) -> rus
 fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     code.extend(quote! {let generator = registry.get_generator::<Self>(component_id);});
-    code.extend(quote! {
-        #[allow(unused_variables)]
-        let (trace, sub_component_inputs) =
-            write_trace_simd(&generator.component(), &generator.inputs);
-    });
+    code.extend (
+            quote! {
+                #[allow(unused_variables)]
+                let (trace, sub_component_inputs) = write_trace_simd(&generator.component(), &generator.inputs);
+            });
 
     for (i, fn_name) in deductions
         .iter()
@@ -284,8 +284,9 @@ fn generate_imports_code(component_name: &str) -> rust::Tokens {
         use num_traits::Zero;
         use stwo_prover::core::air::Component;
         use stwo_prover::core::backend::simd::column::BaseFieldVec;
-        use stwo_prover::core::backend::simd::m31::PackedBaseField;
+        use stwo_prover::core::backend::simd::m31::PackedM31;
         use stwo_prover::core::backend::simd::SimdBackend;
+        use stwo_prover::core::fields::m31::M31;
         use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
         use stwo_prover::core::poly::BitReversedOrder;
         use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
@@ -323,6 +324,7 @@ pub fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
             format!("{}({})", id, arg_str)
         }
         CompiledAirVar::MethodCall(id, func, args) => {
+            let func = if func == "as_felt" { "as_m31" } else { func };
             let mut arg_str = String::new();
             for (i, arg) in args.iter().enumerate() {
                 if i > 0 {
@@ -371,7 +373,7 @@ fn packed_name(ty: &str) -> String {
 }
 
 // Parses the collection type of the input.
-// E.g. for a Felt input, it will return Vec<Felt>.
+// E.g. for a M31 input, it will return Vec<M31>.
 fn parse_inputs_simd_type(inputs_var: &CompiledAirVar) -> String {
     format!("Vec<{}>", air_var_type_simd(inputs_var))
 }
@@ -380,7 +382,7 @@ pub fn air_var_type_simd(expr: &CompiledAirVar) -> String {
     match expr {
         CompiledAirVar::Const(ty, _) => packed_name(ty),
         CompiledAirVar::Var(ty, _) => packed_name(ty),
-        CompiledAirVar::State(_) => packed_name("Felt"),
+        CompiledAirVar::State(_) => packed_name("M31"),
         CompiledAirVar::StaticCall(..) => {
             panic!("StaticCall not supported yet.")
         }

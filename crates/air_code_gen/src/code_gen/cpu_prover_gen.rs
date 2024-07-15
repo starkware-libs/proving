@@ -112,7 +112,7 @@ fn accumulation_code() -> rust::Tokens {
 fn parse_cpu_prover_constraint(expr: &CompiledAirVar) -> String {
     match expr {
         CompiledAirVar::Const(ty, val) => {
-            if ty == "Felt" {
+            if ty == "Felt" || ty == "M31" {
                 return format!("BaseField::from_u32_unchecked({})", val);
             }
             format!("{ty}::from({val})")

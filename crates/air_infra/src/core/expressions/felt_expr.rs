@@ -1,5 +1,7 @@
 use serde::{Serialize, Serializer};
 
+use crate::core::Felt;
+
 use super::super::air_fn_registry::*;
 use super::super::compiled_structs::*;
 use super::super::prover_types::*;
@@ -221,7 +223,7 @@ impl Serialize for FeltExpr {
 #[macro_export]
 macro_rules! const_expr {
     ($val:expr) => {
-        FeltExpr::new_const(Felt::from_u32_unchecked($val))
+        FeltExpr::new_const($crate::core::Felt::from_u32_unchecked($val))
     };
 }
 
@@ -229,7 +231,12 @@ macro_rules! const_expr {
 #[macro_export]
 macro_rules! expr {
     ($name:expr, $val:expr) => {
-        FeltExpr::new_var($name.to_string(), Some(Felt::from($val)), None, false)
+        FeltExpr::new_var(
+            $name.to_string(),
+            Some($crate::core::Felt::from($val)),
+            None,
+            false,
+        )
     };
 
     ($name:expr, $val:expr, $in_trace:literal) => {

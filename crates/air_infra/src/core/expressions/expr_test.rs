@@ -9,6 +9,7 @@ use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
+use crate::core::Felt;
 
 // Macros
 use crate::{

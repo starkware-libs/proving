@@ -15,7 +15,7 @@ use super::expressions::uint32_expr::*;
 use super::expressions::uint64_expr::*;
 
 #[cfg(test)]
-use super::prover_types::*;
+use super::Felt;
 
 // Macros
 use crate::impl_air_var;

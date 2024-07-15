@@ -3,7 +3,6 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::*;
 use crate::core::variables::*;
 
 use super::check_instruction::*;

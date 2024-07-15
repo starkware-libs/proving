@@ -13,6 +13,7 @@ use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
+use crate::core::Felt;
 // Macros
 use crate::impl_binary_op;
 use crate::impl_unary_op;
@@ -173,9 +174,9 @@ impl_binary_op!(ops Sub, sub, FeltExpr, FeltOperation);
 impl_binary_op!(ops Mul, mul, FeltExpr, FeltOperation);
 impl_binary_op!(ops Div, div, FeltExpr, FeltOperation);
 impl_binary_op!(Eq, eq, FeltExpr, BoolExpr, BoolOperation);
-impl_unary_op!(from BoolFromFelt, from_felt, FeltExpr, BoolExpr, Bool);
-impl_unary_op!(from UInt16FromFelt, from_felt, FeltExpr, UInt16Expr, UInt16);
-impl_unary_op!(from UInt32FromFelt, from_felt, FeltExpr, UInt32Expr, UInt32);
+impl_unary_op!(from BoolFromFelt, from_m31, FeltExpr, BoolExpr, Bool);
+impl_unary_op!(from UInt16FromFelt, from_m31, FeltExpr, UInt16Expr, UInt16);
+impl_unary_op!(from UInt32FromFelt, from_m31, FeltExpr, UInt32Expr, UInt32);
 
 impl_binary_op!(ops Add, add, UInt16Expr, UInt16Operation);
 impl_binary_op!(ops Sub, sub, UInt16Expr, UInt16Operation);
@@ -217,7 +218,7 @@ impl From<Vec<FeltExpr>> for Felt252Expr {
             .filter_map(|f| f.value())
             .collect::<Vec<Felt>>();
         let value = if values.len() == felts.len() {
-            Some(Felt252::from_felts(values))
+            Some(Felt252::from_m31_(values))
         } else {
             None
         };

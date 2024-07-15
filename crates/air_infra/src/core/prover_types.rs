@@ -7,7 +7,7 @@ use stwo_prover::core::fields::m31::M31;
 pub const PRIME: u32 = 2_u32.pow(31) - 1;
 
 pub trait AlgebraicType: ProverType + Add + Sub + Mul + Div {}
-impl AlgebraicType for Felt {}
+impl AlgebraicType for M31 {}
 
 pub trait NumericType: ProverType + Rem + Shl + Shr + BitAnd + BitOr + BitXor {}
 impl NumericType for UInt16 {}
@@ -15,7 +15,7 @@ impl NumericType for UInt32 {}
 impl NumericType for UInt64 {}
 
 pub trait SingleFeltType: ProverType {
-    fn as_felt(&self) -> Felt;
+    fn as_m31(&self) -> M31;
 }
 
 /// Expression Types - the basic type of the variables composing the expression.
@@ -28,14 +28,12 @@ pub trait ProverType: Debug + Clone + Copy + Default {
     fn r#type() -> String;
 }
 
-pub type Felt = M31;
-
-impl ProverType for Felt {
+impl ProverType for M31 {
     fn calc(&self) -> String {
         self.to_string()
     }
     fn r#type() -> String {
-        "Felt".to_string()
+        "M31".to_string()
     }
 }
 
@@ -45,7 +43,7 @@ pub struct Bool {
 }
 
 impl Bool {
-    pub fn from_felt(felt: Felt) -> Self {
+    pub fn from_m31(felt: M31) -> Self {
         assert!(felt.0 == 0 || felt.0 == 1, "Felt value is not a bool");
         Self { value: felt.0 != 0 }
     }
@@ -61,8 +59,8 @@ impl ProverType for Bool {
 }
 
 impl SingleFeltType for Bool {
-    fn as_felt(&self) -> Felt {
-        Felt::from_u32_unchecked(if self.value { 1 } else { 0 })
+    fn as_m31(&self) -> M31 {
+        M31::from_u32_unchecked(if self.value { 1 } else { 0 })
     }
 }
 
@@ -91,9 +89,9 @@ impl UInt16 {
         }
     }
 
-    pub fn from_felt(felt: Felt) -> Self {
+    pub fn from_m31(felt: M31) -> Self {
         assert!(
-            felt < Felt::from_u32_unchecked(2_u32.pow(16)),
+            felt < M31::from_u32_unchecked(2_u32.pow(16)),
             "Felt value is not a u16"
         );
         Self {
@@ -130,8 +128,8 @@ impl Sub for UInt16 {
 }
 
 impl SingleFeltType for UInt16 {
-    fn as_felt(&self) -> Felt {
-        Felt::from_u32_unchecked(self.value as u32)
+    fn as_m31(&self) -> M31 {
+        M31::from_u32_unchecked(self.value as u32)
     }
 }
 
@@ -208,7 +206,7 @@ impl UInt32 {
         }
     }
 
-    pub fn from_felt(felt: Felt) -> Self {
+    pub fn from_m31(felt: M31) -> Self {
         Self { value: felt.0 }
     }
 }
@@ -388,7 +386,7 @@ pub struct Felt252 {
 }
 
 impl Felt252 {
-    pub fn get_felt(&self, index: usize) -> Felt {
+    pub fn get_m31(&self, index: usize) -> M31 {
         let shift = FELT252_BITS_PER_WORD * index;
         let value = if shift + FELT252_BITS_PER_WORD <= 128 {
             ((self.low >> shift) & 0xFFF) as u32
@@ -399,12 +397,11 @@ impl Felt252 {
             let high_shift = 128 - (FELT252_BITS_PER_WORD - low_bits);
             ((self.low >> shift) | (((self.high << high_shift) >> high_shift) << low_bits)) as u32
         };
-        Felt::from_u32_unchecked(value)
+        M31::from_u32_unchecked(value)
     }
 
-    pub fn from_felts(felts: Vec<Felt>) -> Self {
+    pub fn from_m31_(felts: Vec<M31>) -> Self {
         assert!(felts.len() <= FELT252_N_WORDS, "Invalid number of felts");
-
         let mut low = 0;
         let mut high = 0;
         for (index, felt) in felts.iter().enumerate() {

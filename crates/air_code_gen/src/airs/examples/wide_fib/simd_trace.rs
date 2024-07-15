@@ -6,8 +6,9 @@ use itertools::Itertools;
 use num_traits::Zero;
 use stwo_prover::core::air::Component;
 use stwo_prover::core::backend::simd::column::BaseFieldVec;
-use stwo_prover::core::backend::simd::m31::PackedBaseField;
+use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::backend::simd::SimdBackend;
+use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
@@ -21,18 +22,18 @@ use crate::code_gen::packed_types::*;
 #[allow(non_camel_case_types)]
 #[derive(Default)]
 pub struct WideFib__8SimdTraceGenerator {
-    pub inputs: Vec<PackedFelt>,
+    pub inputs: Vec<PackedM31>,
 }
 impl ComponentGen for WideFib__8SimdTraceGenerator {}
 
 impl TraceGenerator<SimdBackend> for WideFib__8SimdTraceGenerator {
     type Component = WideFib__8;
-    type Inputs = Vec<PackedFelt>;
+    type Inputs = Vec<PackedM31>;
 
     fn write_trace(
         component_id: &str,
         registry: &mut ComponentGenerationRegistry,
-    ) -> Vec<CircleEvaluation<SimdBackend, Felt, BitReversedOrder>> {
+    ) -> Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>> {
         let generator = registry.get_generator::<Self>(component_id);
         #[allow(unused_variables)]
         let (trace, sub_component_inputs) =
@@ -81,14 +82,14 @@ impl TraceGenerator<SimdBackend> for WideFib__8SimdTraceGenerator {
 }
 
 pub struct ReturnedInputs(
-    pub Vec<[PackedFelt; 2]>,
-    pub Vec<[PackedFelt; 2]>,
-    pub Vec<[PackedFelt; 2]>,
-    pub Vec<[PackedFelt; 2]>,
-    pub Vec<[PackedFelt; 2]>,
-    pub Vec<[PackedFelt; 2]>,
-    pub Vec<[PackedFelt; 2]>,
-    pub Vec<[PackedFelt; 2]>,
+    pub Vec<[PackedM31; 2]>,
+    pub Vec<[PackedM31; 2]>,
+    pub Vec<[PackedM31; 2]>,
+    pub Vec<[PackedM31; 2]>,
+    pub Vec<[PackedM31; 2]>,
+    pub Vec<[PackedM31; 2]>,
+    pub Vec<[PackedM31; 2]>,
+    pub Vec<[PackedM31; 2]>,
 );
 
 impl ReturnedInputs {
@@ -112,13 +113,13 @@ impl ReturnedInputs {
 #[allow(clippy::let_unit_value)]
 pub fn write_trace_simd(
     component: &WideFib__8,
-    secrets: &Vec<PackedFelt>,
+    secrets: &Vec<PackedM31>,
 ) -> (
-    Vec<CircleEvaluation<SimdBackend, Felt, BitReversedOrder>>,
+    Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
     ReturnedInputs,
 ) {
     let n_trace_columns = component.trace_log_degree_bounds()[0].len();
-    let mut trace_values = vec![vec![PackedBaseField::zero(); secrets.len()]; n_trace_columns];
+    let mut trace_values = vec![vec![PackedM31::zero(); secrets.len()]; n_trace_columns];
     let mut sub_components_inputs = ReturnedInputs::with_capacity(secrets.len());
     secrets.iter().enumerate().for_each(|(i, secret)| {
         write_trace_row(&mut trace_values, *secret, i, &mut sub_components_inputs)
@@ -133,7 +134,7 @@ pub fn write_trace_simd(
             let trace_domain =
                 CanonicCoset::new(length.checked_ilog2().expect("Input not a power of 2!"))
                     .circle_domain();
-            CircleEvaluation::<SimdBackend, Felt, BitReversedOrder>::new(trace_domain, eval)
+            CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(trace_domain, eval)
         })
         .collect_vec();
 
@@ -144,8 +145,8 @@ pub fn write_trace_simd(
 #[allow(clippy::useless_conversion)]
 #[allow(clippy::type_complexity)]
 fn write_trace_row(
-    dst: &mut [Vec<PackedBaseField>],
-    WideFib_input: PackedFelt,
+    dst: &mut [Vec<PackedM31>],
+    WideFib_input: PackedM31,
     row_index: usize,
     #[allow(unused_variables)] returned_inputs: &mut ReturnedInputs,
 ) {
@@ -153,9 +154,9 @@ fn write_trace_row(
     dst[0][row_index] = col0;
     returned_inputs
         .0
-        .push([PackedFelt::broadcast(Felt::from(1).into()), col0]);
+        .push([PackedM31::broadcast(M31::from(1).into()), col0]);
     let deduction_tmp_1 = NarrowFib__20SimdTraceGenerator::deduce_output([
-        PackedFelt::broadcast(Felt::from(1).into()),
+        PackedM31::broadcast(M31::from(1).into()),
         col0,
     ]);
     let col1 = deduction_tmp_1[0];

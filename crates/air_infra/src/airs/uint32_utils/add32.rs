@@ -2,7 +2,7 @@ use crate::airs::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
-use crate::core::prover_types::*;
+
 // Macros
 use crate::const_expr;
 

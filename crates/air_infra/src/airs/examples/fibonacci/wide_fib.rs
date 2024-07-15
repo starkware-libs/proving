@@ -2,8 +2,6 @@ use super::narrow_fib::NarrowFib;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::prover_types::*;
-
 // Macros
 use crate::const_expr;
 

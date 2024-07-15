@@ -70,7 +70,7 @@ pub fn generate_write_trace_row_code(
         #[allow(clippy::useless_conversion)]
         #[allow(clippy::type_complexity)]
         fn write_trace_row(
-            dst: &mut [Vec<BaseField>],
+            dst: &mut [Vec<M31>],
             $(write_trace_params),
             row_index: usize,
             #[allow(unused_variables)]
@@ -100,10 +100,10 @@ pub fn generate_cpu_write_trace_code(
             pub fn write_trace_cpu(
                 component: &$component_name,
                 secrets: &$input_type,
-            ) -> (Vec<CpuCircleEvaluation<BaseField, BitReversedOrder>>, ReturnedInputs)
+            ) -> (Vec<CpuCircleEvaluation<M31, BitReversedOrder>>, ReturnedInputs)
                 {
                 let n_trace_columns = component.trace_log_degree_bounds()[0].len();
-                let mut trace_values = vec![vec![BaseField::zero(); secrets.len()]; n_trace_columns];
+                let mut trace_values = vec![vec![M31::zero(); secrets.len()]; n_trace_columns];
                 let mut sub_components_inputs = ReturnedInputs::with_capacity(secrets.len());
                 secrets
                     .iter()
@@ -117,7 +117,7 @@ pub fn generate_cpu_write_trace_code(
                 .map(|eval| {
                     let domain = CanonicCoset::new(eval.len().checked_ilog2().expect("Input not a power of 2!"))
                     .circle_domain();
-                    CpuCircleEvaluation::<BaseField, BitReversedOrder>::new(domain, eval)
+                    CpuCircleEvaluation::<M31, BitReversedOrder>::new(domain, eval)
                 })
                 .collect_vec();
 
@@ -222,7 +222,7 @@ fn generate_trace_gen_impl_code(
             fn write_trace(
                 component_id: &str,
                 registry: &mut ComponentGenerationRegistry,
-            ) -> Vec<CpuCircleEvaluation<Felt, BitReversedOrder>> {
+            ) -> Vec<CpuCircleEvaluation<M31, BitReversedOrder>> {
                 $(generate_write_trace_trait_body(deductions))
             }
 
@@ -268,7 +268,7 @@ fn generate_imports_code(component_name: &str) -> rust::Tokens {
         use stwo_prover::core::air::Component;
         use stwo_prover::core::backend::cpu::CpuCircleEvaluation;
         use stwo_prover::core::backend::CpuBackend;
-        use stwo_prover::core::fields::m31::BaseField;
+        use stwo_prover::core::fields::m31::M31;
         use stwo_prover::core::poly::circle::CanonicCoset;
         use stwo_prover::core::poly::BitReversedOrder;
         use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
@@ -316,7 +316,7 @@ fn air_var_type(expr: &CompiledAirVar) -> String {
     match expr {
         CompiledAirVar::Const(ty, _) => ty.to_string(),
         CompiledAirVar::Var(ty, _) => ty.to_string(),
-        CompiledAirVar::State(_) => "Felt".to_string(),
+        CompiledAirVar::State(_) => "M31".to_string(),
         CompiledAirVar::StaticCall(..) => {
             panic!("StaticCall not supported yet.")
         }
@@ -343,7 +343,7 @@ fn air_var_type(expr: &CompiledAirVar) -> String {
 }
 
 // Parses the collection type of the input.
-// E.g. for a Felt input, it will return Vec<Felt>.
+// E.g. for a M31 input, it will return Vec<M31>.
 fn parse_inputs_cpu_type(inputs_var: &CompiledAirVar) -> String {
     format!("Vec<{}>", air_var_type(inputs_var))
 }
@@ -386,6 +386,7 @@ pub fn parse_air_var(expr: &CompiledAirVar) -> String {
             format!("{}({})", id, arg_str)
         }
         CompiledAirVar::MethodCall(id, func, args) => {
+            let func = if func == "as_felt" { "as_m31" } else { func };
             let mut arg_str = String::new();
             for (i, arg) in args.iter().enumerate() {
                 if i > 0 {

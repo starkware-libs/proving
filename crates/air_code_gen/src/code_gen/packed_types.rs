@@ -12,10 +12,8 @@ pub const N_LANES: usize = 1 << LOG_N_LANES;
 
 pub const P_BROADCAST: Simd<u32, N_LANES> = Simd::from_array([PRIME; N_LANES]);
 
-pub type PackedFelt = PackedM31;
-
-pub trait PackedFeltType {
-    fn as_felt(&self) -> PackedFelt;
+pub trait PackedM31Type {
+    fn as_m31(&self) -> PackedM31;
 }
 
 #[derive(Clone, Copy, Debug)]
@@ -23,10 +21,10 @@ pub struct PackedBool {
     pub(crate) value: Simd<u8, N_LANES>,
 }
 
-impl PackedFeltType for PackedBool {
-    fn as_felt(&self) -> PackedFelt {
+impl PackedM31Type for PackedBool {
+    fn as_m31(&self) -> PackedM31 {
         // Safe.
-        unsafe { PackedFelt::from_simd_unchecked(self.value.cast()) }
+        unsafe { PackedM31::from_simd_unchecked(self.value.cast()) }
     }
 }
 #[derive(Copy, Clone, Debug, Default)]
@@ -54,10 +52,10 @@ impl PackedUInt16 {
     }
 }
 
-impl PackedFeltType for PackedUInt16 {
-    fn as_felt(&self) -> PackedFelt {
+impl PackedM31Type for PackedUInt16 {
+    fn as_m31(&self) -> PackedM31 {
         // Safe.
-        unsafe { PackedFelt::from_simd_unchecked(self.value.cast()) }
+        unsafe { PackedM31::from_simd_unchecked(self.value.cast()) }
     }
 }
 
@@ -314,7 +312,7 @@ mod tests {
     use stwo_prover::core::backend::simd::m31::N_LANES;
 
     use super::{PackedUInt16, PackedUInt32, PackedUInt64};
-    use crate::code_gen::packed_types::PackedFeltType;
+    use crate::code_gen::packed_types::PackedM31Type;
 
     macro_rules! packed_uint_test {
         ($packed_ty:ty, $prover_ty: ty, $inner_ty: ty) => {
@@ -413,7 +411,7 @@ mod tests {
     fn packed_uint_16_as_felt_test() {
         let mut rng = SmallRng::seed_from_u64(0);
         let a = PackedUInt16::from_array(std::array::from_fn(|_| UInt16::from(rng.gen::<u16>())));
-        let felt = a.as_felt();
+        let felt = a.as_m31();
         felt.to_array().into_iter().enumerate().for_each(|(i, x)| {
             assert_eq!(x, felt.to_array()[i], "As Felt Failed.");
         });

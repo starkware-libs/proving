@@ -11,15 +11,15 @@ mod tests {
 
     use air_infra::airs::examples::fibonacci::wide_fib::WideFib;
     use air_infra::core::air_fn_registry::AirFnRegistry;
-    use air_infra::core::prover_types::Felt;
     use itertools::{all, izip, Itertools};
+    use stwo_prover::core::backend::simd::m31::PackedM31;
     use stwo_prover::core::fields::m31::M31;
 
     use super::component::WideFib__8;
     use super::trace::write_trace_cpu;
     use crate::airs::examples::narrow_fibonacci::trace::NarrowFib__20CpuTraceGenerator;
     use crate::airs::examples::wide_fib::simd_trace::write_trace_simd;
-    use crate::code_gen::packed_types::{PackedFelt, N_LANES};
+    use crate::code_gen::packed_types::N_LANES;
     use crate::code_gen::simd_trace_gen::generate_simd_trace_writer_code;
     use crate::code_gen::trace_gen::generate_trace_writer_code;
     use crate::code_gen::utils::{project_root, reformat_rust_code};
@@ -53,7 +53,7 @@ mod tests {
         let wide_fib_component = WideFib__8 { log_n_instances: 6 };
 
         let secrets = (0..1 << wide_fib_component.log_n_instances)
-            .map(Felt::from)
+            .map(M31::from)
             .collect::<Vec<_>>();
 
         let trace = write_trace_cpu(&wide_fib_component, &secrets).0;
@@ -76,7 +76,7 @@ mod tests {
         let wide_fib_component = WideFib__8 { log_n_instances: 6 };
 
         let secrets = (0..1 << wide_fib_component.log_n_instances)
-            .map(Felt::from)
+            .map(M31::from)
             .collect::<Vec<_>>();
 
         let (trace, inputs) = write_trace_cpu(&wide_fib_component, &secrets);
@@ -99,7 +99,7 @@ mod tests {
         let wide_fib_component = WideFib__8 { log_n_instances: 8 };
 
         let secrets = (0..1 << wide_fib_component.log_n_instances)
-            .map(Felt::from)
+            .map(M31::from)
             .collect::<Vec<_>>();
         let raw_cpu_trace = write_trace_cpu(&wide_fib_component, &secrets)
             .0
@@ -109,7 +109,7 @@ mod tests {
         let simd_secrets = secrets
             .into_iter()
             .array_chunks::<N_LANES>()
-            .map(PackedFelt::from_array)
+            .map(PackedM31::from_array)
             .collect_vec();
 
         let raw_simd_trace = write_trace_simd(&wide_fib_component, &simd_secrets)
