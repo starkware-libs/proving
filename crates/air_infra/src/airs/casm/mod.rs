@@ -1,5 +1,7 @@
 pub mod call_opcode;
 pub mod check_instruction;
+#[cfg(test)]
+pub mod check_instruction_test;
 pub mod common;
 pub mod jump_opcode;
 #[cfg(test)]
