@@ -95,6 +95,10 @@ pub fn offset_as_u16(offset: i16) -> u16 {
     ((offset as i32) + (1 << (OFFSET_BITS - 1))) as u16
 }
 
+pub fn offset_as_signed(offset: FeltExpr) -> FeltExpr {
+    offset - const_expr!(1 << (OFFSET_BITS - 1))
+}
+
 #[cfg(test)]
 pub fn assemble_instruction(off_0: i16, off_1: i16, off_2: i16, flags: [bool; 15]) -> u64 {
     let mut flags_int: u64 = 0;
