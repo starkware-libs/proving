@@ -55,12 +55,13 @@ impl TraceGenerator<SimdBackend> for NarrowFib__20SimdTraceGenerator {
     }
 }
 
-pub struct ReturnedInputs();
+#[allow(non_snake_case)]
+pub struct ReturnedInputs {}
 
 impl ReturnedInputs {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
-        Self()
+        Self {}
     }
 }
 

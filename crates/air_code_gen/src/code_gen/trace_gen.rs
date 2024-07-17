@@ -1,3 +1,5 @@
+use std::collections::{HashMap, HashSet};
+
 use air_infra::core::compiled_structs::{CompiledAirVar, TraceGenStep};
 use genco::lang::rust;
 use genco::quote;
@@ -34,7 +36,6 @@ pub fn generate_write_trace_row_code(
     // Generate the body of the write_trace function.
     let mut write_trace_body = rust::Tokens::new();
     let mut offset = 0;
-    let mut n_fn_calls = 0;
     for deduction in deductions {
         match deduction {
             TraceGenStep::Deduction(expr) => {
@@ -55,10 +56,9 @@ pub fn generate_write_trace_row_code(
                 output_name,
             } => {
                 write_trace_body.extend(quote! {
-                    returned_inputs.$(n_fn_calls).push($(parse_air_var(input)));
+                    returned_inputs.$(fn_name)_inputs.push($(parse_air_var(input)));
                     let $(output_name) = $(fn_name)CpuTraceGenerator::deduce_output($(parse_air_var(input)));
                 });
-                n_fn_calls += 1;
             }
         }
     }
@@ -92,7 +92,7 @@ pub fn generate_cpu_write_trace_code(
 
     let mut code = rust::Tokens::new();
     code.extend(quote! {
-            $(generate_write_trace_inputs_return_struct(deductions))
+            $(generate_write_trace_inputs_return_struct(deductions, air_var_type))
 
             #[allow(clippy::ptr_arg)]
             #[allow(clippy::type_complexity)]
@@ -138,19 +138,21 @@ fn generate_write_trace_trait_body(deductions: &[TraceGenStep]) -> rust::Tokens 
             write_trace_cpu(&generator.component(), &generator.inputs);
     });
 
-    for (i, fn_name) in deductions
-        .iter()
-        .filter_map(|d| match d {
-            TraceGenStep::Lookup { fn_name, .. } => Some(fn_name),
-            _ => None,
-        })
-        .enumerate()
-    {
+    let mut seen_functions = HashSet::new();
+    for fn_name in deductions.iter().filter_map(|d| match d {
+        TraceGenStep::Lookup { fn_name, .. } => {
+            if seen_functions.insert(fn_name) {
+                Some(fn_name)
+            } else {
+                None
+            }
+        }
+        _ => None,
+    }) {
         let component_id = format!("\"{}\"", fn_name);
         code.extend(quote! {
-            let sub_component_i =
-                registry.get_generator_mut::<$(fn_name)CpuTraceGenerator>($component_id);
-            sub_component_i.add_inputs(&sub_component_inputs.$(i));
+            registry.get_generator_mut::<$(fn_name)CpuTraceGenerator>($component_id)
+                    .add_inputs(&sub_component_inputs.$(fn_name)_inputs);
         });
     }
 
@@ -161,25 +163,48 @@ fn generate_write_trace_trait_body(deductions: &[TraceGenStep]) -> rust::Tokens 
     code
 }
 
-fn generate_write_trace_inputs_return_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
+pub fn generate_write_trace_inputs_return_struct<F>(
+    deductions: &[TraceGenStep],
+    generate_air_var_type: F,
+) -> rust::Tokens
+where
+    F: Fn(&CompiledAirVar) -> String,
+{
     let mut members_code = rust::Tokens::new();
-    let mut initialization_code = rust::Tokens::new();
-    for input_type in deductions.iter().filter_map(|d| match d {
-        TraceGenStep::Lookup { input, .. } => Some(air_var_type(input)),
+    let mut function_call_multiplicity = HashMap::new();
+    for (fn_name, input_type) in deductions.iter().filter_map(|d| match d {
+        TraceGenStep::Lookup { fn_name, input, .. } => {
+            match function_call_multiplicity.get(fn_name) {
+                Some(multiplicity) => {
+                    function_call_multiplicity.insert(fn_name, multiplicity + 1);
+                    None
+                }
+                None => {
+                    function_call_multiplicity.insert(fn_name, 1);
+                    Some((fn_name, generate_air_var_type(input)))
+                }
+            }
+        }
         _ => None,
     }) {
-        members_code.extend(quote!(pub Vec<$input_type>, ));
-        initialization_code.extend(quote!(Vec::with_capacity(capacity),));
+        members_code.extend(quote!(pub $(fn_name)_inputs:  Vec<$input_type>, ));
+    }
+
+    let mut initialization_code = rust::Tokens::new();
+    for (fn_name, multiplicity) in function_call_multiplicity {
+        initialization_code
+            .extend(quote!( $(fn_name)_inputs: Vec::with_capacity(capacity * $multiplicity)));
     }
 
     quote! {
+        #[allow(non_snake_case)]
         pub struct ReturnedInputs
-        ($(members_code));
+        {$(members_code)}
 
         impl ReturnedInputs {
             #[allow(unused_variables)]
             fn with_capacity(capacity: usize) -> Self {
-                Self ($(initialization_code))
+                Self {$(initialization_code)}
 
             }
         }

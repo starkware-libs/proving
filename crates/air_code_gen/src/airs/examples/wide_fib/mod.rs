@@ -83,13 +83,18 @@ mod tests {
 
         let const_1_column = vec![M31::from(1); trace[0].len()];
         let trace_column_0 = trace[0].to_vec();
-        let inputs_0 = inputs.0;
+        let inputs_0 = inputs.NarrowFib__20_inputs.iter().copied().step_by(8);
         izip!(const_1_column, trace_column_0, inputs_0)
             .for_each(|(one, trace_0, input)| assert_eq!([one, trace_0], input));
 
         let trace_column_13 = trace[13].to_vec();
         let trace_column_14 = trace[14].to_vec();
-        let inputs_7 = inputs.7;
+        let inputs_7 = inputs
+            .NarrowFib__20_inputs
+            .iter()
+            .skip(7)
+            .copied()
+            .step_by(8);
         izip!(trace_column_13, trace_column_14, inputs_7)
             .for_each(|(trace_13, trace_14, input)| assert_eq!([trace_13, trace_14], input));
     }

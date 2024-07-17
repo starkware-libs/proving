@@ -38,30 +38,9 @@ impl TraceGenerator<SimdBackend> for WideFib__8SimdTraceGenerator {
         #[allow(unused_variables)]
         let (trace, sub_component_inputs) =
             write_trace_simd(&generator.component(), &generator.inputs);
-        let sub_component_i =
-            registry.get_generator_mut::<NarrowFib__20SimdTraceGenerator>("NarrowFib__20");
-        sub_component_i.add_inputs(&sub_component_inputs.0);
-        let sub_component_i =
-            registry.get_generator_mut::<NarrowFib__20SimdTraceGenerator>("NarrowFib__20");
-        sub_component_i.add_inputs(&sub_component_inputs.1);
-        let sub_component_i =
-            registry.get_generator_mut::<NarrowFib__20SimdTraceGenerator>("NarrowFib__20");
-        sub_component_i.add_inputs(&sub_component_inputs.2);
-        let sub_component_i =
-            registry.get_generator_mut::<NarrowFib__20SimdTraceGenerator>("NarrowFib__20");
-        sub_component_i.add_inputs(&sub_component_inputs.3);
-        let sub_component_i =
-            registry.get_generator_mut::<NarrowFib__20SimdTraceGenerator>("NarrowFib__20");
-        sub_component_i.add_inputs(&sub_component_inputs.4);
-        let sub_component_i =
-            registry.get_generator_mut::<NarrowFib__20SimdTraceGenerator>("NarrowFib__20");
-        sub_component_i.add_inputs(&sub_component_inputs.5);
-        let sub_component_i =
-            registry.get_generator_mut::<NarrowFib__20SimdTraceGenerator>("NarrowFib__20");
-        sub_component_i.add_inputs(&sub_component_inputs.6);
-        let sub_component_i =
-            registry.get_generator_mut::<NarrowFib__20SimdTraceGenerator>("NarrowFib__20");
-        sub_component_i.add_inputs(&sub_component_inputs.7);
+        registry
+            .get_generator_mut::<NarrowFib__20SimdTraceGenerator>("NarrowFib__20")
+            .add_inputs(&sub_component_inputs.NarrowFib__20_inputs);
         trace
     }
 
@@ -81,30 +60,17 @@ impl TraceGenerator<SimdBackend> for WideFib__8SimdTraceGenerator {
     }
 }
 
-pub struct ReturnedInputs(
-    pub Vec<[PackedM31; 2]>,
-    pub Vec<[PackedM31; 2]>,
-    pub Vec<[PackedM31; 2]>,
-    pub Vec<[PackedM31; 2]>,
-    pub Vec<[PackedM31; 2]>,
-    pub Vec<[PackedM31; 2]>,
-    pub Vec<[PackedM31; 2]>,
-    pub Vec<[PackedM31; 2]>,
-);
+#[allow(non_snake_case)]
+pub struct ReturnedInputs {
+    pub NarrowFib__20_inputs: Vec<[PackedM31; 2]>,
+}
 
 impl ReturnedInputs {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
-        Self(
-            Vec::with_capacity(capacity),
-            Vec::with_capacity(capacity),
-            Vec::with_capacity(capacity),
-            Vec::with_capacity(capacity),
-            Vec::with_capacity(capacity),
-            Vec::with_capacity(capacity),
-            Vec::with_capacity(capacity),
-            Vec::with_capacity(capacity),
-        )
+        Self {
+            NarrowFib__20_inputs: Vec::with_capacity(capacity * 8),
+        }
     }
 }
 
@@ -153,7 +119,7 @@ fn write_trace_row(
     let col0 = WideFib_input;
     dst[0][row_index] = col0;
     returned_inputs
-        .0
+        .NarrowFib__20_inputs
         .push([PackedM31::broadcast(M31::from(1).into()), col0]);
     let deduction_tmp_1 = NarrowFib__20SimdTraceGenerator::deduce_output([
         PackedM31::broadcast(M31::from(1).into()),
@@ -163,43 +129,43 @@ fn write_trace_row(
     dst[1][row_index] = col1;
     let col2 = deduction_tmp_1[1];
     dst[2][row_index] = col2;
-    returned_inputs.1.push([col1, col2]);
+    returned_inputs.NarrowFib__20_inputs.push([col1, col2]);
     let deduction_tmp_2 = NarrowFib__20SimdTraceGenerator::deduce_output([col1, col2]);
     let col3 = deduction_tmp_2[0];
     dst[3][row_index] = col3;
     let col4 = deduction_tmp_2[1];
     dst[4][row_index] = col4;
-    returned_inputs.2.push([col3, col4]);
+    returned_inputs.NarrowFib__20_inputs.push([col3, col4]);
     let deduction_tmp_3 = NarrowFib__20SimdTraceGenerator::deduce_output([col3, col4]);
     let col5 = deduction_tmp_3[0];
     dst[5][row_index] = col5;
     let col6 = deduction_tmp_3[1];
     dst[6][row_index] = col6;
-    returned_inputs.3.push([col5, col6]);
+    returned_inputs.NarrowFib__20_inputs.push([col5, col6]);
     let deduction_tmp_4 = NarrowFib__20SimdTraceGenerator::deduce_output([col5, col6]);
     let col7 = deduction_tmp_4[0];
     dst[7][row_index] = col7;
     let col8 = deduction_tmp_4[1];
     dst[8][row_index] = col8;
-    returned_inputs.4.push([col7, col8]);
+    returned_inputs.NarrowFib__20_inputs.push([col7, col8]);
     let deduction_tmp_5 = NarrowFib__20SimdTraceGenerator::deduce_output([col7, col8]);
     let col9 = deduction_tmp_5[0];
     dst[9][row_index] = col9;
     let col10 = deduction_tmp_5[1];
     dst[10][row_index] = col10;
-    returned_inputs.5.push([col9, col10]);
+    returned_inputs.NarrowFib__20_inputs.push([col9, col10]);
     let deduction_tmp_6 = NarrowFib__20SimdTraceGenerator::deduce_output([col9, col10]);
     let col11 = deduction_tmp_6[0];
     dst[11][row_index] = col11;
     let col12 = deduction_tmp_6[1];
     dst[12][row_index] = col12;
-    returned_inputs.6.push([col11, col12]);
+    returned_inputs.NarrowFib__20_inputs.push([col11, col12]);
     let deduction_tmp_7 = NarrowFib__20SimdTraceGenerator::deduce_output([col11, col12]);
     let col13 = deduction_tmp_7[0];
     dst[13][row_index] = col13;
     let col14 = deduction_tmp_7[1];
     dst[14][row_index] = col14;
-    returned_inputs.7.push([col13, col14]);
+    returned_inputs.NarrowFib__20_inputs.push([col13, col14]);
     let deduction_tmp_8 = NarrowFib__20SimdTraceGenerator::deduce_output([col13, col14]);
     let col15 = deduction_tmp_8[0];
     dst[15][row_index] = col15;

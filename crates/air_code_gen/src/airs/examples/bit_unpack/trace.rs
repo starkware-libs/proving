@@ -50,12 +50,13 @@ impl TraceGenerator<CpuBackend> for BitUnpack__12CpuTraceGenerator {
     }
 }
 
-pub struct ReturnedInputs();
+#[allow(non_snake_case)]
+pub struct ReturnedInputs {}
 
 impl ReturnedInputs {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
-        Self()
+        Self {}
     }
 }
 

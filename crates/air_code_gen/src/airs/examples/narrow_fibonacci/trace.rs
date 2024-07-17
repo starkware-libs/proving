@@ -50,12 +50,13 @@ impl TraceGenerator<CpuBackend> for NarrowFib__20CpuTraceGenerator {
     }
 }
 
-pub struct ReturnedInputs();
+#[allow(non_snake_case)]
+pub struct ReturnedInputs {}
 
 impl ReturnedInputs {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
-        Self()
+        Self {}
     }
 }
 
