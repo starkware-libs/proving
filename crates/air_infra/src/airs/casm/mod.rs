@@ -1,4 +1,4 @@
-pub mod assert_eq_op;
+pub mod assert_eq_opcode;
 #[cfg(test)]
 pub mod assert_eq_opcode_test;
 pub mod call_opcode;

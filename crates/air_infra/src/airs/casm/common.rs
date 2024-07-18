@@ -11,6 +11,21 @@ pub type CasmAddress = FeltExpr;
 pub type CasmState = [CasmAddress; 3];
 
 pub const OFFSET_BITS: u32 = 16;
+pub const FLAG_DST_BASE_FP: usize = 0;
+pub const FLAG_OP0_BASE_FP: usize = 1;
+pub const FLAG_OP1_IMM: usize = 2;
+pub const FLAG_OP1_BASE_FP: usize = 3;
+pub const FLAG_OP1_BASE_AP: usize = 4;
+pub const FLAG_RES_ADD: usize = 5;
+pub const FLAG_RES_MUL: usize = 6;
+pub const FLAG_PC_UPDATE_JUMP: usize = 7;
+pub const FLAG_PC_UPDATE_JUMP_REL: usize = 8;
+pub const FLAG_PC_UPDATE_JNZ: usize = 9;
+pub const FLAG_AP_UPDATE_ADD: usize = 10;
+pub const FLAG_AP_UPDATE_ADD_1: usize = 11;
+pub const FLAG_OPCODE_CALL: usize = 12;
+pub const FLAG_OPCODE_RET: usize = 13;
+pub const FLAG_OPCODE_ASSERT_EQ: usize = 14;
 
 #[derive(Clone, Debug)]
 pub struct Flags {
@@ -58,6 +73,31 @@ impl Flags {
             self.opcode_ret,
             self.opcode_assert_eq,
         ]
+    }
+
+    #[cfg(test)]
+    pub fn non_constants_to_arr(&self, non_consts_flags: Vec<bool>) -> [bool; 15] {
+        let mut non_consts_flags_iter = non_consts_flags.into_iter();
+        self.to_arr()
+            .iter()
+            .map(|f| f.unwrap_or_else(|| non_consts_flags_iter.next().unwrap()))
+            .collect::<Vec<_>>()
+            .try_into()
+            .unwrap()
+    }
+
+    #[cfg(test)]
+    pub fn to_string(&self, non_consts_flags: Vec<&str>) -> String {
+        let mut non_consts_flags_iter = non_consts_flags.into_iter();
+        self.to_arr()
+            .iter()
+            .map(|f| match f {
+                Some(true) => "const_true",
+                Some(false) => "const_false",
+                None => non_consts_flags_iter.next().unwrap(),
+            })
+            .collect::<Vec<_>>()
+            .join(", ")
     }
 
     #[cfg(test)]
