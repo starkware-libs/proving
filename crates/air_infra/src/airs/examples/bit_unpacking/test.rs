@@ -30,15 +30,15 @@ fn test_bit_unpacking() {
     ];
 
     let deductions = [
-        "BitUnpack__4_input.as_felt()",
+        "BitUnpack__4_input.as_m31()",
         "deduction_tmp_2 = (BitUnpack__4_input >> const_1)",
-        "deduction_tmp_2.as_felt()",
+        "deduction_tmp_2.as_m31()",
         "deduction_tmp_4 = (deduction_tmp_2 >> const_1)",
-        "deduction_tmp_4.as_felt()",
+        "deduction_tmp_4.as_m31()",
         "deduction_tmp_6 = (deduction_tmp_4 >> const_1)",
-        "deduction_tmp_6.as_felt()",
+        "deduction_tmp_6.as_m31()",
         "deduction_tmp_8 = (deduction_tmp_6 >> const_1)",
-        "deduction_tmp_8.as_felt()",
+        "deduction_tmp_8.as_m31()",
     ];
 
     assert!(
@@ -99,9 +99,9 @@ fn test_bit_mux() {
     ];
 
     let deductions = [
-        "AirFnBitMux_input.as_felt()",
+        "AirFnBitMux_input.as_m31()",
         "deduction_tmp_2 = (AirFnBitMux_input >> const_1)",
-        "deduction_tmp_2.as_felt()",
+        "deduction_tmp_2.as_m31()",
     ];
 
     assert!(

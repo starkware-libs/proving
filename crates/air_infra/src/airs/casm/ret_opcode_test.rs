@@ -27,11 +27,11 @@ fn test_ret_opcode() {
         "deduction_tmp_0[2]",
         "deduction_tmp_2 = Memory__FeltExpr__Felt252Expr(state[0])",
         "deduction_tmp_4 = Memory__FeltExpr__Felt252Expr((state[2] - const_1))",
-        "deduction_tmp_4.get_felt(const_0)",
-        "deduction_tmp_4.get_felt(const_1)",
+        "deduction_tmp_4.get_m31(const_0)",
+        "deduction_tmp_4.get_m31(const_1)",
         "deduction_tmp_5 = Memory__FeltExpr__Felt252Expr((state[2] - const_2))",
-        "deduction_tmp_5.get_felt(const_0)",
-        "deduction_tmp_5.get_felt(const_1)",
+        "deduction_tmp_5.get_m31(const_0)",
+        "deduction_tmp_5.get_m31(const_1)",
     ];
 
     // Register values at opcode start

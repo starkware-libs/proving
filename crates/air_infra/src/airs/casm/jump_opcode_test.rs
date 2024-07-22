@@ -184,12 +184,12 @@ fn test_abs_jump_deduction_constraints() {
     "deduction_tmp_0[1]", 
     "deduction_tmp_0[2]",
     "deduction_tmp_4 = Memory__FeltExpr__Felt252Expr(state[0])",
-    "deduction_tmp_5 = ((UInt32::from_felt(deduction_tmp_4.get_felt(const_2)) >> const_8) & const_15)",
-    "deduction_tmp_5.low().as_felt()",
+    "deduction_tmp_5 = ((UInt32::from_m31(deduction_tmp_4.get_m31(const_2)) >> const_8) & const_15)",
+    "deduction_tmp_5.low().as_m31()",
     "deduction_tmp_6 = RangeCheck4(state[3])",
-    "deduction_tmp_4.get_felt(const_3)", 
+    "deduction_tmp_4.get_m31(const_3)", 
     "deduction_tmp_7 = Memory__FeltExpr__Felt252Expr((state[1] + ((state[3] + (state[4] * const_16)) - const_32768)))",
-    "deduction_tmp_7.get_felt(const_0)"
+    "deduction_tmp_7.get_m31(const_0)"
     ];
     let constraints = vec![
     "RangeCheck4([state[3]]) == []",
@@ -213,7 +213,7 @@ fn test_rel_jump_deduction_constraints() {
         "deduction_tmp_0[2]",
         "deduction_tmp_2 = Memory__FeltExpr__Felt252Expr(state[0])",
         "deduction_tmp_3 = Memory__FeltExpr__Felt252Expr((state[0] + const_1))",
-        "deduction_tmp_3.get_felt(const_0)",
+        "deduction_tmp_3.get_m31(const_0)",
     ];
     let constraints = vec![
         "Memory__FeltExpr__Felt252Expr([state[0]]) == [const_4095, const_4087, const_383, const_2048, const_263]",

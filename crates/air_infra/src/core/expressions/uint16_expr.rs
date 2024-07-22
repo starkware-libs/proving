@@ -85,7 +85,7 @@ impl UInt16Expr {
             name,
             value,
             as_felt: FeltExpr::new_var(
-                "as_felt".to_string(),
+                "as_m31".to_string(),
                 value.map(|v| v.as_m31()),
                 state_index,
                 is_const,

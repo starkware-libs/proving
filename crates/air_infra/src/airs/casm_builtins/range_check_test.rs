@@ -15,9 +15,9 @@ fn test_range_check() {
         "deduction_tmp_0 = RangeCheckBuiltin__32_input",
         "deduction_tmp_0",
         "deduction_tmp_2 = Memory__FeltExpr__Felt252Expr(state[0])",
-        "deduction_tmp_2.get_felt(const_0)",
-        "deduction_tmp_2.get_felt(const_1)",
-        "deduction_tmp_2.get_felt(const_2)",
+        "deduction_tmp_2.get_m31(const_0)",
+        "deduction_tmp_2.get_m31(const_1)",
+        "deduction_tmp_2.get_m31(const_2)",
         "deduction_tmp_3 = RangeCheck8(state[3])",
     ];
 

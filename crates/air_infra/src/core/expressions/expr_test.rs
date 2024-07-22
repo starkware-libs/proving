@@ -9,7 +9,6 @@ use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
-use crate::core::Felt;
 
 // Macros
 use crate::{
@@ -99,7 +98,7 @@ fn test_conversion_felt_to_bool() {
     let compiled_felt: CompiledAirVar = b.as_felt().into();
     assert_eq!(&compiled_felt.to_string(), "state[0]");
     let compiled_bool: CompiledAirVar = b.into();
-    assert_eq!(&compiled_bool.to_string(), "Bool::from_felt(state[0])");
+    assert_eq!(&compiled_bool.to_string(), "Bool::from_m31(state[0])");
 
     f = f.let_for_constraint(format!("{}0", CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
     let b: BoolExpr = f.into();
@@ -110,12 +109,12 @@ fn test_conversion_felt_to_bool() {
     let compiled_bool: CompiledAirVar = b.into();
     assert_eq!(
         &compiled_bool.to_string(),
-        "Bool::from_felt(constraint_tmp_0)"
+        "Bool::from_m31(constraint_tmp_0)"
     );
 }
 
 #[test]
-#[should_panic(expected = "Felt value is not a bool")]
+#[should_panic(expected = "M31 value is not a bool")]
 fn test_bad_felt_to_bool() {
     let f = expr!("x", 2);
     let _b: BoolExpr = f.into();
@@ -128,7 +127,7 @@ fn test_conversion_bool_to_uint16() {
     let i: UInt16Expr = b.clone().into();
     assert_eq!(i.calc(), "1");
     let compiled_felt: CompiledAirVar = i.as_felt().into();
-    assert_eq!(&compiled_felt.to_string(), "deduction_tmp_0.as_felt()");
+    assert_eq!(&compiled_felt.to_string(), "deduction_tmp_0.as_m31()");
 
     b.as_felt_mut().to_state(0);
     let mut i: UInt16Expr = b.clone().into();
@@ -164,7 +163,7 @@ fn test_conversion_felt_to_uint16() {
     let compiled_felt: CompiledAirVar = i.as_felt().into();
     assert_eq!(&compiled_felt.to_string(), "state[0]");
     let compiled_i: CompiledAirVar = i.into();
-    assert_eq!(&compiled_i.to_string(), "UInt16::from_felt(state[0])");
+    assert_eq!(&compiled_i.to_string(), "UInt16::from_m31(state[0])");
 
     let f = f.let_for_constraint(format!("{}0", CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
     i = f.into();
@@ -173,12 +172,12 @@ fn test_conversion_felt_to_uint16() {
     let compiled_i: CompiledAirVar = i.into();
     assert_eq!(
         &compiled_i.to_string(),
-        "UInt16::from_felt(constraint_tmp_0)"
+        "UInt16::from_m31(constraint_tmp_0)"
     );
 }
 
 #[test]
-#[should_panic(expected = "Felt value is not a u16")]
+#[should_panic(expected = "M31 value is not a u16")]
 fn test_bad_felt_to_uint16() {
     let f = expr!("x", 0xFFFF1);
     let _i: UInt16Expr = f.into();
@@ -200,7 +199,7 @@ fn test_conversion_felts_to_felt252() {
     let compiled_expr: CompiledAirVar = e.into();
     assert_eq!(
         &compiled_expr.to_string(),
-        "Felt252::from_felts([state[0], x2, const_0, const_0, const_0, const_0, const_0, const_0, const_0, \
+        "Felt252::from_m31_([state[0], x2, const_0, const_0, const_0, const_0, const_0, const_0, const_0, \
         const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0])"
     );
 
@@ -215,7 +214,7 @@ fn test_conversion_felts_to_felt252() {
     let compiled_expr: CompiledAirVar = e.into();
     assert_eq!(
         &compiled_expr.to_string(),
-        "Felt252::from_felts([constraint_tmp_0, state[0], const_0, const_0, const_0, const_0, const_0, const_0, const_0, \
+        "Felt252::from_m31_([constraint_tmp_0, state[0], const_0, const_0, const_0, const_0, const_0, const_0, const_0, \
         const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0])"
     );
 

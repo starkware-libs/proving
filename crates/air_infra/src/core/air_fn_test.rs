@@ -8,7 +8,6 @@ use super::expressions::felt_expr::*;
 use super::expressions::uint32_expr::*;
 use super::prover_types::*;
 use super::variables::*;
-use crate::core::Felt;
 use crate::{const_expr, const_u32_expr, expr, felt252_expr, u32_expr};
 
 #[derive(Debug)]
@@ -96,7 +95,7 @@ fn test_felt252_deduce() {
 
     let lists = registry.get_compiled_air_fn(&func);
     assert_eq!(
-        "deduction_tmp_0.get_felt(const_0)",
+        "deduction_tmp_0.get_m31(const_0)",
         lists.deductions[1].to_string()
     );
 }

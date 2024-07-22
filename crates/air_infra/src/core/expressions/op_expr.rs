@@ -134,11 +134,11 @@ impl Display for Operation {
             Operation::BitOr => write!(f, "|"),
             Operation::BitXor => write!(f, "^"),
             Operation::Neg => write!(f, "-"),
-            Operation::BoolFromFelt => write!(f, "Bool::from_felt"),
+            Operation::BoolFromFelt => write!(f, "Bool::from_m31"),
             Operation::UInt16FromBool => write!(f, "UInt16::from_bool"),
-            Operation::UInt16FromFelt => write!(f, "UInt16::from_felt"),
-            Operation::Felt252FromFeltsArray => write!(f, "Felt252::from_felts"),
-            Operation::UInt32FromFelt => write!(f, "UInt32::from_felt"),
+            Operation::UInt16FromFelt => write!(f, "UInt16::from_m31"),
+            Operation::Felt252FromFeltsArray => write!(f, "Felt252::from_m31_"),
+            Operation::UInt32FromFelt => write!(f, "UInt32::from_m31"),
             Operation::Not => write!(f, "!"),
         }
     }

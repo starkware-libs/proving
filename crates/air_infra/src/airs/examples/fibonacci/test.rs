@@ -3,7 +3,6 @@ use crate::airs::examples::fibonacci::wide_fib::WideFib;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::Felt;
 
 use crate::expr;
 

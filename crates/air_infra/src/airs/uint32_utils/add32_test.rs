@@ -15,15 +15,15 @@ fn test_add32() {
     let constraints = [
         "RangeCheck16([state[0]]) == []",
         "RangeCheck16([state[1]]) == []",
-        "constraint_tmp_3 = ((Add32_input[0].low().as_felt() + Add32_input[1].low().as_felt()) - state[0])",
+        "constraint_tmp_3 = ((Add32_input[0].low().as_m31() + Add32_input[1].low().as_m31()) - state[0])",
         "(constraint_tmp_3 * (constraint_tmp_3 - const_65536))",
-        "((((Add32_input[0].high().as_felt() + Add32_input[1].high().as_felt()) - state[1]) * const_65536) + constraint_tmp_3)",
+        "((((Add32_input[0].high().as_m31() + Add32_input[1].high().as_m31()) - state[1]) * const_65536) + constraint_tmp_3)",
     ];
 
     let deductions = [
         "deduction_tmp_0 = (Add32_input[0] + Add32_input[1])",
-        "deduction_tmp_0.low().as_felt()",
-        "deduction_tmp_0.high().as_felt()",
+        "deduction_tmp_0.low().as_m31()",
+        "deduction_tmp_0.high().as_m31()",
         "deduction_tmp_1 = RangeCheck16(state[0])",
         "deduction_tmp_2 = RangeCheck16(state[1])",
     ];

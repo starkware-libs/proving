@@ -44,7 +44,7 @@ pub struct Bool {
 
 impl Bool {
     pub fn from_m31(felt: M31) -> Self {
-        assert!(felt.0 == 0 || felt.0 == 1, "Felt value is not a bool");
+        assert!(felt.0 == 0 || felt.0 == 1, "M31 value is not a bool");
         Self { value: felt.0 != 0 }
     }
 }
@@ -92,7 +92,7 @@ impl UInt16 {
     pub fn from_m31(felt: M31) -> Self {
         assert!(
             felt < M31::from_u32_unchecked(2_u32.pow(16)),
-            "Felt value is not a u16"
+            "M31 value is not a u16"
         );
         Self {
             value: felt.0 as u16,
