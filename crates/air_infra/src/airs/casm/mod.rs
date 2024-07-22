@@ -6,6 +6,7 @@ pub mod common;
 pub mod jump_opcode;
 #[cfg(test)]
 pub mod jump_opcode_test;
+pub mod read_addr;
 pub mod read_small_felt252;
 #[cfg(test)]
 pub mod read_small_felt252_test;

@@ -26,12 +26,12 @@ fn test_ret_opcode() {
         "deduction_tmp_0[1]",
         "deduction_tmp_0[2]",
         "deduction_tmp_2 = Memory__FeltExpr__Felt252Expr(state[0])",
-        "deduction_tmp_4 = Memory__FeltExpr__Felt252Expr((state[2] - const_1))",
-        "deduction_tmp_4.get_m31(const_0)",
-        "deduction_tmp_4.get_m31(const_1)",
-        "deduction_tmp_5 = Memory__FeltExpr__Felt252Expr((state[2] - const_2))",
+        "deduction_tmp_5 = Memory__FeltExpr__Felt252Expr((state[2] - const_1))",
         "deduction_tmp_5.get_m31(const_0)",
         "deduction_tmp_5.get_m31(const_1)",
+        "deduction_tmp_6 = Memory__FeltExpr__Felt252Expr((state[2] - const_2))",
+        "deduction_tmp_6.get_m31(const_0)",
+        "deduction_tmp_6.get_m31(const_1)",
     ];
 
     // Register values at opcode start
@@ -75,12 +75,12 @@ fn test_ret_opcode() {
 
     let lists = registry.get_compiled_air_fn(&func);
 
-    assert!(
+    assert_eq!(
         lists
             .deductions
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == deductions
+            .collect::<Vec<String>>(),
+        deductions
     );
 }
