@@ -22,7 +22,7 @@ fn test_range_check() {
     ];
 
     let constraints = [
-        "Memory__FeltExpr__Felt252Expr([state[0]]) == [state[1], state[2], state[3]]",
+        "Memory__FeltExpr__Felt252Expr([state[0]]) == zero_extend([state[1], state[2], state[3]])",
         "RangeCheck8([state[3]]) == []",
     ];
 
@@ -39,22 +39,22 @@ fn test_range_check() {
     let registry = AirFnRegistry::new(&rc);
     let lists = registry.get_compiled_air_fn(&rc);
 
-    assert!(
+    assert_eq!(
         lists
             .constraints
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == constraints
+            .collect::<Vec<String>>(),
+        constraints
     );
 
-    assert!(
+    assert_eq!(
         lists
             .deductions
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == deductions
+            .collect::<Vec<String>>(),
+        deductions
     );
 }
 
