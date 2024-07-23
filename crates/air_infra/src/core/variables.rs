@@ -2,8 +2,7 @@ use std::array::from_fn;
 use std::fmt::{Debug, Display};
 
 use enum_dispatch::enum_dispatch;
-use serde::ser::SerializeSeq;
-use serde::{Serialize, Serializer};
+use serde::Serialize;
 
 use super::compiled_structs::*;
 use super::expressions::bool_expr::*;
@@ -65,7 +64,8 @@ pub trait InternalAirVarActions: Clone + Into<AirVarImpl> {
 }
 
 // Air variables as represented in the air_body.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Serialize)]
+#[serde(untagged)]
 pub enum AirVarImpl {
     Expr(ExprImpl),
     Tuple(Vec<AirVarImpl>),
@@ -90,39 +90,11 @@ impl InternalAirVarInfo for AirVarImpl {
     }
 }
 
-impl Serialize for AirVarImpl {
-    fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
-    where
-        S: Serializer,
-    {
-        match self {
-            AirVarImpl::Expr(expr) => {
-                let var: CompiledAirVar = expr.clone().into();
-                serializer.collect_str(&format!("{} (type: {})", var, expr.r#type()))
-            }
-            AirVarImpl::Tuple(vars) | AirVarImpl::Array(vars) => {
-                let mut seq = serializer.serialize_seq(Some(vars.len()))?;
-                for var in vars {
-                    seq.serialize_element(var)?;
-                }
-                seq.end()
-            }
-        }
-    }
-}
-
-impl Default for AirVarImpl {
-    fn default() -> Self {
-        AirVarImpl::Expr(ExprImpl::default())
-    }
-}
-
 impl Display for AirVarImpl {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             AirVarImpl::Expr(expr) => {
-                let var: CompiledAirVar = expr.clone().into();
-                write!(f, "{}", var)
+                write!(f, "{}", expr)
             }
             AirVarImpl::Tuple(vars) => {
                 write!(f, "(")?;

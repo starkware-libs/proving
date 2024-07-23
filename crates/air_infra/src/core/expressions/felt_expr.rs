@@ -9,16 +9,19 @@ use super::super::variables::*;
 use super::expr::*;
 use super::op_expr::*;
 
+// Macros
+use crate::const_expr;
+
 pub type FeltOperation = OpExpr<Felt>;
 
 // A variable of type Felt. It can be a field (attribute) of another expression, like UInt16Expr, or
 // a standalone variable. It can represent a felt expression that was written to the trace.
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct FeltVar {
     pub(super) name: String,
     pub(super) value: Option<Felt>,
     pub(super) state_index: Option<usize>,
-    pub(super) parent: Option<(Box<ExprImpl>, Option<usize>)>,
+    pub(super) parent: Option<ParentExpr>,
     pub(super) is_const: bool,
 }
 
@@ -46,9 +49,9 @@ impl FeltExpr {
         }
     }
 
-    pub fn set_parent(&mut self, parent: ExprImpl, index: Option<usize>) {
+    pub(super) fn set_parent(&mut self, parent: ParentExpr) {
         if let FeltExpr::Var(v) = self {
-            v.parent = Some((Box::new(parent), index));
+            v.parent = Some(parent);
         } else {
             panic!("Cannot set parent of a non-variable");
         }
@@ -150,9 +153,10 @@ impl InternalAirVarInfo for FeltExpr {
     }
 }
 
+// Default is implemented for FeltExpr because it is stored in memory.
 impl Default for FeltExpr {
     fn default() -> Self {
-        FeltExpr::Var(FeltVar::default())
+        const_expr!(0)
     }
 }
 
@@ -190,16 +194,8 @@ impl From<FeltExpr> for CompiledAirVar {
                 }
 
                 // v is a field of another variable
-                if let Some((var, index)) = v.parent {
-                    if let Some(i) = index {
-                        let index_var = CompiledAirVar::Const("usize".to_string(), i.to_string());
-                        return CompiledAirVar::MethodCall(
-                            Box::new((*var).into()),
-                            v.name,
-                            vec![index_var],
-                        );
-                    }
-                    return CompiledAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
+                if let Some(parent) = v.parent {
+                    return parent.get_compiled_child();
                 }
 
                 // v is a standalone variable
@@ -210,6 +206,7 @@ impl From<FeltExpr> for CompiledAirVar {
     }
 }
 
+// Serialize is implemented for FeltExpr because it appears in air body.
 impl Serialize for FeltExpr {
     fn serialize<S>(&self, serializer: S) -> Result<S::Ok, S::Error>
     where

@@ -7,16 +7,17 @@ use super::felt_expr::*;
 use super::op_expr::*;
 
 pub type UInt16Operation = OpExpr<UInt16>;
+const CHILD_NAME: &str = "as_m31";
 
 // A variable of type UInt16. Holds its name, value, and Felt representation.
 // It can be a field (attribute) of another expression, like UInt32Expr, or
 // a standalone variable.
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct UInt16Var {
     pub(super) name: String,
     pub(super) value: Option<UInt16>,
     pub(super) as_felt: FeltExpr,
-    pub(super) parent: Option<Box<ExprImpl>>,
+    pub(super) parent: Option<ParentExpr>,
     pub(super) is_const: bool,
 }
 
@@ -24,10 +25,14 @@ impl UInt16Var {
     // Updates the Felt representation of the variable.
     // Called whenever a variable is created (see new_var, let_for_deduction and set_parent).
     fn update_as_felt(&mut self) {
-        let mut self_copy = self.clone();
-        self_copy.as_felt = FeltExpr::default();
-        self.as_felt
-            .set_parent(UInt16Expr::Var(self_copy).into(), None);
+        let self_as_parent = ParentExpr {
+            name: self.name.clone(),
+            r#type: UInt16::r#type(),
+            parent: self.parent.clone().map(Box::new),
+            index: None,
+            child_name: CHILD_NAME.to_string(),
+        };
+        self.as_felt.set_parent(self_as_parent);
     }
 }
 
@@ -61,9 +66,9 @@ impl UInt16Expr {
     }
 
     // Called whenever a parent variable is created (see update_parts of UInt32Expr).
-    pub fn set_parent(&mut self, parent: ExprImpl) {
+    pub(super) fn set_parent(&mut self, parent: ParentExpr) {
         if let UInt16Expr::Var(v) = self {
-            v.parent = Some(Box::new(parent));
+            v.parent = Some(parent);
             v.update_as_felt();
         } else {
             panic!("Cannot set parent of a non-variable");
@@ -85,7 +90,7 @@ impl UInt16Expr {
             name,
             value,
             as_felt: FeltExpr::new_var(
-                "as_m31".to_string(),
+                CHILD_NAME.to_string(),
                 value.map(|v| v.as_m31()),
                 state_index,
                 is_const,
@@ -165,12 +170,6 @@ impl InternalAirVarInfo for UInt16Expr {
     }
 }
 
-impl Default for UInt16Expr {
-    fn default() -> Self {
-        UInt16Expr::Var(UInt16Var::default())
-    }
-}
-
 impl From<UInt16Var> for UInt16Expr {
     fn from(v: UInt16Var) -> UInt16Expr {
         UInt16Expr::Var(v)
@@ -193,8 +192,8 @@ impl From<UInt16Expr> for CompiledAirVar {
                 if v.is_const {
                     return CompiledAirVar::Const(UInt16::r#type(), v.value.unwrap().calc());
                 }
-                if let Some(var) = v.parent {
-                    return CompiledAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
+                if let Some(parent) = v.parent {
+                    return parent.get_compiled_child();
                 }
 
                 CompiledAirVar::Var(UInt16::r#type(), v.name)

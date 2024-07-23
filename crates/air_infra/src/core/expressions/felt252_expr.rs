@@ -8,11 +8,15 @@ use super::expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
 
+// Macros
+use crate::const_felt252_expr;
+
 pub type Felt252Operation = OpExpr<Felt252>;
+const CHILD_NAME: &str = "get_m31";
 
 // A variable of type Felt252. Holds its name, and value. It is represented as FELT252_N_WORDS felts,
 // FELT252_BITS_PER_WORD bits each.
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct Felt252Var {
     pub(super) name: String,
     pub(super) value: Option<Felt252>,
@@ -24,11 +28,15 @@ impl Felt252Var {
     // Updates the Felts representation of the variable.
     // Called whenever a variable is created (see new_var and let_for_deduction).
     fn update_parts(&mut self) {
-        let mut self_copy = self.clone();
-        self_copy.felts = from_fn(|_| FeltExpr::default());
-        let parent: ExprImpl = Felt252Expr::Var(self_copy.clone()).into();
         for (index, felt) in self.felts.iter_mut().enumerate() {
-            felt.set_parent(parent.clone(), Some(index));
+            let self_as_parent = ParentExpr {
+                name: self.name.clone(),
+                r#type: Felt252::r#type(),
+                parent: None,
+                index: Some(index),
+                child_name: CHILD_NAME.to_string(),
+            };
+            felt.set_parent(self_as_parent);
         }
     }
 }
@@ -56,7 +64,7 @@ impl Felt252Expr {
             value,
             felts: from_fn(|i| {
                 FeltExpr::new_var(
-                    "get_m31".to_string(),
+                    CHILD_NAME.to_string(),
                     value.map(|v| v.get_m31(i)),
                     state_indices.map(|is| is[i]),
                     is_const,
@@ -161,9 +169,10 @@ impl InternalAirVarInfo for Felt252Expr {
     }
 }
 
+// Default is implemented for Felt252Expr because it is stored in memory.
 impl Default for Felt252Expr {
     fn default() -> Self {
-        Felt252Expr::Var(Felt252Var::default())
+        const_felt252_expr!(0, 0)
     }
 }
 

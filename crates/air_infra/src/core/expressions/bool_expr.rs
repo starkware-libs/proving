@@ -7,8 +7,10 @@ use super::felt_expr::*;
 use super::op_expr::*;
 
 pub type BoolOperation = OpExpr<Bool>;
+const CHILD_NAME: &str = "as_m31";
+
 // A variable of type Bool. Holds its name, value, and Felt representation.
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct BoolVar {
     pub(super) name: String,
     pub(super) value: Option<Bool>,
@@ -20,10 +22,14 @@ impl BoolVar {
     // Updates the Felt representation of the variable.
     // Called whenever a variable is created (see new_var and let_for_deduction).
     fn update_as_felt(&mut self) {
-        let mut self_copy = self.clone();
-        self_copy.as_felt = FeltExpr::default();
-        self.as_felt
-            .set_parent(BoolExpr::Var(self_copy).into(), None);
+        let self_as_parent = ParentExpr {
+            name: self.name.clone(),
+            r#type: Bool::r#type(),
+            parent: None,
+            index: None,
+            child_name: CHILD_NAME.to_string(),
+        };
+        self.as_felt.set_parent(self_as_parent);
     }
 }
 
@@ -67,7 +73,7 @@ impl BoolExpr {
             name,
             value,
             as_felt: FeltExpr::new_var(
-                "as_m31".to_string(),
+                CHILD_NAME.to_string(),
                 value.map(|v| v.as_m31()),
                 state_index,
                 is_const,
@@ -143,12 +149,6 @@ impl InternalAirVarInfo for BoolExpr {
             BoolExpr::Var(v) => v.is_const,
             BoolExpr::Op(op) => op.children.iter().all(|c| c.is_const()),
         }
-    }
-}
-
-impl Default for BoolExpr {
-    fn default() -> Self {
-        BoolExpr::Var(BoolVar::default())
     }
 }
 

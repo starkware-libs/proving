@@ -8,14 +8,17 @@ use super::op_expr::*;
 use super::uint16_expr::*;
 
 pub type UInt32Operation = OpExpr<UInt32>;
+const LOW_NAME: &str = "low";
+const HIGH_NAME: &str = "high";
+
 // A variable of type UInt32. Holds its name, and value. It is represented as two UInt16 variables.
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug)]
 pub struct UInt32Var {
     pub(super) name: String,
     pub(super) value: Option<UInt32>,
     pub(super) low: UInt16Expr,
     pub(super) high: UInt16Expr,
-    pub(super) parent: Option<Box<ExprImpl>>,
+    pub(super) parent: Option<ParentExpr>,
     pub(super) is_const: bool,
 }
 
@@ -23,12 +26,20 @@ impl UInt32Var {
     // Updates the low and high parts of the variable.
     // Called whenever a variable is created (see new_var and let_for_deduction).
     fn update_parts(&mut self) {
-        let mut self_copy = self.clone();
-        self_copy.low = UInt16Expr::default();
-        self_copy.high = UInt16Expr::default();
-        let parent: ExprImpl = UInt32Expr::Var(self_copy.clone()).into();
-        self.low.set_parent(parent.clone());
-        self.high.set_parent(parent);
+        self.low.set_parent(ParentExpr {
+            name: self.name.clone(),
+            r#type: UInt32::r#type(),
+            parent: self.parent.clone().map(Box::new),
+            index: None,
+            child_name: LOW_NAME.to_string(),
+        });
+        self.high.set_parent(ParentExpr {
+            name: self.name.clone(),
+            r#type: UInt32::r#type(),
+            parent: self.parent.clone().map(Box::new),
+            index: None,
+            child_name: HIGH_NAME.to_string(),
+        });
     }
 }
 
@@ -62,9 +73,9 @@ impl UInt32Expr {
     }
 
     // Called whenever a parent variable is created (see update_parts of UInt64Expr).
-    pub fn set_parent(&mut self, parent: ExprImpl) {
+    pub(super) fn set_parent(&mut self, parent: ParentExpr) {
         if let UInt32Expr::Var(v) = self {
-            v.parent = Some(Box::new(parent));
+            v.parent = Some(parent);
             v.update_parts();
         } else {
             panic!("Cannot set parent of a non-variable");
@@ -87,13 +98,13 @@ impl UInt32Expr {
             name,
             value,
             low: UInt16Expr::new_var(
-                "low".to_string(),
+                LOW_NAME.to_string(),
                 value.map(|v| v.low()),
                 low_state_index,
                 is_const,
             ),
             high: UInt16Expr::new_var(
-                "high".to_string(),
+                HIGH_NAME.to_string(),
                 value.map(|v| v.high()),
                 high_state_index,
                 is_const,
@@ -176,12 +187,6 @@ impl InternalAirVarInfo for UInt32Expr {
     }
 }
 
-impl Default for UInt32Expr {
-    fn default() -> Self {
-        UInt32Expr::Var(UInt32Var::default())
-    }
-}
-
 impl From<UInt32Var> for UInt32Expr {
     fn from(v: UInt32Var) -> UInt32Expr {
         UInt32Expr::Var(v)
@@ -204,8 +209,8 @@ impl From<UInt32Expr> for CompiledAirVar {
                 if v.is_const {
                     return CompiledAirVar::Const(UInt32::r#type(), v.value.unwrap().calc());
                 }
-                if let Some(var) = v.parent {
-                    return CompiledAirVar::MethodCall(Box::new((*var).into()), v.name, vec![]);
+                if let Some(parent) = v.parent {
+                    return parent.get_compiled_child();
                 }
 
                 CompiledAirVar::Var(UInt32::r#type(), v.name)
