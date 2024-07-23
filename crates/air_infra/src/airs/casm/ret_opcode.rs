@@ -30,7 +30,7 @@ pub const RET_FLAGS: Flags = Flags {
 
 #[derive(Debug, Default)]
 pub struct RetOpcode {
-    memory: Memory<FeltExpr, Felt252Expr>,
+    pub memory: Memory<FeltExpr, Felt252Expr>,
 }
 
 impl MemoryAirFn for RetOpcode {
