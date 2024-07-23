@@ -66,7 +66,7 @@ impl AirFn for JumpOpcode {
         };
 
         // Check the instruction.
-        let [_, _, offset2] = ab.call(
+        let ([_, _, offset2], _) = ab.call(
             &CheckInstruction {
                 const_offsets: [Some(offset0), Some(offset1), offset2],
                 const_flags: flags,

@@ -1,5 +1,3 @@
-use std::fmt::Display;
-
 use crate::core::expressions::felt_expr::*;
 
 // Macros
@@ -31,7 +29,7 @@ pub struct Flags {
 }
 
 impl Flags {
-    pub fn sum_consts(&self, from: usize, to: usize) -> FeltExpr {
+    pub fn sum(&self, from: usize, to: usize) -> FeltExpr {
         const_expr!(self.to_arr()[from..to]
             .iter()
             .enumerate()
@@ -39,15 +37,7 @@ impl Flags {
             .sum())
     }
 
-    pub fn get_non_consts_indices(&self) -> Vec<usize> {
-        self.to_arr()
-            .iter()
-            .enumerate()
-            .filter_map(|(i, f)| if f.is_none() { Some(i) } else { None })
-            .collect()
-    }
-
-    fn to_arr(&self) -> [Option<bool>; 15] {
+    pub fn to_arr(&self) -> [Option<bool>; 15] {
         [
             self.dst_base_fp,
             self.op0_base_fp,
@@ -66,21 +56,26 @@ impl Flags {
             self.opcode_assert_eq,
         ]
     }
-}
 
-impl Display for Flags {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let flags = self.to_arr();
-        write!(
-            f,
-            "Flags {{ {} }}",
-            flags
-                .iter()
-                .enumerate()
-                .filter_map(|(i, f)| f.map(|b| format!("{}: {}", i, b)))
-                .collect::<Vec<String>>()
-                .join(", ")
-        )
+    #[cfg(test)]
+    pub fn from_arr(arr: [Option<bool>; 15]) -> Self {
+        Self {
+            dst_base_fp: arr[0],
+            op0_base_fp: arr[1],
+            op1_imm: arr[2],
+            op1_base_fp: arr[3],
+            op1_base_ap: arr[4],
+            res_add: arr[5],
+            res_mul: arr[6],
+            pc_update_jump: arr[7],
+            pc_update_jump_rel: arr[8],
+            pc_update_jnz: arr[9],
+            ap_update_add: arr[10],
+            ap_update_add_1: arr[11],
+            opcode_call: arr[12],
+            opcode_ret: arr[13],
+            opcode_assert_eq: arr[14],
+        }
     }
 }
 

@@ -172,6 +172,9 @@ impl_air_var!([UInt32Expr]);
 impl_air_var!([BoolExpr]);
 impl_air_var!([FeltExpr]);
 impl_air_var!([UInt16Expr]);
+type Felts = [FeltExpr; 3];
+type Bools = [BoolExpr; 15];
+impl_air_var!((Felts, Bools));
 
 // Implements AirVar for arrays and tuples of air vars.
 #[macro_export]

@@ -2,8 +2,8 @@ use std::collections::BTreeMap;
 
 use super::super::range_check::*;
 use super::common::*;
-
 use crate::core::air_fn::*;
+use crate::core::expressions::bool_expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
@@ -12,6 +12,7 @@ use crate::core::prover_types::*;
 use crate::core::variables::*;
 
 // Macros
+use crate::const_bool_expr;
 use crate::const_expr;
 use crate::const_u32_expr;
 
@@ -29,7 +30,7 @@ pub struct CheckInstruction {
 // returns the felts of the non-constant offsets pieced back together.
 impl AirFn for CheckInstruction {
     type In = FeltExpr;
-    type Out = [FeltExpr; 3];
+    type Out = ([FeltExpr; 3], [BoolExpr; 15]);
 
     fn call(&self, ab: &mut AirBuilder, pc: Self::In) -> Self::Out {
         assert_eq!(
@@ -53,17 +54,35 @@ impl AirFn for CheckInstruction {
         let felt2 = off_1.high + (off_2.low * const_expr!(1 << 8));
         let felt3 = off_2.high;
 
-        let mut felt4 = self.const_flags.sum_consts(0, 12);
-        let mut felt5 = self.const_flags.sum_consts(12, 15);
+        let mut felt4 = self.const_flags.sum(0, 12);
+        let mut felt5 = self.const_flags.sum(12, 15);
         let felts = instruction_for_deduction.as_felts();
-        for i in self.const_flags.get_non_consts_indices() {
-            if i < 12 {
-                felt4 = felt4 + (check_flag(ab, i, felts[4].clone()) * const_expr!(1 << i));
-            } else {
-                felt5 =
-                    felt5 + (check_flag(ab, i - 12, felts[5].clone()) * const_expr!(1 << (i - 12)));
-            }
-        }
+        let flags: [BoolExpr; 15] = self
+            .const_flags
+            .to_arr()
+            .into_iter()
+            .enumerate()
+            .map(|(i, flag)| {
+                if let Some(flag) = flag {
+                    return const_bool_expr!(flag);
+                }
+
+                // Get the flag from the instruction.
+                let (felt_index, felt_to_update, shift) = if i < 12 {
+                    (4, &mut felt4, i)
+                } else {
+                    (5, &mut felt5, i - 12)
+                };
+                let flag = check_flag(ab, shift, felts[felt_index].clone());
+
+                // Update the corresponding felt.
+                *felt_to_update = felt_to_update.clone() + (flag.clone() * const_expr!(1 << shift));
+
+                flag.into()
+            })
+            .collect::<Vec<_>>()
+            .try_into()
+            .expect("flags should have 15 elements.");
 
         ab.set_in_memory(
             &self.memory,
@@ -71,7 +90,7 @@ impl AirFn for CheckInstruction {
             Felt252Expr::from(vec![felt0, felt1, felt2, felt3, felt4, felt5]),
         );
 
-        [off_0.val, off_1.val, off_2.val]
+        ([off_0.val, off_1.val, off_2.val], flags)
     }
 
     fn inst_def(&self) -> BTreeMap<String, String> {
@@ -80,7 +99,7 @@ impl AirFn for CheckInstruction {
                 "const_offsets".to_string(),
                 format!("{:?}", self.const_offsets),
             ),
-            ("const_flags".to_string(), format!("{}", self.const_flags)),
+            ("const_flags".to_string(), format!("{:?}", self.const_flags)),
         ]
         .into()
     }
