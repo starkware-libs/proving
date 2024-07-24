@@ -83,7 +83,7 @@ impl AirFn for JumpOpcode {
         } else {
             ap.clone()
         };
-        let key = mem1_base + offset_as_signed(offset2);
+        let key = mem1_base + offset2;
         let mut op1_value = ab.get_from_memory(&self.memory, &key);
         let op1 = ab.deduce(op1_value.as_felts_mut()[0]);
         ab.set_in_memory(&self.memory, key, Felt252Expr::from(vec![op1.clone()]));

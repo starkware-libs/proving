@@ -151,7 +151,7 @@ fn check_offset(
         return OffsetParts {
             low: const_expr!(low_u16 as u32),
             high: const_expr!(high_u16 as u32),
-            val: const_expr!(*off as u32),
+            val: offset_as_signed(const_expr!(*off as u32)),
         };
     }
 
@@ -173,7 +173,11 @@ fn check_offset(
 
     // Reconstruct the offset as felt from the high and low parts.
     let val = low.clone() + (high.clone() * const_expr!(1 << off_l_len));
-    OffsetParts { low, high, val }
+    OffsetParts {
+        low,
+        high,
+        val: offset_as_signed(val),
+    }
 }
 
 // Recieves begining bit and the bit length of an offset part, a felt to split and returns the part

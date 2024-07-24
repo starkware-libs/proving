@@ -105,10 +105,13 @@ fn test_with_matching_memory(
 
     assert_eq!(state.calc(), expected_state);
 
-    for (i, &offset) in offsets_u16.iter().enumerate() {
-        assert_eq!(offsets_output[i].calc(), offset.to_string());
+    for (i, &offset) in offsets.iter().enumerate() {
+        assert_eq!(
+            offsets_output[i].calc(),
+            (offset as i64).rem_euclid(PRIME as i64).to_string()
+        );
     }
-    for (i, &flag) in flags.iter().enumerate() {
+    for (i, flag) in flags.iter().enumerate() {
         assert_eq!(flags_output[i].calc(), flag.to_string());
     }
 }
