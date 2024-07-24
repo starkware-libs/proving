@@ -11,6 +11,7 @@ use crate::core::variables::*;
 
 const STWO_COMPONENT_TYPE_RANGE_CHECK_3: &str = "RangeCheck3";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_4: &str = "RangeCheck4";
+const STWO_COMPONENT_TYPE_RANGE_CHECK_6: &str = "RangeCheck6";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_8: &str = "RangeCheck8";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_12: &str = "RangeCheck12";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_16: &str = "RangeCheck16";
@@ -31,6 +32,7 @@ impl AirFn for RangeCheck {
             // the same name.
             3 => STWO_COMPONENT_TYPE_RANGE_CHECK_3.to_string(),
             4 => STWO_COMPONENT_TYPE_RANGE_CHECK_4.to_string(),
+            6 => STWO_COMPONENT_TYPE_RANGE_CHECK_6.to_string(),
             8 => STWO_COMPONENT_TYPE_RANGE_CHECK_8.to_string(),
             12 => STWO_COMPONENT_TYPE_RANGE_CHECK_12.to_string(),
             16 => STWO_COMPONENT_TYPE_RANGE_CHECK_16.to_string(),

@@ -14,11 +14,11 @@ fn test_range_check() {
     let deductions = [
         "deduction_tmp_0 = RangeCheckBuiltin__32_input",
         "deduction_tmp_0",
-        "deduction_tmp_2 = Memory__FeltExpr__Felt252Expr((const_100 + state[0]))",
-        "deduction_tmp_2.get_m31(const_0)",
-        "deduction_tmp_2.get_m31(const_1)",
-        "deduction_tmp_2.get_m31(const_2)",
-        "deduction_tmp_3 = RangeCheck8(state[3])",
+        "deduction_tmp_3 = Memory__FeltExpr__Felt252Expr((const_100 + state[0]))",
+        "deduction_tmp_3.get_m31(const_0)",
+        "deduction_tmp_3.get_m31(const_1)",
+        "deduction_tmp_3.get_m31(const_2)",
+        "deduction_tmp_4 = RangeCheck8(state[3])",
     ];
 
     let constraints = [
