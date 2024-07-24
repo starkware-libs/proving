@@ -162,7 +162,7 @@ fn test_no_consts() {
         "(state[18] * (const_1 - state[18]))",
         "(state[19] * (const_1 - state[19]))",
         "(state[20] * (const_1 - state[20]))",
-        &format!("Memory__FeltExpr__Felt252Expr([{}]) == [{}, {}, {}, {}, {}, {}]",
+        &format!("Memory__FeltExpr__Felt252Expr([{}]) == zero_extend([{}, {}, {}, {}, {}, {}])",
             check_instruction_input,
             "state[0]",
             "(state[1] + (state[2] * const_16))",
@@ -238,7 +238,7 @@ fn test_all_consts() {
 
     let check_instruction_input = "CheckInstruction__Flags{dst_base_fp:Some(false)__op0_base_fp:Some(true)__op1_imm:Some(false)__op1_base_fp:Some(true)__op1_base_ap:Some(false)__res_add:Some(false)__res_mul:Some(false)__pc_update_jump:Some(true)__pc_update_jump_rel:Some(false)__pc_update_jnz:Some(true)__ap_update_add:Some(true)__ap_update_add_1:Some(false)__opcode_call:Some(false)__opcode_ret:Some(false)__opcode_assert_eq:Some(true)}__[Some(49953)__Some(30875)__Some(36026)]_input";
     let expected_constraints: [&str; 1] = [&format!(
-        "Memory__FeltExpr__Felt252Expr([{}]) == [{}, {}, {}, {}, {}, {}]",
+        "Memory__FeltExpr__Felt252Expr([{}]) == zero_extend([{}, {}, {}, {}, {}, {}])",
         check_instruction_input,
         "const_801",
         "const_2492",
@@ -277,7 +277,7 @@ fn test_some_consts() {
         "(state[2] * (const_1 - state[2]))",
         "(state[3] * (const_1 - state[3]))",
         &format!(
-            "Memory__FeltExpr__Felt252Expr([{}]) == [{}, {}, {}, {}, {}, {}]",
+            "Memory__FeltExpr__Felt252Expr([{}]) == zero_extend([{}, {}, {}, {}, {}, {}])",
             check_instruction_input,
             "const_801",
             "(const_12 + (state[0] * const_16))",

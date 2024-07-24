@@ -193,8 +193,8 @@ fn test_abs_jump_deduction_constraints() {
     ];
     let constraints = vec![
     "RangeCheck4([state[3]]) == []",
-    "Memory__FeltExpr__Felt252Expr([state[0]]) == [const_4095, const_4087, (const_127 + (state[3] * const_256)), state[4], const_147]",
-    "Memory__FeltExpr__Felt252Expr([(state[1] + ((state[3] + (state[4] * const_16)) - const_32768))]) == [state[5]]"
+    "Memory__FeltExpr__Felt252Expr([state[0]]) == zero_extend([const_4095, const_4087, (const_127 + (state[3] * const_256)), state[4], const_147])",
+    "Memory__FeltExpr__Felt252Expr([(state[1] + ((state[3] + (state[4] * const_16)) - const_32768))]) == zero_extend([state[5]])"
     ];
     test_jump_opcode(
         &create_flags(false, false, false),
@@ -216,8 +216,8 @@ fn test_rel_jump_deduction_constraints() {
         "deduction_tmp_3.get_m31(const_0)",
     ];
     let constraints = vec![
-        "Memory__FeltExpr__Felt252Expr([state[0]]) == [const_4095, const_4087, const_383, const_2048, const_263]",
-        "Memory__FeltExpr__Felt252Expr([(state[0] + const_1)]) == [state[3]]"
+        "Memory__FeltExpr__Felt252Expr([state[0]]) == zero_extend([const_4095, const_4087, const_383, const_2048, const_263])",
+        "Memory__FeltExpr__Felt252Expr([(state[0] + const_1)]) == zero_extend([state[3]])"
     ];
     test_jump_opcode(
         &create_flags(true, false, false),
