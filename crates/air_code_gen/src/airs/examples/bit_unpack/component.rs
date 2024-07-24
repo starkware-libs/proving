@@ -11,6 +11,7 @@ use stwo_prover::core::pcs::TreeVec;
 use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::{ColumnVec, InteractionElements};
 
+/// Type: `BitUnpack`
 #[allow(non_camel_case_types)]
 pub struct BitUnpack__12 {
     pub log_n_instances: u32,

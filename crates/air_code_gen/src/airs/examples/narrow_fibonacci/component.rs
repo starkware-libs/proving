@@ -11,6 +11,8 @@ use stwo_prover::core::pcs::TreeVec;
 use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::{ColumnVec, InteractionElements};
 
+/// Type: `NarrowFib`
+/// num_steps: `20`
 #[allow(non_camel_case_types)]
 pub struct NarrowFib__20 {
     pub log_n_instances: u32,

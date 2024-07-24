@@ -1,3 +1,6 @@
+use std::collections::BTreeMap;
+
+use air_infra::core::air_fn_registry::AirFnEntry;
 use air_infra::core::compiled_structs::{
     CompiledAirFn, CompiledAirVar, ConstraintEvalStep, TraceGenStep,
 };
@@ -185,7 +188,11 @@ fn generate_component_impl(
     res_code
 }
 
-pub fn generate_component(component_name: &str, lists: CompiledAirFn) -> rust::Tokens {
+pub fn generate_component(
+    component_name: &str,
+    lists: CompiledAirFn,
+    entry: &AirFnEntry,
+) -> rust::Tokens {
     let imports = quote! {
         #![allow(unused_imports)]
         use stwo_prover::core::air::accumulation::PointEvaluationAccumulator;
@@ -200,6 +207,7 @@ pub fn generate_component(component_name: &str, lists: CompiledAirFn) -> rust::T
         use stwo_prover::core::poly::circle::CanonicCoset;
         use stwo_prover::core::{ColumnVec, InteractionElements};
     };
+    let inst_def_doc = generate_inst_def_docstring(component_name, &entry.inst_def);
     let n_columns = component_n_columns(&lists.deductions);
     let struct_code = generate_struct_code(component_name);
     let component_impl_code =
@@ -208,8 +216,24 @@ pub fn generate_component(component_name: &str, lists: CompiledAirFn) -> rust::T
     quote! {
         $(imports)
         $['\n']
+        $(inst_def_doc)
         $(struct_code)
         $['\n']
         $(component_impl_code)
     }
+}
+
+fn generate_inst_def_docstring(
+    component_name: &str,
+    inst_def: &BTreeMap<String, String>,
+) -> rust::Tokens {
+    let mut docstring = rust::Tokens::new();
+    docstring.append(format!(
+        "/// Type: `{}`",
+        component_name.split('_').next().unwrap()
+    ));
+    for (key, value) in inst_def.iter() {
+        docstring.append(format!("\n/// {}: `{}`", key, value));
+    }
+    docstring
 }

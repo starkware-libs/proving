@@ -52,7 +52,7 @@ pub fn dump_component_code(air_fn: &impl AirFn, folder_path: &Path) {
         generate_cpu_prover_component(&air_entry.name, &lists.constraints.clone());
     let simd_prover_tokens =
         generate_simd_prover_component(&air_entry.name, &lists.constraints.clone());
-    let component_tokens = generate_component(&air_entry.name, lists);
+    let component_tokens = generate_component(&air_entry.name, lists, &air_entry);
     let test_utils_tokens = generate_test_air_code(&air_entry.name);
 
     // Write the generated code to files.
