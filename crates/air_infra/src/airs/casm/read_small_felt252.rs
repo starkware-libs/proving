@@ -1,21 +1,23 @@
+use crate::airs::casm::common::CasmAddress;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
+use crate::core::prover_types::FELT252_BITS_PER_WORD;
 use crate::core::variables::*;
 
+use super::super::range_check::*;
 /// Reads from memory a felt252, writes the lower <num_limbs> limbs to the trace
 /// and constrains the rest to be zeros (so the felt252 has value < 2**(12*num_limbs)).
 /// Returns the felt252.
 #[derive(Debug)]
 pub struct ReadSmallFelt252 {
-    pub num_limbs: usize,
+    pub num_bits: usize,
     pub memory: Memory<FeltExpr, Felt252Expr>,
 }
 
 impl AirFn for ReadSmallFelt252 {
-    type In = FeltExpr;
-
+    type In = CasmAddress;
     type Out = Felt252Expr;
 
     fn call(
@@ -26,17 +28,29 @@ impl AirFn for ReadSmallFelt252 {
         let mut value_from_memory = air_builder.get_from_memory(&self.memory, &address);
         let mut felts = value_from_memory.as_felts_mut();
         let mut expected_nonzero_limbs: Vec<FeltExpr> = vec![];
+        let remainder = self.num_bits % FELT252_BITS_PER_WORD;
+        let num_limbs = self.num_bits.div_ceil(FELT252_BITS_PER_WORD);
 
-        for felt in felts.iter_mut().take(self.num_limbs) {
+        for felt in felts.iter_mut().take(num_limbs) {
             expected_nonzero_limbs.push(air_builder.deduce(felt));
         }
 
-        let expected_value = Felt252Expr::from(expected_nonzero_limbs);
+        let expected_value = Felt252Expr::from(expected_nonzero_limbs.clone());
         air_builder.set_in_memory(&self.memory, address, expected_value.clone());
+
+        //  Range check the last limb.
+        if remainder != 0 {
+            air_builder.lookup_call(
+                &RangeCheck {
+                    bits: remainder as u16,
+                },
+                expected_nonzero_limbs[num_limbs - 1].clone(),
+            );
+        };
         expected_value
     }
 
     fn inst_def(&self) -> std::collections::BTreeMap<String, String> {
-        [("num_limbs".to_string(), self.num_limbs.to_string())].into()
+        [("num_bits".to_string(), self.num_bits.to_string())].into()
     }
 }

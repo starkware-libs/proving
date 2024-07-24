@@ -7,6 +7,8 @@ pub mod jump_opcode;
 #[cfg(test)]
 pub mod jump_opcode_test;
 pub mod read_small_felt252;
+#[cfg(test)]
+pub mod read_small_felt252_test;
 pub mod ret_opcode;
 #[cfg(test)]
 pub mod ret_opcode_test;

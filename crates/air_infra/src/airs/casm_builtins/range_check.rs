@@ -1,12 +1,9 @@
 use crate::airs::casm::read_small_felt252::*;
-use crate::airs::range_check::*;
 use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::*;
-use crate::core::variables::*;
 
 // Start address of the segment for this builtin.
 // TODO: receive this at proof time as a public param. Until public params
@@ -21,36 +18,16 @@ pub struct RangeCheckBuiltin {
 
 impl AirFn for RangeCheckBuiltin {
     type In = FeltExpr;
-
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, instance_num: Self::In) -> Self::Out {
-        let dummy_segment_start = const_expr!(DUMMY_SEGMENT_START);
-
-        let nonzero_limbs = self.bits.div_ceil(FELT252_BITS_PER_WORD);
-        let bits_in_msb_limb = self.bits % FELT252_BITS_PER_WORD;
-        let read_fn = ReadSmallFelt252 {
-            num_limbs: nonzero_limbs,
-            memory: self.memory.clone(),
-        };
-
-        let address = dummy_segment_start + instance_num;
-        let value_from_memory = air_builder.call(&read_fn, address);
-
-        if bits_in_msb_limb != 0 {
-            let msb_limb = value_from_memory
-                .as_felts()
-                .into_iter()
-                .nth(nonzero_limbs - 1)
-                .expect("The Felt252 read from memory should have enough limbs");
-
-            air_builder.lookup_call(
-                &RangeCheck {
-                    bits: bits_in_msb_limb as u16,
-                },
-                msb_limb,
-            );
-        }
+        air_builder.call(
+            &ReadSmallFelt252 {
+                num_bits: self.bits,
+                memory: self.memory.clone(),
+            },
+            const_expr!(DUMMY_SEGMENT_START) + instance_num,
+        );
     }
 
     fn inst_def(&self) -> std::collections::BTreeMap<String, String> {

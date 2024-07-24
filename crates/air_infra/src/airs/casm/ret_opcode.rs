@@ -49,7 +49,7 @@ impl AirFn for RetOpcode {
 
     fn call(&self, air_builder: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
         let read_24bit_felt = ReadSmallFelt252 {
-            num_limbs: 2,
+            num_bits: 24,
             memory: self.memory.clone(),
         };
         let check_instruction = CheckInstruction {
