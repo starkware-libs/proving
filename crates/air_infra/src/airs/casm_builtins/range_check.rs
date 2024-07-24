@@ -1,11 +1,17 @@
 use crate::airs::casm::read_small_felt252::*;
 use crate::airs::range_check::*;
+use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 use crate::core::prover_types::*;
 use crate::core::variables::*;
+
+// Start address of the segment for this builtin.
+// TODO: receive this at proof time as a public param. Until public params
+// are implemented, have it as a dummy constant for testing.
+pub const DUMMY_SEGMENT_START: u32 = 100;
 
 #[derive(Debug)]
 pub struct RangeCheckBuiltin {
@@ -18,7 +24,9 @@ impl AirFn for RangeCheckBuiltin {
 
     type Out = ();
 
-    fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, instance_num: Self::In) -> Self::Out {
+        let dummy_segment_start = const_expr!(DUMMY_SEGMENT_START);
+
         let nonzero_limbs = self.bits.div_ceil(FELT252_BITS_PER_WORD);
         let bits_in_msb_limb = self.bits % FELT252_BITS_PER_WORD;
         let read_fn = ReadSmallFelt252 {
@@ -26,6 +34,7 @@ impl AirFn for RangeCheckBuiltin {
             memory: self.memory.clone(),
         };
 
+        let address = dummy_segment_start + instance_num;
         let value_from_memory = air_builder.call(&read_fn, address);
 
         if bits_in_msb_limb != 0 {

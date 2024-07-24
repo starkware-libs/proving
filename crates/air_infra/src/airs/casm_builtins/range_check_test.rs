@@ -7,14 +7,14 @@ use crate::core::prover_types::*;
 use crate::expr;
 use crate::felt252_expr;
 
-use super::range_check::RangeCheckBuiltin;
+use super::range_check::*;
 
 #[test]
 fn test_range_check() {
     let deductions = [
         "deduction_tmp_0 = RangeCheckBuiltin__32_input",
         "deduction_tmp_0",
-        "deduction_tmp_2 = Memory__FeltExpr__Felt252Expr(state[0])",
+        "deduction_tmp_2 = Memory__FeltExpr__Felt252Expr((const_100 + state[0]))",
         "deduction_tmp_2.get_m31(const_0)",
         "deduction_tmp_2.get_m31(const_1)",
         "deduction_tmp_2.get_m31(const_2)",
@@ -22,12 +22,12 @@ fn test_range_check() {
     ];
 
     let constraints = [
-        "Memory__FeltExpr__Felt252Expr([state[0]]) == zero_extend([state[1], state[2], state[3]])",
+        "Memory__FeltExpr__Felt252Expr([(const_100 + state[0])]) == zero_extend([state[1], state[2], state[3]])",
         "RangeCheck8([state[3]]) == []",
     ];
 
     let memory = Memory::new_with_data(vec![(
-        const_expr!(0),
+        const_expr!(DUMMY_SEGMENT_START),
         felt252_expr!("value_to_check", (1 << 17), 0),
     )]);
 
@@ -59,7 +59,7 @@ fn test_range_check() {
 }
 
 fn run_range_check(value: Felt252Expr, bits: usize) {
-    let address = 0;
+    let address = DUMMY_SEGMENT_START;
     let memory = Memory::new_with_data(vec![(const_expr!(address), value)]);
 
     let rc = RangeCheckBuiltin {
@@ -69,7 +69,7 @@ fn run_range_check(value: Felt252Expr, bits: usize) {
 
     let registry = AirFnRegistry::new(&rc);
 
-    registry.run_air(&rc, expr!("address", address));
+    registry.run_air(&rc, expr!("address", 0));
 }
 
 #[test]
