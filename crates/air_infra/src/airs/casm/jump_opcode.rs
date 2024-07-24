@@ -29,28 +29,15 @@ pub struct JumpOpcode {
     pub memory: Memory<FeltExpr, Felt252Expr>,
 }
 
-impl AirFn for JumpOpcode {
-    type In = CasmState;
-    type Out = CasmState;
-
-    fn call(&self, ab: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
-        // Create the constant offsets.
-        let offset0 = offset_as_u16(-1);
-        let offset1 = offset_as_u16(-1);
-        let offset2 = if self.is_rel {
-            Some(offset_as_u16(1))
-        } else {
-            None
-        };
-
-        // Create the flags.
+impl JumpOpcode {
+    pub fn get_flags(&self) -> Flags {
         let flag_op1_base_ap = if self.is_rel {
             assert!(!self.flag_op1_base_fp);
             false
         } else {
             !self.flag_op1_base_fp
         };
-        let flags = Flags {
+        Flags {
             dst_base_fp: Some(true),
             op0_base_fp: Some(true),
             op1_imm: Some(self.is_rel),
@@ -66,7 +53,26 @@ impl AirFn for JumpOpcode {
             opcode_call: Some(false),
             opcode_ret: Some(false),
             opcode_assert_eq: Some(false),
+        }
+    }
+}
+
+impl AirFn for JumpOpcode {
+    type In = CasmState;
+    type Out = CasmState;
+
+    fn call(&self, ab: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
+        // Create the constant offsets.
+        let offset0 = offset_as_u16(-1);
+        let offset1 = offset_as_u16(-1);
+        let offset2 = if self.is_rel {
+            Some(offset_as_u16(1))
+        } else {
+            None
         };
+
+        // Create the flags.
+        let flags = self.get_flags();
 
         // Check the instruction.
         let ([_, _, offset2], _) = ab.call(
