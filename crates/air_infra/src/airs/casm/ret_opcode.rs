@@ -3,11 +3,10 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::variables::*;
 
 use super::check_instruction::*;
 use super::common::*;
-use super::read_small_felt252::*;
+use super::read_addr::*;
 
 pub const RET_FLAGS: Flags = Flags {
     dst_base_fp: Some(true),
@@ -48,10 +47,6 @@ impl AirFn for RetOpcode {
     type Out = CasmState;
 
     fn call(&self, air_builder: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
-        let read_24bit_felt = ReadSmallFelt252 {
-            num_bits: 24,
-            memory: self.memory.clone(),
-        };
         let check_instruction = CheckInstruction {
             const_offsets: [
                 Some(offset_as_u16(-2)),
@@ -64,19 +59,16 @@ impl AirFn for RetOpcode {
 
         air_builder.call(&check_instruction, pc);
 
-        // Read the saved pc and fp as "small felt252"s. pc and fp contain memory addresses,
+        // Read the saved pc and fp as memory addresses,
         // so we don't support values > 2**24 for them.
-        let next_pc = air_builder.call(&read_24bit_felt, fp.clone() - const_expr!(1));
-        let next_pc_felts = next_pc.as_felts();
+        let read_addr = ReadAddr {
+            memory: self.memory.clone(),
+        };
+        let next_pc = air_builder.call(&read_addr, fp.clone() - const_expr!(1));
 
-        let next_fp = air_builder.call(&read_24bit_felt, fp - const_expr!(2));
-        let next_fp_felts = next_fp.as_felts();
+        let next_fp = air_builder.call(&read_addr, fp - const_expr!(2));
 
-        [
-            next_pc_felts[0].clone() + (next_pc_felts[1].clone() * const_expr!(1 << 12)),
-            ap,
-            next_fp_felts[0].clone() + (next_fp_felts[1].clone() * const_expr!(1 << 12)),
-        ]
+        [next_pc, ap, next_fp]
     }
 
     fn trace_type(&self) -> TraceType {

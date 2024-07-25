@@ -1,13 +1,16 @@
 use std::collections::BTreeMap;
 
+use crate::airs::casm::read_small_felt252::ReadSmallFelt252;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::variables::*;
+use crate::core::prover_types::FELT252_BITS_PER_WORD;
+use crate::core::variables::AirVar;
 
 use super::check_instruction::*;
 use super::common::*;
+use super::read_addr::ReadAddr;
 
 // Macros
 use crate::const_expr;
@@ -75,21 +78,31 @@ impl AirFn for JumpOpcode {
             pc.clone(),
         );
 
-        // Fetch op1.
-        let mem1_base = if self.is_rel {
-            pc.clone()
-        } else if self.flag_op1_base_fp {
-            fp.clone()
-        } else {
-            ap.clone()
-        };
-        let key = mem1_base + offset2;
-        let mut op1_value = ab.get_from_memory(&self.memory, &key);
-        let op1 = ab.deduce(op1_value.as_felts_mut()[0]);
-        ab.set_in_memory(&self.memory, key, Felt252Expr::from(vec![op1.clone()]));
-
         // Calculate the next pc
-        let next_pc = if self.is_rel { pc + op1 } else { op1 };
+        let next_pc = if self.is_rel {
+            pc.clone()
+                + ab.call(
+                    &ReadSmallFelt252 {
+                        num_bits: FELT252_BITS_PER_WORD,
+                        memory: self.memory.clone(),
+                    },
+                    pc + const_expr!(1),
+                )
+                .as_felts()[0]
+                    .clone()
+        } else {
+            let mem1_base = if self.flag_op1_base_fp {
+                fp.clone()
+            } else {
+                ap.clone()
+            };
+            ab.call(
+                &ReadAddr {
+                    memory: self.memory.clone(),
+                },
+                mem1_base + offset2,
+            )
+        };
 
         // Calculate the next ap
         let next_ap = if self.flag_ap_update_add_1 {

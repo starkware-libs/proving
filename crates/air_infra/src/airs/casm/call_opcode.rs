@@ -2,12 +2,15 @@ use std::collections::BTreeMap;
 
 use super::check_instruction::*;
 use super::common::*;
+use super::read_addr::ReadAddr;
 
+use crate::airs::casm::read_small_felt252::ReadSmallFelt252;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::variables::*;
+use crate::core::prover_types::FELT252_BITS_PER_WORD;
+use crate::core::variables::AirVar;
 
 // Macros
 use crate::const_expr;
@@ -90,22 +93,31 @@ impl AirFn for CallOpcode {
             Felt252Expr::from(vec![(pc.clone() + const_expr!(1 + (self.is_rel as u32)))]),
         );
 
-        // Fetch op1.
-        let mem1_base = if self.is_rel {
-            pc.clone()
-        } else if self.flag_op1_base_fp {
-            fp
-        } else {
-            ap.clone()
-        };
-
-        let key = mem1_base + offset2;
-        let mut op1_value = ab.get_from_memory(&self.memory, &key);
-        let op1 = ab.deduce(op1_value.as_felts_mut()[0]);
-        ab.set_in_memory(&self.memory, key, Felt252Expr::from(vec![op1.clone()]));
-
         // Update pc.
-        let next_pc = if self.is_rel { op1 } else { pc + op1 };
+        let next_pc = if self.is_rel {
+            pc.clone()
+                + ab.call(
+                    &ReadSmallFelt252 {
+                        num_bits: FELT252_BITS_PER_WORD,
+                        memory: self.memory.clone(),
+                    },
+                    pc + const_expr!(1),
+                )
+                .as_felts()[0]
+                    .clone()
+        } else {
+            let mem1_base = if self.flag_op1_base_fp {
+                fp.clone()
+            } else {
+                ap.clone()
+            };
+            ab.call(
+                &ReadAddr {
+                    memory: self.memory.clone(),
+                },
+                mem1_base + offset_as_signed(offset2),
+            )
+        };
 
         [next_pc, ap.clone() + const_expr!(2), ap + const_expr!(2)]
     }

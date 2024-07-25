@@ -112,7 +112,7 @@ fn test_jump_opcode(
 
 #[test]
 fn test_abs_jump_base_ap() {
-    let state_list = vec!["3", "11", "6", "5", "2048", "8"];
+    let state_list = vec!["3", "11", "6", "5", "2048", "8", "0"];
     test_jump_opcode(
         &create_flags(false, false, false),
         Some(state_list),
@@ -123,7 +123,7 @@ fn test_abs_jump_base_ap() {
 
 #[test]
 fn test_abs_jump_base_fp() {
-    let state_list = vec!["3", "11", "6", "5", "2048", "8"];
+    let state_list = vec!["3", "11", "6", "5", "2048", "8", "0"];
     test_jump_opcode(
         &create_flags(false, true, false),
         Some(state_list),
@@ -134,7 +134,7 @@ fn test_abs_jump_base_fp() {
 
 #[test]
 fn test_abs_jump_base_ap_inc_ap() {
-    let state_list = vec!["3", "11", "6", "5", "2048", "8"];
+    let state_list = vec!["3", "11", "6", "5", "2048", "8", "0"];
     test_jump_opcode(
         &create_flags(false, false, true),
         Some(state_list),
@@ -145,7 +145,7 @@ fn test_abs_jump_base_ap_inc_ap() {
 
 #[test]
 fn test_abs_jump_base_fp_inc_ap() {
-    let state_list = vec!["3", "11", "6", "5", "2048", "8"];
+    let state_list = vec!["3", "11", "6", "5", "2048", "8", "0"];
     test_jump_opcode(
         &create_flags(false, true, true),
         Some(state_list),
@@ -181,20 +181,21 @@ fn test_abs_jump_deduction_constraints() {
     let deductions = vec![
     "deduction_tmp_0 = [JumpOpcode__false__false__false_input[0], JumpOpcode__false__false__false_input[1], JumpOpcode__false__false__false_input[2]]",
     "deduction_tmp_0[0]",
-    "deduction_tmp_0[1]", 
+    "deduction_tmp_0[1]",
     "deduction_tmp_0[2]",
     "deduction_tmp_4 = Memory__FeltExpr__Felt252Expr(state[0])",
     "deduction_tmp_5 = ((UInt32::from_m31(deduction_tmp_4.get_m31(const_2)) >> const_8) & const_15)",
     "deduction_tmp_5.low().as_m31()",
     "deduction_tmp_6 = RangeCheck4(state[3])",
-    "deduction_tmp_4.get_m31(const_3)", 
-    "deduction_tmp_7 = Memory__FeltExpr__Felt252Expr((state[1] + ((state[3] + (state[4] * const_16)) - const_32768)))",
-    "deduction_tmp_7.get_m31(const_0)"
+    "deduction_tmp_4.get_m31(const_3)",
+    "deduction_tmp_9 = Memory__FeltExpr__Felt252Expr((state[1] + ((state[3] + (state[4] * const_16)) - const_32768)))",
+    "deduction_tmp_9.get_m31(const_0)",
+    "deduction_tmp_9.get_m31(const_1)"
     ];
     let constraints = vec![
     "RangeCheck4([state[3]]) == []",
     "Memory__FeltExpr__Felt252Expr([state[0]]) == zero_extend([const_4095, const_4087, (const_127 + (state[3] * const_256)), state[4], const_147])",
-    "Memory__FeltExpr__Felt252Expr([(state[1] + ((state[3] + (state[4] * const_16)) - const_32768))]) == zero_extend([state[5]])"
+    "Memory__FeltExpr__Felt252Expr([(state[1] + ((state[3] + (state[4] * const_16)) - const_32768))]) == zero_extend([state[5], state[6]])"
     ];
     test_jump_opcode(
         &create_flags(false, false, false),
@@ -212,8 +213,8 @@ fn test_rel_jump_deduction_constraints() {
         "deduction_tmp_0[1]",
         "deduction_tmp_0[2]",
         "deduction_tmp_2 = Memory__FeltExpr__Felt252Expr(state[0])",
-        "deduction_tmp_3 = Memory__FeltExpr__Felt252Expr((state[0] + const_1))",
-        "deduction_tmp_3.get_m31(const_0)",
+        "deduction_tmp_4 = Memory__FeltExpr__Felt252Expr((state[0] + const_1))",
+        "deduction_tmp_4.get_m31(const_0)"
     ];
     let constraints = vec![
         "Memory__FeltExpr__Felt252Expr([state[0]]) == zero_extend([const_4095, const_4087, const_383, const_2048, const_263])",
