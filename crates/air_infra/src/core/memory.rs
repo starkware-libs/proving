@@ -75,10 +75,10 @@ where
             self.data.borrow_mut().insert(actual_key, value);
         } else {
             let v = self.data.borrow().get(&actual_key).cloned().unwrap();
-            assert_eq!(
-                v.to_values(),
-                value.to_values(),
-                "Memory::set() failed - given value != value in memory"
+            assert!(
+                v.to_values() == value.to_values(),
+                "Memory::set() failed for key {:?}- given value != value in memory",
+                actual_key
             );
         }
     }
