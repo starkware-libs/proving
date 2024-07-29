@@ -12,7 +12,8 @@ use super::uint64_expr::*;
 
 // Macros
 use crate::{
-    bool_expr, const_expr, const_u32_expr, const_u64_expr, expr, felt252_expr, u32_expr, u64_expr,
+    bool_expr, const_expr, const_felt252_expr, const_u32_expr, const_u64_expr, expr, felt252_expr,
+    u32_expr, u64_expr,
 };
 
 #[test]
@@ -87,6 +88,49 @@ fn test_felt252() {
             "0", "0", "0", "0", "0"
         ]
     );
+}
+
+#[test]
+fn test_felt252_ops() {
+    let a = const_felt252_expr!(1, 2);
+    let b = const_felt252_expr!(3, 4);
+    assert_eq!(
+        (a.clone() + b.clone()).calc(),
+        const_felt252_expr!(4, 6).calc()
+    );
+    assert_eq!(
+        (a.clone() - b.clone()).calc(),
+        const_felt252_expr!(
+            340282366920938463463374607431768211455u128,
+            10633823966279327296825105735305134077u128
+        )
+        .calc()
+    );
+    assert_eq!(
+        (a.clone() * b.clone()).calc(),
+        const_felt252_expr!(
+            340282366920938463463374607431768211204u128,
+            10633823966279247016594896951336501257u128
+        )
+        .calc()
+    );
+    assert_eq!(
+        (a.clone() / b.clone()).calc(),
+        const_felt252_expr!(
+            301589100446816170481308260342883819822u128,
+            4410038550152422379901404080731837379u128
+        )
+        .calc()
+    );
+    let c = const_felt252_expr!(1, 0);
+    let d = const_felt252_expr!(0, 10633823966279327296825105735305134080u128);
+    assert_eq!((c + d).calc(), const_felt252_expr!(0, 0).calc());
+}
+
+#[test]
+#[should_panic(expected = "Division by zero")]
+fn test_felt252_division_by_zero() {
+    let _div = const_felt252_expr!(3, 4) / const_felt252_expr!(0, 0);
 }
 
 #[test]

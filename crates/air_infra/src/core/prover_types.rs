@@ -2,12 +2,14 @@ use std::fmt::Debug;
 use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 
 use serde::{Deserialize, Serialize};
+use starknet_ff::FieldElement;
 use stwo_prover::core::fields::m31::M31;
 
 pub const PRIME: u32 = 2_u32.pow(31) - 1;
 
 pub trait AlgebraicType: ProverType + Add + Sub + Mul + Div {}
 impl AlgebraicType for M31 {}
+impl AlgebraicType for Felt252 {}
 
 pub trait NumericType: ProverType + Rem + Shl + Shr + BitAnd + BitOr + BitXor {}
 impl NumericType for UInt16 {}
@@ -381,6 +383,8 @@ pub const FELT252_BITS_PER_WORD: usize = 12;
 // modulo the prime 2**251 + 17 * 2**192 + 1.
 #[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
 pub struct Felt252 {
+    // TODO: Consider replacing this representation with a [u64; 4] limb representation,
+    // to simplify FieldElement conversions.
     pub low: u128,
     pub high: u128,
 }
@@ -419,6 +423,85 @@ impl Felt252 {
         }
 
         Self { low, high }
+    }
+}
+
+// Convert between Felt252 and FieldElement for performing field operations.
+// Note that FieldElements are in Montgomery form, and for efficiency and simplicity, we skip the
+// conversion in both direction. We thus have to compensate with extra factors when performing
+// multiplication and division.
+impl From<Felt252> for FieldElement {
+    fn from(n: Felt252) -> FieldElement {
+        let mut limbs = [0u64; 4];
+        limbs[0] = (n.low & (u64::MAX as u128)) as u64;
+        limbs[1] = (n.low >> 64) as u64;
+        limbs[2] = (n.high & (u64::MAX as u128)) as u64;
+        limbs[3] = (n.high >> 64) as u64;
+
+        FieldElement::from_mont(limbs)
+    }
+}
+impl From<FieldElement> for Felt252 {
+    fn from(n: FieldElement) -> Felt252 {
+        let limbs = n.into_mont();
+        let low = (limbs[0] as u128) + ((limbs[1] as u128) << 64);
+        let high = (limbs[2] as u128) + ((limbs[3] as u128) << 64);
+
+        Felt252 { low, high }
+    }
+}
+
+impl Add for Felt252 {
+    type Output = Felt252;
+    fn add(self, other: Felt252) -> Felt252 {
+        let self_ff: FieldElement = self.into();
+        let other_ff: FieldElement = other.into();
+
+        (self_ff + other_ff).into()
+    }
+}
+
+impl Sub for Felt252 {
+    type Output = Felt252;
+    fn sub(self, other: Felt252) -> Felt252 {
+        let self_ff: FieldElement = self.into();
+        let other_ff: FieldElement = other.into();
+
+        (self_ff - other_ff).into()
+    }
+}
+
+// This value is equal to 2**512 % PRIME, which compensates for the two Montgomery divisions
+// by 2**256 performed in the two multiplications below.
+const FELT252_MONT_MUL_FACTOR: FieldElement = FieldElement::from_mont([
+    18446741271209837569,
+    5151653887,
+    18446744073700081664,
+    576413109808302096,
+]);
+
+impl Mul for Felt252 {
+    type Output = Felt252;
+    fn mul(self, other: Felt252) -> Felt252 {
+        let self_ff: FieldElement = self.into();
+        let other_ff: FieldElement = other.into();
+
+        (self_ff * other_ff * FELT252_MONT_MUL_FACTOR).into()
+    }
+}
+
+// The Montgomery inversion adds a factor of 2**512 to the inverse of `other`, so it is only
+// necessary to perform one more Montgomery reduction after computing self * other.invert().
+// The reduction is accessible by multipliying by 1 (i.e. the Montgomery form of 2**-256).
+const FELT252_MONT_DIV_FACTOR: FieldElement = FieldElement::from_mont([1, 0, 0, 0]);
+
+impl Div for Felt252 {
+    type Output = Felt252;
+    fn div(self, other: Felt252) -> Felt252 {
+        let self_ff: FieldElement = self.into();
+        let other_ff: FieldElement = other.into();
+
+        (self_ff * other_ff.invert().expect("Division by zero") * FELT252_MONT_DIV_FACTOR).into()
     }
 }
 
