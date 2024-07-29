@@ -1,43 +1,52 @@
-use crate::const_expr;
-use crate::core::air_fn_registry::*;
+use super::common::*;
+use super::jump_opcode::*;
 
-use crate::core::expressions::expr::Expr;
+use crate::core::air_fn::*;
+use crate::core::air_fn_registry::*;
+use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 use crate::core::prover_types::*;
+
+// Macros
+use crate::const_expr;
 use crate::expr;
 use crate::felt252_expr;
 
-use super::common::*;
-use super::jump_opcode::*;
-
 fn test_jump_opcode(
-    opcode: &Flags,
-    state_vec: Option<Vec<&str>>,
-    deductions_vec: Option<Vec<&str>>,
-    constarint_vec: Option<Vec<&str>>,
+    is_rel_jump: bool,
+    op1_base_fp: bool,
+    ap_update_add_1: bool,
+    op1: u128,
+    offset_value: i16,
+    air_body_hints: Option<[&str; 3]>,
 ) {
+    // Create the air function
+    let mut jump_opcode = JumpOpcode {
+        is_rel: is_rel_jump,
+        flag_op1_base_fp: op1_base_fp,
+        flag_ap_update_add_1: ap_update_add_1,
+        memory: Memory::default(),
+    };
+
     // Register values at opcode start
     let pc_value = 3;
     let ap_value = 11;
     let fp_value = 6;
-    let offset_value = 5;
 
     let pc = expr!("pc", pc_value);
     let ap = expr!("ap", ap_value);
     let fp = expr!("fp", fp_value);
-    let op1 = 8;
-
-    // Read opcode
-    let is_rel_jump = opcode.pc_update_jump_rel.unwrap();
-    let op1_base_fp = opcode.op1_base_fp.unwrap();
-    let ap_update_add_1 = opcode.ap_update_add_1.unwrap();
 
     // Fill memory
     let mut memory_values = vec![(
         pc.clone(),
-        felt252_expr!("op", assemble_jump(offset_value, opcode) as u128, 0),
+        felt252_expr!(
+            "op",
+            assemble_jump(offset_value, &jump_opcode.get_flags()) as u128,
+            0
+        ),
     )];
     if is_rel_jump {
         memory_values.push((const_expr!(pc_value + 1), felt252_expr!("op1", op1, 0)));
@@ -52,18 +61,12 @@ fn test_jump_opcode(
             felt252_expr!("op1", op1, 0),
         ));
     }
-    let memory: Memory<FeltExpr, Felt252Expr> = Memory::new_with_data(memory_values);
+    jump_opcode.init_memory(&Memory::new_with_data(memory_values));
 
     // Run air function
-    let func = JumpOpcode {
-        is_rel: is_rel_jump,
-        flag_op1_base_fp: op1_base_fp,
-        flag_ap_update_add_1: ap_update_add_1,
-        memory: memory.clone(),
-    };
-    let registry = AirFnRegistry::new(&func);
+    let registry = AirFnRegistry::new(&jump_opcode);
     let (state, [next_pc, next_ap, next_fp]) =
-        registry.run_air(&func, [pc, ap.clone(), fp.clone()]);
+        registry.run_air(&jump_opcode, [pc, ap.clone(), fp.clone()]);
 
     // Check output
     if is_rel_jump {
@@ -79,153 +82,134 @@ fn test_jump_opcode(
     }
 
     // Check state
-    if let Some(state_vec) = state_vec {
-        assert_eq!(state.calc(), state_vec);
+    let mut expected_state = vec![pc_value, ap_value, fp_value];
+    if is_rel_jump {
+        expected_state.push((op1 & 0xFFF) as u32);
+    } else {
+        expected_state.push((offset_as_u16(offset_value) & 0xF) as u32);
+        expected_state.push((offset_as_u16(offset_value) >> 4) as u32);
+        expected_state.push((op1 & 0xFFF) as u32);
+        expected_state.push((op1 >> 12) as u32);
     }
+    assert_eq!(
+        state.calc(),
+        expected_state
+            .iter()
+            .map(|x| x.to_string())
+            .collect::<Vec<String>>()
+    );
 
-    // Check deductions
-    if let Some(deductions) = deductions_vec {
-        let lists = registry.get_compiled_air_fn(&func);
-        assert_eq!(
-            lists
-                .deductions
-                .iter()
-                .map(|x| x.to_string())
-                .collect::<Vec<String>>(),
-            deductions
+    // Check air body
+    if let Some([check_instruction_offsets, check_instruction_name, read_call]) = air_body_hints {
+        let check_instruction_call = &format!(
+            "({}, {}) = {}({})",
+            check_instruction_offsets,
+            jump_opcode.get_flags(),
+            check_instruction_name,
+            "state[0]"
         );
-    }
-
-    // Check constraints
-    if let Some(constraints) = constarint_vec {
-        let lists = registry.get_compiled_air_fn(&func);
+        let entry = registry.get_air_fn_entry(&jump_opcode);
         assert_eq!(
-            lists
-                .constraints
+            entry
+                .air_body
                 .iter()
                 .map(|x| x.to_string())
                 .collect::<Vec<String>>(),
-            constraints
+            vec![
+                &format!(
+                    "deduction_tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
+                    name = jump_opcode.name()
+                ),
+                "Deduction: deduction_tmp_0[0]",
+                "Deduction: deduction_tmp_0[1]",
+                "Deduction: deduction_tmp_0[2]",
+                check_instruction_call,
+                read_call
+            ]
         );
     }
 }
 
 #[test]
 fn test_abs_jump_base_ap() {
-    let state_list = vec!["3", "11", "6", "5", "2048", "8", "0"];
+    let check_instruction_offsets =
+        "[const_2147483646, const_2147483646, ((state[3] + (state[4] * const_16)) - const_32768)]";
+    let check_instruction_name = "CheckInstruction__Flags{dst_base_fp:Some(true)__op0_base_fp:Some(true)__op1_imm:Some(false)__op1_base_fp:Some(false)__op1_base_ap:Some(true)__res_add:Some(false)__res_mul:Some(false)__pc_update_jump:Some(true)__pc_update_jump_rel:Some(false)__pc_update_jnz:Some(false)__ap_update_add:Some(false)__ap_update_add_1:Some(false)__opcode_call:Some(false)__opcode_ret:Some(false)__opcode_assert_eq:Some(false)}__[Some(32767)__Some(32767)__None]";
+    let read_addr_output = "(state[5] + (state[6] * const_4096))";
+    let read_addr_input = "(state[1] + ((state[3] + (state[4] * const_16)) - const_32768))";
+    let read_addr_call = &format!("{} = {}({})", read_addr_output, "ReadAddr", read_addr_input);
     test_jump_opcode(
-        &create_flags(false, false, false),
-        Some(state_list),
-        None,
-        None,
+        false,
+        false,
+        false,
+        8,
+        2,
+        Some([
+            check_instruction_offsets,
+            check_instruction_name,
+            read_addr_call,
+        ]),
     );
 }
 
 #[test]
 fn test_abs_jump_base_fp() {
-    let state_list = vec!["3", "11", "6", "5", "2048", "8", "0"];
-    test_jump_opcode(
-        &create_flags(false, true, false),
-        Some(state_list),
-        None,
-        None,
-    );
+    test_jump_opcode(false, true, false, 5, 10, None);
 }
 
 #[test]
 fn test_abs_jump_base_ap_inc_ap() {
-    let state_list = vec!["3", "11", "6", "5", "2048", "8", "0"];
-    test_jump_opcode(
-        &create_flags(false, false, true),
-        Some(state_list),
-        None,
-        None,
-    );
+    test_jump_opcode(false, false, true, 12, 100, None);
 }
 
 #[test]
 fn test_abs_jump_base_fp_inc_ap() {
-    let state_list = vec!["3", "11", "6", "5", "2048", "8", "0"];
-    test_jump_opcode(
-        &create_flags(false, true, true),
-        Some(state_list),
-        None,
-        None,
-    );
+    test_jump_opcode(false, true, true, 20, 17, None);
+}
+
+#[test]
+fn test_abs_big_op1() {
+    test_jump_opcode(false, false, false, 1684685, 402, None);
+}
+
+#[test]
+fn test_abs_jump_negativ_offset() {
+    test_jump_opcode(false, false, false, 9, -9, None);
 }
 
 #[test]
 fn test_rel_jump() {
-    let state_list = vec!["3", "11", "6", "8"];
+    let check_instruction_offsets = "[const_2147483646, const_2147483646, const_1]";
+    let check_instruction_name = "CheckInstruction__Flags{dst_base_fp:Some(true)__op0_base_fp:Some(true)__op1_imm:Some(true)__op1_base_fp:Some(false)__op1_base_ap:Some(false)__res_add:Some(false)__res_mul:Some(false)__pc_update_jump:Some(false)__pc_update_jump_rel:Some(true)__pc_update_jnz:Some(false)__ap_update_add:Some(false)__ap_update_add_1:Some(false)__opcode_call:Some(false)__opcode_ret:Some(false)__opcode_assert_eq:Some(false)}__[Some(32767)__Some(32767)__Some(32769)]";
+    let read_small_felt252_output = "Felt252::from_m31_([state[3], const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0])";
+    let read_small_felt252_input = "(state[0] + const_1)";
+    let read_small_felt252_name = "ReadSmallFelt252__12";
+    let read_small_felt252_call = &format!(
+        "{} = {}({})",
+        read_small_felt252_output, read_small_felt252_name, read_small_felt252_input
+    );
     test_jump_opcode(
-        &create_flags(true, false, false),
-        Some(state_list),
-        None,
-        None,
+        true,
+        false,
+        false,
+        100,
+        5,
+        Some([
+            check_instruction_offsets,
+            check_instruction_name,
+            read_small_felt252_call,
+        ]),
     );
 }
 
 #[test]
 fn test_rel_jump_inc_ap() {
-    let state_list = vec!["3", "11", "6", "8"];
-    test_jump_opcode(
-        &create_flags(true, false, true),
-        Some(state_list),
-        None,
-        None,
-    );
+    test_jump_opcode(true, false, true, 3, 5, None);
 }
 
 #[test]
-fn test_abs_jump_deduction_constraints() {
-    let deductions = vec![
-    "deduction_tmp_0 = [JumpOpcode__false__false__false_input[0], JumpOpcode__false__false__false_input[1], JumpOpcode__false__false__false_input[2]]",
-    "deduction_tmp_0[0]",
-    "deduction_tmp_0[1]",
-    "deduction_tmp_0[2]",
-    "deduction_tmp_4 = Memory__FeltExpr__Felt252Expr(state[0])",
-    "deduction_tmp_5 = ((UInt32::from_m31(deduction_tmp_4.get_m31(const_2)) >> const_8) & const_15)",
-    "deduction_tmp_5.low().as_m31()",
-    "deduction_tmp_6 = RangeCheck4(state[3])",
-    "deduction_tmp_4.get_m31(const_3)",
-    "deduction_tmp_9 = Memory__FeltExpr__Felt252Expr((state[1] + ((state[3] + (state[4] * const_16)) - const_32768)))",
-    "deduction_tmp_9.get_m31(const_0)",
-    "deduction_tmp_9.get_m31(const_1)"
-    ];
-    let constraints = vec![
-    "RangeCheck4([state[3]]) == []",
-    "Memory__FeltExpr__Felt252Expr([state[0]]) == zero_extend([const_4095, const_4087, (const_127 + (state[3] * const_256)), state[4], const_147])",
-    "Memory__FeltExpr__Felt252Expr([(state[1] + ((state[3] + (state[4] * const_16)) - const_32768))]) == zero_extend([state[5], state[6]])"
-    ];
-    test_jump_opcode(
-        &create_flags(false, false, false),
-        None,
-        Some(deductions),
-        Some(constraints),
-    );
-}
-
-#[test]
-fn test_rel_jump_deduction_constraints() {
-    let deductions = vec![
-        "deduction_tmp_0 = [JumpOpcode__false__false__true_input[0], JumpOpcode__false__false__true_input[1], JumpOpcode__false__false__true_input[2]]",
-        "deduction_tmp_0[0]",
-        "deduction_tmp_0[1]",
-        "deduction_tmp_0[2]",
-        "deduction_tmp_2 = Memory__FeltExpr__Felt252Expr(state[0])",
-        "deduction_tmp_4 = Memory__FeltExpr__Felt252Expr((state[0] + const_1))",
-        "deduction_tmp_4.get_m31(const_0)"
-    ];
-    let constraints = vec![
-        "Memory__FeltExpr__Felt252Expr([state[0]]) == zero_extend([const_4095, const_4087, const_383, const_2048, const_263])",
-        "Memory__FeltExpr__Felt252Expr([(state[0] + const_1)]) == zero_extend([state[3]])"
-    ];
-    test_jump_opcode(
-        &create_flags(true, false, false),
-        None,
-        Some(deductions),
-        Some(constraints),
-    );
+fn test_rel_big_op1() {
+    test_jump_opcode(true, false, false, 1632, 5, None);
 }
 
 pub fn assemble_jump(op1_off: i16, flags: &Flags) -> u64 {
@@ -234,25 +218,4 @@ pub fn assemble_jump(op1_off: i16, flags: &Flags) -> u64 {
         .map(|b| if b { 1 } else { op1_off })
         .unwrap();
     assemble_instruction(-1, -1, jump_op1_off, flags.clone().into())
-}
-
-fn create_flags(is_rel: bool, fp_based: bool, ap_add_1: bool) -> Flags {
-    let ap_based = if is_rel { false } else { !fp_based };
-    Flags {
-        dst_base_fp: Some(true),
-        op0_base_fp: Some(true),
-        op1_imm: Some(is_rel),
-        op1_base_fp: Some(fp_based),
-        op1_base_ap: Some(ap_based),
-        res_add: Some(false),
-        res_mul: Some(false),
-        pc_update_jump: Some(!is_rel),
-        pc_update_jump_rel: Some(is_rel),
-        pc_update_jnz: Some(false),
-        ap_update_add: Some(false),
-        ap_update_add_1: Some(ap_add_1),
-        opcode_call: Some(false),
-        opcode_ret: Some(false),
-        opcode_assert_eq: Some(false),
-    }
 }

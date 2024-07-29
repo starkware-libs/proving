@@ -1,3 +1,6 @@
+#[cfg(test)]
+use std::fmt::Display;
+
 use crate::core::expressions::felt_expr::*;
 
 // Macros
@@ -104,4 +107,24 @@ pub fn assemble_instruction(off_0: i16, off_1: i16, off_2: i16, flags: [bool; 15
     let biased_off_1: u64 = offset_as_u16(off_1) as u64;
     let biased_off_2: u64 = offset_as_u16(off_2) as u64;
     (flags_int << 48) + (biased_off_2 << 32) + (biased_off_1 << 16) + biased_off_0
+}
+
+#[cfg(test)]
+impl Display for Flags {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        let flags = self.to_arr();
+        write!(
+            f,
+            "[{}]",
+            flags
+                .iter()
+                .map(|x| if x.unwrap() {
+                    "const_true"
+                } else {
+                    "const_false"
+                })
+                .collect::<Vec<&str>>()
+                .join(", ")
+        )
+    }
 }
