@@ -12,9 +12,9 @@ use stwo_prover::core::fields::FieldOps;
 use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::InteractionElements;
 
-use super::component::BitUnpack__12;
+use super::component::BitUnpack_e0b35c6b3a8afa3d;
 
-impl ComponentProver<SimdBackend> for BitUnpack__12 {
+impl ComponentProver<SimdBackend> for BitUnpack_e0b35c6b3a8afa3d {
     #[allow(unused_parens)]
     fn evaluate_constraint_quotients_on_domain(
         &self,

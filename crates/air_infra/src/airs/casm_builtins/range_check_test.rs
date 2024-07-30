@@ -1,20 +1,19 @@
-use crate::const_expr;
-use crate::core::air_fn_registry::AirFnRegistry;
+use super::range_check::*;
+use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 use crate::core::prover_types::*;
-use crate::expr;
-use crate::felt252_expr;
 
-use super::range_check::*;
+// Macros
+use crate::{const_expr, expr, felt252_expr};
 
 #[test]
 fn test_range_check() {
     let deductions = [
-        "deduction_tmp_0 = RangeCheckBuiltin__32_input",
+        "deduction_tmp_0 = RangeCheckBuiltin_2398e5a71b8b7a99_input",
         "deduction_tmp_0",
-        "deduction_tmp_3 = Memory__FeltExpr__Felt252Expr((const_100 + state[0]))",
+        "deduction_tmp_3 = Memory_81f75475e4cf34d6((const_100 + state[0]))",
         "deduction_tmp_3.get_m31(const_0)",
         "deduction_tmp_3.get_m31(const_1)",
         "deduction_tmp_3.get_m31(const_2)",
@@ -22,7 +21,7 @@ fn test_range_check() {
     ];
 
     let constraints = [
-        "Memory__FeltExpr__Felt252Expr([(const_100 + state[0])]) == zero_extend([state[1], state[2], state[3]])",
+        "Memory_81f75475e4cf34d6([(const_100 + state[0])]) == zero_extend([state[1], state[2], state[3]])",
         "RangeCheck8([state[3]]) == []",
     ];
 

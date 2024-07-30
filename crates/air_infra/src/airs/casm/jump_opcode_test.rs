@@ -134,10 +134,13 @@ fn test_jump_opcode(
 fn test_abs_jump_base_ap() {
     let check_instruction_offsets =
         "[const_2147483646, const_2147483646, ((state[3] + (state[4] * const_16)) - const_32768)]";
-    let check_instruction_name = "CheckInstruction__Flags{dst_base_fp:Some(true)__op0_base_fp:Some(true)__op1_imm:Some(false)__op1_base_fp:Some(false)__op1_base_ap:Some(true)__res_add:Some(false)__res_mul:Some(false)__pc_update_jump:Some(true)__pc_update_jump_rel:Some(false)__pc_update_jnz:Some(false)__ap_update_add:Some(false)__ap_update_add_1:Some(false)__opcode_call:Some(false)__opcode_ret:Some(false)__opcode_assert_eq:Some(false)}__[Some(32767)__Some(32767)__None]";
+    let check_instruction_name = "CheckInstruction_8e8d2ca4e5548dcb";
     let read_addr_output = "(state[5] + (state[6] * const_4096))";
     let read_addr_input = "(state[1] + ((state[3] + (state[4] * const_16)) - const_32768))";
-    let read_addr_call = &format!("{} = {}({})", read_addr_output, "ReadAddr", read_addr_input);
+    let read_addr_call = &format!(
+        "{} = {}({})",
+        read_addr_output, "ReadAddr_d86123cf8dd732a9", read_addr_input
+    );
     test_jump_opcode(
         false,
         false,
@@ -180,10 +183,10 @@ fn test_abs_jump_negativ_offset() {
 #[test]
 fn test_rel_jump() {
     let check_instruction_offsets = "[const_2147483646, const_2147483646, const_1]";
-    let check_instruction_name = "CheckInstruction__Flags{dst_base_fp:Some(true)__op0_base_fp:Some(true)__op1_imm:Some(true)__op1_base_fp:Some(false)__op1_base_ap:Some(false)__res_add:Some(false)__res_mul:Some(false)__pc_update_jump:Some(false)__pc_update_jump_rel:Some(true)__pc_update_jnz:Some(false)__ap_update_add:Some(false)__ap_update_add_1:Some(false)__opcode_call:Some(false)__opcode_ret:Some(false)__opcode_assert_eq:Some(false)}__[Some(32767)__Some(32767)__Some(32769)]";
+    let check_instruction_name = "CheckInstruction_79dc876569884a56";
     let read_small_felt252_output = "Felt252::from_m31_(zero_extend([state[3]]))";
     let read_small_felt252_input = "(state[0] + const_1)";
-    let read_small_felt252_name = "ReadSmallFelt252__12";
+    let read_small_felt252_name = "ReadSmallFelt252_3c159e262aa9003e";
     let read_small_felt252_call = &format!(
         "{} = {}({})",
         read_small_felt252_output, read_small_felt252_name, read_small_felt252_input

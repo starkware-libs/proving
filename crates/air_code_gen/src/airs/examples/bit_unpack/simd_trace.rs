@@ -14,18 +14,18 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
-use super::component::BitUnpack__12;
+use super::component::BitUnpack_e0b35c6b3a8afa3d;
 use crate::code_gen::packed_types::*;
 
 #[allow(non_camel_case_types)]
 #[derive(Default)]
-pub struct BitUnpack__12SimdTraceGenerator {
+pub struct BitUnpack_e0b35c6b3a8afa3dSimdTraceGenerator {
     pub inputs: Vec<PackedUInt16>,
 }
-impl ComponentGen for BitUnpack__12SimdTraceGenerator {}
+impl ComponentGen for BitUnpack_e0b35c6b3a8afa3dSimdTraceGenerator {}
 
-impl TraceGenerator<SimdBackend> for BitUnpack__12SimdTraceGenerator {
-    type Component = BitUnpack__12;
+impl TraceGenerator<SimdBackend> for BitUnpack_e0b35c6b3a8afa3dSimdTraceGenerator {
+    type Component = BitUnpack_e0b35c6b3a8afa3d;
     type Inputs = Vec<PackedUInt16>;
 
     fn write_trace(
@@ -43,8 +43,8 @@ impl TraceGenerator<SimdBackend> for BitUnpack__12SimdTraceGenerator {
         self.inputs.extend(inputs);
     }
 
-    fn component(&self) -> BitUnpack__12 {
-        BitUnpack__12 {
+    fn component(&self) -> BitUnpack_e0b35c6b3a8afa3d {
+        BitUnpack_e0b35c6b3a8afa3d {
             log_n_instances: self
                 .inputs
                 .len()
@@ -69,7 +69,7 @@ impl ReturnedInputs {
 #[allow(clippy::type_complexity)]
 #[allow(clippy::let_unit_value)]
 pub fn write_trace_simd(
-    component: &BitUnpack__12,
+    component: &BitUnpack_e0b35c6b3a8afa3d,
     secrets: &Vec<PackedUInt16>,
 ) -> (
     Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
@@ -103,14 +103,14 @@ pub fn write_trace_simd(
 #[allow(clippy::type_complexity)]
 fn write_trace_row(
     dst: &mut [Vec<PackedM31>],
-    BitUnpack__12_input: PackedUInt16,
+    BitUnpack_e0b35c6b3a8afa3d_input: PackedUInt16,
     row_index: usize,
     #[allow(unused_variables)] returned_inputs: &mut ReturnedInputs,
 ) {
-    let col0 = BitUnpack__12_input.as_m31();
+    let col0 = BitUnpack_e0b35c6b3a8afa3d_input.as_m31();
     dst[0][row_index] = col0;
     let deduction_tmp_2 =
-        (BitUnpack__12_input) >> (PackedUInt16::broadcast(UInt16::from(1).into()));
+        (BitUnpack_e0b35c6b3a8afa3d_input) >> (PackedUInt16::broadcast(UInt16::from(1).into()));
     let col1 = deduction_tmp_2.as_m31();
     dst[1][row_index] = col1;
     let deduction_tmp_4 = (deduction_tmp_2) >> (PackedUInt16::broadcast(UInt16::from(1).into()));

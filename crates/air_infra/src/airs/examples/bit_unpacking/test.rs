@@ -7,6 +7,7 @@ use crate::core::expressions::expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::core::prover_types::*;
+
 // Macros
 use crate::const_expr;
 use crate::u16_expr;
@@ -30,8 +31,8 @@ fn test_bit_unpacking() {
     ];
 
     let deductions = [
-        "BitUnpack__4_input.as_m31()",
-        "deduction_tmp_2 = (BitUnpack__4_input >> const_1)",
+        "BitUnpack_3cfd160c00d5343f_input.as_m31()",
+        "deduction_tmp_2 = (BitUnpack_3cfd160c00d5343f_input >> const_1)",
         "deduction_tmp_2.as_m31()",
         "deduction_tmp_4 = (deduction_tmp_2 >> const_1)",
         "deduction_tmp_4.as_m31()",
@@ -41,21 +42,21 @@ fn test_bit_unpacking() {
         "deduction_tmp_8.as_m31()",
     ];
 
-    assert!(
+    assert_eq!(
         lists
             .constraints
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == constraints
+            .collect::<Vec<String>>(),
+        constraints
     );
-    assert!(
+    assert_eq!(
         lists
             .deductions
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == deductions
+            .collect::<Vec<String>>(),
+        deductions
     );
 
     let (state, output) = registry.run_air(&func, u16_expr!("x", 10, true));
@@ -99,26 +100,26 @@ fn test_bit_mux() {
     ];
 
     let deductions = [
-        "AirFnBitMux_input.as_m31()",
-        "deduction_tmp_2 = (AirFnBitMux_input >> const_1)",
+        "AirFnBitMux_6ffde77494a1d1e8_input.as_m31()",
+        "deduction_tmp_2 = (AirFnBitMux_6ffde77494a1d1e8_input >> const_1)",
         "deduction_tmp_2.as_m31()",
     ];
 
-    assert!(
+    assert_eq!(
         lists
             .constraints
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == constraints
+            .collect::<Vec<String>>(),
+        constraints
     );
-    assert!(
+    assert_eq!(
         lists
             .deductions
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == deductions
+            .collect::<Vec<String>>(),
+        deductions
     );
 
     let (_, out) = registry.run_air(&func, u16_expr!("x", 2, true));

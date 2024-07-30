@@ -9,38 +9,38 @@ use stwo_prover::core::poly::circle::CircleEvaluation;
 use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::{ColumnVec, ComponentVec, InteractionElements};
 
-use super::component::BitUnpack__12;
+use super::component::BitUnpack_e0b35c6b3a8afa3d;
 
 #[allow(non_camel_case_types)]
-pub struct BitUnpack__12TestAIR {
-    pub component: BitUnpack__12,
+pub struct BitUnpack_e0b35c6b3a8afa3dTestAIR {
+    pub component: BitUnpack_e0b35c6b3a8afa3d,
 }
 
-impl Air for BitUnpack__12TestAIR {
+impl Air for BitUnpack_e0b35c6b3a8afa3dTestAIR {
     fn components(&self) -> Vec<&dyn Component> {
         vec![&self.component]
     }
 }
 
-impl AirProver<CpuBackend> for BitUnpack__12TestAIR {
+impl AirProver<CpuBackend> for BitUnpack_e0b35c6b3a8afa3dTestAIR {
     fn prover_components(&self) -> Vec<&dyn ComponentProver<CpuBackend>> {
         vec![&self.component]
     }
 }
 
-impl AirProver<SimdBackend> for BitUnpack__12TestAIR {
+impl AirProver<SimdBackend> for BitUnpack_e0b35c6b3a8afa3dTestAIR {
     fn prover_components(&self) -> Vec<&dyn ComponentProver<SimdBackend>> {
         vec![&self.component]
     }
 }
 
-impl AirTraceVerifier for BitUnpack__12TestAIR {
+impl AirTraceVerifier for BitUnpack_e0b35c6b3a8afa3dTestAIR {
     fn interaction_elements(&self, _channel: &mut Blake2sChannel) -> InteractionElements {
         InteractionElements::default()
     }
 }
 
-impl AirTraceWriter<CpuBackend> for BitUnpack__12TestAIR {
+impl AirTraceWriter<CpuBackend> for BitUnpack_e0b35c6b3a8afa3dTestAIR {
     fn interact(
         &self,
         _trace: &ColumnVec<CircleEvaluation<CpuBackend, BaseField, BitReversedOrder>>,
@@ -54,7 +54,7 @@ impl AirTraceWriter<CpuBackend> for BitUnpack__12TestAIR {
     }
 }
 
-impl AirTraceWriter<SimdBackend> for BitUnpack__12TestAIR {
+impl AirTraceWriter<SimdBackend> for BitUnpack_e0b35c6b3a8afa3dTestAIR {
     fn interact(
         &self,
         _trace: &ColumnVec<CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>>,

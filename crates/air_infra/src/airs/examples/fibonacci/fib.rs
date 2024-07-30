@@ -1,14 +1,15 @@
-use std::collections::BTreeMap;
 use std::fmt::Debug;
+
+use indexmap::IndexMap;
 
 use super::fib_step::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
+
 // Macros
 use crate::const_expr;
 
 /// Returns the Fibonacci number at the given index.
-
 #[derive(Clone, Debug)]
 pub struct Fib {
     pub claim_index: usize,
@@ -30,7 +31,7 @@ impl AirFn for Fib {
         input[1].clone()
     }
 
-    fn inst_def(&self) -> BTreeMap<String, String> {
+    fn inst_def(&self) -> IndexMap<String, String> {
         [("claim_index".to_string(), self.claim_index.to_string())].into()
     }
 }

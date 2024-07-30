@@ -1,16 +1,15 @@
-use std::collections::BTreeMap;
+use indexmap::IndexMap;
 
 use super::check_instruction::*;
 use super::common::*;
-use super::read_addr::ReadAddr;
-
-use crate::airs::casm::read_small_felt252::ReadSmallFelt252;
+use super::read_addr::*;
+use super::read_small_felt252::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::FELT252_BITS_PER_WORD;
-use crate::core::variables::AirVar;
+use crate::core::prover_types::*;
+use crate::core::variables::*;
 
 // Macros
 use crate::const_expr;
@@ -122,7 +121,7 @@ impl AirFn for CallOpcode {
         [next_pc, ap.clone() + const_expr!(2), ap + const_expr!(2)]
     }
 
-    fn inst_def(&self) -> BTreeMap<String, String> {
+    fn inst_def(&self) -> IndexMap<String, String> {
         [
             ("is_rel".to_string(), self.is_rel.to_string()),
             (

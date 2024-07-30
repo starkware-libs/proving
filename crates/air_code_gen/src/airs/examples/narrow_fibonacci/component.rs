@@ -14,11 +14,11 @@ use stwo_prover::core::{ColumnVec, InteractionElements};
 /// Type: `NarrowFib`
 /// num_steps: `20`
 #[allow(non_camel_case_types)]
-pub struct NarrowFib__20 {
+pub struct NarrowFib_1ddf31c88316e62f {
     pub log_n_instances: u32,
 }
 
-impl Component for NarrowFib__20 {
+impl Component for NarrowFib_1ddf31c88316e62f {
     fn n_constraints(&self) -> usize {
         20
     }

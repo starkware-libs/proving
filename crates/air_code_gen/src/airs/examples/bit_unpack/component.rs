@@ -12,12 +12,13 @@ use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::{ColumnVec, InteractionElements};
 
 /// Type: `BitUnpack`
+/// num_bits: `12`
 #[allow(non_camel_case_types)]
-pub struct BitUnpack__12 {
+pub struct BitUnpack_e0b35c6b3a8afa3d {
     pub log_n_instances: u32,
 }
 
-impl Component for BitUnpack__12 {
+impl Component for BitUnpack_e0b35c6b3a8afa3d {
     fn n_constraints(&self) -> usize {
         13
     }

@@ -1,10 +1,11 @@
 use std::cell::RefCell;
-use std::collections::BTreeMap;
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::{BufWriter, Write};
 use std::path::PathBuf;
 use std::rc::Rc;
 
+use indexmap::IndexMap;
 use serde::Serialize;
 use serde_json::to_writer_pretty;
 
@@ -21,7 +22,7 @@ pub const DEDUCTION_INTERMEDIATE_VAR_PREFIX: &str = "deduction_tmp_";
 #[derive(Debug, Clone, Serialize)]
 pub struct AirFnEntry {
     pub name: String,
-    pub inst_def: BTreeMap<String, String>,
+    pub inst_def: IndexMap<String, String>,
     pub input: AirVarImpl,
     pub input_num_of_felts: usize,
     pub output: AirVarImpl,
@@ -60,7 +61,7 @@ impl AirFnEntry {
 // for the air function and its subroutines.
 #[derive(Debug, Clone, Serialize)]
 pub struct AirFnRegistry {
-    pub air_fns: Rc<RefCell<BTreeMap<String, AirFnEntry>>>,
+    pub air_fns: Rc<RefCell<HashMap<String, AirFnEntry>>>,
     #[serde(skip)]
     pub intermediate_vars_index: Rc<RefCell<usize>>,
 }
@@ -73,7 +74,7 @@ impl AirFnRegistry {
     {
         // Create the registry.
         let registry = Self {
-            air_fns: Rc::new(RefCell::new(BTreeMap::new())),
+            air_fns: Rc::new(RefCell::new(HashMap::new())),
             intermediate_vars_index: Rc::new(RefCell::new(0)),
         };
         // Add the function to the registry.
@@ -173,7 +174,7 @@ impl AirFnRegistry {
         self.air_fns
             .borrow()
             .get(&air_fn.name())
-            .expect("Air function not found")
+            .unwrap_or_else(|| panic!("Air function {} not found", air_fn.name()))
             .clone()
     }
 

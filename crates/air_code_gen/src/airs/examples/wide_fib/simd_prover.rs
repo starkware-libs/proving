@@ -12,9 +12,9 @@ use stwo_prover::core::fields::FieldOps;
 use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::InteractionElements;
 
-use super::component::WideFib__8;
+use super::component::WideFib_d7cf24d545e710f9;
 
-impl ComponentProver<SimdBackend> for WideFib__8 {
+impl ComponentProver<SimdBackend> for WideFib_d7cf24d545e710f9 {
     #[allow(unused_parens)]
     fn evaluate_constraint_quotients_on_domain(
         &self,

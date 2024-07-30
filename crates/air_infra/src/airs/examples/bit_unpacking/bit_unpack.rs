@@ -1,5 +1,7 @@
 use std::fmt::Debug;
 
+use indexmap::IndexMap;
+
 use super::div2::Div2;
 use crate::core::air_fn::*;
 use crate::core::expressions::bool_expr::*;
@@ -28,5 +30,9 @@ impl<const N: usize> AirFn for BitUnpack<N> {
 
         air_builder.constrain(input.as_felt());
         output.try_into().expect("Invalid number of bits")
+    }
+
+    fn inst_def(&self) -> IndexMap<String, String> {
+        [("num_bits".to_string(), N.to_string())].into()
     }
 }

@@ -9,38 +9,38 @@ use stwo_prover::core::poly::circle::CircleEvaluation;
 use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::{ColumnVec, ComponentVec, InteractionElements};
 
-use super::component::WideFib__8;
+use super::component::WideFib_d7cf24d545e710f9;
 
 #[allow(non_camel_case_types)]
-pub struct WideFib__8TestAIR {
-    pub component: WideFib__8,
+pub struct WideFib_d7cf24d545e710f9TestAIR {
+    pub component: WideFib_d7cf24d545e710f9,
 }
 
-impl Air for WideFib__8TestAIR {
+impl Air for WideFib_d7cf24d545e710f9TestAIR {
     fn components(&self) -> Vec<&dyn Component> {
         vec![&self.component]
     }
 }
 
-impl AirProver<CpuBackend> for WideFib__8TestAIR {
+impl AirProver<CpuBackend> for WideFib_d7cf24d545e710f9TestAIR {
     fn prover_components(&self) -> Vec<&dyn ComponentProver<CpuBackend>> {
         vec![&self.component]
     }
 }
 
-impl AirProver<SimdBackend> for WideFib__8TestAIR {
+impl AirProver<SimdBackend> for WideFib_d7cf24d545e710f9TestAIR {
     fn prover_components(&self) -> Vec<&dyn ComponentProver<SimdBackend>> {
         vec![&self.component]
     }
 }
 
-impl AirTraceVerifier for WideFib__8TestAIR {
+impl AirTraceVerifier for WideFib_d7cf24d545e710f9TestAIR {
     fn interaction_elements(&self, _channel: &mut Blake2sChannel) -> InteractionElements {
         InteractionElements::default()
     }
 }
 
-impl AirTraceWriter<CpuBackend> for WideFib__8TestAIR {
+impl AirTraceWriter<CpuBackend> for WideFib_d7cf24d545e710f9TestAIR {
     fn interact(
         &self,
         _trace: &ColumnVec<CircleEvaluation<CpuBackend, BaseField, BitReversedOrder>>,
@@ -54,7 +54,7 @@ impl AirTraceWriter<CpuBackend> for WideFib__8TestAIR {
     }
 }
 
-impl AirTraceWriter<SimdBackend> for WideFib__8TestAIR {
+impl AirTraceWriter<SimdBackend> for WideFib_d7cf24d545e710f9TestAIR {
     fn interact(
         &self,
         _trace: &ColumnVec<CircleEvaluation<SimdBackend, BaseField, BitReversedOrder>>,

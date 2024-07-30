@@ -1,12 +1,8 @@
-use std::collections::BTreeMap;
+use indexmap::IndexMap;
 
-use crate::core::air_fn::{AirFn, TraceType};
-
-#[allow(unused_imports)] // import only used in cfg(test)
-use crate::core::expressions::expr::Expr;
-use crate::core::expressions::felt_expr::FeltExpr;
-
-#[allow(unused_imports)] // import only used in cfg(test)
+use crate::core::air_fn::*;
+use crate::core::expressions::felt_expr::*;
+#[cfg(test)]
 use crate::core::variables::*;
 
 const STWO_COMPONENT_TYPE_RANGE_CHECK_3: &str = "RangeCheck3";
@@ -23,7 +19,6 @@ pub struct RangeCheck {
 
 impl AirFn for RangeCheck {
     type In = FeltExpr;
-
     type Out = ();
 
     fn name(&self) -> String {
@@ -44,7 +39,7 @@ impl AirFn for RangeCheck {
         TraceType::Const
     }
 
-    fn inst_def(&self) -> BTreeMap<String, String> {
+    fn inst_def(&self) -> IndexMap<String, String> {
         [("bits".to_string(), self.bits.to_string())].into()
     }
 

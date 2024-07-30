@@ -1,5 +1,6 @@
-use super::narrow_fib::NarrowFib;
+use indexmap::IndexMap;
 
+use super::narrow_fib::NarrowFib;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 // Macros
@@ -32,5 +33,13 @@ impl AirFn for WideFib {
         }
 
         narrow_output[1].clone()
+    }
+
+    fn inst_def(&self) -> IndexMap<String, String> {
+        [
+            ("num_narrow".to_string(), self.num_narrow.to_string()),
+            ("narrow_size".to_string(), self.narrow_size.to_string()),
+        ]
+        .into()
     }
 }

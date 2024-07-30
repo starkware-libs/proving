@@ -1,12 +1,12 @@
-use std::collections::BTreeMap;
 use std::fmt::Debug;
+
+use indexmap::IndexMap;
 
 use super::fib_step::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 
 /// Returns the Fibonacci number at the given index.
-
 #[derive(Clone, Debug)]
 pub struct NarrowFib {
     pub num_steps: usize,
@@ -28,7 +28,7 @@ impl AirFn for NarrowFib {
         input.clone()
     }
 
-    fn inst_def(&self) -> BTreeMap<String, String> {
+    fn inst_def(&self) -> IndexMap<String, String> {
         [("num_steps".to_string(), self.num_steps.to_string())].into()
     }
 

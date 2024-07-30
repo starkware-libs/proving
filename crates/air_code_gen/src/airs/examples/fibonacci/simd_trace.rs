@@ -14,18 +14,18 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
-use super::component::Fib__100;
+use super::component::Fib_636c7aea2f39d7;
 use crate::code_gen::packed_types::*;
 
 #[allow(non_camel_case_types)]
 #[derive(Default)]
-pub struct Fib__100SimdTraceGenerator {
+pub struct Fib_636c7aea2f39d7SimdTraceGenerator {
     pub inputs: Vec<PackedM31>,
 }
-impl ComponentGen for Fib__100SimdTraceGenerator {}
+impl ComponentGen for Fib_636c7aea2f39d7SimdTraceGenerator {}
 
-impl TraceGenerator<SimdBackend> for Fib__100SimdTraceGenerator {
-    type Component = Fib__100;
+impl TraceGenerator<SimdBackend> for Fib_636c7aea2f39d7SimdTraceGenerator {
+    type Component = Fib_636c7aea2f39d7;
     type Inputs = Vec<PackedM31>;
 
     fn write_trace(
@@ -43,8 +43,8 @@ impl TraceGenerator<SimdBackend> for Fib__100SimdTraceGenerator {
         self.inputs.extend(inputs);
     }
 
-    fn component(&self) -> Fib__100 {
-        Fib__100 {
+    fn component(&self) -> Fib_636c7aea2f39d7 {
+        Fib_636c7aea2f39d7 {
             log_n_instances: self
                 .inputs
                 .len()
@@ -69,7 +69,7 @@ impl ReturnedInputs {
 #[allow(clippy::type_complexity)]
 #[allow(clippy::let_unit_value)]
 pub fn write_trace_simd(
-    component: &Fib__100,
+    component: &Fib_636c7aea2f39d7,
     secrets: &Vec<PackedM31>,
 ) -> (
     Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
@@ -103,11 +103,11 @@ pub fn write_trace_simd(
 #[allow(clippy::type_complexity)]
 fn write_trace_row(
     dst: &mut [Vec<PackedM31>],
-    Fib__100_input: PackedM31,
+    Fib_636c7aea2f39d7_input: PackedM31,
     row_index: usize,
     #[allow(unused_variables)] returned_inputs: &mut ReturnedInputs,
 ) {
-    let col0 = Fib__100_input;
+    let col0 = Fib_636c7aea2f39d7_input;
     dst[0][row_index] = col0;
     let col1 = (PackedM31::broadcast(M31::from(1).into())) + ((col0) * (col0));
     dst[1][row_index] = col1;

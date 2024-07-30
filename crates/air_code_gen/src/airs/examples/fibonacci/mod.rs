@@ -19,12 +19,12 @@ mod tests {
     use stwo_prover::core::poly::BitReversedOrder;
     use stwo_prover::trace_generation::{registry, TraceGenerator};
 
-    use super::component::Fib__100;
+    use super::component::Fib_636c7aea2f39d7;
     use super::simd_trace::write_trace_simd;
-    use super::test_utils::Fib__100TestAIR;
+    use super::test_utils::Fib_636c7aea2f39d7TestAIR;
     use super::trace::write_trace_cpu;
-    use crate::airs::examples::fibonacci::simd_trace::Fib__100SimdTraceGenerator;
-    use crate::airs::examples::fibonacci::trace::Fib__100CpuTraceGenerator;
+    use crate::airs::examples::fibonacci::simd_trace::Fib_636c7aea2f39d7SimdTraceGenerator;
+    use crate::airs::examples::fibonacci::trace::Fib_636c7aea2f39d7CpuTraceGenerator;
     use crate::airs::examples::test_utils::{assert_cpu_constraints, test_prove};
     use crate::code_gen::packed_types::N_LANES;
     use crate::code_gen::utils::{compare_contents_or_fix_with_path, project_root};
@@ -49,7 +49,7 @@ mod tests {
 
     #[test]
     fn test_write_trace() {
-        let fib_component = Fib__100 { log_n_instances: 2 };
+        let fib_component = Fib_636c7aea2f39d7 { log_n_instances: 2 };
         let secrets = (0..1 << fib_component.log_n_instances)
             .map(M31::from)
             .collect::<Vec<_>>();
@@ -60,7 +60,7 @@ mod tests {
 
     #[test]
     fn test_simd_write_trace() {
-        let fib_component = Fib__100 { log_n_instances: 7 };
+        let fib_component = Fib_636c7aea2f39d7 { log_n_instances: 7 };
         let secrets = (0..1 << fib_component.log_n_instances)
             .map(M31::from)
             .collect::<Vec<_>>();
@@ -97,7 +97,7 @@ mod tests {
 
     #[test]
     fn test_fib_constraints() {
-        let fib_component = Fib__100 { log_n_instances: 7 };
+        let fib_component = Fib_636c7aea2f39d7 { log_n_instances: 7 };
         let inputs = (0..1 << fib_component.log_n_instances)
             .map(M31::from)
             .collect_vec();
@@ -110,17 +110,19 @@ mod tests {
     fn test_fib_cpu_prove() {
         const LOG_N_INSTANCES: u32 = 7;
         let mut registry = registry::ComponentGenerationRegistry::default();
-        let fib_trace_gen = Fib__100CpuTraceGenerator::default();
+        let fib_trace_gen = Fib_636c7aea2f39d7CpuTraceGenerator::default();
         registry.register("fibonacci", fib_trace_gen);
 
         let inputs = (0..1 << LOG_N_INSTANCES).map(M31::from).collect_vec();
-        let trace_generator = registry.get_generator_mut::<Fib__100CpuTraceGenerator>("fibonacci");
+        let trace_generator =
+            registry.get_generator_mut::<Fib_636c7aea2f39d7CpuTraceGenerator>("fibonacci");
         trace_generator.add_inputs(&inputs);
-        let trace = Fib__100CpuTraceGenerator::write_trace("fibonacci", &mut registry);
-        let trace_generator = registry.get_generator::<Fib__100CpuTraceGenerator>("fibonacci");
+        let trace = Fib_636c7aea2f39d7CpuTraceGenerator::write_trace("fibonacci", &mut registry);
+        let trace_generator =
+            registry.get_generator::<Fib_636c7aea2f39d7CpuTraceGenerator>("fibonacci");
         let component = trace_generator.component();
 
-        let air = Fib__100TestAIR { component };
+        let air = Fib_636c7aea2f39d7TestAIR { component };
         test_prove(&air, trace);
     }
 
@@ -128,7 +130,7 @@ mod tests {
     fn test_fib_simd_prove() {
         const LOG_N_INSTANCES: u32 = 7;
         let mut registry = registry::ComponentGenerationRegistry::default();
-        let fib_simd_trace_gen = Fib__100SimdTraceGenerator::default();
+        let fib_simd_trace_gen = Fib_636c7aea2f39d7SimdTraceGenerator::default();
         registry.register("fibonacci", fib_simd_trace_gen);
 
         let inputs = (0..1 << LOG_N_INSTANCES)
@@ -137,13 +139,15 @@ mod tests {
             .map(PackedM31::from)
             .collect::<Vec<_>>();
 
-        let trace_generator = registry.get_generator_mut::<Fib__100SimdTraceGenerator>("fibonacci");
+        let trace_generator =
+            registry.get_generator_mut::<Fib_636c7aea2f39d7SimdTraceGenerator>("fibonacci");
         trace_generator.add_inputs(&inputs);
-        let trace = Fib__100SimdTraceGenerator::write_trace("fibonacci", &mut registry);
-        let trace_generator = registry.get_generator::<Fib__100SimdTraceGenerator>("fibonacci");
+        let trace = Fib_636c7aea2f39d7SimdTraceGenerator::write_trace("fibonacci", &mut registry);
+        let trace_generator =
+            registry.get_generator::<Fib_636c7aea2f39d7SimdTraceGenerator>("fibonacci");
         let component = trace_generator.component();
 
-        let air = Fib__100TestAIR { component };
+        let air = Fib_636c7aea2f39d7TestAIR { component };
         test_prove(&air, trace);
     }
 

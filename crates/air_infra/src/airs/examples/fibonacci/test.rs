@@ -17,35 +17,35 @@ fn test_wide_fibonacci() {
     let (_, output) = registry.run_air(&air_fn, expr!("secret", 1, true));
 
     let constraints = [
-        "NarrowFib__2([const_1, state[0]]) == [state[1], state[2]]",
-        "NarrowFib__2([state[1], state[2]]) == [state[3], state[4]]",
+        "NarrowFib_4b54c5fc8baa9c8a([const_1, state[0]]) == [state[1], state[2]]",
+        "NarrowFib_4b54c5fc8baa9c8a([state[1], state[2]]) == [state[3], state[4]]",
     ];
 
     let deductions = [
-        "WideFib_input",
-        "deduction_tmp_1 = NarrowFib__2([const_1, state[0]])",
+        "WideFib_65f75fe0ef6c26e3_input",
+        "deduction_tmp_1 = NarrowFib_4b54c5fc8baa9c8a([const_1, state[0]])",
         "deduction_tmp_1[0]",
         "deduction_tmp_1[1]",
-        "deduction_tmp_2 = NarrowFib__2([state[1], state[2]])",
+        "deduction_tmp_2 = NarrowFib_4b54c5fc8baa9c8a([state[1], state[2]])",
         "deduction_tmp_2[0]",
         "deduction_tmp_2[1]",
     ];
 
-    assert!(
+    assert_eq!(
         lists
             .constraints
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == constraints
+            .collect::<Vec<String>>(),
+        constraints
     );
-    assert!(
+    assert_eq!(
         lists
             .deductions
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == deductions
+            .collect::<Vec<String>>(),
+        deductions
     );
     assert!(output.calc() == *"866");
 }
@@ -64,28 +64,28 @@ fn test_fibonacci() {
     ];
 
     let deductions = [
-        "Fib__6_input",
+        "Fib_3d3a1e0177990b1e_input",
         "(const_1 + (state[0] * state[0]))",
         "((state[0] * state[0]) + (state[1] * state[1]))",
         "((state[1] * state[1]) + (state[2] * state[2]))",
         "((state[2] * state[2]) + (state[3] * state[3]))",
     ];
 
-    assert!(
+    assert_eq!(
         lists
             .constraints
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == constraints
+            .collect::<Vec<String>>(),
+        constraints
     );
-    assert!(
+    assert_eq!(
         lists
             .deductions
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == deductions
+            .collect::<Vec<String>>(),
+        deductions
     );
 
     let (state, output) = registry.run_air(&air_fn, expr!("secret", 1, true));

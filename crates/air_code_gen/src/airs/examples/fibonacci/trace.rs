@@ -11,17 +11,17 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
-use super::component::Fib__100;
+use super::component::Fib_636c7aea2f39d7;
 
 #[allow(non_camel_case_types)]
 #[derive(Default)]
-pub struct Fib__100CpuTraceGenerator {
+pub struct Fib_636c7aea2f39d7CpuTraceGenerator {
     pub inputs: Vec<M31>,
 }
-impl ComponentGen for Fib__100CpuTraceGenerator {}
+impl ComponentGen for Fib_636c7aea2f39d7CpuTraceGenerator {}
 
-impl TraceGenerator<CpuBackend> for Fib__100CpuTraceGenerator {
-    type Component = Fib__100;
+impl TraceGenerator<CpuBackend> for Fib_636c7aea2f39d7CpuTraceGenerator {
+    type Component = Fib_636c7aea2f39d7;
     type Inputs = Vec<M31>;
 
     fn write_trace(
@@ -39,8 +39,8 @@ impl TraceGenerator<CpuBackend> for Fib__100CpuTraceGenerator {
         self.inputs.extend(inputs);
     }
 
-    fn component(&self) -> Fib__100 {
-        Fib__100 {
+    fn component(&self) -> Fib_636c7aea2f39d7 {
+        Fib_636c7aea2f39d7 {
             log_n_instances: self
                 .inputs
                 .len()
@@ -64,7 +64,7 @@ impl ReturnedInputs {
 #[allow(clippy::type_complexity)]
 #[allow(clippy::let_unit_value)]
 pub fn write_trace_cpu(
-    component: &Fib__100,
+    component: &Fib_636c7aea2f39d7,
     secrets: &Vec<M31>,
 ) -> (
     Vec<CpuCircleEvaluation<M31, BitReversedOrder>>,
@@ -95,11 +95,11 @@ pub fn write_trace_cpu(
 #[allow(clippy::type_complexity)]
 fn write_trace_row(
     dst: &mut [Vec<M31>],
-    Fib__100_input: M31,
+    Fib_636c7aea2f39d7_input: M31,
     row_index: usize,
     #[allow(unused_variables)] returned_inputs: &mut ReturnedInputs,
 ) {
-    let col0 = Fib__100_input;
+    let col0 = Fib_636c7aea2f39d7_input;
     dst[0][row_index] = col0.into();
     let col1 = (M31::from(1)) + ((col0) * (col0));
     dst[1][row_index] = col1.into();

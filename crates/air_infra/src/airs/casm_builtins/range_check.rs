@@ -1,3 +1,5 @@
+use indexmap::IndexMap;
+
 use crate::airs::casm::read_small_felt252::*;
 use crate::const_expr;
 use crate::core::air_fn::*;
@@ -30,7 +32,7 @@ impl AirFn for RangeCheckBuiltin {
         );
     }
 
-    fn inst_def(&self) -> std::collections::BTreeMap<String, String> {
+    fn inst_def(&self) -> IndexMap<String, String> {
         [("bits".to_string(), self.bits.to_string())].into()
     }
 

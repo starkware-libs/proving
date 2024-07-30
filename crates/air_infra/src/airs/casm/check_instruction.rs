@@ -1,4 +1,4 @@
-use std::collections::BTreeMap;
+use indexmap::IndexMap;
 
 use super::super::range_check::*;
 use super::common::*;
@@ -93,7 +93,7 @@ impl AirFn for CheckInstruction {
         ([off_0.val, off_1.val, off_2.val], flags)
     }
 
-    fn inst_def(&self) -> BTreeMap<String, String> {
+    fn inst_def(&self) -> IndexMap<String, String> {
         [
             (
                 "const_offsets".to_string(),

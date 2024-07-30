@@ -12,11 +12,11 @@ use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::{ColumnVec, InteractionElements};
 
 #[allow(non_camel_case_types)]
-pub struct WideFib__8 {
+pub struct WideFib_d7cf24d545e710f9 {
     pub log_n_instances: u32,
 }
 
-impl Component for WideFib__8 {
+impl Component for WideFib_d7cf24d545e710f9 {
     fn n_constraints(&self) -> usize {
         8 * 3
     }

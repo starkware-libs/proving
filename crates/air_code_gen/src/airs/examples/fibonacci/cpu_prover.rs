@@ -11,9 +11,9 @@ use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::utils::bit_reverse;
 use stwo_prover::core::InteractionElements;
 
-use super::component::Fib__100;
+use super::component::Fib_636c7aea2f39d7;
 
-impl ComponentProver<CpuBackend> for Fib__100 {
+impl ComponentProver<CpuBackend> for Fib_636c7aea2f39d7 {
     #[allow(unused_parens)]
     fn evaluate_constraint_quotients_on_domain(
         &self,

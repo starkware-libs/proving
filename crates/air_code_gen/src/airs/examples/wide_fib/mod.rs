@@ -15,9 +15,9 @@ mod tests {
     use stwo_prover::core::backend::simd::m31::PackedM31;
     use stwo_prover::core::fields::m31::M31;
 
-    use super::component::WideFib__8;
+    use super::component::WideFib_d7cf24d545e710f9;
     use super::trace::write_trace_cpu;
-    use crate::airs::examples::narrow_fibonacci::trace::NarrowFib__20CpuTraceGenerator;
+    use crate::airs::examples::narrow_fibonacci::trace::NarrowFib_1ddf31c88316e62fCpuTraceGenerator;
     use crate::airs::examples::wide_fib::simd_trace::write_trace_simd;
     use crate::code_gen::packed_types::N_LANES;
     use crate::code_gen::simd_trace_gen::generate_simd_trace_writer_code;
@@ -37,7 +37,7 @@ mod tests {
 
         let air_entry = resigtry.get_air_fn_entry(&air_fn);
         let lists = resigtry.get_compiled_air_fn(&air_fn);
-        let name = air_entry.name.to_string() + "__" + &air_fn.num_narrow.to_string();
+        let name = air_entry.name;
         let trace_tokens = generate_trace_writer_code(&name, &lists.input, &lists.deductions);
         let simd_trace_tokens =
             generate_simd_trace_writer_code(&name, &lists.input, &lists.deductions);
@@ -50,7 +50,7 @@ mod tests {
 
     #[test]
     fn wide_fib_test_write_trace() {
-        let wide_fib_component = WideFib__8 { log_n_instances: 6 };
+        let wide_fib_component = WideFib_d7cf24d545e710f9 { log_n_instances: 6 };
 
         let secrets = (0..1 << wide_fib_component.log_n_instances)
             .map(M31::from)
@@ -66,14 +66,17 @@ mod tests {
                     [trace[2 * i - 1][j], trace[2 * i][j]]
                 };
                 let output = [trace[2 * i + 1][j], trace[2 * i + 2][j]];
-                assert_eq!(output, NarrowFib__20CpuTraceGenerator::deduce_output(input))
+                assert_eq!(
+                    output,
+                    NarrowFib_1ddf31c88316e62fCpuTraceGenerator::deduce_output(input)
+                )
             }
         }
     }
 
     #[test]
     fn wide_fib_test_write_trace_inputs() {
-        let wide_fib_component = WideFib__8 { log_n_instances: 6 };
+        let wide_fib_component = WideFib_d7cf24d545e710f9 { log_n_instances: 6 };
 
         let secrets = (0..1 << wide_fib_component.log_n_instances)
             .map(M31::from)
@@ -83,14 +86,18 @@ mod tests {
 
         let const_1_column = vec![M31::from(1); trace[0].len()];
         let trace_column_0 = trace[0].to_vec();
-        let inputs_0 = inputs.NarrowFib__20_inputs.iter().copied().step_by(8);
+        let inputs_0 = inputs
+            .NarrowFib_1ddf31c88316e62f_inputs
+            .iter()
+            .copied()
+            .step_by(8);
         izip!(const_1_column, trace_column_0, inputs_0)
             .for_each(|(one, trace_0, input)| assert_eq!([one, trace_0], input));
 
         let trace_column_13 = trace[13].to_vec();
         let trace_column_14 = trace[14].to_vec();
         let inputs_7 = inputs
-            .NarrowFib__20_inputs
+            .NarrowFib_1ddf31c88316e62f_inputs
             .iter()
             .skip(7)
             .copied()
@@ -101,7 +108,7 @@ mod tests {
 
     #[test]
     fn wide_fib_simd_trace_test() {
-        let wide_fib_component = WideFib__8 { log_n_instances: 8 };
+        let wide_fib_component = WideFib_d7cf24d545e710f9 { log_n_instances: 8 };
 
         let secrets = (0..1 << wide_fib_component.log_n_instances)
             .map(M31::from)

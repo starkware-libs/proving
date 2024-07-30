@@ -11,17 +11,17 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
-use super::component::NarrowFib__20;
+use super::component::NarrowFib_1ddf31c88316e62f;
 
 #[allow(non_camel_case_types)]
 #[derive(Default)]
-pub struct NarrowFib__20CpuTraceGenerator {
+pub struct NarrowFib_1ddf31c88316e62fCpuTraceGenerator {
     pub inputs: Vec<[M31; 2]>,
 }
-impl ComponentGen for NarrowFib__20CpuTraceGenerator {}
+impl ComponentGen for NarrowFib_1ddf31c88316e62fCpuTraceGenerator {}
 
-impl TraceGenerator<CpuBackend> for NarrowFib__20CpuTraceGenerator {
-    type Component = NarrowFib__20;
+impl TraceGenerator<CpuBackend> for NarrowFib_1ddf31c88316e62fCpuTraceGenerator {
+    type Component = NarrowFib_1ddf31c88316e62f;
     type Inputs = Vec<[M31; 2]>;
 
     fn write_trace(
@@ -39,8 +39,8 @@ impl TraceGenerator<CpuBackend> for NarrowFib__20CpuTraceGenerator {
         self.inputs.extend(inputs);
     }
 
-    fn component(&self) -> NarrowFib__20 {
-        NarrowFib__20 {
+    fn component(&self) -> NarrowFib_1ddf31c88316e62f {
+        NarrowFib_1ddf31c88316e62f {
             log_n_instances: self
                 .inputs
                 .len()
@@ -64,7 +64,7 @@ impl ReturnedInputs {
 #[allow(clippy::type_complexity)]
 #[allow(clippy::let_unit_value)]
 pub fn write_trace_cpu(
-    component: &NarrowFib__20,
+    component: &NarrowFib_1ddf31c88316e62f,
     secrets: &Vec<[M31; 2]>,
 ) -> (
     Vec<CpuCircleEvaluation<M31, BitReversedOrder>>,
@@ -95,11 +95,14 @@ pub fn write_trace_cpu(
 #[allow(clippy::type_complexity)]
 fn write_trace_row(
     dst: &mut [Vec<M31>],
-    NarrowFib__20_input: [M31; 2],
+    NarrowFib_1ddf31c88316e62f_input: [M31; 2],
     row_index: usize,
     #[allow(unused_variables)] returned_inputs: &mut ReturnedInputs,
 ) {
-    let deduction_tmp_0 = [NarrowFib__20_input[0], NarrowFib__20_input[1]];
+    let deduction_tmp_0 = [
+        NarrowFib_1ddf31c88316e62f_input[0],
+        NarrowFib_1ddf31c88316e62f_input[1],
+    ];
     let col0 = deduction_tmp_0[0];
     dst[0][row_index] = col0.into();
     let col1 = deduction_tmp_0[1];

@@ -1,4 +1,4 @@
-use std::collections::BTreeMap;
+use indexmap::IndexMap;
 
 use crate::airs::casm::read_small_felt252::ReadSmallFelt252;
 use crate::core::air_fn::*;
@@ -120,7 +120,7 @@ impl AirFn for JumpOpcode {
         [next_pc, next_ap, fp]
     }
 
-    fn inst_def(&self) -> BTreeMap<String, String> {
+    fn inst_def(&self) -> IndexMap<String, String> {
         [
             ("is_rel".to_string(), self.is_rel.to_string()),
             (

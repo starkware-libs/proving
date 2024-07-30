@@ -1,11 +1,10 @@
-use std::collections::BTreeMap;
-
 use air_infra::core::air_fn_registry::AirFnEntry;
 use air_infra::core::compiled_structs::{
     CompiledAirFn, CompiledAirVar, ConstraintEvalStep, TraceGenStep,
 };
 use genco::lang::rust;
 use genco::quote;
+use indexmap::IndexMap;
 
 // BUG: constant input adds an empty column.
 // TODO(Ohad): add 'is_witness' to `TraceGenerationStep`.
@@ -225,7 +224,7 @@ pub fn generate_component(
 
 fn generate_inst_def_docstring(
     component_name: &str,
-    inst_def: &BTreeMap<String, String>,
+    inst_def: &IndexMap<String, String>,
 ) -> rust::Tokens {
     let mut docstring = rust::Tokens::new();
     docstring.append(format!(

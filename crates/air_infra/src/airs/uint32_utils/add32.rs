@@ -7,7 +7,6 @@ use crate::core::expressions::uint32_expr::*;
 use crate::const_expr;
 
 /// Wrapping addition of two 32-bit unsigned integers.
-
 #[derive(Clone, Debug)]
 pub struct Add32 {}
 

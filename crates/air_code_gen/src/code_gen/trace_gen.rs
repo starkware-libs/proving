@@ -307,28 +307,28 @@ fn generate_imports_code(component_name: &str) -> rust::Tokens {
 // TODO(Ohad): import only the necessary sub-components.
 pub fn generate_components_imports(component_name: &str) -> rust::Tokens {
     match component_name {
-        "Fib__100" => {
+        "Fib_636c7aea2f39d7" => {
             quote! {
-                use super::component::Fib__100;
+                use super::component::Fib_636c7aea2f39d7;
             }
         }
-        "NarrowFib__20" => {
+        "NarrowFib_1ddf31c88316e62f" => {
             quote! {
-                use super::component::NarrowFib__20;
+                use super::component::NarrowFib_1ddf31c88316e62f;
             }
         }
-        "BitUnpack__12" => {
+        "BitUnpack_e0b35c6b3a8afa3d" => {
             quote! {
-                use super::component::BitUnpack__12;
+                use super::component::BitUnpack_e0b35c6b3a8afa3d;
             }
         }
-        "WideFib__8" => {
+        "WideFib_d7cf24d545e710f9" => {
             quote! {
-                use super::component::WideFib__8;
+                use super::component::WideFib_d7cf24d545e710f9;
                 use crate::airs::examples::narrow_fibonacci::
-                            trace::NarrowFib__20CpuTraceGenerator;
+                            trace::NarrowFib_1ddf31c88316e62fCpuTraceGenerator;
                 use crate::airs::examples::narrow_fibonacci::
-                            simd_trace::NarrowFib__20SimdTraceGenerator;
+                            simd_trace::NarrowFib_1ddf31c88316e62fSimdTraceGenerator;
             }
         }
         _ => {

@@ -11,17 +11,17 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
-use super::component::BitUnpack__12;
+use super::component::BitUnpack_e0b35c6b3a8afa3d;
 
 #[allow(non_camel_case_types)]
 #[derive(Default)]
-pub struct BitUnpack__12CpuTraceGenerator {
+pub struct BitUnpack_e0b35c6b3a8afa3dCpuTraceGenerator {
     pub inputs: Vec<UInt16>,
 }
-impl ComponentGen for BitUnpack__12CpuTraceGenerator {}
+impl ComponentGen for BitUnpack_e0b35c6b3a8afa3dCpuTraceGenerator {}
 
-impl TraceGenerator<CpuBackend> for BitUnpack__12CpuTraceGenerator {
-    type Component = BitUnpack__12;
+impl TraceGenerator<CpuBackend> for BitUnpack_e0b35c6b3a8afa3dCpuTraceGenerator {
+    type Component = BitUnpack_e0b35c6b3a8afa3d;
     type Inputs = Vec<UInt16>;
 
     fn write_trace(
@@ -39,8 +39,8 @@ impl TraceGenerator<CpuBackend> for BitUnpack__12CpuTraceGenerator {
         self.inputs.extend(inputs);
     }
 
-    fn component(&self) -> BitUnpack__12 {
-        BitUnpack__12 {
+    fn component(&self) -> BitUnpack_e0b35c6b3a8afa3d {
+        BitUnpack_e0b35c6b3a8afa3d {
             log_n_instances: self
                 .inputs
                 .len()
@@ -64,7 +64,7 @@ impl ReturnedInputs {
 #[allow(clippy::type_complexity)]
 #[allow(clippy::let_unit_value)]
 pub fn write_trace_cpu(
-    component: &BitUnpack__12,
+    component: &BitUnpack_e0b35c6b3a8afa3d,
     secrets: &Vec<UInt16>,
 ) -> (
     Vec<CpuCircleEvaluation<M31, BitReversedOrder>>,
@@ -95,13 +95,13 @@ pub fn write_trace_cpu(
 #[allow(clippy::type_complexity)]
 fn write_trace_row(
     dst: &mut [Vec<M31>],
-    BitUnpack__12_input: UInt16,
+    BitUnpack_e0b35c6b3a8afa3d_input: UInt16,
     row_index: usize,
     #[allow(unused_variables)] returned_inputs: &mut ReturnedInputs,
 ) {
-    let col0 = BitUnpack__12_input.as_m31();
+    let col0 = BitUnpack_e0b35c6b3a8afa3d_input.as_m31();
     dst[0][row_index] = col0.into();
-    let deduction_tmp_2 = (BitUnpack__12_input) >> (UInt16::from(1));
+    let deduction_tmp_2 = (BitUnpack_e0b35c6b3a8afa3d_input) >> (UInt16::from(1));
     let col1 = deduction_tmp_2.as_m31();
     dst[1][row_index] = col1.into();
     let deduction_tmp_4 = (deduction_tmp_2) >> (UInt16::from(1));

@@ -1,10 +1,10 @@
+use super::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
 
+// Macros
 use crate::expr;
-
-use super::range_check::*;
 
 #[derive(Debug)]
 struct SmallAdd {}
@@ -13,7 +13,6 @@ struct SmallAdd {}
 // inputs and the output are < 2**16
 impl AirFn for SmallAdd {
     type In = [FeltExpr; 2];
-
     type Out = FeltExpr;
 
     fn trace_type(&self) -> crate::core::air_fn::TraceType {
@@ -54,28 +53,28 @@ fn test_range_check() {
     ];
 
     let deductions = [
-        "SmallAdd_input[0]",
-        "SmallAdd_input[1]",
+        "SmallAdd_f0e9ee72020a2cc_input[0]",
+        "SmallAdd_f0e9ee72020a2cc_input[1]",
         "deduction_tmp_0 = RangeCheck16(state[0])",
         "deduction_tmp_1 = RangeCheck16(state[1])",
         "deduction_tmp_2 = RangeCheck16((state[0] + state[1]))",
     ];
 
-    assert!(
+    assert_eq!(
         lists
             .constraints
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == constraints
+            .collect::<Vec<String>>(),
+        constraints
     );
-    assert!(
+    assert_eq!(
         lists
             .deductions
             .iter()
             .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-            == deductions
+            .collect::<Vec<String>>(),
+        deductions
     );
 }
 

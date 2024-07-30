@@ -12,9 +12,9 @@ use stwo_prover::core::fields::FieldOps;
 use stwo_prover::core::poly::circle::CanonicCoset;
 use stwo_prover::core::InteractionElements;
 
-use super::component::NarrowFib__20;
+use super::component::NarrowFib_1ddf31c88316e62f;
 
-impl ComponentProver<SimdBackend> for NarrowFib__20 {
+impl ComponentProver<SimdBackend> for NarrowFib_1ddf31c88316e62f {
     #[allow(unused_parens)]
     fn evaluate_constraint_quotients_on_domain(
         &self,

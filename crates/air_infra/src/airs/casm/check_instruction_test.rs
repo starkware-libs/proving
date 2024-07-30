@@ -144,7 +144,7 @@ fn test_no_consts() {
     let is_offset_const = [false; 3];
     let is_flag_const = [false; 15];
 
-    let check_instruction_input = "CheckInstruction__Flags{dst_base_fp:None__op0_base_fp:None__op1_imm:None__op1_base_fp:None__op1_base_ap:None__res_add:None__res_mul:None__pc_update_jump:None__pc_update_jump_rel:None__pc_update_jnz:None__ap_update_add:None__ap_update_add_1:None__opcode_call:None__opcode_ret:None__opcode_assert_eq:None}__[None__None__None]_input";
+    let check_instruction_input = "CheckInstruction_670dde07bf003f3a_input";
     let expected_constraints = [
         "RangeCheck4([state[1]]) == []",
         "RangeCheck8([state[2]]) == []",
@@ -165,7 +165,7 @@ fn test_no_consts() {
         "(state[18] * (const_1 - state[18]))",
         "(state[19] * (const_1 - state[19]))",
         "(state[20] * (const_1 - state[20]))",
-        &format!("Memory__FeltExpr__Felt252Expr([{}]) == zero_extend([{}, {}, {}, {}, {}, {}])",
+        &format!("Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}])",
             check_instruction_input,
             "state[0]",
             "(state[1] + (state[2] * const_16))",
@@ -176,7 +176,7 @@ fn test_no_consts() {
         ),
     ];
     let expected_deductions = [
-        &format!("deduction_tmp_0 = Memory__FeltExpr__Felt252Expr({})",check_instruction_input),
+        &format!("deduction_tmp_0 = Memory_81f75475e4cf34d6({})",check_instruction_input),
         "deduction_tmp_0.get_m31(const_0)",
         "deduction_tmp_1 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_1)) & const_15)",
         "deduction_tmp_1.low().as_m31()",
@@ -239,9 +239,9 @@ fn test_all_consts() {
     let is_offset_const = [true; 3];
     let is_flag_const = [true; 15];
 
-    let check_instruction_input = "CheckInstruction__Flags{dst_base_fp:Some(false)__op0_base_fp:Some(true)__op1_imm:Some(false)__op1_base_fp:Some(true)__op1_base_ap:Some(false)__res_add:Some(false)__res_mul:Some(false)__pc_update_jump:Some(true)__pc_update_jump_rel:Some(false)__pc_update_jnz:Some(true)__ap_update_add:Some(true)__ap_update_add_1:Some(false)__opcode_call:Some(false)__opcode_ret:Some(false)__opcode_assert_eq:Some(true)}__[Some(49953)__Some(30875)__Some(36026)]_input";
+    let check_instruction_input = "CheckInstruction_6664810e232eea6_input";
     let expected_constraints: [&str; 1] = [&format!(
-        "Memory__FeltExpr__Felt252Expr([{}]) == zero_extend([{}, {}, {}, {}, {}, {}])",
+        "Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}])",
         check_instruction_input,
         "const_801",
         "const_2492",
@@ -251,7 +251,7 @@ fn test_all_consts() {
         "const_4",
     )];
     let expected_deductions: [&str; 1] = [&format!(
-        "deduction_tmp_0 = Memory__FeltExpr__Felt252Expr({})",
+        "deduction_tmp_0 = Memory_81f75475e4cf34d6({})",
         check_instruction_input
     )];
 
@@ -273,14 +273,14 @@ fn test_some_consts() {
     is_flag_const[0] = false;
     is_flag_const[2] = false;
 
-    let check_instruction_input = "CheckInstruction__Flags{dst_base_fp:None__op0_base_fp:Some(true)__op1_imm:None__op1_base_fp:Some(true)__op1_base_ap:Some(false)__res_add:Some(false)__res_mul:Some(false)__pc_update_jump:Some(true)__pc_update_jump_rel:Some(false)__pc_update_jnz:Some(true)__ap_update_add:Some(true)__ap_update_add_1:Some(false)__opcode_call:Some(false)__opcode_ret:Some(false)__opcode_assert_eq:Some(true)}__[Some(49953)__None__Some(36026)]_input";
+    let check_instruction_input = "CheckInstruction_f005ca851bd8ec7f_input";
     let expected_constraints = [
         "RangeCheck8([state[0]]) == []",
         "RangeCheck8([state[1]]) == []",
         "(state[2] * (const_1 - state[2]))",
         "(state[3] * (const_1 - state[3]))",
         &format!(
-            "Memory__FeltExpr__Felt252Expr([{}]) == zero_extend([{}, {}, {}, {}, {}, {}])",
+            "Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}])",
             check_instruction_input,
             "const_801",
             "(const_12 + (state[0] * const_16))",
@@ -291,7 +291,7 @@ fn test_some_consts() {
         ),
     ];
     let expected_deductions = [
-        &format!("deduction_tmp_0 = Memory__FeltExpr__Felt252Expr({})",check_instruction_input),
+        &format!("deduction_tmp_0 = Memory_81f75475e4cf34d6({})",check_instruction_input),
         "deduction_tmp_1 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_1)) >> const_4) & const_255)",
         "deduction_tmp_1.low().as_m31()",
         "deduction_tmp_2 = RangeCheck8(state[0])",

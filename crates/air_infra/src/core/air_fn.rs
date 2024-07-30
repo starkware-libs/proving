@@ -1,7 +1,8 @@
 use std::any::type_name;
-use std::collections::BTreeMap;
 use std::fmt::Debug;
+use std::hash::{DefaultHasher, Hash, Hasher};
 
+use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
 use super::air_fn_registry::*;
@@ -37,30 +38,31 @@ pub trait AirFn: Debug {
 
     fn name(&self) -> String {
         let mut name = type_name::<Self>().to_string();
-        self.inst_def().iter().for_each(|(_, v)| {
-            name.push_str(format!("__{}", v).as_str());
-        });
-        let names: Vec<&str> = name.split(&['<', '>', ',']).collect::<Vec<_>>();
-        name = names
-            .into_iter()
-            .filter(|s| !s.is_empty())
-            .map(|s| {
-                let s: String = s.chars().filter(|c| !c.is_whitespace()).collect();
-                s.rfind("::")
-                    .map(|i| s[i + 2..].to_string())
-                    .unwrap_or(s.to_string())
-            })
-            .collect::<Vec<_>>()
-            .join("__");
-        name.to_string()
+        name = name
+            .find('<')
+            .map(|i| name[..i].to_string())
+            .unwrap_or(name);
+        name = name
+            .rfind("::")
+            .map(|i| name[i + 2..].to_string())
+            .unwrap_or(name);
+
+        format!("{}_{:x}", name, self.hash())
+    }
+
+    fn hash(&self) -> u64 {
+        let name = format!("{}{:?}", type_name::<Self>(), self.inst_def());
+        let mut s = DefaultHasher::new();
+        name.hash(&mut s);
+        s.finish()
     }
 
     fn trace_type(&self) -> TraceType {
         TraceType::Inline
     }
 
-    fn inst_def(&self) -> BTreeMap<String, String> {
-        BTreeMap::new()
+    fn inst_def(&self) -> IndexMap<String, String> {
+        IndexMap::new()
     }
 
     // Assumes the input was written to the trace

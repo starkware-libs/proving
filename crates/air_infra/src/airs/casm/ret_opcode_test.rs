@@ -21,15 +21,15 @@ pub fn assemble_ret() -> u64 {
 #[test]
 fn test_ret_opcode() {
     let deductions = [
-        "deduction_tmp_0 = [RetOpcode_input[0], RetOpcode_input[1], RetOpcode_input[2]]",
+        "deduction_tmp_0 = [RetOpcode_8e2acdd96ca43674_input[0], RetOpcode_8e2acdd96ca43674_input[1], RetOpcode_8e2acdd96ca43674_input[2]]",
         "deduction_tmp_0[0]",
         "deduction_tmp_0[1]",
         "deduction_tmp_0[2]",
-        "deduction_tmp_2 = Memory__FeltExpr__Felt252Expr(state[0])",
-        "deduction_tmp_5 = Memory__FeltExpr__Felt252Expr((state[2] - const_1))",
+        "deduction_tmp_2 = Memory_81f75475e4cf34d6(state[0])",
+        "deduction_tmp_5 = Memory_81f75475e4cf34d6((state[2] - const_1))",
         "deduction_tmp_5.get_m31(const_0)",
         "deduction_tmp_5.get_m31(const_1)",
-        "deduction_tmp_6 = Memory__FeltExpr__Felt252Expr((state[2] - const_2))",
+        "deduction_tmp_6 = Memory_81f75475e4cf34d6((state[2] - const_2))",
         "deduction_tmp_6.get_m31(const_0)",
         "deduction_tmp_6.get_m31(const_1)",
     ];

@@ -14,18 +14,18 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
-use super::component::NarrowFib__20;
+use super::component::NarrowFib_1ddf31c88316e62f;
 use crate::code_gen::packed_types::*;
 
 #[allow(non_camel_case_types)]
 #[derive(Default)]
-pub struct NarrowFib__20SimdTraceGenerator {
+pub struct NarrowFib_1ddf31c88316e62fSimdTraceGenerator {
     pub inputs: Vec<[PackedM31; 2]>,
 }
-impl ComponentGen for NarrowFib__20SimdTraceGenerator {}
+impl ComponentGen for NarrowFib_1ddf31c88316e62fSimdTraceGenerator {}
 
-impl TraceGenerator<SimdBackend> for NarrowFib__20SimdTraceGenerator {
-    type Component = NarrowFib__20;
+impl TraceGenerator<SimdBackend> for NarrowFib_1ddf31c88316e62fSimdTraceGenerator {
+    type Component = NarrowFib_1ddf31c88316e62f;
     type Inputs = Vec<[PackedM31; 2]>;
 
     fn write_trace(
@@ -43,8 +43,8 @@ impl TraceGenerator<SimdBackend> for NarrowFib__20SimdTraceGenerator {
         self.inputs.extend(inputs);
     }
 
-    fn component(&self) -> NarrowFib__20 {
-        NarrowFib__20 {
+    fn component(&self) -> NarrowFib_1ddf31c88316e62f {
+        NarrowFib_1ddf31c88316e62f {
             log_n_instances: self
                 .inputs
                 .len()
@@ -69,7 +69,7 @@ impl ReturnedInputs {
 #[allow(clippy::type_complexity)]
 #[allow(clippy::let_unit_value)]
 pub fn write_trace_simd(
-    component: &NarrowFib__20,
+    component: &NarrowFib_1ddf31c88316e62f,
     secrets: &Vec<[PackedM31; 2]>,
 ) -> (
     Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
@@ -103,11 +103,14 @@ pub fn write_trace_simd(
 #[allow(clippy::type_complexity)]
 fn write_trace_row(
     dst: &mut [Vec<PackedM31>],
-    NarrowFib__20_input: [PackedM31; 2],
+    NarrowFib_1ddf31c88316e62f_input: [PackedM31; 2],
     row_index: usize,
     #[allow(unused_variables)] returned_inputs: &mut ReturnedInputs,
 ) {
-    let deduction_tmp_0 = [NarrowFib__20_input[0], NarrowFib__20_input[1]];
+    let deduction_tmp_0 = [
+        NarrowFib_1ddf31c88316e62f_input[0],
+        NarrowFib_1ddf31c88316e62f_input[1],
+    ];
     let col0 = deduction_tmp_0[0];
     dst[0][row_index] = col0;
     let col1 = deduction_tmp_0[1];

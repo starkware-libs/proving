@@ -1,13 +1,15 @@
+use super::read_small_felt252::*;
+
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::Expr;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 use crate::core::prover_types::Felt252;
+
+// Macros
 use crate::expr;
 use crate::felt252_expr;
-
-use super::read_small_felt252::*;
 
 #[test]
 fn test_read_30_bits() {
@@ -24,7 +26,7 @@ fn test_read_30_bits() {
     let (state, val) = registry.run_air(&read_30bit_felt, addr);
     assert!(val.calc() == "(710034235, 0)");
     let deduction_vec = [
-        "deduction_tmp_0 = Memory__FeltExpr__Felt252Expr(ReadSmallFelt252__30_input)",
+        "deduction_tmp_0 = Memory_81f75475e4cf34d6(ReadSmallFelt252_88bbc22de0781573_input)",
         "deduction_tmp_0.get_m31(const_0)",
         "deduction_tmp_0.get_m31(const_1)",
         "deduction_tmp_0.get_m31(const_2)",
@@ -40,7 +42,7 @@ fn test_read_30_bits() {
         deduction_vec
     );
     let constraints_vec = vec![
-        "Memory__FeltExpr__Felt252Expr([ReadSmallFelt252__30_input]) == zero_extend([state[0], state[1], state[2]])",
+        "Memory_81f75475e4cf34d6([ReadSmallFelt252_88bbc22de0781573_input]) == zero_extend([state[0], state[1], state[2]])",
         "RangeCheck6([state[2]]) == []"
     ];
     assert_eq!(
@@ -71,7 +73,7 @@ fn test_read_24_bits() {
     let (state, val) = registry.run_air(&read_24bit_felt, addr);
     assert!(val.calc() == "(9874755, 0)");
     let deduction_vec = vec![
-        "deduction_tmp_0 = Memory__FeltExpr__Felt252Expr(ReadSmallFelt252__24_input)",
+        "deduction_tmp_0 = Memory_81f75475e4cf34d6(ReadSmallFelt252_50fbb6a8a5935c47_input)",
         "deduction_tmp_0.get_m31(const_0)",
         "deduction_tmp_0.get_m31(const_1)",
     ];
@@ -85,7 +87,7 @@ fn test_read_24_bits() {
         deduction_vec
     );
     let constraints_vec =
-        vec!["Memory__FeltExpr__Felt252Expr([ReadSmallFelt252__24_input]) == zero_extend([state[0], state[1]])"];
+        vec!["Memory_81f75475e4cf34d6([ReadSmallFelt252_50fbb6a8a5935c47_input]) == zero_extend([state[0], state[1]])"];
     assert_eq!(
         registry
             .get_compiled_air_fn(&read_24bit_felt)

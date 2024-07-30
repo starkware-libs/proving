@@ -1,12 +1,14 @@
-use crate::const_expr;
+use super::check_instruction::*;
+use super::common::*;
+use super::read_addr::*;
+
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 
-use super::check_instruction::*;
-use super::common::*;
-use super::read_addr::*;
+// Macros
+use crate::const_expr;
 
 pub const RET_FLAGS: Flags = Flags {
     dst_base_fp: Some(true),
@@ -33,7 +35,6 @@ pub struct RetOpcode {
 
 impl MemoryAirFn for RetOpcode {
     type K = FeltExpr;
-
     type V = Felt252Expr;
 
     fn init_memory(&mut self, memory: &Memory<Self::K, Self::V>) {
@@ -43,7 +44,6 @@ impl MemoryAirFn for RetOpcode {
 
 impl AirFn for RetOpcode {
     type In = CasmState;
-
     type Out = CasmState;
 
     fn call(&self, air_builder: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
