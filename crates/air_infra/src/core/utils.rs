@@ -1,6 +1,6 @@
 use std::fmt::Display;
 
-use crate::core::compiled_structs::*;
+use super::compiled_structs::*;
 
 impl Display for CompiledAirVar {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -45,15 +45,29 @@ impl Display for CompiledAirVar {
                 write!(f, ")")
             }
             CompiledAirVar::Array(exprs) => {
-                write!(f, "[")?;
-                for (i, expr) in exprs.iter().enumerate() {
-                    if i > 0 {
-                        write!(f, ", ")?;
-                    }
-                    write!(f, "{}", expr)?;
-                }
-                write!(f, "]")
+                write!(f, "{}", vars_arr_to_string(exprs))
             }
         }
+    }
+}
+
+pub fn vars_arr_to_string(felts: &[CompiledAirVar]) -> String {
+    let mut strs = felts.iter().map(ToString::to_string).collect::<Vec<_>>();
+    let mut i = 0;
+    let mut leading_zeros = false;
+    for s in strs.iter().rev() {
+        if s == "const_0" {
+            leading_zeros = true;
+            i += 1;
+        } else {
+            break;
+        }
+    }
+    strs.truncate(strs.len() - i);
+    let str = format!("[{}]", strs.join(", "));
+    if leading_zeros {
+        format!("zero_extend({})", str)
+    } else {
+        str
     }
 }

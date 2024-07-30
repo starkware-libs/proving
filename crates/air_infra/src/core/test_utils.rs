@@ -3,6 +3,7 @@ use std::fmt::Display;
 use super::air_fn::*;
 use super::compiled_structs::*;
 use super::expressions::felt_expr::*;
+use super::utils::*;
 
 impl Display for TraceGenStep {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -22,32 +23,11 @@ impl Display for TraceGenStep {
     }
 }
 
-fn felts_to_string(felts: &[CompiledAirVar]) -> String {
-    let mut strs = felts.iter().map(ToString::to_string).collect::<Vec<_>>();
-    let mut i = 0;
-    let mut leading_zeros = false;
-    for s in strs.iter().rev() {
-        if s == "const_0" {
-            leading_zeros = true;
-            i += 1;
-        } else {
-            break;
-        }
-    }
-    strs.truncate(strs.len() - i);
-    let str = format!("[{}]", strs.join(", "));
-    if leading_zeros {
-        format!("zero_extend({})", str)
-    } else {
-        str
-    }
-}
-
 fn felts_vec_to_string(felts: Vec<FeltExpr>) -> String {
-    felts_to_string(
+    vars_arr_to_string(
         &(felts
             .iter()
-            .map(|f| (f.clone().into()))
+            .map(|f| f.clone().into())
             .collect::<Vec<CompiledAirVar>>()),
     )
 }
@@ -68,8 +48,8 @@ impl Display for ConstraintEvalStep {
                     f,
                     "{}({}) == {}",
                     fn_name,
-                    felts_to_string(input_felts),
-                    felts_to_string(output_felts)
+                    vars_arr_to_string(input_felts),
+                    vars_arr_to_string(output_felts)
                 )
             }
         }

@@ -181,7 +181,7 @@ fn test_abs_jump_negativ_offset() {
 fn test_rel_jump() {
     let check_instruction_offsets = "[const_2147483646, const_2147483646, const_1]";
     let check_instruction_name = "CheckInstruction__Flags{dst_base_fp:Some(true)__op0_base_fp:Some(true)__op1_imm:Some(true)__op1_base_fp:Some(false)__op1_base_ap:Some(false)__res_add:Some(false)__res_mul:Some(false)__pc_update_jump:Some(false)__pc_update_jump_rel:Some(true)__pc_update_jnz:Some(false)__ap_update_add:Some(false)__ap_update_add_1:Some(false)__opcode_call:Some(false)__opcode_ret:Some(false)__opcode_assert_eq:Some(false)}__[Some(32767)__Some(32767)__Some(32769)]";
-    let read_small_felt252_output = "Felt252::from_m31_([state[3], const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0, const_0])";
+    let read_small_felt252_output = "Felt252::from_m31_(zero_extend([state[3]]))";
     let read_small_felt252_input = "(state[0] + const_1)";
     let read_small_felt252_name = "ReadSmallFelt252__12";
     let read_small_felt252_call = &format!(

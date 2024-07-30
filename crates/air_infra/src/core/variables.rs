@@ -96,25 +96,8 @@ impl Display for AirVarImpl {
             AirVarImpl::Expr(expr) => {
                 write!(f, "{}", expr)
             }
-            AirVarImpl::Tuple(vars) => {
-                write!(f, "(")?;
-                for (i, var) in vars.iter().enumerate() {
-                    if i > 0 {
-                        write!(f, ", ")?;
-                    }
-                    write!(f, "{}", var)?;
-                }
-                write!(f, ")")
-            }
-            AirVarImpl::Array(vars) => {
-                write!(f, "[")?;
-                for (i, var) in vars.iter().enumerate() {
-                    if i > 0 {
-                        write!(f, ", ")?;
-                    }
-                    write!(f, "{}", var)?;
-                }
-                write!(f, "]")
+            AirVarImpl::Tuple(_) | AirVarImpl::Array(_) => {
+                write!(f, "{}", CompiledAirVar::from(self.clone()))
             }
         }
     }
