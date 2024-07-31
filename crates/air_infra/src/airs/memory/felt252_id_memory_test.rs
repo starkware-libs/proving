@@ -6,7 +6,111 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::prover_types::*;
 
 use crate::const_expr;
+use crate::expr;
 use crate::felt252_expr;
+
+#[test]
+fn test_read_small() {
+    let mem_data = vec![
+        (const_expr!(1), felt252_expr!("small_positive", 7, 0)),
+        (
+            const_expr!(2),
+            felt252_expr!("small_positive_duplicate", 7, 0),
+        ),
+        (
+            const_expr!(3),
+            felt252_expr!("minus_one", 0, 10633823966279327296825105735305134080),
+        ),
+        (
+            const_expr!(4),
+            felt252_expr!(
+                "minus_two",
+                340282366920938463463374607431768211455,
+                10633823966279327296825105735305134079
+            ),
+        ),
+        (
+            const_expr!(5),
+            felt252_expr!("p", 1, 10633823966279327296825105735305134080),
+        ),
+        (
+            const_expr!(6),
+            felt252_expr!("p_plus_one", 2, 10633823966279327296825105735305134080),
+        ),
+    ];
+    let memory = Felt252IdMemory::new_with_data(mem_data);
+
+    let read_small = ReadSmall { memory };
+    let registry = AirFnRegistry::new(&read_small);
+
+    let (state, output) = registry.run_air(&read_small, expr!("addr", 1, true));
+    assert_eq!(output.calc(), "7".to_string());
+    assert_eq!(state.calc(), ["0", "0", "0", "7", "0", "0"]);
+
+    let (state, output) = registry.run_air(&read_small, expr!("addr", 2, true));
+    assert_eq!(output.calc(), "7".to_string());
+    assert_eq!(state.calc(), ["0", "0", "0", "7", "0", "0"]);
+
+    let (state, output) = registry.run_air(&read_small, expr!("addr", 3, true));
+    assert_eq!(output.calc(), ((1i64 << 31) - 2).to_string());
+    assert_eq!(state.calc(), ["1", "1", "0", "0", "0", "0"]);
+
+    let (state, output) = registry.run_air(&read_small, expr!("addr", 4, true));
+    assert_eq!(output.calc(), ((1i64 << 31) - 3).to_string());
+    assert_eq!(state.calc(), ["2", "1", "1", "511", "511", "511"]);
+
+    let (state, output) = registry.run_air(&read_small, expr!("addr", 5, true));
+    assert_eq!(output.calc(), "0".to_string());
+    assert_eq!(state.calc(), ["3", "1", "0", "1", "0", "0"]);
+
+    let (state, output) = registry.run_air(&read_small, expr!("addr", 6, true));
+    assert_eq!(output.calc(), "1".to_string());
+    assert_eq!(state.calc(), ["4", "1", "0", "2", "0", "0"]);
+}
+
+#[test]
+fn test_read_small_air_body() {
+    let expected_air_body = [
+        "deduction_tmp_0 = Memory_5458bf3d74919439(ReadSmall_4480e629133cac43_input)",
+        "Deduction: deduction_tmp_0",
+        "Memory_5458bf3d74919439([ReadSmall_4480e629133cac43_input]) == [state[0]]",
+        "deduction_tmp_1 = Memory_81f75475e4cf34d6(state[0])",
+        "deduction_tmp_2 = deduction_tmp_1.get_m31(const_27).eq(const_256)",
+        "Deduction: deduction_tmp_2.as_m31()",
+        "deduction_tmp_3 = deduction_tmp_1.get_m31(const_20).eq(const_511)",
+        "Deduction: deduction_tmp_3.as_m31()",
+        "Constraint: (state[1] * (state[1] - const_1))",
+        "Constraint: (state[2] * (state[2] - const_1))",
+        "Constraint: (state[2] * (state[1] - const_1))",
+        "Deduction: deduction_tmp_1.get_m31(const_0)",
+        "Deduction: deduction_tmp_1.get_m31(const_1)",
+        "Deduction: deduction_tmp_1.get_m31(const_2)",
+        "Memory_81f75475e4cf34d6([state[0]]) == [\
+            state[3], state[4], state[5], \
+            (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
+            (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
+            (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
+            (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
+            (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
+            (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
+            ((const_136 * state[1]) - state[2]), \
+            const_0, const_0, const_0, const_0, const_0, \
+            (state[1] * const_256)\
+        ]",
+    ];
+    let memory = Felt252IdMemory::default();
+    let read_small = ReadSmall { memory };
+    let registry = AirFnRegistry::new(&read_small);
+    let entry = registry.get_air_fn_entry(&read_small);
+    assert_eq!(
+        entry
+            .air_body
+            .into_iter()
+            .map(|c| c.to_string())
+            .collect::<Vec<_>>(),
+        expected_air_body
+    );
+}
 
 fn test_read_positive(value: Felt252Expr, num_bits: usize) {
     let memory = Felt252IdMemory::new_with_data(vec![(const_expr!(0), value.clone())]);
