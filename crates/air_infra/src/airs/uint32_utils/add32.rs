@@ -21,11 +21,16 @@ impl AirFn for Add32 {
         air_builder.lookup_call(&RangeCheck { bits: 16 }, cl.clone());
         air_builder.lookup_call(&RangeCheck { bits: 16 }, ch.clone());
 
+        // Verify addition of the low halves
         let carry = air_builder.let_for_constraint((a.low().as_felt() + b.low().as_felt()) - cl);
         air_builder.constrain(carry.clone() * (carry.clone() - const_expr!(1 << 16)));
-        air_builder.constrain(
-            (a.high().as_felt() + b.high().as_felt() - ch) * const_expr!(1 << 16) + carry,
+
+        // Verify addition of the high halves
+        let carry_hi = air_builder.let_for_constraint(
+            ((a.high().as_felt() + b.high().as_felt()) - ch)
+                + carry * (const_expr!(1) / const_expr!(1 << 16)),
         );
+        air_builder.constrain(carry_hi.clone() * (carry_hi - const_expr!(1 << 16)));
 
         c
     }
