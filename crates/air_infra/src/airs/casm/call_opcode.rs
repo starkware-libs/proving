@@ -22,10 +22,10 @@ use crate::const_expr;
 
 #[derive(Clone, Debug)]
 pub struct CallOpcode {
-    is_rel: bool,
-    flag_op1_base_fp: bool,
+    pub is_rel: bool,
+    pub flag_op1_base_fp: bool,
 
-    memory: Memory<FeltExpr, Felt252Expr>,
+    pub memory: Memory<FeltExpr, Felt252Expr>,
 }
 
 impl AirFn for CallOpcode {
