@@ -193,7 +193,7 @@ where
     let mut initialization_code = rust::Tokens::new();
     for (fn_name, multiplicity) in function_call_multiplicity {
         initialization_code
-            .extend(quote!( $(fn_name)_inputs: Vec::with_capacity(capacity * $multiplicity)));
+            .extend(quote!( $(fn_name)_inputs: Vec::with_capacity(capacity * $multiplicity),));
     }
 
     quote! {
