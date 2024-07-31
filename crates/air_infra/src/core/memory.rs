@@ -61,13 +61,13 @@ where
     }
 
     #[cfg(test)]
-    pub(super) fn get(&self, key: &K) -> Option<V> {
+    pub fn get(&self, key: &K) -> Option<V> {
         let actual_key = key.to_values();
         self.data.borrow().get(&actual_key).cloned()
     }
 
     #[cfg(test)]
-    pub(super) fn set(&self, key: K, value: V) {
+    pub fn set(&self, key: K, value: V) {
         let actual_key = key.to_values();
 
         if !self.data.borrow().contains_key(&actual_key) {
