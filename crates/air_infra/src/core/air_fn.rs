@@ -126,7 +126,9 @@ impl AirBuilder {
             // Cannot assert this in run mode on internal component, where we might deduce constants.
             assert!(!expr.is_const());
         }
-
+        if expr.in_state() {
+            return expr.clone();
+        }
         self.air_body
             .push(AirBodyComponent::Deduction(expr.clone()));
         self.state.add(expr);

@@ -89,6 +89,6 @@ fn test_fibonacci() {
     );
 
     let (state, output) = registry.run_air(&air_fn, expr!("secret", 1, true));
-    assert!(output.calc() == "866");
-    assert!(state.calc() == ["1", "2", "5", "29", "866"]);
+    assert_eq!(output.calc(), "866");
+    assert_eq!(state.calc(), ["2", "5", "29", "866"]);
 }
