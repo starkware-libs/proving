@@ -4,7 +4,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 use crate::core::prover_types::FELT252_BITS_PER_WORD;
-use crate::core::variables::AirVar;
 
 use super::check_instruction::*;
 use super::common::*;
@@ -66,13 +65,13 @@ impl AirFn for AddAp {
         let imm = ab
             .call(
                 &ReadSmallFelt252 {
+                    // TODO: Read immediate <= Memory size.
                     num_bits: FELT252_BITS_PER_WORD,
                     memory: self.memory.clone(),
                 },
                 pc.clone() + const_expr!(1),
             )
-            .as_felts()[0]
-            .clone();
+            .get_felt(0);
 
         [pc + const_expr!(2), ap + imm, fp]
     }

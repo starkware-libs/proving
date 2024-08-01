@@ -1,3 +1,6 @@
+pub mod add_ap_opcode;
+#[cfg(test)]
+pub mod add_ap_opcode_test;
 pub mod assert_eq_opcode;
 #[cfg(test)]
 pub mod assert_eq_opcode_test;
@@ -21,5 +24,3 @@ pub mod read_small_felt252_test;
 pub mod ret_opcode;
 #[cfg(test)]
 pub mod ret_opcode_test;
-#[cfg(test)]
-pub mod add_ap_tests;
