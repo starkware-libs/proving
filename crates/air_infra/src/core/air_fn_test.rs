@@ -1,5 +1,3 @@
-use std::array::from_fn;
-
 use super::air_fn::*;
 use super::air_fn_registry::*;
 use super::expressions::expr::*;
@@ -34,7 +32,7 @@ impl AirFn for AirFnWithIncorrectConstraint {
 fn test_incompleteness() {
     let func = AirFnWithIncorrectConstraint {};
     let registry = AirFnRegistry::new(&func);
-    registry.run_air(&func, expr!("x", 1234, true));
+    registry.run_air(&func, expr!("x", 1234));
 }
 
 #[derive(Debug)]
@@ -89,7 +87,7 @@ fn test_felt252_deduce() {
     let func = AirFnWithFelt252 {};
     let registry = AirFnRegistry::new(&func);
 
-    let (_, out) = registry.run_air(&func, felt252_expr!("x", 5, 0, true));
+    let (_, out) = registry.run_air(&func, felt252_expr!("x", 5, 0));
     assert!(out.in_state());
     assert!(out.calc() == "5");
 

@@ -59,8 +59,8 @@ fn test_bit_unpacking() {
         deductions
     );
 
-    let (state, output) = registry.run_air(&func, u16_expr!("x", 10, true));
-    assert_eq!(state.calc(), ["5", "2", "1", "0"]);
+    let (state, output) = registry.run_air(&func, u16_expr!("x", 10));
+    assert_eq!(state.calc(), ["10", "5", "2", "1", "0"]);
     assert!(
         output.iter().map(|x| x.calc()).collect::<Vec<String>>()
             == ["false", "true", "false", "true"]
@@ -122,6 +122,6 @@ fn test_bit_mux() {
         deductions
     );
 
-    let (_, out) = registry.run_air(&func, u16_expr!("x", 2, true));
+    let (_, out) = registry.run_air(&func, u16_expr!("x", 2));
     assert!(out.calc() == "false");
 }

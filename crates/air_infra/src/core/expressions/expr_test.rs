@@ -135,7 +135,8 @@ fn test_felt252_division_by_zero() {
 
 #[test]
 fn test_conversion_felt_to_bool() {
-    let mut f = expr!("x", 1, true);
+    let mut f = expr!("x", 1);
+    f.to_state(0);
     let b: BoolExpr = f.clone().into();
     assert_eq!(b.calc(), "true");
     assert!(b.in_state());
@@ -229,8 +230,9 @@ fn test_bad_felt_to_uint16() {
 
 #[test]
 fn test_conversion_felts_to_felt252() {
-    let mut f1 = expr!("x1", 1, true);
-    let mut f2 = expr!("x2", 2, false);
+    let mut f1 = expr!("x1", 1);
+    let mut f2 = expr!("x2", 2);
+    f1.to_state(0);
     let mut e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
     assert_eq!(e.calc(), "(1025, 0)");
     assert_eq!(e.as_felts()[0].calc(), f1.calc());
@@ -246,7 +248,8 @@ fn test_conversion_felts_to_felt252() {
         "Felt252::from_m31_(zero_extend([state[0], x2]))"
     );
 
-    f2 = expr!("x2", 2, true);
+    f2 = expr!("x2", 2);
+    f2.to_state(0);
     f1 = f1.let_for_constraint(format!("{}0", CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
     let mut e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
     assert!(e.in_state());
