@@ -234,28 +234,4 @@ macro_rules! u64_expr {
             false,
         )
     };
-
-    ($name:expr, $val:expr, $in_trace:literal) => {
-        if $in_trace {
-            UInt64Expr::new_var(
-                $name.to_string(),
-                Some(UInt64::from($val)),
-                Some(0),
-                Some(1),
-                Some(2),
-                Some(3),
-                false,
-            )
-        } else {
-            UInt64Expr::new_var(
-                $name.to_string(),
-                Some(UInt64::from($val)),
-                None,
-                None,
-                None,
-                None,
-                false,
-            )
-        }
-    };
 }

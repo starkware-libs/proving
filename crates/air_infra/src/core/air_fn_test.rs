@@ -59,7 +59,7 @@ fn test_uint32_deduce() {
     let func = AirFnWithUInt32 {};
     let registry = AirFnRegistry::new(&func);
 
-    let (_, out) = registry.run_air(&func, u32_expr!("x", 5, true));
+    let (_, out) = registry.run_air(&func, u32_expr!("x", 5));
     assert!(out.in_state());
     assert!(out.calc() == "9");
 }

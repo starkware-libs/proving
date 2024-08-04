@@ -92,8 +92,6 @@ pub struct AirBuilder {
     pub(super) air_body: Vec<AirBodyComponent>,
     #[cfg(test)]
     pub(super) run: bool,
-    #[cfg(test)]
-    pub(super) internal_component: bool,
     pub(super) registry: AirFnRegistry,
 }
 impl AirBuilder {
@@ -122,10 +120,11 @@ impl AirBuilder {
 
     pub fn deduce(&mut self, expr: &mut FeltExpr) -> FeltExpr {
         #[cfg(test)]
-        if !self.run || !self.internal_component {
-            // Cannot assert this in run mode on internal component, where we might deduce constants.
+        if !self.run {
+            // Cannot assert this in run mode, where we might deduce constants.
             assert!(!expr.is_const());
         }
+
         self.air_body
             .push(AirBodyComponent::Deduction(expr.clone()));
         self.state.add(expr);
@@ -134,8 +133,8 @@ impl AirBuilder {
 
     pub fn assign(&mut self, expr: &mut FeltExpr) -> FeltExpr {
         #[cfg(test)]
-        if !self.run || !self.internal_component {
-            // Cannot assert this in run mode on internal component, where we might deduce constants.
+        if !self.run {
+            // Cannot assert this in run mode, where we might deduce constants.
             assert!(!expr.is_const());
         }
 
@@ -216,8 +215,6 @@ impl AirBuilder {
             air_body: vec![],
             #[cfg(test)]
             run: self.run,
-            #[cfg(test)]
-            internal_component: self.internal_component,
             registry: self.registry.clone(),
         };
         let output = air_fn.call(&mut air_builder, input.clone());
@@ -263,8 +260,6 @@ impl AirBuilder {
                 air_body: vec![],
                 #[cfg(test)]
                 run: self.run,
-                #[cfg(test)]
-                internal_component: true,
                 registry: self.registry.clone(),
             };
             let output = match air_fn.trace_type() {

@@ -95,7 +95,6 @@ impl AirFnRegistry {
             state: State::default(),
             air_body: vec![],
             run: true,
-            internal_component: false,
             registry: self.clone(),
         };
         let output = match air_fn.trace_type() {
@@ -123,8 +122,6 @@ impl AirFnRegistry {
             air_body: vec![],
             #[cfg(test)]
             run: false,
-            #[cfg(test)]
-            internal_component: false,
             registry: self.clone(),
         };
         let output = match air_fn.trace_type() {

@@ -239,24 +239,4 @@ macro_rules! u32_expr {
             false,
         )
     };
-
-    ($name:expr, $val:expr, $in_trace:literal) => {
-        if $in_trace {
-            UInt32Expr::new_var(
-                $name.to_string(),
-                Some(UInt32::from($val)),
-                Some(0),
-                Some(1),
-                false,
-            )
-        } else {
-            UInt32Expr::new_var(
-                $name.to_string(),
-                Some(UInt32::from($val)),
-                None,
-                None,
-                false,
-            )
-        }
-    };
 }

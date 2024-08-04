@@ -245,22 +245,4 @@ macro_rules! felt252_expr {
             false,
         )
     };
-
-    ($name:expr, $low:expr, $high:expr,  $in_trace:literal) => {
-        if $in_trace {
-            Felt252Expr::new_var(
-                $name.to_string(),
-                Some(Felt252::from(($low, $high))),
-                Some(from_fn(|i| i)),
-                false,
-            )
-        } else {
-            Felt252Expr::new_var(
-                $name.to_string(),
-                Some(Felt252::from(($low, $high))),
-                None,
-                false,
-            )
-        }
-    };
 }

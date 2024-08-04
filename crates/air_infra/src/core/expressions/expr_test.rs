@@ -135,15 +135,14 @@ fn test_felt252_division_by_zero() {
 
 #[test]
 fn test_conversion_felt_to_bool() {
-    let mut f = expr!("x", 1);
-    f.to_state(0);
+    let mut f = const_expr!(1);
     let b: BoolExpr = f.clone().into();
     assert_eq!(b.calc(), "true");
     assert!(b.in_state());
     let compiled_felt: CompiledAirVar = b.as_felt().into();
-    assert_eq!(&compiled_felt.to_string(), "state[0]");
+    assert_eq!(&compiled_felt.to_string(), "const_1");
     let compiled_bool: CompiledAirVar = b.into();
-    assert_eq!(&compiled_bool.to_string(), "Bool::from_m31(state[0])");
+    assert_eq!(&compiled_bool.to_string(), "Bool::from_m31(const_1)");
 
     f = f.let_for_constraint(format!("{}0", CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
     let b: BoolExpr = f.into();
@@ -230,37 +229,35 @@ fn test_bad_felt_to_uint16() {
 
 #[test]
 fn test_conversion_felts_to_felt252() {
-    let mut f1 = expr!("x1", 1);
+    let mut f1 = const_expr!(1);
     let mut f2 = expr!("x2", 2);
-    f1.to_state(0);
     let mut e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
     assert_eq!(e.calc(), "(1025, 0)");
     assert_eq!(e.as_felts()[0].calc(), f1.calc());
     assert_eq!(e.as_felts()[1].calc(), f2.calc());
     assert!(!e.in_state());
     let compiled_felt1: CompiledAirVar = e.as_felts_mut()[0].clone().into();
-    assert_eq!(&compiled_felt1.to_string(), "state[0]");
+    assert_eq!(&compiled_felt1.to_string(), "const_1");
     let compiled_felt2: CompiledAirVar = e.get_felt_mut(1).clone().into();
     assert_eq!(&compiled_felt2.to_string(), "x2");
     let compiled_expr: CompiledAirVar = e.into();
     assert_eq!(
         &compiled_expr.to_string(),
-        "Felt252::from_m31_(zero_extend([state[0], x2]))"
+        "Felt252::from_m31_(zero_extend([const_1, x2]))"
     );
 
-    f2 = expr!("x2", 2);
-    f2.to_state(0);
+    f2 = const_expr!(2);
     f1 = f1.let_for_constraint(format!("{}0", CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
     let mut e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
     assert!(e.in_state());
     let compiled_felt1: CompiledAirVar = e.as_felts_mut()[0].clone().into();
     assert_eq!(&compiled_felt1.to_string(), "constraint_tmp_0");
     let compiled_felt2: CompiledAirVar = e.get_felt_mut(1).clone().into();
-    assert_eq!(&compiled_felt2.to_string(), "state[0]");
+    assert_eq!(&compiled_felt2.to_string(), "const_2");
     let compiled_expr: CompiledAirVar = e.into();
     assert_eq!(
         &compiled_expr.to_string(),
-        "Felt252::from_m31_(zero_extend([constraint_tmp_0, state[0]]))"
+        "Felt252::from_m31_(zero_extend([constraint_tmp_0, const_2]))"
     );
 
     let mut v: Felt252Expr = felt252_expr!("v".to_string(), 0xFFF, 0xFFF);

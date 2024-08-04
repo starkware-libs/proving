@@ -2,9 +2,9 @@ use super::add32::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::uint32_expr::*;
-use crate::core::prover_types::*;
+
 // Macros
-use crate::u32_expr;
+use crate::const_u32_expr;
 
 #[test]
 fn test_add32() {
@@ -46,30 +46,27 @@ fn test_add32() {
         deductions
     );
 
-    let (state, output) = registry.run_air(
-        &air_fn,
-        [u32_expr!("x", 1_u32, true), u32_expr!("y", 1_u32, true)],
-    );
-    assert!(output.calc() == "2");
-    assert!(state.calc() == ["2", "0"]);
+    let (state, output) = registry.run_air(&air_fn, [const_u32_expr!(1), const_u32_expr!(1)]);
+    assert_eq!(output.calc(), "2");
+    assert_eq!(state.calc(), ["2", "0"]);
 
     let (state, output) = registry.run_air(
         &air_fn,
         [
-            u32_expr!("x", 2_u32.pow(15), true),
-            u32_expr!("y", 2_u32.pow(15), true),
+            const_u32_expr!(2_u32.pow(15)),
+            const_u32_expr!(2_u32.pow(15)),
         ],
     );
-    assert!(output.calc() == "65536");
-    assert!(state.calc() == ["0", "1"]);
+    assert_eq!(output.calc(), "65536");
+    assert_eq!(state.calc(), ["0", "1"]);
 
     let (state, output) = registry.run_air(
         &air_fn,
         [
-            u32_expr!("x", 2_u32.pow(31), true),
-            u32_expr!("y", 2_u32.pow(31), true),
+            const_u32_expr!(2_u32.pow(31)),
+            const_u32_expr!(2_u32.pow(31)),
         ],
     );
-    assert!(output.calc() == "0");
-    assert!(state.calc() == ["0", "0"]);
+    assert_eq!(output.calc(), "0");
+    assert_eq!(state.calc(), ["0", "0"]);
 }
