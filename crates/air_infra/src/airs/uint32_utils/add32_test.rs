@@ -17,7 +17,8 @@ fn test_add32() {
         "RangeCheck16([state[1]]) == []",
         "constraint_tmp_3 = ((Add32_cb314bd22a8fc165_input[0].low().as_m31() + Add32_cb314bd22a8fc165_input[1].low().as_m31()) - state[0])",
         "(constraint_tmp_3 * (constraint_tmp_3 - const_65536))",
-        "((((Add32_cb314bd22a8fc165_input[0].high().as_m31() + Add32_cb314bd22a8fc165_input[1].high().as_m31()) - state[1]) * const_65536) + constraint_tmp_3)",
+        "constraint_tmp_4 = (((Add32_cb314bd22a8fc165_input[0].high().as_m31() + Add32_cb314bd22a8fc165_input[1].high().as_m31()) - state[1]) + (constraint_tmp_3 * const_32768))",
+        "(constraint_tmp_4 * (constraint_tmp_4 - const_65536))"
     ];
 
     let deductions = [
@@ -61,4 +62,14 @@ fn test_add32() {
     );
     assert!(output.calc() == "65536");
     assert!(state.calc() == ["0", "1"]);
+
+    let (state, output) = registry.run_air(
+        &air_fn,
+        [
+            u32_expr!("x", 2_u32.pow(31), true),
+            u32_expr!("y", 2_u32.pow(31), true),
+        ],
+    );
+    assert!(output.calc() == "0");
+    assert!(state.calc() == ["0", "0"]);
 }
