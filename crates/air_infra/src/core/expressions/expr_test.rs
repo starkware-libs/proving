@@ -238,7 +238,7 @@ fn test_conversion_felts_to_felt252() {
     assert!(!e.in_state());
     let compiled_felt1: CompiledAirVar = e.as_felts_mut()[0].clone().into();
     assert_eq!(&compiled_felt1.to_string(), "state[0]");
-    let compiled_felt2: CompiledAirVar = e.as_felts_mut()[1].clone().into();
+    let compiled_felt2: CompiledAirVar = e.get_felt_mut(1).clone().into();
     assert_eq!(&compiled_felt2.to_string(), "x2");
     let compiled_expr: CompiledAirVar = e.into();
     assert_eq!(
@@ -252,8 +252,8 @@ fn test_conversion_felts_to_felt252() {
     assert!(e.in_state());
     let compiled_felt1: CompiledAirVar = e.as_felts_mut()[0].clone().into();
     assert_eq!(&compiled_felt1.to_string(), "constraint_tmp_0");
-    let compiled_felt2: CompiledAirVar = e.as_felts_mut()[0].clone().into();
-    assert_eq!(&compiled_felt2.to_string(), "constraint_tmp_0");
+    let compiled_felt2: CompiledAirVar = e.get_felt_mut(1).clone().into();
+    assert_eq!(&compiled_felt2.to_string(), "state[0]");
     let compiled_expr: CompiledAirVar = e.into();
     assert_eq!(
         &compiled_expr.to_string(),
@@ -263,7 +263,8 @@ fn test_conversion_felts_to_felt252() {
     let mut v: Felt252Expr = felt252_expr!("v".to_string(), 0xFFF, 0xFFF);
     let felts = v.as_felts();
     let mut e = Felt252Expr::from(felts);
-    for (i, f) in e.as_felts_mut().iter().enumerate() {
+    for (i, f) in e.as_felts_mut().into_iter().enumerate() {
         assert_eq!(f.calc(), v.as_felts_mut()[i].calc());
+        assert_eq!(f.calc(), v.get_felt_mut(i).calc());
     }
 }

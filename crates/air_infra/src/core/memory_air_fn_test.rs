@@ -38,7 +38,7 @@ impl AirFn for SimpleMemoryAirFn {
 
         air_builder.set_in_memory(&self.memory, input + const_expr!(1), value.clone());
 
-        value.as_felts().remove(0)
+        value.get_felt(0)
     }
 }
 

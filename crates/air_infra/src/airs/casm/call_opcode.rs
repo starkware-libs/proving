@@ -9,7 +9,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 use crate::core::prover_types::*;
-use crate::core::variables::*;
 
 // Macros
 use crate::const_expr;
@@ -102,8 +101,7 @@ impl AirFn for CallOpcode {
                     },
                     pc + const_expr!(1),
                 )
-                .as_felts()[0]
-                    .clone()
+                .get_felt(0)
         } else {
             let mem1_base = if self.flag_op1_base_fp {
                 fp.clone()

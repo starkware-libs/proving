@@ -9,7 +9,6 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::memory::*;
 use crate::core::prover_types::*;
-use crate::core::variables::*;
 
 // Macros
 use crate::const_bool_expr;
@@ -56,7 +55,6 @@ impl AirFn for CheckInstruction {
 
         let mut felt4 = self.const_flags.sum(0, 12);
         let mut felt5 = self.const_flags.sum(12, 15);
-        let felts = instruction_for_deduction.as_felts();
         let flags: [BoolExpr; 15] = self
             .const_flags
             .to_arr()
@@ -73,7 +71,7 @@ impl AirFn for CheckInstruction {
                 } else {
                     (5, &mut felt5, i - 12)
                 };
-                let flag = check_flag(ab, shift, felts[felt_index].clone());
+                let flag = check_flag(ab, shift, instruction_for_deduction.get_felt(felt_index));
 
                 // Update the corresponding felt.
                 *felt_to_update = felt_to_update.clone() + (flag.clone() * const_expr!(1 << shift));
@@ -160,7 +158,7 @@ fn check_offset(
         off_begin,
         off_l_len,
         ab,
-        instruction_for_deduction.as_felts_mut()[offset_index],
+        instruction_for_deduction.get_felt_mut(offset_index),
     );
 
     // Find the high part of the offset.
@@ -168,7 +166,7 @@ fn check_offset(
         0,
         16 - off_l_len,
         ab,
-        instruction_for_deduction.as_felts_mut()[offset_index + 1],
+        instruction_for_deduction.get_felt_mut(offset_index + 1),
     );
 
     // Reconstruct the offset as felt from the high and low parts.

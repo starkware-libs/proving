@@ -80,6 +80,28 @@ impl Felt252Expr {
     pub fn new_const(value: Felt252) -> Self {
         Self::new_var(value.calc(), Some(value), None, true)
     }
+
+    pub fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
+        match self {
+            Felt252Expr::Var(v) => v.felts.get_mut(index).expect("index out of bounds"),
+            Felt252Expr::Op(op) => {
+                if op.op == Operation::Felt252FromFeltsArray {
+                    if let AirVarImpl::Array(arr) = &mut op.children[0] {
+                        if let AirVarImpl::Expr(ExprImpl::Felt(felt_expr)) =
+                            arr.get_mut(index).expect("index out of bounds")
+                        {
+                            return felt_expr;
+                        }
+                    }
+                }
+                panic!("Cannot convert to felts");
+            }
+        }
+    }
+
+    pub fn get_felt(&self, index: usize) -> FeltExpr {
+        self.clone().get_felt_mut(index).clone()
+    }
 }
 
 impl Expr<Felt252> for Felt252Expr {

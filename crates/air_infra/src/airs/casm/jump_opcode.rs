@@ -1,16 +1,14 @@
 use indexmap::IndexMap;
 
-use crate::airs::casm::read_small_felt252::ReadSmallFelt252;
+use super::check_instruction::*;
+use super::common::*;
+use super::read_addr::ReadAddr;
+use super::read_small_felt252::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::FELT252_BITS_PER_WORD;
-use crate::core::variables::AirVar;
-
-use super::check_instruction::*;
-use super::common::*;
-use super::read_addr::ReadAddr;
+use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;
@@ -94,8 +92,7 @@ impl AirFn for JumpOpcode {
                     },
                     pc + const_expr!(1),
                 )
-                .as_felts()[0]
-                    .clone()
+                .get_felt(0)
         } else {
             let mem1_base = if self.flag_op1_base_fp {
                 fp.clone()

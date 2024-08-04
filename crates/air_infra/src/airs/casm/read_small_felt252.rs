@@ -25,12 +25,11 @@ impl AirFn for ReadSmallFelt252 {
 
     fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
         let mut value_from_memory = air_builder.get_from_memory(&self.memory, &address);
-        let mut felts = value_from_memory.as_felts_mut();
-        let mut expected_nonzero_limbs: Vec<FeltExpr> = vec![];
+        let mut expected_nonzero_limbs = vec![];
         let remainder = self.num_bits % FELT252_BITS_PER_WORD;
         let num_limbs = self.num_bits.div_ceil(FELT252_BITS_PER_WORD);
 
-        for felt in felts.iter_mut().take(num_limbs) {
+        for felt in value_from_memory.as_felts_mut().into_iter().take(num_limbs) {
             expected_nonzero_limbs.push(air_builder.deduce(felt));
         }
 

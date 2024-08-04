@@ -80,7 +80,7 @@ impl AirFn for AirFnWithFelt252 {
             air_builder.deduce(felt);
         }
 
-        x.as_felts().remove(0)
+        x.get_felt(0)
     }
 }
 
