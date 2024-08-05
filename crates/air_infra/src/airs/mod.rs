@@ -1,3 +1,6 @@
+pub mod bitwise_xor;
+#[cfg(test)]
+pub mod biwise_xor_test;
 pub mod casm;
 pub mod casm_builtins;
 pub mod examples;
