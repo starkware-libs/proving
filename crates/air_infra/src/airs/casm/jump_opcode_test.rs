@@ -84,12 +84,14 @@ fn test_jump_opcode(
     // Check state
     let mut expected_state = vec![pc_value, ap_value, fp_value];
     if is_rel_jump {
-        expected_state.push((op1 & 0xFFF) as u32);
+        expected_state.push((op1 & 0x1FF) as u32);
     } else {
         expected_state.push((offset_as_u16(offset_value) & 0xF) as u32);
-        expected_state.push((offset_as_u16(offset_value) >> 4) as u32);
-        expected_state.push((op1 & 0xFFF) as u32);
-        expected_state.push((op1 >> 12) as u32);
+        expected_state.push(((offset_as_u16(offset_value) >> 4) & 0x1FF) as u32);
+        expected_state.push(((offset_as_u16(offset_value) >> 13) & 0x7) as u32);
+        expected_state.push((op1 & 0x1FF) as u32);
+        expected_state.push(((op1 >> 9) & 0x1FF) as u32);
+        expected_state.push(((op1 >> 18) & 0x1FF) as u32);
     }
     assert_eq!(
         state.calc(),
@@ -133,10 +135,10 @@ fn test_jump_opcode(
 #[test]
 fn test_abs_jump_base_ap() {
     let check_instruction_offsets =
-        "[const_2147483646, const_2147483646, ((state[3] + (state[4] * const_16)) - const_32768)]";
+        "[const_2147483646, const_2147483646, (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)]";
     let check_instruction_name = "CheckInstruction_8e8d2ca4e5548dcb";
-    let read_addr_output = "(state[5] + (state[6] * const_4096))";
-    let read_addr_input = "(state[1] + ((state[3] + (state[4] * const_16)) - const_32768))";
+    let read_addr_output = "((state[6] + (state[7] * const_512)) + (state[8] * const_262144))";
+    let read_addr_input = "(state[1] + (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768))";
     let read_addr_call = &format!(
         "{} = {}({})",
         read_addr_output, "ReadAddr_d86123cf8dd732a9", read_addr_input
@@ -186,7 +188,7 @@ fn test_rel_jump() {
     let check_instruction_name = "CheckInstruction_79dc876569884a56";
     let read_small_felt252_output = "Felt252::from_m31_(zero_extend([state[3]]))";
     let read_small_felt252_input = "(state[0] + const_1)";
-    let read_small_felt252_name = "ReadSmallFelt252_3c159e262aa9003e";
+    let read_small_felt252_name = "ReadSmallFelt252_cc824bd2f61c6ef6";
     let read_small_felt252_call = &format!(
         "{} = {}({})",
         read_small_felt252_output, read_small_felt252_name, read_small_felt252_input
@@ -212,7 +214,7 @@ fn test_rel_jump_inc_ap() {
 
 #[test]
 fn test_rel_big_op1() {
-    test_jump_opcode(true, false, false, 1632, 5, None);
+    test_jump_opcode(true, false, false, 411, 5, None);
 }
 
 pub fn assemble_jump(op1_off: i16, flags: &Flags) -> u64 {

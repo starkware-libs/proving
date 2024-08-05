@@ -376,8 +376,8 @@ impl BitXor for UInt64 {
     }
 }
 
-pub const FELT252_N_WORDS: usize = 21;
-pub const FELT252_BITS_PER_WORD: usize = 12;
+pub const FELT252_N_WORDS: usize = 28;
+pub const FELT252_BITS_PER_WORD: usize = 9;
 
 // A non-redundant representation of a 252-bit element in the field of numbers
 // modulo the prime 2**251 + 17 * 2**192 + 1.
@@ -393,9 +393,9 @@ impl Felt252 {
     pub fn get_m31(&self, index: usize) -> M31 {
         let shift = FELT252_BITS_PER_WORD * index;
         let value = if shift + FELT252_BITS_PER_WORD <= 128 {
-            ((self.low >> shift) & 0xFFF) as u32
+            ((self.low >> shift) & 0x1FF) as u32
         } else if shift >= 128 {
-            ((self.high >> (shift - 128)) & 0xFFF) as u32
+            ((self.high >> (shift - 128)) & 0x1FF) as u32
         } else {
             let low_bits = 128 - shift;
             let high_shift = 128 - (FELT252_BITS_PER_WORD - low_bits);

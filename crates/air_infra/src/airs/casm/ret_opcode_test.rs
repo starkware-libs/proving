@@ -29,9 +29,11 @@ fn test_ret_opcode() {
         "deduction_tmp_5 = Memory_81f75475e4cf34d6((state[2] - const_1))",
         "deduction_tmp_5.get_m31(const_0)",
         "deduction_tmp_5.get_m31(const_1)",
+        "deduction_tmp_5.get_m31(const_2)",
         "deduction_tmp_6 = Memory_81f75475e4cf34d6((state[2] - const_2))",
         "deduction_tmp_6.get_m31(const_0)",
         "deduction_tmp_6.get_m31(const_1)",
+        "deduction_tmp_6.get_m31(const_2)",
     ];
 
     // Register values at opcode start
@@ -71,7 +73,7 @@ fn test_ret_opcode() {
     assert_eq!(next_pc.calc(), saved_pc.to_string());
     assert_eq!(next_fp.calc(), saved_fp.to_string());
     assert_eq!(next_ap.calc(), ap_value.to_string());
-    assert_eq!(state.calc(), ["3", "11", "6", "1", "0", "4", "0"]);
+    assert_eq!(state.calc(), ["3", "11", "6", "1", "0", "0", "4", "0", "0"]);
 
     let lists = registry.get_compiled_air_fn(&func);
 

@@ -17,12 +17,13 @@ fn test_range_check() {
         "deduction_tmp_3.get_m31(const_0)",
         "deduction_tmp_3.get_m31(const_1)",
         "deduction_tmp_3.get_m31(const_2)",
-        "deduction_tmp_4 = RangeCheck8(state[3])",
+        "deduction_tmp_3.get_m31(const_3)",
+        "deduction_tmp_4 = RangeCheck5(state[4])",
     ];
 
     let constraints = [
-        "Memory_81f75475e4cf34d6([(const_100 + state[0])]) == zero_extend([state[1], state[2], state[3]])",
-        "RangeCheck8([state[3]]) == []",
+        "Memory_81f75475e4cf34d6([(const_100 + state[0])]) == zero_extend([state[1], state[2], state[3], state[4]])",
+        "RangeCheck5([state[4]]) == []",
     ];
 
     let memory = Memory::new_with_data(vec![(
@@ -73,13 +74,13 @@ fn run_range_check(value: Felt252Expr, bits: usize) {
 
 #[test]
 fn test_range_check_whole_limbs() {
-    run_range_check(felt252_expr!("value_to_check", 1 << 94, 0), 96);
+    run_range_check(felt252_expr!("value_to_check", 1 << 70, 0), 72);
 }
 
 #[test]
 #[should_panic(expected = "Memory::set() failed")]
 fn test_range_check_whole_limbs_fail() {
-    run_range_check(felt252_expr!("value_to_check", 1 << 98, 0), 96);
+    run_range_check(felt252_expr!("value_to_check", 1 << 74, 0), 72);
 }
 
 // Tests where <bits> is not divisible by 12
@@ -89,7 +90,7 @@ fn test_range_check_partial_limbs() {
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck8 failed")]
+#[should_panic(expected = "RangeCheck2 failed (input 4)")]
 fn test_range_check_partial_limbs_fail() {
     run_range_check(felt252_expr!("value_to_check", 0, 1), 128);
 }

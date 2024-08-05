@@ -84,8 +84,8 @@ fn test_felt252() {
     assert_eq!(
         felts.iter().map(|f| f.calc()).collect::<Vec<String>>(),
         [
-            "4095", "0", "0", "0", "0", "0", "0", "0", "0", "0", "3840", "255", "0", "0", "0", "0",
-            "0", "0", "0", "0", "0"
+            "511", "7", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "508", "31",
+            "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0",
         ]
     );
 }
@@ -232,7 +232,7 @@ fn test_conversion_felts_to_felt252() {
     let mut f1 = expr!("x1", 1, true);
     let mut f2 = expr!("x2", 2, false);
     let mut e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
-    assert_eq!(e.calc(), "(8193, 0)");
+    assert_eq!(e.calc(), "(1025, 0)");
     assert_eq!(e.as_felts()[0].calc(), f1.calc());
     assert_eq!(e.as_felts()[1].calc(), f2.calc());
     assert!(!e.in_state());

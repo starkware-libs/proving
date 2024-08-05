@@ -21,13 +21,15 @@ impl AirFn for ReadAddr {
     fn call(&self, air_builder: &mut crate::core::air_fn::AirBuilder, key: Self::In) -> Self::Out {
         let op1 = air_builder.call(
             &ReadSmallFelt252 {
-                num_bits: 2 * FELT252_BITS_PER_WORD,
+                num_bits: 3 * FELT252_BITS_PER_WORD,
                 memory: self.memory.clone(),
             },
             key,
         );
 
-        op1.get_felt(0) + (op1.get_felt(1) * const_expr!(1 << FELT252_BITS_PER_WORD))
+        op1.get_felt(0)
+            + (op1.get_felt(1) * const_expr!(1 << FELT252_BITS_PER_WORD))
+            + (op1.get_felt(2) * const_expr!(1 << (FELT252_BITS_PER_WORD * 2)))
     }
 
     fn trace_type(&self) -> TraceType {

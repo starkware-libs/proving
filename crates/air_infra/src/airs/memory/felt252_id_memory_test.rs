@@ -1,6 +1,6 @@
 use super::felt252_id_memory::*;
-use crate::core::air_fn_registry::AirFnRegistry;
-use crate::core::expressions::expr::Expr;
+use crate::core::air_fn_registry::*;
+use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::prover_types::*;
@@ -28,8 +28,8 @@ fn test_read_positive_air_body() {
         "deduction_tmp_1 = Memory_81f75475e4cf34d6(state[0])",
         "Deduction: deduction_tmp_1.get_m31(const_0)",
         "Deduction: deduction_tmp_1.get_m31(const_1)",
-        "deduction_tmp_2 = RangeCheck4(state[2])",
-        "RangeCheck4([state[2]]) == []",
+        "deduction_tmp_2 = RangeCheck7(state[2])",
+        "RangeCheck7([state[2]]) == []",
         "Memory_81f75475e4cf34d6([state[0]]) == zero_extend([state[1], state[2]])",
     ];
     let memory = Felt252IdMemory::default();

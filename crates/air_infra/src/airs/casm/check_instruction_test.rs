@@ -38,28 +38,29 @@ fn test_with_matching_memory(
     );
 
     // Compute expected state.
-    let offsets_parts_arr = [
-        offsets_u16[0] & 0xFFF,
-        offsets_u16[0] >> 12,
-        offsets_u16[1] & 0xFF,
-        offsets_u16[1] >> 8,
-        offsets_u16[2] & 0xF,
-        offsets_u16[2] >> 4,
-    ];
-    let mut expected_state: Vec<String> = is_offset_const
+    let mut expected_state: Vec<_> = is_offset_const
         .into_iter()
         .enumerate()
         .filter(|(_, is_const)| !is_const)
-        .flat_map(|(i, _)| {
-            [
-                offsets_parts_arr[i * 2].to_string(),
-                offsets_parts_arr[i * 2 + 1].to_string(),
-            ]
+        .flat_map(|(i, _)| match i {
+            0 => vec![offsets_u16[0] & 0x1FF, offsets_u16[0] >> 9],
+            1 => vec![
+                (offsets_u16[1] & 0x3),
+                (offsets_u16[1] >> 2) & 0x1FF,
+                offsets_u16[1] >> 11,
+            ],
+            2 => vec![
+                (offsets_u16[2] & 0xF),
+                (offsets_u16[2] >> 4) & 0x1FF,
+                offsets_u16[2] >> 13,
+            ],
+            _ => unreachable!(),
         })
         .collect();
+
     is_flag_const.iter().enumerate().for_each(|(i, is_const)| {
         if !is_const {
-            expected_state.push((flags[i] as u32).to_string())
+            expected_state.push(flags[i] as u16)
         }
     });
 
@@ -69,7 +70,7 @@ fn test_with_matching_memory(
         pc.clone(),
         felt252_expr!(
             "instruction",
-            assemble_instruction(offsets[0], offsets[1], offsets[2], flags,) as u128,
+            assemble_instruction(offsets[0], offsets[1], offsets[2], flags) as u128,
             0
         ),
     )]);
@@ -103,7 +104,13 @@ fn test_with_matching_memory(
         expected_deductions
     );
 
-    assert_eq!(state.calc(), expected_state);
+    assert_eq!(
+        state.calc(),
+        expected_state
+            .iter()
+            .map(|x| x.to_string())
+            .collect::<Vec<_>>()
+    );
 
     for (i, &offset) in offsets.iter().enumerate() {
         assert_eq!(
@@ -146,12 +153,11 @@ fn test_no_consts() {
 
     let check_instruction_input = "CheckInstruction_670dde07bf003f3a_input";
     let expected_constraints = [
-        "RangeCheck4([state[1]]) == []",
-        "RangeCheck8([state[2]]) == []",
-        "RangeCheck8([state[3]]) == []",
-        "RangeCheck4([state[4]]) == []",
-        "(state[6] * (const_1 - state[6]))",
-        "(state[7] * (const_1 - state[7]))",
+        "RangeCheck7([state[1]]) == []",
+        "RangeCheck2([state[2]]) == []",
+        "RangeCheck5([state[4]]) == []",
+        "RangeCheck4([state[5]]) == []",
+        "RangeCheck3([state[7]]) == []",
         "(state[8] * (const_1 - state[8]))",
         "(state[9] * (const_1 - state[9]))",
         "(state[10] * (const_1 - state[10]))",
@@ -165,62 +171,69 @@ fn test_no_consts() {
         "(state[18] * (const_1 - state[18]))",
         "(state[19] * (const_1 - state[19]))",
         "(state[20] * (const_1 - state[20]))",
-        &format!("Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}])",
+        "(state[21] * (const_1 - state[21]))",
+        "(state[22] * (const_1 - state[22]))",
+        &format!("Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}, {}])",
             check_instruction_input,
             "state[0]",
-            "(state[1] + (state[2] * const_16))",
-            "(state[3] + (state[4] * const_256))",
-            "state[5]",
-            "((((((((((((const_0 + (state[6] * const_1)) + (state[7] * const_2)) + (state[8] * const_4)) + (state[9] * const_8)) + (state[10] * const_16)) + (state[11] * const_32)) + (state[12] * const_64)) + (state[13] * const_128)) + (state[14] * const_256)) + (state[15] * const_512)) + (state[16] * const_1024)) + (state[17] * const_2048))",
-            "(((const_0 + (state[18] * const_1)) + (state[19] * const_2)) + (state[20] * const_4))",
+            "(state[1] + (state[2] * const_128))",
+            "state[3]",
+            "(state[4] + (state[5] * const_32))",
+            "state[6]",
+            "(((((((state[7] + const_0) + (state[8] * const_8)) + (state[9] * const_16)) + (state[10] * const_32)) + (state[11] * const_64)) + (state[12] * const_128)) + (state[13] * const_256))",
+            "(((((((((const_0 + (state[14] * const_1)) + (state[15] * const_2)) + (state[16] * const_4)) + (state[17] * const_8)) + (state[18] * const_16)) + (state[19] * const_32)) + (state[20] * const_64)) + (state[21] * const_128)) + (state[22] * const_256))",
         ),
     ];
     let expected_deductions = [
         &format!("deduction_tmp_0 = Memory_81f75475e4cf34d6({})",check_instruction_input),
         "deduction_tmp_0.get_m31(const_0)",
-        "deduction_tmp_1 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_1)) & const_15)",
+        "deduction_tmp_1 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_1)) & const_127)",
         "deduction_tmp_1.low().as_m31()",
-        "deduction_tmp_2 = RangeCheck4(state[1])",
-        "deduction_tmp_3 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_1)) >> const_4) & const_255)",
+        "deduction_tmp_2 = RangeCheck7(state[1])",
+        "deduction_tmp_3 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_1)) >> const_7) & const_3)",
         "deduction_tmp_3.low().as_m31()",
-        "deduction_tmp_4 = RangeCheck8(state[2])",
-        "deduction_tmp_5 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_2)) & const_255)",
+        "deduction_tmp_4 = RangeCheck2(state[2])",
+        "deduction_tmp_0.get_m31(const_2)",
+        "deduction_tmp_5 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_3)) & const_31)",
         "deduction_tmp_5.low().as_m31()",
-        "deduction_tmp_6 = RangeCheck8(state[3])",
-        "deduction_tmp_7 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_2)) >> const_8) & const_15)",
+        "deduction_tmp_6 = RangeCheck5(state[4])",
+        "deduction_tmp_7 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_3)) >> const_5) & const_15)",
         "deduction_tmp_7.low().as_m31()",
-        "deduction_tmp_8 = RangeCheck4(state[4])",
-        "deduction_tmp_0.get_m31(const_3)",
-        "deduction_tmp_9 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) & const_1)",
+        "deduction_tmp_8 = RangeCheck4(state[5])",
+        "deduction_tmp_0.get_m31(const_4)",
+        "deduction_tmp_9 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_5)) & const_7)",
         "deduction_tmp_9.low().as_m31()",
-        "deduction_tmp_10 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) >> const_1) & const_1)",
-        "deduction_tmp_10.low().as_m31()",
-        "deduction_tmp_11 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) >> const_2) & const_1)",
+        "deduction_tmp_10 = RangeCheck3(state[7])",
+        "deduction_tmp_11 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_5)) >> const_3) & const_1)",
         "deduction_tmp_11.low().as_m31()",
-        "deduction_tmp_12 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) >> const_3) & const_1)",
+        "deduction_tmp_12 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_5)) >> const_4) & const_1)",
         "deduction_tmp_12.low().as_m31()",
-        "deduction_tmp_13 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) >> const_4) & const_1)",
+        "deduction_tmp_13 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_5)) >> const_5) & const_1)",
         "deduction_tmp_13.low().as_m31()",
-        "deduction_tmp_14 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) >> const_5) & const_1)",
+        "deduction_tmp_14 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_5)) >> const_6) & const_1)",
         "deduction_tmp_14.low().as_m31()",
-        "deduction_tmp_15 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) >> const_6) & const_1)",
+        "deduction_tmp_15 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_5)) >> const_7) & const_1)",
         "deduction_tmp_15.low().as_m31()",
-        "deduction_tmp_16 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) >> const_7) & const_1)",
+        "deduction_tmp_16 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_5)) >> const_8) & const_1)",
         "deduction_tmp_16.low().as_m31()",
-        "deduction_tmp_17 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) >> const_8) & const_1)",
+        "deduction_tmp_17 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_6)) & const_1)",
         "deduction_tmp_17.low().as_m31()",
-        "deduction_tmp_18 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) >> const_9) & const_1)",
+        "deduction_tmp_18 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_6)) >> const_1) & const_1)",
         "deduction_tmp_18.low().as_m31()",
-        "deduction_tmp_19 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) >> const_10) & const_1)",
+        "deduction_tmp_19 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_6)) >> const_2) & const_1)",
         "deduction_tmp_19.low().as_m31()",
-        "deduction_tmp_20 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) >> const_11) & const_1)",
+        "deduction_tmp_20 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_6)) >> const_3) & const_1)",
         "deduction_tmp_20.low().as_m31()",
-        "deduction_tmp_21 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_5)) & const_1)",
+        "deduction_tmp_21 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_6)) >> const_4) & const_1)",
         "deduction_tmp_21.low().as_m31()",
-        "deduction_tmp_22 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_5)) >> const_1) & const_1)",
+        "deduction_tmp_22 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_6)) >> const_5) & const_1)",
         "deduction_tmp_22.low().as_m31()",
-        "deduction_tmp_23 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_5)) >> const_2) & const_1)",
-        "deduction_tmp_23.low().as_m31()"
+        "deduction_tmp_23 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_6)) >> const_6) & const_1)",
+        "deduction_tmp_23.low().as_m31()",
+        "deduction_tmp_24 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_6)) >> const_7) & const_1)",
+        "deduction_tmp_24.low().as_m31()",
+        "deduction_tmp_25 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_6)) >> const_8) & const_1)",
+        "deduction_tmp_25.low().as_m31()"
     ];
 
     test_with_matching_memory(
@@ -241,14 +254,15 @@ fn test_all_consts() {
 
     let check_instruction_input = "CheckInstruction_6664810e232eea6_input";
     let expected_constraints: [&str; 1] = [&format!(
-        "Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}])",
+        "Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}, {}])",
         check_instruction_input,
-        "const_801",
-        "const_2492",
-        "const_2680",
-        "const_2251",
-        "const_1674",
-        "const_4",
+        "const_289",
+        "const_481",
+        "const_38",
+        "const_335",
+        "const_203",
+        "const_84",
+        "const_282",
     )];
     let expected_deductions: [&str; 1] = [&format!(
         "deduction_tmp_0 = Memory_81f75475e4cf34d6({})",
@@ -275,33 +289,35 @@ fn test_some_consts() {
 
     let check_instruction_input = "CheckInstruction_f005ca851bd8ec7f_input";
     let expected_constraints = [
-        "RangeCheck8([state[0]]) == []",
-        "RangeCheck8([state[1]]) == []",
-        "(state[2] * (const_1 - state[2]))",
+        "RangeCheck2([state[0]]) == []",
+        "RangeCheck5([state[2]]) == []",
         "(state[3] * (const_1 - state[3]))",
+        "(state[4] * (const_1 - state[4]))",
         &format!(
-            "Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}])",
+            "Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}, {}])",
             check_instruction_input,
-            "const_801",
-            "(const_12 + (state[0] * const_16))",
-            "(state[1] + const_2560)",
-            "const_2251",
-            "((const_1674 + (state[2] * const_1)) + (state[3] * const_4))",
-            "const_4",
+            "const_289",
+            "(const_97 + (state[0] * const_128))",
+            "state[1]",
+            "(state[2] + const_320)",
+            "const_203",
+            "((const_84 + (state[3] * const_8)) + (state[4] * const_32))",
+            "const_282",
         ),
     ];
     let expected_deductions = [
         &format!("deduction_tmp_0 = Memory_81f75475e4cf34d6({})",check_instruction_input),
-        "deduction_tmp_1 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_1)) >> const_4) & const_255)",
+        "deduction_tmp_1 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_1)) >> const_7) & const_3)",
         "deduction_tmp_1.low().as_m31()",
-        "deduction_tmp_2 = RangeCheck8(state[0])",
-        "deduction_tmp_3 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_2)) & const_255)",
+        "deduction_tmp_2 = RangeCheck2(state[0])",
+        "deduction_tmp_0.get_m31(const_2)",
+        "deduction_tmp_3 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_3)) & const_31)",
         "deduction_tmp_3.low().as_m31()",
-        "deduction_tmp_4 = RangeCheck8(state[1])",
-        "deduction_tmp_5 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) & const_1)",
+        "deduction_tmp_4 = RangeCheck5(state[2])",
+        "deduction_tmp_5 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_5)) >> const_3) & const_1)",
         "deduction_tmp_5.low().as_m31()",
-        "deduction_tmp_6 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_4)) >> const_2) & const_1)",
-        "deduction_tmp_6.low().as_m31()"
+        "deduction_tmp_6 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_5)) >> const_5) & const_1)",
+        "deduction_tmp_6.low().as_m31()",
     ];
 
     test_with_matching_memory(
