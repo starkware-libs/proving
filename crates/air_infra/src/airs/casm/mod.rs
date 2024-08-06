@@ -2,6 +2,8 @@ pub mod assert_eq_opcode;
 #[cfg(test)]
 pub mod assert_eq_opcode_test;
 pub mod call_opcode;
+#[cfg(test)]
+pub mod call_opcode_test;
 pub mod check_instruction;
 #[cfg(test)]
 pub mod check_instruction_test;

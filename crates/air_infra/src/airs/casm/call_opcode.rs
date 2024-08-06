@@ -27,6 +27,34 @@ pub struct CallOpcode {
     pub memory: Memory<FeltExpr, Felt252Expr>,
 }
 
+impl CallOpcode {
+    pub fn get_flags(&self) -> Flags {
+        let flag_op1_base_ap = if self.is_rel {
+            assert!(!self.flag_op1_base_fp);
+            false
+        } else {
+            !self.flag_op1_base_fp
+        };
+        Flags {
+            dst_base_fp: Some(false),
+            op0_base_fp: Some(false),
+            op1_imm: Some(self.is_rel),
+            op1_base_fp: Some(self.flag_op1_base_fp),
+            op1_base_ap: Some(flag_op1_base_ap),
+            res_add: Some(false),
+            res_mul: Some(false),
+            pc_update_jump: Some(!self.is_rel),
+            pc_update_jump_rel: Some(self.is_rel),
+            pc_update_jnz: Some(false),
+            ap_update_add: Some(false),
+            ap_update_add_1: Some(false),
+            opcode_call: Some(true),
+            opcode_ret: Some(false),
+            opcode_assert_eq: Some(false),
+        }
+    }
+}
+
 impl AirFn for CallOpcode {
     type In = CasmState;
     type Out = CasmState;
@@ -41,37 +69,11 @@ impl AirFn for CallOpcode {
             None
         };
 
-        // Create the constant flags.
-        let flag_op1_imm = self.is_rel;
-        let flag_op1_base_ap = if self.is_rel {
-            assert!(!self.flag_op1_base_fp);
-            false
-        } else {
-            !self.flag_op1_base_fp
-        };
-        let flags = Flags {
-            dst_base_fp: Some(false),
-            op0_base_fp: Some(false),
-            op1_imm: Some(flag_op1_imm),
-            op1_base_fp: Some(self.flag_op1_base_fp),
-            op1_base_ap: Some(flag_op1_base_ap),
-            res_add: Some(false),
-            res_mul: Some(false),
-            pc_update_jump: Some(!self.is_rel),
-            pc_update_jump_rel: Some(self.is_rel),
-            pc_update_jnz: Some(false),
-            ap_update_add: Some(false),
-            ap_update_add_1: Some(false),
-            opcode_call: Some(true),
-            opcode_ret: Some(false),
-            opcode_assert_eq: Some(false),
-        };
-
         // Check the instruction.
         let ([_, _, offset2], _) = ab.call(
             &CheckInstruction {
                 const_offsets: [Some(offset0), Some(offset1), offset2],
-                const_flags: flags,
+                const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },
             pc.clone(),
@@ -112,7 +114,7 @@ impl AirFn for CallOpcode {
                 &ReadAddr {
                     memory: self.memory.clone(),
                 },
-                mem1_base + offset_as_signed(offset2),
+                mem1_base + offset2,
             )
         };
 
