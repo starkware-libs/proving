@@ -132,7 +132,7 @@ fn test_read_positive_air_body() {
         "deduction_tmp_1 = Memory_81f75475e4cf34d6(state[0])",
         "Deduction: deduction_tmp_1.get_m31(const_0)",
         "Deduction: deduction_tmp_1.get_m31(const_1)",
-        "deduction_tmp_2 = RangeCheck7(state[2])",
+        "deduction_tmp_2 = RangeCheck7([state[2]])",
         "RangeCheck7([state[2]]) == []",
         "Memory_81f75475e4cf34d6([state[0]]) == zero_extend([state[1], state[2]])",
     ];
@@ -164,7 +164,7 @@ fn test_read_positive_partial_limbs() {
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck4 failed")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck4 on input 510")]
 fn test_read_positive_failure() {
     // Try to read a small negative number using ReadPositive
     test_read_positive(felt252_expr!("value", u128::MAX - 1, u128::MAX), 4);

@@ -18,8 +18,8 @@ impl AirFn for Add32 {
         let mut c = air_builder.let_for_deduction(a.clone() + b.clone());
         let cl = air_builder.deduce(c.low_mut().as_felt_mut());
         let ch = air_builder.deduce(c.high_mut().as_felt_mut());
-        air_builder.lookup_call(&RangeCheck { bits: 16 }, cl.clone());
-        air_builder.lookup_call(&RangeCheck { bits: 16 }, ch.clone());
+        air_builder.lookup_call(&RangeCheck { bits: [16] }, [cl.clone()]);
+        air_builder.lookup_call(&RangeCheck { bits: [16] }, [ch.clone()]);
 
         // Verify addition of the low halves
         let carry = air_builder.let_for_constraint((a.low().as_felt() + b.low().as_felt()) - cl);

@@ -33,7 +33,7 @@ fn test_read_30_bits() {
         "deduction_tmp_0.get_m31(const_1)",
         "deduction_tmp_0.get_m31(const_2)",
         "deduction_tmp_0.get_m31(const_3)",
-        "deduction_tmp_1 = RangeCheck3(state[3])",
+        "deduction_tmp_1 = RangeCheck3([state[3]])",
     ];
     assert_eq!(
         registry
@@ -105,7 +105,7 @@ fn test_read_18_bits() {
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck4 failed (input 338)")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck4 on input 338")]
 fn test_fail_too_small_read() {
     let addr = expr!("addr", 5, true);
     // Fill memory

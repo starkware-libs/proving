@@ -40,9 +40,9 @@ impl AirFn for ReadSmallFelt252 {
         if remainder != 0 {
             air_builder.lookup_call(
                 &RangeCheck {
-                    bits: remainder as u16,
+                    bits: [remainder as u16],
                 },
-                expected_nonzero_limbs[num_limbs - 1].clone(),
+                [expected_nonzero_limbs[num_limbs - 1].clone()],
             );
         };
         expected_value
