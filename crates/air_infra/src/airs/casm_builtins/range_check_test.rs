@@ -6,24 +6,26 @@ use crate::core::memory::*;
 use crate::core::prover_types::*;
 
 // Macros
-use crate::{const_expr, expr, felt252_expr};
+use crate::const_expr;
+use crate::felt252_expr;
 
 #[test]
 fn test_range_check() {
     let deductions = [
-        "deduction_tmp_0 = RangeCheckBuiltin_2398e5a71b8b7a99_input",
-        "deduction_tmp_0",
-        "deduction_tmp_3 = Memory_81f75475e4cf34d6((const_100 + state[0]))",
-        "deduction_tmp_3.get_m31(const_0)",
-        "deduction_tmp_3.get_m31(const_1)",
-        "deduction_tmp_3.get_m31(const_2)",
-        "deduction_tmp_3.get_m31(const_3)",
-        "deduction_tmp_4 = RangeCheck5([state[4]])",
+        "deduction_tmp_0 = ()",
+        "tmp_1 = external(Seq_dc507a654de89e80)",
+        "deduction_tmp_4 = Memory_81f75475e4cf34d6((const_100 + tmp_1))",
+        "deduction_tmp_4.get_m31(const_0)",
+        "deduction_tmp_4.get_m31(const_1)",
+        "deduction_tmp_4.get_m31(const_2)",
+        "deduction_tmp_4.get_m31(const_3)",
+        "deduction_tmp_5 = RangeCheck5([state[3]])",
     ];
 
     let constraints = [
-        "Memory_81f75475e4cf34d6([(const_100 + state[0])]) == zero_extend([state[1], state[2], state[3], state[4]])",
-        "RangeCheck5([state[4]]) == []",
+        "tmp_1 = external(Seq_dc507a654de89e80)",
+        "Memory_81f75475e4cf34d6([(const_100 + tmp_1)]) == zero_extend([state[0], state[1], state[2], state[3]])",
+        "RangeCheck5([state[3]]) == []"
     ];
 
     let memory = Memory::new_with_data(vec![(
@@ -69,7 +71,7 @@ fn run_range_check(value: Felt252Expr, bits: usize) {
 
     let registry = AirFnRegistry::new(&rc);
 
-    registry.run_air(&rc, expr!("address", 0));
+    registry.run_air_with_row_number(&rc, (), 0);
 }
 
 #[test]

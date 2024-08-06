@@ -74,6 +74,11 @@ fn numerator_code(constraints: &[ConstraintEvalStep]) -> rust::Tokens {
                 input_felts: _,
                 output_felts: _,
             } => (),
+            // TODO: Implement.
+            ConstraintEvalStep::AccessExternalColumn {
+                fn_name: _,
+                output_name: _,
+            } => (),
         }
     }
     numerator_code.extend(quote! {

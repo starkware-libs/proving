@@ -90,11 +90,28 @@ impl AirFnRegistry {
         I: AirVar,
         O: AirVar,
     {
+        self.run_air_with_row_number(air_fn, input, 0)
+    }
+
+    // Runs the air function on a given input in a specific row (relevant if it uses an
+    // external column) and returns the resulting state and output.
+    #[cfg(test)]
+    pub fn run_air_with_row_number<I, O>(
+        &self,
+        air_fn: &dyn AirFn<In = I, Out = O>,
+        input: I,
+        row_number: usize,
+    ) -> (State, O)
+    where
+        I: AirVar,
+        O: AirVar,
+    {
         assert!(self.air_fns.borrow().get(&air_fn.name()).is_some());
 
         let mut air_builder = AirBuilder {
             state: State::default(),
             air_body: vec![],
+            row_number,
             run: true,
             registry: self.clone(),
         };
@@ -121,6 +138,11 @@ impl AirFnRegistry {
         let mut air_builder = AirBuilder {
             state: State::default(),
             air_body: vec![],
+
+            // The row number doesn't influence the generated air_body. Any other value
+            // will work equally well.
+            #[cfg(test)]
+            row_number: 0,
             #[cfg(test)]
             run: false,
             registry: self.clone(),
@@ -255,6 +277,16 @@ impl AirFnRegistry {
                             .map(|x| x.into())
                             .collect(),
                     });
+                }
+                AirBodyComponent::AccessExternalColumn(access) => {
+                    deductions.push(TraceGenStep::AccessExternalColumn {
+                        fn_name: access.air_fn_name.clone(),
+                        output_name: access.output_name.clone(),
+                    });
+                    constraints.push(ConstraintEvalStep::AccessExternalColumn {
+                        fn_name: access.air_fn_name,
+                        output_name: access.output_name,
+                    })
                 }
             }
         }

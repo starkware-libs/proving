@@ -91,6 +91,8 @@ pub struct AirBuilder {
     pub(super) state: State,
     pub(super) air_body: Vec<AirBodyComponent>,
     #[cfg(test)]
+    pub(super) row_number: usize,
+    #[cfg(test)]
     pub(super) run: bool,
     pub(super) registry: AirFnRegistry,
 }
@@ -98,6 +100,11 @@ impl AirBuilder {
     #[cfg(test)]
     pub fn is_run_mode(&self) -> bool {
         self.run
+    }
+
+    #[cfg(test)]
+    pub fn row_number(&self) -> usize {
+        self.row_number
     }
 
     pub fn constrain(&mut self, expr: FeltExpr) {
@@ -233,6 +240,8 @@ impl AirBuilder {
             state: self.state.clone(),
             air_body: vec![],
             #[cfg(test)]
+            row_number: self.row_number,
+            #[cfg(test)]
             run: self.run,
             registry: self.registry.clone(),
         };
@@ -277,7 +286,7 @@ impl AirBuilder {
             let mut air_builder = Self {
                 state: State::default(),
                 air_body: vec![],
-                #[cfg(test)]
+                row_number: 0,
                 run: self.run,
                 registry: self.registry.clone(),
             };
@@ -376,6 +385,48 @@ impl AirBuilder {
                 output_felts: value.as_felts(),
             }));
     }
+
+    pub fn call_external_column<T: AirVar>(&mut self, air_fn: &dyn AirFn<In = (), Out = T>) -> T {
+        assert!(
+            air_fn.trace_type() == TraceType::Const,
+            "External columns must be constant"
+        );
+
+        // Make sure the callee is in the registry
+        if self
+            .registry
+            .air_fns
+            .borrow()
+            .get(&(air_fn.name()))
+            .is_none()
+        {
+            AirFnEntry::new(&self.registry, air_fn);
+        }
+
+        let output_name = self.registry.get_both_intermediate_var_name();
+        self.air_body.push(AirBodyComponent::AccessExternalColumn(
+            AccessExternalColumn {
+                air_fn_name: air_fn.name(),
+                output_name: output_name.clone(),
+            },
+        ));
+
+        #[cfg(test)]
+        if self.run {
+            let mut air_builder = Self {
+                state: State::default(),
+                air_body: vec![],
+                row_number: self.row_number,
+                run: self.run,
+                registry: self.registry.clone(),
+            };
+            let output = air_fn.call(&mut air_builder, ());
+
+            return output.let_(output_name);
+        }
+
+        T::new(output_name.clone())
+    }
 }
 
 // A Call is an air_body component that represents a call to another air function.
@@ -405,6 +456,12 @@ pub struct LookupConstraint {
     pub output_felts: Vec<FeltExpr>,
 }
 
+#[derive(Clone, Debug, Serialize)]
+pub struct AccessExternalColumn {
+    pub air_fn_name: String,
+    pub output_name: String,
+}
+
 // Each air function has an air_body, which is a vector of AirBodyComponent.
 // These are the components of the air function.
 #[derive(Clone, Debug, Serialize)]
@@ -421,6 +478,7 @@ pub enum AirBodyComponent {
     Call(Call),
     LookupCall(LookupCall),
     LookupConstraint(LookupConstraint),
+    AccessExternalColumn(AccessExternalColumn),
 }
 
 #[derive(Clone, Debug, Serialize)]
