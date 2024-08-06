@@ -1,0 +1,557 @@
+{
+  "air_fns": {
+    "CheckInstruction_3e8ab07a0ff6ded2": {
+      "name": "CheckInstruction_3e8ab07a0ff6ded2",
+      "inst_def": {
+        "const_offsets": "[Some(32768), Some(32769), Some(32769)]",
+        "const_flags": "Flags { dst_base_fp: Some(false), op0_base_fp: Some(false), op1_imm: Some(true), op1_base_fp: Some(false), op1_base_ap: Some(false), res_add: Some(false), res_mul: Some(false), pc_update_jump: Some(false), pc_update_jump_rel: Some(true), pc_update_jnz: Some(false), ap_update_add: Some(false), ap_update_add_1: Some(false), opcode_call: Some(true), opcode_ret: Some(false), opcode_assert_eq: Some(false) }"
+      },
+      "input": {
+        "name": "CheckInstruction_3e8ab07a0ff6ded2_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": [
+        [
+          {
+            "name": "const_0",
+            "type": "M31"
+          },
+          {
+            "name": "const_1",
+            "type": "M31"
+          },
+          {
+            "name": "const_1",
+            "type": "M31"
+          }
+        ],
+        [
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_true",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_true",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_true",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          }
+        ]
+      ],
+      "output_felts": [
+        "const_0",
+        "const_1",
+        "const_1",
+        "const_0",
+        "const_0",
+        "const_1",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_1",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_1",
+        "const_0",
+        "const_0"
+      ],
+      "trace_type": "Inline",
+      "air_body": [
+        {
+          "LookupCall": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_arg": {
+              "name": "CheckInstruction_3e8ab07a0ff6ded2_input",
+              "type": "M31"
+            },
+            "output_name": "deduction_tmp_1"
+          }
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_felts": [
+              "CheckInstruction_3e8ab07a0ff6ded2_input"
+            ],
+            "output_felts": [
+              "const_0",
+              "const_192",
+              "const_0",
+              "const_48",
+              "const_0",
+              "const_36",
+              "const_68",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0"
+            ]
+          }
+        }
+      ]
+    },
+    "ReadSmallFelt252_cc824bd2f61c6ef6": {
+      "name": "ReadSmallFelt252_cc824bd2f61c6ef6",
+      "inst_def": {
+        "num_bits": "9"
+      },
+      "input": {
+        "name": "ReadSmallFelt252_cc824bd2f61c6ef6_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": {
+        "name": "Felt252::from_m31_(zero_extend([state[0]]))",
+        "type": "Felt252"
+      },
+      "output_felts": [
+        "state[0]",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0"
+      ],
+      "trace_type": "Inline",
+      "air_body": [
+        {
+          "LookupCall": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_arg": {
+              "name": "ReadSmallFelt252_cc824bd2f61c6ef6_input",
+              "type": "M31"
+            },
+            "output_name": "deduction_tmp_3"
+          }
+        },
+        {
+          "Deduction": "deduction_tmp_3.get_m31(const_0)"
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_felts": [
+              "ReadSmallFelt252_cc824bd2f61c6ef6_input"
+            ],
+            "output_felts": [
+              "state[0]",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0"
+            ]
+          }
+        }
+      ]
+    },
+    "Memory_81f75475e4cf34d6": {
+      "name": "Memory_81f75475e4cf34d6",
+      "inst_def": {},
+      "input": {
+        "name": "Memory_81f75475e4cf34d6_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": {
+        "name": "Memory_81f75475e4cf34d6_output",
+        "type": "Felt252"
+      },
+      "output_felts": [
+        "Memory_81f75475e4cf34d6_output.get_m31(const_0)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_1)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_2)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_3)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_4)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_5)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_6)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_7)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_8)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_9)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_10)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_11)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_12)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_13)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_14)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_15)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_16)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_17)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_18)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_19)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_20)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_21)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_22)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_23)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_24)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_25)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_26)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_27)"
+      ],
+      "trace_type": "Const",
+      "air_body": []
+    },
+    "CallOpcode_6e0ca0ae782d1918": {
+      "name": "CallOpcode_6e0ca0ae782d1918",
+      "inst_def": {
+        "is_rel": "true",
+        "flag_op1_base_fp": "false"
+      },
+      "input": [
+        {
+          "name": "CallOpcode_6e0ca0ae782d1918_input[0]",
+          "type": "M31"
+        },
+        {
+          "name": "CallOpcode_6e0ca0ae782d1918_input[1]",
+          "type": "M31"
+        },
+        {
+          "name": "CallOpcode_6e0ca0ae782d1918_input[2]",
+          "type": "M31"
+        }
+      ],
+      "input_num_of_felts": 3,
+      "output": [
+        {
+          "name": "(state[0] + state[3])",
+          "type": "M31"
+        },
+        {
+          "name": "(state[1] + const_2)",
+          "type": "M31"
+        },
+        {
+          "name": "(state[1] + const_2)",
+          "type": "M31"
+        }
+      ],
+      "output_felts": [
+        "(state[0] + state[3])",
+        "(state[1] + const_2)",
+        "(state[1] + const_2)"
+      ],
+      "trace_type": "Component",
+      "air_body": [
+        {
+          "DeductionIntermediate": [
+            "deduction_tmp_0",
+            [
+              {
+                "name": "CallOpcode_6e0ca0ae782d1918_input[0]",
+                "type": "M31"
+              },
+              {
+                "name": "CallOpcode_6e0ca0ae782d1918_input[1]",
+                "type": "M31"
+              },
+              {
+                "name": "CallOpcode_6e0ca0ae782d1918_input[2]",
+                "type": "M31"
+              }
+            ]
+          ]
+        },
+        {
+          "Deduction": "deduction_tmp_0[0]"
+        },
+        {
+          "Deduction": "deduction_tmp_0[1]"
+        },
+        {
+          "Deduction": "deduction_tmp_0[2]"
+        },
+        {
+          "Call": {
+            "air_fn_name": "CheckInstruction_3e8ab07a0ff6ded2",
+            "input_arg": {
+              "name": "state[0]",
+              "type": "M31"
+            },
+            "output": [
+              [
+                {
+                  "name": "const_0",
+                  "type": "M31"
+                },
+                {
+                  "name": "const_1",
+                  "type": "M31"
+                },
+                {
+                  "name": "const_1",
+                  "type": "M31"
+                }
+              ],
+              [
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_true",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_true",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_true",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_felts": [
+              "state[1]"
+            ],
+            "output_felts": [
+              "state[2]",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0"
+            ]
+          }
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_felts": [
+              "(state[1] + const_1)"
+            ],
+            "output_felts": [
+              "(state[0] + const_2)",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0"
+            ]
+          }
+        },
+        {
+          "Call": {
+            "air_fn_name": "ReadSmallFelt252_cc824bd2f61c6ef6",
+            "input_arg": {
+              "name": "(state[0] + const_1)",
+              "type": "M31"
+            },
+            "output": {
+              "name": "Felt252::from_m31_(zero_extend([state[3]]))",
+              "type": "Felt252"
+            }
+          }
+        }
+      ]
+    }
+  }
+}

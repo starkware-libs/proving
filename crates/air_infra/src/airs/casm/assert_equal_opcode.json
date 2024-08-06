@@ -1,0 +1,952 @@
+{
+  "air_fns": {
+    "RangeCheck2": {
+      "name": "RangeCheck2",
+      "inst_def": {
+        "bits": "2"
+      },
+      "input": {
+        "name": "RangeCheck2_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": [],
+      "output_felts": [],
+      "trace_type": "Const",
+      "air_body": []
+    },
+    "ReadSmallFelt252_cc824bd2f61c6ef6": {
+      "name": "ReadSmallFelt252_cc824bd2f61c6ef6",
+      "inst_def": {
+        "num_bits": "9"
+      },
+      "input": {
+        "name": "ReadSmallFelt252_cc824bd2f61c6ef6_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": {
+        "name": "Felt252::from_m31_(zero_extend([state[0]]))",
+        "type": "Felt252"
+      },
+      "output_felts": [
+        "state[0]",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0"
+      ],
+      "trace_type": "Inline",
+      "air_body": [
+        {
+          "LookupCall": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_arg": {
+              "name": "ReadSmallFelt252_cc824bd2f61c6ef6_input",
+              "type": "M31"
+            },
+            "output_name": "deduction_tmp_29"
+          }
+        },
+        {
+          "Deduction": "deduction_tmp_29.get_m31(const_0)"
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_felts": [
+              "ReadSmallFelt252_cc824bd2f61c6ef6_input"
+            ],
+            "output_felts": [
+              "state[0]",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0"
+            ]
+          }
+        }
+      ]
+    },
+    "AssertEqOpcode_157d1d5e0f968e4d": {
+      "name": "AssertEqOpcode_157d1d5e0f968e4d",
+      "inst_def": {
+        "is_double_deref": "true"
+      },
+      "input": [
+        {
+          "name": "AssertEqOpcode_157d1d5e0f968e4d_input[0]",
+          "type": "M31"
+        },
+        {
+          "name": "AssertEqOpcode_157d1d5e0f968e4d_input[1]",
+          "type": "M31"
+        },
+        {
+          "name": "AssertEqOpcode_157d1d5e0f968e4d_input[2]",
+          "type": "M31"
+        }
+      ],
+      "input_num_of_felts": 3,
+      "output": [
+        {
+          "name": "(state[0] + const_1)",
+          "type": "M31"
+        },
+        {
+          "name": "(((const_1 - state[13]) * state[1]) + (state[13] * (state[1] + const_1)))",
+          "type": "M31"
+        },
+        {
+          "name": "state[2]",
+          "type": "M31"
+        }
+      ],
+      "output_felts": [
+        "(state[0] + const_1)",
+        "(((const_1 - state[13]) * state[1]) + (state[13] * (state[1] + const_1)))",
+        "state[2]"
+      ],
+      "trace_type": "Component",
+      "air_body": [
+        {
+          "DeductionIntermediate": [
+            "deduction_tmp_0",
+            [
+              {
+                "name": "AssertEqOpcode_157d1d5e0f968e4d_input[0]",
+                "type": "M31"
+              },
+              {
+                "name": "AssertEqOpcode_157d1d5e0f968e4d_input[1]",
+                "type": "M31"
+              },
+              {
+                "name": "AssertEqOpcode_157d1d5e0f968e4d_input[2]",
+                "type": "M31"
+              }
+            ]
+          ]
+        },
+        {
+          "Deduction": "deduction_tmp_0[0]"
+        },
+        {
+          "Deduction": "deduction_tmp_0[1]"
+        },
+        {
+          "Deduction": "deduction_tmp_0[2]"
+        },
+        {
+          "Call": {
+            "air_fn_name": "CheckInstruction_d8907253883db580",
+            "input_arg": {
+              "name": "state[0]",
+              "type": "M31"
+            },
+            "output": [
+              [
+                {
+                  "name": "(((state[3] + (state[4] * const_512)) + const_0) - const_32768)",
+                  "type": "M31"
+                },
+                {
+                  "name": "(((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)",
+                  "type": "M31"
+                },
+                {
+                  "name": "(((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768)",
+                  "type": "M31"
+                }
+              ],
+              [
+                {
+                  "name": "Bool::from_m31(state[11])",
+                  "type": "Bool"
+                },
+                {
+                  "name": "Bool::from_m31(state[12])",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "Bool::from_m31(state[13])",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_true",
+                  "type": "Bool"
+                }
+              ]
+            ]
+          }
+        },
+        {
+          "Call": {
+            "air_fn_name": "ReadSmallFelt252_cc824bd2f61c6ef6",
+            "input_arg": {
+              "name": "(((state[11] * state[2]) + ((const_1 - state[11]) * state[1])) + (((state[3] + (state[4] * const_512)) + const_0) - const_32768))",
+              "type": "M31"
+            },
+            "output": {
+              "name": "Felt252::from_m31_(zero_extend([state[14]]))",
+              "type": "Felt252"
+            }
+          }
+        },
+        {
+          "Call": {
+            "air_fn_name": "ReadAddr_d86123cf8dd732a9",
+            "input_arg": {
+              "name": "(((state[12] * state[2]) + ((const_1 - state[12]) * state[1])) + (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768))",
+              "type": "M31"
+            },
+            "output": {
+              "name": "((state[15] + (state[16] * const_512)) + (state[17] * const_262144))",
+              "type": "M31"
+            }
+          }
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_felts": [
+              "(((state[15] + (state[16] * const_512)) + (state[17] * const_262144)) + (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768))"
+            ],
+            "output_felts": [
+              "state[14]",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0"
+            ]
+          }
+        }
+      ]
+    },
+    "RangeCheck7": {
+      "name": "RangeCheck7",
+      "inst_def": {
+        "bits": "7"
+      },
+      "input": {
+        "name": "RangeCheck7_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": [],
+      "output_felts": [],
+      "trace_type": "Const",
+      "air_body": []
+    },
+    "CheckInstruction_d8907253883db580": {
+      "name": "CheckInstruction_d8907253883db580",
+      "inst_def": {
+        "const_offsets": "[None, None, None]",
+        "const_flags": "Flags { dst_base_fp: None, op0_base_fp: None, op1_imm: Some(false), op1_base_fp: Some(false), op1_base_ap: Some(false), res_add: Some(false), res_mul: Some(false), pc_update_jump: Some(false), pc_update_jump_rel: Some(false), pc_update_jnz: Some(false), ap_update_add: Some(false), ap_update_add_1: None, opcode_call: Some(false), opcode_ret: Some(false), opcode_assert_eq: Some(true) }"
+      },
+      "input": {
+        "name": "CheckInstruction_d8907253883db580_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": [
+        [
+          {
+            "name": "(((state[0] + (state[1] * const_512)) + const_0) - const_32768)",
+            "type": "M31"
+          },
+          {
+            "name": "(((state[2] + (state[3] * const_4)) + (state[4] * const_2048)) - const_32768)",
+            "type": "M31"
+          },
+          {
+            "name": "(((state[5] + (state[6] * const_16)) + (state[7] * const_8192)) - const_32768)",
+            "type": "M31"
+          }
+        ],
+        [
+          {
+            "name": "Bool::from_m31(state[8])",
+            "type": "Bool"
+          },
+          {
+            "name": "Bool::from_m31(state[9])",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "Bool::from_m31(state[10])",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_true",
+            "type": "Bool"
+          }
+        ]
+      ],
+      "output_felts": [
+        "(((state[0] + (state[1] * const_512)) + const_0) - const_32768)",
+        "(((state[2] + (state[3] * const_4)) + (state[4] * const_2048)) - const_32768)",
+        "(((state[5] + (state[6] * const_16)) + (state[7] * const_8192)) - const_32768)",
+        "state[8]",
+        "state[9]",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "state[10]",
+        "const_0",
+        "const_0",
+        "const_1"
+      ],
+      "trace_type": "Inline",
+      "air_body": [
+        {
+          "LookupCall": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_arg": {
+              "name": "CheckInstruction_d8907253883db580_input",
+              "type": "M31"
+            },
+            "output_name": "deduction_tmp_1"
+          }
+        },
+        {
+          "Deduction": "deduction_tmp_1.get_m31(const_0)"
+        },
+        {
+          "DeductionIntermediate": [
+            "deduction_tmp_2",
+            {
+              "name": "(UInt32::from_m31(deduction_tmp_1.get_m31(const_1)) & const_127)",
+              "type": "UInt32"
+            }
+          ]
+        },
+        {
+          "Deduction": "deduction_tmp_2.low().as_m31()"
+        },
+        {
+          "LookupCall": {
+            "air_fn_name": "RangeCheck7",
+            "input_arg": {
+              "name": "state[1]",
+              "type": "M31"
+            },
+            "output_name": "deduction_tmp_3"
+          }
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "RangeCheck7",
+            "input_felts": [
+              "state[1]"
+            ],
+            "output_felts": []
+          }
+        },
+        {
+          "DeductionIntermediate": [
+            "deduction_tmp_4",
+            {
+              "name": "((UInt32::from_m31(deduction_tmp_1.get_m31(const_1)) >> const_7) & const_3)",
+              "type": "UInt32"
+            }
+          ]
+        },
+        {
+          "Deduction": "deduction_tmp_4.low().as_m31()"
+        },
+        {
+          "LookupCall": {
+            "air_fn_name": "RangeCheck2",
+            "input_arg": {
+              "name": "state[2]",
+              "type": "M31"
+            },
+            "output_name": "deduction_tmp_5"
+          }
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "RangeCheck2",
+            "input_felts": [
+              "state[2]"
+            ],
+            "output_felts": []
+          }
+        },
+        {
+          "Deduction": "deduction_tmp_1.get_m31(const_2)"
+        },
+        {
+          "DeductionIntermediate": [
+            "deduction_tmp_6",
+            {
+              "name": "(UInt32::from_m31(deduction_tmp_1.get_m31(const_3)) & const_31)",
+              "type": "UInt32"
+            }
+          ]
+        },
+        {
+          "Deduction": "deduction_tmp_6.low().as_m31()"
+        },
+        {
+          "LookupCall": {
+            "air_fn_name": "RangeCheck5",
+            "input_arg": {
+              "name": "state[4]",
+              "type": "M31"
+            },
+            "output_name": "deduction_tmp_7"
+          }
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "RangeCheck5",
+            "input_felts": [
+              "state[4]"
+            ],
+            "output_felts": []
+          }
+        },
+        {
+          "DeductionIntermediate": [
+            "deduction_tmp_8",
+            {
+              "name": "((UInt32::from_m31(deduction_tmp_1.get_m31(const_3)) >> const_5) & const_15)",
+              "type": "UInt32"
+            }
+          ]
+        },
+        {
+          "Deduction": "deduction_tmp_8.low().as_m31()"
+        },
+        {
+          "LookupCall": {
+            "air_fn_name": "RangeCheck4",
+            "input_arg": {
+              "name": "state[5]",
+              "type": "M31"
+            },
+            "output_name": "deduction_tmp_9"
+          }
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "RangeCheck4",
+            "input_felts": [
+              "state[5]"
+            ],
+            "output_felts": []
+          }
+        },
+        {
+          "Deduction": "deduction_tmp_1.get_m31(const_4)"
+        },
+        {
+          "DeductionIntermediate": [
+            "deduction_tmp_10",
+            {
+              "name": "(UInt32::from_m31(deduction_tmp_1.get_m31(const_5)) & const_7)",
+              "type": "UInt32"
+            }
+          ]
+        },
+        {
+          "Deduction": "deduction_tmp_10.low().as_m31()"
+        },
+        {
+          "LookupCall": {
+            "air_fn_name": "RangeCheck3",
+            "input_arg": {
+              "name": "state[7]",
+              "type": "M31"
+            },
+            "output_name": "deduction_tmp_11"
+          }
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "RangeCheck3",
+            "input_felts": [
+              "state[7]"
+            ],
+            "output_felts": []
+          }
+        },
+        {
+          "DeductionIntermediate": [
+            "deduction_tmp_12",
+            {
+              "name": "((UInt32::from_m31(deduction_tmp_1.get_m31(const_5)) >> const_3) & const_1)",
+              "type": "UInt32"
+            }
+          ]
+        },
+        {
+          "Deduction": "deduction_tmp_12.low().as_m31()"
+        },
+        {
+          "Constraint": "(state[8] * (const_1 - state[8]))"
+        },
+        {
+          "DeductionIntermediate": [
+            "deduction_tmp_13",
+            {
+              "name": "((UInt32::from_m31(deduction_tmp_1.get_m31(const_5)) >> const_4) & const_1)",
+              "type": "UInt32"
+            }
+          ]
+        },
+        {
+          "Deduction": "deduction_tmp_13.low().as_m31()"
+        },
+        {
+          "Constraint": "(state[9] * (const_1 - state[9]))"
+        },
+        {
+          "DeductionIntermediate": [
+            "deduction_tmp_14",
+            {
+              "name": "((UInt32::from_m31(deduction_tmp_1.get_m31(const_6)) >> const_5) & const_1)",
+              "type": "UInt32"
+            }
+          ]
+        },
+        {
+          "Deduction": "deduction_tmp_14.low().as_m31()"
+        },
+        {
+          "Constraint": "(state[10] * (const_1 - state[10]))"
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_felts": [
+              "CheckInstruction_d8907253883db580_input"
+            ],
+            "output_felts": [
+              "state[0]",
+              "(state[1] + (state[2] * const_128))",
+              "state[3]",
+              "(state[4] + (state[5] * const_32))",
+              "state[6]",
+              "(((state[7] + const_0) + (state[8] * const_8)) + (state[9] * const_16))",
+              "(const_256 + (state[10] * const_32))",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0"
+            ]
+          }
+        }
+      ]
+    },
+    "RangeCheck5": {
+      "name": "RangeCheck5",
+      "inst_def": {
+        "bits": "5"
+      },
+      "input": {
+        "name": "RangeCheck5_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": [],
+      "output_felts": [],
+      "trace_type": "Const",
+      "air_body": []
+    },
+    "RangeCheck4": {
+      "name": "RangeCheck4",
+      "inst_def": {
+        "bits": "4"
+      },
+      "input": {
+        "name": "RangeCheck4_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": [],
+      "output_felts": [],
+      "trace_type": "Const",
+      "air_body": []
+    },
+    "ReadAddr_d86123cf8dd732a9": {
+      "name": "ReadAddr_d86123cf8dd732a9",
+      "inst_def": {},
+      "input": {
+        "name": "ReadAddr_d86123cf8dd732a9_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": {
+        "name": "((state[0] + (state[1] * const_512)) + (state[2] * const_262144))",
+        "type": "M31"
+      },
+      "output_felts": [
+        "((state[0] + (state[1] * const_512)) + (state[2] * const_262144))"
+      ],
+      "trace_type": "Inline",
+      "air_body": [
+        {
+          "Call": {
+            "air_fn_name": "ReadSmallFelt252_90f301596f69aa5a",
+            "input_arg": {
+              "name": "ReadAddr_d86123cf8dd732a9_input",
+              "type": "M31"
+            },
+            "output": {
+              "name": "Felt252::from_m31_(zero_extend([state[0], state[1], state[2]]))",
+              "type": "Felt252"
+            }
+          }
+        }
+      ]
+    },
+    "RangeCheck3": {
+      "name": "RangeCheck3",
+      "inst_def": {
+        "bits": "3"
+      },
+      "input": {
+        "name": "RangeCheck3_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": [],
+      "output_felts": [],
+      "trace_type": "Const",
+      "air_body": []
+    },
+    "Memory_81f75475e4cf34d6": {
+      "name": "Memory_81f75475e4cf34d6",
+      "inst_def": {},
+      "input": {
+        "name": "Memory_81f75475e4cf34d6_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": {
+        "name": "Memory_81f75475e4cf34d6_output",
+        "type": "Felt252"
+      },
+      "output_felts": [
+        "Memory_81f75475e4cf34d6_output.get_m31(const_0)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_1)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_2)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_3)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_4)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_5)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_6)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_7)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_8)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_9)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_10)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_11)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_12)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_13)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_14)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_15)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_16)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_17)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_18)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_19)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_20)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_21)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_22)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_23)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_24)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_25)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_26)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_27)"
+      ],
+      "trace_type": "Const",
+      "air_body": []
+    },
+    "ReadSmallFelt252_90f301596f69aa5a": {
+      "name": "ReadSmallFelt252_90f301596f69aa5a",
+      "inst_def": {
+        "num_bits": "27"
+      },
+      "input": {
+        "name": "ReadSmallFelt252_90f301596f69aa5a_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": {
+        "name": "Felt252::from_m31_(zero_extend([state[0], state[1], state[2]]))",
+        "type": "Felt252"
+      },
+      "output_felts": [
+        "state[0]",
+        "state[1]",
+        "state[2]",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_0"
+      ],
+      "trace_type": "Inline",
+      "air_body": [
+        {
+          "LookupCall": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_arg": {
+              "name": "ReadSmallFelt252_90f301596f69aa5a_input",
+              "type": "M31"
+            },
+            "output_name": "deduction_tmp_31"
+          }
+        },
+        {
+          "Deduction": "deduction_tmp_31.get_m31(const_0)"
+        },
+        {
+          "Deduction": "deduction_tmp_31.get_m31(const_1)"
+        },
+        {
+          "Deduction": "deduction_tmp_31.get_m31(const_2)"
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "Memory_81f75475e4cf34d6",
+            "input_felts": [
+              "ReadSmallFelt252_90f301596f69aa5a_input"
+            ],
+            "output_felts": [
+              "state[0]",
+              "state[1]",
+              "state[2]",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0",
+              "const_0"
+            ]
+          }
+        }
+      ]
+    }
+  }
+}
