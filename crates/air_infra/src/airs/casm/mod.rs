@@ -8,6 +8,9 @@ pub mod check_instruction;
 #[cfg(test)]
 pub mod check_instruction_test;
 pub mod common;
+pub mod jnz_opcode;
+#[cfg(test)]
+pub mod jnz_opcode_test;
 pub mod jump_opcode;
 #[cfg(test)]
 pub mod jump_opcode_test;
