@@ -6,7 +6,6 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::prover_types::*;
 
 use crate::const_expr;
-use crate::expr;
 use crate::felt252_expr;
 
 #[test]
@@ -43,27 +42,27 @@ fn test_read_small() {
     let read_small = ReadSmall { memory };
     let registry = AirFnRegistry::new(&read_small);
 
-    let (state, output) = registry.run_air(&read_small, expr!("addr", 1, true));
+    let (state, output) = registry.run_air(&read_small, const_expr!(1));
     assert_eq!(output.calc(), "7".to_string());
     assert_eq!(state.calc(), ["0", "0", "0", "7", "0", "0"]);
 
-    let (state, output) = registry.run_air(&read_small, expr!("addr", 2, true));
+    let (state, output) = registry.run_air(&read_small, const_expr!(2));
     assert_eq!(output.calc(), "7".to_string());
     assert_eq!(state.calc(), ["0", "0", "0", "7", "0", "0"]);
 
-    let (state, output) = registry.run_air(&read_small, expr!("addr", 3, true));
+    let (state, output) = registry.run_air(&read_small, const_expr!(3));
     assert_eq!(output.calc(), ((1i64 << 31) - 2).to_string());
     assert_eq!(state.calc(), ["1", "1", "0", "0", "0", "0"]);
 
-    let (state, output) = registry.run_air(&read_small, expr!("addr", 4, true));
+    let (state, output) = registry.run_air(&read_small, const_expr!(4));
     assert_eq!(output.calc(), ((1i64 << 31) - 3).to_string());
     assert_eq!(state.calc(), ["2", "1", "1", "511", "511", "511"]);
 
-    let (state, output) = registry.run_air(&read_small, expr!("addr", 5, true));
+    let (state, output) = registry.run_air(&read_small, const_expr!(5));
     assert_eq!(output.calc(), "0".to_string());
     assert_eq!(state.calc(), ["3", "1", "0", "1", "0", "0"]);
 
-    let (state, output) = registry.run_air(&read_small, expr!("addr", 6, true));
+    let (state, output) = registry.run_air(&read_small, const_expr!(6));
     assert_eq!(output.calc(), "1".to_string());
     assert_eq!(state.calc(), ["4", "1", "0", "2", "0", "0"]);
 }
