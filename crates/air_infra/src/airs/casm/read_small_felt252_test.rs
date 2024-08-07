@@ -8,12 +8,12 @@ use crate::core::memory::*;
 use crate::core::prover_types::Felt252;
 
 // Macros
-use crate::expr;
+use crate::const_expr;
 use crate::felt252_expr;
 
 #[test]
 fn test_read_30_bits() {
-    let addr = expr!("addr", 5, true);
+    let addr = const_expr!(5);
     // Fill memory
     let memory_values = vec![(addr.clone(), felt252_expr!("op", 710034235, 0))];
     let memory: Memory<FeltExpr, Felt252Expr> = Memory::new_with_data(memory_values);
@@ -62,7 +62,7 @@ fn test_read_30_bits() {
 
 #[test]
 fn test_read_18_bits() {
-    let addr = expr!("addr", 5, true);
+    let addr = const_expr!(5);
     // Fill memory
     let memory_values = vec![(addr.clone(), felt252_expr!("op", 154293, 0))];
     let memory: Memory<FeltExpr, Felt252Expr> = Memory::new_with_data(memory_values);
@@ -107,7 +107,7 @@ fn test_read_18_bits() {
 #[test]
 #[should_panic(expected = "RangeCheck4 failed (input 338)")]
 fn test_fail_too_small_read() {
-    let addr = expr!("addr", 5, true);
+    let addr = const_expr!(5);
     // Fill memory
     let memory_values = vec![(addr.clone(), felt252_expr!("op", 88754279, 0))];
     let memory = Memory::new_with_data(memory_values);

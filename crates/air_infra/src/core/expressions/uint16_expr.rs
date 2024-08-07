@@ -216,12 +216,4 @@ macro_rules! u16_expr {
     ($name:expr, $val:expr) => {
         UInt16Expr::new_var($name.to_string(), Some(UInt16::from($val)), None, false)
     };
-
-    ($name:expr, $val:expr, $in_trace:literal) => {
-        if $in_trace {
-            UInt16Expr::new_var($name.to_string(), Some(UInt16::from($val)), Some(0), false)
-        } else {
-            UInt16Expr::new_var($name.to_string(), Some(UInt16::from($val)), None, false)
-        }
-    };
 }

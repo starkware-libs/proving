@@ -83,8 +83,8 @@ fn test_range_check() {
 fn test_range_check_runtime_failure() {
     let air_fn = SmallAdd {};
     let registry = AirFnRegistry::new(&air_fn);
-    let a = expr!("a", 40000, true);
-    let b = expr!("b", 40000, true);
+    let a = expr!("a", 40000);
+    let b = expr!("b", 40000);
     registry.run_air(&air_fn, [a, b]);
 }
 
@@ -92,7 +92,7 @@ fn test_range_check_runtime_failure() {
 fn test_range_check_runtime_success() {
     let air_fn = SmallAdd {};
     let registry = AirFnRegistry::new(&air_fn);
-    let a = expr!("a", 20000, true);
-    let b = expr!("b", 20000, true);
+    let a = expr!("a", 20000);
+    let b = expr!("b", 20000);
     registry.run_air(&air_fn, [a, b]);
 }

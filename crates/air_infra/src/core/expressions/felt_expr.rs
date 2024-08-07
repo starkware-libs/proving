@@ -235,22 +235,4 @@ macro_rules! expr {
             false,
         )
     };
-
-    ($name:expr, $val:expr, $in_trace:literal) => {
-        if $in_trace {
-            FeltExpr::new_var(
-                $name.to_string(),
-                Some($crate::core::Felt::from($val)),
-                Some(0),
-                false,
-            )
-        } else {
-            FeltExpr::new_var(
-                $name.to_string(),
-                Some($crate::core::Felt::from($val)),
-                None,
-                false,
-            )
-        }
-    };
 }

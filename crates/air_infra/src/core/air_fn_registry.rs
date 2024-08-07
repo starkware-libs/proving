@@ -95,14 +95,10 @@ impl AirFnRegistry {
             state: State::default(),
             air_body: vec![],
             run: true,
-            internal_component: false,
             registry: self.clone(),
         };
         let output = match air_fn.trace_type() {
-            TraceType::Inline => {
-                assert!(input.in_state(), "Input must be in the trace");
-                air_fn.call(&mut air_builder, input)
-            }
+            TraceType::Inline => air_fn.call(&mut air_builder, input),
             TraceType::Component => air_fn.lookup_call(&mut air_builder, input),
 
             // For constant AirFns there are no constraints or deductions, so we just return the output.
@@ -126,8 +122,6 @@ impl AirFnRegistry {
             air_body: vec![],
             #[cfg(test)]
             run: false,
-            #[cfg(test)]
-            internal_component: false,
             registry: self.clone(),
         };
         let output = match air_fn.trace_type() {
