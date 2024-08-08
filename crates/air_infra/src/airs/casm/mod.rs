@@ -1,3 +1,6 @@
+pub mod add_ap_opcode;
+#[cfg(test)]
+pub mod add_ap_opcode_test;
 pub mod assert_eq_opcode;
 #[cfg(test)]
 pub mod assert_eq_opcode_test;
