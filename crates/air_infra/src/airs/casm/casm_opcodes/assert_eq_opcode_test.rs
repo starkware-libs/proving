@@ -1,5 +1,5 @@
+use super::super::common::*;
 use super::assert_eq_opcode::*;
-use super::common::*;
 
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
@@ -159,7 +159,7 @@ fn test_assert_equal_deref_constraint_deduction() {
         Some((
             check_instruction_offsets,
             &check_instruction_flags,
-            "CheckInstruction_4e6c16e5f74aee79",
+            "CheckInstruction_8541c1464a1fb5a8",
         )),
         Some((&[memory_read], &memory_constraints)),
     );
@@ -194,7 +194,7 @@ fn test_assert_equal_imm_constraint_deduction() {
         Some((
             check_instruction_offsets,
             &check_instruction_flags,
-            "CheckInstruction_bf9e128b00fdd645",
+            "CheckInstruction_a40b2fddf1b31684",
         )),
         Some((&[memory_read], &[memory_constraint])),
     );
@@ -245,7 +245,7 @@ fn test_assert_equal_double_deref_constraint_deduction() {
         Some((
             check_instruction_offsets,
             &check_instruction_flags,
-            "CheckInstruction_d8907253883db580",
+            "CheckInstruction_ebf000a2b9b432e4",
         )),
         Some((&memory_reads, &[memory_constraint])),
     );

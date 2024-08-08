@@ -1,7 +1,7 @@
 use indexmap::IndexMap;
 
 use crate::airs::casm::common::*;
-use crate::airs::range_check::*;
+use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::prover_types::*;
