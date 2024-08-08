@@ -217,23 +217,23 @@ fn test_taken_match_base_ap() {
             state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + state[28]) + \
             state[29]) + state[30]) + state[31]) + state[32]) * state[33]) - const_1)",
 
-            "constraint_tmp_9 = (state[5] - const_1)",
-            "constraint_tmp_10 = (state[26] - const_136)",
-            "constraint_tmp_11 = (state[32] - const_256)",
+            "tmp_9 = (state[5] - const_1)",
+            "tmp_10 = (state[26] - const_136)",
+            "tmp_11 = (state[32] - const_256)",
 
             "Deduction: (const_1 // ((((((((((((((((((((((((((((const_0 + \
-                (constraint_tmp_9 * constraint_tmp_9)) + state[6]) + state[7]) + state[8]) + state[9]) + \
+                (tmp_9 * tmp_9)) + state[6]) + state[7]) + state[8]) + state[9]) + \
                 state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + \
                 state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + \
-                state[24]) + state[25]) + (constraint_tmp_10 * constraint_tmp_10)) + state[27]) + state[28]) + \
-                state[29]) + state[30]) + state[31]) + (constraint_tmp_11 * constraint_tmp_11)))",
+                state[24]) + state[25]) + (tmp_10 * tmp_10)) + state[27]) + state[28]) + \
+                state[29]) + state[30]) + state[31]) + (tmp_11 * tmp_11)))",
 
-            "Constraint: ((((((((((((((((((((((((((((((const_0 + (constraint_tmp_9 * constraint_tmp_9)) + \
+            "Constraint: ((((((((((((((((((((((((((((((const_0 + (tmp_9 * tmp_9)) + \
             state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + \
             state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + \
             state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
-            (constraint_tmp_10 * constraint_tmp_10)) + state[27]) + state[28]) + state[29]) + state[30]) + \
-            state[31]) + (constraint_tmp_11 * constraint_tmp_11)) * state[34]) - const_1)",
+            (tmp_10 * tmp_10)) + state[27]) + state[28]) + state[29]) + state[30]) + \
+            state[31]) + (tmp_11 * tmp_11)) * state[34]) - const_1)",
 
             &format!("{} = {}({})",
                 "Felt252::from_m31_(zero_extend([state[35]]))",

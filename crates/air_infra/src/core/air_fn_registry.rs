@@ -17,6 +17,7 @@ use super::variables::*;
 
 pub const CONSTRAINT_INTERMEDIATE_VAR_PREFIX: &str = "constraint_tmp_";
 pub const DEDUCTION_INTERMEDIATE_VAR_PREFIX: &str = "deduction_tmp_";
+pub const BOTH_INTERMEDIATE_VAR_PREFIX: &str = "tmp_";
 
 // AirFnEntry describes everything we know about an Air function.
 #[derive(Debug, Clone, Serialize)]
@@ -215,12 +216,19 @@ impl AirFnRegistry {
                 AirBodyComponent::Deduction(deduction) => {
                     deductions.push(TraceGenStep::Deduction(deduction.into()));
                 }
-                AirBodyComponent::DeductionIntermediate(name, var) => {
-                    deductions.push(TraceGenStep::Intermediate(name, var.into()));
-                }
-                AirBodyComponent::ConstraintIntermediate(name, var) => {
-                    constraints.push(ConstraintEvalStep::Intermediate(name, var.into()));
-                }
+                AirBodyComponent::Intermediate(name, var, ty) => match ty {
+                    IntermediateType::Deduction => {
+                        deductions.push(TraceGenStep::Intermediate(name, var.into()));
+                    }
+                    IntermediateType::Constraint => {
+                        constraints.push(ConstraintEvalStep::Intermediate(name, var.into()));
+                    }
+                    IntermediateType::Both => {
+                        deductions
+                            .push(TraceGenStep::Intermediate(name.clone(), var.clone().into()));
+                        constraints.push(ConstraintEvalStep::Intermediate(name, var.into()));
+                    }
+                },
                 AirBodyComponent::Call(f) => {
                     let (new_deductions, new_constraints) = Self::compile_air_fn(f.air_body);
                     constraints.extend(new_constraints);
@@ -262,5 +270,10 @@ impl AirFnRegistry {
     pub(super) fn get_constraint_intermediate_var_name(&self) -> String {
         let index = self.get_intermediate_var_index();
         format!("{}{}", CONSTRAINT_INTERMEDIATE_VAR_PREFIX, index)
+    }
+
+    pub(super) fn get_both_intermediate_var_name(&self) -> String {
+        let index = self.get_intermediate_var_index();
+        format!("{}{}", BOTH_INTERMEDIATE_VAR_PREFIX, index)
     }
 }

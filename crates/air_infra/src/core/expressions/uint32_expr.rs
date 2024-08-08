@@ -152,7 +152,7 @@ impl InternalAirVarActions for UInt32Expr {
         Self::new_var(name, None, None, None, false)
     }
 
-    fn let_for_deduction(&self, name: String) -> Self {
+    fn let_(&self, name: String) -> Self {
         assert!(name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX));
 
         match self {

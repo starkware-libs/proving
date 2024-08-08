@@ -75,11 +75,8 @@ impl Display for AirBodyComponent {
                     CompiledAirVar::from(constraint.clone())
                 )
             }
-            AirBodyComponent::DeductionIntermediate(name, var) => {
+            AirBodyComponent::Intermediate(name, var, _ty) => {
                 write!(f, "{} = {}", name, var)
-            }
-            AirBodyComponent::ConstraintIntermediate(name, var) => {
-                write!(f, "{} = {}", name, CompiledAirVar::from(var.clone()))
             }
             AirBodyComponent::Call(var) => {
                 write!(f, "{} = {}({})", var.output, var.air_fn_name, var.input_arg)

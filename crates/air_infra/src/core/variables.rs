@@ -60,7 +60,7 @@ pub trait InternalAirVarInfo: Debug {
 // Actions on air variables used by the air builder.
 pub trait InternalAirVarActions: Clone + Into<AirVarImpl> {
     fn new(name: String) -> Self;
-    fn let_for_deduction(&self, name: String) -> Self;
+    fn let_(&self, name: String) -> Self;
 }
 
 // Air variables as represented in the air_body.
@@ -145,7 +145,7 @@ impl InternalAirVarInfo for () {
 
 impl InternalAirVarActions for () {
     fn new(_name: String) -> Self {}
-    fn let_for_deduction(&self, _name: String) -> Self {}
+    fn let_(&self, _name: String) -> Self {}
 }
 
 impl_air_var!((BoolExpr, FeltExpr));
@@ -184,10 +184,10 @@ macro_rules! impl_air_var {
         }
 
         impl<const N:usize> InternalAirVarActions for [$s;N] where $s: InternalAirVarActions {
-            fn let_for_deduction(&self, name: String) -> Self {
+            fn let_(&self, name: String) -> Self {
                 let mut res = self.clone();
                 for (i, s) in res.iter_mut().enumerate() {
-                    *s = s.let_for_deduction(format!("{}[{}]", name, i));
+                    *s = s.let_(format!("{}[{}]", name, i));
                 }
                 res
             }
@@ -236,11 +236,11 @@ macro_rules! impl_air_var {
 
         impl InternalAirVarActions for ($($s),+) where $($s: InternalAirVarActions),+
         {
-            fn let_for_deduction(&self, name: String) -> Self {
+            fn let_(&self, name: String) -> Self {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
                 let mut i = 0;
-                ($($s.let_for_deduction(format!("{}.{}", name, { i += 1; i - 1 })),)+)
+                ($($s.let_(format!("{}.{}", name, { i += 1; i - 1 })),)+)
             }
             fn new(name: String) -> Self {
                 let mut i = 0;

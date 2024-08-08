@@ -87,6 +87,7 @@ impl AirFn for JnzOpcode {
             .clone()
             .into_iter()
             .fold(const_expr!(0), |acc, x| acc + x);
+
         let next_pc = if self.is_taken {
             // constrain dst != 0
             // This is sound because in this case it is sufficient to make sure that dst is not zero or P (since 2P>2^252).
@@ -105,7 +106,7 @@ impl AirFn for JnzOpcode {
                     if P_FELTS[i] == 0 {
                         x
                     } else {
-                        let x = ab.let_for_constraint(x - const_expr!(P_FELTS[i]));
+                        let x = ab.let_(x - const_expr!(P_FELTS[i]));
                         x.clone() * x
                     }
                 })

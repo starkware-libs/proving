@@ -82,12 +82,6 @@ impl FeltExpr {
     pub fn new_const(value: Felt) -> Self {
         Self::new_var(value.calc(), Some(value), None, true)
     }
-
-    pub fn let_for_constraint(&self, name: String) -> Self {
-        assert!(name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
-
-        Self::new_var(name, self.value(), None, self.is_const())
-    }
 }
 
 impl Expr<Felt> for FeltExpr {
@@ -117,9 +111,7 @@ impl InternalAirVarActions for FeltExpr {
         Self::new_var(name, None, None, false)
     }
 
-    fn let_for_deduction(&self, name: String) -> Self {
-        assert!(name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX));
-
+    fn let_(&self, name: String) -> Self {
         match self {
             FeltExpr::Var(v) => {
                 let mut res = v.clone();
@@ -139,7 +131,9 @@ impl InternalAirVarInfo for FeltExpr {
 
         match self {
             FeltExpr::Var(v) => {
-                v.state_index.is_some() || v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
+                v.state_index.is_some()
+                    || v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
+                    || v.name.starts_with(BOTH_INTERMEDIATE_VAR_PREFIX)
             }
             FeltExpr::Op(op) => op.children.iter().all(|c| c.in_state()),
         }
@@ -179,6 +173,7 @@ impl From<FeltExpr> for CompiledAirVar {
                 // v is an intermediate variable
                 if v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
                     || v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX)
+                    || v.name.starts_with(BOTH_INTERMEDIATE_VAR_PREFIX)
                 {
                     return CompiledAirVar::Var(Felt::r#type(), v.name);
                 }

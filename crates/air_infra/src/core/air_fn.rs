@@ -163,11 +163,12 @@ impl AirBuilder {
         V: AirVar,
     {
         let name = self.registry.get_deduction_intermediate_var_name();
-        self.air_body.push(AirBodyComponent::DeductionIntermediate(
+        self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
             var.clone().into(),
+            IntermediateType::Deduction,
         ));
-        var.let_for_deduction(name)
+        var.let_(name)
     }
 
     pub fn let_for_constraint(&mut self, expr: FeltExpr) -> FeltExpr {
@@ -179,11 +180,29 @@ impl AirBuilder {
             );
         }
         let name = self.registry.get_constraint_intermediate_var_name();
-        self.air_body.push(AirBodyComponent::ConstraintIntermediate(
+        self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
-            expr.clone(),
+            expr.clone().into(),
+            IntermediateType::Constraint,
         ));
-        expr.let_for_constraint(name)
+        expr.let_(name)
+    }
+
+    pub fn let_(&mut self, expr: FeltExpr) -> FeltExpr {
+        #[cfg(test)]
+        if self.run {
+            assert!(
+                expr.in_state(),
+                "The mask of the intermediate variable for constraints must be in the trace."
+            );
+        }
+        let name = self.registry.get_both_intermediate_var_name();
+        self.air_body.push(AirBodyComponent::Intermediate(
+            name.clone(),
+            expr.clone().into(),
+            IntermediateType::Both,
+        ));
+        expr.let_(name)
     }
 
     pub fn call<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>, input: I) -> O
@@ -273,7 +292,7 @@ impl AirBuilder {
                 _ => panic!(),
             };
 
-            intermediate = output.let_for_deduction(output_intermediate_name.clone())
+            intermediate = output.let_(output_intermediate_name.clone())
         }
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
@@ -318,7 +337,7 @@ impl AirBuilder {
         #[cfg(test)]
         if self.run {
             value = memory.get(key).unwrap();
-            value = value.let_for_deduction(value_name);
+            value = value.let_(value_name);
         }
 
         value
@@ -398,9 +417,15 @@ pub enum AirBodyComponent {
         constraint: FeltExpr,
         deduction: FeltExpr,
     },
-    DeductionIntermediate(String, AirVarImpl),
-    ConstraintIntermediate(String, FeltExpr),
+    Intermediate(String, AirVarImpl, IntermediateType),
     Call(Call),
     LookupCall(LookupCall),
     LookupConstraint(LookupConstraint),
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub enum IntermediateType {
+    Constraint,
+    Deduction,
+    Both,
 }
