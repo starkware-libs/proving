@@ -1,4 +1,4 @@
-use super::bitwise_xor::*;
+use super::verify_bitwise_xor::*;
 
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
@@ -8,7 +8,7 @@ use crate::expr;
 
 #[test]
 fn test_bitwise_xor() {
-    let bitwise_xor = BitwiseXor { num_bits: 4 };
+    let bitwise_xor = VerifyBitwiseXor { num_bits: 4 };
     let registry = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
         &bitwise_xor,
@@ -17,9 +17,9 @@ fn test_bitwise_xor() {
 }
 
 #[test]
-#[should_panic(expected = "assertion `left == right")]
+#[should_panic(expected = "The bitwise XOR of 1111 and 1101 is not 101")]
 fn test_falied_bitwise_xor() {
-    let bitwise_xor = BitwiseXor { num_bits: 4 };
+    let bitwise_xor = VerifyBitwiseXor { num_bits: 4 };
     let registry = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
         &bitwise_xor,
@@ -30,7 +30,7 @@ fn test_falied_bitwise_xor() {
 #[test]
 #[should_panic(expected = "RangeCheck4 failed")]
 fn test_falied_big_input_xor() {
-    let bitwise_xor = BitwiseXor { num_bits: 4 };
+    let bitwise_xor = VerifyBitwiseXor { num_bits: 4 };
     let registry = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
         &bitwise_xor,

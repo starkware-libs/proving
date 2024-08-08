@@ -1,49 +1,33 @@
-use crate::core::air_fn::AirBuilder;
-use crate::core::air_fn::AirFn;
-use crate::core::air_fn::TraceType;
-#[cfg(test)]
-use crate::core::expressions::expr::Expr;
-use crate::core::expressions::felt_expr::FeltExpr;
+use super::verify_bitwise_xor::*;
 
-const STWO_COMPONENT_TYPE_BITWISE_XOR: &str = "BitwiseXor";
+use crate::core::air_fn::*;
+use crate::core::expressions::felt_expr::*;
+use crate::core::expressions::uint16_expr::*;
 
 #[derive(Debug)]
 pub struct BitwiseXor {
     pub num_bits: usize,
 }
 
-// Asserts that the three felt expressions are in the correct range,
-// and that their bitwise XOR is 0.
+// Calculates the bitwise XOR of two Felt expressions.
 impl AirFn for BitwiseXor {
-    type In = [FeltExpr; 3];
-    type Out = ();
-
-    fn name(&self) -> String {
-        STWO_COMPONENT_TYPE_BITWISE_XOR.to_string()
-    }
+    type In = [FeltExpr; 2];
+    type Out = FeltExpr;
 
     fn trace_type(&self) -> TraceType {
-        TraceType::Const
+        TraceType::Inline
     }
 
-    fn call(&self, _air_builder: &mut AirBuilder, [_a, _b, _c]: Self::In) -> Self::Out {
-        #[cfg(test)]
-        if _air_builder.is_run_mode() {
-            let a = _a.value().unwrap().0;
-            let b = _b.value().unwrap().0;
-            assert!(
-                a < (1u32 << self.num_bits),
-                "RangeCheck{} failed (input {})",
-                self.num_bits,
-                a
-            );
-            assert!(
-                b < (1u32 << self.num_bits),
-                "RangeCheck{} failed (input {})",
-                self.num_bits,
-                b
-            );
-            assert_eq!((a ^ b).to_string(), _c.calc());
-        }
+    fn call(&self, air_builder: &mut AirBuilder, [a, b]: Self::In) -> Self::Out {
+        let mut a_xor_b = air_builder
+            .let_for_deduction(UInt16Expr::from(a.clone()) ^ UInt16Expr::from(b.clone()));
+        let a_xor_b = air_builder.deduce(a_xor_b.as_felt_mut());
+        air_builder.lookup_call(
+            &VerifyBitwiseXor {
+                num_bits: self.num_bits,
+            },
+            [a, b, a_xor_b.clone()],
+        );
+        a_xor_b
     }
 }
