@@ -105,50 +105,37 @@
         }
       ]
     },
-    "Memory_81f75475e4cf34d6": {
-      "name": "Memory_81f75475e4cf34d6",
+    "ReadAddr_d86123cf8dd732a9": {
+      "name": "ReadAddr_d86123cf8dd732a9",
       "inst_def": {},
       "input": {
-        "name": "Memory_81f75475e4cf34d6_input",
+        "name": "ReadAddr_d86123cf8dd732a9_input",
         "type": "M31"
       },
       "input_num_of_felts": 1,
       "output": {
-        "name": "Memory_81f75475e4cf34d6_output",
-        "type": "Felt252"
+        "name": "((state[0] + (state[1] * const_512)) + (state[2] * const_262144))",
+        "type": "M31"
       },
       "output_felts": [
-        "Memory_81f75475e4cf34d6_output.get_m31(const_0)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_1)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_2)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_3)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_4)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_5)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_6)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_7)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_8)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_9)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_10)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_11)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_12)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_13)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_14)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_15)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_16)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_17)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_18)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_19)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_20)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_21)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_22)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_23)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_24)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_25)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_26)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_27)"
+        "((state[0] + (state[1] * const_512)) + (state[2] * const_262144))"
       ],
-      "trace_type": "Const",
-      "air_body": []
+      "trace_type": "Inline",
+      "air_body": [
+        {
+          "Call": {
+            "air_fn_name": "ReadSmallFelt252_90f301596f69aa5a",
+            "input_arg": {
+              "name": "ReadAddr_d86123cf8dd732a9_input",
+              "type": "M31"
+            },
+            "output": {
+              "name": "Felt252::from_m31_(zero_extend([state[0], state[1], state[2]]))",
+              "type": "Felt252"
+            }
+          }
+        }
+      ]
     },
     "CheckInstruction_4c71e042b0fc9b22": {
       "name": "CheckInstruction_4c71e042b0fc9b22",
@@ -310,6 +297,51 @@
           }
         }
       ]
+    },
+    "Memory_81f75475e4cf34d6": {
+      "name": "Memory_81f75475e4cf34d6",
+      "inst_def": {},
+      "input": {
+        "name": "Memory_81f75475e4cf34d6_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": {
+        "name": "Memory_81f75475e4cf34d6_output",
+        "type": "Felt252"
+      },
+      "output_felts": [
+        "Memory_81f75475e4cf34d6_output.get_m31(const_0)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_1)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_2)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_3)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_4)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_5)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_6)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_7)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_8)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_9)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_10)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_11)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_12)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_13)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_14)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_15)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_16)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_17)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_18)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_19)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_20)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_21)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_22)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_23)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_24)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_25)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_26)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_27)"
+      ],
+      "trace_type": "Const",
+      "air_body": []
     },
     "RetOpcode_8e2acdd96ca43674": {
       "name": "RetOpcode_8e2acdd96ca43674",
@@ -488,38 +520,6 @@
             "output": {
               "name": "((state[6] + (state[7] * const_512)) + (state[8] * const_262144))",
               "type": "M31"
-            }
-          }
-        }
-      ]
-    },
-    "ReadAddr_d86123cf8dd732a9": {
-      "name": "ReadAddr_d86123cf8dd732a9",
-      "inst_def": {},
-      "input": {
-        "name": "ReadAddr_d86123cf8dd732a9_input",
-        "type": "M31"
-      },
-      "input_num_of_felts": 1,
-      "output": {
-        "name": "((state[0] + (state[1] * const_512)) + (state[2] * const_262144))",
-        "type": "M31"
-      },
-      "output_felts": [
-        "((state[0] + (state[1] * const_512)) + (state[2] * const_262144))"
-      ],
-      "trace_type": "Inline",
-      "air_body": [
-        {
-          "Call": {
-            "air_fn_name": "ReadSmallFelt252_90f301596f69aa5a",
-            "input_arg": {
-              "name": "ReadAddr_d86123cf8dd732a9_input",
-              "type": "M31"
-            },
-            "output": {
-              "name": "Felt252::from_m31_(zero_extend([state[0], state[1], state[2]]))",
-              "type": "Felt252"
             }
           }
         }

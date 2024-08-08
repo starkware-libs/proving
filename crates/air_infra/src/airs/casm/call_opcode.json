@@ -1,13 +1,13 @@
 {
   "air_fns": {
-    "CheckInstruction_3e8ab07a0ff6ded2": {
-      "name": "CheckInstruction_3e8ab07a0ff6ded2",
+    "CheckInstruction_617ed37adc670019": {
+      "name": "CheckInstruction_617ed37adc670019",
       "inst_def": {
-        "const_offsets": "[Some(32768), Some(32769), Some(32769)]",
-        "const_flags": "Flags { dst_base_fp: Some(false), op0_base_fp: Some(false), op1_imm: Some(true), op1_base_fp: Some(false), op1_base_ap: Some(false), res_add: Some(false), res_mul: Some(false), pc_update_jump: Some(false), pc_update_jump_rel: Some(true), pc_update_jnz: Some(false), ap_update_add: Some(false), ap_update_add_1: Some(false), opcode_call: Some(true), opcode_ret: Some(false), opcode_assert_eq: Some(false) }"
+        "const_offsets": "[Some(32768), Some(32769), None]",
+        "const_flags": "Flags { dst_base_fp: Some(false), op0_base_fp: Some(false), op1_imm: Some(false), op1_base_fp: Some(true), op1_base_ap: Some(false), res_add: Some(false), res_mul: Some(false), pc_update_jump: Some(true), pc_update_jump_rel: Some(false), pc_update_jnz: Some(false), ap_update_add: Some(false), ap_update_add_1: Some(false), opcode_call: Some(true), opcode_ret: Some(false), opcode_assert_eq: Some(false) }"
       },
       "input": {
-        "name": "CheckInstruction_3e8ab07a0ff6ded2_input",
+        "name": "CheckInstruction_617ed37adc670019_input",
         "type": "M31"
       },
       "input_num_of_felts": 1,
@@ -22,7 +22,7 @@
             "type": "M31"
           },
           {
-            "name": "const_1",
+            "name": "(((state[0] + (state[1] * const_16)) + (state[2] * const_8192)) - const_32768)",
             "type": "M31"
           }
         ],
@@ -36,31 +36,31 @@
             "type": "Bool"
           },
           {
-            "name": "const_true",
-            "type": "Bool"
-          },
-          {
-            "name": "const_false",
-            "type": "Bool"
-          },
-          {
-            "name": "const_false",
-            "type": "Bool"
-          },
-          {
-            "name": "const_false",
-            "type": "Bool"
-          },
-          {
-            "name": "const_false",
-            "type": "Bool"
-          },
-          {
             "name": "const_false",
             "type": "Bool"
           },
           {
             "name": "const_true",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
+            "type": "Bool"
+          },
+          {
+            "name": "const_true",
+            "type": "Bool"
+          },
+          {
+            "name": "const_false",
             "type": "Bool"
           },
           {
@@ -92,16 +92,16 @@
       "output_felts": [
         "const_0",
         "const_1",
-        "const_1",
-        "const_0",
-        "const_0",
-        "const_1",
-        "const_0",
-        "const_0",
+        "(((state[0] + (state[1] * const_16)) + (state[2] * const_8192)) - const_32768)",
         "const_0",
         "const_0",
         "const_0",
         "const_1",
+        "const_0",
+        "const_0",
+        "const_0",
+        "const_1",
+        "const_0",
         "const_0",
         "const_0",
         "const_0",
@@ -115,26 +115,91 @@
           "LookupCall": {
             "air_fn_name": "Memory_81f75475e4cf34d6",
             "input_arg": {
-              "name": "CheckInstruction_3e8ab07a0ff6ded2_input",
+              "name": "CheckInstruction_617ed37adc670019_input",
               "type": "M31"
             },
             "output_name": "deduction_tmp_1"
           }
         },
         {
+          "DeductionIntermediate": [
+            "deduction_tmp_2",
+            {
+              "name": "((UInt32::from_m31(deduction_tmp_1.get_m31(const_3)) >> const_5) & const_15)",
+              "type": "UInt32"
+            }
+          ]
+        },
+        {
+          "Deduction": "deduction_tmp_2.low().as_m31()"
+        },
+        {
+          "LookupCall": {
+            "air_fn_name": "RangeCheck4",
+            "input_arg": {
+              "name": "state[0]",
+              "type": "M31"
+            },
+            "output_name": "deduction_tmp_3"
+          }
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "RangeCheck4",
+            "input_felts": [
+              "state[0]"
+            ],
+            "output_felts": []
+          }
+        },
+        {
+          "Deduction": "deduction_tmp_1.get_m31(const_4)"
+        },
+        {
+          "DeductionIntermediate": [
+            "deduction_tmp_4",
+            {
+              "name": "(UInt32::from_m31(deduction_tmp_1.get_m31(const_5)) & const_7)",
+              "type": "UInt32"
+            }
+          ]
+        },
+        {
+          "Deduction": "deduction_tmp_4.low().as_m31()"
+        },
+        {
+          "LookupCall": {
+            "air_fn_name": "RangeCheck3",
+            "input_arg": {
+              "name": "state[2]",
+              "type": "M31"
+            },
+            "output_name": "deduction_tmp_5"
+          }
+        },
+        {
+          "LookupConstraint": {
+            "air_fn_name": "RangeCheck3",
+            "input_felts": [
+              "state[2]"
+            ],
+            "output_felts": []
+          }
+        },
+        {
           "LookupConstraint": {
             "air_fn_name": "Memory_81f75475e4cf34d6",
             "input_felts": [
-              "CheckInstruction_3e8ab07a0ff6ded2_input"
+              "CheckInstruction_617ed37adc670019_input"
             ],
             "output_felts": [
               "const_0",
               "const_192",
               "const_0",
-              "const_48",
-              "const_0",
-              "const_36",
-              "const_68",
+              "(const_16 + (state[0] * const_32))",
+              "state[1]",
+              "(state[2] + const_64)",
+              "const_66",
               "const_0",
               "const_0",
               "const_0",
@@ -161,24 +226,56 @@
         }
       ]
     },
-    "ReadSmallFelt252_cc824bd2f61c6ef6": {
-      "name": "ReadSmallFelt252_cc824bd2f61c6ef6",
-      "inst_def": {
-        "num_bits": "9"
-      },
+    "ReadAddr_d86123cf8dd732a9": {
+      "name": "ReadAddr_d86123cf8dd732a9",
+      "inst_def": {},
       "input": {
-        "name": "ReadSmallFelt252_cc824bd2f61c6ef6_input",
+        "name": "ReadAddr_d86123cf8dd732a9_input",
         "type": "M31"
       },
       "input_num_of_felts": 1,
       "output": {
-        "name": "Felt252::from_m31_(zero_extend([state[0]]))",
+        "name": "((state[0] + (state[1] * const_512)) + (state[2] * const_262144))",
+        "type": "M31"
+      },
+      "output_felts": [
+        "((state[0] + (state[1] * const_512)) + (state[2] * const_262144))"
+      ],
+      "trace_type": "Inline",
+      "air_body": [
+        {
+          "Call": {
+            "air_fn_name": "ReadSmallFelt252_90f301596f69aa5a",
+            "input_arg": {
+              "name": "ReadAddr_d86123cf8dd732a9_input",
+              "type": "M31"
+            },
+            "output": {
+              "name": "Felt252::from_m31_(zero_extend([state[0], state[1], state[2]]))",
+              "type": "Felt252"
+            }
+          }
+        }
+      ]
+    },
+    "ReadSmallFelt252_90f301596f69aa5a": {
+      "name": "ReadSmallFelt252_90f301596f69aa5a",
+      "inst_def": {
+        "num_bits": "27"
+      },
+      "input": {
+        "name": "ReadSmallFelt252_90f301596f69aa5a_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": {
+        "name": "Felt252::from_m31_(zero_extend([state[0], state[1], state[2]]))",
         "type": "Felt252"
       },
       "output_felts": [
         "state[0]",
-        "const_0",
-        "const_0",
+        "state[1]",
+        "state[2]",
         "const_0",
         "const_0",
         "const_0",
@@ -211,25 +308,31 @@
           "LookupCall": {
             "air_fn_name": "Memory_81f75475e4cf34d6",
             "input_arg": {
-              "name": "ReadSmallFelt252_cc824bd2f61c6ef6_input",
+              "name": "ReadSmallFelt252_90f301596f69aa5a_input",
               "type": "M31"
             },
-            "output_name": "deduction_tmp_3"
+            "output_name": "deduction_tmp_11"
           }
         },
         {
-          "Deduction": "deduction_tmp_3.get_m31(const_0)"
+          "Deduction": "deduction_tmp_11.get_m31(const_0)"
+        },
+        {
+          "Deduction": "deduction_tmp_11.get_m31(const_1)"
+        },
+        {
+          "Deduction": "deduction_tmp_11.get_m31(const_2)"
         },
         {
           "LookupConstraint": {
             "air_fn_name": "Memory_81f75475e4cf34d6",
             "input_felts": [
-              "ReadSmallFelt252_cc824bd2f61c6ef6_input"
+              "ReadSmallFelt252_90f301596f69aa5a_input"
             ],
             "output_felts": [
               "state[0]",
-              "const_0",
-              "const_0",
+              "state[1]",
+              "state[2]",
               "const_0",
               "const_0",
               "const_0",
@@ -260,75 +363,30 @@
         }
       ]
     },
-    "Memory_81f75475e4cf34d6": {
-      "name": "Memory_81f75475e4cf34d6",
-      "inst_def": {},
-      "input": {
-        "name": "Memory_81f75475e4cf34d6_input",
-        "type": "M31"
-      },
-      "input_num_of_felts": 1,
-      "output": {
-        "name": "Memory_81f75475e4cf34d6_output",
-        "type": "Felt252"
-      },
-      "output_felts": [
-        "Memory_81f75475e4cf34d6_output.get_m31(const_0)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_1)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_2)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_3)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_4)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_5)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_6)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_7)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_8)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_9)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_10)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_11)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_12)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_13)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_14)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_15)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_16)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_17)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_18)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_19)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_20)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_21)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_22)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_23)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_24)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_25)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_26)",
-        "Memory_81f75475e4cf34d6_output.get_m31(const_27)"
-      ],
-      "trace_type": "Const",
-      "air_body": []
-    },
-    "CallOpcode_6e0ca0ae782d1918": {
-      "name": "CallOpcode_6e0ca0ae782d1918",
+    "CallOpcode_a3bb7a81f4fe5ccb": {
+      "name": "CallOpcode_a3bb7a81f4fe5ccb",
       "inst_def": {
-        "is_rel": "true",
-        "flag_op1_base_fp": "false"
+        "is_rel": "false",
+        "flag_op1_base_fp": "true"
       },
       "input": [
         {
-          "name": "CallOpcode_6e0ca0ae782d1918_input[0]",
+          "name": "CallOpcode_a3bb7a81f4fe5ccb_input[0]",
           "type": "M31"
         },
         {
-          "name": "CallOpcode_6e0ca0ae782d1918_input[1]",
+          "name": "CallOpcode_a3bb7a81f4fe5ccb_input[1]",
           "type": "M31"
         },
         {
-          "name": "CallOpcode_6e0ca0ae782d1918_input[2]",
+          "name": "CallOpcode_a3bb7a81f4fe5ccb_input[2]",
           "type": "M31"
         }
       ],
       "input_num_of_felts": 3,
       "output": [
         {
-          "name": "(state[0] + state[3])",
+          "name": "((state[6] + (state[7] * const_512)) + (state[8] * const_262144))",
           "type": "M31"
         },
         {
@@ -341,7 +399,7 @@
         }
       ],
       "output_felts": [
-        "(state[0] + state[3])",
+        "((state[6] + (state[7] * const_512)) + (state[8] * const_262144))",
         "(state[1] + const_2)",
         "(state[1] + const_2)"
       ],
@@ -352,15 +410,15 @@
             "deduction_tmp_0",
             [
               {
-                "name": "CallOpcode_6e0ca0ae782d1918_input[0]",
+                "name": "CallOpcode_a3bb7a81f4fe5ccb_input[0]",
                 "type": "M31"
               },
               {
-                "name": "CallOpcode_6e0ca0ae782d1918_input[1]",
+                "name": "CallOpcode_a3bb7a81f4fe5ccb_input[1]",
                 "type": "M31"
               },
               {
-                "name": "CallOpcode_6e0ca0ae782d1918_input[2]",
+                "name": "CallOpcode_a3bb7a81f4fe5ccb_input[2]",
                 "type": "M31"
               }
             ]
@@ -377,7 +435,7 @@
         },
         {
           "Call": {
-            "air_fn_name": "CheckInstruction_3e8ab07a0ff6ded2",
+            "air_fn_name": "CheckInstruction_617ed37adc670019",
             "input_arg": {
               "name": "state[0]",
               "type": "M31"
@@ -393,7 +451,7 @@
                   "type": "M31"
                 },
                 {
-                  "name": "const_1",
+                  "name": "(((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)",
                   "type": "M31"
                 }
               ],
@@ -407,31 +465,31 @@
                   "type": "Bool"
                 },
                 {
-                  "name": "const_true",
-                  "type": "Bool"
-                },
-                {
-                  "name": "const_false",
-                  "type": "Bool"
-                },
-                {
-                  "name": "const_false",
-                  "type": "Bool"
-                },
-                {
-                  "name": "const_false",
-                  "type": "Bool"
-                },
-                {
-                  "name": "const_false",
-                  "type": "Bool"
-                },
-                {
                   "name": "const_false",
                   "type": "Bool"
                 },
                 {
                   "name": "const_true",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_true",
+                  "type": "Bool"
+                },
+                {
+                  "name": "const_false",
                   "type": "Bool"
                 },
                 {
@@ -507,7 +565,7 @@
               "(state[1] + const_1)"
             ],
             "output_felts": [
-              "(state[0] + const_2)",
+              "(state[0] + const_1)",
               "const_0",
               "const_0",
               "const_0",
@@ -540,18 +598,93 @@
         },
         {
           "Call": {
-            "air_fn_name": "ReadSmallFelt252_cc824bd2f61c6ef6",
+            "air_fn_name": "ReadAddr_d86123cf8dd732a9",
             "input_arg": {
-              "name": "(state[0] + const_1)",
+              "name": "(state[2] + (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768))",
               "type": "M31"
             },
             "output": {
-              "name": "Felt252::from_m31_(zero_extend([state[3]]))",
-              "type": "Felt252"
+              "name": "((state[6] + (state[7] * const_512)) + (state[8] * const_262144))",
+              "type": "M31"
             }
           }
         }
       ]
+    },
+    "RangeCheck4": {
+      "name": "RangeCheck4",
+      "inst_def": {
+        "bits": "4"
+      },
+      "input": {
+        "name": "RangeCheck4_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": [],
+      "output_felts": [],
+      "trace_type": "Const",
+      "air_body": []
+    },
+    "RangeCheck3": {
+      "name": "RangeCheck3",
+      "inst_def": {
+        "bits": "3"
+      },
+      "input": {
+        "name": "RangeCheck3_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": [],
+      "output_felts": [],
+      "trace_type": "Const",
+      "air_body": []
+    },
+    "Memory_81f75475e4cf34d6": {
+      "name": "Memory_81f75475e4cf34d6",
+      "inst_def": {},
+      "input": {
+        "name": "Memory_81f75475e4cf34d6_input",
+        "type": "M31"
+      },
+      "input_num_of_felts": 1,
+      "output": {
+        "name": "Memory_81f75475e4cf34d6_output",
+        "type": "Felt252"
+      },
+      "output_felts": [
+        "Memory_81f75475e4cf34d6_output.get_m31(const_0)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_1)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_2)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_3)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_4)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_5)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_6)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_7)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_8)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_9)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_10)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_11)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_12)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_13)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_14)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_15)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_16)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_17)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_18)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_19)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_20)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_21)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_22)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_23)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_24)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_25)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_26)",
+        "Memory_81f75475e4cf34d6_output.get_m31(const_27)"
+      ],
+      "trace_type": "Const",
+      "air_body": []
     }
   }
 }
