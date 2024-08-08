@@ -184,13 +184,13 @@ impl AirFn for ReadPositive {
         if bits_in_ms_limb != 0 {
             air_builder.lookup_call(
                 &RangeCheck {
-                    bits: bits_in_ms_limb as u16,
+                    bits: [bits_in_ms_limb as u16],
                 },
-                value
+                [value
                     .as_felts()
                     .into_iter()
                     .nth(num_nonzero_limbs - 1)
-                    .expect("The value should have enough limbs"),
+                    .expect("The value should have enough limbs")],
             );
         }
 

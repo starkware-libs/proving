@@ -252,7 +252,7 @@ fn check_offset_part(
     off = ab.let_for_deduction(off);
     let off_f = ab.deduce(off.low_mut().as_felt_mut());
     // TODO: Save lookups by creating a component with vectors of parts.
-    ab.lookup_call(&RangeCheck { bits: len as u16 }, off_f.clone());
+    ab.lookup_call(&RangeCheck { bits: [len as u16] }, [off_f.clone()]);
     off_f
 }
 

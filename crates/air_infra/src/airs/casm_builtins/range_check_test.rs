@@ -18,7 +18,7 @@ fn test_range_check() {
         "deduction_tmp_3.get_m31(const_1)",
         "deduction_tmp_3.get_m31(const_2)",
         "deduction_tmp_3.get_m31(const_3)",
-        "deduction_tmp_4 = RangeCheck5(state[4])",
+        "deduction_tmp_4 = RangeCheck5([state[4]])",
     ];
 
     let constraints = [
@@ -90,7 +90,7 @@ fn test_range_check_partial_limbs() {
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck2 failed (input 4)")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck2 on input 4")]
 fn test_range_check_partial_limbs_fail() {
     run_range_check(felt252_expr!("value_to_check", 0, 1), 128);
 }

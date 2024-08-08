@@ -24,17 +24,17 @@ impl AirFn for SmallAdd {
         air_builder: &mut crate::core::air_fn::AirBuilder,
         [mut a, mut b]: Self::In,
     ) -> Self::Out {
-        let rc_air_fn = RangeCheck { bits: 16 };
+        let rc_air_fn = RangeCheck { bits: [16] };
 
         air_builder.deduce(&mut a);
         air_builder.deduce(&mut b);
 
-        air_builder.lookup_call(&rc_air_fn, a.clone());
-        air_builder.lookup_call(&rc_air_fn, b.clone());
+        air_builder.lookup_call(&rc_air_fn, [a.clone()]);
+        air_builder.lookup_call(&rc_air_fn, [b.clone()]);
 
         let result = a + b;
 
-        air_builder.lookup_call(&rc_air_fn, result.clone());
+        air_builder.lookup_call(&rc_air_fn, [result.clone()]);
 
         result
     }
@@ -55,9 +55,9 @@ fn test_range_check() {
     let deductions = [
         "SmallAdd_f0e9ee72020a2cc_input[0]",
         "SmallAdd_f0e9ee72020a2cc_input[1]",
-        "deduction_tmp_0 = RangeCheck16(state[0])",
-        "deduction_tmp_1 = RangeCheck16(state[1])",
-        "deduction_tmp_2 = RangeCheck16((state[0] + state[1]))",
+        "deduction_tmp_0 = RangeCheck16([state[0]])",
+        "deduction_tmp_1 = RangeCheck16([state[1]])",
+        "deduction_tmp_2 = RangeCheck16([(state[0] + state[1])])",
     ];
 
     assert_eq!(
@@ -79,7 +79,7 @@ fn test_range_check() {
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck16 failed")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck16 on input 80000")]
 fn test_range_check_runtime_failure() {
     let air_fn = SmallAdd {};
     let registry = AirFnRegistry::new(&air_fn);
@@ -95,4 +95,44 @@ fn test_range_check_runtime_success() {
     let a = expr!("a", 20000);
     let b = expr!("b", 20000);
     registry.run_air(&air_fn, [a, b]);
+}
+
+#[test]
+fn test_range_check_vector() {
+    let range_check_vector = RangeCheck { bits: [2, 5] };
+    let registry = AirFnRegistry::new(&range_check_vector);
+    registry.run_air(&range_check_vector, [expr!("a", 0b11), expr!("b", 0b11111)]);
+}
+
+#[test]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck2 on input 4")]
+fn test_failed_range_check_first_element() {
+    let range_check_vector = RangeCheck { bits: [2, 5] };
+    let registry = AirFnRegistry::new(&range_check_vector);
+    registry.run_air(
+        &range_check_vector,
+        [expr!("a", 0b100), expr!("b", 0b11111)],
+    );
+}
+
+#[test]
+#[should_panic(expected = "RangeCheck failed on element 1: RangeCheck5 on input 32")]
+fn test_failed_range_check_second_element() {
+    let range_check_vector = RangeCheck { bits: [2, 5] };
+    let registry = AirFnRegistry::new(&range_check_vector);
+    registry.run_air(
+        &range_check_vector,
+        [expr!("a", 0b11), expr!("b", 0b100000)],
+    );
+}
+
+#[test]
+#[should_panic(expected = "Invalid range check bits [3, 4].")]
+fn test_failed_range_check_vector_size() {
+    let range_check_vector = RangeCheck { bits: [3, 4] };
+    let registry = AirFnRegistry::new(&range_check_vector);
+    registry.run_air(
+        &range_check_vector,
+        [expr!("a", 0b11), expr!("b", 0b100000)],
+    );
 }

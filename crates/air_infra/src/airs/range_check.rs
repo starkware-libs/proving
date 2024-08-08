@@ -14,30 +14,34 @@ const STWO_COMPONENT_TYPE_RANGE_CHECK_7: &str = "RangeCheck7";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_8: &str = "RangeCheck8";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_9: &str = "RangeCheck9";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_16: &str = "RangeCheck16";
+const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_2_5: &str = "RangeCheckVector_2_5";
+const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3: &str = "RangeCheckVector_4_3";
 
 #[derive(Debug)]
-pub struct RangeCheck {
-    pub bits: u16,
+pub struct RangeCheck<const N: usize> {
+    pub bits: [u16; N],
 }
 
-impl AirFn for RangeCheck {
-    type In = FeltExpr;
+impl<const N: usize> AirFn for RangeCheck<N> {
+    type In = [FeltExpr; N];
     type Out = ();
 
     fn name(&self) -> String {
-        match self.bits {
+        match self.bits.as_slice() {
             // Note: Each specific rc in the list must be implemented in stwo by a component of
             // the same name.
-            2 => STWO_COMPONENT_TYPE_RANGE_CHECK_2.to_string(),
-            3 => STWO_COMPONENT_TYPE_RANGE_CHECK_3.to_string(),
-            4 => STWO_COMPONENT_TYPE_RANGE_CHECK_4.to_string(),
-            5 => STWO_COMPONENT_TYPE_RANGE_CHECK_5.to_string(),
-            6 => STWO_COMPONENT_TYPE_RANGE_CHECK_6.to_string(),
-            7 => STWO_COMPONENT_TYPE_RANGE_CHECK_7.to_string(),
-            8 => STWO_COMPONENT_TYPE_RANGE_CHECK_8.to_string(),
-            9 => STWO_COMPONENT_TYPE_RANGE_CHECK_9.to_string(),
-            16 => STWO_COMPONENT_TYPE_RANGE_CHECK_16.to_string(),
-            _ => panic!("Invalid range check bits {}.", self.bits),
+            [2] => STWO_COMPONENT_TYPE_RANGE_CHECK_2.to_string(),
+            [3] => STWO_COMPONENT_TYPE_RANGE_CHECK_3.to_string(),
+            [4] => STWO_COMPONENT_TYPE_RANGE_CHECK_4.to_string(),
+            [5] => STWO_COMPONENT_TYPE_RANGE_CHECK_5.to_string(),
+            [6] => STWO_COMPONENT_TYPE_RANGE_CHECK_6.to_string(),
+            [7] => STWO_COMPONENT_TYPE_RANGE_CHECK_7.to_string(),
+            [8] => STWO_COMPONENT_TYPE_RANGE_CHECK_8.to_string(),
+            [9] => STWO_COMPONENT_TYPE_RANGE_CHECK_9.to_string(),
+            [16] => STWO_COMPONENT_TYPE_RANGE_CHECK_16.to_string(),
+            [2, 5] => STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_2_5.to_string(),
+            [4, 3] => STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3.to_string(),
+            _ => panic!("Invalid range check bits {:?}.", self.bits),
         }
     }
 
@@ -46,19 +50,23 @@ impl AirFn for RangeCheck {
     }
 
     fn inst_def(&self) -> IndexMap<String, String> {
-        [("bits".to_string(), self.bits.to_string())].into()
+        [("bits".to_string(), format!("{:?}", self.bits))].into()
     }
 
     fn call(&self, _air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
         #[cfg(test)]
         if _air_builder.is_run_mode() {
-            let in_value = _input.to_values()[0].0;
-            assert!(
-                in_value < (1u32 << self.bits),
-                "RangeCheck{} failed (input {})",
-                self.bits,
-                in_value
-            );
+            for (index, (&input, &bits)) in
+                _input.to_values().iter().zip(self.bits.iter()).enumerate()
+            {
+                assert!(
+                    input.0 < (1u32 << bits),
+                    "RangeCheck failed on element {}: RangeCheck{} on input {}",
+                    index,
+                    bits,
+                    input.0
+                );
+            }
         }
     }
 }

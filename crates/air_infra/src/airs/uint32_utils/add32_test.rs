@@ -25,8 +25,8 @@ fn test_add32() {
         "deduction_tmp_0 = (Add32_cb314bd22a8fc165_input[0] + Add32_cb314bd22a8fc165_input[1])",
         "deduction_tmp_0.low().as_m31()",
         "deduction_tmp_0.high().as_m31()",
-        "deduction_tmp_1 = RangeCheck16(state[0])",
-        "deduction_tmp_2 = RangeCheck16(state[1])",
+        "deduction_tmp_1 = RangeCheck16([state[0]])",
+        "deduction_tmp_2 = RangeCheck16([state[1]])",
     ];
 
     assert_eq!(
