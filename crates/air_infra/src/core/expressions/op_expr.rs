@@ -114,6 +114,7 @@ pub enum Operation {
     UInt16FromBool,
     UInt16FromFelt,
     Felt252FromFeltsArray,
+    Felt252FromFelt,
     UInt32FromFelt,
     Not,
 }
@@ -138,6 +139,7 @@ impl Display for Operation {
             Operation::UInt16FromBool => write!(f, "UInt16::from_bool"),
             Operation::UInt16FromFelt => write!(f, "UInt16::from_m31"),
             Operation::Felt252FromFeltsArray => write!(f, "Felt252::from_m31_"),
+            Operation::Felt252FromFelt => write!(f, "Felt252::from_m31"),
             Operation::UInt32FromFelt => write!(f, "UInt32::from_m31"),
             Operation::Not => write!(f, "!"),
         }
@@ -151,6 +153,7 @@ impl From<Operation> for OpType {
             Operation::UInt16FromBool => OpType::Static(op.to_string()),
             Operation::UInt16FromFelt => OpType::Static(op.to_string()),
             Operation::Felt252FromFeltsArray => OpType::Static(op.to_string()),
+            Operation::Felt252FromFelt => OpType::Static(op.to_string()),
             Operation::UInt32FromFelt => OpType::Static(op.to_string()),
             // Currently, the rest of the operations are represented as operators.
             _ => OpType::Op(op.to_string()),
@@ -177,6 +180,7 @@ impl_binary_op!(Eq, eq, FeltExpr, BoolExpr, BoolOperation);
 impl_unary_op!(from BoolFromFelt, from_m31, FeltExpr, BoolExpr, Bool);
 impl_unary_op!(from UInt16FromFelt, from_m31, FeltExpr, UInt16Expr, UInt16);
 impl_unary_op!(from UInt32FromFelt, from_m31, FeltExpr, UInt32Expr, UInt32);
+impl_unary_op!(from Felt252FromFelt, from_m31, FeltExpr, Felt252Expr, Felt252);
 
 impl_binary_op!(ops Add, add, Felt252Expr, Felt252Operation);
 impl_binary_op!(ops Sub, sub, Felt252Expr, Felt252Operation);

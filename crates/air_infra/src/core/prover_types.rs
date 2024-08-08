@@ -429,6 +429,13 @@ impl Felt252 {
 
         Self { low, high }
     }
+
+    pub fn from_m31(felt: M31) -> Self {
+        Self {
+            low: felt.0 as u128,
+            high: 0,
+        }
+    }
 }
 
 // Convert between Felt252 and FieldElement for performing field operations.
