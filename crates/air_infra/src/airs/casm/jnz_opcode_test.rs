@@ -169,7 +169,7 @@ fn test_not_taken_zero_match_base_ap() {
         -13,
         felt252_expr!("dst", 0, 0),
         15,
-        "CheckInstruction_30add879b650f090",
+        "CheckInstruction_cb7b1673f5e603e2",
         vec![
             &format!("{} = {}({})",
                 "Felt252::from_m31_([state[5], state[6], state[7], state[8], state[9], state[10], \
@@ -195,7 +195,7 @@ fn test_taken_match_base_ap() {
         -13,
         felt252_expr!("dst", 123, 456),
         15,
-        "CheckInstruction_30add879b650f090",
+        "CheckInstruction_cb7b1673f5e603e2",
         vec![
             &format!("{} = {}({})",
                 "Felt252::from_m31_([state[5], state[6], state[7], state[8], state[9], state[10], \

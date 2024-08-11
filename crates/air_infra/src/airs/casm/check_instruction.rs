@@ -21,7 +21,7 @@ use crate::const_u32_expr;
 // Holds the constant offsets, constant flags and memory.
 #[derive(Clone, Debug)]
 pub struct CheckInstruction {
-    pub const_offsets: [Option<u16>; 3], // off_0, off_1, off_2
+    pub const_offsets: [Option<i16>; 3], // off_0, off_1, off_2
     pub const_flags: Flags,
     pub memory: Memory<FeltExpr, Felt252Expr>,
 }
@@ -145,7 +145,7 @@ fn check_flag(ab: &mut AirBuilder, index: usize, felt: FeltExpr) -> FeltExpr {
 fn check_offset(
     offset_index: usize,
     ab: &mut AirBuilder,
-    offset: &Option<u16>,
+    offset: &Option<i16>,
     mut instruction_for_deduction: Felt252Expr,
 ) -> OffsetParts {
     let felt_index = (offset_index * 16) / FELT252_BITS_PER_WORD;
@@ -155,13 +155,14 @@ fn check_offset(
 
     if let Some(off) = offset {
         // Split the constant offset into high, middle and low parts.
+        let off_u16 = offset_as_u16(*off);
         let high_u16 = if off_l_len + off_m_len < 16 {
-            off >> ((off_l_len + off_m_len) as u16)
+            off_u16 >> ((off_l_len + off_m_len) as u16)
         } else {
             0
         };
-        let mid_u16 = (off >> off_l_len as u16) & ((1 << off_m_len as u16) - 1);
-        let low_u16 = off & ((1 << off_l_len as u16) - 1);
+        let mid_u16 = (off_u16 >> off_l_len as u16) & ((1 << off_m_len as u16) - 1);
+        let low_u16 = off_u16 & ((1 << off_l_len as u16) - 1);
 
         return OffsetParts {
             low: OffsetPart {
@@ -176,7 +177,7 @@ fn check_offset(
                 val: const_expr!(high_u16 as u32),
                 len: 16 - off_l_len - off_m_len,
             },
-            val: offset_as_signed(const_expr!(*off as u32)),
+            val: offset_as_signed(const_expr!(offset_as_u16(*off) as u32)),
         };
     }
 

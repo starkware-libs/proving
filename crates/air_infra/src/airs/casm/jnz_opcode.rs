@@ -57,7 +57,7 @@ impl AirFn for JnzOpcode {
         // Check the instruction.
         let ([offset_dst, _, _], _) = ab.call(
             &CheckInstruction {
-                const_offsets: [None, Some(offset_as_u16(-1)), Some(offset_as_u16(1))],
+                const_offsets: [None, Some(-1), Some(1)],
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },

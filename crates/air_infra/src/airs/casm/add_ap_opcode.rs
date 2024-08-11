@@ -50,11 +50,7 @@ impl AirFn for AddAp {
         // Check the instruction.
         ab.call(
             &CheckInstruction {
-                const_offsets: [
-                    Some(offset_as_u16(-1)),
-                    Some(offset_as_u16(-1)),
-                    Some(offset_as_u16(1)),
-                ],
+                const_offsets: [Some(-1), Some(-1), Some(1)],
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },

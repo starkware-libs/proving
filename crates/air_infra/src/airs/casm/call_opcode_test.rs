@@ -153,7 +153,7 @@ fn test_relative_call() {
         false,
         None,
         500,
-        "CheckInstruction_3e8ab07a0ff6ded2",
+        "CheckInstruction_527a5b8f3e65d85d",
         next_pc_line,
     );
 }
@@ -169,7 +169,7 @@ fn test_fp_call_positive_offset2() {
         true,
         Some(5),
         600,
-        "CheckInstruction_617ed37adc670019",
+        "CheckInstruction_510e45da6615a0c7",
         next_pc_line,
     );
 }
@@ -185,7 +185,7 @@ fn test_fp_call_negative_offset2() {
         true,
         Some(-5),
         400,
-        "CheckInstruction_617ed37adc670019",
+        "CheckInstruction_510e45da6615a0c7",
         next_pc_line,
     );
 }
@@ -201,7 +201,7 @@ fn test_ap_call_positive_offset2() {
         false,
         Some(10),
         1234,
-        "CheckInstruction_3510bff4c5766846",
+        "CheckInstruction_9584fc1dcc505a6d",
         next_pc_line,
     );
 }
@@ -217,7 +217,7 @@ fn test_ap_call_negative_offset2() {
         false,
         Some(-10),
         55,
-        "CheckInstruction_3510bff4c5766846",
+        "CheckInstruction_9584fc1dcc505a6d",
         next_pc_line,
     );
 }

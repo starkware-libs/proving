@@ -48,11 +48,7 @@ impl AirFn for RetOpcode {
 
     fn call(&self, air_builder: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
         let check_instruction = CheckInstruction {
-            const_offsets: [
-                Some(offset_as_u16(-2)),
-                Some(offset_as_u16(-1)),
-                Some(offset_as_u16(-1)),
-            ],
+            const_offsets: [Some(-2), Some(-1), Some(-1)],
             const_flags: RET_FLAGS,
             memory: self.memory.clone(),
         };

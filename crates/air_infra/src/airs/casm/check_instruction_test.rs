@@ -20,11 +20,11 @@ fn test_with_matching_memory(
     expected_deductions: &[&str],
 ) {
     let offsets_u16: Vec<u16> = offsets.into_iter().map(offset_as_u16).collect();
-    let const_offsets = offsets_u16
+    let const_offsets = offsets
         .iter()
         .enumerate()
         .map(|(i, &off)| if is_offset_const[i] { Some(off) } else { None })
-        .collect::<Vec<Option<u16>>>()
+        .collect::<Vec<Option<i16>>>()
         .try_into()
         .unwrap();
     let const_flags = Flags::from_arr(
@@ -252,7 +252,7 @@ fn test_all_consts() {
     let is_offset_const = [true; 3];
     let is_flag_const = [true; 15];
 
-    let check_instruction_input = "CheckInstruction_6664810e232eea6_input";
+    let check_instruction_input = "CheckInstruction_8f73bce009288474_input";
     let expected_constraints: [&str; 1] = [&format!(
         "Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}, {}])",
         check_instruction_input,
@@ -287,7 +287,7 @@ fn test_some_consts() {
     is_flag_const[0] = false;
     is_flag_const[2] = false;
 
-    let check_instruction_input = "CheckInstruction_f005ca851bd8ec7f_input";
+    let check_instruction_input = "CheckInstruction_9b6517ce0f423903_input";
     let expected_constraints = [
         "RangeCheck2([state[0]]) == []",
         "RangeCheck5([state[2]]) == []",

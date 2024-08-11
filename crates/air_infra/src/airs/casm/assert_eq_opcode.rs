@@ -73,11 +73,11 @@ impl AirFn for AssertEqOpcode {
 
         // Create the constant offsets.
         let offsets = if self.is_immediate {
-            [None, Some(offset_as_u16(-1)), Some(offset_as_u16(1))]
+            [None, Some(-1), Some(1)]
         } else if self.is_double_deref {
             [None, None, None]
         } else {
-            [None, Some(offset_as_u16(-1)), None]
+            [None, Some(-1), None]
         };
 
         // Check the instruction.

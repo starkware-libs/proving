@@ -61,18 +61,12 @@ impl AirFn for CallOpcode {
 
     fn call(&self, ab: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
         // Create the constant offsets.
-        let offset0 = offset_as_u16(0);
-        let offset1 = offset_as_u16(1);
-        let offset2 = if self.is_rel {
-            Some(offset_as_u16(1))
-        } else {
-            None
-        };
+        let offset2 = if self.is_rel { Some(1) } else { None };
 
         // Check the instruction.
         let ([_, _, offset2], _) = ab.call(
             &CheckInstruction {
-                const_offsets: [Some(offset0), Some(offset1), offset2],
+                const_offsets: [Some(0), Some(1), offset2],
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },

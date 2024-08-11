@@ -85,7 +85,7 @@ fn test_add_ap() {
                 "Deduction: deduction_tmp_0[1]",
                 "Deduction: deduction_tmp_0[2]",
                 &format!(
-                    "({}, {}) = CheckInstruction_972cf57502c71a4f(state[0])",
+                    "({}, {}) = CheckInstruction_9e72ce369e2b66c1(state[0])",
                     check_instruction_offsets,
                     add_ap_opcode.get_flags()
                 ),
