@@ -56,17 +56,17 @@ impl AirFn for BitwiseBuiltin {
             expected_and.push(a_and_b.clone());
             expected_or.push(a_and_b + a_xor_b);
         }
-        air_builder.set_in_memory(
+        air_builder.mem_verify(
             &self.memory,
             get_addr(instance_num.clone(), 2),
             expected_and.into(),
         );
-        air_builder.set_in_memory(
+        air_builder.mem_verify(
             &self.memory,
             get_addr(instance_num.clone(), 3),
             expected_xor.into(),
         );
-        air_builder.set_in_memory(
+        air_builder.mem_verify(
             &self.memory,
             get_addr(instance_num.clone(), 4),
             expected_or.into(),

@@ -29,12 +29,12 @@ impl AirFn for SimpleMemoryAirFn {
     type Out = FeltExpr;
 
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
-        let mut value = air_builder.get_from_memory(&self.memory, &input);
+        let mut value = air_builder.mem_read(&self.memory, &input);
         for f in value.as_felts_mut() {
             air_builder.deduce(f);
         }
 
-        air_builder.set_in_memory(&self.memory, input + const_expr!(1), value.clone());
+        air_builder.mem_verify(&self.memory, input + const_expr!(1), value.clone());
 
         value.get_felt(0)
     }

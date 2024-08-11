@@ -6,7 +6,6 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::MemoryAirFn;
 use crate::core::memory::*;
 
 // Macros

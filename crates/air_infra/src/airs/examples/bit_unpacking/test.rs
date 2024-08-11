@@ -1,5 +1,5 @@
-use super::bit_unpack::BitUnpack;
-use super::div2::Div2;
+use super::bit_unpack::*;
+use super::div2::*;
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::bool_expr::*;

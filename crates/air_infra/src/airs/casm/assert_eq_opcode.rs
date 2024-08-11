@@ -4,12 +4,12 @@ use super::check_instruction::*;
 use super::common::*;
 use super::read_small_felt252::*;
 
-use crate::airs::casm::read_addr::ReadAddr;
+use crate::airs::casm::read_addr::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::FELT252_BITS_PER_WORD;
+use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;
@@ -124,7 +124,7 @@ impl AirFn for AssertEqOpcode {
         };
 
         // Assert that dst == op1
-        ab.set_in_memory(&self.memory, mem1_base + offset2, dst);
+        ab.mem_verify(&self.memory, mem1_base + offset2, dst);
 
         // Calculate the next ap
         let next_ap = (const_expr!(1) - flag_ap_update_add_1.clone()) * ap.clone()
