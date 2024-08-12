@@ -309,7 +309,7 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 
         use crate::code_gen::packed_types::*;
-        use super::Claim;
+        use super::component::{Claim, InteractionClaim};
         $(generate_sub_component_imports(deductions, "Simd"))
     }
 }

@@ -15,7 +15,7 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 
-use super::Claim;
+use super::component::{Claim, InteractionClaim};
 use crate::airs::examples::NarrowFib_1ddf31c88316e62f;
 use crate::code_gen::packed_types::*;
 

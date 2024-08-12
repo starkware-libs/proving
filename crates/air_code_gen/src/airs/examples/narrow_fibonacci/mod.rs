@@ -1,14 +1,9 @@
+pub mod component;
 pub mod prover;
-
-pub use prover::{ClaimGenerator, InputType, OutputType};
+pub use component::{Claim, ComponentLookupElements, InteractionClaim};
+pub use prover::{ClaimGenerator, ClaimProver, InputType, OutputType};
 use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::fields::FieldExpOps;
-
-// TODO(Ohad): auto gen and remove.
-pub struct Claim {
-    pub log_size: u32,
-    pub n_calls: usize,
-}
 
 pub fn deduce_output(input: [PackedM31; 2]) -> [PackedM31; 2] {
     let mut state = input;

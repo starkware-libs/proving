@@ -4,11 +4,14 @@ use std::path::{Path, PathBuf};
 
 use air_infra::core::air_fn::AirFn;
 use air_infra::core::air_fn_registry::AirFnRegistry;
-use air_infra::core::compiled_structs::{ConstraintEvalStep, TraceGenStep};
+use air_infra::core::compiled_structs::{
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, TraceGenStep,
+};
 use itertools::Itertools;
 use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
+use super::framework_gen::generate_component_structs;
 use crate::code_gen::simd_trace_gen::generate_simd_claim_provers;
 
 pub fn project_root() -> PathBuf {
@@ -36,14 +39,18 @@ pub fn reformat_rust_code_inner(code_text: String) -> String {
 
 // Generates the prover & verifier code.
 pub fn dump_component_code(air_fn: &impl AirFn, folder_path: &Path) {
-    let resigtry = AirFnRegistry::new(air_fn);
+    let registry = AirFnRegistry::new(air_fn);
 
-    let lists = resigtry.get_compiled_air_fn(air_fn);
+    let lists = registry.get_compiled_air_fn(air_fn);
+    let air_entry = registry.get_air_fn_entry(air_fn);
     let claim_provers = generate_simd_claim_provers(&lists);
+    let eval_tokens = generate_component_structs(&air_entry.name, lists, &air_entry);
 
     // Write the generated code to files.
     let text = reformat_rust_code(claim_provers.to_string().unwrap());
     fs::write(folder_path.join("prover.rs"), text).unwrap();
+    let text = reformat_rust_code(eval_tokens.to_string().unwrap());
+    fs::write(folder_path.join("component.rs"), text).unwrap();
 }
 
 pub fn assert_generated_code_unchanged(air_fn: &impl AirFn, folder_path: &Path) {
@@ -137,6 +144,27 @@ pub fn n_trace_cells(deductions: &[TraceGenStep]) -> usize {
         .iter()
         .filter(|c| matches!(c, TraceGenStep::Deduction(_)))
         .count()
+}
+
+pub fn callee_lookup_length(lists: &CompiledAirFn) -> usize {
+    expression_n_cells(&lists.input) + expression_n_cells(&lists.output)
+}
+
+pub fn n_logup_columns(lists: &CompiledAirFn) -> usize {
+    let n_function_calls = unique_constraint_function_calls(&lists.constraints).len();
+    n_function_calls + callee_lookup_length(lists)
+}
+
+fn expression_n_cells(expr: &CompiledAirVar) -> usize {
+    match expr {
+        CompiledAirVar::State(..) => 1,
+        CompiledAirVar::Var(..) => 1,
+        CompiledAirVar::BinaryOp(..) => 1,
+        CompiledAirVar::UnaryOp(..) => 1,
+        CompiledAirVar::Tuple(vars) => vars.iter().map(expression_n_cells).sum(),
+        CompiledAirVar::Array(vars) => vars.iter().map(expression_n_cells).sum(),
+        _ => unimplemented!(),
+    }
 }
 
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'

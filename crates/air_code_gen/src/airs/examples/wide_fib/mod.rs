@@ -1,10 +1,5 @@
+pub mod component;
 pub mod prover;
-
-// TODO(Ohad): auto gen and remove.
-pub struct Claim {
-    pub log_size: u32,
-    pub n_calls: usize,
-}
 
 #[cfg(test)]
 mod tests {
