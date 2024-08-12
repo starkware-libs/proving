@@ -9,7 +9,7 @@ pub fn generate_trace_writer_code(
     input: &CompiledAirVar,
     deductions: &[TraceGenStep],
 ) -> rust::Tokens {
-    let imports_code = generate_imports_code(component_name);
+    let imports_code = generate_imports_code(component_name, deductions);
     let struct_code = generate_trace_gen_struct_code(component_name, input);
     let impl_code = generate_trace_gen_impl_code(component_name, input, deductions);
     let write_trace_code = generate_cpu_write_trace_code(component_name, input, deductions);
@@ -289,7 +289,7 @@ fn to_component_body(component_name: &str) -> rust::Tokens {
     }
 }
 
-fn generate_imports_code(component_name: &str) -> rust::Tokens {
+fn generate_imports_code(component_name: &str, deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(unused_imports)]
         use air_infra::core::prover_types::*;
@@ -304,42 +304,28 @@ fn generate_imports_code(component_name: &str) -> rust::Tokens {
         use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
         use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
-        $(generate_components_imports(component_name))
+        use super::component::$component_name;
+        $(generate_sub_component_imports(deductions, "Cpu"))
         $['\n']
     }
 }
 
-// TODO(Ohad): import only the necessary sub-components.
-pub fn generate_components_imports(component_name: &str) -> rust::Tokens {
-    match component_name {
-        "Fib_636c7aea2f39d7" => {
-            quote! {
-                use super::component::Fib_636c7aea2f39d7;
+pub fn generate_sub_component_imports(deductions: &[TraceGenStep], backend: &str) -> rust::Tokens {
+    // TODO(Ohad): generic backend.
+    assert!(backend == "Cpu" || backend == "Simd");
+
+    let mut code = rust::Tokens::new();
+    let mut seen_functions = HashSet::new();
+    for deduction in deductions {
+        if let TraceGenStep::Lookup { fn_name, .. } = deduction {
+            if seen_functions.insert(fn_name) {
+                code.extend(quote! {
+                    use crate::airs::examples::$(fn_name)$(backend)TraceGenerator;
+                });
             }
-        }
-        "NarrowFib_1ddf31c88316e62f" => {
-            quote! {
-                use super::component::NarrowFib_1ddf31c88316e62f;
-            }
-        }
-        "BitUnpack_e0b35c6b3a8afa3d" => {
-            quote! {
-                use super::component::BitUnpack_e0b35c6b3a8afa3d;
-            }
-        }
-        "WideFib_d7cf24d545e710f9" => {
-            quote! {
-                use super::component::WideFib_d7cf24d545e710f9;
-                use crate::airs::examples::narrow_fibonacci::
-                            trace::NarrowFib_1ddf31c88316e62fCpuTraceGenerator;
-                use crate::airs::examples::narrow_fibonacci::
-                            simd_trace::NarrowFib_1ddf31c88316e62fSimdTraceGenerator;
-            }
-        }
-        _ => {
-            panic!("Component {} not supported yet.", component_name);
         }
     }
+    code
 }
 
 fn air_var_type(expr: &CompiledAirVar) -> String {

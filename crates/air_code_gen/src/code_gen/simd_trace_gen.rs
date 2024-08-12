@@ -5,14 +5,14 @@ use genco::lang::rust;
 use genco::quote;
 
 use super::trace_gen::{air_var_input_name, generate_write_trace_inputs_return_struct};
-use crate::code_gen::trace_gen::generate_components_imports;
+use crate::code_gen::trace_gen::generate_sub_component_imports;
 
 pub fn generate_simd_trace_writer_code(
     component_name: &str,
     input: &CompiledAirVar,
     deductions: &[TraceGenStep],
 ) -> rust::Tokens {
-    let imports_code = generate_imports_code(component_name);
+    let imports_code = generate_imports_code(component_name, deductions);
     let struct_code = generate_simd_trace_gen_struct_code(component_name, input);
     let impl_code = generate_trace_gen_impl_code(component_name, input, deductions);
     let write_trace_code = generate_simd_write_trace_code(component_name, input, deductions);
@@ -256,7 +256,7 @@ fn to_component_simd_body(component_name: &str) -> rust::Tokens {
     }
 }
 
-fn generate_imports_code(component_name: &str) -> rust::Tokens {
+fn generate_imports_code(component_name: &str, deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(unused_imports)]
         use std::iter::zip;
@@ -275,7 +275,8 @@ fn generate_imports_code(component_name: &str) -> rust::Tokens {
         use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
         use crate::code_gen::packed_types::*;
-        $(generate_components_imports(component_name))
+        use super::component::$component_name;
+        $(generate_sub_component_imports(deductions, "Simd"))
         $['\n']
     }
 }

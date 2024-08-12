@@ -12,8 +12,7 @@ use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
 use super::component::WideFib_d7cf24d545e710f9;
-use crate::airs::examples::narrow_fibonacci::simd_trace::NarrowFib_1ddf31c88316e62fSimdTraceGenerator;
-use crate::airs::examples::narrow_fibonacci::trace::NarrowFib_1ddf31c88316e62fCpuTraceGenerator;
+use crate::airs::examples::NarrowFib_1ddf31c88316e62fCpuTraceGenerator;
 
 #[allow(non_camel_case_types)]
 #[derive(Default)]
