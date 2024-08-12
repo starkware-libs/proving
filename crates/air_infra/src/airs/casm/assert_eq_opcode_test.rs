@@ -7,7 +7,6 @@ use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;
@@ -146,7 +145,7 @@ fn test_assert_equal_deref_constraint_deduction() {
         "Constraint: ((state[9] + state[10]) - const_1)",
         &format!(
             "{}({}) == {}",
-            "Memory_81f75475e4cf34d6",
+            "Memory_59f18133215d0936",
             "[(((state[9] * state[2]) + (state[10] * state[1])) + (((state[5] + \
         (state[6] * const_16)) + (state[7] * const_8192)) - const_32768))]",
             "zero_extend([state[12]])"
@@ -185,7 +184,7 @@ fn test_assert_equal_imm_constraint_deduction() {
     );
     let memory_constraint = &format!(
         "{}({}) == {}",
-        "Memory_81f75475e4cf34d6", "[(state[0] + const_1)]", "zero_extend([state[7]])"
+        "Memory_59f18133215d0936", "[(state[0] + const_1)]", "zero_extend([state[7]])"
     );
     test_assert_equal(
         [true, false, true, false, false, false],
@@ -233,7 +232,7 @@ fn test_assert_equal_double_deref_constraint_deduction() {
     ];
     let memory_constraint = &format!(
         "{}({}) == {}",
-        "Memory_81f75475e4cf34d6",
+        "Memory_59f18133215d0936",
         "[(((state[15] + (state[16] * const_512)) + (state[17] * const_262144)) + \
         (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768))]",
         "zero_extend([state[14]])"

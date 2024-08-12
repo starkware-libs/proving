@@ -4,7 +4,7 @@ use crate::core::air_fn::*;
 use crate::core::expressions::bool_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
-use crate::core::prover_types::*;
+
 // Macros
 use crate::const_expr;
 use crate::const_u16_expr;

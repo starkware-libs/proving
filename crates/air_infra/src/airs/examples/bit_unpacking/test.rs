@@ -6,7 +6,6 @@ use crate::core::expressions::bool_expr::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
-use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;

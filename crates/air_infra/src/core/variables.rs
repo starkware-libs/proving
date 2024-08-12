@@ -12,6 +12,7 @@ use super::expressions::felt_expr::*;
 use super::expressions::uint16_expr::*;
 use super::expressions::uint32_expr::*;
 use super::expressions::uint64_expr::*;
+use super::prover_types::*;
 
 #[cfg(test)]
 use super::Felt;
@@ -21,7 +22,6 @@ use crate::impl_air_var;
 
 /// Every input and output of an air function is an AirVar.
 pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
-    fn name(&self) -> String;
     fn description(&self) -> String {
         self.name()
     }
@@ -42,6 +42,8 @@ pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
 // Information about air variables used by the air builder.
 #[enum_dispatch]
 pub trait InternalAirVarInfo: Debug {
+    fn name(&self) -> String;
+
     // An AirVar is in_state if it is stored in a trace cell or a polynomial of felts stored in trace cells.
     // Used to verify that expressions of constraints are polynomials of felts written to the trace.
     // We check this in run mode, since when building an air body, we want all constraints to refer to sepecial
@@ -73,6 +75,26 @@ pub enum AirVarImpl {
 }
 
 impl InternalAirVarInfo for AirVarImpl {
+    fn name(&self) -> String {
+        match self {
+            AirVarImpl::Expr(expr) => expr.name(),
+            AirVarImpl::Tuple(vars) => format!(
+                "({})",
+                vars.iter()
+                    .map(|v| v.name())
+                    .collect::<Vec<String>>()
+                    .join(", ")
+            ),
+            AirVarImpl::Array(vars) => format!(
+                "[{}]",
+                vars.iter()
+                    .map(|v| v.name())
+                    .collect::<Vec<String>>()
+                    .join(", ")
+            ),
+        }
+    }
+
     fn in_state(&self) -> bool {
         match self {
             AirVarImpl::Expr(expr) => expr.in_state(),
@@ -124,16 +146,16 @@ impl From<()> for AirVarImpl {
 }
 
 impl AirVar for () {
-    fn name(&self) -> String {
-        "()".to_string()
-    }
-
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         vec![]
     }
 }
 
 impl InternalAirVarInfo for () {
+    fn name(&self) -> String {
+        "()".to_string()
+    }
+
     fn in_state(&self) -> bool {
         true
     }
@@ -166,15 +188,15 @@ macro_rules! impl_air_var {
     ( [$s:ty] ) => {
         impl<const N:usize> AirVar for [$s;N] where $s: AirVar
         {
-            fn name(&self) -> String {
-                format!("[{}]", self.iter().map(|s| s.name()).collect::<Vec<String>>().join(", "))
-            }
             fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
                 self.into_iter().flat_map(|s| s.as_felts_mut()).collect()
             }
         }
 
         impl<const N:usize> InternalAirVarInfo for [$s;N] where $s: InternalAirVarInfo {
+            fn name(&self) -> String {
+                format!("[{}]", self.iter().map(|s| s.name()).collect::<Vec<String>>().join(", "))
+            }
             fn in_state(&self) -> bool {
                 self.iter().all(|s| s.in_state())
             }
@@ -206,11 +228,6 @@ macro_rules! impl_air_var {
     (($($s:ident),+)) => {
         impl AirVar for ($($s),+) where $($s: AirVar),+
         {
-            fn name(&self) -> String {
-                #[allow(non_snake_case)]
-                let ($($s),+) = self;
-                format!("({})", vec![$($s.name(), )+].join(", "))
-            }
             fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
                 let mut res = vec!();
                 #[allow(non_snake_case)]
@@ -222,6 +239,11 @@ macro_rules! impl_air_var {
 
         impl InternalAirVarInfo for ($($s),+) where $($s: InternalAirVarInfo),+
         {
+            fn name(&self) -> String {
+                #[allow(non_snake_case)]
+                let ($($s),+) = self;
+                format!("({})", vec![$($s.name(), )+].join(", "))
+            }
             fn in_state(&self) -> bool {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;

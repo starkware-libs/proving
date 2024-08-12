@@ -2,7 +2,6 @@ use super::air_fn_registry::*;
 use super::expressions::bool_expr::*;
 use super::expressions::expr::*;
 use super::expressions::felt_expr::*;
-use super::prover_types::*;
 use super::variables::*;
 
 // Macros

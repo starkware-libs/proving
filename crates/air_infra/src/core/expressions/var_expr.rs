@@ -1,0 +1,173 @@
+use super::super::air_fn_registry::*;
+use super::super::compiled_structs::*;
+use super::super::prover_types::*;
+use super::super::variables::*;
+use super::expr::*;
+
+pub trait VarExprUpdate {
+    fn create_children(&mut self);
+    fn update_children(&mut self);
+}
+
+#[derive(Clone, Debug)]
+pub struct VarExpr<T>
+where
+    T: ProverType,
+{
+    pub(super) name: String,
+    pub(super) value: Option<T>,
+    pub(super) is_const: bool,
+    pub(super) parent: Option<ParentExpr>,
+    pub(super) complex_or_felt: ComplexOrFelt,
+}
+
+impl<T> VarExpr<T>
+where
+    T: ProverType,
+    Self: VarExprUpdate,
+{
+    pub fn new(name: String, value: Option<T>, is_const: bool) -> Self {
+        if is_const {
+            assert!(value.is_some());
+        }
+
+        let mut var = VarExpr {
+            name,
+            value,
+            is_const,
+            parent: None,
+            complex_or_felt: ComplexOrFelt::Felt(None),
+        };
+        var.create_children();
+        var.update_children();
+        var
+    }
+
+    pub fn new_const(value: T) -> Self {
+        Self::new(value.calc(), Some(value), true)
+    }
+
+    pub(super) fn set_parent<P>(&mut self, parent_var: &VarExpr<P>, index: Option<usize>)
+    where
+        P: ProverType,
+    {
+        let parent = ParentExpr {
+            name: parent_var.name.clone(),
+            r#type: P::r#type(),
+            parent: parent_var.parent.clone().map(Box::new),
+            index,
+            child_name: self.name.clone(),
+        };
+
+        self.parent = Some(parent);
+        self.update_children();
+    }
+}
+
+impl<T> Expr<T> for VarExpr<T>
+where
+    T: ProverType,
+{
+    fn value(&self) -> Option<T> {
+        self.value
+    }
+}
+
+impl<T> InternalAirVarInfo for VarExpr<T>
+where
+    T: ProverType,
+{
+    fn name(&self) -> String {
+        self.name.clone()
+    }
+
+    fn in_state(&self) -> bool {
+        if self.is_const()
+            || self.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
+            || self.name.starts_with(BOTH_INTERMEDIATE_VAR_PREFIX)
+        {
+            return true;
+        }
+
+        match &self.complex_or_felt {
+            ComplexOrFelt::Felt(state_index) => state_index.is_some(),
+            ComplexOrFelt::Complex(children) => children.iter().all(|c| c.in_state()),
+        }
+    }
+
+    fn is_const(&self) -> bool {
+        self.is_const
+    }
+}
+
+impl<T> From<VarExpr<T>> for CompiledAirVar
+where
+    T: ProverType,
+{
+    fn from(v: VarExpr<T>) -> CompiledAirVar {
+        // v is an intermediate variable
+        if v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
+            || v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX)
+            || v.name.starts_with(BOTH_INTERMEDIATE_VAR_PREFIX)
+        {
+            return CompiledAirVar::Var(T::r#type(), v.name);
+        }
+
+        // v is a constant
+        if v.is_const {
+            return CompiledAirVar::Const(T::r#type(), v.value.unwrap().calc());
+        }
+
+        // v was written to the trace
+        if let ComplexOrFelt::Felt(Some(i)) = v.complex_or_felt {
+            return CompiledAirVar::State(i);
+        }
+
+        // v is a field of another variable
+        if let Some(parent) = v.parent {
+            return parent.get_compiled_child();
+        }
+
+        // v is a standalone variable
+        CompiledAirVar::Var(T::r#type(), v.name)
+    }
+}
+
+#[derive(Clone, Debug)]
+pub(super) struct ParentExpr {
+    pub(super) name: String,
+    pub(super) r#type: String,
+    pub(super) parent: Option<Box<ParentExpr>>,
+    pub(super) index: Option<usize>,
+    pub(super) child_name: String,
+}
+
+impl ParentExpr {
+    pub(super) fn get_compiled_child(self) -> CompiledAirVar {
+        let args = if let Some(i) = self.index {
+            let index_var = CompiledAirVar::Const("usize".to_string(), i.to_string());
+            vec![index_var]
+        } else {
+            vec![]
+        };
+
+        CompiledAirVar::MethodCall(Box::new(self.clone().into()), self.child_name, args)
+    }
+}
+
+impl From<ParentExpr> for CompiledAirVar {
+    fn from(expr: ParentExpr) -> CompiledAirVar {
+        if let Some(parent) = expr.parent {
+            return parent.get_compiled_child();
+        }
+        CompiledAirVar::Var(expr.r#type, expr.name)
+    }
+}
+
+// Each VarExpr is either a single felt, that can be written to the state and have a state_index
+// or a complex expression that holds one or more expressions (children).
+#[derive(Clone, Debug)]
+pub(super) enum ComplexOrFelt {
+    Complex(Vec<ExprImpl>),
+    Felt(Option<usize>),
+}

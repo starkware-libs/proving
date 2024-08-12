@@ -4,13 +4,13 @@ use std::collections::BTreeMap;
 use indexmap::IndexMap;
 
 use crate::airs::casm::common::*;
-use crate::airs::range_check::RangeCheck;
+use crate::airs::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::FELT252_BITS_PER_WORD;
-use crate::core::variables::AirVar;
+use crate::core::prover_types::*;
+use crate::core::variables::*;
 
 #[cfg(test)]
 use crate::core::Felt;

@@ -13,6 +13,7 @@ use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
+use super::var_expr::*;
 use crate::core::Felt;
 // Macros
 use crate::impl_binary_op;
@@ -62,6 +63,32 @@ where
             children,
             op,
         }
+    }
+}
+
+impl<T> Expr<T> for OpExpr<T>
+where
+    T: ProverType,
+{
+    fn value(&self) -> Option<T> {
+        self.value
+    }
+}
+
+impl<T> InternalAirVarInfo for OpExpr<T>
+where
+    T: ProverType,
+{
+    fn name(&self) -> String {
+        self.name.clone()
+    }
+
+    fn in_state(&self) -> bool {
+        self.children.iter().all(|v| v.in_state())
+    }
+
+    fn is_const(&self) -> bool {
+        self.children.iter().all(|v| v.is_const())
     }
 }
 
@@ -233,7 +260,10 @@ impl From<Vec<FeltExpr>> for Felt252Expr {
             None
         };
 
-        felts.resize(FELT252_N_WORDS, FeltExpr::new_const(Felt::from(0)));
+        felts.resize(
+            FELT252_N_WORDS,
+            FeltExpr::Var(VarExpr::new_const(Felt::from(0))),
+        );
         let arr = felts
             .into_iter()
             .map(|f| f.into())
@@ -254,7 +284,7 @@ macro_rules! impl_binary_op {
             fn $op_lower(self, other: $t) -> $t {
                 let value = self.value().zip(other.value()).map(|(l, r)| l.$op_lower(r));
                 if self.is_const() && other.is_const() {
-                    return $t::new_const(value.unwrap());
+                    return $t::Var(VarExpr::new_const(value.unwrap()));
                 }
 
                 $t::Op($b::new(
@@ -291,7 +321,7 @@ macro_rules! impl_unary_op {
             fn $op_lower(self) -> $t {
                 let value = self.value().map(|c| c.$op_lower());
                 if self.is_const() {
-                    return $t::new_const(value.unwrap());
+                    return $t::Var(VarExpr::new_const(value.unwrap()));
                 }
 
                 $t::Op(OpExpr::new(Operation::$op, vec![self.into()], value))

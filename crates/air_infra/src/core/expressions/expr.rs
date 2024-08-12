@@ -10,14 +10,17 @@ use super::super::variables::*;
 use super::bool_expr::*;
 use super::felt252_expr::*;
 use super::felt_expr::*;
+use super::op_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
+use super::var_expr::*;
+
 use crate::core::Felt;
-// Macros
 
 /// Experssions can be manipulated with binary and unary operations.
 /// They have a type that determines the operations that can be performed on them.
+#[enum_dispatch]
 pub trait Expr<T>
 where
     T: ProverType,
@@ -37,33 +40,51 @@ where
 }
 
 #[derive(Clone, Debug)]
-pub(super) struct ParentExpr {
-    pub(super) name: String,
-    pub(super) r#type: String,
-    pub(super) parent: Option<Box<ParentExpr>>,
-    pub(super) index: Option<usize>,
-    pub(super) child_name: String,
+#[enum_dispatch(InternalAirVarInfo, Expr<T>)]
+pub enum GenericExprImpl<T>
+where
+    T: ProverType,
+{
+    Var(VarExpr<T>),
+    Op(OpExpr<T>),
 }
 
-impl ParentExpr {
-    pub(super) fn get_compiled_child(self) -> CompiledAirVar {
-        let args = if let Some(i) = self.index {
-            let index_var = CompiledAirVar::Const("usize".to_string(), i.to_string());
-            vec![index_var]
-        } else {
-            vec![]
-        };
-
-        CompiledAirVar::MethodCall(Box::new(self.clone().into()), self.child_name, args)
+impl<T> GenericExprImpl<T>
+where
+    T: ProverType,
+{
+    pub(super) fn get_var(&mut self) -> &mut VarExpr<T> {
+        match self {
+            GenericExprImpl::Var(v) => v,
+            _ => panic!("Cannot convert non-variable to Var"),
+        }
     }
 }
 
-impl From<ParentExpr> for CompiledAirVar {
-    fn from(expr: ParentExpr) -> CompiledAirVar {
-        if let Some(parent) = expr.parent {
-            return parent.get_compiled_child();
+impl<T> InternalAirVarActions for GenericExprImpl<T>
+where
+    T: ProverType,
+    Self: Into<ExprImpl>,
+    VarExpr<T>: VarExprUpdate,
+{
+    fn new(name: String) -> Self {
+        VarExpr::new(name, None, false).into()
+    }
+
+    fn let_(&self, name: String) -> Self {
+        VarExpr::new(name, self.value(), self.is_const()).into()
+    }
+}
+
+impl<T> From<GenericExprImpl<T>> for CompiledAirVar
+where
+    T: ProverType,
+{
+    fn from(expr: GenericExprImpl<T>) -> CompiledAirVar {
+        match expr {
+            GenericExprImpl::Var(v) => v.into(),
+            GenericExprImpl::Op(o) => o.into(),
         }
-        CompiledAirVar::Var(expr.r#type, expr.name)
     }
 }
 

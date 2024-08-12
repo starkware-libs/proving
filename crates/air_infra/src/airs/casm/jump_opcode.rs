@@ -2,8 +2,9 @@ use indexmap::IndexMap;
 
 use super::check_instruction::*;
 use super::common::*;
-use super::read_addr::ReadAddr;
+use super::read_addr::*;
 use super::read_small_felt252::*;
+
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;

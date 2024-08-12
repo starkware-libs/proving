@@ -8,7 +8,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::MemoryAirFn;
 use crate::core::memory::*;
-use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;

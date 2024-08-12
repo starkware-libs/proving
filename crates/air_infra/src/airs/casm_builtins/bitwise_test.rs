@@ -4,7 +4,6 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::*;
 
 //Macros
 use crate::expr;
@@ -317,7 +316,7 @@ fn test_big_felt252_bitwise_builtin() {
         "state[84] = BitwiseXor_e991911c19957b24([state[28], state[56]])",
         "constraint_tmp_89 = (const_1073741824 * ((state[28] + state[56]) - state[84]))",
         &format!(
-            "Memory_81f75475e4cf34d6({}) == {}",
+            "Memory_59f18133215d0936({}) == {}",
             "[((const_500 + (state[0] * const_5)) + const_2)]",
             "[constraint_tmp_8, constraint_tmp_11, constraint_tmp_14, constraint_tmp_17, \
             constraint_tmp_20, constraint_tmp_23, constraint_tmp_26, constraint_tmp_29, \
@@ -328,7 +327,7 @@ fn test_big_felt252_bitwise_builtin() {
             constraint_tmp_80, constraint_tmp_83, constraint_tmp_86, constraint_tmp_89]"
         ),
         &format!(
-            "Memory_81f75475e4cf34d6({}) == {}",
+            "Memory_59f18133215d0936({}) == {}",
             "[((const_500 + (state[0] * const_5)) + const_3)]",
             "[state[57], state[58], state[59], state[60], state[61], \
             state[62], state[63], state[64], state[65], state[66], \
@@ -338,7 +337,7 @@ fn test_big_felt252_bitwise_builtin() {
             state[82], state[83], state[84]]"
         ),
         &format!(
-            "Memory_81f75475e4cf34d6({}) == {}",
+            "Memory_59f18133215d0936({}) == {}",
             "[((const_500 + (state[0] * const_5)) + const_4)]",
             "[(constraint_tmp_8 + state[57]), (constraint_tmp_11 + state[58]), \
             (constraint_tmp_14 + state[59]), (constraint_tmp_17 + state[60]), \

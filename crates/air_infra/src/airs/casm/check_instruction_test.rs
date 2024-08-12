@@ -173,7 +173,7 @@ fn test_no_consts() {
         "(state[20] * (const_1 - state[20]))",
         "(state[21] * (const_1 - state[21]))",
         "(state[22] * (const_1 - state[22]))",
-        &format!("Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}, {}])",
+        &format!("Memory_59f18133215d0936([{}]) == zero_extend([{}, {}, {}, {}, {}, {}, {}])",
             check_instruction_input,
             "state[0]",
             "(state[1] + (state[2] * const_128))",
@@ -185,7 +185,7 @@ fn test_no_consts() {
         ),
     ];
     let expected_deductions = [
-        &format!("deduction_tmp_0 = Memory_81f75475e4cf34d6({})",check_instruction_input),
+        &format!("deduction_tmp_0 = Memory_59f18133215d0936({})",check_instruction_input),
         "deduction_tmp_0.get_m31(const_0)",
         "deduction_tmp_1 = (UInt32::from_m31(deduction_tmp_0.get_m31(const_1)) & const_127)",
         "deduction_tmp_1.low().as_m31()",
@@ -254,7 +254,7 @@ fn test_all_consts() {
 
     let check_instruction_input = "CheckInstruction_8f73bce009288474_input";
     let expected_constraints: [&str; 1] = [&format!(
-        "Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}, {}])",
+        "Memory_59f18133215d0936([{}]) == zero_extend([{}, {}, {}, {}, {}, {}, {}])",
         check_instruction_input,
         "const_289",
         "const_481",
@@ -265,7 +265,7 @@ fn test_all_consts() {
         "const_282",
     )];
     let expected_deductions: [&str; 1] = [&format!(
-        "deduction_tmp_0 = Memory_81f75475e4cf34d6({})",
+        "deduction_tmp_0 = Memory_59f18133215d0936({})",
         check_instruction_input
     )];
 
@@ -294,7 +294,7 @@ fn test_some_consts() {
         "(state[3] * (const_1 - state[3]))",
         "(state[4] * (const_1 - state[4]))",
         &format!(
-            "Memory_81f75475e4cf34d6([{}]) == zero_extend([{}, {}, {}, {}, {}, {}, {}])",
+            "Memory_59f18133215d0936([{}]) == zero_extend([{}, {}, {}, {}, {}, {}, {}])",
             check_instruction_input,
             "const_289",
             "(const_97 + (state[0] * const_128))",
@@ -306,7 +306,7 @@ fn test_some_consts() {
         ),
     ];
     let expected_deductions = [
-        &format!("deduction_tmp_0 = Memory_81f75475e4cf34d6({})",check_instruction_input),
+        &format!("deduction_tmp_0 = Memory_59f18133215d0936({})",check_instruction_input),
         "deduction_tmp_1 = ((UInt32::from_m31(deduction_tmp_0.get_m31(const_1)) >> const_7) & const_3)",
         "deduction_tmp_1.low().as_m31()",
         "deduction_tmp_2 = RangeCheck2([state[0]])",

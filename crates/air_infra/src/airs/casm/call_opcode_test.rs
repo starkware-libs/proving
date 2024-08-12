@@ -2,11 +2,10 @@ use super::call_opcode::*;
 use super::common::*;
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
-use crate::core::expressions::expr::Expr;
+use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::*;
 
 use crate::const_expr;
 use crate::expr;

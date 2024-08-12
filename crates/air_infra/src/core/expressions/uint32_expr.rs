@@ -1,67 +1,71 @@
-use super::super::air_fn_registry::*;
-use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
 use super::uint16_expr::*;
+use super::var_expr::*;
 
 pub type UInt32Operation = OpExpr<UInt32>;
+pub type UInt32Expr = GenericExprImpl<UInt32>;
 const LOW_NAME: &str = "low";
 const HIGH_NAME: &str = "high";
 
-// A variable of type UInt32. Holds its name, and value. It is represented as two UInt16 variables.
-#[derive(Clone, Debug)]
-pub struct UInt32Var {
-    pub(super) name: String,
-    pub(super) value: Option<UInt32>,
-    pub(super) low: UInt16Expr,
-    pub(super) high: UInt16Expr,
-    pub(super) parent: Option<ParentExpr>,
-    pub(super) is_const: bool,
-}
-
-impl UInt32Var {
-    // Updates the low and high parts of the variable.
-    // Called whenever a variable is created (see new_var and let_for_deduction).
-    fn update_parts(&mut self) {
-        self.low.set_parent(ParentExpr {
-            name: self.name.clone(),
-            r#type: UInt32::r#type(),
-            parent: self.parent.clone().map(Box::new),
-            index: None,
-            child_name: LOW_NAME.to_string(),
-        });
-        self.high.set_parent(ParentExpr {
-            name: self.name.clone(),
-            r#type: UInt32::r#type(),
-            parent: self.parent.clone().map(Box::new),
-            index: None,
-            child_name: HIGH_NAME.to_string(),
-        });
+impl VarExpr<UInt32> {
+    // Converts children to low and high.
+    fn get_children(&mut self) -> [&mut UInt16Expr; 2] {
+        let err_msg = "UInt32 var must have a low and high children.";
+        if let ComplexOrFelt::Complex(children) = &mut self.complex_or_felt {
+            return children
+                .iter_mut()
+                .map(|c| {
+                    if let ExprImpl::UInt16(expr) = c {
+                        expr
+                    } else {
+                        panic!("{}", err_msg);
+                    }
+                })
+                .collect::<Vec<_>>()
+                .try_into()
+                .expect(err_msg);
+        }
+        panic!("{}", err_msg);
     }
 }
 
-#[derive(Clone, Debug)]
-pub enum UInt32Expr {
-    Var(UInt32Var),
-    Op(UInt32Operation),
+impl VarExprUpdate for VarExpr<UInt32> {
+    fn create_children(&mut self) {
+        let low = VarExpr::new(
+            LOW_NAME.to_string(),
+            self.value.map(|v| v.low()),
+            self.is_const,
+        );
+        let high = VarExpr::new(
+            HIGH_NAME.to_string(),
+            self.value.map(|v| v.high()),
+            self.is_const,
+        );
+        self.complex_or_felt = ComplexOrFelt::Complex(vec![
+            UInt16Expr::Var(low).into(),
+            UInt16Expr::Var(high).into(),
+        ]);
+    }
+
+    fn update_children(&mut self) {
+        let parent_var = &self.clone();
+        let [low, high] = self.get_children();
+        low.get_var().set_parent(parent_var, None);
+        high.get_var().set_parent(parent_var, None);
+    }
 }
 
 impl UInt32Expr {
     pub fn low_mut(&mut self) -> &mut UInt16Expr {
-        match self {
-            UInt32Expr::Var(v) => &mut v.low,
-            _ => panic!("Cannot convert non-variable to UInt16"),
-        }
+        self.get_var().get_children()[0]
     }
 
     pub fn high_mut(&mut self) -> &mut UInt16Expr {
-        match self {
-            UInt32Expr::Var(v) => &mut v.high,
-            _ => panic!("Cannot convert non-variable to UInt16"),
-        }
+        self.get_var().get_children()[1]
     }
 
     pub fn low(&self) -> UInt16Expr {
@@ -71,159 +75,24 @@ impl UInt32Expr {
     pub fn high(&self) -> UInt16Expr {
         self.clone().high_mut().clone()
     }
-
-    // Called whenever a parent variable is created (see update_parts of UInt64Expr).
-    pub(super) fn set_parent(&mut self, parent: ParentExpr) {
-        if let UInt32Expr::Var(v) = self {
-            v.parent = Some(parent);
-            v.update_parts();
-        } else {
-            panic!("Cannot set parent of a non-variable");
-        }
-    }
-
-    // Creates a new UInt32Var.
-    pub fn new_var(
-        name: String,
-        value: Option<UInt32>,
-        low_state_index: Option<usize>,
-        high_state_index: Option<usize>,
-        is_const: bool,
-    ) -> Self {
-        if is_const {
-            assert!(value.is_some());
-        }
-
-        let mut res = UInt32Var {
-            name,
-            value,
-            low: UInt16Expr::new_var(
-                LOW_NAME.to_string(),
-                value.map(|v| v.low()),
-                low_state_index,
-                is_const,
-            ),
-            high: UInt16Expr::new_var(
-                HIGH_NAME.to_string(),
-                value.map(|v| v.high()),
-                high_state_index,
-                is_const,
-            ),
-            parent: None,
-            is_const,
-        };
-        res.update_parts();
-        res.into()
-    }
-
-    // Creates a new constant UInt32Var.
-    pub fn new_const(value: UInt32) -> Self {
-        Self::new_var(value.calc(), Some(value), None, None, true)
-    }
-}
-
-impl Expr<UInt32> for UInt32Expr {
-    fn value(&self) -> Option<UInt32> {
-        match self {
-            UInt32Expr::Var(v) => v.value,
-            UInt32Expr::Op(op) => op.value,
-        }
-    }
 }
 
 impl AirVar for UInt32Expr {
-    fn name(&self) -> String {
-        match self {
-            UInt32Expr::Var(v) => v.name.clone(),
-            UInt32Expr::Op(op) => op.name.clone(),
-        }
-    }
-
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        match self {
-            UInt32Expr::Var(v) => vec![v.low.as_felt_mut(), v.high.as_felt_mut()],
-            _ => panic!("Cannot convert non-variable to Felt"),
-        }
-    }
-}
-
-impl InternalAirVarActions for UInt32Expr {
-    fn new(name: String) -> Self {
-        Self::new_var(name, None, None, None, false)
-    }
-
-    fn let_(&self, name: String) -> Self {
-        assert!(name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX));
-
-        match self {
-            UInt32Expr::Var(v) => {
-                let mut res = v.clone();
-                res.name = name;
-                res.update_parts();
-                res.into()
-            }
-            _ => Self::new_var(name, self.value(), None, None, self.is_const()),
-        }
-    }
-}
-
-impl InternalAirVarInfo for UInt32Expr {
-    fn in_state(&self) -> bool {
-        if self.is_const() {
-            return true;
-        }
-
-        match self {
-            UInt32Expr::Var(v) => v.low.in_state() && v.high.in_state(),
-            UInt32Expr::Op(op) => op.children.iter().all(|c| c.in_state()),
-        }
-    }
-
-    fn is_const(&self) -> bool {
-        match self {
-            UInt32Expr::Var(v) => v.is_const,
-            UInt32Expr::Op(op) => op.children.iter().all(|c| c.is_const()),
-        }
-    }
-}
-
-impl From<UInt32Var> for UInt32Expr {
-    fn from(v: UInt32Var) -> UInt32Expr {
-        UInt32Expr::Var(v)
-    }
-}
-
-impl From<UInt32Operation> for UInt32Expr {
-    fn from(b: UInt32Operation) -> UInt32Expr {
-        UInt32Expr::Op(b)
-    }
-}
-
-impl From<UInt32Expr> for CompiledAirVar {
-    fn from(expr: UInt32Expr) -> CompiledAirVar {
-        match expr {
-            UInt32Expr::Var(v) => {
-                if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-                    return CompiledAirVar::Var(UInt32::r#type(), v.name);
-                }
-                if v.is_const {
-                    return CompiledAirVar::Const(UInt32::r#type(), v.value.unwrap().calc());
-                }
-                if let Some(parent) = v.parent {
-                    return parent.get_compiled_child();
-                }
-
-                CompiledAirVar::Var(UInt32::r#type(), v.name)
-            }
-            UInt32Expr::Op(op) => op.into(),
-        }
+        self.get_var()
+            .get_children()
+            .into_iter()
+            .flat_map(|e| e.as_felts_mut())
+            .collect()
     }
 }
 
 #[macro_export]
 macro_rules! const_u32_expr {
     ($val:expr) => {
-        UInt32Expr::new_const($val.into())
+        UInt32Expr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
+            $val.into(),
+        ))
     };
 }
 
@@ -231,12 +100,10 @@ macro_rules! const_u32_expr {
 #[macro_export]
 macro_rules! u32_expr {
     ($name:expr, $val:expr) => {
-        UInt32Expr::new_var(
+        UInt32Expr::Var($crate::core::expressions::var_expr::VarExpr::new(
             $name.to_string(),
-            Some(UInt32::from($val)),
-            None,
-            None,
+            Some($crate::core::prover_types::UInt32::from($val)),
             false,
-        )
+        ))
     };
 }

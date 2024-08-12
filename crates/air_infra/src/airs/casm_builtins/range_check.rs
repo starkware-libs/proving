@@ -2,11 +2,12 @@ use indexmap::IndexMap;
 
 use crate::airs::casm::const_tables::seq::*;
 use crate::airs::casm::read_small_felt252::*;
-use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
+
+use crate::const_expr;
 
 // Start address of the segment for this builtin.
 // TODO: receive this at proof time as a public param. Until public params

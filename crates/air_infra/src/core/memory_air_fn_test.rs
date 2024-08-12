@@ -1,12 +1,10 @@
 use super::air_fn::*;
 use super::air_fn_registry::*;
+use super::expressions::expr::*;
 use super::expressions::felt252_expr::*;
 use super::expressions::felt_expr::*;
 use super::memory::*;
-use super::prover_types::*;
 use super::variables::*;
-#[cfg(test)]
-use crate::core::expressions::expr::*;
 
 // Macros
 use crate::const_expr;

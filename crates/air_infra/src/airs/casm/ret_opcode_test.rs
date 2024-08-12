@@ -1,15 +1,14 @@
-use crate::const_expr;
+use super::common::*;
+use super::ret_opcode::*;
 use crate::core::air_fn_registry::*;
-use crate::core::expressions::expr::Expr;
+use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::*;
+
+use crate::const_expr;
 use crate::expr;
 use crate::felt252_expr;
-
-use super::common::*;
-use super::ret_opcode::*;
 
 pub fn assemble_ret() -> u64 {
     let ret_off_0 = -2;
@@ -25,12 +24,12 @@ fn test_ret_opcode() {
         "deduction_tmp_0[0]",
         "deduction_tmp_0[1]",
         "deduction_tmp_0[2]",
-        "deduction_tmp_2 = Memory_81f75475e4cf34d6(state[0])",
-        "deduction_tmp_5 = Memory_81f75475e4cf34d6((state[2] - const_1))",
+        "deduction_tmp_2 = Memory_59f18133215d0936(state[0])",
+        "deduction_tmp_5 = Memory_59f18133215d0936((state[2] - const_1))",
         "deduction_tmp_5.get_m31(const_0)",
         "deduction_tmp_5.get_m31(const_1)",
         "deduction_tmp_5.get_m31(const_2)",
-        "deduction_tmp_6 = Memory_81f75475e4cf34d6((state[2] - const_2))",
+        "deduction_tmp_6 = Memory_59f18133215d0936((state[2] - const_2))",
         "deduction_tmp_6.get_m31(const_0)",
         "deduction_tmp_6.get_m31(const_1)",
         "deduction_tmp_6.get_m31(const_2)",

@@ -3,7 +3,6 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;
@@ -14,7 +13,7 @@ fn test_range_check() {
     let deductions = [
         "deduction_tmp_0 = ()",
         "tmp_1 = external(Seq_dc507a654de89e80)",
-        "deduction_tmp_4 = Memory_81f75475e4cf34d6((const_100 + tmp_1))",
+        "deduction_tmp_4 = Memory_59f18133215d0936((const_100 + tmp_1))",
         "deduction_tmp_4.get_m31(const_0)",
         "deduction_tmp_4.get_m31(const_1)",
         "deduction_tmp_4.get_m31(const_2)",
@@ -24,7 +23,7 @@ fn test_range_check() {
 
     let constraints = [
         "tmp_1 = external(Seq_dc507a654de89e80)",
-        "Memory_81f75475e4cf34d6([(const_100 + tmp_1)]) == zero_extend([state[0], state[1], state[2], state[3]])",
+        "Memory_59f18133215d0936([(const_100 + tmp_1)]) == zero_extend([state[0], state[1], state[2], state[3]])",
         "RangeCheck5([state[3]]) == []"
     ];
 

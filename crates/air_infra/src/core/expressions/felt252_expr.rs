@@ -1,89 +1,66 @@
-use std::array::from_fn;
-
-use super::super::air_fn_registry::*;
-use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
+use super::var_expr::*;
 
 // Macros
 use crate::const_felt252_expr;
 
 pub type Felt252Operation = OpExpr<Felt252>;
+pub type Felt252Expr = GenericExprImpl<Felt252>;
 const CHILD_NAME: &str = "get_m31";
 
-// A variable of type Felt252. Holds its name, and value. It is represented as FELT252_N_WORDS felts,
-// FELT252_BITS_PER_WORD bits each.
-#[derive(Clone, Debug)]
-pub struct Felt252Var {
-    pub(super) name: String,
-    pub(super) value: Option<Felt252>,
-    pub(super) felts: [FeltExpr; FELT252_N_WORDS],
-    pub(super) is_const: bool,
-}
-
-impl Felt252Var {
-    // Updates the Felts representation of the variable.
-    // Called whenever a variable is created (see new_var and let_for_deduction).
-    fn update_parts(&mut self) {
-        for (index, felt) in self.felts.iter_mut().enumerate() {
-            let self_as_parent = ParentExpr {
-                name: self.name.clone(),
-                r#type: Felt252::r#type(),
-                parent: None,
-                index: Some(index),
-                child_name: CHILD_NAME.to_string(),
-            };
-            felt.set_parent(self_as_parent);
+impl VarExpr<Felt252> {
+    // Converts children to felts.
+    fn get_children(&mut self) -> [&mut FeltExpr; FELT252_N_WORDS] {
+        let err_msg = &format!("Felt252 var must have {FELT252_N_WORDS} felt children.");
+        if let ComplexOrFelt::Complex(children) = &mut self.complex_or_felt {
+            return children
+                .iter_mut()
+                .map(|c| {
+                    if let ExprImpl::Felt(felt_expr) = c {
+                        felt_expr
+                    } else {
+                        panic!("{}", err_msg);
+                    }
+                })
+                .collect::<Vec<_>>()
+                .try_into()
+                .expect(err_msg);
         }
+        panic!("{}", err_msg);
     }
 }
 
-#[derive(Clone, Debug)]
-pub enum Felt252Expr {
-    Var(Felt252Var),
-    Op(Felt252Operation),
+impl VarExprUpdate for VarExpr<Felt252> {
+    fn create_children(&mut self) {
+        let children = (0..FELT252_N_WORDS)
+            .map(|i| {
+                FeltExpr::Var(VarExpr::new(
+                    CHILD_NAME.to_string(),
+                    self.value.map(|v| v.get_m31(i)),
+                    self.is_const,
+                ))
+                .into()
+            })
+            .collect::<Vec<_>>();
+        self.complex_or_felt = ComplexOrFelt::Complex(children);
+    }
+
+    fn update_children(&mut self) {
+        let parent_var = &self.clone();
+        for (index, felt) in self.get_children().into_iter().enumerate() {
+            felt.get_var().set_parent(parent_var, Some(index));
+        }
+    }
 }
 
 impl Felt252Expr {
-    // Creates a new Felt252Var.
-    pub fn new_var(
-        name: String,
-        value: Option<Felt252>,
-        state_indices: Option<[usize; FELT252_N_WORDS]>,
-        is_const: bool,
-    ) -> Self {
-        if is_const {
-            assert!(value.is_some());
-        }
-
-        let mut res = Felt252Var {
-            name,
-            value,
-            felts: from_fn(|i| {
-                FeltExpr::new_var(
-                    CHILD_NAME.to_string(),
-                    value.map(|v| v.get_m31(i)),
-                    state_indices.map(|is| is[i]),
-                    is_const,
-                )
-            }),
-            is_const,
-        };
-        res.update_parts();
-        res.into()
-    }
-
-    // Creates a new constant Felt252Var.
-    pub fn new_const(value: Felt252) -> Self {
-        Self::new_var(value.calc(), Some(value), None, true)
-    }
-
     pub fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
         match self {
-            Felt252Expr::Var(v) => v.felts.get_mut(index).expect("index out of bounds"),
+            Felt252Expr::Var(v) => v.get_children()[index],
             Felt252Expr::Op(op) => {
                 if op.op == Operation::Felt252FromFeltsArray {
                     if let AirVarImpl::Array(arr) = &mut op.children[0] {
@@ -104,32 +81,10 @@ impl Felt252Expr {
     }
 }
 
-impl Expr<Felt252> for Felt252Expr {
-    fn value(&self) -> Option<Felt252> {
-        match self {
-            Felt252Expr::Var(v) => v.value,
-            Felt252Expr::Op(op) => op.value,
-        }
-    }
-}
-
 impl AirVar for Felt252Expr {
-    fn name(&self) -> String {
-        match self {
-            Felt252Expr::Var(v) => v.name.clone(),
-            Felt252Expr::Op(op) => op.name.clone(),
-        }
-    }
-
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         match self {
-            Felt252Expr::Var(v) => {
-                let mut res = Vec::new();
-                for felt in v.felts.iter_mut() {
-                    res.push(felt);
-                }
-                res
-            }
+            Felt252Expr::Var(v) => v.get_children().into_iter().collect(),
             Felt252Expr::Op(op) => {
                 if op.op == Operation::Felt252FromFeltsArray {
                     if let AirVarImpl::Array(arr) = &mut op.children[0] {
@@ -151,46 +106,6 @@ impl AirVar for Felt252Expr {
     }
 }
 
-impl InternalAirVarActions for Felt252Expr {
-    fn new(name: String) -> Self {
-        Self::new_var(name, None, None, false)
-    }
-
-    fn let_(&self, name: String) -> Self {
-        assert!(name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX));
-
-        match self {
-            Felt252Expr::Var(v) => {
-                let mut res = v.clone();
-                res.name = name;
-                res.update_parts();
-                res.into()
-            }
-            _ => Self::new_var(name, self.value(), None, self.is_const()),
-        }
-    }
-}
-
-impl InternalAirVarInfo for Felt252Expr {
-    fn in_state(&self) -> bool {
-        if self.is_const() {
-            return true;
-        }
-
-        match self {
-            Felt252Expr::Var(v) => v.felts.iter().all(|f| f.in_state()),
-            Felt252Expr::Op(op) => op.children.iter().all(|c| c.in_state()),
-        }
-    }
-
-    fn is_const(&self) -> bool {
-        match self {
-            Felt252Expr::Var(v) => v.is_const,
-            Felt252Expr::Op(op) => op.children.iter().all(|c| c.is_const()),
-        }
-    }
-}
-
 // Default is implemented for Felt252Expr because it is stored in memory.
 impl Default for Felt252Expr {
     fn default() -> Self {
@@ -198,39 +113,12 @@ impl Default for Felt252Expr {
     }
 }
 
-impl From<Felt252Var> for Felt252Expr {
-    fn from(v: Felt252Var) -> Felt252Expr {
-        Felt252Expr::Var(v)
-    }
-}
-
-impl From<Felt252Operation> for Felt252Expr {
-    fn from(b: Felt252Operation) -> Felt252Expr {
-        Felt252Expr::Op(b)
-    }
-}
-
-impl From<Felt252Expr> for CompiledAirVar {
-    fn from(expr: Felt252Expr) -> CompiledAirVar {
-        match expr {
-            Felt252Expr::Var(v) => {
-                if v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX) {
-                    return CompiledAirVar::Var(Felt252::r#type(), v.name);
-                }
-                if v.is_const {
-                    return CompiledAirVar::Const(Felt252::r#type(), v.value.unwrap().calc());
-                }
-                CompiledAirVar::Var(Felt252::r#type(), v.name)
-            }
-            Felt252Expr::Op(op) => op.into(),
-        }
-    }
-}
-
 #[macro_export]
 macro_rules! const_felt252_expr {
     ($low:expr, $high:expr) => {
-        Felt252Expr::new_const(($low, $high).into())
+        Felt252Expr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
+            ($low, $high).into(),
+        ))
     };
 }
 
@@ -238,11 +126,10 @@ macro_rules! const_felt252_expr {
 #[macro_export]
 macro_rules! felt252_expr {
     ($name:expr, $low:expr, $high:expr) => {
-        Felt252Expr::new_var(
+        Felt252Expr::Var($crate::core::expressions::var_expr::VarExpr::new(
             $name.to_string(),
-            Some(Felt252::from(($low, $high))),
-            None,
+            Some($crate::core::prover_types::Felt252::from(($low, $high))),
             false,
-        )
+        ))
     };
 }
