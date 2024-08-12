@@ -19,6 +19,12 @@ impl Display for TraceGenStep {
             } => {
                 write!(f, "{} = {}({})", output_name, fn_name, input)
             }
+            TraceGenStep::AccessExternalColumn {
+                fn_name,
+                output_name,
+            } => {
+                write!(f, "{} = external({})", output_name, fn_name)
+            }
         }
     }
 }
@@ -51,6 +57,12 @@ impl Display for ConstraintEvalStep {
                     vars_arr_to_string(input_felts),
                     vars_arr_to_string(output_felts)
                 )
+            }
+            ConstraintEvalStep::AccessExternalColumn {
+                fn_name,
+                output_name,
+            } => {
+                write!(f, "{} = external({})", output_name, fn_name)
             }
         }
     }
@@ -95,6 +107,13 @@ impl Display for AirBodyComponent {
                 felts_vec_to_string(var.input_felts.clone()),
                 felts_vec_to_string(var.output_felts.clone())
             ),
+            AirBodyComponent::AccessExternalColumn(access) => {
+                write!(
+                    f,
+                    "{} = external({})",
+                    access.output_name, access.air_fn_name
+                )
+            }
         }
     }
 }

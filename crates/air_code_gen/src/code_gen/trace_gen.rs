@@ -60,6 +60,11 @@ pub fn generate_write_trace_row_code(
                     let $(output_name) = $(fn_name)CpuTraceGenerator::deduce_output($(parse_air_var(input)));
                 });
             }
+            // TODO: Implement.
+            TraceGenStep::AccessExternalColumn {
+                fn_name: _,
+                output_name: _,
+            } => (),
         }
     }
 

@@ -94,6 +94,11 @@ fn constraint_eval_at_point_code(constraints: &[ConstraintEvalStep]) -> rust::To
                 input_felts: _,
                 output_felts: _,
             } => (),
+            // TODO: Implement.
+            ConstraintEvalStep::AccessExternalColumn {
+                fn_name: _,
+                output_name: _,
+            } => (),
         }
     }
     constraints_code

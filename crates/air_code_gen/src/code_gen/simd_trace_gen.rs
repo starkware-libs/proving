@@ -65,6 +65,11 @@ pub fn generate_simd_write_trace_row_code(
                         $(fn_name)SimdTraceGenerator::deduce_output($(simd_parse_air_var(input)));
                 });
             }
+            // TODO: Implement.
+            TraceGenStep::AccessExternalColumn {
+                fn_name: _,
+                output_name: _,
+            } => (),
         }
     }
 

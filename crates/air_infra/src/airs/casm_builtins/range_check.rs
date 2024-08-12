@@ -1,5 +1,6 @@
 use indexmap::IndexMap;
 
+use crate::airs::casm::const_tables::seq::*;
 use crate::airs::casm::read_small_felt252::*;
 use crate::const_expr;
 use crate::core::air_fn::*;
@@ -19,16 +20,17 @@ pub struct RangeCheckBuiltin {
 }
 
 impl AirFn for RangeCheckBuiltin {
-    type In = FeltExpr;
+    type In = ();
     type Out = ();
 
-    fn call(&self, air_builder: &mut AirBuilder, instance_num: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
+        let instance_number = air_builder.call_external_column(&Seq {});
         air_builder.call(
             &ReadSmallFelt252 {
                 num_bits: self.bits,
                 memory: self.memory.clone(),
             },
-            const_expr!(DUMMY_SEGMENT_START) + instance_num,
+            const_expr!(DUMMY_SEGMENT_START) + instance_number,
         );
     }
 
