@@ -1,15 +1,11 @@
 use super::super::common::*;
 use super::jnz_opcode::*;
 
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-use crate::core::prover_types::*;
-use crate::core::variables::*;
-use crate::core::Felt;
 
 use crate::const_expr;
 use crate::expr;
@@ -20,8 +16,8 @@ fn build_and_test(
     offset_dst: i16,
     dst_value: Felt252Expr,
     op1_value: u32,
-    check_instruction_name: &str,
-    rest_of_air_body: Vec<&str>,
+    expected_air_body: Option<&[&str]>,
+    expected_state: Vec<u32>,
 ) {
     let [pc_value, ap_value, fp_value] = [50, 200, 150];
     let [pc, ap, fp] = [
@@ -87,40 +83,6 @@ fn build_and_test(
 
     assert_eq!(next_fp.calc(), fp_value.to_string());
 
-    // Construct expected_state
-    let mut expected_state = vec![pc_value, ap_value, fp_value];
-    expected_state.push((offset_as_u16(offset_dst) & 0x1FF) as u32);
-    expected_state.push((offset_as_u16(offset_dst) >> 9) as u32);
-
-    let dst_vec = dst_value
-        .to_values()
-        .iter()
-        .map(|x| x.0)
-        .collect::<Vec<_>>();
-    expected_state.append(dst_vec.clone().as_mut());
-
-    if is_taken {
-        let sum_dst = dst_vec.iter().sum::<u32>();
-
-        let dst_minus_p_sos = dst_vec
-            .iter()
-            .enumerate()
-            .map(|(i, &x)| {
-                if P_FELTS[i] == 0 {
-                    x
-                } else {
-                    ((x as i64 - P_FELTS[i] as i64) * (x as i64 - P_FELTS[i] as i64)) as u32
-                }
-            })
-            .sum::<u32>();
-
-        expected_state.extend([
-            (Felt::from_u32_unchecked(1) / Felt::from_u32_unchecked(sum_dst)).0,
-            (Felt::from_u32_unchecked(1) / Felt::from_u32_unchecked(dst_minus_p_sos)).0,
-            op1_value,
-        ]);
-    }
-
     // Check state
     assert_eq!(
         state.calc(),
@@ -130,36 +92,18 @@ fn build_and_test(
             .collect::<Vec<_>>()
     );
 
-    // Construct expected_air_body
-    let check_instruction_call = format!(
-        "([(((state[3] + (state[4] * const_512)) + const_0) - const_32768), const_2147483646, const_1], {}) = {}(state[0])",
-        jnz_opcode.get_flags(),
-        check_instruction_name,
-    );
-
-    let expected_air_body_array = [
-        &format!(
-            "tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
-            name = jnz_opcode.name()
-        ),
-        "Deduction: tmp_0[0]", // state[0] = pc
-        "Deduction: tmp_0[1]", // state[1] = ap
-        "Deduction: tmp_0[2]", // state[2] = fp
-        &check_instruction_call,
-    ];
-    let mut expected_air_body = expected_air_body_array.to_vec();
-    expected_air_body.extend(rest_of_air_body.iter());
-
     // Check air_body
     let air_body = registry.get_air_fn_entry(&jnz_opcode).air_body;
 
-    assert_eq!(
-        air_body
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        expected_air_body
-    );
+    if let Some(expected_air_body) = expected_air_body {
+        assert_eq!(
+            air_body
+                .iter()
+                .map(|x| x.to_string())
+                .collect::<Vec<String>>(),
+            expected_air_body
+        );
+    }
 }
 
 #[test]
@@ -169,22 +113,54 @@ fn test_not_taken_zero_match_base_ap() {
         -13,
         felt252_expr!("dst", 0, 0),
         15,
-        "DecodeInstruction_f07b2e63ffedf789",
+        Some(&[
+            "tmp_0 = [\
+                JnzOpcode_7f048efcd2fafd3f_input[0], \
+                JnzOpcode_7f048efcd2fafd3f_input[1], \
+                JnzOpcode_7f048efcd2fafd3f_input[2]]",
+            "Deduction: tmp_0[0]",
+            "Deduction: tmp_0[1]",
+            "Deduction: tmp_0[2]",
+            "(\
+                [\
+                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
+                    const_2147483646, \
+                    const_1\
+                ], [\
+                    const_false, \
+                    const_true, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false\
+                ]\
+            ) = DecodeInstruction_f07b2e63ffedf789(state[0])",
+            "Felt252::from_m31_([\
+                state[5], state[6], state[7], state[8], state[9], state[10], state[11], \
+                state[12], state[13], state[14], state[15], state[16], state[17], state[18], \
+                state[19], state[20], state[21], state[22], state[23], state[24], state[25], \
+                state[26], state[27], state[28], state[29], state[30], state[31], state[32]\
+            ]) = ReadSmallFelt252_bb908db6c9837328((\
+                state[1] + (((state[3] + (state[4] * const_512)) + const_0) - const_32768)))",
+            "Constraint: ((((((((((((((((((((((((((((const_0 + \
+                state[5]) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + \
+                state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + \
+                state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
+                state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32])"
+        ]),
         vec![
-            &format!("{} = {}({})",
-                "Felt252::from_m31_([state[5], state[6], state[7], state[8], state[9], state[10], \
-                    state[11], state[12], state[13], state[14], state[15], state[16], state[17], \
-                    state[18], state[19], state[20], state[21], state[22], state[23], state[24], \
-                    state[25], state[26], state[27], state[28], state[29], state[30], state[31], state[32]])",
-                "ReadSmallFelt252_bb908db6c9837328",
-                "(state[1] + (((state[3] + (state[4] * const_512)) + const_0) - const_32768))"),
-
-            "Constraint: ((((((((((((((((((((((((((((const_0 + state[5]) + state[6]) + state[7]) + \
-            state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + \
-            state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + \
-            state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + state[28]) + \
-            state[29]) + state[30]) + state[31]) + state[32])"
-            ],
+            50, 200, 150, 499, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0,
+        ],
     );
 }
 
@@ -195,52 +171,75 @@ fn test_taken_match_base_ap() {
         -13,
         felt252_expr!("dst", 123, 456),
         15,
-        "DecodeInstruction_f07b2e63ffedf789",
-        vec![
-            &format!("{} = {}({})",
-                "Felt252::from_m31_([state[5], state[6], state[7], state[8], state[9], state[10], \
-                    state[11], state[12], state[13], state[14], state[15], state[16], state[17], \
-                    state[18], state[19], state[20], state[21], state[22], state[23], state[24], \
-                    state[25], state[26], state[27], state[28], state[29], state[30], state[31], state[32]])",
-                "ReadSmallFelt252_bb908db6c9837328",
-                "(state[1] + (((state[3] + (state[4] * const_512)) + const_0) - const_32768))"),
-
-            "Deduction: (const_1 // ((((((((((((((((((((((((((((const_0 + state[5]) + state[6]) + \
-            state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + \
-            state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + \
-            state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + \
-            state[28]) + state[29]) + state[30]) + state[31]) + state[32]))",
-
-            "Constraint: ((((((((((((((((((((((((((((((const_0 + state[5]) + state[6]) + state[7]) + \
-            state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + \
-            state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + \
-            state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + state[28]) + \
-            state[29]) + state[30]) + state[31]) + state[32]) * state[33]) - const_1)",
-
+        Some(&[
+            "tmp_0 = [\
+                JnzOpcode_384ff84280622c61_input[0], \
+                JnzOpcode_384ff84280622c61_input[1], \
+                JnzOpcode_384ff84280622c61_input[2]]",
+            "Deduction: tmp_0[0]",
+            "Deduction: tmp_0[1]",
+            "Deduction: tmp_0[2]",
+            "(\
+                [\
+                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
+                    const_2147483646, \
+                    const_1\
+                ], [\
+                    const_false, \
+                    const_true, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false\
+                ]\
+            ) = DecodeInstruction_f07b2e63ffedf789(state[0])",
+            "Felt252::from_m31_([\
+                state[5], state[6], state[7], state[8], state[9], state[10], state[11], \
+                state[12], state[13], state[14], state[15], state[16], state[17], state[18], \
+                state[19], state[20], state[21], state[22], state[23], state[24], state[25], \
+                state[26], state[27], state[28], state[29], state[30], state[31], state[32]\
+            ]) = ReadSmallFelt252_bb908db6c9837328((\
+                state[1] + (((state[3] + (state[4] * const_512)) + const_0) - const_32768)))",
+            "Deduction: (const_1 // ((((((((((((((((((((((((((((const_0 + \
+                state[5]) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + \
+                state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + \
+                state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
+                state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]))",
+            "Constraint: ((((((((((((((((((((((((((((((const_0 + \
+                state[5]) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + \
+                state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + \
+                state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
+                state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]) * \
+                state[33]) - const_1)",
             "tmp_9 = (state[5] - const_1)",
             "tmp_10 = (state[26] - const_136)",
             "tmp_11 = (state[32] - const_256)",
-
             "Deduction: (const_1 // ((((((((((((((((((((((((((((const_0 + \
-                (tmp_9 * tmp_9)) + state[6]) + state[7]) + state[8]) + state[9]) + \
-                state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + \
-                state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + \
-                state[24]) + state[25]) + (tmp_10 * tmp_10)) + state[27]) + state[28]) + \
-                state[29]) + state[30]) + state[31]) + (tmp_11 * tmp_11)))",
-
-            "Constraint: ((((((((((((((((((((((((((((((const_0 + (tmp_9 * tmp_9)) + \
-            state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + \
-            state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + \
-            state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
-            (tmp_10 * tmp_10)) + state[27]) + state[28]) + state[29]) + state[30]) + \
-            state[31]) + (tmp_11 * tmp_11)) * state[34]) - const_1)",
-
-            &format!("{} = {}({})",
-                "Felt252::from_m31_(zero_extend([state[35]]))",
-                "ReadSmallFelt252_cc824bd2f61c6ef6",
-                "(state[0] + const_1)")
-
-            ],
+                (tmp_9 * tmp_9)) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + \
+                state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + \
+                state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
+                (tmp_10 * tmp_10)) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + (tmp_11 * tmp_11)))",
+            "Constraint: ((((((((((((((((((((((((((((((const_0 + \
+                (tmp_9 * tmp_9)) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + \
+                state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + \
+                state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
+                (tmp_10 * tmp_10)) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + (tmp_11 * tmp_11)) * \
+                state[34]) - const_1)", "Felt252::from_m31_(zero_extend([state[35]])) = \
+                ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
+        ]),
+        vec![
+            50, 200, 150, 499, 63, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 3, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 1955558780, 500077285, 15,
+        ],
     );
 }
 
@@ -252,7 +251,7 @@ fn test_taken_zero_mismatch_base_ap() {
         -13,
         felt252_expr!("dst", 0, 0),
         15,
-        "DecodeInstruction_",
+        None,
         vec![],
     );
 }
@@ -265,7 +264,7 @@ fn test_not_taken_mismatch_base_ap() {
         -13,
         felt252_expr!("dst", 123, 4567),
         15,
-        "DecodeInstruction_",
+        None,
         vec![],
     );
 }
@@ -278,7 +277,7 @@ fn test_taken_p_mismatch_base_ap() {
         -13,
         felt252_expr!("dst", 1, 17 * u128::pow(2, 64) + u128::pow(2, 123)),
         15,
-        "DecodeInstruction_",
+        None,
         vec![],
     );
 }

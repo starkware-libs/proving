@@ -1,7 +1,6 @@
 use super::super::common::*;
 use super::jump_opcode::*;
 
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
@@ -19,7 +18,8 @@ fn test_jump_opcode(
     ap_update_add_1: bool,
     op1: u128,
     offset_value: i16,
-    air_body_hints: Option<[&str; 3]>,
+    expected_air_body: Option<&[&str]>,
+    expected_state: Vec<u32>,
 ) {
     // Create the air function
     let mut jump_opcode = JumpOpcode {
@@ -81,17 +81,6 @@ fn test_jump_opcode(
     }
 
     // Check state
-    let mut expected_state = vec![pc_value, ap_value, fp_value];
-    if is_rel_jump {
-        expected_state.push((op1 & 0x1FF) as u32);
-    } else {
-        expected_state.push((offset_as_u16(offset_value) & 0xF) as u32);
-        expected_state.push(((offset_as_u16(offset_value) >> 4) & 0x1FF) as u32);
-        expected_state.push(((offset_as_u16(offset_value) >> 13) & 0x7) as u32);
-        expected_state.push((op1 & 0x1FF) as u32);
-        expected_state.push(((op1 >> 9) & 0x1FF) as u32);
-        expected_state.push(((op1 >> 18) & 0x1FF) as u32);
-    }
     assert_eq!(
         state.calc(),
         expected_state
@@ -101,14 +90,7 @@ fn test_jump_opcode(
     );
 
     // Check air body
-    if let Some([check_instruction_offsets, check_instruction_name, read_call]) = air_body_hints {
-        let check_instruction_call = &format!(
-            "({}, {}) = {}({})",
-            check_instruction_offsets,
-            jump_opcode.get_flags(),
-            check_instruction_name,
-            "state[0]"
-        );
+    if let Some(expected_air_body) = expected_air_body {
         let entry = registry.get_air_fn_entry(&jump_opcode);
         assert_eq!(
             entry
@@ -116,104 +98,172 @@ fn test_jump_opcode(
                 .iter()
                 .map(|x| x.to_string())
                 .collect::<Vec<String>>(),
-            vec![
-                &format!(
-                    "tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
-                    name = jump_opcode.name()
-                ),
-                "Deduction: tmp_0[0]",
-                "Deduction: tmp_0[1]",
-                "Deduction: tmp_0[2]",
-                check_instruction_call,
-                read_call
-            ]
+            expected_air_body
         );
     }
 }
 
 #[test]
 fn test_abs_jump_base_ap() {
-    let check_instruction_offsets =
-        "[const_2147483646, const_2147483646, (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)]";
-    let check_instruction_name = "DecodeInstruction_a4fdc221dc5c5f46";
-    let read_addr_output = "((state[6] + (state[7] * const_512)) + (state[8] * const_262144))";
-    let read_addr_input = "(state[1] + (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768))";
-    let read_addr_call = &format!(
-        "{} = {}({})",
-        read_addr_output, "ReadAddr_d86123cf8dd732a9", read_addr_input
-    );
     test_jump_opcode(
         false,
         false,
         false,
         8,
         2,
-        Some([
-            check_instruction_offsets,
-            check_instruction_name,
-            read_addr_call,
+        Some(&[
+            "tmp_0 = [\
+                JumpOpcode_c84fbe8a2f33f1ef_input[0], \
+                JumpOpcode_c84fbe8a2f33f1ef_input[1], \
+                JumpOpcode_c84fbe8a2f33f1ef_input[2]\
+            ]",
+            "Deduction: tmp_0[0]",
+            "Deduction: tmp_0[1]",
+            "Deduction: tmp_0[2]",
+            "(\
+                [\
+                    const_2147483646, \
+                    const_2147483646, \
+                    (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
+                ], [\
+                    const_true, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false\
+                ]\
+            ) = DecodeInstruction_a4fdc221dc5c5f46(state[0])",
+            "((state[6] + (state[7] * const_512)) + (state[8] * const_262144)) = \
+                ReadAddr_d86123cf8dd732a9((\
+                    state[1] + \
+                    (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
+                ))",
         ]),
+        vec![3, 11, 6, 2, 0, 4, 8, 0, 0],
     );
 }
 
 #[test]
 fn test_abs_jump_base_fp() {
-    test_jump_opcode(false, true, false, 5, 10, None);
+    test_jump_opcode(
+        false,
+        true,
+        false,
+        5,
+        10,
+        None,
+        vec![3, 11, 6, 10, 0, 4, 5, 0, 0],
+    );
 }
 
 #[test]
 fn test_abs_jump_base_ap_inc_ap() {
-    test_jump_opcode(false, false, true, 12, 100, None);
+    test_jump_opcode(
+        false,
+        false,
+        true,
+        12,
+        100,
+        None,
+        vec![3, 11, 6, 4, 6, 4, 12, 0, 0],
+    );
 }
 
 #[test]
 fn test_abs_jump_base_fp_inc_ap() {
-    test_jump_opcode(false, true, true, 20, 17, None);
+    test_jump_opcode(
+        false,
+        true,
+        true,
+        20,
+        17,
+        None,
+        vec![3, 11, 6, 1, 1, 4, 20, 0, 0],
+    );
 }
 
 #[test]
 fn test_abs_big_op1() {
-    test_jump_opcode(false, false, false, 1684685, 402, None);
+    test_jump_opcode(
+        false,
+        false,
+        false,
+        1684685,
+        402,
+        None,
+        vec![3, 11, 6, 2, 25, 4, 205, 218, 6],
+    );
 }
 
 #[test]
 fn test_abs_jump_negativ_offset() {
-    test_jump_opcode(false, false, false, 9, -9, None);
+    test_jump_opcode(
+        false,
+        false,
+        false,
+        9,
+        -9,
+        None,
+        vec![3, 11, 6, 7, 511, 3, 9, 0, 0],
+    );
 }
 
 #[test]
 fn test_rel_jump() {
-    let check_instruction_offsets = "[const_2147483646, const_2147483646, const_1]";
-    let check_instruction_name = "DecodeInstruction_d5261ee7a67207d3";
-    let read_small_felt252_output = "Felt252::from_m31_(zero_extend([state[3]]))";
-    let read_small_felt252_input = "(state[0] + const_1)";
-    let read_small_felt252_name = "ReadSmallFelt252_cc824bd2f61c6ef6";
-    let read_small_felt252_call = &format!(
-        "{} = {}({})",
-        read_small_felt252_output, read_small_felt252_name, read_small_felt252_input
-    );
-    test_jump_opcode(
-        true,
-        false,
-        false,
-        100,
-        5,
-        Some([
-            check_instruction_offsets,
-            check_instruction_name,
-            read_small_felt252_call,
-        ]),
-    );
+    test_jump_opcode(true, false, false, 100, 5, Some(&[
+        "tmp_0 = [\
+            JumpOpcode_35e5e7be1094296e_input[0], \
+            JumpOpcode_35e5e7be1094296e_input[1], \
+            JumpOpcode_35e5e7be1094296e_input[2]\
+        ]",
+        "Deduction: tmp_0[0]",
+        "Deduction: tmp_0[1]",
+        "Deduction: tmp_0[2]",
+        "(\
+            [\
+                const_2147483646, \
+                const_2147483646, \
+                const_1\
+            ], [\
+                const_true, \
+                const_true, \
+                const_true, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_true, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_false\
+            ]\
+        ) = DecodeInstruction_d5261ee7a67207d3(state[0])",
+        "Felt252::from_m31_(zero_extend([state[3]])) = ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
+    ]), vec![3, 11, 6, 100]);
 }
 
 #[test]
 fn test_rel_jump_inc_ap() {
-    test_jump_opcode(true, false, true, 3, 5, None);
+    test_jump_opcode(true, false, true, 3, 5, None, vec![3, 11, 6, 3]);
 }
 
 #[test]
 fn test_rel_big_op1() {
-    test_jump_opcode(true, false, false, 411, 5, None);
+    test_jump_opcode(true, false, false, 411, 5, None, vec![3, 11, 6, 411]);
 }
 
 pub fn assemble_jump(op1_off: i16, flags: &Flags) -> u64 {
