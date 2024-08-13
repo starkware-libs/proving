@@ -1,6 +1,6 @@
 use indexmap::IndexMap;
 
-use super::narrow_fib::NarrowFib;
+use super::narrow_fib::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 

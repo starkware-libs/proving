@@ -24,7 +24,7 @@ impl AirFn for ReadSmallFelt252 {
     type Out = Felt252Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
-        let mut value_from_memory = air_builder.get_from_memory(&self.memory, &address);
+        let mut value_from_memory = air_builder.mem_read(&self.memory, &address);
         let mut expected_nonzero_limbs = vec![];
         let remainder = self.num_bits % FELT252_BITS_PER_WORD;
         let num_limbs = self.num_bits.div_ceil(FELT252_BITS_PER_WORD);
@@ -34,7 +34,7 @@ impl AirFn for ReadSmallFelt252 {
         }
 
         let expected_value = Felt252Expr::from(expected_nonzero_limbs.clone());
-        air_builder.set_in_memory(&self.memory, address, expected_value.clone());
+        air_builder.mem_verify(&self.memory, address, expected_value.clone());
 
         //  Range check the last limb.
         if remainder != 0 {

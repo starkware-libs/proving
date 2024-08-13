@@ -2,7 +2,7 @@ use std::fmt::Debug;
 
 use indexmap::IndexMap;
 
-use super::div2::Div2;
+use super::div2::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::bool_expr::*;
 use crate::core::expressions::uint16_expr::*;

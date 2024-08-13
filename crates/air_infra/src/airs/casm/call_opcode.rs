@@ -74,14 +74,14 @@ impl AirFn for CallOpcode {
         );
 
         // Push fp.
-        ab.set_in_memory(
+        ab.mem_verify(
             &self.memory,
             ap.clone(),
             Felt252Expr::from(vec![fp.clone()]),
         );
 
         // Push pc + instruction_size.
-        ab.set_in_memory(
+        ab.mem_verify(
             &self.memory,
             ap.clone() + const_expr!(1),
             Felt252Expr::from(vec![(pc.clone() + const_expr!(1 + (self.is_rel as u32)))]),

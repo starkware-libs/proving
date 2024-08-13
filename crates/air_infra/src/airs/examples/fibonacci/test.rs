@@ -1,5 +1,5 @@
-use super::fib::Fib;
-use crate::airs::examples::fibonacci::wide_fib::WideFib;
+use super::fib::*;
+use crate::airs::examples::fibonacci::wide_fib::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt_expr::*;

@@ -1,4 +1,6 @@
 use super::felt252_id_memory::*;
+use crate::airs::memory::felt252_id_memory_read_positive::*;
+use crate::airs::memory::felt252_id_memory_read_small::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
@@ -69,9 +71,9 @@ fn test_read_small() {
 #[test]
 fn test_read_small_air_body() {
     let expected_air_body = [
-        "deduction_tmp_0 = Memory_6f2fb3a82578c4e3(ReadSmall_4480e629133cac43_input)",
+        "deduction_tmp_0 = Memory_6f2fb3a82578c4e3(ReadSmall_cda8d80eab0abe94_input)",
         "Deduction: deduction_tmp_0",
-        "Memory_6f2fb3a82578c4e3([ReadSmall_4480e629133cac43_input]) == [state[0]]",
+        "Memory_6f2fb3a82578c4e3([ReadSmall_cda8d80eab0abe94_input]) == [state[0]]",
         "deduction_tmp_1 = Memory_59f18133215d0936(state[0])",
         "deduction_tmp_2 = deduction_tmp_1.get_m31(const_27).eq(const_256)",
         "Deduction: deduction_tmp_2.as_m31()",
@@ -124,9 +126,9 @@ fn test_read_positive(value: Felt252Expr, num_bits: usize) {
 #[test]
 fn test_read_positive_air_body() {
     let expected_air_body = [
-        "deduction_tmp_0 = Memory_6f2fb3a82578c4e3(ReadPositive_22ebb6fbe9ff7280_input)",
+        "deduction_tmp_0 = Memory_6f2fb3a82578c4e3(ReadPositive_6812050f65145f40_input)",
         "Deduction: deduction_tmp_0",
-        "Memory_6f2fb3a82578c4e3([ReadPositive_22ebb6fbe9ff7280_input]) == [state[0]]",
+        "Memory_6f2fb3a82578c4e3([ReadPositive_6812050f65145f40_input]) == [state[0]]",
         "deduction_tmp_1 = Memory_59f18133215d0936(state[0])",
         "Deduction: deduction_tmp_1.get_m31(const_0)",
         "Deduction: deduction_tmp_1.get_m31(const_1)",

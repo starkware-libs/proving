@@ -5,7 +5,7 @@ use std::rc::Rc;
 use serde::Serialize;
 
 #[cfg(test)]
-use super::expressions::expr::Expr;
+use super::expressions::expr::*;
 use super::expressions::felt_expr::*;
 
 #[derive(Clone, Debug, Serialize)]

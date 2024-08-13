@@ -327,7 +327,7 @@ impl AirBuilder {
     #[allow(unused_variables)]
     // Reads the value from the memory, creates an intermediate variable for the value, and returns
     // it. Does not add any constraints or deductions.
-    pub fn get_from_memory<K, V>(&mut self, memory: &Memory<K, V>, key: &K) -> V
+    pub fn mem_read<K, V>(&mut self, memory: &Memory<K, V>, key: &K) -> V
     where
         K: AirVar,
         V: AirVar + Default,
@@ -355,7 +355,7 @@ impl AirBuilder {
     #[allow(unused_variables)]
     // Assumes the key and value are in the state (of the caller). Adds a lookup constraint.
     // Writes the value to the memory in run and cairo run modes.
-    pub fn set_in_memory<K, V>(&mut self, memory: &Memory<K, V>, key: K, value: V)
+    pub fn mem_verify<K, V>(&mut self, memory: &Memory<K, V>, key: K, value: V)
     where
         K: AirVar,
         V: AirVar + Default,

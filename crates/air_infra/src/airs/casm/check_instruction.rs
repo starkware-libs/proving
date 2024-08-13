@@ -39,7 +39,7 @@ impl AirFn for CheckInstruction {
             "CheckInstruction assumes there are 9 bits per felt in a felt252"
         );
 
-        let instruction_for_deduction = ab.get_from_memory(&self.memory, &pc);
+        let instruction_for_deduction = ab.mem_read(&self.memory, &pc);
         let mut offsets_parts = vec![];
 
         for (i, off) in self.const_offsets.iter().enumerate() {
@@ -91,7 +91,7 @@ impl AirFn for CheckInstruction {
             .try_into()
             .expect("flags should have 15 elements.");
 
-        ab.set_in_memory(
+        ab.mem_verify(
             &self.memory,
             pc.clone(),
             Felt252Expr::from(vec![felt0, felt1, felt2, felt3, felt4, felt5, felt6]),
