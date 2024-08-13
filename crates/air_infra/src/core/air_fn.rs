@@ -91,7 +91,7 @@ pub struct AirBuilder {
     pub(super) state: State,
     pub(super) air_body: Vec<AirBodyComponent>,
     #[cfg(test)]
-    pub(super) row_number: usize,
+    pub(super) row_number: Option<usize>,
     #[cfg(test)]
     pub(super) run: bool,
     pub(super) registry: AirFnRegistry,
@@ -103,7 +103,7 @@ impl AirBuilder {
     }
 
     #[cfg(test)]
-    pub fn row_number(&self) -> usize {
+    pub fn row_number(&self) -> Option<usize> {
         self.row_number
     }
 
@@ -286,7 +286,7 @@ impl AirBuilder {
             let mut air_builder = Self {
                 state: State::default(),
                 air_body: vec![],
-                row_number: 0,
+                row_number: Some(0),
                 run: self.run,
                 registry: self.registry.clone(),
             };
@@ -386,7 +386,10 @@ impl AirBuilder {
             }));
     }
 
-    pub fn call_external_column<T: AirVar>(&mut self, air_fn: &dyn AirFn<In = (), Out = T>) -> T {
+    pub fn call_external_column<O>(&mut self, air_fn: &dyn AirFn<In = (), Out = O>) -> O
+    where
+        O: AirVar,
+    {
         assert!(
             air_fn.trace_type() == TraceType::Const,
             "External columns must be constant"
@@ -411,21 +414,19 @@ impl AirBuilder {
             },
         ));
 
-        #[cfg(test)]
-        if self.run {
-            let mut air_builder = Self {
-                state: State::default(),
-                air_body: vec![],
-                row_number: self.row_number,
-                run: self.run,
-                registry: self.registry.clone(),
-            };
-            let output = air_fn.call(&mut air_builder, ());
-
-            return output.let_(output_name);
-        }
-
-        T::new(output_name.clone())
+        // Const tables that are called as external columns should return an output that is in the state,
+        // both in build and run modes.
+        let mut air_builder = Self {
+            state: State::default(),
+            air_body: vec![],
+            #[cfg(test)]
+            row_number: self.row_number,
+            #[cfg(test)]
+            run: self.run,
+            registry: self.registry.clone(),
+        };
+        let output = air_fn.call(&mut air_builder, ());
+        output.let_(output_name)
     }
 }
 

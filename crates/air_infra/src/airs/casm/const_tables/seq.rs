@@ -1,8 +1,10 @@
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
+#[cfg(test)]
+use crate::core::expressions::var_expr::*;
 
 #[cfg(test)]
-use crate::expr;
+use crate::core::Felt;
 
 #[derive(Debug)]
 pub struct Seq {}
@@ -14,9 +16,14 @@ impl AirFn for Seq {
 
     fn call(&self, _air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
         #[cfg(test)]
-        if _air_builder.is_run_mode() {
-            return expr!("seq", _air_builder.row_number());
-        }
+        return FeltExpr::Var(VarExpr::new(
+            "seq".to_string(),
+            _air_builder.row_number().map(|x| Felt::from(x as u32)),
+            false,
+            true,
+        ));
+
+        #[cfg(not(test))]
         FeltExpr::default()
     }
 

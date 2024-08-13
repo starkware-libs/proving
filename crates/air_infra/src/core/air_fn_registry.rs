@@ -111,7 +111,7 @@ impl AirFnRegistry {
         let mut air_builder = AirBuilder {
             state: State::default(),
             air_body: vec![],
-            row_number,
+            row_number: Some(row_number),
             run: true,
             registry: self.clone(),
         };
@@ -139,10 +139,9 @@ impl AirFnRegistry {
             state: State::default(),
             air_body: vec![],
 
-            // The row number doesn't influence the generated air_body. Any other value
-            // will work equally well.
+            // The row number doesn't influence the generated air_body.
             #[cfg(test)]
-            row_number: 0,
+            row_number: None,
             #[cfg(test)]
             run: false,
             registry: self.clone(),

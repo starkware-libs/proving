@@ -26,7 +26,7 @@ where
     T: ProverType,
     Self: VarExprUpdate,
 {
-    pub fn new(name: String, value: Option<T>, is_const: bool) -> Self {
+    pub fn new(name: String, value: Option<T>, is_const: bool, in_state: bool) -> Self {
         if is_const {
             assert!(value.is_some());
         }
@@ -36,7 +36,7 @@ where
             value,
             is_const,
             parent: None,
-            complex_or_felt: ComplexOrFelt::Felt(None),
+            complex_or_felt: ComplexOrFelt::Felt(StateInfo::IsPolyOfState(in_state)),
         };
         var.create_children();
         var.update_children();
@@ -44,7 +44,7 @@ where
     }
 
     pub fn new_const(value: T) -> Self {
-        Self::new(value.calc(), Some(value), true)
+        Self::new(value.calc(), Some(value), true, false)
     }
 
     pub(super) fn set_parent<P>(&mut self, parent_var: &VarExpr<P>, index: Option<usize>)
@@ -82,15 +82,13 @@ where
     }
 
     fn in_state(&self) -> bool {
-        if self.is_const()
-            || self.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
-            || self.name.starts_with(BOTH_INTERMEDIATE_VAR_PREFIX)
-        {
+        if self.is_const() {
             return true;
         }
 
         match &self.complex_or_felt {
-            ComplexOrFelt::Felt(state_index) => state_index.is_some(),
+            ComplexOrFelt::Felt(StateInfo::StateIndex(_)) => true,
+            ComplexOrFelt::Felt(StateInfo::IsPolyOfState(b)) => *b,
             ComplexOrFelt::Complex(children) => children.iter().all(|c| c.in_state()),
         }
     }
@@ -119,7 +117,7 @@ where
         }
 
         // v was written to the trace
-        if let ComplexOrFelt::Felt(Some(i)) = v.complex_or_felt {
+        if let ComplexOrFelt::Felt(StateInfo::StateIndex(i)) = v.complex_or_felt {
             return CompiledAirVar::State(i);
         }
 
@@ -164,10 +162,18 @@ impl From<ParentExpr> for CompiledAirVar {
     }
 }
 
-// Each VarExpr is either a single felt, that can be written to the state and have a state_index
+// Each VarExpr is either a single felt, that can be written to the state
 // or a complex expression that holds one or more expressions (children).
 #[derive(Clone, Debug)]
 pub(super) enum ComplexOrFelt {
     Complex(Vec<ExprImpl>),
-    Felt(Option<usize>),
+    Felt(StateInfo),
+}
+
+// A felt in the state either has a state index or was created as an intermediate variable
+// from an operation that is in the state (i.e., a polynomial of felts written to the state).
+#[derive(Clone, Debug)]
+pub(super) enum StateInfo {
+    StateIndex(usize),
+    IsPolyOfState(bool),
 }

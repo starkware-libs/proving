@@ -29,6 +29,7 @@ impl VarExprUpdate for VarExpr<UInt16> {
             CHILD_NAME.to_string(),
             self.value.map(|v| v.as_m31()),
             self.is_const,
+            self.in_state(),
         );
         self.complex_or_felt = ComplexOrFelt::Complex(vec![FeltExpr::Var(child).into()]);
     }
@@ -85,6 +86,7 @@ macro_rules! u16_expr {
         UInt16Expr::Var($crate::core::expressions::var_expr::VarExpr::new(
             $name.to_string(),
             Some($crate::core::prover_types::UInt16::from($val)),
+            false,
             false,
         ))
     };

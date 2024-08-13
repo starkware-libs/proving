@@ -68,11 +68,11 @@ where
     VarExpr<T>: VarExprUpdate,
 {
     fn new(name: String) -> Self {
-        VarExpr::new(name, None, false).into()
+        VarExpr::new(name, None, false, false).into()
     }
 
     fn let_(&self, name: String) -> Self {
-        VarExpr::new(name, self.value(), self.is_const()).into()
+        VarExpr::new(name, self.value(), self.is_const(), self.in_state()).into()
     }
 }
 

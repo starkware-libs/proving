@@ -42,6 +42,7 @@ impl VarExprUpdate for VarExpr<Felt252> {
                     CHILD_NAME.to_string(),
                     self.value.map(|v| v.get_m31(i)),
                     self.is_const,
+                    self.in_state(),
                 ))
                 .into()
             })
@@ -129,6 +130,7 @@ macro_rules! felt252_expr {
         Felt252Expr::Var($crate::core::expressions::var_expr::VarExpr::new(
             $name.to_string(),
             Some($crate::core::prover_types::Felt252::from(($low, $high))),
+            false,
             false,
         ))
     };

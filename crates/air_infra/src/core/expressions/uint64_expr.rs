@@ -39,11 +39,13 @@ impl VarExprUpdate for VarExpr<UInt64> {
             LOW_NAME.to_string(),
             self.value.map(|v| v.low()),
             self.is_const,
+            self.in_state(),
         );
         let high = VarExpr::new(
             HIGH_NAME.to_string(),
             self.value.map(|v| v.high()),
             self.is_const,
+            self.in_state(),
         );
         self.complex_or_felt = ComplexOrFelt::Complex(vec![
             UInt32Expr::Var(low).into(),
@@ -103,6 +105,7 @@ macro_rules! u64_expr {
         UInt64Expr::Var($crate::core::expressions::var_expr::VarExpr::new(
             $name.to_string(),
             Some($crate::core::prover_types::UInt64::from($val)),
+            false,
             false,
         ))
     };

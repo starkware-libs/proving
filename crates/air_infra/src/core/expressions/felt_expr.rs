@@ -2,7 +2,6 @@ use serde::{Serialize, Serializer};
 
 use crate::core::Felt;
 
-use super::super::air_fn_registry::*;
 use super::super::compiled_structs::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -28,18 +27,16 @@ impl FeltExpr {
     // When an expression is written to the trace, this function is called to change the expression
     // into a variable that has a state index.
     pub fn to_state(&mut self, index: usize) {
-        assert!(!self.name().starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX));
-
         let name = format!("state[{}]", index);
         let value = self.value();
         match self {
             FeltExpr::Var(v) => {
                 v.name = name;
-                v.complex_or_felt = ComplexOrFelt::Felt(Some(index));
+                v.complex_or_felt = ComplexOrFelt::Felt(StateInfo::StateIndex(index));
             }
             _ => {
-                let mut v = VarExpr::new(name, value, false);
-                v.complex_or_felt = ComplexOrFelt::Felt(Some(index));
+                let mut v = VarExpr::new(name, value, false, true);
+                v.complex_or_felt = ComplexOrFelt::Felt(StateInfo::StateIndex(index));
                 *self = Self::Var(v);
             }
         }
@@ -86,6 +83,7 @@ macro_rules! expr {
         FeltExpr::Var($crate::core::expressions::var_expr::VarExpr::new(
             $name.to_string(),
             Some($crate::core::Felt::from($val)),
+            false,
             false,
         ))
     };
