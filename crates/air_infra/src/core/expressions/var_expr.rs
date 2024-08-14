@@ -104,10 +104,7 @@ where
 {
     fn from(v: VarExpr<T>) -> CompiledAirVar {
         // v is an intermediate variable
-        if v.name.starts_with(CONSTRAINT_INTERMEDIATE_VAR_PREFIX)
-            || v.name.starts_with(DEDUCTION_INTERMEDIATE_VAR_PREFIX)
-            || v.name.starts_with(BOTH_INTERMEDIATE_VAR_PREFIX)
-        {
+        if v.name.starts_with(INTERMEDIATE_VAR_PREFIX) {
             return CompiledAirVar::Var(T::r#type(), v.name);
         }
 

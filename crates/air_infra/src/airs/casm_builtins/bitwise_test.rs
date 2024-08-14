@@ -235,8 +235,8 @@ fn test_failed_and_bitwise_builtin() {
 fn test_big_felt252_bitwise_builtin() {
     let instance_number = expr!("instance_number", 10);
     let air_body_vec = [
-        "deduction_tmp_0 = BitwiseBuiltin_f4e479ac821af69e_input",
-        "Deduction: deduction_tmp_0",
+        "tmp_0 = BitwiseBuiltin_f4e479ac821af69e_input",
+        "Deduction: tmp_0",
         &format!(
             "Felt252::from_m31_({}) = {}({})",
             "[state[1], state[2], state[3], state[4], state[5], \
@@ -260,71 +260,71 @@ fn test_big_felt252_bitwise_builtin() {
             "((const_500 + (state[0] * const_5)) + const_1)",
         ),
         "state[57] = BitwiseXor_e991911c19957b24([state[1], state[29]])",
-        "constraint_tmp_8 = (const_1073741824 * ((state[1] + state[29]) - state[57]))",
+        "tmp_8 = (const_1073741824 * ((state[1] + state[29]) - state[57]))",
         "state[58] = BitwiseXor_e991911c19957b24([state[2], state[30]])",
-        "constraint_tmp_11 = (const_1073741824 * ((state[2] + state[30]) - state[58]))",
+        "tmp_11 = (const_1073741824 * ((state[2] + state[30]) - state[58]))",
         "state[59] = BitwiseXor_e991911c19957b24([state[3], state[31]])",
-        "constraint_tmp_14 = (const_1073741824 * ((state[3] + state[31]) - state[59]))",
+        "tmp_14 = (const_1073741824 * ((state[3] + state[31]) - state[59]))",
         "state[60] = BitwiseXor_e991911c19957b24([state[4], state[32]])",
-        "constraint_tmp_17 = (const_1073741824 * ((state[4] + state[32]) - state[60]))",
+        "tmp_17 = (const_1073741824 * ((state[4] + state[32]) - state[60]))",
         "state[61] = BitwiseXor_e991911c19957b24([state[5], state[33]])",
-        "constraint_tmp_20 = (const_1073741824 * ((state[5] + state[33]) - state[61]))",
+        "tmp_20 = (const_1073741824 * ((state[5] + state[33]) - state[61]))",
         "state[62] = BitwiseXor_e991911c19957b24([state[6], state[34]])",
-        "constraint_tmp_23 = (const_1073741824 * ((state[6] + state[34]) - state[62]))",
+        "tmp_23 = (const_1073741824 * ((state[6] + state[34]) - state[62]))",
         "state[63] = BitwiseXor_e991911c19957b24([state[7], state[35]])",
-        "constraint_tmp_26 = (const_1073741824 * ((state[7] + state[35]) - state[63]))",
+        "tmp_26 = (const_1073741824 * ((state[7] + state[35]) - state[63]))",
         "state[64] = BitwiseXor_e991911c19957b24([state[8], state[36]])",
-        "constraint_tmp_29 = (const_1073741824 * ((state[8] + state[36]) - state[64]))",
+        "tmp_29 = (const_1073741824 * ((state[8] + state[36]) - state[64]))",
         "state[65] = BitwiseXor_e991911c19957b24([state[9], state[37]])",
-        "constraint_tmp_32 = (const_1073741824 * ((state[9] + state[37]) - state[65]))",
+        "tmp_32 = (const_1073741824 * ((state[9] + state[37]) - state[65]))",
         "state[66] = BitwiseXor_e991911c19957b24([state[10], state[38]])",
-        "constraint_tmp_35 = (const_1073741824 * ((state[10] + state[38]) - state[66]))",
+        "tmp_35 = (const_1073741824 * ((state[10] + state[38]) - state[66]))",
         "state[67] = BitwiseXor_e991911c19957b24([state[11], state[39]])",
-        "constraint_tmp_38 = (const_1073741824 * ((state[11] + state[39]) - state[67]))",
+        "tmp_38 = (const_1073741824 * ((state[11] + state[39]) - state[67]))",
         "state[68] = BitwiseXor_e991911c19957b24([state[12], state[40]])",
-        "constraint_tmp_41 = (const_1073741824 * ((state[12] + state[40]) - state[68]))",
+        "tmp_41 = (const_1073741824 * ((state[12] + state[40]) - state[68]))",
         "state[69] = BitwiseXor_e991911c19957b24([state[13], state[41]])",
-        "constraint_tmp_44 = (const_1073741824 * ((state[13] + state[41]) - state[69]))",
+        "tmp_44 = (const_1073741824 * ((state[13] + state[41]) - state[69]))",
         "state[70] = BitwiseXor_e991911c19957b24([state[14], state[42]])",
-        "constraint_tmp_47 = (const_1073741824 * ((state[14] + state[42]) - state[70]))",
+        "tmp_47 = (const_1073741824 * ((state[14] + state[42]) - state[70]))",
         "state[71] = BitwiseXor_e991911c19957b24([state[15], state[43]])",
-        "constraint_tmp_50 = (const_1073741824 * ((state[15] + state[43]) - state[71]))",
+        "tmp_50 = (const_1073741824 * ((state[15] + state[43]) - state[71]))",
         "state[72] = BitwiseXor_e991911c19957b24([state[16], state[44]])",
-        "constraint_tmp_53 = (const_1073741824 * ((state[16] + state[44]) - state[72]))",
+        "tmp_53 = (const_1073741824 * ((state[16] + state[44]) - state[72]))",
         "state[73] = BitwiseXor_e991911c19957b24([state[17], state[45]])",
-        "constraint_tmp_56 = (const_1073741824 * ((state[17] + state[45]) - state[73]))",
+        "tmp_56 = (const_1073741824 * ((state[17] + state[45]) - state[73]))",
         "state[74] = BitwiseXor_e991911c19957b24([state[18], state[46]])",
-        "constraint_tmp_59 = (const_1073741824 * ((state[18] + state[46]) - state[74]))",
+        "tmp_59 = (const_1073741824 * ((state[18] + state[46]) - state[74]))",
         "state[75] = BitwiseXor_e991911c19957b24([state[19], state[47]])",
-        "constraint_tmp_62 = (const_1073741824 * ((state[19] + state[47]) - state[75]))",
+        "tmp_62 = (const_1073741824 * ((state[19] + state[47]) - state[75]))",
         "state[76] = BitwiseXor_e991911c19957b24([state[20], state[48]])",
-        "constraint_tmp_65 = (const_1073741824 * ((state[20] + state[48]) - state[76]))",
+        "tmp_65 = (const_1073741824 * ((state[20] + state[48]) - state[76]))",
         "state[77] = BitwiseXor_e991911c19957b24([state[21], state[49]])",
-        "constraint_tmp_68 = (const_1073741824 * ((state[21] + state[49]) - state[77]))",
+        "tmp_68 = (const_1073741824 * ((state[21] + state[49]) - state[77]))",
         "state[78] = BitwiseXor_e991911c19957b24([state[22], state[50]])",
-        "constraint_tmp_71 = (const_1073741824 * ((state[22] + state[50]) - state[78]))",
+        "tmp_71 = (const_1073741824 * ((state[22] + state[50]) - state[78]))",
         "state[79] = BitwiseXor_e991911c19957b24([state[23], state[51]])",
-        "constraint_tmp_74 = (const_1073741824 * ((state[23] + state[51]) - state[79]))",
+        "tmp_74 = (const_1073741824 * ((state[23] + state[51]) - state[79]))",
         "state[80] = BitwiseXor_e991911c19957b24([state[24], state[52]])",
-        "constraint_tmp_77 = (const_1073741824 * ((state[24] + state[52]) - state[80]))",
+        "tmp_77 = (const_1073741824 * ((state[24] + state[52]) - state[80]))",
         "state[81] = BitwiseXor_e991911c19957b24([state[25], state[53]])",
-        "constraint_tmp_80 = (const_1073741824 * ((state[25] + state[53]) - state[81]))",
+        "tmp_80 = (const_1073741824 * ((state[25] + state[53]) - state[81]))",
         "state[82] = BitwiseXor_e991911c19957b24([state[26], state[54]])",
-        "constraint_tmp_83 = (const_1073741824 * ((state[26] + state[54]) - state[82]))",
+        "tmp_83 = (const_1073741824 * ((state[26] + state[54]) - state[82]))",
         "state[83] = BitwiseXor_e991911c19957b24([state[27], state[55]])",
-        "constraint_tmp_86 = (const_1073741824 * ((state[27] + state[55]) - state[83]))",
+        "tmp_86 = (const_1073741824 * ((state[27] + state[55]) - state[83]))",
         "state[84] = BitwiseXor_e991911c19957b24([state[28], state[56]])",
-        "constraint_tmp_89 = (const_1073741824 * ((state[28] + state[56]) - state[84]))",
+        "tmp_89 = (const_1073741824 * ((state[28] + state[56]) - state[84]))",
         &format!(
             "Memory_59f18133215d0936({}) == {}",
             "[((const_500 + (state[0] * const_5)) + const_2)]",
-            "[constraint_tmp_8, constraint_tmp_11, constraint_tmp_14, constraint_tmp_17, \
-            constraint_tmp_20, constraint_tmp_23, constraint_tmp_26, constraint_tmp_29, \
-            constraint_tmp_32, constraint_tmp_35, constraint_tmp_38, constraint_tmp_41, \
-            constraint_tmp_44, constraint_tmp_47, constraint_tmp_50, constraint_tmp_53, \
-            constraint_tmp_56, constraint_tmp_59, constraint_tmp_62, constraint_tmp_65, \
-            constraint_tmp_68, constraint_tmp_71, constraint_tmp_74, constraint_tmp_77, \
-            constraint_tmp_80, constraint_tmp_83, constraint_tmp_86, constraint_tmp_89]"
+            "[tmp_8, tmp_11, tmp_14, tmp_17, \
+            tmp_20, tmp_23, tmp_26, tmp_29, \
+            tmp_32, tmp_35, tmp_38, tmp_41, \
+            tmp_44, tmp_47, tmp_50, tmp_53, \
+            tmp_56, tmp_59, tmp_62, tmp_65, \
+            tmp_68, tmp_71, tmp_74, tmp_77, \
+            tmp_80, tmp_83, tmp_86, tmp_89]"
         ),
         &format!(
             "Memory_59f18133215d0936({}) == {}",
@@ -339,20 +339,20 @@ fn test_big_felt252_bitwise_builtin() {
         &format!(
             "Memory_59f18133215d0936({}) == {}",
             "[((const_500 + (state[0] * const_5)) + const_4)]",
-            "[(constraint_tmp_8 + state[57]), (constraint_tmp_11 + state[58]), \
-            (constraint_tmp_14 + state[59]), (constraint_tmp_17 + state[60]), \
-            (constraint_tmp_20 + state[61]), (constraint_tmp_23 + state[62]), \
-            (constraint_tmp_26 + state[63]), (constraint_tmp_29 + state[64]), \
-            (constraint_tmp_32 + state[65]), (constraint_tmp_35 + state[66]), \
-            (constraint_tmp_38 + state[67]), (constraint_tmp_41 + state[68]), \
-            (constraint_tmp_44 + state[69]), (constraint_tmp_47 + state[70]), \
-            (constraint_tmp_50 + state[71]), (constraint_tmp_53 + state[72]), \
-            (constraint_tmp_56 + state[73]), (constraint_tmp_59 + state[74]), \
-            (constraint_tmp_62 + state[75]), (constraint_tmp_65 + state[76]), \
-            (constraint_tmp_68 + state[77]), (constraint_tmp_71 + state[78]), \
-            (constraint_tmp_74 + state[79]), (constraint_tmp_77 + state[80]), \
-            (constraint_tmp_80 + state[81]), (constraint_tmp_83 + state[82]), \
-            (constraint_tmp_86 + state[83]), (constraint_tmp_89 + state[84])]"
+            "[(tmp_8 + state[57]), (tmp_11 + state[58]), \
+            (tmp_14 + state[59]), (tmp_17 + state[60]), \
+            (tmp_20 + state[61]), (tmp_23 + state[62]), \
+            (tmp_26 + state[63]), (tmp_29 + state[64]), \
+            (tmp_32 + state[65]), (tmp_35 + state[66]), \
+            (tmp_38 + state[67]), (tmp_41 + state[68]), \
+            (tmp_44 + state[69]), (tmp_47 + state[70]), \
+            (tmp_50 + state[71]), (tmp_53 + state[72]), \
+            (tmp_56 + state[73]), (tmp_59 + state[74]), \
+            (tmp_62 + state[75]), (tmp_65 + state[76]), \
+            (tmp_68 + state[77]), (tmp_71 + state[78]), \
+            (tmp_74 + state[79]), (tmp_77 + state[80]), \
+            (tmp_80 + state[81]), (tmp_83 + state[82]), \
+            (tmp_86 + state[83]), (tmp_89 + state[84])]"
         ),
     ];
     let memory = Memory::new_with_data(vec![

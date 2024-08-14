@@ -18,27 +18,27 @@ fn test_bit_unpacking() {
     let lists = registry.get_compiled_air_fn(&func);
 
     let constraints = [
-        "constraint_tmp_3 = (state[0] - (state[1] * const_2))",
-        "(constraint_tmp_3 * (constraint_tmp_3 - const_1))",
-        "constraint_tmp_5 = (state[1] - (state[2] * const_2))",
-        "(constraint_tmp_5 * (constraint_tmp_5 - const_1))",
-        "constraint_tmp_7 = (state[2] - (state[3] * const_2))",
-        "(constraint_tmp_7 * (constraint_tmp_7 - const_1))",
-        "constraint_tmp_9 = (state[3] - (state[4] * const_2))",
-        "(constraint_tmp_9 * (constraint_tmp_9 - const_1))",
+        "tmp_3 = (state[0] - (state[1] * const_2))",
+        "(tmp_3 * (tmp_3 - const_1))",
+        "tmp_5 = (state[1] - (state[2] * const_2))",
+        "(tmp_5 * (tmp_5 - const_1))",
+        "tmp_7 = (state[2] - (state[3] * const_2))",
+        "(tmp_7 * (tmp_7 - const_1))",
+        "tmp_9 = (state[3] - (state[4] * const_2))",
+        "(tmp_9 * (tmp_9 - const_1))",
         "state[4]",
     ];
 
     let deductions = [
         "BitUnpack_3cfd160c00d5343f_input.as_m31()",
-        "deduction_tmp_2 = (BitUnpack_3cfd160c00d5343f_input >> const_1)",
-        "deduction_tmp_2.as_m31()",
-        "deduction_tmp_4 = (deduction_tmp_2 >> const_1)",
-        "deduction_tmp_4.as_m31()",
-        "deduction_tmp_6 = (deduction_tmp_4 >> const_1)",
-        "deduction_tmp_6.as_m31()",
-        "deduction_tmp_8 = (deduction_tmp_6 >> const_1)",
-        "deduction_tmp_8.as_m31()",
+        "tmp_2 = (BitUnpack_3cfd160c00d5343f_input >> const_1)",
+        "tmp_2.as_m31()",
+        "tmp_4 = (tmp_2 >> const_1)",
+        "tmp_4.as_m31()",
+        "tmp_6 = (tmp_4 >> const_1)",
+        "tmp_6.as_m31()",
+        "tmp_8 = (tmp_6 >> const_1)",
+        "tmp_8.as_m31()",
     ];
 
     assert_eq!(
@@ -93,15 +93,15 @@ fn test_bit_mux() {
     let lists = registry.get_compiled_air_fn(&func);
 
     let constraints = [
-        "constraint_tmp_3 = (state[0] - (state[1] * const_2))",
-        "(constraint_tmp_3 * (constraint_tmp_3 - const_1))",
-        "((constraint_tmp_3 * state[0]) + ((const_1 - constraint_tmp_3) * (state[0] - const_2)))",
+        "tmp_3 = (state[0] - (state[1] * const_2))",
+        "(tmp_3 * (tmp_3 - const_1))",
+        "((tmp_3 * state[0]) + ((const_1 - tmp_3) * (state[0] - const_2)))",
     ];
 
     let deductions = [
         "AirFnBitMux_6ffde77494a1d1e8_input.as_m31()",
-        "deduction_tmp_2 = (AirFnBitMux_6ffde77494a1d1e8_input >> const_1)",
-        "deduction_tmp_2.as_m31()",
+        "tmp_2 = (AirFnBitMux_6ffde77494a1d1e8_input >> const_1)",
+        "tmp_2.as_m31()",
     ];
 
     assert_eq!(

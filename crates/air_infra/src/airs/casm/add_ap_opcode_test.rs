@@ -76,12 +76,12 @@ fn test_add_ap() {
             .collect::<Vec<String>>(),
             vec![
                 &format!(
-                    "deduction_tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
+                    "tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
                     name = add_ap_opcode.name()
                 ),
-                "Deduction: deduction_tmp_0[0]",
-                "Deduction: deduction_tmp_0[1]",
-                "Deduction: deduction_tmp_0[2]",
+                "Deduction: tmp_0[0]",
+                "Deduction: tmp_0[1]",
+                "Deduction: tmp_0[2]",
                 &format!(
                     "({}, {}) = CheckInstruction_9e72ce369e2b66c1(state[0])",
                     check_instruction_offsets,

@@ -122,71 +122,68 @@ fn write_trace_row(
     returned_inputs
         .NarrowFib_1ddf31c88316e62f_inputs
         .push([PackedM31::broadcast(M31::from(1).into()), col0]);
-    let deduction_tmp_1 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([
+    let tmp_1 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([
         PackedM31::broadcast(M31::from(1).into()),
         col0,
     ]);
-    let col1 = deduction_tmp_1[0];
+    let col1 = tmp_1[0];
     dst[1][row_index] = col1;
-    let col2 = deduction_tmp_1[1];
+    let col2 = tmp_1[1];
     dst[2][row_index] = col2;
     returned_inputs
         .NarrowFib_1ddf31c88316e62f_inputs
         .push([col1, col2]);
-    let deduction_tmp_2 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col1, col2]);
-    let col3 = deduction_tmp_2[0];
+    let tmp_2 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col1, col2]);
+    let col3 = tmp_2[0];
     dst[3][row_index] = col3;
-    let col4 = deduction_tmp_2[1];
+    let col4 = tmp_2[1];
     dst[4][row_index] = col4;
     returned_inputs
         .NarrowFib_1ddf31c88316e62f_inputs
         .push([col3, col4]);
-    let deduction_tmp_3 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col3, col4]);
-    let col5 = deduction_tmp_3[0];
+    let tmp_3 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col3, col4]);
+    let col5 = tmp_3[0];
     dst[5][row_index] = col5;
-    let col6 = deduction_tmp_3[1];
+    let col6 = tmp_3[1];
     dst[6][row_index] = col6;
     returned_inputs
         .NarrowFib_1ddf31c88316e62f_inputs
         .push([col5, col6]);
-    let deduction_tmp_4 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col5, col6]);
-    let col7 = deduction_tmp_4[0];
+    let tmp_4 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col5, col6]);
+    let col7 = tmp_4[0];
     dst[7][row_index] = col7;
-    let col8 = deduction_tmp_4[1];
+    let col8 = tmp_4[1];
     dst[8][row_index] = col8;
     returned_inputs
         .NarrowFib_1ddf31c88316e62f_inputs
         .push([col7, col8]);
-    let deduction_tmp_5 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col7, col8]);
-    let col9 = deduction_tmp_5[0];
+    let tmp_5 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col7, col8]);
+    let col9 = tmp_5[0];
     dst[9][row_index] = col9;
-    let col10 = deduction_tmp_5[1];
+    let col10 = tmp_5[1];
     dst[10][row_index] = col10;
     returned_inputs
         .NarrowFib_1ddf31c88316e62f_inputs
         .push([col9, col10]);
-    let deduction_tmp_6 =
-        NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col9, col10]);
-    let col11 = deduction_tmp_6[0];
+    let tmp_6 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col9, col10]);
+    let col11 = tmp_6[0];
     dst[11][row_index] = col11;
-    let col12 = deduction_tmp_6[1];
+    let col12 = tmp_6[1];
     dst[12][row_index] = col12;
     returned_inputs
         .NarrowFib_1ddf31c88316e62f_inputs
         .push([col11, col12]);
-    let deduction_tmp_7 =
-        NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col11, col12]);
-    let col13 = deduction_tmp_7[0];
+    let tmp_7 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col11, col12]);
+    let col13 = tmp_7[0];
     dst[13][row_index] = col13;
-    let col14 = deduction_tmp_7[1];
+    let col14 = tmp_7[1];
     dst[14][row_index] = col14;
     returned_inputs
         .NarrowFib_1ddf31c88316e62f_inputs
         .push([col13, col14]);
-    let deduction_tmp_8 =
-        NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col13, col14]);
-    let col15 = deduction_tmp_8[0];
+    let tmp_8 = NarrowFib_1ddf31c88316e62fSimdTraceGenerator::deduce_output([col13, col14]);
+    let col15 = tmp_8[0];
     dst[15][row_index] = col15;
-    let col16 = deduction_tmp_8[1];
+    let col16 = tmp_8[1];
     dst[16][row_index] = col16;
 }

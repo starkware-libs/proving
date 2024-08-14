@@ -23,12 +23,12 @@ fn test_wide_fibonacci() {
 
     let deductions = [
         "WideFib_65f75fe0ef6c26e3_input",
-        "deduction_tmp_1 = NarrowFib_4b54c5fc8baa9c8a([const_1, state[0]])",
-        "deduction_tmp_1[0]",
-        "deduction_tmp_1[1]",
-        "deduction_tmp_2 = NarrowFib_4b54c5fc8baa9c8a([state[1], state[2]])",
-        "deduction_tmp_2[0]",
-        "deduction_tmp_2[1]",
+        "tmp_1 = NarrowFib_4b54c5fc8baa9c8a([const_1, state[0]])",
+        "tmp_1[0]",
+        "tmp_1[1]",
+        "tmp_2 = NarrowFib_4b54c5fc8baa9c8a([state[1], state[2]])",
+        "tmp_2[0]",
+        "tmp_2[1]",
     ];
 
     assert_eq!(

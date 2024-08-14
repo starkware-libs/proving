@@ -118,12 +118,12 @@ fn test_jump_opcode(
                 .collect::<Vec<String>>(),
             vec![
                 &format!(
-                    "deduction_tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
+                    "tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
                     name = jump_opcode.name()
                 ),
-                "Deduction: deduction_tmp_0[0]",
-                "Deduction: deduction_tmp_0[1]",
-                "Deduction: deduction_tmp_0[2]",
+                "Deduction: tmp_0[0]",
+                "Deduction: tmp_0[1]",
+                "Deduction: tmp_0[2]",
                 check_instruction_call,
                 read_call
             ]

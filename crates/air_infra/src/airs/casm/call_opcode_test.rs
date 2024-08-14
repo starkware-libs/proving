@@ -91,12 +91,12 @@ fn build_and_test(
 
     let expected_air_body = [
         format!(
-            "deduction_tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
+            "tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
             name = call_opcode.name()
         ),
-        "Deduction: deduction_tmp_0[0]".to_string(), // state[0] = pc
-        "Deduction: deduction_tmp_0[1]".to_string(), // state[1] = ap
-        "Deduction: deduction_tmp_0[2]".to_string(), // state[2] = fp
+        "Deduction: tmp_0[0]".to_string(), // state[0] = pc
+        "Deduction: tmp_0[1]".to_string(), // state[1] = ap
+        "Deduction: tmp_0[2]".to_string(), // state[2] = fp
         check_instruction_call,
         format!("{}([state[1]]) == zero_extend([state[2]])", memory.name()),
         format!(

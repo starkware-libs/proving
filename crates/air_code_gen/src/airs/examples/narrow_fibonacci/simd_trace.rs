@@ -107,13 +107,13 @@ fn write_trace_row(
     row_index: usize,
     #[allow(unused_variables)] returned_inputs: &mut ReturnedInputs,
 ) {
-    let deduction_tmp_0 = [
+    let tmp_0 = [
         NarrowFib_1ddf31c88316e62f_input[0],
         NarrowFib_1ddf31c88316e62f_input[1],
     ];
-    let col0 = deduction_tmp_0[0];
+    let col0 = tmp_0[0];
     dst[0][row_index] = col0;
-    let col1 = deduction_tmp_0[1];
+    let col1 = tmp_0[1];
     dst[1][row_index] = col1;
     let col2 = ((col0) * (col0)) + ((col1) * (col1));
     dst[2][row_index] = col2;

@@ -14,7 +14,7 @@ fn test_expr_array() {
     // Let for deduction should change the element's names.
     assert_eq!(&array[0].name(), "x");
     assert_eq!(&array[1].name(), "y");
-    let prefix = format!("{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, 0);
+    let prefix = format!("{}{}", INTERMEDIATE_VAR_PREFIX, 0);
     array = array.let_(prefix.clone());
     assert_eq!(array[0].name(), format!("{}{}", prefix.clone(), "[0]"));
     assert_eq!(array[1].name(), format!("{}{}", prefix, "[1]"));
@@ -48,7 +48,7 @@ fn test_expr_tuple() {
     let mut tup = (bool_expr!("y", true), expr!("x", 5));
     assert!(tup.0.name() == "y");
     assert!(tup.1.name() == "x");
-    let prefix = format!("{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, 0);
+    let prefix = format!("{}{}", INTERMEDIATE_VAR_PREFIX, 0);
     tup = tup.let_(prefix.clone());
     assert!(tup.0.name() == format!("{}{}", prefix.clone(), ".0"));
     assert!(tup.1.name() == format!("{}{}", prefix, ".1"));

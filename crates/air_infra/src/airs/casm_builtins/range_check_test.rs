@@ -11,14 +11,14 @@ use crate::felt252_expr;
 #[test]
 fn test_range_check() {
     let deductions = [
-        "deduction_tmp_0 = ()",
+        "tmp_0 = ()",
         "tmp_1 = external(Seq_dc507a654de89e80)",
-        "deduction_tmp_4 = Memory_59f18133215d0936((const_100 + tmp_1))",
-        "deduction_tmp_4.get_m31(const_0)",
-        "deduction_tmp_4.get_m31(const_1)",
-        "deduction_tmp_4.get_m31(const_2)",
-        "deduction_tmp_4.get_m31(const_3)",
-        "deduction_tmp_5 = RangeCheck5([state[3]])",
+        "tmp_4 = Memory_59f18133215d0936((const_100 + tmp_1))",
+        "tmp_4.get_m31(const_0)",
+        "tmp_4.get_m31(const_1)",
+        "tmp_4.get_m31(const_2)",
+        "tmp_4.get_m31(const_3)",
+        "tmp_5 = RangeCheck5([state[3]])",
     ];
 
     let constraints = [

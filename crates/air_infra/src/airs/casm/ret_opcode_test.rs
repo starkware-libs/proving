@@ -20,19 +20,19 @@ pub fn assemble_ret() -> u64 {
 #[test]
 fn test_ret_opcode() {
     let deductions = [
-        "deduction_tmp_0 = [RetOpcode_8e2acdd96ca43674_input[0], RetOpcode_8e2acdd96ca43674_input[1], RetOpcode_8e2acdd96ca43674_input[2]]",
-        "deduction_tmp_0[0]",
-        "deduction_tmp_0[1]",
-        "deduction_tmp_0[2]",
-        "deduction_tmp_2 = Memory_59f18133215d0936(state[0])",
-        "deduction_tmp_5 = Memory_59f18133215d0936((state[2] - const_1))",
-        "deduction_tmp_5.get_m31(const_0)",
-        "deduction_tmp_5.get_m31(const_1)",
-        "deduction_tmp_5.get_m31(const_2)",
-        "deduction_tmp_6 = Memory_59f18133215d0936((state[2] - const_2))",
-        "deduction_tmp_6.get_m31(const_0)",
-        "deduction_tmp_6.get_m31(const_1)",
-        "deduction_tmp_6.get_m31(const_2)",
+        "tmp_0 = [RetOpcode_8e2acdd96ca43674_input[0], RetOpcode_8e2acdd96ca43674_input[1], RetOpcode_8e2acdd96ca43674_input[2]]",
+        "tmp_0[0]",
+        "tmp_0[1]",
+        "tmp_0[2]",
+        "tmp_2 = Memory_59f18133215d0936(state[0])",
+        "tmp_5 = Memory_59f18133215d0936((state[2] - const_1))",
+        "tmp_5.get_m31(const_0)",
+        "tmp_5.get_m31(const_1)",
+        "tmp_5.get_m31(const_2)",
+        "tmp_6 = Memory_59f18133215d0936((state[2] - const_2))",
+        "tmp_6.get_m31(const_0)",
+        "tmp_6.get_m31(const_1)",
+        "tmp_6.get_m31(const_2)",
     ];
 
     // Register values at opcode start

@@ -427,12 +427,12 @@ fn test_assert_equal(
         let entry = registry.get_air_fn_entry(&assert_equal_opcode);
         let air_body = [
             &format!(
-                "deduction_tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
+                "tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
                 name = assert_equal_opcode.name()
             ),
-            "Deduction: deduction_tmp_0[0]",
-            "Deduction: deduction_tmp_0[1]",
-            "Deduction: deduction_tmp_0[2]",
+            "Deduction: tmp_0[0]",
+            "Deduction: tmp_0[1]",
+            "Deduction: tmp_0[2]",
             &format!(
                 "({}, [{}]) = {}({})",
                 check_instruction_offsets,

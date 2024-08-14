@@ -139,12 +139,12 @@ fn build_and_test(
 
     let expected_air_body_array = [
         &format!(
-            "deduction_tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
+            "tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
             name = jnz_opcode.name()
         ),
-        "Deduction: deduction_tmp_0[0]", // state[0] = pc
-        "Deduction: deduction_tmp_0[1]", // state[1] = ap
-        "Deduction: deduction_tmp_0[2]", // state[2] = fp
+        "Deduction: tmp_0[0]", // state[0] = pc
+        "Deduction: tmp_0[1]", // state[1] = ap
+        "Deduction: tmp_0[2]", // state[2] = fp
         &check_instruction_call,
     ];
     let mut expected_air_body = expected_air_body_array.to_vec();

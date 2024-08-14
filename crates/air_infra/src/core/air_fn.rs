@@ -169,7 +169,7 @@ impl AirBuilder {
     where
         V: AirVar,
     {
-        let name = self.registry.get_deduction_intermediate_var_name();
+        let name = self.registry.get_intermediate_var_name();
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
             var.clone().into(),
@@ -186,7 +186,7 @@ impl AirBuilder {
                 "The mask of the intermediate variable for constraints must be in the trace."
             );
         }
-        let name = self.registry.get_constraint_intermediate_var_name();
+        let name = self.registry.get_intermediate_var_name();
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
             expr.clone().into(),
@@ -203,7 +203,7 @@ impl AirBuilder {
                 "The mask of the intermediate variable for constraints must be in the trace."
             );
         }
-        let name = self.registry.get_both_intermediate_var_name();
+        let name = self.registry.get_intermediate_var_name();
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
             expr.clone().into(),
@@ -278,7 +278,7 @@ impl AirBuilder {
             AirFnEntry::new(&self.registry, air_fn);
         }
 
-        let output_intermediate_name = self.registry.get_deduction_intermediate_var_name();
+        let output_intermediate_name = self.registry.get_intermediate_var_name();
         let mut intermediate = O::new(output_intermediate_name.clone());
 
         #[cfg(test)]
@@ -332,7 +332,7 @@ impl AirBuilder {
         K: AirVar,
         V: AirVar + Default,
     {
-        let value_name = self.registry.get_deduction_intermediate_var_name();
+        let value_name = self.registry.get_intermediate_var_name();
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: memory.name(),
@@ -406,7 +406,7 @@ impl AirBuilder {
             AirFnEntry::new(&self.registry, air_fn);
         }
 
-        let output_name = self.registry.get_both_intermediate_var_name();
+        let output_name = self.registry.get_intermediate_var_name();
         self.air_body.push(AirBodyComponent::AccessExternalColumn(
             AccessExternalColumn {
                 air_fn_name: air_fn.name(),

@@ -15,9 +15,7 @@ use super::expressions::felt_expr::*;
 use super::state::*;
 use super::variables::*;
 
-pub const CONSTRAINT_INTERMEDIATE_VAR_PREFIX: &str = "constraint_tmp_";
-pub const DEDUCTION_INTERMEDIATE_VAR_PREFIX: &str = "deduction_tmp_";
-pub const BOTH_INTERMEDIATE_VAR_PREFIX: &str = "tmp_";
+pub const INTERMEDIATE_VAR_PREFIX: &str = "tmp_";
 
 // AirFnEntry describes everything we know about an Air function.
 #[derive(Debug, Clone, Serialize)]
@@ -293,18 +291,8 @@ impl AirFnRegistry {
         (deductions, constraints)
     }
 
-    pub(super) fn get_deduction_intermediate_var_name(&self) -> String {
+    pub(super) fn get_intermediate_var_name(&self) -> String {
         let index = self.get_intermediate_var_index();
-        format!("{}{}", DEDUCTION_INTERMEDIATE_VAR_PREFIX, index)
-    }
-
-    pub(super) fn get_constraint_intermediate_var_name(&self) -> String {
-        let index = self.get_intermediate_var_index();
-        format!("{}{}", CONSTRAINT_INTERMEDIATE_VAR_PREFIX, index)
-    }
-
-    pub(super) fn get_both_intermediate_var_name(&self) -> String {
-        let index = self.get_intermediate_var_index();
-        format!("{}{}", BOTH_INTERMEDIATE_VAR_PREFIX, index)
+        format!("{}{}", INTERMEDIATE_VAR_PREFIX, index)
     }
 }

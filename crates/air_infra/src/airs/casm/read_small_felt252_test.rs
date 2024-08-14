@@ -27,12 +27,12 @@ fn test_read_30_bits() {
     assert_eq!(state.calc(), ["315", "289", "148", "5"]);
 
     let deduction_vec = [
-        "deduction_tmp_0 = Memory_59f18133215d0936(ReadSmallFelt252_88bbc22de0781573_input)",
-        "deduction_tmp_0.get_m31(const_0)",
-        "deduction_tmp_0.get_m31(const_1)",
-        "deduction_tmp_0.get_m31(const_2)",
-        "deduction_tmp_0.get_m31(const_3)",
-        "deduction_tmp_1 = RangeCheck3([state[3]])",
+        "tmp_0 = Memory_59f18133215d0936(ReadSmallFelt252_88bbc22de0781573_input)",
+        "tmp_0.get_m31(const_0)",
+        "tmp_0.get_m31(const_1)",
+        "tmp_0.get_m31(const_2)",
+        "tmp_0.get_m31(const_3)",
+        "tmp_1 = RangeCheck3([state[3]])",
     ];
     assert_eq!(
         registry
@@ -76,9 +76,9 @@ fn test_read_18_bits() {
     assert_eq!(state.calc(), ["181", "301"]);
 
     let deduction_vec = vec![
-        "deduction_tmp_0 = Memory_59f18133215d0936(ReadSmallFelt252_3eb8c0a330644873_input)",
-        "deduction_tmp_0.get_m31(const_0)",
-        "deduction_tmp_0.get_m31(const_1)",
+        "tmp_0 = Memory_59f18133215d0936(ReadSmallFelt252_3eb8c0a330644873_input)",
+        "tmp_0.get_m31(const_0)",
+        "tmp_0.get_m31(const_1)",
     ];
     assert_eq!(
         registry
