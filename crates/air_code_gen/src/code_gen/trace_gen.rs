@@ -1,8 +1,10 @@
+use core::panic;
 use std::collections::{HashMap, HashSet};
 
 use air_infra::core::compiled_structs::{CompiledAirVar, TraceGenStep};
 use genco::lang::rust;
 use genco::quote;
+use itertools::Itertools;
 
 pub fn generate_trace_writer_code(
     component_name: &str,
@@ -97,7 +99,7 @@ pub fn generate_cpu_write_trace_code(
 
     let mut code = rust::Tokens::new();
     code.extend(quote! {
-            $(generate_write_trace_inputs_return_struct(deductions, air_var_type))
+            $(generate_lookup_data_struct(deductions))
 
             #[allow(clippy::ptr_arg)]
             #[allow(clippy::type_complexity)]
@@ -168,45 +170,42 @@ fn generate_write_trace_trait_body(deductions: &[TraceGenStep]) -> rust::Tokens 
     code
 }
 
-pub fn generate_write_trace_inputs_return_struct<F>(
-    deductions: &[TraceGenStep],
-    generate_air_var_type: F,
-) -> rust::Tokens
-where
-    F: Fn(&CompiledAirVar) -> String,
-{
-    let mut members_code = rust::Tokens::new();
+pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut members_code = quote! {
+        pub self_inputs: Vec<InputType>,
+        pub self_outputs: Vec<OutputType>,
+    };
+    let mut initialization_code = quote! {
+        self_inputs: Vec::with_capacity(capacity),
+        self_outputs: Vec::with_capacity(capacity),
+    };
+
     let mut function_call_multiplicity = HashMap::new();
-    for (fn_name, input_type) in deductions.iter().filter_map(|d| match d {
-        TraceGenStep::Lookup { fn_name, input, .. } => {
-            match function_call_multiplicity.get(fn_name) {
-                Some(multiplicity) => {
-                    function_call_multiplicity.insert(fn_name, multiplicity + 1);
-                    None
-                }
-                None => {
-                    function_call_multiplicity.insert(fn_name, 1);
-                    Some((fn_name, generate_air_var_type(input)))
-                }
-            }
+    for deduction in deductions {
+        if let TraceGenStep::Lookup { fn_name, .. } = deduction {
+            let multiplicity = function_call_multiplicity.entry(fn_name).or_insert(0);
+            *multiplicity += 1;
         }
-        _ => None,
-    }) {
-        members_code.extend(quote!(pub $(fn_name)_inputs:  Vec<$input_type>, ));
     }
 
-    let mut initialization_code = rust::Tokens::new();
     for (fn_name, multiplicity) in function_call_multiplicity {
+        members_code.extend(quote! {
+            pub $(fn_name.to_lowercase())_inputs: [Vec<$(fn_name)::InputType>; $(multiplicity)],
+            pub $(fn_name.to_lowercase())_outputs: [Vec<$(fn_name)::OutputType>; $(multiplicity)],
+        });
+        let inner_vecs = (0..multiplicity)
+            .map(|_| quote! {Vec::with_capacity(capacity),})
+            .collect_vec();
         initialization_code
-            .extend(quote!( $(fn_name)_inputs: Vec::with_capacity(capacity * $multiplicity),));
+            .extend(quote!($(fn_name.to_lowercase())_inputs: [$(inner_vecs.clone())],));
+        initialization_code.extend(quote!($(fn_name.to_lowercase())_outputs: [$(inner_vecs)],));
     }
 
     quote! {
         #[allow(non_snake_case)]
-        pub struct ReturnedInputs
+        pub struct LookupData
         {$(members_code)}
-
-        impl ReturnedInputs {
+        impl LookupData {
             #[allow(unused_variables)]
             fn with_capacity(capacity: usize) -> Self {
                 Self {$(initialization_code)}
@@ -320,7 +319,7 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep], backend: &str
         if let TraceGenStep::Lookup { fn_name, .. } = deduction {
             if seen_functions.insert(fn_name) {
                 code.extend(quote! {
-                    use crate::airs::examples::$(fn_name)$(backend)TraceGenerator;
+                    use crate::airs::examples::$(fn_name);
                 });
             }
         }
@@ -367,7 +366,7 @@ fn parse_inputs_cpu_type(inputs_var: &CompiledAirVar) -> String {
 // Use only when we need the name of the input variable.
 pub fn air_var_input_name(input_expr: &CompiledAirVar) -> String {
     match input_expr {
-        CompiledAirVar::Var(_, id) => id.to_string(),
+        CompiledAirVar::Var(_, id) => id.to_string().to_lowercase(),
         CompiledAirVar::Tuple(_) => {
             panic!("Tuple not supported yet.")
         }
@@ -377,7 +376,7 @@ pub fn air_var_input_name(input_expr: &CompiledAirVar) -> String {
             .unwrap()
             .to_string(),
 
-        _ => panic!("Only variables, tuples, arrays are supported as input."),
+        _ => panic!("Only Var and Array are supported."),
     }
 }
 

@@ -1,18 +1,15 @@
+use std::collections::HashSet;
 use std::fs;
 use std::path::{Path, PathBuf};
 
 use air_infra::core::air_fn::AirFn;
 use air_infra::core::air_fn_registry::AirFnRegistry;
+use air_infra::core::compiled_structs::{ConstraintEvalStep, TraceGenStep};
 use itertools::Itertools;
 use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
-use crate::code_gen::component_gen::generate_component;
-use crate::code_gen::cpu_prover_gen::generate_cpu_prover_component;
-use crate::code_gen::simd_prover_gen::generate_simd_prover_component;
-use crate::code_gen::simd_trace_gen::generate_simd_trace_writer_code;
-use crate::code_gen::test_utils_gen::generate_test_air_code;
-use crate::code_gen::trace_gen::generate_trace_writer_code;
+use crate::code_gen::simd_trace_gen::generate_simd_claim_provers;
 
 pub fn project_root() -> PathBuf {
     std::path::PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap())
@@ -37,37 +34,16 @@ pub fn reformat_rust_code_inner(code_text: String) -> String {
     stdout
 }
 
+// Generates the prover & verifier code.
 pub fn dump_component_code(air_fn: &impl AirFn, folder_path: &Path) {
     let resigtry = AirFnRegistry::new(air_fn);
 
     let lists = resigtry.get_compiled_air_fn(air_fn);
-    let air_entry = resigtry.get_air_fn_entry(air_fn);
-    let trace_tokens = generate_trace_writer_code(&air_entry.name, &lists.input, &lists.deductions);
-    let simd_trace_tokens = generate_simd_trace_writer_code(
-        &air_entry.name,
-        &lists.input.clone(),
-        &lists.deductions.clone(),
-    );
-    let cpu_prover_tokens =
-        generate_cpu_prover_component(&air_entry.name, &lists.constraints.clone());
-    let simd_prover_tokens =
-        generate_simd_prover_component(&air_entry.name, &lists.constraints.clone());
-    let component_tokens = generate_component(&air_entry.name, lists, &air_entry);
-    let test_utils_tokens = generate_test_air_code(&air_entry.name);
+    let claim_provers = generate_simd_claim_provers(&lists);
 
     // Write the generated code to files.
-    let text = reformat_rust_code(trace_tokens.to_string().unwrap());
-    fs::write(folder_path.join("trace.rs"), text).unwrap();
-    let text = reformat_rust_code(simd_trace_tokens.to_string().unwrap());
-    fs::write(folder_path.join("simd_trace.rs"), text).unwrap();
-    let text = reformat_rust_code(cpu_prover_tokens.to_string().unwrap());
-    fs::write(folder_path.join("cpu_prover.rs"), text).unwrap();
-    let text = reformat_rust_code(simd_prover_tokens.to_string().unwrap());
-    fs::write(folder_path.join("simd_prover.rs"), text).unwrap();
-    let text = reformat_rust_code(component_tokens.to_string().unwrap());
-    fs::write(folder_path.join("component.rs"), text).unwrap();
-    let text = reformat_rust_code(test_utils_tokens.to_string().unwrap());
-    fs::write(folder_path.join("test_utils.rs"), text).unwrap();
+    let text = reformat_rust_code(claim_provers.to_string().unwrap());
+    fs::write(folder_path.join("prover.rs"), text).unwrap();
 }
 
 pub fn assert_generated_code_unchanged(air_fn: &impl AirFn, folder_path: &Path) {
@@ -103,6 +79,64 @@ pub fn assert_generated_code_unchanged(air_fn: &impl AirFn, folder_path: &Path) 
             exisitng_file_path.display()
         );
     }
+}
+
+pub fn fn_calls_from_constraints(constraints: &[ConstraintEvalStep]) -> Vec<String> {
+    constraints
+        .iter()
+        .filter_map(|constraint| {
+            if let ConstraintEvalStep::LookupConstraint { fn_name, .. } = constraint {
+                Some(fn_name.to_string())
+            } else {
+                None
+            }
+        })
+        .collect()
+}
+
+pub fn fn_calls_from_deductions(deductions: &[TraceGenStep]) -> Vec<String> {
+    deductions
+        .iter()
+        .filter_map(|deduction| {
+            if let TraceGenStep::Lookup { fn_name, .. } = deduction {
+                Some(fn_name.to_string())
+            } else {
+                None
+            }
+        })
+        .collect()
+}
+
+pub fn unique_constraint_function_calls(constraints: &[ConstraintEvalStep]) -> Vec<String> {
+    let function_calls = fn_calls_from_constraints(constraints);
+    let mut seen_functions = HashSet::new();
+    function_calls
+        .into_iter()
+        .filter(|fn_name| seen_functions.insert(fn_name.to_string()))
+        .collect()
+}
+
+pub fn unique_deduction_function_calls(deductions: &[TraceGenStep]) -> Vec<String> {
+    let function_calls = fn_calls_from_deductions(deductions);
+    let mut seen_functions = HashSet::new();
+    function_calls
+        .into_iter()
+        .filter(|fn_name| seen_functions.insert(fn_name.to_string()))
+        .collect()
+}
+
+pub fn n_function_calls(constraints: &[ConstraintEvalStep]) -> usize {
+    constraints
+        .iter()
+        .filter(|c| matches!(c, ConstraintEvalStep::LookupConstraint { .. }))
+        .count()
+}
+
+pub fn n_trace_cells(deductions: &[TraceGenStep]) -> usize {
+    deductions
+        .iter()
+        .filter(|c| matches!(c, TraceGenStep::Deduction(_)))
+        .count()
 }
 
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'

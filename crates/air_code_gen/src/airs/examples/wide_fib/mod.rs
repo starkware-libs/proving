@@ -1,28 +1,24 @@
-pub mod component;
-pub mod cpu_prover;
-pub mod simd_prover;
-pub mod simd_trace;
-pub mod test_utils;
-pub mod trace;
+pub mod prover;
+
+// TODO(Ohad): auto gen and remove.
+pub struct Claim {
+    pub log_size: u32,
+    pub n_calls: usize,
+}
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
 
     use air_infra::airs::examples::fibonacci::wide_fib::WideFib;
-    use air_infra::core::air_fn_registry::AirFnRegistry;
-    use itertools::{all, izip, Itertools};
+    use itertools::Itertools;
+    use num_traits::One;
+    use stwo_prover::core::backend::simd::column::BaseColumn;
     use stwo_prover::core::backend::simd::m31::PackedM31;
     use stwo_prover::core::fields::m31::M31;
 
-    use super::component::WideFib_d7cf24d545e710f9;
-    use super::trace::write_trace_cpu;
-    use crate::airs::examples::narrow_fibonacci::trace::NarrowFib_1ddf31c88316e62fCpuTraceGenerator;
-    use crate::airs::examples::wide_fib::simd_trace::write_trace_simd;
-    use crate::code_gen::packed_types::N_LANES;
-    use crate::code_gen::simd_trace_gen::generate_simd_trace_writer_code;
-    use crate::code_gen::trace_gen::generate_trace_writer_code;
-    use crate::code_gen::utils::{project_root, reformat_rust_code};
+    use super::prover::write_trace_simd;
+    use crate::airs::examples::NarrowFib_1ddf31c88316e62f;
+    use crate::code_gen::utils::{compare_contents_or_fix_with_path, project_root};
 
     #[test]
     fn wide_fib_code_gen() {
@@ -30,114 +26,39 @@ mod tests {
             num_narrow: 8,
             narrow_size: 20,
         };
-        let resigtry = AirFnRegistry::new(&air_fn);
-
         let mut folder_path = project_root();
         folder_path.push("src/airs/examples/wide_fib");
-
-        let air_entry = resigtry.get_air_fn_entry(&air_fn);
-        let lists = resigtry.get_compiled_air_fn(&air_fn);
-        let name = air_entry.name;
-        let trace_tokens = generate_trace_writer_code(&name, &lists.input, &lists.deductions);
-        let simd_trace_tokens =
-            generate_simd_trace_writer_code(&name, &lists.input, &lists.deductions);
-        // Write the generated code to files.
-        let text = reformat_rust_code(trace_tokens.to_string().unwrap());
-        fs::write(folder_path.join("trace.rs"), text).unwrap();
-        let text = reformat_rust_code(simd_trace_tokens.to_string().unwrap());
-        fs::write(folder_path.join("simd_trace.rs"), text).unwrap();
+        compare_contents_or_fix_with_path(&air_fn, &folder_path);
     }
 
     #[test]
     fn wide_fib_test_write_trace() {
-        let wide_fib_component = WideFib_d7cf24d545e710f9 { log_n_instances: 6 };
+        let log_n_instances = 6;
+        let inputs = BaseColumn::from_iter((0..1 << log_n_instances).map(M31::from));
 
-        let secrets = (0..1 << wide_fib_component.log_n_instances)
-            .map(M31::from)
-            .collect::<Vec<_>>();
-
-        let trace = write_trace_cpu(&wide_fib_component, &secrets).0;
+        let trace = write_trace_simd(inputs.data)
+            .0
+            .iter()
+            .map(|x| x.data.to_vec())
+            .collect_vec();
 
         for j in 0..trace[0].len() {
             for i in 0..((trace.len() / 2) - 1) {
                 let input = if i == 0 {
-                    [M31::from(1), trace[0][j]]
+                    [PackedM31::one(), trace[0][j]]
                 } else {
                     [trace[2 * i - 1][j], trace[2 * i][j]]
                 };
                 let output = [trace[2 * i + 1][j], trace[2 * i + 2][j]];
                 assert_eq!(
-                    output,
-                    NarrowFib_1ddf31c88316e62fCpuTraceGenerator::deduce_output(input)
-                )
+                    output[0].to_array(),
+                    NarrowFib_1ddf31c88316e62f::deduce_output(input)[0].to_array()
+                );
+                assert_eq!(
+                    output[1].to_array(),
+                    NarrowFib_1ddf31c88316e62f::deduce_output(input)[1].to_array()
+                );
             }
         }
-    }
-
-    #[test]
-    fn wide_fib_test_write_trace_inputs() {
-        let wide_fib_component = WideFib_d7cf24d545e710f9 { log_n_instances: 6 };
-
-        let secrets = (0..1 << wide_fib_component.log_n_instances)
-            .map(M31::from)
-            .collect::<Vec<_>>();
-
-        let (trace, inputs) = write_trace_cpu(&wide_fib_component, &secrets);
-
-        let const_1_column = vec![M31::from(1); trace[0].len()];
-        let trace_column_0 = trace[0].to_vec();
-        let inputs_0 = inputs
-            .NarrowFib_1ddf31c88316e62f_inputs
-            .iter()
-            .copied()
-            .step_by(8);
-        izip!(const_1_column, trace_column_0, inputs_0)
-            .for_each(|(one, trace_0, input)| assert_eq!([one, trace_0], input));
-
-        let trace_column_13 = trace[13].to_vec();
-        let trace_column_14 = trace[14].to_vec();
-        let inputs_7 = inputs
-            .NarrowFib_1ddf31c88316e62f_inputs
-            .iter()
-            .skip(7)
-            .copied()
-            .step_by(8);
-        izip!(trace_column_13, trace_column_14, inputs_7)
-            .for_each(|(trace_13, trace_14, input)| assert_eq!([trace_13, trace_14], input));
-    }
-
-    #[test]
-    fn wide_fib_simd_trace_test() {
-        let wide_fib_component = WideFib_d7cf24d545e710f9 { log_n_instances: 8 };
-
-        let secrets = (0..1 << wide_fib_component.log_n_instances)
-            .map(M31::from)
-            .collect::<Vec<_>>();
-        let raw_cpu_trace = write_trace_cpu(&wide_fib_component, &secrets)
-            .0
-            .into_iter()
-            .map(|eval| eval.as_slice().to_vec())
-            .collect_vec();
-        let simd_secrets = secrets
-            .into_iter()
-            .array_chunks::<N_LANES>()
-            .map(PackedM31::from_array)
-            .collect_vec();
-
-        let raw_simd_trace = write_trace_simd(&wide_fib_component, &simd_secrets)
-            .0
-            .into_iter()
-            .map(|eval| eval.as_slice().to_vec())
-            .collect_vec();
-
-        assert!(all(
-            raw_cpu_trace.iter().zip_eq(raw_simd_trace),
-            |(cpu_col, simd_col)| {
-                cpu_col
-                    .iter()
-                    .zip_eq(simd_col)
-                    .all(|(&cpu, simd)| cpu == simd)
-            }
-        ))
     }
 }

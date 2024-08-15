@@ -1,50 +1,65 @@
-use std::collections::HashSet;
+use std::collections::HashMap;
 
-use air_infra::core::compiled_structs::{CompiledAirVar, TraceGenStep};
+use air_infra::core::compiled_structs::{CompiledAirFn, CompiledAirVar, TraceGenStep};
 use genco::lang::rust;
 use genco::quote;
 
-use super::trace_gen::{air_var_input_name, generate_write_trace_inputs_return_struct};
+use super::trace_gen::{air_var_input_name, generate_lookup_data_struct};
+use super::utils::{n_trace_cells, unique_deduction_function_calls};
 use crate::code_gen::trace_gen::generate_sub_component_imports;
 
-pub fn generate_simd_trace_writer_code(
-    component_name: &str,
-    input: &CompiledAirVar,
-    deductions: &[TraceGenStep],
-) -> rust::Tokens {
-    let imports_code = generate_imports_code(component_name, deductions);
-    let struct_code = generate_simd_trace_gen_struct_code(component_name, input);
-    let impl_code = generate_trace_gen_impl_code(component_name, input, deductions);
-    let write_trace_code = generate_simd_write_trace_code(component_name, input, deductions);
+// TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
+pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
+    let imports_code = generate_imports_code(&lists.deductions);
+    let typedefs = generate_input_output_typedefs(lists);
+    let claim_generator_code = generate_claim_generator_struct();
+    let claim_prover_code = generate_claim_prover_struct();
+    let claim_generator_impl_code = generate_claim_generator_impl(&lists.deductions);
+    let lookup_data_code = generate_lookup_data_struct(&lists.deductions);
+    let write_trace_code = generate_simd_write_trace_code(lists);
 
-    let mut code = rust::Tokens::new();
-    code.extend(imports_code);
-    code.extend(struct_code);
-    code.extend(impl_code);
-    code.extend(write_trace_code);
-    code
+    quote! {
+        $(imports_code)
+        $['\n']
+        $(typedefs)
+        $['\n']
+        $(claim_generator_code)
+        $(claim_generator_impl_code)
+        $['\n']
+        $(claim_prover_code)
+        $['\n']
+        $(lookup_data_code)
+        $['\n']
+        $(write_trace_code)
+    }
 }
 
 /// Outputs the code for the write_trace function.
 #[allow(dead_code)]
-pub fn generate_simd_write_trace_row_code(
-    input: &CompiledAirVar,
-    deductions: &[TraceGenStep],
-) -> rust::Tokens {
-    // Generate the parameters for the write_trace function.
-    let write_trace_params = quote! {
-        $(air_var_input_name(input)): $(air_var_type_simd(input))
+fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
+    // Generate the parameters for the write_trace_row function.
+    let mut write_trace_row_params = quote! {
+        dst: &mut [Col<SimdBackend, M31>],
+        $(air_var_input_name(&lists.input)): InputType,
+        row_index: usize,
+        lookup_data: &mut LookupData,
     };
+    write_trace_row_params.extend(generate_stateful_component_params(&lists.deductions));
 
     // Generate the body of the write_trace function.
     let mut write_trace_body = rust::Tokens::new();
     let mut offset = 0;
-    for deduction in deductions {
+    let mut function_call_multiplicitiy = HashMap::new();
+    for fn_call in unique_deduction_function_calls(&lists.deductions) {
+        function_call_multiplicitiy.insert(fn_call, 0);
+    }
+
+    for deduction in &lists.deductions {
         match deduction {
             TraceGenStep::Deduction(expr) => {
                 write_trace_body.append(quote! {
                     let col$(offset) = $(simd_parse_air_var(expr));
-                    dst[$(offset)][row_index] = col$(offset);
+                    dst[$(offset)].data[row_index] = col$(offset);
                 });
                 offset += 1;
             }
@@ -58,12 +73,16 @@ pub fn generate_simd_write_trace_row_code(
                 input,
                 output_name,
             } => {
+                let multiplicity = function_call_multiplicitiy.get_mut(fn_name).unwrap();
+                let input = simd_parse_air_var(input);
                 write_trace_body.extend(quote! {
-
-                    returned_inputs.$(fn_name)_inputs.push($(simd_parse_air_var(input)));
-                    let $(output_name) =
-                        $(fn_name)SimdTraceGenerator::deduce_output($(simd_parse_air_var(input)));
+                    lookup_data.$(&fn_name.to_lowercase())_inputs[$(multiplicity.to_string())].push($(&input));
+                    let $(output_name) = $(fn_name)::deduce_output(
+                        $(input)
+                    );
+                    lookup_data.$(fn_name.to_lowercase())_outputs[$(multiplicity.to_string())].push($(output_name));
                 });
+                *multiplicity += 1;
             }
             // TODO: Implement.
             TraceGenStep::AccessExternalColumn {
@@ -73,169 +92,194 @@ pub fn generate_simd_write_trace_row_code(
         }
     }
 
+    // Insert input..output values into lookup_data.
+    write_trace_body.extend(quote! {
+        $['\n']
+        lookup_data.self_inputs.push($(air_var_input_name(&lists.input)));
+        lookup_data.self_outputs.push($(simd_parse_air_var(&lists.output)));
+    });
+
     // Generate the final write_trace_row function.
     let mut code = rust::Tokens::new();
     code.extend(quote! {
-        #[allow(non_snake_case)]
         #[allow(clippy::useless_conversion)]
-        #[allow(clippy::type_complexity)]
-        fn write_trace_row(dst: &mut [Vec<PackedM31>],
-            $(write_trace_params), row_index: usize,
+        fn write_trace_row(
             #[allow(unused_variables)]
-            returned_inputs: &mut ReturnedInputs){
+            $(write_trace_row_params)){
             $(write_trace_body)
         }
-        $['\n']
     });
     code
 }
 
 #[allow(dead_code)]
-pub fn generate_simd_write_trace_code(
-    component_name: &str,
-    input: &CompiledAirVar,
-    deductions: &[TraceGenStep],
-) -> rust::Tokens {
-    let input_type = parse_inputs_simd_type(input);
+fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     code.extend(quote! {
-        $(generate_write_trace_inputs_return_struct(deductions, air_var_type_simd))
-
-        #[allow(clippy::ptr_arg)]
-        #[allow(clippy::type_complexity)]
-        #[allow(clippy::let_unit_value)]
         pub fn write_trace_simd(
-            component: &$component_name,
-            secrets: &$(&input_type),
-        ) -> (Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>> , ReturnedInputs) {
-            let n_trace_columns = component.trace_log_degree_bounds()[0].len();
-            let mut trace_values =
-                        vec![vec![PackedM31::zero(); secrets.len()]; n_trace_columns];
-            let mut sub_components_inputs = ReturnedInputs::with_capacity(secrets.len());
-            secrets
-                .iter()
-                .enumerate()
-                .for_each(|(i, secret)| {
-                    write_trace_row(&mut trace_values, *secret, i, &mut sub_components_inputs)
-                });
-
-            let trace = trace_values.into_iter()
-                .map(|eval| {
-                    let length = eval.len() * N_LANES;
-                    let eval = BaseFieldVec{
-                        data: eval,
-                        length,
-                    };
-
-                    let trace_domain = CanonicCoset::new(length.checked_ilog2()
-                        .expect("Input not a power of 2!")).circle_domain();
-                    CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(
-                        trace_domain,
-                        eval,
-                    )
-                })
+            inputs: $(vec_of_type("InputType")),
+        ) -> (Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>, LookupData) {
+            let n_trace_columns = $(n_trace_cells(&lists.deductions));
+            let mut trace_values = (0..n_trace_columns)
+                .map(|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES))
                 .collect_vec();
+            let mut sub_components_inputs = LookupData::with_capacity(inputs.len());
+            inputs.into_iter().enumerate().for_each(|(i, input)| {
+                write_trace_row(
+                    &mut trace_values,
+                    input,
+                    i,
+                    &mut sub_components_inputs,
+                );
+            });
 
-            (trace, sub_components_inputs)
+            let trace = trace_values
+                .into_iter()
+                .map(|eval| {
+                 // TODO(Ohad): Support non-power of 2 inputs.
+                    let domain = CanonicCoset::new(
+                        eval.len()
+                        .checked_ilog2()
+                    .expect("Input is not a power of 2!"),
+                )
+            .circle_domain();
+            CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
+        })
+        .collect_vec();
+
+    (trace, sub_components_inputs)
         }
         $['\n']
     });
-    code.extend(generate_simd_write_trace_row_code(input, deductions));
+    code.extend(generate_simd_write_trace_row_code(lists));
     code
 }
 
-pub fn generate_simd_trace_gen_struct_code(
-    component_name: &str,
-    input: &CompiledAirVar,
-) -> rust::Tokens {
-    let input_ty = parse_inputs_simd_type(input);
-    let struct_name = trace_gen_struct_name(component_name, "Simd");
-    let mut code = rust::Tokens::new();
-    code.extend(quote! {
-        #[allow(non_camel_case_types)]
+fn generate_input_output_typedefs(lists: &CompiledAirFn) -> rust::Tokens {
+    let input_ty = air_var_type_simd(&lists.input);
+    let output_ty = air_var_type_simd(&lists.output);
+    quote! {
+        pub type InputType = $(input_ty);
+        pub type OutputType = $(output_ty);
+    }
+}
+
+fn generate_claim_generator_struct() -> rust::Tokens {
+    quote! {
         #[derive(Default)]
-        pub struct $(&struct_name) {
-            pub inputs: $input_ty,
+        pub struct ClaimGenerator {
+            pub inputs: $(vec_of_type("InputType")),
         }
-        impl ComponentGen for $struct_name {}
-        $['\n']
-    });
-    code
+    }
+}
+fn generate_claim_prover_struct() -> rust::Tokens {
+    quote! {
+
+        pub struct ClaimProver {
+            pub claim: Claim,
+            pub lookup_data: LookupData,
+        }
+    }
 }
 
-fn trace_gen_struct_name(component_name: &str, backend: &str) -> String {
-    format!("{}{}TraceGenerator", component_name, backend)
-}
-
-pub fn generate_trace_gen_impl_code(
-    component_name: &str,
-    input: &CompiledAirVar,
-    deductions: &[TraceGenStep],
-) -> rust::Tokens {
-    let struct_name = trace_gen_struct_name(component_name, "Simd");
-    let inputs_ty = parse_inputs_simd_type(input);
-    let mut code = rust::Tokens::new();
-    code.extend(quote! {
-        impl TraceGenerator<SimdBackend> for $(&struct_name) {
-            type Component = $component_name;
-            type Inputs = $(&inputs_ty);
-
-            fn write_trace(
-                component_id: &str,
-                registry: &mut ComponentGenerationRegistry,
-            ) -> Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>> {
+fn generate_claim_generator_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
+    quote! {
+        impl ClaimGenerator {
+            pub fn write_trace(
+                self,
+                tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
+                $(generate_sub_component_params(deductions))
+            ) -> ClaimProver {
                 $(write_trace_body_simd(deductions))
             }
 
-            fn add_inputs(
+            pub fn add_inputs(
                 &mut self,
-                inputs: &Self::Inputs,
+                inputs: &[InputType],
             ) {
                 $(add_inputs_simd_body());
             }
-
-            // TODO(Ohad): extend this to support non-power of 2 inputs.
-            fn component(&self) -> $component_name {
-                $(to_component_simd_body(component_name))
-            }
         }
-        $['\n']
-    });
-    code
+    }
+}
+
+fn generate_sub_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut params = rust::Tokens::new();
+    for fn_name in unique_deduction_function_calls(deductions).iter() {
+        params.extend(quote! {
+            $(fn_name.to_lowercase())_state: &mut $(fn_name)::ClaimGenerator,
+        });
+    }
+    params
+}
+
+// If the component calls for memory, it needs to be passed to the write_trace function.
+fn generate_stateful_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut params = rust::Tokens::new();
+    for fn_name in unique_deduction_function_calls(deductions).iter() {
+        // TODO(Ohad): get information about which function is stateful.
+        let mut stateful = false;
+        if fn_name.to_lowercase().contains("mem") {
+            stateful = true;
+        }
+
+        if stateful {
+            params.extend(quote! {
+                $(fn_name.to_lowercase())_state: &mut $(fn_name)::ClaimGenerator,
+            });
+        }
+    }
+    params
+}
+
+fn generate_stateful_component_args(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut args = quote!(self.inputs);
+    for fn_name in unique_deduction_function_calls(deductions).iter() {
+        // TODO(Ohad): get information about which function is stateful.
+        let mut stateful = false;
+        if fn_name.to_lowercase().contains("mem") {
+            stateful = true;
+        }
+
+        if stateful {
+            args.extend(quote! {
+                $(fn_name.to_lowercase())_state,
+            });
+        }
+    }
+    args
+}
+
+fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut statement = rust::Tokens::new();
+    for fn_name in unique_deduction_function_calls(deductions).iter() {
+        statement.extend(quote! {
+            lookup_data.$(fn_name.to_lowercase())_inputs.iter().for_each(|inputs| {
+                $(fn_name.to_lowercase())_state.add_inputs(inputs);
+            })
+        })
+    }
+    statement
 }
 
 fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
-    let mut code = rust::Tokens::new();
-    code.extend(quote! {let generator = registry.get_generator::<Self>(component_id);});
-    code.extend (
-            quote! {
-                #[allow(unused_variables)]
-                let (trace, sub_component_inputs) = write_trace_simd(&generator.component(), &generator.inputs);
-            });
+    quote! {
+        let len = self.inputs.len();
+        let (trace, lookup_data) =
+                write_trace_simd($(generate_stateful_component_args(deductions)));
+        $(generate_sub_component_add_inputs(deductions));
 
-    let mut seen_functions = HashSet::new();
-    for fn_name in deductions.iter().filter_map(|d| match d {
-        TraceGenStep::Lookup { fn_name, .. } => {
-            if seen_functions.insert(fn_name) {
-                Some(fn_name)
-            } else {
-                None
-            }
+        tree_builder.extend_evals(trace);
+        let claim = Claim {
+            log_size: len.ilog2() + LOG_N_LANES,
+            n_calls: len * N_LANES,
+        };
+
+        ClaimProver {
+            claim,
+            lookup_data,
         }
-        _ => None,
-    }) {
-        let component_id = format!("\"{}\"", fn_name);
-        code.extend(quote! {
-            registry.get_generator_mut::<$(fn_name)SimdTraceGenerator>($component_id)
-                    .add_inputs(&sub_component_inputs.$(fn_name)_inputs);
-        });
     }
-
-    code.extend(quote! {
-        trace
-    });
-
-    code
 }
 
 // TODO(Ohad): add logic.
@@ -245,18 +289,7 @@ fn add_inputs_simd_body() -> rust::Tokens {
     }
 }
 
-// TODO(Ohad): add logic.
-fn to_component_simd_body(component_name: &str) -> rust::Tokens {
-    quote! {
-        $component_name {
-            log_n_instances : self.inputs.len().checked_ilog2().
-                            expect("Input not a power of 2!")
-                            + LOG_N_LANES,
-        }
-    }
-}
-
-fn generate_imports_code(component_name: &str, deductions: &[TraceGenStep]) -> rust::Tokens {
+fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(unused_imports)]
         use std::iter::zip;
@@ -265,24 +298,24 @@ fn generate_imports_code(component_name: &str, deductions: &[TraceGenStep]) -> r
         use itertools::Itertools;
         use num_traits::Zero;
         use stwo_prover::core::air::Component;
-        use stwo_prover::core::backend::simd::column::BaseFieldVec;
         use stwo_prover::core::backend::simd::m31::PackedM31;
         use stwo_prover::core::backend::simd::SimdBackend;
+        use stwo_prover::core::backend::{Col, Column};
         use stwo_prover::core::fields::m31::M31;
+        use stwo_prover::core::pcs::TreeBuilder;
         use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
         use stwo_prover::core::poly::BitReversedOrder;
+        use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
         use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
-        use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
         use crate::code_gen::packed_types::*;
-        use super::component::$component_name;
+        use super::Claim;
         $(generate_sub_component_imports(deductions, "Simd"))
-        $['\n']
     }
 }
 
 /// Parses a `CompiledAirVar` into a string for the write_trace function.
-pub fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
+fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
     match expr {
         CompiledAirVar::Const(ty, val) => {
             format!(
@@ -292,7 +325,7 @@ pub fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
                 val
             )
         }
-        CompiledAirVar::Var(_, id) => id.to_string(),
+        CompiledAirVar::Var(_, id) => id.to_lowercase(),
         CompiledAirVar::State(index) => {
             format!("col{}", index)
         }
@@ -355,10 +388,8 @@ fn packed_name(ty: &str) -> String {
     format!("Packed{}", ty)
 }
 
-// Parses the collection type of the input.
-// E.g. for a M31 input, it will return Vec<M31>.
-fn parse_inputs_simd_type(inputs_var: &CompiledAirVar) -> String {
-    format!("Vec<{}>", air_var_type_simd(inputs_var))
+fn vec_of_type(ty: &str) -> String {
+    format!("Vec<{}>", ty)
 }
 
 pub fn air_var_type_simd(expr: &CompiledAirVar) -> String {
