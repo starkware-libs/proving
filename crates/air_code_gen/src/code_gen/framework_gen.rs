@@ -61,6 +61,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
         pub n_calls: usize,
     });
     let struct_code = quote! {
+        #[derive(Copy, Clone)]
         pub struct Claim {
             $(members)
         }
@@ -202,7 +203,12 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         );
     });
 
-    code.append("eval");
+    code.extend(quote! {
+
+        logup.finalize(&mut eval);
+
+        eval
+    });
     code
 }
 

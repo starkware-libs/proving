@@ -2,10 +2,12 @@
 use std::iter::zip;
 
 use air_infra::core::prover_types::*;
-use itertools::Itertools;
-use num_traits::Zero;
+use itertools::{chain, zip_eq, Itertools};
+use num_traits::{One, Zero};
+use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::core::air::Component;
 use stwo_prover::core::backend::simd::m31::PackedM31;
+use stwo_prover::core::backend::simd::qm31::PackedQM31;
 use stwo_prover::core::backend::simd::SimdBackend;
 use stwo_prover::core::backend::{Col, Column};
 use stwo_prover::core::fields::m31::M31;
@@ -15,12 +17,50 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 
-use super::component::{Claim, InteractionClaim};
+use super::component::{Claim, ComponentLookupElements, InteractionClaim};
 use crate::airs::examples::NarrowFib_1ddf31c88316e62f;
 use crate::code_gen::packed_types::*;
+use crate::AirFuncIO;
 
 pub type InputType = PackedM31;
 pub type OutputType = PackedM31;
+
+#[allow(non_snake_case)]
+pub struct LookupData {
+    pub self_inputs: Vec<InputType>,
+    pub self_outputs: Vec<OutputType>,
+    pub narrowfib_1ddf31c88316e62f_inputs: [Vec<NarrowFib_1ddf31c88316e62f::InputType>; 8],
+    pub narrowfib_1ddf31c88316e62f_outputs: [Vec<NarrowFib_1ddf31c88316e62f::OutputType>; 8],
+}
+impl LookupData {
+    #[allow(unused_variables)]
+    fn with_capacity(capacity: usize) -> Self {
+        Self {
+            self_inputs: Vec::with_capacity(capacity),
+            self_outputs: Vec::with_capacity(capacity),
+            narrowfib_1ddf31c88316e62f_inputs: [
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+            ],
+            narrowfib_1ddf31c88316e62f_outputs: [
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+            ],
+        }
+    }
+}
 
 #[derive(Default)]
 pub struct ClaimGenerator {
@@ -59,41 +99,43 @@ pub struct ClaimProver {
     pub claim: Claim,
     pub lookup_data: LookupData,
 }
+impl ClaimProver {
+    pub fn write_interaction_trace(
+        self,
+        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
+        self_lookup_elements: &ComponentLookupElements,
+        narrowfib_1ddf31c88316e62f_lookup_elements: &NarrowFib_1ddf31c88316e62f::ComponentLookupElements,
+    ) -> InteractionClaim {
+        let log_size = self.claim.log_size;
+        let mut logup_gen = LogupTraceGenerator::new(log_size);
 
-#[allow(non_snake_case)]
-pub struct LookupData {
-    pub self_inputs: Vec<InputType>,
-    pub self_outputs: Vec<OutputType>,
-    pub narrowfib_1ddf31c88316e62f_inputs: [Vec<NarrowFib_1ddf31c88316e62f::InputType>; 8],
-    pub narrowfib_1ddf31c88316e62f_outputs: [Vec<NarrowFib_1ddf31c88316e62f::OutputType>; 8],
-}
-impl LookupData {
-    #[allow(unused_variables)]
-    fn with_capacity(capacity: usize) -> Self {
-        Self {
-            self_inputs: Vec::with_capacity(capacity),
-            self_outputs: Vec::with_capacity(capacity),
-            narrowfib_1ddf31c88316e62f_inputs: [
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-            ],
-            narrowfib_1ddf31c88316e62f_outputs: [
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-            ],
+        for (inputs, outputs) in zip_eq(
+            self.lookup_data.narrowfib_1ddf31c88316e62f_inputs,
+            self.lookup_data.narrowfib_1ddf31c88316e62f_outputs,
+        ) {
+            let mut col_gen = logup_gen.new_col();
+            for (i, (input, output)) in zip_eq(inputs, outputs).enumerate() {
+                let lookup_values = [input.io_array(), output.io_array()].concat();
+                let denom = narrowfib_1ddf31c88316e62f_lookup_elements.combine(&lookup_values);
+                col_gen.write_frac(i, PackedQM31::one(), denom);
+            }
+            col_gen.finalize_col();
         }
+
+        let mut col_gen = logup_gen.new_col();
+        for (vec_row, (input, output)) in
+            zip_eq(self.lookup_data.self_inputs, self.lookup_data.self_outputs).enumerate()
+        {
+            let lookup_values = [input.io_array(), output.io_array()].concat();
+            let denom = self_lookup_elements.combine(&lookup_values);
+            col_gen.write_frac(vec_row, PackedQM31::one(), denom);
+        }
+        col_gen.finalize_col();
+
+        let (trace, claimed_sum) = logup_gen.finalize();
+        tree_builder.extend_evals(trace);
+
+        InteractionClaim { claimed_sum }
     }
 }
 

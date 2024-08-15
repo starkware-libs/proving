@@ -12,7 +12,7 @@ use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
 use super::framework_gen::generate_component_structs;
-use crate::code_gen::simd_trace_gen::generate_simd_claim_provers;
+use crate::code_gen::simd_prover_gen::generate_simd_claim_provers;
 
 pub fn project_root() -> PathBuf {
     std::path::PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap())
@@ -139,13 +139,6 @@ pub fn n_function_calls(constraints: &[ConstraintEvalStep]) -> usize {
         .count()
 }
 
-pub fn n_trace_cells(deductions: &[TraceGenStep]) -> usize {
-    deductions
-        .iter()
-        .filter(|c| matches!(c, TraceGenStep::Deduction(_)))
-        .count()
-}
-
 pub fn callee_lookup_length(lists: &CompiledAirFn) -> usize {
     expression_n_cells(&lists.input) + expression_n_cells(&lists.output)
 }
@@ -165,6 +158,13 @@ fn expression_n_cells(expr: &CompiledAirVar) -> usize {
         CompiledAirVar::Array(vars) => vars.iter().map(expression_n_cells).sum(),
         _ => unimplemented!(),
     }
+}
+
+pub fn n_trace_cells(deductions: &[TraceGenStep]) -> usize {
+    deductions
+        .iter()
+        .filter(|c| matches!(c, TraceGenStep::Deduction(_)))
+        .count()
 }
 
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'

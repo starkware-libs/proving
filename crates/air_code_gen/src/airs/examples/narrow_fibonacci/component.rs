@@ -20,6 +20,7 @@ pub struct NarrowFib_1ddf31c88316e62fComponent {
     pub self_lookup_elements: ComponentLookupElements,
 }
 
+#[derive(Copy, Clone)]
 pub struct Claim {
     pub log_size: u32,
     pub n_calls: usize,
@@ -131,6 +132,8 @@ impl FrameworkComponent for NarrowFib_1ddf31c88316e62fComponent {
             &[trace_row[0], trace_row[1], trace_row[20], trace_row[21]],
             &self.self_lookup_elements,
         );
+        logup.finalize(&mut eval);
+
         eval
     }
 }

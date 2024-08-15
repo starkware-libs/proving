@@ -12,10 +12,11 @@ use crate::code_gen::trace_gen::generate_sub_component_imports;
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     let imports_code = generate_imports_code(&lists.deductions);
     let typedefs = generate_input_output_typedefs(lists);
-    let claim_generator_code = generate_claim_generator_struct();
-    let claim_prover_code = generate_claim_prover_struct();
-    let claim_generator_impl_code = generate_claim_generator_impl(&lists.deductions);
     let lookup_data_code = generate_lookup_data_struct(&lists.deductions);
+    let claim_generator_code = generate_claim_generator_struct();
+    let claim_generator_impl_code = generate_claim_generator_impl(&lists.deductions);
+    let claim_prover_code = generate_claim_prover_struct();
+    let claim_prover_impl = generate_claim_prover_impl(&lists.deductions);
     let write_trace_code = generate_simd_write_trace_code(lists);
 
     quote! {
@@ -23,12 +24,13 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
         $['\n']
         $(typedefs)
         $['\n']
+        $(lookup_data_code)
+        $['\n']
         $(claim_generator_code)
         $(claim_generator_impl_code)
         $['\n']
         $(claim_prover_code)
-        $['\n']
-        $(lookup_data_code)
+        $(claim_prover_impl)
         $['\n']
         $(write_trace_code)
     }
@@ -172,6 +174,7 @@ fn generate_claim_generator_struct() -> rust::Tokens {
         }
     }
 }
+
 fn generate_claim_prover_struct() -> rust::Tokens {
     quote! {
 
@@ -289,29 +292,95 @@ fn add_inputs_simd_body() -> rust::Tokens {
     }
 }
 
+fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut lookup_elements = quote! {self_lookup_elements: &ComponentLookupElements,};
+    for fn_name in unique_deduction_function_calls(deductions).iter() {
+        lookup_elements.extend(quote! {
+            $(fn_name.to_lowercase())_lookup_elements: &$(fn_name)::ComponentLookupElements,
+        });
+    }
+    quote! {
+        impl ClaimProver {
+            // TODO(Ohad): Batch in pairs.
+            pub fn write_interaction_trace(
+                self,
+                tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
+                $(lookup_elements)
+            ) -> InteractionClaim {
+                let log_size = self.claim.log_size;
+                let mut logup_gen = LogupTraceGenerator::new(log_size);
+
+                $(generate_write_interaction_trace_body(deductions))
+
+                // Self lookup.
+                let mut col_gen = logup_gen.new_col();
+                for (vec_row, (input, output)) in
+                    zip_eq(self.lookup_data.self_inputs, self.lookup_data.self_outputs).enumerate()
+                {
+                    let lookup_values =
+                        [input.io_array(), output.io_array()].concat();
+                    let denom = self_lookup_elements.combine(&lookup_values);
+                    col_gen.write_frac(vec_row, PackedQM31::one(), denom);
+                }
+                col_gen.finalize_col();
+
+                let (trace, claimed_sum) = logup_gen.finalize();
+                tree_builder.extend_evals(trace);
+
+                InteractionClaim { claimed_sum }
+            }
+        }
+    }
+}
+
+fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut code = rust::Tokens::new();
+    for fn_name in unique_deduction_function_calls(deductions) {
+        code.extend(quote! {
+            for (inputs, outputs) in zip_eq(
+                self.lookup_data.$(&fn_name.to_lowercase())_inputs,
+                self.lookup_data.$(&fn_name.to_lowercase())_outputs,
+            ) {
+                let mut col_gen = logup_gen.new_col();
+                for (i, (input, output)) in zip_eq(inputs, outputs).enumerate() {
+                    let lookup_values =
+                        [input.io_array(), output.io_array()].concat();
+                    let denom = $(&fn_name.to_lowercase())_lookup_elements.combine(&lookup_values);
+                    col_gen.write_frac(i, PackedQM31::one(), denom);
+                }
+                col_gen.finalize_col();
+            }
+        });
+    }
+
+    code
+}
 fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
-        #![allow(unused_imports)]
-        use std::iter::zip;
+            #![allow(unused_imports)]
+            use std::iter::zip;
 
-        use air_infra::core::prover_types::*;
-        use itertools::Itertools;
-        use num_traits::Zero;
-        use stwo_prover::core::air::Component;
-        use stwo_prover::core::backend::simd::m31::PackedM31;
-        use stwo_prover::core::backend::simd::SimdBackend;
-        use stwo_prover::core::backend::{Col, Column};
-        use stwo_prover::core::fields::m31::M31;
-        use stwo_prover::core::pcs::TreeBuilder;
-        use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
-        use stwo_prover::core::poly::BitReversedOrder;
-        use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
-        use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
+    use air_infra::core::prover_types::*;
+            use itertools::{chain, zip_eq, Itertools};
+            use num_traits::{One, Zero};
+            use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
+            use stwo_prover::core::air::Component;
+            use stwo_prover::core::backend::simd::m31::PackedM31;
+            use stwo_prover::core::backend::simd::qm31::PackedQM31;
+            use stwo_prover::core::backend::simd::SimdBackend;
+            use stwo_prover::core::backend::{Col, Column};
+            use stwo_prover::core::fields::m31::M31;
+            use stwo_prover::core::pcs::TreeBuilder;
+            use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
+            use stwo_prover::core::poly::BitReversedOrder;
+            use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
+            use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 
-        use crate::code_gen::packed_types::*;
-        use super::component::{Claim, InteractionClaim};
-        $(generate_sub_component_imports(deductions, "Simd"))
-    }
+            use super::component::{Claim, ComponentLookupElements, InteractionClaim};
+            use crate::code_gen::packed_types::*;
+            use crate::AirFuncIO;
+            $(generate_sub_component_imports(deductions, "Simd"))
+        }
 }
 
 /// Parses a `CompiledAirVar` into a string for the write_trace function.

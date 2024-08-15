@@ -22,6 +22,7 @@ pub struct WideFib_d7cf24d545e710f9Component {
         NarrowFib_1ddf31c88316e62f::ComponentLookupElements,
 }
 
+#[derive(Copy, Clone)]
 pub struct Claim {
     pub log_size: u32,
     pub n_calls: usize,
@@ -126,6 +127,8 @@ impl FrameworkComponent for WideFib_d7cf24d545e710f9Component {
             &[trace_row[0], trace_row[16]],
             &self.self_lookup_elements,
         );
+        logup.finalize(&mut eval);
+
         eval
     }
 }
