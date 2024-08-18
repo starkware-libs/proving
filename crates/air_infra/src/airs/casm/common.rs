@@ -24,7 +24,7 @@ pub const FLAG_OPCODE_CALL_INDEX: usize = 12;
 pub const FLAG_OPCODE_RET_INDEX: usize = 13;
 pub const FLAG_OPCODE_ASSERT_EQ_INDEX: usize = 14;
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct Flags {
     pub dst_base_fp: Option<bool>,
     pub op0_base_fp: Option<bool>,
