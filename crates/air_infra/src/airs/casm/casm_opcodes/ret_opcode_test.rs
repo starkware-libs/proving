@@ -1,12 +1,12 @@
-use super::common::*;
+use super::super::common::*;
 use super::ret_opcode::*;
+
+use crate::const_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
-
-use crate::const_expr;
 use crate::expr;
 use crate::felt252_expr;
 
@@ -20,7 +20,7 @@ pub fn assemble_ret() -> u64 {
 #[test]
 fn test_ret_opcode() {
     let deductions = [
-        "tmp_0 = [RetOpcode_8e2acdd96ca43674_input[0], RetOpcode_8e2acdd96ca43674_input[1], RetOpcode_8e2acdd96ca43674_input[2]]",
+        "tmp_0 = [RetOpcode_c7c794cf297e0aa7_input[0], RetOpcode_c7c794cf297e0aa7_input[1], RetOpcode_c7c794cf297e0aa7_input[2]]",
         "tmp_0[0]",
         "tmp_0[1]",
         "tmp_0[2]",

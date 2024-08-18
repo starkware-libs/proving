@@ -1,4 +1,4 @@
-use super::verify_bitwise_xor::*;
+use super::const_tables::verify_bitwise_xor::*;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;

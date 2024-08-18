@@ -1,10 +1,10 @@
 use indexmap::IndexMap;
 
+use super::super::common::*;
+use super::super::read_addr::*;
+use super::super::read_small_felt252::*;
 use super::check_instruction::*;
-use super::common::*;
-use super::read_small_felt252::*;
 
-use crate::airs::casm::read_addr::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;

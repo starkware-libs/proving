@@ -1,6 +1,6 @@
-use crate::airs::casm::call_opcode::*;
-use crate::airs::casm::jump_opcode::*;
-use crate::airs::casm::ret_opcode::*;
+use crate::airs::casm::casm_opcodes::call_opcode::*;
+use crate::airs::casm::casm_opcodes::jump_opcode::*;
+use crate::airs::casm::casm_opcodes::ret_opcode::*;
 use crate::core::air_fn_registry::*;
 use crate::core::compiled_structs::*;
 

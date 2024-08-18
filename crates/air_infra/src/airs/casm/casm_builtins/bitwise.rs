@@ -1,4 +1,4 @@
-use crate::airs::bitwise_xor::*;
+use crate::airs::casm::bitwise_xor::*;
 use crate::airs::casm::read_small_felt252::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;

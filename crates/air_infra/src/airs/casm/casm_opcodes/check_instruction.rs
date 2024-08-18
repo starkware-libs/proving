@@ -2,8 +2,8 @@ use std::cmp::min;
 
 use indexmap::IndexMap;
 
-use super::super::range_check::*;
-use super::common::*;
+use super::super::common::*;
+use super::super::const_tables::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::bool_expr::*;
 use crate::core::expressions::felt252_expr::*;

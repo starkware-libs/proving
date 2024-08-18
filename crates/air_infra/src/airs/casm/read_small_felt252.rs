@@ -1,7 +1,7 @@
 use indexmap::IndexMap;
 
-use super::super::range_check::*;
 use super::common::*;
+use super::const_tables::range_check::*;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;

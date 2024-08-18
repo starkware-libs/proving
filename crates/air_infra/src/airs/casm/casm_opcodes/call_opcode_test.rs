@@ -1,5 +1,6 @@
+use super::super::common::*;
 use super::call_opcode::*;
-use super::common::*;
+
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
@@ -152,7 +153,7 @@ fn test_relative_call() {
         false,
         None,
         500,
-        "CheckInstruction_527a5b8f3e65d85d",
+        "CheckInstruction_6ecd2f7035f19487",
         next_pc_line,
     );
 }
@@ -168,7 +169,7 @@ fn test_fp_call_positive_offset2() {
         true,
         Some(5),
         600,
-        "CheckInstruction_510e45da6615a0c7",
+        "CheckInstruction_10e9feb9a7620e1c",
         next_pc_line,
     );
 }
@@ -184,7 +185,7 @@ fn test_fp_call_negative_offset2() {
         true,
         Some(-5),
         400,
-        "CheckInstruction_510e45da6615a0c7",
+        "CheckInstruction_10e9feb9a7620e1c",
         next_pc_line,
     );
 }
@@ -200,7 +201,7 @@ fn test_ap_call_positive_offset2() {
         false,
         Some(10),
         1234,
-        "CheckInstruction_9584fc1dcc505a6d",
+        "CheckInstruction_299ede349bec0710",
         next_pc_line,
     );
 }
@@ -216,7 +217,7 @@ fn test_ap_call_negative_offset2() {
         false,
         Some(-10),
         55,
-        "CheckInstruction_9584fc1dcc505a6d",
+        "CheckInstruction_299ede349bec0710",
         next_pc_line,
     );
 }

@@ -1,6 +1,6 @@
+use super::super::common::*;
+use super::super::read_addr::*;
 use super::check_instruction::*;
-use super::common::*;
-use super::read_addr::*;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;

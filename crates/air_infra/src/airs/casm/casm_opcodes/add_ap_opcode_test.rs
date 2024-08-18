@@ -1,5 +1,5 @@
+use super::super::common::*;
 use super::add_ap_opcode::*;
-use super::common::*;
 
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
@@ -83,7 +83,7 @@ fn test_add_ap() {
                 "Deduction: tmp_0[1]",
                 "Deduction: tmp_0[2]",
                 &format!(
-                    "({}, {}) = CheckInstruction_9e72ce369e2b66c1(state[0])",
+                    "({}, {}) = CheckInstruction_bc3020131b8197e8(state[0])",
                     check_instruction_offsets,
                     add_ap_opcode.get_flags()
                 ),
