@@ -1,7 +1,5 @@
 use super::super::common::*;
 use super::call_opcode::*;
-
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
@@ -16,8 +14,8 @@ fn build_and_test(
     flag_op1_base_fp: bool,
     offset2_option: Option<i16>,
     op1_value: u32,
-    check_instruction_name: &str,
-    next_pc_line: String,
+    expected_air_body: &[&str],
+    expected_state: Vec<u32>,
 ) {
     let [pc_value, ap_value, fp_value] = [50, 200, 150];
     let [pc, ap, fp] = [
@@ -28,19 +26,6 @@ fn build_and_test(
 
     let is_rel = offset2_option.is_none();
     let offset2 = offset2_option.unwrap_or(1);
-
-    let mut expected_state = vec![pc_value, ap_value, fp_value];
-    if is_rel {
-        expected_state.push(op1_value);
-    } else {
-        let offset2_u16 = offset_as_u16(offset2);
-        expected_state.push((offset2_u16 & 0xF) as u32);
-        expected_state.push(((offset2_u16 >> 4) & 0x1FF) as u32);
-        expected_state.push((offset2_u16 >> 13) as u32);
-        expected_state.push(op1_value & 0x1FF);
-        expected_state.push(op1_value >> 9);
-        expected_state.push((op1_value >> 18) & 0x1FF);
-    }
 
     let mut call_opcode = CallOpcode {
         is_rel,
@@ -77,36 +62,6 @@ fn build_and_test(
     let memory = Memory::new_with_data(memory_values);
 
     call_opcode.init_memory(&memory);
-
-    let check_instruction_offset2 = if is_rel {
-        "const_1"
-    } else {
-        "(((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)"
-    };
-    let check_instruction_call = format!(
-        "([const_0, const_1, {}], {}) = {}(state[0])",
-        check_instruction_offset2,
-        call_opcode.get_flags(),
-        check_instruction_name,
-    );
-
-    let expected_air_body = [
-        format!(
-            "tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
-            name = call_opcode.name()
-        ),
-        "Deduction: tmp_0[0]".to_string(), // state[0] = pc
-        "Deduction: tmp_0[1]".to_string(), // state[1] = ap
-        "Deduction: tmp_0[2]".to_string(), // state[2] = fp
-        check_instruction_call,
-        format!("{}([state[1]]) == zero_extend([state[2]])", memory.name()),
-        format!(
-            "{}([(state[1] + const_1)]) == zero_extend([(state[0] + const_{})])",
-            memory.name(),
-            1 + is_rel as u32
-        ),
-        next_pc_line,
-    ];
 
     // Run air function
     let registry = AirFnRegistry::new(&call_opcode);
@@ -145,80 +100,165 @@ fn build_and_test(
 
 #[test]
 fn test_relative_call() {
-    let next_pc_line = format!(
-        "{} = ReadSmallFelt252_cc824bd2f61c6ef6({})",
-        "Felt252::from_m31_(zero_extend([state[3]]))", "(state[0] + const_1)",
-    );
-    build_and_test(
-        false,
-        None,
-        500,
-        "DecodeInstruction_8a7cb0cfbf63f85a",
-        next_pc_line,
-    );
+    build_and_test(false, None, 500, &[
+        "tmp_0 = [\
+            CallOpcode_ccf475fd29f10d2b_input[0], \
+            CallOpcode_ccf475fd29f10d2b_input[1], \
+            CallOpcode_ccf475fd29f10d2b_input[2]\
+        ]",
+        "Deduction: tmp_0[0]",
+        "Deduction: tmp_0[1]",
+        "Deduction: tmp_0[2]",
+        "(\
+            [const_0, const_1, const_1], \
+            [\
+                const_false, \
+                const_false, \
+                const_true, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_true, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_true, \
+                const_false, \
+                const_false\
+            ]\
+        ) = DecodeInstruction_8a7cb0cfbf63f85a(state[0])",
+        "Memory_59f18133215d0936([state[1]]) == zero_extend([state[2]])",
+        "Memory_59f18133215d0936([(state[1] + const_1)]) == zero_extend([(state[0] + const_2)])",
+        "Felt252::from_m31_(zero_extend([state[3]])) = \
+            ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
+    ], vec![50, 200, 150, 500]);
 }
+
+const CALL_FP_EXPECTED_AIR_BODY: [&str; 8] = [
+    "tmp_0 = [\
+        CallOpcode_572bef75c2ae21ea_input[0], \
+        CallOpcode_572bef75c2ae21ea_input[1], \
+        CallOpcode_572bef75c2ae21ea_input[2]\
+    ]",
+    "Deduction: tmp_0[0]",
+    "Deduction: tmp_0[1]",
+    "Deduction: tmp_0[2]",
+    "(\
+        [\
+            const_0, \
+            const_1, \
+            (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
+        ], [\
+            const_false, \
+            const_false, \
+            const_false, \
+            const_true, \
+            const_false, \
+            const_false, \
+            const_false, \
+            const_true, \
+            const_false, \
+            const_false, \
+            const_false, \
+            const_false, \
+            const_true, \
+            const_false, \
+            const_false\
+        ]\
+    ) = DecodeInstruction_48b2fb68e2c629d6(state[0])",
+    "Memory_59f18133215d0936([state[1]]) == zero_extend([state[2]])",
+    "Memory_59f18133215d0936([(state[1] + const_1)]) == zero_extend([(state[0] + const_1)])",
+    "((state[6] + (state[7] * const_512)) + (state[8] * const_262144)) = \
+        ReadAddr_d86123cf8dd732a9((\
+            state[2] + \
+            (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
+        ))",
+];
 
 #[test]
 fn test_fp_call_positive_offset2() {
-    let next_pc_line = format!(
-        "{} = ReadAddr_d86123cf8dd732a9({})",
-        "((state[6] + (state[7] * const_512)) + (state[8] * const_262144))",
-        "(state[2] + (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768))",
-    );
     build_and_test(
         true,
         Some(5),
         600,
-        "DecodeInstruction_48b2fb68e2c629d6",
-        next_pc_line,
+        &CALL_FP_EXPECTED_AIR_BODY,
+        vec![50, 200, 150, 5, 0, 4, 88, 1, 0],
     );
 }
 
 #[test]
 fn test_fp_call_negative_offset2() {
-    let next_pc_line = format!(
-        "{} = ReadAddr_d86123cf8dd732a9({})",
-        "((state[6] + (state[7] * const_512)) + (state[8] * const_262144))",
-        "(state[2] + (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768))",
-    );
     build_and_test(
         true,
         Some(-5),
         400,
-        "DecodeInstruction_48b2fb68e2c629d6",
-        next_pc_line,
+        &CALL_FP_EXPECTED_AIR_BODY,
+        vec![50, 200, 150, 11, 511, 3, 400, 0, 0],
     );
 }
 
+const CALL_AP_EXPECTED_AIR_BODY: [&str; 8] = [
+    "tmp_0 = [\
+        CallOpcode_9fc0c9c42043f0cc_input[0], \
+        CallOpcode_9fc0c9c42043f0cc_input[1], \
+        CallOpcode_9fc0c9c42043f0cc_input[2]\
+    ]",
+    "Deduction: tmp_0[0]",
+    "Deduction: tmp_0[1]",
+    "Deduction: tmp_0[2]",
+    "(\
+        [\
+            const_0, \
+            const_1, \
+            (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
+        ], [\
+            const_false, \
+            const_false, \
+            const_false, \
+            const_false, \
+            const_true, \
+            const_false, \
+            const_false, \
+            const_true, \
+            const_false, \
+            const_false, \
+            const_false, \
+            const_false, \
+            const_true, \
+            const_false, \
+            const_false\
+        ]\
+    ) = DecodeInstruction_d682a34433babffb(state[0])",
+    "Memory_59f18133215d0936([state[1]]) == zero_extend([state[2]])",
+    "Memory_59f18133215d0936([(state[1] + const_1)]) == zero_extend([(state[0] + const_1)])",
+    "((state[6] + (state[7] * const_512)) + (state[8] * const_262144)) = \
+        ReadAddr_d86123cf8dd732a9((\
+            state[1] + \
+            (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
+        ))",
+];
+
 #[test]
 fn test_ap_call_positive_offset2() {
-    let next_pc_line = format!(
-        "{} = ReadAddr_d86123cf8dd732a9({})",
-        "((state[6] + (state[7] * const_512)) + (state[8] * const_262144))",
-        "(state[1] + (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768))",
-    );
     build_and_test(
         false,
         Some(10),
         1234,
-        "DecodeInstruction_d682a34433babffb",
-        next_pc_line,
+        &CALL_AP_EXPECTED_AIR_BODY,
+        vec![50, 200, 150, 10, 0, 4, 210, 2, 0],
     );
 }
 
 #[test]
 fn test_ap_call_negative_offset2() {
-    let next_pc_line = format!(
-        "{} = ReadAddr_d86123cf8dd732a9({})",
-        "((state[6] + (state[7] * const_512)) + (state[8] * const_262144))",
-        "(state[1] + (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768))",
-    );
     build_and_test(
         false,
         Some(-10),
         55,
-        "DecodeInstruction_d682a34433babffb",
-        next_pc_line,
+        &CALL_AP_EXPECTED_AIR_BODY,
+        vec![50, 200, 150, 6, 511, 3, 55, 0, 0],
     );
 }
 

@@ -1,7 +1,6 @@
 use super::super::common::*;
 use super::add_small_opcode::*;
 
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
@@ -19,8 +18,8 @@ fn test_add_small(
     dst: u32,
     op0: u32,
     op1: u32,
-    check_instruction_body: Option<(&str, &[&str], &str)>,
-    memory_body: Option<&[&str]>,
+    expected_air_body: Option<&[&str]>,
+    expected_state: Vec<u32>,
 ) {
     // Read the non-constant flags
     let [flag_dst_base_fp, flag_op0_base_fp, flag_op1_imm, flag_op1_base_fp, flag_op1_base_ap, flag_ap_update_add_1] =
@@ -45,9 +44,6 @@ fn test_add_small(
     let pc = expr!("pc", pc_value);
     let ap = expr!("ap", ap_value);
     let fp = expr!("fp", fp_value);
-    let offset_dst = offset_as_u16(offset_dst_val);
-    let offset0 = offset_as_u16(offset0_val);
-    let offset1 = offset_as_u16(offset1_val);
 
     // Cretae the non-constant flags
     let non_consts_flags = if flag_op1_imm {
@@ -137,42 +133,6 @@ fn test_add_small(
         assert_eq!(next_pc.calc(), (pc_value + 1).to_string());
     };
 
-    // Check state
-    let mut expected_state = vec![
-        pc_value,
-        ap_value,
-        fp_value,
-        (offset_dst & 0x1FF) as u32,
-        (offset_dst >> 9) as u32,
-        (offset0 & 0x3) as u32,
-        ((offset0 >> 2) & 0x1FF) as u32,
-        (offset0 >> 11) as u32,
-    ];
-    if !flag_op1_imm {
-        expected_state.push((offset1 & 0xF) as u32);
-        expected_state.push(((offset1 >> 4) & 0x1FF) as u32);
-        expected_state.push((offset1 >> 13) as u32);
-    };
-    expected_state.push(flag_dst_base_fp as u32);
-    expected_state.push(flag_op0_base_fp as u32);
-    if !flag_op1_imm {
-        expected_state.push(flag_op1_base_fp as u32);
-        expected_state.push(flag_op1_base_ap as u32);
-    }
-    expected_state.push(flag_ap_update_add_1 as u32);
-
-    expected_state.push(dst & 0x1FF);
-    expected_state.push((dst >> 9) & 0x1FF);
-    expected_state.push((dst >> 18) & 0x1FF);
-
-    expected_state.push(op0 & 0x1FF);
-    expected_state.push((op0 >> 9) & 0x1FF);
-    expected_state.push((op0 >> 18) & 0x1FF);
-
-    expected_state.push(op1 & 0x1FF);
-    expected_state.push((op1 >> 9) & 0x1FF);
-    expected_state.push((op1 >> 18) & 0x1FF);
-
     assert_eq!(
         state.calc(),
         expected_state
@@ -182,98 +142,85 @@ fn test_add_small(
     );
 
     // Check air body
-    if let Some((check_instruction_offsets, check_instruction_flags, check_instruction_name)) =
-        check_instruction_body
-    {
-        let memory_body_entries = memory_body.unwrap();
+    if let Some(expected_air_body) = expected_air_body {
         let entry = registry.get_air_fn_entry(&add_small_opcode);
-        let air_body = [
-            &format!(
-                "tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
-                name = add_small_opcode.name()
-            ),
-            "Deduction: tmp_0[0]",
-            "Deduction: tmp_0[1]",
-            "Deduction: tmp_0[2]",
-            &format!(
-                "({}, [{}]) = {}({})",
-                check_instruction_offsets,
-                add_small_opcode
-                    .get_flags()
-                    .to_string(check_instruction_flags.to_vec()),
-                check_instruction_name,
-                "state[0]"
-            ),
-        ];
-        let mut air_body_vec = air_body.to_vec();
-        air_body_vec.append(&mut memory_body_entries.to_vec());
-
         assert_eq!(
             entry
                 .air_body
                 .iter()
                 .map(|x| x.to_string())
                 .collect::<Vec<String>>(),
-            air_body_vec
+            expected_air_body
         );
     }
 }
 
 #[test]
 fn test_add_small_not_imm() {
-    let check_instruction_offsets = &format!(
-        "[{}, {}, {}]",
-        "(((state[3] + (state[4] * const_512)) + const_0) - const_32768)",
-        "(((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)",
-        "(((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768)"
-    );
-    let check_instruction_flags = vec![
-        "Bool::from_m31(state[11])",
-        "Bool::from_m31(state[12])",
-        "Bool::from_m31(state[13])",
-        "Bool::from_m31(state[14])",
-        "Bool::from_m31(state[15])",
-    ];
-    let memory_body: [&str; 5] = [
-        &format!(
-            "{} = {}({})",
-            "Felt252::from_m31_(zero_extend([state[16], state[17], state[18]]))",
-            "ReadSmallFelt252_90f301596f69aa5a",
-            "(((state[11] * state[2]) + ((const_1 - state[11]) * state[1])) + \
-                (((state[3] + (state[4] * const_512)) + const_0) - const_32768))"
-        ),
-        &format!(
-            "{} = {}({})",
-            "Felt252::from_m31_(zero_extend([state[19], state[20], state[21]]))",
-            "ReadSmallFelt252_90f301596f69aa5a",
-            "(((state[12] * state[2]) + ((const_1 - state[12]) * state[1])) + \
-                (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768))"
-        ),
-        "Constraint: ((state[13] + state[14]) - const_1)",
-        &format!(
-            "{} = {}({})",
-            "Felt252::from_m31_(zero_extend([state[22], state[23], state[24]]))",
-            "ReadSmallFelt252_90f301596f69aa5a",
-            "(((state[13] * state[2]) + (state[14] * state[1])) + \
-                (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768))"
-        ),
-        "Constraint: (((state[16] + (const_512 * state[17])) + (const_262144 * state[18])) - \
-            (((state[19] + (const_512 * state[20])) + (const_262144 * state[21])) + \
-            ((state[22] + (const_512 * state[23])) + (const_262144 * state[24]))))",
-    ];
-
     test_add_small(
         [true, false, false, false, true, false],
         [3, 5, 7],
         90125677,
         77779999,
         12345678,
-        Some((
-            check_instruction_offsets,
-            &check_instruction_flags,
-            "DecodeInstruction_2f4ab58cc783b3f7",
-        )),
-        Some(&memory_body),
+        Some(&[
+            "tmp_0 = [\
+                AddSmallOpcode_801397eb9925538_input[0], \
+                AddSmallOpcode_801397eb9925538_input[1], \
+                AddSmallOpcode_801397eb9925538_input[2]\
+            ]",
+            "Deduction: tmp_0[0]",
+            "Deduction: tmp_0[1]",
+            "Deduction: tmp_0[2]",
+            "(\
+                [\
+                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
+                    (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768), \
+                    (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768)\
+                ], \
+                [\
+                    Bool::from_m31(state[11]), \
+                    Bool::from_m31(state[12]), \
+                    const_false, \
+                    Bool::from_m31(state[13]), \
+                    Bool::from_m31(state[14]), \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    Bool::from_m31(state[15]), \
+                    const_false, \
+                    const_false, \
+                    const_true\
+                ]\
+            ) = DecodeInstruction_2f4ab58cc783b3f7(state[0])",
+            "Felt252::from_m31_(zero_extend([state[16], state[17], state[18]])) = \
+                ReadSmallFelt252_90f301596f69aa5a((\
+                    ((state[11] * state[2]) + ((const_1 - state[11]) * state[1])) + \
+                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768)\
+                ))",
+            "Felt252::from_m31_(zero_extend([state[19], state[20], state[21]])) = \
+                ReadSmallFelt252_90f301596f69aa5a((\
+                    ((state[12] * state[2]) + ((const_1 - state[12]) * state[1])) + \
+                    (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
+                ))",
+            "Constraint: ((state[13] + state[14]) - const_1)",
+            "Felt252::from_m31_(zero_extend([state[22], state[23], state[24]])) = \
+                ReadSmallFelt252_90f301596f69aa5a((\
+                    ((state[13] * state[2]) + (state[14] * state[1])) + \
+                    (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768)\
+                ))",
+            "Constraint: (\
+                ((state[16] + (const_512 * state[17])) + (const_262144 * state[18])) - \
+                (((state[19] + (const_512 * state[20])) + (const_262144 * state[21])) + \
+                ((state[22] + (const_512 * state[23])) + (const_262144 * state[24]))))",
+        ]),
+        vec![
+            10, 50, 100, 3, 64, 1, 1, 16, 7, 0, 4, 1, 0, 0, 1, 0, 365, 410, 343, 31, 362, 296, 334,
+            48, 47,
+        ],
     );
 }
 
@@ -287,7 +234,7 @@ fn test_add_mod_not_equal() {
         77779999,
         12345678,
         None,
-        None,
+        vec![],
     );
 }
 
@@ -301,60 +248,70 @@ fn test_add_mod_over_27bit() {
         134217727,
         1,
         None,
-        None,
+        vec![],
     );
 }
 
 #[test]
 fn test_add_small_imm() {
-    let check_instruction_offsets = &format!(
-        "[{}, {}, {}]",
-        "(((state[3] + (state[4] * const_512)) + const_0) - const_32768)",
-        "(((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)",
-        "const_1"
-    );
-    let check_instruction_flags = vec![
-        "Bool::from_m31(state[8])",
-        "Bool::from_m31(state[9])",
-        "Bool::from_m31(state[10])",
-    ];
-    let memory_body: [&str; 4] = [
-        &format!(
-            "{} = {}({})",
-            "Felt252::from_m31_(zero_extend([state[11], state[12], state[13]]))",
-            "ReadSmallFelt252_90f301596f69aa5a",
-            "(((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + \
-                (((state[3] + (state[4] * const_512)) + const_0) - const_32768))"
-        ),
-        &format!(
-            "{} = {}({})",
-            "Felt252::from_m31_(zero_extend([state[14], state[15], state[16]]))",
-            "ReadSmallFelt252_90f301596f69aa5a",
-            "(((state[9] * state[2]) + ((const_1 - state[9]) * state[1])) + \
-                (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768))"
-        ),
-        &format!(
-            "{} = {}({})",
-            "Felt252::from_m31_(zero_extend([state[17], state[18], state[19]]))",
-            "ReadSmallFelt252_90f301596f69aa5a",
-            "(state[0] + const_1)"
-        ),
-        "Constraint: (((state[11] + (const_512 * state[12])) + (const_262144 * state[13])) - \
-            (((state[14] + (const_512 * state[15])) + (const_262144 * state[16])) + \
-            ((state[17] + (const_512 * state[18])) + (const_262144 * state[19]))))",
-    ];
-
     test_add_small(
         [true, false, true, false, true, false],
         [-3, -5, 1],
         90125677,
         77779999,
         12345678,
-        Some((
-            check_instruction_offsets,
-            &check_instruction_flags,
-            "DecodeInstruction_7dd793dc3ba867a8",
-        )),
-        Some(&memory_body),
+        Some(&[
+            "tmp_0 = [\
+                AddSmallOpcode_7dff5a93938b26ba_input[0], \
+                AddSmallOpcode_7dff5a93938b26ba_input[1], \
+                AddSmallOpcode_7dff5a93938b26ba_input[2]\
+            ]",
+            "Deduction: tmp_0[0]",
+            "Deduction: tmp_0[1]",
+            "Deduction: tmp_0[2]",
+            "(\
+                [\
+                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
+                    (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768), \
+                    const_1\
+                ], \
+                [\
+                    Bool::from_m31(state[8]), \
+                    Bool::from_m31(state[9]), \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    Bool::from_m31(state[10]), \
+                    const_false, \
+                    const_false, \
+                    const_true\
+                ]\
+            ) = DecodeInstruction_7dd793dc3ba867a8(state[0])",
+            "Felt252::from_m31_(zero_extend([state[11], state[12], state[13]])) = \
+                ReadSmallFelt252_90f301596f69aa5a((\
+                    ((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + \
+                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768)\
+                ))",
+            "Felt252::from_m31_(zero_extend([state[14], state[15], state[16]])) = \
+                ReadSmallFelt252_90f301596f69aa5a((\
+                    ((state[9] * state[2]) + ((const_1 - state[9]) * state[1])) + \
+                    (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
+                ))",
+            "Felt252::from_m31_(zero_extend([state[17], state[18], state[19]])) = \
+                ReadSmallFelt252_90f301596f69aa5a((state[0] + const_1))",
+            "Constraint: (\
+                ((state[11] + (const_512 * state[12])) + (const_262144 * state[13])) - \
+                (((state[14] + (const_512 * state[15])) + (const_262144 * state[16])) + \
+                ((state[17] + (const_512 * state[18])) + (const_262144 * state[19]))))",
+        ]),
+        vec![
+            10, 50, 100, 509, 63, 3, 510, 15, 1, 0, 0, 365, 410, 343, 31, 362, 296, 334, 48, 47,
+        ],
     );
 }

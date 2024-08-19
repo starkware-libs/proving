@@ -1,7 +1,6 @@
 use super::super::common::*;
 use super::add_ap_opcode::*;
 
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
@@ -66,7 +65,6 @@ fn test_add_ap() {
     );
 
     // Check the air body
-    let check_instruction_offsets = "[const_2147483646, const_2147483646, const_1]";
     let entry = registry.get_air_fn_entry(&add_ap_opcode);
     assert_eq!(
         entry
@@ -74,20 +72,40 @@ fn test_add_ap() {
             .iter()
             .map(|x| x.to_string())
             .collect::<Vec<String>>(),
-            vec![
-                &format!(
-                    "tmp_0 = [{name}_input[0], {name}_input[1], {name}_input[2]]",
-                    name = add_ap_opcode.name()
-                ),
-                "Deduction: tmp_0[0]",
-                "Deduction: tmp_0[1]",
-                "Deduction: tmp_0[2]",
-                &format!(
-                    "({}, {}) = DecodeInstruction_83cd6a5ed43aa52e(state[0])",
-                    check_instruction_offsets,
-                    add_ap_opcode.get_flags()
-                ),
-                "Felt252::from_m31_(zero_extend([state[3]])) = ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
-            ]
+        vec![
+            "tmp_0 = [\
+                    AddAp_debc7bc8d7fbc47e_input[0], \
+                    AddAp_debc7bc8d7fbc47e_input[1], \
+                    AddAp_debc7bc8d7fbc47e_input[2]\
+                ]",
+            "Deduction: tmp_0[0]",
+            "Deduction: tmp_0[1]",
+            "Deduction: tmp_0[2]",
+            "(\
+                    [\
+                        const_2147483646, \
+                        const_2147483646, \
+                        const_1\
+                    ], [\
+                        const_true, \
+                        const_true, \
+                        const_true, \
+                        const_false, \
+                        const_false, \
+                        const_false, \
+                        const_false, \
+                        const_false, \
+                        const_false, \
+                        const_false, \
+                        const_true, \
+                        const_false, \
+                        const_false, \
+                        const_false, \
+                        const_false\
+                    ]\
+                ) = DecodeInstruction_83cd6a5ed43aa52e(state[0])",
+            "Felt252::from_m31_(zero_extend([state[3]])) = \
+                    ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
+        ]
     );
 }
