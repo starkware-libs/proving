@@ -49,6 +49,7 @@ mod tests {
                     PackedM31::broadcast(M31::from(i + 1)),
                     PackedM31::broadcast(M31::from(i + 4)),
                 ]
+                .into()
             })
             .collect_vec();
 

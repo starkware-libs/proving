@@ -30,8 +30,9 @@ mod tests {
     fn wide_fib_test_write_trace() {
         let log_n_instances = 6;
         let inputs = BaseColumn::from_iter((0..1 << log_n_instances).map(M31::from));
+        let inputs = inputs.data.into_iter().map(|x| x.into()).collect_vec();
 
-        let trace = write_trace_simd(inputs.data)
+        let trace = write_trace_simd(inputs)
             .0
             .iter()
             .map(|x| x.data.to_vec())

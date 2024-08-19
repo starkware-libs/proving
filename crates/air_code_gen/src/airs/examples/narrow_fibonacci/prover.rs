@@ -19,10 +19,10 @@ use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 
 use super::component::{Claim, ComponentLookupElements, InteractionClaim};
 use crate::code_gen::packed_types::*;
-use crate::AirFuncIO;
+use crate::AirFnIO;
 
-pub type InputType = [PackedM31; 2];
-pub type OutputType = [PackedM31; 2];
+pub type InputType = AirFnIO<2>;
+pub type OutputType = AirFnIO<2>;
 
 #[allow(non_snake_case)]
 pub struct LookupData {
@@ -82,8 +82,8 @@ impl ClaimProver {
         for (vec_row, (input, output)) in
             zip_eq(self.lookup_data.self_inputs, self.lookup_data.self_outputs).enumerate()
         {
-            let lookup_values = [input.io_array(), output.io_array()].concat();
-            let denom = self_lookup_elements.combine(&lookup_values);
+            let lookup_values = input.concat(&output);
+            let denom = self_lookup_elements.combine(lookup_values.as_ref());
             col_gen.write_frac(vec_row, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();
@@ -132,8 +132,8 @@ fn write_trace_row(
     lookup_data: &mut LookupData,
 ) {
     let tmp_0 = [
-        narrowfib_1ddf31c88316e62f_input[0],
-        narrowfib_1ddf31c88316e62f_input[1],
+        narrowfib_1ddf31c88316e62f_input[0].into(),
+        narrowfib_1ddf31c88316e62f_input[1].into(),
     ];
     let col0 = tmp_0[0];
     dst[0].data[row_index] = col0;
@@ -183,5 +183,5 @@ fn write_trace_row(
     lookup_data
         .self_inputs
         .push(narrowfib_1ddf31c88316e62f_input);
-    lookup_data.self_outputs.push([col20, col21]);
+    lookup_data.self_outputs.push([col20, col21].into());
 }

@@ -78,11 +78,15 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
                 let multiplicity = function_call_multiplicitiy.get_mut(fn_name).unwrap();
                 let input = simd_parse_air_var(input);
                 write_trace_body.extend(quote! {
-                    lookup_data.$(&fn_name.to_lowercase())_inputs[$(multiplicity.to_string())].push($(&input));
+                    lookup_data
+                        .$(&fn_name.to_lowercase())_inputs[$(multiplicity.to_string())]
+                        .push($(&input).into());
                     let $(output_name) = $(fn_name)::deduce_output(
-                        $(input)
+                        $(input).into()
                     );
-                    lookup_data.$(fn_name.to_lowercase())_outputs[$(multiplicity.to_string())].push($(output_name));
+                    lookup_data
+                        .$(fn_name.to_lowercase())_outputs[$(multiplicity.to_string())]
+                        .push($(output_name).into());
                 });
                 *multiplicity += 1;
             }
@@ -98,7 +102,7 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
     write_trace_body.extend(quote! {
         $['\n']
         lookup_data.self_inputs.push($(air_var_input_name(&lists.input)));
-        lookup_data.self_outputs.push($(simd_parse_air_var(&lists.output)));
+        lookup_data.self_outputs.push($(simd_parse_air_var(&lists.output)).into());
     });
 
     // Generate the final write_trace_row function.
@@ -158,8 +162,8 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 fn generate_input_output_typedefs(lists: &CompiledAirFn) -> rust::Tokens {
-    let input_ty = air_var_type_simd(&lists.input);
-    let output_ty = air_var_type_simd(&lists.output);
+    let input_ty = generate_input_output_type(lists.input_num_of_felts);
+    let output_ty = generate_input_output_type(lists.output_felts.len());
     quote! {
         pub type InputType = $(input_ty);
         pub type OutputType = $(output_ty);
@@ -317,9 +321,8 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
                 for (vec_row, (input, output)) in
                     zip_eq(self.lookup_data.self_inputs, self.lookup_data.self_outputs).enumerate()
                 {
-                    let lookup_values =
-                        [input.io_array(), output.io_array()].concat();
-                    let denom = self_lookup_elements.combine(&lookup_values);
+                    let lookup_values = input.concat(&output);
+                    let denom = self_lookup_elements.combine(lookup_values.as_ref());
                     col_gen.write_frac(vec_row, PackedQM31::one(), denom);
                 }
                 col_gen.finalize_col();
@@ -343,9 +346,9 @@ fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::T
             ) {
                 let mut col_gen = logup_gen.new_col();
                 for (i, (input, output)) in zip_eq(inputs, outputs).enumerate() {
-                    let lookup_values =
-                        [input.io_array(), output.io_array()].concat();
-                    let denom = $(&fn_name.to_lowercase())_lookup_elements.combine(&lookup_values);
+                    let lookup_values = input.concat(&output);
+                    let denom = $(&fn_name.to_lowercase())_lookup_elements
+                        .combine(lookup_values.as_ref());
                     col_gen.write_frac(i, PackedQM31::one(), denom);
                 }
                 col_gen.finalize_col();
@@ -378,7 +381,7 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
 
             use super::component::{Claim, ComponentLookupElements, InteractionClaim};
             use crate::code_gen::packed_types::*;
-            use crate::AirFuncIO;
+            use crate::AirFnIO;
             $(generate_sub_component_imports(deductions, "Simd"))
         }
 }
@@ -394,7 +397,16 @@ fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
                 val
             )
         }
-        CompiledAirVar::Var(_, id) => id.to_lowercase(),
+        CompiledAirVar::Var(_, id) => {
+            let id = id.to_lowercase();
+            // Air infra expects M31, Input types are AirFnIO<_>.
+            // TODO(Ohad): this is a hack.
+            // it's possible to mark the input variables not in the name.
+            match id.contains("_input") {
+                true => id + ".into()",
+                false => id,
+            }
+        }
         CompiledAirVar::State(index) => {
             format!("col{}", index)
         }
@@ -461,32 +473,6 @@ fn vec_of_type(ty: &str) -> String {
     format!("Vec<{}>", ty)
 }
 
-pub fn air_var_type_simd(expr: &CompiledAirVar) -> String {
-    match expr {
-        CompiledAirVar::Const(ty, _) => packed_name(ty),
-        CompiledAirVar::Var(ty, _) => packed_name(ty),
-        CompiledAirVar::State(_) => packed_name("M31"),
-        CompiledAirVar::StaticCall(..) => {
-            panic!("StaticCall not supported yet.")
-        }
-        CompiledAirVar::MethodCall(..) => {
-            panic!("MethodCall not supported yet.")
-        }
-        CompiledAirVar::UnaryOp(..) => {
-            panic!("UnaryOp not supported yet.")
-        }
-        CompiledAirVar::BinaryOp(..) => {
-            panic!("BinaryOp not supported yet.")
-        }
-        CompiledAirVar::Tuple(tuple) => {
-            let left_type = air_var_type_simd(&tuple[0]);
-            let right_type = air_var_type_simd(&tuple[1]);
-            format!("({}, {})", left_type, right_type)
-        }
-        CompiledAirVar::Array(arr) => {
-            let ty = air_var_type_simd(&arr[0]);
-            let len = arr.len();
-            format!("[{};{}]", ty, len)
-        }
-    }
+pub fn generate_input_output_type(n: usize) -> String {
+    format!("AirFnIO<{}>", n)
 }
