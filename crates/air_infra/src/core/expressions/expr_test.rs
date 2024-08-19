@@ -235,7 +235,7 @@ fn test_bad_felt_to_uint16() {
 fn test_conversion_felt_to_felt252() {
     let f = const_expr!(0xFFFFFFF);
     let i: Felt252Expr = f.into();
-    assert_eq!(i.calc(), format!("({}, 0)", 0xFFFFFFF));
+    assert_eq!(i.calc(), format!("[{}, 0, 0, 0]", 0xFFFFFFF));
 }
 
 #[test]
@@ -243,7 +243,7 @@ fn test_conversion_felts_to_felt252() {
     let mut f1 = const_expr!(1);
     let mut f2 = expr!("x2", 2);
     let mut e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
-    assert_eq!(e.calc(), "(1025, 0)");
+    assert_eq!(e.calc(), "[1025, 0, 0, 0]");
     assert_eq!(e.as_felts()[0].calc(), f1.calc());
     assert_eq!(e.as_felts()[1].calc(), f2.calc());
     assert!(!e.in_state());

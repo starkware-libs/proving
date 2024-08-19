@@ -23,7 +23,7 @@ fn test_read_30_bits() {
     let registry = AirFnRegistry::new(&read_30bit_felt);
 
     let (state, val) = registry.run_air(&read_30bit_felt, addr);
-    assert_eq!(val.calc(), "(710034235, 0)");
+    assert_eq!(val.calc(), "[710034235, 0, 0, 0]");
     assert_eq!(state.calc(), ["315", "289", "148", "5"]);
 
     let deduction_vec = [
@@ -72,7 +72,7 @@ fn test_read_18_bits() {
     let registry = AirFnRegistry::new(&read_18bit_felt);
 
     let (state, val) = registry.run_air(&read_18bit_felt, addr);
-    assert_eq!(val.calc(), "(154293, 0)");
+    assert_eq!(val.calc(), "[154293, 0, 0, 0]");
     assert_eq!(state.calc(), ["181", "301"]);
 
     let deduction_vec = vec![

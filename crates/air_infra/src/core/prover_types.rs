@@ -388,52 +388,45 @@ pub const P_FELTS: [u32; FELT252_N_WORDS] = [
 // modulo the prime 2**251 + 17 * 2**192 + 1.
 #[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
 pub struct Felt252 {
-    // TODO: Consider replacing this representation with a [u64; 4] limb representation,
-    // to simplify FieldElement conversions.
-    pub low: u128,
-    pub high: u128,
+    pub limbs: [u64; 4],
 }
 
 impl Felt252 {
     pub fn get_m31(&self, index: usize) -> M31 {
+        let mask = (1u64 << FELT252_BITS_PER_WORD) - 1;
         let shift = FELT252_BITS_PER_WORD * index;
-        let value = if shift + FELT252_BITS_PER_WORD <= 128 {
-            ((self.low >> shift) & 0x1FF) as u32
-        } else if shift >= 128 {
-            ((self.high >> (shift - 128)) & 0x1FF) as u32
+        let low_limb = shift / 64;
+        let shift_low = shift & 0x3F;
+        let high_limb = (shift + FELT252_BITS_PER_WORD - 1) / 64;
+        let value = if low_limb == high_limb {
+            ((self.limbs[low_limb] >> (shift_low)) & mask) as u32
         } else {
-            let low_bits = 128 - shift;
-            let high_shift = 128 - (FELT252_BITS_PER_WORD - low_bits);
-            ((self.low >> shift) | (((self.high << high_shift) >> high_shift) << low_bits)) as u32
+            (((self.limbs[low_limb] >> (shift_low)) | (self.limbs[high_limb] << (64 - shift_low)))
+                & mask) as u32
         };
         M31::from_u32_unchecked(value)
     }
 
     pub fn from_m31_(felts: Vec<M31>) -> Self {
         assert!(felts.len() <= FELT252_N_WORDS, "Invalid number of felts");
-        let mut low = 0;
-        let mut high = 0;
+        let mut limbs = [0u64; 4];
         for (index, felt) in felts.iter().enumerate() {
             let shift = FELT252_BITS_PER_WORD * index;
-            if shift + FELT252_BITS_PER_WORD <= 128 {
-                low |= (felt.0 as u128) << shift;
-            } else if shift >= 128 {
-                high |= (felt.0 as u128) << (shift - 128);
-            } else {
-                let low_bits = 128 - shift;
-                let high_felt = (felt.0 as u128) << low_bits;
-                low |= ((felt.0 as u128) - (high_felt >> low_bits)) << shift;
-                high |= high_felt;
+            let shift_low = shift & 0x3F;
+            let low_limb = shift / 64;
+            let high_limb = (shift + FELT252_BITS_PER_WORD - 1) / 64;
+            limbs[low_limb] |= (felt.0 as u64) << shift_low;
+            if high_limb != low_limb {
+                limbs[high_limb] |= (felt.0 as u64) >> (64 - shift_low);
             }
         }
 
-        Self { low, high }
+        Self { limbs }
     }
 
     pub fn from_m31(felt: M31) -> Self {
         Self {
-            low: felt.0 as u128,
-            high: 0,
+            limbs: [felt.0 as u64, 0, 0, 0],
         }
     }
 }
@@ -444,22 +437,13 @@ impl Felt252 {
 // multiplication and division.
 impl From<Felt252> for FieldElement {
     fn from(n: Felt252) -> FieldElement {
-        let mut limbs = [0u64; 4];
-        limbs[0] = (n.low & (u64::MAX as u128)) as u64;
-        limbs[1] = (n.low >> 64) as u64;
-        limbs[2] = (n.high & (u64::MAX as u128)) as u64;
-        limbs[3] = (n.high >> 64) as u64;
-
-        FieldElement::from_mont(limbs)
+        FieldElement::from_mont(n.limbs)
     }
 }
 impl From<FieldElement> for Felt252 {
     fn from(n: FieldElement) -> Felt252 {
         let limbs = n.into_mont();
-        let low = (limbs[0] as u128) + ((limbs[1] as u128) << 64);
-        let high = (limbs[2] as u128) + ((limbs[3] as u128) << 64);
-
-        Felt252 { low, high }
+        Felt252 { limbs }
     }
 }
 
@@ -517,15 +501,32 @@ impl Div for Felt252 {
     }
 }
 
+// TODO: Consider removing support for (u128, u128) -> felt252, keep only from [u64; 4].
 impl From<(u128, u128)> for Felt252 {
     fn from((low, high): (u128, u128)) -> Felt252 {
-        Felt252 { low, high }
+        Felt252 {
+            limbs: [
+                (low & 0xffffffff_ffffffffu128) as u64,
+                (low >> 64) as u64,
+                (high & 0xffffffff_ffffffffu128) as u64,
+                (high >> 64) as u64,
+            ],
+        }
+    }
+}
+
+impl From<[u64; 4]> for Felt252 {
+    fn from(limbs: [u64; 4]) -> Felt252 {
+        Felt252 { limbs }
     }
 }
 
 impl ProverType for Felt252 {
     fn calc(&self) -> String {
-        format!("({}, {})", self.low, self.high)
+        format!(
+            "[{}, {}, {}, {}]",
+            self.limbs[0], self.limbs[1], self.limbs[2], self.limbs[3]
+        )
     }
     fn r#type() -> String {
         "Felt252".to_string()

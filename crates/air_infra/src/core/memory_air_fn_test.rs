@@ -59,14 +59,14 @@ fn test_memory_air_fn() {
     assert_eq!(memory.data.borrow().len(), 3);
     assert_eq!(
         memory.get(&const_expr!(1000)).unwrap().calc(),
-        "(3, 0)".to_string()
+        "[3, 0, 0, 0]".to_string()
     );
     assert_eq!(
         memory.get(&const_expr!(1001)).unwrap().calc(),
-        "(3, 0)".to_string()
+        "[3, 0, 0, 0]".to_string()
     );
     assert_eq!(
         memory.get(&const_expr!(1002)).unwrap().calc(),
-        "(3, 0)".to_string()
+        "[3, 0, 0, 0]".to_string()
     );
 }
