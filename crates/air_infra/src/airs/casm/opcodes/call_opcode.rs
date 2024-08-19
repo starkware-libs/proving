@@ -3,7 +3,7 @@ use indexmap::IndexMap;
 use super::super::common::*;
 use super::super::read_addr::*;
 use super::super::read_small_felt252::*;
-use super::check_instruction::*;
+use super::decode_instruction::*;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
@@ -14,21 +14,21 @@ use crate::core::prover_types::*;
 // Macros
 use crate::const_expr;
 
-/// The jump opcode.
+/// The call opcode.
 /// Implements the Cairo0 instructions:
-/// - jump rel imm
-/// - jump abs [ap + offset]
-/// - jump abs [fp + offset]
+/// - call rel imm
+/// - call abs [ap + offset]
+/// - call abs [fp + offset]
 
 #[derive(Clone, Debug)]
-pub struct JumpOpcode {
+pub struct CallOpcode {
     pub is_rel: bool,
     pub flag_op1_base_fp: bool,
-    pub flag_ap_update_add_1: bool,
+
     pub memory: Memory<FeltExpr, Felt252Expr>,
 }
 
-impl JumpOpcode {
+impl CallOpcode {
     pub fn get_flags(&self) -> Flags {
         let flag_op1_base_ap = if self.is_rel {
             assert!(!self.flag_op1_base_fp);
@@ -37,8 +37,8 @@ impl JumpOpcode {
             !self.flag_op1_base_fp
         };
         Flags {
-            dst_base_fp: Some(true),
-            op0_base_fp: Some(true),
+            dst_base_fp: Some(false),
+            op0_base_fp: Some(false),
             op1_imm: Some(self.is_rel),
             op1_base_fp: Some(self.flag_op1_base_fp),
             op1_base_ap: Some(flag_op1_base_ap),
@@ -48,15 +48,15 @@ impl JumpOpcode {
             pc_update_jump_rel: Some(self.is_rel),
             pc_update_jnz: Some(false),
             ap_update_add: Some(false),
-            ap_update_add_1: Some(self.flag_ap_update_add_1),
-            opcode_call: Some(false),
+            ap_update_add_1: Some(false),
+            opcode_call: Some(true),
             opcode_ret: Some(false),
             opcode_assert_eq: Some(false),
         }
     }
 }
 
-impl AirFn for JumpOpcode {
+impl AirFn for CallOpcode {
     type In = CasmState;
     type Out = CasmState;
 
@@ -64,20 +64,31 @@ impl AirFn for JumpOpcode {
         // Create the constant offsets.
         let offset2 = if self.is_rel { Some(1) } else { None };
 
-        // Create the flags.
-        let flags = self.get_flags();
-
         // Check the instruction.
         let ([_, _, offset2], _) = ab.call(
-            &CheckInstruction {
-                const_offsets: [Some(-1), Some(-1), offset2],
-                const_flags: flags,
+            &DecodeInstruction {
+                const_offsets: [Some(0), Some(1), offset2],
+                const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },
             pc.clone(),
         );
 
-        // Calculate the next pc
+        // Push fp.
+        ab.mem_verify(
+            &self.memory,
+            ap.clone(),
+            Felt252Expr::from(vec![fp.clone()]),
+        );
+
+        // Push pc + instruction_size.
+        ab.mem_verify(
+            &self.memory,
+            ap.clone() + const_expr!(1),
+            Felt252Expr::from(vec![(pc.clone() + const_expr!(1 + (self.is_rel as u32)))]),
+        );
+
+        // Update pc.
         let next_pc = if self.is_rel {
             pc.clone()
                 + ab.call(
@@ -102,14 +113,7 @@ impl AirFn for JumpOpcode {
             )
         };
 
-        // Calculate the next ap
-        let next_ap = if self.flag_ap_update_add_1 {
-            ap + const_expr!(1)
-        } else {
-            ap
-        };
-
-        [next_pc, next_ap, fp]
+        [next_pc, ap.clone() + const_expr!(2), ap + const_expr!(2)]
     }
 
     fn inst_def(&self) -> IndexMap<String, String> {
@@ -118,10 +122,6 @@ impl AirFn for JumpOpcode {
             (
                 "flag_op1_base_fp".to_string(),
                 self.flag_op1_base_fp.to_string(),
-            ),
-            (
-                "flag_ap_update_add".to_string(),
-                self.flag_ap_update_add_1.to_string(),
             ),
         ]
         .into()
@@ -132,7 +132,7 @@ impl AirFn for JumpOpcode {
     }
 }
 
-impl MemoryAirFn for JumpOpcode {
+impl MemoryAirFn for CallOpcode {
     type K = FeltExpr;
     type V = Felt252Expr;
 

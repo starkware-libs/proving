@@ -1,5 +1,5 @@
 use super::super::common::*;
-use super::check_instruction::*;
+use super::decode_instruction::*;
 
 use crate::airs::casm::read_small_felt252::*;
 use crate::core::air_fn::*;
@@ -49,7 +49,7 @@ impl AirFn for AddAp {
     fn call(&self, ab: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
         // Check the instruction.
         ab.call(
-            &CheckInstruction {
+            &DecodeInstruction {
                 const_offsets: [Some(-1), Some(-1), Some(1)],
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),

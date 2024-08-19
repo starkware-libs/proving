@@ -1,5 +1,5 @@
 use super::super::common::*;
-use super::check_instruction::*;
+use super::decode_instruction::*;
 
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
@@ -77,7 +77,7 @@ fn test_with_matching_memory(
     )]);
 
     // Run and check output
-    let air_fn = CheckInstruction {
+    let air_fn = DecodeInstruction {
         const_offsets,
         const_flags,
         memory,
@@ -152,7 +152,7 @@ fn test_no_consts() {
     let is_offset_const = [false; 3];
     let is_flag_const = [false; 15];
 
-    let check_instruction_input = "CheckInstruction_3c10a43a67df2355_input";
+    let check_instruction_input = "DecodeInstruction_64fce74ff258858e_input";
     let expected_constraints = [
         "RangeCheck7([state[1]]) == []",
         "RangeCheck2([state[2]]) == []",
@@ -256,7 +256,7 @@ fn test_all_consts() {
     let is_offset_const = [true; 3];
     let is_flag_const = [true; 15];
 
-    let check_instruction_input = "CheckInstruction_dea58e38478aa62d_input";
+    let check_instruction_input = "DecodeInstruction_bdf8c7acbfd48726_input";
     let expected_constraints: [&str; 1] = [&format!(
         "Memory_59f18133215d0936([{}]) == zero_extend([{}, {}, {}, {}, {}, {}, {}])",
         check_instruction_input,
@@ -291,7 +291,7 @@ fn test_some_consts() {
     is_flag_const[0] = false;
     is_flag_const[2] = false;
 
-    let check_instruction_input = "CheckInstruction_d01bb0c313f1891a_input";
+    let check_instruction_input = "DecodeInstruction_116be7744be089d8_input";
     let expected_constraints = [
         "RangeCheck2([state[0]]) == []",
         "RangeCheck5([state[2]]) == []",

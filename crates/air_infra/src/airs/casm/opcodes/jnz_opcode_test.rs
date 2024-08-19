@@ -169,7 +169,7 @@ fn test_not_taken_zero_match_base_ap() {
         -13,
         felt252_expr!("dst", 0, 0),
         15,
-        "CheckInstruction_d62d531cab0ba988",
+        "DecodeInstruction_f07b2e63ffedf789",
         vec![
             &format!("{} = {}({})",
                 "Felt252::from_m31_([state[5], state[6], state[7], state[8], state[9], state[10], \
@@ -195,7 +195,7 @@ fn test_taken_match_base_ap() {
         -13,
         felt252_expr!("dst", 123, 456),
         15,
-        "CheckInstruction_d62d531cab0ba988",
+        "DecodeInstruction_f07b2e63ffedf789",
         vec![
             &format!("{} = {}({})",
                 "Felt252::from_m31_([state[5], state[6], state[7], state[8], state[9], state[10], \
@@ -252,7 +252,7 @@ fn test_taken_zero_mismatch_base_ap() {
         -13,
         felt252_expr!("dst", 0, 0),
         15,
-        "CheckInstruction_",
+        "DecodeInstruction_",
         vec![],
     );
 }
@@ -265,7 +265,7 @@ fn test_not_taken_mismatch_base_ap() {
         -13,
         felt252_expr!("dst", 123, 4567),
         15,
-        "CheckInstruction_",
+        "DecodeInstruction_",
         vec![],
     );
 }
@@ -278,7 +278,7 @@ fn test_taken_p_mismatch_base_ap() {
         -13,
         felt252_expr!("dst", 1, 17 * u128::pow(2, 64) + u128::pow(2, 123)),
         15,
-        "CheckInstruction_",
+        "DecodeInstruction_",
         vec![],
     );
 }

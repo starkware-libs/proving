@@ -17,33 +17,33 @@ use crate::const_bool_expr;
 use crate::const_expr;
 use crate::const_u32_expr;
 
-// An AirFn of type CheckInstruction.
+// An AirFn of type DecodeInstruction.
 // Holds the constant offsets, constant flags and memory.
 #[derive(Clone, Debug)]
-pub struct CheckInstruction {
+pub struct DecodeInstruction {
     pub const_offsets: [Option<i16>; 3], // off_0, off_1, off_2
     pub const_flags: Flags,
     pub memory: Memory<FeltExpr, Felt252Expr>,
 }
 
-// Breaks the instruction written at pc into 12-bit components, deduces and range checks the 2
+// Breaks the instruction written at pc into 9-bit components, deduces and range checks the 2 or 3
 // parts of each non-constant offset, sets the concatenation of the components in memory and
-// returns the felts of the non-constant offsets pieced back together.
-impl AirFn for CheckInstruction {
+// returns the felts of the offsets pieced back together.
+impl AirFn for DecodeInstruction {
     type In = FeltExpr;
     type Out = ([FeltExpr; 3], [BoolExpr; 15]);
 
     fn call(&self, ab: &mut AirBuilder, pc: Self::In) -> Self::Out {
         assert_eq!(
             FELT252_BITS_PER_WORD, 9,
-            "CheckInstruction assumes there are 9 bits per felt in a felt252"
+            "DecodeInstruction assumes there are 9 bits per felt in a felt252"
         );
 
         let instruction_for_deduction = ab.mem_read(&self.memory, &pc);
         let mut offsets_parts = vec![];
 
         for (i, off) in self.const_offsets.iter().enumerate() {
-            offsets_parts.push(check_offset(i, ab, off, instruction_for_deduction.clone()));
+            offsets_parts.push(decode_offset(i, ab, off, instruction_for_deduction.clone()));
         }
         let [off_0, off_1, off_2] = offsets_parts
             .try_into()
@@ -80,7 +80,7 @@ impl AirFn for CheckInstruction {
                 } else {
                     (6, &mut felt6, i - low_flags_len)
                 };
-                let flag = check_flag(ab, shift, instruction_for_deduction.get_felt(felt_index));
+                let flag = decode_flag(ab, shift, instruction_for_deduction.get_felt(felt_index));
 
                 // Update the corresponding felt.
                 *felt_to_update = felt_to_update.clone() + (flag.clone() * const_expr!(1 << shift));
@@ -112,7 +112,7 @@ impl AirFn for CheckInstruction {
     }
 }
 
-impl MemoryAirFn for CheckInstruction {
+impl MemoryAirFn for DecodeInstruction {
     type K = FeltExpr;
     type V = Felt252Expr;
 
@@ -123,7 +123,7 @@ impl MemoryAirFn for CheckInstruction {
 
 // Receives the felt where this flag is stored and the index in this felt.
 // Deduces the flag and adds a constraint that the flag is either 0 or 1.
-fn check_flag(ab: &mut AirBuilder, index: usize, felt: FeltExpr) -> FeltExpr {
+fn decode_flag(ab: &mut AirBuilder, index: usize, felt: FeltExpr) -> FeltExpr {
     let mut flag = if index == 0 {
         UInt32Expr::from(felt) & const_u32_expr!(1)
     } else {
@@ -142,7 +142,7 @@ fn check_flag(ab: &mut AirBuilder, index: usize, felt: FeltExpr) -> FeltExpr {
 // Breaks the offset into 3 felt parts according to it's position in the instruction and
 // returns them. If the offset isn't constant it deduces all three parts, range checks those that
 // aren't FELT252_BITS_PER_WORD bits and returns the concatenation of the parts (otherwise returns it as None).
-fn check_offset(
+fn decode_offset(
     offset_index: usize,
     ab: &mut AirBuilder,
     offset: &Option<i16>,
@@ -182,7 +182,7 @@ fn check_offset(
     }
 
     // Find the low part of the offset.
-    let low = check_offset_part(
+    let low = decode_offset_part(
         off_begin,
         off_l_len,
         ab,
@@ -190,7 +190,7 @@ fn check_offset(
     );
 
     // Find the middle part of the offset.
-    let middle = check_offset_part(
+    let middle = decode_offset_part(
         0,
         off_m_len,
         ab,
@@ -199,7 +199,7 @@ fn check_offset(
 
     // Find the high part of the offset.
     let high = if off_l_len + off_m_len < 16 {
-        check_offset_part(
+        decode_offset_part(
             0,
             16 - off_l_len - off_m_len,
             ab,
@@ -233,7 +233,7 @@ fn check_offset(
 // Recieves begining bit and the bit length of an offset part, a felt to split and returns the part
 // of the offset according to the specified begining and length.
 // If not FELT252_BITS_PER_WORD bits long then it also range checks the part.
-fn check_offset_part(
+fn decode_offset_part(
     begin: usize,
     len: usize,
     ab: &mut AirBuilder,

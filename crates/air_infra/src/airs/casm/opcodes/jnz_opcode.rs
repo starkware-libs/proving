@@ -2,7 +2,7 @@ use indexmap::IndexMap;
 
 use super::super::common::*;
 use super::super::read_small_felt252::*;
-use super::check_instruction::*;
+use super::decode_instruction::*;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
@@ -56,7 +56,7 @@ impl AirFn for JnzOpcode {
     fn call(&self, ab: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
         // Check the instruction.
         let ([offset_dst, _, _], _) = ab.call(
-            &CheckInstruction {
+            &DecodeInstruction {
                 const_offsets: [None, Some(-1), Some(1)],
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),

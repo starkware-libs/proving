@@ -235,7 +235,7 @@ fn test_failed_and_bitwise_builtin() {
 fn test_big_felt252_bitwise_builtin() {
     let instance_number = expr!("instance_number", 10);
     let air_body_vec = [
-        "tmp_0 = BitwiseBuiltin_3d2f9e66fc8dd17b_input",
+        "tmp_0 = BitwiseBuiltin_efb2afede285371d_input",
         "Deduction: tmp_0",
         &format!(
             "Felt252::from_m31_({}) = {}({})",

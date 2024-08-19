@@ -135,7 +135,7 @@ fn test_jump_opcode(
 fn test_abs_jump_base_ap() {
     let check_instruction_offsets =
         "[const_2147483646, const_2147483646, (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)]";
-    let check_instruction_name = "CheckInstruction_b0d1a8057c129c5";
+    let check_instruction_name = "DecodeInstruction_a4fdc221dc5c5f46";
     let read_addr_output = "((state[6] + (state[7] * const_512)) + (state[8] * const_262144))";
     let read_addr_input = "(state[1] + (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768))";
     let read_addr_call = &format!(
@@ -184,7 +184,7 @@ fn test_abs_jump_negativ_offset() {
 #[test]
 fn test_rel_jump() {
     let check_instruction_offsets = "[const_2147483646, const_2147483646, const_1]";
-    let check_instruction_name = "CheckInstruction_d90eddf406d598ac";
+    let check_instruction_name = "DecodeInstruction_d5261ee7a67207d3";
     let read_small_felt252_output = "Felt252::from_m31_(zero_extend([state[3]]))";
     let read_small_felt252_input = "(state[0] + const_1)";
     let read_small_felt252_name = "ReadSmallFelt252_cc824bd2f61c6ef6";

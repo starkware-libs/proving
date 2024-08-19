@@ -1,5 +1,5 @@
+use super::super::common::*;
 use super::add_small_opcode::*;
-use super::common::*;
 
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
@@ -271,7 +271,7 @@ fn test_add_small_not_imm() {
         Some((
             check_instruction_offsets,
             &check_instruction_flags,
-            "CheckInstruction_66e58212c867a935",
+            "DecodeInstruction_2f4ab58cc783b3f7",
         )),
         Some(&memory_body),
     );
@@ -353,7 +353,7 @@ fn test_add_small_imm() {
         Some((
             check_instruction_offsets,
             &check_instruction_flags,
-            "CheckInstruction_d01b0a2c2642087a",
+            "DecodeInstruction_7dd793dc3ba867a8",
         )),
         Some(&memory_body),
     );

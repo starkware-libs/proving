@@ -159,7 +159,7 @@ fn test_assert_equal_deref_constraint_deduction() {
         Some((
             check_instruction_offsets,
             &check_instruction_flags,
-            "CheckInstruction_8541c1464a1fb5a8",
+            "DecodeInstruction_8443cf0a4db7edc5",
         )),
         Some((&[memory_read], &memory_constraints)),
     );
@@ -194,7 +194,7 @@ fn test_assert_equal_imm_constraint_deduction() {
         Some((
             check_instruction_offsets,
             &check_instruction_flags,
-            "CheckInstruction_a40b2fddf1b31684",
+            "DecodeInstruction_70368a7eef804c24",
         )),
         Some((&[memory_read], &[memory_constraint])),
     );
@@ -245,7 +245,7 @@ fn test_assert_equal_double_deref_constraint_deduction() {
         Some((
             check_instruction_offsets,
             &check_instruction_flags,
-            "CheckInstruction_ebf000a2b9b432e4",
+            "DecodeInstruction_a06f5e7da24ead84",
         )),
         Some((&memory_reads, &[memory_constraint])),
     );

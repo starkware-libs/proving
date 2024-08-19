@@ -1,6 +1,6 @@
 use super::super::common::*;
 use super::super::read_addr::*;
-use super::check_instruction::*;
+use super::decode_instruction::*;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
@@ -47,13 +47,13 @@ impl AirFn for RetOpcode {
     type Out = CasmState;
 
     fn call(&self, air_builder: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
-        let check_instruction = CheckInstruction {
+        let decode_instruction = DecodeInstruction {
             const_offsets: [Some(-2), Some(-1), Some(-1)],
             const_flags: RET_FLAGS,
             memory: self.memory.clone(),
         };
 
-        air_builder.call(&check_instruction, pc);
+        air_builder.call(&decode_instruction, pc);
 
         // Read the saved pc and fp as memory addresses,
         // so we don't support values > 2**24 for them.
