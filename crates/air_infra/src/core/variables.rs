@@ -58,12 +58,33 @@ pub trait InternalAirVarInfo: Debug {
     // Note that in runtime, we allow deduction of constant variables in internal calls, since an AirFn can
     // be called with different inputs in different calls.
     fn is_const(&self) -> bool;
+
+    // An AirVar is in_constraints if each of its intermediate variables was created with let_for_constraint
+    // or with let_. Similarly, an AirVar is in_deductions if each of its intermediate variables was created
+    // with let_for_deduction or with let_.
+    // If it has no intermediate variables, it is both in_constraints and in_deductions.
+    // Used to verify that intermediate variables are used in the correct context.
+    fn get_intermediate_type(&self) -> IntermediateType {
+        let intermediate_types = self.get_intermediate_types();
+        IntermediateType {
+            in_constraints: intermediate_types.iter().all(|t| t.in_constraints),
+            in_deductions: intermediate_types.iter().all(|t| t.in_deductions),
+        }
+    }
+
+    fn get_intermediate_types(&self) -> Vec<IntermediateType>;
 }
 
 // Actions on air variables used by the air builder.
 pub trait InternalAirVarActions: Clone + Into<AirVarImpl> {
     fn new(name: String) -> Self;
-    fn let_(&self, name: String) -> Self;
+    fn let_(&self, name: String, intermediate_type: IntermediateType) -> Self;
+}
+
+#[derive(Clone, Debug, Serialize, Default)]
+pub struct IntermediateType {
+    pub in_constraints: bool,
+    pub in_deductions: bool,
 }
 
 // Air variables as represented in the air_body.
@@ -109,6 +130,16 @@ impl InternalAirVarInfo for AirVarImpl {
             AirVarImpl::Expr(expr) => expr.is_const(),
             AirVarImpl::Tuple(vars) => vars.iter().all(|v| v.is_const()),
             AirVarImpl::Array(vars) => vars.iter().all(|v| v.is_const()),
+        }
+    }
+
+    fn get_intermediate_types(&self) -> Vec<IntermediateType> {
+        match self {
+            AirVarImpl::Expr(expr) => expr.get_intermediate_types(),
+            AirVarImpl::Tuple(vars) | AirVarImpl::Array(vars) => vars
+                .iter()
+                .flat_map(|v| v.get_intermediate_types())
+                .collect(),
         }
     }
 }
@@ -164,11 +195,15 @@ impl InternalAirVarInfo for () {
     fn is_const(&self) -> bool {
         true
     }
+
+    fn get_intermediate_types(&self) -> Vec<IntermediateType> {
+        vec![]
+    }
 }
 
 impl InternalAirVarActions for () {
     fn new(_name: String) -> Self {}
-    fn let_(&self, _name: String) -> Self {}
+    fn let_(&self, _name: String, _intermediate_type: IntermediateType) -> Self {}
 }
 
 impl_air_var!((BoolExpr, FeltExpr));
@@ -206,13 +241,16 @@ macro_rules! impl_air_var {
             fn is_const(&self) -> bool {
                 self.iter().all(|s| s.is_const())
             }
+            fn get_intermediate_types(&self) -> Vec<IntermediateType> {
+                self.iter().flat_map(|s| s.get_intermediate_types()).collect()
+            }
         }
 
         impl<const N:usize> InternalAirVarActions for [$s;N] where $s: InternalAirVarActions {
-            fn let_(&self, name: String) -> Self {
+            fn let_(&self, name: String, intermediate_type: IntermediateType) -> Self {
                 let mut res = self.clone();
                 for (i, s) in res.iter_mut().enumerate() {
-                    *s = s.let_(format!("{}[{}]", name, i));
+                    *s = s.let_(format!("{}[{}]", name, i), intermediate_type.clone());
                 }
                 res
             }
@@ -257,15 +295,22 @@ macro_rules! impl_air_var {
                 let ($($s),+) = self;
                 $($s.is_const() &&)+ true
             }
+            fn get_intermediate_types(&self) -> Vec<IntermediateType> {
+                #[allow(non_snake_case)]
+                let ($($s),+) = self;
+                let mut res = vec!();
+                $(res.extend($s.get_intermediate_types());)+
+                res
+            }
         }
 
         impl InternalAirVarActions for ($($s),+) where $($s: InternalAirVarActions),+
         {
-            fn let_(&self, name: String) -> Self {
+            fn let_(&self, name: String, intermediate_type: IntermediateType) -> Self {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
                 let mut i = 0;
-                ($($s.let_(format!("{}.{}", name, { i += 1; i - 1 })),)+)
+                ($($s.let_(format!("{}.{}", name, { i += 1; i - 1 }), intermediate_type.clone()),)+)
             }
             fn new(name: String) -> Self {
                 let mut i = 0;

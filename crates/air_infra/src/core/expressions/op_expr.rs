@@ -90,6 +90,13 @@ where
     fn is_const(&self) -> bool {
         self.children.iter().all(|v| v.is_const())
     }
+
+    fn get_intermediate_types(&self) -> Vec<IntermediateType> {
+        self.children
+            .iter()
+            .flat_map(|v| v.get_intermediate_types())
+            .collect()
+    }
 }
 
 impl<T> From<OpExpr<T>> for CompiledAirVar

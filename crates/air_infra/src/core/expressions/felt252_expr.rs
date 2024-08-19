@@ -43,6 +43,7 @@ impl VarExprUpdate for VarExpr<Felt252> {
                     self.value.map(|v| v.get_m31(i)),
                     self.is_const,
                     self.in_state(),
+                    self.intermediate_type.clone(),
                 ))
                 .into()
             })
@@ -132,6 +133,7 @@ macro_rules! felt252_expr {
             Some($crate::core::prover_types::Felt252::from(($low, $high))),
             false,
             false,
+            None,
         ))
     };
 }

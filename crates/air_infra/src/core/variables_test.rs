@@ -15,7 +15,7 @@ fn test_expr_array() {
     assert_eq!(&array[0].name(), "x");
     assert_eq!(&array[1].name(), "y");
     let prefix = format!("{}{}", INTERMEDIATE_VAR_PREFIX, 0);
-    array = array.let_(prefix.clone());
+    array = array.let_(prefix.clone(), IntermediateType::default());
     assert_eq!(array[0].name(), format!("{}{}", prefix.clone(), "[0]"));
     assert_eq!(array[1].name(), format!("{}{}", prefix, "[1]"));
 
@@ -49,7 +49,7 @@ fn test_expr_tuple() {
     assert!(tup.0.name() == "y");
     assert!(tup.1.name() == "x");
     let prefix = format!("{}{}", INTERMEDIATE_VAR_PREFIX, 0);
-    tup = tup.let_(prefix.clone());
+    tup = tup.let_(prefix.clone(), IntermediateType::default());
     assert!(tup.0.name() == format!("{}{}", prefix.clone(), ".0"));
     assert!(tup.1.name() == format!("{}{}", prefix, ".1"));
 

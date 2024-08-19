@@ -62,7 +62,7 @@ impl AirFnEntry {
 pub struct AirFnRegistry {
     pub air_fns: Rc<RefCell<HashMap<String, AirFnEntry>>>,
     #[serde(skip)]
-    pub intermediate_vars_index: Rc<RefCell<usize>>,
+    pub intermediate_index: Rc<RefCell<usize>>,
 }
 
 impl AirFnRegistry {
@@ -74,7 +74,7 @@ impl AirFnRegistry {
         // Create the registry.
         let registry = Self {
             air_fns: Rc::new(RefCell::new(HashMap::new())),
-            intermediate_vars_index: Rc::new(RefCell::new(0)),
+            intermediate_index: Rc::new(RefCell::new(0)),
         };
         // Add the function to the registry.
         AirFnEntry::new(&registry, air_fn);
@@ -158,13 +158,6 @@ impl AirFnRegistry {
         (air_builder, input, output)
     }
 
-    pub(super) fn get_intermediate_var_index(&self) -> String {
-        let mut index = self.intermediate_vars_index.borrow_mut();
-        let index_as_str = format!("{}", *index);
-        *index += 1;
-        index_as_str
-    }
-
     // Dumps the registry to a file.
     pub fn dump_to_file(&self, file_name: &str) {
         let mut path = Self::project_root();
@@ -235,19 +228,18 @@ impl AirFnRegistry {
                 AirBodyComponent::Deduction(deduction) => {
                     deductions.push(TraceGenStep::Deduction(deduction.into()));
                 }
-                AirBodyComponent::Intermediate(name, var, ty) => match ty {
-                    IntermediateType::Deduction => {
+                AirBodyComponent::Intermediate(name, var, ty) => {
+                    if ty.in_constraints {
+                        constraints.push(ConstraintEvalStep::Intermediate(
+                            name.clone(),
+                            var.clone().into(),
+                        ));
+                    }
+
+                    if ty.in_deductions {
                         deductions.push(TraceGenStep::Intermediate(name, var.into()));
                     }
-                    IntermediateType::Constraint => {
-                        constraints.push(ConstraintEvalStep::Intermediate(name, var.into()));
-                    }
-                    IntermediateType::Both => {
-                        deductions
-                            .push(TraceGenStep::Intermediate(name.clone(), var.clone().into()));
-                        constraints.push(ConstraintEvalStep::Intermediate(name, var.into()));
-                    }
-                },
+                }
                 AirBodyComponent::Call(f) => {
                     let (new_deductions, new_constraints) = Self::compile_air_fn(f.air_body);
                     constraints.extend(new_constraints);
@@ -291,8 +283,15 @@ impl AirFnRegistry {
         (deductions, constraints)
     }
 
-    pub(super) fn get_intermediate_var_name(&self) -> String {
-        let index = self.get_intermediate_var_index();
+    fn get_intermediate_index(&self) -> usize {
+        let mut index = self.intermediate_index.borrow_mut();
+        let res = *index;
+        *index += 1;
+        res
+    }
+
+    pub(super) fn get_intermediate_name(&self) -> String {
+        let index = self.get_intermediate_index();
         format!("{}{}", INTERMEDIATE_VAR_PREFIX, index)
     }
 }

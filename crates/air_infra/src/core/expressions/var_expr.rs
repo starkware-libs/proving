@@ -19,6 +19,7 @@ where
     pub(super) is_const: bool,
     pub(super) parent: Option<ParentExpr>,
     pub(super) complex_or_felt: ComplexOrFelt,
+    pub(super) intermediate_type: Option<IntermediateType>,
 }
 
 impl<T> VarExpr<T>
@@ -26,7 +27,13 @@ where
     T: ProverType,
     Self: VarExprUpdate,
 {
-    pub fn new(name: String, value: Option<T>, is_const: bool, in_state: bool) -> Self {
+    pub fn new(
+        name: String,
+        value: Option<T>,
+        is_const: bool,
+        in_state: bool,
+        intermediate_type: Option<IntermediateType>,
+    ) -> Self {
         if is_const {
             assert!(value.is_some());
         }
@@ -37,6 +44,7 @@ where
             is_const,
             parent: None,
             complex_or_felt: ComplexOrFelt::Felt(StateInfo::IsPolyOfState(in_state)),
+            intermediate_type,
         };
         var.create_children();
         var.update_children();
@@ -44,7 +52,7 @@ where
     }
 
     pub fn new_const(value: T) -> Self {
-        Self::new(value.calc(), Some(value), true, false)
+        Self::new(value.calc(), Some(value), true, false, None)
     }
 
     pub(super) fn set_parent<P>(&mut self, parent_var: &VarExpr<P>, index: Option<usize>)
@@ -95,6 +103,10 @@ where
 
     fn is_const(&self) -> bool {
         self.is_const
+    }
+
+    fn get_intermediate_types(&self) -> Vec<IntermediateType> {
+        self.intermediate_type.clone().map_or(vec![], |t| vec![t])
     }
 }
 

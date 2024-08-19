@@ -21,6 +21,7 @@ impl AirFn for Seq {
             _air_builder.row_number().map(|x| Felt::from(x as u32)),
             false,
             true,
+            None,
         ));
 
         #[cfg(not(test))]

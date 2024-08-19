@@ -30,6 +30,7 @@ impl VarExprUpdate for VarExpr<Bool> {
             self.value.map(|v| v.as_m31()),
             self.is_const,
             self.in_state(),
+            self.intermediate_type.clone(),
         );
         self.complex_or_felt = ComplexOrFelt::Complex(vec![FeltExpr::Var(child).into()]);
     }
@@ -84,6 +85,7 @@ macro_rules! bool_expr {
             Some($crate::core::prover_types::Bool::from($val)),
             false,
             false,
+            None,
         ))
     };
 }

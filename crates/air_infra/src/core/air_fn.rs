@@ -122,6 +122,11 @@ impl AirBuilder {
             )
         }
 
+        assert!(
+            expr.get_intermediate_type().in_constraints,
+            "Constraint contains an intermediate variable that is not in constraints"
+        );
+
         self.air_body.push(AirBodyComponent::Constraint(expr));
     }
 
@@ -129,8 +134,13 @@ impl AirBuilder {
         #[cfg(test)]
         if !self.run {
             // Cannot assert this in run mode, where we might deduce constants.
-            assert!(!expr.is_const());
+            assert!(!expr.is_const(), "Cannot deduce a constant");
         }
+
+        assert!(
+            expr.get_intermediate_type().in_deductions,
+            "Deduction contains an intermediate variable that is not in deductions"
+        );
 
         self.air_body
             .push(AirBodyComponent::Deduction(expr.clone()));
@@ -142,7 +152,7 @@ impl AirBuilder {
         #[cfg(test)]
         if !self.run {
             // Cannot assert this in run mode, where we might deduce constants.
-            assert!(!expr.is_const());
+            assert!(!expr.is_const(), "Cannot assign a constant");
         }
 
         #[cfg(test)]
@@ -153,6 +163,12 @@ impl AirBuilder {
                 "The mask of the constraint must be in the trace."
             );
         }
+
+        let intermediate_type = expr.get_intermediate_type();
+        assert!(
+            intermediate_type.in_deductions && intermediate_type.in_constraints,
+            "Assignment contains an intermediate variable that is not in both constraints and deductions"
+        );
 
         let before = expr.clone();
         self.state.add(expr);
@@ -169,13 +185,17 @@ impl AirBuilder {
     where
         V: AirVar,
     {
-        let name = self.registry.get_intermediate_var_name();
+        let name = self.registry.get_intermediate_name();
+        let intermediate_type = IntermediateType {
+            in_constraints: false,
+            in_deductions: true,
+        };
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
             var.clone().into(),
-            IntermediateType::Deduction,
+            intermediate_type.clone(),
         ));
-        var.let_(name)
+        var.let_(name, intermediate_type)
     }
 
     pub fn let_for_constraint(&mut self, expr: FeltExpr) -> FeltExpr {
@@ -186,13 +206,17 @@ impl AirBuilder {
                 "The mask of the intermediate variable for constraints must be in the trace."
             );
         }
-        let name = self.registry.get_intermediate_var_name();
+        let name = self.registry.get_intermediate_name();
+        let intermediate_type = IntermediateType {
+            in_constraints: true,
+            in_deductions: false,
+        };
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
             expr.clone().into(),
-            IntermediateType::Constraint,
+            intermediate_type.clone(),
         ));
-        expr.let_(name)
+        expr.let_(name, intermediate_type)
     }
 
     pub fn let_(&mut self, expr: FeltExpr) -> FeltExpr {
@@ -203,13 +227,17 @@ impl AirBuilder {
                 "The mask of the intermediate variable for constraints must be in the trace."
             );
         }
-        let name = self.registry.get_intermediate_var_name();
+        let name = self.registry.get_intermediate_name();
+        let intermediate_type = IntermediateType {
+            in_constraints: true,
+            in_deductions: true,
+        };
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
             expr.clone().into(),
-            IntermediateType::Both,
+            intermediate_type.clone(),
         ));
-        expr.let_(name)
+        expr.let_(name, intermediate_type)
     }
 
     pub fn call<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>, input: I) -> O
@@ -278,8 +306,16 @@ impl AirBuilder {
             AirFnEntry::new(&self.registry, air_fn);
         }
 
-        let output_intermediate_name = self.registry.get_intermediate_var_name();
-        let mut intermediate = O::new(output_intermediate_name.clone());
+        #[cfg(test)]
+        if self.run {
+            assert!(
+                input.in_state(),
+                "The mask of the input to a lookup call must be in the trace."
+            );
+        }
+
+        let output_name = self.registry.get_intermediate_name();
+        let mut intermediate = O::new(output_name.clone());
 
         #[cfg(test)]
         if self.run {
@@ -290,7 +326,7 @@ impl AirBuilder {
                 run: self.run,
                 registry: self.registry.clone(),
             };
-            let output = match air_fn.trace_type() {
+            intermediate = match air_fn.trace_type() {
                 // For const components, use call() to compute the output
                 TraceType::Const => air_fn.call(&mut air_builder, input.clone()),
 
@@ -300,14 +336,20 @@ impl AirBuilder {
 
                 _ => panic!(),
             };
-
-            intermediate = output.let_(output_intermediate_name.clone())
         }
+
+        intermediate = intermediate.let_(
+            output_name.clone(),
+            IntermediateType {
+                in_constraints: false,
+                in_deductions: true,
+            },
+        );
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: air_fn.name(),
             input_arg: input.clone().into(),
-            output_name: output_intermediate_name,
+            output_name,
         }));
 
         for felt in intermediate.as_felts_mut() {
@@ -332,7 +374,7 @@ impl AirBuilder {
         K: AirVar,
         V: AirVar + Default,
     {
-        let value_name = self.registry.get_intermediate_var_name();
+        let value_name = self.registry.get_intermediate_name();
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: memory.name(),
@@ -340,15 +382,20 @@ impl AirBuilder {
             output_name: value_name.clone(),
         }));
 
-        #[allow(unused_mut)]
         let mut value = V::new(value_name.clone());
 
         #[cfg(test)]
         if self.run {
             value = memory.get(key).unwrap();
-            value = value.let_(value_name);
         }
 
+        value = value.let_(
+            value_name,
+            IntermediateType {
+                in_constraints: false,
+                in_deductions: true,
+            },
+        );
         value
     }
 
@@ -406,7 +453,7 @@ impl AirBuilder {
             AirFnEntry::new(&self.registry, air_fn);
         }
 
-        let output_name = self.registry.get_intermediate_var_name();
+        let output_name = self.registry.get_intermediate_name();
         self.air_body.push(AirBodyComponent::AccessExternalColumn(
             AccessExternalColumn {
                 air_fn_name: air_fn.name(),
@@ -426,7 +473,14 @@ impl AirBuilder {
             registry: self.registry.clone(),
         };
         let output = air_fn.call(&mut air_builder, ());
-        output.let_(output_name)
+        assert!(output.in_state(), "Output must be in the trace");
+        output.let_(
+            output_name,
+            IntermediateType {
+                in_constraints: true,
+                in_deductions: true,
+            },
+        )
     }
 }
 
@@ -480,11 +534,4 @@ pub enum AirBodyComponent {
     LookupCall(LookupCall),
     LookupConstraint(LookupConstraint),
     AccessExternalColumn(AccessExternalColumn),
-}
-
-#[derive(Clone, Debug, Serialize)]
-pub enum IntermediateType {
-    Constraint,
-    Deduction,
-    Both,
 }
