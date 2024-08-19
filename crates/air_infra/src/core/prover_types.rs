@@ -380,7 +380,7 @@ pub const FELT252_N_WORDS: usize = 28;
 pub const FELT252_BITS_PER_WORD: usize = 9;
 
 // NOTE! This assumes Felt252 has shape (28, 9).
-pub const P_FELTS: [u32; 28] = [
+pub const P_FELTS: [u32; FELT252_N_WORDS] = [
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 136, 0, 0, 0, 0, 0, 256,
 ];
 
