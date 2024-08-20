@@ -1,11 +1,11 @@
 use super::super::common::*;
 use super::jump_opcode::*;
 
+use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
 
 // Macros
 use crate::const_expr;
@@ -26,7 +26,7 @@ fn test_jump_opcode(
         is_rel: is_rel_jump,
         flag_op1_base_fp: op1_base_fp,
         flag_ap_update_add_1: ap_update_add_1,
-        memory: Memory::default(),
+        memory: Felt252IdMemory::default(),
     };
 
     // Register values at opcode start
@@ -60,7 +60,7 @@ fn test_jump_opcode(
             felt252_expr!("op1", op1, 0),
         ));
     }
-    jump_opcode.init_memory(&Memory::new_with_data(memory_values));
+    jump_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
     let registry = AirFnRegistry::new(&jump_opcode);
@@ -143,13 +143,13 @@ fn test_abs_jump_base_ap() {
                     const_false\
                 ]\
             ) = DecodeInstruction_a4fdc221dc5c5f46(state[0])",
-            "((state[6] + (state[7] * const_512)) + (state[8] * const_262144)) = \
-                ReadAddr_d86123cf8dd732a9((\
+            "Felt252::from_limbs(zero_extend([state[8], state[9], state[10]])) = \
+                ReadPositive_dd7d1f062646f801((\
                     state[1] + \
                     (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
                 ))",
         ]),
-        vec![3, 11, 6, 2, 0, 4, 8, 0, 0],
+        vec![3, 11, 6, 2, 0, 4, 0, 1, 8, 0, 0],
     );
 }
 
@@ -162,7 +162,7 @@ fn test_abs_jump_base_fp() {
         5,
         10,
         None,
-        vec![3, 11, 6, 10, 0, 4, 5, 0, 0],
+        vec![3, 11, 6, 10, 0, 4, 0, 1, 5, 0, 0],
     );
 }
 
@@ -175,7 +175,7 @@ fn test_abs_jump_base_ap_inc_ap() {
         12,
         100,
         None,
-        vec![3, 11, 6, 4, 6, 4, 12, 0, 0],
+        vec![3, 11, 6, 4, 6, 4, 0, 1, 12, 0, 0],
     );
 }
 
@@ -188,7 +188,7 @@ fn test_abs_jump_base_fp_inc_ap() {
         20,
         17,
         None,
-        vec![3, 11, 6, 1, 1, 4, 20, 0, 0],
+        vec![3, 11, 6, 1, 1, 4, 0, 1, 20, 0, 0],
     );
 }
 
@@ -201,7 +201,7 @@ fn test_abs_big_op1() {
         1684685,
         402,
         None,
-        vec![3, 11, 6, 2, 25, 4, 205, 218, 6],
+        vec![3, 11, 6, 2, 25, 4, 0, 1, 205, 218, 6],
     );
 }
 
@@ -214,56 +214,83 @@ fn test_abs_jump_negativ_offset() {
         9,
         -9,
         None,
-        vec![3, 11, 6, 7, 511, 3, 9, 0, 0],
+        vec![3, 11, 6, 7, 511, 3, 0, 1, 9, 0, 0],
     );
 }
 
 #[test]
 fn test_rel_jump() {
-    test_jump_opcode(true, false, false, 100, 5, Some(&[
-        "tmp_0 = [\
-            JumpOpcode_35e5e7be1094296e_input[0], \
-            JumpOpcode_35e5e7be1094296e_input[1], \
-            JumpOpcode_35e5e7be1094296e_input[2]\
-        ]",
-        "Deduction: tmp_0[0]",
-        "Deduction: tmp_0[1]",
-        "Deduction: tmp_0[2]",
-        "(\
-            [\
-                const_2147483646, \
-                const_2147483646, \
-                const_1\
-            ], [\
-                const_true, \
-                const_true, \
-                const_true, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_true, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false\
-            ]\
-        ) = DecodeInstruction_d5261ee7a67207d3(state[0])",
-        "Felt252::from_limbs(zero_extend([state[3]])) = ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
-    ]), vec![3, 11, 6, 100]);
+    test_jump_opcode(
+        true,
+        false,
+        false,
+        100,
+        5,
+        Some(&[
+            "tmp_0 = [\
+                JumpOpcode_35e5e7be1094296e_input[0], \
+                JumpOpcode_35e5e7be1094296e_input[1], \
+                JumpOpcode_35e5e7be1094296e_input[2]\
+            ]",
+            "Deduction: tmp_0[0]",
+            "Deduction: tmp_0[1]",
+            "Deduction: tmp_0[2]",
+            "(\
+                [\
+                    const_2147483646, \
+                    const_2147483646, \
+                    const_1\
+                ], [\
+                    const_true, \
+                    const_true, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false\
+                ]\
+            ) = DecodeInstruction_d5261ee7a67207d3(state[0])",
+            "(\
+                (((state[9] * const_262144) + ((state[8] * const_512) + state[7])) - state[5]) - \
+                (const_134217728 * state[6])\
+            ) = ReadSmall_cda8d80eab0abe94((state[0] + const_1))",
+        ]),
+        vec![3, 11, 6, 0, 1, 0, 0, 100, 0, 0],
+    );
 }
 
 #[test]
 fn test_rel_jump_inc_ap() {
-    test_jump_opcode(true, false, true, 3, 5, None, vec![3, 11, 6, 3]);
+    test_jump_opcode(
+        true,
+        false,
+        true,
+        3,
+        5,
+        None,
+        vec![3, 11, 6, 0, 1, 0, 0, 3, 0, 0],
+    );
 }
 
 #[test]
 fn test_rel_big_op1() {
-    test_jump_opcode(true, false, false, 411, 5, None, vec![3, 11, 6, 411]);
+    test_jump_opcode(
+        true,
+        false,
+        false,
+        411,
+        5,
+        None,
+        vec![3, 11, 6, 0, 1, 0, 0, 411, 0, 0],
+    );
 }
 
 pub fn assemble_jump(op1_off: i16, flags: &Flags) -> u64 {

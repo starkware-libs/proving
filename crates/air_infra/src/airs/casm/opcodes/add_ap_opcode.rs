@@ -1,12 +1,9 @@
 use super::super::common::*;
 use super::decode_instruction::*;
 
-use crate::airs::casm::read_small_felt252::*;
+use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
-use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;
@@ -17,7 +14,7 @@ use crate::const_expr;
 ///
 #[derive(Clone, Debug)]
 pub struct AddAp {
-    pub memory: Memory<FeltExpr, Felt252Expr>,
+    pub memory: Felt252IdMemory,
 }
 
 impl AddAp {
@@ -58,30 +55,12 @@ impl AirFn for AddAp {
         );
 
         // Fetch the immediate value.
-        let imm = ab
-            .call(
-                &ReadSmallFelt252 {
-                    // TODO: Read immediate <= Memory size.
-                    num_bits: FELT252_BITS_PER_WORD,
-                    memory: self.memory.clone(),
-                },
-                pc.clone() + const_expr!(1),
-            )
-            .get_felt(0);
+        let imm = self.memory.read_rel_imm(ab, pc.clone() + const_expr!(1));
 
         [pc + const_expr!(2), ap + imm, fp]
     }
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
-    }
-}
-
-impl MemoryAirFn for AddAp {
-    type K = FeltExpr;
-    type V = Felt252Expr;
-
-    fn init_memory(&mut self, memory: &Memory<FeltExpr, Felt252Expr>) {
-        self.memory = memory.clone();
     }
 }

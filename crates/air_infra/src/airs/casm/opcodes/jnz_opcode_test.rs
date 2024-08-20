@@ -1,11 +1,11 @@
 use super::super::common::*;
 use super::jnz_opcode::*;
 
+use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
 
 use crate::const_expr;
 use crate::expr;
@@ -30,7 +30,7 @@ fn build_and_test(
         is_taken,
         flag_dst_base_fp,
         flag_ap_update_add_1,
-        memory: Memory::default(),
+        memory: Felt252IdMemory::default(),
     };
 
     // Fill memory
@@ -59,9 +59,8 @@ fn build_and_test(
             dst_value.clone(),
         ));
     }
-    let memory = Memory::new_with_data(memory_values);
 
-    jnz_opcode.init_memory(&memory);
+    jnz_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
     let registry = AirFnRegistry::new(&jnz_opcode);
@@ -145,21 +144,21 @@ fn test_not_taken_zero_match_base_ap() {
                 ]\
             ) = DecodeInstruction_f07b2e63ffedf789(state[0])",
             "Felt252::from_limbs([\
-                state[5], state[6], state[7], state[8], state[9], state[10], state[11], \
-                state[12], state[13], state[14], state[15], state[16], state[17], state[18], \
-                state[19], state[20], state[21], state[22], state[23], state[24], state[25], \
-                state[26], state[27], state[28], state[29], state[30], state[31], state[32]\
-            ]) = ReadSmallFelt252_bb908db6c9837328((\
+                state[7], state[8], state[9], state[10], state[11], state[12], state[13], \
+                state[14], state[15], state[16], state[17], state[18], state[19], state[20], \
+                state[21], state[22], state[23], state[24], state[25], state[26], state[27], \
+                state[28], state[29], state[30], state[31], state[32], state[33], state[34]\
+            ]) = ReadPositive_57b5981b206c7ed((\
                 state[1] + (((state[3] + (state[4] * const_512)) + const_0) - const_32768)))",
             "Constraint: ((((((((((((((((((((((((((((const_0 + \
-                state[5]) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + \
-                state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + \
-                state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
-                state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32])"
+                state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + \
+                state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + \
+                state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + \
+                state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + state[34])"
         ]),
         vec![
-            50, 200, 150, 499, 63, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0,
+            50, 200, 150, 499, 63, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
         ],
     );
 }
@@ -203,42 +202,46 @@ fn test_taken_match_base_ap() {
                 ]\
             ) = DecodeInstruction_f07b2e63ffedf789(state[0])",
             "Felt252::from_limbs([\
-                state[5], state[6], state[7], state[8], state[9], state[10], state[11], \
-                state[12], state[13], state[14], state[15], state[16], state[17], state[18], \
-                state[19], state[20], state[21], state[22], state[23], state[24], state[25], \
-                state[26], state[27], state[28], state[29], state[30], state[31], state[32]\
-            ]) = ReadSmallFelt252_bb908db6c9837328((\
+                state[7], state[8], state[9], state[10], state[11], state[12], state[13], \
+                state[14], state[15], state[16], state[17], state[18], state[19], state[20], \
+                state[21], state[22], state[23], state[24], state[25], state[26], state[27], \
+                state[28], state[29], state[30], state[31], state[32], state[33], state[34]\
+            ]) = ReadPositive_57b5981b206c7ed((\
                 state[1] + (((state[3] + (state[4] * const_512)) + const_0) - const_32768)))",
             "Deduction: (const_1 // ((((((((((((((((((((((((((((const_0 + \
-                state[5]) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + \
-                state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + \
-                state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
-                state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]))",
+                state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + \
+                state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + \
+                state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + \
+                state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + state[34]))",
             "Constraint: ((((((((((((((((((((((((((((((const_0 + \
-                state[5]) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + \
-                state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + \
-                state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
-                state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]) * \
-                state[33]) - const_1)",
-            "tmp_9 = (state[5] - const_1)",
-            "tmp_10 = (state[26] - const_136)",
-            "tmp_11 = (state[32] - const_256)",
+                state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + \
+                state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + \
+                state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + \
+                state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + state[34]) * \
+                state[35]) - const_1)",
+            "tmp_13 = (state[7] - const_1)",
+            "tmp_14 = (state[28] - const_136)",
+            "tmp_15 = (state[34] - const_256)",
             "Deduction: (const_1 // ((((((((((((((((((((((((((((const_0 + \
-                (tmp_9 * tmp_9)) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + \
-                state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + \
-                state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
-                (tmp_10 * tmp_10)) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + (tmp_11 * tmp_11)))",
+                (tmp_13 * tmp_13)) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + \
+                state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + \
+                state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + \
+                (tmp_14 * tmp_14)) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + (tmp_15 * tmp_15)))",
             "Constraint: ((((((((((((((((((((((((((((((const_0 + \
-                (tmp_9 * tmp_9)) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + \
-                state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + \
-                state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
-                (tmp_10 * tmp_10)) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + (tmp_11 * tmp_11)) * \
-                state[34]) - const_1)", 
-            "Felt252::from_limbs(zero_extend([state[35]])) = ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
+                (tmp_13 * tmp_13)) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + \
+                state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + \
+                state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + \
+                (tmp_14 * tmp_14)) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + (tmp_15 * tmp_15)) * \
+                state[36]) - const_1)",
+            "(\
+                (((state[42] * const_262144) + ((state[41] * const_512) + state[40])) - state[38]) - \
+                (const_134217728 * state[39])\
+            ) = \
+                ReadSmall_cda8d80eab0abe94((state[0] + const_1))"
         ]),
         vec![
-            50, 200, 150, 499, 63, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 3, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 1955558780, 500077285, 15,
+            50, 200, 150, 499, 63, 0, 2, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 3, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1955558780, 500077285, 1, 0, 0, 15, 0, 0
         ],
     );
 }

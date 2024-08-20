@@ -22,12 +22,12 @@ impl AirFn for ReadPositive {
 
     fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
         // Read the id and deduce it as-is
-        let mut id = air_builder.mem_read(&self.memory.address_to_id, &address);
+        let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &address);
         air_builder.deduce(&mut id);
-        air_builder.mem_verify(&self.memory.address_to_id, address, id.clone());
+        air_builder.mem_verify(&self.memory.address_to_id, &address, id.clone());
 
         // Prepare for value deduction
-        let mut value = air_builder.mem_read(&self.memory.id_to_value, &id);
+        let mut value = air_builder.mem_read_unverified(&self.memory.id_to_value, &id);
         let num_nonzero_limbs = self.num_bits.div_ceil(FELT252_BITS_PER_WORD);
         let bits_in_ms_limb = self.num_bits % FELT252_BITS_PER_WORD;
 
@@ -58,7 +58,7 @@ impl AirFn for ReadPositive {
         // the left with zeros.
         air_builder.mem_verify(
             &self.memory.id_to_value,
-            id,
+            &id,
             expected_value_in_memory.clone(),
         );
 

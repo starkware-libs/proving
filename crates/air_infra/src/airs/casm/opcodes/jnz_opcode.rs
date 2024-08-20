@@ -1,13 +1,12 @@
 use indexmap::IndexMap;
 
 use super::super::common::*;
-use super::super::read_small_felt252::*;
 use super::decode_instruction::*;
 
+use crate::airs::memory::felt252_id_memory::*;
+use crate::airs::memory::felt252_id_memory_read_positive::*;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
 use crate::core::prover_types::*;
 use crate::core::variables::*;
 
@@ -24,7 +23,7 @@ pub struct JnzOpcode {
     pub is_taken: bool,
     pub flag_dst_base_fp: bool,
     pub flag_ap_update_add_1: bool,
-    pub memory: Memory<FeltExpr, Felt252Expr>,
+    pub memory: Felt252IdMemory,
 }
 
 impl JnzOpcode {
@@ -74,7 +73,7 @@ impl AirFn for JnzOpcode {
 
         let dst = ab
             .call(
-                &ReadSmallFelt252 {
+                &ReadPositive {
                     num_bits: 252,
                     memory: self.memory.clone(),
                 },
@@ -115,16 +114,7 @@ impl AirFn for JnzOpcode {
             let res_squares = ab.deduce(&mut (const_expr!(1) / dst_sum_squares.clone()));
             ab.constrain(dst_sum_squares * res_squares - const_expr!(1));
 
-            pc.clone()
-                + ab.call(
-                    &ReadSmallFelt252 {
-                        num_bits: FELT252_BITS_PER_WORD,
-                        memory: self.memory.clone(),
-                    },
-                    pc + const_expr!(1),
-                )
-                .as_felts()[0]
-                    .clone()
+            pc.clone() + self.memory.read_rel_imm(ab, pc + const_expr!(1))
         } else {
             // constrain dst == 0
             // This is sound because in this case it is sufficient to make sure that dst is zero.
@@ -160,14 +150,5 @@ impl AirFn for JnzOpcode {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
-    }
-}
-
-impl MemoryAirFn for JnzOpcode {
-    type K = FeltExpr;
-    type V = Felt252Expr;
-
-    fn init_memory(&mut self, memory: &Memory<FeltExpr, Felt252Expr>) {
-        self.memory = memory.clone();
     }
 }

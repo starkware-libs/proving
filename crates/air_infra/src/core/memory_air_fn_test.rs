@@ -15,26 +15,17 @@ struct SimpleMemoryAirFn {
     memory: Memory<FeltExpr, Felt252Expr>,
 }
 
-impl MemoryAirFn for SimpleMemoryAirFn {
-    type K = FeltExpr;
-    type V = Felt252Expr;
-
-    fn init_memory(&mut self, memory: &Memory<FeltExpr, Felt252Expr>) {
-        self.memory = memory.clone();
-    }
-}
-
 impl AirFn for SimpleMemoryAirFn {
     type In = FeltExpr;
     type Out = FeltExpr;
 
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
-        let mut value = air_builder.mem_read(&self.memory, &input);
+        let mut value = air_builder.mem_read_unverified(&self.memory, &input);
         for f in value.as_felts_mut() {
             air_builder.deduce(f);
         }
 
-        air_builder.mem_verify(&self.memory, input + const_expr!(1), value.clone());
+        air_builder.mem_verify(&self.memory, &(input + const_expr!(1)), value.clone());
 
         value.get_felt(0)
     }
@@ -47,7 +38,7 @@ fn test_memory_air_fn() {
     let memory: Memory<FeltExpr, Felt252Expr> = Memory::new();
     let k: FeltExpr = const_expr!(1000);
     memory.set(k.clone(), felt252_expr!("val", 3, 0));
-    func.init_memory(&memory);
+    func.memory = memory.clone();
 
     let registry = AirFnRegistry::new(&func);
     let (_state, v) = registry.run_air(&func, k.clone());

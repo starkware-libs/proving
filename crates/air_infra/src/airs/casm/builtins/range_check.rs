@@ -1,11 +1,10 @@
 use indexmap::IndexMap;
 
 use crate::airs::casm::const_tables::seq::*;
-use crate::airs::casm::read_small_felt252::*;
+use crate::airs::memory::felt252_id_memory::*;
+use crate::airs::memory::felt252_id_memory_read_positive::*;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
 
 use crate::const_expr;
 
@@ -17,7 +16,7 @@ pub const DUMMY_SEGMENT_START: u32 = 100;
 #[derive(Debug)]
 pub struct RangeCheckBuiltin {
     pub bits: usize,
-    pub memory: Memory<FeltExpr, Felt252Expr>,
+    pub memory: Felt252IdMemory,
 }
 
 impl AirFn for RangeCheckBuiltin {
@@ -27,7 +26,7 @@ impl AirFn for RangeCheckBuiltin {
     fn call(&self, air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
         let instance_number = air_builder.call_external_column(&Seq {});
         air_builder.call(
-            &ReadSmallFelt252 {
+            &ReadPositive {
                 num_bits: self.bits,
                 memory: self.memory.clone(),
             },

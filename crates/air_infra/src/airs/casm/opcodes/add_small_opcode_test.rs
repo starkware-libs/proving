@@ -1,17 +1,18 @@
 use super::super::common::*;
 use super::add_small_opcode::*;
 
+use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
 
 // Macros
 use crate::const_expr;
 use crate::expr;
 use crate::felt252_expr;
 
+// TODO: Support testing with negative dst/op0/op1, and add such test(s)
 fn test_add_small(
     non_consts_flags: [bool; 6],
     offset_values: [i16; 3],
@@ -33,7 +34,7 @@ fn test_add_small(
     // Create the air function
     let mut add_small_opcode = AddSmallOpcode {
         is_immediate: flag_op1_imm,
-        memory: Memory::default(),
+        memory: Felt252IdMemory::default(),
     };
 
     // Register values at opcode start
@@ -112,7 +113,7 @@ fn test_add_small(
             felt252_expr!("op1", op1 as u128, 0),
         ));
     };
-    add_small_opcode.init_memory(&Memory::new_with_data(memory_values));
+    add_small_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
 
@@ -196,30 +197,44 @@ fn test_add_small_not_imm() {
                     const_true\
                 ]\
             ) = DecodeInstruction_2f4ab58cc783b3f7(state[0])",
-            "Felt252::from_limbs(zero_extend([state[16], state[17], state[18]])) = \
-                ReadSmallFelt252_90f301596f69aa5a((\
+            "(\
+                (((state[22] * const_262144) + ((state[21] * const_512) + state[20])) - state[18]) - \
+                (const_134217728 * state[19])) = \
+                ReadSmall_cda8d80eab0abe94((\
                     ((state[11] * state[2]) + ((const_1 - state[11]) * state[1])) + \
                     (((state[3] + (state[4] * const_512)) + const_0) - const_32768)\
                 ))",
-            "Felt252::from_limbs(zero_extend([state[19], state[20], state[21]])) = \
-                ReadSmallFelt252_90f301596f69aa5a((\
+            "(\
+                (((state[28] * const_262144) + ((state[27] * const_512) + state[26])) - state[24]) - \
+                (const_134217728 * state[25])) = \
+                ReadSmall_cda8d80eab0abe94((\
                     ((state[12] * state[2]) + ((const_1 - state[12]) * state[1])) + \
                     (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
                 ))",
             "Constraint: ((state[13] + state[14]) - const_1)",
-            "Felt252::from_limbs(zero_extend([state[22], state[23], state[24]])) = \
-                ReadSmallFelt252_90f301596f69aa5a((\
+            "(\
+                (((state[34] * const_262144) + ((state[33] * const_512) + state[32])) - state[30]) - \
+                (const_134217728 * state[31])\
+            ) = \
+                ReadSmall_cda8d80eab0abe94((\
                     ((state[13] * state[2]) + (state[14] * state[1])) + \
                     (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768)\
                 ))",
             "Constraint: (\
-                ((state[16] + (const_512 * state[17])) + (const_262144 * state[18])) - \
-                (((state[19] + (const_512 * state[20])) + (const_262144 * state[21])) + \
-                ((state[22] + (const_512 * state[23])) + (const_262144 * state[24]))))",
+                (\
+                    (((state[22] * const_262144) + ((state[21] * const_512) + state[20])) - state[18]) - \
+                    (const_134217728 * state[19])\
+                ) - (\
+                    ((((state[28] * const_262144) + ((state[27] * const_512) + state[26])) - state[24]) - \
+                    (const_134217728 * state[25])) + \
+                    ((((state[34] * const_262144) + ((state[33] * const_512) + state[32])) - state[30]) - \
+                    (const_134217728 * state[31]))\
+                )\
+            )"
         ]),
         vec![
-            10, 50, 100, 3, 64, 1, 1, 16, 7, 0, 4, 1, 0, 0, 1, 0, 365, 410, 343, 31, 362, 296, 334,
-            48, 47,
+            10, 50, 100, 3, 64, 1, 1, 16, 7, 0, 4, 1, 0, 0, 1, 0, 0, 1, 0, 0, 365, 410, 343, 2, 0,
+            0, 31, 362, 296, 3, 0, 0, 334, 48, 47,
         ],
     );
 }
@@ -293,25 +308,40 @@ fn test_add_small_imm() {
                     const_true\
                 ]\
             ) = DecodeInstruction_7dd793dc3ba867a8(state[0])",
-            "Felt252::from_limbs(zero_extend([state[11], state[12], state[13]])) = \
-                ReadSmallFelt252_90f301596f69aa5a((\
+            "(\
+                (((state[17] * const_262144) + ((state[16] * const_512) + state[15])) - state[13]) - \
+                (const_134217728 * state[14])) = \
+                ReadSmall_cda8d80eab0abe94((\
                     ((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + \
                     (((state[3] + (state[4] * const_512)) + const_0) - const_32768)\
                 ))",
-            "Felt252::from_limbs(zero_extend([state[14], state[15], state[16]])) = \
-                ReadSmallFelt252_90f301596f69aa5a((\
+            "(\
+                (((state[23] * const_262144) + ((state[22] * const_512) + state[21])) - state[19]) - \
+                (const_134217728 * state[20])) = \
+                ReadSmall_cda8d80eab0abe94((\
                     ((state[9] * state[2]) + ((const_1 - state[9]) * state[1])) + \
                     (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
                 ))",
-            "Felt252::from_limbs(zero_extend([state[17], state[18], state[19]])) = \
-                ReadSmallFelt252_90f301596f69aa5a((state[0] + const_1))",
+            "(\
+                (((state[29] * const_262144) + ((state[28] * const_512) + state[27])) - state[25]) - \
+                (const_134217728 * state[26])\
+            ) = \
+                ReadSmall_cda8d80eab0abe94((state[0] + const_1))",
             "Constraint: (\
-                ((state[11] + (const_512 * state[12])) + (const_262144 * state[13])) - \
-                (((state[14] + (const_512 * state[15])) + (const_262144 * state[16])) + \
-                ((state[17] + (const_512 * state[18])) + (const_262144 * state[19]))))",
+                (\
+                    (((state[17] * const_262144) + ((state[16] * const_512) + state[15])) - state[13]) - \
+                    (const_134217728 * state[14])\
+                ) - ((\
+                    (((state[23] * const_262144) + ((state[22] * const_512) + state[21])) - state[19]) - \
+                    (const_134217728 * state[20])) + \
+                    ((((state[29] * const_262144) + ((state[28] * const_512) + state[27])) - state[25]) - \
+                    (const_134217728 * state[26]))\
+                )\
+            )",
         ]),
         vec![
-            10, 50, 100, 509, 63, 3, 510, 15, 1, 0, 0, 365, 410, 343, 31, 362, 296, 334, 48, 47,
+            10, 50, 100, 509, 63, 3, 510, 15, 1, 0, 0, 0, 1, 0, 0, 365, 410, 343, 2, 0, 0, 31, 362,
+            296, 3, 0, 0, 334, 48, 47,
         ],
     );
 }

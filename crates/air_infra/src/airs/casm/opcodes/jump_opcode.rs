@@ -1,15 +1,11 @@
 use indexmap::IndexMap;
 
 use super::super::common::*;
-use super::super::read_addr::*;
-use super::super::read_small_felt252::*;
 use super::decode_instruction::*;
 
+use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
-use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;
@@ -25,7 +21,7 @@ pub struct JumpOpcode {
     pub is_rel: bool,
     pub flag_op1_base_fp: bool,
     pub flag_ap_update_add_1: bool,
-    pub memory: Memory<FeltExpr, Felt252Expr>,
+    pub memory: Felt252IdMemory,
 }
 
 impl JumpOpcode {
@@ -79,27 +75,14 @@ impl AirFn for JumpOpcode {
 
         // Calculate the next pc
         let next_pc = if self.is_rel {
-            pc.clone()
-                + ab.call(
-                    &ReadSmallFelt252 {
-                        num_bits: FELT252_BITS_PER_WORD,
-                        memory: self.memory.clone(),
-                    },
-                    pc + const_expr!(1),
-                )
-                .get_felt(0)
+            pc.clone() + self.memory.read_rel_imm(ab, pc + const_expr!(1))
         } else {
             let mem1_base = if self.flag_op1_base_fp {
                 fp.clone()
             } else {
                 ap.clone()
             };
-            ab.call(
-                &ReadAddr {
-                    memory: self.memory.clone(),
-                },
-                mem1_base + offset2,
-            )
+            self.memory.read_address(ab, mem1_base + offset2)
         };
 
         // Calculate the next ap
@@ -129,14 +112,5 @@ impl AirFn for JumpOpcode {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
-    }
-}
-
-impl MemoryAirFn for JumpOpcode {
-    type K = FeltExpr;
-    type V = Felt252Expr;
-
-    fn init_memory(&mut self, memory: &Memory<FeltExpr, Felt252Expr>) {
-        self.memory = memory.clone();
     }
 }

@@ -1,10 +1,10 @@
 use super::super::common::*;
 use super::call_opcode::*;
+use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
 
 use crate::const_expr;
 use crate::expr;
@@ -30,7 +30,7 @@ fn build_and_test(
     let mut call_opcode = CallOpcode {
         is_rel,
         flag_op1_base_fp,
-        memory: Memory::default(),
+        memory: Felt252IdMemory::default(),
     };
 
     // Fill memory
@@ -59,9 +59,18 @@ fn build_and_test(
             felt252_expr!("op1_ap", op1_value as u128, 0),
         ));
     }
-    let memory = Memory::new_with_data(memory_values);
 
-    call_opcode.init_memory(&memory);
+    memory_values.push((
+        const_expr!(ap_value),
+        felt252_expr!("pushed_fp", fp_value as u128, 0),
+    ));
+    let ret_addr = pc_value + (if is_rel { 2 } else { 1 });
+    memory_values.push((
+        const_expr!(ap_value + 1),
+        felt252_expr!("pushed_ret_addr", ret_addr as u128, 0),
+    ));
+
+    call_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
     let registry = AirFnRegistry::new(&call_opcode);
@@ -129,11 +138,19 @@ fn test_relative_call() {
                 const_false\
             ]\
         ) = DecodeInstruction_8a7cb0cfbf63f85a(state[0])",
-        "Memory_59f18133215d0936([state[1]]) == zero_extend([state[2]])",
-        "Memory_59f18133215d0936([(state[1] + const_1)]) == zero_extend([(state[0] + const_2)])",
-        "Felt252::from_limbs(zero_extend([state[3]])) = \
-            ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
-    ], vec![50, 200, 150, 500]);
+        "() = MemVerify_611491d0b573efe1((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
+        "() = MemVerify_611491d0b573efe1((\
+            (state[1] + const_1), \
+            Felt252::from_limbs(zero_extend([(state[0] + const_2)]))\
+        ))",
+        "(((\
+            (state[11] * const_262144) + \
+            ((state[10] * const_512) + \
+            state[9])) - \
+            state[7]) - \
+            (const_134217728 * state[8])) = \
+            ReadSmall_cda8d80eab0abe94((state[0] + const_1))"
+    ], vec![50, 200, 150, 0, 2, 3, 1, 0, 0, 500, 0, 0]);
 }
 
 const CALL_FP_EXPECTED_AIR_BODY: [&str; 8] = [
@@ -168,10 +185,13 @@ const CALL_FP_EXPECTED_AIR_BODY: [&str; 8] = [
             const_false\
         ]\
     ) = DecodeInstruction_48b2fb68e2c629d6(state[0])",
-    "Memory_59f18133215d0936([state[1]]) == zero_extend([state[2]])",
-    "Memory_59f18133215d0936([(state[1] + const_1)]) == zero_extend([(state[0] + const_1)])",
-    "((state[6] + (state[7] * const_512)) + (state[8] * const_262144)) = \
-        ReadAddr_d86123cf8dd732a9((\
+    "() = MemVerify_611491d0b573efe1((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
+    "() = MemVerify_611491d0b573efe1((\
+        (state[1] + const_1), \
+        Felt252::from_limbs(zero_extend([(state[0] + const_1)]))\
+    ))",
+    "Felt252::from_limbs(zero_extend([state[10], state[11], state[12]])) = \
+        ReadPositive_dd7d1f062646f801((\
             state[2] + \
             (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
         ))",
@@ -184,7 +204,7 @@ fn test_fp_call_positive_offset2() {
         Some(5),
         600,
         &CALL_FP_EXPECTED_AIR_BODY,
-        vec![50, 200, 150, 5, 0, 4, 88, 1, 0],
+        vec![50, 200, 150, 5, 0, 4, 0, 2, 3, 1, 88, 1, 0],
     );
 }
 
@@ -195,7 +215,7 @@ fn test_fp_call_negative_offset2() {
         Some(-5),
         400,
         &CALL_FP_EXPECTED_AIR_BODY,
-        vec![50, 200, 150, 11, 511, 3, 400, 0, 0],
+        vec![50, 200, 150, 11, 511, 3, 0, 2, 3, 1, 400, 0, 0],
     );
 }
 
@@ -231,13 +251,16 @@ const CALL_AP_EXPECTED_AIR_BODY: [&str; 8] = [
             const_false\
         ]\
     ) = DecodeInstruction_d682a34433babffb(state[0])",
-    "Memory_59f18133215d0936([state[1]]) == zero_extend([state[2]])",
-    "Memory_59f18133215d0936([(state[1] + const_1)]) == zero_extend([(state[0] + const_1)])",
-    "((state[6] + (state[7] * const_512)) + (state[8] * const_262144)) = \
-        ReadAddr_d86123cf8dd732a9((\
+    "() = MemVerify_611491d0b573efe1((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
+    "() = MemVerify_611491d0b573efe1((\
+        (state[1] + const_1), \
+        Felt252::from_limbs(zero_extend([(state[0] + const_1)]))\
+    ))",
+    "Felt252::from_limbs(zero_extend([state[10], state[11], state[12]])) = \
+        ReadPositive_dd7d1f062646f801((\
             state[1] + \
             (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
-        ))",
+    ))",
 ];
 
 #[test]
@@ -247,7 +270,7 @@ fn test_ap_call_positive_offset2() {
         Some(10),
         1234,
         &CALL_AP_EXPECTED_AIR_BODY,
-        vec![50, 200, 150, 10, 0, 4, 210, 2, 0],
+        vec![50, 200, 150, 10, 0, 4, 0, 2, 3, 1, 210, 2, 0],
     );
 }
 
@@ -258,7 +281,7 @@ fn test_ap_call_negative_offset2() {
         Some(-10),
         55,
         &CALL_AP_EXPECTED_AIR_BODY,
-        vec![50, 200, 150, 6, 511, 3, 55, 0, 0],
+        vec![50, 200, 150, 6, 511, 3, 0, 2, 3, 1, 55, 0, 0],
     );
 }
 

@@ -4,12 +4,13 @@ use indexmap::IndexMap;
 
 use super::super::common::*;
 use super::super::const_tables::range_check::*;
+use crate::airs::memory::felt252_id_memory::*;
+use crate::airs::memory::felt252_id_memory_verify::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::bool_expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
-use crate::core::memory::*;
 use crate::core::prover_types::*;
 
 // Macros
@@ -23,7 +24,7 @@ use crate::const_u32_expr;
 pub struct DecodeInstruction {
     pub const_offsets: [Option<i16>; 3], // off_0, off_1, off_2
     pub const_flags: Flags,
-    pub memory: Memory<FeltExpr, Felt252Expr>,
+    pub memory: Felt252IdMemory,
 }
 
 // Breaks the instruction written at pc into 9-bit components, deduces and range checks the 2 or 3
@@ -39,7 +40,8 @@ impl AirFn for DecodeInstruction {
             "DecodeInstruction assumes there are 9 bits per felt in a felt252"
         );
 
-        let instruction_for_deduction = ab.mem_read(&self.memory, &pc);
+        let (instruction_for_deduction, instruction_value_id) =
+            self.memory.read_unverified(ab, &pc);
         let mut offsets_parts = vec![];
 
         for (i, off) in self.const_offsets.iter().enumerate() {
@@ -91,10 +93,13 @@ impl AirFn for DecodeInstruction {
             .try_into()
             .expect("flags should have 15 elements.");
 
-        ab.mem_verify(
-            &self.memory,
-            pc.clone(),
-            Felt252Expr::from(vec![felt0, felt1, felt2, felt3, felt4, felt5, felt6]),
+        let expected_instruction_value =
+            Felt252Expr::from(vec![felt0, felt1, felt2, felt3, felt4, felt5, felt6]);
+        ab.call(
+            &MemVerifyKnownId {
+                memory: self.memory.clone(),
+            },
+            (pc.clone(), instruction_value_id, expected_instruction_value),
         );
 
         ([off_0.val, off_1.val, off_2.val], flags)
@@ -109,15 +114,6 @@ impl AirFn for DecodeInstruction {
             ("const_flags".to_string(), format!("{:?}", self.const_flags)),
         ]
         .into()
-    }
-}
-
-impl MemoryAirFn for DecodeInstruction {
-    type K = FeltExpr;
-    type V = Felt252Expr;
-
-    fn init_memory(&mut self, memory: &Memory<FeltExpr, Felt252Expr>) {
-        self.memory = memory.clone();
     }
 }
 
