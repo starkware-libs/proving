@@ -15,7 +15,7 @@ use crate::{
     verifyinstruction, LOGUP_BATCH_SIZE,
 };
 
-pub type ComponentLookupElements = LookupElements<19>;
+pub type ComponentLookupElements = LookupElements<3>;
 
 pub struct VerifyInstructionComponent {
     pub claim: Claim,
@@ -36,7 +36,7 @@ pub struct Claim {
 impl Claim {
     pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
         let interaction_0_log_sizes = vec![self.log_size; 28];
-        let interaction_1_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 24];
+        let interaction_1_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 8];
         TreeVec::new(vec![interaction_0_log_sizes, interaction_1_log_sizes])
     }
 
