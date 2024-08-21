@@ -7,6 +7,7 @@ use serde::{Serialize, Serializer};
 use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
+use super::biguint_expr::*;
 use super::bool_expr::*;
 use super::felt252_expr::*;
 use super::felt_expr::*;
@@ -105,6 +106,8 @@ pub enum ExprImpl {
     UInt32(UInt32Expr),
     UInt64(UInt64Expr),
     Felt252(Felt252Expr),
+    BigUInt256(BigUIntExpr<256, 4>),
+    BigUInt512(BigUIntExpr<512, 8>),
 }
 
 impl ExprImpl {
@@ -116,6 +119,8 @@ impl ExprImpl {
             ExprImpl::UInt32(_) => UInt32::r#type(),
             ExprImpl::UInt64(_) => UInt64::r#type(),
             ExprImpl::Felt252(_) => Felt252::r#type(),
+            ExprImpl::BigUInt256(_) => BigUInt::<256, 4>::r#type(),
+            ExprImpl::BigUInt512(_) => BigUInt::<512, 8>::r#type(),
         }
     }
 }
@@ -156,6 +161,8 @@ impl From<ExprImpl> for CompiledAirVar {
             ExprImpl::UInt32(u) => u.into(),
             ExprImpl::UInt64(u) => u.into(),
             ExprImpl::Felt252(f) => f.into(),
+            ExprImpl::BigUInt256(b) => b.into(),
+            ExprImpl::BigUInt512(b) => b.into(),
         }
     }
 }

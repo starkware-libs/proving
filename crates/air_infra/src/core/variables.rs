@@ -5,6 +5,7 @@ use enum_dispatch::enum_dispatch;
 use serde::Serialize;
 
 use super::compiled_structs::*;
+use super::expressions::biguint_expr::*;
 use super::expressions::bool_expr::*;
 use super::expressions::expr::*;
 use super::expressions::felt252_expr::*;

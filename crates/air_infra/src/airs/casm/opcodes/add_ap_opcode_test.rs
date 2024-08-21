@@ -104,7 +104,7 @@ fn test_add_ap() {
                         const_false\
                     ]\
                 ) = DecodeInstruction_83cd6a5ed43aa52e(state[0])",
-            "Felt252::from_m31_(zero_extend([state[3]])) = \
+            "Felt252::from_limbs(zero_extend([state[3]])) = \
                     ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
         ]
     );

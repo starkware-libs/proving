@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
+use super::biguint_expr::*;
 use super::bool_expr::*;
 use super::expr::*;
 use super::felt252_expr::*;
@@ -144,13 +145,21 @@ pub enum Operation {
     BitOr,
     BitXor,
     Neg,
+    Not,
+    WideningMul,
     BoolFromFelt,
     UInt16FromBool,
     UInt16FromFelt,
     Felt252FromFeltsArray,
     Felt252FromFelt,
+    Felt252FromBigUInt256,
     UInt32FromFelt,
-    Not,
+    BigUInt512FromUInt64Array,
+    BigUInt256FromUInt64Array,
+    BigUInt256FromBigUInt512,
+    BigUInt512FromBigUInt256,
+    BigUInt256FromFelt252,
+    BigUInt512FromFelt252,
 }
 
 // Note that all operations from the same type should have different names for the code generation.
@@ -169,13 +178,25 @@ impl Display for Operation {
             Operation::BitOr => write!(f, "|"),
             Operation::BitXor => write!(f, "^"),
             Operation::Neg => write!(f, "-"),
+            Operation::Not => write!(f, "!"),
+            Operation::WideningMul => write!(f, "widening_mul"),
             Operation::BoolFromFelt => write!(f, "Bool::from_m31"),
             Operation::UInt16FromBool => write!(f, "UInt16::from_bool"),
             Operation::UInt16FromFelt => write!(f, "UInt16::from_m31"),
-            Operation::Felt252FromFeltsArray => write!(f, "Felt252::from_m31_"),
+            Operation::Felt252FromFeltsArray => write!(f, "Felt252::from_limbs"),
             Operation::Felt252FromFelt => write!(f, "Felt252::from_m31"),
+            Operation::Felt252FromBigUInt256 => write!(f, "Felt252::from_biguint256"),
             Operation::UInt32FromFelt => write!(f, "UInt32::from_m31"),
-            Operation::Not => write!(f, "!"),
+            Operation::BigUInt512FromUInt64Array => write!(f, "BigUInt::<512, 8>::from_limbs"),
+            Operation::BigUInt256FromUInt64Array => write!(f, "BigUInt::<256, 4>::from_limbs"),
+            Operation::BigUInt256FromBigUInt512 => {
+                write!(f, "BigUInt::<256, 4>::from_biguint::<512, 8>")
+            }
+            Operation::BigUInt512FromBigUInt256 => {
+                write!(f, "BigUInt::<512, 8>::from_biguint::<256, 4>")
+            }
+            Operation::BigUInt256FromFelt252 => write!(f, "BigUInt::<256, 4>::from_felt252"),
+            Operation::BigUInt512FromFelt252 => write!(f, "BigUInt::<512, 8>::from_felt252"),
         }
     }
 }
@@ -183,12 +204,20 @@ impl From<Operation> for OpType {
     fn from(op: Operation) -> OpType {
         match op {
             Operation::Eq => OpType::Method(op.to_string()),
+            Operation::WideningMul => OpType::Method(op.to_string()),
             Operation::BoolFromFelt => OpType::Static(op.to_string()),
             Operation::UInt16FromBool => OpType::Static(op.to_string()),
             Operation::UInt16FromFelt => OpType::Static(op.to_string()),
             Operation::Felt252FromFeltsArray => OpType::Static(op.to_string()),
             Operation::Felt252FromFelt => OpType::Static(op.to_string()),
+            Operation::Felt252FromBigUInt256 => OpType::Static(op.to_string()),
             Operation::UInt32FromFelt => OpType::Static(op.to_string()),
+            Operation::BigUInt512FromUInt64Array => OpType::Static(op.to_string()),
+            Operation::BigUInt256FromUInt64Array => OpType::Static(op.to_string()),
+            Operation::BigUInt256FromBigUInt512 => OpType::Static(op.to_string()),
+            Operation::BigUInt512FromBigUInt256 => OpType::Static(op.to_string()),
+            Operation::BigUInt256FromFelt252 => OpType::Static(op.to_string()),
+            Operation::BigUInt512FromFelt252 => OpType::Static(op.to_string()),
             // Currently, the rest of the operations are represented as operators.
             _ => OpType::Op(op.to_string()),
         }
@@ -216,11 +245,25 @@ impl_unary_op!(from UInt16FromFelt, from_m31, FeltExpr, UInt16Expr, UInt16);
 impl_unary_op!(from UInt32FromFelt, from_m31, FeltExpr, UInt32Expr, UInt32);
 impl_unary_op!(from Felt252FromFelt, from_m31, FeltExpr, Felt252Expr, Felt252);
 
+impl_unary_op!(from Felt252FromBigUInt256, from_biguint256, BigUInt256Expr, Felt252Expr, Felt252);
 impl_binary_op!(ops Add, add, Felt252Expr, Felt252Operation);
 impl_binary_op!(ops Sub, sub, Felt252Expr, Felt252Operation);
 impl_binary_op!(ops Mul, mul, Felt252Expr, Felt252Operation);
 impl_binary_op!(ops Div, div, Felt252Expr, Felt252Operation);
 impl_binary_op!(Eq, eq, Felt252Expr, BoolExpr, BoolOperation);
+
+impl_unary_op!(from BigUInt256FromBigUInt512, from_biguint, BigUInt512Expr, BigUInt256Expr, BigUInt);
+impl_unary_op!(from BigUInt512FromBigUInt256, from_biguint, BigUInt256Expr, BigUInt512Expr, BigUInt);
+impl_unary_op!(from BigUInt256FromFelt252, from_felt252, Felt252Expr, BigUInt256Expr, BigUInt);
+impl_unary_op!(from BigUInt512FromFelt252, from_felt252, Felt252Expr, BigUInt512Expr, BigUInt);
+impl_binary_op!(ops Add, add, BigUInt256Expr, BigUInt256Operation);
+impl_binary_op!(ops Sub, sub, BigUInt256Expr, BigUInt256Operation);
+impl_binary_op!(ops Mul, mul, BigUInt256Expr, BigUInt256Operation);
+impl_binary_op!(ops Div, div, BigUInt256Expr, BigUInt256Operation);
+impl_binary_op!(ops Add, add, BigUInt512Expr, BigUInt512Operation);
+impl_binary_op!(ops Sub, sub, BigUInt512Expr, BigUInt512Operation);
+impl_binary_op!(ops Mul, mul, BigUInt512Expr, BigUInt512Operation);
+impl_binary_op!(ops Div, div, BigUInt512Expr, BigUInt512Operation);
 
 impl_binary_op!(ops Add, add, UInt16Expr, UInt16Operation);
 impl_binary_op!(ops Sub, sub, UInt16Expr, UInt16Operation);
@@ -250,6 +293,26 @@ impl_binary_op!(ops BitOr, bitor, UInt64Expr, UInt64Operation);
 impl_binary_op!(ops BitXor, bitxor, UInt64Expr, UInt64Operation);
 impl_binary_op!(Eq, eq, UInt64Expr, BoolExpr, BoolOperation);
 
+impl<const B: usize, const L: usize> BigUIntExpr<B, L> {
+    pub fn widening_mul<const DB: usize, const DL: usize>(
+        self,
+        other: BigUIntExpr<B, L>,
+    ) -> BigUIntExpr<DB, DL>
+    where
+        BigUIntExpr<B, L>: Into<AirVarImpl>,
+    {
+        let value = self
+            .value()
+            .zip(other.value())
+            .map(|(l, r)| l.widening_mul(r));
+        BigUIntExpr::Op(BigUIntOperation::new(
+            Operation::WideningMul,
+            vec![self.into(), other.into()],
+            value,
+        ))
+    }
+}
+
 impl From<Vec<FeltExpr>> for Felt252Expr {
     fn from(mut felts: Vec<FeltExpr>) -> Felt252Expr {
         assert!(
@@ -262,7 +325,7 @@ impl From<Vec<FeltExpr>> for Felt252Expr {
             .filter_map(|f| f.value())
             .collect::<Vec<Felt>>();
         let value = if values.len() == felts.len() {
-            Some(Felt252::from_m31_(values))
+            Some(Felt252::from_limbs(values))
         } else {
             None
         };
@@ -280,6 +343,41 @@ impl From<Vec<FeltExpr>> for Felt252Expr {
             vec![AirVarImpl::Array(arr)],
             value,
         ))
+    }
+}
+
+impl<const B: usize, const L: usize> From<Vec<UInt64Expr>> for BigUIntExpr<B, L> {
+    fn from(mut limbs: Vec<UInt64Expr>) -> BigUIntExpr<B, L> {
+        assert!(limbs.len() <= L, "BigUIntExpr can have at most {L} felts");
+
+        let values = limbs
+            .iter()
+            .filter_map(|n| n.value())
+            .collect::<Vec<UInt64>>();
+        let value = if values.len() == limbs.len() {
+            Some(BigUInt::from_limbs(values))
+        } else {
+            None
+        };
+
+        limbs.resize(L, UInt64Expr::Var(VarExpr::new_const(UInt64::from(0))));
+        let arr = limbs
+            .into_iter()
+            .map(|f| f.into())
+            .collect::<Vec<AirVarImpl>>();
+        match B {
+            512 => BigUIntExpr::Op(OpExpr::new(
+                Operation::BigUInt512FromUInt64Array,
+                vec![AirVarImpl::Array(arr)],
+                value,
+            )),
+            256 => BigUIntExpr::Op(OpExpr::new(
+                Operation::BigUInt256FromUInt64Array,
+                vec![AirVarImpl::Array(arr)],
+                value,
+            )),
+            _ => panic!("Unsupported BigUInt size"),
+        }
     }
 }
 

@@ -1,6 +1,7 @@
 use std::fmt::Debug;
 use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 
+use ruint::Uint;
 use serde::{Deserialize, Serialize};
 use starknet_ff::FieldElement;
 use stwo_prover::core::fields::m31::M31;
@@ -10,6 +11,7 @@ pub const PRIME: u32 = 2_u32.pow(31) - 1;
 pub trait AlgebraicType: ProverType + Add + Sub + Mul + Div {}
 impl AlgebraicType for M31 {}
 impl AlgebraicType for Felt252 {}
+impl<const B: usize, const L: usize> AlgebraicType for BigUInt<B, L> {}
 
 pub trait NumericType: ProverType + Rem + Shl + Shr + BitAnd + BitOr + BitXor {}
 impl NumericType for UInt16 {}
@@ -383,6 +385,7 @@ pub const FELT252_BITS_PER_WORD: usize = 9;
 pub const P_FELTS: [u32; FELT252_N_WORDS] = [
     1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 136, 0, 0, 0, 0, 0, 256,
 ];
+pub const P_BIG_UINT_LIMBS: [u64; 4] = [1, 0, 0, 2_u64.pow(59) + 17];
 
 // A non-redundant representation of a 252-bit element in the field of numbers
 // modulo the prime 2**251 + 17 * 2**192 + 1.
@@ -407,7 +410,7 @@ impl Felt252 {
         M31::from_u32_unchecked(value)
     }
 
-    pub fn from_m31_(felts: Vec<M31>) -> Self {
+    pub fn from_limbs(felts: Vec<M31>) -> Self {
         assert!(felts.len() <= FELT252_N_WORDS, "Invalid number of felts");
         let mut limbs = [0u64; 4];
         for (index, felt) in felts.iter().enumerate() {
@@ -427,6 +430,17 @@ impl Felt252 {
     pub fn from_m31(felt: M31) -> Self {
         Self {
             limbs: [felt.0 as u64, 0, 0, 0],
+        }
+    }
+
+    pub fn from_biguint256(biguint: BigUInt<256, 4>) -> Self {
+        assert!(
+            Uint::<256, 4>::from_limbs(biguint.limbs) < Uint::from_limbs(P_BIG_UINT_LIMBS),
+            "BigUInt is too big"
+        );
+
+        Self {
+            limbs: biguint.limbs,
         }
     }
 }
@@ -530,5 +544,139 @@ impl ProverType for Felt252 {
     }
     fn r#type() -> String {
         "Felt252".to_string()
+    }
+}
+
+#[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
+pub struct BigUInt<const B: usize, const L: usize> {
+    pub limbs: [u64; L],
+}
+
+impl<const B: usize, const L: usize> Default for BigUInt<B, L> {
+    fn default() -> Self {
+        Self { limbs: [0; L] }
+    }
+}
+
+impl<const B: usize, const L: usize> ProverType for BigUInt<B, L> {
+    fn calc(&self) -> String {
+        format!("{:?}", self.limbs)
+    }
+    fn r#type() -> String {
+        "BigUInt".to_string()
+    }
+}
+
+// Convert between BigUInt and Uint for performing field operations.
+impl<const B: usize, const L: usize> From<BigUInt<B, L>> for Uint<B, L> {
+    fn from(n: BigUInt<B, L>) -> Uint<B, L> {
+        Uint::from_limbs(n.limbs)
+    }
+}
+
+impl<const B: usize, const L: usize> From<Uint<B, L>> for BigUInt<B, L> {
+    fn from(n: Uint<B, L>) -> BigUInt<B, L> {
+        let limbs = n.into_limbs();
+        BigUInt { limbs }
+    }
+}
+
+impl<const B: usize, const L: usize> From<[u64; L]> for BigUInt<B, L> {
+    fn from(limbs: [u64; L]) -> BigUInt<B, L> {
+        BigUInt { limbs }
+    }
+}
+
+impl<const B: usize, const L: usize> BigUInt<B, L> {
+    pub fn get_u64(&self, index: usize) -> UInt64 {
+        UInt64 {
+            value: self.limbs[index],
+        }
+    }
+
+    pub fn from_limbs(limbs: Vec<UInt64>) -> Self {
+        assert!(limbs.len() <= L, "Invalid number of limbs");
+        let mut res = [0; L];
+        for (index, limb) in limbs.iter().enumerate() {
+            res[index] = limb.value;
+        }
+        Self { limbs: res }
+    }
+
+    pub fn from_u64(limb: UInt64) -> Self {
+        let mut limbs = [0; L];
+        limbs[0] = limb.value;
+        Self { limbs }
+    }
+
+    pub fn from_biguint<const OB: usize, const OL: usize>(other: BigUInt<OB, OL>) -> Self {
+        if OL > L && !other.limbs.iter().skip(L).all(|&x| x == 0) {
+            panic!("BigUInt is too big");
+        }
+
+        let mut limbs = [0; L];
+        for (i, l) in other.limbs.iter().take(L).enumerate() {
+            limbs[i] = *l;
+        }
+        Self { limbs }
+    }
+
+    pub fn widening_mul<const DB: usize, const DL: usize>(
+        self,
+        rhs: BigUInt<B, L>,
+    ) -> BigUInt<DB, DL> {
+        let self_uint: Uint<B, L> = self.into();
+        let rhs_uint: Uint<B, L> = rhs.into();
+
+        (self_uint.widening_mul(rhs_uint)).into()
+    }
+
+    pub fn from_felt252(felt: Felt252) -> Self {
+        assert!(L >= 4, "BigUInt is too small");
+        let mut limbs = [0; L];
+        for (i, l) in felt.limbs.iter().enumerate() {
+            limbs[i] = *l;
+        }
+        Self { limbs }
+    }
+}
+
+impl<const B: usize, const L: usize> Add for BigUInt<B, L> {
+    type Output = BigUInt<B, L>;
+    fn add(self, other: BigUInt<B, L>) -> BigUInt<B, L> {
+        let self_uint: Uint<B, L> = self.into();
+        let other_uint: Uint<B, L> = other.into();
+
+        (self_uint + other_uint).into()
+    }
+}
+
+impl<const B: usize, const L: usize> Sub for BigUInt<B, L> {
+    type Output = BigUInt<B, L>;
+    fn sub(self, other: BigUInt<B, L>) -> BigUInt<B, L> {
+        let self_uint: Uint<B, L> = self.into();
+        let other_uint: Uint<B, L> = other.into();
+
+        (self_uint - other_uint).into()
+    }
+}
+
+impl<const B: usize, const L: usize> Mul for BigUInt<B, L> {
+    type Output = BigUInt<B, L>;
+    fn mul(self, other: BigUInt<B, L>) -> BigUInt<B, L> {
+        let self_uint: Uint<B, L> = self.into();
+        let other_uint: Uint<B, L> = other.into();
+
+        (self_uint * other_uint).into()
+    }
+}
+
+impl<const B: usize, const L: usize> Div for BigUInt<B, L> {
+    type Output = BigUInt<B, L>;
+    fn div(self, other: BigUInt<B, L>) -> BigUInt<B, L> {
+        let self_uint: Uint<B, L> = self.into();
+        let other_uint: Uint<B, L> = other.into();
+
+        (self_uint / other_uint).into()
     }
 }

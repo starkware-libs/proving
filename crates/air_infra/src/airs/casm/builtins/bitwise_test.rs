@@ -238,7 +238,7 @@ fn test_big_felt252_bitwise_builtin() {
         "tmp_0 = BitwiseBuiltin_efb2afede285371d_input",
         "Deduction: tmp_0",
         &format!(
-            "Felt252::from_m31_({}) = {}({})",
+            "Felt252::from_limbs({}) = {}({})",
             "[state[1], state[2], state[3], state[4], state[5], \
             state[6], state[7], state[8], state[9], state[10], \
             state[11], state[12], state[13], state[14], state[15], \
@@ -249,7 +249,7 @@ fn test_big_felt252_bitwise_builtin() {
             "((const_500 + (state[0] * const_5)) + const_0)"
         ),
         &format!(
-            "Felt252::from_m31_({}) = {}({})",
+            "Felt252::from_limbs({}) = {}({})",
             "[state[29], state[30], state[31], \
             state[32], state[33], state[34], state[35], state[36], \
             state[37], state[38], state[39], state[40], state[41], \

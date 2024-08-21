@@ -2,6 +2,7 @@ use super::super::air_fn_registry::*;
 use super::super::compiled_structs::*;
 use super::super::prover_types::*;
 use super::super::variables::*;
+use super::biguint_expr::*;
 use super::bool_expr::*;
 use super::expr::*;
 use super::felt252_expr::*;
@@ -12,8 +13,8 @@ use super::uint64_expr::*;
 
 // Macros
 use crate::{
-    bool_expr, const_expr, const_felt252_expr, const_u32_expr, const_u64_expr, expr, felt252_expr,
-    u32_expr, u64_expr,
+    bool_expr, const_bigu256_expr, const_bigu512_expr, const_expr, const_felt252_expr,
+    const_u32_expr, const_u64_expr, expr, felt252_expr, u32_expr, u64_expr,
 };
 
 #[test]
@@ -254,7 +255,7 @@ fn test_conversion_felts_to_felt252() {
     let compiled_expr: CompiledAirVar = e.into();
     assert_eq!(
         &compiled_expr.to_string(),
-        "Felt252::from_m31_(zero_extend([const_1, x2]))"
+        "Felt252::from_limbs(zero_extend([const_1, x2]))"
     );
 
     f2 = const_expr!(2);
@@ -271,7 +272,7 @@ fn test_conversion_felts_to_felt252() {
     let compiled_expr: CompiledAirVar = e.into();
     assert_eq!(
         &compiled_expr.to_string(),
-        "Felt252::from_m31_(zero_extend([tmp_0, const_2]))"
+        "Felt252::from_limbs(zero_extend([tmp_0, const_2]))"
     );
 
     let mut v: Felt252Expr = felt252_expr!("v".to_string(), 0xFFF, 0xFFF);
@@ -281,4 +282,50 @@ fn test_conversion_felts_to_felt252() {
         assert_eq!(f.calc(), v.as_felts_mut()[i].calc());
         assert_eq!(f.calc(), v.get_felt_mut(i).calc());
     }
+}
+
+#[test]
+fn test_biguint256() {
+    let a = const_bigu256_expr!(1, 1, 0, 1);
+    let b = const_bigu256_expr!(0, 1, 0, 1);
+    let a_512: BigUInt512Expr = a.clone().into();
+    let b_512: BigUInt512Expr = b.clone().into();
+
+    assert_eq!(
+        (BigUInt256Expr::from(a_512.clone() + b_512.clone())).calc(),
+        "[1, 2, 0, 2]".to_string()
+    );
+
+    assert_eq!((a.clone() - b.clone()).calc(), "[1, 0, 0, 0]".to_string());
+
+    assert_eq!(
+        (a_512.clone() * b_512.clone()).calc(),
+        "[0, 1, 1, 1, 2, 0, 1, 0]".to_string()
+    );
+    let c_512: BigUInt512Expr = a.clone().widening_mul(b.clone());
+    assert_eq!(c_512.calc(), "[0, 1, 1, 1, 2, 0, 1, 0]".to_string());
+
+    assert_eq!(
+        ((a_512.clone() * b_512.clone()) / BigUInt512Expr::from(const_bigu256_expr!(0, 1, 0, 0)))
+            .calc(),
+        "[1, 1, 1, 2, 0, 1, 0, 0]".to_string()
+    );
+
+    let f = const_felt252_expr!(1, 1);
+    assert_eq!(
+        (BigUInt256Expr::from(f.clone())).calc(),
+        "[1, 0, 1, 0]".to_string()
+    );
+    assert_eq!(Felt252Expr::from(a).calc(), "[1, 1, 0, 1]".to_string());
+    assert_eq!(
+        BigUInt512Expr::from(f).calc(),
+        "[1, 0, 1, 0, 0, 0, 0, 0]".to_string()
+    );
+}
+
+#[test]
+#[should_panic(expected = "BigUInt is too big")]
+fn test_bad_bigu512_to_bigu256() {
+    let e = const_bigu512_expr!(0, 0, 0, 0, 1, 0, 0, 0);
+    let _: BigUInt256Expr = e.into();
 }

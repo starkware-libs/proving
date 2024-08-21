@@ -144,7 +144,7 @@ fn test_not_taken_zero_match_base_ap() {
                     const_false\
                 ]\
             ) = DecodeInstruction_f07b2e63ffedf789(state[0])",
-            "Felt252::from_m31_([\
+            "Felt252::from_limbs([\
                 state[5], state[6], state[7], state[8], state[9], state[10], state[11], \
                 state[12], state[13], state[14], state[15], state[16], state[17], state[18], \
                 state[19], state[20], state[21], state[22], state[23], state[24], state[25], \
@@ -202,7 +202,7 @@ fn test_taken_match_base_ap() {
                     const_false\
                 ]\
             ) = DecodeInstruction_f07b2e63ffedf789(state[0])",
-            "Felt252::from_m31_([\
+            "Felt252::from_limbs([\
                 state[5], state[6], state[7], state[8], state[9], state[10], state[11], \
                 state[12], state[13], state[14], state[15], state[16], state[17], state[18], \
                 state[19], state[20], state[21], state[22], state[23], state[24], state[25], \
@@ -233,8 +233,8 @@ fn test_taken_match_base_ap() {
                 state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + \
                 state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + \
                 (tmp_10 * tmp_10)) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + (tmp_11 * tmp_11)) * \
-                state[34]) - const_1)", "Felt252::from_m31_(zero_extend([state[35]])) = \
-                ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
+                state[34]) - const_1)", 
+            "Felt252::from_limbs(zero_extend([state[35]])) = ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
         ]),
         vec![
             50, 200, 150, 499, 63, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 3, 0, 0, 0, 0,

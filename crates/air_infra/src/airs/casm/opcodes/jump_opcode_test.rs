@@ -252,7 +252,7 @@ fn test_rel_jump() {
                 const_false\
             ]\
         ) = DecodeInstruction_d5261ee7a67207d3(state[0])",
-        "Felt252::from_m31_(zero_extend([state[3]])) = ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
+        "Felt252::from_limbs(zero_extend([state[3]])) = ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
     ]), vec![3, 11, 6, 100]);
 }
 

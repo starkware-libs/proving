@@ -157,10 +157,10 @@ fn test_assert_equal_deref_constraint_deduction() {
                 const_false, \
                 const_true]\
             ) = DecodeInstruction_8443cf0a4db7edc5(state[0])",
-            "Felt252::from_m31_(zero_extend([state[12]])) = \
-            ReadSmallFelt252_cc824bd2f61c6ef6((\
-                ((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + \
-                (((state[3] + (state[4] * const_512)) + const_0) - const_32768)))",
+            "Felt252::from_limbs(zero_extend([state[12]])) = \
+                ReadSmallFelt252_cc824bd2f61c6ef6((\
+                    ((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + \
+                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768)))",
             "Constraint: ((state[9] + state[10]) - const_1)",
             "Memory_59f18133215d0936(\
                 [(\
@@ -211,7 +211,7 @@ fn test_assert_equal_imm_constraint_deduction() {
                     const_false, \
                     const_true]\
             ) = DecodeInstruction_70368a7eef804c24(state[0])",
-            "Felt252::from_m31_(zero_extend([state[7]])) = \
+            "Felt252::from_limbs(zero_extend([state[7]])) = \
                 ReadSmallFelt252_cc824bd2f61c6ef6(\
                     (((state[5] * state[2]) + ((const_1 - state[5]) * state[1])) + \
                     (((state[3] + (state[4] * const_512)) + const_0) - const_32768))\
@@ -258,7 +258,7 @@ fn test_assert_equal_double_deref_constraint_deduction() {
                 const_true\
             ]\
         ) = DecodeInstruction_a06f5e7da24ead84(state[0])",
-        "Felt252::from_m31_(zero_extend([state[14]])) = ReadSmallFelt252_cc824bd2f61c6ef6((\
+        "Felt252::from_limbs(zero_extend([state[14]])) = ReadSmallFelt252_cc824bd2f61c6ef6((\
             ((state[11] * state[2]) + ((const_1 - state[11]) * state[1])) + \
             (((state[3] + (state[4] * const_512)) + const_0) - const_32768)))",
         "((state[15] + (state[16] * const_512)) + (state[17] * const_262144)) = \

@@ -131,7 +131,7 @@ fn test_relative_call() {
         ) = DecodeInstruction_8a7cb0cfbf63f85a(state[0])",
         "Memory_59f18133215d0936([state[1]]) == zero_extend([state[2]])",
         "Memory_59f18133215d0936([(state[1] + const_1)]) == zero_extend([(state[0] + const_2)])",
-        "Felt252::from_m31_(zero_extend([state[3]])) = \
+        "Felt252::from_limbs(zero_extend([state[3]])) = \
             ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
     ], vec![50, 200, 150, 500]);
 }
