@@ -266,7 +266,7 @@ fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Token
         statement.extend(quote! {
             lookup_data.$(fn_name.to_lowercase())_inputs.iter().for_each(|inputs| {
                 $(fn_name.to_lowercase())_state.add_inputs(inputs);
-            })
+            });
         })
     }
     statement
