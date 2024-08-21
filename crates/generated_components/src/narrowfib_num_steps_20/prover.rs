@@ -1,6 +1,6 @@
 #![allow(unused_parens)]
 #![allow(unused_imports)]
-use air_code_gen::code_gen::packed_types::{EqExtend, PackedCasmState, PackedM31Type};
+use air_code_gen::code_gen::packed_types::*;
 use air_infra::core::prover_types::*;
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};

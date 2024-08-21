@@ -176,7 +176,6 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             ConstraintEvalStep::EndBlock => (),
         }
     }
-
     code.extend(quote! {
 
         logup.finalize(&mut eval);
@@ -230,9 +229,7 @@ fn parse_eval_constraint(expr: &CompiledAirVar) -> String {
         CompiledAirVar::Struct { .. } => {
             todo!()
         }
-        CompiledAirVar::ExternalState(..) => {
-            todo!()
-        }
+        CompiledAirVar::ExternalState(..) => "todo!()".to_string(),
     }
 }
 

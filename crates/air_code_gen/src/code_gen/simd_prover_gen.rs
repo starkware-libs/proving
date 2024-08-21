@@ -387,7 +387,7 @@ fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::T
                     col_gen.write_frac(i, $(sign)PackedQM31::one(), denom);
                 }
                 col_gen.finalize_col();
-
+                $['\n']
         });
         *call_multiplicity += 1;
     }
@@ -396,7 +396,7 @@ fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::T
 fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(unused_imports)]
-        use air_code_gen::code_gen::packed_types::{EqExtend, PackedCasmState, PackedM31Type};
+        use air_code_gen::code_gen::packed_types::*;
         use air_infra::core::prover_types::*;
         use itertools::{chain, zip_eq, Itertools};
         use num_traits::{One, Zero};
@@ -444,7 +444,7 @@ fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
                 }
                 arg_str.push_str(&simd_parse_air_var(arg));
             }
-            format!("{}({})", id, arg_str)
+            format!("Packed{}({})", id, arg_str)
         }
         CompiledAirVar::MethodCall(id, func, args) => {
             let func = if func == "as_felt" { "as_m31" } else { func };
@@ -501,9 +501,7 @@ fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
             };
             quote.to_string().unwrap()
         }
-        CompiledAirVar::ExternalState(_name, _i) => {
-            todo!()
-        }
+        CompiledAirVar::ExternalState(_name, _i) => "todo!()".to_string(),
     }
 }
 

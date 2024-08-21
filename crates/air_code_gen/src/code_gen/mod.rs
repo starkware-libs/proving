@@ -23,18 +23,26 @@ mod tests {
     // separate crate.
     #[test]
     fn narrow_fib_gen() {
-        let air_fn_ser =
+        let serialized_air_fn =
             read_json("../air_infra/src/airs/examples/test_jsons/narrowfib_num_steps_20.json");
-        let air_fn: CompiledAirFn = from_value(air_fn_ser).unwrap();
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
 
     #[test]
     fn wide_fib_code_gen() {
-        let air_fn_ser = read_json(
+        let serialized_air_fn = read_json(
             "../air_infra/src/airs/examples/test_jsons/widefib_num_narrow_8_narrow_size_20.json",
         );
-        let air_fn: CompiledAirFn = from_value(air_fn_ser).unwrap();
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+    }
+
+    #[test]
+    fn verify_instruction_code_gen() {
+        let serialized_air_fn =
+            read_json("../air_infra/src/airs/examples/test_jsons/verifyinstruction.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
 }

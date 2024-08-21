@@ -415,20 +415,30 @@ fn parse_inputs_cpu_type(inputs_var: &CompiledAirVar) -> String {
     format!("Vec<{}>", air_var_type(inputs_var))
 }
 
-// Use only when we need the name of the input variable.
+/// Use only when we need the name of the input variable.
+///
+/// # Assuming
+/// The input is either a variable, or a tuple/array of variables with the similar ID.
 pub fn air_var_input_name(input_expr: &CompiledAirVar) -> String {
     match input_expr {
         CompiledAirVar::Var(_, id) => id.to_string().to_lowercase(),
-        CompiledAirVar::Tuple(_) => {
-            panic!("Tuple not supported yet.")
-        }
+        // Tuple structure: (id.0, id.1, ...)
+        CompiledAirVar::Tuple(tuple) => air_var_input_name(&tuple[0])
+            .split('.')
+            .next()
+            .unwrap()
+            .to_string(),
+        // Array structure: [id[0], id[1], ...]
         CompiledAirVar::Array(arr) => air_var_input_name(&arr[0])
             .split('[')
             .next()
             .unwrap()
             .to_string(),
 
-        _ => panic!("Only Var and Array are supported."),
+        _ => panic!(
+            "Deciding variable name is only supported for Shallow Expressions: \\
+                        Var, Tuple, and Array."
+        ),
     }
 }
 

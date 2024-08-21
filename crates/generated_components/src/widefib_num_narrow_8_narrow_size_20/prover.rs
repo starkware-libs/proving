@@ -1,6 +1,6 @@
 #![allow(unused_parens)]
 #![allow(unused_imports)]
-use air_code_gen::code_gen::packed_types::{EqExtend, PackedCasmState, PackedM31Type};
+use air_code_gen::code_gen::packed_types::*;
 use air_infra::core::prover_types::*;
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
@@ -234,6 +234,7 @@ impl ClaimProver {
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();
+
         let mut col_gen = logup_gen.new_col();
         let lookup_row = &self.lookup_data.narrowfib_num_steps_20[1];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
@@ -241,6 +242,7 @@ impl ClaimProver {
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();
+
         let mut col_gen = logup_gen.new_col();
         let lookup_row = &self.lookup_data.narrowfib_num_steps_20[2];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
@@ -248,6 +250,7 @@ impl ClaimProver {
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();
+
         let mut col_gen = logup_gen.new_col();
         let lookup_row = &self.lookup_data.narrowfib_num_steps_20[3];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
@@ -255,6 +258,7 @@ impl ClaimProver {
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();
+
         let mut col_gen = logup_gen.new_col();
         let lookup_row = &self.lookup_data.narrowfib_num_steps_20[4];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
@@ -262,6 +266,7 @@ impl ClaimProver {
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();
+
         let mut col_gen = logup_gen.new_col();
         let lookup_row = &self.lookup_data.narrowfib_num_steps_20[5];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
@@ -269,6 +274,7 @@ impl ClaimProver {
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();
+
         let mut col_gen = logup_gen.new_col();
         let lookup_row = &self.lookup_data.narrowfib_num_steps_20[6];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
@@ -276,6 +282,7 @@ impl ClaimProver {
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();
+
         let mut col_gen = logup_gen.new_col();
         let lookup_row = &self.lookup_data.narrowfib_num_steps_20[7];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
