@@ -349,8 +349,7 @@ fn generate_imports_code(component_name: &str, deductions: &[TraceGenStep]) -> r
         use stwo_prover::core::fields::m31::M31;
         use stwo_prover::core::poly::circle::CanonicCoset;
         use stwo_prover::core::poly::BitReversedOrder;
-        use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
-        use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
+                use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
         use super::component::$component_name;
         $(generate_sub_component_imports(deductions))

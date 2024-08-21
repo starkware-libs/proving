@@ -2,7 +2,7 @@
 #![allow(unused_imports)]
 use num_traits::One;
 use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
-use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent};
+use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
 use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::channel::Channel;
 use stwo_prover::core::fields::m31::M31;
@@ -14,7 +14,7 @@ use crate::{narrowfib_num_steps_20, LOGUP_BATCH_SIZE};
 
 pub type ComponentLookupElements = LookupElements<4>;
 
-pub struct NarrowFib_num_steps_20Component {
+pub struct NarrowFib_num_steps_20Eval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub narrowfib_num_steps_20_lookup_elements: narrowfib_num_steps_20::ComponentLookupElements,
@@ -47,7 +47,10 @@ impl InteractionClaim {
     }
 }
 
-impl FrameworkComponent for NarrowFib_num_steps_20Component {
+#[allow(non_snake_case)]
+pub type NarrowFib_num_steps_20Component = FrameworkComponent<NarrowFib_num_steps_20Eval>;
+
+impl FrameworkEval for NarrowFib_num_steps_20Eval {
     fn log_size(&self) -> u32 {
         self.claim.log_size
     }

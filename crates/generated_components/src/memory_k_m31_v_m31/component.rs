@@ -1,6 +1,6 @@
 #![allow(unused_variables)]
 use stwo_prover::constraint_framework::logup::LookupElements;
-use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent};
+use stwo_prover::constraint_framework::{EvalAtRow, FrameworkEval};
 use stwo_prover::core::channel::Channel;
 use stwo_prover::core::pcs::TreeVec;
 
@@ -32,7 +32,7 @@ impl MemoryComponent {
     }
 }
 
-impl FrameworkComponent for MemoryComponent {
+impl FrameworkEval for MemoryComponent {
     fn log_size(&self) -> u32 {
         todo!()
     }

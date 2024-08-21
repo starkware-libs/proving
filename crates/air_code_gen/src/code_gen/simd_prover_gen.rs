@@ -411,7 +411,6 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
         use stwo_prover::core::poly::BitReversedOrder;
         use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
-        use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 
         use super::component::{Claim, ComponentLookupElements, InteractionClaim};
         $(generate_sub_component_imports(deductions))

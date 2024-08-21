@@ -2,7 +2,7 @@
 #![allow(unused_imports)]
 use num_traits::One;
 use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
-use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent};
+use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
 use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::channel::Channel;
 use stwo_prover::core::fields::m31::M31;
@@ -14,7 +14,7 @@ use crate::{rangecheck_n_2_bits_4_3, LOGUP_BATCH_SIZE};
 
 pub type ComponentLookupElements = LookupElements<2>;
 
-pub struct RangeCheck_N_2_bits_4_3Component {
+pub struct RangeCheck_N_2_bits_4_3Eval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub rangecheck_n_2_bits_4_3_lookup_elements: rangecheck_n_2_bits_4_3::ComponentLookupElements,
@@ -47,7 +47,10 @@ impl InteractionClaim {
     }
 }
 
-impl FrameworkComponent for RangeCheck_N_2_bits_4_3Component {
+#[allow(non_snake_case)]
+pub type RangeCheck_N_2_bits_4_3Component = FrameworkComponent<RangeCheck_N_2_bits_4_3Eval>;
+
+impl FrameworkEval for RangeCheck_N_2_bits_4_3Eval {
     fn log_size(&self) -> u32 {
         self.claim.log_size
     }

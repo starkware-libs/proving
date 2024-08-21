@@ -2,7 +2,7 @@
 #![allow(unused_imports)]
 use num_traits::One;
 use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
-use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent};
+use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
 use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::channel::Channel;
 use stwo_prover::core::fields::m31::M31;
@@ -16,7 +16,7 @@ use crate::{
 
 pub type ComponentLookupElements = LookupElements<4>;
 
-pub struct AddApOpcode_is_imm_t_op1_base_fp_fComponent {
+pub struct AddApOpcode_is_imm_t_op1_base_fp_fEval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub memory_k_m31_v_felt252_lookup_elements: memory_k_m31_v_felt252::ComponentLookupElements,
@@ -52,7 +52,11 @@ impl InteractionClaim {
     }
 }
 
-impl FrameworkComponent for AddApOpcode_is_imm_t_op1_base_fp_fComponent {
+#[allow(non_snake_case)]
+pub type AddApOpcode_is_imm_t_op1_base_fp_fComponent =
+    FrameworkComponent<AddApOpcode_is_imm_t_op1_base_fp_fEval>;
+
+impl FrameworkEval for AddApOpcode_is_imm_t_op1_base_fp_fEval {
     fn log_size(&self) -> u32 {
         self.claim.log_size
     }

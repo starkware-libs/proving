@@ -21,6 +21,8 @@ pub fn generate_component_structs(component_name: &str, lists: CompiledAirFn) ->
         $['\n']
         $(generate_interaction_claim_struct())
         $['\n']
+        $(generate_component_type_def(component_name))
+        $['\n']
         $(generate_framework_impl(component_name, &lists))
     }
 }
@@ -46,7 +48,7 @@ fn generate_component_struct(
     }
 
     quote! {
-        pub struct $(component_name)Component {
+        pub struct $(component_name)Eval {
             $(members)
         }
     }
@@ -112,10 +114,18 @@ fn generate_interaction_elements_struct(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
+fn generate_component_type_def(component_name: &str) -> rust::Tokens {
+    quote! {
+        // TODO(Ohad): remove this after names are changed.
+        #[allow(non_snake_case)]
+        pub type $(component_name)Component = FrameworkComponent<$(component_name)Eval>;
+    }
+}
+
 fn generate_framework_impl(component_name: &str, lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     code.append(quote! {
-        impl FrameworkComponent for $(component_name)Component {
+        impl FrameworkEval for $(component_name)Eval {
             fn log_size(&self) -> u32 {
                 self.claim.log_size
             }
@@ -239,7 +249,7 @@ fn imports(deductions: &[TraceGenStep]) -> rust::Tokens {
         #![allow(unused_imports)]
         use num_traits::One;
         use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
-        use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent};
+        use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
         use stwo_prover::core::channel::Channel;
         use stwo_prover::core::backend::simd::m31::PackedM31;
         use stwo_prover::core::fields::m31::M31;

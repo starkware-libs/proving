@@ -2,7 +2,7 @@
 #![allow(unused_imports)]
 use num_traits::One;
 use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
-use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent};
+use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
 use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::channel::Channel;
 use stwo_prover::core::fields::m31::M31;
@@ -17,7 +17,7 @@ use crate::{
 
 pub type ComponentLookupElements = LookupElements<3>;
 
-pub struct VerifyInstructionComponent {
+pub struct VerifyInstructionEval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub memory_k_m31_v_felt252_lookup_elements: memory_k_m31_v_felt252::ComponentLookupElements,
@@ -55,7 +55,10 @@ impl InteractionClaim {
     }
 }
 
-impl FrameworkComponent for VerifyInstructionComponent {
+#[allow(non_snake_case)]
+pub type VerifyInstructionComponent = FrameworkComponent<VerifyInstructionEval>;
+
+impl FrameworkEval for VerifyInstructionEval {
     fn log_size(&self) -> u32 {
         self.claim.log_size
     }
