@@ -61,7 +61,7 @@ pub fn dump_component_code(air_fn: &impl AirFn, folder_path: &Path) {
             pub mod prover;
 
             pub use component::{ComponentLookupElements, Claim, InteractionClaim};
-            pub use prover::{ClaimGenerator, InputType, OutputType};
+            pub use prover::{ClaimGenerator, InputType, LookupFelts};
         };
         let text = reformat_rust_code(mod_rs_code.to_string().unwrap());
         fs::write(mod_rs_path, text).unwrap();
@@ -106,7 +106,7 @@ pub fn assert_generated_code_unchanged(air_fn: &impl AirFn, folder_path: &Path) 
     }
 }
 
-pub fn fn_calls_from_constraints(constraints: &[ConstraintEvalStep]) -> Vec<String> {
+pub fn relation_calls_from_constraints(constraints: &[ConstraintEvalStep]) -> Vec<String> {
     constraints
         .iter()
         .filter_map(|constraint| {
@@ -132,12 +132,13 @@ pub fn fn_calls_from_deductions(deductions: &[TraceGenStep]) -> Vec<String> {
         .collect()
 }
 
-pub fn unique_constraint_function_calls(constraints: &[ConstraintEvalStep]) -> Vec<String> {
-    let function_calls = fn_calls_from_constraints(constraints);
+pub fn unique_constraint_relations(constraints: &[ConstraintEvalStep]) -> Vec<String> {
+    let function_calls = relation_calls_from_constraints(constraints);
     let mut seen_functions = HashSet::new();
     function_calls
         .into_iter()
         .filter(|fn_name| seen_functions.insert(fn_name.to_string()))
+        .sorted()
         .collect()
 }
 
@@ -147,7 +148,18 @@ pub fn unique_deduction_function_calls(deductions: &[TraceGenStep]) -> Vec<Strin
     function_calls
         .into_iter()
         .filter(|fn_name| seen_functions.insert(fn_name.to_string()))
+        .sorted()
         .collect()
+}
+
+pub fn unique_relation_calls(deductions: &[TraceGenStep]) -> Vec<String> {
+    let mut seen_relations = HashSet::new();
+    deductions.iter().for_each(|d| {
+        if let TraceGenStep::LookupData(LookupData { relation_name, .. }) = d {
+            seen_relations.insert(relation_name.to_string());
+        }
+    });
+    seen_relations.into_iter().sorted().collect()
 }
 
 pub fn n_function_calls(constraints: &[ConstraintEvalStep]) -> usize {
@@ -162,7 +174,7 @@ pub fn callee_lookup_length(lists: &CompiledAirFn) -> usize {
 }
 
 pub fn n_logup_columns(lists: &CompiledAirFn) -> usize {
-    let n_function_calls = unique_constraint_function_calls(&lists.constraints).len();
+    let n_function_calls = unique_constraint_relations(&lists.constraints).len();
     n_function_calls + callee_lookup_length(lists)
 }
 
@@ -174,6 +186,10 @@ fn expression_n_cells(expr: &CompiledAirVar) -> usize {
         CompiledAirVar::UnaryOp(..) => 1,
         CompiledAirVar::Tuple(vars) => vars.iter().map(expression_n_cells).sum(),
         CompiledAirVar::Array(vars) => vars.iter().map(expression_n_cells).sum(),
+        CompiledAirVar::Struct {
+            r#type: _name,
+            fields,
+        } => fields.iter().map(|(_, v)| expression_n_cells(v)).sum(),
         _ => unimplemented!(),
     }
 }

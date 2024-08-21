@@ -17,7 +17,6 @@ pub type ComponentLookupElements = LookupElements<4>;
 pub struct NarrowFib_num_steps_20Component {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
-    pub self_lookup_elements: ComponentLookupElements,
     pub narrowfib_num_steps_20_lookup_elements: narrowfib_num_steps_20::ComponentLookupElements,
 }
 
@@ -128,7 +127,7 @@ impl FrameworkComponent for NarrowFib_num_steps_20Component {
         );
         logup.push_lookup(
             &mut eval,
-            E::EF::one(),
+            -E::EF::one(),
             &[trace_row[0], trace_row[1], trace_row[20], trace_row[21]],
             &self.narrowfib_num_steps_20_lookup_elements,
         );

@@ -57,6 +57,9 @@ pub fn generate_write_trace_row_code(
                 input,
                 output_name,
             } => {
+                write_trace_body.extend(quote! {
+                    returned_inputs.$(fn_name)_inputs.push($(parse_air_var(input)));
+                });
                 if let Some(output_name) = output_name {
                     write_trace_body.extend(quote! {
                         let $(output_name) = $(fn_name)CpuTraceGenerator::deduce_output($(parse_air_var(input)));
@@ -174,15 +177,9 @@ fn generate_write_trace_trait_body(deductions: &[TraceGenStep]) -> rust::Tokens 
     code
 }
 
-pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
-    let mut members_code = quote! {
-        pub self_inputs: Vec<InputType>,
-        pub self_outputs: Vec<OutputType>,
-    };
-    let mut initialization_code = quote! {
-        self_inputs: Vec::with_capacity(capacity),
-        self_outputs: Vec::with_capacity(capacity),
-    };
+pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut members_code = quote! {};
+    let mut initialization_code = quote! {};
 
     let mut function_call_multiplicity = HashMap::new();
     for deduction in deductions {
@@ -192,17 +189,65 @@ pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens 
         }
     }
 
-    for (fn_name, multiplicity) in function_call_multiplicity {
+    for (&fn_name, &multiplicity) in function_call_multiplicity
+        .iter()
+        .sorted_by(|a, b| a.0.cmp(b.0))
+    {
         let fn_name = fn_name.to_lowercase();
         members_code.extend(quote! {
             pub $(&fn_name)_inputs: [Vec<$(&fn_name)::InputType>; $(multiplicity)],
-            pub $(&fn_name)_outputs: [Vec<$(&fn_name)::OutputType>; $(multiplicity)],
         });
         let inner_vecs = (0..multiplicity)
             .map(|_| quote! {Vec::with_capacity(capacity),})
             .collect_vec();
-        initialization_code.extend(quote!($(&fn_name)_inputs: [$(inner_vecs.clone())],));
-        initialization_code.extend(quote!($(&fn_name)_outputs: [$(inner_vecs)],));
+        initialization_code.extend(quote!($(&fn_name)_inputs: [$(inner_vecs)],));
+    }
+
+    quote! {
+        #[allow(non_snake_case)]
+        pub struct SubComponentInputs
+        {$(members_code)}
+        impl SubComponentInputs {
+            #[allow(unused_variables)]
+            fn with_capacity(capacity: usize) -> Self {
+                Self {$(initialization_code)}
+
+            }
+        }
+    }
+}
+
+pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut members_code = quote! {};
+    let mut initialization_code = quote! {};
+
+    let mut relation_multiplicity = HashMap::new();
+    for deduction in deductions {
+        if let TraceGenStep::LookupData(LookupData {
+            relation_name,
+            felts,
+            ..
+        }) = deduction
+        {
+            let multiplicity = relation_multiplicity
+                .entry((relation_name, felts.len()))
+                .or_insert(0);
+            *multiplicity += 1;
+        }
+    }
+
+    for (&(relation_name, width), &multiplicity) in relation_multiplicity
+        .iter()
+        .sorted_by(|a, b| a.0 .0.cmp(b.0 .0))
+    {
+        let relation_name = relation_name.to_lowercase();
+        members_code.extend(quote! {
+            pub $(&relation_name): [Vec<[PackedM31; $width]>; $(multiplicity)],
+        });
+        let inner_vecs = (0..multiplicity)
+            .map(|_| quote! {Vec::with_capacity(capacity),})
+            .collect_vec();
+        initialization_code.extend(quote!($(&relation_name): [$(inner_vecs)],));
     }
 
     quote! {

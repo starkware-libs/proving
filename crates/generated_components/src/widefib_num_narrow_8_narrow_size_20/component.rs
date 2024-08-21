@@ -17,7 +17,6 @@ pub type ComponentLookupElements = LookupElements<2>;
 pub struct WideFib_num_narrow_8_narrow_size_20Component {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
-    pub self_lookup_elements: ComponentLookupElements,
     pub narrowfib_num_steps_20_lookup_elements: narrowfib_num_steps_20::ComponentLookupElements,
 }
 

@@ -5,7 +5,7 @@ pub mod component;
 pub mod prover;
 
 pub use component::{Claim, ComponentLookupElements, InteractionClaim};
-pub use prover::{ClaimGenerator, InputType, OutputType};
+pub use prover::{ClaimGenerator, InputType};
 
 pub fn deduce_output(input: [PackedM31; 2]) -> [PackedM31; 2] {
     let mut state = input;
@@ -48,11 +48,10 @@ mod tests {
                     PackedM31::broadcast(M31::from(i + 1)),
                     PackedM31::broadcast(M31::from(i + 4)),
                 ]
-                .into()
             })
             .collect_vec();
 
-        let (packed_trace, _) = write_trace_simd(inputs);
+        let (packed_trace, ..) = write_trace_simd(inputs);
         let trace = packed_trace
             .into_iter()
             .map(|x| x.values.to_cpu())

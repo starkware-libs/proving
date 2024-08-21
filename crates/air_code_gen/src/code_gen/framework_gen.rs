@@ -1,5 +1,5 @@
 use air_infra::core::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupData, TraceGenStep,
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupData, TraceGenStep, UseOrYield,
 };
 use genco::lang::rust;
 use genco::quote;
@@ -7,7 +7,7 @@ use itertools::{chain, Itertools};
 
 use super::utils::{n_logup_columns, n_trace_cells};
 use crate::code_gen::trace_gen::generate_sub_component_imports;
-use crate::code_gen::utils::{callee_lookup_length, unique_constraint_function_calls};
+use crate::code_gen::utils::{callee_lookup_length, unique_constraint_relations};
 
 pub fn generate_component_structs(component_name: &str, lists: CompiledAirFn) -> rust::Tokens {
     quote! {
@@ -35,11 +35,10 @@ fn generate_component_struct(
     members.append(quote! {
         pub claim: Claim,
         pub interaction_claim: InteractionClaim,
-        pub self_lookup_elements: ComponentLookupElements,
     });
 
     // Sub-components Lookup elements.
-    for fn_name in unique_constraint_function_calls(constraints) {
+    for fn_name in unique_constraint_relations(constraints) {
         let fn_name = fn_name.to_lowercase();
         members.append(quote! {
             pub $(&fn_name)_lookup_elements: $(fn_name)::ComponentLookupElements,
@@ -169,9 +168,9 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             ConstraintEvalStep::LookupData(LookupData {
                 relation_name,
                 felts,
-                use_or_yield: _,
+                use_or_yield,
             }) => {
-                code.extend(parse_lookup_constraint(relation_name, felts, &[]));
+                code.extend(parse_lookup_constraint(relation_name, felts, use_or_yield));
             }
             ConstraintEvalStep::StartBlock(_) => (),
             ConstraintEvalStep::EndBlock() => (),
@@ -186,6 +185,8 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     });
     code
 }
+
+// TODO(Ohad): Optimize small constantF252 values initialization.
 
 fn parse_eval_constraint(expr: &CompiledAirVar) -> String {
     match expr {
@@ -255,20 +256,25 @@ fn imports(deductions: &[TraceGenStep]) -> rust::Tokens {
 }
 
 fn parse_lookup_constraint(
-    fn_name: &str,
-    inputs: &[CompiledAirVar],
-    outputs: &[CompiledAirVar],
+    relation_name: &str,
+    felts: &[CompiledAirVar],
+    use_or_yield: &UseOrYield,
 ) -> rust::Tokens {
-    let lookup_values = chain!(inputs, outputs)
+    let lookup_values = felts
+        .iter()
         .map(parse_eval_constraint)
         .collect_vec()
         .join(", ");
+    let sign = match use_or_yield {
+        UseOrYield::Use => "",
+        UseOrYield::Yield => "-",
+    };
     quote! {
         logup.push_lookup(
             &mut eval,
-            E::EF::one(),
+            $(sign)E::EF::one(),
             &[$lookup_values],
-            &self.$(fn_name.to_lowercase())_lookup_elements,
+            &self.$(relation_name.to_lowercase())_lookup_elements,
         );
     }
 }

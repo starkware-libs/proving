@@ -126,27 +126,27 @@ impl BitXor for PackedUInt16 {
 
 #[derive(Copy, Clone, Debug, Default)]
 pub struct PackedUInt32 {
-    pub(crate) value: Simd<u32, N_LANES>,
+    pub simd: Simd<u32, N_LANES>,
 }
 
 impl PackedUInt32 {
     pub fn broadcast(value: UInt32) -> Self {
         Self {
-            value: Simd::splat(value.value),
+            simd: Simd::splat(value.value),
         }
     }
     pub fn from_array(arr: [UInt32; N_LANES]) -> Self {
         // Safe because UInt32 is u32.
         unsafe {
             Self {
-                value: Simd::from_array(transmute(arr)),
+                simd: Simd::from_array(transmute(arr)),
             }
         }
     }
 
     pub fn as_array(&self) -> [UInt32; N_LANES] {
         // Safe because UInt32 is u32.
-        unsafe { transmute(self.value.to_array()) }
+        unsafe { transmute(self.simd.to_array()) }
     }
 }
 
@@ -155,7 +155,7 @@ impl Rem for PackedUInt32 {
 
     fn rem(self, rhs: Self) -> Self::Output {
         Self {
-            value: self.value % rhs.value,
+            simd: self.simd % rhs.simd,
         }
     }
 }
@@ -164,7 +164,7 @@ impl Shl for PackedUInt32 {
 
     fn shl(self, rhs: Self) -> Self::Output {
         Self {
-            value: self.value << rhs.value,
+            simd: self.simd << rhs.simd,
         }
     }
 }
@@ -173,7 +173,7 @@ impl Shr for PackedUInt32 {
 
     fn shr(self, rhs: Self) -> Self::Output {
         Self {
-            value: self.value >> rhs.value,
+            simd: self.simd >> rhs.simd,
         }
     }
 }
@@ -182,7 +182,7 @@ impl BitAnd for PackedUInt32 {
 
     fn bitand(self, rhs: Self) -> Self::Output {
         Self {
-            value: self.value & rhs.value,
+            simd: self.simd & rhs.simd,
         }
     }
 }
@@ -191,7 +191,7 @@ impl BitOr for PackedUInt32 {
 
     fn bitor(self, rhs: Self) -> Self::Output {
         Self {
-            value: self.value | rhs.value,
+            simd: self.simd | rhs.simd,
         }
     }
 }
@@ -200,7 +200,7 @@ impl BitXor for PackedUInt32 {
 
     fn bitxor(self, rhs: Self) -> Self::Output {
         Self {
-            value: self.value ^ rhs.value,
+            simd: self.simd ^ rhs.simd,
         }
     }
 }
@@ -209,7 +209,7 @@ impl Add for PackedUInt32 {
 
     fn add(self, rhs: Self) -> Self::Output {
         Self {
-            value: self.value + rhs.value,
+            simd: self.simd + rhs.simd,
         }
     }
 }
@@ -302,6 +302,40 @@ impl BitXor for PackedUInt64 {
             value: self.value ^ rhs.value,
         }
     }
+}
+
+pub const N_M31_IN_FELT252: usize = 28;
+#[derive(Copy, Clone, Debug)]
+pub struct PackedFelt252 {
+    pub value: [PackedM31; N_M31_IN_FELT252],
+}
+impl PackedFelt252 {
+    pub fn get_m31(&self, index: usize) -> PackedM31 {
+        self.value[index]
+    }
+}
+
+impl AsRef<[PackedM31; N_M31_IN_FELT252]> for PackedFelt252 {
+    fn as_ref(&self) -> &[PackedM31; N_M31_IN_FELT252] {
+        &self.value
+    }
+}
+
+pub trait EqExtend {
+    fn eq(&self, other: Self) -> PackedBool;
+}
+
+impl EqExtend for PackedM31 {
+    fn eq(&self, _other: Self) -> PackedBool {
+        todo!()
+    }
+}
+
+#[derive(Copy, Clone, Debug)]
+pub struct PackedCasmState {
+    pub pc: PackedM31,
+    pub ap: PackedM31,
+    pub fp: PackedM31,
 }
 
 #[cfg(test)]

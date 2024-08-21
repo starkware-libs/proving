@@ -1,31 +1,39 @@
 use std::collections::HashMap;
 
-use air_infra::core::compiled_structs::{CompiledAirFn, CompiledAirVar, LookupData, TraceGenStep};
-use genco::lang::rust;
+use air_infra::core::compiled_structs::{
+    CompiledAirFn, CompiledAirVar, LookupData, TraceGenStep, UseOrYield,
+};
+use genco::lang::{rust, Rust};
 use genco::quote;
+use itertools::Itertools;
 
 use super::trace_gen::{air_var_input_name, generate_lookup_data_struct};
-use super::utils::{n_trace_cells, unique_deduction_function_calls};
-use crate::code_gen::trace_gen::generate_sub_component_imports;
+use super::utils::{n_trace_cells, unique_deduction_function_calls, unique_relation_calls};
+use crate::code_gen::trace_gen::{
+    generate_sub_component_imports, generate_sub_components_inputs_struct,
+};
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     let imports_code = generate_imports_code(&lists.deductions);
     let typedefs = generate_input_output_typedefs(lists);
     let lookup_data_code = generate_lookup_data_struct(&lists.deductions);
+    let sub_component_inputs = generate_sub_components_inputs_struct(&lists.deductions);
     let claim_generator_code = generate_claim_generator_struct();
     let claim_generator_impl_code = generate_claim_generator_impl(&lists.deductions);
     let claim_prover_code = generate_claim_prover_struct();
     let claim_prover_impl = generate_claim_prover_impl(&lists.deductions);
     let write_trace_code = generate_simd_write_trace_code(lists);
-
     quote! {
+        #![allow(unused_parens)]
         $(imports_code)
         $['\n']
         $(typedefs)
         $['\n']
         $(claim_generator_code)
         $(claim_generator_impl_code)
+        $['\n']
+        $(sub_component_inputs)
         $['\n']
         $(write_trace_code)
         $['\n']
@@ -38,13 +46,13 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 /// Outputs the code for the write_trace function.
-#[allow(dead_code)]
 fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
     // Generate the parameters for the write_trace_row function.
     let mut write_trace_row_params = quote! {
         dst: &mut [Col<SimdBackend, M31>],
         $(air_var_input_name(&lists.input)): InputType,
         row_index: usize,
+        sub_component_inputs: &mut SubComponentInputs,
         lookup_data: &mut LookupData,
     };
     write_trace_row_params.extend(generate_stateful_component_params(&lists.deductions));
@@ -55,6 +63,11 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
     let mut function_call_multiplicitiy = HashMap::new();
     for fn_call in unique_deduction_function_calls(&lists.deductions) {
         function_call_multiplicitiy.insert(fn_call, 0);
+    }
+
+    let mut relation_multiplicity = HashMap::new();
+    for relation in unique_relation_calls(&lists.deductions) {
+        relation_multiplicity.insert(relation, 0);
     }
 
     for deduction in &lists.deductions {
@@ -78,47 +91,54 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
             } => {
                 let multiplicity = function_call_multiplicitiy.get_mut(fn_name).unwrap();
                 let input = simd_parse_air_var(input);
+                let fn_name = fn_name.to_lowercase();
+
+                // add inputs.
                 write_trace_body.extend(quote! {
-                    lookup_data
-                        .$(&fn_name.to_lowercase())_inputs[$(multiplicity.to_string())]
+                    sub_component_inputs
+                        .$(&fn_name)_inputs[$(multiplicity.to_string())]
                         .push($(&input).into());
                 });
+
                 if let Some(output_name) = output_name {
+                    let delimiter = if is_stateful(&fn_name) {
+                        "_state."
+                    } else {
+                        "::"
+                    };
                     write_trace_body.extend(quote! {
-                        let $(output_name) = $(fn_name.to_lowercase())::deduce_output(
-                            $(input).into()
-                        );
-                        lookup_data
-                            .$(fn_name.to_lowercase())_outputs[$(multiplicity.to_string())]
-                            .push($(output_name).into());
+                            let $(output_name) = $(fn_name.to_lowercase())$(delimiter)deduce_output(
+                                $(input).into()
+                            );
                     });
                 }
                 *multiplicity += 1;
             }
             TraceGenStep::StartBlock(_) => (),
             TraceGenStep::EndBlock() => (),
-            // TODO: Implement.
             TraceGenStep::LookupData(LookupData {
-                relation_name: _,
-                felts: _,
-                use_or_yield: _,
-            }) => (),
+                relation_name,
+                felts,
+                ..
+            }) => {
+                let multiplicity = relation_multiplicity.get_mut(relation_name).unwrap();
+                let felts = felts.iter().map(simd_parse_air_var).join(", ");
+                let collect_felts = quote! {
+                    // TODO(Ohad): change this to not vec.
+                    lookup_data.$(relation_name.to_lowercase())[$(*multiplicity)].push([$(felts)]);
+                };
+                write_trace_body.extend(collect_felts);
+                *multiplicity += 1;
+            }
         }
     }
-
-    // Insert input..output values into lookup_data.
-    write_trace_body.extend(quote! {
-        $['\n']
-        lookup_data.self_inputs.push($(air_var_input_name(&lists.input)));
-        lookup_data.self_outputs.push($(simd_parse_air_var(&lists.output)).into());
-    });
 
     // Generate the final write_trace_row function.
     let mut code = rust::Tokens::new();
     code.extend(quote! {
         #[allow(clippy::useless_conversion)]
+        #[allow(unused_variables)]
         fn write_trace_row(
-            #[allow(unused_variables)]
             $(write_trace_row_params)){
             $(write_trace_body)
         }
@@ -133,18 +153,23 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         pub fn write_trace_simd(
             inputs: $(vec_of_type("InputType")),
             $(generate_stateful_component_params(&lists.deductions))
-        ) -> (Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>, LookupData) {
+        ) -> (Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
+            SubComponentInputs,
+            LookupData) {
             let n_trace_columns = $(n_trace_cells(&lists.deductions));
             let mut trace_values = (0..n_trace_columns)
                 .map(|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES))
                 .collect_vec();
-            let mut sub_components_inputs = LookupData::with_capacity(inputs.len());
+            let mut lookup_data = LookupData::with_capacity(inputs.len());
+            let mut sub_components_inputs = SubComponentInputs::with_capacity(inputs.len());
             inputs.into_iter().enumerate().for_each(|(i, input)| {
                 write_trace_row(
                     &mut trace_values,
                     input,
                     i,
                     &mut sub_components_inputs,
+                    &mut lookup_data,
+                    $(generate_stateful_component_args(&lists.deductions))
                 );
             });
 
@@ -162,7 +187,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         })
         .collect_vec();
 
-    (trace, sub_components_inputs)
+    (trace, sub_components_inputs, lookup_data)
         }
         $['\n']
     });
@@ -171,11 +196,8 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 fn generate_input_output_typedefs(lists: &CompiledAirFn) -> rust::Tokens {
-    let input_ty = generate_input_output_type(lists.input_num_of_felts);
-    let output_ty = generate_input_output_type(lists.output_num_of_felts);
     quote! {
-        pub type InputType = $(input_ty);
-        pub type OutputType = $(output_ty);
+        pub type InputType = $(packed_air_var_type(&lists.input));
     }
 }
 
@@ -230,17 +252,17 @@ fn generate_sub_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
     params
 }
 
+// TODO(Ohad): get that information from the air infra.
+fn is_stateful(fn_name: &str) -> bool {
+    fn_name.to_lowercase().contains("mem")
+}
+
 // If the component calls for memory, it needs to be passed to the write_trace function.
 fn generate_stateful_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut params = rust::Tokens::new();
     for fn_name in unique_deduction_function_calls(deductions).iter() {
         // TODO(Ohad): get information about which function is stateful.
-        let mut stateful = false;
-        if fn_name.to_lowercase().contains("mem") {
-            stateful = true;
-        }
-
-        if stateful {
+        if is_stateful(fn_name) {
             let fn_name = fn_name.to_lowercase();
             params.extend(quote! {
                 $(&fn_name)_state: &mut $(fn_name)::ClaimGenerator,
@@ -251,17 +273,12 @@ fn generate_stateful_component_params(deductions: &[TraceGenStep]) -> rust::Toke
 }
 
 fn generate_stateful_component_args(deductions: &[TraceGenStep]) -> rust::Tokens {
-    let mut args = quote!(self.inputs);
+    let mut args = rust::Tokens::new();
     for fn_name in unique_deduction_function_calls(deductions).iter() {
         // TODO(Ohad): get information about which function is stateful.
-        let mut stateful = false;
-        if fn_name.to_lowercase().contains("mem") {
-            stateful = true;
-        }
-
-        if stateful {
+        if is_stateful(fn_name) {
             args.extend(quote! {
-                ,$(fn_name.to_lowercase())_state
+                $(fn_name.to_lowercase())_state,
             });
         }
     }
@@ -272,7 +289,7 @@ fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Token
     let mut statement = rust::Tokens::new();
     for fn_name in unique_deduction_function_calls(deductions).iter() {
         statement.extend(quote! {
-            lookup_data.$(fn_name.to_lowercase())_inputs.iter().for_each(|inputs| {
+            sub_component_inputs.$(fn_name.to_lowercase())_inputs.iter().for_each(|inputs| {
                 $(fn_name.to_lowercase())_state.add_inputs(inputs);
             });
         })
@@ -283,8 +300,9 @@ fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Token
 fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         let len = self.inputs.len();
-        let (trace, lookup_data) =
-                write_trace_simd($(generate_stateful_component_args(deductions)));
+        #[allow(unused_variables)]
+        let (trace, sub_component_inputs, lookup_data) =
+                write_trace_simd(self.inputs, $(generate_stateful_component_args(deductions)));
         $(generate_sub_component_add_inputs(deductions));
 
         tree_builder.extend_evals(trace);
@@ -308,10 +326,10 @@ fn add_inputs_simd_body() -> rust::Tokens {
 }
 
 fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
-    let mut lookup_elements = quote! {self_lookup_elements: &ComponentLookupElements,};
-    for fn_name in unique_deduction_function_calls(deductions).iter() {
+    let mut lookup_elements = quote! {};
+    for relation_name in unique_relation_calls(deductions).iter() {
         lookup_elements.extend(quote! {
-            $(fn_name.to_lowercase())_lookup_elements: &$(fn_name.to_lowercase())::ComponentLookupElements,
+            $(relation_name.to_lowercase())_lookup_elements: &$(relation_name.to_lowercase())::ComponentLookupElements,
         });
     }
     quote! {
@@ -327,17 +345,6 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
 
                 $(generate_write_interaction_trace_body(deductions))
 
-                // Self lookup.
-                let mut col_gen = logup_gen.new_col();
-                for (vec_row, (input, output)) in
-                    zip_eq(self.lookup_data.self_inputs, self.lookup_data.self_outputs).enumerate()
-                {
-                    let lookup_values = input.concat(&output);
-                    let denom = self_lookup_elements.combine(lookup_values.as_ref());
-                    col_gen.write_frac(vec_row, PackedQM31::one(), denom);
-                }
-                col_gen.finalize_col();
-
                 let (trace, claimed_sum) = logup_gen.finalize();
                 tree_builder.extend_evals(trace);
 
@@ -348,30 +355,48 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
 }
 
 fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut relation_multiplicity = HashMap::new();
+    for relation in unique_relation_calls(deductions) {
+        relation_multiplicity.insert(relation, 0);
+    }
     let mut code = rust::Tokens::new();
-    for fn_name in unique_deduction_function_calls(deductions) {
+
+    for LookupData {
+        relation_name,
+        felts: _,
+        use_or_yield,
+    } in deductions.iter().filter_map(|d| {
+        if let TraceGenStep::LookupData(lookup_data) = d {
+            Some(lookup_data)
+        } else {
+            None
+        }
+    }) {
+        let call_multiplicity = relation_multiplicity.get_mut(relation_name).unwrap();
+        let sign = match use_or_yield {
+            UseOrYield::Use => "",
+            UseOrYield::Yield => "-",
+        };
         code.extend(quote! {
-            for (inputs, outputs) in zip_eq(
-                self.lookup_data.$(&fn_name.to_lowercase())_inputs,
-                self.lookup_data.$(&fn_name.to_lowercase())_outputs,
-            ) {
                 let mut col_gen = logup_gen.new_col();
-                for (i, (input, output)) in zip_eq(inputs, outputs).enumerate() {
-                    let lookup_values = input.concat(&output);
-                    let denom = $(&fn_name.to_lowercase())_lookup_elements
-                        .combine(lookup_values.as_ref());
-                    col_gen.write_frac(i, PackedQM31::one(), denom);
+                let lookup_row = &self.lookup_data
+                                .$(relation_name.to_lowercase())[$(*call_multiplicity)];
+                for (i, lookup_values) in lookup_row.iter().enumerate() {
+                    let denom =
+                        $(&relation_name.to_lowercase())_lookup_elements.combine(lookup_values);
+                    col_gen.write_frac(i, $(sign)PackedQM31::one(), denom);
                 }
                 col_gen.finalize_col();
-            }
-        });
-    }
 
+        });
+        *call_multiplicity += 1;
+    }
     code
 }
 fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(unused_imports)]
+        use air_code_gen::code_gen::packed_types::{EqExtend, PackedCasmState, PackedM31Type};
         use air_infra::core::prover_types::*;
         use itertools::{chain, zip_eq, Itertools};
         use num_traits::{One, Zero};
@@ -389,7 +414,6 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 
         use super::component::{Claim, ComponentLookupElements, InteractionClaim};
-        use crate::AirFnIO;
         $(generate_sub_component_imports(deductions))
     }
 }
@@ -397,24 +421,18 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
 /// Parses a `CompiledAirVar` into a string for the write_trace function.
 fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
     match expr {
-        CompiledAirVar::Const(ty, val) => {
-            format!(
+        CompiledAirVar::Const(ty, val) => match ty.as_str() {
+            // "usize" is used as index.
+            // TODO(Ohad): ask anatg about this.
+            "usize" => val.to_string(),
+            _ => format!(
                 "{}::broadcast({}::from({}).into())",
                 packed_name(ty),
                 ty,
                 val
-            )
-        }
-        CompiledAirVar::Var(_, id) => {
-            let id = id.to_lowercase();
-            // Air infra expects M31, Input types are AirFnIO<_>.
-            // TODO(Ohad): this is a hack.
-            // it's possible to mark the input variables not in the name.
-            match id.contains("_input") {
-                true => id + ".into()",
-                false => id,
-            }
-        }
+            ),
+        },
+        CompiledAirVar::Var(_, id) => id.to_lowercase(),
         CompiledAirVar::State(index) => {
             format!("col{}", index)
         }
@@ -444,7 +462,7 @@ fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
         }
         CompiledAirVar::BinaryOp(lhs, op, rhs) => {
             format!(
-                "({}) {} ({})",
+                "(({}) {} ({}))",
                 simd_parse_air_var(lhs),
                 op,
                 simd_parse_air_var(rhs)
@@ -470,12 +488,60 @@ fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
             }
             format!("[{}]", expr_str)
         }
-        CompiledAirVar::Struct { .. } => {
-            todo!()
+        CompiledAirVar::Struct { r#type, fields } => {
+            let members_code = fields
+                .iter()
+                .map(|(name, expr)| format!("{}: {}", name, simd_parse_air_var(expr)))
+                .collect::<Vec<_>>()
+                .join(", ");
+            let quote: genco::Tokens<Rust> = quote! {
+                $(r#type) {
+                    $(members_code),
+                }
+            };
+            quote.to_string().unwrap()
         }
         CompiledAirVar::ExternalState(_name, _i) => {
             todo!()
         }
+    }
+}
+
+fn packed_air_var_type(expr: &CompiledAirVar) -> rust::Tokens {
+    match expr {
+        CompiledAirVar::Const(ty, _) => quote!(Packed$ty),
+        CompiledAirVar::Var(ty, _) => quote!(Packed$ty),
+        CompiledAirVar::State(_) => quote!(PackedM31),
+        CompiledAirVar::Tuple(tuple) => {
+            let member_types = tuple.iter().map(packed_air_var_type).fold(
+                rust::Tokens::new(),
+                |mut member_types, t| {
+                    member_types.append(quote!($t,));
+                    member_types
+                },
+            );
+            quote!(($member_types))
+        }
+        CompiledAirVar::Array(arr) => {
+            let ty = packed_air_var_type(&arr[0]);
+            let len = arr.len();
+            quote!([$ty; $len])
+        }
+        CompiledAirVar::Struct { r#type, fields } => {
+            let members_code = fields
+                .iter()
+                .map(|(name, expr)| quote!($name: $(packed_air_var_type(expr))))
+                .fold(rust::Tokens::new(), |mut members_code, t| {
+                    members_code.append(quote!($t,));
+                    members_code
+                });
+            quote! {
+                $(r#type) {
+                    $(members_code),
+                }
+            }
+        }
+        _ => unimplemented!(),
     }
 }
 
@@ -485,8 +551,4 @@ fn packed_name(ty: &str) -> String {
 
 fn vec_of_type(ty: &str) -> String {
     format!("Vec<{}>", ty)
-}
-
-pub fn generate_input_output_type(n: usize) -> String {
-    format!("AirFnIO<{}>", n)
 }
