@@ -21,43 +21,6 @@ use crate::{narrowfib_1ddf31c88316e62f, AirFnIO};
 pub type InputType = AirFnIO<1>;
 pub type OutputType = AirFnIO<1>;
 
-#[allow(non_snake_case)]
-pub struct LookupData {
-    pub self_inputs: Vec<InputType>,
-    pub self_outputs: Vec<OutputType>,
-    pub narrowfib_1ddf31c88316e62f_inputs: [Vec<narrowfib_1ddf31c88316e62f::InputType>; 8],
-    pub narrowfib_1ddf31c88316e62f_outputs: [Vec<narrowfib_1ddf31c88316e62f::OutputType>; 8],
-}
-impl LookupData {
-    #[allow(unused_variables)]
-    fn with_capacity(capacity: usize) -> Self {
-        Self {
-            self_inputs: Vec::with_capacity(capacity),
-            self_outputs: Vec::with_capacity(capacity),
-            narrowfib_1ddf31c88316e62f_inputs: [
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-            ],
-            narrowfib_1ddf31c88316e62f_outputs: [
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-            ],
-        }
-    }
-}
-
 #[derive(Default)]
 pub struct ClaimGenerator {
     pub inputs: Vec<InputType>,
@@ -88,51 +51,6 @@ impl ClaimGenerator {
 
     pub fn add_inputs(&mut self, inputs: &[InputType]) {
         self.inputs.extend(inputs);
-    }
-}
-
-pub struct ClaimProver {
-    pub claim: Claim,
-    pub lookup_data: LookupData,
-}
-impl ClaimProver {
-    pub fn write_interaction_trace(
-        self,
-        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        self_lookup_elements: &ComponentLookupElements,
-        narrowfib_1ddf31c88316e62f_lookup_elements: &narrowfib_1ddf31c88316e62f::ComponentLookupElements,
-    ) -> InteractionClaim {
-        let log_size = self.claim.log_size;
-        let mut logup_gen = LogupTraceGenerator::new(log_size);
-
-        for (inputs, outputs) in zip_eq(
-            self.lookup_data.narrowfib_1ddf31c88316e62f_inputs,
-            self.lookup_data.narrowfib_1ddf31c88316e62f_outputs,
-        ) {
-            let mut col_gen = logup_gen.new_col();
-            for (i, (input, output)) in zip_eq(inputs, outputs).enumerate() {
-                let lookup_values = input.concat(&output);
-                let denom =
-                    narrowfib_1ddf31c88316e62f_lookup_elements.combine(lookup_values.as_ref());
-                col_gen.write_frac(i, PackedQM31::one(), denom);
-            }
-            col_gen.finalize_col();
-        }
-
-        let mut col_gen = logup_gen.new_col();
-        for (vec_row, (input, output)) in
-            zip_eq(self.lookup_data.self_inputs, self.lookup_data.self_outputs).enumerate()
-        {
-            let lookup_values = input.concat(&output);
-            let denom = self_lookup_elements.combine(lookup_values.as_ref());
-            col_gen.write_frac(vec_row, PackedQM31::one(), denom);
-        }
-        col_gen.finalize_col();
-
-        let (trace, claimed_sum) = logup_gen.finalize();
-        tree_builder.extend_evals(trace);
-
-        InteractionClaim { claimed_sum }
     }
 }
 
@@ -236,4 +154,86 @@ fn write_trace_row(
 
     lookup_data.self_inputs.push(widefib_d7cf24d545e710f9_input);
     lookup_data.self_outputs.push(col16.into());
+}
+
+#[allow(non_snake_case)]
+pub struct LookupData {
+    pub self_inputs: Vec<InputType>,
+    pub self_outputs: Vec<OutputType>,
+    pub narrowfib_1ddf31c88316e62f_inputs: [Vec<narrowfib_1ddf31c88316e62f::InputType>; 8],
+    pub narrowfib_1ddf31c88316e62f_outputs: [Vec<narrowfib_1ddf31c88316e62f::OutputType>; 8],
+}
+impl LookupData {
+    #[allow(unused_variables)]
+    fn with_capacity(capacity: usize) -> Self {
+        Self {
+            self_inputs: Vec::with_capacity(capacity),
+            self_outputs: Vec::with_capacity(capacity),
+            narrowfib_1ddf31c88316e62f_inputs: [
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+            ],
+            narrowfib_1ddf31c88316e62f_outputs: [
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+            ],
+        }
+    }
+}
+
+pub struct ClaimProver {
+    pub claim: Claim,
+    pub lookup_data: LookupData,
+}
+impl ClaimProver {
+    pub fn write_interaction_trace(
+        self,
+        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
+        self_lookup_elements: &ComponentLookupElements,
+        narrowfib_1ddf31c88316e62f_lookup_elements: &narrowfib_1ddf31c88316e62f::ComponentLookupElements,
+    ) -> InteractionClaim {
+        let log_size = self.claim.log_size;
+        let mut logup_gen = LogupTraceGenerator::new(log_size);
+
+        for (inputs, outputs) in zip_eq(
+            self.lookup_data.narrowfib_1ddf31c88316e62f_inputs,
+            self.lookup_data.narrowfib_1ddf31c88316e62f_outputs,
+        ) {
+            let mut col_gen = logup_gen.new_col();
+            for (i, (input, output)) in zip_eq(inputs, outputs).enumerate() {
+                let lookup_values = input.concat(&output);
+                let denom =
+                    narrowfib_1ddf31c88316e62f_lookup_elements.combine(lookup_values.as_ref());
+                col_gen.write_frac(i, PackedQM31::one(), denom);
+            }
+            col_gen.finalize_col();
+        }
+
+        let mut col_gen = logup_gen.new_col();
+        for (vec_row, (input, output)) in
+            zip_eq(self.lookup_data.self_inputs, self.lookup_data.self_outputs).enumerate()
+        {
+            let lookup_values = input.concat(&output);
+            let denom = self_lookup_elements.combine(lookup_values.as_ref());
+            col_gen.write_frac(vec_row, PackedQM31::one(), denom);
+        }
+        col_gen.finalize_col();
+
+        let (trace, claimed_sum) = logup_gen.finalize();
+        tree_builder.extend_evals(trace);
+
+        InteractionClaim { claimed_sum }
+    }
 }

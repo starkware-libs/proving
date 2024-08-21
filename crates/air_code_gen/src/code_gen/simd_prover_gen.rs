@@ -24,15 +24,16 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
         $['\n']
         $(typedefs)
         $['\n']
-        $(lookup_data_code)
-        $['\n']
         $(claim_generator_code)
         $(claim_generator_impl_code)
+        $['\n']
+        $(write_trace_code)
+        $['\n']
+        $(lookup_data_code)
         $['\n']
         $(claim_prover_code)
         $(claim_prover_impl)
         $['\n']
-        $(write_trace_code)
     }
 }
 

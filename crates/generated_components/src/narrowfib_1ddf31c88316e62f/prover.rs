@@ -21,21 +21,6 @@ use crate::AirFnIO;
 pub type InputType = AirFnIO<2>;
 pub type OutputType = AirFnIO<2>;
 
-#[allow(non_snake_case)]
-pub struct LookupData {
-    pub self_inputs: Vec<InputType>,
-    pub self_outputs: Vec<OutputType>,
-}
-impl LookupData {
-    #[allow(unused_variables)]
-    fn with_capacity(capacity: usize) -> Self {
-        Self {
-            self_inputs: Vec::with_capacity(capacity),
-            self_outputs: Vec::with_capacity(capacity),
-        }
-    }
-}
-
 #[derive(Default)]
 pub struct ClaimGenerator {
     pub inputs: Vec<InputType>,
@@ -59,36 +44,6 @@ impl ClaimGenerator {
 
     pub fn add_inputs(&mut self, inputs: &[InputType]) {
         self.inputs.extend(inputs);
-    }
-}
-
-pub struct ClaimProver {
-    pub claim: Claim,
-    pub lookup_data: LookupData,
-}
-impl ClaimProver {
-    pub fn write_interaction_trace(
-        self,
-        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        self_lookup_elements: &ComponentLookupElements,
-    ) -> InteractionClaim {
-        let log_size = self.claim.log_size;
-        let mut logup_gen = LogupTraceGenerator::new(log_size);
-
-        let mut col_gen = logup_gen.new_col();
-        for (vec_row, (input, output)) in
-            zip_eq(self.lookup_data.self_inputs, self.lookup_data.self_outputs).enumerate()
-        {
-            let lookup_values = input.concat(&output);
-            let denom = self_lookup_elements.combine(lookup_values.as_ref());
-            col_gen.write_frac(vec_row, PackedQM31::one(), denom);
-        }
-        col_gen.finalize_col();
-
-        let (trace, claimed_sum) = logup_gen.finalize();
-        tree_builder.extend_evals(trace);
-
-        InteractionClaim { claimed_sum }
     }
 }
 
@@ -181,4 +136,49 @@ fn write_trace_row(
         .self_inputs
         .push(narrowfib_1ddf31c88316e62f_input);
     lookup_data.self_outputs.push([col20, col21].into());
+}
+
+#[allow(non_snake_case)]
+pub struct LookupData {
+    pub self_inputs: Vec<InputType>,
+    pub self_outputs: Vec<OutputType>,
+}
+impl LookupData {
+    #[allow(unused_variables)]
+    fn with_capacity(capacity: usize) -> Self {
+        Self {
+            self_inputs: Vec::with_capacity(capacity),
+            self_outputs: Vec::with_capacity(capacity),
+        }
+    }
+}
+
+pub struct ClaimProver {
+    pub claim: Claim,
+    pub lookup_data: LookupData,
+}
+impl ClaimProver {
+    pub fn write_interaction_trace(
+        self,
+        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
+        self_lookup_elements: &ComponentLookupElements,
+    ) -> InteractionClaim {
+        let log_size = self.claim.log_size;
+        let mut logup_gen = LogupTraceGenerator::new(log_size);
+
+        let mut col_gen = logup_gen.new_col();
+        for (vec_row, (input, output)) in
+            zip_eq(self.lookup_data.self_inputs, self.lookup_data.self_outputs).enumerate()
+        {
+            let lookup_values = input.concat(&output);
+            let denom = self_lookup_elements.combine(lookup_values.as_ref());
+            col_gen.write_frac(vec_row, PackedQM31::one(), denom);
+        }
+        col_gen.finalize_col();
+
+        let (trace, claimed_sum) = logup_gen.finalize();
+        tree_builder.extend_evals(trace);
+
+        InteractionClaim { claimed_sum }
+    }
 }
