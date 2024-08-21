@@ -1,10 +1,13 @@
 use air_infra::core::air_fn_registry::AirFnEntry;
-use air_infra::core::compiled_structs::{CompiledAirFn, CompiledAirVar, ConstraintEvalStep};
+use air_infra::core::compiled_structs::{
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, TraceGenStep,
+};
 use genco::lang::rust;
 use genco::quote;
 use itertools::{chain, Itertools};
 
 use super::utils::{n_logup_columns, n_trace_cells};
+use crate::code_gen::trace_gen::generate_sub_component_imports;
 use crate::code_gen::utils::{callee_lookup_length, unique_constraint_function_calls};
 
 pub fn generate_component_structs(
@@ -13,7 +16,7 @@ pub fn generate_component_structs(
     _entry: &AirFnEntry,
 ) -> rust::Tokens {
     quote! {
-        $(imports())
+        $(imports(&lists.deductions))
         $['\n']
         $(generate_interaction_elements_struct(&lists))
         $['\n']
@@ -42,8 +45,9 @@ fn generate_component_struct(
 
     // Sub-components Lookup elements.
     for fn_name in unique_constraint_function_calls(constraints) {
+        let fn_name = fn_name.to_lowercase();
         members.append(quote! {
-            pub $(fn_name.to_lowercase())_lookup_elements: $(fn_name)::ComponentLookupElements,
+            pub $(&fn_name)_lookup_elements: $(fn_name)::ComponentLookupElements,
         });
     }
 
@@ -254,7 +258,7 @@ fn parse_eval_constraint(expr: &CompiledAirVar) -> String {
     }
 }
 
-fn imports() -> rust::Tokens {
+fn imports(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(non_camel_case_types)]
         #![allow(unused_imports)]
@@ -268,7 +272,8 @@ fn imports() -> rust::Tokens {
         use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
         use stwo_prover::core::pcs::TreeVec;
 
-        use crate::airs::examples::{NarrowFib_1ddf31c88316e62f, LOGUP_BATCH_SIZE};
+        use crate::LOGUP_BATCH_SIZE;
+        $(generate_sub_component_imports(deductions))
     }
 }
 

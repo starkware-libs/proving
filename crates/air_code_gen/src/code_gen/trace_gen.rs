@@ -189,16 +189,16 @@ pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens 
     }
 
     for (fn_name, multiplicity) in function_call_multiplicity {
+        let fn_name = fn_name.to_lowercase();
         members_code.extend(quote! {
-            pub $(fn_name.to_lowercase())_inputs: [Vec<$(fn_name)::InputType>; $(multiplicity)],
-            pub $(fn_name.to_lowercase())_outputs: [Vec<$(fn_name)::OutputType>; $(multiplicity)],
+            pub $(&fn_name)_inputs: [Vec<$(&fn_name)::InputType>; $(multiplicity)],
+            pub $(&fn_name)_outputs: [Vec<$(&fn_name)::OutputType>; $(multiplicity)],
         });
         let inner_vecs = (0..multiplicity)
             .map(|_| quote! {Vec::with_capacity(capacity),})
             .collect_vec();
-        initialization_code
-            .extend(quote!($(fn_name.to_lowercase())_inputs: [$(inner_vecs.clone())],));
-        initialization_code.extend(quote!($(fn_name.to_lowercase())_outputs: [$(inner_vecs)],));
+        initialization_code.extend(quote!($(&fn_name)_inputs: [$(inner_vecs.clone())],));
+        initialization_code.extend(quote!($(&fn_name)_outputs: [$(inner_vecs)],));
     }
 
     quote! {
@@ -304,22 +304,19 @@ fn generate_imports_code(component_name: &str, deductions: &[TraceGenStep]) -> r
         use stwo_prover::trace_generation::{ComponentGen, TraceGenerator};
 
         use super::component::$component_name;
-        $(generate_sub_component_imports(deductions, "Cpu"))
+        $(generate_sub_component_imports(deductions))
         $['\n']
     }
 }
 
-pub fn generate_sub_component_imports(deductions: &[TraceGenStep], backend: &str) -> rust::Tokens {
-    // TODO(Ohad): generic backend.
-    assert!(backend == "Cpu" || backend == "Simd");
-
+pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     let mut seen_functions = HashSet::new();
     for deduction in deductions {
         if let TraceGenStep::Lookup { fn_name, .. } = deduction {
             if seen_functions.insert(fn_name) {
                 code.extend(quote! {
-                    use crate::airs::examples::$(fn_name);
+                    use crate::$(fn_name.to_lowercase());
                 });
             }
         }

@@ -1,12 +1,10 @@
 #![allow(unused_imports)]
-use std::iter::zip;
-
 use air_infra::core::prover_types::*;
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::core::air::Component;
-use stwo_prover::core::backend::simd::m31::PackedM31;
+use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
 use stwo_prover::core::backend::simd::qm31::PackedQM31;
 use stwo_prover::core::backend::simd::SimdBackend;
 use stwo_prover::core::backend::{Col, Column};
@@ -18,7 +16,6 @@ use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleH
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 
 use super::component::{Claim, ComponentLookupElements, InteractionClaim};
-use crate::code_gen::packed_types::*;
 use crate::AirFnIO;
 
 pub type InputType = AirFnIO<2>;

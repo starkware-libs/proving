@@ -1,12 +1,15 @@
-#![feature(portable_simd)]
-#![feature(iter_array_chunks)]
 #![allow(incomplete_features)]
 #![feature(generic_const_exprs)]
-pub mod code_gen;
+#![allow(non_snake_case)]
 use std::ops::Index;
 
 use num_traits::Zero;
 use stwo_prover::core::backend::simd::m31::PackedM31;
+pub mod narrowfib_1ddf31c88316e62f;
+pub mod widefib_d7cf24d545e710f9;
+
+// TODO(Ohad): make this 2.
+pub const LOGUP_BATCH_SIZE: usize = 1;
 
 #[derive(Clone, Copy)]
 pub struct AirFnIO<const N: usize>(pub [PackedM31; N]);

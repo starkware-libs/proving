@@ -10,7 +10,7 @@ use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
 
-use crate::airs::examples::{NarrowFib_1ddf31c88316e62f, LOGUP_BATCH_SIZE};
+use crate::LOGUP_BATCH_SIZE;
 
 pub type ComponentLookupElements = LookupElements<4>;
 

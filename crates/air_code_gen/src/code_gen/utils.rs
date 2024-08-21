@@ -7,6 +7,8 @@ use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::compiled_structs::{
     CompiledAirFn, CompiledAirVar, ConstraintEvalStep, TraceGenStep,
 };
+use genco::lang::rust;
+use genco::quote;
 use itertools::Itertools;
 use tempfile::tempdir;
 use xshell::{cmd, Shell};
@@ -51,6 +53,20 @@ pub fn dump_component_code(air_fn: &impl AirFn, folder_path: &Path) {
     fs::write(folder_path.join("prover.rs"), text).unwrap();
     let text = reformat_rust_code(eval_tokens.to_string().unwrap());
     fs::write(folder_path.join("component.rs"), text).unwrap();
+
+    // Generate mod.rs, if it does not exist.
+    let mod_rs_path = folder_path.join("mod.rs");
+    if !std::path::Path::new(&mod_rs_path).exists() {
+        let mod_rs_code: rust::Tokens = quote! {
+            pub mod component;
+            pub mod prover;
+
+            pub use component::{ComponentLookupElements, Claim, InteractionClaim};
+            pub use prover::{ClaimGenerator, InputType, OutputType};
+        };
+        let text = reformat_rust_code(mod_rs_code.to_string().unwrap());
+        fs::write(mod_rs_path, text).unwrap();
+    }
 }
 
 pub fn assert_generated_code_unchanged(air_fn: &impl AirFn, folder_path: &Path) {
@@ -68,8 +84,11 @@ pub fn assert_generated_code_unchanged(air_fn: &impl AirFn, folder_path: &Path) 
             }
         })
         .collect_vec();
-
     for path in generated_file_paths {
+        if path.file_name().unwrap() == "mod.rs" {
+            continue;
+        }
+
         let generated_code = fs::read_to_string(&path).unwrap();
         let exisitng_file_path = folder_path.join(path.file_name().unwrap());
         let existing_code = fs::read_to_string(&exisitng_file_path).unwrap();
@@ -170,11 +189,14 @@ pub fn n_trace_cells(deductions: &[TraceGenStep]) -> usize {
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'
 #[cfg(test)]
 pub fn compare_contents_or_fix_with_path(air_fn: &impl AirFn, folder_path: &Path) {
+    let component_name = air_fn.name().to_string().to_lowercase();
+    let folder_path = folder_path.join(component_name + "/");
+    fs::create_dir_all(&folder_path).ok();
     let is_fix_mode = std::env::var("FIX_CODE") == Ok("1".to_string());
     if is_fix_mode {
-        dump_component_code(air_fn, folder_path);
+        dump_component_code(air_fn, &folder_path);
     } else {
-        assert_generated_code_unchanged(air_fn, folder_path);
+        assert_generated_code_unchanged(air_fn, &folder_path);
     }
 }
 

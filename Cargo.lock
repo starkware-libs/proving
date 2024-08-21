@@ -470,6 +470,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "generated_components"
+version = "0.1.0"
+dependencies = [
+ "air_infra",
+ "indexmap",
+ "itertools 0.12.1",
+ "num-traits",
+ "rand",
+ "stwo-prover",
+]
+
+[[package]]
 name = "generic-array"
 version = "0.14.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"

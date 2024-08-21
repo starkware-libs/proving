@@ -10,7 +10,7 @@ use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
 
-use crate::airs::examples::{NarrowFib_1ddf31c88316e62f, LOGUP_BATCH_SIZE};
+use crate::{narrowfib_1ddf31c88316e62f, LOGUP_BATCH_SIZE};
 
 pub type ComponentLookupElements = LookupElements<2>;
 
@@ -19,7 +19,7 @@ pub struct WideFib_d7cf24d545e710f9Component {
     pub interaction_claim: InteractionClaim,
     pub self_lookup_elements: ComponentLookupElements,
     pub narrowfib_1ddf31c88316e62f_lookup_elements:
-        NarrowFib_1ddf31c88316e62f::ComponentLookupElements,
+        narrowfib_1ddf31c88316e62f::ComponentLookupElements,
 }
 
 #[derive(Copy, Clone)]

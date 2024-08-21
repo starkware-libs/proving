@@ -1,9 +1,11 @@
-pub mod component;
-pub mod prover;
-pub use component::{Claim, ComponentLookupElements, InteractionClaim};
-pub use prover::{ClaimGenerator, ClaimProver, InputType, OutputType};
 use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::fields::FieldExpOps;
+
+pub mod component;
+pub mod prover;
+
+pub use component::{Claim, ComponentLookupElements, InteractionClaim};
+pub use prover::{ClaimGenerator, InputType, OutputType};
 
 pub fn deduce_output(input: [PackedM31; 2]) -> [PackedM31; 2] {
     let mut state = input;
@@ -16,8 +18,6 @@ pub fn deduce_output(input: [PackedM31; 2]) -> [PackedM31; 2] {
 
 #[cfg(test)]
 mod tests {
-
-    use air_infra::airs::examples::fibonacci::narrow_fib::NarrowFib;
     use itertools::Itertools;
     use stwo_prover::core::backend::simd::m31::PackedM31;
     use stwo_prover::core::backend::Column;
@@ -25,7 +25,6 @@ mod tests {
     use stwo_prover::core::fields::FieldExpOps;
 
     use super::prover::write_trace_simd;
-    use crate::code_gen::utils::{compare_contents_or_fix_with_path, project_root};
 
     pub fn assert_fib_constraints_on_trace(trace: &[Vec<M31>]) {
         for j in 0..trace[0].len() {
@@ -59,12 +58,5 @@ mod tests {
             .map(|x| x.values.to_cpu())
             .collect_vec();
         assert_fib_constraints_on_trace(&trace);
-    }
-
-    #[test]
-    fn generated_code_is_the_same_test() {
-        let air_fn = NarrowFib { num_steps: 20 };
-        let folder_path = project_root().join("src/airs/examples/narrow_fibonacci");
-        compare_contents_or_fix_with_path(&air_fn, &folder_path);
     }
 }
