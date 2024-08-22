@@ -3,7 +3,6 @@ use std::collections::BTreeMap;
 
 use crate::airs::casm::common::*;
 use crate::core::air_fn::*;
-use crate::core::expressions::bool_expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
@@ -66,59 +65,6 @@ impl Felt252IdMemory {
         let id = air_builder.mem_read_unverified(&self.address_to_id, address);
         let value = air_builder.mem_read_unverified(&self.id_to_value, &id);
         (value, id)
-    }
-
-    // Receives a Felt252 and its sign bits, and returns it as a relative immediate felt.
-    pub fn small_to_rel_imm(
-        low_limbs: [FeltExpr; LIMBS_IN_M31],
-        msb: BoolExpr,
-        mid_limbs: BoolExpr,
-    ) -> FeltExpr {
-        let mut low_limbs_value = low_limbs[0].clone();
-        for (i, limb) in low_limbs.iter().enumerate().take(LIMBS_IN_M31).skip(1) {
-            low_limbs_value =
-                limb.clone() * const_expr!(1 << (i * FELT252_BITS_PER_WORD)) + low_limbs_value;
-        }
-
-        low_limbs_value
-            - msb.as_felt()
-            - const_expr!(1 << (LIMBS_IN_M31 * FELT252_BITS_PER_WORD)) * mid_limbs.as_felt()
-    }
-
-    // Receives sign bits and 3 low limbs, and returns a `felt252` that represents this relative immediate.
-    pub fn small_to_felt252(
-        low_limbs: [FeltExpr; LIMBS_IN_M31],
-        msb: BoolExpr,
-        mid_limbs: BoolExpr,
-    ) -> Felt252Expr {
-        let msb_limb = msb.as_felt() * const_expr!(0x100);
-        let mid_limb_value = mid_limbs.as_felt() * const_expr!(0x1ff);
-        let mut full_value_limbs = vec![];
-
-        // Least significant three are stay as-is
-        for limb in low_limbs.into_iter() {
-            full_value_limbs.push(limb);
-        }
-
-        // Limbs 3-20 are all 0x0 or all 0x1ff
-        for _ in LIMBS_IN_M31..21 {
-            full_value_limbs.push(mid_limb_value.clone());
-        }
-
-        // Limb 21 is:
-        // 0x0 if the MSB is not set (this also implies that limbs 3-20 are zero)
-        // 0x88 if the MSB is set and limbs 3-20 are zero
-        // 0x87 if the MSB is set and limbs 3-20 are 0x1ff
-        full_value_limbs.push(const_expr!(0x88) * msb.as_felt() - mid_limbs.as_felt());
-
-        // Limbs 22-26 are always zero
-        for _ in 22..27 {
-            full_value_limbs.push(const_expr!(0));
-        }
-
-        // Limb 27 is the most significant limb
-        full_value_limbs.push(msb_limb);
-        full_value_limbs.into()
     }
 
     pub fn read_rel_imm(&self, air_builder: &mut AirBuilder, address: FeltExpr) -> FeltExpr {
