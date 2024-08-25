@@ -13,8 +13,8 @@ use super::uint64_expr::*;
 
 // Macros
 use crate::{
-    bool_expr, const_bigu256_expr, const_bigu512_expr, const_expr, const_felt252_expr,
-    const_u32_expr, const_u64_expr, expr, felt252_expr, u32_expr, u64_expr,
+    bigu256_expr, bool_expr, const_bigu256_expr, const_bigu512_expr, const_expr,
+    const_felt252_expr, const_u32_expr, const_u64_expr, expr, felt252_expr, u32_expr, u64_expr,
 };
 
 #[test]
@@ -318,9 +318,18 @@ fn test_biguint256() {
     );
     assert_eq!(Felt252Expr::from(a).calc(), "[1, 1, 0, 1]".to_string());
     assert_eq!(
-        BigUInt512Expr::from(f).calc(),
+        BigUInt512Expr::from(f.clone()).calc(),
         "[1, 0, 1, 0, 0, 0, 0, 0]".to_string()
     );
+
+    let mut compiled: CompiledAirVar = BigUInt256Expr::from(f).into();
+    assert_eq!(
+        &compiled.to_string(),
+        "BigUInt::<256, 4>::from_felt252(const_[1, 0, 1, 0])"
+    );
+
+    compiled = bigu256_expr!("v".to_string(), 1, 0, 1, 0).into();
+    assert_eq!(format!("{:?}", compiled), "Var(\"BigUInt<256, 4>\", \"v\")");
 }
 
 #[test]
