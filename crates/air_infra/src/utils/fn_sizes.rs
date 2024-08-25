@@ -70,17 +70,17 @@ pub fn print_fn_sizes() {
 
     let func = JumpOpcode {
         is_rel: false,
-        op1_base_fp: false,
-        ap_update_add_1: false,
+        is_imm: false,
+        is_double_deref: false,
         memory: Default::default(),
     };
     let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
-    print_statistics("jump abs [ap]", compiled);
+    print_statistics("jump abs [ap/fp]", compiled);
 
     let func = JumpOpcode {
         is_rel: true,
-        op1_base_fp: false,
-        ap_update_add_1: false,
+        is_imm: true,
+        is_double_deref: false,
         memory: Default::default(),
     };
     let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());

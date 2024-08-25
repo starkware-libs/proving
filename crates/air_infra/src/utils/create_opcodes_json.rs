@@ -48,9 +48,9 @@ pub struct JumpOpcodeArgs {
     #[clap(long)]
     is_rel: bool,
     #[clap(long)]
-    flag_op1_base_fp: bool,
+    is_imm: bool,
     #[clap(long)]
-    flag_ap_update_add_1: bool,
+    is_double_deref: bool,
 }
 
 pub fn create_assert_equal_opcode_json(arguments: AssertEqOpcodeArgs) -> AirFnRegistry {
@@ -84,8 +84,8 @@ pub fn create_jump_opcode_json(arguments: JumpOpcodeArgs) -> AirFnRegistry {
     );
     AirFnRegistry::new(&JumpOpcode {
         is_rel: arguments.is_rel,
-        op1_base_fp: arguments.flag_op1_base_fp,
-        ap_update_add_1: arguments.flag_ap_update_add_1,
+        is_imm: arguments.is_imm,
+        is_double_deref: arguments.is_double_deref,
         memory: Felt252IdMemory::default(),
     })
 }

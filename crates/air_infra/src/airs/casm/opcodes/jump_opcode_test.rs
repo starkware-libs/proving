@@ -13,83 +13,106 @@ use crate::utils::test_utils::*;
 // Macros
 use crate::const_expr;
 use crate::const_felt252_expr;
-use crate::expr;
 
 fn test_jump_opcode(
-    is_rel_jump: bool,
-    op1_base_fp: bool,
-    ap_update_add_1: bool,
-    op1: u128,
-    offset_value: i16,
+    non_consts_flags: [bool; 6],
+    op0: i64,
+    op1: i64,
+    offsets_value: [Option<i16>; 2],
     entry_file_name: Option<&str>,
-    expected_state: Vec<u32>,
+    expected_state: Vec<&str>,
 ) {
+    let [is_rel, is_imm, is_double_deref, op0_base_fp, op1_base_fp, ap_update_add_1] =
+        non_consts_flags;
     // Create the air function
     let mut jump_opcode = JumpOpcode {
-        is_rel: is_rel_jump,
-        op1_base_fp,
-        ap_update_add_1,
+        is_rel,
+        is_imm,
+        is_double_deref,
         memory: Felt252IdMemory::default(),
     };
 
     // Register values at opcode start
-    let pc_value = 3;
-    let ap_value = 11;
-    let fp_value = 6;
+    let pc = 3;
+    let ap = 11;
+    let fp = 6;
 
-    let pc = expr!("pc", pc_value);
-    let ap = expr!("ap", ap_value);
-    let fp = expr!("fp", fp_value);
+    // Create the non-constant is_imm_jump
+    let non_consts_flags = if is_imm {
+        vec![ap_update_add_1]
+    } else if is_double_deref {
+        vec![op0_base_fp, ap_update_add_1]
+    } else {
+        vec![op1_base_fp, !op1_base_fp, ap_update_add_1]
+    };
 
     // Fill memory
     let mut memory_values = vec![(
-        pc.clone(),
+        const_expr!(pc),
         const_felt252_expr!(
-            assemble_jump(offset_value, &jump_opcode.get_flags()) as u128,
+            assemble_jump(
+                offsets_value[0],
+                offsets_value[1],
+                jump_opcode
+                    .get_flags()
+                    .non_constants_to_arr(&non_consts_flags),
+            ) as u128,
             0
         ),
     )];
-    if is_rel_jump {
-        memory_values.push((const_expr!(pc_value + 1), const_felt252_expr!(op1, 0)));
+    if is_imm {
+        memory_values.push((const_expr!(pc + 1), const_felt252_expr!(op1)));
+    } else if is_double_deref {
+        memory_values.push((
+            const_expr!((op0 as i32 + offsets_value[1].unwrap() as i32) as u32),
+            const_felt252_expr!(op1),
+        ));
+        if op0_base_fp {
+            memory_values.push((
+                const_expr!((fp as i16 + offsets_value[0].unwrap()) as u32),
+                const_felt252_expr!(op0),
+            ));
+        } else {
+            memory_values.push((
+                const_expr!((ap as i16 + offsets_value[0].unwrap()) as u32),
+                const_felt252_expr!(op0),
+            ));
+        }
     } else if op1_base_fp {
         memory_values.push((
-            const_expr!((fp_value as i16 + offset_value) as u32),
-            const_felt252_expr!(op1, 0),
+            const_expr!((fp as i16 + offsets_value[1].unwrap()) as u32),
+            const_felt252_expr!(op1),
         ));
     } else {
         memory_values.push((
-            const_expr!((ap_value as i16 + offset_value) as u32),
-            const_felt252_expr!(op1, 0),
+            const_expr!((ap as i16 + offsets_value[1].unwrap()) as u32),
+            const_felt252_expr!(op1),
         ));
     }
     jump_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
     let registry = AirFnRegistry::new(&jump_opcode);
-    let (state, next_state) =
-        registry.run_air(&jump_opcode, CasmStateVar::new(pc, ap.clone(), fp.clone()));
+    let (state, next_state) = registry.run_air(
+        &jump_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
 
     // Check output
-    if is_rel_jump {
-        assert_eq!(next_state.pc.calc(), (pc_value + op1 as u32).to_string());
+    if is_rel {
+        assert_eq!(next_state.pc.calc(), (pc as i64 + op1).to_string());
     } else {
         assert_eq!(next_state.pc.calc(), op1.to_string());
     }
-    assert_eq!(next_state.fp.calc(), fp.calc());
+    assert_eq!(next_state.fp.calc(), fp.to_string());
     if ap_update_add_1 {
-        assert_eq!(next_state.ap.calc(), (ap_value + 1).to_string());
+        assert_eq!(next_state.ap.calc(), (ap + 1).to_string());
     } else {
-        assert_eq!(next_state.ap.calc(), ap.calc());
+        assert_eq!(next_state.ap.calc(), ap.to_string());
     }
 
     // Check state
-    assert_eq!(
-        state.calc(),
-        expected_state
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>()
-    );
+    assert_eq!(state.calc(), expected_state);
 
     // Check entry
     if let Some(entry_file_name) = entry_file_name {
@@ -104,124 +127,380 @@ fn test_jump_opcode(
 #[test]
 fn test_abs_jump_base_ap() {
     test_jump_opcode(
-        false,
-        false,
-        false,
+        [false, false, false, false, false, false],
+        125,
         8,
-        2,
+        [None, Some(2)],
         Some("abs_jump_base_ap.json"),
-        vec![3, 11, 6, 2, 0, 4, 0, 1, 8, 0, 0],
+        vec![
+            "3",  // pc
+            "11", // ap
+            "6",  // fp
+            "2",  // offset2
+            "0",  // offset2
+            "4",  // offset2
+            "0",  // flag op1_base_fp
+            "1",  // flag op1_base_ap
+            "0",  // flag ap_update_add_1
+            "0",  // instruction id
+            "1",  // op1 id
+            "8",  // op1
+            "0",  // op1
+            "0",  // op1
+        ],
     );
 }
 
 #[test]
 fn test_abs_jump_base_fp() {
     test_jump_opcode(
-        false,
-        true,
-        false,
+        [false, false, false, false, true, false],
+        125,
         5,
-        10,
+        [None, Some(10)],
         None,
-        vec![3, 11, 6, 10, 0, 4, 0, 1, 5, 0, 0],
+        vec![
+            "3",  // pc
+            "11", // ap
+            "6",  // fp
+            "10", // offset2
+            "0",  // offset2
+            "4",  // offset2
+            "1",  // flag op1_base_fp
+            "0",  // flag op1_base_ap
+            "0",  // flag ap_update_add_1
+            "0",  // instruction id
+            "1",  // op1 id
+            "5",  // op1
+            "0",  // op1
+            "0",  // op1
+        ],
     );
 }
 
 #[test]
 fn test_abs_jump_base_ap_inc_ap() {
     test_jump_opcode(
-        false,
-        false,
-        true,
-        12,
-        100,
+        [false, false, false, false, false, true],
+        125,
+        8,
+        [None, Some(2)],
         None,
-        vec![3, 11, 6, 4, 6, 4, 0, 1, 12, 0, 0],
+        vec![
+            "3",  // pc
+            "11", // ap
+            "6",  // fp
+            "2",  // offset2
+            "0",  // offset2
+            "4",  // offset2
+            "0",  // flag op1_base_fp
+            "1",  // flag op1_base_ap
+            "1",  // flag ap_update_add_1
+            "0",  // instruction id
+            "1",  // op1 id
+            "8",  // op1
+            "0",  // op1
+            "0",  // op1
+        ],
     );
 }
 
 #[test]
 fn test_abs_jump_base_fp_inc_ap() {
     test_jump_opcode(
-        false,
-        true,
-        true,
-        20,
-        17,
+        [false, false, false, false, true, true],
+        125,
+        5,
+        [None, Some(10)],
         None,
-        vec![3, 11, 6, 1, 1, 4, 0, 1, 20, 0, 0],
+        vec![
+            "3",  // pc
+            "11", // ap
+            "6",  // fp
+            "10", // offset2
+            "0",  // offset2
+            "4",  // offset2
+            "1",  // flag op1_base_fp
+            "0",  // flag op1_base_ap
+            "1",  // flag ap_update_add_1
+            "0",  // instruction id
+            "1",  // op1 id
+            "5",  // op1
+            "0",  // op1
+            "0",  // op1
+        ],
     );
 }
 
 #[test]
 fn test_abs_big_op1() {
     test_jump_opcode(
-        false,
-        false,
-        false,
+        [false, false, false, false, false, false],
+        125,
         1684685,
-        402,
+        [None, Some(402)],
         None,
-        vec![3, 11, 6, 2, 25, 4, 0, 1, 205, 218, 6],
+        vec![
+            "3",   // pc
+            "11",  // ap
+            "6",   // fp
+            "2",   // offset2
+            "25",  // offset2
+            "4",   // offset2
+            "0",   // flag op1_base_fp
+            "1",   // flag op1_base_ap
+            "0",   // flag ap_update_add_1
+            "0",   // instruction id
+            "1",   // op1 id
+            "205", // op1
+            "218", // op1
+            "6",   // op1
+        ],
     );
 }
 
 #[test]
 fn test_abs_jump_negativ_offset() {
     test_jump_opcode(
-        false,
-        false,
-        false,
+        [false, false, false, false, false, false],
+        125,
         9,
-        -9,
+        [None, Some(-9)],
         None,
-        vec![3, 11, 6, 7, 511, 3, 0, 1, 9, 0, 0],
+        vec![
+            "3",   // pc
+            "11",  // ap
+            "6",   // fp
+            "7",   // offset2
+            "511", // offset2
+            "3",   // offset2
+            "0",   // flag op1_base_fp
+            "1",   // flag op1_base_ap
+            "0",   // flag ap_update_add_1
+            "0",   // instruction id
+            "1",   // op1 id
+            "9",   // op1
+            "0",   // op1
+            "0",   // op1
+        ],
     );
 }
 
 #[test]
 fn test_rel_jump() {
     test_jump_opcode(
-        true,
-        false,
-        false,
+        [true, true, false, false, false, false],
+        125,
         100,
-        5,
+        [None, None],
         Some("rel_jump.json"),
-        vec![3, 11, 6, 0, 1, 0, 0, 100, 0, 0],
+        vec![
+            "3",   // pc
+            "11",  // ap
+            "6",   // fp
+            "0",   // flag ap_update_add_1
+            "0",   // instruction id
+            "1",   // op1 id
+            "0",   // op1 (sign)
+            "0",   // op1 (sign)
+            "100", // op1
+            "0",   // op1
+            "0",   // op1
+        ],
     );
 }
 
 #[test]
 fn test_rel_jump_inc_ap() {
     test_jump_opcode(
-        true,
-        false,
-        true,
+        [true, true, false, false, false, true],
+        125,
         3,
-        5,
+        [None, None],
         None,
-        vec![3, 11, 6, 0, 1, 0, 0, 3, 0, 0],
+        vec![
+            "3",  // pc
+            "11", // ap
+            "6",  // fp
+            "1",  // ap_update_add_1
+            "0",  // instruction id
+            "1",  // op1 id
+            "0",  // op1 (sign)
+            "0",  // op1 (sign)
+            "3",  // op1
+            "0",  // op1
+            "0",  // op1
+        ],
     );
 }
 
 #[test]
 fn test_rel_big_op1() {
     test_jump_opcode(
-        true,
-        false,
-        false,
-        411,
-        5,
+        [true, true, false, false, false, false],
+        125,
+        54687687,
+        [None, None],
         None,
-        vec![3, 11, 6, 0, 1, 0, 0, 411, 0, 0],
+        vec![
+            "3",   // pc
+            "11",  // ap
+            "6",   // fp
+            "0",   // ap_update_add_1
+            "0",   // instruction id
+            "1",   // op1 id
+            "0",   // op1 (sign)
+            "0",   // op1 (sign)
+            "455", // op1
+            "315", // op1
+            "208", // op1
+        ],
     );
 }
 
-pub fn assemble_jump(op1_off: i16, flags: &Flags) -> u64 {
-    let jump_op1_off = flags
-        .pc_update_jump_rel
-        .map(|b| if b { 1 } else { op1_off })
-        .unwrap();
-    assemble_instruction(-1, -1, jump_op1_off, flags.clone().into())
+#[test]
+fn test_rel_negative_imm() {
+    test_jump_opcode(
+        [true, true, false, false, false, false],
+        125,
+        -2,
+        [None, None],
+        None,
+        vec![
+            "3",   // pc
+            "11",  // ap
+            "6",   // fp
+            "0",   // ap_update_add_1
+            "0",   // instruction id
+            "1",   // op1 id
+            "1",   // op1 (sign)
+            "1",   // op1 (sign)
+            "511", // op1
+            "511", // op1
+            "511", // op1
+        ],
+    );
+}
+
+#[test]
+fn test_rel_negative_op1() {
+    test_jump_opcode(
+        [true, false, false, false, false, false],
+        125,
+        -2,
+        [None, Some(333)],
+        None,
+        vec![
+            "3",   // pc
+            "11",  // ap
+            "6",   // fp
+            "13",  // offset2
+            "20",  // offset2
+            "4",   // offset2
+            "0",   // flag op1_base_fp
+            "1",   // flag op1_base_ap
+            "0",   // ap_update_add_1
+            "0",   // instruction id
+            "1",   // op1 id
+            "1",   // op1 (sign)
+            "1",   // op1 (sign)
+            "511", // op1
+            "511", // op1
+            "511", // op1
+        ],
+    );
+}
+
+#[test]
+fn test_rel_deref_base_fp() {
+    test_jump_opcode(
+        [true, false, false, false, true, true],
+        125,
+        16584,
+        [None, Some(12345)],
+        Some("rel_jump_deref_base_fp.json"),
+        vec![
+            "3",   // pc
+            "11",  // ap
+            "6",   // fp
+            "9",   // offset2
+            "259", // offset2
+            "5",   // offset2
+            "1",   // flag op1_base_fp
+            "0",   // flag op1_base_ap
+            "1",   // flag ap_update_add_1
+            "0",   // instruction id
+            "1",   // op1 id
+            "0",   // op1(sign)
+            "0",   // op1(sign)
+            "200", // op1
+            "32",  //op1
+            "0",   // op1
+        ],
+    );
+}
+
+#[test]
+fn test_abs_double_deref() {
+    test_jump_opcode(
+        [false, false, true, true, true, true],
+        125,
+        16584,
+        [Some(4654), Some(12345)],
+        Some("abs_jump_double_deref.json"),
+        vec![
+            "3",   // pc
+            "11",  // ap
+            "6",   // fp
+            "2",   // offset1
+            "139", // offset1
+            "18",  // offset1
+            "9",   // offset2
+            "259", // offset2
+            "5",   // offset2
+            "1",   // flag op0_base_fp
+            "1",   // ap_update_add_1
+            "0",   // instruction id
+            "2",   // op0 id
+            "125", // op0
+            "0",   // op0
+            "0",   // op0
+            "1",   // op1 id
+            "200", // op1
+            "32",  // op1
+            "0",   // op1
+        ],
+    );
+}
+
+#[test]
+#[should_panic(expected = "Immediate jump must be relative")]
+fn test_abs_immediate() {
+    test_jump_opcode(
+        [false, true, false, false, false, true],
+        125,
+        16584,
+        [Some(4654), Some(12345)],
+        None,
+        vec![],
+    );
+}
+
+#[test]
+#[should_panic(expected = "Double deref jump must be absolute")]
+fn test_rel_double_deref() {
+    test_jump_opcode(
+        [true, false, true, true, false, false],
+        125,
+        16584,
+        [Some(4654), Some(12345)],
+        None,
+        vec![],
+    );
+}
+
+pub fn assemble_jump(op0_off: Option<i16>, op1_off: Option<i16>, flags: [bool; 15]) -> u64 {
+    let off0 = op0_off.map_or(-1, |v| v);
+    let off1 = op1_off.map_or(1, |v| v);
+    assemble_instruction(-1, off0, off1, flags)
 }
