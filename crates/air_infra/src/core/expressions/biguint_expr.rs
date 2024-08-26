@@ -10,7 +10,7 @@ pub type BigUIntOperation<const B: usize, const L: usize> = OpExpr<BigUInt<B, L>
 pub type BigUInt256Operation = BigUIntOperation<256, 4>;
 pub type BigUInt512Operation = BigUIntOperation<512, 8>;
 
-pub type BigUIntExpr<const B: usize, const L: usize> = GenericExprImpl<BigUInt<B, L>>;
+pub type BigUIntExpr<const B: usize, const L: usize> = Expr<BigUInt<B, L>>;
 pub type BigUInt256Expr = BigUIntExpr<256, 4>;
 pub type BigUInt512Expr = BigUIntExpr<512, 8>;
 

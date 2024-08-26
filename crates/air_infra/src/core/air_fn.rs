@@ -6,8 +6,6 @@ use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
 use super::air_fn_registry::*;
-#[cfg(test)]
-use super::expressions::expr::*;
 use super::expressions::felt_expr::*;
 use super::memory::*;
 use super::state::*;

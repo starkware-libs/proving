@@ -72,7 +72,7 @@ where
     }
 }
 
-impl<T> Expr<T> for VarExpr<T>
+impl<T> AsProverType<T> for VarExpr<T>
 where
     T: ProverType,
 {

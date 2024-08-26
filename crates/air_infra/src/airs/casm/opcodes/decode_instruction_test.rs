@@ -3,10 +3,10 @@ use super::decode_instruction::*;
 
 use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn_registry::*;
-use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::prover_types::*;
+use crate::core::variables::*;
 
 //Macros
 use crate::const_expr;
@@ -146,8 +146,8 @@ fn test_no_consts() {
         "(state[20] * (const_1 - state[20]))",
         "(state[21] * (const_1 - state[21]))",
         "(state[22] * (const_1 - state[22]))",
-        "Memory_6f2fb3a82578c4e3([DecodeInstruction_64fce74ff258858e_input]) == [state[23]]",
-        "Memory_59f18133215d0936([state[23]]) == zero_extend([\
+        "Memory_bee9eb79348d853b([DecodeInstruction_64fce74ff258858e_input]) == [state[23]]",
+        "Memory_7419fa4c3aacb251([state[23]]) == zero_extend([\
             state[0], \
             (state[1] + (state[2] * const_128)), \
             state[3], \
@@ -175,8 +175,8 @@ fn test_no_consts() {
         ])",
     ];
     let expected_deductions = [
-        "tmp_0 = Memory_6f2fb3a82578c4e3(DecodeInstruction_64fce74ff258858e_input)",
-        "tmp_1 = Memory_59f18133215d0936(tmp_0)",
+        "tmp_0 = Memory_bee9eb79348d853b(DecodeInstruction_64fce74ff258858e_input)",
+        "tmp_1 = Memory_7419fa4c3aacb251(tmp_0)",
         "tmp_1.get_m31(const_0)",
         "tmp_2 = (UInt32::from_m31(tmp_1.get_m31(const_1)) & const_127)",
         "tmp_2.low().as_m31()",
@@ -248,8 +248,8 @@ fn test_all_consts() {
     let is_flag_const = [true; 15];
 
     let expected_constraints: [&str; 2] = [
-        "Memory_6f2fb3a82578c4e3([DecodeInstruction_bdf8c7acbfd48726_input]) == [state[0]]",
-        "Memory_59f18133215d0936([state[0]]) == zero_extend([\
+        "Memory_bee9eb79348d853b([DecodeInstruction_bdf8c7acbfd48726_input]) == [state[0]]",
+        "Memory_7419fa4c3aacb251([state[0]]) == zero_extend([\
             const_289, \
             const_481, \
             const_38, \
@@ -260,8 +260,8 @@ fn test_all_consts() {
         ])",
     ];
     let expected_deductions: [&str; 3] = [
-        "tmp_0 = Memory_6f2fb3a82578c4e3(DecodeInstruction_bdf8c7acbfd48726_input)",
-        "tmp_1 = Memory_59f18133215d0936(tmp_0)",
+        "tmp_0 = Memory_bee9eb79348d853b(DecodeInstruction_bdf8c7acbfd48726_input)",
+        "tmp_1 = Memory_7419fa4c3aacb251(tmp_0)",
         "tmp_0",
     ];
 
@@ -289,8 +289,8 @@ fn test_some_consts() {
         "RangeCheck5([state[2]]) == []",
         "(state[3] * (const_1 - state[3]))",
         "(state[4] * (const_1 - state[4]))",
-        "Memory_6f2fb3a82578c4e3([DecodeInstruction_116be7744be089d8_input]) == [state[5]]",
-        "Memory_59f18133215d0936([state[5]]) == \
+        "Memory_bee9eb79348d853b([DecodeInstruction_116be7744be089d8_input]) == [state[5]]",
+        "Memory_7419fa4c3aacb251([state[5]]) == \
             zero_extend([\
                 const_289, \
                 (const_97 + (state[0] * const_128)), \
@@ -302,8 +302,8 @@ fn test_some_consts() {
             ])",
     ];
     let expected_deductions = [
-        "tmp_0 = Memory_6f2fb3a82578c4e3(DecodeInstruction_116be7744be089d8_input)",
-        "tmp_1 = Memory_59f18133215d0936(tmp_0)",
+        "tmp_0 = Memory_bee9eb79348d853b(DecodeInstruction_116be7744be089d8_input)",
+        "tmp_1 = Memory_7419fa4c3aacb251(tmp_0)",
         "tmp_2 = ((UInt32::from_m31(tmp_1.get_m31(const_1)) >> const_7) & const_3)",
         "tmp_2.low().as_m31()",
         "tmp_3 = RangeCheck2([state[0]])",

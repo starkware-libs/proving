@@ -6,7 +6,7 @@ use super::op_expr::*;
 use super::var_expr::*;
 
 pub type UInt16Operation = OpExpr<UInt16>;
-pub type UInt16Expr = GenericExprImpl<UInt16>;
+pub type UInt16Expr = Expr<UInt16>;
 const CHILD_NAME: &str = "as_m31";
 
 impl VarExpr<UInt16> {

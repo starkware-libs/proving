@@ -6,7 +6,7 @@ use super::op_expr::*;
 use super::var_expr::*;
 
 pub type BoolOperation = OpExpr<Bool>;
-pub type BoolExpr = GenericExprImpl<Bool>;
+pub type BoolExpr = Expr<Bool>;
 const CHILD_NAME: &str = "as_m31";
 
 impl VarExpr<Bool> {

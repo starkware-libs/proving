@@ -1,7 +1,7 @@
 use super::add32::*;
 use crate::core::air_fn_registry::*;
-use crate::core::expressions::expr::*;
 use crate::core::expressions::uint32_expr::*;
+use crate::core::variables::*;
 
 // Macros
 use crate::const_u32_expr;

@@ -1,7 +1,7 @@
 use crate::core::air_fn::*;
-#[cfg(test)]
-use crate::core::expressions::expr::*;
 use crate::core::expressions::felt_expr::*;
+#[cfg(test)]
+use crate::core::variables::*;
 
 const STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR: &str = "VerifyBitwiseXor";
 

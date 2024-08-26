@@ -12,7 +12,7 @@ use super::var_expr::*;
 use crate::const_expr;
 
 pub type FeltOperation = OpExpr<Felt>;
-pub type FeltExpr = GenericExprImpl<Felt>;
+pub type FeltExpr = Expr<Felt>;
 
 impl VarExprUpdate for VarExpr<Felt> {
     fn create_children(&mut self) {

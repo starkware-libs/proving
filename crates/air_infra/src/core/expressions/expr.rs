@@ -21,28 +21,9 @@ use crate::core::Felt;
 
 /// Experssions can be manipulated with binary and unary operations.
 /// They have a type that determines the operations that can be performed on them.
-#[enum_dispatch]
-pub trait Expr<T>
-where
-    T: ProverType,
-{
-    fn value(&self) -> Option<T>;
-
-    // Returns the calculation of the expression as a string, when all values are known.
-    // Used for testing.
-    #[cfg(test)]
-    fn calc(&self) -> String {
-        if let Some(v) = self.value() {
-            return v.calc();
-        }
-
-        panic!("VarExpr::calc() called on a VarExpr without a value");
-    }
-}
-
 #[derive(Clone, Debug)]
-#[enum_dispatch(InternalAirVarInfo, Expr<T>)]
-pub enum GenericExprImpl<T>
+#[enum_dispatch(InternalAirVarInfo, AsProverType<T>)]
+pub enum Expr<T>
 where
     T: ProverType,
 {
@@ -50,19 +31,19 @@ where
     Op(OpExpr<T>),
 }
 
-impl<T> GenericExprImpl<T>
+impl<T> Expr<T>
 where
     T: ProverType,
 {
     pub(super) fn get_var(&mut self) -> &mut VarExpr<T> {
         match self {
-            GenericExprImpl::Var(v) => v,
+            Expr::Var(v) => v,
             _ => panic!("Cannot convert non-variable to Var"),
         }
     }
 }
 
-impl<T> InternalAirVarActions for GenericExprImpl<T>
+impl<T> InternalAirVarActions for Expr<T>
 where
     T: ProverType,
     Self: Into<ExprImpl>,
@@ -84,14 +65,14 @@ where
     }
 }
 
-impl<T> From<GenericExprImpl<T>> for CompiledAirVar
+impl<T> From<Expr<T>> for CompiledAirVar
 where
     T: ProverType,
 {
-    fn from(expr: GenericExprImpl<T>) -> CompiledAirVar {
+    fn from(expr: Expr<T>) -> CompiledAirVar {
         match expr {
-            GenericExprImpl::Var(v) => v.into(),
-            GenericExprImpl::Op(o) => o.into(),
+            Expr::Var(v) => v.into(),
+            Expr::Op(o) => o.into(),
         }
     }
 }

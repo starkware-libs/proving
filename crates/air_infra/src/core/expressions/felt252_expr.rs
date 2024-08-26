@@ -9,7 +9,7 @@ use super::var_expr::*;
 use crate::const_felt252_expr;
 
 pub type Felt252Operation = OpExpr<Felt252>;
-pub type Felt252Expr = GenericExprImpl<Felt252>;
+pub type Felt252Expr = Expr<Felt252>;
 const CHILD_NAME: &str = "get_m31";
 
 impl VarExpr<Felt252> {

@@ -1,6 +1,5 @@
 use super::air_fn::*;
 use super::air_fn_registry::*;
-use super::expressions::expr::*;
 use super::expressions::felt252_expr::*;
 use super::expressions::felt_expr::*;
 use super::expressions::uint32_expr::*;

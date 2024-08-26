@@ -10,14 +10,16 @@ use super::expressions::bool_expr::*;
 use super::expressions::expr::*;
 use super::expressions::felt252_expr::*;
 use super::expressions::felt_expr::*;
+use super::expressions::op_expr::*;
 use super::expressions::uint16_expr::*;
 use super::expressions::uint32_expr::*;
 use super::expressions::uint64_expr::*;
+use super::expressions::var_expr::*;
 use super::prover_types::*;
 use crate::airs::casm::common::*;
 
 #[cfg(test)]
-use super::Felt;
+use crate::core::Felt;
 
 // Macros
 use crate::impl_air_var;
@@ -86,6 +88,23 @@ pub trait InternalAirVarActions: Clone + Into<AirVarImpl> {
 pub struct IntermediateType {
     pub in_constraints: bool,
     pub in_deductions: bool,
+}
+
+#[enum_dispatch]
+pub trait AsProverType<T>
+where
+    T: ProverType,
+{
+    fn value(&self) -> Option<T>;
+
+    // Returns the calculation of the value as a string, when it is known.
+    // Used for testing.
+    #[cfg(test)]
+    fn calc(&self) -> String {
+        self.value()
+            .expect("calc was called on a var without a value")
+            .calc()
+    }
 }
 
 // Air variables as represented in the air_body.

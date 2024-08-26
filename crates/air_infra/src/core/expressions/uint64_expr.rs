@@ -7,7 +7,7 @@ use super::uint32_expr::*;
 use super::var_expr::*;
 
 pub type UInt64Operation = OpExpr<UInt64>;
-pub type UInt64Expr = GenericExprImpl<UInt64>;
+pub type UInt64Expr = Expr<UInt64>;
 const LOW_NAME: &str = "low";
 const HIGH_NAME: &str = "high";
 

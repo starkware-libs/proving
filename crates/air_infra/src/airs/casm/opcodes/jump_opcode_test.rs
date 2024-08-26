@@ -3,9 +3,9 @@ use super::jump_opcode::*;
 
 use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn_registry::*;
-use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::variables::*;
 
 // Macros
 use crate::const_expr;

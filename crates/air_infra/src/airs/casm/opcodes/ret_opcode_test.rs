@@ -2,11 +2,12 @@ use super::super::common::*;
 use super::ret_opcode::*;
 
 use crate::airs::memory::felt252_id_memory::*;
-use crate::const_expr;
 use crate::core::air_fn_registry::*;
-use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::variables::*;
+
+use crate::const_expr;
 use crate::expr;
 use crate::felt252_expr;
 
@@ -28,18 +29,18 @@ fn test_ret_opcode() {
         "tmp_0[0]",
         "tmp_0[1]",
         "tmp_0[2]",
-        "tmp_3 = Memory_6f2fb3a82578c4e3(state[0])",
-        "tmp_4 = Memory_59f18133215d0936(tmp_3)",
+        "tmp_3 = Memory_bee9eb79348d853b(state[0])",
+        "tmp_4 = Memory_7419fa4c3aacb251(tmp_3)",
         "tmp_3",
-        "tmp_7 = Memory_6f2fb3a82578c4e3((state[2] - const_1))",
+        "tmp_7 = Memory_bee9eb79348d853b((state[2] - const_1))",
         "tmp_7",
-        "tmp_8 = Memory_59f18133215d0936(state[4])",
+        "tmp_8 = Memory_7419fa4c3aacb251(state[4])",
         "tmp_8.get_m31(const_0)",
         "tmp_8.get_m31(const_1)",
         "tmp_8.get_m31(const_2)",
-        "tmp_9 = Memory_6f2fb3a82578c4e3((state[2] - const_2))",
+        "tmp_9 = Memory_bee9eb79348d853b((state[2] - const_2))",
         "tmp_9",
-        "tmp_10 = Memory_59f18133215d0936(state[8])",
+        "tmp_10 = Memory_7419fa4c3aacb251(state[8])",
         "tmp_10.get_m31(const_0)",
         "tmp_10.get_m31(const_1)",
         "tmp_10.get_m31(const_2)",

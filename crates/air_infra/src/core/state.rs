@@ -4,9 +4,9 @@ use std::rc::Rc;
 
 use serde::Serialize;
 
-#[cfg(test)]
-use super::expressions::expr::*;
 use super::expressions::felt_expr::*;
+#[cfg(test)]
+use super::variables::*;
 
 #[derive(Clone, Debug, Serialize)]
 pub struct State {

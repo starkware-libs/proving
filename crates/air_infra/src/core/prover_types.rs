@@ -26,9 +26,9 @@ pub trait SingleFeltType: ProverType {
 /// For exaple, felt or bool. The expression types are devided into group, depending on
 /// the operations that can be performed on them.
 pub trait ProverType: Debug + Clone + Copy + Default {
-    // Returns the calculation of the expression as a string, when all values are known.
-    // Used for testing and for creating the name of constant expressions.
+    // Returns the value of the prover type as a string.
     fn calc(&self) -> String;
+    // Returns the type of the prover type as a string.
     fn r#type() -> String;
 }
 

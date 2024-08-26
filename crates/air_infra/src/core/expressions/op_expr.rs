@@ -8,7 +8,6 @@ use super::super::prover_types::*;
 use super::super::variables::*;
 use super::biguint_expr::*;
 use super::bool_expr::*;
-use super::expr::*;
 use super::felt252_expr::*;
 use super::felt_expr::*;
 use super::uint16_expr::*;
@@ -67,7 +66,7 @@ where
     }
 }
 
-impl<T> Expr<T> for OpExpr<T>
+impl<T> AsProverType<T> for OpExpr<T>
 where
     T: ProverType,
 {
