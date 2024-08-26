@@ -125,6 +125,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
     code.extend(quote! {
         pub fn write_trace_simd(
             inputs: $(vec_of_type("InputType")),
+            $(generate_stateful_component_params(&lists.deductions))
         ) -> (Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>, LookupData) {
             let n_trace_columns = $(n_trace_cells(&lists.deductions));
             let mut trace_values = (0..n_trace_columns)
@@ -233,9 +234,9 @@ fn generate_stateful_component_params(deductions: &[TraceGenStep]) -> rust::Toke
         }
 
         if stateful {
+            let fn_name = fn_name.to_lowercase();
             params.extend(quote! {
-                let fn_name = fn_name.to_lowercase();
-                $(fn_name)_state: &mut $(fn_name)::ClaimGenerator,
+                $(&fn_name)_state: &mut $(fn_name)::ClaimGenerator,
             });
         }
     }
@@ -253,7 +254,7 @@ fn generate_stateful_component_args(deductions: &[TraceGenStep]) -> rust::Tokens
 
         if stateful {
             args.extend(quote! {
-                $(fn_name.to_lowercase())_state,
+                ,$(fn_name.to_lowercase())_state
             });
         }
     }
