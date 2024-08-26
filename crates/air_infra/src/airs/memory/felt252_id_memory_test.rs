@@ -1,6 +1,7 @@
 use super::felt252_id_memory::*;
 use crate::airs::memory::felt252_id_memory_read_positive::*;
 use crate::airs::memory::felt252_id_memory_read_small::*;
+use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -101,7 +102,7 @@ fn test_read_small_air_body() {
     let memory = Felt252IdMemory::default();
     let read_small = ReadSmall { memory };
     let registry = AirFnRegistry::new(&read_small);
-    let entry = registry.get_air_fn_entry(&read_small);
+    let entry = registry.get_air_fn_entry(&read_small.name());
     assert_eq!(
         entry
             .air_body
@@ -142,7 +143,7 @@ fn test_read_positive_air_body() {
         num_bits: 16,
     };
     let registry = AirFnRegistry::new(&read_positive);
-    let entry = registry.get_air_fn_entry(&read_positive);
+    let entry = registry.get_air_fn_entry(&read_positive.name());
     assert_eq!(
         entry
             .air_body

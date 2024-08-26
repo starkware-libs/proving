@@ -1,4 +1,5 @@
 use super::verify_add252::*;
+use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 // Macros
@@ -8,7 +9,7 @@ use crate::const_felt252_expr;
 fn test_verify_add252_air_body() {
     let air_fn = VerifyAdd252 {};
     let registry = AirFnRegistry::new(&air_fn);
-    let entry = registry.get_air_fn_entry(&air_fn);
+    let entry = registry.get_air_fn_entry(&air_fn.name());
 
     let expected_air_body = [
         "tmp_0 = \

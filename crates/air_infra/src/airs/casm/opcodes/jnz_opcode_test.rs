@@ -2,6 +2,7 @@ use super::super::common::*;
 use super::jnz_opcode::*;
 
 use crate::airs::memory::felt252_id_memory::*;
+use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -92,7 +93,7 @@ fn build_and_test(
     );
 
     // Check air_body
-    let air_body = registry.get_air_fn_entry(&jnz_opcode).air_body;
+    let air_body = registry.get_air_fn_entry(&jnz_opcode.name()).air_body;
 
     if let Some(expected_air_body) = expected_air_body {
         assert_eq!(

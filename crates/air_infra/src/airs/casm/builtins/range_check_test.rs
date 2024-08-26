@@ -1,5 +1,6 @@
 use super::range_check::*;
 use crate::airs::memory::felt252_id_memory::*;
+use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -41,7 +42,7 @@ fn test_range_check() {
     };
 
     let registry = AirFnRegistry::new(&rc);
-    let lists = registry.get_compiled_air_fn(&rc);
+    let lists = registry.get_compiled_air_fn(&rc.name());
 
     assert_eq!(
         lists

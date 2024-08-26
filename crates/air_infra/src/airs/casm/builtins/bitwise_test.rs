@@ -1,6 +1,7 @@
 use super::bitwise::*;
 
 use crate::airs::memory::felt252_id_memory::*;
+use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -378,7 +379,7 @@ fn test_big_felt252_bitwise_builtin() {
     registry.run_air(&bitwise, instance_number);
 
     // Check air body
-    let entry = registry.get_air_fn_entry(&bitwise);
+    let entry = registry.get_air_fn_entry(&bitwise.name());
     assert_eq!(
         entry
             .air_body
