@@ -1,11 +1,13 @@
 #[cfg(test)]
 use std::collections::BTreeMap;
 
+use crate::airs::casm::common::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 
+use crate::core::prover_types::*;
 #[cfg(test)]
 use crate::core::variables::*;
 
@@ -15,8 +17,10 @@ use crate::core::Felt;
 #[cfg(test)]
 use crate::expr;
 
-#[cfg(test)]
 use crate::const_expr;
+
+use super::felt252_id_memory_read_positive::*;
+use super::felt252_id_memory_read_small::*;
 
 /// Stores an address -> Felt252 mapping using two components: 1. address -> ID table and
 /// 2. ID -> Felt252 table. The ID is a single M31 felt and it is guaranteed that different
@@ -56,13 +60,41 @@ impl Felt252IdMemory {
         result
     }
 
-    pub fn read(
+    pub fn read_unverified(
         &self,
         air_builder: &mut AirBuilder,
         address: &FeltExpr,
     ) -> (Felt252Expr, FeltExpr) {
-        let id = air_builder.mem_read(&self.address_to_id, address);
-        let value = air_builder.mem_read(&self.id_to_value, &id);
+        let id = air_builder.mem_read_unverified(&self.address_to_id, address);
+        let value = air_builder.mem_read_unverified(&self.id_to_value, &id);
         (value, id)
+    }
+
+    pub fn read_rel_imm(&self, air_builder: &mut AirBuilder, address: FeltExpr) -> FeltExpr {
+        air_builder.call(
+            &ReadSmall {
+                memory: self.clone(),
+            },
+            address,
+        )
+    }
+
+    pub fn read_address(&self, air_builder: &mut AirBuilder, address: FeltExpr) -> FeltExpr {
+        let address_f252 = air_builder.call(
+            &ReadPositive {
+                memory: self.clone(),
+                num_bits: ADDRESS_BITS,
+            },
+            address,
+        );
+
+        let mut result = address_f252.get_felt(0);
+
+        for i in 1..(ADDRESS_BITS.div_ceil(FELT252_BITS_PER_WORD)) {
+            result =
+                result + address_f252.get_felt(i) * const_expr!(1 << (FELT252_BITS_PER_WORD * i));
+        }
+
+        result
     }
 }

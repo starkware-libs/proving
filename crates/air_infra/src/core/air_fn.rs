@@ -65,7 +65,6 @@ pub trait AirFn: Debug {
         IndexMap::new()
     }
 
-    // Assumes the input was written to the trace
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out;
 
     fn lookup_call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
@@ -254,11 +253,6 @@ impl AirBuilder {
             "AirFn must be inline"
         );
 
-        #[cfg(test)]
-        if self.run {
-            assert!(input.in_state(), "Input must be in the trace");
-        }
-
         // Make sure the callee is in the registry
         if self.registry.air_fns.borrow().get(&air_fn.name()).is_none() {
             AirFnEntry::new(&self.registry, air_fn);
@@ -369,7 +363,7 @@ impl AirBuilder {
     #[allow(unused_variables)]
     // Reads the value from the memory, creates an intermediate variable for the value, and returns
     // it. Does not add any constraints or deductions.
-    pub fn mem_read<K, V>(&mut self, memory: &Memory<K, V>, key: &K) -> V
+    pub fn mem_read_unverified<K, V>(&mut self, memory: &Memory<K, V>, key: &K) -> V
     where
         K: AirVar,
         V: AirVar + Default,
@@ -402,7 +396,7 @@ impl AirBuilder {
     #[allow(unused_variables)]
     // Assumes the key and value are in the state (of the caller). Adds a lookup constraint.
     // Writes the value to the memory in run and cairo run modes.
-    pub fn mem_verify<K, V>(&mut self, memory: &Memory<K, V>, key: K, value: V)
+    pub fn mem_verify<K, V>(&mut self, memory: &Memory<K, V>, key: &K, value: V)
     where
         K: AirVar,
         V: AirVar + Default,

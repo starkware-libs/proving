@@ -1,11 +1,11 @@
 use super::super::common::*;
 use super::assert_eq_opcode::*;
 
+use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
 
 // Macros
 use crate::const_expr;
@@ -35,7 +35,7 @@ fn test_assert_equal_deref() {
         4,
         3,
         None,
-        vec![3, 11, 6, 3, 64, 2, 0, 4, 0, 1, 0, 0, 3],
+        vec![3, 11, 6, 3, 64, 2, 0, 4, 0, 1, 0, 0, 0, 1],
     );
 }
 
@@ -62,7 +62,7 @@ fn test_assert_equal_imm() {
         6,
         3,
         None,
-        vec![3, 11, 6, 3, 64, 1, 0, 3],
+        vec![3, 11, 6, 3, 64, 1, 0, 0, 1],
     );
 }
 
@@ -89,7 +89,9 @@ fn test_assert_equal_double_deref() {
         4,
         15,
         None,
-        vec![3, 11, 6, 3, 64, 3, 1, 16, 2, 0, 4, 1, 0, 0, 15, 4, 0, 0],
+        vec![
+            3, 11, 6, 3, 64, 3, 1, 16, 2, 0, 4, 1, 0, 0, 0, 2, 4, 0, 0, 1,
+        ],
     );
 }
 
@@ -101,7 +103,9 @@ fn test_assert_equal_double_deref_big_op0() {
         1546487,
         15,
         None,
-        vec![3, 11, 6, 3, 64, 3, 1, 16, 2, 0, 4, 1, 0, 0, 15, 247, 460, 5],
+        vec![
+            3, 11, 6, 3, 64, 3, 1, 16, 2, 0, 4, 1, 0, 0, 0, 2, 247, 460, 5, 1,
+        ],
     );
 }
 
@@ -157,18 +161,15 @@ fn test_assert_equal_deref_constraint_deduction() {
                 const_false, \
                 const_true]\
             ) = DecodeInstruction_8443cf0a4db7edc5(state[0])",
-            "Felt252::from_limbs(zero_extend([state[12]])) = \
-                ReadSmallFelt252_cc824bd2f61c6ef6((\
-                    ((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + \
-                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768)))",
             "Constraint: ((state[9] + state[10]) - const_1)",
-            "Memory_59f18133215d0936(\
-                [(\
-                    ((state[9] * state[2]) + (state[10] * state[1])) + \
-                    (((state[5] + (state[6] * const_16)) + (state[7] * const_8192)) - const_32768))\
-                ]) == zero_extend([state[12]])",
+            "() = MemVerifyEqual_9275f6b821cf1219([\
+                (((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + \
+                (((state[3] + (state[4] * const_512)) + const_0) - const_32768)), \
+                (((state[9] * state[2]) + (state[10] * state[1])) + \
+                (((state[5] + (state[6] * const_16)) + (state[7] * const_8192)) - const_32768))\
+            ])",
         ]),
-        vec![3, 11, 6, 3, 64, 2, 0, 4, 0, 1, 0, 0, 15],
+        vec![3, 11, 6, 3, 64, 2, 0, 4, 0, 1, 0, 0, 0, 1],
     );
 }
 
@@ -211,14 +212,13 @@ fn test_assert_equal_imm_constraint_deduction() {
                     const_false, \
                     const_true]\
             ) = DecodeInstruction_70368a7eef804c24(state[0])",
-            "Felt252::from_limbs(zero_extend([state[7]])) = \
-                ReadSmallFelt252_cc824bd2f61c6ef6(\
-                    (((state[5] * state[2]) + ((const_1 - state[5]) * state[1])) + \
-                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768))\
-                )",
-            "Memory_59f18133215d0936([(state[0] + const_1)]) == zero_extend([state[7]])",
+            "() = MemVerifyEqual_9275f6b821cf1219([\
+                (((state[5] * state[2]) + ((const_1 - state[5]) * state[1])) + \
+                (((state[3] + (state[4] * const_512)) + const_0) - const_32768)), \
+                (state[0] + const_1)\
+            ])",
         ]),
-        vec![3, 11, 6, 3, 64, 1, 0, 15],
+        vec![3, 11, 6, 3, 64, 1, 0, 0, 1],
     );
 }
 
@@ -258,19 +258,22 @@ fn test_assert_equal_double_deref_constraint_deduction() {
                 const_true\
             ]\
         ) = DecodeInstruction_a06f5e7da24ead84(state[0])",
-        "Felt252::from_limbs(zero_extend([state[14]])) = ReadSmallFelt252_cc824bd2f61c6ef6((\
-            ((state[11] * state[2]) + ((const_1 - state[11]) * state[1])) + \
-            (((state[3] + (state[4] * const_512)) + const_0) - const_32768)))",
-        "((state[15] + (state[16] * const_512)) + (state[17] * const_262144)) = \
-            ReadAddr_d86123cf8dd732a9((\
+        "Felt252::from_limbs(zero_extend([state[16], state[17], state[18]])) = \
+            ReadPositive_dd7d1f062646f801((\
                 ((state[12] * state[2]) + ((const_1 - state[12]) * state[1])) + \
-                (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)))",
-        "Memory_59f18133215d0936(\
-            [(((state[15] + (state[16] * const_512)) + (state[17] * const_262144)) + \
-            (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768))]\
-        ) == zero_extend([state[14]])",
+                (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
+            ))",
+        "() = MemVerifyEqual_9275f6b821cf1219(\
+            [\
+                (((state[11] * state[2]) + ((const_1 - state[11]) * state[1])) + \
+                (((state[3] + (state[4] * const_512)) + const_0) - const_32768)), \
+                (((state[16] + (state[17] * const_512)) + (state[18] * const_262144)) + \
+                (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768))\
+            ])",
     ];
-    let expected_state = vec![3, 11, 6, 3, 64, 3, 1, 16, 2, 0, 4, 1, 0, 0, 15, 4, 0, 0];
+    let expected_state = vec![
+        3, 11, 6, 3, 64, 3, 1, 16, 2, 0, 4, 1, 0, 0, 0, 2, 4, 0, 0, 1,
+    ];
     test_assert_equal(
         [true, false, false, false, false, false],
         15,
@@ -298,7 +301,7 @@ fn test_assert_equal(
     let mut assert_equal_opcode = AssertEqOpcode {
         is_double_deref: double_deref,
         is_immediate: flag_op1_imm,
-        memory: Memory::default(),
+        memory: Felt252IdMemory::default(),
     };
 
     let offset0_value = 3;
@@ -383,7 +386,7 @@ fn test_assert_equal(
             felt252_expr!("op1", op1, 0),
         ));
     };
-    assert_equal_opcode.memory = Memory::new_with_data(memory_values);
+    assert_equal_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
 

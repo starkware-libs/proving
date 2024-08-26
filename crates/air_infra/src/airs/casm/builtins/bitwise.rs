@@ -1,9 +1,9 @@
 use crate::airs::casm::bitwise_xor::*;
-use crate::airs::casm::read_small_felt252::*;
+use crate::airs::memory::felt252_id_memory::*;
+use crate::airs::memory::felt252_id_memory_read_positive::*;
+use crate::airs::memory::felt252_id_memory_verify::*;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
 use crate::core::prover_types::*;
 use crate::core::variables::*;
 
@@ -26,7 +26,7 @@ pub const CELLS_PER_BITWISE: u32 = 5;
 // are guaranteed to be representable as 251-bit integers).
 #[derive(Debug)]
 pub struct BitwiseBuiltin {
-    pub memory: Memory<FeltExpr, Felt252Expr>,
+    pub memory: Felt252IdMemory,
 }
 
 impl AirFn for BitwiseBuiltin {
@@ -34,8 +34,11 @@ impl AirFn for BitwiseBuiltin {
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, instance_num: Self::In) -> Self::Out {
-        let read_felt252 = ReadSmallFelt252 {
+        let read_felt252 = ReadPositive {
             num_bits: 252,
+            memory: self.memory.clone(),
+        };
+        let verify_felt252 = MemVerify {
             memory: self.memory.clone(),
         };
         let a = air_builder.call(&read_felt252, get_addr(instance_num.clone(), 0));
@@ -56,20 +59,17 @@ impl AirFn for BitwiseBuiltin {
             expected_and.push(a_and_b.clone());
             expected_or.push(a_and_b + a_xor_b);
         }
-        air_builder.mem_verify(
-            &self.memory,
-            get_addr(instance_num.clone(), 2),
-            expected_and.into(),
+        air_builder.call(
+            &verify_felt252,
+            (get_addr(instance_num.clone(), 2), expected_and.into()),
         );
-        air_builder.mem_verify(
-            &self.memory,
-            get_addr(instance_num.clone(), 3),
-            expected_xor.into(),
+        air_builder.call(
+            &verify_felt252,
+            (get_addr(instance_num.clone(), 3), expected_xor.into()),
         );
-        air_builder.mem_verify(
-            &self.memory,
-            get_addr(instance_num.clone(), 4),
-            expected_or.into(),
+        air_builder.call(
+            &verify_felt252,
+            (get_addr(instance_num.clone(), 4), expected_or.into()),
         );
     }
 

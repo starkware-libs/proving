@@ -12,15 +12,6 @@ use super::variables::*;
 #[cfg(test)]
 use super::Felt;
 
-// Air functions (or lookup air functions) that need to access memory should implement this trait.
-// This will allow the registry or other external code to initialize the same memory for all related air functions.
-pub trait MemoryAirFn {
-    type K: AirVar;
-    type V: AirVar;
-
-    fn init_memory(&mut self, memory: &Memory<Self::K, Self::V>);
-}
-
 // Memory is a simple key-value store that is passed to the relevant air builder functions.
 #[derive(Clone, Debug, Default)]
 pub struct Memory<K, V>

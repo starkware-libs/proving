@@ -1,11 +1,11 @@
 use super::super::common::*;
 use super::add_ap_opcode::*;
 
+use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
 
 // Macros
 use crate::const_expr;
@@ -16,7 +16,7 @@ use crate::felt252_expr;
 fn test_add_ap() {
     // build the air function
     let mut add_ap_opcode = AddAp {
-        memory: Memory::default(),
+        memory: Felt252IdMemory::default(),
     };
 
     // Register values at opcode start
@@ -42,7 +42,7 @@ fn test_add_ap() {
         const_expr!(pc_value + 1),
         felt252_expr!("imm", immediate, 0),
     ));
-    add_ap_opcode.init_memory(&Memory::new_with_data(memory_values));
+    add_ap_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
     let registry = AirFnRegistry::new(&add_ap_opcode);
@@ -55,7 +55,7 @@ fn test_add_ap() {
     assert_eq!(next_ap.calc(), (ap_value + immediate as u32).to_string());
 
     // Check the state
-    let expected_state = [pc_value, ap_value, fp_value, immediate as u32];
+    let expected_state = [30, 11, 6, 0, 1, 0, 0, 299, 0, 0];
     assert_eq!(
         state.calc(),
         expected_state
@@ -82,30 +82,32 @@ fn test_add_ap() {
             "Deduction: tmp_0[1]",
             "Deduction: tmp_0[2]",
             "(\
-                    [\
-                        const_2147483646, \
-                        const_2147483646, \
-                        const_1\
-                    ], [\
-                        const_true, \
-                        const_true, \
-                        const_true, \
-                        const_false, \
-                        const_false, \
-                        const_false, \
-                        const_false, \
-                        const_false, \
-                        const_false, \
-                        const_false, \
-                        const_true, \
-                        const_false, \
-                        const_false, \
-                        const_false, \
-                        const_false\
-                    ]\
-                ) = DecodeInstruction_83cd6a5ed43aa52e(state[0])",
-            "Felt252::from_limbs(zero_extend([state[3]])) = \
-                    ReadSmallFelt252_cc824bd2f61c6ef6((state[0] + const_1))"
+                [\
+                    const_2147483646, \
+                    const_2147483646, \
+                    const_1\
+                ], [\
+                    const_true, \
+                    const_true, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false\
+                ]\
+            ) = DecodeInstruction_83cd6a5ed43aa52e(state[0])",
+            "(\
+                (((state[9] * const_262144) + ((state[8] * const_512) + state[7])) - state[5]) - \
+                (const_134217728 * state[6])) = \
+                ReadSmall_cda8d80eab0abe94((state[0] + const_1))"
         ]
     );
 }

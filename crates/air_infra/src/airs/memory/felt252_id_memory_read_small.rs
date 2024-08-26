@@ -37,10 +37,10 @@ impl AirFn for ReadSmall {
     type Out = FeltExpr;
 
     fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
-        let mut id = air_builder.mem_read(&self.memory.address_to_id, &address);
+        let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &address);
         air_builder.deduce(&mut id);
-        air_builder.mem_verify(&self.memory.address_to_id, address, id.clone());
-        let mut value = air_builder.mem_read(&self.memory.id_to_value, &id);
+        air_builder.mem_verify(&self.memory.address_to_id, &address, id.clone());
+        let mut value = air_builder.mem_read_unverified(&self.memory.id_to_value, &id);
 
         // Compute and deduce "case" bits: msb and mid_limbs_set
         let mut msb_bool = air_builder.let_for_deduction(value.get_felt(27).eq(const_expr!(0x100)));
@@ -88,7 +88,7 @@ impl AirFn for ReadSmall {
         full_value_limbs.push(msb_limb);
 
         // Verify that the value in memory is the one we expect
-        air_builder.mem_verify(&self.memory.id_to_value, id, full_value_limbs.into());
+        air_builder.mem_verify(&self.memory.id_to_value, &id, full_value_limbs.into());
 
         let mut low_limbs_value = value.get_felt(0).clone();
         for i in 1..LIMBS_IN_M31 {

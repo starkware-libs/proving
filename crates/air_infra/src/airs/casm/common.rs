@@ -3,6 +3,8 @@ use crate::core::expressions::felt_expr::*;
 // Macros
 use crate::const_expr;
 
+pub const ADDRESS_BITS: usize = 27;
+
 pub type CasmAddress = FeltExpr;
 // The state is the triple [pc, ap, fp].
 pub type CasmState = [CasmAddress; 3];

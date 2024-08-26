@@ -5,8 +5,8 @@ use crate::airs::casm::opcodes::assert_eq_opcode::*;
 use crate::airs::casm::opcodes::call_opcode::*;
 use crate::airs::casm::opcodes::jump_opcode::*;
 use crate::airs::casm::opcodes::ret_opcode::*;
+use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn_registry::*;
-use crate::core::memory::*;
 
 #[derive(Args, Debug)]
 pub struct WriteJsonCommand {
@@ -61,7 +61,7 @@ pub fn create_assert_equal_opcode_json(arguments: AssertEqOpcodeArgs) -> AirFnRe
     AirFnRegistry::new(&AssertEqOpcode {
         is_double_deref: arguments.is_double_deref,
         is_immediate: arguments.is_immediate,
-        memory: Memory::default(),
+        memory: Felt252IdMemory::default(),
     })
 }
 
@@ -73,7 +73,7 @@ pub fn create_call_opcode_json(arguments: CallOpcodeArgs) -> AirFnRegistry {
     AirFnRegistry::new(&CallOpcode {
         is_rel: arguments.is_rel,
         flag_op1_base_fp: arguments.flag_op1_base_fp,
-        memory: Memory::default(),
+        memory: Felt252IdMemory::default(),
     })
 }
 
@@ -86,13 +86,13 @@ pub fn create_jump_opcode_json(arguments: JumpOpcodeArgs) -> AirFnRegistry {
         is_rel: arguments.is_rel,
         flag_op1_base_fp: arguments.flag_op1_base_fp,
         flag_ap_update_add_1: arguments.flag_ap_update_add_1,
-        memory: Memory::default(),
+        memory: Felt252IdMemory::default(),
     })
 }
 
 pub fn create_ret_opcode_json() -> AirFnRegistry {
     println!("Creating a json file for ret_opcode");
     AirFnRegistry::new(&RetOpcode {
-        memory: Memory::default(),
+        memory: Felt252IdMemory::default(),
     })
 }

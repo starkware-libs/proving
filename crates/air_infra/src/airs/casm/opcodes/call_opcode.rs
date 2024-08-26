@@ -1,15 +1,13 @@
 use indexmap::IndexMap;
 
 use super::super::common::*;
-use super::super::read_addr::*;
-use super::super::read_small_felt252::*;
 use super::decode_instruction::*;
 
+use crate::airs::memory::felt252_id_memory::*;
+use crate::airs::memory::felt252_id_memory_verify::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
-use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;
@@ -25,7 +23,7 @@ pub struct CallOpcode {
     pub is_rel: bool,
     pub flag_op1_base_fp: bool,
 
-    pub memory: Memory<FeltExpr, Felt252Expr>,
+    pub memory: Felt252IdMemory,
 }
 
 impl CallOpcode {
@@ -75,42 +73,34 @@ impl AirFn for CallOpcode {
         );
 
         // Push fp.
-        ab.mem_verify(
-            &self.memory,
-            ap.clone(),
-            Felt252Expr::from(vec![fp.clone()]),
+        ab.call(
+            &MemVerify {
+                memory: self.memory.clone(),
+            },
+            (ap.clone(), Felt252Expr::from(vec![fp.clone()])),
         );
 
         // Push pc + instruction_size.
-        ab.mem_verify(
-            &self.memory,
-            ap.clone() + const_expr!(1),
-            Felt252Expr::from(vec![(pc.clone() + const_expr!(1 + (self.is_rel as u32)))]),
+        ab.call(
+            &MemVerify {
+                memory: self.memory.clone(),
+            },
+            (
+                ap.clone() + const_expr!(1),
+                Felt252Expr::from(vec![(pc.clone() + const_expr!(1 + (self.is_rel as u32)))]),
+            ),
         );
 
         // Update pc.
         let next_pc = if self.is_rel {
-            pc.clone()
-                + ab.call(
-                    &ReadSmallFelt252 {
-                        num_bits: FELT252_BITS_PER_WORD,
-                        memory: self.memory.clone(),
-                    },
-                    pc + const_expr!(1),
-                )
-                .get_felt(0)
+            pc.clone() + self.memory.read_rel_imm(ab, pc + const_expr!(1))
         } else {
             let mem1_base = if self.flag_op1_base_fp {
                 fp.clone()
             } else {
                 ap.clone()
             };
-            ab.call(
-                &ReadAddr {
-                    memory: self.memory.clone(),
-                },
-                mem1_base + offset2,
-            )
+            self.memory.read_address(ab, mem1_base + offset2)
         };
 
         [next_pc, ap.clone() + const_expr!(2), ap + const_expr!(2)]
@@ -129,14 +119,5 @@ impl AirFn for CallOpcode {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
-    }
-}
-
-impl MemoryAirFn for CallOpcode {
-    type K = FeltExpr;
-    type V = Felt252Expr;
-
-    fn init_memory(&mut self, memory: &Memory<FeltExpr, Felt252Expr>) {
-        self.memory = memory.clone();
     }
 }

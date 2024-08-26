@@ -1,14 +1,12 @@
 use indexmap::IndexMap;
 
 use super::super::common::*;
-use super::super::read_small_felt252::*;
 use super::decode_instruction::*;
 
+use crate::airs::memory::felt252_id_memory::*;
+use crate::airs::memory::felt252_id_memory_read_small::*;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
-use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;
@@ -24,7 +22,7 @@ use crate::const_expr;
 #[derive(Clone, Debug)]
 pub struct AddSmallOpcode {
     pub is_immediate: bool,
-    pub memory: Memory<FeltExpr, Felt252Expr>,
+    pub memory: Felt252IdMemory,
 }
 
 impl AddSmallOpcode {
@@ -87,30 +85,22 @@ impl AirFn for AddSmallOpcode {
         // Fetch dst - the value at the destination address for the addition
         let mem_dst_base = flag_dst_base_fp.clone() * fp.clone()
             + (const_expr!(1) - flag_dst_base_fp) * ap.clone();
-        let dst_value = ab.call(
-            &ReadSmallFelt252 {
-                num_bits: 3 * FELT252_BITS_PER_WORD,
+        let dst_m31 = ab.call(
+            &ReadSmall {
                 memory: self.memory.clone(),
             },
             mem_dst_base + offset0,
         );
-        let dst_m31 = dst_value.get_felt(0).clone()
-            + const_expr!(1 << FELT252_BITS_PER_WORD) * dst_value.get_felt(1).clone()
-            + const_expr!(1 << (2 * FELT252_BITS_PER_WORD)) * dst_value.get_felt(2).clone();
 
         // Fetch op0 - the first operand for the addition
         let mem0_base = flag_op0_base_fp.clone() * fp.clone()
             + (const_expr!(1) - flag_op0_base_fp) * ap.clone();
-        let op0_value = ab.call(
-            &ReadSmallFelt252 {
-                num_bits: 3 * FELT252_BITS_PER_WORD,
+        let op0_m31 = ab.call(
+            &ReadSmall {
                 memory: self.memory.clone(),
             },
             mem0_base + offset1,
         );
-        let op0_m31 = op0_value.get_felt(0).clone()
-            + const_expr!(1 << FELT252_BITS_PER_WORD) * op0_value.get_felt(1).clone()
-            + const_expr!(1 << (2 * FELT252_BITS_PER_WORD)) * op0_value.get_felt(2).clone();
 
         // Fetch op1 - the second operand for the addition
         let mem1_base = if self.is_immediate {
@@ -119,16 +109,12 @@ impl AirFn for AddSmallOpcode {
             ab.constrain(flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1));
             flag_op1_base_fp * fp.clone() + flag_op1_base_ap * ap.clone()
         };
-        let op1_value = ab.call(
-            &ReadSmallFelt252 {
-                num_bits: 3 * FELT252_BITS_PER_WORD,
+        let op1_m31 = ab.call(
+            &ReadSmall {
                 memory: self.memory.clone(),
             },
             mem1_base + offset2,
         );
-        let op1_m31 = op1_value.get_felt(0).clone()
-            + const_expr!(1 << FELT252_BITS_PER_WORD) * op1_value.get_felt(1).clone()
-            + const_expr!(1 << (2 * FELT252_BITS_PER_WORD)) * op1_value.get_felt(2).clone();
 
         let res = op0_m31 + op1_m31;
 
@@ -155,14 +141,5 @@ impl AirFn for AddSmallOpcode {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
-    }
-}
-
-impl MemoryAirFn for AddSmallOpcode {
-    type K = FeltExpr;
-    type V = Felt252Expr;
-
-    fn init_memory(&mut self, memory: &Memory<FeltExpr, Felt252Expr>) {
-        self.memory = memory.clone();
     }
 }

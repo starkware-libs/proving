@@ -1,15 +1,12 @@
 use indexmap::IndexMap;
 
 use super::super::common::*;
-use super::super::read_addr::*;
-use super::super::read_small_felt252::*;
 use super::decode_instruction::*;
 
+use crate::airs::memory::felt252_id_memory::*;
+use crate::airs::memory::felt252_id_memory_verify_equal::*;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
-use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;
@@ -24,7 +21,7 @@ use crate::const_expr;
 pub struct AssertEqOpcode {
     pub is_double_deref: bool,
     pub is_immediate: bool,
-    pub memory: Memory<FeltExpr, Felt252Expr>,
+    pub memory: Felt252IdMemory,
 }
 
 impl AssertEqOpcode {
@@ -98,24 +95,14 @@ impl AirFn for AssertEqOpcode {
         let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1].as_felt();
 
         // Fetch dst
-        let read_12bits_felt = ReadSmallFelt252 {
-            num_bits: FELT252_BITS_PER_WORD,
-            memory: self.memory.clone(),
-        };
         let mem_dst_base = flag_dst_base_fp.clone() * fp.clone()
             + (const_expr!(1) - flag_dst_base_fp) * ap.clone();
-        let dst = ab.call(&read_12bits_felt, mem_dst_base + offset0);
 
         // Find mem1_base
         let mem1_base = if self.is_double_deref {
             let mem0_base = flag_op0_base_fp.clone() * fp.clone()
                 + (const_expr!(1) - flag_op0_base_fp) * ap.clone();
-            ab.call(
-                &ReadAddr {
-                    memory: self.memory.clone(),
-                },
-                mem0_base + offset1,
-            )
+            self.memory.read_address(ab, mem0_base + offset1)
         } else if self.is_immediate {
             pc.clone()
         } else {
@@ -124,7 +111,12 @@ impl AirFn for AssertEqOpcode {
         };
 
         // Assert that dst == op1
-        ab.mem_verify(&self.memory, mem1_base + offset2, dst);
+        ab.call(
+            &MemVerifyEqual {
+                memory: self.memory.clone(),
+            },
+            [mem_dst_base + offset0, mem1_base + offset2],
+        );
 
         // Calculate the next ap
         let next_ap = (const_expr!(1) - flag_ap_update_add_1.clone()) * ap.clone()
@@ -150,14 +142,5 @@ impl AirFn for AssertEqOpcode {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
-    }
-}
-
-impl MemoryAirFn for AssertEqOpcode {
-    type K = FeltExpr;
-    type V = Felt252Expr;
-
-    fn init_memory(&mut self, memory: &Memory<FeltExpr, Felt252Expr>) {
-        self.memory = memory.clone();
     }
 }

@@ -1,12 +1,12 @@
 use super::super::common::*;
 use super::ret_opcode::*;
 
+use crate::airs::memory::felt252_id_memory::*;
 use crate::const_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::memory::*;
 use crate::expr;
 use crate::felt252_expr;
 
@@ -20,19 +20,29 @@ pub fn assemble_ret() -> u64 {
 #[test]
 fn test_ret_opcode() {
     let deductions = [
-        "tmp_0 = [RetOpcode_e23a5de9448e32d7_input[0], RetOpcode_e23a5de9448e32d7_input[1], RetOpcode_e23a5de9448e32d7_input[2]]",
+        "tmp_0 = [\
+            RetOpcode_e23a5de9448e32d7_input[0], \
+            RetOpcode_e23a5de9448e32d7_input[1], \
+            RetOpcode_e23a5de9448e32d7_input[2]\
+        ]",
         "tmp_0[0]",
         "tmp_0[1]",
         "tmp_0[2]",
-        "tmp_2 = Memory_59f18133215d0936(state[0])",
-        "tmp_5 = Memory_59f18133215d0936((state[2] - const_1))",
-        "tmp_5.get_m31(const_0)",
-        "tmp_5.get_m31(const_1)",
-        "tmp_5.get_m31(const_2)",
-        "tmp_6 = Memory_59f18133215d0936((state[2] - const_2))",
-        "tmp_6.get_m31(const_0)",
-        "tmp_6.get_m31(const_1)",
-        "tmp_6.get_m31(const_2)",
+        "tmp_3 = Memory_6f2fb3a82578c4e3(state[0])",
+        "tmp_4 = Memory_59f18133215d0936(tmp_3)",
+        "tmp_3",
+        "tmp_7 = Memory_6f2fb3a82578c4e3((state[2] - const_1))",
+        "tmp_7",
+        "tmp_8 = Memory_59f18133215d0936(state[4])",
+        "tmp_8.get_m31(const_0)",
+        "tmp_8.get_m31(const_1)",
+        "tmp_8.get_m31(const_2)",
+        "tmp_9 = Memory_6f2fb3a82578c4e3((state[2] - const_2))",
+        "tmp_9",
+        "tmp_10 = Memory_59f18133215d0936(state[8])",
+        "tmp_10.get_m31(const_0)",
+        "tmp_10.get_m31(const_1)",
+        "tmp_10.get_m31(const_2)",
     ];
 
     // Register values at opcode start
@@ -49,7 +59,7 @@ fn test_ret_opcode() {
     let fp: FeltExpr = expr!("fp", fp_value);
 
     // Fill memory
-    let memory = Memory::<FeltExpr, Felt252Expr>::new_with_data(vec![
+    let memory = Felt252IdMemory::new_with_data(vec![
         (pc.clone(), felt252_expr!("op", assemble_ret() as u128, 0)),
         (
             const_expr!(fp_value - 1),
@@ -62,8 +72,7 @@ fn test_ret_opcode() {
     ]);
 
     // Run opcode and check output
-    let mut func = RetOpcode::default();
-    func.init_memory(&memory);
+    let func = RetOpcode { memory };
     let registry = AirFnRegistry::new(&func);
 
     let (state, output) = registry.run_air(&func, [pc, ap, fp]);
@@ -72,7 +81,10 @@ fn test_ret_opcode() {
     assert_eq!(next_pc.calc(), saved_pc.to_string());
     assert_eq!(next_fp.calc(), saved_fp.to_string());
     assert_eq!(next_ap.calc(), ap_value.to_string());
-    assert_eq!(state.calc(), ["3", "11", "6", "1", "0", "0", "4", "0", "0"]);
+    assert_eq!(
+        state.calc(),
+        ["3", "11", "6", "0", "1", "1", "0", "0", "2", "4", "0", "0"]
+    );
 
     let lists = registry.get_compiled_air_fn(&func);
 
