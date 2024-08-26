@@ -1,6 +1,7 @@
 use crate::airs::casm::opcodes::call_opcode::*;
 use crate::airs::casm::opcodes::jump_opcode::*;
 use crate::airs::casm::opcodes::ret_opcode::*;
+use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::compiled_structs::*;
 
@@ -56,7 +57,7 @@ pub fn print_fn_sizes() {
         flag_op1_base_fp: false,
         memory: Default::default(),
     };
-    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func);
+    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
     print_statistics("call abs [ap]", compiled);
 
     let func = CallOpcode {
@@ -64,7 +65,7 @@ pub fn print_fn_sizes() {
         flag_op1_base_fp: false,
         memory: Default::default(),
     };
-    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func);
+    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
     print_statistics("call rel [ap]", compiled);
 
     let func = JumpOpcode {
@@ -73,7 +74,7 @@ pub fn print_fn_sizes() {
         flag_ap_update_add_1: false,
         memory: Default::default(),
     };
-    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func);
+    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
     print_statistics("jump abs [ap]", compiled);
 
     let func = JumpOpcode {
@@ -82,12 +83,12 @@ pub fn print_fn_sizes() {
         flag_ap_update_add_1: false,
         memory: Default::default(),
     };
-    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func);
+    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
     print_statistics("jump rel [ap]", compiled);
 
     let func = RetOpcode {
         memory: Default::default(),
     };
-    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func);
+    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
     print_statistics("ret", compiled);
 }

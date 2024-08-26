@@ -173,26 +173,19 @@ impl AirFnRegistry {
         PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap())
     }
 
-    pub fn get_air_fn_entry<I, O>(&self, air_fn: &dyn AirFn<In = I, Out = O>) -> AirFnEntry
-    where
-        I: AirVar,
-        O: AirVar,
-    {
+    pub fn get_air_fn_entry(&self, air_fn_name: &String) -> AirFnEntry {
         self.air_fns
             .borrow()
-            .get(&air_fn.name())
-            .unwrap_or_else(|| panic!("Air function {} not found", air_fn.name()))
+            .get(air_fn_name)
+            .unwrap_or_else(|| panic!("Air function {} not found", air_fn_name))
             .clone()
     }
 
-    pub fn get_compiled_air_fn<I, O>(&self, air_fn: &dyn AirFn<In = I, Out = O>) -> CompiledAirFn
-    where
-        I: AirVar,
-        O: AirVar,
-    {
-        let entry = self.get_air_fn_entry(air_fn);
+    pub fn get_compiled_air_fn(&self, air_fn_name: &String) -> CompiledAirFn {
+        let entry = self.get_air_fn_entry(air_fn_name);
         let (deductions, constraints) = Self::compile_air_fn(entry.air_body);
         CompiledAirFn {
+            name: air_fn_name.clone(),
             input: entry.input.into(),
             output: entry.output.into(),
             input_num_of_felts: entry.input_num_of_felts,

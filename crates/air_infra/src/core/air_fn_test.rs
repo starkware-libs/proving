@@ -89,6 +89,6 @@ fn test_felt252_deduce() {
     assert!(out.in_state());
     assert!(out.calc() == "5");
 
-    let lists = registry.get_compiled_air_fn(&func);
+    let lists = registry.get_compiled_air_fn(&func.name());
     assert_eq!("tmp_0.get_m31(const_0)", lists.deductions[1].to_string());
 }

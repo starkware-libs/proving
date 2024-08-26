@@ -2,6 +2,7 @@ use super::super::common::*;
 use super::ret_opcode::*;
 
 use crate::airs::memory::felt252_id_memory::*;
+use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -87,7 +88,7 @@ fn test_ret_opcode() {
         ["3", "11", "6", "0", "1", "1", "0", "0", "2", "4", "0", "0"]
     );
 
-    let lists = registry.get_compiled_air_fn(&func);
+    let lists = registry.get_compiled_air_fn(&func.name());
 
     assert_eq!(
         lists

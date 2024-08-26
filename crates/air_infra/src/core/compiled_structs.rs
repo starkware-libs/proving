@@ -2,6 +2,7 @@ use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub struct CompiledAirFn {
+    pub name: String,
     pub input: CompiledAirVar,
     pub output: CompiledAirVar,
 

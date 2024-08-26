@@ -1,5 +1,6 @@
 use super::fib::*;
 use crate::airs::examples::fibonacci::wide_fib::*;
+use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
@@ -13,7 +14,7 @@ fn test_wide_fibonacci() {
         narrow_size: 2,
     };
     let registry = AirFnRegistry::new(&air_fn);
-    let lists = registry.get_compiled_air_fn(&air_fn);
+    let lists = registry.get_compiled_air_fn(&air_fn.name());
     let (_, output) = registry.run_air(&air_fn, expr!("secret", 1));
 
     let constraints = [
@@ -54,7 +55,7 @@ fn test_wide_fibonacci() {
 fn test_fibonacci() {
     let air_fn = Fib { claim_index: 6 };
     let registry = AirFnRegistry::new(&air_fn);
-    let lists = registry.get_compiled_air_fn(&air_fn);
+    let lists = registry.get_compiled_air_fn(&air_fn.name());
 
     let constraints = [
         "(state[1] - (const_1 + (state[0] * state[0])))",

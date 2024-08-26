@@ -44,7 +44,7 @@ impl AirFn for SmallAdd {
 fn test_range_check() {
     let air_fn = SmallAdd {};
     let registry = AirFnRegistry::new(&air_fn);
-    let lists = registry.get_compiled_air_fn(&air_fn);
+    let lists = registry.get_compiled_air_fn(&air_fn.name());
 
     let constraints = [
         "RangeCheck16([state[0]]) == []",

@@ -15,7 +15,7 @@ use crate::u16_expr;
 fn test_bit_unpacking() {
     let func = BitUnpack::<4> {};
     let registry = AirFnRegistry::new(&func);
-    let lists = registry.get_compiled_air_fn(&func);
+    let lists = registry.get_compiled_air_fn(&func.name());
 
     let constraints = [
         "tmp_3 = (state[0] - (state[1] * const_2))",
@@ -90,7 +90,7 @@ impl AirFn for AirFnBitMux {
 fn test_bit_mux() {
     let func = AirFnBitMux {};
     let registry = AirFnRegistry::new(&func);
-    let lists = registry.get_compiled_air_fn(&func);
+    let lists = registry.get_compiled_air_fn(&func.name());
 
     let constraints = [
         "tmp_3 = (state[0] - (state[1] * const_2))",

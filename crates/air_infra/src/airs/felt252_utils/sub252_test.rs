@@ -1,4 +1,5 @@
 use super::sub252::*;
+use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
@@ -10,7 +11,7 @@ use crate::const_felt252_expr;
 fn test_sub252_air_body() {
     let air_fn = Sub252 {};
     let registry = AirFnRegistry::new(&air_fn);
-    let entry = registry.get_air_fn_entry(&air_fn);
+    let entry = registry.get_air_fn_entry(&air_fn.name());
 
     let expected_air_body = [
         "tmp_0 = (Sub252_fda1878ac5d9f7b_input[0] - Sub252_fda1878ac5d9f7b_input[1])",

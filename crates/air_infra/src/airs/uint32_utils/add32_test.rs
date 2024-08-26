@@ -1,4 +1,5 @@
 use super::add32::*;
+use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::variables::*;
@@ -10,7 +11,7 @@ use crate::const_u32_expr;
 fn test_add32() {
     let air_fn = Add32 {};
     let registry = AirFnRegistry::new(&air_fn);
-    let lists = registry.get_compiled_air_fn(&air_fn);
+    let lists = registry.get_compiled_air_fn(&air_fn.name());
 
     let constraints = [
         "RangeCheck16([state[0]]) == []",

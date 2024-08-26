@@ -2,6 +2,7 @@ use super::super::common::*;
 use super::decode_instruction::*;
 
 use crate::airs::memory::felt252_id_memory::*;
+use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -57,7 +58,7 @@ fn test_with_matching_memory(
     };
 
     let registry = AirFnRegistry::new(&air_fn);
-    let lists = registry.get_compiled_air_fn(&air_fn);
+    let lists = registry.get_compiled_air_fn(&air_fn.name());
     let (state, (offsets_output, flags_output)) = registry.run_air(&air_fn, pc);
 
     assert_eq!(
