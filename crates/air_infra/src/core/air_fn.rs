@@ -436,7 +436,7 @@ impl AirBuilder {
 
     // Reads the value from the memory, creates an intermediate variable for the value, and returns
     // it. Does not add any constraints or deductions.
-    pub fn mem_read_unverified<K, V>(&mut self, memory: &Memory<K, V>, key: &K) -> V
+    pub fn mem_read_unverified<K, V>(&mut self, memory: &dyn IsMemory<K, V>, key: &K) -> V
     where
         K: AirVar + Default,
         V: AirVar + Default,
@@ -477,9 +477,9 @@ impl AirBuilder {
         )
     }
 
-    // Assumes the key and value are in the state (of the caller). Adds a lookup constraint.
-    // Writes the value to the memory in run and cairo run modes.
-    pub fn mem_verify<K, V>(&mut self, memory: &Memory<K, V>, key: &K, value: V)
+    // Assumes the key and value are in the state (of the caller). Adds a lookup constraint
+    // to verify that memory[key] == value.
+    pub fn mem_verify<K, V>(&mut self, memory: &dyn IsMemory<K, V>, key: &K, value: V)
     where
         K: AirVar + Default,
         V: AirVar + Default,
@@ -491,8 +491,15 @@ impl AirBuilder {
         if self.run {
             assert!(key.in_state(), "The key must be in the trace.");
             assert!(value.in_state(), "The value must be in the trace.");
-
-            memory.set(key.clone(), value.clone());
+            assert_eq!(
+                memory
+                    .mem()
+                    .get(key)
+                    .expect("Key doesn't exist in memory")
+                    .to_values(),
+                value.to_values(),
+                "given value != value in memory"
+            );
         }
 
         self.air_body.push(AirBodyComponent::LookupData {
@@ -538,8 +545,8 @@ impl AirBuilder {
 }
 
 // A Call is an air_body component that represents a call to another air function.
-// It contains the name of the air function, the input argument, the output of the call, the state
-// after the call, and the air_body of the called function.
+// It contains the name of the air function, the input argument, the output of the call
+// and the air_body of the called function.
 #[derive(Clone, Debug, Serialize)]
 pub struct Call {
     pub air_fn_name: String,

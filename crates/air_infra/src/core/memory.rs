@@ -1,5 +1,3 @@
-use inst_def::InstDef;
-
 #[cfg(test)]
 use std::cell::RefCell;
 #[cfg(test)]
@@ -15,19 +13,32 @@ use super::variables::*;
 #[cfg(test)]
 use super::Felt;
 
-// Memory is a simple key-value store that is passed to the relevant air builder functions.
-#[derive(Clone, Debug, Default, InstDef)]
+/// Describes an AirFn that is a memory component. This means:
+/// 1. Each trace row contains a key (of type K), a value (of type V) and nothing else
+/// 2. Writing the keys and values into the trace is not the responsibility of the AIR
+///    infra, but is implemented directly in the prover. Therefore, call() doesn't
+///    write anything to the trace.
+pub trait IsMemory<K, V>: AirFn<In = K, Out = V>
+where
+    K: AirVar,
+    V: AirVar,
+{
+    // Return the Memory object that contains the key-value pairs for this component
+    fn mem(&self) -> &Memory<K, V>;
+
+    fn mem_mut(&mut self) -> &mut Memory<K, V>;
+}
+
+/// Implements the common logic for all IsMemory components
+#[derive(Clone, Debug, Default)]
 pub struct Memory<K, V>
 where
     K: AirVar,
     V: AirVar,
 {
     #[cfg(test)]
-    #[instdef(skip)]
     pub(super) data: Rc<RefCell<HashMap<Vec<Felt>, V>>>,
-    #[instdef(skip)]
     key_type: PhantomData<K>,
-    #[instdef(skip)]
     value_type: PhantomData<V>,
 }
 
@@ -47,30 +58,18 @@ where
     }
 
     #[cfg(test)]
-    pub fn new_with_data(data: Vec<(K, V)>) -> Self {
-        Self {
-            data: Rc::new(RefCell::new(
-                data.into_iter()
-                    .map(|(k, v)| (k.to_values().expect("key has no values"), v))
-                    .collect(),
-            )),
-            key_type: PhantomData,
-            value_type: PhantomData,
-        }
-    }
-
-    #[cfg(test)]
     pub fn get(&self, key: &K) -> Option<V> {
         let actual_key = key.to_values();
         actual_key.and_then(|k| self.data.borrow().get(&k).cloned())
     }
 
     #[cfg(test)]
-    pub fn set(&self, key: K, value: V) {
+    pub fn set(&mut self, key: K, value: V) {
         let actual_key = key.to_values().expect("key has no values");
+        assert!(value.is_const());
 
         if !self.data.borrow().contains_key(&actual_key) {
-            self.data.borrow_mut().insert(actual_key, value);
+            self.data.borrow_mut().insert(actual_key.clone(), value);
         } else {
             let v = self.data.borrow().get(&actual_key).cloned().unwrap();
             assert!(
@@ -79,28 +78,5 @@ where
                 actual_key
             );
         }
-    }
-}
-
-impl<K, V> AirFn for Memory<K, V>
-where
-    K: AirVar + Default,
-    V: AirVar + Default,
-{
-    type In = K;
-    type Out = V;
-
-    #[allow(unused_variables)]
-    fn call(&self, air_builder: &mut AirBuilder, key: Self::In) -> Self::Out {
-        #[cfg(test)]
-        if air_builder.run {
-            return self.get(&key).unwrap();
-        }
-
-        Self::Out::default()
-    }
-
-    fn trace_type(&self) -> TraceType {
-        TraceType::Component
     }
 }

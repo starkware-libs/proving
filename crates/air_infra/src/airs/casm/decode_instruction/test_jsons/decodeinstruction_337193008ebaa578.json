@@ -93,257 +93,29 @@
   "air_body": [
     {
       "LookupCall": {
-        "air_fn_name": "Memory_K_M31_V_M31",
+        "air_fn_name": "MemoryAddressToId",
         "input_arg": {
           "name": "decodeinstruction_337193008ebaa578_input",
           "type": "M31"
         },
-        "output_name": "tmp_1"
+        "output_name": "tmp_0"
       }
     },
     {
       "LookupCall": {
-        "air_fn_name": "Memory_K_M31_V_Felt252",
+        "air_fn_name": "MemoryIdToBig",
         "input_arg": {
-          "name": "tmp_1",
+          "name": "tmp_0",
           "type": "M31"
         },
-        "output_name": "tmp_3"
+        "output_name": "tmp_15"
       }
-    },
-    {
-      "Intermediate": [
-        "tmp_4",
-        {
-          "name": "(UInt16::from_m31(tmp_3.get_m31(const_0)) + ((UInt16::from_m31(tmp_3.get_m31(const_1)) & const_127) << const_9))",
-          "type": "UInt16"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": [
-        "tmp_4.as_m31()",
-        "offset_0"
-      ]
-    },
-    {
-      "Intermediate": [
-        "tmp_5",
-        {
-          "name": "(((UInt16::from_m31(tmp_3.get_m31(const_1)) >> const_7) + (UInt16::from_m31(tmp_3.get_m31(const_2)) << const_2)) + ((UInt16::from_m31(tmp_3.get_m31(const_3)) & const_31) << const_11))",
-          "type": "UInt16"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": [
-        "tmp_5.as_m31()",
-        "offset_1"
-      ]
-    },
-    {
-      "Intermediate": [
-        "tmp_6",
-        {
-          "name": "(((UInt16::from_m31(tmp_3.get_m31(const_3)) >> const_5) + (UInt16::from_m31(tmp_3.get_m31(const_4)) << const_4)) + ((UInt16::from_m31(tmp_3.get_m31(const_5)) & const_7) << const_13))",
-          "type": "UInt16"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": [
-        "tmp_6.as_m31()",
-        "offset_2"
-      ]
-    },
-    {
-      "Intermediate": [
-        "tmp_7",
-        {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_0) & const_1)",
-          "type": "UInt16"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": [
-        "tmp_7.as_m31()",
-        "dst_base_fp"
-      ]
-    },
-    {
-      "Intermediate": [
-        "tmp_8",
-        {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_1) & const_1)",
-          "type": "UInt16"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": [
-        "tmp_8.as_m31()",
-        "op0_base_fp"
-      ]
-    },
-    {
-      "Intermediate": [
-        "tmp_9",
-        {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_2) & const_1)",
-          "type": "UInt16"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": [
-        "tmp_9.as_m31()",
-        "op1_imm"
-      ]
-    },
-    {
-      "Intermediate": [
-        "tmp_10",
-        {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_3) & const_1)",
-          "type": "UInt16"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": [
-        "tmp_10.as_m31()",
-        "op1_base_fp"
-      ]
-    },
-    {
-      "Intermediate": [
-        "tmp_11",
-        {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_4) & const_1)",
-          "type": "UInt16"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": [
-        "tmp_11.as_m31()",
-        "op1_base_ap"
-      ]
-    },
-    {
-      "Intermediate": [
-        "tmp_12",
-        {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_5) & const_1)",
-          "type": "UInt16"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": [
-        "tmp_12.as_m31()",
-        "res_add"
-      ]
-    },
-    {
-      "Intermediate": [
-        "tmp_13",
-        {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_6) & const_1)",
-          "type": "UInt16"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": [
-        "tmp_13.as_m31()",
-        "res_mul"
-      ]
-    },
-    {
-      "Intermediate": [
-        "tmp_14",
-        {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_7) & const_1)",
-          "type": "UInt16"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": [
-        "tmp_14.as_m31()",
-        "pc_update_jump"
-      ]
-    },
-    {
-      "Intermediate": [
-        "tmp_15",
-        {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_8) & const_1)",
-          "type": "UInt16"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": [
-        "tmp_15.as_m31()",
-        "pc_update_jump_rel"
-      ]
     },
     {
       "Intermediate": [
         "tmp_16",
         {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_9) & const_1)",
+          "name": "(UInt16::from_m31(tmp_15.get_m31(const_0)) + ((UInt16::from_m31(tmp_15.get_m31(const_1)) & const_127) << const_9))",
           "type": "UInt16"
         },
         {
@@ -355,14 +127,14 @@
     {
       "Deduction": [
         "tmp_16.as_m31()",
-        "pc_update_jnz"
+        "offset_0"
       ]
     },
     {
       "Intermediate": [
         "tmp_17",
         {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_10) & const_1)",
+          "name": "(((UInt16::from_m31(tmp_15.get_m31(const_1)) >> const_7) + (UInt16::from_m31(tmp_15.get_m31(const_2)) << const_2)) + ((UInt16::from_m31(tmp_15.get_m31(const_3)) & const_31) << const_11))",
           "type": "UInt16"
         },
         {
@@ -374,14 +146,14 @@
     {
       "Deduction": [
         "tmp_17.as_m31()",
-        "ap_update_add"
+        "offset_1"
       ]
     },
     {
       "Intermediate": [
         "tmp_18",
         {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_11) & const_1)",
+          "name": "(((UInt16::from_m31(tmp_15.get_m31(const_3)) >> const_5) + (UInt16::from_m31(tmp_15.get_m31(const_4)) << const_4)) + ((UInt16::from_m31(tmp_15.get_m31(const_5)) & const_7) << const_13))",
           "type": "UInt16"
         },
         {
@@ -393,14 +165,14 @@
     {
       "Deduction": [
         "tmp_18.as_m31()",
-        "ap_update_add_1"
+        "offset_2"
       ]
     },
     {
       "Intermediate": [
         "tmp_19",
         {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_12) & const_1)",
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_0) & const_1)",
           "type": "UInt16"
         },
         {
@@ -412,14 +184,14 @@
     {
       "Deduction": [
         "tmp_19.as_m31()",
-        "opcode_call"
+        "dst_base_fp"
       ]
     },
     {
       "Intermediate": [
         "tmp_20",
         {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_13) & const_1)",
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_1) & const_1)",
           "type": "UInt16"
         },
         {
@@ -431,14 +203,14 @@
     {
       "Deduction": [
         "tmp_20.as_m31()",
-        "opcode_ret"
+        "op0_base_fp"
       ]
     },
     {
       "Intermediate": [
         "tmp_21",
         {
-          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_14) & const_1)",
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_2) & const_1)",
           "type": "UInt16"
         },
         {
@@ -450,6 +222,234 @@
     {
       "Deduction": [
         "tmp_21.as_m31()",
+        "op1_imm"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_22",
+        {
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_3) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_22.as_m31()",
+        "op1_base_fp"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_23",
+        {
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_4) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_23.as_m31()",
+        "op1_base_ap"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_24",
+        {
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_5) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_24.as_m31()",
+        "res_add"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_25",
+        {
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_6) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_25.as_m31()",
+        "res_mul"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_26",
+        {
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_7) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_26.as_m31()",
+        "pc_update_jump"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_27",
+        {
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_8) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_27.as_m31()",
+        "pc_update_jump_rel"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_28",
+        {
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_9) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_28.as_m31()",
+        "pc_update_jnz"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_29",
+        {
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_10) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_29.as_m31()",
+        "ap_update_add"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_30",
+        {
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_11) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_30.as_m31()",
+        "ap_update_add_1"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_31",
+        {
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_12) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_31.as_m31()",
+        "opcode_call"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_32",
+        {
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_13) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_32.as_m31()",
+        "opcode_ret"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_33",
+        {
+          "name": "((((UInt16::from_m31(tmp_15.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_15.get_m31(const_6)) << const_6)) >> const_14) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_33.as_m31()",
         "opcode_assert_eq"
       ]
     },

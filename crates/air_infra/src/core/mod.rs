@@ -10,8 +10,6 @@ pub type Felt = stwo_prover::core::fields::m31::M31;
 #[cfg(test)]
 mod air_fn_test;
 #[cfg(test)]
-mod memory_air_fn_test;
-#[cfg(test)]
 mod state_test;
 #[cfg(test)]
 mod variables_test;
