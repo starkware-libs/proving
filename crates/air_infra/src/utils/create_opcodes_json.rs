@@ -72,7 +72,7 @@ pub fn create_call_opcode_json(arguments: CallOpcodeArgs) -> AirFnRegistry {
     );
     AirFnRegistry::new(&CallOpcode {
         is_rel: arguments.is_rel,
-        flag_op1_base_fp: arguments.flag_op1_base_fp,
+        op1_base_fp: arguments.flag_op1_base_fp,
         memory: Felt252IdMemory::default(),
     })
 }
@@ -84,8 +84,8 @@ pub fn create_jump_opcode_json(arguments: JumpOpcodeArgs) -> AirFnRegistry {
     );
     AirFnRegistry::new(&JumpOpcode {
         is_rel: arguments.is_rel,
-        flag_op1_base_fp: arguments.flag_op1_base_fp,
-        flag_ap_update_add_1: arguments.flag_ap_update_add_1,
+        op1_base_fp: arguments.flag_op1_base_fp,
+        ap_update_add_1: arguments.flag_ap_update_add_1,
         memory: Felt252IdMemory::default(),
     })
 }

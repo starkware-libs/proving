@@ -18,16 +18,16 @@ fn test_wide_fibonacci() {
     let (_, output) = registry.run_air(&air_fn, expr!("secret", 1));
 
     let constraints = [
-        "NarrowFib_4b54c5fc8baa9c8a([const_1, state[0]]) == [state[1], state[2]]",
-        "NarrowFib_4b54c5fc8baa9c8a([state[1], state[2]]) == [state[3], state[4]]",
+        "NarrowFib_num_steps_2([const_1, state[0]]) == [state[1], state[2]]",
+        "NarrowFib_num_steps_2([state[1], state[2]]) == [state[3], state[4]]",
     ];
 
     let deductions = [
-        "WideFib_65f75fe0ef6c26e3_input",
-        "tmp_1 = NarrowFib_4b54c5fc8baa9c8a([const_1, state[0]])",
+        "WideFib_num_narrow_2_narrow_size_2_input",
+        "tmp_1 = NarrowFib_num_steps_2([const_1, state[0]])",
         "tmp_1[0]",
         "tmp_1[1]",
-        "tmp_2 = NarrowFib_4b54c5fc8baa9c8a([state[1], state[2]])",
+        "tmp_2 = NarrowFib_num_steps_2([state[1], state[2]])",
         "tmp_2[0]",
         "tmp_2[1]",
     ];
@@ -65,7 +65,7 @@ fn test_fibonacci() {
     ];
 
     let deductions = [
-        "Fib_3d3a1e0177990b1e_input",
+        "Fib_claim_index_6_input",
         "(const_1 + (state[0] * state[0]))",
         "((state[0] * state[0]) + (state[1] * state[1]))",
         "((state[1] * state[1]) + (state[2] * state[2]))",

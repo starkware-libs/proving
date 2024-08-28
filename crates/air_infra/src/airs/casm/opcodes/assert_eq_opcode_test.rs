@@ -133,9 +133,9 @@ fn test_assert_equal_deref_constraint_deduction() {
         15,
         Some(&[
             "tmp_0 = [\
-                AssertEqOpcode_47a894d9c977ed99_input[0], \
-                AssertEqOpcode_47a894d9c977ed99_input[1], \
-                AssertEqOpcode_47a894d9c977ed99_input[2]\
+                AssertEqOpcode_is_double_deref_false_input[0], \
+                AssertEqOpcode_is_double_deref_false_input[1], \
+                AssertEqOpcode_is_double_deref_false_input[2]\
             ]",
             "Deduction: tmp_0[0]",
             "Deduction: tmp_0[1]",
@@ -163,7 +163,7 @@ fn test_assert_equal_deref_constraint_deduction() {
                 const_true]\
             ) = DecodeInstruction_8443cf0a4db7edc5(state[0])",
             "Constraint: ((state[9] + state[10]) - const_1)",
-            "() = MemVerifyEqual_9275f6b821cf1219([\
+            "() = MemVerifyEqual([\
                 (((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + \
                 (((state[3] + (state[4] * const_512)) + const_0) - const_32768)), \
                 (((state[9] * state[2]) + (state[10] * state[1])) + \
@@ -184,9 +184,9 @@ fn test_assert_equal_imm_constraint_deduction() {
         15,
         Some(&[
             "tmp_0 = [\
-                AssertEqOpcode_47a894d9c977ed99_input[0], \
-                AssertEqOpcode_47a894d9c977ed99_input[1], \
-                AssertEqOpcode_47a894d9c977ed99_input[2]]",
+                AssertEqOpcode_is_double_deref_false_input[0], \
+                AssertEqOpcode_is_double_deref_false_input[1], \
+                AssertEqOpcode_is_double_deref_false_input[2]]",
             "Deduction: tmp_0[0]",
             "Deduction: tmp_0[1]",
             "Deduction: tmp_0[2]",
@@ -213,7 +213,7 @@ fn test_assert_equal_imm_constraint_deduction() {
                     const_false, \
                     const_true]\
             ) = DecodeInstruction_70368a7eef804c24(state[0])",
-            "() = MemVerifyEqual_9275f6b821cf1219([\
+            "() = MemVerifyEqual([\
                 (((state[5] * state[2]) + ((const_1 - state[5]) * state[1])) + \
                 (((state[3] + (state[4] * const_512)) + const_0) - const_32768)), \
                 (state[0] + const_1)\
@@ -228,9 +228,9 @@ fn test_assert_equal_imm_constraint_deduction() {
 fn test_assert_equal_double_deref_constraint_deduction() {
     let expected_air_body = [
         "tmp_0 = [\
-            AssertEqOpcode_649fa2975275ca5d_input[0], \
-            AssertEqOpcode_649fa2975275ca5d_input[1], \
-            AssertEqOpcode_649fa2975275ca5d_input[2]\
+            AssertEqOpcode_is_double_deref_true_input[0], \
+            AssertEqOpcode_is_double_deref_true_input[1], \
+            AssertEqOpcode_is_double_deref_true_input[2]\
         ]",
         "Deduction: tmp_0[0]",
         "Deduction: tmp_0[1]",
@@ -260,11 +260,11 @@ fn test_assert_equal_double_deref_constraint_deduction() {
             ]\
         ) = DecodeInstruction_a06f5e7da24ead84(state[0])",
         "Felt252::from_limbs(zero_extend([state[16], state[17], state[18]])) = \
-            ReadPositive_dd7d1f062646f801((\
+            ReadPositive_num_bits_27((\
                 ((state[12] * state[2]) + ((const_1 - state[12]) * state[1])) + \
                 (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
             ))",
-        "() = MemVerifyEqual_9275f6b821cf1219(\
+        "() = MemVerifyEqual(\
             [\
                 (((state[11] * state[2]) + ((const_1 - state[11]) * state[1])) + \
                 (((state[3] + (state[4] * const_512)) + const_0) - const_32768)), \

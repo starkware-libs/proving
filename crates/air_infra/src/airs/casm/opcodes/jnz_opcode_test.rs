@@ -13,7 +13,7 @@ use crate::expr;
 use crate::felt252_expr;
 
 fn build_and_test(
-    [is_taken, flag_dst_base_fp, flag_ap_update_add_1]: [bool; 3],
+    [is_taken, dst_base_fp, ap_update_add_1]: [bool; 3],
     offset_dst: i16,
     dst_value: Felt252Expr,
     op1_value: u32,
@@ -29,8 +29,8 @@ fn build_and_test(
 
     let mut jnz_opcode = JnzOpcode {
         is_taken,
-        flag_dst_base_fp,
-        flag_ap_update_add_1,
+        dst_base_fp,
+        ap_update_add_1,
         memory: Felt252IdMemory::default(),
     };
 
@@ -49,7 +49,7 @@ fn build_and_test(
         felt252_expr!("op1_imm", op1_value as u128, 0),
     ));
 
-    if flag_dst_base_fp {
+    if dst_base_fp {
         memory_values.push((
             const_expr!((fp_value as i16 + offset_dst) as u32),
             dst_value.clone(),
@@ -75,7 +75,7 @@ fn build_and_test(
         assert_eq!(next_pc.calc(), (pc_value + 2).to_string());
     }
 
-    if flag_ap_update_add_1 {
+    if ap_update_add_1 {
         assert_eq!(next_ap.calc(), (ap_value + 1).to_string());
     } else {
         assert_eq!(next_ap.calc(), ap_value.to_string());
@@ -115,9 +115,9 @@ fn test_not_taken_zero_match_base_ap() {
         15,
         Some(&[
             "tmp_0 = [\
-                JnzOpcode_7f048efcd2fafd3f_input[0], \
-                JnzOpcode_7f048efcd2fafd3f_input[1], \
-                JnzOpcode_7f048efcd2fafd3f_input[2]]",
+                JnzOpcode_b3760089fc9071eb_input[0], \
+                JnzOpcode_b3760089fc9071eb_input[1], \
+                JnzOpcode_b3760089fc9071eb_input[2]]",
             "Deduction: tmp_0[0]",
             "Deduction: tmp_0[1]",
             "Deduction: tmp_0[2]",
@@ -149,7 +149,7 @@ fn test_not_taken_zero_match_base_ap() {
                 state[14], state[15], state[16], state[17], state[18], state[19], state[20], \
                 state[21], state[22], state[23], state[24], state[25], state[26], state[27], \
                 state[28], state[29], state[30], state[31], state[32], state[33], state[34]\
-            ]) = ReadPositive_57b5981b206c7ed((\
+            ]) = ReadPositive_num_bits_252((\
                 state[1] + (((state[3] + (state[4] * const_512)) + const_0) - const_32768)))",
             "Constraint: ((((((((((((((((((((((((((((const_0 + \
                 state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + \
@@ -173,9 +173,9 @@ fn test_taken_match_base_ap() {
         15,
         Some(&[
             "tmp_0 = [\
-                JnzOpcode_384ff84280622c61_input[0], \
-                JnzOpcode_384ff84280622c61_input[1], \
-                JnzOpcode_384ff84280622c61_input[2]]",
+                JnzOpcode_6e3ab2d8e823ba18_input[0], \
+                JnzOpcode_6e3ab2d8e823ba18_input[1], \
+                JnzOpcode_6e3ab2d8e823ba18_input[2]]",
             "Deduction: tmp_0[0]",
             "Deduction: tmp_0[1]",
             "Deduction: tmp_0[2]",
@@ -207,7 +207,7 @@ fn test_taken_match_base_ap() {
                 state[14], state[15], state[16], state[17], state[18], state[19], state[20], \
                 state[21], state[22], state[23], state[24], state[25], state[26], state[27], \
                 state[28], state[29], state[30], state[31], state[32], state[33], state[34]\
-            ]) = ReadPositive_57b5981b206c7ed((\
+            ]) = ReadPositive_num_bits_252((\
                 state[1] + (((state[3] + (state[4] * const_512)) + const_0) - const_32768)))",
             "Deduction: (const_1 // ((((((((((((((((((((((((((((const_0 + \
                 state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + \
@@ -238,7 +238,7 @@ fn test_taken_match_base_ap() {
                 (((state[42] * const_262144) + ((state[41] * const_512) + state[40])) - state[38]) - \
                 (const_134217728 * state[39])\
             ) = \
-                ReadSmall_cda8d80eab0abe94((state[0] + const_1))"
+                ReadSmall((state[0] + const_1))"
         ]),
         vec![
             50, 200, 150, 499, 63, 0, 2, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 3, 0,

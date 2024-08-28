@@ -54,7 +54,7 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
 pub fn print_fn_sizes() {
     let func = CallOpcode {
         is_rel: false,
-        flag_op1_base_fp: false,
+        op1_base_fp: false,
         memory: Default::default(),
     };
     let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
@@ -62,7 +62,7 @@ pub fn print_fn_sizes() {
 
     let func = CallOpcode {
         is_rel: true,
-        flag_op1_base_fp: false,
+        op1_base_fp: false,
         memory: Default::default(),
     };
     let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
@@ -70,8 +70,8 @@ pub fn print_fn_sizes() {
 
     let func = JumpOpcode {
         is_rel: false,
-        flag_op1_base_fp: false,
-        flag_ap_update_add_1: false,
+        op1_base_fp: false,
+        ap_update_add_1: false,
         memory: Default::default(),
     };
     let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
@@ -79,8 +79,8 @@ pub fn print_fn_sizes() {
 
     let func = JumpOpcode {
         is_rel: true,
-        flag_op1_base_fp: false,
-        flag_ap_update_add_1: false,
+        op1_base_fp: false,
+        ap_update_add_1: false,
         memory: Default::default(),
     };
     let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());

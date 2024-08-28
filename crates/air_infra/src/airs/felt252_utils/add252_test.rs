@@ -14,7 +14,7 @@ fn test_add252_air_body() {
     let entry = registry.get_air_fn_entry(&air_fn.name());
 
     let expected_air_body = [
-        "tmp_0 = (Add252_dd24ce7e828639e8_input[0] + Add252_dd24ce7e828639e8_input[1])",
+        "tmp_0 = (Add252_input[0] + Add252_input[1])",
         "Deduction: tmp_0.get_m31(const_0)",
         "tmp_1 = RangeCheck9([state[0]])",
         "RangeCheck9([state[0]]) == []",
@@ -99,7 +99,7 @@ fn test_add252_air_body() {
         "Deduction: tmp_0.get_m31(const_27)",
         "tmp_28 = RangeCheck9([state[27]])",
         "RangeCheck9([state[27]]) == []",
-        "() = VerifyAdd252_4afb134610550b92([Add252_dd24ce7e828639e8_input[0], Add252_dd24ce7e828639e8_input[1], tmp_0])",
+        "() = VerifyAdd252([Add252_input[0], Add252_input[1], tmp_0])",
     ];
     assert_eq!(
         entry

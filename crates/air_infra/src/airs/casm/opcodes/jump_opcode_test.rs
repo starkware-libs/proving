@@ -25,8 +25,8 @@ fn test_jump_opcode(
     // Create the air function
     let mut jump_opcode = JumpOpcode {
         is_rel: is_rel_jump,
-        flag_op1_base_fp: op1_base_fp,
-        flag_ap_update_add_1: ap_update_add_1,
+        op1_base_fp,
+        ap_update_add_1,
         memory: Felt252IdMemory::default(),
     };
 
@@ -114,9 +114,9 @@ fn test_abs_jump_base_ap() {
         2,
         Some(&[
             "tmp_0 = [\
-                JumpOpcode_c84fbe8a2f33f1ef_input[0], \
-                JumpOpcode_c84fbe8a2f33f1ef_input[1], \
-                JumpOpcode_c84fbe8a2f33f1ef_input[2]\
+                JumpOpcode_9f713f694ee774ed_input[0], \
+                JumpOpcode_9f713f694ee774ed_input[1], \
+                JumpOpcode_9f713f694ee774ed_input[2]\
             ]",
             "Deduction: tmp_0[0]",
             "Deduction: tmp_0[1]",
@@ -145,7 +145,7 @@ fn test_abs_jump_base_ap() {
                 ]\
             ) = DecodeInstruction_a4fdc221dc5c5f46(state[0])",
             "Felt252::from_limbs(zero_extend([state[8], state[9], state[10]])) = \
-                ReadPositive_dd7d1f062646f801((\
+                ReadPositive_num_bits_27((\
                     state[1] + \
                     (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
                 ))",
@@ -229,9 +229,9 @@ fn test_rel_jump() {
         5,
         Some(&[
             "tmp_0 = [\
-                JumpOpcode_35e5e7be1094296e_input[0], \
-                JumpOpcode_35e5e7be1094296e_input[1], \
-                JumpOpcode_35e5e7be1094296e_input[2]\
+                JumpOpcode_c6771c09eb7d4031_input[0], \
+                JumpOpcode_c6771c09eb7d4031_input[1], \
+                JumpOpcode_c6771c09eb7d4031_input[2]\
             ]",
             "Deduction: tmp_0[0]",
             "Deduction: tmp_0[1]",
@@ -262,7 +262,7 @@ fn test_rel_jump() {
             "(\
                 (((state[9] * const_262144) + ((state[8] * const_512) + state[7])) - state[5]) - \
                 (const_134217728 * state[6])\
-            ) = ReadSmall_cda8d80eab0abe94((state[0] + const_1))",
+            ) = ReadSmall((state[0] + const_1))",
         ]),
         vec![3, 11, 6, 0, 1, 0, 0, 100, 0, 0],
     );

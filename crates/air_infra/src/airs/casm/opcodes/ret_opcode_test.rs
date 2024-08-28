@@ -23,25 +23,25 @@ pub fn assemble_ret() -> u64 {
 fn test_ret_opcode() {
     let deductions = [
         "tmp_0 = [\
-            RetOpcode_e23a5de9448e32d7_input[0], \
-            RetOpcode_e23a5de9448e32d7_input[1], \
-            RetOpcode_e23a5de9448e32d7_input[2]\
+            RetOpcode_input[0], \
+            RetOpcode_input[1], \
+            RetOpcode_input[2]\
         ]",
         "tmp_0[0]",
         "tmp_0[1]",
         "tmp_0[2]",
-        "tmp_3 = Memory_bee9eb79348d853b(state[0])",
-        "tmp_4 = Memory_7419fa4c3aacb251(tmp_3)",
+        "tmp_3 = Memory(state[0])",
+        "tmp_4 = Memory(tmp_3)",
         "tmp_3",
-        "tmp_7 = Memory_bee9eb79348d853b((state[2] - const_1))",
+        "tmp_7 = Memory((state[2] - const_1))",
         "tmp_7",
-        "tmp_8 = Memory_7419fa4c3aacb251(state[4])",
+        "tmp_8 = Memory(state[4])",
         "tmp_8.get_m31(const_0)",
         "tmp_8.get_m31(const_1)",
         "tmp_8.get_m31(const_2)",
-        "tmp_9 = Memory_bee9eb79348d853b((state[2] - const_2))",
+        "tmp_9 = Memory((state[2] - const_2))",
         "tmp_9",
-        "tmp_10 = Memory_7419fa4c3aacb251(state[8])",
+        "tmp_10 = Memory(state[8])",
         "tmp_10.get_m31(const_0)",
         "tmp_10.get_m31(const_1)",
         "tmp_10.get_m31(const_2)",

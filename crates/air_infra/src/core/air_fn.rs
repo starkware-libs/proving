@@ -11,6 +11,8 @@ use super::memory::*;
 use super::state::*;
 use super::variables::*;
 
+pub const MAX_NAME_LEN: usize = 50;
+
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum TraceType {
     // Doesn't have its own component in the trace, always inlined into its caller.
@@ -45,7 +47,26 @@ pub trait AirFn: Debug {
             .map(|i| name[i + 2..].to_string())
             .unwrap_or(name);
 
-        format!("{}_{:x}", name, self.hash())
+        let mut res = format!("{}_{:?}", name, self.inst_def());
+        res = res
+            .chars()
+            .map(|x| match x {
+                ' ' | ':' | '{' | '}' | '\n' | ',' => '_',
+                _ => x,
+            })
+            .collect();
+        res = res.replace('\"', "");
+        while res.contains("__") {
+            res = res.replace("__", "_");
+        }
+        if res.ends_with('_') {
+            res.pop();
+        }
+        if res.len() < MAX_NAME_LEN {
+            res
+        } else {
+            format!("{}_{:x}", name, self.hash())
+        }
     }
 
     fn hash(&self) -> u64 {

@@ -21,15 +21,15 @@ use crate::const_expr;
 #[derive(Clone, Debug)]
 pub struct JnzOpcode {
     pub is_taken: bool,
-    pub flag_dst_base_fp: bool,
-    pub flag_ap_update_add_1: bool,
+    pub dst_base_fp: bool,
+    pub ap_update_add_1: bool,
     pub memory: Felt252IdMemory,
 }
 
 impl JnzOpcode {
     pub fn get_flags(&self) -> Flags {
         Flags {
-            dst_base_fp: Some(self.flag_dst_base_fp),
+            dst_base_fp: Some(self.dst_base_fp),
             op0_base_fp: Some(true),
             op1_imm: Some(true),
             op1_base_fp: Some(false),
@@ -40,7 +40,7 @@ impl JnzOpcode {
             pc_update_jump_rel: Some(false),
             pc_update_jnz: Some(true),
             ap_update_add: Some(false),
-            ap_update_add_1: Some(self.flag_ap_update_add_1),
+            ap_update_add_1: Some(self.ap_update_add_1),
             opcode_call: Some(false),
             opcode_ret: Some(false),
             opcode_assert_eq: Some(false),
@@ -64,7 +64,7 @@ impl AirFn for JnzOpcode {
         );
 
         // Fetch dst - the value upon which the jump is conditioned.
-        let mem_dst_base = if self.flag_dst_base_fp {
+        let mem_dst_base = if self.dst_base_fp {
             fp.clone()
         } else {
             ap.clone()
@@ -124,7 +124,7 @@ impl AirFn for JnzOpcode {
         };
 
         // Calculate the next ap
-        let next_ap = if self.flag_ap_update_add_1 {
+        let next_ap = if self.ap_update_add_1 {
             ap + const_expr!(1)
         } else {
             ap
@@ -136,13 +136,10 @@ impl AirFn for JnzOpcode {
     fn inst_def(&self) -> IndexMap<String, String> {
         [
             ("is_taken".to_string(), self.is_taken.to_string()),
+            ("dst_base_fp".to_string(), self.dst_base_fp.to_string()),
             (
-                "flag_dst_base_fp".to_string(),
-                self.flag_dst_base_fp.to_string(),
-            ),
-            (
-                "flag_ap_update_add_1".to_string(),
-                self.flag_ap_update_add_1.to_string(),
+                "ap_update_add_1".to_string(),
+                self.ap_update_add_1.to_string(),
             ),
         ]
         .into()

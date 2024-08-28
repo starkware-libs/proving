@@ -5,8 +5,8 @@ use std::ops::Index;
 
 use num_traits::Zero;
 use stwo_prover::core::backend::simd::m31::PackedM31;
-pub mod narrowfib_1ddf31c88316e62f;
-pub mod widefib_d7cf24d545e710f9;
+pub mod narrowfib_num_steps_20;
+pub mod widefib_num_narrow_8_narrow_size_20;
 
 // TODO(Ohad): make this 2.
 pub const LOGUP_BATCH_SIZE: usize = 1;

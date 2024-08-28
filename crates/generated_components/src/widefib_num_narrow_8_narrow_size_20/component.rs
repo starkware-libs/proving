@@ -10,16 +10,15 @@ use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
 
-use crate::{narrowfib_1ddf31c88316e62f, LOGUP_BATCH_SIZE};
+use crate::{narrowfib_num_steps_20, LOGUP_BATCH_SIZE};
 
 pub type ComponentLookupElements = LookupElements<2>;
 
-pub struct WideFib_d7cf24d545e710f9Component {
+pub struct WideFib_num_narrow_8_narrow_size_20Component {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub self_lookup_elements: ComponentLookupElements,
-    pub narrowfib_1ddf31c88316e62f_lookup_elements:
-        narrowfib_1ddf31c88316e62f::ComponentLookupElements,
+    pub narrowfib_num_steps_20_lookup_elements: narrowfib_num_steps_20::ComponentLookupElements,
 }
 
 #[derive(Copy, Clone)]
@@ -49,7 +48,7 @@ impl InteractionClaim {
     }
 }
 
-impl FrameworkComponent for WideFib_d7cf24d545e710f9Component {
+impl FrameworkComponent for WideFib_num_narrow_8_narrow_size_20Component {
     fn log_size(&self) -> u32 {
         self.claim.log_size
     }
@@ -76,49 +75,49 @@ impl FrameworkComponent for WideFib_d7cf24d545e710f9Component {
                 trace_row[1],
                 trace_row[2],
             ],
-            &self.narrowfib_1ddf31c88316e62f_lookup_elements,
+            &self.narrowfib_num_steps_20_lookup_elements,
         );
         logup.push_lookup(
             &mut eval,
             E::EF::one(),
             &[trace_row[1], trace_row[2], trace_row[3], trace_row[4]],
-            &self.narrowfib_1ddf31c88316e62f_lookup_elements,
+            &self.narrowfib_num_steps_20_lookup_elements,
         );
         logup.push_lookup(
             &mut eval,
             E::EF::one(),
             &[trace_row[3], trace_row[4], trace_row[5], trace_row[6]],
-            &self.narrowfib_1ddf31c88316e62f_lookup_elements,
+            &self.narrowfib_num_steps_20_lookup_elements,
         );
         logup.push_lookup(
             &mut eval,
             E::EF::one(),
             &[trace_row[5], trace_row[6], trace_row[7], trace_row[8]],
-            &self.narrowfib_1ddf31c88316e62f_lookup_elements,
+            &self.narrowfib_num_steps_20_lookup_elements,
         );
         logup.push_lookup(
             &mut eval,
             E::EF::one(),
             &[trace_row[7], trace_row[8], trace_row[9], trace_row[10]],
-            &self.narrowfib_1ddf31c88316e62f_lookup_elements,
+            &self.narrowfib_num_steps_20_lookup_elements,
         );
         logup.push_lookup(
             &mut eval,
             E::EF::one(),
             &[trace_row[9], trace_row[10], trace_row[11], trace_row[12]],
-            &self.narrowfib_1ddf31c88316e62f_lookup_elements,
+            &self.narrowfib_num_steps_20_lookup_elements,
         );
         logup.push_lookup(
             &mut eval,
             E::EF::one(),
             &[trace_row[11], trace_row[12], trace_row[13], trace_row[14]],
-            &self.narrowfib_1ddf31c88316e62f_lookup_elements,
+            &self.narrowfib_num_steps_20_lookup_elements,
         );
         logup.push_lookup(
             &mut eval,
             E::EF::one(),
             &[trace_row[13], trace_row[14], trace_row[15], trace_row[16]],
-            &self.narrowfib_1ddf31c88316e62f_lookup_elements,
+            &self.narrowfib_num_steps_20_lookup_elements,
         );
 
         logup.push_lookup(

@@ -34,7 +34,7 @@ fn test_add_small(
 
     // Create the air function
     let mut add_small_opcode = AddSmallOpcode {
-        is_immediate: flag_op1_imm,
+        is_imm: flag_op1_imm,
         memory: Felt252IdMemory::default(),
     };
 
@@ -167,9 +167,9 @@ fn test_add_small_not_imm() {
         12345678,
         Some(&[
             "tmp_0 = [\
-                AddSmallOpcode_801397eb9925538_input[0], \
-                AddSmallOpcode_801397eb9925538_input[1], \
-                AddSmallOpcode_801397eb9925538_input[2]\
+                AddSmallOpcode_is_imm_false_input[0], \
+                AddSmallOpcode_is_imm_false_input[1], \
+                AddSmallOpcode_is_imm_false_input[2]\
             ]",
             "Deduction: tmp_0[0]",
             "Deduction: tmp_0[1]",
@@ -201,14 +201,14 @@ fn test_add_small_not_imm() {
             "(\
                 (((state[22] * const_262144) + ((state[21] * const_512) + state[20])) - state[18]) - \
                 (const_134217728 * state[19])) = \
-                ReadSmall_cda8d80eab0abe94((\
+                ReadSmall((\
                     ((state[11] * state[2]) + ((const_1 - state[11]) * state[1])) + \
                     (((state[3] + (state[4] * const_512)) + const_0) - const_32768)\
                 ))",
             "(\
                 (((state[28] * const_262144) + ((state[27] * const_512) + state[26])) - state[24]) - \
                 (const_134217728 * state[25])) = \
-                ReadSmall_cda8d80eab0abe94((\
+                ReadSmall((\
                     ((state[12] * state[2]) + ((const_1 - state[12]) * state[1])) + \
                     (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
                 ))",
@@ -217,7 +217,7 @@ fn test_add_small_not_imm() {
                 (((state[34] * const_262144) + ((state[33] * const_512) + state[32])) - state[30]) - \
                 (const_134217728 * state[31])\
             ) = \
-                ReadSmall_cda8d80eab0abe94((\
+                ReadSmall((\
                     ((state[13] * state[2]) + (state[14] * state[1])) + \
                     (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768)\
                 ))",
@@ -278,9 +278,9 @@ fn test_add_small_imm() {
         12345678,
         Some(&[
             "tmp_0 = [\
-                AddSmallOpcode_7dff5a93938b26ba_input[0], \
-                AddSmallOpcode_7dff5a93938b26ba_input[1], \
-                AddSmallOpcode_7dff5a93938b26ba_input[2]\
+                AddSmallOpcode_is_imm_true_input[0], \
+                AddSmallOpcode_is_imm_true_input[1], \
+                AddSmallOpcode_is_imm_true_input[2]\
             ]",
             "Deduction: tmp_0[0]",
             "Deduction: tmp_0[1]",
@@ -312,14 +312,14 @@ fn test_add_small_imm() {
             "(\
                 (((state[17] * const_262144) + ((state[16] * const_512) + state[15])) - state[13]) - \
                 (const_134217728 * state[14])) = \
-                ReadSmall_cda8d80eab0abe94((\
+                ReadSmall((\
                     ((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + \
                     (((state[3] + (state[4] * const_512)) + const_0) - const_32768)\
                 ))",
             "(\
                 (((state[23] * const_262144) + ((state[22] * const_512) + state[21])) - state[19]) - \
                 (const_134217728 * state[20])) = \
-                ReadSmall_cda8d80eab0abe94((\
+                ReadSmall((\
                     ((state[9] * state[2]) + ((const_1 - state[9]) * state[1])) + \
                     (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
                 ))",
@@ -327,7 +327,7 @@ fn test_add_small_imm() {
                 (((state[29] * const_262144) + ((state[28] * const_512) + state[27])) - state[25]) - \
                 (const_134217728 * state[26])\
             ) = \
-                ReadSmall_cda8d80eab0abe94((state[0] + const_1))",
+                ReadSmall((state[0] + const_1))",
             "Constraint: (\
                 (\
                     (((state[17] * const_262144) + ((state[16] * const_512) + state[15])) - state[13]) - \

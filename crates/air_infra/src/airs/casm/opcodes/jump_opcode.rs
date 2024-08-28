@@ -19,24 +19,24 @@ use crate::const_expr;
 #[derive(Clone, Debug)]
 pub struct JumpOpcode {
     pub is_rel: bool,
-    pub flag_op1_base_fp: bool,
-    pub flag_ap_update_add_1: bool,
+    pub op1_base_fp: bool,
+    pub ap_update_add_1: bool,
     pub memory: Felt252IdMemory,
 }
 
 impl JumpOpcode {
     pub fn get_flags(&self) -> Flags {
         let flag_op1_base_ap = if self.is_rel {
-            assert!(!self.flag_op1_base_fp);
+            assert!(!self.op1_base_fp);
             false
         } else {
-            !self.flag_op1_base_fp
+            !self.op1_base_fp
         };
         Flags {
             dst_base_fp: Some(true),
             op0_base_fp: Some(true),
             op1_imm: Some(self.is_rel),
-            op1_base_fp: Some(self.flag_op1_base_fp),
+            op1_base_fp: Some(self.op1_base_fp),
             op1_base_ap: Some(flag_op1_base_ap),
             res_add: Some(false),
             res_mul: Some(false),
@@ -44,7 +44,7 @@ impl JumpOpcode {
             pc_update_jump_rel: Some(self.is_rel),
             pc_update_jnz: Some(false),
             ap_update_add: Some(false),
-            ap_update_add_1: Some(self.flag_ap_update_add_1),
+            ap_update_add_1: Some(self.ap_update_add_1),
             opcode_call: Some(false),
             opcode_ret: Some(false),
             opcode_assert_eq: Some(false),
@@ -77,7 +77,7 @@ impl AirFn for JumpOpcode {
         let next_pc = if self.is_rel {
             pc.clone() + self.memory.read_rel_imm(ab, pc + const_expr!(1))
         } else {
-            let mem1_base = if self.flag_op1_base_fp {
+            let mem1_base = if self.op1_base_fp {
                 fp.clone()
             } else {
                 ap.clone()
@@ -86,7 +86,7 @@ impl AirFn for JumpOpcode {
         };
 
         // Calculate the next ap
-        let next_ap = if self.flag_ap_update_add_1 {
+        let next_ap = if self.ap_update_add_1 {
             ap + const_expr!(1)
         } else {
             ap
@@ -98,13 +98,10 @@ impl AirFn for JumpOpcode {
     fn inst_def(&self) -> IndexMap<String, String> {
         [
             ("is_rel".to_string(), self.is_rel.to_string()),
+            ("op1_base_fp".to_string(), self.op1_base_fp.to_string()),
             (
-                "flag_op1_base_fp".to_string(),
-                self.flag_op1_base_fp.to_string(),
-            ),
-            (
-                "flag_ap_update_add".to_string(),
-                self.flag_ap_update_add_1.to_string(),
+                "ap_update_add_1".to_string(),
+                self.ap_update_add_1.to_string(),
             ),
         ]
         .into()

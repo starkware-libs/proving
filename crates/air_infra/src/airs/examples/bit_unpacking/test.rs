@@ -30,8 +30,8 @@ fn test_bit_unpacking() {
     ];
 
     let deductions = [
-        "BitUnpack_3cfd160c00d5343f_input.as_m31()",
-        "tmp_2 = (BitUnpack_3cfd160c00d5343f_input >> const_1)",
+        "BitUnpack_num_bits_4_input.as_m31()",
+        "tmp_2 = (BitUnpack_num_bits_4_input >> const_1)",
         "tmp_2.as_m31()",
         "tmp_4 = (tmp_2 >> const_1)",
         "tmp_4.as_m31()",
@@ -99,8 +99,8 @@ fn test_bit_mux() {
     ];
 
     let deductions = [
-        "AirFnBitMux_6ffde77494a1d1e8_input.as_m31()",
-        "tmp_2 = (AirFnBitMux_6ffde77494a1d1e8_input >> const_1)",
+        "AirFnBitMux_input.as_m31()",
+        "tmp_2 = (AirFnBitMux_input >> const_1)",
         "tmp_2.as_m31()",
     ];
 

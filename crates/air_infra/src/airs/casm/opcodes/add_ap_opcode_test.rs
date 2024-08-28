@@ -75,9 +75,9 @@ fn test_add_ap() {
             .collect::<Vec<String>>(),
         vec![
             "tmp_0 = [\
-                    AddAp_debc7bc8d7fbc47e_input[0], \
-                    AddAp_debc7bc8d7fbc47e_input[1], \
-                    AddAp_debc7bc8d7fbc47e_input[2]\
+                    AddAp_input[0], \
+                    AddAp_input[1], \
+                    AddAp_input[2]\
                 ]",
             "Deduction: tmp_0[0]",
             "Deduction: tmp_0[1]",
@@ -108,7 +108,7 @@ fn test_add_ap() {
             "(\
                 (((state[9] * const_262144) + ((state[8] * const_512) + state[7])) - state[5]) - \
                 (const_134217728 * state[6])) = \
-                ReadSmall_cda8d80eab0abe94((state[0] + const_1))"
+                ReadSmall((state[0] + const_1))"
         ]
     );
 }

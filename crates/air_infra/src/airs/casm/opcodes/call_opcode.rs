@@ -21,7 +21,7 @@ use crate::const_expr;
 #[derive(Clone, Debug)]
 pub struct CallOpcode {
     pub is_rel: bool,
-    pub flag_op1_base_fp: bool,
+    pub op1_base_fp: bool,
 
     pub memory: Felt252IdMemory,
 }
@@ -29,16 +29,16 @@ pub struct CallOpcode {
 impl CallOpcode {
     pub fn get_flags(&self) -> Flags {
         let flag_op1_base_ap = if self.is_rel {
-            assert!(!self.flag_op1_base_fp);
+            assert!(!self.op1_base_fp);
             false
         } else {
-            !self.flag_op1_base_fp
+            !self.op1_base_fp
         };
         Flags {
             dst_base_fp: Some(false),
             op0_base_fp: Some(false),
             op1_imm: Some(self.is_rel),
-            op1_base_fp: Some(self.flag_op1_base_fp),
+            op1_base_fp: Some(self.op1_base_fp),
             op1_base_ap: Some(flag_op1_base_ap),
             res_add: Some(false),
             res_mul: Some(false),
@@ -95,7 +95,7 @@ impl AirFn for CallOpcode {
         let next_pc = if self.is_rel {
             pc.clone() + self.memory.read_rel_imm(ab, pc + const_expr!(1))
         } else {
-            let mem1_base = if self.flag_op1_base_fp {
+            let mem1_base = if self.op1_base_fp {
                 fp.clone()
             } else {
                 ap.clone()
@@ -109,10 +109,7 @@ impl AirFn for CallOpcode {
     fn inst_def(&self) -> IndexMap<String, String> {
         [
             ("is_rel".to_string(), self.is_rel.to_string()),
-            (
-                "flag_op1_base_fp".to_string(),
-                self.flag_op1_base_fp.to_string(),
-            ),
+            ("op1_base_fp".to_string(), self.op1_base_fp.to_string()),
         ]
         .into()
     }

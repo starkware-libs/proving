@@ -14,7 +14,7 @@ use crate::LOGUP_BATCH_SIZE;
 
 pub type ComponentLookupElements = LookupElements<4>;
 
-pub struct NarrowFib_1ddf31c88316e62fComponent {
+pub struct NarrowFib_num_steps_20Component {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub self_lookup_elements: ComponentLookupElements,
@@ -47,7 +47,7 @@ impl InteractionClaim {
     }
 }
 
-impl FrameworkComponent for NarrowFib_1ddf31c88316e62fComponent {
+impl FrameworkComponent for NarrowFib_num_steps_20Component {
     fn log_size(&self) -> u32 {
         self.claim.log_size
     }

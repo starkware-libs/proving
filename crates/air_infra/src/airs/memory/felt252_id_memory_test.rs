@@ -72,10 +72,10 @@ fn test_read_small() {
 #[test]
 fn test_read_small_air_body() {
     let expected_air_body = [
-        "tmp_0 = Memory_bee9eb79348d853b(ReadSmall_cda8d80eab0abe94_input)",
+        "tmp_0 = Memory(ReadSmall_input)",
         "Deduction: tmp_0",
-        "Memory_bee9eb79348d853b([ReadSmall_cda8d80eab0abe94_input]) == [state[0]]",
-        "tmp_1 = Memory_7419fa4c3aacb251(state[0])",
+        "Memory([ReadSmall_input]) == [state[0]]",
+        "tmp_1 = Memory(state[0])",
         "tmp_2 = tmp_1.get_m31(const_27).eq(const_256)",
         "Deduction: tmp_2.as_m31()",
         "tmp_3 = tmp_1.get_m31(const_20).eq(const_511)",
@@ -86,7 +86,7 @@ fn test_read_small_air_body() {
         "Deduction: tmp_1.get_m31(const_0)",
         "Deduction: tmp_1.get_m31(const_1)",
         "Deduction: tmp_1.get_m31(const_2)",
-        "Memory_7419fa4c3aacb251([state[0]]) == [\
+        "Memory([state[0]]) == [\
             state[3], state[4], state[5], \
             (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
             (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
@@ -127,15 +127,15 @@ fn test_read_positive(value: Felt252Expr, num_bits: usize) {
 #[test]
 fn test_read_positive_air_body() {
     let expected_air_body = [
-        "tmp_0 = Memory_bee9eb79348d853b(ReadPositive_6812050f65145f40_input)",
+        "tmp_0 = Memory(ReadPositive_num_bits_16_input)",
         "Deduction: tmp_0",
-        "Memory_bee9eb79348d853b([ReadPositive_6812050f65145f40_input]) == [state[0]]",
-        "tmp_1 = Memory_7419fa4c3aacb251(state[0])",
+        "Memory([ReadPositive_num_bits_16_input]) == [state[0]]",
+        "tmp_1 = Memory(state[0])",
         "Deduction: tmp_1.get_m31(const_0)",
         "Deduction: tmp_1.get_m31(const_1)",
         "tmp_2 = RangeCheck7([state[2]])",
         "RangeCheck7([state[2]]) == []",
-        "Memory_7419fa4c3aacb251([state[0]]) == zero_extend([state[1], state[2]])",
+        "Memory([state[0]]) == zero_extend([state[1], state[2]])",
     ];
     let memory = Felt252IdMemory::default();
     let read_positive = ReadPositive {

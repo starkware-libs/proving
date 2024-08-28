@@ -53,8 +53,8 @@ fn test_range_check() {
     ];
 
     let deductions = [
-        "SmallAdd_1ae9da0964179130_input[0]",
-        "SmallAdd_1ae9da0964179130_input[1]",
+        "SmallAdd_input[0]",
+        "SmallAdd_input[1]",
         "tmp_0 = RangeCheck16([state[0]])",
         "tmp_1 = RangeCheck16([state[1]])",
         "tmp_2 = RangeCheck16([(state[0] + state[1])])",

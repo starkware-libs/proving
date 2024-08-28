@@ -10,7 +10,7 @@ mod tests {
     use stwo_prover::core::fields::m31::M31;
 
     use super::prover::write_trace_simd;
-    use crate::narrowfib_1ddf31c88316e62f;
+    use crate::narrowfib_num_steps_20;
 
     #[test]
     fn wide_fib_test_write_trace() {
@@ -34,11 +34,11 @@ mod tests {
                 let output = [trace[2 * i + 1][j], trace[2 * i + 2][j]];
                 assert_eq!(
                     output[0].to_array(),
-                    narrowfib_1ddf31c88316e62f::deduce_output(input)[0].to_array()
+                    narrowfib_num_steps_20::deduce_output(input)[0].to_array()
                 );
                 assert_eq!(
                     output[1].to_array(),
-                    narrowfib_1ddf31c88316e62f::deduce_output(input)[1].to_array()
+                    narrowfib_num_steps_20::deduce_output(input)[1].to_array()
                 );
             }
         }

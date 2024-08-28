@@ -12,7 +12,7 @@ use crate::expr;
 use crate::felt252_expr;
 
 fn build_and_test(
-    flag_op1_base_fp: bool,
+    op1_base_fp: bool,
     offset2_option: Option<i16>,
     op1_value: u32,
     expected_air_body: &[&str],
@@ -30,7 +30,7 @@ fn build_and_test(
 
     let mut call_opcode = CallOpcode {
         is_rel,
-        flag_op1_base_fp,
+        op1_base_fp,
         memory: Felt252IdMemory::default(),
     };
 
@@ -49,7 +49,7 @@ fn build_and_test(
             const_expr!(pc_value + 1),
             felt252_expr!("op1_imm", op1_value as u128, 0),
         ));
-    } else if flag_op1_base_fp {
+    } else if op1_base_fp {
         memory_values.push((
             const_expr!((fp_value as i16 + offset2) as u32),
             felt252_expr!("op1_fp", op1_value as u128, 0),
@@ -110,55 +110,60 @@ fn build_and_test(
 
 #[test]
 fn test_relative_call() {
-    build_and_test(false, None, 500, &[
-        "tmp_0 = [\
-            CallOpcode_ccf475fd29f10d2b_input[0], \
-            CallOpcode_ccf475fd29f10d2b_input[1], \
-            CallOpcode_ccf475fd29f10d2b_input[2]\
-        ]",
-        "Deduction: tmp_0[0]",
-        "Deduction: tmp_0[1]",
-        "Deduction: tmp_0[2]",
-        "(\
-            [const_0, const_1, const_1], \
-            [\
-                const_false, \
-                const_false, \
-                const_true, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_true, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_true, \
-                const_false, \
-                const_false\
-            ]\
-        ) = DecodeInstruction_8a7cb0cfbf63f85a(state[0])",
-        "() = MemVerify_611491d0b573efe1((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
-        "() = MemVerify_611491d0b573efe1((\
-            (state[1] + const_1), \
-            Felt252::from_limbs(zero_extend([(state[0] + const_2)]))\
-        ))",
-        "(((\
-            (state[11] * const_262144) + \
-            ((state[10] * const_512) + \
-            state[9])) - \
-            state[7]) - \
-            (const_134217728 * state[8])) = \
-            ReadSmall_cda8d80eab0abe94((state[0] + const_1))"
-    ], vec![50, 200, 150, 0, 2, 3, 1, 0, 0, 500, 0, 0]);
+    build_and_test(
+        false,
+        None,
+        500,
+        &[
+            "tmp_0 = [\
+                CallOpcode_is_rel_true_op1_base_fp_false_input[0], \
+                CallOpcode_is_rel_true_op1_base_fp_false_input[1], \
+                CallOpcode_is_rel_true_op1_base_fp_false_input[2]\
+            ]",
+            "Deduction: tmp_0[0]",
+            "Deduction: tmp_0[1]",
+            "Deduction: tmp_0[2]",
+            "(\
+                [const_0, const_1, const_1], \
+                [\
+                    const_false, \
+                    const_false, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_true, \
+                    const_false, \
+                    const_false\
+                ]\
+            ) = DecodeInstruction_8a7cb0cfbf63f85a(state[0])",
+            "() = MemVerify((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
+            "() = MemVerify((\
+                (state[1] + const_1), \
+                Felt252::from_limbs(zero_extend([(state[0] + const_2)]))\
+            ))",
+            "((((state[11] * const_262144) + \
+                ((state[10] * const_512) + \
+                state[9])) - \
+                state[7]) - \
+                (const_134217728 * state[8])) = \
+                ReadSmall((state[0] + const_1))",
+        ],
+        vec![50, 200, 150, 0, 2, 3, 1, 0, 0, 500, 0, 0],
+    );
 }
 
 const CALL_FP_EXPECTED_AIR_BODY: [&str; 8] = [
     "tmp_0 = [\
-        CallOpcode_572bef75c2ae21ea_input[0], \
-        CallOpcode_572bef75c2ae21ea_input[1], \
-        CallOpcode_572bef75c2ae21ea_input[2]\
+        CallOpcode_is_rel_false_op1_base_fp_true_input[0], \
+        CallOpcode_is_rel_false_op1_base_fp_true_input[1], \
+        CallOpcode_is_rel_false_op1_base_fp_true_input[2]\
     ]",
     "Deduction: tmp_0[0]",
     "Deduction: tmp_0[1]",
@@ -186,13 +191,13 @@ const CALL_FP_EXPECTED_AIR_BODY: [&str; 8] = [
             const_false\
         ]\
     ) = DecodeInstruction_48b2fb68e2c629d6(state[0])",
-    "() = MemVerify_611491d0b573efe1((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
-    "() = MemVerify_611491d0b573efe1((\
+    "() = MemVerify((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
+    "() = MemVerify((\
         (state[1] + const_1), \
         Felt252::from_limbs(zero_extend([(state[0] + const_1)]))\
     ))",
     "Felt252::from_limbs(zero_extend([state[10], state[11], state[12]])) = \
-        ReadPositive_dd7d1f062646f801((\
+        ReadPositive_num_bits_27((\
             state[2] + \
             (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
         ))",
@@ -222,9 +227,9 @@ fn test_fp_call_negative_offset2() {
 
 const CALL_AP_EXPECTED_AIR_BODY: [&str; 8] = [
     "tmp_0 = [\
-        CallOpcode_9fc0c9c42043f0cc_input[0], \
-        CallOpcode_9fc0c9c42043f0cc_input[1], \
-        CallOpcode_9fc0c9c42043f0cc_input[2]\
+        CallOpcode_is_rel_false_op1_base_fp_false_input[0], \
+        CallOpcode_is_rel_false_op1_base_fp_false_input[1], \
+        CallOpcode_is_rel_false_op1_base_fp_false_input[2]\
     ]",
     "Deduction: tmp_0[0]",
     "Deduction: tmp_0[1]",
@@ -252,13 +257,13 @@ const CALL_AP_EXPECTED_AIR_BODY: [&str; 8] = [
             const_false\
         ]\
     ) = DecodeInstruction_d682a34433babffb(state[0])",
-    "() = MemVerify_611491d0b573efe1((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
-    "() = MemVerify_611491d0b573efe1((\
+    "() = MemVerify((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
+    "() = MemVerify((\
         (state[1] + const_1), \
         Felt252::from_limbs(zero_extend([(state[0] + const_1)]))\
     ))",
     "Felt252::from_limbs(zero_extend([state[10], state[11], state[12]])) = \
-        ReadPositive_dd7d1f062646f801((\
+        ReadPositive_num_bits_27((\
             state[1] + \
             (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
     ))",

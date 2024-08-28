@@ -16,10 +16,10 @@ use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleH
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 
 use super::component::{Claim, ComponentLookupElements, InteractionClaim};
-use crate::AirFnIO;
+use crate::{narrowfib_num_steps_20, AirFnIO};
 
-pub type InputType = AirFnIO<2>;
-pub type OutputType = AirFnIO<2>;
+pub type InputType = AirFnIO<1>;
+pub type OutputType = AirFnIO<1>;
 
 #[derive(Default)]
 pub struct ClaimGenerator {
@@ -29,9 +29,16 @@ impl ClaimGenerator {
     pub fn write_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
+        narrowfib_num_steps_20_state: &mut narrowfib_num_steps_20::ClaimGenerator,
     ) -> ClaimProver {
         let len = self.inputs.len();
         let (trace, lookup_data) = write_trace_simd(self.inputs);
+        lookup_data
+            .narrowfib_num_steps_20_inputs
+            .iter()
+            .for_each(|inputs| {
+                narrowfib_num_steps_20_state.add_inputs(inputs);
+            });
 
         tree_builder.extend_evals(trace);
         let claim = Claim {
@@ -53,7 +60,7 @@ pub fn write_trace_simd(
     Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
     LookupData,
 ) {
-    let n_trace_columns = 22;
+    let n_trace_columns = 17;
     let mut trace_values = (0..n_trace_columns)
         .map(|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES))
         .collect_vec();
@@ -79,69 +86,84 @@ pub fn write_trace_simd(
 #[allow(clippy::useless_conversion)]
 fn write_trace_row(
     #[allow(unused_variables)] dst: &mut [Col<SimdBackend, M31>],
-    narrowfib_1ddf31c88316e62f_input: InputType,
+    widefib_num_narrow_8_narrow_size_20_input: InputType,
     row_index: usize,
     lookup_data: &mut LookupData,
 ) {
-    let tmp_0 = [
-        narrowfib_1ddf31c88316e62f_input[0].into(),
-        narrowfib_1ddf31c88316e62f_input[1].into(),
-    ];
-    let col0 = tmp_0[0];
+    let col0 = widefib_num_narrow_8_narrow_size_20_input.into();
     dst[0].data[row_index] = col0;
-    let col1 = tmp_0[1];
+    lookup_data.narrowfib_num_steps_20_inputs[0]
+        .push([PackedM31::broadcast(M31::from(1).into()), col0].into());
+    let tmp_1 = narrowfib_num_steps_20::deduce_output(
+        [PackedM31::broadcast(M31::from(1).into()), col0].into(),
+    );
+    lookup_data.narrowfib_num_steps_20_outputs[0].push(tmp_1.into());
+    let col1 = tmp_1[0];
     dst[1].data[row_index] = col1;
-    let col2 = ((col0) * (col0)) + ((col1) * (col1));
+    let col2 = tmp_1[1];
     dst[2].data[row_index] = col2;
-    let col3 = ((col1) * (col1)) + ((col2) * (col2));
+    lookup_data.narrowfib_num_steps_20_inputs[1].push([col1, col2].into());
+    let tmp_2 = narrowfib_num_steps_20::deduce_output([col1, col2].into());
+    lookup_data.narrowfib_num_steps_20_outputs[1].push(tmp_2.into());
+    let col3 = tmp_2[0];
     dst[3].data[row_index] = col3;
-    let col4 = ((col2) * (col2)) + ((col3) * (col3));
+    let col4 = tmp_2[1];
     dst[4].data[row_index] = col4;
-    let col5 = ((col3) * (col3)) + ((col4) * (col4));
+    lookup_data.narrowfib_num_steps_20_inputs[2].push([col3, col4].into());
+    let tmp_3 = narrowfib_num_steps_20::deduce_output([col3, col4].into());
+    lookup_data.narrowfib_num_steps_20_outputs[2].push(tmp_3.into());
+    let col5 = tmp_3[0];
     dst[5].data[row_index] = col5;
-    let col6 = ((col4) * (col4)) + ((col5) * (col5));
+    let col6 = tmp_3[1];
     dst[6].data[row_index] = col6;
-    let col7 = ((col5) * (col5)) + ((col6) * (col6));
+    lookup_data.narrowfib_num_steps_20_inputs[3].push([col5, col6].into());
+    let tmp_4 = narrowfib_num_steps_20::deduce_output([col5, col6].into());
+    lookup_data.narrowfib_num_steps_20_outputs[3].push(tmp_4.into());
+    let col7 = tmp_4[0];
     dst[7].data[row_index] = col7;
-    let col8 = ((col6) * (col6)) + ((col7) * (col7));
+    let col8 = tmp_4[1];
     dst[8].data[row_index] = col8;
-    let col9 = ((col7) * (col7)) + ((col8) * (col8));
+    lookup_data.narrowfib_num_steps_20_inputs[4].push([col7, col8].into());
+    let tmp_5 = narrowfib_num_steps_20::deduce_output([col7, col8].into());
+    lookup_data.narrowfib_num_steps_20_outputs[4].push(tmp_5.into());
+    let col9 = tmp_5[0];
     dst[9].data[row_index] = col9;
-    let col10 = ((col8) * (col8)) + ((col9) * (col9));
+    let col10 = tmp_5[1];
     dst[10].data[row_index] = col10;
-    let col11 = ((col9) * (col9)) + ((col10) * (col10));
+    lookup_data.narrowfib_num_steps_20_inputs[5].push([col9, col10].into());
+    let tmp_6 = narrowfib_num_steps_20::deduce_output([col9, col10].into());
+    lookup_data.narrowfib_num_steps_20_outputs[5].push(tmp_6.into());
+    let col11 = tmp_6[0];
     dst[11].data[row_index] = col11;
-    let col12 = ((col10) * (col10)) + ((col11) * (col11));
+    let col12 = tmp_6[1];
     dst[12].data[row_index] = col12;
-    let col13 = ((col11) * (col11)) + ((col12) * (col12));
+    lookup_data.narrowfib_num_steps_20_inputs[6].push([col11, col12].into());
+    let tmp_7 = narrowfib_num_steps_20::deduce_output([col11, col12].into());
+    lookup_data.narrowfib_num_steps_20_outputs[6].push(tmp_7.into());
+    let col13 = tmp_7[0];
     dst[13].data[row_index] = col13;
-    let col14 = ((col12) * (col12)) + ((col13) * (col13));
+    let col14 = tmp_7[1];
     dst[14].data[row_index] = col14;
-    let col15 = ((col13) * (col13)) + ((col14) * (col14));
+    lookup_data.narrowfib_num_steps_20_inputs[7].push([col13, col14].into());
+    let tmp_8 = narrowfib_num_steps_20::deduce_output([col13, col14].into());
+    lookup_data.narrowfib_num_steps_20_outputs[7].push(tmp_8.into());
+    let col15 = tmp_8[0];
     dst[15].data[row_index] = col15;
-    let col16 = ((col14) * (col14)) + ((col15) * (col15));
+    let col16 = tmp_8[1];
     dst[16].data[row_index] = col16;
-    let col17 = ((col15) * (col15)) + ((col16) * (col16));
-    dst[17].data[row_index] = col17;
-    let col18 = ((col16) * (col16)) + ((col17) * (col17));
-    dst[18].data[row_index] = col18;
-    let col19 = ((col17) * (col17)) + ((col18) * (col18));
-    dst[19].data[row_index] = col19;
-    let col20 = ((col18) * (col18)) + ((col19) * (col19));
-    dst[20].data[row_index] = col20;
-    let col21 = ((col19) * (col19)) + ((col20) * (col20));
-    dst[21].data[row_index] = col21;
 
     lookup_data
         .self_inputs
-        .push(narrowfib_1ddf31c88316e62f_input);
-    lookup_data.self_outputs.push([col20, col21].into());
+        .push(widefib_num_narrow_8_narrow_size_20_input);
+    lookup_data.self_outputs.push(col16.into());
 }
 
 #[allow(non_snake_case)]
 pub struct LookupData {
     pub self_inputs: Vec<InputType>,
     pub self_outputs: Vec<OutputType>,
+    pub narrowfib_num_steps_20_inputs: [Vec<narrowfib_num_steps_20::InputType>; 8],
+    pub narrowfib_num_steps_20_outputs: [Vec<narrowfib_num_steps_20::OutputType>; 8],
 }
 impl LookupData {
     #[allow(unused_variables)]
@@ -149,6 +171,26 @@ impl LookupData {
         Self {
             self_inputs: Vec::with_capacity(capacity),
             self_outputs: Vec::with_capacity(capacity),
+            narrowfib_num_steps_20_inputs: [
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+            ],
+            narrowfib_num_steps_20_outputs: [
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+                Vec::with_capacity(capacity),
+            ],
         }
     }
 }
@@ -162,9 +204,23 @@ impl ClaimProver {
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
         self_lookup_elements: &ComponentLookupElements,
+        narrowfib_num_steps_20_lookup_elements: &narrowfib_num_steps_20::ComponentLookupElements,
     ) -> InteractionClaim {
         let log_size = self.claim.log_size;
         let mut logup_gen = LogupTraceGenerator::new(log_size);
+
+        for (inputs, outputs) in zip_eq(
+            self.lookup_data.narrowfib_num_steps_20_inputs,
+            self.lookup_data.narrowfib_num_steps_20_outputs,
+        ) {
+            let mut col_gen = logup_gen.new_col();
+            for (i, (input, output)) in zip_eq(inputs, outputs).enumerate() {
+                let lookup_values = input.concat(&output);
+                let denom = narrowfib_num_steps_20_lookup_elements.combine(lookup_values.as_ref());
+                col_gen.write_frac(i, PackedQM31::one(), denom);
+            }
+            col_gen.finalize_col();
+        }
 
         let mut col_gen = logup_gen.new_col();
         for (vec_row, (input, output)) in
