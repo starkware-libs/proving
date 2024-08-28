@@ -645,6 +645,7 @@ fn simd_parse_air_var(
             quote.to_string().unwrap()
         }
         CompiledAirVar::ExternalState(_name, _i) => "todo!()".to_string(),
+        CompiledAirVar::PublicParam(_) => todo!(),
     }
 }
 

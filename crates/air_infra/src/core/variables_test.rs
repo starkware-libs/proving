@@ -29,9 +29,9 @@ fn test_expr_array() {
 
     // Expressions should be marked as "in state" only if *all* of its elements changed to state.
     assert!(!array.in_state());
-    array[0].to_state(0, None);
+    array[0].to_state(StateInfo::StateIndex(0));
     assert!(!array.in_state());
-    array[1].to_state(1, None);
+    array[1].to_state(StateInfo::StateIndex(1));
     assert!(array.in_state());
 
     // As felts should return the same expression elements as felts.
@@ -47,9 +47,9 @@ fn test_expr_tuple() {
     // Tuples should be marked as "in state" only if *all* of its elements changed to state.
     let mut tup = (bool_expr!("y", true), expr!("x", 5));
     assert!(!tup.in_state());
-    tup.0.as_felt_mut().to_state(0, None);
+    tup.0.as_felt_mut().to_state(StateInfo::StateIndex(0));
     assert!(!tup.in_state());
-    tup.1.to_state(1, None);
+    tup.1.to_state(StateInfo::StateIndex(1));
     assert!(tup.in_state());
 
     // Assert let for deduction changes the element's names.

@@ -32,7 +32,7 @@ impl Default for State {
 impl State {
     pub(super) fn add(&self, expr: &mut FeltExpr, desc: &str) {
         let len = self.row.borrow().len();
-        expr.to_state(len, None);
+        expr.to_state(StateInfo::StateIndex(len));
         self.row.borrow_mut().push((expr.clone(), desc.to_string()));
     }
 }

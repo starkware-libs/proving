@@ -2,6 +2,7 @@ pub mod air_fn;
 pub mod air_fn_registry;
 pub mod expressions;
 pub mod memory;
+pub mod public_params;
 pub mod state;
 pub mod variables;
 

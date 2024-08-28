@@ -4,6 +4,7 @@ use compiled_casm_air::prover_types::ProverType;
 use super::super::air_fn_registry::*;
 use super::super::variables::*;
 use super::expr::*;
+use super::felt_expr::*;
 
 pub trait VarExprUpdate {
     fn create_children(&mut self);
@@ -95,6 +96,7 @@ where
             ComplexOrFelt::Felt(StateInfo::StateIndex(_)) => true,
             ComplexOrFelt::Felt(StateInfo::IsPolyOfState(b)) => *b,
             ComplexOrFelt::Felt(StateInfo::ExternalColumnStateIndex(_, _)) => true,
+            ComplexOrFelt::Felt(StateInfo::PublicParam(_)) => true,
             ComplexOrFelt::Complex(children) => children.iter().all(|c| c.in_state()),
         }
     }
@@ -135,6 +137,11 @@ where
         if let ComplexOrFelt::Felt(StateInfo::ExternalColumnStateIndex(name, i)) = v.complex_or_felt
         {
             return CompiledAirVar::ExternalState(name, i);
+        }
+
+        // v is a public param
+        if let ComplexOrFelt::Felt(StateInfo::PublicParam(param)) = v.complex_or_felt {
+            return CompiledAirVar::PublicParam(param.name());
         }
 
         // v is a field of another variable
@@ -184,13 +191,4 @@ impl From<ParentExpr> for CompiledAirVar {
 pub(super) enum ComplexOrFelt {
     Complex(Vec<ExprImpl>),
     Felt(StateInfo),
-}
-
-// A felt in the state either has a state index or was created as an intermediate variable
-// from an operation that is in the state (i.e., a polynomial of felts written to the state).
-#[derive(Clone, Debug)]
-pub(super) enum StateInfo {
-    StateIndex(usize),
-    IsPolyOfState(bool),
-    ExternalColumnStateIndex(String, usize),
 }
