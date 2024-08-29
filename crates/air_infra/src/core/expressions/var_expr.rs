@@ -14,12 +14,12 @@ pub struct VarExpr<T>
 where
     T: ProverType,
 {
-    pub(super) name: String,
-    pub(super) value: Option<T>,
-    pub(super) is_const: bool,
-    pub(super) parent: Option<ParentExpr>,
-    pub(super) complex_or_felt: ComplexOrFelt,
-    pub(super) intermediate_type: Option<IntermediateType>,
+    pub name: String,
+    pub value: Option<T>,
+    pub is_const: bool,
+    pub parent: Option<ParentExpr>,
+    pub complex_or_felt: ComplexOrFelt,
+    pub intermediate_type: Option<IntermediateType>,
 }
 
 impl<T> VarExpr<T>
@@ -141,7 +141,7 @@ where
 }
 
 #[derive(Clone, Debug)]
-pub(super) struct ParentExpr {
+pub struct ParentExpr {
     pub(super) name: String,
     pub(super) r#type: String,
     pub(super) parent: Option<Box<ParentExpr>>,
@@ -174,7 +174,7 @@ impl From<ParentExpr> for CompiledAirVar {
 // Each VarExpr is either a single felt, that can be written to the state
 // or a complex expression that holds one or more expressions (children).
 #[derive(Clone, Debug)]
-pub(super) enum ComplexOrFelt {
+pub enum ComplexOrFelt {
     Complex(Vec<ExprImpl>),
     Felt(StateInfo),
 }
@@ -182,7 +182,7 @@ pub(super) enum ComplexOrFelt {
 // A felt in the state either has a state index or was created as an intermediate variable
 // from an operation that is in the state (i.e., a polynomial of felts written to the state).
 #[derive(Clone, Debug)]
-pub(super) enum StateInfo {
+pub enum StateInfo {
     StateIndex(usize),
     IsPolyOfState(bool),
 }

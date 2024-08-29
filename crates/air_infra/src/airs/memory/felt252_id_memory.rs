@@ -43,7 +43,7 @@ impl Felt252IdMemory {
         let mut id = 0;
 
         for (addr, felt252) in data {
-            let limbs = felt252.to_values();
+            let limbs = felt252.to_values().expect("felt252 has no values");
 
             // If it is a new value, create a new ID
             if !value_to_id.contains_key(&limbs) {

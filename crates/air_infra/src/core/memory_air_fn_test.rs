@@ -7,7 +7,7 @@ use super::variables::*;
 
 // Macros
 use crate::const_expr;
-use crate::felt252_expr;
+use crate::const_felt252_expr;
 
 #[derive(Debug, Default)]
 struct SimpleMemoryAirFn {
@@ -36,7 +36,7 @@ fn test_memory_air_fn() {
 
     let memory: Memory<FeltExpr, Felt252Expr> = Memory::new();
     let k: FeltExpr = const_expr!(1000);
-    memory.set(k.clone(), felt252_expr!("val", 3, 0));
+    memory.set(k.clone(), const_felt252_expr!(3, 0));
     func.memory = memory.clone();
 
     let registry = AirFnRegistry::new(&func);

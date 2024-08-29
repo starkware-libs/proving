@@ -9,8 +9,8 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 
 use crate::const_expr;
+use crate::const_felt252_expr;
 use crate::expr;
-use crate::felt252_expr;
 
 fn build_and_test(
     [is_taken, dst_base_fp, ap_update_add_1]: [bool; 3],
@@ -37,16 +37,12 @@ fn build_and_test(
     // Fill memory
     let mut memory_values = vec![(
         pc.clone(),
-        felt252_expr!(
-            "op",
-            assemble_jnz(offset_dst, &jnz_opcode.get_flags()) as u128,
-            0
-        ),
+        const_felt252_expr!(assemble_jnz(offset_dst, &jnz_opcode.get_flags()) as u128, 0),
     )];
 
     memory_values.push((
         const_expr!(pc_value + 1),
-        felt252_expr!("op1_imm", op1_value as u128, 0),
+        const_felt252_expr!(op1_value as u128, 0),
     ));
 
     if dst_base_fp {
@@ -111,7 +107,7 @@ fn test_not_taken_zero_match_base_ap() {
     build_and_test(
         [false, false, false],
         -13,
-        felt252_expr!("dst", 0, 0),
+        const_felt252_expr!(0, 0),
         15,
         Some(&[
             "tmp_0 = [\
@@ -169,7 +165,7 @@ fn test_taken_match_base_ap() {
     build_and_test(
         [true, false, false],
         -13,
-        felt252_expr!("dst", 123, 456),
+        const_felt252_expr!(123, 456),
         15,
         Some(&[
             "tmp_0 = [\
@@ -253,7 +249,7 @@ fn test_taken_zero_mismatch_base_ap() {
     build_and_test(
         [true, false, false],
         -13,
-        felt252_expr!("dst", 0, 0),
+        const_felt252_expr!(0, 0),
         15,
         None,
         vec![],
@@ -266,7 +262,7 @@ fn test_not_taken_mismatch_base_ap() {
     build_and_test(
         [false, false, false],
         -13,
-        felt252_expr!("dst", 123, 4567),
+        const_felt252_expr!(123, 4567),
         15,
         None,
         vec![],
@@ -279,7 +275,7 @@ fn test_taken_p_mismatch_base_ap() {
     build_and_test(
         [true, false, false],
         -13,
-        felt252_expr!("dst", 1, 17 * u128::pow(2, 64) + u128::pow(2, 123)),
+        const_felt252_expr!(1, 17 * u128::pow(2, 64) + u128::pow(2, 123)),
         15,
         None,
         vec![],

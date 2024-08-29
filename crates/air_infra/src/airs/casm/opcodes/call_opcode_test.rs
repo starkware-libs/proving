@@ -8,8 +8,8 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 
 use crate::const_expr;
+use crate::const_felt252_expr;
 use crate::expr;
-use crate::felt252_expr;
 
 fn build_and_test(
     op1_base_fp: bool,
@@ -37,38 +37,34 @@ fn build_and_test(
     // Fill memory
     let mut memory_values = vec![(
         pc.clone(),
-        felt252_expr!(
-            "op",
-            assemble_call(offset2, &call_opcode.get_flags()) as u128,
-            0
-        ),
+        const_felt252_expr!(assemble_call(offset2, &call_opcode.get_flags()) as u128, 0),
     )];
 
     if is_rel {
         memory_values.push((
             const_expr!(pc_value + 1),
-            felt252_expr!("op1_imm", op1_value as u128, 0),
+            const_felt252_expr!(op1_value as u128, 0),
         ));
     } else if op1_base_fp {
         memory_values.push((
             const_expr!((fp_value as i16 + offset2) as u32),
-            felt252_expr!("op1_fp", op1_value as u128, 0),
+            const_felt252_expr!(op1_value as u128, 0),
         ));
     } else {
         memory_values.push((
             const_expr!((ap_value as i16 + offset2) as u32),
-            felt252_expr!("op1_ap", op1_value as u128, 0),
+            const_felt252_expr!(op1_value as u128, 0),
         ));
     }
 
     memory_values.push((
         const_expr!(ap_value),
-        felt252_expr!("pushed_fp", fp_value as u128, 0),
+        const_felt252_expr!(fp_value as u128, 0),
     ));
     let ret_addr = pc_value + (if is_rel { 2 } else { 1 });
     memory_values.push((
         const_expr!(ap_value + 1),
-        felt252_expr!("pushed_ret_addr", ret_addr as u128, 0),
+        const_felt252_expr!(ret_addr as u128, 0),
     ));
 
     call_opcode.memory = Felt252IdMemory::new_with_data(memory_values);

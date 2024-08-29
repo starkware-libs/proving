@@ -10,8 +10,8 @@ use crate::core::variables::*;
 
 // Macros
 use crate::const_expr;
+use crate::const_felt252_expr;
 use crate::expr;
-use crate::felt252_expr;
 
 // [fp + offset] == [ap + offset]
 #[test]
@@ -334,8 +334,7 @@ fn test_assert_equal(
     // Fill memory
     let mut memory_values = vec![(
         pc.clone(),
-        felt252_expr!(
-            "op",
+        const_felt252_expr!(
             assemble_instruction(
                 offset0_value,
                 offset1_value,
@@ -350,41 +349,41 @@ fn test_assert_equal(
     if flag_dst_base_fp {
         memory_values.push((
             const_expr!((fp_value as i16 + offset0_value) as u32),
-            felt252_expr!("dst", dst, 0),
+            const_felt252_expr!(dst, 0),
         ));
     } else {
         memory_values.push((
             const_expr!((ap_value as i16 + offset0_value) as u32),
-            felt252_expr!("dst", dst, 0),
+            const_felt252_expr!(dst, 0),
         ));
     };
     if flag_op1_imm {
-        memory_values.push((const_expr!(pc_value + 1), felt252_expr!("op1", op1, 0)));
+        memory_values.push((const_expr!(pc_value + 1), const_felt252_expr!(op1, 0)));
     } else if double_deref {
         memory_values.push((
             const_expr!((op0 as i32 + offset2_value as i32) as u32),
-            felt252_expr!("op1", op1, 0),
+            const_felt252_expr!(op1, 0),
         ));
         if flag_op0_base_fp {
             memory_values.push((
                 const_expr!((fp_value as i16 + offset1_value) as u32),
-                felt252_expr!("op0", op0, 0),
+                const_felt252_expr!(op0, 0),
             ));
         } else {
             memory_values.push((
                 const_expr!((ap_value as i16 + offset1_value) as u32),
-                felt252_expr!("op0", op0, 0),
+                const_felt252_expr!(op0, 0),
             ));
         }
     } else if flag_op1_base_fp {
         memory_values.push((
             const_expr!((fp_value as i16 + offset2_value) as u32),
-            felt252_expr!("op1", op1, 0),
+            const_felt252_expr!(op1, 0),
         ));
     } else {
         memory_values.push((
             const_expr!((ap_value as i16 + offset2_value) as u32),
-            felt252_expr!("op1", op1, 0),
+            const_felt252_expr!(op1, 0),
         ));
     };
     assert_equal_opcode.memory = Felt252IdMemory::new_with_data(memory_values);

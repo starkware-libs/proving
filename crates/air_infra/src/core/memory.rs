@@ -8,7 +8,10 @@ use std::marker::PhantomData;
 use std::rc::Rc;
 
 use super::air_fn::*;
+use super::expressions::felt_expr::*;
+use super::expressions::var_expr::*;
 use super::variables::*;
+
 #[cfg(test)]
 use super::Felt;
 
@@ -27,8 +30,8 @@ where
 
 impl<K, V> Memory<K, V>
 where
-    K: AirVar,
-    V: AirVar,
+    K: AirVar + Default,
+    V: AirVar + Default,
 {
     #[allow(unused)]
     pub(super) fn new() -> Self {
@@ -44,7 +47,9 @@ where
     pub fn new_with_data(data: Vec<(K, V)>) -> Self {
         Self {
             data: Rc::new(RefCell::new(
-                data.into_iter().map(|(k, v)| (k.to_values(), v)).collect(),
+                data.into_iter()
+                    .map(|(k, v)| (k.to_values().expect("key has no values"), v))
+                    .collect(),
             )),
             key_type: PhantomData,
             value_type: PhantomData,
@@ -54,15 +59,14 @@ where
     #[cfg(test)]
     pub fn get(&self, key: &K) -> Option<V> {
         let actual_key = key.to_values();
-        self.data.borrow().get(&actual_key).cloned()
+        actual_key.and_then(|k| self.data.borrow().get(&k).cloned())
     }
 
     #[cfg(test)]
     pub fn set(&self, key: K, value: V) {
-        let actual_key = key.to_values();
+        let actual_key = key.to_values().expect("key has no values");
 
         if !self.data.borrow().contains_key(&actual_key) {
-            assert!(!value.is_const());
             self.data.borrow_mut().insert(actual_key, value);
         } else {
             let v = self.data.borrow().get(&actual_key).cloned().unwrap();
@@ -73,11 +77,41 @@ where
             );
         }
     }
+
+    #[allow(unused_variables)]
+    pub fn get_state_value_for_constraints(&self, key: &K) -> V {
+        #[cfg(test)]
+        if let Some(value) = self.get(key) {
+            return value;
+        }
+
+        // Cannot use V::default() here because it will return a const value.
+        // The name is not important, because value will be used only in constraints.
+        let mut value = V::new("".to_string()).let_(
+            "".to_string(),
+            IntermediateType {
+                in_constraints: true,
+                in_deductions: false,
+            },
+        );
+        let i_start = K::default().as_felts().len();
+        for (i, felt) in value.as_felts_mut().into_iter().enumerate() {
+            *felt = FeltExpr::Var(VarExpr {
+                name: format!("state[{}]", i_start + i),
+                value: None,
+                is_const: false,
+                parent: None,
+                complex_or_felt: ComplexOrFelt::Felt(StateInfo::StateIndex(i_start + i)),
+                intermediate_type: None,
+            });
+        }
+        value
+    }
 }
 
 impl<K, V> AirFn for Memory<K, V>
 where
-    K: AirVar,
+    K: AirVar + Default,
     V: AirVar + Default,
 {
     type In = K;

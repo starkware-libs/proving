@@ -10,8 +10,8 @@ use crate::core::variables::*;
 
 // Macros
 use crate::const_expr;
+use crate::const_felt252_expr;
 use crate::expr;
-use crate::felt252_expr;
 
 #[test]
 fn test_add_ap() {
@@ -33,16 +33,12 @@ fn test_add_ap() {
     // Fill memory
     let mut memory_values = vec![(
         pc.clone(),
-        felt252_expr!(
-            "op",
+        const_felt252_expr!(
             assemble_instruction(-1, -1, 1, add_ap_opcode.get_flags().into()) as u128,
             0
         ),
     )];
-    memory_values.push((
-        const_expr!(pc_value + 1),
-        felt252_expr!("imm", immediate, 0),
-    ));
+    memory_values.push((const_expr!(pc_value + 1), const_felt252_expr!(immediate, 0)));
     add_ap_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function

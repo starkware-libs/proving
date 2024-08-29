@@ -7,8 +7,8 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 
 //Macros
+use crate::const_felt252_expr;
 use crate::expr;
-use crate::felt252_expr;
 
 #[test]
 fn simple_test_bitwise_builtin() {
@@ -17,23 +17,23 @@ fn simple_test_bitwise_builtin() {
     let memory = Felt252IdMemory::new_with_data(vec![
         (
             get_addr(instance_number.clone(), 0),
-            felt252_expr!("input_a", 0, 0),
+            const_felt252_expr!(0, 0),
         ),
         (
             get_addr(instance_number.clone(), 1),
-            felt252_expr!("input_b", 1, 0),
+            const_felt252_expr!(1, 0),
         ),
         (
             get_addr(instance_number.clone(), 2),
-            felt252_expr!("input_c", 0, 0),
+            const_felt252_expr!(0, 0),
         ),
         (
             get_addr(instance_number.clone(), 3),
-            felt252_expr!("input_d", 1, 0),
+            const_felt252_expr!(1, 0),
         ),
         (
             get_addr(instance_number.clone(), 4),
-            felt252_expr!("input_d", 1, 0),
+            const_felt252_expr!(1, 0),
         ),
     ]);
 
@@ -53,23 +53,23 @@ fn simple_failed_test_bitwise_builtin() {
     let memory = Felt252IdMemory::new_with_data(vec![
         (
             get_addr(instance_number.clone(), 0),
-            felt252_expr!("input_a", 0, 0),
+            const_felt252_expr!(0, 0),
         ),
         (
             get_addr(instance_number.clone(), 1),
-            felt252_expr!("input_b", 1, 0),
+            const_felt252_expr!(1, 0),
         ),
         (
             get_addr(instance_number.clone(), 2),
-            felt252_expr!("input_c", 0, 0),
+            const_felt252_expr!(0, 0),
         ),
         (
             get_addr(instance_number.clone(), 3),
-            felt252_expr!("input_d", 0, 0),
+            const_felt252_expr!(0, 0),
         ),
         (
             get_addr(instance_number.clone(), 4),
-            felt252_expr!("input_d", 1, 0),
+            const_felt252_expr!(1, 0),
         ),
     ]);
 
@@ -88,23 +88,23 @@ fn test_bitwise_builtin() {
     let memory = Felt252IdMemory::new_with_data(vec![
         (
             get_addr(instance_number.clone(), 0),
-            felt252_expr!("input_a", 1546546796877, 0),
+            const_felt252_expr!(1546546796877, 0),
         ),
         (
             get_addr(instance_number.clone(), 1),
-            felt252_expr!("input_b", 565820356494787, 0),
+            const_felt252_expr!(565820356494787, 0),
         ),
         (
             get_addr(instance_number.clone(), 2),
-            felt252_expr!("input_c", 34650915137, 0),
+            const_felt252_expr!(34650915137, 0),
         ),
         (
             get_addr(instance_number.clone(), 3),
-            felt252_expr!("input_d", 567297601461390, 0),
+            const_felt252_expr!(567297601461390, 0),
         ),
         (
             get_addr(instance_number.clone(), 4),
-            felt252_expr!("input_e", 567332252376527, 0),
+            const_felt252_expr!(567332252376527, 0),
         ),
     ]);
 
@@ -124,23 +124,23 @@ fn test_failed_or_bitwise_builtin() {
     let memory = Felt252IdMemory::new_with_data(vec![
         (
             get_addr(instance_number.clone(), 0),
-            felt252_expr!("input_a", 1546546796877, 0),
+            const_felt252_expr!(1546546796877, 0),
         ),
         (
             get_addr(instance_number.clone(), 1),
-            felt252_expr!("input_b", 565820356494787, 0),
+            const_felt252_expr!(565820356494787, 0),
         ),
         (
             get_addr(instance_number.clone(), 2),
-            felt252_expr!("input_c", 34650915137, 0),
+            const_felt252_expr!(34650915137, 0),
         ),
         (
             get_addr(instance_number.clone(), 3),
-            felt252_expr!("input_d", 567297601461390, 0),
+            const_felt252_expr!(567297601461390, 0),
         ),
         (
             get_addr(instance_number.clone(), 4),
-            felt252_expr!("input_e", 567332252375527, 0),
+            const_felt252_expr!(567332252375527, 0),
         ),
     ]);
 
@@ -160,23 +160,23 @@ fn test_failed_xor_bitwise_builtin() {
     let memory = Felt252IdMemory::new_with_data(vec![
         (
             get_addr(instance_number.clone(), 0),
-            felt252_expr!("input_a", 1546546796877, 0),
+            const_felt252_expr!(1546546796877, 0),
         ),
         (
             get_addr(instance_number.clone(), 1),
-            felt252_expr!("input_b", 565820356494787, 0),
+            const_felt252_expr!(565820356494787, 0),
         ),
         (
             get_addr(instance_number.clone(), 2),
-            felt252_expr!("input_c", 34650915137, 0),
+            const_felt252_expr!(34650915137, 0),
         ),
         (
             get_addr(instance_number.clone(), 3),
-            felt252_expr!("input_d", 567257601461390, 0),
+            const_felt252_expr!(567257601461390, 0),
         ),
         (
             get_addr(instance_number.clone(), 4),
-            felt252_expr!("input_e", 567332252376527, 0),
+            const_felt252_expr!(567332252376527, 0),
         ),
     ]);
 
@@ -196,23 +196,23 @@ fn test_failed_and_bitwise_builtin() {
     let memory = Felt252IdMemory::new_with_data(vec![
         (
             get_addr(instance_number.clone(), 0),
-            felt252_expr!("input_a", 1546546796877, 0),
+            const_felt252_expr!(1546546796877, 0),
         ),
         (
             get_addr(instance_number.clone(), 1),
-            felt252_expr!("input_b", 565820356494787, 0),
+            const_felt252_expr!(565820356494787, 0),
         ),
         (
             get_addr(instance_number.clone(), 2),
-            felt252_expr!("input_c", 34650915127, 0),
+            const_felt252_expr!(34650915127, 0),
         ),
         (
             get_addr(instance_number.clone(), 3),
-            felt252_expr!("input_d", 567297601461390, 0),
+            const_felt252_expr!(567297601461390, 0),
         ),
         (
             get_addr(instance_number.clone(), 4),
-            felt252_expr!("input_e", 567332252376527, 0),
+            const_felt252_expr!(567332252376527, 0),
         ),
     ]);
 
@@ -351,23 +351,23 @@ fn test_big_felt252_bitwise_builtin() {
     let memory = Felt252IdMemory::new_with_data(vec![
         (
             get_addr(instance_number.clone(), 0),
-            felt252_expr!("input_a", 467968798486, 18694984798),
+            const_felt252_expr!(467968798486, 18694984798),
         ),
         (
             get_addr(instance_number.clone(), 1),
-            felt252_expr!("input_b", 3468798969565, 4869486468496),
+            const_felt252_expr!(3468798969565, 4869486468496),
         ),
         (
             get_addr(instance_number.clone(), 2),
-            felt252_expr!("input_c", 157370615316, 18253796368),
+            const_felt252_expr!(157370615316, 18253796368),
         ),
         (
             get_addr(instance_number.clone(), 3),
-            felt252_expr!("input_d", 3622026537419, 4851673860558),
+            const_felt252_expr!(3622026537419, 4851673860558),
         ),
         (
             get_addr(instance_number.clone(), 4),
-            felt252_expr!("input_e", 3779397152735, 4869927656926),
+            const_felt252_expr!(3779397152735, 4869927656926),
         ),
     ]);
 

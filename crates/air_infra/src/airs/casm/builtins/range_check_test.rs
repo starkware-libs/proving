@@ -7,7 +7,7 @@ use crate::core::expressions::felt_expr::*;
 
 // Macros
 use crate::const_expr;
-use crate::felt252_expr;
+use crate::const_felt252_expr;
 
 #[test]
 fn test_range_check() {
@@ -33,7 +33,7 @@ fn test_range_check() {
 
     let memory = Felt252IdMemory::new_with_data(vec![(
         const_expr!(DUMMY_SEGMENT_START),
-        felt252_expr!("value_to_check", (1 << 17), 0),
+        const_felt252_expr!((1 << 17), 0),
     )]);
 
     let rc = RangeCheckBuiltin {
@@ -79,23 +79,23 @@ fn run_range_check(value: Felt252Expr, bits: usize) {
 
 #[test]
 fn test_range_check_whole_limbs() {
-    run_range_check(felt252_expr!("value_to_check", 1 << 70, 0), 72);
+    run_range_check(const_felt252_expr!(1 << 70, 0), 72);
 }
 
 #[test]
 #[should_panic(expected = "Memory::set() failed")]
 fn test_range_check_whole_limbs_fail() {
-    run_range_check(felt252_expr!("value_to_check", 1 << 74, 0), 72);
+    run_range_check(const_felt252_expr!(1 << 74, 0), 72);
 }
 
 // Tests where <bits> is not divisible by 12
 #[test]
 fn test_range_check_partial_limbs() {
-    run_range_check(felt252_expr!("value_to_check", 1 << 127, 0), 128);
+    run_range_check(const_felt252_expr!(1 << 127, 0), 128);
 }
 
 #[test]
 #[should_panic(expected = "RangeCheck failed on element 0: RangeCheck2 on input 4")]
 fn test_range_check_partial_limbs_fail() {
-    run_range_check(felt252_expr!("value_to_check", 0, 1), 128);
+    run_range_check(const_felt252_expr!(0, 1), 128);
 }

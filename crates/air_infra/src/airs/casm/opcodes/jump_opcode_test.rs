@@ -10,8 +10,8 @@ use crate::core::variables::*;
 
 // Macros
 use crate::const_expr;
+use crate::const_felt252_expr;
 use crate::expr;
-use crate::felt252_expr;
 
 fn test_jump_opcode(
     is_rel_jump: bool,
@@ -42,23 +42,22 @@ fn test_jump_opcode(
     // Fill memory
     let mut memory_values = vec![(
         pc.clone(),
-        felt252_expr!(
-            "op",
+        const_felt252_expr!(
             assemble_jump(offset_value, &jump_opcode.get_flags()) as u128,
             0
         ),
     )];
     if is_rel_jump {
-        memory_values.push((const_expr!(pc_value + 1), felt252_expr!("op1", op1, 0)));
+        memory_values.push((const_expr!(pc_value + 1), const_felt252_expr!(op1, 0)));
     } else if op1_base_fp {
         memory_values.push((
             const_expr!((fp_value as i16 + offset_value) as u32),
-            felt252_expr!("op1", op1, 0),
+            const_felt252_expr!(op1, 0),
         ));
     } else {
         memory_values.push((
             const_expr!((ap_value as i16 + offset_value) as u32),
-            felt252_expr!("op1", op1, 0),
+            const_felt252_expr!(op1, 0),
         ));
     }
     jump_opcode.memory = Felt252IdMemory::new_with_data(memory_values);

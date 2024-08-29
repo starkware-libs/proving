@@ -384,9 +384,20 @@ impl AirBuilder {
     // it. Does not add any constraints or deductions.
     pub fn mem_read_unverified<K, V>(&mut self, memory: &Memory<K, V>, key: &K) -> V
     where
-        K: AirVar,
+        K: AirVar + Default,
         V: AirVar + Default,
     {
+        // Make sure the memory is in the registry
+        if self
+            .registry
+            .air_fns
+            .borrow()
+            .get(&(memory.name()))
+            .is_none()
+        {
+            AirFnEntry::new(&self.registry, memory);
+        }
+
         let value_name = self.registry.get_intermediate_name();
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
@@ -399,7 +410,14 @@ impl AirBuilder {
 
         #[cfg(test)]
         if self.run {
-            value = memory.get(key).unwrap();
+            let mut air_builder = Self {
+                state: State::default(),
+                air_body: vec![],
+                row_number: Some(0),
+                run: self.run,
+                registry: self.registry.clone(),
+            };
+            value = memory.call(&mut air_builder, key.clone());
         }
 
         value = value.let_(
@@ -417,9 +435,20 @@ impl AirBuilder {
     // Writes the value to the memory in run and cairo run modes.
     pub fn mem_verify<K, V>(&mut self, memory: &Memory<K, V>, key: &K, value: V)
     where
-        K: AirVar,
+        K: AirVar + Default,
         V: AirVar + Default,
     {
+        // Make sure the memory is in the registry
+        if self
+            .registry
+            .air_fns
+            .borrow()
+            .get(&(memory.name()))
+            .is_none()
+        {
+            AirFnEntry::new(&self.registry, memory);
+        }
+
         #[cfg(test)]
         if self.run {
             assert!(key.in_state(), "The key must be in the trace.");

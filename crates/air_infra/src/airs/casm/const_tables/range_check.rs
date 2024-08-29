@@ -56,8 +56,12 @@ impl<const N: usize> AirFn for RangeCheck<N> {
     fn call(&self, _air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
         #[cfg(test)]
         if _air_builder.is_run_mode() {
-            for (index, (&input, &bits)) in
-                _input.to_values().iter().zip(self.bits.iter()).enumerate()
+            for (index, (&input, &bits)) in _input
+                .to_values()
+                .expect("input has no values")
+                .iter()
+                .zip(self.bits.iter())
+                .enumerate()
             {
                 assert!(
                     input.0 < (1u32 << bits),

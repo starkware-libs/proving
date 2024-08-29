@@ -11,7 +11,7 @@ use crate::core::variables::*;
 
 //Macros
 use crate::const_expr;
-use crate::felt252_expr;
+use crate::const_felt252_expr;
 
 fn test_with_matching_memory(
     flags: [bool; 15],
@@ -43,8 +43,7 @@ fn test_with_matching_memory(
     let pc = const_expr!(0);
     let memory = Felt252IdMemory::new_with_data(vec![(
         pc.clone(),
-        felt252_expr!(
-            "instruction",
+        const_felt252_expr!(
             assemble_instruction(offsets[0], offsets[1], offsets[2], flags) as u128,
             0
         ),

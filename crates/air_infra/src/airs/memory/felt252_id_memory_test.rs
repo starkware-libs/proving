@@ -8,35 +8,40 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 
 use crate::const_expr;
-use crate::felt252_expr;
+use crate::const_felt252_expr;
 
 #[test]
 fn test_read_small() {
     let mem_data = vec![
-        (const_expr!(1), felt252_expr!("small_positive", 7, 0)),
+        // Small positive
+        (const_expr!(1), const_felt252_expr!(7, 0)),
         (
+            // Small positive duplicate
             const_expr!(2),
-            felt252_expr!("small_positive_duplicate", 7, 0),
+            const_felt252_expr!(7, 0),
         ),
         (
+            // Minus one
             const_expr!(3),
-            felt252_expr!("minus_one", 0, 10633823966279327296825105735305134080),
+            const_felt252_expr!(0, 10633823966279327296825105735305134080),
         ),
         (
+            // Minus two
             const_expr!(4),
-            felt252_expr!(
-                "minus_two",
+            const_felt252_expr!(
                 340282366920938463463374607431768211455,
                 10633823966279327296825105735305134079
             ),
         ),
         (
+            // P
             const_expr!(5),
-            felt252_expr!("p", 1, 10633823966279327296825105735305134080),
+            const_felt252_expr!(1, 10633823966279327296825105735305134080),
         ),
         (
+            // P + 1
             const_expr!(6),
-            felt252_expr!("p_plus_one", 2, 10633823966279327296825105735305134080),
+            const_felt252_expr!(2, 10633823966279327296825105735305134080),
         ),
     ];
     let memory = Felt252IdMemory::new_with_data(mem_data);
@@ -156,17 +161,17 @@ fn test_read_positive_air_body() {
 
 #[test]
 fn test_read_positive_whole_limbs() {
-    test_read_positive(felt252_expr!("value", 1 << 35, 0), 36);
+    test_read_positive(const_felt252_expr!(1 << 35, 0), 36);
 }
 
 #[test]
 fn test_read_positive_partial_limbs() {
-    test_read_positive(felt252_expr!("value", 12, 0), 4);
+    test_read_positive(const_felt252_expr!(12, 0), 4);
 }
 
 #[test]
 #[should_panic(expected = "RangeCheck failed on element 0: RangeCheck4 on input 510")]
 fn test_read_positive_failure() {
     // Try to read a small negative number using ReadPositive
-    test_read_positive(felt252_expr!("value", u128::MAX - 1, u128::MAX), 4);
+    test_read_positive(const_felt252_expr!(u128::MAX - 1, u128::MAX), 4);
 }

@@ -10,8 +10,8 @@ use crate::core::variables::*;
 
 // Macros
 use crate::const_expr;
+use crate::const_felt252_expr;
 use crate::expr;
-use crate::felt252_expr;
 
 // TODO: Support testing with negative dst/op0/op1, and add such test(s)
 fn test_add_small(
@@ -63,8 +63,7 @@ fn test_add_small(
     // Fill memory
     let mut memory_values = vec![(
         pc.clone(),
-        felt252_expr!(
-            "op",
+        const_felt252_expr!(
             assemble_instruction(
                 offset_dst_val,
                 offset0_val,
@@ -79,39 +78,39 @@ fn test_add_small(
     if flag_dst_base_fp {
         memory_values.push((
             const_expr!((fp_value as i16 + offset_dst_val) as u32),
-            felt252_expr!("dst", dst as u128, 0),
+            const_felt252_expr!(dst as u128, 0),
         ));
     } else {
         memory_values.push((
             const_expr!((ap_value as i16 + offset_dst_val) as u32),
-            felt252_expr!("dst", dst as u128, 0),
+            const_felt252_expr!(dst as u128, 0),
         ));
     };
     if flag_op0_base_fp {
         memory_values.push((
             const_expr!((fp_value as i16 + offset0_val) as u32),
-            felt252_expr!("op0", op0 as u128, 0),
+            const_felt252_expr!(op0 as u128, 0),
         ));
     } else {
         memory_values.push((
             const_expr!((ap_value as i16 + offset0_val) as u32),
-            felt252_expr!("op0", op0 as u128, 0),
+            const_felt252_expr!(op0 as u128, 0),
         ));
     }
     if flag_op1_imm {
         memory_values.push((
             const_expr!(pc_value + 1),
-            felt252_expr!("op1", op1 as u128, 0),
+            const_felt252_expr!(op1 as u128, 0),
         ));
     } else if flag_op1_base_fp {
         memory_values.push((
             const_expr!((fp_value as i16 + offset1_val) as u32),
-            felt252_expr!("op1", op1 as u128, 0),
+            const_felt252_expr!(op1 as u128, 0),
         ));
     } else {
         memory_values.push((
             const_expr!((ap_value as i16 + offset1_val) as u32),
-            felt252_expr!("op1", op1 as u128, 0),
+            const_felt252_expr!(op1 as u128, 0),
         ));
     };
     add_small_opcode.memory = Felt252IdMemory::new_with_data(memory_values);

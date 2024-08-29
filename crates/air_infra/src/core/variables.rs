@@ -38,8 +38,11 @@ pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
             .collect()
     }
     #[cfg(test)]
-    fn to_values(&self) -> Vec<Felt> {
-        self.as_felts().iter().map(|f| f.value().unwrap()).collect()
+    fn to_values(&self) -> Option<Vec<Felt>> {
+        self.as_felts()
+            .iter()
+            .map(|f| f.value())
+            .collect::<Option<Vec<_>>>()
     }
 }
 
