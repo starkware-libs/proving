@@ -1,4 +1,5 @@
 use crate::airs::casm::bitwise_xor::*;
+use crate::airs::casm::const_tables::seq::*;
 use crate::airs::memory::felt252_id_memory::*;
 use crate::airs::memory::felt252_id_memory_read_positive::*;
 use crate::airs::memory::felt252_id_memory_verify::*;
@@ -30,10 +31,12 @@ pub struct BitwiseBuiltin {
 }
 
 impl AirFn for BitwiseBuiltin {
-    type In = FeltExpr;
+    type In = ();
     type Out = ();
 
-    fn call(&self, air_builder: &mut AirBuilder, instance_num: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
+        let instance_num = air_builder.call_external_column(&Seq {});
+
         let read_felt252 = ReadPositive {
             num_bits: 252,
             memory: self.memory.clone(),
