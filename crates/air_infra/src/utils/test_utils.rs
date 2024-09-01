@@ -1,12 +1,15 @@
+use serde_json::Value;
 use std::fmt::Display;
+use std::fs;
 
-use super::air_fn::*;
-use super::compiled_structs::*;
-use super::expressions::expr::*;
-use super::expressions::felt_expr::*;
-use super::prover_types::*;
-use super::utils::*;
-use super::variables::*;
+use crate::core::air_fn::*;
+use crate::core::air_fn_registry::*;
+use crate::core::compiled_structs::*;
+use crate::core::expressions::expr::*;
+use crate::core::expressions::felt_expr::*;
+use crate::core::prover_types::*;
+use crate::core::utils::*;
+use crate::core::variables::*;
 
 impl Display for TraceGenStep {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -39,6 +42,21 @@ fn felts_vec_to_string(felts: Vec<FeltExpr>) -> String {
             .map(|f| f.clone().into())
             .collect::<Vec<CompiledAirVar>>()),
     )
+}
+
+pub fn compare_test_json(registry: AirFnRegistry, air_fn_name: &String, file_path: &String) {
+    let is_fix_mode = std::env::var("FIX") == Ok("1".to_string());
+    if is_fix_mode {
+        registry.dump_to_file(Some(air_fn_name), Some(file_path));
+    } else {
+        let json_file = fs::read_to_string(file_path.clone()).unwrap();
+        let expected_entry_json: Value =
+            serde_json::from_str(&json_file).expect("Invalid JSON file for the expected entry");
+        let entry = registry.get_air_fn_entry(air_fn_name);
+        let entry_json =
+            serde_json::to_value(&entry).expect("Failed to convert current entry to JSON value");
+        assert_eq!(entry_json, expected_entry_json);
+    };
 }
 
 impl Display for ConstraintEvalStep {

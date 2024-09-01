@@ -1,0 +1,221 @@
+{
+  "name": "AssertEqOpcode_is_double_deref_false_is_imm_false",
+  "inst_def": {
+    "is_double_deref": "false",
+    "is_imm": "false"
+  },
+  "input": {
+    "name": "AssertEqOpcode_is_double_deref_false_is_imm_false_input",
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "AssertEqOpcode_is_double_deref_false_is_imm_false_input.pc",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "AssertEqOpcode_is_double_deref_false_is_imm_false_input.ap",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "AssertEqOpcode_is_double_deref_false_is_imm_false_input.fp",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "input_num_of_felts": 3,
+  "output": {
+    "name": null,
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "(state[0] + const_1)",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "(((const_1 - state[11]) * state[1]) + (state[11] * (state[1] + const_1)))",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "state[2]",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "output_felts": [
+    "(state[0] + const_1)",
+    "(((const_1 - state[11]) * state[1]) + (state[11] * (state[1] + const_1)))",
+    "state[2]"
+  ],
+  "trace_type": "Component",
+  "air_body": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        {
+          "name": "AssertEqOpcode_is_double_deref_false_is_imm_false_input",
+          "type": "CasmState",
+          "fields": [
+            [
+              "pc",
+              {
+                "name": "AssertEqOpcode_is_double_deref_false_is_imm_false_input.pc",
+                "type": "M31"
+              }
+            ],
+            [
+              "ap",
+              {
+                "name": "AssertEqOpcode_is_double_deref_false_is_imm_false_input.ap",
+                "type": "M31"
+              }
+            ],
+            [
+              "fp",
+              {
+                "name": "AssertEqOpcode_is_double_deref_false_is_imm_false_input.fp",
+                "type": "M31"
+              }
+            ]
+          ]
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_0.pc"
+    },
+    {
+      "Deduction": "tmp_0.ap"
+    },
+    {
+      "Deduction": "tmp_0.fp"
+    },
+    {
+      "Call": {
+        "air_fn_name": "DecodeInstruction_8443cf0a4db7edc5",
+        "input_arg": {
+          "name": "state[0]",
+          "type": "M31"
+        },
+        "output": [
+          [
+            {
+              "name": "(((state[3] + (state[4] * const_512)) + const_0) - const_32768)",
+              "type": "M31"
+            },
+            {
+              "name": "const_2147483646",
+              "type": "M31"
+            },
+            {
+              "name": "(((state[5] + (state[6] * const_16)) + (state[7] * const_8192)) - const_32768)",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "Bool::from_m31(state[8])",
+              "type": "Bool"
+            },
+            {
+              "name": "const_true",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "Bool::from_m31(state[9])",
+              "type": "Bool"
+            },
+            {
+              "name": "Bool::from_m31(state[10])",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "Bool::from_m31(state[11])",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_true",
+              "type": "Bool"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Constraint": "((state[9] + state[10]) - const_1)"
+    },
+    {
+      "Call": {
+        "air_fn_name": "MemVerifyEqual",
+        "input_arg": [
+          {
+            "name": "(((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + (((state[3] + (state[4] * const_512)) + const_0) - const_32768))",
+            "type": "M31"
+          },
+          {
+            "name": "(((state[9] * state[2]) + (state[10] * state[1])) + (((state[5] + (state[6] * const_16)) + (state[7] * const_8192)) - const_32768))",
+            "type": "M31"
+          }
+        ],
+        "output": []
+      }
+    }
+  ]
+}

@@ -8,6 +8,8 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
+#[cfg(test)]
+use crate::utils::test_utils::*;
 
 // Macros
 use crate::const_expr;
@@ -91,41 +93,7 @@ fn test_assert_eq_deref() {
         15,
         4,
         15,
-        Some(&[
-            "tmp_0 = AssertEqOpcode_is_double_deref_false_is_imm_false_input",
-            "Deduction: tmp_0.pc",
-            "Deduction: tmp_0.ap",
-            "Deduction: tmp_0.fp",
-            "(\
-                [\
-                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
-                    const_2147483646, \
-                    (((state[5] + (state[6] * const_16)) + (state[7] * const_8192)) - const_32768)\
-                ], \
-                [Bool::from_m31(state[8]), \
-                const_true, \
-                const_false, \
-                Bool::from_m31(state[9]), \
-                Bool::from_m31(state[10]), \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                Bool::from_m31(state[11]), \
-                const_false, \
-                const_false, \
-                const_true]\
-            ) = DecodeInstruction_8443cf0a4db7edc5(state[0])",
-            "Constraint: ((state[9] + state[10]) - const_1)",
-            "() = MemVerifyEqual([\
-                (((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + \
-                (((state[3] + (state[4] * const_512)) + const_0) - const_32768)), \
-                (((state[9] * state[2]) + (state[10] * state[1])) + \
-                (((state[5] + (state[6] * const_16)) + (state[7] * const_8192)) - const_32768))\
-            ])",
-        ]),
+        Some("assert_eq_deref.json"),
         vec![3, 11, 6, 3, 64, 2, 0, 4, 0, 1, 0, 0, 0, 1],
     );
 }
@@ -138,40 +106,7 @@ fn test_assert_eq_imm() {
         15,
         4,
         15,
-        Some(&[
-            "tmp_0 = AssertEqOpcode_is_double_deref_false_is_imm_true_input",
-            "Deduction: tmp_0.pc",
-            "Deduction: tmp_0.ap",
-            "Deduction: tmp_0.fp",
-            "(\
-                [\
-                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
-                    const_2147483646, \
-                    const_1\
-                ], \
-                [\
-                    Bool::from_m31(state[5]), \
-                    const_true, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    Bool::from_m31(state[6]), \
-                    const_false, \
-                    const_false, \
-                    const_true]\
-            ) = DecodeInstruction_70368a7eef804c24(state[0])",
-            "() = MemVerifyEqual([\
-                (((state[5] * state[2]) + ((const_1 - state[5]) * state[1])) + \
-                (((state[3] + (state[4] * const_512)) + const_0) - const_32768)), \
-                (state[0] + const_1)\
-            ])",
-        ]),
+        Some("assert_eq_imm.json"),
         vec![3, 11, 6, 3, 64, 1, 0, 0, 1],
     );
 }
@@ -179,48 +114,6 @@ fn test_assert_eq_imm() {
 // [fp + offset] == [[ap + offset] + offset]
 #[test]
 fn test_assert_eq_double_deref() {
-    let expected_air_body = [
-        "tmp_0 = AssertEqOpcode_is_double_deref_true_is_imm_false_input",
-        "Deduction: tmp_0.pc",
-        "Deduction: tmp_0.ap",
-        "Deduction: tmp_0.fp",
-        "(\
-            [\
-                (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
-                (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768), \
-                (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768)\
-            ], \
-            [\
-                Bool::from_m31(state[11]), \
-                Bool::from_m31(state[12]), \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                Bool::from_m31(state[13]), \
-                const_false, \
-                const_false, \
-                const_true\
-            ]\
-        ) = DecodeInstruction_a06f5e7da24ead84(state[0])",
-        "Felt252::from_limbs(zero_extend([state[16], state[17], state[18]])) = \
-            ReadPositive_num_bits_27((\
-                ((state[12] * state[2]) + ((const_1 - state[12]) * state[1])) + \
-                (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
-            ))",
-        "() = MemVerifyEqual(\
-            [\
-                (((state[11] * state[2]) + ((const_1 - state[11]) * state[1])) + \
-                (((state[3] + (state[4] * const_512)) + const_0) - const_32768)), \
-                (((state[16] + (state[17] * const_512)) + (state[18] * const_262144)) + \
-                (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768))\
-            ])",
-    ];
     let expected_state = vec![
         3, 11, 6, 3, 64, 3, 1, 16, 2, 0, 4, 1, 0, 0, 0, 2, 4, 0, 0, 1,
     ];
@@ -229,7 +122,7 @@ fn test_assert_eq_double_deref() {
         15,
         4,
         15,
-        Some(&expected_air_body),
+        Some("assert_eq_double_deref.json"),
         expected_state,
     );
 }
@@ -239,7 +132,7 @@ fn test_assert_equal(
     dst: u128,
     op0: u128,
     op1: u128,
-    expected_air_body: Option<&[&str]>,
+    entry_file_name: Option<&str>,
     expected_state: Vec<u32>,
 ) {
     // Read the non-constant flags
@@ -367,16 +260,12 @@ fn test_assert_equal(
             .collect::<Vec<String>>()
     );
 
-    // Check air body
-    if let Some(expected_air_body) = expected_air_body {
-        let entry = registry.get_air_fn_entry(&assert_equal_opcode.name());
-        assert_eq!(
-            entry
-                .air_body
-                .iter()
-                .map(|x| x.to_string())
-                .collect::<Vec<String>>(),
-            expected_air_body
+    // Check entry
+    if let Some(entry_file_name) = entry_file_name {
+        compare_test_json(
+            registry,
+            &assert_equal_opcode.name(),
+            &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
         );
     }
 }
