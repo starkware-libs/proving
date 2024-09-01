@@ -16,7 +16,7 @@ use crate::expr;
 // [fp + offset] == [ap + offset]
 #[test]
 #[should_panic(expected = "given value != value in memory")]
-fn test_assert_not_equal_deref() {
+fn test_assert_not_eq_deref() {
     test_assert_equal(
         [true, false, false, false, true, false],
         1,
@@ -27,23 +27,10 @@ fn test_assert_not_equal_deref() {
     );
 }
 
-// [ap + offset] == [fp + offset]
-#[test]
-fn test_assert_equal_deref() {
-    test_assert_equal(
-        [false, false, false, true, false, false],
-        3,
-        4,
-        3,
-        None,
-        vec![3, 11, 6, 3, 64, 2, 0, 4, 0, 1, 0, 0, 0, 1],
-    );
-}
-
 // [ap + offset] == imm
 #[test]
 #[should_panic(expected = "given value != value in memory")]
-fn test_assert_not_equal_imm() {
+fn test_assert_not_eq_imm() {
     test_assert_equal(
         [false, false, true, false, false, false],
         3,
@@ -54,23 +41,10 @@ fn test_assert_not_equal_imm() {
     );
 }
 
-// [fp + offset] == imm
-#[test]
-fn test_assert_equal_imm() {
-    test_assert_equal(
-        [true, false, true, false, false, false],
-        3,
-        6,
-        3,
-        None,
-        vec![3, 11, 6, 3, 64, 1, 0, 0, 1],
-    );
-}
-
 // [ap + offset] == [[fp + offset] + offset]
 #[test]
 #[should_panic]
-fn test_assert_not_equal_double_deref() {
+fn test_assert_not_eq_double_deref() {
     test_assert_equal(
         [false, true, false, false, false, false],
         15,
@@ -81,23 +55,8 @@ fn test_assert_not_equal_double_deref() {
     );
 }
 
-// [fp + offset] == [[ap + offset] + offset]
 #[test]
-fn test_assert_equal_double_deref() {
-    test_assert_equal(
-        [true, false, false, false, false, false],
-        15,
-        4,
-        15,
-        None,
-        vec![
-            3, 11, 6, 3, 64, 3, 1, 16, 2, 0, 4, 1, 0, 0, 0, 2, 4, 0, 0, 1,
-        ],
-    );
-}
-
-#[test]
-fn test_assert_equal_double_deref_big_op0() {
+fn test_assert_eq_double_deref_big_op0() {
     test_assert_equal(
         [true, false, false, false, false, false],
         15,
@@ -112,7 +71,7 @@ fn test_assert_equal_double_deref_big_op0() {
 
 #[test]
 #[should_panic(expected = "given value != value in memory")]
-fn test_assert_not_equal_double_deref_big_op0() {
+fn test_assert_not_eq_double_deref_big_op0() {
     test_assert_equal(
         [true, false, false, false, false, false],
         15,
@@ -125,7 +84,7 @@ fn test_assert_not_equal_double_deref_big_op0() {
 
 // [ap + offset] == [fp + offset]
 #[test]
-fn test_assert_equal_deref_constraint_deduction() {
+fn test_assert_eq_deref() {
     test_assert_equal(
         [false, false, false, true, false, false],
         15,
@@ -176,7 +135,7 @@ fn test_assert_equal_deref_constraint_deduction() {
 
 // [fp + offset] == imm
 #[test]
-fn test_assert_equal_imm_constraint_deduction() {
+fn test_assert_eq_imm() {
     test_assert_equal(
         [true, false, true, false, false, false],
         15,
@@ -225,7 +184,7 @@ fn test_assert_equal_imm_constraint_deduction() {
 
 // [fp + offset] == [[ap + offset] + offset]
 #[test]
-fn test_assert_equal_double_deref_constraint_deduction() {
+fn test_assert_eq_double_deref() {
     let expected_air_body = [
         "tmp_0 = [\
             AssertEqOpcode_is_double_deref_true_input[0], \
