@@ -1,3 +1,7 @@
+use std::any::type_name;
+
+use indexmap::IndexMap;
+
 #[cfg(test)]
 use std::cell::RefCell;
 #[cfg(test)]
@@ -129,5 +133,17 @@ where
 
     fn trace_type(&self) -> TraceType {
         TraceType::Const
+    }
+
+    fn inst_def(&self) -> IndexMap<String, String> {
+        let mut k = type_name::<K>().to_string();
+        k = k.rfind("::").map(|i| k[i + 2..].to_string()).unwrap_or(k);
+        k = k.replace('>', "");
+
+        let mut v = type_name::<V>().to_string();
+        v = v.rfind("::").map(|i| v[i + 2..].to_string()).unwrap_or(v);
+        v = v.replace('>', "");
+
+        [("".to_string(), k), ("".to_string(), v)].into()
     }
 }

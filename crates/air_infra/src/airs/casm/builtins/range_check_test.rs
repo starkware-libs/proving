@@ -14,9 +14,9 @@ fn test_range_check() {
     let deductions = [
         "tmp_0 = ()",
         "tmp_1 = external(Seq)",
-        "tmp_5 = Memory((const_100 + tmp_1))",
+        "tmp_5 = Memory_M31((const_100 + tmp_1))",
         "tmp_5",
-        "tmp_6 = Memory(state[0])",
+        "tmp_6 = Memory_Felt252(state[0])",
         "tmp_6.get_m31(const_0)",
         "tmp_6.get_m31(const_1)",
         "tmp_6.get_m31(const_2)",
@@ -26,9 +26,9 @@ fn test_range_check() {
 
     let constraints = [
         "tmp_1 = external(Seq)",
-        "Memory([(const_100 + tmp_1)]) == [state[0]]",
+        "Memory_M31([(const_100 + tmp_1)]) == [state[0]]",
         "RangeCheck5([state[4]]) == []",
-        "Memory([state[0]]) == zero_extend([state[1], state[2], state[3], state[4]])",
+        "Memory_Felt252([state[0]]) == zero_extend([state[1], state[2], state[3], state[4]])",
     ];
 
     let memory = Felt252IdMemory::new_with_data(vec![(
