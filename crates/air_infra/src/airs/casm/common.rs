@@ -6,8 +6,6 @@ use crate::const_expr;
 pub const ADDRESS_BITS: usize = 27;
 
 pub type CasmAddress = FeltExpr;
-// The state is the triple [pc, ap, fp].
-pub type CasmState = [CasmAddress; 3];
 
 pub const OFFSET_BITS: u32 = 16;
 pub const FLAG_DST_BASE_FP: usize = 0;

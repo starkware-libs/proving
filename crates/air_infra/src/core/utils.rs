@@ -35,17 +35,19 @@ impl Display for CompiledAirVar {
                 write!(f, "({} {})", op, expr)
             }
             CompiledAirVar::Tuple(exprs) => {
-                write!(f, "(")?;
-                for (i, expr) in exprs.iter().enumerate() {
-                    if i > 0 {
-                        write!(f, ", ")?;
-                    }
-                    write!(f, "{}", expr)?;
-                }
-                write!(f, ")")
+                let strs = exprs.iter().map(ToString::to_string).collect::<Vec<_>>();
+                write!(f, "{}", &format!("({})", strs.join(", ")))
             }
             CompiledAirVar::Array(exprs) => {
                 write!(f, "{}", vars_arr_to_string(exprs))
+            }
+            CompiledAirVar::Struct { fields, .. } => {
+                let strs = fields
+                    .iter()
+                    .map(|(name, expr)| format!("{}: {}", name, expr))
+                    .collect::<Vec<_>>()
+                    .join(", ");
+                write!(f, "{{{}}}", strs)
             }
         }
     }

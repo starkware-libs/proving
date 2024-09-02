@@ -20,17 +20,13 @@ use crate::impl_binary_op;
 use crate::impl_unary_op;
 
 /// Binary expressions - results of binary operations on expressions.
-#[derive(Clone, Debug, Default, Serialize, Deserialize)]
+#[derive(Clone, Debug, Default)]
 pub struct OpExpr<T>
 where
     T: ProverType,
 {
-    pub(super) name: String,
-    #[serde(skip)]
     pub(super) value: Option<T>,
-    #[serde(skip)]
     pub(super) children: Vec<AirVarImpl>,
-    #[serde(skip)]
     pub(super) op: Operation,
 }
 
@@ -39,26 +35,7 @@ where
     T: ProverType,
 {
     pub fn new(op: Operation, children: Vec<AirVarImpl>, value: Option<T>) -> Self {
-        let name = match op.into() {
-            OpType::Op(_) => match children.len() {
-                1 => format!("({}{})", op, children[0]),
-                2 => format!("({} {} {})", children[0], op, children[1]),
-                _ => panic!("Invalid number of children for operation"),
-            },
-            OpType::Method(_) => match children.len() {
-                1 => format!("({}.{}())", children[0], op),
-                2 => format!("({}.{}({}))", children[0], op, children[1]),
-                _ => panic!("Invalid number of children for operation"),
-            },
-            OpType::Static(_) => match children.len() {
-                1 => format!("({}({}))", op, children[0]),
-                2 => format!("({}({}, {}))", op, children[0], children[1]),
-                _ => panic!("Invalid number of children for operation"),
-            },
-        };
-
         OpExpr {
-            name,
             value,
             children,
             op,
@@ -79,10 +56,6 @@ impl<T> InternalAirVarInfo for OpExpr<T>
 where
     T: ProverType,
 {
-    fn name(&self) -> String {
-        self.name.clone()
-    }
-
     fn in_state(&self) -> bool {
         self.children.iter().all(|v| v.in_state())
     }

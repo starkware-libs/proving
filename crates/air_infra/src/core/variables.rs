@@ -1,5 +1,5 @@
 use std::array::from_fn;
-use std::fmt::{Debug, Display};
+use std::fmt::Debug;
 
 use enum_dispatch::enum_dispatch;
 use serde::Serialize;
@@ -27,7 +27,8 @@ use crate::impl_air_var;
 /// Every input and output of an air function is an AirVar.
 pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
     fn description(&self) -> String {
-        self.name()
+        // TODO: Implement this function
+        "".to_string()
     }
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr>;
     fn as_felts(&self) -> Vec<FeltExpr> {
@@ -49,8 +50,6 @@ pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
 // Information about air variables used by the air builder.
 #[enum_dispatch]
 pub trait InternalAirVarInfo: Debug {
-    fn name(&self) -> String;
-
     // An AirVar is in_state if it is stored in a trace cell or a polynomial of felts stored in trace cells.
     // Used to verify that expressions of constraints are polynomials of felts written to the trace.
     // We check this in run mode, since when building an air body, we want all constraints to refer to sepecial
@@ -117,42 +116,35 @@ pub enum AirVarImpl {
     Expr(ExprImpl),
     Tuple(Vec<AirVarImpl>),
     Array(Vec<AirVarImpl>),
+    Struct {
+        name: Option<String>,
+        r#type: String,
+        fields: Vec<(String, AirVarImpl)>,
+    },
 }
 
 impl InternalAirVarInfo for AirVarImpl {
-    fn name(&self) -> String {
-        match self {
-            AirVarImpl::Expr(expr) => expr.name(),
-            AirVarImpl::Tuple(vars) => format!(
-                "({})",
-                vars.iter()
-                    .map(|v| v.name())
-                    .collect::<Vec<String>>()
-                    .join(", ")
-            ),
-            AirVarImpl::Array(vars) => format!(
-                "[{}]",
-                vars.iter()
-                    .map(|v| v.name())
-                    .collect::<Vec<String>>()
-                    .join(", ")
-            ),
-        }
-    }
-
     fn in_state(&self) -> bool {
         match self {
             AirVarImpl::Expr(expr) => expr.in_state(),
-            AirVarImpl::Tuple(vars) => vars.iter().all(|v| v.in_state()),
-            AirVarImpl::Array(vars) => vars.iter().all(|v| v.in_state()),
+            AirVarImpl::Tuple(vars) | AirVarImpl::Array(vars) => vars.iter().all(|v| v.in_state()),
+            AirVarImpl::Struct {
+                name: _,
+                r#type: _,
+                fields,
+            } => fields.iter().all(|(_, v)| v.in_state()),
         }
     }
 
     fn is_const(&self) -> bool {
         match self {
             AirVarImpl::Expr(expr) => expr.is_const(),
-            AirVarImpl::Tuple(vars) => vars.iter().all(|v| v.is_const()),
-            AirVarImpl::Array(vars) => vars.iter().all(|v| v.is_const()),
+            AirVarImpl::Tuple(vars) | AirVarImpl::Array(vars) => vars.iter().all(|v| v.is_const()),
+            AirVarImpl::Struct {
+                name: _,
+                r#type: _,
+                fields,
+            } => fields.iter().all(|(_, v)| v.is_const()),
         }
     }
 
@@ -163,32 +155,44 @@ impl InternalAirVarInfo for AirVarImpl {
                 .iter()
                 .flat_map(|v| v.get_intermediate_types())
                 .collect(),
-        }
-    }
-}
-
-impl Display for AirVarImpl {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            AirVarImpl::Expr(expr) => {
-                write!(f, "{}", expr)
-            }
-            AirVarImpl::Tuple(_) | AirVarImpl::Array(_) => {
-                write!(f, "{}", CompiledAirVar::from(self.clone()))
-            }
+            AirVarImpl::Struct {
+                name: _,
+                r#type: _,
+                fields,
+            } => fields
+                .iter()
+                .flat_map(|(_, v)| v.get_intermediate_types())
+                .collect(),
         }
     }
 }
 
 impl From<AirVarImpl> for CompiledAirVar {
-    fn from(generic: AirVarImpl) -> CompiledAirVar {
-        match generic {
+    fn from(var: AirVarImpl) -> CompiledAirVar {
+        match var {
             AirVarImpl::Expr(expr) => expr.into(),
             AirVarImpl::Tuple(v) => {
                 CompiledAirVar::Tuple(v.into_iter().map(|v| v.into()).collect())
             }
             AirVarImpl::Array(v) => {
                 CompiledAirVar::Array(v.into_iter().map(|v| v.into()).collect())
+            }
+            AirVarImpl::Struct {
+                name,
+                r#type,
+                fields,
+            } => {
+                if let Some(n) = name {
+                    CompiledAirVar::Var(r#type, n)
+                } else {
+                    CompiledAirVar::Struct {
+                        r#type,
+                        fields: fields
+                            .into_iter()
+                            .map(|(name, v)| (name, v.into()))
+                            .collect(),
+                    }
+                }
             }
         }
     }
@@ -207,10 +211,6 @@ impl AirVar for () {
 }
 
 impl InternalAirVarInfo for () {
-    fn name(&self) -> String {
-        "()".to_string()
-    }
-
     fn in_state(&self) -> bool {
         true
     }
@@ -255,9 +255,6 @@ macro_rules! impl_air_var {
         }
 
         impl<const N:usize> InternalAirVarInfo for [$s;N] where $s: InternalAirVarInfo {
-            fn name(&self) -> String {
-                format!("[{}]", self.iter().map(|s| s.name()).collect::<Vec<String>>().join(", "))
-            }
             fn in_state(&self) -> bool {
                 self.iter().all(|s| s.in_state())
             }
@@ -303,11 +300,6 @@ macro_rules! impl_air_var {
 
         impl InternalAirVarInfo for ($($s),+) where $($s: InternalAirVarInfo),+
         {
-            fn name(&self) -> String {
-                #[allow(non_snake_case)]
-                let ($($s),+) = self;
-                format!("({})", vec![$($s.name(), )+].join(", "))
-            }
             fn in_state(&self) -> bool {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;

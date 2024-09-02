@@ -1,3 +1,4 @@
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::decode_instruction::*;
 
@@ -32,26 +33,28 @@ pub struct RetOpcode {
 }
 
 impl AirFn for RetOpcode {
-    type In = CasmState;
-    type Out = CasmState;
+    type In = CasmStateVar;
+    type Out = CasmStateVar;
 
-    fn call(&self, air_builder: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
         let decode_instruction = DecodeInstruction {
             const_offsets: [Some(-2), Some(-1), Some(-1)],
             const_flags: RET_FLAGS,
             memory: self.memory.clone(),
         };
 
-        air_builder.call(&decode_instruction, pc);
+        air_builder.call(&decode_instruction, casm_state.pc);
 
         // Read the saved pc and fp
         let next_pc = self
             .memory
-            .read_address(air_builder, fp.clone() - const_expr!(1));
+            .read_address(air_builder, casm_state.fp.clone() - const_expr!(1));
 
-        let next_fp = self.memory.read_address(air_builder, fp - const_expr!(2));
+        let next_fp = self
+            .memory
+            .read_address(air_builder, casm_state.fp - const_expr!(2));
 
-        [next_pc, ap, next_fp]
+        CasmStateVar::new(next_pc, casm_state.ap, next_fp)
     }
 
     fn trace_type(&self) -> TraceType {

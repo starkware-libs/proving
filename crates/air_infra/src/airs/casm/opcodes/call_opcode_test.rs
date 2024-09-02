@@ -1,3 +1,4 @@
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::call_opcode::*;
 use crate::airs::memory::felt252_id_memory::*;
@@ -71,17 +72,17 @@ fn build_and_test(
 
     // Run air function
     let registry = AirFnRegistry::new(&call_opcode);
-    let (state, [next_pc, next_ap, next_fp]) =
-        registry.run_air(&call_opcode, [pc, ap.clone(), fp.clone()]);
+    let (state, next_state) =
+        registry.run_air(&call_opcode, CasmStateVar::new(pc, ap.clone(), fp.clone()));
 
     // Check output
     if is_rel {
-        assert_eq!(next_pc.calc(), (pc_value + op1_value).to_string());
+        assert_eq!(next_state.pc.calc(), (pc_value + op1_value).to_string());
     } else {
-        assert_eq!(next_pc.calc(), op1_value.to_string());
+        assert_eq!(next_state.pc.calc(), op1_value.to_string());
     }
-    assert_eq!(next_ap.calc(), (ap_value + 2).to_string());
-    assert_eq!(next_fp.calc(), (ap_value + 2).to_string());
+    assert_eq!(next_state.ap.calc(), (ap_value + 2).to_string());
+    assert_eq!(next_state.fp.calc(), (ap_value + 2).to_string());
 
     // Check state
     assert_eq!(
@@ -111,59 +112,52 @@ fn test_relative_call() {
         None,
         500,
         &[
-            "tmp_0 = [\
-                CallOpcode_is_rel_true_op1_base_fp_false_input[0], \
-                CallOpcode_is_rel_true_op1_base_fp_false_input[1], \
-                CallOpcode_is_rel_true_op1_base_fp_false_input[2]\
-            ]",
-            "Deduction: tmp_0[0]",
-            "Deduction: tmp_0[1]",
-            "Deduction: tmp_0[2]",
+            "tmp_0 = CallOpcode_is_rel_true_op1_base_fp_false_input",
+            "Deduction: tmp_0.pc",
+            "Deduction: tmp_0.ap",
+            "Deduction: tmp_0.fp",
             "(\
-                [const_0, const_1, const_1], \
-                [\
-                    const_false, \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false\
-                ]\
-            ) = DecodeInstruction_8a7cb0cfbf63f85a(state[0])",
+            [const_0, const_1, const_1], \
+            [\
+                const_false, \
+                const_false, \
+                const_true, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_true, \
+                const_false, \
+                const_false, \
+                const_false, \
+                const_true, \
+                const_false, \
+                const_false\
+            ]\
+        ) = DecodeInstruction_8a7cb0cfbf63f85a(state[0])",
             "() = MemVerify((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
             "() = MemVerify((\
-                (state[1] + const_1), \
-                Felt252::from_limbs(zero_extend([(state[0] + const_2)]))\
-            ))",
-            "((((state[11] * const_262144) + \
-                ((state[10] * const_512) + \
-                state[9])) - \
-                state[7]) - \
-                (const_134217728 * state[8])) = \
-                ReadSmall((state[0] + const_1))",
+            (state[1] + const_1), \
+            Felt252::from_limbs(zero_extend([(state[0] + const_2)]))\
+        ))",
+            "(((\
+            (state[11] * const_262144) + \
+            ((state[10] * const_512) + \
+            state[9])) - \
+            state[7]) - \
+            (const_134217728 * state[8])) = \
+            ReadSmall((state[0] + const_1))",
         ],
         vec![50, 200, 150, 0, 2, 3, 1, 0, 0, 500, 0, 0],
     );
 }
 
 const CALL_FP_EXPECTED_AIR_BODY: [&str; 8] = [
-    "tmp_0 = [\
-        CallOpcode_is_rel_false_op1_base_fp_true_input[0], \
-        CallOpcode_is_rel_false_op1_base_fp_true_input[1], \
-        CallOpcode_is_rel_false_op1_base_fp_true_input[2]\
-    ]",
-    "Deduction: tmp_0[0]",
-    "Deduction: tmp_0[1]",
-    "Deduction: tmp_0[2]",
+    "tmp_0 = CallOpcode_is_rel_false_op1_base_fp_true_input",
+    "Deduction: tmp_0.pc",
+    "Deduction: tmp_0.ap",
+    "Deduction: tmp_0.fp",
     "(\
         [\
             const_0, \
@@ -222,14 +216,10 @@ fn test_fp_call_negative_offset2() {
 }
 
 const CALL_AP_EXPECTED_AIR_BODY: [&str; 8] = [
-    "tmp_0 = [\
-        CallOpcode_is_rel_false_op1_base_fp_false_input[0], \
-        CallOpcode_is_rel_false_op1_base_fp_false_input[1], \
-        CallOpcode_is_rel_false_op1_base_fp_false_input[2]\
-    ]",
-    "Deduction: tmp_0[0]",
-    "Deduction: tmp_0[1]",
-    "Deduction: tmp_0[2]",
+    "tmp_0 = CallOpcode_is_rel_false_op1_base_fp_false_input",
+    "Deduction: tmp_0.pc",
+    "Deduction: tmp_0.ap",
+    "Deduction: tmp_0.fp",
     "(\
         [\
             const_0, \

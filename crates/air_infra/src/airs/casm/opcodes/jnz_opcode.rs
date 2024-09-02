@@ -1,5 +1,6 @@
 use indexmap::IndexMap;
 
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::decode_instruction::*;
 
@@ -49,10 +50,10 @@ impl JnzOpcode {
 }
 
 impl AirFn for JnzOpcode {
-    type In = CasmState;
-    type Out = CasmState;
+    type In = CasmStateVar;
+    type Out = CasmStateVar;
 
-    fn call(&self, ab: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
         // Check the instruction.
         let ([offset_dst, _, _], _) = ab.call(
             &DecodeInstruction {
@@ -60,14 +61,14 @@ impl AirFn for JnzOpcode {
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },
-            pc.clone(),
+            casm_state.pc.clone(),
         );
 
         // Fetch dst - the value upon which the jump is conditioned.
         let mem_dst_base = if self.dst_base_fp {
-            fp.clone()
+            casm_state.fp.clone()
         } else {
-            ap.clone()
+            casm_state.ap.clone()
         };
         let dst_key = mem_dst_base + offset_dst;
 
@@ -114,23 +115,23 @@ impl AirFn for JnzOpcode {
             let res_squares = ab.deduce(&mut (const_expr!(1) / dst_sum_squares.clone()));
             ab.constrain(dst_sum_squares * res_squares - const_expr!(1));
 
-            pc.clone() + self.memory.read_rel_imm(ab, pc + const_expr!(1))
+            casm_state.pc.clone() + self.memory.read_rel_imm(ab, casm_state.pc + const_expr!(1))
         } else {
             // constrain dst == 0
             // This is sound because in this case it is sufficient to make sure that dst is zero.
             // The sum of the parts of dst is zero iff dst is zero because they are too small to wrap around m31.
             ab.constrain(dst_sum);
-            pc + const_expr!(2)
+            casm_state.pc + const_expr!(2)
         };
 
         // Calculate the next ap
         let next_ap = if self.ap_update_add_1 {
-            ap + const_expr!(1)
+            casm_state.ap + const_expr!(1)
         } else {
-            ap
+            casm_state.ap
         };
 
-        [next_pc, next_ap, fp]
+        CasmStateVar::new(next_pc, next_ap, casm_state.fp)
     }
 
     fn inst_def(&self) -> IndexMap<String, String> {

@@ -1,5 +1,6 @@
 use indexmap::IndexMap;
 
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::decode_instruction::*;
 
@@ -55,10 +56,10 @@ impl CallOpcode {
 }
 
 impl AirFn for CallOpcode {
-    type In = CasmState;
-    type Out = CasmState;
+    type In = CasmStateVar;
+    type Out = CasmStateVar;
 
-    fn call(&self, ab: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
         // Create the constant offsets.
         let offset2 = if self.is_rel { Some(1) } else { None };
 
@@ -69,7 +70,7 @@ impl AirFn for CallOpcode {
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },
-            pc.clone(),
+            casm_state.pc.clone(),
         );
 
         // Push fp.
@@ -77,7 +78,10 @@ impl AirFn for CallOpcode {
             &MemVerify {
                 memory: self.memory.clone(),
             },
-            (ap.clone(), Felt252Expr::from(vec![fp.clone()])),
+            (
+                casm_state.ap.clone(),
+                Felt252Expr::from(vec![casm_state.fp.clone()]),
+            ),
         );
 
         // Push pc + instruction_size.
@@ -86,24 +90,30 @@ impl AirFn for CallOpcode {
                 memory: self.memory.clone(),
             },
             (
-                ap.clone() + const_expr!(1),
-                Felt252Expr::from(vec![(pc.clone() + const_expr!(1 + (self.is_rel as u32)))]),
+                casm_state.ap.clone() + const_expr!(1),
+                Felt252Expr::from(vec![
+                    (casm_state.pc.clone() + const_expr!(1 + (self.is_rel as u32))),
+                ]),
             ),
         );
 
         // Update pc.
         let next_pc = if self.is_rel {
-            pc.clone() + self.memory.read_rel_imm(ab, pc + const_expr!(1))
+            casm_state.pc.clone() + self.memory.read_rel_imm(ab, casm_state.pc + const_expr!(1))
         } else {
             let mem1_base = if self.op1_base_fp {
-                fp.clone()
+                casm_state.fp.clone()
             } else {
-                ap.clone()
+                casm_state.ap.clone()
             };
             self.memory.read_address(ab, mem1_base + offset2)
         };
 
-        [next_pc, ap.clone() + const_expr!(2), ap + const_expr!(2)]
+        CasmStateVar::new(
+            next_pc,
+            casm_state.ap.clone() + const_expr!(2),
+            casm_state.ap + const_expr!(2),
+        )
     }
 
     fn inst_def(&self) -> IndexMap<String, String> {

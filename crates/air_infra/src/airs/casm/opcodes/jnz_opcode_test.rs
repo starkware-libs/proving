@@ -1,3 +1,4 @@
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::jnz_opcode::*;
 
@@ -61,23 +62,23 @@ fn build_and_test(
 
     // Run air function
     let registry = AirFnRegistry::new(&jnz_opcode);
-    let (state, [next_pc, next_ap, next_fp]) =
-        registry.run_air(&jnz_opcode, [pc, ap.clone(), fp.clone()]);
+    let (state, next_state) =
+        registry.run_air(&jnz_opcode, CasmStateVar::new(pc, ap.clone(), fp.clone()));
 
     // Check output
     if is_taken {
-        assert_eq!(next_pc.calc(), (pc_value + op1_value).to_string());
+        assert_eq!(next_state.pc.calc(), (pc_value + op1_value).to_string());
     } else {
-        assert_eq!(next_pc.calc(), (pc_value + 2).to_string());
+        assert_eq!(next_state.pc.calc(), (pc_value + 2).to_string());
     }
 
     if ap_update_add_1 {
-        assert_eq!(next_ap.calc(), (ap_value + 1).to_string());
+        assert_eq!(next_state.ap.calc(), (ap_value + 1).to_string());
     } else {
-        assert_eq!(next_ap.calc(), ap_value.to_string());
+        assert_eq!(next_state.ap.calc(), ap_value.to_string());
     }
 
-    assert_eq!(next_fp.calc(), fp_value.to_string());
+    assert_eq!(next_state.fp.calc(), fp_value.to_string());
 
     // Check state
     assert_eq!(
@@ -110,13 +111,10 @@ fn test_not_taken_zero_match_base_ap() {
         const_felt252_expr!(0, 0),
         15,
         Some(&[
-            "tmp_0 = [\
-                JnzOpcode_b3760089fc9071eb_input[0], \
-                JnzOpcode_b3760089fc9071eb_input[1], \
-                JnzOpcode_b3760089fc9071eb_input[2]]",
-            "Deduction: tmp_0[0]",
-            "Deduction: tmp_0[1]",
-            "Deduction: tmp_0[2]",
+            "tmp_0 = JnzOpcode_b3760089fc9071eb_input",
+            "Deduction: tmp_0.pc",
+            "Deduction: tmp_0.ap",
+            "Deduction: tmp_0.fp",
             "(\
                 [\
                     (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
@@ -168,13 +166,10 @@ fn test_taken_match_base_ap() {
         const_felt252_expr!(123, 456),
         15,
         Some(&[
-            "tmp_0 = [\
-                JnzOpcode_6e3ab2d8e823ba18_input[0], \
-                JnzOpcode_6e3ab2d8e823ba18_input[1], \
-                JnzOpcode_6e3ab2d8e823ba18_input[2]]",
-            "Deduction: tmp_0[0]",
-            "Deduction: tmp_0[1]",
-            "Deduction: tmp_0[2]",
+            "tmp_0 = JnzOpcode_6e3ab2d8e823ba18_input",
+            "Deduction: tmp_0.pc",
+            "Deduction: tmp_0.ap",
+            "Deduction: tmp_0.fp",
             "(\
                 [\
                     (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \

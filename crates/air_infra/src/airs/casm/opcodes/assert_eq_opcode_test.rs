@@ -1,3 +1,4 @@
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::assert_eq_opcode::*;
 
@@ -91,14 +92,10 @@ fn test_assert_eq_deref() {
         4,
         15,
         Some(&[
-            "tmp_0 = [\
-                AssertEqOpcode_is_double_deref_false_input[0], \
-                AssertEqOpcode_is_double_deref_false_input[1], \
-                AssertEqOpcode_is_double_deref_false_input[2]\
-            ]",
-            "Deduction: tmp_0[0]",
-            "Deduction: tmp_0[1]",
-            "Deduction: tmp_0[2]",
+            "tmp_0 = AssertEqOpcode_is_double_deref_false_input",
+            "Deduction: tmp_0.pc",
+            "Deduction: tmp_0.ap",
+            "Deduction: tmp_0.fp",
             "(\
                 [\
                     (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
@@ -142,13 +139,10 @@ fn test_assert_eq_imm() {
         4,
         15,
         Some(&[
-            "tmp_0 = [\
-                AssertEqOpcode_is_double_deref_false_input[0], \
-                AssertEqOpcode_is_double_deref_false_input[1], \
-                AssertEqOpcode_is_double_deref_false_input[2]]",
-            "Deduction: tmp_0[0]",
-            "Deduction: tmp_0[1]",
-            "Deduction: tmp_0[2]",
+            "tmp_0 = AssertEqOpcode_is_double_deref_false_input",
+            "Deduction: tmp_0.pc",
+            "Deduction: tmp_0.ap",
+            "Deduction: tmp_0.fp",
             "(\
                 [\
                     (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
@@ -186,14 +180,10 @@ fn test_assert_eq_imm() {
 #[test]
 fn test_assert_eq_double_deref() {
     let expected_air_body = [
-        "tmp_0 = [\
-            AssertEqOpcode_is_double_deref_true_input[0], \
-            AssertEqOpcode_is_double_deref_true_input[1], \
-            AssertEqOpcode_is_double_deref_true_input[2]\
-        ]",
-        "Deduction: tmp_0[0]",
-        "Deduction: tmp_0[1]",
-        "Deduction: tmp_0[2]",
+        "tmp_0 = AssertEqOpcode_is_double_deref_true_input",
+        "Deduction: tmp_0.pc",
+        "Deduction: tmp_0.ap",
+        "Deduction: tmp_0.fp",
         "(\
             [\
                 (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
@@ -350,20 +340,22 @@ fn test_assert_equal(
     // Run air function
 
     let registry = AirFnRegistry::new(&assert_equal_opcode);
-    let (state, [next_pc, next_ap, next_fp]) =
-        registry.run_air(&assert_equal_opcode, [pc.clone(), ap.clone(), fp.clone()]);
+    let (state, next_state) = registry.run_air(
+        &assert_equal_opcode,
+        CasmStateVar::new(pc.clone(), ap.clone(), fp.clone()),
+    );
 
     // Check output
-    assert_eq!(next_fp.calc(), fp.calc());
+    assert_eq!(next_state.fp.calc(), fp.calc());
     if flag_ap_update_add_1 {
-        assert_eq!(next_ap.calc(), (ap_value + 1).to_string());
+        assert_eq!(next_state.ap.calc(), (ap_value + 1).to_string());
     } else {
-        assert_eq!(next_ap.calc(), ap.calc());
+        assert_eq!(next_state.ap.calc(), ap.calc());
     }
     if flag_op1_imm {
-        assert_eq!(next_pc.calc(), (pc_value + 2).to_string());
+        assert_eq!(next_state.pc.calc(), (pc_value + 2).to_string());
     } else {
-        assert_eq!(next_pc.calc(), (pc_value + 1).to_string());
+        assert_eq!(next_state.pc.calc(), (pc_value + 1).to_string());
     };
 
     // Check state

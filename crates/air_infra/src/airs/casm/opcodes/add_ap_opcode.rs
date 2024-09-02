@@ -1,3 +1,4 @@
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::decode_instruction::*;
 
@@ -40,10 +41,10 @@ impl AddAp {
 }
 
 impl AirFn for AddAp {
-    type In = CasmState;
-    type Out = CasmState;
+    type In = CasmStateVar;
+    type Out = CasmStateVar;
 
-    fn call(&self, ab: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
         // Check the instruction.
         ab.call(
             &DecodeInstruction {
@@ -51,13 +52,19 @@ impl AirFn for AddAp {
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },
-            pc.clone(),
+            casm_state.pc.clone(),
         );
 
         // Fetch the immediate value.
-        let imm = self.memory.read_rel_imm(ab, pc.clone() + const_expr!(1));
+        let imm = self
+            .memory
+            .read_rel_imm(ab, casm_state.pc.clone() + const_expr!(1));
 
-        [pc + const_expr!(2), ap + imm, fp]
+        CasmStateVar::new(
+            casm_state.pc + const_expr!(2),
+            casm_state.ap + imm,
+            casm_state.fp,
+        )
     }
 
     fn trace_type(&self) -> TraceType {

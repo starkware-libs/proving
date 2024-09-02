@@ -1,3 +1,4 @@
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::ret_opcode::*;
 
@@ -22,14 +23,10 @@ pub fn assemble_ret() -> u64 {
 #[test]
 fn test_ret_opcode() {
     let deductions = [
-        "tmp_0 = [\
-            RetOpcode_input[0], \
-            RetOpcode_input[1], \
-            RetOpcode_input[2]\
-        ]",
-        "tmp_0[0]",
-        "tmp_0[1]",
-        "tmp_0[2]",
+        "tmp_0 = RetOpcode_input",
+        "tmp_0.pc",
+        "tmp_0.ap",
+        "tmp_0.fp",
         "tmp_3 = Memory(state[0])",
         "tmp_4 = Memory(tmp_3)",
         "tmp_3",
@@ -71,12 +68,11 @@ fn test_ret_opcode() {
     let func = RetOpcode { memory };
     let registry = AirFnRegistry::new(&func);
 
-    let (state, output) = registry.run_air(&func, [pc, ap, fp]);
+    let (state, output) = registry.run_air(&func, CasmStateVar::new(pc, ap, fp));
 
-    let [next_pc, next_ap, next_fp] = output;
-    assert_eq!(next_pc.calc(), saved_pc.to_string());
-    assert_eq!(next_fp.calc(), saved_fp.to_string());
-    assert_eq!(next_ap.calc(), ap_value.to_string());
+    assert_eq!(output.pc.calc(), saved_pc.to_string());
+    assert_eq!(output.fp.calc(), saved_fp.to_string());
+    assert_eq!(output.ap.calc(), ap_value.to_string());
     assert_eq!(
         state.calc(),
         ["3", "11", "6", "0", "1", "1", "0", "0", "2", "4", "0", "0"]

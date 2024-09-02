@@ -1,3 +1,4 @@
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::jump_opcode::*;
 
@@ -64,20 +65,20 @@ fn test_jump_opcode(
 
     // Run air function
     let registry = AirFnRegistry::new(&jump_opcode);
-    let (state, [next_pc, next_ap, next_fp]) =
-        registry.run_air(&jump_opcode, [pc, ap.clone(), fp.clone()]);
+    let (state, next_state) =
+        registry.run_air(&jump_opcode, CasmStateVar::new(pc, ap.clone(), fp.clone()));
 
     // Check output
     if is_rel_jump {
-        assert_eq!(next_pc.calc(), (pc_value + op1 as u32).to_string());
+        assert_eq!(next_state.pc.calc(), (pc_value + op1 as u32).to_string());
     } else {
-        assert_eq!(next_pc.calc(), op1.to_string());
+        assert_eq!(next_state.pc.calc(), op1.to_string());
     }
-    assert_eq!(next_fp.calc(), fp.calc());
+    assert_eq!(next_state.fp.calc(), fp.calc());
     if ap_update_add_1 {
-        assert_eq!(next_ap.calc(), (ap_value + 1).to_string());
+        assert_eq!(next_state.ap.calc(), (ap_value + 1).to_string());
     } else {
-        assert_eq!(next_ap.calc(), ap.calc());
+        assert_eq!(next_state.ap.calc(), ap.calc());
     }
 
     // Check state
@@ -112,14 +113,10 @@ fn test_abs_jump_base_ap() {
         8,
         2,
         Some(&[
-            "tmp_0 = [\
-                JumpOpcode_9f713f694ee774ed_input[0], \
-                JumpOpcode_9f713f694ee774ed_input[1], \
-                JumpOpcode_9f713f694ee774ed_input[2]\
-            ]",
-            "Deduction: tmp_0[0]",
-            "Deduction: tmp_0[1]",
-            "Deduction: tmp_0[2]",
+            "tmp_0 = JumpOpcode_9f713f694ee774ed_input",
+            "Deduction: tmp_0.pc",
+            "Deduction: tmp_0.ap",
+            "Deduction: tmp_0.fp",
             "(\
                 [\
                     const_2147483646, \
@@ -227,14 +224,10 @@ fn test_rel_jump() {
         100,
         5,
         Some(&[
-            "tmp_0 = [\
-                JumpOpcode_c6771c09eb7d4031_input[0], \
-                JumpOpcode_c6771c09eb7d4031_input[1], \
-                JumpOpcode_c6771c09eb7d4031_input[2]\
-            ]",
-            "Deduction: tmp_0[0]",
-            "Deduction: tmp_0[1]",
-            "Deduction: tmp_0[2]",
+            "tmp_0 = JumpOpcode_c6771c09eb7d4031_input",
+            "Deduction: tmp_0.pc",
+            "Deduction: tmp_0.ap",
+            "Deduction: tmp_0.fp",
             "(\
                 [\
                     const_2147483646, \

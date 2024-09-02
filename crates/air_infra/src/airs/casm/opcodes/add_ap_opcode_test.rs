@@ -1,3 +1,4 @@
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::add_ap_opcode::*;
 
@@ -43,13 +44,18 @@ fn test_add_ap() {
 
     // Run air function
     let registry = AirFnRegistry::new(&add_ap_opcode);
-    let (state, [next_pc, next_ap, next_fp]) =
-        registry.run_air(&add_ap_opcode, [pc, ap.clone(), fp.clone()]);
+    let (state, next_state) = registry.run_air(
+        &add_ap_opcode,
+        CasmStateVar::new(pc, ap.clone(), fp.clone()),
+    );
 
     // Check the output
-    assert_eq!(next_pc.calc(), (pc_value + 2).to_string());
-    assert_eq!(next_fp.calc(), (fp_value).to_string());
-    assert_eq!(next_ap.calc(), (ap_value + immediate as u32).to_string());
+    assert_eq!(next_state.pc.calc(), (pc_value + 2).to_string());
+    assert_eq!(next_state.fp.calc(), (fp_value).to_string());
+    assert_eq!(
+        next_state.ap.calc(),
+        (ap_value + immediate as u32).to_string()
+    );
 
     // Check the state
     let expected_state = [30, 11, 6, 0, 1, 0, 0, 299, 0, 0];
@@ -70,14 +76,10 @@ fn test_add_ap() {
             .map(|x| x.to_string())
             .collect::<Vec<String>>(),
         vec![
-            "tmp_0 = [\
-                    AddAp_input[0], \
-                    AddAp_input[1], \
-                    AddAp_input[2]\
-                ]",
-            "Deduction: tmp_0[0]",
-            "Deduction: tmp_0[1]",
-            "Deduction: tmp_0[2]",
+            "tmp_0 = AddAp_input",
+            "Deduction: tmp_0.pc",
+            "Deduction: tmp_0.ap",
+            "Deduction: tmp_0.fp",
             "(\
                 [\
                     const_2147483646, \

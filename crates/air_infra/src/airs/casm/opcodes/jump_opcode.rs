@@ -1,5 +1,6 @@
 use indexmap::IndexMap;
 
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::decode_instruction::*;
 
@@ -53,10 +54,10 @@ impl JumpOpcode {
 }
 
 impl AirFn for JumpOpcode {
-    type In = CasmState;
-    type Out = CasmState;
+    type In = CasmStateVar;
+    type Out = CasmStateVar;
 
-    fn call(&self, ab: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
         // Create the constant offsets.
         let offset2 = if self.is_rel { Some(1) } else { None };
 
@@ -70,29 +71,29 @@ impl AirFn for JumpOpcode {
                 const_flags: flags,
                 memory: self.memory.clone(),
             },
-            pc.clone(),
+            casm_state.pc.clone(),
         );
 
         // Calculate the next pc
         let next_pc = if self.is_rel {
-            pc.clone() + self.memory.read_rel_imm(ab, pc + const_expr!(1))
+            casm_state.pc.clone() + self.memory.read_rel_imm(ab, casm_state.pc + const_expr!(1))
         } else {
             let mem1_base = if self.op1_base_fp {
-                fp.clone()
+                casm_state.fp.clone()
             } else {
-                ap.clone()
+                casm_state.ap.clone()
             };
             self.memory.read_address(ab, mem1_base + offset2)
         };
 
         // Calculate the next ap
         let next_ap = if self.ap_update_add_1 {
-            ap + const_expr!(1)
+            casm_state.ap + const_expr!(1)
         } else {
-            ap
+            casm_state.ap
         };
 
-        [next_pc, next_ap, fp]
+        CasmStateVar::new(next_pc, next_ap, casm_state.fp)
     }
 
     fn inst_def(&self) -> IndexMap<String, String> {

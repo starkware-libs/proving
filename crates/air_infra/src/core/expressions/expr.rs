@@ -1,5 +1,3 @@
-use std::fmt::Display;
-
 use enum_dispatch::enum_dispatch;
 use serde::ser::SerializeStruct;
 use serde::{Serialize, Serializer};
@@ -112,12 +110,6 @@ where
 {
     fn from(expr: E) -> AirVarImpl {
         AirVarImpl::Expr(expr.into())
-    }
-}
-
-impl Display for ExprImpl {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", CompiledAirVar::from(self.clone()),)
     }
 }
 

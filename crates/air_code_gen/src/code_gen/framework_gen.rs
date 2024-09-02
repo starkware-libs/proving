@@ -255,6 +255,9 @@ fn parse_eval_constraint(expr: &CompiledAirVar) -> String {
         }
         CompiledAirVar::Tuple(_) => unimplemented!(),
         CompiledAirVar::Array(_) => unimplemented!(),
+        CompiledAirVar::Struct { .. } => {
+            todo!()
+        }
     }
 }
 

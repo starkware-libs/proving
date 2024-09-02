@@ -78,4 +78,8 @@ pub enum CompiledAirVar {
     UnaryOp(String, Box<CompiledAirVar>),
     Tuple(Vec<CompiledAirVar>),
     Array(Vec<CompiledAirVar>),
+    Struct {
+        r#type: String,
+        fields: Vec<(String, CompiledAirVar)>,
+    },
 }

@@ -85,10 +85,6 @@ impl<T> InternalAirVarInfo for VarExpr<T>
 where
     T: ProverType,
 {
-    fn name(&self) -> String {
-        self.name.clone()
-    }
-
     fn in_state(&self) -> bool {
         if self.is_const() {
             return true;
@@ -122,7 +118,10 @@ where
 
         // v is a constant
         if v.is_const {
-            return CompiledAirVar::Const(T::r#type(), v.value.unwrap().calc());
+            return CompiledAirVar::Const(
+                T::r#type(),
+                v.value.expect("Const must have a value").calc(),
+            );
         }
 
         // v was written to the trace

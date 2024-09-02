@@ -463,6 +463,9 @@ fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
             }
             format!("[{}]", expr_str)
         }
+        CompiledAirVar::Struct { .. } => {
+            todo!()
+        }
     }
 }
 

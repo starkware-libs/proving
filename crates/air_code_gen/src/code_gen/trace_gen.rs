@@ -351,6 +351,9 @@ fn air_var_type(expr: &CompiledAirVar) -> String {
             let len = arr.len();
             format!("[{};{}]", ty, len)
         }
+        CompiledAirVar::Struct { .. } => {
+            todo!()
+        }
     }
 }
 
@@ -433,6 +436,9 @@ pub fn parse_air_var(expr: &CompiledAirVar) -> String {
                 expr_str.push_str(&parse_air_var(expr));
             }
             format!("[{}]", expr_str)
+        }
+        CompiledAirVar::Struct { .. } => {
+            todo!()
         }
     }
 }

@@ -2,8 +2,11 @@ use std::fmt::Display;
 
 use super::air_fn::*;
 use super::compiled_structs::*;
+use super::expressions::expr::*;
 use super::expressions::felt_expr::*;
+use super::prover_types::*;
 use super::utils::*;
+use super::variables::*;
 
 impl Display for TraceGenStep {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
@@ -115,5 +118,33 @@ impl Display for AirBodyComponent {
                 )
             }
         }
+    }
+}
+
+impl Display for AirVarImpl {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            AirVarImpl::Expr(expr) => {
+                write!(f, "{}", expr)
+            }
+            _ => {
+                write!(f, "{}", CompiledAirVar::from(self.clone()))
+            }
+        }
+    }
+}
+
+impl Display for ExprImpl {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", CompiledAirVar::from(self.clone()))
+    }
+}
+
+impl<T> Display for Expr<T>
+where
+    T: ProverType,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{}", CompiledAirVar::from(self.clone()))
     }
 }

@@ -1,3 +1,4 @@
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::mul_small_opcode::*;
 
@@ -118,20 +119,22 @@ fn test_mul_small(
     // Run air function
 
     let registry = AirFnRegistry::new(&mul_small_opcode);
-    let (state, [next_pc, next_ap, next_fp]) =
-        registry.run_air(&mul_small_opcode, [pc.clone(), ap.clone(), fp.clone()]);
+    let (state, next_state) = registry.run_air(
+        &mul_small_opcode,
+        CasmStateVar::new(pc.clone(), ap.clone(), fp.clone()),
+    );
 
     // Check output
-    assert_eq!(next_fp.calc(), fp.calc());
+    assert_eq!(next_state.fp.calc(), fp.calc());
     if flag_ap_update_add_1 {
-        assert_eq!(next_ap.calc(), (ap_value + 1).to_string());
+        assert_eq!(next_state.ap.calc(), (ap_value + 1).to_string());
     } else {
-        assert_eq!(next_ap.calc(), ap.calc());
+        assert_eq!(next_state.ap.calc(), ap.calc());
     }
     if flag_op1_imm {
-        assert_eq!(next_pc.calc(), (pc_value + 2).to_string());
+        assert_eq!(next_state.pc.calc(), (pc_value + 2).to_string());
     } else {
-        assert_eq!(next_pc.calc(), (pc_value + 1).to_string());
+        assert_eq!(next_state.pc.calc(), (pc_value + 1).to_string());
     };
 
     assert_eq!(
@@ -164,13 +167,10 @@ fn test_mul_small_not_imm() {
         32123,
         32456,
         Some(&[
-            "tmp_0 = [\
-                MulSmallOpcode_is_immediate_false_input[0], \
-                MulSmallOpcode_is_immediate_false_input[1], \
-                MulSmallOpcode_is_immediate_false_input[2]]",
-            "Deduction: tmp_0[0]",
-            "Deduction: tmp_0[1]",
-            "Deduction: tmp_0[2]",
+            "tmp_0 = MulSmallOpcode_is_immediate_false_input",
+            "Deduction: tmp_0.pc",
+            "Deduction: tmp_0.ap",
+            "Deduction: tmp_0.fp",
             "(\
                 [\
                     (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
@@ -254,14 +254,10 @@ fn test_mul_small_imm() {
         7,
         8,
         Some(&[
-            "tmp_0 = [\
-                MulSmallOpcode_is_immediate_true_input[0], \
-                MulSmallOpcode_is_immediate_true_input[1], \
-                MulSmallOpcode_is_immediate_true_input[2]\
-                ]",
-            "Deduction: tmp_0[0]",
-            "Deduction: tmp_0[1]",
-            "Deduction: tmp_0[2]",
+            "tmp_0 = MulSmallOpcode_is_immediate_true_input",
+            "Deduction: tmp_0.pc",
+            "Deduction: tmp_0.ap",
+            "Deduction: tmp_0.fp",
             "(\
                 [\
                     (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \

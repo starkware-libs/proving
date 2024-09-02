@@ -42,6 +42,22 @@ impl ProverType for M31 {
 }
 
 #[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
+pub struct CasmState {
+    pub pc: M31,
+    pub ap: M31,
+    pub fp: M31,
+}
+
+impl ProverType for CasmState {
+    fn calc(&self) -> String {
+        format!("{{ pc: {}, ap: {}, fp: {} }}", self.pc, self.ap, self.fp)
+    }
+    fn r#type() -> String {
+        "CasmState".to_string()
+    }
+}
+
+#[derive(Copy, Clone, Debug, Serialize, Deserialize, Default, Eq, PartialEq, Hash)]
 pub struct Bool {
     pub value: bool,
 }

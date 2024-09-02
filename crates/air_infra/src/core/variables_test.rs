@@ -11,12 +11,12 @@ fn test_expr_array() {
     let mut array = [expr!("x", 8), expr!("y", 8)];
 
     // Let for deduction should change the element's names.
-    assert_eq!(&array[0].name(), "x");
-    assert_eq!(&array[1].name(), "y");
+    assert_eq!(&array[0].to_string(), "x");
+    assert_eq!(&array[1].to_string(), "y");
     let prefix = format!("{}{}", INTERMEDIATE_VAR_PREFIX, 0);
     array = array.let_(prefix.clone(), IntermediateType::default());
-    assert_eq!(array[0].name(), format!("{}{}", prefix.clone(), "[0]"));
-    assert_eq!(array[1].name(), format!("{}{}", prefix, "[1]"));
+    assert_eq!(array[0].to_string(), format!("{}{}", prefix.clone(), "[0]"));
+    assert_eq!(array[1].to_string(), format!("{}{}", prefix, "[1]"));
 
     // Expressions should be marked as "in state" only if *all* of its elements changed to state.
     assert!(!array.in_state());
@@ -29,8 +29,8 @@ fn test_expr_array() {
     let val0 = array[0].calc();
     let val1 = array[1].calc();
     let felts_vec = array.as_felts();
-    assert!(felts_vec[0].calc() == val0);
-    assert!(felts_vec[1].calc() == val1);
+    assert_eq!(felts_vec[0].calc(), val0);
+    assert_eq!(felts_vec[1].calc(), val1);
 }
 
 #[test]
@@ -45,17 +45,17 @@ fn test_expr_tuple() {
 
     // Assert let for deduction changes the element's names.
     let mut tup = (bool_expr!("y", true), expr!("x", 5));
-    assert!(tup.0.name() == "y");
-    assert!(tup.1.name() == "x");
+    assert_eq!(tup.0.to_string(), "y");
+    assert_eq!(tup.1.to_string(), "x");
     let prefix = format!("{}{}", INTERMEDIATE_VAR_PREFIX, 0);
     tup = tup.let_(prefix.clone(), IntermediateType::default());
-    assert!(tup.0.name() == format!("{}{}", prefix.clone(), ".0"));
-    assert!(tup.1.name() == format!("{}{}", prefix, ".1"));
+    assert_eq!(tup.0.to_string(), format!("{}{}", prefix.clone(), ".0"));
+    assert_eq!(tup.1.to_string(), format!("{}{}", prefix, ".1"));
 
     // Assert as felts return the vector elements as felts.
     let tup = (bool_expr!("y", true), expr!("x", 5));
     let val1 = tup.1.calc();
     let felts_vec = tup.as_felts();
-    assert!(felts_vec[0].calc() == "1");
-    assert!(felts_vec[1].calc() == val1);
+    assert_eq!(felts_vec[0].calc(), "1");
+    assert_eq!(felts_vec[1].calc(), val1);
 }

@@ -1,5 +1,6 @@
 use indexmap::IndexMap;
 
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::decode_instruction::*;
 
@@ -48,10 +49,10 @@ impl AddSmallOpcode {
 }
 
 impl AirFn for AddSmallOpcode {
-    type In = CasmState;
-    type Out = CasmState;
+    type In = CasmStateVar;
+    type Out = CasmStateVar;
 
-    fn call(&self, ab: &mut AirBuilder, [pc, ap, fp]: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
         let const_offsets = if self.is_imm {
             [None, None, Some(1)]
         } else {
@@ -64,7 +65,7 @@ impl AirFn for AddSmallOpcode {
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },
-            pc.clone(),
+            casm_state.pc.clone(),
         );
 
         // Read the non-constant flags
@@ -75,8 +76,8 @@ impl AirFn for AddSmallOpcode {
         let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1].as_felt();
 
         // Fetch dst - the value at the destination address for the addition
-        let mem_dst_base = flag_dst_base_fp.clone() * fp.clone()
-            + (const_expr!(1) - flag_dst_base_fp) * ap.clone();
+        let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp.clone()
+            + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap.clone();
         let dst_m31 = ab.call(
             &ReadSmall {
                 memory: self.memory.clone(),
@@ -85,8 +86,8 @@ impl AirFn for AddSmallOpcode {
         );
 
         // Fetch op0 - the first operand for the addition
-        let mem0_base = flag_op0_base_fp.clone() * fp.clone()
-            + (const_expr!(1) - flag_op0_base_fp) * ap.clone();
+        let mem0_base = flag_op0_base_fp.clone() * casm_state.fp.clone()
+            + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap.clone();
         let op0_m31 = ab.call(
             &ReadSmall {
                 memory: self.memory.clone(),
@@ -96,10 +97,10 @@ impl AirFn for AddSmallOpcode {
 
         // Fetch op1 - the second operand for the addition
         let mem1_base = if self.is_imm {
-            pc.clone()
+            casm_state.pc.clone()
         } else {
             ab.constrain(flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1));
-            flag_op1_base_fp * fp.clone() + flag_op1_base_ap * ap.clone()
+            flag_op1_base_fp * casm_state.fp.clone() + flag_op1_base_ap * casm_state.ap.clone()
         };
         let op1_m31 = ab.call(
             &ReadSmall {
@@ -114,17 +115,17 @@ impl AirFn for AddSmallOpcode {
         ab.constrain(dst_m31 - res);
 
         // Calculate the next ap
-        let next_ap = (const_expr!(1) - flag_ap_update_add_1.clone()) * ap.clone()
-            + flag_ap_update_add_1 * (ap + const_expr!(1));
+        let next_ap = (const_expr!(1) - flag_ap_update_add_1.clone()) * casm_state.ap.clone()
+            + flag_ap_update_add_1 * (casm_state.ap + const_expr!(1));
 
         // Calculate the next pc
         let next_pc = if self.is_imm {
-            pc + const_expr!(2)
+            casm_state.pc + const_expr!(2)
         } else {
-            pc + const_expr!(1)
+            casm_state.pc + const_expr!(1)
         };
 
-        [next_pc, next_ap, fp]
+        CasmStateVar::new(next_pc, next_ap, casm_state.fp)
     }
 
     fn inst_def(&self) -> IndexMap<String, String> {
