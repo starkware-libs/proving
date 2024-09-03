@@ -92,7 +92,7 @@ fn test_assert_eq_deref() {
         4,
         15,
         Some(&[
-            "tmp_0 = AssertEqOpcode_is_double_deref_false_input",
+            "tmp_0 = AssertEqOpcode_is_double_deref_false_is_imm_false_input",
             "Deduction: tmp_0.pc",
             "Deduction: tmp_0.ap",
             "Deduction: tmp_0.fp",
@@ -139,7 +139,7 @@ fn test_assert_eq_imm() {
         4,
         15,
         Some(&[
-            "tmp_0 = AssertEqOpcode_is_double_deref_false_input",
+            "tmp_0 = AssertEqOpcode_is_double_deref_false_is_imm_true_input",
             "Deduction: tmp_0.pc",
             "Deduction: tmp_0.ap",
             "Deduction: tmp_0.fp",
@@ -180,7 +180,7 @@ fn test_assert_eq_imm() {
 #[test]
 fn test_assert_eq_double_deref() {
     let expected_air_body = [
-        "tmp_0 = AssertEqOpcode_is_double_deref_true_input",
+        "tmp_0 = AssertEqOpcode_is_double_deref_true_is_imm_false_input",
         "Deduction: tmp_0.pc",
         "Deduction: tmp_0.ap",
         "Deduction: tmp_0.fp",
@@ -250,7 +250,7 @@ fn test_assert_equal(
     let double_deref = !flag_op1_imm && !flag_op1_base_fp && !flag_op1_base_ap;
     let mut assert_equal_opcode = AssertEqOpcode {
         is_double_deref: double_deref,
-        is_immediate: flag_op1_imm,
+        is_imm: flag_op1_imm,
         memory: Felt252IdMemory::default(),
     };
 

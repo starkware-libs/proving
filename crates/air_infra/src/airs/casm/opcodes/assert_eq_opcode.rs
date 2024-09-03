@@ -21,7 +21,7 @@ use crate::const_expr;
 #[derive(Clone, Debug)]
 pub struct AssertEqOpcode {
     pub is_double_deref: bool,
-    pub is_immediate: bool,
+    pub is_imm: bool,
     pub memory: Felt252IdMemory,
 }
 
@@ -34,13 +34,13 @@ impl AssertEqOpcode {
             } else {
                 Some(true) // Default is fp based
             },
-            op1_imm: Some(self.is_immediate),
-            op1_base_fp: if !self.is_double_deref && !self.is_immediate {
+            op1_imm: Some(self.is_imm),
+            op1_base_fp: if !self.is_double_deref && !self.is_imm {
                 None
             } else {
                 Some(false)
             },
-            op1_base_ap: if !self.is_double_deref && !self.is_immediate {
+            op1_base_ap: if !self.is_double_deref && !self.is_imm {
                 None
             } else {
                 Some(false)
@@ -65,12 +65,12 @@ impl AirFn for AssertEqOpcode {
 
     fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
         assert!(
-            !(self.is_immediate && self.is_double_deref),
+            !(self.is_imm && self.is_double_deref),
             "Double deref and immediate can't be set together"
         );
 
         // Create the constant offsets.
-        let offsets = if self.is_immediate {
+        let offsets = if self.is_imm {
             [None, Some(-1), Some(1)]
         } else if self.is_double_deref {
             [None, None, None]
@@ -104,7 +104,7 @@ impl AirFn for AssertEqOpcode {
             let mem0_base = flag_op0_base_fp.clone() * casm_state.fp.clone()
                 + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap.clone();
             self.memory.read_address(ab, mem0_base + offset1)
-        } else if self.is_immediate {
+        } else if self.is_imm {
             casm_state.pc.clone()
         } else {
             ab.constrain(flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1));
@@ -124,7 +124,7 @@ impl AirFn for AssertEqOpcode {
             + flag_ap_update_add_1 * (casm_state.ap + const_expr!(1));
 
         // Calculate the next pc
-        let next_pc = if self.is_immediate {
+        let next_pc = if self.is_imm {
             casm_state.pc + const_expr!(2)
         } else {
             casm_state.pc + const_expr!(1)
@@ -134,10 +134,13 @@ impl AirFn for AssertEqOpcode {
     }
 
     fn inst_def(&self) -> IndexMap<std::string::String, std::string::String> {
-        [(
-            "is_double_deref".to_string(),
-            self.is_double_deref.to_string(),
-        )]
+        [
+            (
+                "is_double_deref".to_string(),
+                self.is_double_deref.to_string(),
+            ),
+            ("is_imm".to_string(), self.is_imm.to_string()),
+        ]
         .into()
     }
 

@@ -32,7 +32,7 @@ pub struct AssertEqOpcodeArgs {
     #[clap(long)]
     is_double_deref: bool,
     #[clap(long)]
-    is_immediate: bool,
+    is_imm: bool,
 }
 
 #[derive(Debug, Args)]
@@ -60,7 +60,7 @@ pub fn create_assert_equal_opcode_json(arguments: AssertEqOpcodeArgs) -> AirFnRe
     );
     AirFnRegistry::new(&AssertEqOpcode {
         is_double_deref: arguments.is_double_deref,
-        is_immediate: arguments.is_immediate,
+        is_imm: arguments.is_imm,
         memory: Felt252IdMemory::default(),
     })
 }

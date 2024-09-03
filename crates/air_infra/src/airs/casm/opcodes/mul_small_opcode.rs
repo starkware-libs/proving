@@ -23,7 +23,7 @@ use crate::const_expr;
 
 #[derive(Clone, Debug)]
 pub struct MulSmallOpcode {
-    pub is_immediate: bool,
+    pub is_imm: bool,
     pub memory: Felt252IdMemory,
 }
 
@@ -32,17 +32,9 @@ impl MulSmallOpcode {
         Flags {
             dst_base_fp: None,
             op0_base_fp: None,
-            op1_imm: Some(self.is_immediate),
-            op1_base_fp: if !self.is_immediate {
-                None
-            } else {
-                Some(false)
-            },
-            op1_base_ap: if !self.is_immediate {
-                None
-            } else {
-                Some(false)
-            },
+            op1_imm: Some(self.is_imm),
+            op1_base_fp: if !self.is_imm { None } else { Some(false) },
+            op1_base_ap: if !self.is_imm { None } else { Some(false) },
             res_add: Some(false),
             res_mul: Some(true),
             pc_update_jump: Some(false),
@@ -62,7 +54,7 @@ impl AirFn for MulSmallOpcode {
     type Out = CasmStateVar;
 
     fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
-        let const_offsets = if self.is_immediate {
+        let const_offsets = if self.is_imm {
             [None, None, Some(1)]
         } else {
             [None, None, None]
@@ -113,7 +105,7 @@ impl AirFn for MulSmallOpcode {
             + const_expr!(1 << FELT252_BITS_PER_WORD) * op0_value.get_felt(1).clone();
 
         // Fetch op1 - the second operand for the multiplication
-        let mem1_base = if self.is_immediate {
+        let mem1_base = if self.is_imm {
             casm_state.pc.clone()
         } else {
             ab.constrain(flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1));
@@ -139,7 +131,7 @@ impl AirFn for MulSmallOpcode {
             + flag_ap_update_add_1 * (casm_state.ap + const_expr!(1));
 
         // Calculate the next pc
-        let next_pc = if self.is_immediate {
+        let next_pc = if self.is_imm {
             casm_state.pc + const_expr!(2)
         } else {
             casm_state.pc + const_expr!(1)
@@ -149,7 +141,7 @@ impl AirFn for MulSmallOpcode {
     }
 
     fn inst_def(&self) -> IndexMap<String, String> {
-        [("is_immediate".to_string(), self.is_immediate.to_string())].into()
+        [("is_imm".to_string(), self.is_imm.to_string())].into()
     }
 
     fn trace_type(&self) -> TraceType {

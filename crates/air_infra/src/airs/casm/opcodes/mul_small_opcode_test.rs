@@ -34,7 +34,7 @@ fn test_mul_small(
 
     // Create the air function
     let mut mul_small_opcode = MulSmallOpcode {
-        is_immediate: flag_op1_imm,
+        is_imm: flag_op1_imm,
         memory: Felt252IdMemory::default(),
     };
 
@@ -167,7 +167,7 @@ fn test_mul_small_not_imm() {
         32123,
         32456,
         Some(&[
-            "tmp_0 = MulSmallOpcode_is_immediate_false_input",
+            "tmp_0 = MulSmallOpcode_is_imm_false_input",
             "Deduction: tmp_0.pc",
             "Deduction: tmp_0.ap",
             "Deduction: tmp_0.fp",
@@ -254,7 +254,7 @@ fn test_mul_small_imm() {
         7,
         8,
         Some(&[
-            "tmp_0 = MulSmallOpcode_is_immediate_true_input",
+            "tmp_0 = MulSmallOpcode_is_imm_true_input",
             "Deduction: tmp_0.pc",
             "Deduction: tmp_0.ap",
             "Deduction: tmp_0.fp",
