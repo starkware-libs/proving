@@ -1,31 +1,32 @@
 {
-  "name": "AddSmallOpcode_is_imm_true",
-  "description": "AddSmallOpcode_is_imm_true",
+  "name": "AddOpcode_is_small_true_is_imm_true",
+  "description": "AddOpcode_is_small_true_is_imm_true",
   "inst_def": {
+    "is_small": "true",
     "is_imm": "true"
   },
   "input": {
-    "name": "AddSmallOpcode_is_imm_true_input",
+    "name": "AddOpcode_is_small_true_is_imm_true_input",
     "type": "CasmState",
     "fields": [
       [
         "pc",
         {
-          "name": "AddSmallOpcode_is_imm_true_input.pc",
+          "name": "AddOpcode_is_small_true_is_imm_true_input.pc",
           "type": "M31"
         }
       ],
       [
         "ap",
         {
-          "name": "AddSmallOpcode_is_imm_true_input.ap",
+          "name": "AddOpcode_is_small_true_is_imm_true_input.ap",
           "type": "M31"
         }
       ],
       [
         "fp",
         {
-          "name": "AddSmallOpcode_is_imm_true_input.fp",
+          "name": "AddOpcode_is_small_true_is_imm_true_input.fp",
           "type": "M31"
         }
       ]
@@ -66,27 +67,27 @@
       "Intermediate": [
         "tmp_0",
         {
-          "name": "AddSmallOpcode_is_imm_true_input",
+          "name": "AddOpcode_is_small_true_is_imm_true_input",
           "type": "CasmState",
           "fields": [
             [
               "pc",
               {
-                "name": "AddSmallOpcode_is_imm_true_input.pc",
+                "name": "AddOpcode_is_small_true_is_imm_true_input.pc",
                 "type": "M31"
               }
             ],
             [
               "ap",
               {
-                "name": "AddSmallOpcode_is_imm_true_input.ap",
+                "name": "AddOpcode_is_small_true_is_imm_true_input.ap",
                 "type": "M31"
               }
             ],
             [
               "fp",
               {
-                "name": "AddSmallOpcode_is_imm_true_input.fp",
+                "name": "AddOpcode_is_small_true_is_imm_true_input.fp",
                 "type": "M31"
               }
             ]

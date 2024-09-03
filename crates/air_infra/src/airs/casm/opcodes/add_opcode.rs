@@ -4,7 +4,9 @@ use super::super::casm_state::*;
 use super::super::common::*;
 use super::super::decode_instruction::decode_inst::*;
 
+use crate::airs::felt252_utils::verify_add252::*;
 use crate::airs::memory::felt252_id_memory::*;
+use crate::airs::memory::felt252_id_memory_read_positive::ReadPositive;
 use crate::airs::memory::felt252_id_memory_read_small::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
@@ -12,22 +14,22 @@ use crate::core::expressions::felt_expr::*;
 // Macros
 use crate::const_expr;
 
-/// The add_small opcode.
+/// The add opcode.
 /// Implements the Cairo0 instructions:
 /// - [ap/fp + offset0] = [ap/fp + offset1] + [ap/fp + offset2]
 /// - [ap/fp + offset0] = [ap/fp + offset1] + Imm
-/// Where all three values are in the range [0, 2^27-1].
-///
-/// TODO: Update the range when the correct range is known.
+/// is_small = true : all three values are in the range [-2**27, 2**27 - 1].
+/// is_small = false : all three values are in the range [0, 2**252 - 1].
 
 #[derive(Clone, Debug, InstDef)]
-pub struct AddSmallOpcode {
+pub struct AddOpcode {
+    pub is_small: bool,
     pub is_imm: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
-impl AddSmallOpcode {
+impl AddOpcode {
     pub fn get_flags(&self) -> Flags {
         Flags {
             dst_base_fp: None,
@@ -49,7 +51,7 @@ impl AddSmallOpcode {
     }
 }
 
-impl AirFn for AddSmallOpcode {
+impl AirFn for AddOpcode {
     type In = CasmStateVar;
     type Out = CasmStateVar;
 
@@ -76,44 +78,64 @@ impl AirFn for AddSmallOpcode {
         let flag_op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].clone();
         let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
-        // Fetch dst - the value at the destination address for the addition
         let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp.clone()
             + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap.clone();
-        let (dst_m31, _) = ab.call(
-            &ReadSmall {
-                memory: self.memory.clone(),
-            },
-            mem_dst_base + offset0,
-        );
-
-        // Fetch op0 - the first operand for the addition
         let mem0_base = flag_op0_base_fp.clone() * casm_state.fp.clone()
             + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap.clone();
-        let (op0_m31, _) = ab.call(
-            &ReadSmall {
-                memory: self.memory.clone(),
-            },
-            mem0_base + offset1,
-        );
-
-        // Fetch op1 - the second operand for the addition
         let mem1_base = if self.is_imm {
             casm_state.pc.clone()
         } else {
             ab.constrain(flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1));
             flag_op1_base_fp * casm_state.fp.clone() + flag_op1_base_ap * casm_state.ap.clone()
         };
-        let (op1_m31, _) = ab.call(
-            &ReadSmall {
-                memory: self.memory.clone(),
-            },
-            mem1_base + offset2,
-        );
 
-        let res = op0_m31 + op1_m31;
-
-        // Assert that dst == res
-        ab.constrain(dst_m31 - res);
+        // Add Small
+        if self.is_small {
+            let (dst, _) = ab.call(
+                &ReadSmall {
+                    memory: self.memory.clone(),
+                },
+                mem_dst_base + offset0,
+            );
+            let (op0, _) = ab.call(
+                &ReadSmall {
+                    memory: self.memory.clone(),
+                },
+                mem0_base + offset1,
+            );
+            let (op1, _) = ab.call(
+                &ReadSmall {
+                    memory: self.memory.clone(),
+                },
+                mem1_base + offset2,
+            );
+            // Assert that dst == op0 + op1
+            ab.constrain(dst - (op0 + op1));
+        } else {
+            // Add big
+            let (dst, _) = ab.call(
+                &ReadPositive {
+                    num_bits: 252,
+                    memory: self.memory.clone(),
+                },
+                mem_dst_base + offset0,
+            );
+            let (op0, _) = ab.call(
+                &ReadPositive {
+                    num_bits: 252,
+                    memory: self.memory.clone(),
+                },
+                mem0_base + offset1,
+            );
+            let (op1, _) = ab.call(
+                &ReadPositive {
+                    num_bits: 252,
+                    memory: self.memory.clone(),
+                },
+                mem1_base + offset2,
+            );
+            ab.call(&VerifyAdd252 {}, [op0, op1, dst]);
+        }
 
         // Calculate the next ap
         let next_ap = casm_state.ap.clone() + flag_ap_update_add_1;
