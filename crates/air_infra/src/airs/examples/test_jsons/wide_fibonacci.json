@@ -1,0 +1,95 @@
+{
+  "name": "WideFib_num_narrow_2_narrow_size_2",
+  "inst_def": {
+    "num_narrow": "2",
+    "narrow_size": "2"
+  },
+  "input": {
+    "name": "WideFib_num_narrow_2_narrow_size_2_input",
+    "type": "M31"
+  },
+  "input_num_of_felts": 1,
+  "output": {
+    "name": "state[4]",
+    "type": "M31"
+  },
+  "output_felts": [
+    "state[4]"
+  ],
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "Deduction": "WideFib_num_narrow_2_narrow_size_2_input"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "NarrowFib_num_steps_2",
+        "input_arg": [
+          {
+            "name": "const_1",
+            "type": "M31"
+          },
+          {
+            "name": "state[0]",
+            "type": "M31"
+          }
+        ],
+        "output_name": "tmp_1"
+      }
+    },
+    {
+      "Deduction": "tmp_1[0]"
+    },
+    {
+      "Deduction": "tmp_1[1]"
+    },
+    {
+      "LookupConstraint": {
+        "air_fn_name": "NarrowFib_num_steps_2",
+        "input_felts": [
+          "const_1",
+          "state[0]"
+        ],
+        "output_felts": [
+          "state[1]",
+          "state[2]"
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "NarrowFib_num_steps_2",
+        "input_arg": [
+          {
+            "name": "state[1]",
+            "type": "M31"
+          },
+          {
+            "name": "state[2]",
+            "type": "M31"
+          }
+        ],
+        "output_name": "tmp_2"
+      }
+    },
+    {
+      "Deduction": "tmp_2[0]"
+    },
+    {
+      "Deduction": "tmp_2[1]"
+    },
+    {
+      "LookupConstraint": {
+        "air_fn_name": "NarrowFib_num_steps_2",
+        "input_felts": [
+          "state[1]",
+          "state[2]"
+        ],
+        "output_felts": [
+          "state[3]",
+          "state[4]"
+        ]
+      }
+    }
+  ]
+}

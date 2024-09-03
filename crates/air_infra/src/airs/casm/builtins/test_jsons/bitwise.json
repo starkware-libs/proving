@@ -1,0 +1,997 @@
+{
+  "name": "BitwiseBuiltin",
+  "inst_def": {},
+  "input": [],
+  "input_num_of_felts": 0,
+  "output": [],
+  "output_felts": [],
+  "trace_type": "Component",
+  "air_body": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        [],
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "AccessExternalColumn": {
+        "air_fn_name": "Seq",
+        "output_name": "tmp_1"
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadPositive_num_bits_252",
+        "input_arg": {
+          "name": "((const_500 + (tmp_1 * const_5)) + const_0)",
+          "type": "M31"
+        },
+        "output": {
+          "name": "Felt252::from_limbs([state[1], state[2], state[3], state[4], state[5], state[6], state[7], state[8], state[9], state[10], state[11], state[12], state[13], state[14], state[15], state[16], state[17], state[18], state[19], state[20], state[21], state[22], state[23], state[24], state[25], state[26], state[27], state[28]])",
+          "type": "Felt252"
+        }
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadPositive_num_bits_252",
+        "input_arg": {
+          "name": "((const_500 + (tmp_1 * const_5)) + const_1)",
+          "type": "M31"
+        },
+        "output": {
+          "name": "Felt252::from_limbs([state[30], state[31], state[32], state[33], state[34], state[35], state[36], state[37], state[38], state[39], state[40], state[41], state[42], state[43], state[44], state[45], state[46], state[47], state[48], state[49], state[50], state[51], state[52], state[53], state[54], state[55], state[56], state[57]])",
+          "type": "Felt252"
+        }
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[1]",
+            "type": "M31"
+          },
+          {
+            "name": "state[30]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[58]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_12",
+        {
+          "name": "(const_1073741824 * ((state[1] + state[30]) - state[58]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[2]",
+            "type": "M31"
+          },
+          {
+            "name": "state[31]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[59]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_15",
+        {
+          "name": "(const_1073741824 * ((state[2] + state[31]) - state[59]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[3]",
+            "type": "M31"
+          },
+          {
+            "name": "state[32]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[60]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_18",
+        {
+          "name": "(const_1073741824 * ((state[3] + state[32]) - state[60]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[4]",
+            "type": "M31"
+          },
+          {
+            "name": "state[33]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[61]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_21",
+        {
+          "name": "(const_1073741824 * ((state[4] + state[33]) - state[61]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[5]",
+            "type": "M31"
+          },
+          {
+            "name": "state[34]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[62]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_24",
+        {
+          "name": "(const_1073741824 * ((state[5] + state[34]) - state[62]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[6]",
+            "type": "M31"
+          },
+          {
+            "name": "state[35]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[63]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_27",
+        {
+          "name": "(const_1073741824 * ((state[6] + state[35]) - state[63]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[7]",
+            "type": "M31"
+          },
+          {
+            "name": "state[36]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[64]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_30",
+        {
+          "name": "(const_1073741824 * ((state[7] + state[36]) - state[64]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[8]",
+            "type": "M31"
+          },
+          {
+            "name": "state[37]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[65]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_33",
+        {
+          "name": "(const_1073741824 * ((state[8] + state[37]) - state[65]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[9]",
+            "type": "M31"
+          },
+          {
+            "name": "state[38]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[66]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_36",
+        {
+          "name": "(const_1073741824 * ((state[9] + state[38]) - state[66]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[10]",
+            "type": "M31"
+          },
+          {
+            "name": "state[39]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[67]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_39",
+        {
+          "name": "(const_1073741824 * ((state[10] + state[39]) - state[67]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[11]",
+            "type": "M31"
+          },
+          {
+            "name": "state[40]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[68]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_42",
+        {
+          "name": "(const_1073741824 * ((state[11] + state[40]) - state[68]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[12]",
+            "type": "M31"
+          },
+          {
+            "name": "state[41]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[69]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_45",
+        {
+          "name": "(const_1073741824 * ((state[12] + state[41]) - state[69]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[13]",
+            "type": "M31"
+          },
+          {
+            "name": "state[42]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[70]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_48",
+        {
+          "name": "(const_1073741824 * ((state[13] + state[42]) - state[70]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[14]",
+            "type": "M31"
+          },
+          {
+            "name": "state[43]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[71]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_51",
+        {
+          "name": "(const_1073741824 * ((state[14] + state[43]) - state[71]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[15]",
+            "type": "M31"
+          },
+          {
+            "name": "state[44]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[72]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_54",
+        {
+          "name": "(const_1073741824 * ((state[15] + state[44]) - state[72]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[16]",
+            "type": "M31"
+          },
+          {
+            "name": "state[45]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[73]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_57",
+        {
+          "name": "(const_1073741824 * ((state[16] + state[45]) - state[73]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[17]",
+            "type": "M31"
+          },
+          {
+            "name": "state[46]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[74]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_60",
+        {
+          "name": "(const_1073741824 * ((state[17] + state[46]) - state[74]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[18]",
+            "type": "M31"
+          },
+          {
+            "name": "state[47]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[75]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_63",
+        {
+          "name": "(const_1073741824 * ((state[18] + state[47]) - state[75]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[19]",
+            "type": "M31"
+          },
+          {
+            "name": "state[48]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[76]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_66",
+        {
+          "name": "(const_1073741824 * ((state[19] + state[48]) - state[76]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[20]",
+            "type": "M31"
+          },
+          {
+            "name": "state[49]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[77]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_69",
+        {
+          "name": "(const_1073741824 * ((state[20] + state[49]) - state[77]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[21]",
+            "type": "M31"
+          },
+          {
+            "name": "state[50]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[78]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_72",
+        {
+          "name": "(const_1073741824 * ((state[21] + state[50]) - state[78]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[22]",
+            "type": "M31"
+          },
+          {
+            "name": "state[51]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[79]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_75",
+        {
+          "name": "(const_1073741824 * ((state[22] + state[51]) - state[79]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[23]",
+            "type": "M31"
+          },
+          {
+            "name": "state[52]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[80]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_78",
+        {
+          "name": "(const_1073741824 * ((state[23] + state[52]) - state[80]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[24]",
+            "type": "M31"
+          },
+          {
+            "name": "state[53]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[81]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_81",
+        {
+          "name": "(const_1073741824 * ((state[24] + state[53]) - state[81]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[25]",
+            "type": "M31"
+          },
+          {
+            "name": "state[54]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[82]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_84",
+        {
+          "name": "(const_1073741824 * ((state[25] + state[54]) - state[82]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[26]",
+            "type": "M31"
+          },
+          {
+            "name": "state[55]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[83]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_87",
+        {
+          "name": "(const_1073741824 * ((state[26] + state[55]) - state[83]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[27]",
+            "type": "M31"
+          },
+          {
+            "name": "state[56]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[84]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_90",
+        {
+          "name": "(const_1073741824 * ((state[27] + state[56]) - state[84]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "BitwiseXor",
+        "input_arg": [
+          {
+            "name": "state[28]",
+            "type": "M31"
+          },
+          {
+            "name": "state[57]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[85]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_93",
+        {
+          "name": "(const_1073741824 * ((state[28] + state[57]) - state[85]))",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "MemVerify",
+        "input_arg": [
+          {
+            "name": "((const_500 + (tmp_1 * const_5)) + const_2)",
+            "type": "M31"
+          },
+          {
+            "name": "Felt252::from_limbs([tmp_12, tmp_15, tmp_18, tmp_21, tmp_24, tmp_27, tmp_30, tmp_33, tmp_36, tmp_39, tmp_42, tmp_45, tmp_48, tmp_51, tmp_54, tmp_57, tmp_60, tmp_63, tmp_66, tmp_69, tmp_72, tmp_75, tmp_78, tmp_81, tmp_84, tmp_87, tmp_90, tmp_93])",
+            "type": "Felt252"
+          }
+        ],
+        "output": []
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "MemVerify",
+        "input_arg": [
+          {
+            "name": "((const_500 + (tmp_1 * const_5)) + const_3)",
+            "type": "M31"
+          },
+          {
+            "name": "Felt252::from_limbs([state[58], state[59], state[60], state[61], state[62], state[63], state[64], state[65], state[66], state[67], state[68], state[69], state[70], state[71], state[72], state[73], state[74], state[75], state[76], state[77], state[78], state[79], state[80], state[81], state[82], state[83], state[84], state[85]])",
+            "type": "Felt252"
+          }
+        ],
+        "output": []
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "MemVerify",
+        "input_arg": [
+          {
+            "name": "((const_500 + (tmp_1 * const_5)) + const_4)",
+            "type": "M31"
+          },
+          {
+            "name": "Felt252::from_limbs([(tmp_12 + state[58]), (tmp_15 + state[59]), (tmp_18 + state[60]), (tmp_21 + state[61]), (tmp_24 + state[62]), (tmp_27 + state[63]), (tmp_30 + state[64]), (tmp_33 + state[65]), (tmp_36 + state[66]), (tmp_39 + state[67]), (tmp_42 + state[68]), (tmp_45 + state[69]), (tmp_48 + state[70]), (tmp_51 + state[71]), (tmp_54 + state[72]), (tmp_57 + state[73]), (tmp_60 + state[74]), (tmp_63 + state[75]), (tmp_66 + state[76]), (tmp_69 + state[77]), (tmp_72 + state[78]), (tmp_75 + state[79]), (tmp_78 + state[80]), (tmp_81 + state[81]), (tmp_84 + state[82]), (tmp_87 + state[83]), (tmp_90 + state[84]), (tmp_93 + state[85])])",
+            "type": "Felt252"
+          }
+        ],
+        "output": []
+      }
+    }
+  ]
+}

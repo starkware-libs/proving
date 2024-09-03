@@ -1,0 +1,147 @@
+{
+  "name": "ReadPositive_num_bits_16",
+  "inst_def": {
+    "num_bits": "16"
+  },
+  "input": {
+    "name": "ReadPositive_num_bits_16_input",
+    "type": "M31"
+  },
+  "input_num_of_felts": 1,
+  "output": {
+    "name": "Felt252::from_limbs(zero_extend([state[1], state[2]]))",
+    "type": "Felt252"
+  },
+  "output_felts": [
+    "state[1]",
+    "state[2]",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0",
+    "const_0"
+  ],
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "LookupCall": {
+        "air_fn_name": "Memory_M31",
+        "input_arg": {
+          "name": "ReadPositive_num_bits_16_input",
+          "type": "M31"
+        },
+        "output_name": "tmp_0"
+      }
+    },
+    {
+      "Deduction": "tmp_0"
+    },
+    {
+      "LookupConstraint": {
+        "air_fn_name": "Memory_M31",
+        "input_felts": [
+          "ReadPositive_num_bits_16_input"
+        ],
+        "output_felts": [
+          "state[0]"
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "Memory_Felt252",
+        "input_arg": {
+          "name": "state[0]",
+          "type": "M31"
+        },
+        "output_name": "tmp_1"
+      }
+    },
+    {
+      "Deduction": "tmp_1.get_m31(const_0)"
+    },
+    {
+      "Deduction": "tmp_1.get_m31(const_1)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck7",
+        "input_arg": [
+          {
+            "name": "state[2]",
+            "type": "M31"
+          }
+        ],
+        "output_name": "tmp_2"
+      }
+    },
+    {
+      "LookupConstraint": {
+        "air_fn_name": "RangeCheck7",
+        "input_felts": [
+          "state[2]"
+        ],
+        "output_felts": []
+      }
+    },
+    {
+      "LookupConstraint": {
+        "air_fn_name": "Memory_Felt252",
+        "input_felts": [
+          "state[0]"
+        ],
+        "output_felts": [
+          "state[1]",
+          "state[2]",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0"
+        ]
+      }
+    }
+  ]
+}

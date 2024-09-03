@@ -8,6 +8,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 // Macros
 use crate::const_expr;
@@ -20,7 +21,7 @@ fn test_mul_small(
     dst: u32,
     op0: u32,
     op1: u32,
-    expected_air_body: Option<&[&str]>,
+    entry_file_name: Option<&str>,
     expected_state: Vec<u32>,
 ) {
     // Read the non-constant flags
@@ -145,15 +146,12 @@ fn test_mul_small(
             .collect::<Vec<String>>()
     );
 
-    if let Some(expected_air_body) = expected_air_body {
-        let entry = registry.get_air_fn_entry(&mul_small_opcode.name());
-        assert_eq!(
-            entry
-                .air_body
-                .iter()
-                .map(|x| x.to_string())
-                .collect::<Vec<String>>(),
-            expected_air_body
+    // Check entry
+    if let Some(entry_file_name) = entry_file_name {
+        compare_test_json(
+            registry,
+            &mul_small_opcode.name(),
+            &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
         );
     }
 }
@@ -166,54 +164,11 @@ fn test_mul_small_not_imm() {
         1042584088,
         32123,
         32456,
-        Some(&[
-            "tmp_0 = MulSmallOpcode_is_imm_false_input",
-            "Deduction: tmp_0.pc",
-            "Deduction: tmp_0.ap",
-            "Deduction: tmp_0.fp",
-            "(\
-                [\
-                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
-                    (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768), \
-                    (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768)\
-                ], [\
-                    Bool::from_m31(state[11]), \
-                    Bool::from_m31(state[12]), \
-                    const_false, Bool::from_m31(state[13]), \
-                    Bool::from_m31(state[14]), \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    Bool::from_m31(state[15]), \
-                    const_false, const_false, \
-                    const_true\
-                ]\
-            ) = DecodeInstruction_385376571fef8ea3(state[0])",
-            "Felt252::from_limbs(zero_extend([state[18], state[19], state[20], state[21]])) = \
-                ReadPositive_num_bits_30((\
-                    ((state[11] * state[2]) + ((const_1 - state[11]) * state[1])) + \
-                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768)\
-                ))",
-            "Felt252::from_limbs(zero_extend([state[23], state[24]])) = \
-                ReadPositive_num_bits_15((\
-                    ((state[12] * state[2]) + ((const_1 - state[12]) * state[1])) + \
-                    (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
-                ))",
-            "Constraint: ((state[13] + state[14]) - const_1)",
-            "Felt252::from_limbs(zero_extend([state[26], state[27]])) = \
-                ReadPositive_num_bits_15((\
-                    ((state[13] * state[2]) + (state[14] * state[1])) + \
-                    (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768)\
-                ))",
-            "Constraint: (\
-                (((state[18] + (const_512 * state[19])) + (const_262144 * state[20])) + (const_134217728 * state[21])) - \
-                ((state[23] + (const_512 * state[24])) * (state[26] + (const_512 * state[27]))))"
-        ]),
+        Some("mul_small_opcode_not_imm.json"),
         vec![
-            10, 50, 100, 3, 64, 1, 1, 16, 7, 0, 4, 1, 0, 0, 1, 0, 0, 1, 24, 73, 393, 7, 2, 379, 62, 3, 200, 63]
+            10, 50, 100, 3, 64, 1, 1, 16, 7, 0, 4, 1, 0, 0, 1, 0, 0, 1, 24, 73, 393, 7, 2, 379, 62,
+            3, 200, 63,
+        ],
     );
 }
 
@@ -253,51 +208,9 @@ fn test_mul_small_imm() {
         56,
         7,
         8,
-        Some(&[
-            "tmp_0 = MulSmallOpcode_is_imm_true_input",
-            "Deduction: tmp_0.pc",
-            "Deduction: tmp_0.ap",
-            "Deduction: tmp_0.fp",
-            "(\
-                [\
-                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
-                    (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768), \
-                    const_1\
-                ], [\
-                    Bool::from_m31(state[8]), \
-                    Bool::from_m31(state[9]), \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    Bool::from_m31(state[10]), \
-                    const_false, \
-                    const_false, \
-                    const_true\
-                ]\
-            ) = DecodeInstruction_22fdd1d4be52f69d(state[0])",
-            "Felt252::from_limbs(zero_extend([state[13], state[14], state[15], state[16]])) = \
-                ReadPositive_num_bits_30((\
-                    ((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + \
-                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768)\
-                ))",
-            "Felt252::from_limbs(zero_extend([state[18], state[19]])) = \
-                ReadPositive_num_bits_15((\
-                    ((state[9] * state[2]) + ((const_1 - state[9]) * state[1])) + \
-                    (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
-                ))",
-            "Felt252::from_limbs(zero_extend([state[21], state[22]])) = \
-                ReadPositive_num_bits_15((state[0] + const_1))",
-            "Constraint: (\
-                (((state[13] + (const_512 * state[14])) + (const_262144 * state[15])) + (const_134217728 * state[16])) - \
-                ((state[18] + (const_512 * state[19])) * (state[21] + (const_512 * state[22]))))"
-        ]),
+        Some("mul_small_imm.json"),
         vec![
-            10, 50, 100, 509, 63, 3, 510, 15, 1, 0, 0, 0, 1, 56, 0, 0, 0, 2, 7, 0, 3, 8, 0],
+            10, 50, 100, 509, 63, 3, 510, 15, 1, 0, 0, 0, 1, 56, 0, 0, 0, 2, 7, 0, 3, 8, 0,
+        ],
     );
 }

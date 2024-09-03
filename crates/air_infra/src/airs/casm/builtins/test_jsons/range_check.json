@@ -1,0 +1,42 @@
+{
+  "name": "RangeCheckBuiltin_bits_32",
+  "inst_def": {
+    "bits": "32"
+  },
+  "input": [],
+  "input_num_of_felts": 0,
+  "output": [],
+  "output_felts": [],
+  "trace_type": "Component",
+  "air_body": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        [],
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "AccessExternalColumn": {
+        "air_fn_name": "Seq",
+        "output_name": "tmp_1"
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadPositive_num_bits_32",
+        "input_arg": {
+          "name": "(const_100 + tmp_1)",
+          "type": "M31"
+        },
+        "output": {
+          "name": "Felt252::from_limbs(zero_extend([state[1], state[2], state[3], state[4]]))",
+          "type": "Felt252"
+        }
+      }
+    }
+  ]
+}

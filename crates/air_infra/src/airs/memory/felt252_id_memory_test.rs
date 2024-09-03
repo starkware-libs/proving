@@ -1,4 +1,5 @@
 use super::felt252_id_memory::*;
+
 use crate::airs::memory::felt252_id_memory_read_positive::*;
 use crate::airs::memory::felt252_id_memory_read_small::*;
 use crate::core::air_fn::*;
@@ -6,6 +7,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 use crate::const_expr;
 use crate::const_felt252_expr;
@@ -76,45 +78,15 @@ fn test_read_small() {
 
 #[test]
 fn test_read_small_air_body() {
-    let expected_air_body = [
-        "tmp_0 = Memory_M31(ReadSmall_input)",
-        "Deduction: tmp_0",
-        "Memory_M31([ReadSmall_input]) == [state[0]]",
-        "tmp_1 = Memory_Felt252(state[0])",
-        "tmp_2 = tmp_1.get_m31(const_27).eq(const_256)",
-        "Deduction: tmp_2.as_m31()",
-        "tmp_3 = tmp_1.get_m31(const_20).eq(const_511)",
-        "Deduction: tmp_3.as_m31()",
-        "Constraint: (state[1] * (state[1] - const_1))",
-        "Constraint: (state[2] * (state[2] - const_1))",
-        "Constraint: (state[2] * (state[1] - const_1))",
-        "Deduction: tmp_1.get_m31(const_0)",
-        "Deduction: tmp_1.get_m31(const_1)",
-        "Deduction: tmp_1.get_m31(const_2)",
-        "Memory_Felt252([state[0]]) == [\
-            state[3], state[4], state[5], \
-            (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
-            (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
-            (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
-            (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
-            (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
-            (state[2] * const_511), (state[2] * const_511), (state[2] * const_511), \
-            ((const_136 * state[1]) - state[2]), \
-            const_0, const_0, const_0, const_0, const_0, \
-            (state[1] * const_256)\
-        ]",
-    ];
     let memory = Felt252IdMemory::default();
     let read_small = ReadSmall { memory };
     let registry = AirFnRegistry::new(&read_small);
-    let entry = registry.get_air_fn_entry(&read_small.name());
-    assert_eq!(
-        entry
-            .air_body
-            .into_iter()
-            .map(|c| c.to_string())
-            .collect::<Vec<_>>(),
-        expected_air_body
+
+    // Check entry
+    compare_test_json(
+        registry,
+        &read_small.name(),
+        &(TEST_JSONS_MEMORY_DIR.to_owned() + "read_small.json"),
     );
 }
 
@@ -131,31 +103,17 @@ fn test_read_positive(value: Felt252Expr, num_bits: usize) {
 
 #[test]
 fn test_read_positive_air_body() {
-    let expected_air_body = [
-        "tmp_0 = Memory_M31(ReadPositive_num_bits_16_input)",
-        "Deduction: tmp_0",
-        "Memory_M31([ReadPositive_num_bits_16_input]) == [state[0]]",
-        "tmp_1 = Memory_Felt252(state[0])",
-        "Deduction: tmp_1.get_m31(const_0)",
-        "Deduction: tmp_1.get_m31(const_1)",
-        "tmp_2 = RangeCheck7([state[2]])",
-        "RangeCheck7([state[2]]) == []",
-        "Memory_Felt252([state[0]]) == zero_extend([state[1], state[2]])",
-    ];
     let memory = Felt252IdMemory::default();
     let read_positive = ReadPositive {
         memory,
         num_bits: 16,
     };
     let registry = AirFnRegistry::new(&read_positive);
-    let entry = registry.get_air_fn_entry(&read_positive.name());
-    assert_eq!(
-        entry
-            .air_body
-            .into_iter()
-            .map(|c| c.to_string())
-            .collect::<Vec<_>>(),
-        expected_air_body
+    // Check entry
+    compare_test_json(
+        registry,
+        &read_positive.name(),
+        &(TEST_JSONS_MEMORY_DIR.to_owned() + "read_positive.json"),
     );
 }
 

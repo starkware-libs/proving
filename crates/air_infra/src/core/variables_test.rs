@@ -3,6 +3,8 @@ use super::expressions::bool_expr::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
 
+use crate::core::compiled_structs::*;
+
 // Macros
 use crate::{bool_expr, expr};
 
@@ -11,12 +13,18 @@ fn test_expr_array() {
     let mut array = [expr!("x", 8), expr!("y", 8)];
 
     // Let for deduction should change the element's names.
-    assert_eq!(&array[0].to_string(), "x");
-    assert_eq!(&array[1].to_string(), "y");
+    assert_eq!(CompiledAirVar::from(array[0].clone()).to_string(), "x");
+    assert_eq!(CompiledAirVar::from(array[1].clone()).to_string(), "y");
     let prefix = format!("{}{}", INTERMEDIATE_VAR_PREFIX, 0);
     array = array.let_(prefix.clone(), IntermediateType::default());
-    assert_eq!(array[0].to_string(), format!("{}{}", prefix.clone(), "[0]"));
-    assert_eq!(array[1].to_string(), format!("{}{}", prefix, "[1]"));
+    assert_eq!(
+        CompiledAirVar::from(array[0].clone()).to_string(),
+        format!("{}{}", prefix.clone(), "[0]")
+    );
+    assert_eq!(
+        CompiledAirVar::from(array[1].clone()).to_string(),
+        format!("{}{}", prefix, "[1]")
+    );
 
     // Expressions should be marked as "in state" only if *all* of its elements changed to state.
     assert!(!array.in_state());
@@ -45,12 +53,18 @@ fn test_expr_tuple() {
 
     // Assert let for deduction changes the element's names.
     let mut tup = (bool_expr!("y", true), expr!("x", 5));
-    assert_eq!(tup.0.to_string(), "y");
-    assert_eq!(tup.1.to_string(), "x");
+    assert_eq!(CompiledAirVar::from(tup.0.clone()).to_string(), "y");
+    assert_eq!(CompiledAirVar::from(tup.1.clone()).to_string(), "x");
     let prefix = format!("{}{}", INTERMEDIATE_VAR_PREFIX, 0);
     tup = tup.let_(prefix.clone(), IntermediateType::default());
-    assert_eq!(tup.0.to_string(), format!("{}{}", prefix.clone(), ".0"));
-    assert_eq!(tup.1.to_string(), format!("{}{}", prefix, ".1"));
+    assert_eq!(
+        CompiledAirVar::from(tup.0).to_string(),
+        format!("{}{}", prefix.clone(), ".0")
+    );
+    assert_eq!(
+        CompiledAirVar::from(tup.1).to_string(),
+        format!("{}{}", prefix, ".1")
+    );
 
     // Assert as felts return the vector elements as felts.
     let tup = (bool_expr!("y", true), expr!("x", 5));

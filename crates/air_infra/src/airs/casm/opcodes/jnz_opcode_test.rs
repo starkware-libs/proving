@@ -8,6 +8,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 use crate::const_expr;
 use crate::const_felt252_expr;
@@ -92,16 +93,12 @@ fn build_and_test(
             .collect::<Vec<_>>()
     );
 
-    // Check air_body
-    let air_body = registry.get_air_fn_entry(&jnz_opcode.name()).air_body;
-
-    if let Some(expected_air_body) = expected_air_body {
-        assert_eq!(
-            air_body
-                .iter()
-                .map(|x| x.to_string())
-                .collect::<Vec<String>>(),
-            expected_air_body
+    // Check entry
+    if let Some(entry_file_name) = entry_file_name {
+        compare_test_json(
+            registry,
+            &jnz_opcode.name(),
+            &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
         );
     }
 }
@@ -155,8 +152,8 @@ fn test_not_taken_zero_match_base_ap() {
                 state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + state[34])"
         ]),
         vec![
-            50, 200, 150, 499, 63, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0
+            50, 200, 150, 499, 63, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0,
         ],
     );
 }
@@ -235,8 +232,8 @@ fn test_taken_match_base_ap() {
                 ReadSmall((state[0] + const_1))"
         ]),
         vec![
-            50, 200, 150, 499, 63, 0, 2, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 3, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1955558780, 500077285, 1, 0, 0, 15, 0, 0
+            50, 200, 150, 499, 63, 0, 2, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 3, 0, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1955558780, 500077285, 1, 0, 0, 15, 0, 0,
         ],
     );
 }

@@ -1,0 +1,216 @@
+{
+  "name": "JumpOpcode_c6771c09eb7d4031",
+  "inst_def": {
+    "is_rel": "true",
+    "op1_base_fp": "false",
+    "ap_update_add_1": "false"
+  },
+  "input": {
+    "name": "JumpOpcode_c6771c09eb7d4031_input",
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "JumpOpcode_c6771c09eb7d4031_input.pc",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "JumpOpcode_c6771c09eb7d4031_input.ap",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "JumpOpcode_c6771c09eb7d4031_input.fp",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "input_num_of_felts": 3,
+  "output": {
+    "name": null,
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "(state[0] + ((((state[9] * const_262144) + ((state[8] * const_512) + state[7])) - state[5]) - (const_134217728 * state[6])))",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "state[1]",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "state[2]",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "output_felts": [
+    "(state[0] + ((((state[9] * const_262144) + ((state[8] * const_512) + state[7])) - state[5]) - (const_134217728 * state[6])))",
+    "state[1]",
+    "state[2]"
+  ],
+  "trace_type": "Component",
+  "air_body": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        {
+          "name": "JumpOpcode_c6771c09eb7d4031_input",
+          "type": "CasmState",
+          "fields": [
+            [
+              "pc",
+              {
+                "name": "JumpOpcode_c6771c09eb7d4031_input.pc",
+                "type": "M31"
+              }
+            ],
+            [
+              "ap",
+              {
+                "name": "JumpOpcode_c6771c09eb7d4031_input.ap",
+                "type": "M31"
+              }
+            ],
+            [
+              "fp",
+              {
+                "name": "JumpOpcode_c6771c09eb7d4031_input.fp",
+                "type": "M31"
+              }
+            ]
+          ]
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_0.pc"
+    },
+    {
+      "Deduction": "tmp_0.ap"
+    },
+    {
+      "Deduction": "tmp_0.fp"
+    },
+    {
+      "Call": {
+        "air_fn_name": "DecodeInstruction_d5261ee7a67207d3",
+        "input_arg": {
+          "name": "state[0]",
+          "type": "M31"
+        },
+        "output": [
+          [
+            {
+              "name": "const_2147483646",
+              "type": "M31"
+            },
+            {
+              "name": "const_2147483646",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "const_true",
+              "type": "Bool"
+            },
+            {
+              "name": "const_true",
+              "type": "Bool"
+            },
+            {
+              "name": "const_true",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_true",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadSmall",
+        "input_arg": {
+          "name": "(state[0] + const_1)",
+          "type": "M31"
+        },
+        "output": {
+          "name": "((((state[9] * const_262144) + ((state[8] * const_512) + state[7])) - state[5]) - (const_134217728 * state[6]))",
+          "type": "M31"
+        }
+      }
+    }
+  ]
+}

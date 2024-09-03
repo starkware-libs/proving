@@ -7,6 +7,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 use crate::const_expr;
 use crate::const_felt252_expr;
@@ -94,16 +95,14 @@ fn build_and_test(
             .collect::<Vec<_>>()
     );
 
-    // Check air_body
-    let air_body = registry.get_air_fn_entry(&call_opcode.name()).air_body;
-
-    assert_eq!(
-        air_body
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        expected_air_body
-    );
+    // Check entry
+    if let Some(entry_file_name) = entry_file_name {
+        compare_test_json(
+            registry,
+            &call_opcode.name(),
+            &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
+        );
+    }
 }
 
 #[test]
@@ -269,46 +268,6 @@ fn test_fp_call_negative_offset2() {
         vec![50, 200, 150, 11, 511, 3, 0, 2, 3, 1, 400, 0, 0],
     );
 }
-
-const CALL_AP_EXPECTED_AIR_BODY: [&str; 8] = [
-    "tmp_0 = CallOpcode_is_rel_false_op1_base_fp_false_input",
-    "Deduction: tmp_0.pc",
-    "Deduction: tmp_0.ap",
-    "Deduction: tmp_0.fp",
-    "(\
-        [\
-            const_0, \
-            const_1, \
-            (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
-        ], [\
-            const_false, \
-            const_false, \
-            const_false, \
-            const_false, \
-            const_true, \
-            const_false, \
-            const_false, \
-            const_true, \
-            const_false, \
-            const_false, \
-            const_false, \
-            const_false, \
-            const_true, \
-            const_false, \
-            const_false\
-        ]\
-    ) = DecodeInstruction_d682a34433babffb(state[0])",
-    "() = MemVerify((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
-    "() = MemVerify((\
-        (state[1] + const_1), \
-        Felt252::from_limbs(zero_extend([(state[0] + const_1)]))\
-    ))",
-    "Felt252::from_limbs(zero_extend([state[10], state[11], state[12]])) = \
-        ReadPositive_num_bits_27((\
-            state[1] + \
-            (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
-    ))",
-];
 
 #[test]
 fn test_ap_call_positive_offset2() {

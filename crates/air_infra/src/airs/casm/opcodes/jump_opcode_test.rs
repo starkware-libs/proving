@@ -8,6 +8,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 // Macros
 use crate::const_expr;
@@ -20,7 +21,7 @@ fn test_jump_opcode(
     ap_update_add_1: bool,
     op1: u128,
     offset_value: i16,
-    expected_air_body: Option<&[&str]>,
+    entry_file_name: Option<&str>,
     expected_state: Vec<u32>,
 ) {
     // Create the air function
@@ -90,16 +91,12 @@ fn test_jump_opcode(
             .collect::<Vec<String>>()
     );
 
-    // Check air body
-    if let Some(expected_air_body) = expected_air_body {
-        let entry = registry.get_air_fn_entry(&jump_opcode.name());
-        assert_eq!(
-            entry
-                .air_body
-                .iter()
-                .map(|x| x.to_string())
-                .collect::<Vec<String>>(),
-            expected_air_body
+    // Check entry
+    if let Some(entry_file_name) = entry_file_name {
+        compare_test_json(
+            registry,
+            &jump_opcode.name(),
+            &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
         );
     }
 }
@@ -112,40 +109,7 @@ fn test_abs_jump_base_ap() {
         false,
         8,
         2,
-        Some(&[
-            "tmp_0 = JumpOpcode_9f713f694ee774ed_input",
-            "Deduction: tmp_0.pc",
-            "Deduction: tmp_0.ap",
-            "Deduction: tmp_0.fp",
-            "(\
-                [\
-                    const_2147483646, \
-                    const_2147483646, \
-                    (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
-                ], [\
-                    const_true, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false\
-                ]\
-            ) = DecodeInstruction_a4fdc221dc5c5f46(state[0])",
-            "Felt252::from_limbs(zero_extend([state[8], state[9], state[10]])) = \
-                ReadPositive_num_bits_27((\
-                    state[1] + \
-                    (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
-                ))",
-        ]),
+        Some("abs_jump_base_ap.json"),
         vec![3, 11, 6, 2, 0, 4, 0, 1, 8, 0, 0],
     );
 }
@@ -223,39 +187,7 @@ fn test_rel_jump() {
         false,
         100,
         5,
-        Some(&[
-            "tmp_0 = JumpOpcode_c6771c09eb7d4031_input",
-            "Deduction: tmp_0.pc",
-            "Deduction: tmp_0.ap",
-            "Deduction: tmp_0.fp",
-            "(\
-                [\
-                    const_2147483646, \
-                    const_2147483646, \
-                    const_1\
-                ], [\
-                    const_true, \
-                    const_true, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false\
-                ]\
-            ) = DecodeInstruction_d5261ee7a67207d3(state[0])",
-            "(\
-                (((state[9] * const_262144) + ((state[8] * const_512) + state[7])) - state[5]) - \
-                (const_134217728 * state[6])\
-            ) = ReadSmall((state[0] + const_1))",
-        ]),
+        Some("rel_jump.json"),
         vec![3, 11, 6, 0, 1, 0, 0, 100, 0, 0],
     );
 }
