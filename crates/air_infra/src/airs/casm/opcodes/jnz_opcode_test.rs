@@ -17,7 +17,7 @@ fn build_and_test(
     [is_taken, dst_base_fp, ap_update_add_1]: [bool; 3],
     offset_dst: i16,
     dst_value: Felt252Expr,
-    op1_value: u32,
+    op1_value: ((u128, u128), i32),
     expected_air_body: Option<&[&str]>,
     expected_state: Vec<u32>,
 ) {
@@ -43,7 +43,7 @@ fn build_and_test(
 
     memory_values.push((
         const_expr!(pc_value + 1),
-        const_felt252_expr!(op1_value as u128, 0),
+        const_felt252_expr!(op1_value.0 .0, op1_value.0 .1),
     ));
 
     if dst_base_fp {
@@ -67,7 +67,10 @@ fn build_and_test(
 
     // Check output
     if is_taken {
-        assert_eq!(next_state.pc.calc(), (pc_value + op1_value).to_string());
+        assert_eq!(
+            next_state.pc.calc(),
+            (pc_value as i32 + op1_value.1).to_string()
+        );
     } else {
         assert_eq!(next_state.pc.calc(), (pc_value + 2).to_string());
     }
@@ -109,7 +112,7 @@ fn test_not_taken_zero_match_base_ap() {
         [false, false, false],
         -13,
         const_felt252_expr!(0, 0),
-        15,
+        ((15, 0),15),
         Some(&[
             "tmp_0 = JnzOpcode_b3760089fc9071eb_input",
             "Deduction: tmp_0.pc",
@@ -164,7 +167,7 @@ fn test_taken_match_base_ap() {
         [true, false, false],
         -13,
         const_felt252_expr!(123, 456),
-        15,
+        ((15, 0),15),
         Some(&[
             "tmp_0 = JnzOpcode_6e3ab2d8e823ba18_input",
             "Deduction: tmp_0.pc",
@@ -245,7 +248,7 @@ fn test_taken_zero_mismatch_base_ap() {
         [true, false, false],
         -13,
         const_felt252_expr!(0, 0),
-        15,
+        ((15, 0), 15),
         None,
         vec![],
     );
@@ -258,7 +261,7 @@ fn test_not_taken_mismatch_base_ap() {
         [false, false, false],
         -13,
         const_felt252_expr!(123, 4567),
-        15,
+        ((15, 0), 15),
         None,
         vec![],
     );
@@ -271,9 +274,89 @@ fn test_taken_p_mismatch_base_ap() {
         [true, false, false],
         -13,
         const_felt252_expr!(1, 17 * u128::pow(2, 64) + u128::pow(2, 123)),
-        15,
+        ((15, 0), 15),
         None,
         vec![],
+    );
+}
+
+#[test]
+fn test_taken_match_base_fp_negative_op1() {
+    build_and_test(
+        [true, true, false],
+        -13,
+        const_felt252_expr!(123, 456),
+        ((340282366920938463463374607431768211435, 10633823966279327296825105735305134079),-22),
+        Some(&[
+            "tmp_0 = JnzOpcode_d4a4ae56010cf8cd_input",
+            "Deduction: tmp_0.pc",
+            "Deduction: tmp_0.ap",
+            "Deduction: tmp_0.fp",
+            "(\
+                [\
+                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
+                    const_2147483646, \
+                    const_1\
+                ], [\
+                    const_true, \
+                    const_true, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_true, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false, \
+                    const_false\
+                ]\
+            ) = DecodeInstruction_44c6aa97f795bb26(state[0])",
+            "Felt252::from_limbs([\
+                state[7], state[8], state[9], state[10], state[11], state[12], state[13], \
+                state[14], state[15], state[16], state[17], state[18], state[19], state[20], \
+                state[21], state[22], state[23], state[24], state[25], state[26], state[27], \
+                state[28], state[29], state[30], state[31], state[32], state[33], state[34]\
+            ]) = ReadPositive_num_bits_252((\
+                state[2] + (((state[3] + (state[4] * const_512)) + const_0) - const_32768)))",
+            "Deduction: (const_1 // ((((((((((((((((((((((((((((const_0 + \
+                state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + \
+                state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + \
+                state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + \
+                state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + state[34]))",
+            "Constraint: ((((((((((((((((((((((((((((((const_0 + \
+                state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + \
+                state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + \
+                state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + \
+                state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + state[34]) * \
+                state[35]) - const_1)",
+            "tmp_13 = (state[7] - const_1)",
+            "tmp_14 = (state[28] - const_136)",
+            "tmp_15 = (state[34] - const_256)",
+            "Deduction: (const_1 // ((((((((((((((((((((((((((((const_0 + \
+                (tmp_13 * tmp_13)) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + \
+                state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + \
+                state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + \
+                (tmp_14 * tmp_14)) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + (tmp_15 * tmp_15)))",
+            "Constraint: ((((((((((((((((((((((((((((((const_0 + \
+                (tmp_13 * tmp_13)) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + \
+                state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + \
+                state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + \
+                (tmp_14 * tmp_14)) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + (tmp_15 * tmp_15)) * \
+                state[36]) - const_1)",
+            "(\
+                (((state[42] * const_262144) + ((state[41] * const_512) + state[40])) - state[38]) - \
+                (const_134217728 * state[39])\
+            ) = \
+                ReadSmall((state[0] + const_1))"
+        ]),
+        vec![
+            50, 200, 150, 499, 63, 0, 2, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 3, 0,
+            0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1955558780, 500077285, 1, 1, 1, 491, 511, 511
+        ],
     );
 }
 
