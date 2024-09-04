@@ -1,3 +1,5 @@
+use std::collections::{HashMap, HashSet};
+
 use air_infra::core::compiled_structs::{
     CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupData, TraceGenStep, UseOrYield,
 };
@@ -147,6 +149,20 @@ fn generate_framework_impl(component_name: &str, lists: &CompiledAirFn) -> rust:
 
 fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
+
+    // Constants.
+    let constants = constraint_consts(&lists.constraints);
+    let mut const_names = HashMap::new();
+    for (ty, val) in constants.into_iter() {
+        let name = format!("{ty}_{val}");
+        const_names.insert((ty.clone(), val.clone()), name.clone());
+        let ty = if ty == "M31" { "E::F" } else { &ty };
+        code.append(quote! {
+            let $(name) = $(ty)::from(M31::from($(val)));
+        });
+    }
+
+    // Logup.
     code.append(quote! {
         let mut logup = LogupAtRow::<LOGUP_BATCH_SIZE, E>::new(
             1,
@@ -165,13 +181,13 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             ConstraintEvalStep::Constraint(expr) => {
                 code.extend(quote! {
                     eval.add_constraint(
-                        $(parse_eval_constraint(expr))
+                        $(parse_eval_constraint(expr,&const_names))
                     );
                 });
             }
             ConstraintEvalStep::Intermediate(var, expr) => {
                 code.extend(quote! {
-                    let $(var) = $(parse_eval_constraint(expr));
+                    let $(var) = $(parse_eval_constraint(expr,&const_names));
                 });
             }
             // TODO(Ohad): implement.
@@ -180,7 +196,12 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 felts,
                 use_or_yield,
             }) => {
-                code.extend(parse_lookup_constraint(relation_name, felts, use_or_yield));
+                code.extend(parse_lookup_constraint(
+                    relation_name,
+                    felts,
+                    use_or_yield,
+                    &const_names,
+                ));
             }
             ConstraintEvalStep::StartBlock(_) => (),
             ConstraintEvalStep::EndBlock => (),
@@ -196,12 +217,74 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 // TODO(Ohad): Optimize small constantF252 values initialization.
+fn constraint_consts(constraints: &[ConstraintEvalStep]) -> Vec<(String, String)> {
+    constraints
+        .iter()
+        .fold(HashSet::new(), |mut const_defs, constraint| {
+            match constraint {
+                ConstraintEvalStep::Constraint(compiled_air_var) => {
+                    const_defs.extend(seek_consts(compiled_air_var))
+                }
+                ConstraintEvalStep::LookupData(LookupData {
+                    relation_name: _,
+                    felts,
+                    ..
+                }) => const_defs.extend(felts.iter().flat_map(seek_consts)),
+                ConstraintEvalStep::Intermediate(_, var) => const_defs.extend(seek_consts(var)),
+                ConstraintEvalStep::StartBlock(_) => {}
+                ConstraintEvalStep::EndBlock => {}
+            };
+            const_defs
+        })
+        .into_iter()
+        .sorted()
+        .collect()
+}
 
-fn parse_eval_constraint(expr: &CompiledAirVar) -> String {
+fn expr_iterator<F>(expr: &CompiledAirVar, f: &mut F)
+where
+    F: FnMut(&CompiledAirVar),
+{
+    let mut iter_many =
+        |vars: &[CompiledAirVar]| vars.iter().for_each(|var| expr_iterator::<F>(var, f));
+
     match expr {
-        CompiledAirVar::Const(_, val) => {
-            format!("E::F::from(M31::from({val}))")
+        CompiledAirVar::Const(..) => f(expr),
+        CompiledAirVar::Var(..) => f(expr),
+        CompiledAirVar::State(..) => f(expr),
+        CompiledAirVar::StaticCall(_, vars) => iter_many(vars),
+        CompiledAirVar::MethodCall(_, _, vars) => iter_many(vars),
+        CompiledAirVar::BinaryOp(lhs, _, rhs) => iter_many(&[*lhs.clone(), *rhs.clone()]),
+        CompiledAirVar::UnaryOp(_, var) => f(var),
+        CompiledAirVar::Tuple(vars) => iter_many(vars),
+        CompiledAirVar::Array(vars) => iter_many(vars),
+        CompiledAirVar::Struct { r#type: _, fields } => {
+            iter_many(&fields.iter().cloned().map(|(_, var)| var).collect_vec())
         }
+        CompiledAirVar::ExternalState(..) => todo!(),
+    }
+}
+
+fn seek_consts(expr: &CompiledAirVar) -> HashSet<(String, String)> {
+    let mut hashset = HashSet::new();
+    let mut insert = |expr: &CompiledAirVar| {
+        if let CompiledAirVar::Const(ty, val) = expr {
+            hashset.insert((ty.to_string(), val.to_string()));
+        }
+    };
+    expr_iterator(expr, &mut insert);
+    hashset
+}
+
+fn parse_eval_constraint(
+    expr: &CompiledAirVar,
+    constant_names: &HashMap<(String, String), String>,
+) -> String {
+    match expr {
+        CompiledAirVar::Const(ty, val) => constant_names
+            .get(&(ty.to_owned(), val.to_owned()))
+            .unwrap()
+            .to_string(),
         CompiledAirVar::State(index) => format!("trace_row[{index}]"),
         CompiledAirVar::StaticCall(id, args) => {
             let mut arg_str = String::new();
@@ -209,7 +292,7 @@ fn parse_eval_constraint(expr: &CompiledAirVar) -> String {
                 if i > 0 {
                     arg_str.push_str(", ");
                 }
-                arg_str.push_str(&parse_eval_constraint(arg));
+                arg_str.push_str(&parse_eval_constraint(arg, constant_names));
             }
             format!("{}({})", id, arg_str)
         }
@@ -219,20 +302,25 @@ fn parse_eval_constraint(expr: &CompiledAirVar) -> String {
                 if i > 0 {
                     arg_str.push_str(", ");
                 }
-                arg_str.push_str(&parse_eval_constraint(arg));
+                arg_str.push_str(&parse_eval_constraint(arg, constant_names));
             }
-            format!("{}.{}({})", parse_eval_constraint(id), func, arg_str)
+            format!(
+                "{}.{}({})",
+                parse_eval_constraint(id, constant_names),
+                func,
+                arg_str
+            )
         }
         CompiledAirVar::Var(_, id) => id.to_string(),
         CompiledAirVar::BinaryOp(lhs, op, rhs) => {
             format!(
                 "({} {op} {})",
-                parse_eval_constraint(lhs),
-                parse_eval_constraint(rhs)
+                parse_eval_constraint(lhs, constant_names),
+                parse_eval_constraint(rhs, constant_names)
             )
         }
         CompiledAirVar::UnaryOp(op, expr) => {
-            format!("({op}{})", parse_eval_constraint(expr))
+            format!("({op}{})", parse_eval_constraint(expr, constant_names))
         }
         CompiledAirVar::Tuple(_) => unimplemented!(),
         CompiledAirVar::Array(_) => unimplemented!(),
@@ -266,10 +354,11 @@ fn parse_lookup_constraint(
     relation_name: &str,
     felts: &[CompiledAirVar],
     use_or_yield: &UseOrYield,
+    constant_defs: &HashMap<(String, String), String>,
 ) -> rust::Tokens {
     let lookup_values = felts
         .iter()
-        .map(parse_eval_constraint)
+        .map(|felt| parse_eval_constraint(felt, constant_defs))
         .collect_vec()
         .join(", ");
     let sign = match use_or_yield {

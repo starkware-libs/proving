@@ -68,6 +68,17 @@ impl FrameworkEval for AddApOpcode_is_imm_t_op1_base_fp_fEval {
     #[allow(unused_parens)]
     #[allow(clippy::double_parens)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
+        let M31_0 = E::F::from(M31::from(0));
+        let M31_1 = E::F::from(M31::from(1));
+        let M31_134217728 = E::F::from(M31::from(134217728));
+        let M31_136 = E::F::from(M31::from(136));
+        let M31_2 = E::F::from(M31::from(2));
+        let M31_256 = E::F::from(M31::from(256));
+        let M31_262144 = E::F::from(M31::from(262144));
+        let M31_32767 = E::F::from(M31::from(32767));
+        let M31_32769 = E::F::from(M31::from(32769));
+        let M31_511 = E::F::from(M31::from(511));
+        let M31_512 = E::F::from(M31::from(512));
         let mut logup = LogupAtRow::<LOGUP_BATCH_SIZE, E>::new(
             1,
             self.interaction_claim.claimed_sum,
@@ -79,38 +90,36 @@ impl FrameworkEval for AddApOpcode_is_imm_t_op1_base_fp_fEval {
             E::EF::one(),
             &[
                 trace_row[0],
-                E::F::from(M31::from(32767)),
-                E::F::from(M31::from(32767)),
-                E::F::from(M31::from(32769)),
-                E::F::from(M31::from(1)),
-                E::F::from(M31::from(1)),
-                E::F::from(M31::from(1)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(1)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
+                M31_32767,
+                M31_32767,
+                M31_32769,
+                M31_1,
+                M31_1,
+                M31_1,
+                M31_0,
+                M31_0,
+                M31_0,
+                M31_0,
+                M31_0,
+                M31_0,
+                M31_0,
+                M31_1,
+                M31_0,
+                M31_0,
+                M31_0,
+                M31_0,
             ],
             &self.verifyinstruction_lookup_elements,
         );
         logup.push_lookup(
             &mut eval,
             E::EF::one(),
-            &[(trace_row[0] + E::F::from(M31::from(1))), trace_row[3]],
+            &[(trace_row[0] + M31_1), trace_row[3]],
             &self.memory_k_m31_v_m31_lookup_elements,
         );
-        eval.add_constraint((trace_row[4] * (trace_row[4] - E::F::from(M31::from(1)))));
-        eval.add_constraint((trace_row[5] * (trace_row[5] - E::F::from(M31::from(1)))));
-        eval.add_constraint(
-            ((E::F::from(M31::from(1)) * trace_row[5]) * (trace_row[4] - E::F::from(M31::from(1)))),
-        );
+        eval.add_constraint((trace_row[4] * (trace_row[4] - M31_1)));
+        eval.add_constraint((trace_row[5] * (trace_row[5] - M31_1)));
+        eval.add_constraint(((M31_1 * trace_row[5]) * (trace_row[4] - M31_1)));
         logup.push_lookup(
             &mut eval,
             E::EF::one(),
@@ -119,31 +128,31 @@ impl FrameworkEval for AddApOpcode_is_imm_t_op1_base_fp_fEval {
                 trace_row[6],
                 trace_row[7],
                 trace_row[8],
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                (trace_row[5] * E::F::from(M31::from(511))),
-                ((E::F::from(M31::from(136)) * trace_row[4]) - trace_row[5]),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
-                E::F::from(M31::from(0)),
-                (trace_row[4] * E::F::from(M31::from(256))),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                (trace_row[5] * M31_511),
+                ((M31_136 * trace_row[4]) - trace_row[5]),
+                M31_0,
+                M31_0,
+                M31_0,
+                M31_0,
+                M31_0,
+                (trace_row[4] * M31_256),
             ],
             &self.memory_k_m31_v_felt252_lookup_elements,
         );
@@ -157,12 +166,12 @@ impl FrameworkEval for AddApOpcode_is_imm_t_op1_base_fp_fEval {
             &mut eval,
             -E::EF::one(),
             &[
-                (trace_row[0] + E::F::from(M31::from(2))),
+                (trace_row[0] + M31_2),
                 (trace_row[1]
-                    + ((((trace_row[8] * E::F::from(M31::from(262144)))
-                        + ((trace_row[7] * E::F::from(M31::from(512))) + trace_row[6]))
+                    + ((((trace_row[8] * M31_262144)
+                        + ((trace_row[7] * M31_512) + trace_row[6]))
                         - trace_row[4])
-                        - (E::F::from(M31::from(134217728)) * trace_row[5]))),
+                        - (M31_134217728 * trace_row[5]))),
                 trace_row[2],
             ],
             &self.opcodes_lookup_elements,

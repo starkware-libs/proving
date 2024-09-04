@@ -63,6 +63,7 @@ impl FrameworkEval for WideFib_num_narrow_8_narrow_size_20Eval {
     #[allow(unused_parens)]
     #[allow(clippy::double_parens)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
+        let M31_1 = E::F::from(M31::from(1));
         let mut logup = LogupAtRow::<LOGUP_BATCH_SIZE, E>::new(
             1,
             self.interaction_claim.claimed_sum,
@@ -72,12 +73,7 @@ impl FrameworkEval for WideFib_num_narrow_8_narrow_size_20Eval {
         logup.push_lookup(
             &mut eval,
             E::EF::one(),
-            &[
-                E::F::from(M31::from(1)),
-                trace_row[0],
-                trace_row[1],
-                trace_row[2],
-            ],
+            &[M31_1, trace_row[0], trace_row[1], trace_row[2]],
             &self.narrowfib_num_steps_20_lookup_elements,
         );
         logup.push_lookup(
