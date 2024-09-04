@@ -17,6 +17,4 @@ mod memory_air_fn_test;
 #[cfg(test)]
 mod state_test;
 #[cfg(test)]
-mod test_utils;
-#[cfg(test)]
 mod variables_test;

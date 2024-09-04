@@ -1,4 +1,5 @@
 use std::fmt::Display;
+use std::path::PathBuf;
 
 use super::compiled_structs::*;
 
@@ -72,4 +73,8 @@ pub fn vars_arr_to_string(felts: &[CompiledAirVar]) -> String {
     } else {
         str
     }
+}
+
+pub fn project_root() -> PathBuf {
+    std::path::PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap())
 }
