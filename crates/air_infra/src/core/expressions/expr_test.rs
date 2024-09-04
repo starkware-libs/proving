@@ -125,12 +125,31 @@ fn test_felt252_ops() {
     let c = const_felt252_expr!(1, 0);
     let d = const_felt252_expr!(0, 10633823966279327296825105735305134080u128);
     assert_eq!((c + d).calc(), const_felt252_expr!(0, 0).calc());
+    let e = const_felt252_expr!(
+        0xffffffff_ffffffff_ffffffff_ffffffffu128,
+        0xffffffff_ffffffff_ffffffff_ffffffffu128
+    );
+    assert_eq!(
+        (e.clone() + e).calc(),
+        const_felt252_expr!(
+            0xffffffff_ffffffff_ffffffff_fffffffbu128,
+            0x37ffffff_ffffffcc_ffffffff_ffffffffu128
+        )
+        .calc()
+    );
 }
 
 #[test]
 #[should_panic(expected = "Division by zero")]
 fn test_felt252_division_by_zero() {
     let _div = const_felt252_expr!(3, 4) / const_felt252_expr!(0, 0);
+}
+
+#[test]
+#[should_panic(expected = "Division by zero")]
+fn test_felt252_division_by_p() {
+    let _div = const_felt252_expr!(3, 4)
+        / const_felt252_expr!(1, 0x08000000_00000011_00000000_00000000u128);
 }
 
 #[test]

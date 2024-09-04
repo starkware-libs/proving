@@ -464,16 +464,19 @@ impl Felt252 {
 // Convert between Felt252 and FieldElement for performing field operations.
 // Note that FieldElements are in Montgomery form, and for efficiency and simplicity, we skip the
 // conversion in both direction. We thus have to compensate with extra factors when performing
-// multiplication and division.
+// multiplication and division. We also ensure the FieldElement is reduced modulo P, by adding zero
+// on initial conversion. This results in subtracting P once if needed, which suffices as as the
+// limbs of a Felt252 are smaller than 2**252 < 2*P.
 impl From<Felt252> for FieldElement {
     fn from(n: Felt252) -> FieldElement {
-        FieldElement::from_mont(n.limbs)
+        FieldElement::from_mont(n.limbs) + FieldElement::ZERO
     }
 }
 impl From<FieldElement> for Felt252 {
     fn from(n: FieldElement) -> Felt252 {
-        let limbs = n.into_mont();
-        Felt252 { limbs }
+        Felt252 {
+            limbs: n.into_mont(),
+        }
     }
 }
 
@@ -539,7 +542,7 @@ impl From<(u128, u128)> for Felt252 {
                 (low & 0xffffffff_ffffffffu128) as u64,
                 (low >> 64) as u64,
                 (high & 0xffffffff_ffffffffu128) as u64,
-                (high >> 64) as u64,
+                (high >> 64) as u64 & 0x0fffffff_ffffffffu64,
             ],
         }
     }
@@ -547,7 +550,14 @@ impl From<(u128, u128)> for Felt252 {
 
 impl From<[u64; 4]> for Felt252 {
     fn from(limbs: [u64; 4]) -> Felt252 {
-        Felt252 { limbs }
+        Felt252 {
+            limbs: [
+                limbs[0],
+                limbs[1],
+                limbs[2],
+                limbs[3] & 0x0fffffff_ffffffffu64,
+            ],
+        }
     }
 }
 
