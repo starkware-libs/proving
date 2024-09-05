@@ -16,24 +16,21 @@ use crate::const_felt252_expr;
 fn test_read_small() {
     let mem_data = vec![
         // Small positive
-        (const_expr!(1), const_felt252_expr!(7, 0)),
+        (const_expr!(1), const_felt252_expr!(7i128)),
         (
             // Small positive duplicate
             const_expr!(2),
-            const_felt252_expr!(7, 0),
+            const_felt252_expr!(7i128),
         ),
         (
             // Minus one
             const_expr!(3),
-            const_felt252_expr!(0, 10633823966279327296825105735305134080),
+            const_felt252_expr!(-1i128),
         ),
         (
             // Minus two
             const_expr!(4),
-            const_felt252_expr!(
-                340282366920938463463374607431768211455,
-                10633823966279327296825105735305134079
-            ),
+            const_felt252_expr!(-2i128),
         ),
         (
             // P

@@ -18,7 +18,7 @@ fn build_and_test(
     [is_taken, dst_base_fp, ap_update_add_1]: [bool; 3],
     offset_dst: i16,
     dst_value: Felt252Expr,
-    op1_value: ((u128, u128), i32),
+    op1_value: i64,
     entry_file_name: Option<&str>,
     expected_state: Vec<u32>,
 ) {
@@ -42,10 +42,7 @@ fn build_and_test(
         const_felt252_expr!(assemble_jnz(offset_dst, &jnz_opcode.get_flags()) as u128, 0),
     )];
 
-    memory_values.push((
-        const_expr!(pc_value + 1),
-        const_felt252_expr!(op1_value.0 .0, op1_value.0 .1),
-    ));
+    memory_values.push((const_expr!(pc_value + 1), const_felt252_expr!(op1_value)));
 
     if dst_base_fp {
         memory_values.push((
@@ -70,7 +67,7 @@ fn build_and_test(
     if is_taken {
         assert_eq!(
             next_state.pc.calc(),
-            (pc_value as i32 + op1_value.1).to_string()
+            (pc_value as i128 + op1_value as i128).to_string()
         );
     } else {
         assert_eq!(next_state.pc.calc(), (pc_value + 2).to_string());
@@ -109,7 +106,7 @@ fn test_jnz_not_taken_base_ap() {
         [false, false, false],
         -13,
         const_felt252_expr!(0, 0),
-        ((15, 0), 15),
+        15,
         Some("jnz_not_taken_base_ap.json"),
         vec![
             50, 200, 150, 499, 63, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -124,7 +121,7 @@ fn test_jnz_taken_base_ap() {
         [true, false, false],
         -13,
         const_felt252_expr!(123, 456),
-        ((15, 0), 15),
+        15,
         Some("jnz_taken_base_ap.json"),
         vec![
             50, 200, 150, 499, 63, 0, 2, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 3, 0, 0,
@@ -140,7 +137,7 @@ fn test_taken_zero_mismatch_base_ap() {
         [true, false, false],
         -13,
         const_felt252_expr!(0, 0),
-        ((15, 0), 15),
+        15,
         None,
         vec![],
     );
@@ -153,7 +150,7 @@ fn test_not_taken_mismatch_base_ap() {
         [false, false, false],
         -13,
         const_felt252_expr!(123, 4567),
-        ((15, 0), 15),
+        15,
         None,
         vec![],
     );
@@ -166,7 +163,7 @@ fn test_taken_p_mismatch_base_ap() {
         [true, false, false],
         -13,
         const_felt252_expr!(1, 17 * u128::pow(2, 64) + u128::pow(2, 123)),
-        ((15, 0), 15),
+        15,
         None,
         vec![],
     );
@@ -178,13 +175,7 @@ fn test_jnz_taken_negative_op1() {
         [true, true, false],
         -13,
         const_felt252_expr!(123, 456),
-        (
-            (
-                340282366920938463463374607431768211435,
-                10633823966279327296825105735305134079,
-            ),
-            -22,
-        ),
+        -22,
         Some("jnz_taken_negative_op1.json"),
         vec![
             50, 200, 150, 499, 63, 0, 2, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 3, 0, 0,

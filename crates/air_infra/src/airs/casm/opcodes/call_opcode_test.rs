@@ -16,7 +16,7 @@ use crate::expr;
 fn build_and_test(
     op1_base_fp: bool,
     offset2_option: Option<i16>,
-    op1_value: ((u128, u128), i32),
+    op1_value: i64,
     entry_file_name: Option<&str>,
     expected_state: Vec<u32>,
 ) {
@@ -42,7 +42,7 @@ fn build_and_test(
         const_felt252_expr!(assemble_call(offset2, &call_opcode.get_flags()) as u128, 0),
     )];
 
-    let op1_value_252 = const_felt252_expr!(op1_value.0 .0, op1_value.0 .1);
+    let op1_value_252 = const_felt252_expr!(op1_value);
     if is_rel {
         memory_values.push((const_expr!(pc_value + 1), op1_value_252));
     } else if op1_base_fp {
@@ -78,10 +78,10 @@ fn build_and_test(
     if is_rel {
         assert_eq!(
             next_state.pc.calc(),
-            (pc_value as i32 + op1_value.1).to_string()
+            (pc_value as i128 + op1_value as i128).to_string()
         );
     } else {
-        assert_eq!(next_state.pc.calc(), op1_value.1.to_string());
+        assert_eq!(next_state.pc.calc(), op1_value.to_string());
     }
     assert_eq!(next_state.ap.calc(), (ap_value + 2).to_string());
     assert_eq!(next_state.fp.calc(), (ap_value + 2).to_string());
@@ -110,7 +110,7 @@ fn test_relative_call() {
     build_and_test(
         false,
         None,
-        ((500, 0), 500),
+        500,
         Some("relative_call.json"),
         vec![50, 200, 150, 0, 2, 3, 1, 0, 0, 500, 0, 0],
     );
@@ -121,13 +121,7 @@ fn test_relative_call_negative() {
     build_and_test(
         false,
         None,
-        (
-            (
-                340282366920938463463374607431768211440,
-                10633823966279327296825105735305134079,
-            ),
-            -17,
-        ),
+        -17,
         Some("relative_call_negative.json"),
         vec![50, 200, 150, 0, 2, 3, 1, 1, 1, 496, 511, 511],
     );
@@ -138,7 +132,7 @@ fn test_call_base_fp_positive_offset2() {
     build_and_test(
         true,
         Some(5),
-        ((600, 0), 600),
+        600,
         Some("call_base_fp_positive_offset2.json"),
         vec![50, 200, 150, 5, 0, 4, 0, 2, 3, 1, 88, 1, 0],
     );
@@ -149,7 +143,7 @@ fn test_call_base_fp_negative_offset2() {
     build_and_test(
         true,
         Some(-5),
-        ((400, 0), 400),
+        400,
         Some("call_base_fp_negative_offset2.json"),
         vec![50, 200, 150, 11, 511, 3, 0, 2, 3, 1, 400, 0, 0],
     );
@@ -160,7 +154,7 @@ fn test_call_base_ap_positive_offset2() {
     build_and_test(
         false,
         Some(10),
-        ((1234, 0), 1234),
+        1234,
         Some("call_base_ap_positive_offset2.json"),
         vec![50, 200, 150, 10, 0, 4, 0, 2, 3, 1, 210, 2, 0],
     );
@@ -171,7 +165,7 @@ fn test_call_base_ap_negative_offset2() {
     build_and_test(
         false,
         Some(-10),
-        ((55, 0), 55),
+        55,
         Some("call_base_ap_negative_offset2.json"),
         vec![50, 200, 150, 6, 511, 3, 0, 2, 3, 1, 55, 0, 0],
     );
