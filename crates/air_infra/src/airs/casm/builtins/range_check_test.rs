@@ -48,19 +48,19 @@ fn run_range_check(value: Felt252Expr, bits: usize) {
 
 #[test]
 fn test_range_check_whole_limbs() {
-    run_range_check(const_felt252_expr!(1 << 70, 0), 72);
+    run_range_check(const_felt252_expr!(1u128 << 70, 0), 72);
 }
 
 #[test]
 #[should_panic(expected = "Memory::set() failed")]
 fn test_range_check_whole_limbs_fail() {
-    run_range_check(const_felt252_expr!(1 << 74, 0), 72);
+    run_range_check(const_felt252_expr!(1u128 << 74, 0), 72);
 }
 
 // Tests where <bits> is not divisible by 12
 #[test]
 fn test_range_check_partial_limbs() {
-    run_range_check(const_felt252_expr!(1 << 127, 0), 128);
+    run_range_check(const_felt252_expr!(1u128 << 127, 0), 128);
 }
 
 #[test]

@@ -73,11 +73,11 @@ impl Flags {
     }
 
     #[cfg(test)]
-    pub fn non_constants_to_arr(&self, non_consts_flags: Vec<bool>) -> [bool; 15] {
-        let mut non_consts_flags_iter = non_consts_flags.into_iter();
+    pub fn non_constants_to_arr(&self, non_consts_flags: &[bool]) -> [bool; 15] {
+        let mut non_consts_flags_iter = non_consts_flags.iter();
         self.to_arr()
             .iter()
-            .map(|f| f.unwrap_or_else(|| non_consts_flags_iter.next().unwrap()))
+            .map(|f| f.unwrap_or_else(|| *non_consts_flags_iter.next().unwrap()))
             .collect::<Vec<_>>()
             .try_into()
             .unwrap()

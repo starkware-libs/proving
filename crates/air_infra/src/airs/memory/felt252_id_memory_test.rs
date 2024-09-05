@@ -119,7 +119,7 @@ fn test_read_positive_air_body() {
 
 #[test]
 fn test_read_positive_whole_limbs() {
-    test_read_positive(const_felt252_expr!(1 << 35, 0), 36);
+    test_read_positive(const_felt252_expr!(1u128 << 35, 0), 36);
 }
 
 #[test]
