@@ -1,3 +1,5 @@
+use inst_def::InstDef;
+
 use super::bit_unpack::*;
 use super::div2::*;
 
@@ -33,7 +35,7 @@ fn test_bit_unpacking() {
     );
 }
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 struct AirFnBitMux {}
 
 impl AirFn for AirFnBitMux {

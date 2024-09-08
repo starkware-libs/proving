@@ -13,4 +13,4 @@ clap = { version = "4.5.9", features = ["derive"] }
 starknet-ff = "0.3.7"
 indexmap = { workspace = true, features = ["serde"] }
 ruint = "1.12.3"
-
+inst_def = { path = "../derive_macros/inst_def" }

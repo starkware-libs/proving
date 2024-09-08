@@ -1,11 +1,11 @@
 {
-  "name": "BitUnpack_num_bits_4",
-  "description": "BitUnpack_num_bits_4",
+  "name": "BitUnpack_N_4",
+  "description": "BitUnpack_N_4",
   "inst_def": {
-    "num_bits": "4"
+    "N": "4"
   },
   "input": {
-    "name": "BitUnpack_num_bits_4_input",
+    "name": "BitUnpack_N_4_input",
     "type": "UInt16"
   },
   "input_num_of_felts": 1,
@@ -36,14 +36,14 @@
   "trace_type": "Inline",
   "air_body": [
     {
-      "Deduction": "BitUnpack_num_bits_4_input.as_m31()"
+      "Deduction": "BitUnpack_N_4_input.as_m31()"
     },
     {
       "Call": {
         "air_fn_name": "Div2",
         "air_fn_description": "Div2",
         "input_arg": {
-          "name": "BitUnpack_num_bits_4_input",
+          "name": "BitUnpack_N_4_input",
           "type": "UInt16"
         },
         "output": [

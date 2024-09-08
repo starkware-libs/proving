@@ -1,3 +1,5 @@
+use inst_def::InstDef;
+
 use crate::airs::casm::bitwise_xor::*;
 use crate::airs::casm::const_tables::seq::*;
 use crate::airs::memory::felt252_id_memory::*;
@@ -25,8 +27,9 @@ pub const CELLS_PER_BITWISE: u32 = 5;
 // where addr = first_addr + 5 * i for 0 <= i < base.size,
 // where {&, |, ^} are bitwise {and, or, xor} respectively on 251-bit integers (the field elements
 // are guaranteed to be representable as 251-bit integers).
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 pub struct BitwiseBuiltin {
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 

@@ -1,3 +1,5 @@
+use inst_def::InstDef;
+
 use super::verify_add252::*;
 use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
@@ -9,7 +11,7 @@ use crate::core::variables::*;
 /// The function assumes the inputs have range-checked limbs, and range-checks the result.
 /// The result is not constrained to be fully reduced, i.e. an assignement with b = ((c-a) % P) + P
 /// could satisfy the constraints.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct Sub252 {}
 
 impl AirFn for Sub252 {

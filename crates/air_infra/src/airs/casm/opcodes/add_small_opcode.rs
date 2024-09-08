@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use super::super::casm_state::*;
 use super::super::common::*;
@@ -20,9 +20,10 @@ use crate::const_expr;
 ///
 /// TODO: Update the range when the correct range is known.
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct AddSmallOpcode {
     pub is_imm: bool,
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -125,10 +126,6 @@ impl AirFn for AddSmallOpcode {
         };
 
         CasmStateVar::new(next_pc, next_ap, casm_state.fp)
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [("is_imm".to_string(), self.is_imm.to_string())].into()
     }
 
     fn trace_type(&self) -> TraceType {

@@ -1,3 +1,5 @@
+use inst_def::InstDef;
+
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 #[cfg(test)]
@@ -6,7 +8,7 @@ use crate::core::expressions::var_expr::*;
 #[cfg(test)]
 use crate::core::Felt;
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 pub struct Seq {}
 
 /// A constant sequential column - row <i> contains the value <i>

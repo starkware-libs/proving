@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use super::super::casm_state::*;
 use super::super::common::*;
@@ -19,11 +19,11 @@ use crate::const_expr;
 /// - call abs [ap + offset]
 /// - call abs [fp + offset]
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct CallOpcode {
     pub is_rel: bool,
     pub op1_base_fp: bool,
-
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -114,14 +114,6 @@ impl AirFn for CallOpcode {
             casm_state.ap.clone() + const_expr!(2),
             casm_state.ap + const_expr!(2),
         )
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [
-            ("is_rel".to_string(), self.is_rel.to_string()),
-            ("op1_base_fp".to_string(), self.op1_base_fp.to_string()),
-        ]
-        .into()
     }
 
     fn trace_type(&self) -> TraceType {

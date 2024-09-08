@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use super::div2::*;
 use crate::core::air_fn::*;
@@ -9,7 +9,7 @@ use crate::core::expressions::uint16_expr::*;
 
 /// Unpacks a 16-bit unsigned integer into a vector of bits.
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct BitUnpack<const N: usize> {}
 
 impl<const N: usize> AirFn for BitUnpack<N> {
@@ -30,9 +30,5 @@ impl<const N: usize> AirFn for BitUnpack<N> {
 
         air_builder.constrain(input.as_felt());
         output.try_into().expect("Invalid number of bits")
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [("num_bits".to_string(), N.to_string())].into()
     }
 }

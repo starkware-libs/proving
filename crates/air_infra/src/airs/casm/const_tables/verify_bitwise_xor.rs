@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
@@ -8,7 +8,7 @@ use crate::core::variables::*;
 const STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4: &str = "VerifyBitwiseXor4";
 const STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9: &str = "VerifyBitwiseXor9";
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 pub struct VerifyBitwiseXor {
     pub num_bits: usize,
 }
@@ -34,10 +34,6 @@ impl AirFn for VerifyBitwiseXor {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [("num_bits".to_string(), self.num_bits.to_string())].into()
     }
 
     fn call(&self, _air_builder: &mut AirBuilder, [_a, _b, _c]: Self::In) -> Self::Out {

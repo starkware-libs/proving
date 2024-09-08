@@ -1,3 +1,5 @@
+use inst_def::InstDef;
+
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::decode_instruction::*;
@@ -27,8 +29,9 @@ pub const RET_FLAGS: Flags = Flags {
     opcode_assert_eq: Some(false),
 };
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, InstDef)]
 pub struct RetOpcode {
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 

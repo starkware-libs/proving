@@ -1,3 +1,5 @@
+use inst_def::InstDef;
+
 use super::air_fn::*;
 use super::air_fn_registry::*;
 use super::expressions::felt252_expr::*;
@@ -6,7 +8,7 @@ use super::expressions::uint32_expr::*;
 use super::variables::*;
 use crate::{const_expr, const_u32_expr, expr, felt252_expr, u32_expr};
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 struct AirFnWithIncorrectConstraint {}
 
 impl AirFn for AirFnWithIncorrectConstraint {
@@ -33,7 +35,7 @@ fn test_incompleteness() {
     registry.run_air(&func, expr!("x", 1234));
 }
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 struct AirFnWithUInt32 {}
 
 impl AirFn for AirFnWithUInt32 {
@@ -62,7 +64,7 @@ fn test_uint32_deduce() {
     assert!(out.calc() == "9");
 }
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 struct AirFnWithFelt252 {}
 
 impl AirFn for AirFnWithFelt252 {

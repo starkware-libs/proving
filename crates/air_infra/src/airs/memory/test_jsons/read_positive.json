@@ -54,7 +54,7 @@
   "air_body": [
     {
       "LookupCall": {
-        "air_fn_name": "Memory_M31",
+        "air_fn_name": "Memory_K_M31_V_M31",
         "input_arg": {
           "name": "ReadPositive_num_bits_16_input",
           "type": "M31"
@@ -67,7 +67,7 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "Memory_M31",
+        "air_fn_name": "Memory_K_M31_V_M31",
         "input_felts": [
           "ReadPositive_num_bits_16_input"
         ],
@@ -78,7 +78,7 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "Memory_Felt252",
+        "air_fn_name": "Memory_K_M31_V_Felt252",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -94,7 +94,7 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "RangeCheck_bits_7",
+        "air_fn_name": "RangeCheck_N_1_bits_7",
         "input_arg": [
           {
             "name": "state[2]",
@@ -105,7 +105,7 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "RangeCheck_bits_7",
+        "air_fn_name": "RangeCheck_N_1_bits_7",
         "input_felts": [
           "state[2]"
         ],
@@ -114,7 +114,7 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "Memory_Felt252",
+        "air_fn_name": "Memory_K_M31_V_Felt252",
         "input_felts": [
           "state[0]"
         ],

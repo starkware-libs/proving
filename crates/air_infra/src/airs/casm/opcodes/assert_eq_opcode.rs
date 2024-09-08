@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use super::super::casm_state::*;
 use super::super::common::*;
@@ -18,10 +18,11 @@ use crate::const_expr;
 /// - [ap/fp + offset0] = [[ap/fp + offset1] + offset2]
 /// - [ap/fp + offset0] = imm
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct AssertEqOpcode {
     pub is_double_deref: bool,
     pub is_imm: bool,
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -130,17 +131,6 @@ impl AirFn for AssertEqOpcode {
         };
 
         CasmStateVar::new(next_pc, next_ap, casm_state.fp)
-    }
-
-    fn inst_def(&self) -> IndexMap<std::string::String, std::string::String> {
-        [
-            (
-                "is_double_deref".to_string(),
-                self.is_double_deref.to_string(),
-            ),
-            ("is_imm".to_string(), self.is_imm.to_string()),
-        ]
-        .into()
     }
 
     fn trace_type(&self) -> TraceType {

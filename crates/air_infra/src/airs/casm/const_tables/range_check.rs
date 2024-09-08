@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
@@ -17,7 +17,7 @@ const STWO_COMPONENT_TYPE_RANGE_CHECK_16: &str = "RangeCheck16";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_2_5: &str = "RangeCheckVector_2_5";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3: &str = "RangeCheckVector_4_3";
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 pub struct RangeCheck<const N: usize> {
     pub bits: [u16; N],
 }
@@ -47,10 +47,6 @@ impl<const N: usize> AirFn for RangeCheck<N> {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [("bits".to_string(), format!("{:?}", self.bits))].into()
     }
 
     fn call(&self, _air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {

@@ -39,7 +39,7 @@ pub enum TraceType {
 // air function. It also defines whether the input is in the trace or not.
 // The call method is the main method of the air function, and is used to build and run the air
 // function.
-pub trait AirFn: Debug {
+pub trait AirFn: Debug + InstDefTrait {
     type In: AirVar;
     type Out: AirVar;
 
@@ -81,7 +81,7 @@ pub trait AirFn: Debug {
     }
 
     fn hash(&self) -> u64 {
-        let name = format!("{}{:?}", type_name::<Self>(), self.inst_def());
+        let name = format!("{}{:?}", type_name::<Self>(), InstDefTrait::inst_def(self));
         let mut s = DefaultHasher::new();
         name.hash(&mut s);
         s.finish()
@@ -89,10 +89,6 @@ pub trait AirFn: Debug {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Inline
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        IndexMap::new()
     }
 
     // For lookup components that their input columns are a const table, return the name of
@@ -123,6 +119,11 @@ pub trait AirFn: Debug {
 
         self.call(air_builder, input)
     }
+}
+
+// Seperated from the air fn trait to support automated implementation
+pub trait InstDefTrait {
+    fn inst_def(&self) -> IndexMap<String, String>;
 }
 
 // AirBuilder is a struct that is used to build an air function.

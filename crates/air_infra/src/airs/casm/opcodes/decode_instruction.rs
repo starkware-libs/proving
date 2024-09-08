@@ -1,6 +1,5 @@
+use inst_def::InstDef;
 use std::cmp::min;
-
-use indexmap::IndexMap;
 
 use super::super::common::*;
 use super::super::const_tables::range_check::*;
@@ -20,10 +19,11 @@ use crate::const_u32_expr;
 
 // An AirFn of type DecodeInstruction.
 // Holds the constant offsets, constant flags and memory.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct DecodeInstruction {
     pub const_offsets: [Option<i16>; 3], // off_0, off_1, off_2
     pub const_flags: Flags,
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -103,17 +103,6 @@ impl AirFn for DecodeInstruction {
         );
 
         ([off_0.val, off_1.val, off_2.val], flags)
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [
-            (
-                "const_offsets".to_string(),
-                format!("{:?}", self.const_offsets),
-            ),
-            ("const_flags".to_string(), format!("{:?}", self.const_flags)),
-        ]
-        .into()
     }
 }
 

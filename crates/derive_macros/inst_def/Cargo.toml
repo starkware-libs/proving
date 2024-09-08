@@ -1,0 +1,15 @@
+[package]
+name = "inst_def"
+version.workspace = true
+edition.workspace = true
+
+[lib]
+proc-macro = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+syn = "2.0.77"
+quote = "1.0.37"
+proc-macro2 = "1.0.86"
+

@@ -1,10 +1,12 @@
+use inst_def::InstDef;
+
 use super::const_tables::verify_bitwise_xor::*;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 pub struct BitwiseXor {
     pub num_bits: usize,
 }

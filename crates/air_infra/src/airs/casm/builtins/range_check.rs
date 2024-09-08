@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use crate::airs::casm::const_tables::seq::*;
 use crate::airs::memory::felt252_id_memory::*;
@@ -13,9 +13,10 @@ use crate::const_expr;
 // are implemented, have it as a dummy constant for testing.
 pub const DUMMY_SEGMENT_START: u32 = 100;
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 pub struct RangeCheckBuiltin {
     pub bits: usize,
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -33,10 +34,6 @@ impl AirFn for RangeCheckBuiltin {
             },
             const_expr!(DUMMY_SEGMENT_START) + instance_number,
         );
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [("bits".to_string(), self.bits.to_string())].into()
     }
 
     fn trace_type(&self) -> TraceType {

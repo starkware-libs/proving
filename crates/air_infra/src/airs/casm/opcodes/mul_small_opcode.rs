@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use crate::airs::memory::felt252_id_memory::*;
 use crate::airs::memory::felt252_id_memory_read_positive::*;
@@ -21,9 +21,10 @@ use crate::const_expr;
 ///
 /// TODO: Support negatives and update the range when the correct range is known.
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct MulSmallOpcode {
     pub is_imm: bool,
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -137,10 +138,6 @@ impl AirFn for MulSmallOpcode {
         };
 
         CasmStateVar::new(next_pc, next_ap, casm_state.fp)
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [("is_imm".to_string(), self.is_imm.to_string())].into()
     }
 
     fn trace_type(&self) -> TraceType {

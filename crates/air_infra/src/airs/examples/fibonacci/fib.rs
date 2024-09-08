@@ -1,6 +1,6 @@
 use std::fmt::Debug;
 
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use super::fib_step::*;
 use crate::core::air_fn::*;
@@ -10,7 +10,7 @@ use crate::core::expressions::felt_expr::*;
 use crate::const_expr;
 
 /// Returns the Fibonacci number at the given index.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct Fib {
     pub claim_index: usize,
 }
@@ -29,9 +29,5 @@ impl AirFn for Fib {
         }
 
         input[1].clone()
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [("claim_index".to_string(), self.claim_index.to_string())].into()
     }
 }
