@@ -164,7 +164,7 @@ fn test_mul_small_not_imm() {
         1042584088,
         32123,
         32456,
-        Some("mul_small_opcode_not_imm.json"),
+        Some("mul_small_not_imm.json"),
         vec![
             10, 50, 100, 3, 64, 1, 1, 16, 7, 0, 4, 1, 0, 0, 1, 0, 0, 1, 24, 73, 393, 7, 2, 379, 62,
             3, 200, 63,

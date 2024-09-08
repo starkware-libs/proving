@@ -43,14 +43,14 @@ impl AirFn for SmallAdd {
 }
 
 #[test]
-fn test_range_check() {
+fn test_rc_small_add() {
     let air_fn = SmallAdd {};
     let registry = AirFnRegistry::new(&air_fn);
     // Check entry
     compare_test_json(
         registry,
         &air_fn.name(),
-        &(TEST_JSONS_CONST_TABLES_DIR.to_owned() + "small_add.json"),
+        &(TEST_JSONS_CONST_TABLES_DIR.to_owned() + "rc_small_add.json"),
     );
 }
 
