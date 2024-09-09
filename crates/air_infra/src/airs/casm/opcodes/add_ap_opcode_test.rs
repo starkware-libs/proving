@@ -8,6 +8,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 // Macros
 use crate::const_expr;
@@ -67,46 +68,10 @@ fn test_add_ap() {
             .collect::<Vec<String>>()
     );
 
-    // Check the air body
-    let entry = registry.get_air_fn_entry(&add_ap_opcode.name());
-    assert_eq!(
-        entry
-            .air_body
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        vec![
-            "tmp_0 = AddAp_input",
-            "Deduction: tmp_0.pc",
-            "Deduction: tmp_0.ap",
-            "Deduction: tmp_0.fp",
-            "(\
-                [\
-                    const_2147483646, \
-                    const_2147483646, \
-                    const_1\
-                ], [\
-                    const_true, \
-                    const_true, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false\
-                ]\
-            ) = DecodeInstruction_83cd6a5ed43aa52e(state[0])",
-            "(\
-                (((state[9] * const_262144) + ((state[8] * const_512) + state[7])) - state[5]) - \
-                (const_134217728 * state[6])) = \
-                ReadSmall((state[0] + const_1))"
-        ]
+    // Check entry
+    compare_test_json(
+        registry,
+        &add_ap_opcode.name(),
+        &(TEST_JSONS_OPCODES_DIR.to_owned() + "add_ap.json"),
     );
 }

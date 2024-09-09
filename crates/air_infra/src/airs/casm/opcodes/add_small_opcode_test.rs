@@ -8,6 +8,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 // Macros
 use crate::const_expr;
@@ -21,7 +22,7 @@ fn test_add_small(
     dst: u32,
     op0: u32,
     op1: u32,
-    expected_air_body: Option<&[&str]>,
+    entry_file_name: Option<&str>,
     expected_state: Vec<u32>,
 ) {
     // Read the non-constant flags
@@ -145,16 +146,13 @@ fn test_add_small(
             .collect::<Vec<String>>()
     );
 
-    // Check air body
-    if let Some(expected_air_body) = expected_air_body {
-        let entry = registry.get_air_fn_entry(&add_small_opcode.name());
-        assert_eq!(
-            entry
-                .air_body
-                .iter()
-                .map(|x| x.to_string())
-                .collect::<Vec<String>>(),
-            expected_air_body
+    // Check entry
+    // Check entry
+    if let Some(entry_file_name) = entry_file_name {
+        compare_test_json(
+            registry,
+            &add_small_opcode.name(),
+            &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
         );
     }
 }
@@ -167,70 +165,7 @@ fn test_add_small_not_imm() {
         90125677,
         77779999,
         12345678,
-        Some(&[
-            "tmp_0 = AddSmallOpcode_is_imm_false_input",
-            "Deduction: tmp_0.pc",
-            "Deduction: tmp_0.ap",
-            "Deduction: tmp_0.fp",
-            "(\
-                [\
-                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
-                    (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768), \
-                    (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768)\
-                ], \
-                [\
-                    Bool::from_m31(state[11]), \
-                    Bool::from_m31(state[12]), \
-                    const_false, \
-                    Bool::from_m31(state[13]), \
-                    Bool::from_m31(state[14]), \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    Bool::from_m31(state[15]), \
-                    const_false, \
-                    const_false, \
-                    const_true\
-                ]\
-            ) = DecodeInstruction_2f4ab58cc783b3f7(state[0])",
-            "(\
-                (((state[22] * const_262144) + ((state[21] * const_512) + state[20])) - state[18]) - \
-                (const_134217728 * state[19])) = \
-                ReadSmall((\
-                    ((state[11] * state[2]) + ((const_1 - state[11]) * state[1])) + \
-                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768)\
-                ))",
-            "(\
-                (((state[28] * const_262144) + ((state[27] * const_512) + state[26])) - state[24]) - \
-                (const_134217728 * state[25])) = \
-                ReadSmall((\
-                    ((state[12] * state[2]) + ((const_1 - state[12]) * state[1])) + \
-                    (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
-                ))",
-            "Constraint: ((state[13] + state[14]) - const_1)",
-            "(\
-                (((state[34] * const_262144) + ((state[33] * const_512) + state[32])) - state[30]) - \
-                (const_134217728 * state[31])\
-            ) = \
-                ReadSmall((\
-                    ((state[13] * state[2]) + (state[14] * state[1])) + \
-                    (((state[8] + (state[9] * const_16)) + (state[10] * const_8192)) - const_32768)\
-                ))",
-            "Constraint: (\
-                (\
-                    (((state[22] * const_262144) + ((state[21] * const_512) + state[20])) - state[18]) - \
-                    (const_134217728 * state[19])\
-                ) - (\
-                    ((((state[28] * const_262144) + ((state[27] * const_512) + state[26])) - state[24]) - \
-                    (const_134217728 * state[25])) + \
-                    ((((state[34] * const_262144) + ((state[33] * const_512) + state[32])) - state[30]) - \
-                    (const_134217728 * state[31]))\
-                )\
-            )"
-        ]),
+        Some("add_small_not_imm.json"),
         vec![
             10, 50, 100, 3, 64, 1, 1, 16, 7, 0, 4, 1, 0, 0, 1, 0, 0, 1, 0, 0, 365, 410, 343, 2, 0,
             0, 31, 362, 296, 3, 0, 0, 334, 48, 47,
@@ -274,66 +209,7 @@ fn test_add_small_imm() {
         90125677,
         77779999,
         12345678,
-        Some(&[
-            "tmp_0 = AddSmallOpcode_is_imm_true_input",
-            "Deduction: tmp_0.pc",
-            "Deduction: tmp_0.ap",
-            "Deduction: tmp_0.fp",
-            "(\
-                [\
-                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768), \
-                    (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768), \
-                    const_1\
-                ], \
-                [\
-                    Bool::from_m31(state[8]), \
-                    Bool::from_m31(state[9]), \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    Bool::from_m31(state[10]), \
-                    const_false, \
-                    const_false, \
-                    const_true\
-                ]\
-            ) = DecodeInstruction_7dd793dc3ba867a8(state[0])",
-            "(\
-                (((state[17] * const_262144) + ((state[16] * const_512) + state[15])) - state[13]) - \
-                (const_134217728 * state[14])) = \
-                ReadSmall((\
-                    ((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + \
-                    (((state[3] + (state[4] * const_512)) + const_0) - const_32768)\
-                ))",
-            "(\
-                (((state[23] * const_262144) + ((state[22] * const_512) + state[21])) - state[19]) - \
-                (const_134217728 * state[20])) = \
-                ReadSmall((\
-                    ((state[9] * state[2]) + ((const_1 - state[9]) * state[1])) + \
-                    (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)\
-                ))",
-            "(\
-                (((state[29] * const_262144) + ((state[28] * const_512) + state[27])) - state[25]) - \
-                (const_134217728 * state[26])\
-            ) = \
-                ReadSmall((state[0] + const_1))",
-            "Constraint: (\
-                (\
-                    (((state[17] * const_262144) + ((state[16] * const_512) + state[15])) - state[13]) - \
-                    (const_134217728 * state[14])\
-                ) - ((\
-                    (((state[23] * const_262144) + ((state[22] * const_512) + state[21])) - state[19]) - \
-                    (const_134217728 * state[20])) + \
-                    ((((state[29] * const_262144) + ((state[28] * const_512) + state[27])) - state[25]) - \
-                    (const_134217728 * state[26]))\
-                )\
-            )",
-        ]),
+        Some("add_small_imm.json"),
         vec![
             10, 50, 100, 509, 63, 3, 510, 15, 1, 0, 0, 0, 1, 0, 0, 365, 410, 343, 2, 0, 0, 31, 362,
             296, 3, 0, 0, 334, 48, 47,

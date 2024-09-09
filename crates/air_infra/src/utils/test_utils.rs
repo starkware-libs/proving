@@ -1,48 +1,22 @@
 use serde_json::Value;
-use std::fmt::Display;
 use std::fs;
 
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
-use crate::core::compiled_structs::*;
-use crate::core::expressions::expr::*;
-use crate::core::expressions::felt_expr::*;
-use crate::core::prover_types::*;
-use crate::core::utils::*;
-use crate::core::variables::*;
 
-impl Display for TraceGenStep {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            TraceGenStep::Deduction(var) => write!(f, "{}", var),
-            TraceGenStep::Intermediate(name, var) => {
-                write!(f, "{} = {}", name, var)
-            }
-            TraceGenStep::Lookup {
-                fn_name,
-                input,
-                output_name,
-            } => {
-                write!(f, "{} = {}({})", output_name, fn_name, input)
-            }
-            TraceGenStep::AccessExternalColumn {
-                fn_name,
-                output_name,
-            } => {
-                write!(f, "{} = external({})", output_name, fn_name)
-            }
-        }
-    }
-}
-
-fn felts_vec_to_string(felts: Vec<FeltExpr>) -> String {
-    vars_arr_to_string(
-        &(felts
-            .iter()
-            .map(|f| f.clone().into())
-            .collect::<Vec<CompiledAirVar>>()),
-    )
-}
+#[cfg(test)]
+pub const TEST_JSONS_OPCODES_DIR: &str = "src/airs/casm/opcodes/test_jsons/";
+#[cfg(test)]
+pub const TEST_JSONS_BUILTINS_DIR: &str = "src/airs/casm/builtins/test_jsons/";
+#[cfg(test)]
+pub const TEST_JSONS_CONST_TABLES_DIR: &str = "src/airs/casm/const_tables/test_jsons/";
+#[cfg(test)]
+pub const TEST_JSONS_EXAMPLES_DIR: &str = "src/airs/examples/test_jsons/";
+#[cfg(test)]
+pub const TEST_JSONS_FELT252_DIR: &str = "src/airs/felt252_utils/test_jsons/";
+#[cfg(test)]
+pub const TEST_JSONS_MEMORY_DIR: &str = "src/airs/memory/test_jsons/";
+#[cfg(test)]
+pub const TEST_JSONS_UINT32_DIR: &str = "src/airs/uint32_utils/test_jsons/";
 
 pub fn compare_test_json(registry: AirFnRegistry, air_fn_name: &String, file_path: &String) {
     let is_fix_mode = std::env::var("FIX") == Ok("1".to_string());
@@ -55,114 +29,14 @@ pub fn compare_test_json(registry: AirFnRegistry, air_fn_name: &String, file_pat
         let entry = registry.get_air_fn_entry(air_fn_name);
         let entry_json =
             serde_json::to_value(&entry).expect("Failed to convert current entry to JSON value");
-        assert_eq!(entry_json, expected_entry_json);
+        assert_eq!(
+            entry_json, expected_entry_json,
+            r#"
+            Generated entry json for {}
+            is different from the entry in {}.
+            Run the following to update the code:
+            '$ FIX=1 cargo test'"#,
+            air_fn_name, file_path
+        );
     };
-}
-
-impl Display for ConstraintEvalStep {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            ConstraintEvalStep::InInstanceConstraint(var) => write!(f, "{}", var),
-            ConstraintEvalStep::Intermediate(name, var) => {
-                write!(f, "{} = {}", name, var)
-            }
-            ConstraintEvalStep::LookupConstraint {
-                fn_name,
-                input_felts,
-                output_felts,
-            } => {
-                write!(
-                    f,
-                    "{}({}) == {}",
-                    fn_name,
-                    vars_arr_to_string(input_felts),
-                    vars_arr_to_string(output_felts)
-                )
-            }
-            ConstraintEvalStep::AccessExternalColumn {
-                fn_name,
-                output_name,
-            } => {
-                write!(f, "{} = external({})", output_name, fn_name)
-            }
-        }
-    }
-}
-
-impl Display for AirBodyComponent {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            AirBodyComponent::Constraint(var) => {
-                write!(f, "Constraint: {}", CompiledAirVar::from(var.clone()))
-            }
-            AirBodyComponent::Deduction(var) => {
-                write!(f, "Deduction: {}", CompiledAirVar::from(var.clone()))
-            }
-            AirBodyComponent::Assignment {
-                constraint,
-                deduction: _,
-            } => {
-                write!(
-                    f,
-                    "Assignment: {}",
-                    CompiledAirVar::from(constraint.clone())
-                )
-            }
-            AirBodyComponent::Intermediate(name, var, _ty) => {
-                write!(f, "{} = {}", name, var)
-            }
-            AirBodyComponent::Call(var) => {
-                write!(f, "{} = {}({})", var.output, var.air_fn_name, var.input_arg)
-            }
-            AirBodyComponent::LookupCall(var) => {
-                write!(
-                    f,
-                    "{} = {}({})",
-                    var.output_name, var.air_fn_name, var.input_arg
-                )
-            }
-            AirBodyComponent::LookupConstraint(var) => write!(
-                f,
-                "{}({}) == {}",
-                var.air_fn_name,
-                felts_vec_to_string(var.input_felts.clone()),
-                felts_vec_to_string(var.output_felts.clone())
-            ),
-            AirBodyComponent::AccessExternalColumn(access) => {
-                write!(
-                    f,
-                    "{} = external({})",
-                    access.output_name, access.air_fn_name
-                )
-            }
-        }
-    }
-}
-
-impl Display for AirVarImpl {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        match self {
-            AirVarImpl::Expr(expr) => {
-                write!(f, "{}", expr)
-            }
-            _ => {
-                write!(f, "{}", CompiledAirVar::from(self.clone()))
-            }
-        }
-    }
-}
-
-impl Display for ExprImpl {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", CompiledAirVar::from(self.clone()))
-    }
-}
-
-impl<T> Display for Expr<T>
-where
-    T: ProverType,
-{
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{}", CompiledAirVar::from(self.clone()))
-    }
 }

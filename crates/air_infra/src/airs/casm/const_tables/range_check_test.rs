@@ -1,7 +1,9 @@
 use super::range_check::*;
+
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
+use crate::utils::test_utils::*;
 
 // Macros
 use crate::expr;
@@ -41,40 +43,14 @@ impl AirFn for SmallAdd {
 }
 
 #[test]
-fn test_range_check() {
+fn test_rc_small_add() {
     let air_fn = SmallAdd {};
     let registry = AirFnRegistry::new(&air_fn);
-    let lists = registry.get_compiled_air_fn(&air_fn.name());
-
-    let constraints = [
-        "RangeCheck16([state[0]]) == []",
-        "RangeCheck16([state[1]]) == []",
-        "RangeCheck16([(state[0] + state[1])]) == []",
-    ];
-
-    let deductions = [
-        "SmallAdd_input[0]",
-        "SmallAdd_input[1]",
-        "tmp_0 = RangeCheck16([state[0]])",
-        "tmp_1 = RangeCheck16([state[1]])",
-        "tmp_2 = RangeCheck16([(state[0] + state[1])])",
-    ];
-
-    assert_eq!(
-        lists
-            .constraints
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        constraints
-    );
-    assert_eq!(
-        lists
-            .deductions
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        deductions
+    // Check entry
+    compare_test_json(
+        registry,
+        &air_fn.name(),
+        &(TEST_JSONS_CONST_TABLES_DIR.to_owned() + "rc_small_add.json"),
     );
 }
 

@@ -1,11 +1,13 @@
 use super::bit_unpack::*;
 use super::div2::*;
+
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::bool_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 // Macros
 use crate::const_expr;
@@ -15,54 +17,19 @@ use crate::u16_expr;
 fn test_bit_unpacking() {
     let func = BitUnpack::<4> {};
     let registry = AirFnRegistry::new(&func);
-    let lists = registry.get_compiled_air_fn(&func.name());
-
-    let constraints = [
-        "tmp_3 = (state[0] - (state[1] * const_2))",
-        "(tmp_3 * (tmp_3 - const_1))",
-        "tmp_5 = (state[1] - (state[2] * const_2))",
-        "(tmp_5 * (tmp_5 - const_1))",
-        "tmp_7 = (state[2] - (state[3] * const_2))",
-        "(tmp_7 * (tmp_7 - const_1))",
-        "tmp_9 = (state[3] - (state[4] * const_2))",
-        "(tmp_9 * (tmp_9 - const_1))",
-        "state[4]",
-    ];
-
-    let deductions = [
-        "BitUnpack_num_bits_4_input.as_m31()",
-        "tmp_2 = (BitUnpack_num_bits_4_input >> const_1)",
-        "tmp_2.as_m31()",
-        "tmp_4 = (tmp_2 >> const_1)",
-        "tmp_4.as_m31()",
-        "tmp_6 = (tmp_4 >> const_1)",
-        "tmp_6.as_m31()",
-        "tmp_8 = (tmp_6 >> const_1)",
-        "tmp_8.as_m31()",
-    ];
-
-    assert_eq!(
-        lists
-            .constraints
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        constraints
-    );
-    assert_eq!(
-        lists
-            .deductions
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        deductions
-    );
 
     let (state, output) = registry.run_air(&func, u16_expr!("x", 10));
     assert_eq!(state.calc(), ["10", "5", "2", "1", "0"]);
     assert!(
         output.iter().map(|x| x.calc()).collect::<Vec<String>>()
             == ["false", "true", "false", "true"]
+    );
+
+    // Check entry
+    compare_test_json(
+        registry,
+        &func.name(),
+        &(TEST_JSONS_EXAMPLES_DIR.to_owned() + "bit_unpacking.json"),
     );
 }
 
@@ -90,37 +57,13 @@ impl AirFn for AirFnBitMux {
 fn test_bit_mux() {
     let func = AirFnBitMux {};
     let registry = AirFnRegistry::new(&func);
-    let lists = registry.get_compiled_air_fn(&func.name());
-
-    let constraints = [
-        "tmp_3 = (state[0] - (state[1] * const_2))",
-        "(tmp_3 * (tmp_3 - const_1))",
-        "((tmp_3 * state[0]) + ((const_1 - tmp_3) * (state[0] - const_2)))",
-    ];
-
-    let deductions = [
-        "AirFnBitMux_input.as_m31()",
-        "tmp_2 = (AirFnBitMux_input >> const_1)",
-        "tmp_2.as_m31()",
-    ];
-
-    assert_eq!(
-        lists
-            .constraints
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        constraints
-    );
-    assert_eq!(
-        lists
-            .deductions
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        deductions
-    );
-
     let (_, out) = registry.run_air(&func, u16_expr!("x", 2));
     assert!(out.calc() == "false");
+
+    // Check entry
+    compare_test_json(
+        registry,
+        &func.name(),
+        &(TEST_JSONS_EXAMPLES_DIR.to_owned() + "bit_mux.json"),
+    );
 }

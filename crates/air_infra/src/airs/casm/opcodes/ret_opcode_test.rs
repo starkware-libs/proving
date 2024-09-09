@@ -8,6 +8,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 use crate::const_expr;
 use crate::const_felt252_expr;
@@ -22,28 +23,6 @@ pub fn assemble_ret() -> u64 {
 
 #[test]
 fn test_ret_opcode() {
-    let deductions = [
-        "tmp_0 = RetOpcode_input",
-        "tmp_0.pc",
-        "tmp_0.ap",
-        "tmp_0.fp",
-        "tmp_3 = Memory_M31(state[0])",
-        "tmp_4 = Memory_Felt252(tmp_3)",
-        "tmp_3",
-        "tmp_7 = Memory_M31((state[2] - const_1))",
-        "tmp_7",
-        "tmp_8 = Memory_Felt252(state[4])",
-        "tmp_8.get_m31(const_0)",
-        "tmp_8.get_m31(const_1)",
-        "tmp_8.get_m31(const_2)",
-        "tmp_9 = Memory_M31((state[2] - const_2))",
-        "tmp_9",
-        "tmp_10 = Memory_Felt252(state[8])",
-        "tmp_10.get_m31(const_0)",
-        "tmp_10.get_m31(const_1)",
-        "tmp_10.get_m31(const_2)",
-    ];
-
     // Register values at opcode start
     let pc_value = 3;
     let fp_value = 6;
@@ -78,14 +57,10 @@ fn test_ret_opcode() {
         ["3", "11", "6", "0", "1", "1", "0", "0", "2", "4", "0", "0"]
     );
 
-    let lists = registry.get_compiled_air_fn(&func.name());
-
-    assert_eq!(
-        lists
-            .deductions
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        deductions
+    // Check entry
+    compare_test_json(
+        registry,
+        &func.name(),
+        &(TEST_JSONS_OPCODES_DIR.to_owned() + "ret.json"),
     );
 }

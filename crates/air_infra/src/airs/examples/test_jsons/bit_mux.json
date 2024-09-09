@@ -1,0 +1,44 @@
+{
+  "name": "AirFnBitMux",
+  "inst_def": {},
+  "input": {
+    "name": "AirFnBitMux_input",
+    "type": "UInt16"
+  },
+  "input_num_of_felts": 1,
+  "output": {
+    "name": "Bool::from_m31(tmp_3)",
+    "type": "Bool"
+  },
+  "output_felts": [
+    "tmp_3"
+  ],
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "Deduction": "AirFnBitMux_input.as_m31()"
+    },
+    {
+      "Call": {
+        "air_fn_name": "Div2",
+        "input_arg": {
+          "name": "AirFnBitMux_input",
+          "type": "UInt16"
+        },
+        "output": [
+          {
+            "name": "Bool::from_m31(tmp_3)",
+            "type": "Bool"
+          },
+          {
+            "name": "tmp_2",
+            "type": "UInt16"
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": "((tmp_3 * state[0]) + ((const_1 - tmp_3) * (state[0] - const_2)))"
+    }
+  ]
+}

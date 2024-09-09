@@ -7,6 +7,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 use crate::const_expr;
 use crate::const_felt252_expr;
@@ -16,7 +17,7 @@ fn build_and_test(
     op1_base_fp: bool,
     offset2_option: Option<i16>,
     op1_value: ((u128, u128), i32),
-    expected_air_body: &[&str],
+    entry_file_name: Option<&str>,
     expected_state: Vec<u32>,
 ) {
     let [pc_value, ap_value, fp_value] = [50, 200, 150];
@@ -94,16 +95,14 @@ fn build_and_test(
             .collect::<Vec<_>>()
     );
 
-    // Check air_body
-    let air_body = registry.get_air_fn_entry(&call_opcode.name()).air_body;
-
-    assert_eq!(
-        air_body
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        expected_air_body
-    );
+    // Check entry
+    if let Some(entry_file_name) = entry_file_name {
+        compare_test_json(
+            registry,
+            &call_opcode.name(),
+            &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
+        );
+    }
 }
 
 #[test]
@@ -112,44 +111,7 @@ fn test_relative_call() {
         false,
         None,
         ((500, 0), 500),
-        &[
-            "tmp_0 = CallOpcode_is_rel_true_op1_base_fp_false_input",
-            "Deduction: tmp_0.pc",
-            "Deduction: tmp_0.ap",
-            "Deduction: tmp_0.fp",
-            "(\
-            [const_0, const_1, const_1], \
-            [\
-                const_false, \
-                const_false, \
-                const_true, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_true, \
-                const_false, \
-                const_false, \
-                const_false, \
-                const_true, \
-                const_false, \
-                const_false\
-            ]\
-        ) = DecodeInstruction_8a7cb0cfbf63f85a(state[0])",
-            "() = MemVerify((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
-            "() = MemVerify((\
-            (state[1] + const_1), \
-            Felt252::from_limbs(zero_extend([(state[0] + const_2)]))\
-        ))",
-            "(((\
-            (state[11] * const_262144) + \
-            ((state[10] * const_512) + \
-            state[9])) - \
-            state[7]) - \
-            (const_134217728 * state[8])) = \
-            ReadSmall((state[0] + const_1))",
-        ],
+        Some("relative_call.json"),
         vec![50, 200, 150, 0, 2, 3, 1, 0, 0, 500, 0, 0],
     );
 }
@@ -166,168 +128,51 @@ fn test_relative_call_negative() {
             ),
             -17,
         ),
-        &[
-            "tmp_0 = CallOpcode_is_rel_true_op1_base_fp_false_input",
-            "Deduction: tmp_0.pc",
-            "Deduction: tmp_0.ap",
-            "Deduction: tmp_0.fp",
-            "(\
-                [const_0, const_1, const_1], \
-                [\
-                    const_false, \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false, \
-                    const_false, \
-                    const_true, \
-                    const_false, \
-                    const_false\
-                ]\
-            ) = DecodeInstruction_8a7cb0cfbf63f85a(state[0])",
-            "() = MemVerify((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
-            "() = MemVerify((\
-            (state[1] + const_1), \
-            Felt252::from_limbs(zero_extend([(state[0] + const_2)]))\
-        ))",
-            "(((\
-                (state[11] * const_262144) + \
-                ((state[10] * const_512) + \
-                state[9])) - \
-                state[7]) - \
-                (const_134217728 * state[8])) = \
-                ReadSmall((state[0] + const_1))",
-        ],
+        Some("relative_call_negative.json"),
         vec![50, 200, 150, 0, 2, 3, 1, 1, 1, 496, 511, 511],
     );
 }
 
-const CALL_FP_EXPECTED_AIR_BODY: [&str; 8] = [
-    "tmp_0 = CallOpcode_is_rel_false_op1_base_fp_true_input",
-    "Deduction: tmp_0.pc",
-    "Deduction: tmp_0.ap",
-    "Deduction: tmp_0.fp",
-    "(\
-        [\
-            const_0, \
-            const_1, \
-            (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
-        ], [\
-            const_false, \
-            const_false, \
-            const_false, \
-            const_true, \
-            const_false, \
-            const_false, \
-            const_false, \
-            const_true, \
-            const_false, \
-            const_false, \
-            const_false, \
-            const_false, \
-            const_true, \
-            const_false, \
-            const_false\
-        ]\
-    ) = DecodeInstruction_48b2fb68e2c629d6(state[0])",
-    "() = MemVerify((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
-    "() = MemVerify((\
-        (state[1] + const_1), \
-        Felt252::from_limbs(zero_extend([(state[0] + const_1)]))\
-    ))",
-    "Felt252::from_limbs(zero_extend([state[10], state[11], state[12]])) = \
-        ReadPositive_num_bits_27((\
-            state[2] + \
-            (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
-        ))",
-];
-
 #[test]
-fn test_fp_call_positive_offset2() {
+fn test_call_base_fp_positive_offset2() {
     build_and_test(
         true,
         Some(5),
         ((600, 0), 600),
-        &CALL_FP_EXPECTED_AIR_BODY,
+        Some("call_base_fp_positive_offset2.json"),
         vec![50, 200, 150, 5, 0, 4, 0, 2, 3, 1, 88, 1, 0],
     );
 }
 
 #[test]
-fn test_fp_call_negative_offset2() {
+fn test_call_base_fp_negative_offset2() {
     build_and_test(
         true,
         Some(-5),
         ((400, 0), 400),
-        &CALL_FP_EXPECTED_AIR_BODY,
+        Some("call_base_fp_negative_offset2.json"),
         vec![50, 200, 150, 11, 511, 3, 0, 2, 3, 1, 400, 0, 0],
     );
 }
 
-const CALL_AP_EXPECTED_AIR_BODY: [&str; 8] = [
-    "tmp_0 = CallOpcode_is_rel_false_op1_base_fp_false_input",
-    "Deduction: tmp_0.pc",
-    "Deduction: tmp_0.ap",
-    "Deduction: tmp_0.fp",
-    "(\
-        [\
-            const_0, \
-            const_1, \
-            (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
-        ], [\
-            const_false, \
-            const_false, \
-            const_false, \
-            const_false, \
-            const_true, \
-            const_false, \
-            const_false, \
-            const_true, \
-            const_false, \
-            const_false, \
-            const_false, \
-            const_false, \
-            const_true, \
-            const_false, \
-            const_false\
-        ]\
-    ) = DecodeInstruction_d682a34433babffb(state[0])",
-    "() = MemVerify((state[1], Felt252::from_limbs(zero_extend([state[2]]))))",
-    "() = MemVerify((\
-        (state[1] + const_1), \
-        Felt252::from_limbs(zero_extend([(state[0] + const_1)]))\
-    ))",
-    "Felt252::from_limbs(zero_extend([state[10], state[11], state[12]])) = \
-        ReadPositive_num_bits_27((\
-            state[1] + \
-            (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)\
-    ))",
-];
-
 #[test]
-fn test_ap_call_positive_offset2() {
+fn test_call_base_ap_positive_offset2() {
     build_and_test(
         false,
         Some(10),
         ((1234, 0), 1234),
-        &CALL_AP_EXPECTED_AIR_BODY,
+        Some("call_base_ap_positive_offset2.json"),
         vec![50, 200, 150, 10, 0, 4, 0, 2, 3, 1, 210, 2, 0],
     );
 }
 
 #[test]
-fn test_ap_call_negative_offset2() {
+fn test_call_base_ap_negative_offset2() {
     build_and_test(
         false,
         Some(-10),
         ((55, 0), 55),
-        &CALL_AP_EXPECTED_AIR_BODY,
+        Some("call_base_ap_negative_offset2.json"),
         vec![50, 200, 150, 6, 511, 3, 0, 2, 3, 1, 55, 0, 0],
     );
 }

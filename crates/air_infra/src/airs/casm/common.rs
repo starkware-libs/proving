@@ -23,8 +23,6 @@ pub const FLAG_AP_UPDATE_ADD_1: usize = 11;
 pub const FLAG_OPCODE_CALL: usize = 12;
 pub const FLAG_OPCODE_RET: usize = 13;
 pub const FLAG_OPCODE_ASSERT_EQ: usize = 14;
-#[cfg(test)]
-pub const TEST_JSONS_OPCODES_DIR: &str = "src/airs/casm/opcodes/test_jsons/";
 
 #[derive(Clone, Debug)]
 pub struct Flags {

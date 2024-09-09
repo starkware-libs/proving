@@ -1,0 +1,247 @@
+{
+  "name": "CallOpcode_is_rel_true_op1_base_fp_false",
+  "inst_def": {
+    "is_rel": "true",
+    "op1_base_fp": "false"
+  },
+  "input": {
+    "name": "CallOpcode_is_rel_true_op1_base_fp_false_input",
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "CallOpcode_is_rel_true_op1_base_fp_false_input.pc",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "CallOpcode_is_rel_true_op1_base_fp_false_input.ap",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "CallOpcode_is_rel_true_op1_base_fp_false_input.fp",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "input_num_of_felts": 3,
+  "output": {
+    "name": null,
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "(state[0] + ((((state[11] * const_262144) + ((state[10] * const_512) + state[9])) - state[7]) - (const_134217728 * state[8])))",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "(state[1] + const_2)",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "(state[1] + const_2)",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "output_felts": [
+    "(state[0] + ((((state[11] * const_262144) + ((state[10] * const_512) + state[9])) - state[7]) - (const_134217728 * state[8])))",
+    "(state[1] + const_2)",
+    "(state[1] + const_2)"
+  ],
+  "trace_type": "Component",
+  "air_body": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        {
+          "name": "CallOpcode_is_rel_true_op1_base_fp_false_input",
+          "type": "CasmState",
+          "fields": [
+            [
+              "pc",
+              {
+                "name": "CallOpcode_is_rel_true_op1_base_fp_false_input.pc",
+                "type": "M31"
+              }
+            ],
+            [
+              "ap",
+              {
+                "name": "CallOpcode_is_rel_true_op1_base_fp_false_input.ap",
+                "type": "M31"
+              }
+            ],
+            [
+              "fp",
+              {
+                "name": "CallOpcode_is_rel_true_op1_base_fp_false_input.fp",
+                "type": "M31"
+              }
+            ]
+          ]
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_0.pc"
+    },
+    {
+      "Deduction": "tmp_0.ap"
+    },
+    {
+      "Deduction": "tmp_0.fp"
+    },
+    {
+      "Call": {
+        "air_fn_name": "DecodeInstruction_8a7cb0cfbf63f85a",
+        "input_arg": {
+          "name": "state[0]",
+          "type": "M31"
+        },
+        "output": [
+          [
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_true",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_true",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_true",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            },
+            {
+              "name": "const_false",
+              "type": "Bool"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "MemVerify",
+        "input_arg": [
+          {
+            "name": "state[1]",
+            "type": "M31"
+          },
+          {
+            "name": "Felt252::from_limbs(zero_extend([state[2]]))",
+            "type": "Felt252"
+          }
+        ],
+        "output": []
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "MemVerify",
+        "input_arg": [
+          {
+            "name": "(state[1] + const_1)",
+            "type": "M31"
+          },
+          {
+            "name": "Felt252::from_limbs(zero_extend([(state[0] + const_2)]))",
+            "type": "Felt252"
+          }
+        ],
+        "output": []
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadSmall",
+        "input_arg": {
+          "name": "(state[0] + const_1)",
+          "type": "M31"
+        },
+        "output": {
+          "name": "((((state[11] * const_262144) + ((state[10] * const_512) + state[9])) - state[7]) - (const_134217728 * state[8]))",
+          "type": "M31"
+        }
+      }
+    }
+  ]
+}

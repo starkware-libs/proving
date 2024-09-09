@@ -1,9 +1,11 @@
 use super::range_check::*;
+
 use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::utils::test_utils::*;
 
 // Macros
 use crate::const_expr;
@@ -11,26 +13,6 @@ use crate::const_felt252_expr;
 
 #[test]
 fn test_range_check() {
-    let deductions = [
-        "tmp_0 = ()",
-        "tmp_1 = external(Seq)",
-        "tmp_5 = Memory_M31((const_100 + tmp_1))",
-        "tmp_5",
-        "tmp_6 = Memory_Felt252(state[0])",
-        "tmp_6.get_m31(const_0)",
-        "tmp_6.get_m31(const_1)",
-        "tmp_6.get_m31(const_2)",
-        "tmp_6.get_m31(const_3)",
-        "tmp_7 = RangeCheck5([state[4]])",
-    ];
-
-    let constraints = [
-        "tmp_1 = external(Seq)",
-        "Memory_M31([(const_100 + tmp_1)]) == [state[0]]",
-        "RangeCheck5([state[4]]) == []",
-        "Memory_Felt252([state[0]]) == zero_extend([state[1], state[2], state[3], state[4]])",
-    ];
-
     let memory = Felt252IdMemory::new_with_data(vec![(
         const_expr!(DUMMY_SEGMENT_START),
         const_felt252_expr!((1 << 17), 0),
@@ -42,24 +24,11 @@ fn test_range_check() {
     };
 
     let registry = AirFnRegistry::new(&rc);
-    let lists = registry.get_compiled_air_fn(&rc.name());
-
-    assert_eq!(
-        lists
-            .constraints
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        constraints
-    );
-
-    assert_eq!(
-        lists
-            .deductions
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>(),
-        deductions
+    // Check entry
+    compare_test_json(
+        registry,
+        &rc.name(),
+        &(TEST_JSONS_BUILTINS_DIR.to_owned() + "range_check.json"),
     );
 }
 
