@@ -8,21 +8,21 @@ pub const ADDRESS_BITS: usize = 27;
 pub type CasmAddress = FeltExpr;
 
 pub const OFFSET_BITS: u32 = 16;
-pub const FLAG_DST_BASE_FP: usize = 0;
-pub const FLAG_OP0_BASE_FP: usize = 1;
-pub const FLAG_OP1_IMM: usize = 2;
-pub const FLAG_OP1_BASE_FP: usize = 3;
-pub const FLAG_OP1_BASE_AP: usize = 4;
-pub const FLAG_RES_ADD: usize = 5;
-pub const FLAG_RES_MUL: usize = 6;
-pub const FLAG_PC_UPDATE_JUMP: usize = 7;
-pub const FLAG_PC_UPDATE_JUMP_REL: usize = 8;
-pub const FLAG_PC_UPDATE_JNZ: usize = 9;
-pub const FLAG_AP_UPDATE_ADD: usize = 10;
-pub const FLAG_AP_UPDATE_ADD_1: usize = 11;
-pub const FLAG_OPCODE_CALL: usize = 12;
-pub const FLAG_OPCODE_RET: usize = 13;
-pub const FLAG_OPCODE_ASSERT_EQ: usize = 14;
+pub const FLAG_DST_BASE_FP_INDEX: usize = 0;
+pub const FLAG_OP0_BASE_FP_INDEX: usize = 1;
+pub const FLAG_OP1_IMM_INDEX: usize = 2;
+pub const FLAG_OP1_BASE_FP_INDEX: usize = 3;
+pub const FLAG_OP1_BASE_AP_INDEX: usize = 4;
+pub const FLAG_RES_ADD_INDEX: usize = 5;
+pub const FLAG_RES_MUL_INDEX: usize = 6;
+pub const FLAG_PC_UPDATE_JUMP_INDEX: usize = 7;
+pub const FLAG_PC_UPDATE_JUMP_REL_INDEX: usize = 8;
+pub const FLAG_PC_UPDATE_JNZ_INDEX: usize = 9;
+pub const FLAG_AP_UPDATE_ADD_INDEX: usize = 10;
+pub const FLAG_AP_UPDATE_ADD_1_INDEX: usize = 11;
+pub const FLAG_OPCODE_CALL_INDEX: usize = 12;
+pub const FLAG_OPCODE_RET_INDEX: usize = 13;
+pub const FLAG_OPCODE_ASSERT_EQ_INDEX: usize = 14;
 
 #[derive(Clone, Debug)]
 pub struct Flags {

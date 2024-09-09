@@ -70,11 +70,11 @@ impl AirFn for MulSmallOpcode {
         );
 
         // Read the non-constant flags
-        let flag_dst_base_fp = flags[FLAG_DST_BASE_FP].as_felt();
-        let flag_op0_base_fp = flags[FLAG_OP0_BASE_FP].as_felt();
-        let flag_op1_base_fp = flags[FLAG_OP1_BASE_FP].as_felt();
-        let flag_op1_base_ap = flags[FLAG_OP1_BASE_AP].as_felt();
-        let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1].as_felt();
+        let flag_dst_base_fp = flags[FLAG_DST_BASE_FP_INDEX].as_felt();
+        let flag_op0_base_fp = flags[FLAG_OP0_BASE_FP_INDEX].as_felt();
+        let flag_op1_base_fp = flags[FLAG_OP1_BASE_FP_INDEX].as_felt();
+        let flag_op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].as_felt();
+        let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].as_felt();
 
         // Fetch dst - the value at the destination address for the multiplication
         let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp.clone()
