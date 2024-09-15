@@ -72,7 +72,7 @@ fn test_mul_small(
                 offset1_val,
                 mul_small_opcode
                     .get_flags()
-                    .non_constants_to_arr(non_consts_flags),
+                    .non_constants_to_arr(&non_consts_flags),
             ) as u128,
             0
         ),

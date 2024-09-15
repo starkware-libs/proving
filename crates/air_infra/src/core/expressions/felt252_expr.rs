@@ -119,7 +119,13 @@ impl Default for Felt252Expr {
 macro_rules! const_felt252_expr {
     ($low:expr, $high:expr) => {
         Felt252Expr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
-            ($low, $high).into(),
+            [
+                ($low & 0xffffffff_ffffffffu128) as u64,
+                ($low as u128 >> 64) as u64,
+                ($high & 0xffffffff_ffffffffu128) as u64,
+                ($high as u128 >> 64) as u64,
+            ]
+            .into(),
         ))
     };
 }
@@ -130,7 +136,12 @@ macro_rules! felt252_expr {
     ($name:expr, $low:expr, $high:expr) => {
         Felt252Expr::Var($crate::core::expressions::var_expr::VarExpr::new(
             $name.to_string(),
-            Some($crate::core::prover_types::Felt252::from(($low, $high))),
+            Some($crate::core::prover_types::Felt252::from([
+                ($low & 0xffffffff_ffffffffu128) as u64,
+                ($low as u128 >> 64) as u64,
+                ($high & 0xffffffff_ffffffffu128) as u64,
+                ($high as u128 >> 64) as u64,
+            ])),
             false,
             false,
             None,

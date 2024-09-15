@@ -183,7 +183,7 @@ fn test_assert_equal(
                 offset2_value,
                 assert_equal_opcode
                     .get_flags()
-                    .non_constants_to_arr(non_consts_flags),
+                    .non_constants_to_arr(&non_consts_flags),
             ) as u128,
             0
         ),

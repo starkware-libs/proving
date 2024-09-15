@@ -534,20 +534,6 @@ impl Div for Felt252 {
     }
 }
 
-// TODO: Consider removing support for (u128, u128) -> felt252, keep only from [u64; 4].
-impl From<(u128, u128)> for Felt252 {
-    fn from((low, high): (u128, u128)) -> Felt252 {
-        Felt252 {
-            limbs: [
-                (low & 0xffffffff_ffffffffu128) as u64,
-                (low >> 64) as u64,
-                (high & 0xffffffff_ffffffffu128) as u64,
-                (high >> 64) as u64 & 0x0fffffff_ffffffffu64,
-            ],
-        }
-    }
-}
-
 impl From<[u64; 4]> for Felt252 {
     fn from(limbs: [u64; 4]) -> Felt252 {
         Felt252 {
