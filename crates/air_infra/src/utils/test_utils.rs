@@ -29,14 +29,15 @@ pub fn compare_test_json(registry: AirFnRegistry, air_fn_name: &String, file_pat
         let entry = registry.get_air_fn_entry(air_fn_name);
         let entry_json =
             serde_json::to_value(&entry).expect("Failed to convert current entry to JSON value");
-        assert_eq!(
-            entry_json, expected_entry_json,
+        assert!(
+            entry_json == expected_entry_json,
             r#"
             Generated entry json for {}
             is different from the entry in {}.
             Run the following to update the code:
             '$ FIX=1 cargo test'"#,
-            air_fn_name, file_path
+            air_fn_name,
+            file_path
         );
     };
 }
