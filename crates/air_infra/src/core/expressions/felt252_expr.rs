@@ -117,6 +117,18 @@ impl Default for Felt252Expr {
 
 #[macro_export]
 macro_rules! const_felt252_expr {
+    ($low:expr) => {
+        if $low == -1 {
+            const_felt252_expr!(0, 0x8000000000000110000000000000000)
+        } else if $low >= 0 {
+            const_felt252_expr!($low as u128, 0)
+        } else {
+            const_felt252_expr!(
+                0xffffffff_ffffffff_ffffffff_ffffffff - ((-($low) - 2) as u128),
+                0x08000000_00000010_ffffffff_ffffffff
+            )
+        }
+    };
     ($low:expr, $high:expr) => {
         Felt252Expr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
             [
