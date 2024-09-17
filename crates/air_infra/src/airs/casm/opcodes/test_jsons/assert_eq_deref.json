@@ -46,7 +46,7 @@
       [
         "ap",
         {
-          "name": "(((const_1 - state[11]) * state[1]) + (state[11] * (state[1] + const_1)))",
+          "name": "(state[1] + state[11])",
           "type": "M31"
         }
       ],
@@ -61,7 +61,7 @@
   },
   "output_felts": [
     "(state[0] + const_1)",
-    "(((const_1 - state[11]) * state[1]) + (state[11] * (state[1] + const_1)))",
+    "(state[1] + state[11])",
     "state[2]"
   ],
   "trace_type": "Component",

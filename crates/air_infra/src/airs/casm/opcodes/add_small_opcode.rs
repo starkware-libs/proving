@@ -115,8 +115,7 @@ impl AirFn for AddSmallOpcode {
         ab.constrain(dst_m31 - res);
 
         // Calculate the next ap
-        let next_ap = (const_expr!(1) - flag_ap_update_add_1.clone()) * casm_state.ap.clone()
-            + flag_ap_update_add_1 * (casm_state.ap + const_expr!(1));
+        let next_ap = casm_state.ap.clone() + flag_ap_update_add_1;
 
         // Calculate the next pc
         let next_pc = if self.is_imm {

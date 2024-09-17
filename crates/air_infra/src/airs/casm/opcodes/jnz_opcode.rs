@@ -125,11 +125,7 @@ impl AirFn for JnzOpcode {
         };
 
         // Calculate the next ap
-        let next_ap = if self.ap_update_add_1 {
-            casm_state.ap + const_expr!(1)
-        } else {
-            casm_state.ap
-        };
+        let next_ap = casm_state.ap + const_expr!(self.ap_update_add_1 as u32);
 
         CasmStateVar::new(next_pc, next_ap, casm_state.fp)
     }
