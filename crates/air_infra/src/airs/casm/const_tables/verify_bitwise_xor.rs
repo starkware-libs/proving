@@ -3,7 +3,8 @@ use crate::core::expressions::felt_expr::*;
 #[cfg(test)]
 use crate::core::variables::*;
 
-const STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR: &str = "VerifyBitwiseXor";
+const STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4: &str = "VerifyBitwiseXor4";
+const STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9: &str = "VerifyBitwiseXor9";
 
 #[derive(Debug)]
 pub struct VerifyBitwiseXor {
@@ -17,7 +18,16 @@ impl AirFn for VerifyBitwiseXor {
     type Out = ();
 
     fn name(&self) -> String {
-        STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR.to_string()
+        match self.num_bits {
+            // Note: Each specific rc in the list must be implemented in stwo by a component of
+            // the same name.
+            4 => STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4.to_string(),
+            9 => STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9.to_string(),
+            _ => panic!(
+                "Invalid verigy bitwise xor number of bits {:?}.",
+                self.num_bits
+            ),
+        }
     }
 
     fn trace_type(&self) -> TraceType {
