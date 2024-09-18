@@ -406,10 +406,14 @@ macro_rules! impl_unary_op {
         }
     };
 
-    (from $op:ident, $op_lower:ident, $it:ident, $ot:ident, $ot_lower: ident) => {
+    (from $op:ident, $op_lower:ident, $it:ident, $ot:ident, $ot_lower:ident) => {
         impl From<$it> for $ot {
             fn from(input: $it) -> Self {
-                let value = input.value().map(|c| $ot_lower::$op_lower(c));
+                let value = input.value().map($ot_lower::$op_lower);
+                if input.is_const() {
+                    return $ot::Var(VarExpr::new_const(value.unwrap()));
+                }
+
                 $ot::Op(OpExpr::new(Operation::$op, vec![input.into()], value))
             }
         }

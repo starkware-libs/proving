@@ -154,22 +154,29 @@ fn test_felt252_division_by_p() {
 
 #[test]
 fn test_conversion_felt_to_bool() {
-    let mut f = const_expr!(1);
-    let b: BoolExpr = f.clone().into();
+    let f = const_expr!(1);
+    let b: BoolExpr = f.into();
     assert_eq!(b.calc(), "true");
     assert!(b.in_state());
+
     let compiled_felt: CompiledAirVar = b.as_felt().into();
     assert_eq!(&compiled_felt.to_string(), "const_1");
     let compiled_bool: CompiledAirVar = b.into();
-    assert_eq!(&compiled_bool.to_string(), "Bool::from_m31(const_1)");
+    assert_eq!(&compiled_bool.to_string(), "const_true");
 
-    f = f.let_(
+    let f = expr!("x", 1);
+    let b: BoolExpr = f.clone().into();
+    let compiled_felt: CompiledAirVar = b.as_felt().into();
+    assert_eq!(&compiled_felt.to_string(), "x");
+    let compiled_bool: CompiledAirVar = b.into();
+    assert_eq!(&compiled_bool.to_string(), "Bool::from_m31(x)");
+
+    let f = f.let_(
         format!("{}0", INTERMEDIATE_VAR_PREFIX),
         IntermediateType::default(),
     );
     let b: BoolExpr = f.into();
     assert_eq!(b.calc(), "true");
-    assert!(b.in_state());
     let compiled_felt: CompiledAirVar = b.as_felt().into();
     assert_eq!(&compiled_felt.to_string(), "tmp_0");
     let compiled_bool: CompiledAirVar = b.into();
@@ -341,10 +348,11 @@ fn test_biguint256() {
     );
 
     let mut compiled: CompiledAirVar = BigUInt256Expr::from(f).into();
-    assert_eq!(
-        &compiled.to_string(),
-        "BigUInt::<256, 4>::from_felt252(const_[1, 0, 1, 0])"
-    );
+    assert_eq!(&compiled.to_string(), "const_[1, 0, 1, 0]");
+
+    let f = felt252_expr!("x", 1, 1);
+    compiled = BigUInt256Expr::from(f).into();
+    assert_eq!(&compiled.to_string(), "BigUInt::<256, 4>::from_felt252(x)");
 
     compiled = bigu256_expr!("v".to_string(), 1, 0, 1, 0).into();
     assert_eq!(format!("{:?}", compiled), "Var(\"BigUInt<256, 4>\", \"v\")");
