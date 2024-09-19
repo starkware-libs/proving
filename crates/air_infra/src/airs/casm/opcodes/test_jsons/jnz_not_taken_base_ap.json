@@ -47,7 +47,7 @@
       [
         "ap",
         {
-          "name": "state[1]",
+          "name": "(state[1] + const_0)",
           "type": "M31"
         }
       ],
@@ -62,7 +62,7 @@
   },
   "output_felts": [
     "(state[0] + const_2)",
-    "state[1]",
+    "(state[1] + const_0)",
     "state[2]"
   ],
   "trace_type": "Component",
