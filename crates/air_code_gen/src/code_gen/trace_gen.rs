@@ -66,6 +66,8 @@ pub fn generate_write_trace_row_code(
                     });
                 }
             }
+            TraceGenStep::StartBlock(_) => (),
+            TraceGenStep::EndBlock() => (),
         }
     }
 

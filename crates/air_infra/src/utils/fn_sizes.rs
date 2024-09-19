@@ -19,6 +19,8 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
                 output_felts: _,
             } => num_lookup_constraints += 1,
             ConstraintEvalStep::Intermediate(_, _) => {}
+            ConstraintEvalStep::StartBlock(_) => {}
+            ConstraintEvalStep::EndBlock() => {}
         }
     }
 
@@ -31,6 +33,8 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
                 input: _,
                 output_name: _,
             } => {}
+            TraceGenStep::StartBlock(_) => {}
+            TraceGenStep::EndBlock() => {}
         }
     }
 

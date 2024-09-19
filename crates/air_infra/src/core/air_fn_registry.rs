@@ -22,6 +22,7 @@ pub const INTERMEDIATE_VAR_PREFIX: &str = "tmp_";
 #[derive(Debug, Clone, Serialize)]
 pub struct AirFnEntry {
     pub name: String,
+    pub description: String,
     pub inst_def: IndexMap<String, String>,
     pub input: AirVarImpl,
     pub input_num_of_felts: usize,
@@ -40,6 +41,7 @@ impl AirFnEntry {
         let (air_builder, input, output) = registry.build_air(air_fn);
         let entry = Self {
             name: air_fn.name(),
+            description: air_fn.description(),
             inst_def: air_fn.inst_def(),
             input: input.clone().into(),
             input_num_of_felts: input.as_felts().len(),
@@ -201,6 +203,7 @@ impl AirFnRegistry {
         let (deductions, constraints) = Self::compile_air_fn(entry.air_body);
         CompiledAirFn {
             name: air_fn_name.clone(),
+            description: entry.description,
             input: entry.input.into(),
             output: entry.output.into(),
             input_num_of_felts: entry.input_num_of_felts,
@@ -250,8 +253,14 @@ impl AirFnRegistry {
                 }
                 AirBodyComponent::Call(f) => {
                     let (new_deductions, new_constraints) = Self::compile_air_fn(f.air_body);
+
+                    constraints.push(ConstraintEvalStep::StartBlock(f.air_fn_description.clone()));
                     constraints.extend(new_constraints);
+                    constraints.push(ConstraintEvalStep::EndBlock());
+
+                    deductions.push(TraceGenStep::StartBlock(f.air_fn_description));
                     deductions.extend(new_deductions);
+                    deductions.push(TraceGenStep::EndBlock());
                 }
                 AirBodyComponent::LookupCall(call) => {
                     deductions.push(TraceGenStep::Lookup {

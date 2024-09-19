@@ -1,5 +1,6 @@
 {
   "name": "AirFnBitMux",
+  "description": "AirFnBitMux",
   "inst_def": {},
   "input": {
     "name": "AirFnBitMux_input",
@@ -21,6 +22,7 @@
     {
       "Call": {
         "air_fn_name": "Div2",
+        "air_fn_description": "Div2",
         "input_arg": {
           "name": "AirFnBitMux_input",
           "type": "UInt16"

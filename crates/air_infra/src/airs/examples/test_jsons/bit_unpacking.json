@@ -1,5 +1,6 @@
 {
   "name": "BitUnpack_num_bits_4",
+  "description": "BitUnpack_num_bits_4",
   "inst_def": {
     "num_bits": "4"
   },
@@ -40,6 +41,7 @@
     {
       "Call": {
         "air_fn_name": "Div2",
+        "air_fn_description": "Div2",
         "input_arg": {
           "name": "BitUnpack_num_bits_4_input",
           "type": "UInt16"
@@ -59,6 +61,7 @@
     {
       "Call": {
         "air_fn_name": "Div2",
+        "air_fn_description": "Div2",
         "input_arg": {
           "name": "tmp_2",
           "type": "UInt16"
@@ -78,6 +81,7 @@
     {
       "Call": {
         "air_fn_name": "Div2",
+        "air_fn_description": "Div2",
         "input_arg": {
           "name": "tmp_4",
           "type": "UInt16"
@@ -97,6 +101,7 @@
     {
       "Call": {
         "air_fn_name": "Div2",
+        "air_fn_description": "Div2",
         "input_arg": {
           "name": "tmp_6",
           "type": "UInt16"

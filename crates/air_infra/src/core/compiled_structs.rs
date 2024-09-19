@@ -3,6 +3,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub struct CompiledAirFn {
     pub name: String,
+    pub description: String,
     pub input: CompiledAirVar,
     pub output: CompiledAirVar,
 
@@ -20,7 +21,13 @@ pub struct CompiledAirFn {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub enum TraceGenStep {
+    // Constains a description of the following code block.
+    StartBlock(String),
+
+    EndBlock(),
+
     Deduction(CompiledAirVar),
+
     Intermediate(String, CompiledAirVar),
 
     // output_name is the name of the intermediate variable into which the lookup result should
@@ -34,6 +41,11 @@ pub enum TraceGenStep {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub enum ConstraintEvalStep {
+    // Constains a description of the following code block.
+    StartBlock(String),
+
+    EndBlock(),
+
     // The argument is a polynomial in in-state values. The constraint requires it
     // to evaluate to zero.
     InInstanceConstraint(CompiledAirVar),

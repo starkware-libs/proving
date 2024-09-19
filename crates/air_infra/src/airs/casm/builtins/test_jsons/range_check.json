@@ -1,5 +1,6 @@
 {
   "name": "RangeCheckBuiltin_bits_32",
+  "description": "RangeCheckBuiltin_bits_32",
   "inst_def": {
     "bits": "32"
   },
@@ -12,6 +13,7 @@
     {
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_32",
+        "air_fn_description": "ReadPositive_num_bits_32",
         "input_arg": {
           "name": "(const_100 + external_state(Seq)[0])",
           "type": "M31"

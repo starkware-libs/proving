@@ -1,5 +1,6 @@
 {
   "name": "AddAp",
+  "description": "AddAp",
   "inst_def": {},
   "input": {
     "name": "AddAp_input",
@@ -111,6 +112,7 @@
     {
       "Call": {
         "air_fn_name": "DecodeInstruction_83cd6a5ed43aa52e",
+        "air_fn_description": "DecodeInstruction_83cd6a5ed43aa52e",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -198,6 +200,7 @@
     {
       "Call": {
         "air_fn_name": "ReadSmall",
+        "air_fn_description": "ReadSmall",
         "input_arg": {
           "name": "(state[0] + const_1)",
           "type": "M31"
