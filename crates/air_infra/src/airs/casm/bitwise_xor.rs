@@ -14,10 +14,6 @@ impl AirFn for BitwiseXor {
     type In = [FeltExpr; 2];
     type Out = FeltExpr;
 
-    fn trace_type(&self) -> TraceType {
-        TraceType::Inline
-    }
-
     fn call(&self, air_builder: &mut AirBuilder, [a, b]: Self::In) -> Self::Out {
         let mut a_xor_b = air_builder
             .let_for_deduction(UInt16Expr::from(a.clone()) ^ UInt16Expr::from(b.clone()));
