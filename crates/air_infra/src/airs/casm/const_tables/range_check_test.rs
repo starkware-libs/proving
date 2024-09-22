@@ -17,10 +17,6 @@ impl AirFn for SmallAdd {
     type In = [FeltExpr; 2];
     type Out = FeltExpr;
 
-    fn trace_type(&self) -> crate::core::air_fn::TraceType {
-        TraceType::Inline
-    }
-
     fn call(
         &self,
         air_builder: &mut crate::core::air_fn::AirBuilder,
