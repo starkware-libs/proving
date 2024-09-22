@@ -86,18 +86,20 @@ pub trait AirFn: Debug {
 
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out;
 
-    fn lookup_call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
+    fn lookup_call(&self, air_builder: &mut AirBuilder, mut input: Self::In) -> Self::Out {
         assert!(
             self.trace_type() == TraceType::Component,
             "AirFn must be a component"
         );
 
-        let mut input_in_state = air_builder.let_for_deduction(input);
-        for felt in input_in_state.as_felts_mut() {
-            air_builder.deduce(felt);
+        if !Self::In::is_empty() {
+            input = air_builder.let_for_deduction(input);
+            for felt in input.as_felts_mut() {
+                air_builder.deduce(felt);
+            }
         }
 
-        self.call(air_builder, input_in_state)
+        self.call(air_builder, input)
     }
 }
 
@@ -328,7 +330,7 @@ impl AirBuilder {
         }
 
         let output_name = self.registry.get_intermediate_name();
-        let mut intermediate = O::new(output_name.clone());
+        let mut output = O::new(output_name.clone());
 
         #[cfg(test)]
         if self.run {
@@ -339,7 +341,7 @@ impl AirBuilder {
                 run: self.run,
                 registry: self.registry.clone(),
             };
-            intermediate = match air_fn.trace_type() {
+            output = match air_fn.trace_type() {
                 // For const components, use call() to compute the output
                 TraceType::Const => air_fn.call(&mut air_builder, input.clone()),
 
@@ -351,32 +353,38 @@ impl AirBuilder {
             };
         }
 
-        intermediate = intermediate.let_(
-            output_name.clone(),
-            IntermediateType {
-                in_constraints: false,
-                in_deductions: true,
-            },
-        );
-
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: air_fn.name(),
             input_arg: input.clone().into(),
-            output_name,
+            output_name: if O::is_empty() {
+                None
+            } else {
+                Some(output_name.clone())
+            },
         }));
 
-        for felt in intermediate.as_felts_mut() {
-            self.deduce(felt);
+        if !O::is_empty() {
+            output = output.let_(
+                output_name.clone(),
+                IntermediateType {
+                    in_constraints: false,
+                    in_deductions: true,
+                },
+            );
+
+            for felt in output.as_felts_mut() {
+                self.deduce(felt);
+            }
         }
 
         self.air_body
             .push(AirBodyComponent::LookupConstraint(LookupConstraint {
                 air_fn_name: air_fn.name(),
                 input_felts: input.as_felts(),
-                output_felts: intermediate.as_felts(),
+                output_felts: output.as_felts(),
             }));
 
-        intermediate
+        output
     }
 
     #[allow(unused_variables)]
@@ -403,7 +411,7 @@ impl AirBuilder {
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: memory.name(),
             input_arg: key.clone().into(),
-            output_name: value_name.clone(),
+            output_name: Some(value_name.clone()),
         }));
 
         let mut value = V::new(value_name.clone());
@@ -542,7 +550,9 @@ pub struct Call {
 pub struct LookupCall {
     pub air_fn_name: String,
     pub input_arg: AirVarImpl,
-    pub output_name: String,
+    // None if there is no output
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub output_name: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize)]

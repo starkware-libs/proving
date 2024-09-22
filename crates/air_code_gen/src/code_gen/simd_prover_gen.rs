@@ -82,13 +82,14 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
                     lookup_data
                         .$(&fn_name.to_lowercase())_inputs[$(multiplicity.to_string())]
                         .push($(&input).into());
-                    let $(output_name) = $(fn_name.to_lowercase())::deduce_output(
-                        $(input).into()
-                    );
-                    lookup_data
-                        .$(fn_name.to_lowercase())_outputs[$(multiplicity.to_string())]
-                        .push($(output_name).into());
                 });
+                if let Some(output_name) = output_name {
+                    write_trace_body.extend(quote! {
+                            let $(output_name) = $(fn_name.to_lowercase())::deduce_output(
+                                $(input).into()
+                            );
+                    });
+                }
                 *multiplicity += 1;
             }
             // TODO: Implement.

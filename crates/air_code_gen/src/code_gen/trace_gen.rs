@@ -59,8 +59,12 @@ pub fn generate_write_trace_row_code(
             } => {
                 write_trace_body.extend(quote! {
                     returned_inputs.$(fn_name)_inputs.push($(parse_air_var(input)));
-                    let $(output_name) = $(fn_name)CpuTraceGenerator::deduce_output($(parse_air_var(input)));
                 });
+                if let Some(output_name) = output_name {
+                    write_trace_body.extend(quote! {
+                        let $(output_name) = $(fn_name)CpuTraceGenerator::deduce_output($(parse_air_var(input)));
+                    });
+                }
             }
             // TODO: Implement.
             TraceGenStep::AccessExternalColumn {

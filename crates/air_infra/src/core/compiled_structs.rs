@@ -24,11 +24,11 @@ pub enum TraceGenStep {
     Intermediate(String, CompiledAirVar),
 
     // output_name is the name of the intermediate variable into which the lookup result should
-    // be placed
+    // be placed. If it is None, there is no output and no intermediate variable is created.
     Lookup {
         fn_name: String,
         input: CompiledAirVar,
-        output_name: String,
+        output_name: Option<String>,
     },
 
     AccessExternalColumn {

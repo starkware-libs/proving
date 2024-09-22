@@ -10,26 +10,16 @@
   "trace_type": "Component",
   "air_body": [
     {
-      "Intermediate": [
-        "tmp_0",
-        [],
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
       "AccessExternalColumn": {
         "air_fn_name": "Seq",
-        "output_name": "tmp_1"
+        "output_name": "tmp_0"
       }
     },
     {
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_32",
         "input_arg": {
-          "name": "(const_100 + tmp_1)",
+          "name": "(const_100 + tmp_0)",
           "type": "M31"
         },
         "output": {

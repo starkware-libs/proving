@@ -30,7 +30,9 @@ pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
         // TODO: Implement this function
         "".to_string()
     }
+
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr>;
+
     fn as_felts(&self) -> Vec<FeltExpr> {
         self.clone()
             .as_felts_mut()
@@ -38,6 +40,11 @@ pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
             .map(|f| f.clone())
             .collect()
     }
+
+    fn is_empty() -> bool {
+        false
+    }
+
     #[cfg(test)]
     fn to_values(&self) -> Option<Vec<Felt>> {
         self.as_felts()
@@ -207,6 +214,10 @@ impl From<()> for AirVarImpl {
 impl AirVar for () {
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         vec![]
+    }
+
+    fn is_empty() -> bool {
+        true
     }
 }
 
