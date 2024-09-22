@@ -50,6 +50,9 @@ impl Display for CompiledAirVar {
                     .join(", ");
                 write!(f, "{{{}}}", strs)
             }
+            CompiledAirVar::ExternalState(name, i) => {
+                write!(f, "external_state({})[{}]", name, i)
+            }
         }
     }
 }

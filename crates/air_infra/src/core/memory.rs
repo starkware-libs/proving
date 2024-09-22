@@ -12,8 +12,6 @@ use std::marker::PhantomData;
 use std::rc::Rc;
 
 use super::air_fn::*;
-use super::expressions::felt_expr::*;
-use super::expressions::var_expr::*;
 use super::variables::*;
 
 #[cfg(test)]
@@ -81,36 +79,6 @@ where
             );
         }
     }
-
-    #[allow(unused_variables)]
-    pub fn get_state_value_for_constraints(&self, key: &K) -> V {
-        #[cfg(test)]
-        if let Some(value) = self.get(key) {
-            return value;
-        }
-
-        // Cannot use V::default() here because it will return a const value.
-        // The name is not important, because value will be used only in constraints.
-        let mut value = V::new("".to_string()).let_(
-            "".to_string(),
-            IntermediateType {
-                in_constraints: true,
-                in_deductions: false,
-            },
-        );
-        let i_start = K::default().as_felts().len();
-        for (i, felt) in value.as_felts_mut().into_iter().enumerate() {
-            *felt = FeltExpr::Var(VarExpr {
-                name: format!("state[{}]", i_start + i),
-                value: None,
-                is_const: false,
-                parent: None,
-                complex_or_felt: ComplexOrFelt::Felt(StateInfo::StateIndex(i_start + i)),
-                intermediate_type: None,
-            });
-        }
-        value
-    }
 }
 
 impl<K, V> AirFn for Memory<K, V>
@@ -132,7 +100,7 @@ where
     }
 
     fn trace_type(&self) -> TraceType {
-        TraceType::Const
+        TraceType::Component
     }
 
     fn inst_def(&self) -> IndexMap<String, String> {

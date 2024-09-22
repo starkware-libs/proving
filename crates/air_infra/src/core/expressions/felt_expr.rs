@@ -26,13 +26,17 @@ impl VarExprUpdate for VarExpr<Felt> {
 impl FeltExpr {
     // When an expression is written to the trace, this function is called to change the expression
     // into a variable that has a state index.
-    pub fn to_state(&mut self, index: usize) {
+    pub fn to_state(&mut self, index: usize, external: Option<String>) {
         let name = format!("state[{}]", index);
         let value = self.value();
         match self {
             FeltExpr::Var(v) => {
                 v.name = name;
-                v.complex_or_felt = ComplexOrFelt::Felt(StateInfo::StateIndex(index));
+                v.complex_or_felt = if let Some(external_name) = external {
+                    ComplexOrFelt::Felt(StateInfo::ExternalColumnStateIndex(external_name, index))
+                } else {
+                    ComplexOrFelt::Felt(StateInfo::StateIndex(index))
+                };
                 // A felt expression that is written to the trace is no longer an intermediate variable.
                 v.intermediate_type = None;
             }

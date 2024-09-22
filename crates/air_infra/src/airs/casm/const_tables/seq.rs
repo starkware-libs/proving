@@ -16,16 +16,18 @@ impl AirFn for Seq {
 
     fn call(&self, _air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
         #[cfg(test)]
-        return FeltExpr::Var(VarExpr::new(
-            "seq".to_string(),
-            _air_builder.row_number().map(|x| Felt::from(x as u32)),
-            false,
-            true,
-            None,
-        ));
+        if _air_builder.is_run_mode() {
+            let row_number = _air_builder.row_number().expect("Row number not set");
+            return FeltExpr::Var(VarExpr::new(
+                self.name(),
+                Some(Felt::from(row_number as u32)),
+                true,
+                true,
+                None,
+            ));
+        }
 
-        #[cfg(not(test))]
-        FeltExpr::default()
+        Self::Out::default()
     }
 
     fn trace_type(&self) -> TraceType {

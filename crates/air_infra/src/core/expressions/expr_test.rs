@@ -202,7 +202,7 @@ fn test_conversion_bool_to_uint16() {
     let compiled_felt: CompiledAirVar = i.as_felt().into();
     assert_eq!(&compiled_felt.to_string(), "tmp_0.as_m31()");
 
-    b.as_felt_mut().to_state(0);
+    b.as_felt_mut().to_state(0, None);
     let mut i: UInt16Expr = b.clone().into();
     assert!(i.in_state());
     let compiled_felt: CompiledAirVar = i.as_felt().into();
@@ -231,7 +231,7 @@ fn test_conversion_felt_to_uint16() {
     let compiled_felt: CompiledAirVar = i.as_felt().clone().into();
     assert_eq!(&compiled_felt.to_string(), "tmp_0");
 
-    f.to_state(0);
+    f.to_state(0, None);
     let mut i: UInt16Expr = f.clone().into();
     assert!(i.in_state());
     let compiled_felt: CompiledAirVar = i.as_felt().into();

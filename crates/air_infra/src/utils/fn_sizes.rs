@@ -19,10 +19,6 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
                 output_felts: _,
             } => num_lookup_constraints += 1,
             ConstraintEvalStep::Intermediate(_, _) => {}
-            ConstraintEvalStep::AccessExternalColumn {
-                fn_name: _,
-                output_name: _,
-            } => {}
         }
     }
 
@@ -33,10 +29,6 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
             TraceGenStep::Lookup {
                 fn_name: _,
                 input: _,
-                output_name: _,
-            } => {}
-            TraceGenStep::AccessExternalColumn {
-                fn_name: _,
                 output_name: _,
             } => {}
         }

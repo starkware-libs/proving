@@ -30,11 +30,6 @@ pub enum TraceGenStep {
         input: CompiledAirVar,
         output_name: Option<String>,
     },
-
-    AccessExternalColumn {
-        fn_name: String,
-        output_name: String,
-    },
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
@@ -51,11 +46,6 @@ pub enum ConstraintEvalStep {
     },
 
     Intermediate(String, CompiledAirVar),
-
-    AccessExternalColumn {
-        fn_name: String,
-        output_name: String,
-    },
 }
 
 // Air variables as represented in the deductions and constrains lists.
@@ -82,4 +72,6 @@ pub enum CompiledAirVar {
         r#type: String,
         fields: Vec<(String, CompiledAirVar)>,
     },
+    // A variable written to the trace of a const table at the given index.
+    ExternalState(String, usize),
 }

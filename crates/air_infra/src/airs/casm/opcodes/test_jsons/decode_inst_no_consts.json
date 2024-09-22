@@ -116,63 +116,27 @@
           "name": "DecodeInstruction_64fce74ff258858e_input",
           "type": "M31"
         },
-        "output_name": "tmp_0"
+        "output_name": "tmp_1"
       }
     },
     {
       "LookupCall": {
         "air_fn_name": "Memory_Felt252",
         "input_arg": {
-          "name": "tmp_0",
+          "name": "tmp_1",
           "type": "M31"
         },
-        "output_name": "tmp_1"
+        "output_name": "tmp_3"
       }
     },
     {
-      "Deduction": "tmp_1.get_m31(const_0)"
-    },
-    {
-      "Intermediate": [
-        "tmp_2",
-        {
-          "name": "(UInt32::from_m31(tmp_1.get_m31(const_1)) & const_127)",
-          "type": "UInt32"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": "tmp_2.low().as_m31()"
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "RangeCheck7",
-        "input_arg": [
-          {
-            "name": "state[1]",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck7",
-        "input_felts": [
-          "state[1]"
-        ],
-        "output_felts": []
-      }
+      "Deduction": "tmp_3.get_m31(const_0)"
     },
     {
       "Intermediate": [
         "tmp_4",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_1)) >> const_7) & const_3)",
+          "name": "(UInt32::from_m31(tmp_3.get_m31(const_1)) & const_127)",
           "type": "UInt32"
         },
         {
@@ -186,10 +150,10 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "RangeCheck2",
+        "air_fn_name": "RangeCheck_bits_7",
         "input_arg": [
           {
-            "name": "state[2]",
+            "name": "state[1]",
             "type": "M31"
           }
         ]
@@ -197,21 +161,18 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "RangeCheck2",
+        "air_fn_name": "RangeCheck_bits_7",
         "input_felts": [
-          "state[2]"
+          "state[1]"
         ],
         "output_felts": []
       }
     },
     {
-      "Deduction": "tmp_1.get_m31(const_2)"
-    },
-    {
       "Intermediate": [
         "tmp_6",
         {
-          "name": "(UInt32::from_m31(tmp_1.get_m31(const_3)) & const_31)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_1)) >> const_7) & const_3)",
           "type": "UInt32"
         },
         {
@@ -225,10 +186,10 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "RangeCheck5",
+        "air_fn_name": "RangeCheck_bits_2",
         "input_arg": [
           {
-            "name": "state[4]",
+            "name": "state[2]",
             "type": "M31"
           }
         ]
@@ -236,18 +197,21 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "RangeCheck5",
+        "air_fn_name": "RangeCheck_bits_2",
         "input_felts": [
-          "state[4]"
+          "state[2]"
         ],
         "output_felts": []
       }
     },
     {
+      "Deduction": "tmp_3.get_m31(const_2)"
+    },
+    {
       "Intermediate": [
         "tmp_8",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_3)) >> const_5) & const_15)",
+          "name": "(UInt32::from_m31(tmp_3.get_m31(const_3)) & const_31)",
           "type": "UInt32"
         },
         {
@@ -261,10 +225,10 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "RangeCheck4",
+        "air_fn_name": "RangeCheck_bits_5",
         "input_arg": [
           {
-            "name": "state[5]",
+            "name": "state[4]",
             "type": "M31"
           }
         ]
@@ -272,21 +236,18 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "RangeCheck4",
+        "air_fn_name": "RangeCheck_bits_5",
         "input_felts": [
-          "state[5]"
+          "state[4]"
         ],
         "output_felts": []
       }
     },
     {
-      "Deduction": "tmp_1.get_m31(const_4)"
-    },
-    {
       "Intermediate": [
         "tmp_10",
         {
-          "name": "(UInt32::from_m31(tmp_1.get_m31(const_5)) & const_7)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_3)) >> const_5) & const_15)",
           "type": "UInt32"
         },
         {
@@ -300,10 +261,10 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "RangeCheck3",
+        "air_fn_name": "RangeCheck_bits_4",
         "input_arg": [
           {
-            "name": "state[7]",
+            "name": "state[5]",
             "type": "M31"
           }
         ]
@@ -311,18 +272,21 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "RangeCheck3",
+        "air_fn_name": "RangeCheck_bits_4",
         "input_felts": [
-          "state[7]"
+          "state[5]"
         ],
         "output_felts": []
       }
     },
     {
+      "Deduction": "tmp_3.get_m31(const_4)"
+    },
+    {
       "Intermediate": [
         "tmp_12",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_5)) >> const_3) & const_1)",
+          "name": "(UInt32::from_m31(tmp_3.get_m31(const_5)) & const_7)",
           "type": "UInt32"
         },
         {
@@ -335,32 +299,30 @@
       "Deduction": "tmp_12.low().as_m31()"
     },
     {
-      "Constraint": "(state[8] * (const_1 - state[8]))"
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_bits_3",
+        "input_arg": [
+          {
+            "name": "state[7]",
+            "type": "M31"
+          }
+        ]
+      }
     },
     {
-      "Intermediate": [
-        "tmp_13",
-        {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_5)) >> const_4) & const_1)",
-          "type": "UInt32"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": "tmp_13.low().as_m31()"
-    },
-    {
-      "Constraint": "(state[9] * (const_1 - state[9]))"
+      "LookupConstraint": {
+        "air_fn_name": "RangeCheck_bits_3",
+        "input_felts": [
+          "state[7]"
+        ],
+        "output_felts": []
+      }
     },
     {
       "Intermediate": [
         "tmp_14",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_5)) >> const_5) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_5)) >> const_3) & const_1)",
           "type": "UInt32"
         },
         {
@@ -373,13 +335,13 @@
       "Deduction": "tmp_14.low().as_m31()"
     },
     {
-      "Constraint": "(state[10] * (const_1 - state[10]))"
+      "Constraint": "(state[8] * (const_1 - state[8]))"
     },
     {
       "Intermediate": [
         "tmp_15",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_5)) >> const_6) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_5)) >> const_4) & const_1)",
           "type": "UInt32"
         },
         {
@@ -392,13 +354,13 @@
       "Deduction": "tmp_15.low().as_m31()"
     },
     {
-      "Constraint": "(state[11] * (const_1 - state[11]))"
+      "Constraint": "(state[9] * (const_1 - state[9]))"
     },
     {
       "Intermediate": [
         "tmp_16",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_5)) >> const_7) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_5)) >> const_5) & const_1)",
           "type": "UInt32"
         },
         {
@@ -411,13 +373,13 @@
       "Deduction": "tmp_16.low().as_m31()"
     },
     {
-      "Constraint": "(state[12] * (const_1 - state[12]))"
+      "Constraint": "(state[10] * (const_1 - state[10]))"
     },
     {
       "Intermediate": [
         "tmp_17",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_5)) >> const_8) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_5)) >> const_6) & const_1)",
           "type": "UInt32"
         },
         {
@@ -430,13 +392,13 @@
       "Deduction": "tmp_17.low().as_m31()"
     },
     {
-      "Constraint": "(state[13] * (const_1 - state[13]))"
+      "Constraint": "(state[11] * (const_1 - state[11]))"
     },
     {
       "Intermediate": [
         "tmp_18",
         {
-          "name": "(UInt32::from_m31(tmp_1.get_m31(const_6)) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_5)) >> const_7) & const_1)",
           "type": "UInt32"
         },
         {
@@ -449,13 +411,13 @@
       "Deduction": "tmp_18.low().as_m31()"
     },
     {
-      "Constraint": "(state[14] * (const_1 - state[14]))"
+      "Constraint": "(state[12] * (const_1 - state[12]))"
     },
     {
       "Intermediate": [
         "tmp_19",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_6)) >> const_1) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_5)) >> const_8) & const_1)",
           "type": "UInt32"
         },
         {
@@ -468,13 +430,13 @@
       "Deduction": "tmp_19.low().as_m31()"
     },
     {
-      "Constraint": "(state[15] * (const_1 - state[15]))"
+      "Constraint": "(state[13] * (const_1 - state[13]))"
     },
     {
       "Intermediate": [
         "tmp_20",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_6)) >> const_2) & const_1)",
+          "name": "(UInt32::from_m31(tmp_3.get_m31(const_6)) & const_1)",
           "type": "UInt32"
         },
         {
@@ -487,13 +449,13 @@
       "Deduction": "tmp_20.low().as_m31()"
     },
     {
-      "Constraint": "(state[16] * (const_1 - state[16]))"
+      "Constraint": "(state[14] * (const_1 - state[14]))"
     },
     {
       "Intermediate": [
         "tmp_21",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_6)) >> const_3) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_6)) >> const_1) & const_1)",
           "type": "UInt32"
         },
         {
@@ -506,13 +468,13 @@
       "Deduction": "tmp_21.low().as_m31()"
     },
     {
-      "Constraint": "(state[17] * (const_1 - state[17]))"
+      "Constraint": "(state[15] * (const_1 - state[15]))"
     },
     {
       "Intermediate": [
         "tmp_22",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_6)) >> const_4) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_6)) >> const_2) & const_1)",
           "type": "UInt32"
         },
         {
@@ -525,13 +487,13 @@
       "Deduction": "tmp_22.low().as_m31()"
     },
     {
-      "Constraint": "(state[18] * (const_1 - state[18]))"
+      "Constraint": "(state[16] * (const_1 - state[16]))"
     },
     {
       "Intermediate": [
         "tmp_23",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_6)) >> const_5) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_6)) >> const_3) & const_1)",
           "type": "UInt32"
         },
         {
@@ -544,13 +506,13 @@
       "Deduction": "tmp_23.low().as_m31()"
     },
     {
-      "Constraint": "(state[19] * (const_1 - state[19]))"
+      "Constraint": "(state[17] * (const_1 - state[17]))"
     },
     {
       "Intermediate": [
         "tmp_24",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_6)) >> const_6) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_6)) >> const_4) & const_1)",
           "type": "UInt32"
         },
         {
@@ -563,13 +525,13 @@
       "Deduction": "tmp_24.low().as_m31()"
     },
     {
-      "Constraint": "(state[20] * (const_1 - state[20]))"
+      "Constraint": "(state[18] * (const_1 - state[18]))"
     },
     {
       "Intermediate": [
         "tmp_25",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_6)) >> const_7) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_6)) >> const_5) & const_1)",
           "type": "UInt32"
         },
         {
@@ -582,13 +544,13 @@
       "Deduction": "tmp_25.low().as_m31()"
     },
     {
-      "Constraint": "(state[21] * (const_1 - state[21]))"
+      "Constraint": "(state[19] * (const_1 - state[19]))"
     },
     {
       "Intermediate": [
         "tmp_26",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_6)) >> const_8) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_6)) >> const_6) & const_1)",
           "type": "UInt32"
         },
         {
@@ -599,6 +561,44 @@
     },
     {
       "Deduction": "tmp_26.low().as_m31()"
+    },
+    {
+      "Constraint": "(state[20] * (const_1 - state[20]))"
+    },
+    {
+      "Intermediate": [
+        "tmp_27",
+        {
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_6)) >> const_7) & const_1)",
+          "type": "UInt32"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_27.low().as_m31()"
+    },
+    {
+      "Constraint": "(state[21] * (const_1 - state[21]))"
+    },
+    {
+      "Intermediate": [
+        "tmp_28",
+        {
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_6)) >> const_8) & const_1)",
+          "type": "UInt32"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_28.low().as_m31()"
     },
     {
       "Constraint": "(state[22] * (const_1 - state[22]))"
@@ -612,7 +612,7 @@
             "type": "M31"
           },
           {
-            "name": "tmp_0",
+            "name": "tmp_1",
             "type": "M31"
           },
           {

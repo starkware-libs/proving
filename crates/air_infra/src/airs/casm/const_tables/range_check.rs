@@ -26,31 +26,37 @@ impl<const N: usize> AirFn for RangeCheck<N> {
     type In = [FeltExpr; N];
     type Out = ();
 
-    fn name(&self) -> String {
+    fn const_input(&self) -> Option<String> {
         match self.bits.as_slice() {
             // Note: Each specific rc in the list must be implemented in stwo by a component of
             // the same name.
-            [2] => STWO_COMPONENT_TYPE_RANGE_CHECK_2.to_string(),
-            [3] => STWO_COMPONENT_TYPE_RANGE_CHECK_3.to_string(),
-            [4] => STWO_COMPONENT_TYPE_RANGE_CHECK_4.to_string(),
-            [5] => STWO_COMPONENT_TYPE_RANGE_CHECK_5.to_string(),
-            [6] => STWO_COMPONENT_TYPE_RANGE_CHECK_6.to_string(),
-            [7] => STWO_COMPONENT_TYPE_RANGE_CHECK_7.to_string(),
-            [8] => STWO_COMPONENT_TYPE_RANGE_CHECK_8.to_string(),
-            [9] => STWO_COMPONENT_TYPE_RANGE_CHECK_9.to_string(),
-            [16] => STWO_COMPONENT_TYPE_RANGE_CHECK_16.to_string(),
-            [2, 5] => STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_2_5.to_string(),
-            [4, 3] => STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3.to_string(),
+            [2] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_2.to_string()),
+            [3] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_3.to_string()),
+            [4] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_4.to_string()),
+            [5] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_5.to_string()),
+            [6] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_6.to_string()),
+            [7] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_7.to_string()),
+            [8] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_8.to_string()),
+            [9] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_9.to_string()),
+            [16] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_16.to_string()),
+            [2, 5] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_2_5.to_string()),
+            [4, 3] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3.to_string()),
             _ => panic!("Invalid range check bits {:?}.", self.bits),
         }
     }
 
     fn trace_type(&self) -> TraceType {
-        TraceType::Const
+        TraceType::Component
     }
 
     fn inst_def(&self) -> IndexMap<String, String> {
-        [("bits".to_string(), format!("{:?}", self.bits))].into()
+        let str = self
+            .bits
+            .iter()
+            .map(|b| b.to_string())
+            .collect::<Vec<String>>()
+            .join(", ");
+        [("bits".to_string(), str)].into()
     }
 
     fn call(&self, _air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {

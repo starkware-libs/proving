@@ -14,12 +14,12 @@ pub struct VarExpr<T>
 where
     T: ProverType,
 {
-    pub name: String,
-    pub value: Option<T>,
-    pub is_const: bool,
-    pub parent: Option<ParentExpr>,
-    pub complex_or_felt: ComplexOrFelt,
-    pub intermediate_type: Option<IntermediateType>,
+    pub(super) name: String,
+    pub(super) value: Option<T>,
+    pub(super) is_const: bool,
+    pub(super) parent: Option<ParentExpr>,
+    pub(super) complex_or_felt: ComplexOrFelt,
+    pub(super) intermediate_type: Option<IntermediateType>,
 }
 
 impl<T> VarExpr<T>
@@ -93,6 +93,7 @@ where
         match &self.complex_or_felt {
             ComplexOrFelt::Felt(StateInfo::StateIndex(_)) => true,
             ComplexOrFelt::Felt(StateInfo::IsPolyOfState(b)) => *b,
+            ComplexOrFelt::Felt(StateInfo::ExternalColumnStateIndex(_, _)) => true,
             ComplexOrFelt::Complex(children) => children.iter().all(|c| c.in_state()),
         }
     }
@@ -129,6 +130,12 @@ where
             return CompiledAirVar::State(i);
         }
 
+        // v was written to the trace of an external const table
+        if let ComplexOrFelt::Felt(StateInfo::ExternalColumnStateIndex(name, i)) = v.complex_or_felt
+        {
+            return CompiledAirVar::ExternalState(name, i);
+        }
+
         // v is a field of another variable
         if let Some(parent) = v.parent {
             return parent.get_compiled_child();
@@ -140,7 +147,7 @@ where
 }
 
 #[derive(Clone, Debug)]
-pub struct ParentExpr {
+pub(super) struct ParentExpr {
     pub(super) name: String,
     pub(super) r#type: String,
     pub(super) parent: Option<Box<ParentExpr>>,
@@ -173,7 +180,7 @@ impl From<ParentExpr> for CompiledAirVar {
 // Each VarExpr is either a single felt, that can be written to the state
 // or a complex expression that holds one or more expressions (children).
 #[derive(Clone, Debug)]
-pub enum ComplexOrFelt {
+pub(super) enum ComplexOrFelt {
     Complex(Vec<ExprImpl>),
     Felt(StateInfo),
 }
@@ -181,7 +188,8 @@ pub enum ComplexOrFelt {
 // A felt in the state either has a state index or was created as an intermediate variable
 // from an operation that is in the state (i.e., a polynomial of felts written to the state).
 #[derive(Clone, Debug)]
-pub enum StateInfo {
+pub(super) enum StateInfo {
     StateIndex(usize),
     IsPolyOfState(bool),
+    ExternalColumnStateIndex(String, usize),
 }

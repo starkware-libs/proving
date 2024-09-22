@@ -92,11 +92,6 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
                 }
                 *multiplicity += 1;
             }
-            // TODO: Implement.
-            TraceGenStep::AccessExternalColumn {
-                fn_name: _,
-                output_name: _,
-            } => (),
         }
     }
 
@@ -465,6 +460,9 @@ fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
             format!("[{}]", expr_str)
         }
         CompiledAirVar::Struct { .. } => {
+            todo!()
+        }
+        CompiledAirVar::ExternalState(_name, _i) => {
             todo!()
         }
     }

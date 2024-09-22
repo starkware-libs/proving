@@ -117,9 +117,12 @@ impl AirFnRegistry {
         let output = match air_fn.trace_type() {
             TraceType::Inline => air_fn.call(&mut air_builder, input),
             TraceType::Component => air_fn.lookup_call(&mut air_builder, input),
-
             // For constant AirFns there are no constraints or deductions, so we just return the output.
-            TraceType::Const => air_fn.call(&mut air_builder, input),
+            TraceType::Const => {
+                let output = air_fn.call(&mut air_builder, input);
+                assert!(output.is_const(), "Output must be a constant");
+                output
+            }
         };
 
         // Make sure that the output is in the state.
@@ -148,10 +151,14 @@ impl AirFnRegistry {
         let output = match air_fn.trace_type() {
             TraceType::Inline => air_fn.call(&mut air_builder, input.clone()),
             TraceType::Component => air_fn.lookup_call(&mut air_builder, input.clone()),
-
             // For constant AirFns the value of <output> is meaningless, as we don't
             // output any constraints or deductions. It just has to be of the correct type.
-            TraceType::Const => O::new(format!("{}_output", air_fn.name())),
+            TraceType::Const => {
+                // Make sure that the output is in the trace.
+                let output = air_fn.call(&mut air_builder, input.clone());
+                assert!(output.in_state(), "Output must be in the trace");
+                output
+            }
         };
 
         // Make sure that the output is a variable or a felt expression.
@@ -267,16 +274,6 @@ impl AirFnRegistry {
                             .map(|x| x.into())
                             .collect(),
                     });
-                }
-                AirBodyComponent::AccessExternalColumn(access) => {
-                    deductions.push(TraceGenStep::AccessExternalColumn {
-                        fn_name: access.air_fn_name.clone(),
-                        output_name: access.output_name.clone(),
-                    });
-                    constraints.push(ConstraintEvalStep::AccessExternalColumn {
-                        fn_name: access.air_fn_name,
-                        output_name: access.output_name,
-                    })
                 }
             }
         }

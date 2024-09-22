@@ -25,6 +25,7 @@ impl AirFn for RangeCheckBuiltin {
 
     fn call(&self, air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
         let instance_number = air_builder.call_external_column(&Seq {});
+
         air_builder.call(
             &ReadPositive {
                 num_bits: self.bits,

@@ -66,11 +66,6 @@ pub fn generate_write_trace_row_code(
                     });
                 }
             }
-            // TODO: Implement.
-            TraceGenStep::AccessExternalColumn {
-                fn_name: _,
-                output_name: _,
-            } => (),
         }
     }
 
@@ -358,6 +353,9 @@ fn air_var_type(expr: &CompiledAirVar) -> String {
         CompiledAirVar::Struct { .. } => {
             todo!()
         }
+        CompiledAirVar::ExternalState(..) => {
+            todo!()
+        }
     }
 }
 
@@ -442,6 +440,9 @@ pub fn parse_air_var(expr: &CompiledAirVar) -> String {
             format!("[{}]", expr_str)
         }
         CompiledAirVar::Struct { .. } => {
+            todo!()
+        }
+        CompiledAirVar::ExternalState(..) => {
             todo!()
         }
     }

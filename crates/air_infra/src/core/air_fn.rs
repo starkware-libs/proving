@@ -16,14 +16,17 @@ pub const MAX_NAME_LEN: usize = 50;
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum TraceType {
     // Doesn't have its own component in the trace, always inlined into its caller.
+    // Can be called only with call.
     Inline,
 
     // Has its own component in the trace. Each call generates a new row in that component.
+    // Can be called only with lookup_call. Generates multiplicity and accumulated sum columns.
     Component,
 
-    // Has its own component in the trace. The trace for this component is pre-filled
-    // with rows for all possible inputs by external means. Doesn't generate deductions
-    // or constraints.
+    // Has its own component in the trace. The trace for this component is pre-filled with rows for
+    // all possible inputs by external means. Doesn't generate deductions or constraints.
+    // Doesn't generate multiplicity or accumulated sum columns. Has no input, only output.
+    // Can be called only with call_external_column.
     Const,
 }
 
@@ -84,6 +87,13 @@ pub trait AirFn: Debug {
         IndexMap::new()
     }
 
+    // For lookup components that their input columns are a const table, return the name of
+    // that const table. The const table contains only my input columns and nothing else.
+    // Note that the const table might not have a corresponding air function (e.g., "RangeCheck9").
+    fn const_input(&self) -> Option<String> {
+        None
+    }
+
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out;
 
     fn lookup_call(&self, air_builder: &mut AirBuilder, mut input: Self::In) -> Self::Out {
@@ -92,7 +102,11 @@ pub trait AirFn: Debug {
             "AirFn must be a component"
         );
 
-        if !Self::In::is_empty() {
+        if let Some(const_name) = self.const_input() {
+            for (i, felt) in input.as_felts_mut().into_iter().enumerate() {
+                felt.to_state(i, Some(const_name.clone()));
+            }
+        } else if !Self::In::is_empty() {
             input = air_builder.let_for_deduction(input);
             for felt in input.as_felts_mut() {
                 air_builder.deduce(felt);
@@ -303,12 +317,10 @@ impl AirBuilder {
         I: AirVar,
         O: AirVar,
     {
-        match air_fn.trace_type() {
-            TraceType::Inline => {
-                panic!("Lookup call cannot be used with an AirFn that is not a separate component")
-            }
-            TraceType::Component | TraceType::Const => (),
-        }
+        assert!(
+            air_fn.trace_type() == TraceType::Component,
+            "AirFn must be a component"
+        );
 
         // Make sure the callee is in the registry
         if self
@@ -337,20 +349,14 @@ impl AirBuilder {
             let mut air_builder = Self {
                 state: State::default(),
                 air_body: vec![],
-                row_number: Some(0),
+                // When we call a separate component using lookup, we access an arbitrary row in
+                // that component (depending on how its rows are sorted). That is, the row number
+                // in the callee is not related to the row number in the caller.
+                row_number: None,
                 run: self.run,
                 registry: self.registry.clone(),
             };
-            output = match air_fn.trace_type() {
-                // For const components, use call() to compute the output
-                TraceType::Const => air_fn.call(&mut air_builder, input.clone()),
-
-                // For regular components, call() is not supposed to be called directly but
-                // only through lookup_call().
-                TraceType::Component => air_fn.lookup_call(&mut air_builder, input.clone()),
-
-                _ => panic!(),
-            };
+            output = air_fn.lookup_call(&mut air_builder, input.clone());
         }
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
@@ -414,6 +420,7 @@ impl AirBuilder {
             output_name: Some(value_name.clone()),
         }));
 
+        #[allow(unused_mut)]
         let mut value = V::new(value_name.clone());
 
         #[cfg(test)]
@@ -421,21 +428,21 @@ impl AirBuilder {
             let mut air_builder = Self {
                 state: State::default(),
                 air_body: vec![],
-                row_number: Some(0),
+                // This is None for the same reason as in lookup_call.
+                row_number: None,
                 run: self.run,
                 registry: self.registry.clone(),
             };
-            value = memory.call(&mut air_builder, key.clone());
+            value = memory.lookup_call(&mut air_builder, key.clone());
         }
 
-        value = value.let_(
+        value.let_(
             value_name,
             IntermediateType {
                 in_constraints: false,
                 in_deductions: true,
             },
-        );
-        value
+        )
     }
 
     #[allow(unused_variables)]
@@ -483,6 +490,7 @@ impl AirBuilder {
             }));
     }
 
+    #[allow(unused_variables)]
     pub fn call_external_column<O>(&mut self, air_fn: &dyn AirFn<In = (), Out = O>) -> O
     where
         O: AirVar,
@@ -503,34 +511,25 @@ impl AirBuilder {
             AirFnEntry::new(&self.registry, air_fn);
         }
 
-        let output_name = self.registry.get_intermediate_name();
-        self.air_body.push(AirBodyComponent::AccessExternalColumn(
-            AccessExternalColumn {
-                air_fn_name: air_fn.name(),
-                output_name: output_name.clone(),
-            },
-        ));
+        #[cfg(test)]
+        if self.run {
+            let mut air_builder = Self {
+                state: State::default(),
+                air_body: vec![],
+                #[cfg(test)]
+                row_number: self.row_number,
+                #[cfg(test)]
+                run: self.run,
+                registry: self.registry.clone(),
+            };
+            return air_fn.call(&mut air_builder, ());
+        }
 
-        // Const tables that are called as external columns should return an output that is in the state,
-        // both in build and run modes.
-        let mut air_builder = Self {
-            state: State::default(),
-            air_body: vec![],
-            #[cfg(test)]
-            row_number: self.row_number,
-            #[cfg(test)]
-            run: self.run,
-            registry: self.registry.clone(),
-        };
-        let output = air_fn.call(&mut air_builder, ());
-        assert!(output.in_state(), "Output must be in the trace");
-        output.let_(
-            output_name,
-            IntermediateType {
-                in_constraints: true,
-                in_deductions: true,
-            },
-        )
+        let mut output = O::new("".to_string());
+        for (i, felt) in output.as_felts_mut().into_iter().enumerate() {
+            felt.to_state(i, Some(air_fn.name()));
+        }
+        output
     }
 }
 
@@ -563,12 +562,6 @@ pub struct LookupConstraint {
     pub output_felts: Vec<FeltExpr>,
 }
 
-#[derive(Clone, Debug, Serialize)]
-pub struct AccessExternalColumn {
-    pub air_fn_name: String,
-    pub output_name: String,
-}
-
 // Each air function has an air_body, which is a vector of AirBodyComponent.
 // These are the components of the air function.
 #[derive(Clone, Debug, Serialize)]
@@ -585,5 +578,4 @@ pub enum AirBodyComponent {
     Call(Call),
     LookupCall(LookupCall),
     LookupConstraint(LookupConstraint),
-    AccessExternalColumn(AccessExternalColumn),
 }

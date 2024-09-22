@@ -22,11 +22,11 @@
           "name": "ReadSmall_input",
           "type": "M31"
         },
-        "output_name": "tmp_0"
+        "output_name": "tmp_1"
       }
     },
     {
-      "Deduction": "tmp_0"
+      "Deduction": "tmp_1"
     },
     {
       "LookupConstraint": {
@@ -46,14 +46,14 @@
           "name": "state[0]",
           "type": "M31"
         },
-        "output_name": "tmp_1"
+        "output_name": "tmp_3"
       }
     },
     {
       "Intermediate": [
-        "tmp_2",
+        "tmp_4",
         {
-          "name": "tmp_1.get_m31(const_27).eq(const_256)",
+          "name": "tmp_3.get_m31(const_27).eq(const_256)",
           "type": "Bool"
         },
         {
@@ -63,13 +63,13 @@
       ]
     },
     {
-      "Deduction": "tmp_2.as_m31()"
+      "Deduction": "tmp_4.as_m31()"
     },
     {
       "Intermediate": [
-        "tmp_3",
+        "tmp_5",
         {
-          "name": "tmp_1.get_m31(const_20).eq(const_511)",
+          "name": "tmp_3.get_m31(const_20).eq(const_511)",
           "type": "Bool"
         },
         {
@@ -79,7 +79,7 @@
       ]
     },
     {
-      "Deduction": "tmp_3.as_m31()"
+      "Deduction": "tmp_5.as_m31()"
     },
     {
       "Constraint": "(state[1] * (state[1] - const_1))"
@@ -91,13 +91,13 @@
       "Constraint": "(state[2] * (state[1] - const_1))"
     },
     {
-      "Deduction": "tmp_1.get_m31(const_0)"
+      "Deduction": "tmp_3.get_m31(const_0)"
     },
     {
-      "Deduction": "tmp_1.get_m31(const_1)"
+      "Deduction": "tmp_3.get_m31(const_1)"
     },
     {
-      "Deduction": "tmp_1.get_m31(const_2)"
+      "Deduction": "tmp_3.get_m31(const_2)"
     },
     {
       "LookupConstraint": {

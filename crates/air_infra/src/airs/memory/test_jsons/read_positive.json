@@ -51,11 +51,11 @@
           "name": "ReadPositive_num_bits_16_input",
           "type": "M31"
         },
-        "output_name": "tmp_0"
+        "output_name": "tmp_1"
       }
     },
     {
-      "Deduction": "tmp_0"
+      "Deduction": "tmp_1"
     },
     {
       "LookupConstraint": {
@@ -75,18 +75,18 @@
           "name": "state[0]",
           "type": "M31"
         },
-        "output_name": "tmp_1"
+        "output_name": "tmp_3"
       }
     },
     {
-      "Deduction": "tmp_1.get_m31(const_0)"
+      "Deduction": "tmp_3.get_m31(const_0)"
     },
     {
-      "Deduction": "tmp_1.get_m31(const_1)"
+      "Deduction": "tmp_3.get_m31(const_1)"
     },
     {
       "LookupCall": {
-        "air_fn_name": "RangeCheck7",
+        "air_fn_name": "RangeCheck_bits_7",
         "input_arg": [
           {
             "name": "state[2]",
@@ -97,7 +97,7 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "RangeCheck7",
+        "air_fn_name": "RangeCheck_bits_7",
         "input_felts": [
           "state[2]"
         ],

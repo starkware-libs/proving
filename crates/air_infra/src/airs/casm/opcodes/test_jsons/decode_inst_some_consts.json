@@ -116,63 +116,24 @@
           "name": "DecodeInstruction_116be7744be089d8_input",
           "type": "M31"
         },
-        "output_name": "tmp_0"
+        "output_name": "tmp_1"
       }
     },
     {
       "LookupCall": {
         "air_fn_name": "Memory_Felt252",
         "input_arg": {
-          "name": "tmp_0",
+          "name": "tmp_1",
           "type": "M31"
         },
-        "output_name": "tmp_1"
+        "output_name": "tmp_3"
       }
-    },
-    {
-      "Intermediate": [
-        "tmp_2",
-        {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_1)) >> const_7) & const_3)",
-          "type": "UInt32"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": "tmp_2.low().as_m31()"
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "RangeCheck2",
-        "input_arg": [
-          {
-            "name": "state[0]",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck2",
-        "input_felts": [
-          "state[0]"
-        ],
-        "output_felts": []
-      }
-    },
-    {
-      "Deduction": "tmp_1.get_m31(const_2)"
     },
     {
       "Intermediate": [
         "tmp_4",
         {
-          "name": "(UInt32::from_m31(tmp_1.get_m31(const_3)) & const_31)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_1)) >> const_7) & const_3)",
           "type": "UInt32"
         },
         {
@@ -186,10 +147,10 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "RangeCheck5",
+        "air_fn_name": "RangeCheck_bits_2",
         "input_arg": [
           {
-            "name": "state[2]",
+            "name": "state[0]",
             "type": "M31"
           }
         ]
@@ -197,18 +158,21 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "RangeCheck5",
+        "air_fn_name": "RangeCheck_bits_2",
         "input_felts": [
-          "state[2]"
+          "state[0]"
         ],
         "output_felts": []
       }
     },
     {
+      "Deduction": "tmp_3.get_m31(const_2)"
+    },
+    {
       "Intermediate": [
         "tmp_6",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_5)) >> const_3) & const_1)",
+          "name": "(UInt32::from_m31(tmp_3.get_m31(const_3)) & const_31)",
           "type": "UInt32"
         },
         {
@@ -221,13 +185,30 @@
       "Deduction": "tmp_6.low().as_m31()"
     },
     {
-      "Constraint": "(state[3] * (const_1 - state[3]))"
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_bits_5",
+        "input_arg": [
+          {
+            "name": "state[2]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupConstraint": {
+        "air_fn_name": "RangeCheck_bits_5",
+        "input_felts": [
+          "state[2]"
+        ],
+        "output_felts": []
+      }
     },
     {
       "Intermediate": [
-        "tmp_7",
+        "tmp_8",
         {
-          "name": "((UInt32::from_m31(tmp_1.get_m31(const_5)) >> const_5) & const_1)",
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_5)) >> const_3) & const_1)",
           "type": "UInt32"
         },
         {
@@ -237,7 +218,26 @@
       ]
     },
     {
-      "Deduction": "tmp_7.low().as_m31()"
+      "Deduction": "tmp_8.low().as_m31()"
+    },
+    {
+      "Constraint": "(state[3] * (const_1 - state[3]))"
+    },
+    {
+      "Intermediate": [
+        "tmp_9",
+        {
+          "name": "((UInt32::from_m31(tmp_3.get_m31(const_5)) >> const_5) & const_1)",
+          "type": "UInt32"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_9.low().as_m31()"
     },
     {
       "Constraint": "(state[4] * (const_1 - state[4]))"
@@ -251,7 +251,7 @@
             "type": "M31"
           },
           {
-            "name": "tmp_0",
+            "name": "tmp_1",
             "type": "M31"
           },
           {

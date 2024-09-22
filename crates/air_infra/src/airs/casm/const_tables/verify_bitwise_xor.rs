@@ -1,3 +1,5 @@
+use indexmap::IndexMap;
+
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 #[cfg(test)]
@@ -17,21 +19,25 @@ impl AirFn for VerifyBitwiseXor {
     type In = [FeltExpr; 3];
     type Out = ();
 
-    fn name(&self) -> String {
+    fn const_input(&self) -> Option<String> {
         match self.num_bits {
-            // Note: Each specific rc in the list must be implemented in stwo by a component of
+            // Note: Each specific xor in the list must be implemented in stwo by a component of
             // the same name.
-            4 => STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4.to_string(),
-            9 => STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9.to_string(),
+            4 => Some(STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4.to_string()),
+            9 => Some(STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9.to_string()),
             _ => panic!(
-                "Invalid verigy bitwise xor number of bits {:?}.",
+                "Invalid verify bitwise xor number of bits {:?}.",
                 self.num_bits
             ),
         }
     }
 
     fn trace_type(&self) -> TraceType {
-        TraceType::Const
+        TraceType::Component
+    }
+
+    fn inst_def(&self) -> IndexMap<String, String> {
+        [("num_bits".to_string(), self.num_bits.to_string())].into()
     }
 
     fn call(&self, _air_builder: &mut AirBuilder, [_a, _b, _c]: Self::In) -> Self::Out {

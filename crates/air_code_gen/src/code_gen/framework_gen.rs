@@ -178,11 +178,6 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             } => {
                 code.extend(parse_lookup_constraint(fn_name, input_felts, output_felts));
             }
-            // TODO: Implement.
-            ConstraintEvalStep::AccessExternalColumn {
-                fn_name: _,
-                output_name: _,
-            } => (),
         }
     }
 
@@ -256,6 +251,9 @@ fn parse_eval_constraint(expr: &CompiledAirVar) -> String {
         CompiledAirVar::Tuple(_) => unimplemented!(),
         CompiledAirVar::Array(_) => unimplemented!(),
         CompiledAirVar::Struct { .. } => {
+            todo!()
+        }
+        CompiledAirVar::ExternalState(..) => {
             todo!()
         }
     }

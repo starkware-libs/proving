@@ -8,16 +8,10 @@
   "trace_type": "Component",
   "air_body": [
     {
-      "AccessExternalColumn": {
-        "air_fn_name": "Seq",
-        "output_name": "tmp_0"
-      }
-    },
-    {
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_252",
         "input_arg": {
-          "name": "((const_500 + (tmp_0 * const_5)) + const_0)",
+          "name": "((const_500 + (external_state(Seq)[0] * const_5)) + const_0)",
           "type": "M31"
         },
         "output": {
@@ -30,7 +24,7 @@
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_252",
         "input_arg": {
-          "name": "((const_500 + (tmp_0 * const_5)) + const_1)",
+          "name": "((const_500 + (external_state(Seq)[0] * const_5)) + const_1)",
           "type": "M31"
         },
         "output": {
@@ -60,7 +54,7 @@
     },
     {
       "Intermediate": [
-        "tmp_11",
+        "tmp_12",
         {
           "name": "(const_1073741824 * ((state[1] + state[30]) - state[58]))",
           "type": "M31"
@@ -92,7 +86,7 @@
     },
     {
       "Intermediate": [
-        "tmp_14",
+        "tmp_15",
         {
           "name": "(const_1073741824 * ((state[2] + state[31]) - state[59]))",
           "type": "M31"
@@ -124,7 +118,7 @@
     },
     {
       "Intermediate": [
-        "tmp_17",
+        "tmp_18",
         {
           "name": "(const_1073741824 * ((state[3] + state[32]) - state[60]))",
           "type": "M31"
@@ -156,7 +150,7 @@
     },
     {
       "Intermediate": [
-        "tmp_20",
+        "tmp_21",
         {
           "name": "(const_1073741824 * ((state[4] + state[33]) - state[61]))",
           "type": "M31"
@@ -188,7 +182,7 @@
     },
     {
       "Intermediate": [
-        "tmp_23",
+        "tmp_24",
         {
           "name": "(const_1073741824 * ((state[5] + state[34]) - state[62]))",
           "type": "M31"
@@ -220,7 +214,7 @@
     },
     {
       "Intermediate": [
-        "tmp_26",
+        "tmp_27",
         {
           "name": "(const_1073741824 * ((state[6] + state[35]) - state[63]))",
           "type": "M31"
@@ -252,7 +246,7 @@
     },
     {
       "Intermediate": [
-        "tmp_29",
+        "tmp_30",
         {
           "name": "(const_1073741824 * ((state[7] + state[36]) - state[64]))",
           "type": "M31"
@@ -284,7 +278,7 @@
     },
     {
       "Intermediate": [
-        "tmp_32",
+        "tmp_33",
         {
           "name": "(const_1073741824 * ((state[8] + state[37]) - state[65]))",
           "type": "M31"
@@ -316,7 +310,7 @@
     },
     {
       "Intermediate": [
-        "tmp_35",
+        "tmp_36",
         {
           "name": "(const_1073741824 * ((state[9] + state[38]) - state[66]))",
           "type": "M31"
@@ -348,7 +342,7 @@
     },
     {
       "Intermediate": [
-        "tmp_38",
+        "tmp_39",
         {
           "name": "(const_1073741824 * ((state[10] + state[39]) - state[67]))",
           "type": "M31"
@@ -380,7 +374,7 @@
     },
     {
       "Intermediate": [
-        "tmp_41",
+        "tmp_42",
         {
           "name": "(const_1073741824 * ((state[11] + state[40]) - state[68]))",
           "type": "M31"
@@ -412,7 +406,7 @@
     },
     {
       "Intermediate": [
-        "tmp_44",
+        "tmp_45",
         {
           "name": "(const_1073741824 * ((state[12] + state[41]) - state[69]))",
           "type": "M31"
@@ -444,7 +438,7 @@
     },
     {
       "Intermediate": [
-        "tmp_47",
+        "tmp_48",
         {
           "name": "(const_1073741824 * ((state[13] + state[42]) - state[70]))",
           "type": "M31"
@@ -476,7 +470,7 @@
     },
     {
       "Intermediate": [
-        "tmp_50",
+        "tmp_51",
         {
           "name": "(const_1073741824 * ((state[14] + state[43]) - state[71]))",
           "type": "M31"
@@ -508,7 +502,7 @@
     },
     {
       "Intermediate": [
-        "tmp_53",
+        "tmp_54",
         {
           "name": "(const_1073741824 * ((state[15] + state[44]) - state[72]))",
           "type": "M31"
@@ -540,7 +534,7 @@
     },
     {
       "Intermediate": [
-        "tmp_56",
+        "tmp_57",
         {
           "name": "(const_1073741824 * ((state[16] + state[45]) - state[73]))",
           "type": "M31"
@@ -572,7 +566,7 @@
     },
     {
       "Intermediate": [
-        "tmp_59",
+        "tmp_60",
         {
           "name": "(const_1073741824 * ((state[17] + state[46]) - state[74]))",
           "type": "M31"
@@ -604,7 +598,7 @@
     },
     {
       "Intermediate": [
-        "tmp_62",
+        "tmp_63",
         {
           "name": "(const_1073741824 * ((state[18] + state[47]) - state[75]))",
           "type": "M31"
@@ -636,7 +630,7 @@
     },
     {
       "Intermediate": [
-        "tmp_65",
+        "tmp_66",
         {
           "name": "(const_1073741824 * ((state[19] + state[48]) - state[76]))",
           "type": "M31"
@@ -668,7 +662,7 @@
     },
     {
       "Intermediate": [
-        "tmp_68",
+        "tmp_69",
         {
           "name": "(const_1073741824 * ((state[20] + state[49]) - state[77]))",
           "type": "M31"
@@ -700,7 +694,7 @@
     },
     {
       "Intermediate": [
-        "tmp_71",
+        "tmp_72",
         {
           "name": "(const_1073741824 * ((state[21] + state[50]) - state[78]))",
           "type": "M31"
@@ -732,7 +726,7 @@
     },
     {
       "Intermediate": [
-        "tmp_74",
+        "tmp_75",
         {
           "name": "(const_1073741824 * ((state[22] + state[51]) - state[79]))",
           "type": "M31"
@@ -764,7 +758,7 @@
     },
     {
       "Intermediate": [
-        "tmp_77",
+        "tmp_78",
         {
           "name": "(const_1073741824 * ((state[23] + state[52]) - state[80]))",
           "type": "M31"
@@ -796,7 +790,7 @@
     },
     {
       "Intermediate": [
-        "tmp_80",
+        "tmp_81",
         {
           "name": "(const_1073741824 * ((state[24] + state[53]) - state[81]))",
           "type": "M31"
@@ -828,7 +822,7 @@
     },
     {
       "Intermediate": [
-        "tmp_83",
+        "tmp_84",
         {
           "name": "(const_1073741824 * ((state[25] + state[54]) - state[82]))",
           "type": "M31"
@@ -860,7 +854,7 @@
     },
     {
       "Intermediate": [
-        "tmp_86",
+        "tmp_87",
         {
           "name": "(const_1073741824 * ((state[26] + state[55]) - state[83]))",
           "type": "M31"
@@ -892,7 +886,7 @@
     },
     {
       "Intermediate": [
-        "tmp_89",
+        "tmp_90",
         {
           "name": "(const_1073741824 * ((state[27] + state[56]) - state[84]))",
           "type": "M31"
@@ -924,7 +918,7 @@
     },
     {
       "Intermediate": [
-        "tmp_92",
+        "tmp_93",
         {
           "name": "(const_1073741824 * ((state[28] + state[57]) - state[85]))",
           "type": "M31"
@@ -940,11 +934,11 @@
         "air_fn_name": "MemVerify",
         "input_arg": [
           {
-            "name": "((const_500 + (tmp_0 * const_5)) + const_2)",
+            "name": "((const_500 + (external_state(Seq)[0] * const_5)) + const_2)",
             "type": "M31"
           },
           {
-            "name": "Felt252::from_limbs([tmp_11, tmp_14, tmp_17, tmp_20, tmp_23, tmp_26, tmp_29, tmp_32, tmp_35, tmp_38, tmp_41, tmp_44, tmp_47, tmp_50, tmp_53, tmp_56, tmp_59, tmp_62, tmp_65, tmp_68, tmp_71, tmp_74, tmp_77, tmp_80, tmp_83, tmp_86, tmp_89, tmp_92])",
+            "name": "Felt252::from_limbs([tmp_12, tmp_15, tmp_18, tmp_21, tmp_24, tmp_27, tmp_30, tmp_33, tmp_36, tmp_39, tmp_42, tmp_45, tmp_48, tmp_51, tmp_54, tmp_57, tmp_60, tmp_63, tmp_66, tmp_69, tmp_72, tmp_75, tmp_78, tmp_81, tmp_84, tmp_87, tmp_90, tmp_93])",
             "type": "Felt252"
           }
         ],
@@ -956,7 +950,7 @@
         "air_fn_name": "MemVerify",
         "input_arg": [
           {
-            "name": "((const_500 + (tmp_0 * const_5)) + const_3)",
+            "name": "((const_500 + (external_state(Seq)[0] * const_5)) + const_3)",
             "type": "M31"
           },
           {
@@ -972,11 +966,11 @@
         "air_fn_name": "MemVerify",
         "input_arg": [
           {
-            "name": "((const_500 + (tmp_0 * const_5)) + const_4)",
+            "name": "((const_500 + (external_state(Seq)[0] * const_5)) + const_4)",
             "type": "M31"
           },
           {
-            "name": "Felt252::from_limbs([(tmp_11 + state[58]), (tmp_14 + state[59]), (tmp_17 + state[60]), (tmp_20 + state[61]), (tmp_23 + state[62]), (tmp_26 + state[63]), (tmp_29 + state[64]), (tmp_32 + state[65]), (tmp_35 + state[66]), (tmp_38 + state[67]), (tmp_41 + state[68]), (tmp_44 + state[69]), (tmp_47 + state[70]), (tmp_50 + state[71]), (tmp_53 + state[72]), (tmp_56 + state[73]), (tmp_59 + state[74]), (tmp_62 + state[75]), (tmp_65 + state[76]), (tmp_68 + state[77]), (tmp_71 + state[78]), (tmp_74 + state[79]), (tmp_77 + state[80]), (tmp_80 + state[81]), (tmp_83 + state[82]), (tmp_86 + state[83]), (tmp_89 + state[84]), (tmp_92 + state[85])])",
+            "name": "Felt252::from_limbs([(tmp_12 + state[58]), (tmp_15 + state[59]), (tmp_18 + state[60]), (tmp_21 + state[61]), (tmp_24 + state[62]), (tmp_27 + state[63]), (tmp_30 + state[64]), (tmp_33 + state[65]), (tmp_36 + state[66]), (tmp_39 + state[67]), (tmp_42 + state[68]), (tmp_45 + state[69]), (tmp_48 + state[70]), (tmp_51 + state[71]), (tmp_54 + state[72]), (tmp_57 + state[73]), (tmp_60 + state[74]), (tmp_63 + state[75]), (tmp_66 + state[76]), (tmp_69 + state[77]), (tmp_72 + state[78]), (tmp_75 + state[79]), (tmp_78 + state[80]), (tmp_81 + state[81]), (tmp_84 + state[82]), (tmp_87 + state[83]), (tmp_90 + state[84]), (tmp_93 + state[85])])",
             "type": "Felt252"
           }
         ],
