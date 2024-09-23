@@ -74,7 +74,7 @@ fn test_add_ap_negative_imm() {
 
     // Check entry
     compare_test_json(
-        registry,
+        &registry,
         &add_ap_opcode.name(),
         &(TEST_JSONS_OPCODES_DIR.to_owned() + "add_ap_negative_imm.json"),
     );
@@ -142,7 +142,7 @@ fn test_add_ap_deref_base_fp() {
 
     // Check entry
     compare_test_json(
-        registry,
+        &registry,
         &add_ap_opcode.name(),
         &(TEST_JSONS_OPCODES_DIR.to_owned() + "add_ap_deref_base_fp.json"),
     );

@@ -27,7 +27,7 @@ fn test_bit_unpacking() {
 
     // Check entry
     compare_test_json(
-        registry,
+        &registry,
         &func.name(),
         &(TEST_JSONS_EXAMPLES_DIR.to_owned() + "bit_unpacking.json"),
     );
@@ -62,7 +62,7 @@ fn test_bit_mux() {
 
     // Check entry
     compare_test_json(
-        registry,
+        &registry,
         &func.name(),
         &(TEST_JSONS_EXAMPLES_DIR.to_owned() + "bit_mux.json"),
     );

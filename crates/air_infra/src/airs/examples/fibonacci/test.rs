@@ -21,7 +21,7 @@ fn test_wide_fibonacci() {
 
     // Check entry
     compare_test_json(
-        registry,
+        &registry,
         &air_fn.name(),
         &(TEST_JSONS_EXAMPLES_DIR.to_owned() + "wide_fibonacci.json"),
     );
@@ -38,7 +38,7 @@ fn test_fibonacci() {
 
     // Check entry
     compare_test_json(
-        registry,
+        &registry,
         &air_fn.name(),
         &(TEST_JSONS_EXAMPLES_DIR.to_owned() + "fibonacci.json"),
     );

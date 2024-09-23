@@ -44,7 +44,7 @@ fn test_rc_small_add() {
     let registry = AirFnRegistry::new(&air_fn);
     // Check entry
     compare_test_json(
-        registry,
+        &registry,
         &air_fn.name(),
         &(TEST_JSONS_CONST_TABLES_DIR.to_owned() + "rc_small_add.json"),
     );

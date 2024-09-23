@@ -26,7 +26,7 @@ fn test_range_check() {
     let registry = AirFnRegistry::new(&rc);
     // Check entry
     compare_test_json(
-        registry,
+        &registry,
         &rc.name(),
         &(TEST_JSONS_BUILTINS_DIR.to_owned() + "range_check.json"),
     );

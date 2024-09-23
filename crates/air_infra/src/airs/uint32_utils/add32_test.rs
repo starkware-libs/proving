@@ -39,7 +39,7 @@ fn test_add32() {
 
     // Check entry
     compare_test_json(
-        registry,
+        &registry,
         &air_fn.name(),
         &(TEST_JSONS_UINT32_DIR.to_owned() + "add32.json"),
     );

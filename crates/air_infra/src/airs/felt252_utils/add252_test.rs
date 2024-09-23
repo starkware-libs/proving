@@ -16,7 +16,7 @@ fn test_add252_air_body() {
 
     // Check entry
     compare_test_json(
-        registry,
+        &registry,
         &air_fn.name(),
         &(TEST_JSONS_FELT252_DIR.to_owned() + "add252.json"),
     );
