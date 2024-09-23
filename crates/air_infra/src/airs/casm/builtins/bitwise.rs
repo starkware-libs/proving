@@ -44,8 +44,8 @@ impl AirFn for BitwiseBuiltin {
         let verify_felt252 = MemVerify {
             memory: self.memory.clone(),
         };
-        let a = air_builder.call(&read_felt252, get_addr(instance_num.clone(), 0));
-        let b = air_builder.call(&read_felt252, get_addr(instance_num.clone(), 1));
+        let (a, _) = air_builder.call(&read_felt252, get_addr(instance_num.clone(), 0));
+        let (b, _) = air_builder.call(&read_felt252, get_addr(instance_num.clone(), 1));
         let mut expected_xor = vec![];
         let mut expected_and = vec![];
         let mut expected_or = vec![];

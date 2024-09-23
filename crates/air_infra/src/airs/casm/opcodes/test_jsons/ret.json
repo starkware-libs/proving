@@ -202,10 +202,16 @@
           "name": "(state[2] - const_1)",
           "type": "M31"
         },
-        "output": {
-          "name": "Felt252::from_limbs(zero_extend([state[5], state[6], state[7]]))",
-          "type": "Felt252"
-        }
+        "output": [
+          {
+            "name": "Felt252::from_limbs(zero_extend([state[5], state[6], state[7]]))",
+            "type": "Felt252"
+          },
+          {
+            "name": "state[4]",
+            "type": "M31"
+          }
+        ]
       }
     },
     {
@@ -215,10 +221,16 @@
           "name": "(state[2] - const_2)",
           "type": "M31"
         },
-        "output": {
-          "name": "Felt252::from_limbs(zero_extend([state[9], state[10], state[11]]))",
-          "type": "Felt252"
-        }
+        "output": [
+          {
+            "name": "Felt252::from_limbs(zero_extend([state[9], state[10], state[11]]))",
+            "type": "Felt252"
+          },
+          {
+            "name": "state[8]",
+            "type": "M31"
+          }
+        ]
       }
     }
   ]

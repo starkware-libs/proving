@@ -6,12 +6,19 @@
     "type": "M31"
   },
   "input_num_of_felts": 1,
-  "output": {
-    "name": "((((state[5] * const_262144) + ((state[4] * const_512) + state[3])) - state[1]) - (const_134217728 * state[2]))",
-    "type": "M31"
-  },
+  "output": [
+    {
+      "name": "((((state[5] * const_262144) + ((state[4] * const_512) + state[3])) - state[1]) - (const_134217728 * state[2]))",
+      "type": "M31"
+    },
+    {
+      "name": "state[0]",
+      "type": "M31"
+    }
+  ],
   "output_felts": [
-    "((((state[5] * const_262144) + ((state[4] * const_512) + state[3])) - state[1]) - (const_134217728 * state[2]))"
+    "((((state[5] * const_262144) + ((state[4] * const_512) + state[3])) - state[1]) - (const_134217728 * state[2]))",
+    "state[0]"
   ],
   "trace_type": "Inline",
   "air_body": [

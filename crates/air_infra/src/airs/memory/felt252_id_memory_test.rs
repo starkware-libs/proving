@@ -49,27 +49,27 @@ fn test_read_small() {
     let registry = AirFnRegistry::new(&read_small);
 
     let (state, output) = registry.run_air(&read_small, const_expr!(1));
-    assert_eq!(output.calc(), "7".to_string());
+    assert_eq!(output.0.calc(), "7".to_string());
     assert_eq!(state.calc(), ["0", "0", "0", "7", "0", "0"]);
 
     let (state, output) = registry.run_air(&read_small, const_expr!(2));
-    assert_eq!(output.calc(), "7".to_string());
+    assert_eq!(output.0.calc(), "7".to_string());
     assert_eq!(state.calc(), ["0", "0", "0", "7", "0", "0"]);
 
     let (state, output) = registry.run_air(&read_small, const_expr!(3));
-    assert_eq!(output.calc(), ((1i64 << 31) - 2).to_string());
+    assert_eq!(output.0.calc(), ((1i64 << 31) - 2).to_string());
     assert_eq!(state.calc(), ["1", "1", "0", "0", "0", "0"]);
 
     let (state, output) = registry.run_air(&read_small, const_expr!(4));
-    assert_eq!(output.calc(), ((1i64 << 31) - 3).to_string());
+    assert_eq!(output.0.calc(), ((1i64 << 31) - 3).to_string());
     assert_eq!(state.calc(), ["2", "1", "1", "511", "511", "511"]);
 
     let (state, output) = registry.run_air(&read_small, const_expr!(5));
-    assert_eq!(output.calc(), "0".to_string());
+    assert_eq!(output.0.calc(), "0".to_string());
     assert_eq!(state.calc(), ["3", "1", "0", "1", "0", "0"]);
 
     let (state, output) = registry.run_air(&read_small, const_expr!(6));
-    assert_eq!(output.calc(), "1".to_string());
+    assert_eq!(output.0.calc(), "1".to_string());
     assert_eq!(state.calc(), ["4", "1", "0", "2", "0", "0"]);
 }
 
@@ -95,7 +95,7 @@ fn test_read_positive(value: Felt252Expr, num_bits: usize) {
     let registry = AirFnRegistry::new(&read_positive);
     let (_state, output) = registry.run_air(&read_positive, const_expr!(0));
 
-    assert_eq!(output.calc(), value.calc());
+    assert_eq!(output.0.calc(), value.calc());
 }
 
 #[test]

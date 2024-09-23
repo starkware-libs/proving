@@ -244,6 +244,7 @@ impl_air_var!((BoolExpr, FeltExpr));
 impl_air_var!((BoolExpr, UInt16Expr));
 impl_air_var!((UInt16Expr, FeltExpr));
 impl_air_var!((FeltExpr, Felt252Expr));
+impl_air_var!((Felt252Expr, FeltExpr));
 impl_air_var!([UInt32Expr]);
 impl_air_var!([BoolExpr]);
 impl_air_var!([FeltExpr]);
@@ -252,6 +253,10 @@ impl_air_var!([Felt252Expr]);
 type Felts = [FeltExpr; 3];
 type Bools = [BoolExpr; 15];
 impl_air_var!((Felts, Bools));
+type Cond = FeltExpr;
+impl_air_var!((CasmAddress, FeltExpr, Cond));
+type Id = FeltExpr;
+impl_air_var!((FeltExpr, Id));
 impl_air_var!((CasmAddress, FeltExpr, Felt252Expr));
 
 // Implements AirVar for arrays and tuples of air vars.

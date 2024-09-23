@@ -204,10 +204,16 @@
           "name": "(((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + (((state[3] + (state[4] * const_512)) + const_0) - const_32768))",
           "type": "M31"
         },
-        "output": {
-          "name": "((((state[17] * const_262144) + ((state[16] * const_512) + state[15])) - state[13]) - (const_134217728 * state[14]))",
-          "type": "M31"
-        }
+        "output": [
+          {
+            "name": "((((state[17] * const_262144) + ((state[16] * const_512) + state[15])) - state[13]) - (const_134217728 * state[14]))",
+            "type": "M31"
+          },
+          {
+            "name": "state[12]",
+            "type": "M31"
+          }
+        ]
       }
     },
     {
@@ -217,10 +223,16 @@
           "name": "(((state[9] * state[2]) + ((const_1 - state[9]) * state[1])) + (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768))",
           "type": "M31"
         },
-        "output": {
-          "name": "((((state[23] * const_262144) + ((state[22] * const_512) + state[21])) - state[19]) - (const_134217728 * state[20]))",
-          "type": "M31"
-        }
+        "output": [
+          {
+            "name": "((((state[23] * const_262144) + ((state[22] * const_512) + state[21])) - state[19]) - (const_134217728 * state[20]))",
+            "type": "M31"
+          },
+          {
+            "name": "state[18]",
+            "type": "M31"
+          }
+        ]
       }
     },
     {
@@ -230,10 +242,16 @@
           "name": "(state[0] + const_1)",
           "type": "M31"
         },
-        "output": {
-          "name": "((((state[29] * const_262144) + ((state[28] * const_512) + state[27])) - state[25]) - (const_134217728 * state[26]))",
-          "type": "M31"
-        }
+        "output": [
+          {
+            "name": "((((state[29] * const_262144) + ((state[28] * const_512) + state[27])) - state[25]) - (const_134217728 * state[26]))",
+            "type": "M31"
+          },
+          {
+            "name": "state[24]",
+            "type": "M31"
+          }
+        ]
       }
     },
     {

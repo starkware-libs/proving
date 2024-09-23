@@ -32,7 +32,7 @@ pub struct MemVerifyKnownId {
 
 /// Same as MemVerify, but receives the ID as a parameter instead of reading it from the
 /// address -> ID table. More efficient than MemVerify if the ID is known (for example, as
-/// a result of a previous read()).
+/// a result of a previous read_unverified()).
 impl AirFn for MemVerifyKnownId {
     type In = (FeltExpr, FeltExpr, Felt252Expr);
     type Out = ();

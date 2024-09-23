@@ -8,10 +8,16 @@
     "type": "M31"
   },
   "input_num_of_felts": 1,
-  "output": {
-    "name": "Felt252::from_limbs(zero_extend([state[1], state[2]]))",
-    "type": "Felt252"
-  },
+  "output": [
+    {
+      "name": "Felt252::from_limbs(zero_extend([state[1], state[2]]))",
+      "type": "Felt252"
+    },
+    {
+      "name": "state[0]",
+      "type": "M31"
+    }
+  ],
   "output_felts": [
     "state[1]",
     "state[2]",
@@ -40,7 +46,8 @@
     "const_0",
     "const_0",
     "const_0",
-    "const_0"
+    "const_0",
+    "state[0]"
   ],
   "trace_type": "Inline",
   "air_body": [

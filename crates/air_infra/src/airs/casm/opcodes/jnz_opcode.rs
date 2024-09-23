@@ -80,6 +80,7 @@ impl AirFn for JnzOpcode {
                 },
                 dst_key,
             )
+            .0
             .as_felts();
 
         // Calculate the next pc

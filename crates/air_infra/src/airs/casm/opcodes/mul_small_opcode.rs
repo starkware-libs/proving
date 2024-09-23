@@ -79,7 +79,7 @@ impl AirFn for MulSmallOpcode {
         // Fetch dst - the value at the destination address for the multiplication
         let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp.clone()
             + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap.clone();
-        let dst_value = ab.call(
+        let (dst_value, _) = ab.call(
             &ReadPositive {
                 num_bits: 30,
                 memory: self.memory.clone(),
@@ -94,7 +94,7 @@ impl AirFn for MulSmallOpcode {
         // Fetch op0 - the first operand for the multiplication
         let mem0_base = flag_op0_base_fp.clone() * casm_state.fp.clone()
             + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap.clone();
-        let op0_value = ab.call(
+        let (op0_value, _) = ab.call(
             &ReadPositive {
                 num_bits: 15,
                 memory: self.memory.clone(),
@@ -111,7 +111,7 @@ impl AirFn for MulSmallOpcode {
             ab.constrain(flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1));
             flag_op1_base_fp * casm_state.fp.clone() + flag_op1_base_ap * casm_state.ap.clone()
         };
-        let op1_value = ab.call(
+        let (op1_value, _) = ab.call(
             &ReadPositive {
                 num_bits: 15,
                 memory: self.memory.clone(),

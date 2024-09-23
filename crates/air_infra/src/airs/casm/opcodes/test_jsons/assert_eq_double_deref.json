@@ -205,10 +205,16 @@
           "name": "(((state[12] * state[2]) + ((const_1 - state[12]) * state[1])) + (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768))",
           "type": "M31"
         },
-        "output": {
-          "name": "Felt252::from_limbs(zero_extend([state[16], state[17], state[18]]))",
-          "type": "Felt252"
-        }
+        "output": [
+          {
+            "name": "Felt252::from_limbs(zero_extend([state[16], state[17], state[18]]))",
+            "type": "Felt252"
+          },
+          {
+            "name": "state[15]",
+            "type": "M31"
+          }
+        ]
       }
     },
     {

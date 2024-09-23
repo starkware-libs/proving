@@ -32,9 +32,10 @@ pub struct ReadSmall {
 
 /// Read a Felt252 that has a small magnitude into a Felt. The allowed range
 /// for the Felt252 is [-2**24, 2**24 - 1] (for 12-bit limbs).
+/// Returns also the ID of the value in the memory.
 impl AirFn for ReadSmall {
     type In = CasmAddress;
-    type Out = FeltExpr;
+    type Out = (FeltExpr, FeltExpr);
 
     fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
         let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &address);
@@ -95,8 +96,12 @@ impl AirFn for ReadSmall {
             low_limbs_value =
                 value.get_felt(i) * const_expr!(1 << (i * FELT252_BITS_PER_WORD)) + low_limbs_value;
         }
-        low_limbs_value
-            - msb.clone()
-            - const_expr!(1 << (LIMBS_IN_M31 * FELT252_BITS_PER_WORD)) * mid_limbs_set.clone()
+
+        (
+            low_limbs_value
+                - msb.clone()
+                - const_expr!(1 << (LIMBS_IN_M31 * FELT252_BITS_PER_WORD)) * mid_limbs_set.clone(),
+            id,
+        )
     }
 }

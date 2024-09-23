@@ -78,7 +78,7 @@ impl AirFn for AddSmallOpcode {
         // Fetch dst - the value at the destination address for the addition
         let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp.clone()
             + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap.clone();
-        let dst_m31 = ab.call(
+        let (dst_m31, _) = ab.call(
             &ReadSmall {
                 memory: self.memory.clone(),
             },
@@ -88,7 +88,7 @@ impl AirFn for AddSmallOpcode {
         // Fetch op0 - the first operand for the addition
         let mem0_base = flag_op0_base_fp.clone() * casm_state.fp.clone()
             + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap.clone();
-        let op0_m31 = ab.call(
+        let (op0_m31, _) = ab.call(
             &ReadSmall {
                 memory: self.memory.clone(),
             },
@@ -102,7 +102,7 @@ impl AirFn for AddSmallOpcode {
             ab.constrain(flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1));
             flag_op1_base_fp * casm_state.fp.clone() + flag_op1_base_ap * casm_state.ap.clone()
         };
-        let op1_m31 = ab.call(
+        let (op1_m31, _) = ab.call(
             &ReadSmall {
                 memory: self.memory.clone(),
             },

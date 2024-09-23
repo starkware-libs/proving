@@ -71,16 +71,18 @@ impl Felt252IdMemory {
     }
 
     pub fn read_rel_imm(&self, air_builder: &mut AirBuilder, address: FeltExpr) -> FeltExpr {
-        air_builder.call(
-            &ReadSmall {
-                memory: self.clone(),
-            },
-            address,
-        )
+        air_builder
+            .call(
+                &ReadSmall {
+                    memory: self.clone(),
+                },
+                address,
+            )
+            .0
     }
 
     pub fn read_address(&self, air_builder: &mut AirBuilder, address: FeltExpr) -> FeltExpr {
-        let address_f252 = air_builder.call(
+        let (address_f252, _) = air_builder.call(
             &ReadPositive {
                 memory: self.clone(),
                 num_bits: ADDRESS_BITS,

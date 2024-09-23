@@ -209,10 +209,16 @@
           "name": "(((state[6] * state[2]) + (state[7] * state[1])) + (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768))",
           "type": "M31"
         },
-        "output": {
-          "name": "((((state[15] * const_262144) + ((state[14] * const_512) + state[13])) - state[11]) - (const_134217728 * state[12]))",
-          "type": "M31"
-        }
+        "output": [
+          {
+            "name": "((((state[15] * const_262144) + ((state[14] * const_512) + state[13])) - state[11]) - (const_134217728 * state[12]))",
+            "type": "M31"
+          },
+          {
+            "name": "state[10]",
+            "type": "M31"
+          }
+        ]
       }
     }
   ]

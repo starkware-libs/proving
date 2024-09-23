@@ -4,6 +4,7 @@ use crate::airs::casm::common::*;
 use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
+use crate::core::expressions::felt_expr::*;
 use crate::core::prover_types::*;
 use crate::core::variables::*;
 
@@ -16,9 +17,10 @@ pub struct ReadPositive {
 }
 
 /// Read a Felt252 in the range [0,2**num_bits - 1] from the memory
+/// Returns also the ID of the value in the memory.
 impl AirFn for ReadPositive {
     type In = CasmAddress;
-    type Out = Felt252Expr;
+    type Out = (Felt252Expr, FeltExpr);
 
     fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
         // Read the id and deduce it as-is
@@ -62,7 +64,7 @@ impl AirFn for ReadPositive {
             expected_value_in_memory.clone(),
         );
 
-        expected_value_in_memory
+        (expected_value_in_memory, id)
     }
 
     fn inst_def(&self) -> IndexMap<String, String> {
