@@ -260,7 +260,7 @@ fn test_big_felt252_bitwise_builtin() {
 
     // Check entry
     compare_test_json(
-        registry,
+        &registry,
         &bitwise.name(),
         &(TEST_JSONS_BUILTINS_DIR.to_owned() + "bitwise.json"),
     );

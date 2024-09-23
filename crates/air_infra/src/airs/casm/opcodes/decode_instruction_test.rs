@@ -62,7 +62,7 @@ fn test_with_matching_memory(
     // Check entry
     if let Some(entry_file_name) = entry_file_name {
         compare_test_json(
-            registry,
+            &registry,
             &air_fn.name(),
             &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
         );

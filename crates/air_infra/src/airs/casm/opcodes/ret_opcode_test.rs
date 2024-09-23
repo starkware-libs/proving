@@ -59,7 +59,7 @@ fn test_ret_opcode() {
 
     // Check entry
     compare_test_json(
-        registry,
+        &registry,
         &func.name(),
         &(TEST_JSONS_OPCODES_DIR.to_owned() + "ret.json"),
     );

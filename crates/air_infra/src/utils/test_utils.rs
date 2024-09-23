@@ -3,22 +3,15 @@ use std::fs;
 
 use crate::core::air_fn_registry::*;
 
-#[cfg(test)]
 pub const TEST_JSONS_OPCODES_DIR: &str = "src/airs/casm/opcodes/test_jsons/";
-#[cfg(test)]
 pub const TEST_JSONS_BUILTINS_DIR: &str = "src/airs/casm/builtins/test_jsons/";
-#[cfg(test)]
 pub const TEST_JSONS_CONST_TABLES_DIR: &str = "src/airs/casm/const_tables/test_jsons/";
-#[cfg(test)]
 pub const TEST_JSONS_EXAMPLES_DIR: &str = "src/airs/examples/test_jsons/";
-#[cfg(test)]
 pub const TEST_JSONS_FELT252_DIR: &str = "src/airs/felt252_utils/test_jsons/";
-#[cfg(test)]
 pub const TEST_JSONS_MEMORY_DIR: &str = "src/airs/memory/test_jsons/";
-#[cfg(test)]
 pub const TEST_JSONS_UINT32_DIR: &str = "src/airs/uint32_utils/test_jsons/";
 
-pub fn compare_test_json(registry: AirFnRegistry, air_fn_name: &String, file_path: &String) {
+pub fn compare_test_json(registry: &AirFnRegistry, air_fn_name: &String, file_path: &String) {
     let is_fix_mode = std::env::var("FIX") == Ok("1".to_string());
     if is_fix_mode {
         registry.dump_to_file(Some(air_fn_name), Some(file_path));
