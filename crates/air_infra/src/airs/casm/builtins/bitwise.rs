@@ -77,7 +77,7 @@ impl AirFn for BitwiseBuiltin {
     }
 
     fn trace_type(&self) -> TraceType {
-        TraceType::Component
+        TraceType::Builtin
     }
 }
 

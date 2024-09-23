@@ -123,6 +123,7 @@ impl AirFnRegistry {
                 assert!(output.is_const(), "Output must be a constant");
                 output
             }
+            TraceType::Builtin => air_fn.call(&mut air_builder, input),
         };
 
         // Make sure that the output is in the state.
@@ -159,6 +160,7 @@ impl AirFnRegistry {
                 assert!(output.in_state(), "Output must be in the trace");
                 output
             }
+            TraceType::Builtin => air_fn.call(&mut air_builder, input.clone()),
         };
 
         // Make sure that the output is a variable or a felt expression.

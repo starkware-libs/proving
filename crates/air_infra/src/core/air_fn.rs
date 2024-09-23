@@ -20,14 +20,18 @@ pub enum TraceType {
     Inline,
 
     // Has its own component in the trace. Each call generates a new row in that component.
-    // Can be called only with lookup_call. Generates multiplicity and accumulated sum columns.
+    // Can be called only with lookup_call. Yields lookup data.
     Component,
 
     // Has its own component in the trace. The trace for this component is pre-filled with rows for
     // all possible inputs by external means. Doesn't generate deductions or constraints.
-    // Doesn't generate multiplicity or accumulated sum columns. Has no input, only output.
-    // Can be called only with call_external_column.
+    // Has no input, only output. Can be called only with call_external_column. Doesn't yield
+    // lookup data.
     Const,
+
+    // Has its own component in the trace. Has no input and no output. Cannot be called from
+    // another component. Doesn't yield lookup data.
+    Builtin,
 }
 
 // An air function should define a struct that implements the AirFn trait.

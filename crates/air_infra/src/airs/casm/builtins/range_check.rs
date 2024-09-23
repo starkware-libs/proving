@@ -40,6 +40,6 @@ impl AirFn for RangeCheckBuiltin {
     }
 
     fn trace_type(&self) -> TraceType {
-        TraceType::Component
+        TraceType::Builtin
     }
 }
