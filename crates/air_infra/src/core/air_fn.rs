@@ -54,7 +54,7 @@ pub trait AirFn: Debug {
         res = res
             .chars()
             .map(|x| match x {
-                ' ' | ':' | '{' | '}' | '\n' | ',' => '_',
+                ' ' | ':' | '{' | '}' | '\n' | ',' | '[' | ']' => '_',
                 _ => x,
             })
             .collect();

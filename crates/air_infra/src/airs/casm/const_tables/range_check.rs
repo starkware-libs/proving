@@ -50,13 +50,7 @@ impl<const N: usize> AirFn for RangeCheck<N> {
     }
 
     fn inst_def(&self) -> IndexMap<String, String> {
-        let str = self
-            .bits
-            .iter()
-            .map(|b| b.to_string())
-            .collect::<Vec<String>>()
-            .join(", ");
-        [("bits".to_string(), str)].into()
+        [("bits".to_string(), format!("{:?}", self.bits))].into()
     }
 
     fn call(&self, _air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
