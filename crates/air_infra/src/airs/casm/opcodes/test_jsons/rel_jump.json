@@ -1,5 +1,6 @@
 {
   "name": "JumpOpcode_bd9243413a9de961",
+  "description": "JumpOpcode_bd9243413a9de961",
   "inst_def": {
     "is_rel": "true",
     "is_imm": "true",
@@ -115,6 +116,7 @@
     {
       "Call": {
         "air_fn_name": "DecodeInstruction_ae2479122c562266",
+        "air_fn_description": "DecodeInstruction_ae2479122c562266",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -202,6 +204,7 @@
     {
       "Call": {
         "air_fn_name": "ReadSmall",
+        "air_fn_description": "ReadSmall",
         "input_arg": {
           "name": "(state[0] + const_1)",
           "type": "M31"

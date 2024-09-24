@@ -76,6 +76,10 @@ pub trait AirFn: Debug {
         }
     }
 
+    fn description(&self) -> String {
+        self.name()
+    }
+
     fn hash(&self) -> u64 {
         let name = format!("{}{:?}", type_name::<Self>(), self.inst_def());
         let mut s = DefaultHasher::new();
@@ -309,6 +313,7 @@ impl AirBuilder {
         let output = air_fn.call(&mut air_builder, input.clone());
         self.air_body.push(AirBodyComponent::Call(Call {
             air_fn_name: air_fn.name(),
+            air_fn_description: air_fn.description(),
             input_arg: input.into(),
             output: output.clone().into(),
             air_body: air_builder.air_body,
@@ -543,6 +548,7 @@ impl AirBuilder {
 #[derive(Clone, Debug, Serialize)]
 pub struct Call {
     pub air_fn_name: String,
+    pub air_fn_description: String,
     pub input_arg: AirVarImpl,
     pub output: AirVarImpl,
     #[serde(skip)]

@@ -1,5 +1,6 @@
 {
   "name": "JnzOpcode_d4a4ae56010cf8cd",
+  "description": "JnzOpcode_d4a4ae56010cf8cd",
   "inst_def": {
     "is_taken": "true",
     "dst_base_fp": "true",
@@ -115,6 +116,7 @@
     {
       "Call": {
         "air_fn_name": "DecodeInstruction_44c6aa97f795bb26",
+        "air_fn_description": "DecodeInstruction_44c6aa97f795bb26",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -202,6 +204,7 @@
     {
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_252",
+        "air_fn_description": "ReadPositive_num_bits_252",
         "input_arg": {
           "name": "(state[2] + (((state[3] + (state[4] * const_512)) + const_0) - const_32768))",
           "type": "M31"
@@ -272,6 +275,7 @@
     {
       "Call": {
         "air_fn_name": "ReadSmall",
+        "air_fn_description": "ReadSmall",
         "input_arg": {
           "name": "(state[0] + const_1)",
           "type": "M31"

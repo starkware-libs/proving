@@ -178,6 +178,8 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             } => {
                 code.extend(parse_lookup_constraint(fn_name, input_felts, output_felts));
             }
+            ConstraintEvalStep::StartBlock(_) => (),
+            ConstraintEvalStep::EndBlock() => (),
         }
     }
 

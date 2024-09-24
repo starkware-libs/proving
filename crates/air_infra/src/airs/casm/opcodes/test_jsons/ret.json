@@ -1,5 +1,6 @@
 {
   "name": "RetOpcode",
+  "description": "RetOpcode",
   "inst_def": {},
   "input": {
     "name": "RetOpcode_input",
@@ -111,6 +112,7 @@
     {
       "Call": {
         "air_fn_name": "DecodeInstruction_4a2a70017893d70d",
+        "air_fn_description": "DecodeInstruction_4a2a70017893d70d",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -198,6 +200,7 @@
     {
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_27",
+        "air_fn_description": "ReadPositive_num_bits_27",
         "input_arg": {
           "name": "(state[2] - const_1)",
           "type": "M31"
@@ -217,6 +220,7 @@
     {
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_27",
+        "air_fn_description": "ReadPositive_num_bits_27",
         "input_arg": {
           "name": "(state[2] - const_2)",
           "type": "M31"

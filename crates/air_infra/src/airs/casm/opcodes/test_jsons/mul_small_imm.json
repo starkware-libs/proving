@@ -1,5 +1,6 @@
 {
   "name": "MulSmallOpcode_is_imm_true",
+  "description": "MulSmallOpcode_is_imm_true",
   "inst_def": {
     "is_imm": "true"
   },
@@ -113,6 +114,7 @@
     {
       "Call": {
         "air_fn_name": "DecodeInstruction_22fdd1d4be52f69d",
+        "air_fn_description": "DecodeInstruction_22fdd1d4be52f69d",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -200,6 +202,7 @@
     {
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_30",
+        "air_fn_description": "ReadPositive_num_bits_30",
         "input_arg": {
           "name": "(((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + (((state[3] + (state[4] * const_512)) + const_0) - const_32768))",
           "type": "M31"
@@ -219,6 +222,7 @@
     {
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_15",
+        "air_fn_description": "ReadPositive_num_bits_15",
         "input_arg": {
           "name": "(((state[9] * state[2]) + ((const_1 - state[9]) * state[1])) + (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768))",
           "type": "M31"
@@ -238,6 +242,7 @@
     {
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_15",
+        "air_fn_description": "ReadPositive_num_bits_15",
         "input_arg": {
           "name": "(state[0] + const_1)",
           "type": "M31"

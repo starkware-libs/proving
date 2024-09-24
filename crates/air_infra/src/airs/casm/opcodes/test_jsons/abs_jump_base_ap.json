@@ -1,5 +1,6 @@
 {
   "name": "JumpOpcode_fd9cdbdcc155915e",
+  "description": "JumpOpcode_fd9cdbdcc155915e",
   "inst_def": {
     "is_rel": "false",
     "is_imm": "false",
@@ -115,6 +116,7 @@
     {
       "Call": {
         "air_fn_name": "DecodeInstruction_c38fc3bf423dc2ca",
+        "air_fn_description": "DecodeInstruction_c38fc3bf423dc2ca",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -205,6 +207,7 @@
     {
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_27",
+        "air_fn_description": "ReadPositive_num_bits_27",
         "input_arg": {
           "name": "(((state[6] * state[2]) + (state[7] * state[1])) + (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768))",
           "type": "M31"

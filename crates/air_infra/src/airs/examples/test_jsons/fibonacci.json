@@ -1,5 +1,6 @@
 {
   "name": "Fib_claim_index_6",
+  "description": "Fib_claim_index_6",
   "inst_def": {
     "claim_index": "6"
   },
@@ -23,6 +24,7 @@
     {
       "Call": {
         "air_fn_name": "FibStep",
+        "air_fn_description": "FibStep",
         "input_arg": [
           {
             "name": "const_1",
@@ -42,6 +44,7 @@
     {
       "Call": {
         "air_fn_name": "FibStep",
+        "air_fn_description": "FibStep",
         "input_arg": [
           {
             "name": "state[0]",
@@ -61,6 +64,7 @@
     {
       "Call": {
         "air_fn_name": "FibStep",
+        "air_fn_description": "FibStep",
         "input_arg": [
           {
             "name": "state[1]",
@@ -80,6 +84,7 @@
     {
       "Call": {
         "air_fn_name": "FibStep",
+        "air_fn_description": "FibStep",
         "input_arg": [
           {
             "name": "state[2]",

@@ -1,5 +1,6 @@
 {
   "name": "CallOpcode_is_rel_false_op1_base_fp_true",
+  "description": "CallOpcode_is_rel_false_op1_base_fp_true",
   "inst_def": {
     "is_rel": "false",
     "op1_base_fp": "true"
@@ -114,6 +115,7 @@
     {
       "Call": {
         "air_fn_name": "DecodeInstruction_48b2fb68e2c629d6",
+        "air_fn_description": "DecodeInstruction_48b2fb68e2c629d6",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -201,6 +203,7 @@
     {
       "Call": {
         "air_fn_name": "MemVerify",
+        "air_fn_description": "MemVerify",
         "input_arg": [
           {
             "name": "state[1]",
@@ -217,6 +220,7 @@
     {
       "Call": {
         "air_fn_name": "MemVerify",
+        "air_fn_description": "MemVerify",
         "input_arg": [
           {
             "name": "(state[1] + const_1)",
@@ -233,6 +237,7 @@
     {
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_27",
+        "air_fn_description": "ReadPositive_num_bits_27",
         "input_arg": {
           "name": "(state[2] + (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768))",
           "type": "M31"
