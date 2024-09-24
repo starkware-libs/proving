@@ -28,9 +28,8 @@ fn test_bit_unpacking() {
     );
 
     // Check entry
-    compare_test_json(
-        &registry,
-        &func.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&func.name()),
         &(TEST_JSONS_EXAMPLES_DIR.to_owned() + "bit_unpacking.json"),
     );
 }
@@ -63,9 +62,8 @@ fn test_bit_mux() {
     assert!(out.calc() == "false");
 
     // Check entry
-    compare_test_json(
-        &registry,
-        &func.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&func.name()),
         &(TEST_JSONS_EXAMPLES_DIR.to_owned() + "bit_mux.json"),
     );
 }

@@ -1,8 +1,6 @@
+use air_infra::core::utils::dump_to_file;
 use clap::{Parser, Subcommand};
 
-use air_infra::airs::examples::bit_unpacking::create_bit_unpacking_json;
-use air_infra::airs::examples::fibonacci::create_fibonacci_json;
-use air_infra::airs::uint32_utils::create_add32_json;
 use air_infra::utils::create_opcodes_json::*;
 use air_infra::utils::fn_sizes::*;
 
@@ -20,32 +18,26 @@ struct MainArgs {
 
 pub fn main() {
     let args = MainArgs::parse();
-
     match args.command {
         MainCommands::FnSizes => print_fn_sizes(),
-        MainCommands::WriteJson(command) => match command.name {
-            WriteJsonSubCommand::Fib => {
-                println!("Creating a json file for fibonacci");
-                create_fibonacci_json().dump_to_file(None, None);
-            }
-            WriteJsonSubCommand::Add32 => {
-                println!("Creating a json file for add32");
-                create_add32_json().dump_to_file(None, None);
-            }
-            WriteJsonSubCommand::BitUnpack => {
-                println!("Creating a json file for bit unpacking");
-                create_bit_unpacking_json().dump_to_file(None, None);
-            }
-            WriteJsonSubCommand::Ret => create_ret_opcode_json().dump_to_file(None, None),
-            WriteJsonSubCommand::AssertEqual(assert_eq_opcode_args) => {
-                create_assert_equal_opcode_json(assert_eq_opcode_args).dump_to_file(None, None)
-            }
-            WriteJsonSubCommand::Call(call_opcode_args) => {
-                create_call_opcode_json(call_opcode_args).dump_to_file(None, None)
-            }
-            WriteJsonSubCommand::Jump(jump_opcode_args) => {
-                create_jump_opcode_json(jump_opcode_args).dump_to_file(None, None)
-            }
-        },
+        MainCommands::WriteJson(command) => {
+            let air_fn_args = match command.name {
+                WriteJsonSubCommand::Fib(fib_args) => AirFnArgs::FibonachiArgs(fib_args),
+                WriteJsonSubCommand::Add32 => AirFnArgs::Add32Args(),
+                WriteJsonSubCommand::BitUnpack => AirFnArgs::BitUnpackArgs(),
+                WriteJsonSubCommand::Ret => AirFnArgs::RetOpcodeArgs(),
+                WriteJsonSubCommand::AssertEqual(assert_eq_opcode_args) => {
+                    AirFnArgs::AssertEqOpcodeArgs(assert_eq_opcode_args)
+                }
+                WriteJsonSubCommand::Call(call_opcode_args) => {
+                    AirFnArgs::CallOpcodeArgs(call_opcode_args)
+                }
+                WriteJsonSubCommand::Jump(jump_opcode_args) => {
+                    AirFnArgs::JumpOpcodeArgs(jump_opcode_args)
+                }
+            };
+            println!("Input args {:?}", air_fn_args);
+            dump_to_file(&create_air_fn_json(air_fn_args), None);
+        }
     }
 }

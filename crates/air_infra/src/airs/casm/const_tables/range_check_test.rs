@@ -45,9 +45,8 @@ fn test_rc_small_add() {
     let air_fn = SmallAdd {};
     let registry = AirFnRegistry::new(&air_fn);
     // Check entry
-    compare_test_json(
-        &registry,
-        &air_fn.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&air_fn.name()),
         &(TEST_JSONS_CONST_TABLES_DIR.to_owned() + "rc_small_add.json"),
     );
 }

@@ -97,9 +97,8 @@ fn build_and_test(
 
     // Check entry
     if let Some(entry_file_name) = entry_file_name {
-        compare_test_json(
-            &registry,
-            &call_opcode.name(),
+        compare_json(
+            &registry.get_air_fn_entry(&call_opcode.name()),
             &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
         );
     }

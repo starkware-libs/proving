@@ -258,9 +258,8 @@ fn test_assert_equal(
 
     // Check entry
     if let Some(entry_file_name) = entry_file_name {
-        compare_test_json(
-            &registry,
-            &assert_equal_opcode.name(),
+        compare_json(
+            &registry.get_air_fn_entry(&assert_equal_opcode.name()),
             &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
         );
     }

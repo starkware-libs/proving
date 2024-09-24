@@ -20,9 +20,8 @@ fn test_wide_fibonacci() {
     assert!(output.calc() == *"866");
 
     // Check entry
-    compare_test_json(
-        &registry,
-        &air_fn.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&air_fn.name()),
         &(TEST_JSONS_EXAMPLES_DIR.to_owned() + "wide_fibonacci.json"),
     );
 }
@@ -37,9 +36,8 @@ fn test_fibonacci() {
     assert_eq!(state.calc(), ["1", "2", "5", "29", "866"]);
 
     // Check entry
-    compare_test_json(
-        &registry,
-        &air_fn.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&air_fn.name()),
         &(TEST_JSONS_EXAMPLES_DIR.to_owned() + "fibonacci.json"),
     );
 }

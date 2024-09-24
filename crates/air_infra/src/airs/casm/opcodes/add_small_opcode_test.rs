@@ -1,6 +1,6 @@
 use super::super::casm_state::*;
 use super::super::common::*;
-use super::mul_small_opcode::*;
+use super::add_small_opcode::*;
 
 use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn::*;
@@ -15,7 +15,8 @@ use crate::const_expr;
 use crate::const_felt252_expr;
 use crate::expr;
 
-fn test_mul_small(
+// TODO: Support testing with negative dst/op0/op1, and add such test(s)
+fn test_add_small(
     non_consts_flags: [bool; 6],
     offset_values: [i16; 3],
     dst: u32,
@@ -34,7 +35,7 @@ fn test_mul_small(
     }
 
     // Create the air function
-    let mut mul_small_opcode = MulSmallOpcode {
+    let mut add_small_opcode = AddSmallOpcode {
         is_imm: flag_op1_imm,
         memory: Felt252IdMemory::default(),
     };
@@ -69,7 +70,7 @@ fn test_mul_small(
                 offset_dst_val,
                 offset0_val,
                 offset1_val,
-                mul_small_opcode
+                add_small_opcode
                     .get_flags()
                     .non_constants_to_arr(&non_consts_flags),
             ) as u128,
@@ -114,13 +115,13 @@ fn test_mul_small(
             const_felt252_expr!(op1 as u128, 0),
         ));
     };
-    mul_small_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
+    add_small_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
 
-    let registry = AirFnRegistry::new(&mul_small_opcode);
+    let registry = AirFnRegistry::new(&add_small_opcode);
     let (state, next_state) = registry.run_air(
-        &mul_small_opcode,
+        &add_small_opcode,
         CasmStateVar::new(pc.clone(), ap.clone(), fp.clone()),
     );
 
@@ -146,52 +147,53 @@ fn test_mul_small(
     );
 
     // Check entry
+    // Check entry
     if let Some(entry_file_name) = entry_file_name {
         compare_json(
-            &registry.get_air_fn_entry(&mul_small_opcode.name()),
+            &registry.get_air_fn_entry(&add_small_opcode.name()),
             &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
         );
     }
 }
 
 #[test]
-fn test_mul_small_not_imm() {
-    test_mul_small(
+fn test_add_small_not_imm() {
+    test_add_small(
         [true, false, false, false, true, false],
         [3, 5, 7],
-        1042584088,
-        32123,
-        32456,
-        Some("mul_small_not_imm.json"),
+        90125677,
+        77779999,
+        12345678,
+        Some("add_small_not_imm.json"),
         vec![
-            10, 50, 100, 32771, 32773, 32775, 1, 0, 0, 1, 0, 1, 24, 73, 393, 7, 2, 379, 62, 3, 200,
-            63,
+            10, 50, 100, 32771, 32773, 32775, 1, 0, 0, 1, 0, 1, 0, 0, 365, 410, 343, 2, 0, 0, 31,
+            362, 296, 3, 0, 0, 334, 48, 47,
         ],
     );
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
-fn test_mul_small_not_equal() {
-    test_mul_small(
+#[should_panic]
+fn test_add_mod_not_equal() {
+    test_add_small(
         [false, true, true, false, false, true],
         [3, 5, 7],
-        1042584088,
-        32123,
-        32457,
+        90124653,
+        77779999,
+        12345678,
         None,
         vec![],
     );
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck6 on input 64")]
-fn test_mul_small_over_15bit() {
-    test_mul_small(
+#[should_panic]
+fn test_add_mod_over_27bit() {
+    test_add_small(
         [false, true, true, false, false, true],
         [3, 5, 7],
-        32768,
-        32768,
+        134217728,
+        134217727,
         1,
         None,
         vec![],
@@ -199,16 +201,17 @@ fn test_mul_small_over_15bit() {
 }
 
 #[test]
-fn test_mul_small_imm() {
-    test_mul_small(
+fn test_add_small_imm() {
+    test_add_small(
         [true, false, true, false, true, false],
         [-3, -5, 1],
-        56,
-        7,
-        8,
-        Some("mul_small_imm.json"),
+        90125677,
+        77779999,
+        12345678,
+        Some("add_small_imm.json"),
         vec![
-            10, 50, 100, 32765, 32763, 1, 0, 0, 1, 56, 0, 0, 0, 2, 7, 0, 3, 8, 0,
+            10, 50, 100, 32765, 32763, 1, 0, 0, 1, 0, 0, 365, 410, 343, 2, 0, 0, 31, 362, 296, 3,
+            0, 0, 334, 48, 47,
         ],
     );
 }
