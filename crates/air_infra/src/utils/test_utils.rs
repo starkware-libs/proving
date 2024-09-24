@@ -29,7 +29,7 @@ where
         assert!(
             entry_json == expected_entry_json,
             r#"
-            Given json
+            Given value
             is different from the json in {}.
             Run the following to update the code:
             '$ FIX=1 cargo test'"#,

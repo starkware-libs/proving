@@ -8,7 +8,6 @@ use serde::Serialize;
 use super::air_fn::*;
 use super::compiled_structs::*;
 use super::state::*;
-
 use super::variables::*;
 
 pub const INTERMEDIATE_VAR_PREFIX: &str = "tmp_";
