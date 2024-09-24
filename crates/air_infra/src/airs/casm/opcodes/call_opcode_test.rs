@@ -122,7 +122,7 @@ fn test_relative_call_negative() {
         false,
         None,
         -17,
-        Some("relative_call_negative.json"),
+        None,
         vec![50, 200, 150, 0, 2, 3, 1, 1, 1, 496, 511, 511],
     );
 }
@@ -144,7 +144,7 @@ fn test_call_base_fp_negative_offset2() {
         true,
         Some(-5),
         400,
-        Some("call_base_fp_negative_offset2.json"),
+        None,
         vec![50, 200, 150, 11, 511, 3, 0, 2, 3, 1, 400, 0, 0],
     );
 }
@@ -166,7 +166,7 @@ fn test_call_base_ap_negative_offset2() {
         false,
         Some(-10),
         55,
-        Some("call_base_ap_negative_offset2.json"),
+        None,
         vec![50, 200, 150, 6, 511, 3, 0, 2, 3, 1, 55, 0, 0],
     );
 }

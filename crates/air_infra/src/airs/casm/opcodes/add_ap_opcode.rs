@@ -1,3 +1,5 @@
+use indexmap::IndexMap;
+
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::decode_instruction::*;
@@ -87,5 +89,13 @@ impl AirFn for AddAp {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
+    }
+
+    fn inst_def(&self) -> IndexMap<String, String> {
+        [
+            ("is_imm".to_string(), self.is_imm.to_string()),
+            ("op1_base_fp".to_string(), self.op1_base_fp.to_string()),
+        ]
+        .into()
     }
 }
