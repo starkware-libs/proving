@@ -1,29 +1,32 @@
 {
-  "name": "AddAp",
-  "description": "AddAp",
-  "inst_def": {},
+  "name": "AddAp_is_imm_false_op1_base_fp_true",
+  "description": "AddAp_is_imm_false_op1_base_fp_true",
+  "inst_def": {
+    "is_imm": "false",
+    "op1_base_fp": "true"
+  },
   "input": {
-    "name": "AddAp_input",
+    "name": "AddAp_is_imm_false_op1_base_fp_true_input",
     "type": "CasmState",
     "fields": [
       [
         "pc",
         {
-          "name": "AddAp_input.pc",
+          "name": "AddAp_is_imm_false_op1_base_fp_true_input.pc",
           "type": "M31"
         }
       ],
       [
         "ap",
         {
-          "name": "AddAp_input.ap",
+          "name": "AddAp_is_imm_false_op1_base_fp_true_input.ap",
           "type": "M31"
         }
       ],
       [
         "fp",
         {
-          "name": "AddAp_input.fp",
+          "name": "AddAp_is_imm_false_op1_base_fp_true_input.fp",
           "type": "M31"
         }
       ]
@@ -68,27 +71,27 @@
       "Intermediate": [
         "tmp_0",
         {
-          "name": "AddAp_input",
+          "name": "AddAp_is_imm_false_op1_base_fp_true_input",
           "type": "CasmState",
           "fields": [
             [
               "pc",
               {
-                "name": "AddAp_input.pc",
+                "name": "AddAp_is_imm_false_op1_base_fp_true_input.pc",
                 "type": "M31"
               }
             ],
             [
               "ap",
               {
-                "name": "AddAp_input.ap",
+                "name": "AddAp_is_imm_false_op1_base_fp_true_input.ap",
                 "type": "M31"
               }
             ],
             [
               "fp",
               {
-                "name": "AddAp_input.fp",
+                "name": "AddAp_is_imm_false_op1_base_fp_true_input.fp",
                 "type": "M31"
               }
             ]
