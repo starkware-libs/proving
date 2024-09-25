@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use super::super::casm_state::*;
 use super::super::common::*;
@@ -15,10 +15,11 @@ use crate::const_expr;
 /// Implements the Cairo0 instructions:
 /// - ap += imm
 /// - ap += [fp/ap + offset]
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct AddAp {
     pub is_imm: bool,
     pub op1_base_fp: bool,
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -89,13 +90,5 @@ impl AirFn for AddAp {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [
-            ("is_imm".to_string(), self.is_imm.to_string()),
-            ("op1_base_fp".to_string(), self.op1_base_fp.to_string()),
-        ]
-        .into()
     }
 }

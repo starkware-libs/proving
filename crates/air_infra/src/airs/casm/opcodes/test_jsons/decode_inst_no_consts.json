@@ -112,7 +112,7 @@
   "air_body": [
     {
       "LookupCall": {
-        "air_fn_name": "Memory_M31",
+        "air_fn_name": "Memory_K_M31_V_M31",
         "input_arg": {
           "name": "DecodeInstruction_64fce74ff258858e_input",
           "type": "M31"
@@ -122,7 +122,7 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "Memory_Felt252",
+        "air_fn_name": "Memory_K_M31_V_Felt252",
         "input_arg": {
           "name": "tmp_1",
           "type": "M31"
@@ -151,7 +151,7 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "RangeCheck_bits_7",
+        "air_fn_name": "RangeCheck_N_1_bits_7",
         "input_arg": [
           {
             "name": "state[1]",
@@ -162,7 +162,7 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "RangeCheck_bits_7",
+        "air_fn_name": "RangeCheck_N_1_bits_7",
         "input_felts": [
           "state[1]"
         ],
@@ -187,7 +187,7 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "RangeCheck_bits_2",
+        "air_fn_name": "RangeCheck_N_1_bits_2",
         "input_arg": [
           {
             "name": "state[2]",
@@ -198,7 +198,7 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "RangeCheck_bits_2",
+        "air_fn_name": "RangeCheck_N_1_bits_2",
         "input_felts": [
           "state[2]"
         ],
@@ -226,7 +226,7 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "RangeCheck_bits_5",
+        "air_fn_name": "RangeCheck_N_1_bits_5",
         "input_arg": [
           {
             "name": "state[4]",
@@ -237,7 +237,7 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "RangeCheck_bits_5",
+        "air_fn_name": "RangeCheck_N_1_bits_5",
         "input_felts": [
           "state[4]"
         ],
@@ -262,7 +262,7 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "RangeCheck_bits_4",
+        "air_fn_name": "RangeCheck_N_1_bits_4",
         "input_arg": [
           {
             "name": "state[5]",
@@ -273,7 +273,7 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "RangeCheck_bits_4",
+        "air_fn_name": "RangeCheck_N_1_bits_4",
         "input_felts": [
           "state[5]"
         ],
@@ -301,7 +301,7 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "RangeCheck_bits_3",
+        "air_fn_name": "RangeCheck_N_1_bits_3",
         "input_arg": [
           {
             "name": "state[7]",
@@ -312,7 +312,7 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "RangeCheck_bits_3",
+        "air_fn_name": "RangeCheck_N_1_bits_3",
         "input_felts": [
           "state[7]"
         ],

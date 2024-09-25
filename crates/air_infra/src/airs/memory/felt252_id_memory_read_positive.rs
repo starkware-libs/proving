@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use crate::airs::casm::common::*;
 use crate::airs::casm::const_tables::range_check::*;
@@ -10,9 +10,10 @@ use crate::core::variables::*;
 
 use super::felt252_id_memory::*;
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 pub struct ReadPositive {
     pub num_bits: usize,
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -65,9 +66,5 @@ impl AirFn for ReadPositive {
         );
 
         (expected_value_in_memory, id)
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [("num_bits".to_string(), self.num_bits.to_string())].into()
     }
 }

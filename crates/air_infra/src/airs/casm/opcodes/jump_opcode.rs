@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use super::super::casm_state::*;
 use super::super::common::*;
@@ -18,11 +18,12 @@ use crate::const_expr;
 /// - jump abs [ap/fp + offset2]
 /// - jump abs [[ap/fp + offset1] + offset2]
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct JumpOpcode {
     pub is_rel: bool,
     pub is_imm: bool,
     pub is_double_deref: bool,
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -100,18 +101,6 @@ impl AirFn for JumpOpcode {
         let next_ap = casm_state.ap.clone() + flag_ap_update_add_1;
 
         CasmStateVar::new(next_pc, next_ap, casm_state.fp)
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [
-            ("is_rel".to_string(), self.is_rel.to_string()),
-            ("is_imm".to_string(), self.is_imm.to_string()),
-            (
-                "is_double_deref".to_string(),
-                self.is_double_deref.to_string(),
-            ),
-        ]
-        .into()
     }
 
     fn trace_type(&self) -> TraceType {

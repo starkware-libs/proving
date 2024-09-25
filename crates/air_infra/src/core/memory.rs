@@ -1,6 +1,4 @@
-use std::any::type_name;
-
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 #[cfg(test)]
 use std::cell::RefCell;
@@ -18,15 +16,18 @@ use super::variables::*;
 use super::Felt;
 
 // Memory is a simple key-value store that is passed to the relevant air builder functions.
-#[derive(Clone, Debug, Default)]
+#[derive(Clone, Debug, Default, InstDef)]
 pub struct Memory<K, V>
 where
     K: AirVar,
     V: AirVar,
 {
     #[cfg(test)]
+    #[instdef(skip)]
     pub(super) data: Rc<RefCell<HashMap<Vec<Felt>, V>>>,
+    #[instdef(skip)]
     key_type: PhantomData<K>,
+    #[instdef(skip)]
     value_type: PhantomData<V>,
 }
 
@@ -101,17 +102,5 @@ where
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        let mut k = type_name::<K>().to_string();
-        k = k.rfind("::").map(|i| k[i + 2..].to_string()).unwrap_or(k);
-        k = k.replace('>', "");
-
-        let mut v = type_name::<V>().to_string();
-        v = v.rfind("::").map(|i| v[i + 2..].to_string()).unwrap_or(v);
-        v = v.replace('>', "");
-
-        [("".to_string(), k), ("".to_string(), v)].into()
     }
 }

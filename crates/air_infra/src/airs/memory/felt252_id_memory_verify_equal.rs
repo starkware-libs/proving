@@ -1,11 +1,14 @@
+use inst_def::InstDef;
+
 use super::felt252_id_memory::*;
 
 use crate::airs::casm::common::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 pub struct MemVerifyEqual {
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -22,8 +25,9 @@ impl AirFn for MemVerifyEqual {
     }
 }
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 pub struct MemCondVerifyEqualKnownId {
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 

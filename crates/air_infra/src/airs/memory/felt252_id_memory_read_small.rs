@@ -1,3 +1,5 @@
+use inst_def::InstDef;
+
 use super::felt252_id_memory::*;
 
 use crate::airs::casm::common::*;
@@ -12,8 +14,9 @@ use crate::const_expr;
 // we'll deduce that many limbs.
 const LIMBS_IN_M31: usize = 3;
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 pub struct ReadSmall {
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 

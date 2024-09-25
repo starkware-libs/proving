@@ -1,3 +1,5 @@
+use inst_def::InstDef;
+
 use super::range_check::*;
 
 use crate::core::air_fn::*;
@@ -8,7 +10,7 @@ use crate::utils::test_utils::*;
 // Macros
 use crate::expr;
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 struct SmallAdd {}
 
 // A simple AirFn, just for tests: add two felts, asserting that both the

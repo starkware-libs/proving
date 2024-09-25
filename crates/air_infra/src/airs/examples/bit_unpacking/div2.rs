@@ -1,3 +1,4 @@
+use inst_def::InstDef;
 use std::fmt::Debug;
 
 use crate::core::air_fn::*;
@@ -11,7 +12,7 @@ use crate::const_u16_expr;
 
 /// Divides a 16-bit unsigned integer by 2. Returns the quotient and the remainder.
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct Div2 {}
 
 impl AirFn for Div2 {

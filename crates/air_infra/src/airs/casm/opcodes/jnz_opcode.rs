@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use super::super::casm_state::*;
 use super::super::common::*;
@@ -19,11 +19,12 @@ use crate::const_expr;
 /// - jump rel imm if [ap + offset] != 0
 /// - jump rel imm if [fp + offset] != 0
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct JnzOpcode {
     pub is_taken: bool,
     pub dst_base_fp: bool,
     pub ap_update_add_1: bool,
+    #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
@@ -129,18 +130,6 @@ impl AirFn for JnzOpcode {
         let next_ap = casm_state.ap + const_expr!(self.ap_update_add_1 as u32);
 
         CasmStateVar::new(next_pc, next_ap, casm_state.fp)
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [
-            ("is_taken".to_string(), self.is_taken.to_string()),
-            ("dst_base_fp".to_string(), self.dst_base_fp.to_string()),
-            (
-                "ap_update_add_1".to_string(),
-                self.ap_update_add_1.to_string(),
-            ),
-        ]
-        .into()
     }
 
     fn trace_type(&self) -> TraceType {

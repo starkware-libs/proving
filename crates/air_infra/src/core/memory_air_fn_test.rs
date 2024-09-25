@@ -1,3 +1,5 @@
+use inst_def::InstDef;
+
 use super::air_fn::*;
 use super::air_fn_registry::*;
 use super::expressions::felt252_expr::*;
@@ -9,8 +11,9 @@ use super::variables::*;
 use crate::const_expr;
 use crate::const_felt252_expr;
 
-#[derive(Debug, Default)]
+#[derive(Debug, Default, InstDef)]
 struct SimpleMemoryAirFn {
+    #[instdef(skip)]
     memory: Memory<FeltExpr, Felt252Expr>,
 }
 

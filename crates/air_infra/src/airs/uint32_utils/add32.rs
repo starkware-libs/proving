@@ -1,3 +1,5 @@
+use inst_def::InstDef;
+
 use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
@@ -7,7 +9,7 @@ use crate::core::expressions::uint32_expr::*;
 use crate::const_expr;
 
 /// Wrapping addition of two 32-bit unsigned integers.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct Add32 {}
 
 impl AirFn for Add32 {

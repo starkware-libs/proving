@@ -1,3 +1,5 @@
+use inst_def::InstDef;
+
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -10,7 +12,7 @@ use crate::const_u16_expr;
 /// Verifying that two 252-bit felts sum to a third.
 /// The function assumes all inputs have range-checked limbs.
 /// None of the inputs are constrained to be fully reduced, but a + b - c may equal only 0 or P.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, InstDef)]
 pub struct VerifyAdd252 {}
 
 impl AirFn for VerifyAdd252 {

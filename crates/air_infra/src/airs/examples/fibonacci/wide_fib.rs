@@ -1,4 +1,4 @@
-use indexmap::IndexMap;
+use inst_def::InstDef;
 
 use super::narrow_fib::*;
 use crate::core::air_fn::*;
@@ -7,7 +7,7 @@ use crate::core::expressions::felt_expr::*;
 // Macros
 use crate::const_expr;
 
-#[derive(Debug)]
+#[derive(Debug, InstDef)]
 pub struct WideFib {
     pub num_narrow: usize,
     pub narrow_size: usize,
@@ -34,13 +34,5 @@ impl AirFn for WideFib {
         }
 
         narrow_output[1].clone()
-    }
-
-    fn inst_def(&self) -> IndexMap<String, String> {
-        [
-            ("num_narrow".to_string(), self.num_narrow.to_string()),
-            ("narrow_size".to_string(), self.narrow_size.to_string()),
-        ]
-        .into()
     }
 }

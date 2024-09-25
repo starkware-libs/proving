@@ -25,7 +25,7 @@
   "air_body": [
     {
       "LookupCall": {
-        "air_fn_name": "Memory_M31",
+        "air_fn_name": "Memory_K_M31_V_M31",
         "input_arg": {
           "name": "ReadSmall_input",
           "type": "M31"
@@ -38,7 +38,7 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "Memory_M31",
+        "air_fn_name": "Memory_K_M31_V_M31",
         "input_felts": [
           "ReadSmall_input"
         ],
@@ -49,7 +49,7 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "Memory_Felt252",
+        "air_fn_name": "Memory_K_M31_V_Felt252",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -109,7 +109,7 @@
     },
     {
       "LookupConstraint": {
-        "air_fn_name": "Memory_Felt252",
+        "air_fn_name": "Memory_K_M31_V_Felt252",
         "input_felts": [
           "state[0]"
         ],
