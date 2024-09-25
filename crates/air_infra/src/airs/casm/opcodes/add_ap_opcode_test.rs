@@ -56,7 +56,6 @@ fn test_add_ap_negative_imm() {
         "30", // pc
         "11", // ap
         "6",  // fp
-        "0",  // instruction id
         "1",  // op1 id
         "1",  // op1 (sign)
         "0",  // op1 (sign)
@@ -124,19 +123,16 @@ fn test_add_ap_deref_base_fp() {
 
     // Check the state
     let expected_state = [
-        "30",  // pc
-        "11",  // ap
-        "6",   // fp
-        "0",   // offset2
-        "25",  // offset2
-        "4",   // offset2
-        "0",   // instruction id
-        "1",   // op1_id
-        "0",   // op1 (sign)
-        "0",   // op1(sign)
-        "299", // op1
-        "0",   // op1
-        "0",   // op1
+        "30",    // pc
+        "11",    // ap
+        "6",     // fp
+        "33168", // offset2
+        "1",     // op1_id
+        "0",     // op1 (sign)
+        "0",     // op1(sign)
+        "299",   // op1
+        "0",     // op1
+        "0",     // op1
     ];
     assert_eq!(state.calc(), expected_state);
 

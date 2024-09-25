@@ -2,7 +2,7 @@ use inst_def::InstDef;
 
 use super::super::casm_state::*;
 use super::super::common::*;
-use super::decode_instruction::*;
+use super::super::decode_instruction::decode_inst::*;
 
 use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn::*;
@@ -58,24 +58,21 @@ impl AirFn for JumpOpcode {
         let offset1 = if self.is_double_deref { None } else { Some(-1) };
         let offset2 = if self.is_imm { Some(1) } else { None };
 
-        // Create the flags.
-        let flags = self.get_flags();
-
         // Check the instruction.
         let ([_, offset1, offset2], flags) = ab.call(
             &DecodeInstruction {
                 const_offsets: [Some(-1), offset1, offset2],
-                const_flags: flags,
+                const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },
             casm_state.pc.clone(),
         );
 
         // Read non-constant flags
-        let op0_base_fp = flags[FLAG_OP0_BASE_FP_INDEX].as_felt();
-        let op1_base_fp = flags[FLAG_OP1_BASE_FP_INDEX].as_felt();
-        let op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].as_felt();
-        let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].as_felt();
+        let op0_base_fp = flags[FLAG_OP0_BASE_FP_INDEX].clone();
+        let op1_base_fp = flags[FLAG_OP1_BASE_FP_INDEX].clone();
+        let op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].clone();
+        let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
         // Calculate the next pc
         let mem1_base = if self.is_imm {

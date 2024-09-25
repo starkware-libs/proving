@@ -112,7 +112,7 @@ fn test_relative_call() {
         None,
         500,
         Some("relative_call.json"),
-        vec![50, 200, 150, 0, 2, 3, 1, 0, 0, 500, 0, 0],
+        vec![50, 200, 150, 2, 3, 1, 0, 0, 500, 0, 0],
     );
 }
 
@@ -123,7 +123,7 @@ fn test_relative_call_negative() {
         None,
         -17,
         None,
-        vec![50, 200, 150, 0, 2, 3, 1, 1, 1, 496, 511, 511],
+        vec![50, 200, 150, 2, 3, 1, 1, 1, 496, 511, 511],
     );
 }
 
@@ -134,7 +134,7 @@ fn test_call_base_fp_positive_offset2() {
         Some(5),
         600,
         Some("call_base_fp_positive_offset2.json"),
-        vec![50, 200, 150, 5, 0, 4, 0, 2, 3, 1, 88, 1, 0],
+        vec![50, 200, 150, 32773, 2, 3, 1, 88, 1, 0],
     );
 }
 
@@ -145,7 +145,7 @@ fn test_call_base_fp_negative_offset2() {
         Some(-5),
         400,
         None,
-        vec![50, 200, 150, 11, 511, 3, 0, 2, 3, 1, 400, 0, 0],
+        vec![50, 200, 150, 32763, 2, 3, 1, 400, 0, 0],
     );
 }
 
@@ -156,7 +156,7 @@ fn test_call_base_ap_positive_offset2() {
         Some(10),
         1234,
         Some("call_base_ap_positive_offset2.json"),
-        vec![50, 200, 150, 10, 0, 4, 0, 2, 3, 1, 210, 2, 0],
+        vec![50, 200, 150, 32778, 2, 3, 1, 210, 2, 0],
     );
 }
 
@@ -167,7 +167,7 @@ fn test_call_base_ap_negative_offset2() {
         Some(-10),
         55,
         None,
-        vec![50, 200, 150, 6, 511, 3, 0, 2, 3, 1, 55, 0, 0],
+        vec![50, 200, 150, 32758, 2, 3, 1, 55, 0, 0],
     );
 }
 

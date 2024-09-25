@@ -12,8 +12,8 @@ use crate::utils::test_utils::*;
 
 // Macros
 use crate::const_expr;
+use crate::const_felt252_expr;
 use crate::expr;
-use crate::felt252_expr;
 
 fn test_mul_small(
     non_consts_flags: [bool; 6],
@@ -64,8 +64,7 @@ fn test_mul_small(
     // Fill memory
     let mut memory_values = vec![(
         pc.clone(),
-        felt252_expr!(
-            "op",
+        const_felt252_expr!(
             assemble_instruction(
                 offset_dst_val,
                 offset0_val,
@@ -80,39 +79,39 @@ fn test_mul_small(
     if flag_dst_base_fp {
         memory_values.push((
             const_expr!((fp_value as i16 + offset_dst_val) as u32),
-            felt252_expr!("dst", dst as u128, 0),
+            const_felt252_expr!(dst as u128, 0),
         ));
     } else {
         memory_values.push((
             const_expr!((ap_value as i16 + offset_dst_val) as u32),
-            felt252_expr!("dst", dst as u128, 0),
+            const_felt252_expr!(dst as u128, 0),
         ));
     };
     if flag_op0_base_fp {
         memory_values.push((
             const_expr!((fp_value as i16 + offset0_val) as u32),
-            felt252_expr!("op0", op0 as u128, 0),
+            const_felt252_expr!(op0 as u128, 0),
         ));
     } else {
         memory_values.push((
             const_expr!((ap_value as i16 + offset0_val) as u32),
-            felt252_expr!("op0", op0 as u128, 0),
+            const_felt252_expr!(op0 as u128, 0),
         ));
     }
     if flag_op1_imm {
         memory_values.push((
             const_expr!(pc_value + 1),
-            felt252_expr!("op1", op1 as u128, 0),
+            const_felt252_expr!(op1 as u128, 0),
         ));
     } else if flag_op1_base_fp {
         memory_values.push((
             const_expr!((fp_value as i16 + offset1_val) as u32),
-            felt252_expr!("op1", op1 as u128, 0),
+            const_felt252_expr!(op1 as u128, 0),
         ));
     } else {
         memory_values.push((
             const_expr!((ap_value as i16 + offset1_val) as u32),
-            felt252_expr!("op1", op1 as u128, 0),
+            const_felt252_expr!(op1 as u128, 0),
         ));
     };
     mul_small_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
@@ -166,15 +165,15 @@ fn test_mul_small_not_imm() {
         32456,
         Some("mul_small_not_imm.json"),
         vec![
-            10, 50, 100, 3, 64, 1, 1, 16, 7, 0, 4, 1, 0, 0, 1, 0, 0, 1, 24, 73, 393, 7, 2, 379, 62,
-            3, 200, 63,
+            10, 50, 100, 32771, 32773, 32775, 1, 0, 0, 1, 0, 1, 24, 73, 393, 7, 2, 379, 62, 3, 200,
+            63,
         ],
     );
 }
 
 #[test]
 #[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
-fn test_mul_mod_not_equal() {
+fn test_mul_small_not_equal() {
     test_mul_small(
         [false, true, true, false, false, true],
         [3, 5, 7],
@@ -188,7 +187,7 @@ fn test_mul_mod_not_equal() {
 
 #[test]
 #[should_panic(expected = "RangeCheck failed on element 0: RangeCheck6 on input 64")]
-fn test_mul_mod_over_15bit() {
+fn test_mul_small_over_15bit() {
     test_mul_small(
         [false, true, true, false, false, true],
         [3, 5, 7],
@@ -210,7 +209,7 @@ fn test_mul_small_imm() {
         8,
         Some("mul_small_imm.json"),
         vec![
-            10, 50, 100, 509, 63, 3, 510, 15, 1, 0, 0, 0, 1, 56, 0, 0, 0, 2, 7, 0, 3, 8, 0,
+            10, 50, 100, 32765, 32763, 1, 0, 0, 1, 56, 0, 0, 0, 2, 7, 0, 3, 8, 0,
         ],
     );
 }

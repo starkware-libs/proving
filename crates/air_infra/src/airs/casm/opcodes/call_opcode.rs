@@ -2,7 +2,7 @@ use inst_def::InstDef;
 
 use super::super::casm_state::*;
 use super::super::common::*;
-use super::decode_instruction::*;
+use super::super::decode_instruction::decode_inst::*;
 
 use crate::airs::memory::felt252_id_memory::*;
 use crate::airs::memory::felt252_id_memory_verify::*;

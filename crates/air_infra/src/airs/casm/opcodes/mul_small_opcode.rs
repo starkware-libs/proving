@@ -8,7 +8,7 @@ use crate::core::prover_types::*;
 
 use super::super::casm_state::*;
 use super::super::common::*;
-use super::decode_instruction::*;
+use super::super::decode_instruction::decode_inst::*;
 
 // Macros
 use crate::const_expr;
@@ -71,11 +71,11 @@ impl AirFn for MulSmallOpcode {
         );
 
         // Read the non-constant flags
-        let flag_dst_base_fp = flags[FLAG_DST_BASE_FP_INDEX].as_felt();
-        let flag_op0_base_fp = flags[FLAG_OP0_BASE_FP_INDEX].as_felt();
-        let flag_op1_base_fp = flags[FLAG_OP1_BASE_FP_INDEX].as_felt();
-        let flag_op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].as_felt();
-        let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].as_felt();
+        let flag_dst_base_fp = flags[FLAG_DST_BASE_FP_INDEX].clone();
+        let flag_op0_base_fp = flags[FLAG_OP0_BASE_FP_INDEX].clone();
+        let flag_op1_base_fp = flags[FLAG_OP1_BASE_FP_INDEX].clone();
+        let flag_op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].clone();
+        let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
         // Fetch dst - the value at the destination address for the multiplication
         let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp.clone()

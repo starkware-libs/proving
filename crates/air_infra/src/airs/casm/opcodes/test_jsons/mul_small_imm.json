@@ -46,7 +46,7 @@
       [
         "ap",
         {
-          "name": "(state[1] + state[10])",
+          "name": "(state[1] + state[7])",
           "type": "M31"
         }
       ],
@@ -61,7 +61,7 @@
   },
   "output_felts": [
     "(state[0] + const_2)",
-    "(state[1] + state[10])",
+    "(state[1] + state[7])",
     "state[2]"
   ],
   "trace_type": "Component",
@@ -113,8 +113,8 @@
     },
     {
       "Call": {
-        "air_fn_name": "DecodeInstruction_22fdd1d4be52f69d",
-        "air_fn_description": "DecodeInstruction_22fdd1d4be52f69d",
+        "air_fn_name": "DecodeInstruction_cea21b812a0ef1a0",
+        "air_fn_description": "DecodeInstruction_cea21b812a0ef1a0",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -122,11 +122,11 @@
         "output": [
           [
             {
-              "name": "(((state[3] + (state[4] * const_512)) + const_0) - const_32768)",
+              "name": "(state[3] - const_32768)",
               "type": "M31"
             },
             {
-              "name": "(((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768)",
+              "name": "(state[4] - const_32768)",
               "type": "M31"
             },
             {
@@ -136,64 +136,64 @@
           ],
           [
             {
-              "name": "Bool::from_m31(state[8])",
-              "type": "Bool"
+              "name": "state[5]",
+              "type": "M31"
             },
             {
-              "name": "Bool::from_m31(state[9])",
-              "type": "Bool"
+              "name": "state[6]",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "Bool::from_m31(state[10])",
-              "type": "Bool"
+              "name": "state[7]",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             }
           ]
         ]
@@ -204,16 +204,16 @@
         "air_fn_name": "ReadPositive_num_bits_30",
         "air_fn_description": "ReadPositive_num_bits_30",
         "input_arg": {
-          "name": "(((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + (((state[3] + (state[4] * const_512)) + const_0) - const_32768))",
+          "name": "(((state[5] * state[2]) + ((const_1 - state[5]) * state[1])) + (state[3] - const_32768))",
           "type": "M31"
         },
         "output": [
           {
-            "name": "Felt252::from_limbs(zero_extend([state[13], state[14], state[15], state[16]]))",
+            "name": "Felt252::from_limbs(zero_extend([state[9], state[10], state[11], state[12]]))",
             "type": "Felt252"
           },
           {
-            "name": "state[12]",
+            "name": "state[8]",
             "type": "M31"
           }
         ]
@@ -224,16 +224,16 @@
         "air_fn_name": "ReadPositive_num_bits_15",
         "air_fn_description": "ReadPositive_num_bits_15",
         "input_arg": {
-          "name": "(((state[9] * state[2]) + ((const_1 - state[9]) * state[1])) + (((state[5] + (state[6] * const_4)) + (state[7] * const_2048)) - const_32768))",
+          "name": "(((state[6] * state[2]) + ((const_1 - state[6]) * state[1])) + (state[4] - const_32768))",
           "type": "M31"
         },
         "output": [
           {
-            "name": "Felt252::from_limbs(zero_extend([state[18], state[19]]))",
+            "name": "Felt252::from_limbs(zero_extend([state[14], state[15]]))",
             "type": "Felt252"
           },
           {
-            "name": "state[17]",
+            "name": "state[13]",
             "type": "M31"
           }
         ]
@@ -249,18 +249,18 @@
         },
         "output": [
           {
-            "name": "Felt252::from_limbs(zero_extend([state[21], state[22]]))",
+            "name": "Felt252::from_limbs(zero_extend([state[17], state[18]]))",
             "type": "Felt252"
           },
           {
-            "name": "state[20]",
+            "name": "state[16]",
             "type": "M31"
           }
         ]
       }
     },
     {
-      "Constraint": "((((state[13] + (const_512 * state[14])) + (const_262144 * state[15])) + (const_134217728 * state[16])) - ((state[18] + (const_512 * state[19])) * (state[21] + (const_512 * state[22]))))"
+      "Constraint": "((((state[9] + (const_512 * state[10])) + (const_262144 * state[11])) + (const_134217728 * state[12])) - ((state[14] + (const_512 * state[15])) * (state[17] + (const_512 * state[18]))))"
     }
   ]
 }

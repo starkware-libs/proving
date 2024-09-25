@@ -44,14 +44,6 @@ pub struct Flags {
 }
 
 impl Flags {
-    pub fn sum(&self, from: usize, to: usize) -> FeltExpr {
-        const_expr!(self.to_arr()[from..to]
-            .iter()
-            .enumerate()
-            .filter_map(|(i, f)| f.map(|b| (b as u32) << (i as u32)))
-            .sum())
-    }
-
     pub fn to_arr(&self) -> [Option<bool>; 15] {
         [
             self.dst_base_fp,

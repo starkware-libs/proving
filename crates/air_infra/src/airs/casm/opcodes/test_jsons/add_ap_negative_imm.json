@@ -47,7 +47,7 @@
       [
         "ap",
         {
-          "name": "(state[1] + ((((state[9] * const_262144) + ((state[8] * const_512) + state[7])) - state[5]) - (const_134217728 * state[6])))",
+          "name": "(state[1] + ((((state[8] * const_262144) + ((state[7] * const_512) + state[6])) - state[4]) - (const_134217728 * state[5])))",
           "type": "M31"
         }
       ],
@@ -62,7 +62,7 @@
   },
   "output_felts": [
     "(state[0] + const_2)",
-    "(state[1] + ((((state[9] * const_262144) + ((state[8] * const_512) + state[7])) - state[5]) - (const_134217728 * state[6])))",
+    "(state[1] + ((((state[8] * const_262144) + ((state[7] * const_512) + state[6])) - state[4]) - (const_134217728 * state[5])))",
     "state[2]"
   ],
   "trace_type": "Component",
@@ -114,8 +114,8 @@
     },
     {
       "Call": {
-        "air_fn_name": "DecodeInstruction_83cd6a5ed43aa52e",
-        "air_fn_description": "DecodeInstruction_83cd6a5ed43aa52e",
+        "air_fn_name": "DecodeInstruction_a14b71db698d77c8",
+        "air_fn_description": "DecodeInstruction_a14b71db698d77c8",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -137,64 +137,64 @@
           ],
           [
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             }
           ]
         ]
@@ -210,11 +210,11 @@
         },
         "output": [
           {
-            "name": "((((state[9] * const_262144) + ((state[8] * const_512) + state[7])) - state[5]) - (const_134217728 * state[6]))",
+            "name": "((((state[8] * const_262144) + ((state[7] * const_512) + state[6])) - state[4]) - (const_134217728 * state[5]))",
             "type": "M31"
           },
           {
-            "name": "state[4]",
+            "name": "state[3]",
             "type": "M31"
           }
         ]

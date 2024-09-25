@@ -37,7 +37,7 @@
       [
         "pc",
         {
-          "name": "((state[5] + (state[6] * const_512)) + (state[7] * const_262144))",
+          "name": "((state[4] + (state[5] * const_512)) + (state[6] * const_262144))",
           "type": "M31"
         }
       ],
@@ -51,16 +51,16 @@
       [
         "fp",
         {
-          "name": "((state[9] + (state[10] * const_512)) + (state[11] * const_262144))",
+          "name": "((state[8] + (state[9] * const_512)) + (state[10] * const_262144))",
           "type": "M31"
         }
       ]
     ]
   },
   "output_felts": [
-    "((state[5] + (state[6] * const_512)) + (state[7] * const_262144))",
+    "((state[4] + (state[5] * const_512)) + (state[6] * const_262144))",
     "state[1]",
-    "((state[9] + (state[10] * const_512)) + (state[11] * const_262144))"
+    "((state[8] + (state[9] * const_512)) + (state[10] * const_262144))"
   ],
   "trace_type": "Component",
   "air_body": [
@@ -111,8 +111,8 @@
     },
     {
       "Call": {
-        "air_fn_name": "DecodeInstruction_4a2a70017893d70d",
-        "air_fn_description": "DecodeInstruction_4a2a70017893d70d",
+        "air_fn_name": "DecodeInstruction_c94bba24192ecf68",
+        "air_fn_description": "DecodeInstruction_c94bba24192ecf68",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -134,64 +134,64 @@
           ],
           [
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             }
           ]
         ]
@@ -207,11 +207,11 @@
         },
         "output": [
           {
-            "name": "Felt252::from_limbs(zero_extend([state[5], state[6], state[7]]))",
+            "name": "Felt252::from_limbs(zero_extend([state[4], state[5], state[6]]))",
             "type": "Felt252"
           },
           {
-            "name": "state[4]",
+            "name": "state[3]",
             "type": "M31"
           }
         ]
@@ -227,11 +227,11 @@
         },
         "output": [
           {
-            "name": "Felt252::from_limbs(zero_extend([state[9], state[10], state[11]]))",
+            "name": "Felt252::from_limbs(zero_extend([state[8], state[9], state[10]]))",
             "type": "Felt252"
           },
           {
-            "name": "state[8]",
+            "name": "state[7]",
             "type": "M31"
           }
         ]

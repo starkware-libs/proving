@@ -133,20 +133,17 @@ fn test_abs_jump_base_ap() {
         [None, Some(2)],
         Some("abs_jump_base_ap.json"),
         vec![
-            "3",  // pc
-            "11", // ap
-            "6",  // fp
-            "2",  // offset2
-            "0",  // offset2
-            "4",  // offset2
-            "0",  // flag op1_base_fp
-            "1",  // flag op1_base_ap
-            "0",  // flag ap_update_add_1
-            "0",  // instruction id
-            "1",  // op1 id
-            "8",  // op1
-            "0",  // op1
-            "0",  // op1
+            "3",     // pc
+            "11",    // ap
+            "6",     // fp
+            "32770", // offset2
+            "0",     // flag op1_base_fp
+            "1",     // flag op1_base_ap
+            "0",     // flag ap_update_add_1
+            "1",     // op1 id
+            "8",     // op1
+            "0",     // op1
+            "0",     // op1
         ],
     );
 }
@@ -160,20 +157,17 @@ fn test_abs_jump_base_fp() {
         [None, Some(10)],
         None,
         vec![
-            "3",  // pc
-            "11", // ap
-            "6",  // fp
-            "10", // offset2
-            "0",  // offset2
-            "4",  // offset2
-            "1",  // flag op1_base_fp
-            "0",  // flag op1_base_ap
-            "0",  // flag ap_update_add_1
-            "0",  // instruction id
-            "1",  // op1 id
-            "5",  // op1
-            "0",  // op1
-            "0",  // op1
+            "3",     // pc
+            "11",    // ap
+            "6",     // fp
+            "32778", // offset2
+            "1",     // flag op1_base_fp
+            "0",     // flag op1_base_ap
+            "0",     // flag ap_update_add_1
+            "1",     // op1 id
+            "5",     // op1
+            "0",     // op1
+            "0",     // op1
         ],
     );
 }
@@ -187,20 +181,17 @@ fn test_abs_jump_base_ap_inc_ap() {
         [None, Some(2)],
         None,
         vec![
-            "3",  // pc
-            "11", // ap
-            "6",  // fp
-            "2",  // offset2
-            "0",  // offset2
-            "4",  // offset2
-            "0",  // flag op1_base_fp
-            "1",  // flag op1_base_ap
-            "1",  // flag ap_update_add_1
-            "0",  // instruction id
-            "1",  // op1 id
-            "8",  // op1
-            "0",  // op1
-            "0",  // op1
+            "3",     // pc
+            "11",    // ap
+            "6",     // fp
+            "32770", // offset2
+            "0",     // flag op1_base_fp
+            "1",     // flag op1_base_ap
+            "1",     // flag ap_update_add_1
+            "1",     // op1 id
+            "8",     // op1
+            "0",     // op1
+            "0",     // op1
         ],
     );
 }
@@ -214,20 +205,17 @@ fn test_abs_jump_base_fp_inc_ap() {
         [None, Some(10)],
         None,
         vec![
-            "3",  // pc
-            "11", // ap
-            "6",  // fp
-            "10", // offset2
-            "0",  // offset2
-            "4",  // offset2
-            "1",  // flag op1_base_fp
-            "0",  // flag op1_base_ap
-            "1",  // flag ap_update_add_1
-            "0",  // instruction id
-            "1",  // op1 id
-            "5",  // op1
-            "0",  // op1
-            "0",  // op1
+            "3",     // pc
+            "11",    // ap
+            "6",     // fp
+            "32778", // offset2
+            "1",     // flag op1_base_fp
+            "0",     // flag op1_base_ap
+            "1",     // flag ap_update_add_1
+            "1",     // op1 id
+            "5",     // op1
+            "0",     // op1
+            "0",     // op1
         ],
     );
 }
@@ -241,20 +229,17 @@ fn test_abs_big_op1() {
         [None, Some(402)],
         None,
         vec![
-            "3",   // pc
-            "11",  // ap
-            "6",   // fp
-            "2",   // offset2
-            "25",  // offset2
-            "4",   // offset2
-            "0",   // flag op1_base_fp
-            "1",   // flag op1_base_ap
-            "0",   // flag ap_update_add_1
-            "0",   // instruction id
-            "1",   // op1 id
-            "205", // op1
-            "218", // op1
-            "6",   // op1
+            "3",     // pc
+            "11",    // ap
+            "6",     // fp
+            "33170", // offset2
+            "0",     // flag op1_base_fp
+            "1",     // flag op1_base_ap
+            "0",     // flag ap_update_add_1
+            "1",     // op1 id
+            "205",   // op1
+            "218",   // op1
+            "6",     // op1
         ],
     );
 }
@@ -268,20 +253,17 @@ fn test_abs_jump_negativ_offset() {
         [None, Some(-9)],
         None,
         vec![
-            "3",   // pc
-            "11",  // ap
-            "6",   // fp
-            "7",   // offset2
-            "511", // offset2
-            "3",   // offset2
-            "0",   // flag op1_base_fp
-            "1",   // flag op1_base_ap
-            "0",   // flag ap_update_add_1
-            "0",   // instruction id
-            "1",   // op1 id
-            "9",   // op1
-            "0",   // op1
-            "0",   // op1
+            "3",     // pc
+            "11",    // ap
+            "6",     // fp
+            "32759", // offset2
+            "0",     // flag op1_base_fp
+            "1",     // flag op1_base_ap
+            "0",     // flag ap_update_add_1
+            "1",     // op1 id
+            "9",     // op1
+            "0",     // op1
+            "0",     // op1
         ],
     );
 }
@@ -299,7 +281,6 @@ fn test_rel_jump() {
             "11",  // ap
             "6",   // fp
             "0",   // flag ap_update_add_1
-            "0",   // instruction id
             "1",   // op1 id
             "0",   // op1 (sign)
             "0",   // op1 (sign)
@@ -323,7 +304,6 @@ fn test_rel_jump_inc_ap() {
             "11", // ap
             "6",  // fp
             "1",  // ap_update_add_1
-            "0",  // instruction id
             "1",  // op1 id
             "0",  // op1 (sign)
             "0",  // op1 (sign)
@@ -347,7 +327,6 @@ fn test_rel_big_op1() {
             "11",  // ap
             "6",   // fp
             "0",   // ap_update_add_1
-            "0",   // instruction id
             "1",   // op1 id
             "0",   // op1 (sign)
             "0",   // op1 (sign)
@@ -371,7 +350,6 @@ fn test_rel_negative_imm() {
             "11",  // ap
             "6",   // fp
             "0",   // ap_update_add_1
-            "0",   // instruction id
             "1",   // op1 id
             "1",   // op1 (sign)
             "1",   // op1 (sign)
@@ -391,22 +369,19 @@ fn test_rel_negative_op1() {
         [None, Some(333)],
         None,
         vec![
-            "3",   // pc
-            "11",  // ap
-            "6",   // fp
-            "13",  // offset2
-            "20",  // offset2
-            "4",   // offset2
-            "0",   // flag op1_base_fp
-            "1",   // flag op1_base_ap
-            "0",   // ap_update_add_1
-            "0",   // instruction id
-            "1",   // op1 id
-            "1",   // op1 (sign)
-            "1",   // op1 (sign)
-            "511", // op1
-            "511", // op1
-            "511", // op1
+            "3",     // pc
+            "11",    // ap
+            "6",     // fp
+            "33101", // offset2
+            "0",     // flag op1_base_fp
+            "1",     // flag op1_base_ap
+            "0",     // ap_update_add_1
+            "1",     // op1 id
+            "1",     // op1 (sign)
+            "1",     // op1 (sign)
+            "511",   // op1
+            "511",   // op1
+            "511",   // op1
         ],
     );
 }
@@ -420,22 +395,19 @@ fn test_rel_deref_base_fp() {
         [None, Some(12345)],
         Some("rel_jump_deref_base_fp.json"),
         vec![
-            "3",   // pc
-            "11",  // ap
-            "6",   // fp
-            "9",   // offset2
-            "259", // offset2
-            "5",   // offset2
-            "1",   // flag op1_base_fp
-            "0",   // flag op1_base_ap
-            "1",   // flag ap_update_add_1
-            "0",   // instruction id
-            "1",   // op1 id
-            "0",   // op1(sign)
-            "0",   // op1(sign)
-            "200", // op1
-            "32",  //op1
-            "0",   // op1
+            "3",     // pc
+            "11",    // ap
+            "6",     // fp
+            "45113", // offset2
+            "1",     // flag op1_base_fp
+            "0",     // flag op1_base_ap
+            "1",     // flag ap_update_add_1
+            "1",     // op1 id
+            "0",     // op1(sign)
+            "0",     // op1(sign)
+            "200",   // op1
+            "32",    //op1
+            "0",     // op1
         ],
     );
 }
@@ -449,26 +421,21 @@ fn test_abs_double_deref() {
         [Some(4654), Some(12345)],
         Some("abs_jump_double_deref.json"),
         vec![
-            "3",   // pc
-            "11",  // ap
-            "6",   // fp
-            "2",   // offset1
-            "139", // offset1
-            "18",  // offset1
-            "9",   // offset2
-            "259", // offset2
-            "5",   // offset2
-            "1",   // flag op0_base_fp
-            "1",   // ap_update_add_1
-            "0",   // instruction id
-            "2",   // op0 id
-            "125", // op0
-            "0",   // op0
-            "0",   // op0
-            "1",   // op1 id
-            "200", // op1
-            "32",  // op1
-            "0",   // op1
+            "3",     // pc
+            "11",    // ap
+            "6",     // fp
+            "37422", // offset1
+            "45113", // offset2
+            "1",     // flag op0_base_fp
+            "1",     // ap_update_add_1
+            "2",     // op0 id
+            "125",   // op0
+            "0",     // op0
+            "0",     // op0
+            "1",     // op1 id
+            "200",   // op1
+            "32",    // op1
+            "0",     // op1
         ],
     );
 }

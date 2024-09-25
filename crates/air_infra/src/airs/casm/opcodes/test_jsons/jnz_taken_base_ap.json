@@ -41,7 +41,7 @@
       [
         "pc",
         {
-          "name": "(state[0] + ((((state[42] * const_262144) + ((state[41] * const_512) + state[40])) - state[38]) - (const_134217728 * state[39])))",
+          "name": "(state[0] + ((((state[40] * const_262144) + ((state[39] * const_512) + state[38])) - state[36]) - (const_134217728 * state[37])))",
           "type": "M31"
         }
       ],
@@ -62,7 +62,7 @@
     ]
   },
   "output_felts": [
-    "(state[0] + ((((state[42] * const_262144) + ((state[41] * const_512) + state[40])) - state[38]) - (const_134217728 * state[39])))",
+    "(state[0] + ((((state[40] * const_262144) + ((state[39] * const_512) + state[38])) - state[36]) - (const_134217728 * state[37])))",
     "(state[1] + const_0)",
     "state[2]"
   ],
@@ -115,8 +115,8 @@
     },
     {
       "Call": {
-        "air_fn_name": "DecodeInstruction_f07b2e63ffedf789",
-        "air_fn_description": "DecodeInstruction_f07b2e63ffedf789",
+        "air_fn_name": "DecodeInstruction_e0fe179f921ea9fe",
+        "air_fn_description": "DecodeInstruction_e0fe179f921ea9fe",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -124,7 +124,7 @@
         "output": [
           [
             {
-              "name": "(((state[3] + (state[4] * const_512)) + const_0) - const_32768)",
+              "name": "(state[3] - const_32768)",
               "type": "M31"
             },
             {
@@ -138,64 +138,64 @@
           ],
           [
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             }
           ]
         ]
@@ -206,32 +206,32 @@
         "air_fn_name": "ReadPositive_num_bits_252",
         "air_fn_description": "ReadPositive_num_bits_252",
         "input_arg": {
-          "name": "(state[1] + (((state[3] + (state[4] * const_512)) + const_0) - const_32768))",
+          "name": "(state[1] + (state[3] - const_32768))",
           "type": "M31"
         },
         "output": [
           {
-            "name": "Felt252::from_limbs([state[7], state[8], state[9], state[10], state[11], state[12], state[13], state[14], state[15], state[16], state[17], state[18], state[19], state[20], state[21], state[22], state[23], state[24], state[25], state[26], state[27], state[28], state[29], state[30], state[31], state[32], state[33], state[34]])",
+            "name": "Felt252::from_limbs([state[5], state[6], state[7], state[8], state[9], state[10], state[11], state[12], state[13], state[14], state[15], state[16], state[17], state[18], state[19], state[20], state[21], state[22], state[23], state[24], state[25], state[26], state[27], state[28], state[29], state[30], state[31], state[32]])",
             "type": "Felt252"
           },
           {
-            "name": "state[6]",
+            "name": "state[4]",
             "type": "M31"
           }
         ]
       }
     },
     {
-      "Deduction": "(const_1 // ((((((((((((((((((((((((((((const_0 + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + state[34]))"
+      "Deduction": "(const_1 // ((((((((((((((((((((((((((((const_0 + state[5]) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]))"
     },
     {
-      "Constraint": "((((((((((((((((((((((((((((((const_0 + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + state[34]) * state[35]) - const_1)"
+      "Constraint": "((((((((((((((((((((((((((((((const_0 + state[5]) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]) * state[33]) - const_1)"
     },
     {
       "Intermediate": [
-        "tmp_15",
+        "tmp_38",
         {
-          "name": "(state[7] - const_1)",
+          "name": "(state[5] - const_1)",
           "type": "M31"
         },
         {
@@ -242,9 +242,9 @@
     },
     {
       "Intermediate": [
-        "tmp_16",
+        "tmp_39",
         {
-          "name": "(state[28] - const_136)",
+          "name": "(state[26] - const_136)",
           "type": "M31"
         },
         {
@@ -255,9 +255,9 @@
     },
     {
       "Intermediate": [
-        "tmp_17",
+        "tmp_40",
         {
-          "name": "(state[34] - const_256)",
+          "name": "(state[32] - const_256)",
           "type": "M31"
         },
         {
@@ -267,10 +267,10 @@
       ]
     },
     {
-      "Deduction": "(const_1 // ((((((((((((((((((((((((((((const_0 + (tmp_15 * tmp_15)) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + (tmp_16 * tmp_16)) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + (tmp_17 * tmp_17)))"
+      "Deduction": "(const_1 // ((((((((((((((((((((((((((((const_0 + (tmp_38 * tmp_38)) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + (tmp_39 * tmp_39)) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + (tmp_40 * tmp_40)))"
     },
     {
-      "Constraint": "((((((((((((((((((((((((((((((const_0 + (tmp_15 * tmp_15)) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + (tmp_16 * tmp_16)) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) + (tmp_17 * tmp_17)) * state[36]) - const_1)"
+      "Constraint": "((((((((((((((((((((((((((((((const_0 + (tmp_38 * tmp_38)) + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + (tmp_39 * tmp_39)) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + (tmp_40 * tmp_40)) * state[34]) - const_1)"
     },
     {
       "Call": {
@@ -282,11 +282,11 @@
         },
         "output": [
           {
-            "name": "((((state[42] * const_262144) + ((state[41] * const_512) + state[40])) - state[38]) - (const_134217728 * state[39]))",
+            "name": "((((state[40] * const_262144) + ((state[39] * const_512) + state[38])) - state[36]) - (const_134217728 * state[37]))",
             "type": "M31"
           },
           {
-            "name": "state[37]",
+            "name": "state[35]",
             "type": "M31"
           }
         ]

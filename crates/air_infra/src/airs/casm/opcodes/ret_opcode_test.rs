@@ -54,7 +54,7 @@ fn test_ret_opcode() {
     assert_eq!(output.ap.calc(), ap_value.to_string());
     assert_eq!(
         state.calc(),
-        ["3", "11", "6", "0", "1", "1", "0", "0", "2", "4", "0", "0"]
+        ["3", "11", "6", "1", "1", "0", "0", "2", "4", "0", "0"]
     );
 
     // Check entry

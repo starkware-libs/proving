@@ -41,14 +41,14 @@
       [
         "pc",
         {
-          "name": "((state[11] + (state[12] * const_512)) + (state[13] * const_262144))",
+          "name": "((state[8] + (state[9] * const_512)) + (state[10] * const_262144))",
           "type": "M31"
         }
       ],
       [
         "ap",
         {
-          "name": "(state[1] + state[8])",
+          "name": "(state[1] + state[6])",
           "type": "M31"
         }
       ],
@@ -62,8 +62,8 @@
     ]
   },
   "output_felts": [
-    "((state[11] + (state[12] * const_512)) + (state[13] * const_262144))",
-    "(state[1] + state[8])",
+    "((state[8] + (state[9] * const_512)) + (state[10] * const_262144))",
+    "(state[1] + state[6])",
     "state[2]"
   ],
   "trace_type": "Component",
@@ -115,8 +115,8 @@
     },
     {
       "Call": {
-        "air_fn_name": "DecodeInstruction_c38fc3bf423dc2ca",
-        "air_fn_description": "DecodeInstruction_c38fc3bf423dc2ca",
+        "air_fn_name": "DecodeInstruction_ff344370bb4f7f54",
+        "air_fn_description": "DecodeInstruction_ff344370bb4f7f54",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -132,93 +132,93 @@
               "type": "M31"
             },
             {
-              "name": "(((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768)",
+              "name": "(state[3] - const_32768)",
               "type": "M31"
             }
           ],
           [
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "Bool::from_m31(state[6])",
-              "type": "Bool"
+              "name": "state[4]",
+              "type": "M31"
             },
             {
-              "name": "Bool::from_m31(state[7])",
-              "type": "Bool"
+              "name": "state[5]",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "Bool::from_m31(state[8])",
-              "type": "Bool"
+              "name": "state[6]",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             }
           ]
         ]
       }
     },
     {
-      "Constraint": "((state[6] + state[7]) - const_1)"
+      "Constraint": "((state[4] + state[5]) - const_1)"
     },
     {
       "Call": {
         "air_fn_name": "ReadPositive_num_bits_27",
         "air_fn_description": "ReadPositive_num_bits_27",
         "input_arg": {
-          "name": "(((state[6] * state[2]) + (state[7] * state[1])) + (((state[3] + (state[4] * const_16)) + (state[5] * const_8192)) - const_32768))",
+          "name": "(((state[4] * state[2]) + (state[5] * state[1])) + (state[3] - const_32768))",
           "type": "M31"
         },
         "output": [
           {
-            "name": "Felt252::from_limbs(zero_extend([state[11], state[12], state[13]]))",
+            "name": "Felt252::from_limbs(zero_extend([state[8], state[9], state[10]]))",
             "type": "Felt252"
           },
           {
-            "name": "state[10]",
+            "name": "state[7]",
             "type": "M31"
           }
         ]

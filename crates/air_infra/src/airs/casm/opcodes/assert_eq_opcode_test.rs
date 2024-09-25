@@ -66,9 +66,7 @@ fn test_assert_eq_double_deref_big_op0() {
         1546487,
         15,
         None,
-        vec![
-            3, 11, 6, 3, 64, 3, 1, 16, 2, 0, 4, 1, 0, 0, 0, 2, 247, 460, 5, 1,
-        ],
+        vec![3, 11, 6, 32771, 32775, 32770, 1, 0, 0, 2, 247, 460, 5, 1],
     );
 }
 
@@ -94,7 +92,7 @@ fn test_assert_eq_deref() {
         4,
         15,
         Some("assert_eq_deref.json"),
-        vec![3, 11, 6, 3, 64, 2, 0, 4, 0, 1, 0, 0, 0, 1],
+        vec![3, 11, 6, 32771, 32770, 0, 1, 0, 0, 1],
     );
 }
 
@@ -107,16 +105,14 @@ fn test_assert_eq_imm() {
         4,
         15,
         Some("assert_eq_imm.json"),
-        vec![3, 11, 6, 3, 64, 1, 0, 0, 1],
+        vec![3, 11, 6, 32771, 1, 0, 1],
     );
 }
 
 // [fp + offset] == [[ap + offset] + offset]
 #[test]
 fn test_assert_eq_double_deref() {
-    let expected_state = vec![
-        3, 11, 6, 3, 64, 3, 1, 16, 2, 0, 4, 1, 0, 0, 0, 2, 4, 0, 0, 1,
-    ];
+    let expected_state = vec![3, 11, 6, 32771, 32775, 32770, 1, 0, 0, 2, 4, 0, 0, 1];
     test_assert_equal(
         [true, false, false, false, false, false],
         15,

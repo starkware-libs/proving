@@ -1,5 +1,5 @@
 use super::super::common::*;
-use super::decode_instruction::*;
+use super::decode_inst::*;
 
 use crate::airs::memory::felt252_id_memory::*;
 use crate::core::air_fn::*;
@@ -10,7 +10,7 @@ use crate::core::prover_types::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
-//Macros
+// Macros
 use crate::const_expr;
 use crate::const_felt252_expr;
 
@@ -64,7 +64,7 @@ fn test_with_matching_memory(
         compare_test_json(
             &registry,
             &air_fn.name(),
-            &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
+            &(TEST_JSONS_DECODE_INSTRUCTION_DIR.to_owned() + entry_file_name),
         );
     }
 
@@ -83,7 +83,7 @@ fn test_with_matching_memory(
         );
     }
     for (i, flag) in flags.iter().enumerate() {
-        assert_eq!(flags_output[i].calc(), flag.to_string());
+        assert_eq!(flags_output[i].calc(), (*flag as u32).to_string());
     }
 }
 
@@ -122,7 +122,7 @@ fn test_no_consts() {
         is_offset_const,
         Some("decode_inst_no_consts.json"),
         vec![
-            289, 97, 3, 38, 15, 10, 203, 4, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1, 0,
+            49953, 30875, 36026, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1,
         ],
     );
 }
@@ -139,7 +139,7 @@ fn test_all_consts() {
         offsets,
         is_offset_const,
         Some("decode_inst_all_consts.json"),
-        vec![0],
+        vec![],
     );
 }
 
@@ -157,6 +157,6 @@ fn test_some_consts() {
         offsets,
         is_offset_const,
         Some("decode_inst_some_consts.json"),
-        vec![3, 38, 15, 0, 0, 0],
+        vec![30875, 0, 0],
     );
 }

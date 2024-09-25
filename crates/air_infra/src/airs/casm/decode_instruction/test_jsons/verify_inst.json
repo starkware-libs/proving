@@ -1,0 +1,382 @@
+{
+  "name": "VerifyInstruction",
+  "description": "VerifyInstruction",
+  "inst_def": {},
+  "input": [
+    {
+      "name": "VerifyInstruction_input.0",
+      "type": "M31"
+    },
+    [
+      {
+        "name": "VerifyInstruction_input.1[0]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.1[1]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.1[2]",
+        "type": "M31"
+      }
+    ],
+    [
+      {
+        "name": "VerifyInstruction_input.2[0]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[1]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[2]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[3]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[4]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[5]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[6]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[7]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[8]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[9]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[10]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[11]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[12]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[13]",
+        "type": "M31"
+      },
+      {
+        "name": "VerifyInstruction_input.2[14]",
+        "type": "M31"
+      }
+    ]
+  ],
+  "input_num_of_felts": 19,
+  "output": [],
+  "output_felts": [],
+  "trace_type": "Component",
+  "air_body": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        [
+          {
+            "name": "VerifyInstruction_input.0",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "VerifyInstruction_input.1[0]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.1[1]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.1[2]",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "VerifyInstruction_input.2[0]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[1]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[2]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[3]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[4]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[5]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[6]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[7]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[8]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[9]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[10]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[11]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[12]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[13]",
+              "type": "M31"
+            },
+            {
+              "name": "VerifyInstruction_input.2[14]",
+              "type": "M31"
+            }
+          ]
+        ],
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_0.0"
+    },
+    {
+      "Deduction": "tmp_0.1[0]"
+    },
+    {
+      "Deduction": "tmp_0.1[1]"
+    },
+    {
+      "Deduction": "tmp_0.1[2]"
+    },
+    {
+      "Deduction": "tmp_0.2[0]"
+    },
+    {
+      "Deduction": "tmp_0.2[1]"
+    },
+    {
+      "Deduction": "tmp_0.2[2]"
+    },
+    {
+      "Deduction": "tmp_0.2[3]"
+    },
+    {
+      "Deduction": "tmp_0.2[4]"
+    },
+    {
+      "Deduction": "tmp_0.2[5]"
+    },
+    {
+      "Deduction": "tmp_0.2[6]"
+    },
+    {
+      "Deduction": "tmp_0.2[7]"
+    },
+    {
+      "Deduction": "tmp_0.2[8]"
+    },
+    {
+      "Deduction": "tmp_0.2[9]"
+    },
+    {
+      "Deduction": "tmp_0.2[10]"
+    },
+    {
+      "Deduction": "tmp_0.2[11]"
+    },
+    {
+      "Deduction": "tmp_0.2[12]"
+    },
+    {
+      "Deduction": "tmp_0.2[13]"
+    },
+    {
+      "Deduction": "tmp_0.2[14]"
+    },
+    {
+      "Call": {
+        "air_fn_name": "EncodeOffsets",
+        "air_fn_description": "EncodeOffsets",
+        "input_arg": [
+          {
+            "name": "state[1]",
+            "type": "M31"
+          },
+          {
+            "name": "state[2]",
+            "type": "M31"
+          },
+          {
+            "name": "state[3]",
+            "type": "M31"
+          }
+        ],
+        "output": [
+          {
+            "name": "state[19]",
+            "type": "M31"
+          },
+          {
+            "name": "(state[20] + (state[21] * const_128))",
+            "type": "M31"
+          },
+          {
+            "name": "state[22]",
+            "type": "M31"
+          },
+          {
+            "name": "(state[23] + (state[24] * const_32))",
+            "type": "M31"
+          },
+          {
+            "name": "state[25]",
+            "type": "M31"
+          },
+          {
+            "name": "state[26]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "EncodeFlags",
+        "air_fn_description": "EncodeFlags",
+        "input_arg": [
+          {
+            "name": "state[4]",
+            "type": "M31"
+          },
+          {
+            "name": "state[5]",
+            "type": "M31"
+          },
+          {
+            "name": "state[6]",
+            "type": "M31"
+          },
+          {
+            "name": "state[7]",
+            "type": "M31"
+          },
+          {
+            "name": "state[8]",
+            "type": "M31"
+          },
+          {
+            "name": "state[9]",
+            "type": "M31"
+          },
+          {
+            "name": "state[10]",
+            "type": "M31"
+          },
+          {
+            "name": "state[11]",
+            "type": "M31"
+          },
+          {
+            "name": "state[12]",
+            "type": "M31"
+          },
+          {
+            "name": "state[13]",
+            "type": "M31"
+          },
+          {
+            "name": "state[14]",
+            "type": "M31"
+          },
+          {
+            "name": "state[15]",
+            "type": "M31"
+          },
+          {
+            "name": "state[16]",
+            "type": "M31"
+          },
+          {
+            "name": "state[17]",
+            "type": "M31"
+          },
+          {
+            "name": "state[18]",
+            "type": "M31"
+          }
+        ],
+        "output": [
+          {
+            "name": "((((((const_0 + (state[4] * const_8)) + (state[5] * const_16)) + (state[6] * const_32)) + (state[7] * const_64)) + (state[8] * const_128)) + (state[9] * const_256))",
+            "type": "M31"
+          },
+          {
+            "name": "(((((((((const_0 + (state[10] * const_1)) + (state[11] * const_2)) + (state[12] * const_4)) + (state[13] * const_8)) + (state[14] * const_16)) + (state[15] * const_32)) + (state[16] * const_64)) + (state[17] * const_128)) + (state[18] * const_256))",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "MemVerify",
+        "air_fn_description": "MemVerify",
+        "input_arg": [
+          {
+            "name": "state[0]",
+            "type": "M31"
+          },
+          {
+            "name": "Felt252::from_limbs(zero_extend([state[19], (state[20] + (state[21] * const_128)), state[22], (state[23] + (state[24] * const_32)), state[25], (state[26] + ((((((const_0 + (state[4] * const_8)) + (state[5] * const_16)) + (state[6] * const_32)) + (state[7] * const_64)) + (state[8] * const_128)) + (state[9] * const_256))), (((((((((const_0 + (state[10] * const_1)) + (state[11] * const_2)) + (state[12] * const_4)) + (state[13] * const_8)) + (state[14] * const_16)) + (state[15] * const_32)) + (state[16] * const_64)) + (state[17] * const_128)) + (state[18] * const_256))]))",
+            "type": "Felt252"
+          }
+        ],
+        "output": []
+      }
+    }
+  ]
+}

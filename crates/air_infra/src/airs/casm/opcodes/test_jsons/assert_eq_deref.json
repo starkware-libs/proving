@@ -47,7 +47,7 @@
       [
         "ap",
         {
-          "name": "(state[1] + state[11])",
+          "name": "(state[1] + state[8])",
           "type": "M31"
         }
       ],
@@ -62,7 +62,7 @@
   },
   "output_felts": [
     "(state[0] + const_1)",
-    "(state[1] + state[11])",
+    "(state[1] + state[8])",
     "state[2]"
   ],
   "trace_type": "Component",
@@ -114,8 +114,8 @@
     },
     {
       "Call": {
-        "air_fn_name": "DecodeInstruction_8443cf0a4db7edc5",
-        "air_fn_description": "DecodeInstruction_8443cf0a4db7edc5",
+        "air_fn_name": "DecodeInstruction_dc55adb272664963",
+        "air_fn_description": "DecodeInstruction_dc55adb272664963",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
@@ -123,7 +123,7 @@
         "output": [
           [
             {
-              "name": "(((state[3] + (state[4] * const_512)) + const_0) - const_32768)",
+              "name": "(state[3] - const_32768)",
               "type": "M31"
             },
             {
@@ -131,77 +131,77 @@
               "type": "M31"
             },
             {
-              "name": "(((state[5] + (state[6] * const_16)) + (state[7] * const_8192)) - const_32768)",
+              "name": "(state[4] - const_32768)",
               "type": "M31"
             }
           ],
           [
             {
-              "name": "Bool::from_m31(state[8])",
-              "type": "Bool"
+              "name": "state[5]",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "Bool::from_m31(state[9])",
-              "type": "Bool"
+              "name": "state[6]",
+              "type": "M31"
             },
             {
-              "name": "Bool::from_m31(state[10])",
-              "type": "Bool"
+              "name": "state[7]",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "Bool::from_m31(state[11])",
-              "type": "Bool"
+              "name": "state[8]",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_false",
-              "type": "Bool"
+              "name": "const_0",
+              "type": "M31"
             },
             {
-              "name": "const_true",
-              "type": "Bool"
+              "name": "const_1",
+              "type": "M31"
             }
           ]
         ]
       }
     },
     {
-      "Constraint": "((state[9] + state[10]) - const_1)"
+      "Constraint": "((state[6] + state[7]) - const_1)"
     },
     {
       "Call": {
@@ -209,11 +209,11 @@
         "air_fn_description": "MemVerifyEqual",
         "input_arg": [
           {
-            "name": "(((state[8] * state[2]) + ((const_1 - state[8]) * state[1])) + (((state[3] + (state[4] * const_512)) + const_0) - const_32768))",
+            "name": "(((state[5] * state[2]) + ((const_1 - state[5]) * state[1])) + (state[3] - const_32768))",
             "type": "M31"
           },
           {
-            "name": "(((state[9] * state[2]) + (state[10] * state[1])) + (((state[5] + (state[6] * const_16)) + (state[7] * const_8192)) - const_32768))",
+            "name": "(((state[6] * state[2]) + (state[7] * state[1])) + (state[4] - const_32768))",
             "type": "M31"
           }
         ],
