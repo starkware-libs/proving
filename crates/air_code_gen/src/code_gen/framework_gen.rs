@@ -1,4 +1,3 @@
-use air_infra::core::air_fn_registry::AirFnEntry;
 use air_infra::core::compiled_structs::{
     CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupData, TraceGenStep,
 };
@@ -10,11 +9,7 @@ use super::utils::{n_logup_columns, n_trace_cells};
 use crate::code_gen::trace_gen::generate_sub_component_imports;
 use crate::code_gen::utils::{callee_lookup_length, unique_constraint_function_calls};
 
-pub fn generate_component_structs(
-    component_name: &str,
-    lists: CompiledAirFn,
-    _entry: &AirFnEntry,
-) -> rust::Tokens {
+pub fn generate_component_structs(component_name: &str, lists: CompiledAirFn) -> rust::Tokens {
     quote! {
         $(imports(&lists.deductions))
         $['\n']

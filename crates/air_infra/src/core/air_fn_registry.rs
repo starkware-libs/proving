@@ -19,7 +19,7 @@ pub const INTERMEDIATE_VAR_PREFIX: &str = "tmp_";
 
 // AirFnEntry describes everything we know about an Air function.
 #[derive(Debug, Clone, Serialize)]
-pub struct AirFnEntry {
+pub(crate) struct AirFnEntry {
     pub name: String,
     pub description: String,
     pub inst_def: IndexMap<String, String>,
@@ -31,14 +31,45 @@ pub struct AirFnEntry {
     pub air_body: Vec<AirBodyComponent>,
 }
 
-impl AirFnEntry {
-    pub(super) fn new<I, O>(registry: &AirFnRegistry, air_fn: &dyn AirFn<In = I, Out = O>) -> Self
+// AirFnRegistry is created for a specific air function. It keeps all the air function entries
+// for the air function and its subroutines.
+#[derive(Debug, Clone, Serialize, Default)]
+pub struct AirFnRegistry {
+    air_fns: Rc<RefCell<HashMap<String, AirFnEntry>>>,
+    #[serde(skip)]
+    intermediate_index: Rc<RefCell<usize>>,
+}
+
+impl AirFnRegistry {
+    pub fn new_empty() -> Self {
+        Self {
+            air_fns: Rc::new(RefCell::new(HashMap::new())),
+            intermediate_index: Rc::new(RefCell::new(0)),
+        }
+    }
+
+    // TODO: leave for tests only
+    pub fn new<I, O>(air_fn: &dyn AirFn<In = I, Out = O>) -> Self
     where
         I: AirVar,
         O: AirVar,
     {
-        let (air_builder, input, output) = registry.build_air(air_fn);
-        let entry = Self {
+        let mut registry = Self::new_empty();
+        registry.add_entry(air_fn);
+        registry
+    }
+
+    pub(crate) fn add_entry<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>) -> AirFnEntry
+    where
+        I: AirVar,
+        O: AirVar,
+    {
+        if let Some(entry) = self.air_fns.borrow().get(&air_fn.name()) {
+            return entry.clone();
+        }
+
+        let (air_body, input, output) = self.build_air(air_fn);
+        let entry = AirFnEntry {
             name: air_fn.name(),
             description: air_fn.description(),
             inst_def: air_fn.inst_def(),
@@ -47,40 +78,14 @@ impl AirFnEntry {
             output: output.clone().into(),
             output_num_of_felts: output.as_felts().len(),
             trace_type: air_fn.trace_type(),
-            air_body: air_builder.air_body.clone(),
+            air_body,
         };
-        air_builder
-            .registry
-            .air_fns
+
+        self.air_fns
             .borrow_mut()
             .insert(air_fn.name(), entry.clone());
+
         entry
-    }
-}
-
-// AirFnRegistry is created for a specific air function. It keeps all the air function entries
-// for the air function and its subroutines.
-#[derive(Debug, Clone, Serialize)]
-pub struct AirFnRegistry {
-    pub air_fns: Rc<RefCell<HashMap<String, AirFnEntry>>>,
-    #[serde(skip)]
-    pub intermediate_index: Rc<RefCell<usize>>,
-}
-
-impl AirFnRegistry {
-    pub fn new<I, O>(air_fn: &dyn AirFn<In = I, Out = O>) -> Self
-    where
-        I: AirVar,
-        O: AirVar,
-    {
-        // Create the registry.
-        let registry = Self {
-            air_fns: Rc::new(RefCell::new(HashMap::new())),
-            intermediate_index: Rc::new(RefCell::new(0)),
-        };
-        // Add the function to the registry.
-        AirFnEntry::new(&registry, air_fn);
-        registry
     }
 
     // Runs the air function on a given input and returns the resulting state and output.
@@ -134,7 +139,7 @@ impl AirFnRegistry {
     }
 
     // Builds the air function on a default input in order to create an air function entry for it.
-    fn build_air<I, O>(&self, air_fn: &dyn AirFn<In = I, Out = O>) -> (AirBuilder, I, O)
+    fn build_air<I, O>(&self, air_fn: &dyn AirFn<In = I, Out = O>) -> (Vec<AirBodyComponent>, I, O)
     where
         I: AirVar,
         O: AirVar,
@@ -168,9 +173,10 @@ impl AirFnRegistry {
 
         // Make sure that the output is a variable or a felt expression.
         let _output_felts = output.as_felts();
-        (air_builder, input, output)
+        (air_builder.air_body, input, output)
     }
 
+    // TODO: move to utils.rs as dump_to_file<T>(value: &T, path: Option<&str>) where T: Serialize
     // Dumps the registry to a file. If it gets an air_fn_name, it will only dump that air function entry.
     // If there is no path given, it will dump to stdout.
     pub fn dump_to_file(&self, air_fn_name: Option<&String>, path: Option<&str>) {
@@ -193,7 +199,7 @@ impl AirFnRegistry {
         writer.write_all(b"\n").expect("write failed");
     }
 
-    pub fn get_air_fn_entry(&self, air_fn_name: &String) -> AirFnEntry {
+    pub(crate) fn get_air_fn_entry(&self, air_fn_name: &String) -> AirFnEntry {
         self.air_fns
             .borrow()
             .get(air_fn_name)

@@ -44,9 +44,8 @@ pub fn dump_component_code(air_fn: &impl AirFn, folder_path: &Path) {
     let registry = AirFnRegistry::new(air_fn);
 
     let lists = registry.get_compiled_air_fn(&air_fn.name());
-    let air_entry = registry.get_air_fn_entry(&air_fn.name());
     let claim_provers = generate_simd_claim_provers(&lists);
-    let eval_tokens = generate_component_structs(&air_entry.name, lists, &air_entry);
+    let eval_tokens = generate_component_structs(&lists.name.clone(), lists);
 
     // Write the generated code to files.
     let text = reformat_rust_code(claim_provers.to_string().unwrap());

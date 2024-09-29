@@ -332,9 +332,7 @@ impl AirBuilder {
         );
 
         // Make sure the callee is in the registry
-        if self.registry.air_fns.borrow().get(&air_fn.name()).is_none() {
-            AirFnEntry::new(&self.registry, air_fn);
-        }
+        self.registry.add_entry(air_fn);
 
         let mut air_builder = Self {
             state: self.state.clone(),
@@ -367,15 +365,7 @@ impl AirBuilder {
         );
 
         // Make sure the callee is in the registry
-        if self
-            .registry
-            .air_fns
-            .borrow()
-            .get(&(air_fn.name()))
-            .is_none()
-        {
-            AirFnEntry::new(&self.registry, air_fn);
-        }
+        self.registry.add_entry(air_fn);
 
         #[cfg(test)]
         if self.run {
@@ -448,15 +438,7 @@ impl AirBuilder {
         V: AirVar + Default,
     {
         // Make sure the memory is in the registry
-        if self
-            .registry
-            .air_fns
-            .borrow()
-            .get(&(memory.name()))
-            .is_none()
-        {
-            AirFnEntry::new(&self.registry, memory);
-        }
+        self.registry.add_entry(memory);
 
         let value_name = self.registry.get_intermediate_name();
 
@@ -499,15 +481,7 @@ impl AirBuilder {
         V: AirVar + Default,
     {
         // Make sure the memory is in the registry
-        if self
-            .registry
-            .air_fns
-            .borrow()
-            .get(&(memory.name()))
-            .is_none()
-        {
-            AirFnEntry::new(&self.registry, memory);
-        }
+        self.registry.add_entry(memory);
 
         #[cfg(test)]
         if self.run {
@@ -515,16 +489,6 @@ impl AirBuilder {
             assert!(value.in_state(), "The value must be in the trace.");
 
             memory.set(key.clone(), value.clone());
-        }
-
-        if self
-            .registry
-            .air_fns
-            .borrow()
-            .get(&(memory.name()))
-            .is_none()
-        {
-            AirFnEntry::new(&self.registry, memory);
         }
 
         self.air_body.push(AirBodyComponent::LookupData {
@@ -545,15 +509,7 @@ impl AirBuilder {
         );
 
         // Make sure the callee is in the registry
-        if self
-            .registry
-            .air_fns
-            .borrow()
-            .get(&(air_fn.name()))
-            .is_none()
-        {
-            AirFnEntry::new(&self.registry, air_fn);
-        }
+        self.registry.add_entry(air_fn);
 
         #[cfg(test)]
         if self.run {
