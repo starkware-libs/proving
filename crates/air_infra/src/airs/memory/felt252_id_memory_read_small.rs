@@ -34,7 +34,7 @@ pub struct ReadSmall {
 // -3      0x100 000 000 000 000 000 087 1ff 1ff ... 1ff 1ff 1ff 1ff 1ff 1fe
 
 /// Read a Felt252 that has a small magnitude into a Felt. The allowed range
-/// for the Felt252 is [-2**24, 2**24 - 1] (for 12-bit limbs).
+/// for the Felt252 is [-2**27, 2**27 - 1] (for 9-bit limbs).
 /// Returns also the ID of the value in the memory.
 impl AirFn for ReadSmall {
     type In = CasmAddress;
