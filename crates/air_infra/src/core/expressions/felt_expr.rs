@@ -55,6 +55,17 @@ impl AirVar for FeltExpr {
     }
 }
 
+// Implemented for FeltExpr because it is the output of an external column (Seq).
+impl From<Vec<FeltExpr>> for FeltExpr {
+    fn from(mut v: Vec<FeltExpr>) -> Self {
+        if v.len() == 1 {
+            v.pop().unwrap()
+        } else {
+            panic!("Expected a vector of length 1, found length {}", v.len());
+        }
+    }
+}
+
 // Default is implemented for FeltExpr because it is stored in memory.
 impl Default for FeltExpr {
     fn default() -> Self {

@@ -537,7 +537,7 @@ impl AirBuilder {
     #[allow(unused_variables)]
     pub fn call_external_column<O>(&mut self, air_fn: &dyn AirFn<In = (), Out = O>) -> O
     where
-        O: AirVar,
+        O: AirVar + From<Vec<FeltExpr>>,
     {
         assert!(
             air_fn.trace_type() == TraceType::Const,
@@ -573,7 +573,7 @@ impl AirBuilder {
         for (i, felt) in output.as_felts_mut().into_iter().enumerate() {
             felt.to_state(i, Some(air_fn.name()));
         }
-        output
+        O::from(output.as_felts())
     }
 }
 
