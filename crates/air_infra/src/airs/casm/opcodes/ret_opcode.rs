@@ -61,6 +61,6 @@ impl AirFn for RetOpcode {
     }
 
     fn trace_type(&self) -> TraceType {
-        TraceType::Component
+        TraceType::Opcode
     }
 }

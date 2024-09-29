@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use air_infra::core::compiled_structs::{CompiledAirFn, CompiledAirVar, TraceGenStep};
+use air_infra::core::compiled_structs::{CompiledAirFn, CompiledAirVar, LookupData, TraceGenStep};
 use genco::lang::rust;
 use genco::quote;
 
@@ -71,7 +71,7 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
                     let $(name) = $(simd_parse_air_var(expr));
                 });
             }
-            TraceGenStep::Lookup {
+            TraceGenStep::LookupCall {
                 fn_name,
                 input,
                 output_name,
@@ -85,15 +85,24 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
                 });
                 if let Some(output_name) = output_name {
                     write_trace_body.extend(quote! {
-                            let $(output_name) = $(fn_name.to_lowercase())::deduce_output(
-                                $(input).into()
-                            );
+                        let $(output_name) = $(fn_name.to_lowercase())::deduce_output(
+                            $(input).into()
+                        );
+                        lookup_data
+                            .$(fn_name.to_lowercase())_outputs[$(multiplicity.to_string())]
+                            .push($(output_name).into());
                     });
                 }
                 *multiplicity += 1;
             }
             TraceGenStep::StartBlock(_) => (),
             TraceGenStep::EndBlock() => (),
+            // TODO: Implement.
+            TraceGenStep::LookupData(LookupData {
+                relation_name: _,
+                felts: _,
+                use_or_yield: _,
+            }) => (),
         }
     }
 
@@ -163,7 +172,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
 
 fn generate_input_output_typedefs(lists: &CompiledAirFn) -> rust::Tokens {
     let input_ty = generate_input_output_type(lists.input_num_of_felts);
-    let output_ty = generate_input_output_type(lists.output_felts.len());
+    let output_ty = generate_input_output_type(lists.output_num_of_felts);
     quote! {
         pub type InputType = $(input_ty);
         pub type OutputType = $(output_ty);

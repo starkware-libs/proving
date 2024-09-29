@@ -19,37 +19,7 @@
       "type": "M31"
     }
   ],
-  "output_felts": [
-    "state[1]",
-    "state[2]",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_0",
-    "state[0]"
-  ],
+  "output_num_of_felts": 29,
   "trace_type": "Inline",
   "air_body": [
     {
@@ -66,14 +36,13 @@
       "Deduction": "tmp_1"
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "Memory_K_M31_V_M31",
-        "input_felts": [
-          "ReadPositive_num_bits_16_input"
-        ],
-        "output_felts": [
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          "ReadPositive_num_bits_16_input",
           "state[0]"
-        ]
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
@@ -104,21 +73,19 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_7",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_7",
+        "felts": [
           "state[2]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "Memory_K_M31_V_Felt252",
-        "input_felts": [
-          "state[0]"
-        ],
-        "output_felts": [
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          "state[0]",
           "state[1]",
           "state[2]",
           "const_0",
@@ -147,7 +114,8 @@
           "const_0",
           "const_0",
           "const_0"
-        ]
+        ],
+        "use_or_yield": "Use"
       }
     }
   ]

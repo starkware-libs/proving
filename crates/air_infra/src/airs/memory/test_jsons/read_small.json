@@ -17,10 +17,7 @@
       "type": "M31"
     }
   ],
-  "output_felts": [
-    "((((state[5] * const_262144) + ((state[4] * const_512) + state[3])) - state[1]) - (const_134217728 * state[2]))",
-    "state[0]"
-  ],
+  "output_num_of_felts": 2,
   "trace_type": "Inline",
   "air_body": [
     {
@@ -37,14 +34,13 @@
       "Deduction": "tmp_1"
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "Memory_K_M31_V_M31",
-        "input_felts": [
-          "ReadSmall_input"
-        ],
-        "output_felts": [
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          "ReadSmall_input",
           "state[0]"
-        ]
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
@@ -108,12 +104,10 @@
       "Deduction": "tmp_3.get_m31(const_2)"
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "Memory_K_M31_V_Felt252",
-        "input_felts": [
-          "state[0]"
-        ],
-        "output_felts": [
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          "state[0]",
           "state[3]",
           "state[4]",
           "state[5]",
@@ -142,7 +136,8 @@
           "const_0",
           "const_0",
           "(state[1] * const_256)"
-        ]
+        ],
+        "use_or_yield": "Use"
       }
     }
   ]

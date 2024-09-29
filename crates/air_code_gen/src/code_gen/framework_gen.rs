@@ -1,6 +1,6 @@
 use air_infra::core::air_fn_registry::AirFnEntry;
 use air_infra::core::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, TraceGenStep,
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupData, TraceGenStep,
 };
 use genco::lang::rust;
 use genco::quote;
@@ -158,7 +158,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
 
     for constraint in lists.constraints.iter() {
         match constraint {
-            ConstraintEvalStep::InInstanceConstraint(expr) => {
+            ConstraintEvalStep::Constraint(expr) => {
                 code.extend(quote! {
                     eval.add_constraint(
                         $(parse_eval_constraint(expr))
@@ -171,38 +171,17 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 });
             }
             // TODO(Ohad): implement.
-            ConstraintEvalStep::LookupConstraint {
-                fn_name,
-                input_felts,
-                output_felts,
-            } => {
-                code.extend(parse_lookup_constraint(fn_name, input_felts, output_felts));
+            ConstraintEvalStep::LookupData(LookupData {
+                relation_name,
+                felts,
+                use_or_yield: _,
+            }) => {
+                code.extend(parse_lookup_constraint(relation_name, felts, &[]));
             }
             ConstraintEvalStep::StartBlock(_) => (),
             ConstraintEvalStep::EndBlock() => (),
         }
     }
-
-    code.extend(quote! {
-        $['\n']
-    });
-    let input_values = (0..lists.input_num_of_felts)
-        .map(|i| format!("trace_row[{}]", i))
-        .join(", ");
-    let output_values = lists
-        .output_felts
-        .iter()
-        .map(parse_eval_constraint)
-        .join(", ");
-    let lookup_values = format!("{}, {}", input_values, output_values);
-    code.extend(quote! {
-        logup.push_lookup(
-            &mut eval,
-            -E::EF::one(),
-            &[$lookup_values],
-            &self.self_lookup_elements,
-        );
-    });
 
     code.extend(quote! {
 

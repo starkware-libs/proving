@@ -11,7 +11,6 @@ use serde_json::to_writer_pretty;
 
 use super::air_fn::*;
 use super::compiled_structs::*;
-use super::expressions::felt_expr::*;
 use super::state::*;
 use super::utils::*;
 use super::variables::*;
@@ -27,7 +26,7 @@ pub struct AirFnEntry {
     pub input: AirVarImpl,
     pub input_num_of_felts: usize,
     pub output: AirVarImpl,
-    pub output_felts: Vec<FeltExpr>,
+    pub output_num_of_felts: usize,
     pub trace_type: TraceType,
     pub air_body: Vec<AirBodyComponent>,
 }
@@ -46,7 +45,7 @@ impl AirFnEntry {
             input: input.clone().into(),
             input_num_of_felts: input.as_felts().len(),
             output: output.clone().into(),
-            output_felts: output.as_felts(),
+            output_num_of_felts: output.as_felts().len(),
             trace_type: air_fn.trace_type(),
             air_body: air_builder.air_body.clone(),
         };
@@ -126,6 +125,7 @@ impl AirFnRegistry {
                 output
             }
             TraceType::Builtin => air_fn.call(&mut air_builder, input),
+            TraceType::Opcode => air_fn.lookup_call(&mut air_builder, input),
         };
 
         // Make sure that the output is in the state.
@@ -163,6 +163,7 @@ impl AirFnRegistry {
                 output
             }
             TraceType::Builtin => air_fn.call(&mut air_builder, input.clone()),
+            TraceType::Opcode => air_fn.lookup_call(&mut air_builder, input.clone()),
         };
 
         // Make sure that the output is a variable or a felt expression.
@@ -209,11 +210,7 @@ impl AirFnRegistry {
             input: entry.input.into(),
             output: entry.output.into(),
             input_num_of_felts: entry.input_num_of_felts,
-            output_felts: entry
-                .output_felts
-                .into_iter()
-                .map(CompiledAirVar::from)
-                .collect(),
+            output_num_of_felts: entry.output_num_of_felts,
             constraints,
             deductions,
         }
@@ -229,13 +226,13 @@ impl AirFnRegistry {
         for component in air_body {
             match component {
                 AirBodyComponent::Constraint(constraint) => {
-                    constraints.push(ConstraintEvalStep::InInstanceConstraint(constraint.into()));
+                    constraints.push(ConstraintEvalStep::Constraint(constraint.into()));
                 }
                 AirBodyComponent::Assignment {
                     constraint,
                     deduction,
                 } => {
-                    constraints.push(ConstraintEvalStep::InInstanceConstraint(constraint.into()));
+                    constraints.push(ConstraintEvalStep::Constraint(constraint.into()));
                     deductions.push(TraceGenStep::Deduction(deduction.into()));
                 }
                 AirBodyComponent::Deduction(deduction) => {
@@ -265,26 +262,27 @@ impl AirFnRegistry {
                     deductions.push(TraceGenStep::EndBlock());
                 }
                 AirBodyComponent::LookupCall(call) => {
-                    deductions.push(TraceGenStep::Lookup {
+                    deductions.push(TraceGenStep::LookupCall {
                         fn_name: call.air_fn_name,
                         input: call.input_arg.into(),
                         output_name: call.output_name,
                     });
                 }
-                AirBodyComponent::LookupConstraint(constraint) => {
-                    constraints.push(ConstraintEvalStep::LookupConstraint {
-                        fn_name: constraint.air_fn_name,
-                        input_felts: constraint
-                            .input_felts
-                            .into_iter()
-                            .map(|x| x.into())
-                            .collect(),
-                        output_felts: constraint
-                            .output_felts
-                            .into_iter()
-                            .map(|x| x.into())
-                            .collect(),
-                    });
+                AirBodyComponent::LookupData {
+                    relation_name,
+                    felts,
+                    use_or_yield,
+                } => {
+                    constraints.push(ConstraintEvalStep::LookupData(LookupData {
+                        relation_name: relation_name.clone(),
+                        felts: felts.clone().into_iter().map(|f| f.into()).collect(),
+                        use_or_yield: use_or_yield.clone(),
+                    }));
+                    deductions.push(TraceGenStep::LookupData(LookupData {
+                        relation_name,
+                        felts: felts.into_iter().map(|f| f.into()).collect(),
+                        use_or_yield,
+                    }));
                 }
             }
         }

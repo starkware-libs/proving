@@ -88,26 +88,7 @@
       }
     ]
   ],
-  "output_felts": [
-    "const_17185",
-    "(state[0] - const_32768)",
-    "const_3258",
-    "state[1]",
-    "const_1",
-    "state[2]",
-    "const_1",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_1",
-    "const_0",
-    "const_1",
-    "const_1",
-    "const_0",
-    "const_0",
-    "const_0",
-    "const_1"
-  ],
+  "output_num_of_felts": 18,
   "trace_type": "Inline",
   "air_body": [
     {
@@ -266,9 +247,9 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "VerifyInstruction",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
           "DecodeInstruction_4d9374205f0921ff_input",
           "const_49953",
           "state[0]",
@@ -289,7 +270,7 @@
           "const_0",
           "const_1"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     }
   ]

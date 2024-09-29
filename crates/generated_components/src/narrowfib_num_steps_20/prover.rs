@@ -16,7 +16,7 @@ use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleH
 use stwo_prover::trace_generation::registry::ComponentGenerationRegistry;
 
 use super::component::{Claim, ComponentLookupElements, InteractionClaim};
-use crate::AirFnIO;
+use crate::{narrowfib_num_steps_20, AirFnIO};
 
 pub type InputType = AirFnIO<2>;
 pub type OutputType = AirFnIO<2>;

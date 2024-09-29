@@ -133,6 +133,6 @@ impl AirFn for JnzOpcode {
     }
 
     fn trace_type(&self) -> TraceType {
-        TraceType::Component
+        TraceType::Opcode
     }
 }

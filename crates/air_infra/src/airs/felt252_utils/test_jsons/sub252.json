@@ -17,36 +17,7 @@
     "name": "tmp_0",
     "type": "Felt252"
   },
-  "output_felts": [
-    "state[0]",
-    "state[1]",
-    "state[2]",
-    "state[3]",
-    "state[4]",
-    "state[5]",
-    "state[6]",
-    "state[7]",
-    "state[8]",
-    "state[9]",
-    "state[10]",
-    "state[11]",
-    "state[12]",
-    "state[13]",
-    "state[14]",
-    "state[15]",
-    "state[16]",
-    "state[17]",
-    "state[18]",
-    "state[19]",
-    "state[20]",
-    "state[21]",
-    "state[22]",
-    "state[23]",
-    "state[24]",
-    "state[25]",
-    "state[26]",
-    "state[27]"
-  ],
+  "output_num_of_felts": 28,
   "trace_type": "Inline",
   "air_body": [
     {
@@ -77,12 +48,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[0]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -100,12 +71,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[1]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -123,12 +94,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[2]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -146,12 +117,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[3]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -169,12 +140,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[4]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -192,12 +163,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[5]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -215,12 +186,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[6]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -238,12 +209,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[7]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -261,12 +232,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[8]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -284,12 +255,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[9]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -307,12 +278,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[10]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -330,12 +301,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[11]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -353,12 +324,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[12]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -376,12 +347,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[13]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -399,12 +370,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[14]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -422,12 +393,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[15]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -445,12 +416,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[16]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -468,12 +439,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[17]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -491,12 +462,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[18]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -514,12 +485,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[19]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -537,12 +508,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[20]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -560,12 +531,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[21]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -583,12 +554,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[22]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -606,12 +577,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[23]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -629,12 +600,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[24]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -652,12 +623,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[25]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -675,12 +646,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[26]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -698,12 +669,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_9",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
           "state[27]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {

@@ -17,10 +17,7 @@
     "name": "tmp_0",
     "type": "UInt32"
   },
-  "output_felts": [
-    "state[0]",
-    "state[1]"
-  ],
+  "output_num_of_felts": 2,
   "trace_type": "Inline",
   "air_body": [
     {
@@ -54,12 +51,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_16",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_16",
+        "felts": [
           "state[0]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {
@@ -74,12 +71,12 @@
       }
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "RangeCheck_N_1_bits_16",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_16",
+        "felts": [
           "state[1]"
         ],
-        "output_felts": []
+        "use_or_yield": "Use"
       }
     },
     {

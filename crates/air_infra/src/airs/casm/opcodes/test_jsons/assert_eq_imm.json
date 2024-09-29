@@ -60,12 +60,8 @@
       ]
     ]
   },
-  "output_felts": [
-    "(state[0] + const_2)",
-    "(state[1] + state[5])",
-    "state[2]"
-  ],
-  "trace_type": "Component",
+  "output_num_of_felts": 3,
+  "trace_type": "Opcode",
   "air_body": [
     {
       "Intermediate": [
@@ -215,6 +211,28 @@
           }
         ],
         "output": []
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          "state[0]",
+          "state[1]",
+          "state[2]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          "(state[0] + const_2)",
+          "(state[1] + state[5])",
+          "state[2]"
+        ],
+        "use_or_yield": "Yield"
       }
     }
   ]

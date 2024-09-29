@@ -10,7 +10,7 @@ use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
 
-use crate::LOGUP_BATCH_SIZE;
+use crate::{narrowfib_num_steps_20, LOGUP_BATCH_SIZE};
 
 pub type ComponentLookupElements = LookupElements<4>;
 
@@ -18,6 +18,7 @@ pub struct NarrowFib_num_steps_20Component {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub self_lookup_elements: ComponentLookupElements,
+    pub narrowfib_num_steps_20_lookup_elements: narrowfib_num_steps_20::ComponentLookupElements,
 }
 
 #[derive(Copy, Clone)]
@@ -28,7 +29,7 @@ pub struct Claim {
 impl Claim {
     pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
         let interaction_0_log_sizes = vec![self.log_size; 22];
-        let interaction_1_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 4];
+        let interaction_1_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 5];
         TreeVec::new(vec![interaction_0_log_sizes, interaction_1_log_sizes])
     }
 
@@ -125,12 +126,11 @@ impl FrameworkComponent for NarrowFib_num_steps_20Component {
         eval.add_constraint(
             (trace_row[21] - ((trace_row[19] * trace_row[19]) + (trace_row[20] * trace_row[20]))),
         );
-
         logup.push_lookup(
             &mut eval,
-            -E::EF::one(),
+            E::EF::one(),
             &[trace_row[0], trace_row[1], trace_row[20], trace_row[21]],
-            &self.self_lookup_elements,
+            &self.narrowfib_num_steps_20_lookup_elements,
         );
         logup.finalize(&mut eval);
 

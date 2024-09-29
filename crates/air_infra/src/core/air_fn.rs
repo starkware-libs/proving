@@ -6,12 +6,14 @@ use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
 use super::air_fn_registry::*;
+use super::compiled_structs::*;
 use super::expressions::felt_expr::*;
 use super::memory::*;
 use super::state::*;
 use super::variables::*;
 
 pub const MAX_NAME_LEN: usize = 50;
+pub const OPCODES_RELATION_NAME: &str = "opcodes";
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum TraceType {
@@ -32,6 +34,12 @@ pub enum TraceType {
     // Has its own component in the trace. Has no input and no output. Cannot be called from
     // another component. Doesn't yield lookup data.
     Builtin,
+
+    // Has its own component in the trace. Its input and output are casm states.
+    // Cannot be called from another component. Doesn't yield multiplicity column.
+    // Generates accumulated sum column where the input
+    // is used and the output is yielded (chain lookup constraint).
+    Opcode,
 }
 
 // An air function should define a struct that implements the AirFn trait.
@@ -91,7 +99,7 @@ pub trait AirFn: Debug + InstDefTrait {
         TraceType::Inline
     }
 
-    // For lookup components that their input columns are a const table, return the name of
+    // For lookup components that their input columns are a const table, returns the name of
     // that const table. The const table contains only my input columns and nothing else.
     // Note that the const table might not have a corresponding air function (e.g., "RangeCheck9").
     fn const_input(&self) -> Option<String> {
@@ -102,8 +110,8 @@ pub trait AirFn: Debug + InstDefTrait {
 
     fn lookup_call(&self, air_builder: &mut AirBuilder, mut input: Self::In) -> Self::Out {
         assert!(
-            self.trace_type() == TraceType::Component,
-            "AirFn must be a component"
+            self.trace_type() == TraceType::Component || self.trace_type() == TraceType::Opcode,
+            "AirFn must be a component or an opcode"
         );
 
         if let Some(const_name) = self.const_input() {
@@ -117,7 +125,33 @@ pub trait AirFn: Debug + InstDefTrait {
             }
         }
 
-        self.call(air_builder, input)
+        let output = self.call(air_builder, input.clone());
+
+        if self.trace_type() == TraceType::Opcode {
+            air_builder.air_body.push(AirBodyComponent::LookupData {
+                relation_name: OPCODES_RELATION_NAME.to_string(),
+                felts: input.as_felts(),
+                use_or_yield: UseOrYield::Use,
+            });
+
+            air_builder.air_body.push(AirBodyComponent::LookupData {
+                relation_name: OPCODES_RELATION_NAME.to_string(),
+                felts: output.as_felts(),
+                use_or_yield: UseOrYield::Yield,
+            });
+        } else {
+            air_builder.air_body.push(AirBodyComponent::LookupData {
+                relation_name: self.name(),
+                felts: input
+                    .as_felts()
+                    .into_iter()
+                    .chain(output.as_felts())
+                    .collect(),
+                use_or_yield: UseOrYield::Yield,
+            });
+        }
+
+        output
     }
 }
 
@@ -393,17 +427,19 @@ impl AirBuilder {
             }
         }
 
-        self.air_body
-            .push(AirBodyComponent::LookupConstraint(LookupConstraint {
-                air_fn_name: air_fn.name(),
-                input_felts: input.as_felts(),
-                output_felts: output.as_felts(),
-            }));
+        self.air_body.push(AirBodyComponent::LookupData {
+            relation_name: air_fn.name(),
+            felts: input
+                .as_felts()
+                .into_iter()
+                .chain(output.as_felts())
+                .collect(),
+            use_or_yield: UseOrYield::Use,
+        });
 
         output
     }
 
-    #[allow(unused_variables)]
     // Reads the value from the memory, creates an intermediate variable for the value, and returns
     // it. Does not add any constraints or deductions.
     pub fn mem_read_unverified<K, V>(&mut self, memory: &Memory<K, V>, key: &K) -> V
@@ -455,7 +491,6 @@ impl AirBuilder {
         )
     }
 
-    #[allow(unused_variables)]
     // Assumes the key and value are in the state (of the caller). Adds a lookup constraint.
     // Writes the value to the memory in run and cairo run modes.
     pub fn mem_verify<K, V>(&mut self, memory: &Memory<K, V>, key: &K, value: V)
@@ -492,12 +527,11 @@ impl AirBuilder {
             AirFnEntry::new(&self.registry, memory);
         }
 
-        self.air_body
-            .push(AirBodyComponent::LookupConstraint(LookupConstraint {
-                air_fn_name: memory.name(),
-                input_felts: key.as_felts(),
-                output_felts: value.as_felts(),
-            }));
+        self.air_body.push(AirBodyComponent::LookupData {
+            relation_name: memory.name(),
+            felts: key.as_felts().into_iter().chain(value.as_felts()).collect(),
+            use_or_yield: UseOrYield::Use,
+        });
     }
 
     #[allow(unused_variables)]
@@ -556,6 +590,7 @@ pub struct Call {
     pub air_body: Vec<AirBodyComponent>,
 }
 
+// Deduces the output and updates inputs / multiplicity of the relation.
 #[derive(Clone, Debug, Serialize)]
 pub struct LookupCall {
     pub air_fn_name: String,
@@ -563,14 +598,7 @@ pub struct LookupCall {
     // None if there is no output
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output_name: Option<String>,
-}
-
-#[derive(Clone, Debug, Serialize)]
-pub struct LookupConstraint {
-    pub air_fn_name: String,
-
-    pub input_felts: Vec<FeltExpr>,
-    pub output_felts: Vec<FeltExpr>,
+    // TODO: add multiplicity column
 }
 
 // Each air function has an air_body, which is a vector of AirBodyComponent.
@@ -588,5 +616,13 @@ pub enum AirBodyComponent {
     Intermediate(String, AirVarImpl, IntermediateType),
     Call(Call),
     LookupCall(LookupCall),
-    LookupConstraint(LookupConstraint),
+    // Saves the information from the trace needed for the generation of the interaction trace,
+    // and creates the constraints between the trace and the interaction trace, and the
+    // constraints on the accumulated sum (the logup).
+    LookupData {
+        relation_name: String,
+        felts: Vec<FeltExpr>,
+        use_or_yield: UseOrYield,
+        // TODO: add optional multiplicity column
+    },
 }

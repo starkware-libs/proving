@@ -119,13 +119,6 @@ impl FrameworkComponent for WideFib_num_narrow_8_narrow_size_20Component {
             &[trace_row[13], trace_row[14], trace_row[15], trace_row[16]],
             &self.narrowfib_num_steps_20_lookup_elements,
         );
-
-        logup.push_lookup(
-            &mut eval,
-            -E::EF::one(),
-            &[trace_row[0], trace_row[16]],
-            &self.self_lookup_elements,
-        );
         logup.finalize(&mut eval);
 
         eval

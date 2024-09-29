@@ -15,8 +15,7 @@ impl AirFn for NarrowFib {
     type In = [FeltExpr; 2];
     type Out = [FeltExpr; 2];
 
-    fn call(&self, air_builder: &mut AirBuilder, initial_state: Self::In) -> Self::Out {
-        let mut input = initial_state;
+    fn call(&self, air_builder: &mut AirBuilder, mut input: Self::In) -> Self::Out {
         let air_fn = FibStep {};
 
         for _ in 0..self.num_steps {

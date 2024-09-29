@@ -59,12 +59,8 @@
       ]
     ]
   },
-  "output_felts": [
-    "(state[0] + const_2)",
-    "(state[1] + state[7])",
-    "state[2]"
-  ],
-  "trace_type": "Component",
+  "output_num_of_felts": 3,
+  "trace_type": "Opcode",
   "air_body": [
     {
       "Intermediate": [
@@ -261,6 +257,28 @@
     },
     {
       "Constraint": "(((((state[13] * const_262144) + ((state[12] * const_512) + state[11])) - state[9]) - (const_134217728 * state[10])) - (((((state[19] * const_262144) + ((state[18] * const_512) + state[17])) - state[15]) - (const_134217728 * state[16])) + ((((state[25] * const_262144) + ((state[24] * const_512) + state[23])) - state[21]) - (const_134217728 * state[22]))))"
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          "state[0]",
+          "state[1]",
+          "state[2]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          "(state[0] + const_2)",
+          "(state[1] + state[7])",
+          "state[2]"
+        ],
+        "use_or_yield": "Yield"
+      }
     }
   ]
 }

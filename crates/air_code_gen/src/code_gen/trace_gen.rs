@@ -1,7 +1,7 @@
 use core::panic;
 use std::collections::{HashMap, HashSet};
 
-use air_infra::core::compiled_structs::{CompiledAirVar, TraceGenStep};
+use air_infra::core::compiled_structs::{CompiledAirVar, LookupData, TraceGenStep};
 use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
@@ -52,14 +52,11 @@ pub fn generate_write_trace_row_code(
                     let $(name) = $(parse_air_var(expr));
                 });
             }
-            TraceGenStep::Lookup {
+            TraceGenStep::LookupCall {
                 fn_name,
                 input,
                 output_name,
             } => {
-                write_trace_body.extend(quote! {
-                    returned_inputs.$(fn_name)_inputs.push($(parse_air_var(input)));
-                });
                 if let Some(output_name) = output_name {
                     write_trace_body.extend(quote! {
                         let $(output_name) = $(fn_name)CpuTraceGenerator::deduce_output($(parse_air_var(input)));
@@ -68,6 +65,12 @@ pub fn generate_write_trace_row_code(
             }
             TraceGenStep::StartBlock(_) => (),
             TraceGenStep::EndBlock() => (),
+            // TODO: Implement.
+            TraceGenStep::LookupData(LookupData {
+                relation_name: _,
+                felts: _,
+                use_or_yield: _,
+            }) => (),
         }
     }
 
@@ -148,7 +151,7 @@ fn generate_write_trace_trait_body(deductions: &[TraceGenStep]) -> rust::Tokens 
 
     let mut seen_functions = HashSet::new();
     for fn_name in deductions.iter().filter_map(|d| match d {
-        TraceGenStep::Lookup { fn_name, .. } => {
+        TraceGenStep::LookupCall { fn_name, .. } => {
             if seen_functions.insert(fn_name) {
                 Some(fn_name)
             } else {
@@ -183,7 +186,7 @@ pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens 
 
     let mut function_call_multiplicity = HashMap::new();
     for deduction in deductions {
-        if let TraceGenStep::Lookup { fn_name, .. } = deduction {
+        if let TraceGenStep::LookupCall { fn_name, .. } = deduction {
             let multiplicity = function_call_multiplicity.entry(fn_name).or_insert(0);
             *multiplicity += 1;
         }
@@ -314,10 +317,10 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
     let mut code = rust::Tokens::new();
     let mut seen_functions = HashSet::new();
     for deduction in deductions {
-        if let TraceGenStep::Lookup { fn_name, .. } = deduction {
-            if seen_functions.insert(fn_name) {
+        if let TraceGenStep::LookupData(LookupData { relation_name, .. }) = deduction {
+            if seen_functions.insert(relation_name) {
                 code.extend(quote! {
-                    use crate::$(fn_name.to_lowercase());
+                    use crate::$(relation_name.to_lowercase());
                 });
             }
         }
@@ -452,7 +455,7 @@ pub fn parse_air_var(expr: &CompiledAirVar) -> String {
 
 pub fn contains_lookup(deductions: &[TraceGenStep]) -> bool {
     for deduction in deductions {
-        if let TraceGenStep::Lookup { .. } = deduction {
+        if let TraceGenStep::LookupCall { .. } = deduction {
             return true;
         }
     }

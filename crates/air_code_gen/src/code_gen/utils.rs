@@ -5,7 +5,7 @@ use std::path::{Path, PathBuf};
 use air_infra::core::air_fn::AirFn;
 use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, TraceGenStep,
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupData, TraceGenStep,
 };
 use genco::lang::rust;
 use genco::quote;
@@ -111,8 +111,8 @@ pub fn fn_calls_from_constraints(constraints: &[ConstraintEvalStep]) -> Vec<Stri
     constraints
         .iter()
         .filter_map(|constraint| {
-            if let ConstraintEvalStep::LookupConstraint { fn_name, .. } = constraint {
-                Some(fn_name.to_string())
+            if let ConstraintEvalStep::LookupData(LookupData { relation_name, .. }) = constraint {
+                Some(relation_name.to_string())
             } else {
                 None
             }
@@ -124,7 +124,7 @@ pub fn fn_calls_from_deductions(deductions: &[TraceGenStep]) -> Vec<String> {
     deductions
         .iter()
         .filter_map(|deduction| {
-            if let TraceGenStep::Lookup { fn_name, .. } = deduction {
+            if let TraceGenStep::LookupCall { fn_name, .. } = deduction {
                 Some(fn_name.to_string())
             } else {
                 None
@@ -154,7 +154,7 @@ pub fn unique_deduction_function_calls(deductions: &[TraceGenStep]) -> Vec<Strin
 pub fn n_function_calls(constraints: &[ConstraintEvalStep]) -> usize {
     constraints
         .iter()
-        .filter(|c| matches!(c, ConstraintEvalStep::LookupConstraint { .. }))
+        .filter(|c| matches!(c, ConstraintEvalStep::LookupData { .. }))
         .count()
 }
 

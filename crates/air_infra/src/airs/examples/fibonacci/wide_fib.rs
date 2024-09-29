@@ -27,12 +27,13 @@ impl AirFn for WideFib {
         };
 
         air_builder.deduce(&mut input);
-        let mut narrow_output = [const_expr!(1), input];
+        let mut narrow_input = [const_expr!(1), input];
 
         for _ in 0..self.num_narrow {
-            narrow_output = air_builder.lookup_call(&narrow_fn, narrow_output);
+            let narrow_output = air_builder.lookup_call(&narrow_fn, narrow_input);
+            narrow_input = narrow_output;
         }
 
-        narrow_output[1].clone()
+        narrow_input[1].clone()
     }
 }

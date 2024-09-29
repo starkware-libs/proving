@@ -129,6 +129,6 @@ impl AirFn for AddSmallOpcode {
     }
 
     fn trace_type(&self) -> TraceType {
-        TraceType::Component
+        TraceType::Opcode
     }
 }

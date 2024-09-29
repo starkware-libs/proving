@@ -14,9 +14,7 @@
     "name": "state[4]",
     "type": "M31"
   },
-  "output_felts": [
-    "state[4]"
-  ],
+  "output_num_of_felts": 1,
   "trace_type": "Inline",
   "air_body": [
     {
@@ -45,16 +43,15 @@
       "Deduction": "tmp_1[1]"
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "NarrowFib_num_steps_2",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_2",
+        "felts": [
           "const_1",
-          "state[0]"
-        ],
-        "output_felts": [
+          "state[0]",
           "state[1]",
           "state[2]"
-        ]
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
@@ -80,16 +77,15 @@
       "Deduction": "tmp_2[1]"
     },
     {
-      "LookupConstraint": {
-        "air_fn_name": "NarrowFib_num_steps_2",
-        "input_felts": [
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_2",
+        "felts": [
           "state[1]",
-          "state[2]"
-        ],
-        "output_felts": [
+          "state[2]",
           "state[3]",
           "state[4]"
-        ]
+        ],
+        "use_or_yield": "Use"
       }
     }
   ]

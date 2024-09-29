@@ -7,15 +7,12 @@ pub struct CompiledAirFn {
     pub input: CompiledAirVar,
     pub output: CompiledAirVar,
 
-    // The input_num_of_felts is relevant just for non-inline components.
-    #[serde(skip)]
+    // TODO: add total number of columns in the trace.
+    // TODO: remove these:
     pub input_num_of_felts: usize,
-    #[serde(skip)]
-    pub output_felts: Vec<CompiledAirVar>,
+    pub output_num_of_felts: usize,
 
-    #[serde(skip)]
     pub constraints: Vec<ConstraintEvalStep>,
-    #[serde(skip)]
     pub deductions: Vec<TraceGenStep>,
 }
 
@@ -30,13 +27,17 @@ pub enum TraceGenStep {
 
     Intermediate(String, CompiledAirVar),
 
-    // output_name is the name of the intermediate variable into which the lookup result should
-    // be placed. If it is None, there is no output and no intermediate variable is created.
-    Lookup {
+    // Deduces the output and updates inputs / multiplicity of the component.
+    LookupCall {
         fn_name: String,
         input: CompiledAirVar,
+        // output_name is the name of the intermediate variable into which the lookup result should
+        // be placed. If it is None, there is no output and no intermediate variable is created.
         output_name: Option<String>,
     },
+
+    // Saves the information from the trace needed for the generation of the interaction trace.
+    LookupData(LookupData),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
@@ -48,14 +49,11 @@ pub enum ConstraintEvalStep {
 
     // The argument is a polynomial in in-state values. The constraint requires it
     // to evaluate to zero.
-    InInstanceConstraint(CompiledAirVar),
+    Constraint(CompiledAirVar),
 
-    // Require a certain input-output pair to be present in a lookup component.
-    LookupConstraint {
-        fn_name: String,
-        input_felts: Vec<CompiledAirVar>,
-        output_felts: Vec<CompiledAirVar>,
-    },
+    // Used to create the constraints between the trace and the interaction trace, and the
+    // constraints on the accumulated sum (the logup).
+    LookupData(LookupData),
 
     Intermediate(String, CompiledAirVar),
 }
@@ -86,4 +84,17 @@ pub enum CompiledAirVar {
     },
     // A variable written to the trace of a const table at the given index.
     ExternalState(String, usize),
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
+pub struct LookupData {
+    pub relation_name: String,
+    pub felts: Vec<CompiledAirVar>,
+    pub use_or_yield: UseOrYield,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
+pub enum UseOrYield {
+    Use,
+    Yield,
 }

@@ -12,12 +12,10 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
 
     for constraint in compiled_fn.constraints {
         match constraint {
-            ConstraintEvalStep::InInstanceConstraint(_) => num_regular_constraints += 1,
-            ConstraintEvalStep::LookupConstraint {
-                fn_name: _,
-                input_felts: _,
-                output_felts: _,
-            } => num_lookup_constraints += 1,
+            ConstraintEvalStep::Constraint(_) => num_regular_constraints += 1,
+            ConstraintEvalStep::LookupData(_) => {
+                num_lookup_constraints += 1;
+            }
             ConstraintEvalStep::Intermediate(_, _) => {}
             ConstraintEvalStep::StartBlock(_) => {}
             ConstraintEvalStep::EndBlock() => {}
@@ -28,13 +26,14 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
         match deduction {
             TraceGenStep::Deduction(_) => trace_cells_used += 1,
             TraceGenStep::Intermediate(_, _) => {}
-            TraceGenStep::Lookup {
+            TraceGenStep::LookupCall {
                 fn_name: _,
                 input: _,
                 output_name: _,
             } => {}
             TraceGenStep::StartBlock(_) => {}
             TraceGenStep::EndBlock() => {}
+            TraceGenStep::LookupData(_) => {}
         }
     }
 
