@@ -61,7 +61,6 @@ impl ClaimGenerator {
 
         tree_builder.extend_evals(trace);
         let claim = Claim {
-            log_size: len.ilog2() + LOG_N_LANES,
             n_calls: len * N_LANES,
         };
 
@@ -327,7 +326,7 @@ impl ClaimProver {
         rangecheck_n_3_bits_7_2_5_lookup_elements: &rangecheck_n_3_bits_7_2_5::ComponentLookupElements,
         verifyinstruction_lookup_elements: &verifyinstruction::ComponentLookupElements,
     ) -> InteractionClaim {
-        let log_size = self.claim.log_size;
+        let log_size = self.claim.n_calls.next_power_of_two().ilog2();
         let mut logup_gen = LogupTraceGenerator::new(log_size);
 
         let mut col_gen = logup_gen.new_col();

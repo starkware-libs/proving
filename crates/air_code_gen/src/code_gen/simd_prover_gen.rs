@@ -348,7 +348,6 @@ fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
 
         tree_builder.extend_evals(trace);
         let claim = Claim {
-            log_size: len.ilog2() + LOG_N_LANES,
             n_calls: len * N_LANES,
         };
 
@@ -381,7 +380,7 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
                 tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
                 $(lookup_elements)
             ) -> InteractionClaim {
-                let log_size = self.claim.log_size;
+                let log_size = self.claim.n_calls.next_power_of_two().ilog2();
                 let mut logup_gen = LogupTraceGenerator::new(log_size);
 
                 $(generate_write_interaction_trace_body(deductions))

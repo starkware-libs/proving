@@ -30,18 +30,17 @@ pub struct VerifyInstructionEval {
 
 #[derive(Copy, Clone)]
 pub struct Claim {
-    pub log_size: u32,
     pub n_calls: usize,
 }
 impl Claim {
     pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-        let interaction_0_log_sizes = vec![self.log_size; 28];
-        let interaction_1_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 8];
+        let log_size = self.n_calls.next_power_of_two().ilog2();
+        let interaction_0_log_sizes = vec![log_size; 28];
+        let interaction_1_log_sizes = vec![log_size; SECURE_EXTENSION_DEGREE * 8];
         TreeVec::new(vec![interaction_0_log_sizes, interaction_1_log_sizes])
     }
 
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        channel.mix_nonce(self.log_size as u64);
         channel.mix_nonce(self.n_calls as u64);
     }
 }
@@ -60,7 +59,7 @@ pub type VerifyInstructionComponent = FrameworkComponent<VerifyInstructionEval>;
 
 impl FrameworkEval for VerifyInstructionEval {
     fn log_size(&self) -> u32 {
-        self.claim.log_size
+        self.claim.n_calls.next_power_of_two().ilog2()
     }
 
     fn max_constraint_log_degree_bound(&self) -> u32 {
@@ -86,7 +85,7 @@ impl FrameworkEval for VerifyInstructionEval {
         let mut logup = LogupAtRow::<LOGUP_BATCH_SIZE, E>::new(
             1,
             self.interaction_claim.claimed_sum,
-            self.claim.log_size,
+            self.log_size(),
         );
         let trace_row: [_; 28] = std::array::from_fn(|_| eval.next_trace_mask());
         eval.add_constraint(((trace_row[19] + (trace_row[20] * M31_512)) - trace_row[1]));

@@ -60,7 +60,6 @@ fn generate_component_struct(
 fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     let mut members = rust::Tokens::new();
     members.append(quote! {
-        pub log_size: u32,
         pub n_calls: usize,
     });
     let struct_code = quote! {
@@ -77,13 +76,13 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     impl_code.append(quote! {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-                let interaction_0_log_sizes = vec![self.log_size; $n_trace_cells];
-                let interaction_1_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * $n_logup_columns];
+                let log_size = self.n_calls.next_power_of_two().ilog2();
+                let interaction_0_log_sizes = vec![log_size; $n_trace_cells];
+                let interaction_1_log_sizes = vec![log_size; SECURE_EXTENSION_DEGREE * $n_logup_columns];
                 TreeVec::new(vec![interaction_0_log_sizes, interaction_1_log_sizes])
             }
              // TODO(Ohad): better mix_into.
             pub fn mix_into(&self, channel: &mut impl Channel) {
-                channel.mix_nonce(self.log_size as u64);
                 channel.mix_nonce(self.n_calls as u64);
             }
         }
@@ -130,7 +129,7 @@ fn generate_framework_impl(component_name: &str, lists: &CompiledAirFn) -> rust:
     code.append(quote! {
         impl FrameworkEval for $(component_name)Eval {
             fn log_size(&self) -> u32 {
-                self.claim.log_size
+                self.claim.n_calls.next_power_of_two().ilog2()
             }
 
             fn max_constraint_log_degree_bound(&self) -> u32 {
@@ -168,7 +167,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         let mut logup = LogupAtRow::<LOGUP_BATCH_SIZE, E>::new(
             1,
             self.interaction_claim.claimed_sum,
-            self.claim.log_size,
+            self.log_size(),
         );
     });
 
