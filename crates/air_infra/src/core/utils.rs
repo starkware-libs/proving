@@ -1,4 +1,9 @@
+use serde::Serialize;
+use serde_json::to_writer_pretty;
 use std::fmt::Display;
+use std::fs::File;
+use std::io;
+use std::io::{BufWriter, Write};
 use std::path::PathBuf;
 
 use super::compiled_structs::*;
@@ -80,4 +85,23 @@ pub fn vars_arr_to_string(felts: &[CompiledAirVar]) -> String {
 
 pub fn project_root() -> PathBuf {
     std::path::PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap())
+}
+
+// Dumps the sereilazied object to a file. If there is no path given, it will dump to stdout.
+pub fn dump_to_file<T>(value: &T, path: Option<&str>)
+where
+    T: Serialize,
+{
+    let mut writer: Box<dyn Write> = match path {
+        Some(p) => {
+            let file = File::create(project_root().join(p)).expect("Unable to create file");
+            Box::new(BufWriter::new(file)) // Write to file
+        }
+        None => {
+            Box::new(BufWriter::new(io::stdout())) // Write to stdout
+        }
+    };
+    to_writer_pretty(&mut writer, value).expect("serialization failed");
+    writer.flush().expect("flush failed");
+    writer.write_all(b"\n").expect("write failed");
 }

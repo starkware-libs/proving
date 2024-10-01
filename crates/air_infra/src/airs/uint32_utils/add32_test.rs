@@ -38,9 +38,8 @@ fn test_add32() {
     assert_eq!(state.calc(), ["0", "0"]);
 
     // Check entry
-    compare_test_json(
-        &registry,
-        &air_fn.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&air_fn.name()),
         &(TEST_JSONS_UINT32_DIR.to_owned() + "add32.json"),
     );
 }

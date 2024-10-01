@@ -80,9 +80,8 @@ fn test_read_small_air_body() {
     let registry = AirFnRegistry::new(&read_small);
 
     // Check entry
-    compare_test_json(
-        &registry,
-        &read_small.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&read_small.name()),
         &(TEST_JSONS_MEMORY_DIR.to_owned() + "read_small.json"),
     );
 }
@@ -107,9 +106,8 @@ fn test_read_positive_air_body() {
     };
     let registry = AirFnRegistry::new(&read_positive);
     // Check entry
-    compare_test_json(
-        &registry,
-        &read_positive.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&read_positive.name()),
         &(TEST_JSONS_MEMORY_DIR.to_owned() + "read_positive.json"),
     );
 }

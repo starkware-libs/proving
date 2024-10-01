@@ -1,18 +1,13 @@
 use std::cell::RefCell;
 use std::collections::HashMap;
-use std::fs::File;
-use std::io;
-use std::io::{BufWriter, Write};
 use std::rc::Rc;
 
 use indexmap::IndexMap;
 use serde::Serialize;
-use serde_json::to_writer_pretty;
 
 use super::air_fn::*;
 use super::compiled_structs::*;
 use super::state::*;
-use super::utils::*;
 use super::variables::*;
 
 pub const INTERMEDIATE_VAR_PREFIX: &str = "tmp_";
@@ -174,29 +169,6 @@ impl AirFnRegistry {
         // Make sure that the output is a variable or a felt expression.
         let _output_felts = output.as_felts();
         (air_builder.air_body, input, output)
-    }
-
-    // TODO: move to utils.rs as dump_to_file<T>(value: &T, path: Option<&str>) where T: Serialize
-    // Dumps the registry to a file. If it gets an air_fn_name, it will only dump that air function entry.
-    // If there is no path given, it will dump to stdout.
-    pub fn dump_to_file(&self, air_fn_name: Option<&String>, path: Option<&str>) {
-        let mut writer: Box<dyn Write> = match path {
-            Some(p) => {
-                let file = File::create(project_root().join(p)).expect("Unable to create file");
-                Box::new(BufWriter::new(file)) // Write to file
-            }
-            None => {
-                Box::new(BufWriter::new(io::stdout())) // Write to stdout
-            }
-        };
-        if let Some(name) = air_fn_name {
-            to_writer_pretty(&mut writer, &self.get_air_fn_entry(name))
-                .expect("serialization failed");
-        } else {
-            to_writer_pretty(&mut writer, self).expect("serialization failed");
-        }
-        writer.flush().expect("flush failed");
-        writer.write_all(b"\n").expect("write failed");
     }
 
     pub(crate) fn get_air_fn_entry(&self, air_fn_name: &String) -> AirFnEntry {

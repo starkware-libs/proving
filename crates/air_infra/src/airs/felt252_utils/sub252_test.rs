@@ -15,9 +15,8 @@ fn test_sub252_air_body() {
     let registry = AirFnRegistry::new(&air_fn);
 
     // Check entry
-    compare_test_json(
-        &registry,
-        &air_fn.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&air_fn.name()),
         &(TEST_JSONS_FELT252_DIR.to_owned() + "sub252.json"),
     );
 }

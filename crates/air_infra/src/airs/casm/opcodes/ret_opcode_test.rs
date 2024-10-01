@@ -58,9 +58,8 @@ fn test_ret_opcode() {
     );
 
     // Check entry
-    compare_test_json(
-        &registry,
-        &func.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&func.name()),
         &(TEST_JSONS_OPCODES_DIR.to_owned() + "ret.json"),
     );
 }

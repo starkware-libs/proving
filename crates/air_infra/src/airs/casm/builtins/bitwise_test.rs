@@ -259,9 +259,8 @@ fn test_big_felt252_bitwise_builtin() {
     registry.run_air_with_row_number(&bitwise, (), 10);
 
     // Check entry
-    compare_test_json(
-        &registry,
-        &bitwise.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&bitwise.name()),
         &(TEST_JSONS_BUILTINS_DIR.to_owned() + "bitwise.json"),
     );
 }

@@ -27,9 +27,8 @@ fn test_verify_inst() {
     let registry = AirFnRegistry::new(&air_fn);
 
     // Check entry
-    compare_test_json(
-        &registry,
-        &air_fn.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&air_fn.name()),
         &(TEST_JSONS_DECODE_INSTRUCTION_DIR.to_owned() + "verify_inst.json"),
     );
 

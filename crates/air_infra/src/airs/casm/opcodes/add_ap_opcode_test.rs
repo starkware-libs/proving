@@ -72,9 +72,8 @@ fn test_add_ap_negative_imm() {
     );
 
     // Check entry
-    compare_test_json(
-        &registry,
-        &add_ap_opcode.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&add_ap_opcode.name()),
         &(TEST_JSONS_OPCODES_DIR.to_owned() + "add_ap_negative_imm.json"),
     );
 }
@@ -137,9 +136,8 @@ fn test_add_ap_deref_base_fp() {
     assert_eq!(state.calc(), expected_state);
 
     // Check entry
-    compare_test_json(
-        &registry,
-        &add_ap_opcode.name(),
+    compare_json(
+        &registry.get_air_fn_entry(&add_ap_opcode.name()),
         &(TEST_JSONS_OPCODES_DIR.to_owned() + "add_ap_deref_base_fp.json"),
     );
 }
