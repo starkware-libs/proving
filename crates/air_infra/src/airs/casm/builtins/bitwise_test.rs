@@ -8,12 +8,12 @@ use crate::core::expressions::felt_expr::*;
 use crate::utils::test_utils::*;
 
 //Macros
+use crate::const_expr;
 use crate::const_felt252_expr;
-use crate::expr;
 
 #[test]
 fn simple_test_bitwise_builtin() {
-    let instance_number = expr!("instance_number", 10);
+    let instance_number = const_expr!(10);
 
     let memory = Felt252IdMemory::new_with_data(vec![
         (
@@ -49,7 +49,7 @@ fn simple_test_bitwise_builtin() {
 #[test]
 #[should_panic(expected = "given value != value in memory")]
 fn simple_failed_test_bitwise_builtin() {
-    let instance_number = expr!("instance_number", 10);
+    let instance_number = const_expr!(10);
 
     let memory = Felt252IdMemory::new_with_data(vec![
         (
@@ -84,7 +84,7 @@ fn simple_failed_test_bitwise_builtin() {
 
 #[test]
 fn test_bitwise_builtin() {
-    let instance_number = expr!("instance_number", 10);
+    let instance_number = const_expr!(10);
 
     let memory = Felt252IdMemory::new_with_data(vec![
         (
@@ -120,7 +120,7 @@ fn test_bitwise_builtin() {
 #[test]
 #[should_panic(expected = "given value != value in memory")]
 fn test_failed_or_bitwise_builtin() {
-    let instance_number = expr!("instance_number", 27);
+    let instance_number = const_expr!(27);
 
     let memory = Felt252IdMemory::new_with_data(vec![
         (
@@ -156,7 +156,7 @@ fn test_failed_or_bitwise_builtin() {
 #[test]
 #[should_panic(expected = "given value != value in memory")]
 fn test_failed_xor_bitwise_builtin() {
-    let instance_number = expr!("instance_number", 10);
+    let instance_number = const_expr!(10);
 
     let memory = Felt252IdMemory::new_with_data(vec![
         (
@@ -192,7 +192,7 @@ fn test_failed_xor_bitwise_builtin() {
 #[test]
 #[should_panic(expected = "given value != value in memory")]
 fn test_failed_and_bitwise_builtin() {
-    let instance_number = expr!("instance_number", 10);
+    let instance_number = const_expr!(10);
 
     let memory = Felt252IdMemory::new_with_data(vec![
         (
@@ -227,7 +227,7 @@ fn test_failed_and_bitwise_builtin() {
 
 #[test]
 fn test_big_felt252_bitwise_builtin() {
-    let instance_number = expr!("instance_number", 10);
+    let instance_number = const_expr!(10);
     let memory = Felt252IdMemory::new_with_data(vec![
         (
             get_addr(instance_number.clone(), 0),

@@ -101,7 +101,6 @@ macro_rules! const_u32_expr {
 }
 
 #[cfg(test)]
-#[macro_export]
 macro_rules! u32_expr {
     ($name:expr, $val:expr) => {
         UInt32Expr::Var($crate::core::expressions::var_expr::VarExpr::new(
@@ -113,3 +112,5 @@ macro_rules! u32_expr {
         ))
     };
 }
+#[cfg(test)]
+pub(super) use u32_expr;

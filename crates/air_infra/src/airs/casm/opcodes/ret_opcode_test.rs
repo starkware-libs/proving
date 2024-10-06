@@ -12,7 +12,6 @@ use crate::utils::test_utils::*;
 
 use crate::const_expr;
 use crate::const_felt252_expr;
-use crate::expr;
 
 pub fn assemble_ret() -> u64 {
     let ret_off_0 = -2;
@@ -32,9 +31,9 @@ fn test_ret_opcode() {
     let saved_fp = 4;
     let saved_pc = 1;
 
-    let pc: FeltExpr = expr!("pc", pc_value);
-    let ap: FeltExpr = expr!("ap", ap_value);
-    let fp: FeltExpr = expr!("fp", fp_value);
+    let pc: FeltExpr = const_expr!(pc_value);
+    let ap: FeltExpr = const_expr!(ap_value);
+    let fp: FeltExpr = const_expr!(fp_value);
 
     // Fill memory
     let memory = Felt252IdMemory::new_with_data(vec![

@@ -4,7 +4,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
 
 // Macros
-use crate::expr;
+use crate::const_expr;
 
 #[test]
 fn test_bitwise_xor() {
@@ -12,7 +12,11 @@ fn test_bitwise_xor() {
     let registry = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
         &bitwise_xor,
-        [expr!("a", 0b1100), expr!("b", 0b1010), expr!("c", 0b0110)],
+        [
+            const_expr!(0b1100),
+            const_expr!(0b1010),
+            const_expr!(0b0110),
+        ],
     );
 }
 
@@ -23,7 +27,11 @@ fn test_falied_bitwise_xor() {
     let registry = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
         &bitwise_xor,
-        [expr!("a", 0b1111), expr!("b", 0b01101), expr!("c", 0b101)],
+        [
+            const_expr!(0b1111),
+            const_expr!(0b01101),
+            const_expr!(0b101),
+        ],
     );
 }
 
@@ -34,6 +42,10 @@ fn test_falied_big_input_xor() {
     let registry = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
         &bitwise_xor,
-        [expr!("a", 0b11001), expr!("b", 0b1010), expr!("c", 0b101)],
+        [
+            const_expr!(0b11001),
+            const_expr!(0b1010),
+            const_expr!(0b101),
+        ],
     );
 }

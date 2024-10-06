@@ -6,7 +6,7 @@ use super::expressions::felt252_expr::*;
 use super::expressions::felt_expr::*;
 use super::expressions::uint32_expr::*;
 use super::variables::*;
-use crate::{const_expr, const_u32_expr, expr, felt252_expr, u32_expr};
+use crate::{const_expr, const_felt252_expr, const_u32_expr};
 
 #[derive(Debug, InstDef)]
 struct AirFnWithIncorrectConstraint {}
@@ -32,7 +32,7 @@ impl AirFn for AirFnWithIncorrectConstraint {
 fn test_incompleteness() {
     let func = AirFnWithIncorrectConstraint {};
     let registry = AirFnRegistry::new(&func);
-    registry.run_air(&func, expr!("x", 1234));
+    registry.run_air(&func, const_expr!(1234));
 }
 
 #[derive(Debug, InstDef)]
@@ -59,7 +59,7 @@ fn test_uint32_deduce() {
     let func = AirFnWithUInt32 {};
     let registry = AirFnRegistry::new(&func);
 
-    let (_, out) = registry.run_air(&func, u32_expr!("x", 5));
+    let (_, out) = registry.run_air(&func, const_u32_expr!(5));
     assert!(out.in_state());
     assert!(out.calc() == "9");
 }
@@ -87,7 +87,7 @@ fn test_felt252_deduce() {
     let func = AirFnWithFelt252 {};
     let registry = AirFnRegistry::new(&func);
 
-    let (_, out) = registry.run_air(&func, felt252_expr!("x", 5, 0));
+    let (_, out) = registry.run_air(&func, const_felt252_expr!(5, 0));
     assert!(out.in_state());
     assert!(out.calc() == "5");
 }

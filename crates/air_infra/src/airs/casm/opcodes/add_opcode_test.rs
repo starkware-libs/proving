@@ -13,7 +13,6 @@ use crate::utils::test_utils::*;
 // Macros
 use crate::const_expr;
 use crate::const_felt252_expr;
-use crate::expr;
 
 // TODO: Support testing with negative dst/op0/op1, and add such test(s)
 fn test_add_opcode(
@@ -46,9 +45,9 @@ fn test_add_opcode(
     let ap_value = 50;
     let fp_value = 100;
 
-    let pc = expr!("pc", pc_value);
-    let ap = expr!("ap", ap_value);
-    let fp = expr!("fp", fp_value);
+    let pc = const_expr!(pc_value);
+    let ap = const_expr!(ap_value);
+    let fp = const_expr!(fp_value);
 
     // Cretae the non-constant flags
     let non_consts_flags = if flag_op1_imm {

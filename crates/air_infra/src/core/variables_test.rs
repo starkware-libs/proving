@@ -6,7 +6,7 @@ use super::variables::*;
 use crate::core::compiled_structs::*;
 
 // Macros
-use crate::{bool_expr, expr};
+use crate::bool_expr;
 
 #[test]
 fn test_expr_array() {

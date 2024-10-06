@@ -12,7 +12,6 @@ use crate::utils::test_utils::*;
 
 use crate::const_expr;
 use crate::const_felt252_expr;
-use crate::expr;
 
 fn build_and_test(
     [is_taken, dst_base_fp, ap_update_add_1]: [bool; 3],
@@ -24,9 +23,9 @@ fn build_and_test(
 ) {
     let [pc_value, ap_value, fp_value] = [50, 200, 150];
     let [pc, ap, fp] = [
-        expr!("pc", pc_value),
-        expr!("ap", ap_value),
-        expr!("fp", fp_value),
+        const_expr!(pc_value),
+        const_expr!(ap_value),
+        const_expr!(fp_value),
     ];
 
     let mut jnz_opcode = JnzOpcode {

@@ -12,8 +12,8 @@ use super::uint64_expr::*;
 
 // Macros
 use crate::{
-    bigu256_expr, bool_expr, const_bigu256_expr, const_bigu512_expr, const_expr,
-    const_felt252_expr, const_u32_expr, const_u64_expr, expr, felt252_expr, u32_expr, u64_expr,
+    bool_expr, const_bigu256_expr, const_bigu512_expr, const_expr, const_felt252_expr,
+    const_u32_expr, const_u64_expr,
 };
 
 #[test]

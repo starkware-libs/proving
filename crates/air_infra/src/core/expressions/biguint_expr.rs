@@ -124,7 +124,6 @@ macro_rules! const_bigu512_expr {
 }
 
 #[cfg(test)]
-#[macro_export]
 macro_rules! bigu256_expr {
     ($name:expr, $limb0:expr, $limb1:expr, $limb2:expr, $limb3:expr) => {
         BigUIntExpr::<256, 4>::Var($crate::core::expressions::var_expr::VarExpr::new(
@@ -138,19 +137,5 @@ macro_rules! bigu256_expr {
         ))
     };
 }
-
 #[cfg(test)]
-#[macro_export]
-macro_rules! bigu512_expr {
-    ($name:expr, $limb0:expr, $limb1:expr, $limb2:expr, $limb3:expr, $limb4:expr, $limb5:expr, $limb6:expr, $limb7:expr) => {
-        BigUIntExpr::<512, 8>::Var($crate::core::expressions::var_expr::VarExpr::new(
-            $name.to_string(),
-            Some($crate::core::prover_types::BigUInt::<512, 8>::from([
-                $limb0, $limb1, $limb2, $limb3, $limb4, $limb5, $limb6, $limb7,
-            ])),
-            false,
-            false,
-            None,
-        ))
-    };
-}
+pub(super) use bigu256_expr;

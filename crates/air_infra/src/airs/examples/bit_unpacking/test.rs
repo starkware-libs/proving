@@ -13,14 +13,14 @@ use crate::utils::test_utils::*;
 
 // Macros
 use crate::const_expr;
-use crate::u16_expr;
+use crate::const_u16_expr;
 
 #[test]
 fn test_bit_unpacking() {
     let func = BitUnpack::<4> {};
     let registry = AirFnRegistry::new(&func);
 
-    let (state, output) = registry.run_air(&func, u16_expr!("x", 10));
+    let (state, output) = registry.run_air(&func, const_u16_expr!(10));
     assert_eq!(state.calc(), ["10", "5", "2", "1", "0"]);
     assert!(
         output.iter().map(|x| x.calc()).collect::<Vec<String>>()
@@ -58,7 +58,7 @@ impl AirFn for AirFnBitMux {
 fn test_bit_mux() {
     let func = AirFnBitMux {};
     let registry = AirFnRegistry::new(&func);
-    let (_, out) = registry.run_air(&func, u16_expr!("x", 2));
+    let (_, out) = registry.run_air(&func, const_u16_expr!(2));
     assert!(out.calc() == "false");
 
     // Check entry

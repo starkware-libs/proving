@@ -101,7 +101,6 @@ macro_rules! const_u64_expr {
 }
 
 #[cfg(test)]
-#[macro_export]
 macro_rules! u64_expr {
     ($name:expr, $val:expr) => {
         UInt64Expr::Var($crate::core::expressions::var_expr::VarExpr::new(
@@ -113,3 +112,5 @@ macro_rules! u64_expr {
         ))
     };
 }
+#[cfg(test)]
+pub(super) use u64_expr;

@@ -8,7 +8,7 @@ use crate::core::expressions::felt_expr::*;
 use crate::utils::test_utils::*;
 
 // Macros
-use crate::expr;
+use crate::const_expr;
 
 #[derive(Debug, InstDef)]
 struct SmallAdd {}
@@ -56,8 +56,8 @@ fn test_rc_small_add() {
 fn test_range_check_runtime_failure() {
     let air_fn = SmallAdd {};
     let registry = AirFnRegistry::new(&air_fn);
-    let a = expr!("a", 40000);
-    let b = expr!("b", 40000);
+    let a = const_expr!(40000);
+    let b = const_expr!(40000);
     registry.run_air(&air_fn, [a, b]);
 }
 
@@ -65,8 +65,8 @@ fn test_range_check_runtime_failure() {
 fn test_range_check_runtime_success() {
     let air_fn = SmallAdd {};
     let registry = AirFnRegistry::new(&air_fn);
-    let a = expr!("a", 20000);
-    let b = expr!("b", 20000);
+    let a = const_expr!(20000);
+    let b = const_expr!(20000);
     registry.run_air(&air_fn, [a, b]);
 }
 
@@ -74,7 +74,10 @@ fn test_range_check_runtime_success() {
 fn test_range_check_vector() {
     let range_check_vector = RangeCheck { bits: [2, 5] };
     let registry = AirFnRegistry::new(&range_check_vector);
-    registry.run_air(&range_check_vector, [expr!("a", 0b11), expr!("b", 0b11111)]);
+    registry.run_air(
+        &range_check_vector,
+        [const_expr!(0b11), const_expr!(0b11111)],
+    );
 }
 
 #[test]
@@ -84,7 +87,7 @@ fn test_failed_range_check_first_element() {
     let registry = AirFnRegistry::new(&range_check_vector);
     registry.run_air(
         &range_check_vector,
-        [expr!("a", 0b100), expr!("b", 0b11111)],
+        [const_expr!(0b100), const_expr!(0b11111)],
     );
 }
 
@@ -95,7 +98,7 @@ fn test_failed_range_check_second_element() {
     let registry = AirFnRegistry::new(&range_check_vector);
     registry.run_air(
         &range_check_vector,
-        [expr!("a", 0b11), expr!("b", 0b100000)],
+        [const_expr!(0b11), const_expr!(0b100000)],
     );
 }
 
@@ -106,6 +109,6 @@ fn test_failed_range_check_vector_size() {
     let registry = AirFnRegistry::new(&range_check_vector);
     registry.run_air(
         &range_check_vector,
-        [expr!("a", 0b11), expr!("b", 0b100000)],
+        [const_expr!(0b11), const_expr!(0b100000)],
     );
 }

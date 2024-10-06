@@ -79,17 +79,3 @@ macro_rules! const_u16_expr {
         ))
     };
 }
-
-#[cfg(test)]
-#[macro_export]
-macro_rules! u16_expr {
-    ($name:expr, $val:expr) => {
-        UInt16Expr::Var($crate::core::expressions::var_expr::VarExpr::new(
-            $name.to_string(),
-            Some($crate::core::prover_types::UInt16::from($val)),
-            false,
-            false,
-            None,
-        ))
-    };
-}

@@ -94,7 +94,6 @@ macro_rules! const_expr {
 }
 
 #[cfg(test)]
-#[macro_export]
 macro_rules! expr {
     ($name:expr, $val:expr) => {
         FeltExpr::Var($crate::core::expressions::var_expr::VarExpr::new(
@@ -106,3 +105,5 @@ macro_rules! expr {
         ))
     };
 }
+#[cfg(test)]
+pub(in crate::core) use expr;

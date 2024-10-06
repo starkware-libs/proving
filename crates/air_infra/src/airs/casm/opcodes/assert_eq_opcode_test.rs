@@ -14,7 +14,6 @@ use crate::utils::test_utils::*;
 // Macros
 use crate::const_expr;
 use crate::const_felt252_expr;
-use crate::expr;
 
 // [fp + offset] == [ap + offset]
 #[test]
@@ -151,9 +150,9 @@ fn test_assert_equal(
     let pc_value = 3;
     let ap_value = 11;
     let fp_value = 6;
-    let pc = expr!("pc", pc_value);
-    let ap = expr!("ap", ap_value);
-    let fp = expr!("fp", fp_value);
+    let pc = const_expr!(pc_value);
+    let ap = const_expr!(ap_value);
+    let fp = const_expr!(fp_value);
 
     // Create the non-constant flags
     let non_consts_flags = if flag_op1_imm {

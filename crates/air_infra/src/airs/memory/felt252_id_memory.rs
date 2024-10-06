@@ -14,9 +14,6 @@ use crate::core::variables::*;
 #[cfg(test)]
 use crate::core::Felt;
 
-#[cfg(test)]
-use crate::expr;
-
 use crate::const_expr;
 
 use super::felt252_id_memory_read_positive::*;
@@ -54,7 +51,7 @@ impl Felt252IdMemory {
 
             // Set ID in address_to_id memory
             let felt252_id = value_to_id.get(&limbs).unwrap();
-            result.address_to_id.set(addr, expr!("id", *felt252_id));
+            result.address_to_id.set(addr, const_expr!(*felt252_id));
         }
 
         result
