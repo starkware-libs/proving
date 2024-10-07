@@ -58,6 +58,58 @@ impl AirFn for CondDecodeSmallSign {
     }
 }
 
+// Receives a Felt252 and its sign bits, and returns it as a relative immediate felt.
+pub fn small_to_rel_imm(
+    low_limbs: [FeltExpr; LIMBS_IN_M31],
+    msb: FeltExpr,
+    mid_limbs_set: FeltExpr,
+) -> FeltExpr {
+    let mut low_limbs_value = low_limbs[0].clone();
+
+    for (i, limb) in low_limbs.into_iter().enumerate().skip(1) {
+        low_limbs_value = limb * const_expr!(1 << (i * FELT252_BITS_PER_WORD)) + low_limbs_value;
+    }
+
+    low_limbs_value - msb - const_expr!(1 << (LIMBS_IN_M31 * FELT252_BITS_PER_WORD)) * mid_limbs_set
+}
+
+// Receives sign bits and 3 low limbs, and returns a `felt252` that represents this relative immediate.
+pub fn small_to_felt252(
+    low_limbs: [FeltExpr; LIMBS_IN_M31],
+    msb: FeltExpr,
+    mid_limbs_set: FeltExpr,
+) -> Felt252Expr {
+    let msb_limb = msb.clone() * const_expr!(0x100);
+    let mid_limb_value = mid_limbs_set.clone() * const_expr!(0x1ff);
+
+    // Represent the limbs of the full value as linear combinations of the input felts.
+    let mut full_value_limbs = vec![];
+
+    // Least significant three stay as-is
+    full_value_limbs.append(low_limbs.to_vec().as_mut());
+
+    // Limbs 3-20 are all 0x0 or all 0x1ff
+    for _ in LIMBS_IN_M31..21 {
+        full_value_limbs.push(mid_limb_value.clone());
+    }
+
+    // Limb 21 is:
+    // 0x0 if the MSB is not set (this also implies that limbs 3-20 are zero)
+    // 0x88 if the MSB is set and limbs 3-20 are zero
+    // 0x87 if the MSB is set and limbs 3-20 are 0x1ff
+    full_value_limbs.push(const_expr!(0x88) * msb - mid_limbs_set);
+
+    // Limbs 22-26 are always zero
+    for _ in 22..27 {
+        full_value_limbs.push(const_expr!(0));
+    }
+
+    // Limb 27 is the most significant limb
+    full_value_limbs.push(msb_limb);
+
+    full_value_limbs.into()
+}
+
 #[derive(Debug, InstDef)]
 pub struct ReadSmall {
     #[instdef(skip)]
@@ -81,51 +133,22 @@ impl AirFn for ReadSmall {
         let [msb, mid_limbs_set] =
             air_builder.call(&CondDecodeSmallSign {}, (value.clone(), const_expr!(1)));
 
-        let msb_limb = msb.clone() * const_expr!(0x100);
-        let mid_limb_value = mid_limbs_set.clone() * const_expr!(0x1ff);
-
-        // Represent the limbs of the full in-memory value as linear combinations of the felts
-        // we deduced to trace.
-        let mut full_value_limbs = vec![];
-
         // Least significant three are deduced as-is
+        let mut low_value_limbs = vec![];
         for i in 0..LIMBS_IN_M31 {
-            full_value_limbs.push(air_builder.deduce(value.get_felt_mut(i)));
+            low_value_limbs.push(air_builder.deduce(value.get_felt_mut(i)));
         }
-
-        // Limbs 3-20 are all 0x0 or all 0x1ff
-        for _ in LIMBS_IN_M31..21 {
-            full_value_limbs.push(mid_limb_value.clone());
-        }
-
-        // Limb 21 is:
-        // 0x0 if the MSB is not set (this also implies that limbs 3-20 are zero)
-        // 0x88 if the MSB is set and limbs 3-20 are zero
-        // 0x87 if the MSB is set and limbs 3-20 are 0x1ff
-        full_value_limbs.push(const_expr!(0x88) * msb.clone() - mid_limbs_set.clone());
-
-        // Limbs 22-26 are always zero
-        for _ in 22..27 {
-            full_value_limbs.push(const_expr!(0));
-        }
-
-        // Limb 27 is the most significant limb
-        full_value_limbs.push(msb_limb);
+        let low_limbs_arr: [FeltExpr; LIMBS_IN_M31] = low_value_limbs
+            .try_into()
+            .expect("Incorrect size for the low value");
 
         // Verify that the value in memory is the one we expect
-        air_builder.mem_verify(&self.memory.id_to_value, &id, full_value_limbs.into());
+        air_builder.mem_verify(
+            &self.memory.id_to_value,
+            &id,
+            small_to_felt252(low_limbs_arr.clone(), msb.clone(), mid_limbs_set.clone()),
+        );
 
-        let mut low_limbs_value = value.get_felt(0).clone();
-        for i in 1..LIMBS_IN_M31 {
-            low_limbs_value =
-                value.get_felt(i) * const_expr!(1 << (i * FELT252_BITS_PER_WORD)) + low_limbs_value;
-        }
-
-        (
-            low_limbs_value
-                - msb
-                - const_expr!(1 << (LIMBS_IN_M31 * FELT252_BITS_PER_WORD)) * mid_limbs_set,
-            id,
-        )
+        (small_to_rel_imm(low_limbs_arr, msb, mid_limbs_set), id)
     }
 }
