@@ -4,6 +4,7 @@ use super::felt252_id_memory::*;
 
 use crate::airs::casm::common::*;
 use crate::core::air_fn::*;
+use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::prover_types::*;
 
@@ -13,12 +14,6 @@ use crate::const_expr;
 // The number of limbs that fit in an M31. When reading a "small" value into an M31
 // we'll deduce that many limbs.
 const LIMBS_IN_M31: usize = 3;
-
-#[derive(Debug, InstDef)]
-pub struct ReadSmall {
-    #[instdef(skip)]
-    pub memory: Felt252IdMemory,
-}
 
 // 9-bit limbs
 //  limb ->   27  26  25  24  23  22  21  20  19 ...   5   4   3   2   1   0
@@ -32,6 +27,42 @@ pub struct ReadSmall {
 // -1      0x100 000 000 000 000 000 088 000 000 ... 000 000 000 000 000 000
 // -2      0x100 000 000 000 000 000 087 1ff 1ff ... 1ff 1ff 1ff 1ff 1ff 1ff
 // -3      0x100 000 000 000 000 000 087 1ff 1ff ... 1ff 1ff 1ff 1ff 1ff 1fe
+
+/// Receives a felt252, deduces, and conditionally constrains its sign bits as a relative-immediate
+/// (the "case" bits: msb and mid_limbs_set).
+/// Returns the deduced sign bits.
+#[derive(Clone, Debug, InstDef)]
+pub struct CondDecodeSmallSign {}
+
+impl AirFn for CondDecodeSmallSign {
+    type In = (Felt252Expr, FeltExpr);
+    type Out = [FeltExpr; 2];
+
+    fn call(&self, air_builder: &mut AirBuilder, (value, condition): Self::In) -> Self::Out {
+        let mut msb_bool = air_builder.let_for_deduction(value.get_felt(27).eq(const_expr!(0x100)));
+        let msb = air_builder.deduce(msb_bool.as_felt_mut());
+        let mut mid_limbs_set_bool =
+            air_builder.let_for_deduction(value.get_felt(20).eq(const_expr!(0x1ff)));
+        let mid_limbs_set = air_builder.deduce(mid_limbs_set_bool.as_felt_mut());
+
+        // Require case bits to be bits
+        air_builder.constrain(condition.clone() * msb.clone() * (msb.clone() - const_expr!(1)));
+        air_builder.constrain(
+            condition.clone() * mid_limbs_set.clone() * (mid_limbs_set.clone() - const_expr!(1)),
+        );
+
+        // Forbid the case msb = 0, mid_limbs_set = 1
+        air_builder.constrain(condition * mid_limbs_set.clone() * (msb.clone() - const_expr!(1)));
+
+        [msb, mid_limbs_set]
+    }
+}
+
+#[derive(Debug, InstDef)]
+pub struct ReadSmall {
+    #[instdef(skip)]
+    pub memory: Felt252IdMemory,
+}
 
 /// Read a Felt252 that has a small magnitude into a Felt. The allowed range
 /// for the Felt252 is [-2**27, 2**27 - 1] (for 9-bit limbs).
@@ -47,18 +78,8 @@ impl AirFn for ReadSmall {
         let mut value = air_builder.mem_read_unverified(&self.memory.id_to_value, &id);
 
         // Compute and deduce "case" bits: msb and mid_limbs_set
-        let mut msb_bool = air_builder.let_for_deduction(value.get_felt(27).eq(const_expr!(0x100)));
-        let msb = air_builder.deduce(msb_bool.as_felt_mut());
-        let mut mid_limbs_set_bool =
-            air_builder.let_for_deduction(value.get_felt(20).eq(const_expr!(0x1ff)));
-        let mid_limbs_set = air_builder.deduce(mid_limbs_set_bool.as_felt_mut());
-
-        // Require case bits to be bits
-        air_builder.constrain(msb.clone() * (msb.clone() - const_expr!(1)));
-        air_builder.constrain(mid_limbs_set.clone() * (mid_limbs_set.clone() - const_expr!(1)));
-
-        // Forbid the case msb = 0, mid_limbs_set = 1
-        air_builder.constrain(mid_limbs_set.clone() * (msb.clone() - const_expr!(1)));
+        let [msb, mid_limbs_set] =
+            air_builder.call(&CondDecodeSmallSign {}, (value.clone(), const_expr!(1)));
 
         let msb_limb = msb.clone() * const_expr!(0x100);
         let mid_limb_value = mid_limbs_set.clone() * const_expr!(0x1ff);
@@ -102,8 +123,8 @@ impl AirFn for ReadSmall {
 
         (
             low_limbs_value
-                - msb.clone()
-                - const_expr!(1 << (LIMBS_IN_M31 * FELT252_BITS_PER_WORD)) * mid_limbs_set.clone(),
+                - msb
+                - const_expr!(1 << (LIMBS_IN_M31 * FELT252_BITS_PER_WORD)) * mid_limbs_set,
             id,
         )
     }

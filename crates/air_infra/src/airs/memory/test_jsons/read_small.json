@@ -54,45 +54,30 @@
       }
     },
     {
-      "Intermediate": [
-        "tmp_4",
-        {
-          "name": "tmp_3.get_m31(const_27).eq(const_256)",
-          "type": "Bool"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": "tmp_4.as_m31()"
-    },
-    {
-      "Intermediate": [
-        "tmp_5",
-        {
-          "name": "tmp_3.get_m31(const_20).eq(const_511)",
-          "type": "Bool"
-        },
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
-      "Deduction": "tmp_5.as_m31()"
-    },
-    {
-      "Constraint": "(state[1] * (state[1] - const_1))"
-    },
-    {
-      "Constraint": "(state[2] * (state[2] - const_1))"
-    },
-    {
-      "Constraint": "(state[2] * (state[1] - const_1))"
+      "Call": {
+        "air_fn_name": "CondDecodeSmallSign",
+        "air_fn_description": "CondDecodeSmallSign",
+        "input_arg": [
+          {
+            "name": "tmp_3",
+            "type": "Felt252"
+          },
+          {
+            "name": "const_1",
+            "type": "M31"
+          }
+        ],
+        "output": [
+          {
+            "name": "state[1]",
+            "type": "M31"
+          },
+          {
+            "name": "state[2]",
+            "type": "M31"
+          }
+        ]
+      }
     },
     {
       "Deduction": "tmp_3.get_m31(const_0)"
