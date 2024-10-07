@@ -154,7 +154,7 @@ fn test_add_ap_deref_base_fp() {
     );
 
     // Check the output
-    assert_eq!(next_state.pc.calc(), (pc + 2).to_string());
+    assert_eq!(next_state.pc.calc(), (pc + 1).to_string());
     assert_eq!(next_state.fp.calc(), (fp).to_string());
     assert_eq!(next_state.ap.calc(), (ap + op1 as u32).to_string());
 
