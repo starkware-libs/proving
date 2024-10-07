@@ -78,6 +78,16 @@ impl Felt252IdMemory {
             .0
     }
 
+    pub fn felt252_to_addr(value: Felt252Expr) -> FeltExpr {
+        let mut result = value.get_felt(0);
+
+        for i in 1..(ADDRESS_BITS.div_ceil(FELT252_BITS_PER_WORD)) {
+            result = result + value.get_felt(i) * const_expr!(1 << (FELT252_BITS_PER_WORD * i));
+        }
+
+        result
+    }
+
     pub fn read_address(&self, air_builder: &mut AirBuilder, address: FeltExpr) -> FeltExpr {
         let (address_f252, _) = air_builder.call(
             &ReadPositive {
@@ -87,13 +97,6 @@ impl Felt252IdMemory {
             address,
         );
 
-        let mut result = address_f252.get_felt(0);
-
-        for i in 1..(ADDRESS_BITS.div_ceil(FELT252_BITS_PER_WORD)) {
-            result =
-                result + address_f252.get_felt(i) * const_expr!(1 << (FELT252_BITS_PER_WORD * i));
-        }
-
-        result
+        Self::felt252_to_addr(address_f252)
     }
 }
