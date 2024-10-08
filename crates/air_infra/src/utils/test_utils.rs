@@ -7,7 +7,6 @@ use crate::core::utils::dump_to_file;
 pub const TEST_JSONS_DECODE_INSTRUCTION_DIR: &str = "src/airs/casm/decode_instruction/test_jsons/";
 pub const TEST_JSONS_OPCODES_DIR: &str = "src/airs/casm/opcodes/test_jsons/";
 pub const TEST_JSONS_BUILTINS_DIR: &str = "src/airs/casm/builtins/test_jsons/";
-pub const TEST_JSONS_CONST_TABLES_DIR: &str = "src/airs/casm/const_tables/test_jsons/";
 pub const TEST_JSONS_EXAMPLES_DIR: &str = "src/airs/examples/test_jsons/";
 pub const TEST_JSONS_FELT252_DIR: &str = "src/airs/felt252_utils/test_jsons/";
 pub const TEST_JSONS_MEMORY_DIR: &str = "src/airs/memory/test_jsons/";

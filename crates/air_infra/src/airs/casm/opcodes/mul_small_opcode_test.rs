@@ -3,7 +3,6 @@ use super::super::common::*;
 use super::mul_small_opcode::*;
 
 use crate::airs::memory::felt252_id_memory::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -14,13 +13,41 @@ use crate::utils::test_utils::*;
 use crate::const_expr;
 use crate::const_felt252_expr;
 
+#[test]
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&MulSmallOpcode {
+        is_imm: true,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&MulSmallOpcode {
+        is_imm: false,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+}
+
 fn test_mul_small(
     non_consts_flags: [bool; 6],
     offset_values: [i16; 3],
     dst: u32,
     op0: u32,
     op1: u32,
-    entry_file_name: Option<&str>,
     expected_state: Vec<u32>,
 ) {
     // Read the non-constant flags
@@ -117,7 +144,7 @@ fn test_mul_small(
 
     // Run air function
 
-    let registry = AirFnRegistry::new(&mul_small_opcode);
+    let (registry, _) = AirFnRegistry::new(&mul_small_opcode);
     let (state, next_state) = registry.run_air(
         &mul_small_opcode,
         CasmStateVar::new(pc.clone(), ap.clone(), fp.clone()),
@@ -143,14 +170,6 @@ fn test_mul_small(
             .map(|x| x.to_string())
             .collect::<Vec<String>>()
     );
-
-    // Check entry
-    if let Some(entry_file_name) = entry_file_name {
-        compare_json(
-            &registry.get_air_fn_entry(&mul_small_opcode.name()),
-            &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
-        );
-    }
 }
 
 #[test]
@@ -161,7 +180,6 @@ fn test_mul_small_not_imm() {
         1042584088,
         32123,
         32456,
-        Some("mul_small_not_imm.json"),
         vec![
             10, 50, 100, 32771, 32773, 32775, 1, 0, 0, 1, 0, 1, 24, 73, 393, 7, 2, 379, 62, 3, 200,
             63,
@@ -178,7 +196,6 @@ fn test_mul_small_not_equal() {
         1042584088,
         32123,
         32457,
-        None,
         vec![],
     );
 }
@@ -192,7 +209,6 @@ fn test_mul_small_over_15bit() {
         32768,
         32768,
         1,
-        None,
         vec![],
     );
 }
@@ -205,7 +221,6 @@ fn test_mul_small_imm() {
         56,
         7,
         8,
-        Some("mul_small_imm.json"),
         vec![
             10, 50, 100, 32765, 32763, 1, 0, 0, 1, 56, 0, 0, 0, 2, 7, 0, 3, 8, 0,
         ],

@@ -42,7 +42,7 @@ fn test_memory_air_fn() {
     memory.set(k.clone(), const_felt252_expr!(3, 0));
     func.memory = memory.clone();
 
-    let registry = AirFnRegistry::new(&func);
+    let (registry, _) = AirFnRegistry::new(&func);
     let (_state, v) = registry.run_air(&func, k.clone());
     assert_eq!(v.calc(), "3".to_string());
 

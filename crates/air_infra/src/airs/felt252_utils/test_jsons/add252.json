@@ -4,11 +4,11 @@
   "inst_def": {},
   "input": [
     {
-      "name": "Add252_input[0]",
+      "name": "add252_input[0]",
       "type": "Felt252"
     },
     {
-      "name": "Add252_input[1]",
+      "name": "add252_input[1]",
       "type": "Felt252"
     }
   ],
@@ -24,7 +24,7 @@
       "Intermediate": [
         "tmp_0",
         {
-          "name": "(Add252_input[0] + Add252_input[1])",
+          "name": "(add252_input[0] + add252_input[1])",
           "type": "Felt252"
         },
         {
@@ -683,11 +683,11 @@
         "air_fn_description": "VerifyAdd252",
         "input_arg": [
           {
-            "name": "Add252_input[0]",
+            "name": "add252_input[0]",
             "type": "Felt252"
           },
           {
-            "name": "Add252_input[1]",
+            "name": "add252_input[1]",
             "type": "Felt252"
           },
           {

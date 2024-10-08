@@ -30,7 +30,10 @@ pub struct CallOpcode {
 impl CallOpcode {
     pub fn get_flags(&self) -> Flags {
         let flag_op1_base_ap = if self.is_rel {
-            assert!(!self.op1_base_fp);
+            assert!(
+                !self.op1_base_fp,
+                "Flag op1_base_fp cannot be set for relative calls."
+            );
             false
         } else {
             !self.op1_base_fp

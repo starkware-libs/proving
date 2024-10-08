@@ -1,6 +1,5 @@
 use super::add252::*;
 
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
@@ -10,21 +9,22 @@ use crate::utils::test_utils::*;
 use crate::const_felt252_expr;
 
 #[test]
-fn test_add252_air_body() {
-    let air_fn = Add252 {};
-    let registry = AirFnRegistry::new(&air_fn);
-
-    // Check entry
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&Add252 {});
     compare_json(
-        &registry.get_air_fn_entry(&air_fn.name()),
-        &(TEST_JSONS_FELT252_DIR.to_owned() + "add252.json"),
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_FELT252_DIR,
+            entry.name.to_lowercase()
+        ),
     );
 }
 
 #[test]
 fn test_add252_no_overflow() {
     let air_fn = Add252 {};
-    let registry = AirFnRegistry::new(&air_fn);
+    let (registry, _) = AirFnRegistry::new(&air_fn);
 
     let (state, output) = registry.run_air(
         &air_fn,
@@ -47,7 +47,7 @@ fn test_add252_no_overflow() {
 #[test]
 fn test_add252_with_overflow() {
     let air_fn = Add252 {};
-    let registry = AirFnRegistry::new(&air_fn);
+    let (registry, _) = AirFnRegistry::new(&air_fn);
     let (state, output) = registry.run_air(
         &air_fn,
         [

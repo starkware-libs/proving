@@ -14,16 +14,16 @@ pub const INTERMEDIATE_VAR_PREFIX: &str = "tmp_";
 
 // AirFnEntry describes everything we know about an Air function.
 #[derive(Debug, Clone, Serialize)]
-pub(crate) struct AirFnEntry {
-    pub name: String,
-    pub description: String,
-    pub inst_def: IndexMap<String, String>,
-    pub input: AirVarImpl,
-    pub input_num_of_felts: usize,
-    pub output: AirVarImpl,
-    pub output_num_of_felts: usize,
-    pub trace_type: TraceType,
-    pub air_body: Vec<AirBodyComponent>,
+pub struct AirFnEntry {
+    pub(crate) name: String,
+    pub(crate) description: String,
+    pub(crate) inst_def: IndexMap<String, String>,
+    pub(crate) input: AirVarImpl,
+    pub(crate) input_num_of_felts: usize,
+    pub(crate) output: AirVarImpl,
+    pub(crate) output_num_of_felts: usize,
+    pub(crate) trace_type: TraceType,
+    pub(crate) air_body: Vec<AirBodyComponent>,
 }
 
 // AirFnRegistry is created for a specific air function. It keeps all the air function entries
@@ -44,14 +44,14 @@ impl AirFnRegistry {
     }
 
     // TODO: leave for tests only
-    pub fn new<I, O>(air_fn: &dyn AirFn<In = I, Out = O>) -> Self
+    pub fn new<I, O>(air_fn: &dyn AirFn<In = I, Out = O>) -> (Self, AirFnEntry)
     where
         I: AirVar,
         O: AirVar,
     {
         let mut registry = Self::new_empty();
-        registry.add_entry(air_fn);
-        registry
+        let entry = registry.add_entry(air_fn);
+        (registry, entry)
     }
 
     pub(crate) fn add_entry<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>) -> AirFnEntry
@@ -139,7 +139,7 @@ impl AirFnRegistry {
         I: AirVar,
         O: AirVar,
     {
-        let input = I::new(format!("{}_input", air_fn.name()));
+        let input = I::new(format!("{}_input", air_fn.name().to_lowercase()));
         let mut air_builder = AirBuilder {
             state: State::default(),
             air_body: vec![],
@@ -171,17 +171,15 @@ impl AirFnRegistry {
         (air_builder.air_body, input, output)
     }
 
-    pub(crate) fn get_air_fn_entry(&self, air_fn_name: &String) -> AirFnEntry {
-        self.air_fns
+    pub fn get_compiled_air_fn(&self, air_fn_name: &String) -> CompiledAirFn {
+        let entry = self
+            .air_fns
             .borrow()
             .get(air_fn_name)
             .unwrap_or_else(|| panic!("Air function {} not found", air_fn_name))
-            .clone()
-    }
-
-    pub fn get_compiled_air_fn(&self, air_fn_name: &String) -> CompiledAirFn {
-        let entry = self.get_air_fn_entry(air_fn_name);
+            .clone();
         let (deductions, constraints) = Self::compile_air_fn(entry.air_body);
+
         CompiledAirFn {
             name: air_fn_name.clone(),
             description: entry.description,

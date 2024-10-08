@@ -41,7 +41,7 @@ pub fn reformat_rust_code_inner(code_text: String) -> String {
 
 // Generates the prover & verifier code.
 pub fn dump_component_code(air_fn: &impl AirFn, folder_path: &Path) {
-    let registry = AirFnRegistry::new(air_fn);
+    let (registry, _) = AirFnRegistry::new(air_fn);
 
     let lists = registry.get_compiled_air_fn(&air_fn.name());
     let claim_provers = generate_simd_claim_provers(&lists);

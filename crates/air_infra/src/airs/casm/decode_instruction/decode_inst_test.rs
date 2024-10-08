@@ -2,7 +2,6 @@ use super::super::common::*;
 use super::decode_inst::*;
 
 use crate::airs::memory::felt252_id_memory::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -19,7 +18,6 @@ fn test_with_matching_memory(
     is_flag_const: [bool; 15],
     offsets: [i16; 3],
     is_offset_const: [bool; 3],
-    entry_file_name: Option<&str>,
     expected_state: Vec<u32>,
 ) {
     let const_offsets = offsets
@@ -56,16 +54,18 @@ fn test_with_matching_memory(
         memory,
     };
 
-    let registry = AirFnRegistry::new(&air_fn);
+    let (registry, entry) = AirFnRegistry::new(&air_fn);
     let (state, (offsets_output, flags_output)) = registry.run_air(&air_fn, pc);
 
     // Check entry
-    if let Some(entry_file_name) = entry_file_name {
-        compare_json(
-            &registry.get_air_fn_entry(&air_fn.name()),
-            &(TEST_JSONS_DECODE_INSTRUCTION_DIR.to_owned() + entry_file_name),
-        );
-    }
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_DECODE_INSTRUCTION_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
 
     assert_eq!(
         state.calc(),
@@ -119,7 +119,6 @@ fn test_no_consts() {
         is_flag_const,
         offsets,
         is_offset_const,
-        Some("decode_inst_no_consts.json"),
         vec![
             49953, 30875, 36026, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1,
         ],
@@ -132,14 +131,7 @@ fn test_all_consts() {
     let is_offset_const = [true; 3];
     let is_flag_const = [true; 15];
 
-    test_with_matching_memory(
-        flags,
-        is_flag_const,
-        offsets,
-        is_offset_const,
-        Some("decode_inst_all_consts.json"),
-        vec![],
-    );
+    test_with_matching_memory(flags, is_flag_const, offsets, is_offset_const, vec![]);
 }
 
 #[test]
@@ -155,7 +147,6 @@ fn test_some_consts() {
         is_flag_const,
         offsets,
         is_offset_const,
-        Some("decode_inst_some_consts.json"),
         vec![30875, 0, 0],
     );
 }

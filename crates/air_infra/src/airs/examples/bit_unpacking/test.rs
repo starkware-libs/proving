@@ -18,7 +18,7 @@ use crate::const_u16_expr;
 #[test]
 fn test_bit_unpacking() {
     let func = BitUnpack::<4> {};
-    let registry = AirFnRegistry::new(&func);
+    let (registry, entry) = AirFnRegistry::new(&func);
 
     let (state, output) = registry.run_air(&func, const_u16_expr!(10));
     assert_eq!(state.calc(), ["10", "5", "2", "1", "0"]);
@@ -29,8 +29,12 @@ fn test_bit_unpacking() {
 
     // Check entry
     compare_json(
-        &registry.get_air_fn_entry(&func.name()),
-        &(TEST_JSONS_EXAMPLES_DIR.to_owned() + "bit_unpacking.json"),
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_EXAMPLES_DIR,
+            entry.name.to_lowercase()
+        ),
     );
 }
 
@@ -57,13 +61,17 @@ impl AirFn for AirFnBitMux {
 #[test]
 fn test_bit_mux() {
     let func = AirFnBitMux {};
-    let registry = AirFnRegistry::new(&func);
+    let (registry, entry) = AirFnRegistry::new(&func);
     let (_, out) = registry.run_air(&func, const_u16_expr!(2));
     assert!(out.calc() == "false");
 
     // Check entry
     compare_json(
-        &registry.get_air_fn_entry(&func.name()),
-        &(TEST_JSONS_EXAMPLES_DIR.to_owned() + "bit_mux.json"),
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_EXAMPLES_DIR,
+            entry.name.to_lowercase()
+        ),
     );
 }

@@ -3,7 +3,6 @@ use super::super::common::*;
 use super::add_ap_opcode::*;
 
 use crate::airs::memory::felt252_id_memory::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -15,9 +14,54 @@ use crate::const_expr;
 use crate::const_felt252_expr;
 
 #[test]
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&AddApOpcode {
+        is_imm: false,
+        op1_base_fp: false,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&AddApOpcode {
+        is_imm: true,
+        op1_base_fp: false,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&AddApOpcode {
+        is_imm: false,
+        op1_base_fp: true,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+}
+
+#[test]
 fn test_add_ap_negative_imm() {
     // build the air function
-    let mut add_ap_opcode = AddAp {
+    let mut add_ap_opcode = AddApOpcode {
         is_imm: true,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
@@ -40,7 +84,7 @@ fn test_add_ap_negative_imm() {
     add_ap_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
-    let registry = AirFnRegistry::new(&add_ap_opcode);
+    let (registry, _) = AirFnRegistry::new(&add_ap_opcode);
     let (state, next_state) = registry.run_air(
         &add_ap_opcode,
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
@@ -70,18 +114,12 @@ fn test_add_ap_negative_imm() {
             .map(|x| x.to_string())
             .collect::<Vec<String>>()
     );
-
-    // Check entry
-    compare_json(
-        &registry.get_air_fn_entry(&add_ap_opcode.name()),
-        &(TEST_JSONS_OPCODES_DIR.to_owned() + "add_ap_negative_imm.json"),
-    );
 }
 
 #[test]
 fn test_add_ap_deref_base_fp() {
     // build the air function
-    let mut add_ap_opcode = AddAp {
+    let mut add_ap_opcode = AddApOpcode {
         is_imm: false,
         op1_base_fp: true,
         memory: Felt252IdMemory::default(),
@@ -109,7 +147,7 @@ fn test_add_ap_deref_base_fp() {
     add_ap_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
-    let registry = AirFnRegistry::new(&add_ap_opcode);
+    let (registry, _) = AirFnRegistry::new(&add_ap_opcode);
     let (state, next_state) = registry.run_air(
         &add_ap_opcode,
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
@@ -134,19 +172,13 @@ fn test_add_ap_deref_base_fp() {
         "0",     // op1
     ];
     assert_eq!(state.calc(), expected_state);
-
-    // Check entry
-    compare_json(
-        &registry.get_air_fn_entry(&add_ap_opcode.name()),
-        &(TEST_JSONS_OPCODES_DIR.to_owned() + "add_ap_deref_base_fp.json"),
-    );
 }
 
 #[test]
 #[should_panic(expected = "FLAG_OP1_IMM and FLAG_OP1_BASE_FP cannot be set at the same time.")]
 fn test_failed_op1_src() {
     // build the air function
-    let mut add_ap_opcode = AddAp {
+    let mut add_ap_opcode = AddApOpcode {
         is_imm: true,
         op1_base_fp: true,
         memory: Felt252IdMemory::default(),
@@ -174,7 +206,7 @@ fn test_failed_op1_src() {
     add_ap_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
-    let registry = AirFnRegistry::new(&add_ap_opcode);
+    let (registry, _) = AirFnRegistry::new(&add_ap_opcode);
     registry.run_air(
         &add_ap_opcode,
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),

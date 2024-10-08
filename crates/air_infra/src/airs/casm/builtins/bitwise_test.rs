@@ -1,7 +1,6 @@
 use super::bitwise::*;
 
 use crate::airs::memory::felt252_id_memory::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -10,6 +9,19 @@ use crate::utils::test_utils::*;
 //Macros
 use crate::const_expr;
 use crate::const_felt252_expr;
+
+#[test]
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&BitwiseBuiltin::default());
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_BUILTINS_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+}
 
 #[test]
 fn simple_test_bitwise_builtin() {
@@ -41,7 +53,7 @@ fn simple_test_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let registry = AirFnRegistry::new(&bitwise);
+    let (registry, _) = AirFnRegistry::new(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 10);
 }
@@ -77,7 +89,7 @@ fn simple_failed_test_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let registry = AirFnRegistry::new(&bitwise);
+    let (registry, _) = AirFnRegistry::new(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 10);
 }
@@ -112,7 +124,7 @@ fn test_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let registry = AirFnRegistry::new(&bitwise);
+    let (registry, _) = AirFnRegistry::new(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 10);
 }
@@ -148,7 +160,7 @@ fn test_failed_or_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let registry = AirFnRegistry::new(&bitwise);
+    let (registry, _) = AirFnRegistry::new(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 27);
 }
@@ -184,7 +196,7 @@ fn test_failed_xor_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let registry = AirFnRegistry::new(&bitwise);
+    let (registry, _) = AirFnRegistry::new(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 10);
 }
@@ -220,7 +232,7 @@ fn test_failed_and_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let registry = AirFnRegistry::new(&bitwise);
+    let (registry, _) = AirFnRegistry::new(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 10);
 }
@@ -254,13 +266,7 @@ fn test_big_felt252_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let registry = AirFnRegistry::new(&bitwise);
+    let (registry, _) = AirFnRegistry::new(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 10);
-
-    // Check entry
-    compare_json(
-        &registry.get_air_fn_entry(&bitwise.name()),
-        &(TEST_JSONS_BUILTINS_DIR.to_owned() + "bitwise.json"),
-    );
 }

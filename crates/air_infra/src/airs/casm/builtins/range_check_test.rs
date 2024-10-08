@@ -1,7 +1,6 @@
 use super::range_check::*;
 
 use crate::airs::memory::felt252_id_memory::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -12,22 +11,18 @@ use crate::const_expr;
 use crate::const_felt252_expr;
 
 #[test]
-fn test_range_check() {
-    let memory = Felt252IdMemory::new_with_data(vec![(
-        const_expr!(DUMMY_SEGMENT_START),
-        const_felt252_expr!((1 << 17), 0),
-    )]);
-
-    let rc = RangeCheckBuiltin {
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&RangeCheckBuiltin {
         bits: 32,
-        memory: memory.clone(),
-    };
-
-    let registry = AirFnRegistry::new(&rc);
-    // Check entry
+        memory: Felt252IdMemory::default(),
+    });
     compare_json(
-        &registry.get_air_fn_entry(&rc.name()),
-        &(TEST_JSONS_BUILTINS_DIR.to_owned() + "range_check.json"),
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_BUILTINS_DIR,
+            entry.name.to_lowercase()
+        ),
     );
 }
 
@@ -40,7 +35,7 @@ fn run_range_check(value: Felt252Expr, bits: usize) {
         memory: memory.clone(),
     };
 
-    let registry = AirFnRegistry::new(&rc);
+    let (registry, _) = AirFnRegistry::new(&rc);
 
     registry.run_air_with_row_number(&rc, (), 0);
 }

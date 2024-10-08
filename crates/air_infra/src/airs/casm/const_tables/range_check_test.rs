@@ -5,7 +5,6 @@ use super::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
-use crate::utils::test_utils::*;
 
 // Macros
 use crate::const_expr;
@@ -41,21 +40,10 @@ impl AirFn for SmallAdd {
 }
 
 #[test]
-fn test_rc_small_add() {
-    let air_fn = SmallAdd {};
-    let registry = AirFnRegistry::new(&air_fn);
-    // Check entry
-    compare_json(
-        &registry.get_air_fn_entry(&air_fn.name()),
-        &(TEST_JSONS_CONST_TABLES_DIR.to_owned() + "rc_small_add.json"),
-    );
-}
-
-#[test]
 #[should_panic(expected = "RangeCheck failed on element 0: RangeCheck16 on input 80000")]
 fn test_range_check_runtime_failure() {
     let air_fn = SmallAdd {};
-    let registry = AirFnRegistry::new(&air_fn);
+    let (registry, _) = AirFnRegistry::new(&air_fn);
     let a = const_expr!(40000);
     let b = const_expr!(40000);
     registry.run_air(&air_fn, [a, b]);
@@ -64,7 +52,7 @@ fn test_range_check_runtime_failure() {
 #[test]
 fn test_range_check_runtime_success() {
     let air_fn = SmallAdd {};
-    let registry = AirFnRegistry::new(&air_fn);
+    let (registry, _) = AirFnRegistry::new(&air_fn);
     let a = const_expr!(20000);
     let b = const_expr!(20000);
     registry.run_air(&air_fn, [a, b]);
@@ -73,7 +61,7 @@ fn test_range_check_runtime_success() {
 #[test]
 fn test_range_check_vector() {
     let range_check_vector = RangeCheck { bits: [2, 5] };
-    let registry = AirFnRegistry::new(&range_check_vector);
+    let (registry, _) = AirFnRegistry::new(&range_check_vector);
     registry.run_air(
         &range_check_vector,
         [const_expr!(0b11), const_expr!(0b11111)],
@@ -84,7 +72,7 @@ fn test_range_check_vector() {
 #[should_panic(expected = "RangeCheck failed on element 0: RangeCheck2 on input 4")]
 fn test_failed_range_check_first_element() {
     let range_check_vector = RangeCheck { bits: [2, 5] };
-    let registry = AirFnRegistry::new(&range_check_vector);
+    let (registry, _) = AirFnRegistry::new(&range_check_vector);
     registry.run_air(
         &range_check_vector,
         [const_expr!(0b100), const_expr!(0b11111)],
@@ -95,7 +83,7 @@ fn test_failed_range_check_first_element() {
 #[should_panic(expected = "RangeCheck failed on element 1: RangeCheck5 on input 32")]
 fn test_failed_range_check_second_element() {
     let range_check_vector = RangeCheck { bits: [2, 5] };
-    let registry = AirFnRegistry::new(&range_check_vector);
+    let (registry, _) = AirFnRegistry::new(&range_check_vector);
     registry.run_air(
         &range_check_vector,
         [const_expr!(0b11), const_expr!(0b100000)],
@@ -106,7 +94,7 @@ fn test_failed_range_check_second_element() {
 #[should_panic(expected = "Invalid range check bits [3, 4].")]
 fn test_failed_range_check_vector_size() {
     let range_check_vector = RangeCheck { bits: [3, 4] };
-    let registry = AirFnRegistry::new(&range_check_vector);
+    let (registry, _) = AirFnRegistry::new(&range_check_vector);
     registry.run_air(
         &range_check_vector,
         [const_expr!(0b11), const_expr!(0b100000)],

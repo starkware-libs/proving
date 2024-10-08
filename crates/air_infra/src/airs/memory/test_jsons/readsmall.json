@@ -1,0 +1,129 @@
+{
+  "name": "ReadSmall",
+  "description": "ReadSmall",
+  "inst_def": {},
+  "input": {
+    "name": "readsmall_input",
+    "type": "M31"
+  },
+  "input_num_of_felts": 1,
+  "output": [
+    {
+      "name": "((((state[5] * const_262144) + ((state[4] * const_512) + state[3])) - state[1]) - (const_134217728 * state[2]))",
+      "type": "M31"
+    },
+    {
+      "name": "state[0]",
+      "type": "M31"
+    }
+  ],
+  "output_num_of_felts": 2,
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "LookupCall": {
+        "air_fn_name": "Memory_K_M31_V_M31",
+        "input_arg": {
+          "name": "readsmall_input",
+          "type": "M31"
+        },
+        "output_name": "tmp_1"
+      }
+    },
+    {
+      "Deduction": "tmp_1"
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          "readsmall_input",
+          "state[0]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "Memory_K_M31_V_Felt252",
+        "input_arg": {
+          "name": "state[0]",
+          "type": "M31"
+        },
+        "output_name": "tmp_3"
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "CondDecodeSmallSign",
+        "air_fn_description": "CondDecodeSmallSign",
+        "input_arg": [
+          {
+            "name": "tmp_3",
+            "type": "Felt252"
+          },
+          {
+            "name": "const_1",
+            "type": "M31"
+          }
+        ],
+        "output": [
+          {
+            "name": "state[1]",
+            "type": "M31"
+          },
+          {
+            "name": "state[2]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "Deduction": "tmp_3.get_m31(const_0)"
+    },
+    {
+      "Deduction": "tmp_3.get_m31(const_1)"
+    },
+    {
+      "Deduction": "tmp_3.get_m31(const_2)"
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          "state[0]",
+          "state[3]",
+          "state[4]",
+          "state[5]",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "(state[2] * const_511)",
+          "((const_136 * state[1]) - state[2])",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "const_0",
+          "(state[1] * const_256)"
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ]
+}

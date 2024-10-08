@@ -11,7 +11,7 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::prover_types::*;
 
-#[derive(Clone, Debug, InstDef)]
+#[derive(Clone, Debug, InstDef, Default)]
 pub struct VerifyInstruction {
     #[instdef(skip)]
     pub memory: Felt252IdMemory,

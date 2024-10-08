@@ -4,11 +4,11 @@
   "inst_def": {},
   "input": [
     {
-      "name": "Add32_input[0]",
+      "name": "add32_input[0]",
       "type": "UInt32"
     },
     {
-      "name": "Add32_input[1]",
+      "name": "add32_input[1]",
       "type": "UInt32"
     }
   ],
@@ -24,7 +24,7 @@
       "Intermediate": [
         "tmp_0",
         {
-          "name": "(Add32_input[0] + Add32_input[1])",
+          "name": "(add32_input[0] + add32_input[1])",
           "type": "UInt32"
         },
         {
@@ -83,7 +83,7 @@
       "Intermediate": [
         "tmp_3",
         {
-          "name": "((Add32_input[0].low().as_m31() + Add32_input[1].low().as_m31()) - state[0])",
+          "name": "((add32_input[0].low().as_m31() + add32_input[1].low().as_m31()) - state[0])",
           "type": "M31"
         },
         {
@@ -99,7 +99,7 @@
       "Intermediate": [
         "tmp_4",
         {
-          "name": "(((Add32_input[0].high().as_m31() + Add32_input[1].high().as_m31()) - state[1]) + (tmp_3 * const_32768))",
+          "name": "(((add32_input[0].high().as_m31() + add32_input[1].high().as_m31()) - state[1]) + (tmp_3 * const_32768))",
           "type": "M31"
         },
         {

@@ -1,0 +1,276 @@
+{
+  "name": "CallOpcode_is_rel_f_op1_base_fp_f",
+  "description": "CallOpcode_is_rel_f_op1_base_fp_f",
+  "inst_def": {
+    "is_rel": "f",
+    "op1_base_fp": "f"
+  },
+  "input": {
+    "name": "callopcode_is_rel_f_op1_base_fp_f_input",
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "callopcode_is_rel_f_op1_base_fp_f_input.pc",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "callopcode_is_rel_f_op1_base_fp_f_input.ap",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "callopcode_is_rel_f_op1_base_fp_f_input.fp",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "input_num_of_felts": 3,
+  "output": {
+    "name": null,
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "((state[7] + (state[8] * const_512)) + (state[9] * const_262144))",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "(state[1] + const_2)",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "(state[1] + const_2)",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "output_num_of_felts": 3,
+  "trace_type": "Opcode",
+  "air_body": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        {
+          "name": "callopcode_is_rel_f_op1_base_fp_f_input",
+          "type": "CasmState",
+          "fields": [
+            [
+              "pc",
+              {
+                "name": "callopcode_is_rel_f_op1_base_fp_f_input.pc",
+                "type": "M31"
+              }
+            ],
+            [
+              "ap",
+              {
+                "name": "callopcode_is_rel_f_op1_base_fp_f_input.ap",
+                "type": "M31"
+              }
+            ],
+            [
+              "fp",
+              {
+                "name": "callopcode_is_rel_f_op1_base_fp_f_input.fp",
+                "type": "M31"
+              }
+            ]
+          ]
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_0.pc"
+    },
+    {
+      "Deduction": "tmp_0.ap"
+    },
+    {
+      "Deduction": "tmp_0.fp"
+    },
+    {
+      "Call": {
+        "air_fn_name": "DecodeInstruction_d06cc8770ddfafbc",
+        "air_fn_description": "DecodeInstruction_d06cc8770ddfafbc",
+        "input_arg": {
+          "name": "state[0]",
+          "type": "M31"
+        },
+        "output": [
+          [
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "(state[3] - const_32768)",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "MemVerify",
+        "air_fn_description": "MemVerify",
+        "input_arg": [
+          {
+            "name": "state[1]",
+            "type": "M31"
+          },
+          {
+            "name": "Felt252::from_limbs(zero_extend([state[2]]))",
+            "type": "Felt252"
+          }
+        ],
+        "output": []
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "MemVerify",
+        "air_fn_description": "MemVerify",
+        "input_arg": [
+          {
+            "name": "(state[1] + const_1)",
+            "type": "M31"
+          },
+          {
+            "name": "Felt252::from_limbs(zero_extend([(state[0] + const_1)]))",
+            "type": "Felt252"
+          }
+        ],
+        "output": []
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadPositive_num_bits_27",
+        "air_fn_description": "ReadPositive_num_bits_27",
+        "input_arg": {
+          "name": "(state[1] + (state[3] - const_32768))",
+          "type": "M31"
+        },
+        "output": [
+          {
+            "name": "Felt252::from_limbs(zero_extend([state[7], state[8], state[9]]))",
+            "type": "Felt252"
+          },
+          {
+            "name": "state[6]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          "state[0]",
+          "state[1]",
+          "state[2]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          "((state[7] + (state[8] * const_512)) + (state[9] * const_262144))",
+          "(state[1] + const_2)",
+          "(state[1] + const_2)"
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}

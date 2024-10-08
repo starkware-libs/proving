@@ -3,7 +3,6 @@ use super::super::common::*;
 use super::ret_opcode::*;
 
 use crate::airs::memory::felt252_id_memory::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -18,6 +17,19 @@ pub fn assemble_ret() -> u64 {
     let ret_off_1 = -1;
     let ret_off_2 = -1;
     assemble_instruction(ret_off_0, ret_off_1, ret_off_2, RET_FLAGS.into())
+}
+
+#[test]
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&RetOpcode::default());
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
 }
 
 #[test]
@@ -44,7 +56,7 @@ fn test_ret_opcode() {
 
     // Run opcode and check output
     let func = RetOpcode { memory };
-    let registry = AirFnRegistry::new(&func);
+    let (registry, _) = AirFnRegistry::new(&func);
 
     let (state, output) = registry.run_air(&func, CasmStateVar::new(pc, ap, fp));
 
@@ -54,11 +66,5 @@ fn test_ret_opcode() {
     assert_eq!(
         state.calc(),
         ["3", "11", "6", "1", "1", "0", "0", "2", "4", "0", "0"]
-    );
-
-    // Check entry
-    compare_json(
-        &registry.get_air_fn_entry(&func.name()),
-        &(TEST_JSONS_OPCODES_DIR.to_owned() + "ret.json"),
     );
 }

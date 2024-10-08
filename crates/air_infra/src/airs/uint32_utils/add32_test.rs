@@ -1,5 +1,4 @@
 use super::add32::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::variables::*;
@@ -11,7 +10,7 @@ use crate::const_u32_expr;
 #[test]
 fn test_add32() {
     let air_fn = Add32 {};
-    let registry = AirFnRegistry::new(&air_fn);
+    let (registry, entry) = AirFnRegistry::new(&air_fn);
 
     let (state, output) = registry.run_air(&air_fn, [const_u32_expr!(1), const_u32_expr!(1)]);
     assert_eq!(output.calc(), "2");
@@ -39,7 +38,11 @@ fn test_add32() {
 
     // Check entry
     compare_json(
-        &registry.get_air_fn_entry(&air_fn.name()),
-        &(TEST_JSONS_UINT32_DIR.to_owned() + "add32.json"),
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_UINT32_DIR,
+            entry.name.to_lowercase()
+        ),
     );
 }

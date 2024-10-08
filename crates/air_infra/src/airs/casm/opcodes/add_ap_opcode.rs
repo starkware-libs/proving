@@ -16,14 +16,14 @@ use crate::const_expr;
 /// - ap += imm
 /// - ap += [fp/ap + offset]
 #[derive(Clone, Debug, InstDef)]
-pub struct AddAp {
+pub struct AddApOpcode {
     pub is_imm: bool,
     pub op1_base_fp: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
-impl AddAp {
+impl AddApOpcode {
     pub fn get_flags(&self) -> Flags {
         assert!(
             !self.is_imm || !self.op1_base_fp,
@@ -53,7 +53,7 @@ impl AddAp {
     }
 }
 
-impl AirFn for AddAp {
+impl AirFn for AddApOpcode {
     type In = CasmStateVar;
     type Out = CasmStateVar;
 

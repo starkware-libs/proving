@@ -1,0 +1,263 @@
+{
+  "name": "JumpOpcode_is_rel_f_is_imm_f_is_double_deref_t",
+  "description": "JumpOpcode_is_rel_f_is_imm_f_is_double_deref_t",
+  "inst_def": {
+    "is_rel": "f",
+    "is_imm": "f",
+    "is_double_deref": "t"
+  },
+  "input": {
+    "name": "jumpopcode_is_rel_f_is_imm_f_is_double_deref_t_input",
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "jumpopcode_is_rel_f_is_imm_f_is_double_deref_t_input.pc",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "jumpopcode_is_rel_f_is_imm_f_is_double_deref_t_input.ap",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "jumpopcode_is_rel_f_is_imm_f_is_double_deref_t_input.fp",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "input_num_of_felts": 3,
+  "output": {
+    "name": null,
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "((state[12] + (state[13] * const_512)) + (state[14] * const_262144))",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "(state[1] + state[6])",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "state[2]",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "output_num_of_felts": 3,
+  "trace_type": "Opcode",
+  "air_body": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        {
+          "name": "jumpopcode_is_rel_f_is_imm_f_is_double_deref_t_input",
+          "type": "CasmState",
+          "fields": [
+            [
+              "pc",
+              {
+                "name": "jumpopcode_is_rel_f_is_imm_f_is_double_deref_t_input.pc",
+                "type": "M31"
+              }
+            ],
+            [
+              "ap",
+              {
+                "name": "jumpopcode_is_rel_f_is_imm_f_is_double_deref_t_input.ap",
+                "type": "M31"
+              }
+            ],
+            [
+              "fp",
+              {
+                "name": "jumpopcode_is_rel_f_is_imm_f_is_double_deref_t_input.fp",
+                "type": "M31"
+              }
+            ]
+          ]
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_0.pc"
+    },
+    {
+      "Deduction": "tmp_0.ap"
+    },
+    {
+      "Deduction": "tmp_0.fp"
+    },
+    {
+      "Call": {
+        "air_fn_name": "DecodeInstruction_d5cc27a6f788af1d",
+        "air_fn_description": "DecodeInstruction_d5cc27a6f788af1d",
+        "input_arg": {
+          "name": "state[0]",
+          "type": "M31"
+        },
+        "output": [
+          [
+            {
+              "name": "const_2147483646",
+              "type": "M31"
+            },
+            {
+              "name": "(state[3] - const_32768)",
+              "type": "M31"
+            },
+            {
+              "name": "(state[4] - const_32768)",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "state[5]",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "state[6]",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadPositive_num_bits_27",
+        "air_fn_description": "ReadPositive_num_bits_27",
+        "input_arg": {
+          "name": "(((state[5] * state[2]) + ((const_1 - state[5]) * state[1])) + (state[3] - const_32768))",
+          "type": "M31"
+        },
+        "output": [
+          {
+            "name": "Felt252::from_limbs(zero_extend([state[8], state[9], state[10]]))",
+            "type": "Felt252"
+          },
+          {
+            "name": "state[7]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadPositive_num_bits_27",
+        "air_fn_description": "ReadPositive_num_bits_27",
+        "input_arg": {
+          "name": "(((state[8] + (state[9] * const_512)) + (state[10] * const_262144)) + (state[4] - const_32768))",
+          "type": "M31"
+        },
+        "output": [
+          {
+            "name": "Felt252::from_limbs(zero_extend([state[12], state[13], state[14]]))",
+            "type": "Felt252"
+          },
+          {
+            "name": "state[11]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          "state[0]",
+          "state[1]",
+          "state[2]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          "((state[12] + (state[13] * const_512)) + (state[14] * const_262144))",
+          "(state[1] + state[6])",
+          "state[2]"
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}

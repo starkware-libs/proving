@@ -1,0 +1,517 @@
+{
+  "name": "DecodeInstruction_337193008ebaa578",
+  "description": "DecodeInstruction_337193008ebaa578",
+  "inst_def": {
+    "const_offsets": "[None, None, None]",
+    "const_flags": "Flags { dst_base_fp: None, op0_base_fp: None, op1_imm: None, op1_base_fp: None, op1_base_ap: None, res_add: None, res_mul: None, pc_update_jump: None, pc_update_jump_rel: None, pc_update_jnz: None, ap_update_add: None, ap_update_add_1: None, opcode_call: None, opcode_ret: None, opcode_assert_eq: None }"
+  },
+  "input": {
+    "name": "decodeinstruction_337193008ebaa578_input",
+    "type": "M31"
+  },
+  "input_num_of_felts": 1,
+  "output": [
+    [
+      {
+        "name": "(state[0] - const_32768)",
+        "type": "M31"
+      },
+      {
+        "name": "(state[1] - const_32768)",
+        "type": "M31"
+      },
+      {
+        "name": "(state[2] - const_32768)",
+        "type": "M31"
+      }
+    ],
+    [
+      {
+        "name": "state[3]",
+        "type": "M31"
+      },
+      {
+        "name": "state[4]",
+        "type": "M31"
+      },
+      {
+        "name": "state[5]",
+        "type": "M31"
+      },
+      {
+        "name": "state[6]",
+        "type": "M31"
+      },
+      {
+        "name": "state[7]",
+        "type": "M31"
+      },
+      {
+        "name": "state[8]",
+        "type": "M31"
+      },
+      {
+        "name": "state[9]",
+        "type": "M31"
+      },
+      {
+        "name": "state[10]",
+        "type": "M31"
+      },
+      {
+        "name": "state[11]",
+        "type": "M31"
+      },
+      {
+        "name": "state[12]",
+        "type": "M31"
+      },
+      {
+        "name": "state[13]",
+        "type": "M31"
+      },
+      {
+        "name": "state[14]",
+        "type": "M31"
+      },
+      {
+        "name": "state[15]",
+        "type": "M31"
+      },
+      {
+        "name": "state[16]",
+        "type": "M31"
+      },
+      {
+        "name": "state[17]",
+        "type": "M31"
+      }
+    ]
+  ],
+  "output_num_of_felts": 18,
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "LookupCall": {
+        "air_fn_name": "Memory_K_M31_V_M31",
+        "input_arg": {
+          "name": "decodeinstruction_337193008ebaa578_input",
+          "type": "M31"
+        },
+        "output_name": "tmp_1"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "Memory_K_M31_V_Felt252",
+        "input_arg": {
+          "name": "tmp_1",
+          "type": "M31"
+        },
+        "output_name": "tmp_3"
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_4",
+        {
+          "name": "(UInt16::from_m31(tmp_3.get_m31(const_0)) + ((UInt16::from_m31(tmp_3.get_m31(const_1)) & const_127) << const_9))",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_4.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_5",
+        {
+          "name": "(((UInt16::from_m31(tmp_3.get_m31(const_1)) >> const_7) + (UInt16::from_m31(tmp_3.get_m31(const_2)) << const_2)) + ((UInt16::from_m31(tmp_3.get_m31(const_3)) & const_31) << const_11))",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_5.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_6",
+        {
+          "name": "(((UInt16::from_m31(tmp_3.get_m31(const_3)) >> const_5) + (UInt16::from_m31(tmp_3.get_m31(const_4)) << const_4)) + ((UInt16::from_m31(tmp_3.get_m31(const_5)) & const_7) << const_13))",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_6.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_7",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_0) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_7.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_8",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_1) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_8.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_9",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_2) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_9.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_10",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_3) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_10.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_11",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_4) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_11.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_12",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_5) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_12.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_13",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_6) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_13.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_14",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_7) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_14.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_15",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_8) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_15.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_16",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_9) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_16.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_17",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_10) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_17.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_18",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_11) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_18.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_19",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_12) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_19.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_20",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_13) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_20.as_m31()"
+    },
+    {
+      "Intermediate": [
+        "tmp_21",
+        {
+          "name": "((((UInt16::from_m31(tmp_3.get_m31(const_5)) >> const_3) + (UInt16::from_m31(tmp_3.get_m31(const_6)) << const_6)) >> const_14) & const_1)",
+          "type": "UInt16"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_21.as_m31()"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "VerifyInstruction",
+        "input_arg": [
+          {
+            "name": "decodeinstruction_337193008ebaa578_input",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "state[0]",
+              "type": "M31"
+            },
+            {
+              "name": "state[1]",
+              "type": "M31"
+            },
+            {
+              "name": "state[2]",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "state[3]",
+              "type": "M31"
+            },
+            {
+              "name": "state[4]",
+              "type": "M31"
+            },
+            {
+              "name": "state[5]",
+              "type": "M31"
+            },
+            {
+              "name": "state[6]",
+              "type": "M31"
+            },
+            {
+              "name": "state[7]",
+              "type": "M31"
+            },
+            {
+              "name": "state[8]",
+              "type": "M31"
+            },
+            {
+              "name": "state[9]",
+              "type": "M31"
+            },
+            {
+              "name": "state[10]",
+              "type": "M31"
+            },
+            {
+              "name": "state[11]",
+              "type": "M31"
+            },
+            {
+              "name": "state[12]",
+              "type": "M31"
+            },
+            {
+              "name": "state[13]",
+              "type": "M31"
+            },
+            {
+              "name": "state[14]",
+              "type": "M31"
+            },
+            {
+              "name": "state[15]",
+              "type": "M31"
+            },
+            {
+              "name": "state[16]",
+              "type": "M31"
+            },
+            {
+              "name": "state[17]",
+              "type": "M31"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          "decodeinstruction_337193008ebaa578_input",
+          "state[0]",
+          "state[1]",
+          "state[2]",
+          "state[3]",
+          "state[4]",
+          "state[5]",
+          "state[6]",
+          "state[7]",
+          "state[8]",
+          "state[9]",
+          "state[10]",
+          "state[11]",
+          "state[12]",
+          "state[13]",
+          "state[14]",
+          "state[15]",
+          "state[16]",
+          "state[17]"
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ]
+}

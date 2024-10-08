@@ -2,7 +2,6 @@ use super::felt252_id_memory::*;
 
 use crate::airs::memory::felt252_id_memory_read_positive::*;
 use crate::airs::memory::felt252_id_memory_read_small::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -46,7 +45,7 @@ fn test_read_small() {
     let memory = Felt252IdMemory::new_with_data(mem_data);
 
     let read_small = ReadSmall { memory };
-    let registry = AirFnRegistry::new(&read_small);
+    let (registry, _) = AirFnRegistry::new(&read_small);
 
     let (state, output) = registry.run_air(&read_small, const_expr!(1));
     assert_eq!(output.0.calc(), "7".to_string());
@@ -74,15 +73,15 @@ fn test_read_small() {
 }
 
 #[test]
-fn test_read_small_air_body() {
-    let memory = Felt252IdMemory::default();
-    let read_small = ReadSmall { memory };
-    let registry = AirFnRegistry::new(&read_small);
-
-    // Check entry
+fn test_read_small_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&ReadSmall::default());
     compare_json(
-        &registry.get_air_fn_entry(&read_small.name()),
-        &(TEST_JSONS_MEMORY_DIR.to_owned() + "read_small.json"),
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_MEMORY_DIR,
+            entry.name.to_lowercase()
+        ),
     );
 }
 
@@ -91,24 +90,25 @@ fn test_read_positive(value: Felt252Expr, num_bits: usize) {
 
     let read_positive = ReadPositive { memory, num_bits };
 
-    let registry = AirFnRegistry::new(&read_positive);
+    let (registry, _) = AirFnRegistry::new(&read_positive);
     let (_state, output) = registry.run_air(&read_positive, const_expr!(0));
 
     assert_eq!(output.0.calc(), value.calc());
 }
 
 #[test]
-fn test_read_positive_air_body() {
-    let memory = Felt252IdMemory::default();
-    let read_positive = ReadPositive {
-        memory,
+fn test_read_positive_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&ReadPositive {
         num_bits: 16,
-    };
-    let registry = AirFnRegistry::new(&read_positive);
-    // Check entry
+        memory: Felt252IdMemory::default(),
+    });
     compare_json(
-        &registry.get_air_fn_entry(&read_positive.name()),
-        &(TEST_JSONS_MEMORY_DIR.to_owned() + "read_positive.json"),
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_MEMORY_DIR,
+            entry.name.to_lowercase()
+        ),
     );
 }
 

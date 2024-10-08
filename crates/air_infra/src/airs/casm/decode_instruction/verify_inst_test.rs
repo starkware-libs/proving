@@ -2,7 +2,6 @@ use super::verify_inst::*;
 
 use crate::airs::casm::common::*;
 use crate::airs::memory::felt252_id_memory::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -24,14 +23,19 @@ fn test_verify_inst() {
     )]);
 
     let air_fn = VerifyInstruction { memory };
-    let registry = AirFnRegistry::new(&air_fn);
+    let (registry, entry) = AirFnRegistry::new(&air_fn);
 
     // Check entry
     compare_json(
-        &registry.get_air_fn_entry(&air_fn.name()),
-        &(TEST_JSONS_DECODE_INSTRUCTION_DIR.to_owned() + "verify_inst.json"),
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_DECODE_INSTRUCTION_DIR,
+            entry.name.to_lowercase()
+        ),
     );
 
+    // Check state
     let (state, _) = registry.run_air(&air_fn, (const_expr!(0), offsets, flags));
     assert_eq!(
         state.calc(),

@@ -47,12 +47,14 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
 }
 
 pub fn print_fn_sizes() {
+    let mut registry = AirFnRegistry::new_empty();
     let func = CallOpcode {
         is_rel: false,
         op1_base_fp: false,
         memory: Default::default(),
     };
-    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
+    registry.add_entry(&func);
+    let compiled = registry.get_compiled_air_fn(&func.name());
     print_statistics("call abs [ap]", compiled);
 
     let func = CallOpcode {
@@ -60,8 +62,9 @@ pub fn print_fn_sizes() {
         op1_base_fp: false,
         memory: Default::default(),
     };
-    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
-    print_statistics("call rel [ap]", compiled);
+    registry.add_entry(&func);
+    let compiled = registry.get_compiled_air_fn(&func.name());
+    print_statistics("call is_rel [ap]", compiled);
 
     let func = JumpOpcode {
         is_rel: false,
@@ -69,7 +72,8 @@ pub fn print_fn_sizes() {
         is_double_deref: false,
         memory: Default::default(),
     };
-    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
+    registry.add_entry(&func);
+    let compiled = registry.get_compiled_air_fn(&func.name());
     print_statistics("jump abs [ap/fp]", compiled);
 
     let func = JumpOpcode {
@@ -78,12 +82,14 @@ pub fn print_fn_sizes() {
         is_double_deref: false,
         memory: Default::default(),
     };
-    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
-    print_statistics("jump rel [ap]", compiled);
+    registry.add_entry(&func);
+    let compiled = registry.get_compiled_air_fn(&func.name());
+    print_statistics("jump is_rel [ap]", compiled);
 
     let func = RetOpcode {
         memory: Default::default(),
     };
-    let compiled = AirFnRegistry::new(&func).get_compiled_air_fn(&func.name());
+    registry.add_entry(&func);
+    let compiled = registry.get_compiled_air_fn(&func.name());
     print_statistics("ret", compiled);
 }

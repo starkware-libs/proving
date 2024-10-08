@@ -23,7 +23,6 @@ use crate::const_expr;
 pub struct JnzOpcode {
     pub is_taken: bool,
     pub dst_base_fp: bool,
-    pub ap_update_add_1: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
@@ -42,7 +41,7 @@ impl JnzOpcode {
             pc_update_jump_rel: Some(false),
             pc_update_jnz: Some(true),
             ap_update_add: Some(false),
-            ap_update_add_1: Some(self.ap_update_add_1),
+            ap_update_add_1: None,
             opcode_call: Some(false),
             opcode_ret: Some(false),
             opcode_assert_eq: Some(false),
@@ -56,7 +55,7 @@ impl AirFn for JnzOpcode {
 
     fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
         // Check the instruction.
-        let ([offset_dst, _, _], _) = ab.call(
+        let ([offset_dst, _, _], flags) = ab.call(
             &DecodeInstruction {
                 const_offsets: [None, Some(-1), Some(1)],
                 const_flags: self.get_flags(),
@@ -64,6 +63,9 @@ impl AirFn for JnzOpcode {
             },
             casm_state.pc.clone(),
         );
+
+        // Read non-constant flags
+        let ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
         // Fetch dst - the value upon which the jump is conditioned.
         let mem_dst_base = if self.dst_base_fp {
@@ -127,7 +129,7 @@ impl AirFn for JnzOpcode {
         };
 
         // Calculate the next ap
-        let next_ap = casm_state.ap + const_expr!(self.ap_update_add_1 as u32);
+        let next_ap = casm_state.ap + ap_update_add_1;
 
         CasmStateVar::new(next_pc, next_ap, casm_state.fp)
     }

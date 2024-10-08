@@ -61,30 +61,30 @@ pub struct JumpOpcodeArgs {
 }
 
 pub fn create_air_fn_registry(arguments: AirFnArgs) -> AirFnRegistry {
+    let mut registry = AirFnRegistry::new_empty();
     match arguments {
-        AirFnArgs::AssertEq(arguments) => AirFnRegistry::new(&AssertEqOpcode {
+        AirFnArgs::AssertEq(arguments) => registry.add_entry(&AssertEqOpcode {
             is_imm: arguments.is_imm,
             is_double_deref: arguments.is_double_deref,
             memory: Felt252IdMemory::default(),
         }),
-        AirFnArgs::Call(arguments) => AirFnRegistry::new(&CallOpcode {
+        AirFnArgs::Call(arguments) => registry.add_entry(&CallOpcode {
             is_rel: arguments.is_rel,
             op1_base_fp: arguments.flag_op1_base_fp,
             memory: Felt252IdMemory::default(),
         }),
-        AirFnArgs::Jump(arguments) => AirFnRegistry::new(&JumpOpcode {
+        AirFnArgs::Jump(arguments) => registry.add_entry(&JumpOpcode {
             is_rel: arguments.is_rel,
             is_imm: arguments.is_imm,
             is_double_deref: arguments.is_double_deref,
             memory: Felt252IdMemory::default(),
         }),
-        AirFnArgs::Fib(arguments) => AirFnRegistry::new(&Fib {
+        AirFnArgs::Fib(arguments) => registry.add_entry(&Fib {
             claim_index: arguments.claim_index,
         }),
-        AirFnArgs::Add32 => AirFnRegistry::new(&Add32 {}),
-        AirFnArgs::BitUnpack => AirFnRegistry::new(&BitUnpack::<4> {}),
-        AirFnArgs::Ret => AirFnRegistry::new(&RetOpcode {
-            memory: Felt252IdMemory::default(),
-        }),
-    }
+        AirFnArgs::Add32 => registry.add_entry(&Add32 {}),
+        AirFnArgs::BitUnpack => registry.add_entry(&BitUnpack::<4> {}),
+        AirFnArgs::Ret => registry.add_entry(&RetOpcode::default()),
+    };
+    registry
 }

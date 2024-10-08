@@ -9,7 +9,7 @@ use crate::const_expr;
 #[test]
 fn test_bitwise_xor() {
     let bitwise_xor = VerifyBitwiseXor { num_bits: 4 };
-    let registry = AirFnRegistry::new(&bitwise_xor);
+    let (registry, _) = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
         &bitwise_xor,
         [
@@ -24,7 +24,7 @@ fn test_bitwise_xor() {
 #[should_panic(expected = "The bitwise XOR of 1111 and 1101 is not 101")]
 fn test_falied_bitwise_xor() {
     let bitwise_xor = VerifyBitwiseXor { num_bits: 4 };
-    let registry = AirFnRegistry::new(&bitwise_xor);
+    let (registry, _) = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
         &bitwise_xor,
         [
@@ -39,7 +39,7 @@ fn test_falied_bitwise_xor() {
 #[should_panic(expected = "RangeCheck4 failed")]
 fn test_falied_big_input_xor() {
     let bitwise_xor = VerifyBitwiseXor { num_bits: 4 };
-    let registry = AirFnRegistry::new(&bitwise_xor);
+    let (registry, _) = AirFnRegistry::new(&bitwise_xor);
     registry.run_air(
         &bitwise_xor,
         [

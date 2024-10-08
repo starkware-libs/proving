@@ -1,0 +1,103 @@
+{
+  "name": "Fib_claim_index_6",
+  "description": "Fib_claim_index_6",
+  "inst_def": {
+    "claim_index": "6"
+  },
+  "input": {
+    "name": "fib_claim_index_6_input",
+    "type": "M31"
+  },
+  "input_num_of_felts": 1,
+  "output": {
+    "name": "state[4]",
+    "type": "M31"
+  },
+  "output_num_of_felts": 1,
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "Deduction": "fib_claim_index_6_input"
+    },
+    {
+      "Call": {
+        "air_fn_name": "FibStep",
+        "air_fn_description": "FibStep",
+        "input_arg": [
+          {
+            "name": "const_1",
+            "type": "M31"
+          },
+          {
+            "name": "state[0]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[1]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "FibStep",
+        "air_fn_description": "FibStep",
+        "input_arg": [
+          {
+            "name": "state[0]",
+            "type": "M31"
+          },
+          {
+            "name": "state[1]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[2]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "FibStep",
+        "air_fn_description": "FibStep",
+        "input_arg": [
+          {
+            "name": "state[1]",
+            "type": "M31"
+          },
+          {
+            "name": "state[2]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[3]",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "FibStep",
+        "air_fn_description": "FibStep",
+        "input_arg": [
+          {
+            "name": "state[2]",
+            "type": "M31"
+          },
+          {
+            "name": "state[3]",
+            "type": "M31"
+          }
+        ],
+        "output": {
+          "name": "state[4]",
+          "type": "M31"
+        }
+      }
+    }
+  ]
+}

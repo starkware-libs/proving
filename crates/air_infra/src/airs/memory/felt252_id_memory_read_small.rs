@@ -110,7 +110,7 @@ pub fn small_to_felt252(
     full_value_limbs.into()
 }
 
-#[derive(Debug, InstDef)]
+#[derive(Debug, InstDef, Default)]
 pub struct ReadSmall {
     #[instdef(skip)]
     pub memory: Felt252IdMemory,

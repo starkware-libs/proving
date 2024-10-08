@@ -1,6 +1,5 @@
 use super::sub252::*;
 
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
@@ -10,21 +9,22 @@ use crate::utils::test_utils::*;
 use crate::const_felt252_expr;
 
 #[test]
-fn test_sub252_air_body() {
-    let air_fn = Sub252 {};
-    let registry = AirFnRegistry::new(&air_fn);
-
-    // Check entry
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&Sub252 {});
     compare_json(
-        &registry.get_air_fn_entry(&air_fn.name()),
-        &(TEST_JSONS_FELT252_DIR.to_owned() + "sub252.json"),
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_FELT252_DIR,
+            entry.name.to_lowercase()
+        ),
     );
 }
 
 #[test]
 fn test_sub252_no_underflow() {
     let air_fn = Sub252 {};
-    let registry = AirFnRegistry::new(&air_fn);
+    let (registry, _) = AirFnRegistry::new(&air_fn);
     let (state, output) = registry.run_air(
         &air_fn,
         [
@@ -46,7 +46,7 @@ fn test_sub252_no_underflow() {
 #[test]
 fn test_sub252_with_underflow() {
     let air_fn = Sub252 {};
-    let registry = AirFnRegistry::new(&air_fn);
+    let (registry, _) = AirFnRegistry::new(&air_fn);
     let (state, output) = registry.run_air(
         &air_fn,
         [

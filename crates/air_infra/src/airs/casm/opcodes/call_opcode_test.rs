@@ -2,7 +2,6 @@ use super::super::casm_state::*;
 use super::super::common::*;
 use super::call_opcode::*;
 use crate::airs::memory::felt252_id_memory::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -12,11 +11,55 @@ use crate::utils::test_utils::*;
 use crate::const_expr;
 use crate::const_felt252_expr;
 
+#[test]
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&CallOpcode {
+        is_rel: false,
+        op1_base_fp: false,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&CallOpcode {
+        is_rel: true,
+        op1_base_fp: false,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&CallOpcode {
+        is_rel: false,
+        op1_base_fp: true,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+}
+
 fn build_and_test(
     op1_base_fp: bool,
     offset2_option: Option<i16>,
     op1_value: i64,
-    entry_file_name: Option<&str>,
     expected_state: Vec<u32>,
 ) {
     let [pc_value, ap_value, fp_value] = [50, 200, 150];
@@ -69,7 +112,7 @@ fn build_and_test(
     call_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
-    let registry = AirFnRegistry::new(&call_opcode);
+    let (registry, _) = AirFnRegistry::new(&call_opcode);
     let (state, next_state) =
         registry.run_air(&call_opcode, CasmStateVar::new(pc, ap.clone(), fp.clone()));
 
@@ -93,14 +136,6 @@ fn build_and_test(
             .map(ToString::to_string)
             .collect::<Vec<_>>()
     );
-
-    // Check entry
-    if let Some(entry_file_name) = entry_file_name {
-        compare_json(
-            &registry.get_air_fn_entry(&call_opcode.name()),
-            &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
-        );
-    }
 }
 
 #[test]
@@ -109,7 +144,6 @@ fn test_relative_call() {
         false,
         None,
         500,
-        Some("relative_call.json"),
         vec![50, 200, 150, 2, 3, 1, 0, 0, 500, 0, 0],
     );
 }
@@ -120,7 +154,6 @@ fn test_relative_call_negative() {
         false,
         None,
         -17,
-        None,
         vec![50, 200, 150, 2, 3, 1, 1, 1, 496, 511, 511],
     );
 }
@@ -131,7 +164,6 @@ fn test_call_base_fp_positive_offset2() {
         true,
         Some(5),
         600,
-        Some("call_base_fp_positive_offset2.json"),
         vec![50, 200, 150, 32773, 2, 3, 1, 88, 1, 0],
     );
 }
@@ -142,7 +174,6 @@ fn test_call_base_fp_negative_offset2() {
         true,
         Some(-5),
         400,
-        None,
         vec![50, 200, 150, 32763, 2, 3, 1, 400, 0, 0],
     );
 }
@@ -153,7 +184,6 @@ fn test_call_base_ap_positive_offset2() {
         false,
         Some(10),
         1234,
-        Some("call_base_ap_positive_offset2.json"),
         vec![50, 200, 150, 32778, 2, 3, 1, 210, 2, 0],
     );
 }
@@ -164,7 +194,6 @@ fn test_call_base_ap_negative_offset2() {
         false,
         Some(-10),
         55,
-        None,
         vec![50, 200, 150, 32758, 2, 3, 1, 55, 0, 0],
     );
 }

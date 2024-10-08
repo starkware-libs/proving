@@ -3,7 +3,6 @@ use super::super::common::*;
 use super::add_opcode::*;
 
 use crate::airs::memory::felt252_id_memory::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -14,6 +13,65 @@ use crate::utils::test_utils::*;
 use crate::const_expr;
 use crate::const_felt252_expr;
 
+#[test]
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&AddOpcode {
+        is_small: true,
+        is_imm: true,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&AddOpcode {
+        is_small: false,
+        is_imm: false,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&AddOpcode {
+        is_small: true,
+        is_imm: false,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&AddOpcode {
+        is_small: false,
+        is_imm: true,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+}
+
 // TODO: Support testing with negative dst/op0/op1, and add such test(s)
 fn test_add_opcode(
     non_consts_flags: [bool; 7],
@@ -21,7 +79,6 @@ fn test_add_opcode(
     dst: Felt252Expr,
     op0: Felt252Expr,
     op1: Felt252Expr,
-    entry_file_name: Option<&str>,
     expected_state: Vec<u32>,
 ) {
     // Read the non-constant flags
@@ -98,7 +155,7 @@ fn test_add_opcode(
 
     // Run air function
 
-    let registry = AirFnRegistry::new(&add_small_opcode);
+    let (registry, _) = AirFnRegistry::new(&add_small_opcode);
     let (state, next_state) = registry.run_air(
         &add_small_opcode,
         CasmStateVar::new(pc.clone(), ap.clone(), fp.clone()),
@@ -124,14 +181,6 @@ fn test_add_opcode(
             .map(|x| x.to_string())
             .collect::<Vec<String>>()
     );
-
-    // Check entry
-    if let Some(entry_file_name) = entry_file_name {
-        compare_json(
-            &registry.get_air_fn_entry(&add_small_opcode.name()),
-            &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
-        );
-    }
 }
 
 #[test]
@@ -142,7 +191,6 @@ fn test_add_small_not_imm() {
         const_felt252_expr!(90125677),
         const_felt252_expr!(77779999),
         const_felt252_expr!(12345678),
-        Some("add_small_not_imm.json"),
         vec![
             10, 50, 100, 32771, 32773, 32775, 1, 0, 0, 1, 0, 1, 0, 0, 365, 410, 343, 2, 0, 0, 31,
             362, 296, 3, 0, 0, 334, 48, 47,
@@ -159,7 +207,6 @@ fn test_add_small_not_equal() {
         const_felt252_expr!(90124653),
         const_felt252_expr!(77779999),
         const_felt252_expr!(12345678),
-        None,
         vec![],
     );
 }
@@ -173,7 +220,6 @@ fn test_add_small_over_27bit() {
         const_felt252_expr!(134217728),
         const_felt252_expr!(134217727),
         const_felt252_expr!(1),
-        None,
         vec![],
     );
 }
@@ -186,7 +232,6 @@ fn test_add_small_imm() {
         const_felt252_expr!(90125677),
         const_felt252_expr!(77779999),
         const_felt252_expr!(12345678),
-        Some("add_small_imm.json"),
         vec![
             10, 50, 100, 32765, 32763, 1, 0, 0, 1, 0, 0, 365, 410, 343, 2, 0, 0, 31, 362, 296, 3,
             0, 0, 334, 48, 47,
@@ -202,7 +247,6 @@ fn test_add_big_not_imm() {
         const_felt252_expr!(0x3000040002i128),
         const_felt252_expr!(0x1008020001i128),
         const_felt252_expr!(0x1ff8020001i128),
-        Some("add_big_not_imm.json"),
         vec![
             10, 50, 100, 32771, 32773, 32775, 0, 1, 0, 1, 0, 1, 2, 0, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 256, 0, 1, 1, 0, 0, 0, 0, 0, 0,
@@ -221,7 +265,6 @@ fn test_add_big_mod_not_equal() {
         const_felt252_expr!(0x3000040002u128, 1u128),
         const_felt252_expr!(0x1008020001i128),
         const_felt252_expr!(0x1ff8020001i128),
-        None,
         vec![],
     );
 }
@@ -234,7 +277,6 @@ fn test_add_big_imm() {
         const_felt252_expr!(0x3000040002i128),
         const_felt252_expr!(0x1008020001i128),
         const_felt252_expr!(0x1ff8020001i128),
-        None,
         vec![
             10, 50, 100, 32771, 32773, 0, 1, 1, 1, 2, 0, 1, 0, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
             0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 2, 1, 256, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -255,7 +297,6 @@ fn test_add_big_with_overflow() {
         ),
         const_felt252_expr!(0, 1u128 << (251 - 128)),
         const_felt252_expr!(0, 1u128 << (251 - 128)),
-        None,
         vec![
             10, 50, 100, 32771, 32773, 0, 1, 1, 1, 511, 511, 511, 511, 511, 511, 511, 511, 511,
             511, 511, 511, 511, 511, 511, 511, 511, 511, 511, 511, 511, 375, 511, 511, 511, 511,

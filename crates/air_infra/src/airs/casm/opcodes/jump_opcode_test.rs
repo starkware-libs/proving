@@ -3,7 +3,6 @@ use super::super::common::*;
 use super::jump_opcode::*;
 
 use crate::airs::memory::felt252_id_memory::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -14,12 +13,89 @@ use crate::utils::test_utils::*;
 use crate::const_expr;
 use crate::const_felt252_expr;
 
+#[test]
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&JumpOpcode {
+        is_rel: true,
+        is_imm: true,
+        is_double_deref: true,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&JumpOpcode {
+        is_rel: true,
+        is_imm: true,
+        is_double_deref: false,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&JumpOpcode {
+        is_rel: true,
+        is_imm: false,
+        is_double_deref: false,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&JumpOpcode {
+        is_rel: false,
+        is_imm: false,
+        is_double_deref: true,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&JumpOpcode {
+        is_rel: false,
+        is_imm: false,
+        is_double_deref: false,
+        memory: Felt252IdMemory::default(),
+    });
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_OPCODES_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
+}
+
 fn test_jump_opcode(
     non_consts_flags: [bool; 6],
     op0: i64,
     op1: i64,
     offsets_value: [Option<i16>; 2],
-    entry_file_name: Option<&str>,
     expected_state: Vec<&str>,
 ) {
     let [is_rel, is_imm, is_double_deref, op0_base_fp, op1_base_fp, ap_update_add_1] =
@@ -92,7 +168,7 @@ fn test_jump_opcode(
     jump_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
-    let registry = AirFnRegistry::new(&jump_opcode);
+    let (registry, _) = AirFnRegistry::new(&jump_opcode);
     let (state, next_state) = registry.run_air(
         &jump_opcode,
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
@@ -113,14 +189,6 @@ fn test_jump_opcode(
 
     // Check state
     assert_eq!(state.calc(), expected_state);
-
-    // Check entry
-    if let Some(entry_file_name) = entry_file_name {
-        compare_json(
-            &registry.get_air_fn_entry(&jump_opcode.name()),
-            &(TEST_JSONS_OPCODES_DIR.to_owned() + entry_file_name),
-        );
-    }
 }
 
 #[test]
@@ -130,7 +198,6 @@ fn test_abs_jump_base_ap() {
         125,
         8,
         [None, Some(2)],
-        Some("abs_jump_base_ap.json"),
         vec![
             "3",     // pc
             "11",    // ap
@@ -154,7 +221,6 @@ fn test_abs_jump_base_fp() {
         125,
         5,
         [None, Some(10)],
-        None,
         vec![
             "3",     // pc
             "11",    // ap
@@ -178,7 +244,6 @@ fn test_abs_jump_base_ap_inc_ap() {
         125,
         8,
         [None, Some(2)],
-        None,
         vec![
             "3",     // pc
             "11",    // ap
@@ -202,7 +267,6 @@ fn test_abs_jump_base_fp_inc_ap() {
         125,
         5,
         [None, Some(10)],
-        None,
         vec![
             "3",     // pc
             "11",    // ap
@@ -226,7 +290,6 @@ fn test_abs_big_op1() {
         125,
         1684685,
         [None, Some(402)],
-        None,
         vec![
             "3",     // pc
             "11",    // ap
@@ -250,7 +313,6 @@ fn test_abs_jump_negativ_offset() {
         125,
         9,
         [None, Some(-9)],
-        None,
         vec![
             "3",     // pc
             "11",    // ap
@@ -274,7 +336,6 @@ fn test_rel_jump() {
         125,
         100,
         [None, None],
-        Some("rel_jump.json"),
         vec![
             "3",   // pc
             "11",  // ap
@@ -297,7 +358,6 @@ fn test_rel_jump_inc_ap() {
         125,
         3,
         [None, None],
-        None,
         vec![
             "3",  // pc
             "11", // ap
@@ -320,7 +380,6 @@ fn test_rel_big_op1() {
         125,
         54687687,
         [None, None],
-        None,
         vec![
             "3",   // pc
             "11",  // ap
@@ -343,7 +402,6 @@ fn test_rel_negative_imm() {
         125,
         -2,
         [None, None],
-        None,
         vec![
             "3",   // pc
             "11",  // ap
@@ -366,7 +424,6 @@ fn test_rel_negative_op1() {
         125,
         -2,
         [None, Some(333)],
-        None,
         vec![
             "3",     // pc
             "11",    // ap
@@ -392,7 +449,6 @@ fn test_rel_deref_base_fp() {
         125,
         16584,
         [None, Some(12345)],
-        Some("rel_jump_deref_base_fp.json"),
         vec![
             "3",     // pc
             "11",    // ap
@@ -418,7 +474,6 @@ fn test_abs_double_deref() {
         125,
         16584,
         [Some(4654), Some(12345)],
-        Some("abs_jump_double_deref.json"),
         vec![
             "3",     // pc
             "11",    // ap
@@ -447,7 +502,6 @@ fn test_abs_immediate() {
         125,
         16584,
         [Some(4654), Some(12345)],
-        None,
         vec![],
     );
 }
@@ -460,7 +514,6 @@ fn test_rel_double_deref() {
         125,
         16584,
         [Some(4654), Some(12345)],
-        None,
         vec![],
     );
 }
