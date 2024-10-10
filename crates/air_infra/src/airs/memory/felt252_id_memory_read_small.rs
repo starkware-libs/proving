@@ -13,7 +13,7 @@ use crate::const_expr;
 
 // The number of limbs that fit in an M31. When reading a "small" value into an M31
 // we'll deduce that many limbs.
-const LIMBS_IN_M31: usize = 3;
+pub const LIMBS_IN_M31: usize = 3;
 
 // 9-bit limbs
 //  limb ->   27  26  25  24  23  22  21  20  19 ...   5   4   3   2   1   0
@@ -46,10 +46,8 @@ impl AirFn for CondDecodeSmallSign {
         let mid_limbs_set = air_builder.deduce(mid_limbs_set_bool.as_felt_mut());
 
         // Require case bits to be bits
-        air_builder.constrain(condition.clone() * msb.clone() * (msb.clone() - const_expr!(1)));
-        air_builder.constrain(
-            condition.clone() * mid_limbs_set.clone() * (mid_limbs_set.clone() - const_expr!(1)),
-        );
+        air_builder.constrain(msb.clone() * (msb.clone() - const_expr!(1)));
+        air_builder.constrain(mid_limbs_set.clone() * (mid_limbs_set.clone() - const_expr!(1)));
 
         // Forbid the case msb = 0, mid_limbs_set = 1
         air_builder.constrain(condition * mid_limbs_set.clone() * (msb.clone() - const_expr!(1)));
