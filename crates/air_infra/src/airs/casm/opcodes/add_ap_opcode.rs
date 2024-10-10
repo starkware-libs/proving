@@ -82,7 +82,7 @@ impl AirFn for AddApOpcode {
         };
 
         CasmStateVar::new(
-            casm_state.pc + const_expr!(2),
+            casm_state.pc + (const_expr!(1) + const_expr!(self.is_imm as u32)),
             casm_state.ap + op1,
             casm_state.fp,
         )
