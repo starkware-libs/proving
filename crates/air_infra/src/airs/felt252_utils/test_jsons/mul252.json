@@ -1,0 +1,702 @@
+{
+  "name": "Mul252",
+  "description": "Mul252",
+  "inst_def": {},
+  "input": [
+    {
+      "name": "mul252_input[0]",
+      "type": "Felt252"
+    },
+    {
+      "name": "mul252_input[1]",
+      "type": "Felt252"
+    }
+  ],
+  "input_num_of_felts": 56,
+  "output": {
+    "name": "tmp_0",
+    "type": "Felt252"
+  },
+  "output_num_of_felts": 28,
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        {
+          "name": "(mul252_input[0] * mul252_input[1])",
+          "type": "Felt252"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_0)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[0]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[0]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_1)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[1]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[1]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_2)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[2]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[2]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_3)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[3]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[3]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_4)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[4]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[4]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_5)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[5]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[5]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_6)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[6]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[6]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_7)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[7]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[7]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_8)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[8]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[8]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_9)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[9]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[9]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_10)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[10]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[10]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_11)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[11]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[11]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_12)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[12]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[12]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_13)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[13]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[13]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_14)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[14]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[14]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_15)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[15]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[15]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_16)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[16]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[16]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_17)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[17]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[17]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_18)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[18]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[18]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_19)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[19]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[19]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_20)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[20]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[20]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_21)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[21]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[21]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_22)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[22]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[22]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_23)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[23]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[23]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_24)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[24]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[24]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_25)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[25]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[25]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_26)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[26]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[26]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": "tmp_0.get_m31(const_27)"
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_1_bits_9",
+        "input_arg": [
+          {
+            "name": "state[27]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_9",
+        "felts": [
+          "state[27]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "VerifyMul252",
+        "air_fn_description": "VerifyMul252",
+        "input_arg": [
+          {
+            "name": "mul252_input[0]",
+            "type": "Felt252"
+          },
+          {
+            "name": "mul252_input[1]",
+            "type": "Felt252"
+          },
+          {
+            "name": "tmp_0",
+            "type": "Felt252"
+          }
+        ],
+        "output": []
+      }
+    }
+  ]
+}
