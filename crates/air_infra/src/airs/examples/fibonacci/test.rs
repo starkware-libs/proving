@@ -11,22 +11,20 @@ use crate::const_expr;
 #[test]
 fn test_wide_fibonacci() {
     let air_fn = WideFib {
-        num_narrow: 2,
-        narrow_size: 2,
+        num_narrow: 8,
+        narrow_size: 20,
     };
-    let (registry, entry) = AirFnRegistry::new(&air_fn);
+    let (registry, _) = AirFnRegistry::new(&air_fn);
     let (_, output) = registry.run_air(&air_fn, const_expr!(1));
-    assert!(output.calc() == *"866");
+    assert_eq!(output.calc(), *"1594392009");
 
-    // Check entry
-    compare_json(
-        &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_EXAMPLES_DIR,
-            entry.name.to_lowercase()
-        ),
-    );
+    // Check entries
+    for (name, entry) in registry.compile().iter() {
+        compare_json(
+            &entry,
+            &format!("{}{}.json", TEST_JSONS_EXAMPLES_DIR, name.to_lowercase()),
+        );
+    }
 }
 
 #[test]

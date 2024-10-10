@@ -1,0 +1,616 @@
+{
+  "name": "WideFib_num_narrow_8_narrow_size_20",
+  "description": "WideFib_num_narrow_8_narrow_size_20",
+  "input": {
+    "Var": [
+      "M31",
+      "widefib_num_narrow_8_narrow_size_20_input"
+    ]
+  },
+  "output": {
+    "State": 16
+  },
+  "row_length": 17,
+  "lookup_relation_uses_count": {
+    "NarrowFib_num_steps_20": 8
+  },
+  "input_num_of_felts": 1,
+  "output_num_of_felts": 1,
+  "constraints": [
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "State": 0
+          },
+          {
+            "State": 1
+          },
+          {
+            "State": 2
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 1
+          },
+          {
+            "State": 2
+          },
+          {
+            "State": 3
+          },
+          {
+            "State": 4
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 3
+          },
+          {
+            "State": 4
+          },
+          {
+            "State": 5
+          },
+          {
+            "State": 6
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 5
+          },
+          {
+            "State": 6
+          },
+          {
+            "State": 7
+          },
+          {
+            "State": 8
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 7
+          },
+          {
+            "State": 8
+          },
+          {
+            "State": 9
+          },
+          {
+            "State": 10
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 9
+          },
+          {
+            "State": 10
+          },
+          {
+            "State": 11
+          },
+          {
+            "State": 12
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 11
+          },
+          {
+            "State": 12
+          },
+          {
+            "State": 13
+          },
+          {
+            "State": 14
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 13
+          },
+          {
+            "State": 14
+          },
+          {
+            "State": 15
+          },
+          {
+            "State": 16
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "widefib_num_narrow_8_narrow_size_20_input"
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "NarrowFib_num_steps_20",
+        "input": {
+          "Array": [
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            },
+            {
+              "State": 0
+            }
+          ]
+        },
+        "output_name": "tmp_1"
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_1[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_1[1]"
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "State": 0
+          },
+          {
+            "State": 1
+          },
+          {
+            "State": 2
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "NarrowFib_num_steps_20",
+        "input": {
+          "Array": [
+            {
+              "State": 1
+            },
+            {
+              "State": 2
+            }
+          ]
+        },
+        "output_name": "tmp_2"
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_2[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_2[1]"
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 1
+          },
+          {
+            "State": 2
+          },
+          {
+            "State": 3
+          },
+          {
+            "State": 4
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "NarrowFib_num_steps_20",
+        "input": {
+          "Array": [
+            {
+              "State": 3
+            },
+            {
+              "State": 4
+            }
+          ]
+        },
+        "output_name": "tmp_3"
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_3[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_3[1]"
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 3
+          },
+          {
+            "State": 4
+          },
+          {
+            "State": 5
+          },
+          {
+            "State": 6
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "NarrowFib_num_steps_20",
+        "input": {
+          "Array": [
+            {
+              "State": 5
+            },
+            {
+              "State": 6
+            }
+          ]
+        },
+        "output_name": "tmp_4"
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_4[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_4[1]"
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 5
+          },
+          {
+            "State": 6
+          },
+          {
+            "State": 7
+          },
+          {
+            "State": 8
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "NarrowFib_num_steps_20",
+        "input": {
+          "Array": [
+            {
+              "State": 7
+            },
+            {
+              "State": 8
+            }
+          ]
+        },
+        "output_name": "tmp_5"
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_5[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_5[1]"
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 7
+          },
+          {
+            "State": 8
+          },
+          {
+            "State": 9
+          },
+          {
+            "State": 10
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "NarrowFib_num_steps_20",
+        "input": {
+          "Array": [
+            {
+              "State": 9
+            },
+            {
+              "State": 10
+            }
+          ]
+        },
+        "output_name": "tmp_6"
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_6[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_6[1]"
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 9
+          },
+          {
+            "State": 10
+          },
+          {
+            "State": 11
+          },
+          {
+            "State": 12
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "NarrowFib_num_steps_20",
+        "input": {
+          "Array": [
+            {
+              "State": 11
+            },
+            {
+              "State": 12
+            }
+          ]
+        },
+        "output_name": "tmp_7"
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_7[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_7[1]"
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 11
+          },
+          {
+            "State": 12
+          },
+          {
+            "State": 13
+          },
+          {
+            "State": 14
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "NarrowFib_num_steps_20",
+        "input": {
+          "Array": [
+            {
+              "State": 13
+            },
+            {
+              "State": 14
+            }
+          ]
+        },
+        "output_name": "tmp_8"
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_8[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_8[1]"
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "NarrowFib_num_steps_20",
+        "felts": [
+          {
+            "State": 13
+          },
+          {
+            "State": 14
+          },
+          {
+            "State": 15
+          },
+          {
+            "State": 16
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ]
+}

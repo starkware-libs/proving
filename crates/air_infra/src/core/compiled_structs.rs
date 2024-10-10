@@ -1,13 +1,16 @@
+use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CompiledAirFn {
     pub name: String,
     pub description: String,
     pub input: CompiledAirVar,
     pub output: CompiledAirVar,
 
-    // TODO: add total number of columns in the trace.
+    pub row_length: usize,
+    pub lookup_relation_uses_count: IndexMap<String, usize>,
+
     // TODO: remove these:
     pub input_num_of_felts: usize,
     pub output_num_of_felts: usize,
@@ -21,7 +24,7 @@ pub enum TraceGenStep {
     // Constains a description of the following code block.
     StartBlock(String),
 
-    EndBlock(),
+    EndBlock,
 
     Deduction(CompiledAirVar),
 
@@ -45,7 +48,7 @@ pub enum ConstraintEvalStep {
     // Constains a description of the following code block.
     StartBlock(String),
 
-    EndBlock(),
+    EndBlock,
 
     // The argument is a polynomial in in-state values. The constraint requires it
     // to evaluate to zero.

@@ -115,7 +115,7 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
                 *multiplicity += 1;
             }
             TraceGenStep::StartBlock(_) => (),
-            TraceGenStep::EndBlock() => (),
+            TraceGenStep::EndBlock => (),
             TraceGenStep::LookupData(LookupData {
                 relation_name,
                 felts,

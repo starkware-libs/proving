@@ -1,5 +1,4 @@
 use std::cell::RefCell;
-use std::collections::HashMap;
 use std::rc::Rc;
 
 use indexmap::IndexMap;
@@ -26,11 +25,136 @@ pub struct AirFnEntry {
     pub(crate) air_body: Vec<AirBodyComponent>,
 }
 
+impl AirFnEntry {
+    // Compiles the air function entry into a compiled air function.
+    pub(crate) fn compile(self) -> CompiledAirFn {
+        let (deductions, constraints) = Self::compile_air_body(self.air_body);
+        CompiledAirFn {
+            name: self.name,
+            description: self.description,
+            input: self.input.into(),
+            output: self.output.into(),
+            row_length: Self::get_row_length(deductions.clone()),
+            lookup_relation_uses_count: Self::get_lookup_relation_uses_count(deductions.clone()),
+            input_num_of_felts: self.input_num_of_felts,
+            output_num_of_felts: self.output_num_of_felts,
+            constraints,
+            deductions,
+        }
+    }
+
+    // Returns the number of times a lookup relation is used by the air function.
+    fn get_lookup_relation_uses_count(deductions: Vec<TraceGenStep>) -> IndexMap<String, usize> {
+        let mut lookup_calls = IndexMap::new();
+        for deduction in deductions {
+            if let TraceGenStep::LookupData(LookupData {
+                relation_name,
+                use_or_yield,
+                ..
+            }) = deduction
+            {
+                if use_or_yield == UseOrYield::Use {
+                    *lookup_calls.entry(relation_name).or_insert(0) += 1;
+                }
+            }
+        }
+        lookup_calls
+    }
+
+    // Returns the number of columns in a trace row of the air function.
+    fn get_row_length(deductions: Vec<TraceGenStep>) -> usize {
+        deductions
+            .iter()
+            .filter_map(|deduction| {
+                if let TraceGenStep::Deduction(_) = deduction {
+                    Some(1)
+                } else {
+                    None
+                }
+            })
+            .sum()
+    }
+
+    // Transforms the air body of an air function into the compiled air fn format.
+    fn compile_air_body(
+        air_body: Vec<AirBodyComponent>,
+    ) -> (Vec<TraceGenStep>, Vec<ConstraintEvalStep>) {
+        let mut constraints = vec![];
+        let mut deductions = vec![];
+
+        for component in air_body {
+            match component {
+                AirBodyComponent::Constraint(constraint) => {
+                    constraints.push(ConstraintEvalStep::Constraint(constraint.into()));
+                }
+                AirBodyComponent::Assignment {
+                    constraint,
+                    deduction,
+                } => {
+                    constraints.push(ConstraintEvalStep::Constraint(constraint.into()));
+                    deductions.push(TraceGenStep::Deduction(deduction.into()));
+                }
+                AirBodyComponent::Deduction(deduction) => {
+                    deductions.push(TraceGenStep::Deduction(deduction.into()));
+                }
+                AirBodyComponent::Intermediate(name, var, ty) => {
+                    if ty.in_constraints {
+                        constraints.push(ConstraintEvalStep::Intermediate(
+                            name.clone(),
+                            var.clone().into(),
+                        ));
+                    }
+
+                    if ty.in_deductions {
+                        deductions.push(TraceGenStep::Intermediate(name, var.into()));
+                    }
+                }
+                AirBodyComponent::Call(f) => {
+                    let (new_deductions, new_constraints) = Self::compile_air_body(f.air_body);
+
+                    constraints.push(ConstraintEvalStep::StartBlock(f.air_fn_description.clone()));
+                    constraints.extend(new_constraints);
+                    constraints.push(ConstraintEvalStep::EndBlock);
+
+                    deductions.push(TraceGenStep::StartBlock(f.air_fn_description));
+                    deductions.extend(new_deductions);
+                    deductions.push(TraceGenStep::EndBlock);
+                }
+                AirBodyComponent::LookupCall(call) => {
+                    deductions.push(TraceGenStep::LookupCall {
+                        fn_name: call.air_fn_name,
+                        input: call.input_arg.into(),
+                        output_name: call.output_name,
+                    });
+                }
+                AirBodyComponent::LookupData {
+                    relation_name,
+                    felts,
+                    use_or_yield,
+                } => {
+                    constraints.push(ConstraintEvalStep::LookupData(LookupData {
+                        relation_name: relation_name.clone(),
+                        felts: felts.clone().into_iter().map(|f| f.into()).collect(),
+                        use_or_yield: use_or_yield.clone(),
+                    }));
+                    deductions.push(TraceGenStep::LookupData(LookupData {
+                        relation_name,
+                        felts: felts.into_iter().map(|f| f.into()).collect(),
+                        use_or_yield,
+                    }));
+                }
+            }
+        }
+
+        (deductions, constraints)
+    }
+}
+
 // AirFnRegistry is created for a specific air function. It keeps all the air function entries
 // for the air function and its subroutines.
 #[derive(Debug, Clone, Serialize, Default)]
 pub struct AirFnRegistry {
-    air_fns: Rc<RefCell<HashMap<String, AirFnEntry>>>,
+    air_fns: Rc<RefCell<IndexMap<String, AirFnEntry>>>,
     #[serde(skip)]
     intermediate_index: Rc<RefCell<usize>>,
 }
@@ -38,12 +162,12 @@ pub struct AirFnRegistry {
 impl AirFnRegistry {
     pub fn new_empty() -> Self {
         Self {
-            air_fns: Rc::new(RefCell::new(HashMap::new())),
+            air_fns: Rc::new(RefCell::new(IndexMap::new())),
             intermediate_index: Rc::new(RefCell::new(0)),
         }
     }
 
-    // TODO: leave for tests only
+    #[cfg(test)]
     pub fn new<I, O>(air_fn: &dyn AirFn<In = I, Out = O>) -> (Self, AirFnEntry)
     where
         I: AirVar,
@@ -171,99 +295,22 @@ impl AirFnRegistry {
         (air_builder.air_body, input, output)
     }
 
-    pub fn get_compiled_air_fn(&self, air_fn_name: &String) -> CompiledAirFn {
-        let entry = self
-            .air_fns
+    #[cfg(test)]
+    pub fn compile(self) -> IndexMap<String, CompiledAirFn> {
+        self.air_fns
             .borrow()
-            .get(air_fn_name)
-            .unwrap_or_else(|| panic!("Air function {} not found", air_fn_name))
-            .clone();
-        let (deductions, constraints) = Self::compile_air_fn(entry.air_body);
-
-        CompiledAirFn {
-            name: air_fn_name.clone(),
-            description: entry.description,
-            input: entry.input.into(),
-            output: entry.output.into(),
-            input_num_of_felts: entry.input_num_of_felts,
-            output_num_of_felts: entry.output_num_of_felts,
-            constraints,
-            deductions,
-        }
-    }
-
-    // Transforms the air body of an air function into the compiled air fn format.
-    fn compile_air_fn(
-        air_body: Vec<AirBodyComponent>,
-    ) -> (Vec<TraceGenStep>, Vec<ConstraintEvalStep>) {
-        let mut constraints = vec![];
-        let mut deductions = vec![];
-
-        for component in air_body {
-            match component {
-                AirBodyComponent::Constraint(constraint) => {
-                    constraints.push(ConstraintEvalStep::Constraint(constraint.into()));
+            .iter()
+            .enumerate()
+            .filter_map(|(i, (name, entry))| {
+                if (entry.trace_type == TraceType::Const || entry.trace_type == TraceType::Inline)
+                    && (i != self.air_fns.borrow().len() - 1)
+                {
+                    None
+                } else {
+                    Some((name.clone(), entry.clone().compile()))
                 }
-                AirBodyComponent::Assignment {
-                    constraint,
-                    deduction,
-                } => {
-                    constraints.push(ConstraintEvalStep::Constraint(constraint.into()));
-                    deductions.push(TraceGenStep::Deduction(deduction.into()));
-                }
-                AirBodyComponent::Deduction(deduction) => {
-                    deductions.push(TraceGenStep::Deduction(deduction.into()));
-                }
-                AirBodyComponent::Intermediate(name, var, ty) => {
-                    if ty.in_constraints {
-                        constraints.push(ConstraintEvalStep::Intermediate(
-                            name.clone(),
-                            var.clone().into(),
-                        ));
-                    }
-
-                    if ty.in_deductions {
-                        deductions.push(TraceGenStep::Intermediate(name, var.into()));
-                    }
-                }
-                AirBodyComponent::Call(f) => {
-                    let (new_deductions, new_constraints) = Self::compile_air_fn(f.air_body);
-
-                    constraints.push(ConstraintEvalStep::StartBlock(f.air_fn_description.clone()));
-                    constraints.extend(new_constraints);
-                    constraints.push(ConstraintEvalStep::EndBlock());
-
-                    deductions.push(TraceGenStep::StartBlock(f.air_fn_description));
-                    deductions.extend(new_deductions);
-                    deductions.push(TraceGenStep::EndBlock());
-                }
-                AirBodyComponent::LookupCall(call) => {
-                    deductions.push(TraceGenStep::LookupCall {
-                        fn_name: call.air_fn_name,
-                        input: call.input_arg.into(),
-                        output_name: call.output_name,
-                    });
-                }
-                AirBodyComponent::LookupData {
-                    relation_name,
-                    felts,
-                    use_or_yield,
-                } => {
-                    constraints.push(ConstraintEvalStep::LookupData(LookupData {
-                        relation_name: relation_name.clone(),
-                        felts: felts.clone().into_iter().map(|f| f.into()).collect(),
-                        use_or_yield: use_or_yield.clone(),
-                    }));
-                    deductions.push(TraceGenStep::LookupData(LookupData {
-                        relation_name,
-                        felts: felts.into_iter().map(|f| f.into()).collect(),
-                        use_or_yield,
-                    }));
-                }
-            }
-        }
-
-        (deductions, constraints)
+            })
+            .collect()
     }
 
     fn get_intermediate_index(&self) -> usize {

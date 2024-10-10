@@ -173,7 +173,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 code.extend(parse_lookup_constraint(relation_name, felts, use_or_yield));
             }
             ConstraintEvalStep::StartBlock(_) => (),
-            ConstraintEvalStep::EndBlock() => (),
+            ConstraintEvalStep::EndBlock => (),
         }
     }
 

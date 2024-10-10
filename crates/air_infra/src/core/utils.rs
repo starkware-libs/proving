@@ -1,10 +1,12 @@
-use serde::Serialize;
-use serde_json::to_writer_pretty;
 use std::fmt::Display;
+use std::fs;
 use std::fs::File;
 use std::io;
 use std::io::{BufWriter, Write};
 use std::path::PathBuf;
+
+use serde::Serialize;
+use serde_json::{to_writer_pretty, Value};
 
 use super::compiled_structs::*;
 
@@ -104,4 +106,9 @@ where
     to_writer_pretty(&mut writer, value).expect("serialization failed");
     writer.flush().expect("flush failed");
     writer.write_all(b"\n").expect("write failed");
+}
+
+pub fn read_json(file_path: &str) -> Value {
+    let json_file = fs::read_to_string(file_path).unwrap();
+    serde_json::from_str(&json_file).expect("Invalid JSON file")
 }

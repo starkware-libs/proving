@@ -1,8 +1,6 @@
 use serde::Serialize;
-use serde_json::Value;
-use std::fs;
 
-use crate::core::utils::dump_to_file;
+use crate::core::utils::*;
 
 pub const TEST_JSONS_DECODE_INSTRUCTION_DIR: &str = "src/airs/casm/decode_instruction/test_jsons/";
 pub const TEST_JSONS_OPCODES_DIR: &str = "src/airs/casm/opcodes/test_jsons/";
@@ -20,13 +18,10 @@ where
     if is_fix_mode {
         dump_to_file(value, Some(file_path));
     } else {
-        let json_file = fs::read_to_string(file_path.clone()).unwrap();
-        let expected_entry_json: Value =
-            serde_json::from_str(&json_file).expect("Invalid JSON file for the expected entry");
-        let entry_json =
-            serde_json::to_value(value).expect("Failed to convert current entry to JSON value");
+        let expected_json = read_json(file_path);
+        let given_json = serde_json::to_value(value).expect("Failed to serialize the given value");
         assert!(
-            entry_json == expected_entry_json,
+            given_json == expected_json,
             r#"
             Given value
             is different from the json in {}.

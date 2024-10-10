@@ -2,8 +2,6 @@ use std::collections::HashSet;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use air_infra::core::air_fn::AirFn;
-use air_infra::core::air_fn_registry::AirFnRegistry;
 use air_infra::core::compiled_structs::{
     CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupData, TraceGenStep,
 };
@@ -40,12 +38,9 @@ pub fn reformat_rust_code_inner(code_text: String) -> String {
 }
 
 // Generates the prover & verifier code.
-pub fn dump_component_code(air_fn: &impl AirFn, folder_path: &Path) {
-    let (registry, _) = AirFnRegistry::new(air_fn);
-
-    let lists = registry.get_compiled_air_fn(&air_fn.name());
-    let claim_provers = generate_simd_claim_provers(&lists);
-    let eval_tokens = generate_component_structs(&lists.name.clone(), lists);
+pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
+    let claim_provers = generate_simd_claim_provers(&air_fn);
+    let eval_tokens = generate_component_structs(&air_fn.name.clone(), air_fn);
 
     // Write the generated code to files.
     let text = reformat_rust_code(claim_provers.to_string().unwrap());
@@ -68,7 +63,7 @@ pub fn dump_component_code(air_fn: &impl AirFn, folder_path: &Path) {
     }
 }
 
-pub fn assert_generated_code_unchanged(air_fn: &impl AirFn, folder_path: &Path) {
+pub fn assert_generated_code_unchanged(air_fn: CompiledAirFn, folder_path: &Path) {
     let temp_dir = tempdir().expect("Could not open temporary folder!");
     let temp_dir = temp_dir.path();
     dump_component_code(air_fn, temp_dir);
@@ -203,8 +198,8 @@ pub fn n_trace_cells(deductions: &[TraceGenStep]) -> usize {
 
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'
 #[cfg(test)]
-pub fn compare_contents_or_fix_with_path(air_fn: &impl AirFn, folder_path: &Path) {
-    let component_name = air_fn.name().to_string().to_lowercase();
+pub fn compare_contents_or_fix_with_path(air_fn: CompiledAirFn, folder_path: &Path) {
+    let component_name = air_fn.name.to_lowercase();
     let folder_path = folder_path.join(component_name + "/");
     fs::create_dir_all(&folder_path).ok();
     let is_fix_mode = std::env::var("FIX_CODE") == Ok("1".to_string());

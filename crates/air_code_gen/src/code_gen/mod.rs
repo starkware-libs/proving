@@ -6,13 +6,14 @@ pub mod utils;
 
 #[cfg(test)]
 mod tests {
-    use air_infra::airs::examples::fibonacci::narrow_fib::NarrowFib;
-    use air_infra::airs::examples::fibonacci::wide_fib::WideFib;
-    use air_infra::core::air_fn::AirFn;
+    // TODO(AnatG): move these to a different crate
+    use air_infra::core::compiled_structs::CompiledAirFn;
+    use air_infra::core::utils::read_json;
+    use serde_json::from_value;
 
     use crate::code_gen::utils::{compare_contents_or_fix_with_path, project_root};
 
-    fn generate_component_code(air_fn: &impl AirFn) {
+    fn generate_component_code(air_fn: CompiledAirFn) {
         const COMPONENTS_DIR: &str = "../generated_components/src/";
         let folder_path = project_root().join(COMPONENTS_DIR);
         compare_contents_or_fix_with_path(air_fn, &folder_path);
@@ -22,16 +23,18 @@ mod tests {
     // separate crate.
     #[test]
     fn narrow_fib_gen() {
-        let air_fn = NarrowFib { num_steps: 20 };
-        generate_component_code(&air_fn);
+        let air_fn_ser =
+            read_json("../air_infra/src/airs/examples/test_jsons/narrowfib_num_steps_20.json");
+        let air_fn: CompiledAirFn = from_value(air_fn_ser).unwrap();
+        generate_component_code(air_fn);
     }
 
     #[test]
     fn wide_fib_code_gen() {
-        let air_fn = WideFib {
-            num_narrow: 8,
-            narrow_size: 20,
-        };
-        generate_component_code(&air_fn);
+        let air_fn_ser = read_json(
+            "../air_infra/src/airs/examples/test_jsons/widefib_num_narrow_8_narrow_size_20.json",
+        );
+        let air_fn: CompiledAirFn = from_value(air_fn_ser).unwrap();
+        generate_component_code(air_fn);
     }
 }

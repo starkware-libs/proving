@@ -1,7 +1,6 @@
 use crate::airs::casm::opcodes::call_opcode::*;
 use crate::airs::casm::opcodes::jump_opcode::*;
 use crate::airs::casm::opcodes::ret_opcode::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::compiled_structs::*;
 
@@ -18,7 +17,7 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
             }
             ConstraintEvalStep::Intermediate(_, _) => {}
             ConstraintEvalStep::StartBlock(_) => {}
-            ConstraintEvalStep::EndBlock() => {}
+            ConstraintEvalStep::EndBlock => {}
         }
     }
 
@@ -32,7 +31,7 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
                 output_name: _,
             } => {}
             TraceGenStep::StartBlock(_) => {}
-            TraceGenStep::EndBlock() => {}
+            TraceGenStep::EndBlock => {}
             TraceGenStep::LookupData(_) => {}
         }
     }
@@ -53,8 +52,7 @@ pub fn print_fn_sizes() {
         op1_base_fp: false,
         memory: Default::default(),
     };
-    registry.add_entry(&func);
-    let compiled = registry.get_compiled_air_fn(&func.name());
+    let compiled = registry.add_entry(&func).compile();
     print_statistics("call abs [ap]", compiled);
 
     let func = CallOpcode {
@@ -62,9 +60,8 @@ pub fn print_fn_sizes() {
         op1_base_fp: false,
         memory: Default::default(),
     };
-    registry.add_entry(&func);
-    let compiled = registry.get_compiled_air_fn(&func.name());
-    print_statistics("call is_rel [ap]", compiled);
+    let compiled = registry.add_entry(&func).compile();
+    print_statistics("call rel [ap]", compiled);
 
     let func = JumpOpcode {
         is_rel: false,
@@ -72,8 +69,7 @@ pub fn print_fn_sizes() {
         is_double_deref: false,
         memory: Default::default(),
     };
-    registry.add_entry(&func);
-    let compiled = registry.get_compiled_air_fn(&func.name());
+    let compiled = registry.add_entry(&func).compile();
     print_statistics("jump abs [ap/fp]", compiled);
 
     let func = JumpOpcode {
@@ -82,14 +78,12 @@ pub fn print_fn_sizes() {
         is_double_deref: false,
         memory: Default::default(),
     };
-    registry.add_entry(&func);
-    let compiled = registry.get_compiled_air_fn(&func.name());
-    print_statistics("jump is_rel [ap]", compiled);
+    let compiled = registry.add_entry(&func).compile();
+    print_statistics("jump rel [ap]", compiled);
 
     let func = RetOpcode {
         memory: Default::default(),
     };
-    registry.add_entry(&func);
-    let compiled = registry.get_compiled_air_fn(&func.name());
+    let compiled = registry.add_entry(&func).compile();
     print_statistics("ret", compiled);
 }
