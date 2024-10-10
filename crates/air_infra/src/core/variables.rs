@@ -16,7 +16,9 @@ use super::expressions::uint32_expr::*;
 use super::expressions::uint64_expr::*;
 use super::expressions::var_expr::*;
 use super::prover_types::*;
+use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
+use crate::airs::casm::opcodes::generic_opcode::generic_opcode::*;
 
 #[cfg(test)]
 use crate::core::Felt;
@@ -258,6 +260,12 @@ type Cond = FeltExpr;
 impl_air_var!((CasmAddress, FeltExpr, Cond));
 type Id = FeltExpr;
 impl_air_var!((FeltExpr, Id));
+type GenericFlags = [FeltExpr; GENERIC_FLAGS_SIZE];
+type Operands = [Felt252Expr; 3];
+impl_air_var!((GenericFlags, Offsets));
+impl_air_var!((CasmStateVar, GenericFlags, Offsets));
+impl_air_var!((CasmStateVar, GenericFlags, Offsets, Operands));
+impl_air_var!((CasmStateVar, GenericFlags, Operands));
 
 // Implements AirVar for arrays and tuples of air vars.
 #[macro_export]
