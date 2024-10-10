@@ -4,7 +4,7 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 
-use super::felt252_id_memory::*;
+use super::memory::*;
 
 #[derive(Debug, InstDef)]
 pub struct MemVerify {

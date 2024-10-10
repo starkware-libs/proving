@@ -1,6 +1,6 @@
 use inst_def::InstDef;
 
-use crate::airs::memory::felt252_id_memory::*;
+use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::prover_types::*;

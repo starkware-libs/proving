@@ -1,7 +1,7 @@
 use super::super::common::*;
 use super::decode_inst::*;
 
-use crate::airs::memory::felt252_id_memory::*;
+use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;

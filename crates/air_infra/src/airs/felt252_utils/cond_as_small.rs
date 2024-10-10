@@ -2,8 +2,8 @@ use std::array::from_fn;
 
 use inst_def::InstDef;
 
-use crate::airs::memory::felt252_id_memory::*;
-use crate::airs::memory::felt252_id_memory_read_small::*;
+use crate::airs::felt252_id_memory::memory::*;
+use crate::airs::felt252_id_memory::read_small::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;

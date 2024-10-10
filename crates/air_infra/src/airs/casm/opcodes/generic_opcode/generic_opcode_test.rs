@@ -9,7 +9,7 @@ use crate::airs::casm::opcodes::jump_opcode::*;
 use crate::airs::casm::opcodes::jump_opcode_test::*;
 use crate::airs::casm::opcodes::ret_opcode::*;
 use crate::airs::casm::opcodes::ret_opcode_test::*;
-use crate::airs::memory::felt252_id_memory::*;
+use crate::airs::felt252_id_memory::memory::*;
 
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;

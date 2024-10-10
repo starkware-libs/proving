@@ -1,6 +1,6 @@
 use inst_def::InstDef;
 
-use super::felt252_id_memory::*;
+use super::memory::*;
 
 use crate::airs::casm::common::*;
 use crate::core::air_fn::*;

@@ -7,7 +7,7 @@ use crate::airs::casm::opcodes::jump_opcode::*;
 use crate::airs::casm::opcodes::ret_opcode::*;
 use crate::airs::examples::bit_unpacking::bit_unpack::*;
 use crate::airs::examples::fibonacci::fib::*;
-use crate::airs::memory::felt252_id_memory::*;
+use crate::airs::felt252_id_memory::memory::*;
 use crate::airs::uint32_utils::add32::*;
 use crate::core::air_fn_registry::*;
 

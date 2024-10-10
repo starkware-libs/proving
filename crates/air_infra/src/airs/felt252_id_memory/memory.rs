@@ -16,8 +16,8 @@ use crate::core::Felt;
 
 use crate::const_expr;
 
-use super::felt252_id_memory_read_positive::*;
-use super::felt252_id_memory_read_small::*;
+use super::read_positive::*;
+use super::read_small::*;
 
 /// Stores an address -> Felt252 mapping using two components: 1. address -> ID table and
 /// 2. ID -> Felt252 table. The ID is a single M31 felt and it is guaranteed that different

@@ -8,7 +8,7 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::prover_types::*;
 use crate::core::variables::*;
 
-use super::felt252_id_memory::*;
+use super::memory::*;
 
 #[derive(Debug, InstDef)]
 pub struct ReadPositive {

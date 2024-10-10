@@ -1,7 +1,7 @@
-use super::felt252_id_memory::*;
+use super::memory::*;
+use super::read_positive::*;
+use super::read_small::*;
 
-use crate::airs::memory::felt252_id_memory_read_positive::*;
-use crate::airs::memory::felt252_id_memory_read_small::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;

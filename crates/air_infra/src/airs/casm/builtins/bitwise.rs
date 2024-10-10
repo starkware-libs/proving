@@ -2,9 +2,9 @@ use inst_def::InstDef;
 
 use crate::airs::casm::bitwise_xor::*;
 use crate::airs::casm::const_tables::seq::*;
-use crate::airs::memory::felt252_id_memory::*;
-use crate::airs::memory::felt252_id_memory_read_positive::*;
-use crate::airs::memory::felt252_id_memory_verify::*;
+use crate::airs::felt252_id_memory::memory::*;
+use crate::airs::felt252_id_memory::read_positive::*;
+use crate::airs::felt252_id_memory::verify::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::prover_types::*;
