@@ -100,13 +100,19 @@
       ]
     },
     {
-      "Deduction": "tmp_0.pc"
+      "Deduction": [
+        "tmp_0.pc"
+      ]
     },
     {
-      "Deduction": "tmp_0.ap"
+      "Deduction": [
+        "tmp_0.ap"
+      ]
     },
     {
-      "Deduction": "tmp_0.fp"
+      "Deduction": [
+        "tmp_0.fp"
+      ]
     },
     {
       "Call": {
@@ -217,7 +223,10 @@
       }
     },
     {
-      "Deduction": "(const_1 // ((((((((((((((((((((((((((((const_0 + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]))"
+      "Deduction": [
+        "(const_1 // ((((((((((((((((((((((((((((const_0 + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]))",
+        "res"
+      ]
     },
     {
       "Constraint": "((((((((((((((((((((((((((((((const_0 + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + state[33]) * state[34]) - const_1)"
@@ -262,7 +271,10 @@
       ]
     },
     {
-      "Deduction": "(const_1 // ((((((((((((((((((((((((((((const_0 + (tmp_40 * tmp_40)) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + (tmp_41 * tmp_41)) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + (tmp_42 * tmp_42)))"
+      "Deduction": [
+        "(const_1 // ((((((((((((((((((((((((((((const_0 + (tmp_40 * tmp_40)) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + (tmp_41 * tmp_41)) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + (tmp_42 * tmp_42)))",
+        "res_squares"
+      ]
     },
     {
       "Constraint": "((((((((((((((((((((((((((((((const_0 + (tmp_40 * tmp_40)) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + (tmp_41 * tmp_41)) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + (tmp_42 * tmp_42)) * state[35]) - const_1)"

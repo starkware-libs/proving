@@ -6,6 +6,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::prover_types::*;
+use crate::core::state::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
@@ -18,7 +19,7 @@ fn test_with_matching_memory(
     is_flag_const: [bool; 15],
     offsets: [i16; 3],
     is_offset_const: [bool; 3],
-    expected_state: Vec<u32>,
+    expected_state: State,
 ) {
     let const_offsets = offsets
         .iter()
@@ -67,12 +68,11 @@ fn test_with_matching_memory(
         ),
     );
 
-    assert_eq!(
-        state.calc(),
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
         expected_state
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<_>>()
     );
 
     for (i, &offset) in offsets.iter().enumerate() {
@@ -120,8 +120,26 @@ fn test_no_consts() {
         offsets,
         is_offset_const,
         vec![
-            49953, 30875, 36026, 0, 1, 0, 1, 0, 0, 0, 1, 0, 1, 1, 0, 0, 0, 1,
-        ],
+            (49953, "offset_0"),
+            (30875, "offset_1"),
+            (36026, "offset_2"),
+            (0, "dst_base_fp"),
+            (1, "op0_base_fp"),
+            (0, "op1_imm"),
+            (1, "op1_base_fp"),
+            (0, "op1_base_ap"),
+            (0, "res_add"),
+            (0, "res_mul"),
+            (1, "pc_update_jump"),
+            (0, "pc_update_jump_rel"),
+            (1, "pc_update_jnz"),
+            (1, "ap_update_add"),
+            (0, "ap_update_add_1"),
+            (0, "opcode_call"),
+            (0, "opcode_ret"),
+            (1, "opcode_assert_eq"),
+        ]
+        .into(),
     );
 }
 
@@ -131,7 +149,13 @@ fn test_all_consts() {
     let is_offset_const = [true; 3];
     let is_flag_const = [true; 15];
 
-    test_with_matching_memory(flags, is_flag_const, offsets, is_offset_const, vec![]);
+    test_with_matching_memory(
+        flags,
+        is_flag_const,
+        offsets,
+        is_offset_const,
+        vec![].into(),
+    );
 }
 
 #[test]
@@ -147,6 +171,6 @@ fn test_some_consts() {
         is_flag_const,
         offsets,
         is_offset_const,
-        vec![30875, 0, 0],
+        vec![(30875, "offset_1"), (0, "dst_base_fp"), (0, "op1_imm")].into(),
     );
 }

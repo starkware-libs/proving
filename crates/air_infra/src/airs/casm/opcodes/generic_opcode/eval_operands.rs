@@ -73,12 +73,17 @@ impl AirFn for EvalOperands {
 
         let res_constrained = air_builder
             .let_for_constraint(const_expr!(1) - flags[FLAG_PC_UPDATE_JNZ_INDEX].clone());
-        for (res_felt, (op1_felt, (sum_felt, prod_felt))) in res.as_felts_mut().into_iter().zip(
-            op1.as_felts()
-                .iter()
-                .zip(sum.as_felts().iter().zip(prod.as_felts())),
-        ) {
-            air_builder.deduce(res_felt);
+        for (i, (res_felt, (op1_felt, (sum_felt, prod_felt)))) in res
+            .as_felts_mut()
+            .into_iter()
+            .zip(
+                op1.as_felts()
+                    .iter()
+                    .zip(sum.as_felts().iter().zip(prod.as_felts())),
+            )
+            .enumerate()
+        {
+            air_builder.deduce(res_felt, &format!("res_limb_{}", i));
             air_builder.constrain(
                 (res_constrained.clone())
                     * (flags[FLAG_RES_OP1_INDEX].clone() * (res_felt.clone() - op1_felt.clone())

@@ -26,7 +26,7 @@ impl AirFn for WideFib {
             num_steps: self.narrow_size,
         };
 
-        air_builder.deduce(&mut input);
+        air_builder.deduce(&mut input, "");
         let mut narrow_input = [const_expr!(1), input];
 
         for _ in 0..self.num_narrow {

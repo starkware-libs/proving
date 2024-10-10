@@ -32,8 +32,11 @@ fn test_verify_add252_no_overflow() {
             const_felt252_expr!(0x3000040002u128, 0u128),
         ],
     );
-    let expected_state = ["0"];
-    assert_eq!(state.calc(), expected_state);
+    assert!(
+        state == vec![(0, "sub_p_bit")].into(),
+        "State {} does not match [(0, 'sub_p_bit')]",
+        state
+    );
 }
 
 #[test]
@@ -51,6 +54,9 @@ fn test_verify_add252_with_overflow() {
             ),
         ],
     );
-    let expected_state = ["1"];
-    assert_eq!(state.calc(), expected_state);
+    assert!(
+        state == vec![(1, "sub_p_bit")].into(),
+        "State {} does not match [(1, 'sub_p_bit')]",
+        state
+    );
 }

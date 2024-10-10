@@ -6,8 +6,8 @@ use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::state::*;
 use crate::core::variables::*;
-#[cfg(test)]
 use crate::utils::test_utils::*;
 
 // Macros
@@ -63,21 +63,39 @@ fn test_entry_json() {
 #[test]
 #[should_panic(expected = "given value != value in memory")]
 fn test_assert_not_eq_deref() {
-    test_assert_equal([true, false, false, false, true, false], 1, 4, 2, vec![]);
+    test_assert_equal(
+        [true, false, false, false, true, false],
+        1,
+        4,
+        2,
+        vec![].into(),
+    );
 }
 
 // [ap + offset] == is_imm
 #[test]
 #[should_panic(expected = "given value != value in memory")]
 fn test_assert_not_eq_imm() {
-    test_assert_equal([false, false, true, false, false, false], 3, 4, 5, vec![]);
+    test_assert_equal(
+        [false, false, true, false, false, false],
+        3,
+        4,
+        5,
+        vec![].into(),
+    );
 }
 
 // [ap + offset] == [[fp + offset] + offset]
 #[test]
 #[should_panic]
 fn test_assert_not_eq_double_deref() {
-    test_assert_equal([false, true, false, false, false, false], 15, 6, 16, vec![]);
+    test_assert_equal(
+        [false, true, false, false, false, false],
+        15,
+        6,
+        16,
+        vec![].into(),
+    );
 }
 
 #[test]
@@ -87,7 +105,23 @@ fn test_assert_eq_double_deref_big_op0() {
         15,
         1546487,
         15,
-        vec![3, 11, 6, 32771, 32775, 32770, 1, 0, 0, 2, 247, 460, 5, 1],
+        vec![
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (32771, "offset_0"),
+            (32775, "offset_1"),
+            (32770, "offset_2"),
+            (1, "dst_base_fp"),
+            (0, "op0_base_fp"),
+            (0, "ap_update_add_1"),
+            (2, "id"),
+            (247, "limb_0"),
+            (460, "limb_1"),
+            (5, "limb_2"),
+            (1, "id"),
+        ]
+        .into(),
     );
 }
 
@@ -99,7 +133,7 @@ fn test_assert_not_eq_double_deref_big_op0() {
         15,
         454687,
         78,
-        vec![],
+        vec![].into(),
     );
 }
 
@@ -111,7 +145,19 @@ fn test_assert_eq_deref() {
         15,
         4,
         15,
-        vec![3, 11, 6, 32771, 32770, 0, 1, 0, 0, 1],
+        vec![
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (32771, "offset_0"),
+            (32770, "offset_2"),
+            (0, "dst_base_fp"),
+            (1, "op1_base_fp"),
+            (0, "op1_base_ap"),
+            (0, "ap_update_add_1"),
+            (1, "id"),
+        ]
+        .into(),
     );
 }
 
@@ -123,20 +169,44 @@ fn test_assert_eq_imm() {
         15,
         4,
         15,
-        vec![3, 11, 6, 32771, 1, 0, 1],
+        vec![
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (32771, "offset_0"),
+            (1, "dst_base_fp"),
+            (0, "ap_update_add_1"),
+            (1, "id"),
+        ]
+        .into(),
     );
 }
 
 // [fp + offset] == [[ap + offset] + offset]
 #[test]
 fn test_assert_eq_double_deref() {
-    let expected_state = vec![3, 11, 6, 32771, 32775, 32770, 1, 0, 0, 2, 4, 0, 0, 1];
     test_assert_equal(
         [true, false, false, false, false, false],
         15,
         4,
         15,
-        expected_state,
+        vec![
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (32771, "offset_0"),
+            (32775, "offset_1"),
+            (32770, "offset_2"),
+            (1, "dst_base_fp"),
+            (0, "op0_base_fp"),
+            (0, "ap_update_add_1"),
+            (2, "id"),
+            (4, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+            (1, "id"),
+        ]
+        .into(),
     );
 }
 
@@ -145,7 +215,7 @@ fn test_assert_equal(
     dst: u128,
     op0: u128,
     op1: u128,
-    expected_state: Vec<u32>,
+    expected_state: State,
 ) {
     // Read the non-constant flags
     let [flag_dst_base_fp, flag_op0_base_fp, flag_op1_imm, flag_op1_base_fp, flag_op1_base_ap, flag_ap_update_add_1] =
@@ -264,11 +334,10 @@ fn test_assert_equal(
     };
 
     // Check state
-    assert_eq!(
-        state.calc(),
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
         expected_state
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>()
     );
 }

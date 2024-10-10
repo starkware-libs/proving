@@ -66,7 +66,7 @@ impl AirFnEntry {
         deductions
             .iter()
             .filter_map(|deduction| {
-                if let TraceGenStep::Deduction(_) = deduction {
+                if let TraceGenStep::Deduction(_, _) = deduction {
                     Some(1)
                 } else {
                     None
@@ -90,12 +90,13 @@ impl AirFnEntry {
                 AirBodyComponent::Assignment {
                     constraint,
                     deduction,
+                    desc,
                 } => {
                     constraints.push(ConstraintEvalStep::Constraint(constraint.into()));
-                    deductions.push(TraceGenStep::Deduction(deduction.into()));
+                    deductions.push(TraceGenStep::Deduction(deduction.into(), desc));
                 }
-                AirBodyComponent::Deduction(deduction) => {
-                    deductions.push(TraceGenStep::Deduction(deduction.into()));
+                AirBodyComponent::Deduction(deduction, desc) => {
+                    deductions.push(TraceGenStep::Deduction(deduction.into(), desc));
                 }
                 AirBodyComponent::Intermediate(name, var, ty) => {
                     if ty.in_constraints {

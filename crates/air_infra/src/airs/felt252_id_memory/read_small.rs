@@ -40,10 +40,10 @@ impl AirFn for CondDecodeSmallSign {
 
     fn call(&self, air_builder: &mut AirBuilder, (value, condition): Self::In) -> Self::Out {
         let mut msb_bool = air_builder.let_for_deduction(value.get_felt(27).eq(const_expr!(0x100)));
-        let msb = air_builder.deduce(msb_bool.as_felt_mut());
+        let msb = air_builder.deduce(msb_bool.as_felt_mut(), "msb");
         let mut mid_limbs_set_bool =
             air_builder.let_for_deduction(value.get_felt(20).eq(const_expr!(0x1ff)));
-        let mid_limbs_set = air_builder.deduce(mid_limbs_set_bool.as_felt_mut());
+        let mid_limbs_set = air_builder.deduce(mid_limbs_set_bool.as_felt_mut(), "mid_limbs_set");
 
         // Require case bits to be bits
         air_builder.constrain(msb.clone() * (msb.clone() - const_expr!(1)));
@@ -123,7 +123,7 @@ impl AirFn for ReadSmall {
 
     fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
         let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &address);
-        air_builder.deduce(&mut id);
+        air_builder.deduce(&mut id, "id");
         air_builder.mem_verify(&self.memory.address_to_id, &address, id.clone());
         let mut value = air_builder.mem_read_unverified(&self.memory.id_to_value, &id);
 
@@ -134,7 +134,7 @@ impl AirFn for ReadSmall {
         // Least significant three are deduced as-is
         let mut low_value_limbs = vec![];
         for i in 0..LIMBS_IN_M31 {
-            low_value_limbs.push(air_builder.deduce(value.get_felt_mut(i)));
+            low_value_limbs.push(air_builder.deduce(value.get_felt_mut(i), &format!("limb_{}", i)));
         }
         let low_limbs_arr: [FeltExpr; LIMBS_IN_M31] = low_value_limbs
             .try_into()

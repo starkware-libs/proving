@@ -63,8 +63,24 @@ fn test_ret_opcode() {
     assert_eq!(output.pc.calc(), saved_pc.to_string());
     assert_eq!(output.fp.calc(), saved_fp.to_string());
     assert_eq!(output.ap.calc(), ap_value.to_string());
-    assert_eq!(
-        state.calc(),
-        ["3", "11", "6", "1", "1", "0", "0", "2", "4", "0", "0"]
+    let expected_state = vec![
+        (3, ""),
+        (11, ""),
+        (6, ""),
+        (1, "id"),
+        (1, "limb_0"),
+        (0, "limb_1"),
+        (0, "limb_2"),
+        (2, "id"),
+        (4, "limb_0"),
+        (0, "limb_1"),
+        (0, "limb_2"),
+    ]
+    .into();
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
+        expected_state
     );
 }

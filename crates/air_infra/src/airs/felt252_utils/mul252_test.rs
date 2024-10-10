@@ -36,13 +36,71 @@ fn test_mul252_no_overflow() {
         output.calc(),
         const_felt252_expr!(0x2008020003400040001u128, 0u128).calc()
     );
-    let expected_state = [
-        "1", "0", "1", "128", "3", "256", "0", "1", "2", "0", "0", "0", "0", "0", "0", "0", "0",
-        "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "0", "32", "4097", "160",
-        "8193", "288", "33", "33", "3", "256", "2", "512", "2", "2", "2", "0", "0", "0", "0", "0",
-        "0", "0", "0", "0", "0", "0", "0",
-    ];
-    assert_eq!(state.calc(), expected_state);
+    let expected_state = vec![
+        (1, "mul_res_limb_0"),
+        (0, "mul_res_limb_1"),
+        (1, "mul_res_limb_2"),
+        (128, "mul_res_limb_3"),
+        (3, "mul_res_limb_4"),
+        (256, "mul_res_limb_5"),
+        (0, "mul_res_limb_6"),
+        (1, "mul_res_limb_7"),
+        (2, "mul_res_limb_8"),
+        (0, "mul_res_limb_9"),
+        (0, "mul_res_limb_10"),
+        (0, "mul_res_limb_11"),
+        (0, "mul_res_limb_12"),
+        (0, "mul_res_limb_13"),
+        (0, "mul_res_limb_14"),
+        (0, "mul_res_limb_15"),
+        (0, "mul_res_limb_16"),
+        (0, "mul_res_limb_17"),
+        (0, "mul_res_limb_18"),
+        (0, "mul_res_limb_19"),
+        (0, "mul_res_limb_20"),
+        (0, "mul_res_limb_21"),
+        (0, "mul_res_limb_22"),
+        (0, "mul_res_limb_23"),
+        (0, "mul_res_limb_24"),
+        (0, "mul_res_limb_25"),
+        (0, "mul_res_limb_26"),
+        (0, "mul_res_limb_27"),
+        (0, "k"),
+        (0, "carry_0"),
+        (32, "carry_1"),
+        (4097, "carry_2"),
+        (160, "carry_3"),
+        (8193, "carry_4"),
+        (288, "carry_5"),
+        (33, "carry_6"),
+        (33, "carry_7"),
+        (3, "carry_8"),
+        (256, "carry_9"),
+        (2, "carry_10"),
+        (512, "carry_11"),
+        (2, "carry_12"),
+        (2, "carry_13"),
+        (2, "carry_14"),
+        (0, "carry_15"),
+        (0, "carry_16"),
+        (0, "carry_17"),
+        (0, "carry_18"),
+        (0, "carry_19"),
+        (0, "carry_20"),
+        (0, "carry_21"),
+        (0, "carry_22"),
+        (0, "carry_23"),
+        (0, "carry_24"),
+        (0, "carry_25"),
+        (0, "carry_26"),
+    ]
+    .into();
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
+        expected_state
+    );
 }
 
 #[test]

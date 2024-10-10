@@ -19,7 +19,7 @@ impl AirFn for MemVerify {
 
     fn call(&self, air_builder: &mut AirBuilder, (address, value): Self::In) -> Self::Out {
         let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &address);
-        air_builder.deduce(&mut id);
+        air_builder.deduce(&mut id, "id");
         air_builder.mem_verify(&self.memory.address_to_id, &address, id.clone());
         air_builder.mem_verify(&self.memory.id_to_value, &id, value);
     }

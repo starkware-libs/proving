@@ -6,6 +6,7 @@ use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::state::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
@@ -76,7 +77,7 @@ fn build_and_test(
     offset_dst: i16,
     dst_value: Felt252Expr,
     op1_value: i64,
-    expected_state: Vec<u32>,
+    expected_state: State,
 ) {
     let [pc_value, ap_value, fp_value] = [50, 200, 150];
     let [pc, ap, fp] = [
@@ -147,12 +148,11 @@ fn build_and_test(
     assert_eq!(next_state.fp.calc(), fp_value.to_string());
 
     // Check state
-    assert_eq!(
-        state.calc(),
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
         expected_state
-            .iter()
-            .map(ToString::to_string)
-            .collect::<Vec<_>>()
     );
 }
 
@@ -164,9 +164,42 @@ fn test_jnz_not_taken_base_ap() {
         const_felt252_expr!(0, 0),
         15,
         vec![
-            50, 200, 150, 32755, 0, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0,
-        ],
+            (50, ""),
+            (200, ""),
+            (150, ""),
+            (32755, "offset_0"),
+            (0, "ap_update_add_1"),
+            (2, "id"),
+            (0, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+            (0, "limb_3"),
+            (0, "limb_4"),
+            (0, "limb_5"),
+            (0, "limb_6"),
+            (0, "limb_7"),
+            (0, "limb_8"),
+            (0, "limb_9"),
+            (0, "limb_10"),
+            (0, "limb_11"),
+            (0, "limb_12"),
+            (0, "limb_13"),
+            (0, "limb_14"),
+            (0, "limb_15"),
+            (0, "limb_16"),
+            (0, "limb_17"),
+            (0, "limb_18"),
+            (0, "limb_19"),
+            (0, "limb_20"),
+            (0, "limb_21"),
+            (0, "limb_22"),
+            (0, "limb_23"),
+            (0, "limb_24"),
+            (0, "limb_25"),
+            (0, "limb_26"),
+            (0, "limb_27"),
+        ]
+        .into(),
     );
 }
 
@@ -178,9 +211,50 @@ fn test_jnz_taken_base_ap() {
         const_felt252_expr!(123, 456),
         15,
         vec![
-            50, 200, 150, 32755, 0, 2, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 3, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 1955558780, 500077285, 1, 0, 0, 15, 0, 0,
-        ],
+            (50, ""),
+            (200, ""),
+            (150, ""),
+            (32755, "offset_0"),
+            (0, "ap_update_add_1"),
+            (2, "id"),
+            (123, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+            (0, "limb_3"),
+            (0, "limb_4"),
+            (0, "limb_5"),
+            (0, "limb_6"),
+            (0, "limb_7"),
+            (0, "limb_8"),
+            (0, "limb_9"),
+            (0, "limb_10"),
+            (0, "limb_11"),
+            (0, "limb_12"),
+            (0, "limb_13"),
+            (288, "limb_14"),
+            (3, "limb_15"),
+            (0, "limb_16"),
+            (0, "limb_17"),
+            (0, "limb_18"),
+            (0, "limb_19"),
+            (0, "limb_20"),
+            (0, "limb_21"),
+            (0, "limb_22"),
+            (0, "limb_23"),
+            (0, "limb_24"),
+            (0, "limb_25"),
+            (0, "limb_26"),
+            (0, "limb_27"),
+            (1955558780, "res"),
+            (500077285, "res_squares"),
+            (1, "id"),
+            (0, "msb"),
+            (0, "mid_limbs_set"),
+            (15, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -192,7 +266,7 @@ fn test_taken_zero_mismatch_base_ap() {
         -13,
         const_felt252_expr!(0, 0),
         15,
-        vec![],
+        vec![].into(),
     );
 }
 
@@ -204,7 +278,7 @@ fn test_not_taken_mismatch_base_ap() {
         -13,
         const_felt252_expr!(123, 4567),
         15,
-        vec![],
+        vec![].into(),
     );
 }
 
@@ -216,7 +290,7 @@ fn test_taken_p_mismatch_base_ap() {
         -13,
         const_felt252_expr!(1, 17 * u128::pow(2, 64) + u128::pow(2, 123)),
         15,
-        vec![],
+        vec![].into(),
     );
 }
 
@@ -228,8 +302,49 @@ fn test_jnz_taken_negative_op1() {
         const_felt252_expr!(123, 456),
         -22,
         vec![
-            50, 200, 150, 32755, 0, 2, 123, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 288, 3, 0, 0, 0,
-            0, 0, 0, 0, 0, 0, 0, 0, 0, 1955558780, 500077285, 1, 1, 1, 491, 511, 511,
-        ],
+            (50, ""),
+            (200, ""),
+            (150, ""),
+            (32755, "offset_0"),
+            (0, "ap_update_add_1"),
+            (2, "id"),
+            (123, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+            (0, "limb_3"),
+            (0, "limb_4"),
+            (0, "limb_5"),
+            (0, "limb_6"),
+            (0, "limb_7"),
+            (0, "limb_8"),
+            (0, "limb_9"),
+            (0, "limb_10"),
+            (0, "limb_11"),
+            (0, "limb_12"),
+            (0, "limb_13"),
+            (288, "limb_14"),
+            (3, "limb_15"),
+            (0, "limb_16"),
+            (0, "limb_17"),
+            (0, "limb_18"),
+            (0, "limb_19"),
+            (0, "limb_20"),
+            (0, "limb_21"),
+            (0, "limb_22"),
+            (0, "limb_23"),
+            (0, "limb_24"),
+            (0, "limb_25"),
+            (0, "limb_26"),
+            (0, "limb_27"),
+            (1955558780, "res"),
+            (500077285, "res_squares"),
+            (1, "id"),
+            (1, "msb"),
+            (1, "mid_limbs_set"),
+            (491, "limb_0"),
+            (511, "limb_1"),
+            (511, "limb_2"),
+        ]
+        .into(),
     );
 }

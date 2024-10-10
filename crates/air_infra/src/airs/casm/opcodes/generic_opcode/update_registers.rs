@@ -64,7 +64,10 @@ impl AirFn for UpdateRegisters {
                 }
             })
             .fold(const_expr!(0), |acc, z| acc + z);
-        let sum_squares_inv = air_builder.deduce(&mut (const_expr!(1) / dst_sum_squares.clone()));
+        let sum_squares_inv = air_builder.deduce(
+            &mut (const_expr!(1) / dst_sum_squares.clone()),
+            "dst_sum_squares_inv",
+        );
         air_builder.constrain(dst_sum_squares * sum_squares_inv - const_expr!(1));
 
         // Calcualte npc for jnz
@@ -75,12 +78,16 @@ impl AirFn for UpdateRegisters {
             .fold(const_expr!(0), |acc, x| acc + x);
         let dst_is_zero = air_builder.let_for_deduction(dst_sum.clone().eq(const_expr!(0)));
         // If dst_sum is 0, then sum_inv = 1
-        let sum_inv =
-            air_builder.deduce(&mut (const_expr!(1) / (dst_sum.clone() + dst_is_zero.as_felt())));
+        let sum_inv = air_builder.deduce(
+            &mut (const_expr!(1) / (dst_sum.clone() + dst_is_zero.as_felt())),
+            "dst_sum_inv",
+        );
 
         // We use op1 as rel imm only if flags[FLAG_PC_UPDATE_JNZ_INDEX] is set and dst!= 0
-        let op1_as_rel_imm_condition =
-            air_builder.assign(&mut (flags[FLAG_PC_UPDATE_JNZ_INDEX].clone() * dst_sum.clone()));
+        let op1_as_rel_imm_condition = air_builder.assign(
+            &mut (flags[FLAG_PC_UPDATE_JNZ_INDEX].clone() * dst_sum.clone()),
+            "op1_as_rel_imm_cond",
+        );
         let op1_as_rel_imm =
             air_builder.call(&CondFelt252AsRelImm {}, (op1, op1_as_rel_imm_condition));
 
@@ -90,6 +97,7 @@ impl AirFn for UpdateRegisters {
                 * (casm_state.pc.clone() + flags[INSTRUCTION_SIZE_INDEX].clone())
                 + (const_expr!(1) - dst_is_zero.as_felt())
                     * (casm_state.pc.clone() + op1_as_rel_imm.clone())),
+            "next_pc_jnz",
         );
         air_builder.constrain(
             (npc_jnz.clone() - (casm_state.pc.clone() + op1_as_rel_imm.clone())) * dst_sum.clone(),

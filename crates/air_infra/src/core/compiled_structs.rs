@@ -26,7 +26,7 @@ pub enum TraceGenStep {
 
     EndBlock,
 
-    Deduction(CompiledAirVar),
+    Deduction(CompiledAirVar, Option<String>),
 
     Intermediate(String, CompiledAirVar),
 

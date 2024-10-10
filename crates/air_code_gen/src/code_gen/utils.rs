@@ -192,7 +192,7 @@ fn expression_n_cells(expr: &CompiledAirVar) -> usize {
 pub fn n_trace_cells(deductions: &[TraceGenStep]) -> usize {
     deductions
         .iter()
-        .filter(|c| matches!(c, TraceGenStep::Deduction(_)))
+        .filter(|c| matches!(c, TraceGenStep::Deduction(_, _)))
         .count()
 }
 

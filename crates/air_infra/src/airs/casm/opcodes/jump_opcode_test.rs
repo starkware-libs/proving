@@ -6,6 +6,7 @@ use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::state::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
@@ -96,7 +97,7 @@ fn test_jump_opcode(
     op0: i64,
     op1: i64,
     offsets_value: [Option<i16>; 2],
-    expected_state: Vec<&str>,
+    expected_state: State,
 ) {
     let [is_rel, is_imm, is_double_deref, op0_base_fp, op1_base_fp, ap_update_add_1] =
         non_consts_flags;
@@ -188,7 +189,12 @@ fn test_jump_opcode(
     }
 
     // Check state
-    assert_eq!(state.calc(), expected_state);
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
+        expected_state
+    );
 }
 
 #[test]
@@ -199,18 +205,19 @@ fn test_abs_jump_base_ap() {
         8,
         [None, Some(2)],
         vec![
-            "3",     // pc
-            "11",    // ap
-            "6",     // fp
-            "32770", // offset2
-            "0",     // flag op1_base_fp
-            "1",     // flag op1_base_ap
-            "0",     // flag ap_update_add_1
-            "1",     // op1 id
-            "8",     // op1
-            "0",     // op1
-            "0",     // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (32770, "offset_2"),
+            (0, "op1_base_fp"),
+            (1, "op1_base_ap"),
+            (0, "ap_update_add_1"),
+            (1, "id"),
+            (8, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -222,18 +229,19 @@ fn test_abs_jump_base_fp() {
         5,
         [None, Some(10)],
         vec![
-            "3",     // pc
-            "11",    // ap
-            "6",     // fp
-            "32778", // offset2
-            "1",     // flag op1_base_fp
-            "0",     // flag op1_base_ap
-            "0",     // flag ap_update_add_1
-            "1",     // op1 id
-            "5",     // op1
-            "0",     // op1
-            "0",     // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (32778, "offset_2"),
+            (1, "op1_base_fp"),
+            (0, "op1_base_ap"),
+            (0, "ap_update_add_1"),
+            (1, "id"),
+            (5, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -245,18 +253,19 @@ fn test_abs_jump_base_ap_inc_ap() {
         8,
         [None, Some(2)],
         vec![
-            "3",     // pc
-            "11",    // ap
-            "6",     // fp
-            "32770", // offset2
-            "0",     // flag op1_base_fp
-            "1",     // flag op1_base_ap
-            "1",     // flag ap_update_add_1
-            "1",     // op1 id
-            "8",     // op1
-            "0",     // op1
-            "0",     // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (32770, "offset_2"),
+            (0, "op1_base_fp"),
+            (1, "op1_base_ap"),
+            (1, "ap_update_add_1"),
+            (1, "id"),
+            (8, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -268,18 +277,19 @@ fn test_abs_jump_base_fp_inc_ap() {
         5,
         [None, Some(10)],
         vec![
-            "3",     // pc
-            "11",    // ap
-            "6",     // fp
-            "32778", // offset2
-            "1",     // flag op1_base_fp
-            "0",     // flag op1_base_ap
-            "1",     // flag ap_update_add_1
-            "1",     // op1 id
-            "5",     // op1
-            "0",     // op1
-            "0",     // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (32778, "offset_2"),
+            (1, "op1_base_fp"),
+            (0, "op1_base_ap"),
+            (1, "ap_update_add_1"),
+            (1, "id"),
+            (5, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -291,18 +301,19 @@ fn test_abs_big_op1() {
         1684685,
         [None, Some(402)],
         vec![
-            "3",     // pc
-            "11",    // ap
-            "6",     // fp
-            "33170", // offset2
-            "0",     // flag op1_base_fp
-            "1",     // flag op1_base_ap
-            "0",     // flag ap_update_add_1
-            "1",     // op1 id
-            "205",   // op1
-            "218",   // op1
-            "6",     // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (33170, "offset_2"),
+            (0, "op1_base_fp"),
+            (1, "op1_base_ap"),
+            (0, "ap_update_add_1"),
+            (1, "id"),
+            (205, "limb_0"),
+            (218, "limb_1"),
+            (6, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -314,18 +325,19 @@ fn test_abs_jump_negativ_offset() {
         9,
         [None, Some(-9)],
         vec![
-            "3",     // pc
-            "11",    // ap
-            "6",     // fp
-            "32759", // offset2
-            "0",     // flag op1_base_fp
-            "1",     // flag op1_base_ap
-            "0",     // flag ap_update_add_1
-            "1",     // op1 id
-            "9",     // op1
-            "0",     // op1
-            "0",     // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (32759, "offset_2"),
+            (0, "op1_base_fp"),
+            (1, "op1_base_ap"),
+            (0, "ap_update_add_1"),
+            (1, "id"),
+            (9, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -337,17 +349,18 @@ fn test_rel_jump() {
         100,
         [None, None],
         vec![
-            "3",   // pc
-            "11",  // ap
-            "6",   // fp
-            "0",   // flag ap_update_add_1
-            "1",   // op1 id
-            "0",   // op1 (sign)
-            "0",   // op1 (sign)
-            "100", // op1
-            "0",   // op1
-            "0",   // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (0, "ap_update_add_1"),
+            (1, "id"),
+            (0, "msb"),
+            (0, "mid_limbs_set"),
+            (100, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -359,17 +372,18 @@ fn test_rel_jump_inc_ap() {
         3,
         [None, None],
         vec![
-            "3",  // pc
-            "11", // ap
-            "6",  // fp
-            "1",  // ap_update_add_1
-            "1",  // op1 id
-            "0",  // op1 (sign)
-            "0",  // op1 (sign)
-            "3",  // op1
-            "0",  // op1
-            "0",  // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (1, "ap_update_add_1"),
+            (1, "id"),
+            (0, "msb"),
+            (0, "mid_limbs_set"),
+            (3, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -381,17 +395,18 @@ fn test_rel_big_op1() {
         54687687,
         [None, None],
         vec![
-            "3",   // pc
-            "11",  // ap
-            "6",   // fp
-            "0",   // ap_update_add_1
-            "1",   // op1 id
-            "0",   // op1 (sign)
-            "0",   // op1 (sign)
-            "455", // op1
-            "315", // op1
-            "208", // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (0, "ap_update_add_1"),
+            (1, "id"),
+            (0, "msb"),
+            (0, "mid_limbs_set"),
+            (455, "limb_0"),
+            (315, "limb_1"),
+            (208, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -403,17 +418,18 @@ fn test_rel_negative_imm() {
         -2,
         [None, None],
         vec![
-            "3",   // pc
-            "11",  // ap
-            "6",   // fp
-            "0",   // ap_update_add_1
-            "1",   // op1 id
-            "1",   // op1 (sign)
-            "1",   // op1 (sign)
-            "511", // op1
-            "511", // op1
-            "511", // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (0, "ap_update_add_1"),
+            (1, "id"),
+            (1, "msb"),
+            (1, "mid_limbs_set"),
+            (511, "limb_0"),
+            (511, "limb_1"),
+            (511, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -425,20 +441,21 @@ fn test_rel_negative_op1() {
         -2,
         [None, Some(333)],
         vec![
-            "3",     // pc
-            "11",    // ap
-            "6",     // fp
-            "33101", // offset2
-            "0",     // flag op1_base_fp
-            "1",     // flag op1_base_ap
-            "0",     // ap_update_add_1
-            "1",     // op1 id
-            "1",     // op1 (sign)
-            "1",     // op1 (sign)
-            "511",   // op1
-            "511",   // op1
-            "511",   // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (33101, "offset_2"),
+            (0, "op1_base_fp"),
+            (1, "op1_base_ap"),
+            (0, "ap_update_add_1"),
+            (1, "id"),
+            (1, "msb"),
+            (1, "mid_limbs_set"),
+            (511, "limb_0"),
+            (511, "limb_1"),
+            (511, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -450,20 +467,21 @@ fn test_rel_deref_base_fp() {
         16584,
         [None, Some(12345)],
         vec![
-            "3",     // pc
-            "11",    // ap
-            "6",     // fp
-            "45113", // offset2
-            "1",     // flag op1_base_fp
-            "0",     // flag op1_base_ap
-            "1",     // flag ap_update_add_1
-            "1",     // op1 id
-            "0",     // op1(sign)
-            "0",     // op1(sign)
-            "200",   // op1
-            "32",    //op1
-            "0",     // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (45113, "offset_2"),
+            (1, "op1_base_fp"),
+            (0, "op1_base_ap"),
+            (1, "ap_update_add_1"),
+            (1, "id"),
+            (0, "msb"),
+            (0, "mid_limbs_set"),
+            (200, "limb_0"),
+            (32, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -475,22 +493,23 @@ fn test_abs_double_deref() {
         16584,
         [Some(4654), Some(12345)],
         vec![
-            "3",     // pc
-            "11",    // ap
-            "6",     // fp
-            "37422", // offset1
-            "45113", // offset2
-            "1",     // flag op0_base_fp
-            "1",     // ap_update_add_1
-            "2",     // op0 id
-            "125",   // op0
-            "0",     // op0
-            "0",     // op0
-            "1",     // op1 id
-            "200",   // op1
-            "32",    // op1
-            "0",     // op1
-        ],
+            (3, ""),
+            (11, ""),
+            (6, ""),
+            (37422, "offset_1"),
+            (45113, "offset_2"),
+            (1, "op0_base_fp"),
+            (1, "ap_update_add_1"),
+            (2, "id"),
+            (125, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+            (1, "id"),
+            (200, "limb_0"),
+            (32, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -502,7 +521,7 @@ fn test_abs_immediate() {
         125,
         16584,
         [Some(4654), Some(12345)],
-        vec![],
+        vec![].into(),
     );
 }
 
@@ -514,7 +533,7 @@ fn test_rel_double_deref() {
         125,
         16584,
         [Some(4654), Some(12345)],
-        vec![],
+        vec![].into(),
     );
 }
 

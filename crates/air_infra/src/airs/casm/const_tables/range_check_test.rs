@@ -25,8 +25,8 @@ impl AirFn for SmallAdd {
     ) -> Self::Out {
         let rc_air_fn = RangeCheck { bits: [16] };
 
-        air_builder.deduce(&mut a);
-        air_builder.deduce(&mut b);
+        air_builder.deduce(&mut a, "");
+        air_builder.deduce(&mut b, "");
 
         air_builder.lookup_call(&rc_air_fn, [a.clone()]);
         air_builder.lookup_call(&rc_air_fn, [b.clone()]);

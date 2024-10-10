@@ -34,7 +34,10 @@ fn test_fibonacci() {
 
     let (state, output) = registry.run_air(&air_fn, const_expr!(1));
     assert_eq!(output.calc(), "866");
-    assert_eq!(state.calc(), ["1", "2", "5", "29", "866"]);
+    assert_eq!(
+        state,
+        vec![(1, ""), (2, ""), (5, ""), (29, ""), (866, "")].into()
+    );
 
     // Check entry
     compare_json(

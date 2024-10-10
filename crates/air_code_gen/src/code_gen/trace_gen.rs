@@ -40,7 +40,7 @@ pub fn generate_write_trace_row_code(
     let mut offset = 0;
     for deduction in deductions {
         match deduction {
-            TraceGenStep::Deduction(expr) => {
+            TraceGenStep::Deduction(expr, _desc) => {
                 write_trace_body.append(quote! {
                     let col$(offset) = $(parse_air_var(expr));
                     dst[$(offset)][row_index] = col$(offset).into();

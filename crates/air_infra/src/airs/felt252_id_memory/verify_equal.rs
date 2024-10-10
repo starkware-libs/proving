@@ -19,7 +19,7 @@ impl AirFn for MemVerifyEqual {
 
     fn call(&self, air_builder: &mut AirBuilder, [addr1, addr2]: Self::In) -> Self::Out {
         let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &addr1);
-        air_builder.deduce(&mut id);
+        air_builder.deduce(&mut id, "id");
         air_builder.mem_verify(&self.memory.address_to_id, &addr1, id.clone());
         air_builder.mem_verify(&self.memory.address_to_id, &addr2, id);
     }
@@ -40,7 +40,7 @@ impl AirFn for MemCondVerifyEqualKnownId {
 
     fn call(&self, air_builder: &mut AirBuilder, (addr1, id2, cond): Self::In) -> Self::Out {
         let mut id1 = air_builder.mem_read_unverified(&self.memory.address_to_id, &addr1);
-        air_builder.deduce(&mut id1);
+        air_builder.deduce(&mut id1, "id");
         air_builder.mem_verify(&self.memory.address_to_id, &addr1, id1.clone());
 
         air_builder.constrain((id1 - id2) * cond);

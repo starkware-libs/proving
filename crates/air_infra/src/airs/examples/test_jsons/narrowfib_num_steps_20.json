@@ -896,679 +896,745 @@
       ]
     },
     {
-      "Deduction": {
-        "Var": [
-          "M31",
-          "tmp_0[0]"
-        ]
-      }
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0[0]"
+          ]
+        },
+        null
+      ]
     },
     {
-      "Deduction": {
-        "Var": [
-          "M31",
-          "tmp_0[1]"
-        ]
-      }
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0[1]"
+          ]
+        },
+        null
+      ]
     },
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 0
-              },
-              "*",
-              {
-                "State": 0
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 1
-              },
-              "*",
-              {
-                "State": 1
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 0
+                },
+                "*",
+                {
+                  "State": 0
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 1
+                },
+                "*",
+                {
+                  "State": 1
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 1
-              },
-              "*",
-              {
-                "State": 1
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 2
-              },
-              "*",
-              {
-                "State": 2
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 1
+                },
+                "*",
+                {
+                  "State": 1
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 2
+                },
+                "*",
+                {
+                  "State": 2
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 2
-              },
-              "*",
-              {
-                "State": 2
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 3
-              },
-              "*",
-              {
-                "State": 3
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 2
+                },
+                "*",
+                {
+                  "State": 2
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 3
+                },
+                "*",
+                {
+                  "State": 3
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 3
-              },
-              "*",
-              {
-                "State": 3
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 4
-              },
-              "*",
-              {
-                "State": 4
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 3
+                },
+                "*",
+                {
+                  "State": 3
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 4
+                },
+                "*",
+                {
+                  "State": 4
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 4
-              },
-              "*",
-              {
-                "State": 4
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 5
-              },
-              "*",
-              {
-                "State": 5
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 4
+                },
+                "*",
+                {
+                  "State": 4
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 5
+                },
+                "*",
+                {
+                  "State": 5
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 5
-              },
-              "*",
-              {
-                "State": 5
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 6
-              },
-              "*",
-              {
-                "State": 6
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 5
+                },
+                "*",
+                {
+                  "State": 5
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 6
+                },
+                "*",
+                {
+                  "State": 6
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 6
-              },
-              "*",
-              {
-                "State": 6
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 7
-              },
-              "*",
-              {
-                "State": 7
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 6
+                },
+                "*",
+                {
+                  "State": 6
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 7
+                },
+                "*",
+                {
+                  "State": 7
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 7
-              },
-              "*",
-              {
-                "State": 7
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 8
-              },
-              "*",
-              {
-                "State": 8
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 7
+                },
+                "*",
+                {
+                  "State": 7
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 8
+                },
+                "*",
+                {
+                  "State": 8
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 8
-              },
-              "*",
-              {
-                "State": 8
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 9
-              },
-              "*",
-              {
-                "State": 9
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 8
+                },
+                "*",
+                {
+                  "State": 8
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 9
+                },
+                "*",
+                {
+                  "State": 9
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 9
-              },
-              "*",
-              {
-                "State": 9
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 10
-              },
-              "*",
-              {
-                "State": 10
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 9
+                },
+                "*",
+                {
+                  "State": 9
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 10
+                },
+                "*",
+                {
+                  "State": 10
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 10
-              },
-              "*",
-              {
-                "State": 10
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 11
-              },
-              "*",
-              {
-                "State": 11
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 10
+                },
+                "*",
+                {
+                  "State": 10
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 11
+                },
+                "*",
+                {
+                  "State": 11
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 11
-              },
-              "*",
-              {
-                "State": 11
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 12
-              },
-              "*",
-              {
-                "State": 12
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 11
+                },
+                "*",
+                {
+                  "State": 11
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 12
+                },
+                "*",
+                {
+                  "State": 12
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 12
-              },
-              "*",
-              {
-                "State": 12
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 13
-              },
-              "*",
-              {
-                "State": 13
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 12
+                },
+                "*",
+                {
+                  "State": 12
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 13
+                },
+                "*",
+                {
+                  "State": 13
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 13
-              },
-              "*",
-              {
-                "State": 13
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 14
-              },
-              "*",
-              {
-                "State": 14
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 13
+                },
+                "*",
+                {
+                  "State": 13
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 14
+                },
+                "*",
+                {
+                  "State": 14
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 14
-              },
-              "*",
-              {
-                "State": 14
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 15
-              },
-              "*",
-              {
-                "State": 15
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 14
+                },
+                "*",
+                {
+                  "State": 14
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 15
+                },
+                "*",
+                {
+                  "State": 15
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 15
-              },
-              "*",
-              {
-                "State": 15
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 16
-              },
-              "*",
-              {
-                "State": 16
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 15
+                },
+                "*",
+                {
+                  "State": 15
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 16
+                },
+                "*",
+                {
+                  "State": 16
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 16
-              },
-              "*",
-              {
-                "State": 16
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 17
-              },
-              "*",
-              {
-                "State": 17
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 16
+                },
+                "*",
+                {
+                  "State": 16
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 17
+                },
+                "*",
+                {
+                  "State": 17
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 17
-              },
-              "*",
-              {
-                "State": 17
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 18
-              },
-              "*",
-              {
-                "State": 18
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 17
+                },
+                "*",
+                {
+                  "State": 17
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 18
+                },
+                "*",
+                {
+                  "State": 18
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 18
-              },
-              "*",
-              {
-                "State": 18
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 19
-              },
-              "*",
-              {
-                "State": 19
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 18
+                },
+                "*",
+                {
+                  "State": 18
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 19
+                },
+                "*",
+                {
+                  "State": 19
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 19
-              },
-              "*",
-              {
-                "State": 19
-              }
-            ]
-          },
-          "+",
-          {
-            "BinaryOp": [
-              {
-                "State": 20
-              },
-              "*",
-              {
-                "State": 20
-              }
-            ]
-          }
-        ]
-      }
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 19
+                },
+                "*",
+                {
+                  "State": 19
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 20
+                },
+                "*",
+                {
+                  "State": 20
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
     },
     "EndBlock",
     {

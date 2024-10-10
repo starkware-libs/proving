@@ -23,7 +23,7 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
 
     for deduction in compiled_fn.deductions {
         match deduction {
-            TraceGenStep::Deduction(_) => trace_cells_used += 1,
+            TraceGenStep::Deduction(_, _) => trace_cells_used += 1,
             TraceGenStep::Intermediate(_, _) => {}
             TraceGenStep::LookupCall {
                 fn_name: _,

@@ -24,7 +24,7 @@ impl AirFn for SimpleMemoryAirFn {
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
         let mut value = air_builder.mem_read_unverified(&self.memory, &input);
         for f in value.as_felts_mut() {
-            air_builder.deduce(f);
+            air_builder.deduce(f, "");
         }
 
         air_builder.mem_verify(&self.memory, &(input + const_expr!(1)), value.clone());

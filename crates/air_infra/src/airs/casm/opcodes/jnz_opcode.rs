@@ -100,7 +100,7 @@ impl AirFn for JnzOpcode {
             // We take a different sum where the parts i where P is not zero are replaced by (dst[i]-P[i])^2.
             // This sum still can't wrap around m31 and is zero iff dst is P.
             // Hence dst is not P iff this sum has an inverse modulo m31.
-            let res = ab.deduce(&mut (const_expr!(1) / dst_sum.clone()));
+            let res = ab.deduce(&mut (const_expr!(1) / dst_sum.clone()), "res");
             ab.constrain(dst_sum * res - const_expr!(1));
 
             let dst_sum_squares = dst
@@ -116,7 +116,10 @@ impl AirFn for JnzOpcode {
                 })
                 .fold(const_expr!(0), |acc, z| acc + z);
 
-            let res_squares = ab.deduce(&mut (const_expr!(1) / dst_sum_squares.clone()));
+            let res_squares = ab.deduce(
+                &mut (const_expr!(1) / dst_sum_squares.clone()),
+                "res_squares",
+            );
             ab.constrain(dst_sum_squares * res_squares - const_expr!(1));
 
             casm_state.pc.clone() + self.memory.read_rel_imm(ab, casm_state.pc + const_expr!(1))

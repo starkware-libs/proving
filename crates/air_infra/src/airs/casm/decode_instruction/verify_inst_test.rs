@@ -37,16 +37,42 @@ fn test_verify_inst() {
 
     // Check state
     let (state, _) = registry.run_air(&air_fn, (const_expr!(0), offsets, flags));
-    assert_eq!(
-        state.calc(),
-        [
-            "0", // pc
-            "32769", "32767", "32770", // offsets
-            "0", "1", "0", "1", "0", "0", "0", "1", "0", "1", "1", "0", "0", "0",
-            "1", // flags
-            "1", "64", "3", "511", "15", "2", "0", "4", // offsets parts
-            "0", // instruction id
-        ]
+    let expected_state = vec![
+        (0, ""),     // pc
+        (32769, ""), // offset_0
+        (32767, ""), // offset_1
+        (32770, ""), // offset_2
+        (0, ""),     // dst_base_fp
+        (1, ""),     // op0_base_fp
+        (0, ""),     // op1_imm
+        (1, ""),     // op1_base_fp
+        (0, ""),     // op1_base_ap
+        (0, ""),     // res_add
+        (0, ""),     // res_mul
+        (1, ""),     // pc_update_jump
+        (0, ""),     // pc_update_jump_rel
+        (1, ""),     // pc_update_jnz
+        (1, ""),     // ap_update_add
+        (0, ""),     // ap_update_add_1
+        (0, ""),     // opcode_call
+        (0, ""),     // opcode_ret
+        (1, ""),     // opcode_assert_eq
+        (1, "offset_0_low"),
+        (64, "offset_0_mid"),
+        (3, "offset_1_low"),
+        (511, "offset_1_mid"),
+        (15, "offset_1_high"),
+        (2, "offset_2_low"),
+        (0, "offset_2_mid"),
+        (4, "offset_2_high"),
+        (0, "id"),
+    ]
+    .into();
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
+        expected_state
     );
 }
 

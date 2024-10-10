@@ -3,11 +3,11 @@ use crate::core::expressions::felt_expr::*;
 // Macros
 use crate::const_expr;
 
-pub const ADDRESS_BITS: usize = 27;
-
 pub type CasmAddress = FeltExpr;
 
+pub const ADDRESS_BITS: usize = 27;
 pub const OFFSET_BITS: u32 = 16;
+
 pub const FLAG_DST_BASE_FP_INDEX: usize = 0;
 pub const FLAG_OP0_BASE_FP_INDEX: usize = 1;
 pub const FLAG_OP1_IMM_INDEX: usize = 2;
@@ -23,6 +23,24 @@ pub const FLAG_AP_UPDATE_ADD_1_INDEX: usize = 11;
 pub const FLAG_OPCODE_CALL_INDEX: usize = 12;
 pub const FLAG_OPCODE_RET_INDEX: usize = 13;
 pub const FLAG_OPCODE_ASSERT_EQ_INDEX: usize = 14;
+
+pub const FLAG_NAMES: [&str; 15] = [
+    "dst_base_fp",
+    "op0_base_fp",
+    "op1_imm",
+    "op1_base_fp",
+    "op1_base_ap",
+    "res_add",
+    "res_mul",
+    "pc_update_jump",
+    "pc_update_jump_rel",
+    "pc_update_jnz",
+    "ap_update_add",
+    "ap_update_add_1",
+    "opcode_call",
+    "opcode_ret",
+    "opcode_assert_eq",
+];
 
 #[derive(Clone, Debug, Default)]
 pub struct Flags {

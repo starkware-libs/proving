@@ -31,7 +31,10 @@
       }
     },
     {
-      "Deduction": "tmp_1"
+      "Deduction": [
+        "tmp_1",
+        "id"
+      ]
     },
     {
       "LookupData": {
@@ -80,13 +83,22 @@
       }
     },
     {
-      "Deduction": "tmp_3.get_m31(const_0)"
+      "Deduction": [
+        "tmp_3.get_m31(const_0)",
+        "limb_0"
+      ]
     },
     {
-      "Deduction": "tmp_3.get_m31(const_1)"
+      "Deduction": [
+        "tmp_3.get_m31(const_1)",
+        "limb_1"
+      ]
     },
     {
-      "Deduction": "tmp_3.get_m31(const_2)"
+      "Deduction": [
+        "tmp_3.get_m31(const_2)",
+        "limb_2"
+      ]
     },
     {
       "LookupData": {

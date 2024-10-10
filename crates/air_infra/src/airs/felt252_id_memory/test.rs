@@ -49,27 +49,111 @@ fn test_read_small() {
 
     let (state, output) = registry.run_air(&read_small, const_expr!(1));
     assert_eq!(output.0.calc(), "7".to_string());
-    assert_eq!(state.calc(), ["0", "0", "0", "7", "0", "0"]);
+    let expected_state = vec![
+        (0, "id"),
+        (0, "msb"),
+        (0, "mid_limbs_set"),
+        (7, "limb_0"),
+        (0, "limb_1"),
+        (0, "limb_2"),
+    ]
+    .into();
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
+        expected_state
+    );
 
     let (state, output) = registry.run_air(&read_small, const_expr!(2));
     assert_eq!(output.0.calc(), "7".to_string());
-    assert_eq!(state.calc(), ["0", "0", "0", "7", "0", "0"]);
+    let expected_state = vec![
+        (0, "id"),
+        (0, "msb"),
+        (0, "mid_limbs_set"),
+        (7, "limb_0"),
+        (0, "limb_1"),
+        (0, "limb_2"),
+    ]
+    .into();
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
+        expected_state
+    );
 
     let (state, output) = registry.run_air(&read_small, const_expr!(3));
     assert_eq!(output.0.calc(), ((1i64 << 31) - 2).to_string());
-    assert_eq!(state.calc(), ["1", "1", "0", "0", "0", "0"]);
+    let expected_state = vec![
+        (1, "id"),
+        (1, "msb"),
+        (0, "mid_limbs_set"),
+        (0, "limb_0"),
+        (0, "limb_1"),
+        (0, "limb_2"),
+    ]
+    .into();
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
+        expected_state
+    );
 
     let (state, output) = registry.run_air(&read_small, const_expr!(4));
     assert_eq!(output.0.calc(), ((1i64 << 31) - 3).to_string());
-    assert_eq!(state.calc(), ["2", "1", "1", "511", "511", "511"]);
+    let expected_state = vec![
+        (2, "id"),
+        (1, "msb"),
+        (1, "mid_limbs_set"),
+        (511, "limb_0"),
+        (511, "limb_1"),
+        (511, "limb_2"),
+    ]
+    .into();
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
+        expected_state
+    );
 
     let (state, output) = registry.run_air(&read_small, const_expr!(5));
     assert_eq!(output.0.calc(), "0".to_string());
-    assert_eq!(state.calc(), ["3", "1", "0", "1", "0", "0"]);
+    let expected_state = vec![
+        (3, "id"),
+        (1, "msb"),
+        (0, "mid_limbs_set"),
+        (1, "limb_0"),
+        (0, "limb_1"),
+        (0, "limb_2"),
+    ]
+    .into();
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
+        expected_state
+    );
 
     let (state, output) = registry.run_air(&read_small, const_expr!(6));
     assert_eq!(output.0.calc(), "1".to_string());
-    assert_eq!(state.calc(), ["4", "1", "0", "2", "0", "0"]);
+    let expected_state = vec![
+        (4, "id"),
+        (1, "msb"),
+        (0, "mid_limbs_set"),
+        (2, "limb_0"),
+        (0, "limb_1"),
+        (0, "limb_2"),
+    ]
+    .into();
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
+        expected_state
+    );
 }
 
 #[test]

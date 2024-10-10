@@ -1114,7 +1114,10 @@
       ]
     },
     {
-      "Deduction": "(tmp_83.low().as_m31() + ((tmp_83.high().as_m31() - const_1) * const_65536))"
+      "Deduction": [
+        "(tmp_83.low().as_m31() + ((tmp_83.high().as_m31() - const_1) * const_65536))",
+        "k"
+      ]
     },
     {
       "LookupCall": {
@@ -1137,7 +1140,10 @@
       }
     },
     {
-      "Deduction": "(((tmp_55 - (const_1 * state[0])) + const_0) * const_4194304)"
+      "Deduction": [
+        "(((tmp_55 - (const_1 * state[0])) + const_0) * const_4194304)",
+        "carry_0"
+      ]
     },
     {
       "Constraint": "((state[1] * const_512) - ((tmp_55 - (const_1 * state[0])) + const_0))"
@@ -1163,7 +1169,10 @@
       }
     },
     {
-      "Deduction": "((tmp_56 + state[1]) * const_4194304)"
+      "Deduction": [
+        "((tmp_56 + state[1]) * const_4194304)",
+        "carry_1"
+      ]
     },
     {
       "Constraint": "((state[2] * const_512) - (tmp_56 + state[1]))"
@@ -1189,7 +1198,10 @@
       }
     },
     {
-      "Deduction": "((tmp_57 + state[2]) * const_4194304)"
+      "Deduction": [
+        "((tmp_57 + state[2]) * const_4194304)",
+        "carry_2"
+      ]
     },
     {
       "Constraint": "((state[3] * const_512) - (tmp_57 + state[2]))"
@@ -1215,7 +1227,10 @@
       }
     },
     {
-      "Deduction": "((tmp_58 + state[3]) * const_4194304)"
+      "Deduction": [
+        "((tmp_58 + state[3]) * const_4194304)",
+        "carry_3"
+      ]
     },
     {
       "Constraint": "((state[4] * const_512) - (tmp_58 + state[3]))"
@@ -1241,7 +1256,10 @@
       }
     },
     {
-      "Deduction": "((tmp_59 + state[4]) * const_4194304)"
+      "Deduction": [
+        "((tmp_59 + state[4]) * const_4194304)",
+        "carry_4"
+      ]
     },
     {
       "Constraint": "((state[5] * const_512) - (tmp_59 + state[4]))"
@@ -1267,7 +1285,10 @@
       }
     },
     {
-      "Deduction": "((tmp_60 + state[5]) * const_4194304)"
+      "Deduction": [
+        "((tmp_60 + state[5]) * const_4194304)",
+        "carry_5"
+      ]
     },
     {
       "Constraint": "((state[6] * const_512) - (tmp_60 + state[5]))"
@@ -1293,7 +1314,10 @@
       }
     },
     {
-      "Deduction": "((tmp_61 + state[6]) * const_4194304)"
+      "Deduction": [
+        "((tmp_61 + state[6]) * const_4194304)",
+        "carry_6"
+      ]
     },
     {
       "Constraint": "((state[7] * const_512) - (tmp_61 + state[6]))"
@@ -1319,7 +1343,10 @@
       }
     },
     {
-      "Deduction": "((tmp_62 + state[7]) * const_4194304)"
+      "Deduction": [
+        "((tmp_62 + state[7]) * const_4194304)",
+        "carry_7"
+      ]
     },
     {
       "Constraint": "((state[8] * const_512) - (tmp_62 + state[7]))"
@@ -1345,7 +1372,10 @@
       }
     },
     {
-      "Deduction": "((tmp_63 + state[8]) * const_4194304)"
+      "Deduction": [
+        "((tmp_63 + state[8]) * const_4194304)",
+        "carry_8"
+      ]
     },
     {
       "Constraint": "((state[9] * const_512) - (tmp_63 + state[8]))"
@@ -1371,7 +1401,10 @@
       }
     },
     {
-      "Deduction": "((tmp_64 + state[9]) * const_4194304)"
+      "Deduction": [
+        "((tmp_64 + state[9]) * const_4194304)",
+        "carry_9"
+      ]
     },
     {
       "Constraint": "((state[10] * const_512) - (tmp_64 + state[9]))"
@@ -1397,7 +1430,10 @@
       }
     },
     {
-      "Deduction": "((tmp_65 + state[10]) * const_4194304)"
+      "Deduction": [
+        "((tmp_65 + state[10]) * const_4194304)",
+        "carry_10"
+      ]
     },
     {
       "Constraint": "((state[11] * const_512) - (tmp_65 + state[10]))"
@@ -1423,7 +1459,10 @@
       }
     },
     {
-      "Deduction": "((tmp_66 + state[11]) * const_4194304)"
+      "Deduction": [
+        "((tmp_66 + state[11]) * const_4194304)",
+        "carry_11"
+      ]
     },
     {
       "Constraint": "((state[12] * const_512) - (tmp_66 + state[11]))"
@@ -1449,7 +1488,10 @@
       }
     },
     {
-      "Deduction": "((tmp_67 + state[12]) * const_4194304)"
+      "Deduction": [
+        "((tmp_67 + state[12]) * const_4194304)",
+        "carry_12"
+      ]
     },
     {
       "Constraint": "((state[13] * const_512) - (tmp_67 + state[12]))"
@@ -1475,7 +1517,10 @@
       }
     },
     {
-      "Deduction": "((tmp_68 + state[13]) * const_4194304)"
+      "Deduction": [
+        "((tmp_68 + state[13]) * const_4194304)",
+        "carry_13"
+      ]
     },
     {
       "Constraint": "((state[14] * const_512) - (tmp_68 + state[13]))"
@@ -1501,7 +1546,10 @@
       }
     },
     {
-      "Deduction": "((tmp_69 + state[14]) * const_4194304)"
+      "Deduction": [
+        "((tmp_69 + state[14]) * const_4194304)",
+        "carry_14"
+      ]
     },
     {
       "Constraint": "((state[15] * const_512) - (tmp_69 + state[14]))"
@@ -1527,7 +1575,10 @@
       }
     },
     {
-      "Deduction": "((tmp_70 + state[15]) * const_4194304)"
+      "Deduction": [
+        "((tmp_70 + state[15]) * const_4194304)",
+        "carry_15"
+      ]
     },
     {
       "Constraint": "((state[16] * const_512) - (tmp_70 + state[15]))"
@@ -1553,7 +1604,10 @@
       }
     },
     {
-      "Deduction": "((tmp_71 + state[16]) * const_4194304)"
+      "Deduction": [
+        "((tmp_71 + state[16]) * const_4194304)",
+        "carry_16"
+      ]
     },
     {
       "Constraint": "((state[17] * const_512) - (tmp_71 + state[16]))"
@@ -1579,7 +1633,10 @@
       }
     },
     {
-      "Deduction": "((tmp_72 + state[17]) * const_4194304)"
+      "Deduction": [
+        "((tmp_72 + state[17]) * const_4194304)",
+        "carry_17"
+      ]
     },
     {
       "Constraint": "((state[18] * const_512) - (tmp_72 + state[17]))"
@@ -1605,7 +1662,10 @@
       }
     },
     {
-      "Deduction": "((tmp_73 + state[18]) * const_4194304)"
+      "Deduction": [
+        "((tmp_73 + state[18]) * const_4194304)",
+        "carry_18"
+      ]
     },
     {
       "Constraint": "((state[19] * const_512) - (tmp_73 + state[18]))"
@@ -1631,7 +1691,10 @@
       }
     },
     {
-      "Deduction": "((tmp_74 + state[19]) * const_4194304)"
+      "Deduction": [
+        "((tmp_74 + state[19]) * const_4194304)",
+        "carry_19"
+      ]
     },
     {
       "Constraint": "((state[20] * const_512) - (tmp_74 + state[19]))"
@@ -1657,7 +1720,10 @@
       }
     },
     {
-      "Deduction": "((tmp_75 + state[20]) * const_4194304)"
+      "Deduction": [
+        "((tmp_75 + state[20]) * const_4194304)",
+        "carry_20"
+      ]
     },
     {
       "Constraint": "((state[21] * const_512) - (tmp_75 + state[20]))"
@@ -1683,7 +1749,10 @@
       }
     },
     {
-      "Deduction": "(((tmp_76 - (const_136 * state[0])) + state[21]) * const_4194304)"
+      "Deduction": [
+        "(((tmp_76 - (const_136 * state[0])) + state[21]) * const_4194304)",
+        "carry_21"
+      ]
     },
     {
       "Constraint": "((state[22] * const_512) - ((tmp_76 - (const_136 * state[0])) + state[21]))"
@@ -1709,7 +1778,10 @@
       }
     },
     {
-      "Deduction": "((tmp_77 + state[22]) * const_4194304)"
+      "Deduction": [
+        "((tmp_77 + state[22]) * const_4194304)",
+        "carry_22"
+      ]
     },
     {
       "Constraint": "((state[23] * const_512) - (tmp_77 + state[22]))"
@@ -1735,7 +1807,10 @@
       }
     },
     {
-      "Deduction": "((tmp_78 + state[23]) * const_4194304)"
+      "Deduction": [
+        "((tmp_78 + state[23]) * const_4194304)",
+        "carry_23"
+      ]
     },
     {
       "Constraint": "((state[24] * const_512) - (tmp_78 + state[23]))"
@@ -1761,7 +1836,10 @@
       }
     },
     {
-      "Deduction": "((tmp_79 + state[24]) * const_4194304)"
+      "Deduction": [
+        "((tmp_79 + state[24]) * const_4194304)",
+        "carry_24"
+      ]
     },
     {
       "Constraint": "((state[25] * const_512) - (tmp_79 + state[24]))"
@@ -1787,7 +1865,10 @@
       }
     },
     {
-      "Deduction": "((tmp_80 + state[25]) * const_4194304)"
+      "Deduction": [
+        "((tmp_80 + state[25]) * const_4194304)",
+        "carry_25"
+      ]
     },
     {
       "Constraint": "((state[26] * const_512) - (tmp_80 + state[25]))"
@@ -1813,7 +1894,10 @@
       }
     },
     {
-      "Deduction": "((tmp_81 + state[26]) * const_4194304)"
+      "Deduction": [
+        "((tmp_81 + state[26]) * const_4194304)",
+        "carry_26"
+      ]
     },
     {
       "Constraint": "((state[27] * const_512) - (tmp_81 + state[26]))"

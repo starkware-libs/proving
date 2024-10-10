@@ -20,8 +20,8 @@ impl AirFn for Add252 {
 
     fn call(&self, air_builder: &mut AirBuilder, [a, b]: Self::In) -> Self::Out {
         let mut c = air_builder.let_for_deduction(a.clone() + b.clone());
-        for c_limb in c.as_felts_mut() {
-            air_builder.deduce(c_limb);
+        for (i, c_limb) in c.as_felts_mut().into_iter().enumerate() {
+            air_builder.deduce(c_limb, &format!("add_res_limb_{}", i));
             // TODO(DanC): Consider batching these into vector range checks.
             air_builder.lookup_call(
                 &RangeCheck {

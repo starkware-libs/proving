@@ -96,23 +96,23 @@ fn test_add_ap_negative_imm() {
     assert_eq!(next_state.ap.calc(), (ap - 1).to_string());
 
     // Check the state
-    let expected_state = [
-        "30", // pc
-        "11", // ap
-        "6",  // fp
-        "1",  // op1 id
-        "1",  // op1 (sign)
-        "0",  // op1 (sign)
-        "0",  // op1
-        "0",  // op1
-        "0",  // op1
-    ];
-    assert_eq!(
-        state.calc(),
+    let expected_state = vec![
+        (30, ""),
+        (11, ""),
+        (6, ""),
+        (1, "id"),
+        (1, "msb"),
+        (0, "mid_limbs_set"),
+        (0, "limb_0"),
+        (0, "limb_1"),
+        (0, "limb_2"),
+    ]
+    .into();
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
         expected_state
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>()
     );
 }
 
@@ -159,19 +159,25 @@ fn test_add_ap_deref_base_fp() {
     assert_eq!(next_state.ap.calc(), (ap + op1 as u32).to_string());
 
     // Check the state
-    let expected_state = [
-        "30",    // pc
-        "11",    // ap
-        "6",     // fp
-        "33168", // offset2
-        "1",     // op1_id
-        "0",     // op1 (sign)
-        "0",     // op1(sign)
-        "299",   // op1
-        "0",     // op1
-        "0",     // op1
-    ];
-    assert_eq!(state.calc(), expected_state);
+    let expected_state = vec![
+        (30, ""),
+        (11, ""),
+        (6, ""),
+        (33168, "offset_2"),
+        (1, "id"),
+        (0, "msb"),
+        (0, "mid_limbs_set"),
+        (299, "limb_0"),
+        (0, "limb_1"),
+        (0, "limb_2"),
+    ]
+    .into();
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
+        expected_state
+    );
 }
 
 #[test]

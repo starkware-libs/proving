@@ -28,11 +28,6 @@ use crate::impl_air_var;
 
 /// Every input and output of an air function is an AirVar.
 pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
-    fn description(&self) -> String {
-        // TODO: Implement this function
-        "".to_string()
-    }
-
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr>;
 
     fn as_felts(&self) -> Vec<FeltExpr> {

@@ -6,6 +6,7 @@ use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::state::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
@@ -48,7 +49,7 @@ fn test_mul_small(
     dst: u32,
     op0: u32,
     op1: u32,
-    expected_state: Vec<u32>,
+    expected_state: State,
 ) {
     // Read the non-constant flags
     let [flag_dst_base_fp, flag_op0_base_fp, flag_op1_imm, flag_op1_base_fp, flag_op1_base_ap, flag_ap_update_add_1] =
@@ -163,12 +164,11 @@ fn test_mul_small(
         assert_eq!(next_state.pc.calc(), (pc_value + 1).to_string());
     };
 
-    assert_eq!(
-        state.calc(),
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
         expected_state
-            .iter()
-            .map(|x| x.to_string())
-            .collect::<Vec<String>>()
     );
 }
 
@@ -181,9 +181,30 @@ fn test_mul_small_not_imm() {
         32123,
         32456,
         vec![
-            10, 50, 100, 32771, 32773, 32775, 1, 0, 0, 1, 0, 1, 24, 73, 393, 7, 2, 379, 62, 3, 200,
-            63,
-        ],
+            (10, ""),
+            (50, ""),
+            (100, ""),
+            (32771, "offset_0"),
+            (32773, "offset_1"),
+            (32775, "offset_2"),
+            (1, "dst_base_fp"),
+            (0, "op0_base_fp"),
+            (0, "op1_base_fp"),
+            (1, "op1_base_ap"),
+            (0, "ap_update_add_1"),
+            (1, "id"),
+            (24, "limb_0"),
+            (73, "limb_1"),
+            (393, "limb_2"),
+            (7, "limb_3"),
+            (2, "id"),
+            (379, "limb_0"),
+            (62, "limb_1"),
+            (3, "id"),
+            (200, "limb_0"),
+            (63, "limb_1"),
+        ]
+        .into(),
     );
 }
 
@@ -196,7 +217,7 @@ fn test_mul_small_not_equal() {
         1042584088,
         32123,
         32457,
-        vec![],
+        vec![].into(),
     );
 }
 
@@ -209,7 +230,7 @@ fn test_mul_small_over_15bit() {
         32768,
         32768,
         1,
-        vec![],
+        vec![].into(),
     );
 }
 
@@ -222,7 +243,26 @@ fn test_mul_small_imm() {
         7,
         8,
         vec![
-            10, 50, 100, 32765, 32763, 1, 0, 0, 1, 56, 0, 0, 0, 2, 7, 0, 3, 8, 0,
-        ],
+            (10, ""),
+            (50, ""),
+            (100, ""),
+            (32765, "offset_0"),
+            (32763, "offset_1"),
+            (1, "dst_base_fp"),
+            (0, "op0_base_fp"),
+            (0, "ap_update_add_1"),
+            (1, "id"),
+            (56, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+            (0, "limb_3"),
+            (2, "id"),
+            (7, "limb_0"),
+            (0, "limb_1"),
+            (3, "id"),
+            (8, "limb_0"),
+            (0, "limb_1"),
+        ]
+        .into(),
     );
 }

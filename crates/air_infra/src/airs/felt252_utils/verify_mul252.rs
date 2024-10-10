@@ -115,6 +115,7 @@ impl AirFn for VerifyMul252 {
         let k_expr = air_builder.deduce(
             &mut (k_mod_2_18_biased.low().as_felt()
                 + (k_mod_2_18_biased.high().as_felt() - const_expr!(1)) * const_expr!(1u32 << 16)),
+            "k",
         );
         // The range of k fits inside a range check of 2**17, but the smallest commonly used size
         // is 19, the size of the largest range checks needed for the the carries.
@@ -138,10 +139,13 @@ impl AirFn for VerifyMul252 {
 
         // Verify that PR - k*P = 0 by evaluating and range-checking the carries between the limbs.
         let mut carry = BoundedFeltExpr::default();
-        for conv_mod in conv_mod_tmps.iter().take(FELT252_N_WORDS - 1) {
+        for (i, conv_mod) in conv_mod_tmps.iter().take(FELT252_N_WORDS - 1).enumerate() {
             let shifted_carry = conv_mod.clone() + carry;
             carry = BoundedFeltExpr {
-                expr: air_builder.deduce(&mut (shifted_carry.expr.clone() * shift_inverse.clone())),
+                expr: air_builder.deduce(
+                    &mut (shifted_carry.expr.clone() * shift_inverse.clone()),
+                    &format!("carry_{}", i),
+                ),
                 max_bound: shifted_carry.max_bound >> FELT252_BITS_PER_WORD,
                 min_bound: shifted_carry.min_bound >> FELT252_BITS_PER_WORD,
             };

@@ -72,7 +72,7 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
 
     for deduction in &lists.deductions {
         match deduction {
-            TraceGenStep::Deduction(expr) => {
+            TraceGenStep::Deduction(expr, _desc) => {
                 write_trace_body.append(quote! {
                     let col$(offset) = $(simd_parse_air_var(expr));
                     dst[$(offset)].data[row_index] = col$(offset);

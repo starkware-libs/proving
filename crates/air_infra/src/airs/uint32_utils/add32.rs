@@ -18,8 +18,8 @@ impl AirFn for Add32 {
 
     fn call(&self, air_builder: &mut AirBuilder, [a, b]: Self::In) -> Self::Out {
         let mut c = air_builder.let_for_deduction(a.clone() + b.clone());
-        let cl = air_builder.deduce(c.low_mut().as_felt_mut());
-        let ch = air_builder.deduce(c.high_mut().as_felt_mut());
+        let cl = air_builder.deduce(c.low_mut().as_felt_mut(), "add_res_limb_0");
+        let ch = air_builder.deduce(c.high_mut().as_felt_mut(), "add_res_limb_1");
         air_builder.lookup_call(&RangeCheck { bits: [16] }, [cl.clone()]);
         air_builder.lookup_call(&RangeCheck { bits: [16] }, [ch.clone()]);
 

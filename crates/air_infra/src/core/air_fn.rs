@@ -121,7 +121,7 @@ pub trait AirFn: Debug + InstDefTrait {
         } else if !Self::In::is_empty() {
             input = air_builder.let_for_deduction(input);
             for felt in input.as_felts_mut() {
-                air_builder.deduce(felt);
+                air_builder.deduce(felt, "");
             }
         }
 
@@ -207,7 +207,7 @@ impl AirBuilder {
         self.air_body.push(AirBodyComponent::Constraint(expr));
     }
 
-    pub fn deduce(&mut self, expr: &mut FeltExpr) -> FeltExpr {
+    pub fn deduce(&mut self, expr: &mut FeltExpr, desc: &str) -> FeltExpr {
         #[cfg(test)]
         if !self.run {
             // Cannot assert this in run mode, where we might deduce constants.
@@ -219,13 +219,15 @@ impl AirBuilder {
             "Deduction contains an intermediate variable that is not in deductions"
         );
 
-        self.air_body
-            .push(AirBodyComponent::Deduction(expr.clone()));
-        self.state.add(expr);
+        self.air_body.push(AirBodyComponent::Deduction(
+            expr.clone(),
+            (!desc.is_empty()).then(|| desc.to_string()),
+        ));
+        self.state.add(expr, desc);
         expr.clone()
     }
 
-    pub fn assign(&mut self, expr: &mut FeltExpr) -> FeltExpr {
+    pub fn assign(&mut self, expr: &mut FeltExpr, desc: &str) -> FeltExpr {
         #[cfg(test)]
         if !self.run {
             // Cannot assert this in run mode, where we might deduce constants.
@@ -248,12 +250,13 @@ impl AirBuilder {
         );
 
         let before = expr.clone();
-        self.state.add(expr);
+        self.state.add(expr, desc);
 
         let constraint = expr.clone() - before.clone();
         self.air_body.push(AirBodyComponent::Assignment {
             constraint: constraint.clone(),
             deduction: before,
+            desc: (!desc.is_empty()).then(|| desc.to_string()),
         });
         expr.clone()
     }
@@ -413,7 +416,7 @@ impl AirBuilder {
             );
 
             for felt in output.as_felts_mut() {
-                self.deduce(felt);
+                self.deduce(felt, "");
             }
         }
 
@@ -562,12 +565,17 @@ pub struct LookupCall {
 #[derive(Clone, Debug, Serialize)]
 pub enum AirBodyComponent {
     Constraint(FeltExpr),
-    Deduction(FeltExpr),
+    Deduction(
+        FeltExpr,
+        #[serde(skip_serializing_if = "Option::is_none")] Option<String>,
+    ),
     // An assignment is a constraint and a deduction referring to the same trace cell.
     // For example, when copying a value from one trace cell to another.
     Assignment {
         constraint: FeltExpr,
         deduction: FeltExpr,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        desc: Option<String>,
     },
     Intermediate(String, AirVarImpl, IntermediateType),
     Call(Call),

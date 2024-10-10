@@ -34,10 +34,16 @@
       ]
     },
     {
-      "Deduction": "tmp_0.low().as_m31()"
+      "Deduction": [
+        "tmp_0.low().as_m31()",
+        "add_res_limb_0"
+      ]
     },
     {
-      "Deduction": "tmp_0.high().as_m31()"
+      "Deduction": [
+        "tmp_0.high().as_m31()",
+        "add_res_limb_1"
+      ]
     },
     {
       "LookupCall": {

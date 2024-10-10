@@ -5,6 +5,7 @@ use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::state::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
@@ -60,7 +61,7 @@ fn build_and_test(
     op1_base_fp: bool,
     offset2_option: Option<i16>,
     op1_value: i64,
-    expected_state: Vec<u32>,
+    expected_state: State,
 ) {
     let [pc_value, ap_value, fp_value] = [50, 200, 150];
     let [pc, ap, fp] = [
@@ -129,12 +130,11 @@ fn build_and_test(
     assert_eq!(next_state.fp.calc(), (ap_value + 2).to_string());
 
     // Check state
-    assert_eq!(
-        state.calc(),
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
         expected_state
-            .iter()
-            .map(ToString::to_string)
-            .collect::<Vec<_>>()
     );
 }
 
@@ -144,7 +144,20 @@ fn test_relative_call() {
         false,
         None,
         500,
-        vec![50, 200, 150, 2, 3, 1, 0, 0, 500, 0, 0],
+        vec![
+            (50, ""),
+            (200, ""),
+            (150, ""),
+            (2, "id"),
+            (3, "id"),
+            (1, "id"),
+            (0, "msb"),
+            (0, "mid_limbs_set"),
+            (500, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -154,7 +167,20 @@ fn test_relative_call_negative() {
         false,
         None,
         -17,
-        vec![50, 200, 150, 2, 3, 1, 1, 1, 496, 511, 511],
+        vec![
+            (50, ""),
+            (200, ""),
+            (150, ""),
+            (2, "id"),
+            (3, "id"),
+            (1, "id"),
+            (1, "msb"),
+            (1, "mid_limbs_set"),
+            (496, "limb_0"),
+            (511, "limb_1"),
+            (511, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -164,7 +190,19 @@ fn test_call_base_fp_positive_offset2() {
         true,
         Some(5),
         600,
-        vec![50, 200, 150, 32773, 2, 3, 1, 88, 1, 0],
+        vec![
+            (50, ""),
+            (200, ""),
+            (150, ""),
+            (32773, "offset_2"),
+            (2, "id"),
+            (3, "id"),
+            (1, "id"),
+            (88, "limb_0"),
+            (1, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -174,7 +212,19 @@ fn test_call_base_fp_negative_offset2() {
         true,
         Some(-5),
         400,
-        vec![50, 200, 150, 32763, 2, 3, 1, 400, 0, 0],
+        vec![
+            (50, ""),
+            (200, ""),
+            (150, ""),
+            (32763, "offset_2"),
+            (2, "id"),
+            (3, "id"),
+            (1, "id"),
+            (400, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -184,7 +234,19 @@ fn test_call_base_ap_positive_offset2() {
         false,
         Some(10),
         1234,
-        vec![50, 200, 150, 32778, 2, 3, 1, 210, 2, 0],
+        vec![
+            (50, ""),
+            (200, ""),
+            (150, ""),
+            (32778, "offset_2"),
+            (2, "id"),
+            (3, "id"),
+            (1, "id"),
+            (210, "limb_0"),
+            (2, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 
@@ -194,7 +256,19 @@ fn test_call_base_ap_negative_offset2() {
         false,
         Some(-10),
         55,
-        vec![50, 200, 150, 32758, 2, 3, 1, 55, 0, 0],
+        vec![
+            (50, ""),
+            (200, ""),
+            (150, ""),
+            (32758, "offset_2"),
+            (2, "id"),
+            (3, "id"),
+            (1, "id"),
+            (55, "limb_0"),
+            (0, "limb_1"),
+            (0, "limb_2"),
+        ]
+        .into(),
     );
 }
 

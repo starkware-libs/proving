@@ -14,7 +14,11 @@ fn test_add32() {
 
     let (state, output) = registry.run_air(&air_fn, [const_u32_expr!(1), const_u32_expr!(1)]);
     assert_eq!(output.calc(), "2");
-    assert_eq!(state.calc(), ["2", "0"]);
+    assert!(
+        state == vec![(2, "add_res_limb_0"), (0, "add_res_limb_1")].into(),
+        "State {} does not match [(2, 'add_res_limb_0'), (0, 'add_res_limb_1')]",
+        state
+    );
 
     let (state, output) = registry.run_air(
         &air_fn,
@@ -24,7 +28,11 @@ fn test_add32() {
         ],
     );
     assert_eq!(output.calc(), "65536");
-    assert_eq!(state.calc(), ["0", "1"]);
+    assert!(
+        state == vec![(0, "add_res_limb_0"), (1, "add_res_limb_1")].into(),
+        "State {} does not match [(0, 'add_res_limb_0'), (1, 'add_res_limb_1')]",
+        state
+    );
 
     let (state, output) = registry.run_air(
         &air_fn,
@@ -34,7 +42,11 @@ fn test_add32() {
         ],
     );
     assert_eq!(output.calc(), "0");
-    assert_eq!(state.calc(), ["0", "0"]);
+    assert!(
+        state == vec![(0, "add_res_limb_0"), (0, "add_res_limb_1")].into(),
+        "State {} does not match [(0, 'add_res_limb_0'), (0, 'add_res_limb_1')]",
+        state
+    );
 
     // Check entry
     compare_json(

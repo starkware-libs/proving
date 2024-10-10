@@ -20,7 +20,7 @@ impl AirFn for Fib {
     type Out = FeltExpr;
 
     fn call(&self, air_builder: &mut AirBuilder, mut secret: Self::In) -> Self::Out {
-        let mut input = [const_expr!(1), air_builder.deduce(&mut secret)];
+        let mut input = [const_expr!(1), air_builder.deduce(&mut secret, "")];
         let air_fn = FibStep {};
 
         for _ in 0..(self.claim_index - 2) {
