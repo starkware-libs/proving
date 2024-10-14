@@ -171,9 +171,9 @@ impl FrameworkEval for AddApOpcode_is_imm_t_op1_base_fp_fEval {
             self.opcodes_lookup_elements.combine(&[
                 (input_pc_col0.clone() + M31_2.clone()),
                 (input_ap_col1.clone()
-                    + ((((op1_limb_2_col8.clone() * M31_262144.clone())
-                        + ((op1_limb_1_col7.clone() * M31_512.clone())
-                            + op1_limb_0_col6.clone()))
+                    + ((((op1_limb_0_col6.clone()
+                        + (op1_limb_1_col7.clone() * M31_512.clone()))
+                        + (op1_limb_2_col8.clone() * M31_262144.clone()))
                         - msb_col4.clone())
                         - (M31_134217728.clone() * mid_limbs_set_col5.clone()))),
                 input_fp_col2.clone(),

@@ -1,0 +1,395 @@
+{
+  "name": "MulOpcode_is_small_t_is_imm_f",
+  "description": "MulOpcode_is_small_t_is_imm_f",
+  "inst_def": {
+    "is_small": "t",
+    "is_imm": "f"
+  },
+  "input": {
+    "name": "mulopcode_is_small_t_is_imm_f_input",
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "mulopcode_is_small_t_is_imm_f_input.pc",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "mulopcode_is_small_t_is_imm_f_input.ap",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "mulopcode_is_small_t_is_imm_f_input.fp",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "input_num_of_felts": 3,
+  "output": {
+    "name": null,
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "(input_pc_col0 + const_1)",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "(input_ap_col1 + ap_update_add_1_col10)",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "input_fp_col2",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "output_num_of_felts": 3,
+  "trace_type": "Opcode",
+  "air_body": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        {
+          "name": "mulopcode_is_small_t_is_imm_f_input",
+          "type": "CasmState",
+          "fields": [
+            [
+              "pc",
+              {
+                "name": "mulopcode_is_small_t_is_imm_f_input.pc",
+                "type": "M31"
+              }
+            ],
+            [
+              "ap",
+              {
+                "name": "mulopcode_is_small_t_is_imm_f_input.ap",
+                "type": "M31"
+              }
+            ],
+            [
+              "fp",
+              {
+                "name": "mulopcode_is_small_t_is_imm_f_input.fp",
+                "type": "M31"
+              }
+            ]
+          ]
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_0.pc",
+        "input_pc"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_0.ap",
+        "input_ap"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_0.fp",
+        "input_fp"
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "DecodeInstruction_15f7159a39884cc",
+        "air_fn_description": "DecodeInstruction_15f7159a39884cc",
+        "input_arg": {
+          "name": "input_pc_col0",
+          "type": "M31"
+        },
+        "output": [
+          [
+            {
+              "name": "(offset0_col3 - const_32768)",
+              "type": "M31"
+            },
+            {
+              "name": "(offset1_col4 - const_32768)",
+              "type": "M31"
+            },
+            {
+              "name": "(offset2_col5 - const_32768)",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "dst_base_fp_col6",
+              "type": "M31"
+            },
+            {
+              "name": "op0_base_fp_col7",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "op1_base_fp_col8",
+              "type": "M31"
+            },
+            {
+              "name": "op1_base_ap_col9",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "ap_update_add_1_col10",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Constraint": [
+        "((op1_base_fp_col8 + op1_base_ap_col9) - const_1)",
+        "Either flag op1_base_fp is on or flag op1_base_ap is on"
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadPositive_num_bits_30",
+        "air_fn_description": "ReadPositive_num_bits_30",
+        "input_arg": {
+          "name": "(((dst_base_fp_col6 * input_fp_col2) + ((const_1 - dst_base_fp_col6) * input_ap_col1)) + (offset0_col3 - const_32768))",
+          "type": "M31"
+        },
+        "output": [
+          {
+            "name": "Felt252::from_limbs(zero_extend([dst_limb_0_col12, dst_limb_1_col13, dst_limb_2_col14, dst_limb_3_col15]))",
+            "type": "Felt252"
+          },
+          {
+            "name": "dst_id_col11",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadPositive_num_bits_15",
+        "air_fn_description": "ReadPositive_num_bits_15",
+        "input_arg": {
+          "name": "(((op0_base_fp_col7 * input_fp_col2) + ((const_1 - op0_base_fp_col7) * input_ap_col1)) + (offset1_col4 - const_32768))",
+          "type": "M31"
+        },
+        "output": [
+          {
+            "name": "Felt252::from_limbs(zero_extend([op0_limb_0_col17, op0_limb_1_col18]))",
+            "type": "Felt252"
+          },
+          {
+            "name": "op0_id_col16",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadPositive_num_bits_15",
+        "air_fn_description": "ReadPositive_num_bits_15",
+        "input_arg": {
+          "name": "(((op1_base_fp_col8 * input_fp_col2) + (op1_base_ap_col9 * input_ap_col1)) + (offset2_col5 - const_32768))",
+          "type": "M31"
+        },
+        "output": [
+          {
+            "name": "Felt252::from_limbs(zero_extend([op1_limb_0_col20, op1_limb_1_col21]))",
+            "type": "Felt252"
+          },
+          {
+            "name": "op1_id_col19",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": [
+        "((((dst_limb_0_col12 + (dst_limb_1_col13 * const_512)) + (dst_limb_2_col14 * const_262144)) + (dst_limb_3_col15 * const_134217728)) - ((op0_limb_0_col17 + (op0_limb_1_col18 * const_512)) * (op1_limb_0_col20 + (op1_limb_1_col21 * const_512))))",
+        "dst equals op0 * op1"
+      ]
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          "input_pc_col0",
+          "input_ap_col1",
+          "input_fp_col2"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          "(input_pc_col0 + const_1)",
+          "(input_ap_col1 + ap_update_add_1_col10)",
+          "input_fp_col2"
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "state": {
+    "row": [
+      [
+        "input_pc_col0",
+        "input_pc"
+      ],
+      [
+        "input_ap_col1",
+        "input_ap"
+      ],
+      [
+        "input_fp_col2",
+        "input_fp"
+      ],
+      [
+        "offset0_col3",
+        "offset0"
+      ],
+      [
+        "offset1_col4",
+        "offset1"
+      ],
+      [
+        "offset2_col5",
+        "offset2"
+      ],
+      [
+        "dst_base_fp_col6",
+        "dst_base_fp"
+      ],
+      [
+        "op0_base_fp_col7",
+        "op0_base_fp"
+      ],
+      [
+        "op1_base_fp_col8",
+        "op1_base_fp"
+      ],
+      [
+        "op1_base_ap_col9",
+        "op1_base_ap"
+      ],
+      [
+        "ap_update_add_1_col10",
+        "ap_update_add_1"
+      ],
+      [
+        "dst_id_col11",
+        "dst_id"
+      ],
+      [
+        "dst_limb_0_col12",
+        "dst_limb_0"
+      ],
+      [
+        "dst_limb_1_col13",
+        "dst_limb_1"
+      ],
+      [
+        "dst_limb_2_col14",
+        "dst_limb_2"
+      ],
+      [
+        "dst_limb_3_col15",
+        "dst_limb_3"
+      ],
+      [
+        "op0_id_col16",
+        "op0_id"
+      ],
+      [
+        "op0_limb_0_col17",
+        "op0_limb_0"
+      ],
+      [
+        "op0_limb_1_col18",
+        "op0_limb_1"
+      ],
+      [
+        "op1_id_col19",
+        "op1_id"
+      ],
+      [
+        "op1_limb_0_col20",
+        "op1_limb_0"
+      ],
+      [
+        "op1_limb_1_col21",
+        "op1_limb_1"
+      ]
+    ]
+  }
+}

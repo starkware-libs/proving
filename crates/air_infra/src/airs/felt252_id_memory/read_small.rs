@@ -5,6 +5,7 @@ use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
 use super::memory::*;
 
 use crate::airs::casm::casm_state::*;
+use crate::airs::casm::common::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -74,12 +75,10 @@ pub fn small_to_rel_imm(
     msb: FeltExpr,
     mid_limbs_set: FeltExpr,
 ) -> FeltExpr {
-    let mut low_limbs_value = low_limbs[0].clone();
-
-    for (i, limb) in low_limbs.into_iter().enumerate().skip(1) {
-        low_limbs_value = limb * const_expr!(1 << (i * FELT252_BITS_PER_WORD)) + low_limbs_value;
-    }
-
+    let low_limbs_value = felt252_to_m31(
+        low_limbs.to_vec().into(),
+        LIMBS_IN_M31 * FELT252_BITS_PER_WORD,
+    );
     low_limbs_value - msb - const_expr!(1 << (LIMBS_IN_M31 * FELT252_BITS_PER_WORD)) * mid_limbs_set
 }
 
