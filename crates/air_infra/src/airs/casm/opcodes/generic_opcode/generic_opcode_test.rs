@@ -2,6 +2,7 @@ use super::generic_opcode::*;
 
 use crate::airs::casm::casm_state::CasmStateVar;
 use crate::airs::casm::common::*;
+use crate::airs::casm::opcodes::add_ap_opcode::*;
 use crate::airs::casm::opcodes::assert_eq_opcode::*;
 use crate::airs::casm::opcodes::call_opcode::*;
 use crate::airs::casm::opcodes::jnz_opcode::*;
@@ -36,7 +37,7 @@ fn test_entry_json() {
 }
 
 #[test]
-fn test_generic_call() {
+fn test_generic_consistency_rel_call() {
     let mut generic_opcode = GenericOpcode::default();
     let mut call_opcode = CallOpcode {
         is_rel: true,
@@ -49,16 +50,18 @@ fn test_generic_call() {
     let immediate = 299;
 
     // Fill memory
-    let mut memory_values = vec![(
-        const_expr!(pc),
-        const_felt252_expr!(
-            assemble_instruction(0, 1, 1, call_opcode.get_flags().into()) as u128,
-            0
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(0, 1, 1, call_opcode.get_flags().into()) as u128,
+                0
+            ),
         ),
-    )];
-    memory_values.push((const_expr!(pc + 1), const_felt252_expr!(immediate)));
-    memory_values.push((const_expr!(ap), const_felt252_expr!(fp as i64)));
-    memory_values.push((const_expr!(ap + 1), const_felt252_expr!(pc as i64 + 2)));
+        (const_expr!(pc + 1), const_felt252_expr!(immediate)),
+        (const_expr!(ap), const_felt252_expr!(fp as i64)),
+        (const_expr!(ap + 1), const_felt252_expr!(pc as i64 + 2)),
+    ];
 
     generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
     call_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
@@ -320,7 +323,108 @@ fn test_generic_call() {
 }
 
 #[test]
-fn test_generic_ret() {
+fn test_generic_call_abs_imm() {
+    let mut generic_opcode = GenericOpcode::default();
+    let call_opcode = CallOpcode {
+        is_rel: false,
+        op1_base_fp: false,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [50, 200, 150];
+    let immediate = 2346;
+
+    // Create flags
+    let mut flags = call_opcode.get_flags();
+    flags.op1_imm = Some(true);
+    flags.op1_base_fp = Some(false);
+    flags.op1_base_ap = Some(false);
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(0, 1, 1, flags.clone().into()) as u128,
+                0
+            ),
+        ),
+        (const_expr!(pc + 1), const_felt252_expr!(immediate)),
+        (const_expr!(ap), const_felt252_expr!(fp as i64)),
+        (const_expr!(ap + 1), const_felt252_expr!(pc as i64 + 2)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (mut registry, _) = AirFnRegistry::new(&generic_opcode);
+    registry.add_entry(&call_opcode);
+    let (_, output) = registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+
+    // Check output
+    assert_eq!(output.pc.calc(), (immediate).to_string());
+    assert_eq!(output.ap.calc(), (ap + 2).to_string());
+    assert_eq!(output.fp.calc(), (ap + 2).to_string());
+}
+
+#[test]
+fn test_generic_call_rel_deref() {
+    let mut generic_opcode = GenericOpcode::default();
+    let call_opcode = CallOpcode {
+        is_rel: true,
+        op1_base_fp: false,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [50, 200, 150];
+    let op1 = 34698498;
+    let offset2 = 3545;
+
+    // Create flags
+    let mut flags = call_opcode.get_flags();
+    flags.op1_base_ap = Some(true);
+    flags.op1_imm = Some(false);
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(0, 1, offset2, flags.clone().into()) as u128,
+                0
+            ),
+        ),
+        (
+            const_expr!(ap + offset2 as u32),
+            const_felt252_expr!(op1 as i128),
+        ),
+        (const_expr!(ap), const_felt252_expr!(fp as i64)),
+        (const_expr!(ap + 1), const_felt252_expr!(pc as i64 + 1)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (mut registry, _) = AirFnRegistry::new(&generic_opcode);
+    registry.add_entry(&call_opcode);
+    let (_, output) = registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+
+    // Check output
+    assert_eq!(output.pc.calc(), (pc + op1).to_string());
+    assert_eq!(output.ap.calc(), (ap + 2).to_string());
+    assert_eq!(output.fp.calc(), (ap + 2).to_string());
+}
+
+#[test]
+fn test_generic_consistency_ret() {
     let mut generic_opcode = GenericOpcode::default();
     let mut ret_opcode = RetOpcode {
         memory: Felt252IdMemory::default(),
@@ -601,7 +705,7 @@ fn test_generic_ret() {
 }
 
 #[test]
-fn test_generic_assert_equal() {
+fn test_generic_consistency_assert_equal() {
     let mut generic_opcode = GenericOpcode::default();
     let mut assert_equal_opcode = AssertEqOpcode {
         is_double_deref: false,
@@ -616,33 +720,36 @@ fn test_generic_assert_equal() {
     let [pc, ap, fp] = [3, 11, 6];
 
     // Fill memory
-    let mut memory_values = vec![(
-        const_expr!(pc),
-        const_felt252_expr!(
-            assemble_instruction(
-                offset0,
-                offset1,
-                offset2,
-                assert_equal_opcode
-                    .get_flags()
-                    .non_constants_to_arr(&[false, true, false, false]),
-            ) as u128,
-            0
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(
+                    offset0,
+                    offset1,
+                    offset2,
+                    assert_equal_opcode
+                        .get_flags()
+                        .non_constants_to_arr(&[false, true, false, false]),
+                ) as u128,
+                0
+            ),
         ),
-    )];
-    memory_values.push((
-        const_expr!((ap as i16 + offset0) as u32),
-        const_felt252_expr!(dst as i128),
-    ));
-    memory_values.push((
-        const_expr!((fp as i16 + offset2) as u32),
-        const_felt252_expr!(op1 as i128),
-    ));
-    // Not in use
-    memory_values.push((
-        const_expr!((fp as i16 + offset1) as u32),
-        const_felt252_expr!(0, 0),
-    ));
+        (
+            const_expr!((ap as i16 + offset0) as u32),
+            const_felt252_expr!(dst as i128),
+        ),
+        (
+            const_expr!((fp as i16 + offset2) as u32),
+            const_felt252_expr!(op1 as i128),
+        ),
+        // Not in use
+        (
+            const_expr!((fp as i16 + offset1) as u32),
+            const_felt252_expr!(0, 0),
+        ),
+    ];
+
     generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
     assert_equal_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
@@ -903,7 +1010,7 @@ fn test_generic_assert_equal() {
 }
 
 #[test]
-fn test_generic_jump() {
+fn test_generic_consistency_jump() {
     let mut generic_opcode = GenericOpcode::default();
     let mut jump_opcode = JumpOpcode {
         is_rel: false,
@@ -919,28 +1026,30 @@ fn test_generic_jump() {
     let [pc, ap, fp] = [3, 11, 6];
 
     // Fill memory
-    let mut memory_values = vec![(
-        const_expr!(pc),
-        const_felt252_expr!(
-            assemble_jump(
-                None,
-                Some(offset_value),
-                jump_opcode
-                    .get_flags()
-                    .non_constants_to_arr(&[true, false, false]),
-            ) as u128,
-            0
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_jump(
+                    None,
+                    Some(offset_value),
+                    jump_opcode
+                        .get_flags()
+                        .non_constants_to_arr(&[true, false, false]),
+                ) as u128,
+                0
+            ),
         ),
-    )];
-    memory_values.push((
-        const_expr!((fp as i16 + offset_value) as u32),
-        const_felt252_expr!(op1 as i128),
-    ));
-    // Not in use
-    memory_values.push((
-        const_expr!((fp as i64 - 1) as u32),
-        const_felt252_expr!(0, 0),
-    ));
+        (
+            const_expr!((fp as i16 + offset_value) as u32),
+            const_felt252_expr!(op1 as i128),
+        ),
+        // Not in use
+        (
+            const_expr!((fp as i64 - 1) as u32),
+            const_felt252_expr!(0, 0),
+        ),
+    ];
     generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
     jump_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
@@ -1201,7 +1310,117 @@ fn test_generic_jump() {
 }
 
 #[test]
-fn test_generic_jump_not_zero_taken() {
+fn test_generic_jump_abs_imm() {
+    let mut generic_opcode = GenericOpcode::default();
+    let jump_opcode = JumpOpcode {
+        is_rel: false,
+        is_imm: false,
+        is_double_deref: false,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Create flags
+    let mut flags = jump_opcode.get_flags();
+    flags.op1_imm = Some(true);
+    flags.op1_base_ap = Some(false);
+    flags.op1_base_fp = Some(false);
+    flags.ap_update_add_1 = Some(false);
+    let imm = 5;
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [3, 11, 6];
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(assemble_jump(None, None, flags.clone().into(),) as u128, 0),
+        ),
+        (const_expr!(pc + 1), const_felt252_expr!(imm as i128)),
+        // Not in use
+        (
+            const_expr!((fp as i64 - 1) as u32),
+            const_felt252_expr!(0, 0),
+        ),
+    ];
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (registry, _) = AirFnRegistry::new(&generic_opcode);
+    let (_, output) = registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+
+    // Check output
+    assert_eq!(output.pc.calc(), imm.to_string());
+    assert_eq!(output.fp.calc(), fp.to_string());
+    assert_eq!(output.ap.calc(), ap.to_string());
+}
+
+#[test]
+fn test_generic_jump_rel_double_deref() {
+    let mut generic_opcode = GenericOpcode::default();
+    let jump_opcode = JumpOpcode {
+        is_rel: true,
+        is_imm: false,
+        is_double_deref: true,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Create flags
+    let mut flags = jump_opcode.get_flags();
+    flags.op1_imm = Some(false);
+    flags.op0_base_fp = Some(true);
+    flags.ap_update_add_1 = Some(false);
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [3, 11, 12345];
+    let op0 = 5465446;
+    let op1 = 46867;
+    let offset1 = -1265;
+    let offset2 = 125;
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_jump(Some(offset1), Some(offset2), flags.clone().into(),) as u128,
+                0
+            ),
+        ),
+        (
+            const_expr!((op0 + offset2 as i32) as u32),
+            const_felt252_expr!(op1 as i128),
+        ),
+        (
+            const_expr!((fp as i32 + offset1 as i32) as u32),
+            const_felt252_expr!(op0 as i128),
+        ),
+        // Not in use
+        (
+            const_expr!((fp as i64 - 1) as u32),
+            const_felt252_expr!(0, 0),
+        ),
+    ];
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (registry, _) = AirFnRegistry::new(&generic_opcode);
+    let (_, output) = registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+
+    // Check output
+    assert_eq!(output.pc.calc(), (pc as i64 + op1).to_string());
+    assert_eq!(output.fp.calc(), fp.to_string());
+    assert_eq!(output.ap.calc(), ap.to_string());
+}
+
+#[test]
+fn test_generic_consistency_jnz_taken() {
     let mut generic_opcode = GenericOpcode::default();
     let mut jnz_opcode = JnzOpcode {
         is_taken: true,
@@ -1215,25 +1434,28 @@ fn test_generic_jump_not_zero_taken() {
     let op1 = 15;
 
     // Fill memory
-    let mut memory_values = vec![(
-        const_expr!(pc),
-        const_felt252_expr!(
-            assemble_instruction(
-                offset_dst,
-                -1,
-                1,
-                jnz_opcode.get_flags().non_constants_to_arr(&[false])
-            ) as u128,
-            0
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(
+                    offset_dst,
+                    -1,
+                    1,
+                    jnz_opcode.get_flags().non_constants_to_arr(&[false])
+                ) as u128,
+                0
+            ),
         ),
-    )];
-    memory_values.push((const_expr!(pc + 1), const_felt252_expr!(op1 as i128)));
-    memory_values.push((
-        const_expr!((ap as i16 + offset_dst) as u32),
-        const_felt252_expr!(123, 456),
-    ));
-    // Not in use
-    memory_values.push((const_expr!(fp - 1), const_felt252_expr!(0, 0)));
+        (const_expr!(pc + 1), const_felt252_expr!(op1 as i128)),
+        (
+            const_expr!((ap as i16 + offset_dst) as u32),
+            const_felt252_expr!(123, 456),
+        ),
+        // Not in use
+        (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
+    ];
+
     generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
     jnz_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
@@ -1494,7 +1716,7 @@ fn test_generic_jump_not_zero_taken() {
 }
 
 #[test]
-fn test_generic_jump_not_zero_not_taken() {
+fn test_generic_consistency_jnz_not_taken() {
     let mut generic_opcode = GenericOpcode::default();
     let mut jnz_opcode = JnzOpcode {
         is_taken: false,
@@ -1508,25 +1730,28 @@ fn test_generic_jump_not_zero_not_taken() {
     let op1 = 15;
 
     // Fill memory
-    let mut memory_values = vec![(
-        const_expr!(pc),
-        const_felt252_expr!(
-            assemble_instruction(
-                offset_dst,
-                -1,
-                1,
-                jnz_opcode.get_flags().non_constants_to_arr(&[false])
-            ) as u128,
-            0
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(
+                    offset_dst,
+                    -1,
+                    1,
+                    jnz_opcode.get_flags().non_constants_to_arr(&[false])
+                ) as u128,
+                0
+            ),
         ),
-    )];
-    memory_values.push((const_expr!(pc + 1), const_felt252_expr!(op1 as i128)));
-    memory_values.push((
-        const_expr!((ap as i16 + offset_dst) as u32),
-        const_felt252_expr!(0, 0),
-    ));
-    // Not in use
-    memory_values.push((const_expr!(fp - 1), const_felt252_expr!(0, 0)));
+        (const_expr!(pc + 1), const_felt252_expr!(op1 as i128)),
+        (
+            const_expr!((ap as i16 + offset_dst) as u32),
+            const_felt252_expr!(0, 0),
+        ),
+        // Not in use
+        (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
+    ];
+
     generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
     jnz_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
@@ -1787,8 +2012,415 @@ fn test_generic_jump_not_zero_not_taken() {
 }
 
 #[test]
+fn test_generic_jnz_deref_taken() {
+    let mut generic_opcode = GenericOpcode::default();
+    let jnz_opcode = JnzOpcode {
+        is_taken: true,
+        dst_base_fp: false,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Create flags
+    let mut flags = jnz_opcode.get_flags();
+    flags.op1_imm = Some(false);
+    flags.op1_base_ap = Some(true);
+    flags.ap_update_add_1 = Some(true);
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [50, 458, 150];
+    let offset_dst = -150;
+    let offset2 = 3244;
+    let op1 = 5456;
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(offset_dst, -1, offset2, flags.clone().into(),) as u128,
+                0
+            ),
+        ),
+        (
+            const_expr!(ap + offset2 as u32),
+            const_felt252_expr!(op1 as i128),
+        ),
+        (
+            const_expr!((ap as i16 + offset_dst) as u32),
+            const_felt252_expr!(123, 456),
+        ),
+        // Not in use
+        (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (registry, _) = AirFnRegistry::new(&generic_opcode);
+    let (_, next_state) = registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+
+    // Check output
+    assert_eq!(next_state.pc.calc(), (pc as i128 + op1 as i128).to_string());
+    assert_eq!(next_state.ap.calc(), (ap + 1).to_string());
+    assert_eq!(next_state.fp.calc(), fp.to_string());
+}
+
+#[test]
+fn test_generic_jnz_deref_not_taken() {
+    let mut generic_opcode = GenericOpcode::default();
+    let jnz_opcode = JnzOpcode {
+        is_taken: true,
+        dst_base_fp: true,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Create flags
+    let mut flags = jnz_opcode.get_flags();
+    flags.op1_imm = Some(false);
+    flags.op1_base_fp = Some(true);
+    flags.ap_update_add_1 = Some(false);
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [50, 458, 150];
+    let offset_dst = -150;
+    let offset2 = 3244;
+    let op1 = 5456;
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(offset_dst, -1, offset2, flags.clone().into(),) as u128,
+                0
+            ),
+        ),
+        (
+            const_expr!(fp + offset2 as u32),
+            const_felt252_expr!(op1 as i128),
+        ),
+        (
+            const_expr!((fp as i16 + offset_dst) as u32),
+            const_felt252_expr!(0, 0),
+        ),
+        // Not in use
+        (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (registry, _) = AirFnRegistry::new(&generic_opcode);
+    let (_, next_state) = registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+
+    // Check output
+    assert_eq!(next_state.pc.calc(), (pc + 1).to_string());
+    assert_eq!(next_state.ap.calc(), ap.to_string());
+    assert_eq!(next_state.fp.calc(), fp.to_string());
+}
+
+#[test]
+fn test_generic_add_ap_double_deref() {
+    let mut generic_opcode = GenericOpcode::default();
+    let add_ap = AddApOpcode {
+        is_imm: false,
+        op1_base_fp: false,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Create flags
+    let mut flags = add_ap.get_flags();
+    flags.op1_base_ap = Some(false);
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [50, 5458, 150];
+    let offset1 = -123;
+    let offset2 = 3244;
+    let op0 = 789;
+    let op1 = 5456;
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(-1, offset1, offset2, flags.clone().into(),) as u128,
+                0
+            ),
+        ),
+        (
+            const_expr!((op0 + offset2 as i32) as u32),
+            const_felt252_expr!(op1 as i128),
+        ),
+        (
+            const_expr!((fp as i32 + offset1 as i32) as u32),
+            const_felt252_expr!(op0 as i128),
+        ),
+        // Not in use
+        (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (registry, _) = AirFnRegistry::new(&generic_opcode);
+    let (_, next_state) = registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+
+    // Check the output
+    assert_eq!(next_state.pc.calc(), (pc + 1).to_string());
+    assert_eq!(next_state.fp.calc(), fp.to_string());
+    assert_eq!(next_state.ap.calc(), (ap + op1).to_string());
+}
+
+#[test]
+fn test_generic_add_ap_res_mul() {
+    let mut generic_opcode = GenericOpcode::default();
+    let add_ap = AddApOpcode {
+        is_imm: false,
+        op1_base_fp: false,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Create flags
+    let mut flags = add_ap.get_flags();
+    flags.op1_base_ap = Some(true);
+    flags.res_mul = Some(true);
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [50, 5458, 150];
+    let offset1 = -123;
+    let offset2 = 3244;
+    let op0 = 789;
+    let op1 = 5456;
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(-1, offset1, offset2, flags.clone().into(),) as u128,
+                0
+            ),
+        ),
+        (
+            const_expr!(ap + offset2 as u32),
+            const_felt252_expr!(op1 as i128),
+        ),
+        (
+            const_expr!((fp as i32 + offset1 as i32) as u32),
+            const_felt252_expr!(op0 as i128),
+        ),
+        // Not in use
+        (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (registry, _) = AirFnRegistry::new(&generic_opcode);
+    let (_, next_state) = registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+
+    // Check the output
+    assert_eq!(next_state.pc.calc(), (pc + 1).to_string());
+    assert_eq!(next_state.fp.calc(), fp.to_string());
+    assert_eq!(next_state.ap.calc(), (ap + op1 * op0).to_string());
+}
+
+#[test]
+fn test_generic_add_ap_res_add() {
+    let mut generic_opcode = GenericOpcode::default();
+    let add_ap = AddApOpcode {
+        is_imm: false,
+        op1_base_fp: true,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Create flags
+    let mut flags = add_ap.get_flags();
+    flags.op0_base_fp = Some(false);
+    flags.res_add = Some(true);
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [454, 7888, 5656];
+    let offset1 = -45;
+    let offset2 = 1255;
+    let op0: i32 = -465;
+    let op1: i32 = 5456;
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(-1, offset1, offset2, flags.clone().into(),) as u128,
+                0
+            ),
+        ),
+        (
+            const_expr!(fp + offset2 as u32),
+            const_felt252_expr!(op1 as i128),
+        ),
+        (
+            const_expr!((ap as i32 + offset1 as i32) as u32),
+            const_felt252_expr!(op0 as i128),
+        ),
+        // Not in use
+        (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (registry, _) = AirFnRegistry::new(&generic_opcode);
+    let (_, next_state) = registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+
+    // Check the output
+    assert_eq!(next_state.pc.calc(), (pc + 1).to_string());
+    assert_eq!(next_state.fp.calc(), fp.to_string());
+    assert_eq!(next_state.ap.calc(), (ap as i32 + op0 + op1).to_string());
+}
+
+#[test]
+#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+fn test_generic_soundness_call_wrong_offset() {
+    let mut generic_opcode = GenericOpcode::default();
+    let call_opcode = CallOpcode {
+        is_rel: true,
+        op1_base_fp: false,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [50, 200, 150];
+    let immediate = 2346;
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                // Use invalid value for offset dst
+                assemble_instruction(1, 1, 1, call_opcode.get_flags().into()) as u128,
+                0
+            ),
+        ),
+        (const_expr!(pc + 1), const_felt252_expr!(immediate)),
+        (const_expr!(ap), const_felt252_expr!(fp as i64)),
+        (const_expr!(ap + 1), const_felt252_expr!(pc as i64 + 2)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (mut registry, _) = AirFnRegistry::new(&generic_opcode);
+    registry.add_entry(&call_opcode);
+    let (_, _) = registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+}
+
+#[test]
+#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+fn test_generic_soundness_call_fp_not_pushed() {
+    let mut generic_opcode = GenericOpcode::default();
+    let call_opcode = CallOpcode {
+        is_rel: true,
+        op1_base_fp: false,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [50, 200, 150];
+    let immediate = 2346;
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(0, 1, 1, call_opcode.get_flags().into()) as u128,
+                0
+            ),
+        ),
+        (const_expr!(pc + 1), const_felt252_expr!(immediate)),
+        // save ap instead of fp
+        (const_expr!(ap), const_felt252_expr!(ap as i64)),
+        (const_expr!(ap + 1), const_felt252_expr!(pc as i64 + 2)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (mut registry, _) = AirFnRegistry::new(&generic_opcode);
+    registry.add_entry(&call_opcode);
+    let (_, _) = registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+}
+
+#[test]
+#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+fn test_generic_soundness_call_wrong_next_pc() {
+    let mut generic_opcode = GenericOpcode::default();
+    let call_opcode = CallOpcode {
+        is_rel: false,
+        op1_base_fp: true,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [50, 200, 150];
+    let offset2 = -5;
+    let op1 = 400;
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(0, 1, offset2, call_opcode.get_flags().into()) as u128,
+                0
+            ),
+        ),
+        (
+            const_expr!((fp as i16 + offset2) as u32),
+            const_felt252_expr!(op1),
+        ),
+        (const_expr!(ap), const_felt252_expr!(fp as i64)),
+        // Set next pc to wrong value
+        (const_expr!(ap + 1), const_felt252_expr!(pc as i64 + 2)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values.clone());
+
+    // Run air function
+    let (registry, _) = AirFnRegistry::new(&generic_opcode);
+    let (_, _) = registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+}
+
+#[test]
 #[should_panic(expected = "0 has no inverse")]
-fn test_generic_jump_not_zero_dst_is_p() {
+fn test_generic_soundness_jnz_dst_is_p() {
     let mut generic_opcode = GenericOpcode::default();
     let jnz_opcode = JnzOpcode {
         is_taken: false,
@@ -1802,25 +2434,89 @@ fn test_generic_jump_not_zero_dst_is_p() {
     let op1 = 15;
 
     // Fill memory
-    let mut memory_values = vec![(
-        const_expr!(pc),
-        const_felt252_expr!(
-            assemble_instruction(
-                offset_dst,
-                -1,
-                1,
-                jnz_opcode.get_flags().non_constants_to_arr(&[false])
-            ) as u128,
-            0
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(
+                    offset_dst,
+                    -1,
+                    1,
+                    jnz_opcode.get_flags().non_constants_to_arr(&[false])
+                ) as u128,
+                0
+            ),
         ),
-    )];
-    memory_values.push((const_expr!(pc + 1), const_felt252_expr!(op1 as i128)));
-    memory_values.push((
-        const_expr!((ap as i16 + offset_dst) as u32),
-        const_felt252_expr!(1, 10633823966279327296825105735305134080),
-    ));
-    // Not in use
-    memory_values.push((const_expr!(fp - 1), const_felt252_expr!(0, 0)));
+        (const_expr!(pc + 1), const_felt252_expr!(op1 as i128)),
+        (
+            const_expr!((ap as i16 + offset_dst) as u32),
+            const_felt252_expr!(1, 10633823966279327296825105735305134080),
+        ),
+        // Not in use
+        (const_expr!(fp - 1), const_felt252_expr!(0, 0)),
+    ];
+
+    generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
+
+    // Run air function
+    let (registry, _) = AirFnRegistry::new(&generic_opcode);
+    registry.run_air(
+        &generic_opcode,
+        CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
+    );
+}
+
+#[test]
+#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+fn test_generic_soundness_assert_eq() {
+    let mut generic_opcode = GenericOpcode::default();
+    let assert_eq = AssertEqOpcode {
+        is_double_deref: false,
+        is_imm: false,
+        memory: Felt252IdMemory::default(),
+    };
+
+    // Create flags
+    let mut flags = assert_eq.get_flags();
+    flags.dst_base_fp = Some(false);
+    flags.op1_base_ap = Some(true);
+    flags.op1_base_fp = Some(false);
+    flags.res_mul = Some(true);
+    flags.ap_update_add_1 = Some(true);
+
+    // Register values at opcode start
+    let [pc, ap, fp] = [50, 200, 150];
+    let offset_dst = -13;
+    let offset1 = 45;
+    let offset2 = 3244;
+    // Wrong value for the multiplication
+    let dst = 359;
+    let op0 = 24;
+    let op1 = 15;
+
+    // Fill memory
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(offset_dst, offset1, offset2, flags.clone().into()) as u128,
+                0
+            ),
+        ),
+        (
+            const_expr!((ap as i16 + offset_dst) as u32),
+            const_felt252_expr!(dst),
+        ),
+        (
+            const_expr!((fp as i16 + offset1) as u32),
+            const_felt252_expr!(op0, 0),
+        ),
+        (
+            const_expr!((ap as i16 + offset2) as u32),
+            const_felt252_expr!(op1, 0),
+        ),
+    ];
+
     generic_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function

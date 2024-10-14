@@ -81,7 +81,7 @@ impl AirFn for HandleOpcodes {
             flags[FLAG_OPCODE_CALL_INDEX].clone() * (dst_as_addr - casm_state.fp.clone()),
         );
 
-        // Push pc
+        // Push next pc
         let op0_as_addr = air_builder.call(
             &CondFelt252AsAddr {},
             (op0.clone(), flags[FLAG_OPCODE_CALL_INDEX].clone()),
