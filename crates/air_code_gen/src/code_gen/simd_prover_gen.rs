@@ -72,12 +72,18 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
 
     for deduction in &lists.deductions {
         match deduction {
-            TraceGenStep::Deduction(expr, _desc) => {
+            TraceGenStep::Deduction(expr, desc) => {
+                // TODO(Ohad): ask for punctuation in docs.
                 write_trace_body.append(quote! {
                     let col$(offset) = $(simd_parse_air_var(expr));
                     dst[$(offset)].data[row_index] = col$(offset);
                 });
                 offset += 1;
+                if let Some(desc) = desc {
+                    write_trace_body.extend(quote! {
+                        $(" //")$desc.$("\n")
+                    });
+                }
             }
             TraceGenStep::Intermediate(name, expr) => {
                 write_trace_body.extend(quote! {
@@ -114,8 +120,16 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
                 }
                 *multiplicity += 1;
             }
-            TraceGenStep::StartBlock(_) => (),
-            TraceGenStep::EndBlock => (),
+            TraceGenStep::StartBlock(msg) => {
+                write_trace_body.extend(quote!(
+                    $['\n']$("//")$msg.$("\n")
+                ));
+            }
+            TraceGenStep::EndBlock => {
+                write_trace_body.extend(quote!(
+                    $['\n']
+                ));
+            }
             TraceGenStep::LookupData(LookupData {
                 relation_name,
                 felts,

@@ -202,48 +202,54 @@ fn write_trace_row(
     dst[17].data[row_index] = col17;
     let col18 = tmp_0.2[14];
     dst[18].data[row_index] = col18;
+
+    // EncodeOffsets.
     let tmp_11 =
         ((PackedUInt16::from_m31(col1)) & (PackedUInt16::broadcast(UInt16::from(511).into())));
     let col19 = tmp_11.as_m31();
-    dst[19].data[row_index] = col19;
+    dst[19].data[row_index] = col19; // offset_0_low.
     let tmp_12 =
         ((PackedUInt16::from_m31(col1)) >> (PackedUInt16::broadcast(UInt16::from(9).into())));
     let col20 = tmp_12.as_m31();
-    dst[20].data[row_index] = col20;
+    dst[20].data[row_index] = col20; // offset_0_mid.
     let tmp_13 =
         ((PackedUInt16::from_m31(col2)) & (PackedUInt16::broadcast(UInt16::from(3).into())));
     let col21 = tmp_13.as_m31();
-    dst[21].data[row_index] = col21;
+    dst[21].data[row_index] = col21; // offset_1_low.
     let tmp_14 = (((PackedUInt16::from_m31(col2))
         >> (PackedUInt16::broadcast(UInt16::from(2).into())))
         & (PackedUInt16::broadcast(UInt16::from(511).into())));
     let col22 = tmp_14.as_m31();
-    dst[22].data[row_index] = col22;
+    dst[22].data[row_index] = col22; // offset_1_mid.
     let tmp_15 =
         ((PackedUInt16::from_m31(col2)) >> (PackedUInt16::broadcast(UInt16::from(11).into())));
     let col23 = tmp_15.as_m31();
-    dst[23].data[row_index] = col23;
+    dst[23].data[row_index] = col23; // offset_1_high.
     let tmp_16 =
         ((PackedUInt16::from_m31(col3)) & (PackedUInt16::broadcast(UInt16::from(15).into())));
     let col24 = tmp_16.as_m31();
-    dst[24].data[row_index] = col24;
+    dst[24].data[row_index] = col24; // offset_2_low.
     let tmp_17 = (((PackedUInt16::from_m31(col3))
         >> (PackedUInt16::broadcast(UInt16::from(4).into())))
         & (PackedUInt16::broadcast(UInt16::from(511).into())));
     let col25 = tmp_17.as_m31();
-    dst[25].data[row_index] = col25;
+    dst[25].data[row_index] = col25; // offset_2_mid.
     let tmp_18 =
         ((PackedUInt16::from_m31(col3)) >> (PackedUInt16::broadcast(UInt16::from(13).into())));
     let col26 = tmp_18.as_m31();
-    dst[26].data[row_index] = col26;
+    dst[26].data[row_index] = col26; // offset_2_high.
     sub_component_inputs.rangecheck_n_3_bits_7_2_5_inputs[0].push([col20, col21, col23].into());
     lookup_data.rangecheck_n_3_bits_7_2_5[0].push([col20, col21, col23]);
     sub_component_inputs.rangecheck_n_2_bits_4_3_inputs[0].push([col24, col26].into());
     lookup_data.rangecheck_n_2_bits_4_3[0].push([col24, col26]);
+
+    // EncodeFlags.
+
+    // MemVerify.
     sub_component_inputs.memory_k_m31_v_m31_inputs[0].push(col0.into());
     let tmp_24 = memory_k_m31_v_m31_state.deduce_output(col0.into());
     let col27 = tmp_24;
-    dst[27].data[row_index] = col27;
+    dst[27].data[row_index] = col27; // id.
     lookup_data.memory_k_m31_v_m31[0].push([col0, col27]);
     lookup_data.memory_k_m31_v_felt252[0].push([
         col27,
@@ -292,6 +298,7 @@ fn write_trace_row(
         PackedM31::broadcast(M31::from(0).into()),
         PackedM31::broadcast(M31::from(0).into()),
     ]);
+
     lookup_data.verifyinstruction[0].push([
         col0, col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13,
         col14, col15, col16, col17, col18,

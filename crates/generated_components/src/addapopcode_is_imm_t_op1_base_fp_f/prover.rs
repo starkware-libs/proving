@@ -152,6 +152,8 @@ fn write_trace_row(
     dst[1].data[row_index] = col1;
     let col2 = tmp_0.fp;
     dst[2].data[row_index] = col2;
+
+    // DecodeInstruction_a14b71db698d77c8.
     sub_component_inputs.memory_k_m31_v_m31_inputs[0].push(col0.into());
     let tmp_29 = memory_k_m31_v_m31_state.deduce_output(col0.into());
     sub_component_inputs.memory_k_m31_v_felt252_inputs[0].push(tmp_29.into());
@@ -205,32 +207,37 @@ fn write_trace_row(
         PackedM31::broadcast(M31::from(0).into()),
         PackedM31::broadcast(M31::from(0).into()),
     ]);
+
+    // ReadSmall.
     sub_component_inputs.memory_k_m31_v_m31_inputs[1]
         .push(((col0) + (PackedM31::broadcast(M31::from(1).into()))).into());
     let tmp_38 = memory_k_m31_v_m31_state
         .deduce_output(((col0) + (PackedM31::broadcast(M31::from(1).into()))).into());
     let col3 = tmp_38;
-    dst[3].data[row_index] = col3;
+    dst[3].data[row_index] = col3; // id.
     lookup_data.memory_k_m31_v_m31[0]
         .push([((col0) + (PackedM31::broadcast(M31::from(1).into()))), col3]);
     sub_component_inputs.memory_k_m31_v_felt252_inputs[1].push(col3.into());
     let tmp_39 = memory_k_m31_v_felt252_state.deduce_output(col3.into());
+
+    // CondDecodeSmallSign.
     let tmp_40 = tmp_39
         .get_m31(27)
         .eq(PackedM31::broadcast(M31::from(256).into()));
     let col4 = tmp_40.as_m31();
-    dst[4].data[row_index] = col4;
+    dst[4].data[row_index] = col4; // msb.
     let tmp_41 = tmp_39
         .get_m31(20)
         .eq(PackedM31::broadcast(M31::from(511).into()));
     let col5 = tmp_41.as_m31();
-    dst[5].data[row_index] = col5;
+    dst[5].data[row_index] = col5; // mid_limbs_set.
+
     let col6 = tmp_39.get_m31(0);
-    dst[6].data[row_index] = col6;
+    dst[6].data[row_index] = col6; // limb_0.
     let col7 = tmp_39.get_m31(1);
-    dst[7].data[row_index] = col7;
+    dst[7].data[row_index] = col7; // limb_1.
     let col8 = tmp_39.get_m31(2);
-    dst[8].data[row_index] = col8;
+    dst[8].data[row_index] = col8; // limb_2.
     lookup_data.memory_k_m31_v_felt252[0].push([
         col3,
         col6,
@@ -262,6 +269,7 @@ fn write_trace_row(
         PackedM31::broadcast(M31::from(0).into()),
         ((col4) * (PackedM31::broadcast(M31::from(256).into()))),
     ]);
+
     lookup_data.opcodes[0].push([col0, col1, col2]);
     lookup_data.opcodes[1].push([
         ((col0) + (PackedM31::broadcast(M31::from(2).into()))),
