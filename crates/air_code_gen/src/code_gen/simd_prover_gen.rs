@@ -7,7 +7,7 @@ use genco::lang::{rust, Rust};
 use genco::quote;
 use itertools::Itertools;
 
-use super::trace_gen::{air_var_input_name, generate_lookup_data_struct};
+use super::trace_gen::generate_lookup_data_struct;
 use super::utils::{n_trace_cells, unique_deduction_function_calls, unique_relation_calls};
 use crate::code_gen::trace_gen::{
     generate_sub_component_imports, generate_sub_components_inputs_struct,
@@ -18,7 +18,7 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     let imports_code = generate_imports_code(&lists.deductions);
     let typedefs = generate_input_output_typedefs(lists);
     let lookup_data_code = generate_lookup_data_struct(&lists.deductions);
-    let sub_component_inputs = generate_sub_components_inputs_struct(&lists.deductions);
+    let sub_components_inputs = generate_sub_components_inputs_struct(&lists.deductions);
     let claim_generator_code = generate_claim_generator_struct();
     let claim_generator_impl_code = generate_claim_generator_impl(&lists.deductions);
     let claim_prover_code = generate_claim_prover_struct();
@@ -33,7 +33,7 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
         $(claim_generator_code)
         $(claim_generator_impl_code)
         $['\n']
-        $(sub_component_inputs)
+        $(sub_components_inputs)
         $['\n']
         $(write_trace_code)
         $['\n']
@@ -45,19 +45,8 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-/// Outputs the code for the write_trace function.
-fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
-    // Generate the parameters for the write_trace_row function.
-    let mut write_trace_row_params = quote! {
-        dst: &mut [Col<SimdBackend, M31>],
-        $(air_var_input_name(&lists.input)): InputType,
-        row_index: usize,
-        sub_component_inputs: &mut SubComponentInputs,
-        lookup_data: &mut LookupData,
-    };
-    write_trace_row_params.extend(generate_stateful_component_params(&lists.deductions));
-
-    // Generate the body of the write_trace function.
+// Generates the body of the write_trace function.
+fn generate_simd_write_trace_body_code(lists: &CompiledAirFn) -> rust::Tokens {
     let mut write_trace_body = rust::Tokens::new();
     let mut offset = 0;
     let mut function_call_multiplicitiy = HashMap::new();
@@ -76,7 +65,7 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
                 // TODO(Ohad): ask for punctuation in docs.
                 write_trace_body.append(quote! {
                     let col$(offset) = $(simd_parse_air_var(expr));
-                    dst[$(offset)].data[row_index] = col$(offset);
+                    trace_values[$(offset)].data[row_index] = col$(offset);
                 });
                 offset += 1;
                 if let Some(desc) = desc {
@@ -101,7 +90,7 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
 
                 // add inputs.
                 write_trace_body.extend(quote! {
-                    sub_component_inputs
+                    sub_components_inputs
                         .$(&fn_name)_inputs[$(multiplicity.to_string())]
                         .push($(&input).into());
                 });
@@ -146,24 +135,16 @@ fn generate_simd_write_trace_row_code(lists: &CompiledAirFn) -> rust::Tokens {
             }
         }
     }
-
-    // Generate the final write_trace_row function.
-    let mut code = rust::Tokens::new();
-    code.extend(quote! {
-        #[allow(clippy::useless_conversion)]
-        #[allow(unused_variables)]
-        fn write_trace_row(
-            $(write_trace_row_params)){
-            $(write_trace_body)
-        }
-    });
-    code
+    write_trace_body
 }
 
 #[allow(dead_code)]
 fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     code.extend(quote! {
+        #[allow(clippy::useless_conversion)]
+        // TODO(Ohad): attempt to remove this.
+        #[allow(unused_variables)]
         pub fn write_trace_simd(
             inputs: $(vec_of_type("InputType")),
             $(generate_stateful_component_params(&lists.deductions))
@@ -175,16 +156,11 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
                 .map(|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES))
                 .collect_vec();
             let mut lookup_data = LookupData::with_capacity(inputs.len());
+            #[allow(unused_mut)]
             let mut sub_components_inputs = SubComponentInputs::with_capacity(inputs.len());
-            inputs.into_iter().enumerate().for_each(|(i, input)| {
-                write_trace_row(
-                    &mut trace_values,
-                    input,
-                    i,
-                    &mut sub_components_inputs,
-                    &mut lookup_data,
-                    $(generate_stateful_component_args(&lists.deductions))
-                );
+            inputs.into_iter()
+                .enumerate().for_each(|(row_index, $(&lists.name.to_lowercase())_input)| {
+                $(generate_simd_write_trace_body_code(lists))
             });
 
             let trace = trace_values
@@ -205,7 +181,6 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         }
         $['\n']
     });
-    code.extend(generate_simd_write_trace_row_code(lists));
     code
 }
 
@@ -303,7 +278,7 @@ fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Token
     let mut statement = rust::Tokens::new();
     for fn_name in unique_deduction_function_calls(deductions).iter() {
         statement.extend(quote! {
-            sub_component_inputs.$(fn_name.to_lowercase())_inputs.iter().for_each(|inputs| {
+            sub_components_inputs.$(fn_name.to_lowercase())_inputs.iter().for_each(|inputs| {
                 $(fn_name.to_lowercase())_state.add_inputs(inputs);
             });
         })
@@ -315,7 +290,7 @@ fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         let len = self.inputs.len();
         #[allow(unused_variables)]
-        let (trace, sub_component_inputs, lookup_data) =
+        let (trace, sub_components_inputs, lookup_data) =
                 write_trace_simd(self.inputs, $(generate_stateful_component_args(deductions)));
         $(generate_sub_component_add_inputs(deductions));
 

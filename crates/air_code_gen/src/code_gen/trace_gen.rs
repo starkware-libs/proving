@@ -148,7 +148,7 @@ fn generate_write_trace_trait_body(deductions: &[TraceGenStep]) -> rust::Tokens 
     code.extend(quote! {let generator = registry.get_generator::<Self>(component_id);});
     code.extend(quote! {
         #[allow(unused_variables)]
-        let (trace, sub_component_inputs) =
+        let (trace, sub_components_inputs) =
             write_trace_cpu(&generator.component(), &generator.inputs);
     });
 
@@ -166,7 +166,7 @@ fn generate_write_trace_trait_body(deductions: &[TraceGenStep]) -> rust::Tokens 
         let component_id = format!("\"{}\"", fn_name);
         code.extend(quote! {
             registry.get_generator_mut::<$(fn_name)CpuTraceGenerator>($component_id)
-                    .add_inputs(&sub_component_inputs.$(fn_name)_inputs);
+                    .add_inputs(&sub_components_inputs.$(fn_name)_inputs);
         });
     }
 

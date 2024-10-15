@@ -4,7 +4,6 @@
 #![feature(portable_simd)]
 
 use stwo_prover::core::backend::simd::m31::PackedM31;
-
 pub mod memory_k_m31_v_felt252;
 pub mod memory_k_m31_v_m31;
 pub mod narrowfib_num_steps_20;
