@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, LookupData, TraceGenStep, UseOrYield,
@@ -7,6 +7,7 @@ use genco::lang::{rust, Rust};
 use genco::quote;
 use itertools::Itertools;
 
+use super::framework_gen::seek_consts;
 use super::trace_gen::generate_lookup_data_struct;
 use super::utils::{n_trace_cells, unique_deduction_function_calls, unique_relation_calls};
 use crate::code_gen::trace_gen::{
@@ -46,7 +47,11 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 // Generates the body of the write_trace function.
-fn generate_simd_write_trace_body_code(lists: &CompiledAirFn) -> rust::Tokens {
+// `const_names`: a map from (type, value) to the name of the constant.
+fn generate_simd_write_trace_body_code(
+    lists: &CompiledAirFn,
+    const_names: &HashMap<(String, String), String>,
+) -> rust::Tokens {
     let mut write_trace_body = rust::Tokens::new();
     let mut offset = 0;
     let mut function_call_multiplicitiy = HashMap::new();
@@ -64,7 +69,7 @@ fn generate_simd_write_trace_body_code(lists: &CompiledAirFn) -> rust::Tokens {
             TraceGenStep::Deduction(expr, desc) => {
                 // TODO(Ohad): ask for punctuation in docs.
                 write_trace_body.append(quote! {
-                    let col$(offset) = $(simd_parse_air_var(expr));
+                    let col$(offset) = $(simd_parse_air_var(expr,const_names));
                     trace_values[$(offset)].data[row_index] = col$(offset);
                 });
                 offset += 1;
@@ -76,7 +81,7 @@ fn generate_simd_write_trace_body_code(lists: &CompiledAirFn) -> rust::Tokens {
             }
             TraceGenStep::Intermediate(name, expr) => {
                 write_trace_body.extend(quote! {
-                    let $(name) = $(simd_parse_air_var(expr));
+                    let $(name) = $(simd_parse_air_var(expr,const_names));
                 });
             }
             TraceGenStep::LookupCall {
@@ -85,7 +90,7 @@ fn generate_simd_write_trace_body_code(lists: &CompiledAirFn) -> rust::Tokens {
                 output_name,
             } => {
                 let multiplicity = function_call_multiplicitiy.get_mut(fn_name).unwrap();
-                let input = simd_parse_air_var(input);
+                let input = simd_parse_air_var(input, const_names);
                 let fn_name = fn_name.to_lowercase();
 
                 // add inputs.
@@ -125,7 +130,10 @@ fn generate_simd_write_trace_body_code(lists: &CompiledAirFn) -> rust::Tokens {
                 ..
             }) => {
                 let multiplicity = relation_multiplicity.get_mut(relation_name).unwrap();
-                let felts = felts.iter().map(simd_parse_air_var).join(", ");
+                let felts = felts
+                    .iter()
+                    .map(|felt| simd_parse_air_var(felt, const_names))
+                    .join(", ");
                 let collect_felts = quote! {
                     // TODO(Ohad): change this to not vec.
                     lookup_data.$(relation_name.to_lowercase())[$(*multiplicity)].push([$(felts)]);
@@ -140,6 +148,18 @@ fn generate_simd_write_trace_body_code(lists: &CompiledAirFn) -> rust::Tokens {
 
 #[allow(dead_code)]
 fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
+    // Declare constants.
+    let mut constants_def_code = quote! {};
+    let constants = deduction_consts(&lists.deductions);
+    let mut const_names = HashMap::new();
+    for (ty, val) in constants.into_iter() {
+        let name = format!("{ty}_{val}");
+        const_names.insert((ty.clone(), val.clone()), name.clone());
+        constants_def_code.extend(quote! {
+            let $(name) = $(packed_name(&ty))::broadcast($(ty)::from($(val)));
+        });
+    }
+
     let mut code = rust::Tokens::new();
     code.extend(quote! {
         #[allow(clippy::useless_conversion)]
@@ -158,9 +178,12 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
             let mut lookup_data = LookupData::with_capacity(inputs.len());
             #[allow(unused_mut)]
             let mut sub_components_inputs = SubComponentInputs::with_capacity(inputs.len());
+
+            $(constants_def_code)
+
             inputs.into_iter()
                 .enumerate().for_each(|(row_index, $(&lists.name.to_lowercase())_input)| {
-                $(generate_simd_write_trace_body_code(lists))
+                $(generate_simd_write_trace_body_code(lists,&const_names))
             });
 
             let trace = trace_values
@@ -182,6 +205,37 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         $['\n']
     });
     code
+}
+
+fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
+    deductions
+        .iter()
+        .fold(HashSet::new(), |mut const_defs, deductions| {
+            match deductions {
+                TraceGenStep::Deduction(expr, ..) => {
+                    const_defs.extend(seek_consts(expr));
+                }
+                TraceGenStep::Intermediate(_, expr) => {
+                    const_defs.extend(seek_consts(expr));
+                }
+                TraceGenStep::LookupData(LookupData {
+                    relation_name: _,
+                    felts,
+                    ..
+                }) => const_defs.extend(felts.iter().flat_map(seek_consts)),
+                TraceGenStep::LookupCall {
+                    fn_name: _, input, ..
+                } => {
+                    const_defs.extend(seek_consts(input));
+                }
+                TraceGenStep::StartBlock(_) => {}
+                TraceGenStep::EndBlock => {}
+            };
+            const_defs
+        })
+        .into_iter()
+        .sorted()
+        .collect()
 }
 
 fn generate_input_output_typedefs(lists: &CompiledAirFn) -> rust::Tokens {
@@ -407,18 +461,16 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
 }
 
 /// Parses a `CompiledAirVar` into a string for the write_trace function.
-fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
+fn simd_parse_air_var(
+    expr: &CompiledAirVar,
+    constant_names: &HashMap<(String, String), String>,
+) -> String {
     match expr {
         CompiledAirVar::Const(ty, val) => match ty.as_str() {
             // "usize" is used as index.
             // TODO(Ohad): ask anatg about this.
             "usize" => val.to_string(),
-            _ => format!(
-                "{}::broadcast({}::from({}).into())",
-                packed_name(ty),
-                ty,
-                val
-            ),
+            _ => constant_names[&(ty.clone(), val.clone())].clone(),
         },
         CompiledAirVar::Var(_, id) => id.to_lowercase(),
         CompiledAirVar::State(index) => {
@@ -430,7 +482,7 @@ fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
                 if i > 0 {
                     arg_str.push_str(", ");
                 }
-                arg_str.push_str(&simd_parse_air_var(arg));
+                arg_str.push_str(&simd_parse_air_var(arg, constant_names));
             }
             format!("Packed{}({})", id, arg_str)
         }
@@ -441,19 +493,24 @@ fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
                 if i > 0 {
                     arg_str.push_str(", ");
                 }
-                arg_str.push_str(&simd_parse_air_var(arg));
+                arg_str.push_str(&simd_parse_air_var(arg, constant_names));
             }
-            format!("{}.{}({})", simd_parse_air_var(id), func, arg_str)
+            format!(
+                "{}.{}({})",
+                simd_parse_air_var(id, constant_names),
+                func,
+                arg_str
+            )
         }
         CompiledAirVar::UnaryOp(op, expr) => {
-            format!("{}({})", op, simd_parse_air_var(expr))
+            format!("{}({})", op, simd_parse_air_var(expr, constant_names))
         }
         CompiledAirVar::BinaryOp(lhs, op, rhs) => {
             format!(
                 "(({}) {} ({}))",
-                simd_parse_air_var(lhs),
+                simd_parse_air_var(lhs, constant_names),
                 op,
-                simd_parse_air_var(rhs)
+                simd_parse_air_var(rhs, constant_names)
             )
         }
         CompiledAirVar::Tuple(exprs) => {
@@ -462,7 +519,7 @@ fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
                 if i > 0 {
                     expr_str.push_str(", ");
                 }
-                expr_str.push_str(&simd_parse_air_var(expr));
+                expr_str.push_str(&simd_parse_air_var(expr, constant_names));
             }
             format!("({})", expr_str)
         }
@@ -472,14 +529,16 @@ fn simd_parse_air_var(expr: &CompiledAirVar) -> String {
                 if i > 0 {
                     expr_str.push_str(", ");
                 }
-                expr_str.push_str(&simd_parse_air_var(expr));
+                expr_str.push_str(&simd_parse_air_var(expr, constant_names));
             }
             format!("[{}]", expr_str)
         }
         CompiledAirVar::Struct { r#type, fields } => {
             let members_code = fields
                 .iter()
-                .map(|(name, expr)| format!("{}: {}", name, simd_parse_air_var(expr)))
+                .map(|(name, expr)| {
+                    format!("{}: {}", name, simd_parse_air_var(expr, constant_names))
+                })
                 .collect::<Vec<_>>()
                 .join(", ");
             let quote: genco::Tokens<Rust> = quote! {

@@ -73,6 +73,7 @@ pub fn write_trace_simd(
     let mut lookup_data = LookupData::with_capacity(inputs.len());
     #[allow(unused_mut)]
     let mut sub_components_inputs = SubComponentInputs::with_capacity(inputs.len());
+
     inputs
         .into_iter()
         .enumerate()

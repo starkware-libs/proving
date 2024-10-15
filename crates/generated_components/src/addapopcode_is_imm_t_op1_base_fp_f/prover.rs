@@ -111,6 +111,22 @@ pub fn write_trace_simd(
     let mut lookup_data = LookupData::with_capacity(inputs.len());
     #[allow(unused_mut)]
     let mut sub_components_inputs = SubComponentInputs::with_capacity(inputs.len());
+
+    let M31_0 = PackedM31::broadcast(M31::from(0));
+    let M31_1 = PackedM31::broadcast(M31::from(1));
+    let M31_134217728 = PackedM31::broadcast(M31::from(134217728));
+    let M31_136 = PackedM31::broadcast(M31::from(136));
+    let M31_2 = PackedM31::broadcast(M31::from(2));
+    let M31_256 = PackedM31::broadcast(M31::from(256));
+    let M31_262144 = PackedM31::broadcast(M31::from(262144));
+    let M31_32767 = PackedM31::broadcast(M31::from(32767));
+    let M31_32769 = PackedM31::broadcast(M31::from(32769));
+    let M31_511 = PackedM31::broadcast(M31::from(511));
+    let M31_512 = PackedM31::broadcast(M31::from(512));
+    let usize_0 = Packedusize::broadcast(usize::from(0));
+    let usize_1 = Packedusize::broadcast(usize::from(1));
+    let usize_2 = Packedusize::broadcast(usize::from(2));
+
     inputs.into_iter().enumerate().for_each(
         |(row_index, addapopcode_is_imm_t_op1_base_fp_f_input)| {
             let tmp_0 = addapopcode_is_imm_t_op1_base_fp_f_input;
@@ -129,74 +145,33 @@ pub fn write_trace_simd(
             sub_components_inputs.verifyinstruction_inputs[0].push(
                 (
                     col0,
+                    [M31_32767, M31_32767, M31_32769],
                     [
-                        PackedM31::broadcast(M31::from(32767).into()),
-                        PackedM31::broadcast(M31::from(32767).into()),
-                        PackedM31::broadcast(M31::from(32769).into()),
-                    ],
-                    [
-                        PackedM31::broadcast(M31::from(1).into()),
-                        PackedM31::broadcast(M31::from(1).into()),
-                        PackedM31::broadcast(M31::from(1).into()),
-                        PackedM31::broadcast(M31::from(0).into()),
-                        PackedM31::broadcast(M31::from(0).into()),
-                        PackedM31::broadcast(M31::from(0).into()),
-                        PackedM31::broadcast(M31::from(0).into()),
-                        PackedM31::broadcast(M31::from(0).into()),
-                        PackedM31::broadcast(M31::from(0).into()),
-                        PackedM31::broadcast(M31::from(0).into()),
-                        PackedM31::broadcast(M31::from(1).into()),
-                        PackedM31::broadcast(M31::from(0).into()),
-                        PackedM31::broadcast(M31::from(0).into()),
-                        PackedM31::broadcast(M31::from(0).into()),
-                        PackedM31::broadcast(M31::from(0).into()),
+                        M31_1, M31_1, M31_1, M31_0, M31_0, M31_0, M31_0, M31_0, M31_0, M31_0,
+                        M31_1, M31_0, M31_0, M31_0, M31_0,
                     ],
                 )
                     .into(),
             );
             lookup_data.verifyinstruction[0].push([
-                col0,
-                PackedM31::broadcast(M31::from(32767).into()),
-                PackedM31::broadcast(M31::from(32767).into()),
-                PackedM31::broadcast(M31::from(32769).into()),
-                PackedM31::broadcast(M31::from(1).into()),
-                PackedM31::broadcast(M31::from(1).into()),
-                PackedM31::broadcast(M31::from(1).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(1).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
+                col0, M31_32767, M31_32767, M31_32769, M31_1, M31_1, M31_1, M31_0, M31_0, M31_0,
+                M31_0, M31_0, M31_0, M31_0, M31_1, M31_0, M31_0, M31_0, M31_0,
             ]);
 
             // ReadSmall.
-            sub_components_inputs.memory_k_m31_v_m31_inputs[1]
-                .push(((col0) + (PackedM31::broadcast(M31::from(1).into()))).into());
-            let tmp_38 = memory_k_m31_v_m31_state
-                .deduce_output(((col0) + (PackedM31::broadcast(M31::from(1).into()))).into());
+            sub_components_inputs.memory_k_m31_v_m31_inputs[1].push(((col0) + (M31_1)).into());
+            let tmp_38 = memory_k_m31_v_m31_state.deduce_output(((col0) + (M31_1)).into());
             let col3 = tmp_38;
             trace_values[3].data[row_index] = col3; // id.
-            lookup_data.memory_k_m31_v_m31[0]
-                .push([((col0) + (PackedM31::broadcast(M31::from(1).into()))), col3]);
+            lookup_data.memory_k_m31_v_m31[0].push([((col0) + (M31_1)), col3]);
             sub_components_inputs.memory_k_m31_v_felt252_inputs[1].push(col3.into());
             let tmp_39 = memory_k_m31_v_felt252_state.deduce_output(col3.into());
 
             // CondDecodeSmallSign.
-            let tmp_40 = tmp_39
-                .get_m31(27)
-                .eq(PackedM31::broadcast(M31::from(256).into()));
+            let tmp_40 = tmp_39.get_m31(27).eq(M31_256);
             let col4 = tmp_40.as_m31();
             trace_values[4].data[row_index] = col4; // msb.
-            let tmp_41 = tmp_39
-                .get_m31(20)
-                .eq(PackedM31::broadcast(M31::from(511).into()));
+            let tmp_41 = tmp_39.get_m31(20).eq(M31_511);
             let col5 = tmp_41.as_m31();
             trace_values[5].data[row_index] = col5; // mid_limbs_set.
 
@@ -211,41 +186,39 @@ pub fn write_trace_simd(
                 col6,
                 col7,
                 col8,
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                ((col5) * (PackedM31::broadcast(M31::from(511).into()))),
-                (((PackedM31::broadcast(M31::from(136).into())) * (col4)) - (col5)),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                PackedM31::broadcast(M31::from(0).into()),
-                ((col4) * (PackedM31::broadcast(M31::from(256).into()))),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                ((col5) * (M31_511)),
+                (((M31_136) * (col4)) - (col5)),
+                M31_0,
+                M31_0,
+                M31_0,
+                M31_0,
+                M31_0,
+                ((col4) * (M31_256)),
             ]);
 
             lookup_data.opcodes[0].push([col0, col1, col2]);
             lookup_data.opcodes[1].push([
-                ((col0) + (PackedM31::broadcast(M31::from(2).into()))),
+                ((col0) + (M31_2)),
                 ((col1)
-                    + (((((col8) * (PackedM31::broadcast(M31::from(262144).into())))
-                        + (((col7) * (PackedM31::broadcast(M31::from(512).into()))) + (col6)))
-                        - (col4))
-                        - ((PackedM31::broadcast(M31::from(134217728).into())) * (col5)))),
+                    + (((((col8) * (M31_262144)) + (((col7) * (M31_512)) + (col6))) - (col4))
+                        - ((M31_134217728) * (col5)))),
                 col2,
             ]);
         },

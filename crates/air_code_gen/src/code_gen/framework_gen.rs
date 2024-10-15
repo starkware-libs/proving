@@ -265,7 +265,7 @@ where
     }
 }
 
-fn seek_consts(expr: &CompiledAirVar) -> HashSet<(String, String)> {
+pub fn seek_consts(expr: &CompiledAirVar) -> HashSet<(String, String)> {
     let mut hashset = HashSet::new();
     let mut insert = |expr: &CompiledAirVar| {
         if let CompiledAirVar::Const(ty, val) = expr {

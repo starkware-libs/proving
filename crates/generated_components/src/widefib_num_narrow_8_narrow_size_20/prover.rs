@@ -93,25 +93,20 @@ pub fn write_trace_simd(
     let mut lookup_data = LookupData::with_capacity(inputs.len());
     #[allow(unused_mut)]
     let mut sub_components_inputs = SubComponentInputs::with_capacity(inputs.len());
+
+    let M31_1 = PackedM31::broadcast(M31::from(1));
+
     inputs.into_iter().enumerate().for_each(
         |(row_index, widefib_num_narrow_8_narrow_size_20_input)| {
             let col0 = widefib_num_narrow_8_narrow_size_20_input;
             trace_values[0].data[row_index] = col0;
-            sub_components_inputs.narrowfib_num_steps_20_inputs[0]
-                .push([PackedM31::broadcast(M31::from(1).into()), col0].into());
-            let tmp_1 = narrowfib_num_steps_20::deduce_output(
-                [PackedM31::broadcast(M31::from(1).into()), col0].into(),
-            );
+            sub_components_inputs.narrowfib_num_steps_20_inputs[0].push([M31_1, col0].into());
+            let tmp_1 = narrowfib_num_steps_20::deduce_output([M31_1, col0].into());
             let col1 = tmp_1[0];
             trace_values[1].data[row_index] = col1;
             let col2 = tmp_1[1];
             trace_values[2].data[row_index] = col2;
-            lookup_data.narrowfib_num_steps_20[0].push([
-                PackedM31::broadcast(M31::from(1).into()),
-                col0,
-                col1,
-                col2,
-            ]);
+            lookup_data.narrowfib_num_steps_20[0].push([M31_1, col0, col1, col2]);
             sub_components_inputs.narrowfib_num_steps_20_inputs[1].push([col1, col2].into());
             let tmp_2 = narrowfib_num_steps_20::deduce_output([col1, col2].into());
             let col3 = tmp_2[0];
