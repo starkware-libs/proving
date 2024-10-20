@@ -194,45 +194,39 @@ pub fn write_trace_simd(
             trace_values[17].data[row_index] = col17;
             let col18 = tmp_0.2[14];
             trace_values[18].data[row_index] = col18;
-
-            // EncodeOffsets.
             let tmp_11 = ((PackedUInt16::from_m31(col1)) & (UInt16_511));
             let col19 = tmp_11.as_m31();
-            trace_values[19].data[row_index] = col19; // offset_0_low.
+            trace_values[19].data[row_index] = col19;
             let tmp_12 = ((PackedUInt16::from_m31(col1)) >> (UInt16_9));
             let col20 = tmp_12.as_m31();
-            trace_values[20].data[row_index] = col20; // offset_0_mid.
+            trace_values[20].data[row_index] = col20;
             let tmp_13 = ((PackedUInt16::from_m31(col2)) & (UInt16_3));
             let col21 = tmp_13.as_m31();
-            trace_values[21].data[row_index] = col21; // offset_1_low.
+            trace_values[21].data[row_index] = col21;
             let tmp_14 = (((PackedUInt16::from_m31(col2)) >> (UInt16_2)) & (UInt16_511));
             let col22 = tmp_14.as_m31();
-            trace_values[22].data[row_index] = col22; // offset_1_mid.
+            trace_values[22].data[row_index] = col22;
             let tmp_15 = ((PackedUInt16::from_m31(col2)) >> (UInt16_11));
             let col23 = tmp_15.as_m31();
-            trace_values[23].data[row_index] = col23; // offset_1_high.
+            trace_values[23].data[row_index] = col23;
             let tmp_16 = ((PackedUInt16::from_m31(col3)) & (UInt16_15));
             let col24 = tmp_16.as_m31();
-            trace_values[24].data[row_index] = col24; // offset_2_low.
+            trace_values[24].data[row_index] = col24;
             let tmp_17 = (((PackedUInt16::from_m31(col3)) >> (UInt16_4)) & (UInt16_511));
             let col25 = tmp_17.as_m31();
-            trace_values[25].data[row_index] = col25; // offset_2_mid.
+            trace_values[25].data[row_index] = col25;
             let tmp_18 = ((PackedUInt16::from_m31(col3)) >> (UInt16_13));
             let col26 = tmp_18.as_m31();
-            trace_values[26].data[row_index] = col26; // offset_2_high.
+            trace_values[26].data[row_index] = col26;
             sub_components_inputs.rangecheck_n_3_bits_7_2_5_inputs[0]
                 .push([col20, col21, col23].into());
             lookup_data.rangecheck_n_3_bits_7_2_5[0].push([col20, col21, col23]);
             sub_components_inputs.rangecheck_n_2_bits_4_3_inputs[0].push([col24, col26].into());
             lookup_data.rangecheck_n_2_bits_4_3[0].push([col24, col26]);
-
-            // EncodeFlags.
-
-            // MemVerify.
             sub_components_inputs.memory_k_m31_v_m31_inputs[0].push(col0.into());
             let tmp_24 = memory_k_m31_v_m31_state.deduce_output(col0.into());
             let col27 = tmp_24;
-            trace_values[27].data[row_index] = col27; // id.
+            trace_values[27].data[row_index] = col27;
             lookup_data.memory_k_m31_v_m31[0].push([col0, col27]);
             lookup_data.memory_k_m31_v_felt252[0].push([
                 col27,
@@ -277,7 +271,6 @@ pub fn write_trace_simd(
                 M31_0,
                 M31_0,
             ]);
-
             lookup_data.verifyinstruction[0].push([
                 col0, col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12,
                 col13, col14, col15, col16, col17, col18,

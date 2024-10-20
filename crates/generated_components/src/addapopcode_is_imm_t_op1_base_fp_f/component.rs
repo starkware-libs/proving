@@ -104,10 +104,6 @@ impl FrameworkEval for AddApOpcode_is_imm_t_op1_base_fp_fEval {
                 M31_0,
                 M31_0,
                 M31_1,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
             ],
             &self.verifyinstruction_lookup_elements,
         );

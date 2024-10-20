@@ -136,8 +136,6 @@ pub fn write_trace_simd(
             trace_values[1].data[row_index] = col1;
             let col2 = tmp_0.fp;
             trace_values[2].data[row_index] = col2;
-
-            // DecodeInstruction_a14b71db698d77c8.
             sub_components_inputs.memory_k_m31_v_m31_inputs[0].push(col0.into());
             let tmp_29 = memory_k_m31_v_m31_state.deduce_output(col0.into());
             sub_components_inputs.memory_k_m31_v_felt252_inputs[0].push(tmp_29.into());
@@ -157,30 +155,25 @@ pub fn write_trace_simd(
                 col0, M31_32767, M31_32767, M31_32769, M31_1, M31_1, M31_1, M31_0, M31_0, M31_0,
                 M31_0, M31_0, M31_0, M31_0, M31_1, M31_0, M31_0, M31_0, M31_0,
             ]);
-
-            // ReadSmall.
             sub_components_inputs.memory_k_m31_v_m31_inputs[1].push(((col0) + (M31_1)).into());
             let tmp_38 = memory_k_m31_v_m31_state.deduce_output(((col0) + (M31_1)).into());
             let col3 = tmp_38;
-            trace_values[3].data[row_index] = col3; // id.
+            trace_values[3].data[row_index] = col3;
             lookup_data.memory_k_m31_v_m31[0].push([((col0) + (M31_1)), col3]);
             sub_components_inputs.memory_k_m31_v_felt252_inputs[1].push(col3.into());
             let tmp_39 = memory_k_m31_v_felt252_state.deduce_output(col3.into());
-
-            // CondDecodeSmallSign.
             let tmp_40 = tmp_39.get_m31(27).eq(M31_256);
             let col4 = tmp_40.as_m31();
-            trace_values[4].data[row_index] = col4; // msb.
+            trace_values[4].data[row_index] = col4;
             let tmp_41 = tmp_39.get_m31(20).eq(M31_511);
             let col5 = tmp_41.as_m31();
-            trace_values[5].data[row_index] = col5; // mid_limbs_set.
-
+            trace_values[5].data[row_index] = col5;
             let col6 = tmp_39.get_m31(0);
-            trace_values[6].data[row_index] = col6; // limb_0.
+            trace_values[6].data[row_index] = col6;
             let col7 = tmp_39.get_m31(1);
-            trace_values[7].data[row_index] = col7; // limb_1.
+            trace_values[7].data[row_index] = col7;
             let col8 = tmp_39.get_m31(2);
-            trace_values[8].data[row_index] = col8; // limb_2.
+            trace_values[8].data[row_index] = col8;
             lookup_data.memory_k_m31_v_felt252[0].push([
                 col3,
                 col6,
@@ -212,7 +205,6 @@ pub fn write_trace_simd(
                 M31_0,
                 ((col4) * (M31_256)),
             ]);
-
             lookup_data.opcodes[0].push([col0, col1, col2]);
             lookup_data.opcodes[1].push([
                 ((col0) + (M31_2)),

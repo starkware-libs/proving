@@ -47,7 +47,6 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 // Generates the body of the write_trace function.
-// `const_names`: a map from (type, value) to the name of the constant.
 fn generate_simd_write_trace_body_code(
     lists: &CompiledAirFn,
     const_names: &HashMap<(String, String), String>,
@@ -66,18 +65,12 @@ fn generate_simd_write_trace_body_code(
 
     for deduction in &lists.deductions {
         match deduction {
-            TraceGenStep::Deduction(expr, desc) => {
-                // TODO(Ohad): ask for punctuation in docs.
+            TraceGenStep::Deduction(expr, _desc) => {
                 write_trace_body.append(quote! {
                     let col$(offset) = $(simd_parse_air_var(expr,const_names));
                     trace_values[$(offset)].data[row_index] = col$(offset);
                 });
                 offset += 1;
-                if let Some(desc) = desc {
-                    write_trace_body.extend(quote! {
-                        $(" //")$desc.$("\n")
-                    });
-                }
             }
             TraceGenStep::Intermediate(name, expr) => {
                 write_trace_body.extend(quote! {
@@ -114,16 +107,8 @@ fn generate_simd_write_trace_body_code(
                 }
                 *multiplicity += 1;
             }
-            TraceGenStep::StartBlock(msg) => {
-                write_trace_body.extend(quote!(
-                    $['\n']$("//")$msg.$("\n")
-                ));
-            }
-            TraceGenStep::EndBlock => {
-                write_trace_body.extend(quote!(
-                    $['\n']
-                ));
-            }
+            TraceGenStep::StartBlock(_) => (),
+            TraceGenStep::EndBlock => (),
             TraceGenStep::LookupData(LookupData {
                 relation_name,
                 felts,
@@ -134,6 +119,7 @@ fn generate_simd_write_trace_body_code(
                     .iter()
                     .map(|felt| simd_parse_air_var(felt, const_names))
                     .join(", ");
+                let felts = &felts;
                 let collect_felts = quote! {
                     // TODO(Ohad): change this to not vec.
                     lookup_data.$(relation_name.to_lowercase())[$(*multiplicity)].push([$(felts)]);
@@ -144,6 +130,18 @@ fn generate_simd_write_trace_body_code(
         }
     }
     write_trace_body
+}
+
+// Removes trailing zeroes from a comma-separated sequence of M31 elements.
+// Used to reduce 0 multiplications in the extension field.
+pub fn remove_trailing_zeroes(felts: &str) -> String {
+    let mut values: Vec<&str> = felts.split(", ").collect();
+
+    while values.last() == Some(&"M31_0") {
+        values.pop();
+    }
+
+    values.join(",")
 }
 
 #[allow(dead_code)]
