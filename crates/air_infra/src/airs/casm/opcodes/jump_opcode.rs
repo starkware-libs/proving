@@ -29,10 +29,22 @@ pub struct JumpOpcode {
 
 impl JumpOpcode {
     pub fn get_flags(&self) -> Flags {
+        assert!(
+            !self.is_imm || !self.is_double_deref,
+            "Cannot set flags to support double deref and immediate at the same time.",
+        );
+        assert!(
+            self.is_rel || !self.is_imm,
+            "Immediate jump must be relative.",
+        );
+        assert!(
+            !self.is_double_deref || !self.is_rel,
+            "Double deref jump must be absolute.",
+        );
         Flags {
             dst_base_fp: Some(true),
             op0_base_fp: (!self.is_double_deref).then_some(true),
-            op1_imm: Some(self.is_rel),
+            op1_imm: Some(self.is_imm),
             op1_base_fp: (self.is_imm || self.is_double_deref).then_some(false),
             op1_base_ap: (self.is_imm || self.is_double_deref).then_some(false),
             res_add: Some(false),
@@ -76,10 +88,8 @@ impl AirFn for JumpOpcode {
 
         // Calculate the next pc
         let mem1_base = if self.is_imm {
-            assert!(self.is_rel, "Immediate jump must be relative");
             casm_state.pc.value.clone()
         } else if self.is_double_deref {
-            assert!(!self.is_rel, "Double deref jump must be absolute");
             let mem0_base = op0_base_fp.clone() * casm_state.fp.value.clone()
                 + (const_expr!(1) - op0_base_fp) * casm_state.ap.value.clone();
             self.memory
