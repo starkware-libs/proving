@@ -1,11 +1,8 @@
 pub mod air_fn;
 pub mod air_fn_registry;
-pub mod compiled_structs;
 pub mod expressions;
 pub mod memory;
-pub mod prover_types;
 pub mod state;
-pub mod utils;
 pub mod variables;
 
 pub type Felt = stwo_prover::core::fields::m31::M31;

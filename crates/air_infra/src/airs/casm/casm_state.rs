@@ -1,5 +1,6 @@
+use compiled_casm_air::prover_types::{CasmState, ProverType};
+
 use crate::core::expressions::felt_expr::*;
-use crate::core::prover_types::*;
 use crate::core::variables::*;
 
 #[derive(Clone, Debug)]

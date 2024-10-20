@@ -1,3 +1,5 @@
+use compiled_casm_air::utils::JSONS_LOOKUPS_DIR;
+
 use super::verify_inst::*;
 
 use crate::airs::casm::common::*;
@@ -26,13 +28,10 @@ fn test_verify_inst() {
     let (registry, entry) = AirFnRegistry::new(&air_fn);
 
     // Check entry
+    let name = entry.name.to_lowercase();
     compare_json(
-        &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_DECODE_INSTRUCTION_DIR,
-            entry.name.to_lowercase()
-        ),
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
     );
 
     // Check state

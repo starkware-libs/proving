@@ -1,5 +1,7 @@
 use inst_def::InstDef;
 
+use compiled_casm_air::prover_types::P_FELTS;
+
 use super::generic_opcode::*;
 
 use crate::airs::casm::casm_state::*;
@@ -8,7 +10,6 @@ use crate::airs::felt252_utils::cond_as_small::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::prover_types::*;
 use crate::core::variables::*;
 
 // Macros

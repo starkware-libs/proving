@@ -1,6 +1,6 @@
 use std::collections::{HashMap, HashSet};
 
-use air_infra::core::compiled_structs::{
+use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupData, TraceGenStep, UseOrYield,
 };
 use genco::lang::rust;

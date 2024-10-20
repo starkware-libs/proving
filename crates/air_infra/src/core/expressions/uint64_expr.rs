@@ -1,4 +1,5 @@
-use super::super::prover_types::*;
+use compiled_casm_air::prover_types::UInt64;
+
 use super::super::variables::*;
 use super::expr::*;
 use super::felt_expr::*;
@@ -105,7 +106,7 @@ macro_rules! u64_expr {
     ($name:expr, $val:expr) => {
         UInt64Expr::Var($crate::core::expressions::var_expr::VarExpr::new(
             $name.to_string(),
-            Some($crate::core::prover_types::UInt64::from($val)),
+            Some(UInt64::from($val)),
             false,
             false,
             None,

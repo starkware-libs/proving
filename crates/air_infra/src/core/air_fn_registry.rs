@@ -4,8 +4,11 @@ use std::rc::Rc;
 use indexmap::IndexMap;
 use serde::Serialize;
 
+use compiled_casm_air::compiled_structs::{
+    CompiledAirFn, ConstraintEvalStep, LookupData, TraceGenStep, UseOrYield,
+};
+
 use super::air_fn::*;
-use super::compiled_structs::*;
 use super::state::*;
 use super::variables::*;
 

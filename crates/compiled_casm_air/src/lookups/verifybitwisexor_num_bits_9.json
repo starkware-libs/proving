@@ -1,0 +1,89 @@
+{
+  "name": "VerifyBitwiseXor_num_bits_9",
+  "description": "VerifyBitwiseXor_num_bits_9",
+  "input": {
+    "Array": [
+      {
+        "Var": [
+          "M31",
+          "verifybitwisexor_num_bits_9_input[0]"
+        ]
+      },
+      {
+        "Var": [
+          "M31",
+          "verifybitwisexor_num_bits_9_input[1]"
+        ]
+      },
+      {
+        "Var": [
+          "M31",
+          "verifybitwisexor_num_bits_9_input[2]"
+        ]
+      }
+    ]
+  },
+  "output": {
+    "Tuple": []
+  },
+  "row_length": 0,
+  "lookup_relation_uses_count": {},
+  "input_num_of_felts": 3,
+  "output_num_of_felts": 0,
+  "constraints": [
+    {
+      "LookupData": {
+        "relation_name": "VerifyBitwiseXor_num_bits_9",
+        "felts": [
+          {
+            "ExternalState": [
+              "VerifyBitwiseXor9",
+              0
+            ]
+          },
+          {
+            "ExternalState": [
+              "VerifyBitwiseXor9",
+              1
+            ]
+          },
+          {
+            "ExternalState": [
+              "VerifyBitwiseXor9",
+              2
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupData": {
+        "relation_name": "VerifyBitwiseXor_num_bits_9",
+        "felts": [
+          {
+            "ExternalState": [
+              "VerifyBitwiseXor9",
+              0
+            ]
+          },
+          {
+            "ExternalState": [
+              "VerifyBitwiseXor9",
+              1
+            ]
+          },
+          {
+            "ExternalState": [
+              "VerifyBitwiseXor9",
+              2
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}

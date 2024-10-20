@@ -2,12 +2,13 @@ use std::array::from_fn;
 
 use inst_def::InstDef;
 
+use compiled_casm_air::prover_types::FELT252_N_WORDS;
+
 use crate::airs::felt252_id_memory::memory::*;
 use crate::airs::felt252_id_memory::read_small::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::prover_types::*;
 use crate::core::variables::*;
 
 // Receives a felt252 that has been written to the trace and adds constraints to verify that

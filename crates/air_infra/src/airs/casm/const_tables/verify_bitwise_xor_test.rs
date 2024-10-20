@@ -1,10 +1,23 @@
+use compiled_casm_air::utils::JSONS_LOOKUPS_DIR;
+
 use super::verify_bitwise_xor::*;
 
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
+use crate::utils::test_utils::*;
 
 // Macros
 use crate::const_expr;
+
+#[test]
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&VerifyBitwiseXor { num_bits: 9 });
+    let name = entry.name.to_lowercase();
+    compare_json(
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
+    );
+}
 
 #[test]
 fn test_bitwise_xor() {

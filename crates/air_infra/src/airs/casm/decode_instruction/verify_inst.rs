@@ -1,5 +1,7 @@
 use inst_def::InstDef;
 
+use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
+
 use super::super::common::*;
 use super::encode_flags::*;
 use super::encode_offsets::*;
@@ -9,7 +11,6 @@ use crate::airs::felt252_id_memory::verify::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::prover_types::*;
 
 #[derive(Clone, Debug, InstDef, Default)]
 pub struct VerifyInstruction {

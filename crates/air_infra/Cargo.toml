@@ -4,6 +4,7 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
+compiled_casm_air = { path = "../compiled_casm_air" }
 serde = { workspace = true, features = ["derive", "rc"] }
 serde_json.workspace = true
 num-integer.workspace = true

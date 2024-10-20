@@ -1,0 +1,53 @@
+{
+  "name": "RangeCheck_N_1_bits_3",
+  "description": "RangeCheck_N_1_bits_3",
+  "input": {
+    "Array": [
+      {
+        "Var": [
+          "M31",
+          "rangecheck_n_1_bits_3_input[0]"
+        ]
+      }
+    ]
+  },
+  "output": {
+    "Tuple": []
+  },
+  "row_length": 0,
+  "lookup_relation_uses_count": {},
+  "input_num_of_felts": 1,
+  "output_num_of_felts": 0,
+  "constraints": [
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_3",
+        "felts": [
+          {
+            "ExternalState": [
+              "RangeCheck3",
+              0
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_1_bits_3",
+        "felts": [
+          {
+            "ExternalState": [
+              "RangeCheck3",
+              0
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}

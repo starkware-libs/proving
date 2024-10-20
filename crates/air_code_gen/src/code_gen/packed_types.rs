@@ -3,7 +3,7 @@ use std::ops::{Add, BitAnd, BitOr, BitXor, Rem, Shl, Shr};
 use std::simd::num::SimdUint;
 use std::simd::Simd;
 
-use air_infra::core::prover_types::{UInt16, UInt32, UInt64, PRIME};
+use compiled_casm_air::prover_types::{UInt16, UInt32, UInt64, PRIME};
 use stwo_prover::core::backend::simd::m31::PackedM31;
 
 pub const LOG_N_LANES: u32 = 4;
@@ -344,7 +344,7 @@ pub struct PackedCasmState {
 
 #[cfg(test)]
 mod tests {
-    use air_infra::core::prover_types::{UInt16, UInt32, UInt64};
+    use compiled_casm_air::prover_types::{UInt16, UInt32, UInt64};
     use rand::rngs::SmallRng;
     use rand::{Rng, SeedableRng};
     use stwo_prover::core::backend::simd::m31::N_LANES;

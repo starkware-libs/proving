@@ -1,3 +1,5 @@
+use compiled_casm_air::const_tables::STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9;
+
 use inst_def::InstDef;
 
 use crate::core::air_fn::*;
@@ -6,7 +8,6 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 
 const STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4: &str = "VerifyBitwiseXor4";
-const STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9: &str = "VerifyBitwiseXor9";
 
 #[derive(Debug, InstDef)]
 pub struct VerifyBitwiseXor {

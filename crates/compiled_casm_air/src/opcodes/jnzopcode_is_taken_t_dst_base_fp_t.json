@@ -1,0 +1,4226 @@
+{
+  "name": "JnzOpcode_is_taken_t_dst_base_fp_t",
+  "description": "JnzOpcode_is_taken_t_dst_base_fp_t",
+  "input": {
+    "Var": [
+      "CasmState",
+      "jnzopcode_is_taken_t_dst_base_fp_t_input"
+    ]
+  },
+  "output": {
+    "Struct": {
+      "type": "CasmState",
+      "fields": [
+        [
+          "pc",
+          {
+            "BinaryOp": [
+              {
+                "State": 0
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": 41
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "262144"
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": 40
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "512"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "State": 39
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "-",
+                      {
+                        "State": 37
+                      }
+                    ]
+                  },
+                  "-",
+                  {
+                    "BinaryOp": [
+                      {
+                        "Const": [
+                          "M31",
+                          "134217728"
+                        ]
+                      },
+                      "*",
+                      {
+                        "State": 38
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ],
+        [
+          "ap",
+          {
+            "BinaryOp": [
+              {
+                "State": 1
+              },
+              "+",
+              {
+                "State": 4
+              }
+            ]
+          }
+        ],
+        [
+          "fp",
+          {
+            "State": 2
+          }
+        ]
+      ]
+    }
+  },
+  "row_length": 42,
+  "lookup_relation_uses_count": {
+    "VerifyInstruction": 1,
+    "Memory_K_M31_V_M31": 2,
+    "Memory_K_M31_V_Felt252": 2,
+    "opcodes": 1
+  },
+  "input_num_of_felts": 3,
+  "output_num_of_felts": 3,
+  "constraints": [
+    {
+      "StartBlock": "DecodeInstruction_113648125c3c3f56"
+    },
+    {
+      "LookupData": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          {
+            "State": 0
+          },
+          {
+            "State": 3
+          },
+          {
+            "Const": [
+              "M31",
+              "32767"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "32769"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "State": 4
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "ReadPositive_num_bits_252"
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": 2
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 3
+                  },
+                  "-",
+                  {
+                    "Const": [
+                      "M31",
+                      "32768"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": 5
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          {
+            "State": 5
+          },
+          {
+            "State": 6
+          },
+          {
+            "State": 7
+          },
+          {
+            "State": 8
+          },
+          {
+            "State": 9
+          },
+          {
+            "State": 10
+          },
+          {
+            "State": 11
+          },
+          {
+            "State": 12
+          },
+          {
+            "State": 13
+          },
+          {
+            "State": 14
+          },
+          {
+            "State": 15
+          },
+          {
+            "State": 16
+          },
+          {
+            "State": 17
+          },
+          {
+            "State": 18
+          },
+          {
+            "State": 19
+          },
+          {
+            "State": 20
+          },
+          {
+            "State": 21
+          },
+          {
+            "State": 22
+          },
+          {
+            "State": 23
+          },
+          {
+            "State": 24
+          },
+          {
+            "State": 25
+          },
+          {
+            "State": 26
+          },
+          {
+            "State": 27
+          },
+          {
+            "State": 28
+          },
+          {
+            "State": 29
+          },
+          {
+            "State": 30
+          },
+          {
+            "State": 31
+          },
+          {
+            "State": 32
+          },
+          {
+            "State": 33
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "BinaryOp": [
+                                                  {
+                                                    "BinaryOp": [
+                                                      {
+                                                        "BinaryOp": [
+                                                          {
+                                                            "BinaryOp": [
+                                                              {
+                                                                "BinaryOp": [
+                                                                  {
+                                                                    "BinaryOp": [
+                                                                      {
+                                                                        "BinaryOp": [
+                                                                          {
+                                                                            "BinaryOp": [
+                                                                              {
+                                                                                "BinaryOp": [
+                                                                                  {
+                                                                                    "BinaryOp": [
+                                                                                      {
+                                                                                        "BinaryOp": [
+                                                                                          {
+                                                                                            "BinaryOp": [
+                                                                                              {
+                                                                                                "BinaryOp": [
+                                                                                                  {
+                                                                                                    "BinaryOp": [
+                                                                                                      {
+                                                                                                        "BinaryOp": [
+                                                                                                          {
+                                                                                                            "BinaryOp": [
+                                                                                                              {
+                                                                                                                "BinaryOp": [
+                                                                                                                  {
+                                                                                                                    "BinaryOp": [
+                                                                                                                      {
+                                                                                                                        "BinaryOp": [
+                                                                                                                          {
+                                                                                                                            "BinaryOp": [
+                                                                                                                              {
+                                                                                                                                "Const": [
+                                                                                                                                  "M31",
+                                                                                                                                  "0"
+                                                                                                                                ]
+                                                                                                                              },
+                                                                                                                              "+",
+                                                                                                                              {
+                                                                                                                                "State": 6
+                                                                                                                              }
+                                                                                                                            ]
+                                                                                                                          },
+                                                                                                                          "+",
+                                                                                                                          {
+                                                                                                                            "State": 7
+                                                                                                                          }
+                                                                                                                        ]
+                                                                                                                      },
+                                                                                                                      "+",
+                                                                                                                      {
+                                                                                                                        "State": 8
+                                                                                                                      }
+                                                                                                                    ]
+                                                                                                                  },
+                                                                                                                  "+",
+                                                                                                                  {
+                                                                                                                    "State": 9
+                                                                                                                  }
+                                                                                                                ]
+                                                                                                              },
+                                                                                                              "+",
+                                                                                                              {
+                                                                                                                "State": 10
+                                                                                                              }
+                                                                                                            ]
+                                                                                                          },
+                                                                                                          "+",
+                                                                                                          {
+                                                                                                            "State": 11
+                                                                                                          }
+                                                                                                        ]
+                                                                                                      },
+                                                                                                      "+",
+                                                                                                      {
+                                                                                                        "State": 12
+                                                                                                      }
+                                                                                                    ]
+                                                                                                  },
+                                                                                                  "+",
+                                                                                                  {
+                                                                                                    "State": 13
+                                                                                                  }
+                                                                                                ]
+                                                                                              },
+                                                                                              "+",
+                                                                                              {
+                                                                                                "State": 14
+                                                                                              }
+                                                                                            ]
+                                                                                          },
+                                                                                          "+",
+                                                                                          {
+                                                                                            "State": 15
+                                                                                          }
+                                                                                        ]
+                                                                                      },
+                                                                                      "+",
+                                                                                      {
+                                                                                        "State": 16
+                                                                                      }
+                                                                                    ]
+                                                                                  },
+                                                                                  "+",
+                                                                                  {
+                                                                                    "State": 17
+                                                                                  }
+                                                                                ]
+                                                                              },
+                                                                              "+",
+                                                                              {
+                                                                                "State": 18
+                                                                              }
+                                                                            ]
+                                                                          },
+                                                                          "+",
+                                                                          {
+                                                                            "State": 19
+                                                                          }
+                                                                        ]
+                                                                      },
+                                                                      "+",
+                                                                      {
+                                                                        "State": 20
+                                                                      }
+                                                                    ]
+                                                                  },
+                                                                  "+",
+                                                                  {
+                                                                    "State": 21
+                                                                  }
+                                                                ]
+                                                              },
+                                                              "+",
+                                                              {
+                                                                "State": 22
+                                                              }
+                                                            ]
+                                                          },
+                                                          "+",
+                                                          {
+                                                            "State": 23
+                                                          }
+                                                        ]
+                                                      },
+                                                      "+",
+                                                      {
+                                                        "State": 24
+                                                      }
+                                                    ]
+                                                  },
+                                                  "+",
+                                                  {
+                                                    "State": 25
+                                                  }
+                                                ]
+                                              },
+                                              "+",
+                                              {
+                                                "State": 26
+                                              }
+                                            ]
+                                          },
+                                          "+",
+                                          {
+                                            "State": 27
+                                          }
+                                        ]
+                                      },
+                                      "+",
+                                      {
+                                        "State": 28
+                                      }
+                                    ]
+                                  },
+                                  "+",
+                                  {
+                                    "State": 29
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "State": 30
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "State": 31
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": 32
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "State": 33
+                  }
+                ]
+              },
+              "*",
+              {
+                "State": 34
+              }
+            ]
+          },
+          "-",
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_40",
+        {
+          "BinaryOp": [
+            {
+              "State": 6
+            },
+            "-",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_41",
+        {
+          "BinaryOp": [
+            {
+              "State": 27
+            },
+            "-",
+            {
+              "Const": [
+                "M31",
+                "136"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_42",
+        {
+          "BinaryOp": [
+            {
+              "State": 33
+            },
+            "-",
+            {
+              "Const": [
+                "M31",
+                "256"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "BinaryOp": [
+                                                  {
+                                                    "BinaryOp": [
+                                                      {
+                                                        "BinaryOp": [
+                                                          {
+                                                            "BinaryOp": [
+                                                              {
+                                                                "BinaryOp": [
+                                                                  {
+                                                                    "BinaryOp": [
+                                                                      {
+                                                                        "BinaryOp": [
+                                                                          {
+                                                                            "BinaryOp": [
+                                                                              {
+                                                                                "BinaryOp": [
+                                                                                  {
+                                                                                    "BinaryOp": [
+                                                                                      {
+                                                                                        "BinaryOp": [
+                                                                                          {
+                                                                                            "BinaryOp": [
+                                                                                              {
+                                                                                                "BinaryOp": [
+                                                                                                  {
+                                                                                                    "BinaryOp": [
+                                                                                                      {
+                                                                                                        "BinaryOp": [
+                                                                                                          {
+                                                                                                            "BinaryOp": [
+                                                                                                              {
+                                                                                                                "BinaryOp": [
+                                                                                                                  {
+                                                                                                                    "BinaryOp": [
+                                                                                                                      {
+                                                                                                                        "BinaryOp": [
+                                                                                                                          {
+                                                                                                                            "BinaryOp": [
+                                                                                                                              {
+                                                                                                                                "Const": [
+                                                                                                                                  "M31",
+                                                                                                                                  "0"
+                                                                                                                                ]
+                                                                                                                              },
+                                                                                                                              "+",
+                                                                                                                              {
+                                                                                                                                "BinaryOp": [
+                                                                                                                                  {
+                                                                                                                                    "Var": [
+                                                                                                                                      "M31",
+                                                                                                                                      "tmp_40"
+                                                                                                                                    ]
+                                                                                                                                  },
+                                                                                                                                  "*",
+                                                                                                                                  {
+                                                                                                                                    "Var": [
+                                                                                                                                      "M31",
+                                                                                                                                      "tmp_40"
+                                                                                                                                    ]
+                                                                                                                                  }
+                                                                                                                                ]
+                                                                                                                              }
+                                                                                                                            ]
+                                                                                                                          },
+                                                                                                                          "+",
+                                                                                                                          {
+                                                                                                                            "State": 7
+                                                                                                                          }
+                                                                                                                        ]
+                                                                                                                      },
+                                                                                                                      "+",
+                                                                                                                      {
+                                                                                                                        "State": 8
+                                                                                                                      }
+                                                                                                                    ]
+                                                                                                                  },
+                                                                                                                  "+",
+                                                                                                                  {
+                                                                                                                    "State": 9
+                                                                                                                  }
+                                                                                                                ]
+                                                                                                              },
+                                                                                                              "+",
+                                                                                                              {
+                                                                                                                "State": 10
+                                                                                                              }
+                                                                                                            ]
+                                                                                                          },
+                                                                                                          "+",
+                                                                                                          {
+                                                                                                            "State": 11
+                                                                                                          }
+                                                                                                        ]
+                                                                                                      },
+                                                                                                      "+",
+                                                                                                      {
+                                                                                                        "State": 12
+                                                                                                      }
+                                                                                                    ]
+                                                                                                  },
+                                                                                                  "+",
+                                                                                                  {
+                                                                                                    "State": 13
+                                                                                                  }
+                                                                                                ]
+                                                                                              },
+                                                                                              "+",
+                                                                                              {
+                                                                                                "State": 14
+                                                                                              }
+                                                                                            ]
+                                                                                          },
+                                                                                          "+",
+                                                                                          {
+                                                                                            "State": 15
+                                                                                          }
+                                                                                        ]
+                                                                                      },
+                                                                                      "+",
+                                                                                      {
+                                                                                        "State": 16
+                                                                                      }
+                                                                                    ]
+                                                                                  },
+                                                                                  "+",
+                                                                                  {
+                                                                                    "State": 17
+                                                                                  }
+                                                                                ]
+                                                                              },
+                                                                              "+",
+                                                                              {
+                                                                                "State": 18
+                                                                              }
+                                                                            ]
+                                                                          },
+                                                                          "+",
+                                                                          {
+                                                                            "State": 19
+                                                                          }
+                                                                        ]
+                                                                      },
+                                                                      "+",
+                                                                      {
+                                                                        "State": 20
+                                                                      }
+                                                                    ]
+                                                                  },
+                                                                  "+",
+                                                                  {
+                                                                    "State": 21
+                                                                  }
+                                                                ]
+                                                              },
+                                                              "+",
+                                                              {
+                                                                "State": 22
+                                                              }
+                                                            ]
+                                                          },
+                                                          "+",
+                                                          {
+                                                            "State": 23
+                                                          }
+                                                        ]
+                                                      },
+                                                      "+",
+                                                      {
+                                                        "State": 24
+                                                      }
+                                                    ]
+                                                  },
+                                                  "+",
+                                                  {
+                                                    "State": 25
+                                                  }
+                                                ]
+                                              },
+                                              "+",
+                                              {
+                                                "State": 26
+                                              }
+                                            ]
+                                          },
+                                          "+",
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "Var": [
+                                                  "M31",
+                                                  "tmp_41"
+                                                ]
+                                              },
+                                              "*",
+                                              {
+                                                "Var": [
+                                                  "M31",
+                                                  "tmp_41"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      "+",
+                                      {
+                                        "State": 28
+                                      }
+                                    ]
+                                  },
+                                  "+",
+                                  {
+                                    "State": 29
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "State": 30
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "State": 31
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "State": 32
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "tmp_42"
+                        ]
+                      },
+                      "*",
+                      {
+                        "Var": [
+                          "M31",
+                          "tmp_42"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "*",
+              {
+                "State": 35
+              }
+            ]
+          },
+          "-",
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "StartBlock": "ReadSmall"
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": 0
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "State": 36
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "StartBlock": "CondDecodeSmallSign"
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 37
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "State": 37
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 38
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "*",
+              {
+                "State": 38
+              }
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "State": 37
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          {
+            "State": 36
+          },
+          {
+            "State": 39
+          },
+          {
+            "State": 40
+          },
+          {
+            "State": 41
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Const": [
+                      "M31",
+                      "136"
+                    ]
+                  },
+                  "*",
+                  {
+                    "State": 37
+                  }
+                ]
+              },
+              "-",
+              {
+                "State": 38
+              }
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 37
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "256"
+                ]
+              }
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          {
+            "State": 0
+          },
+          {
+            "State": 1
+          },
+          {
+            "State": 2
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": 0
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": 41
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "262144"
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": 40
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "512"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "State": 39
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "-",
+                      {
+                        "State": 37
+                      }
+                    ]
+                  },
+                  "-",
+                  {
+                    "BinaryOp": [
+                      {
+                        "Const": [
+                          "M31",
+                          "134217728"
+                        ]
+                      },
+                      "*",
+                      {
+                        "State": 38
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 1
+              },
+              "+",
+              {
+                "State": 4
+              }
+            ]
+          },
+          {
+            "State": 2
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        {
+          "Var": [
+            "CasmState",
+            "jnzopcode_is_taken_t_dst_base_fp_t_input"
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.pc"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.ap"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.fp"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "StartBlock": "DecodeInstruction_113648125c3c3f56"
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_M31",
+        "input": {
+          "State": 0
+        },
+        "output_name": "tmp_31"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_Felt252",
+        "input": {
+          "Var": [
+            "M31",
+            "tmp_31"
+          ]
+        },
+        "output_name": "tmp_32"
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_33",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "tmp_32"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "0"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "StaticCall": [
+                        "UInt16::from_m31",
+                        [
+                          {
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "Felt252",
+                                  "tmp_32"
+                                ]
+                              },
+                              "get_m31",
+                              [
+                                {
+                                  "Const": [
+                                    "usize",
+                                    "1"
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "&",
+                    {
+                      "Const": [
+                        "UInt16",
+                        "127"
+                      ]
+                    }
+                  ]
+                },
+                "<<",
+                {
+                  "Const": [
+                    "UInt16",
+                    "9"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_33"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "offset_0"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_34",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "tmp_32"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "5"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        ">>",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "3"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "tmp_32"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "6"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        "<<",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "6"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                ">>",
+                {
+                  "Const": [
+                    "UInt16",
+                    "11"
+                  ]
+                }
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_34"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "ap_update_add_1"
+      ]
+    },
+    {
+      "LookupCall": {
+        "fn_name": "VerifyInstruction",
+        "input": {
+          "Tuple": [
+            {
+              "State": 0
+            },
+            {
+              "Array": [
+                {
+                  "State": 3
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "32767"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "32769"
+                  ]
+                }
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "State": 4
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_name": null
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          {
+            "State": 0
+          },
+          {
+            "State": 3
+          },
+          {
+            "Const": [
+              "M31",
+              "32767"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "32769"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "State": 4
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "ReadPositive_num_bits_252"
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_M31",
+        "input": {
+          "BinaryOp": [
+            {
+              "State": 2
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 3
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "32768"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_name": "tmp_38"
+      }
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_38"
+          ]
+        },
+        "id"
+      ]
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": 2
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 3
+                  },
+                  "-",
+                  {
+                    "Const": [
+                      "M31",
+                      "32768"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": 5
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_Felt252",
+        "input": {
+          "State": 5
+        },
+        "output_name": "tmp_39"
+      }
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "0"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "1"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "2"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_2"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "3"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "4"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "5"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_5"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "6"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "7"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "8"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_8"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "9"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_9"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "10"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_10"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "11"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_11"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "12"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_12"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "13"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_13"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "14"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_14"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "15"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_15"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "16"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_16"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "17"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_17"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "18"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_18"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "19"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_19"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "20"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_20"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "21"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_21"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "22"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_22"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "23"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_23"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "24"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_24"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "25"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_25"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "26"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_26"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_39"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "27"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_27"
+      ]
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          {
+            "State": 5
+          },
+          {
+            "State": 6
+          },
+          {
+            "State": 7
+          },
+          {
+            "State": 8
+          },
+          {
+            "State": 9
+          },
+          {
+            "State": 10
+          },
+          {
+            "State": 11
+          },
+          {
+            "State": 12
+          },
+          {
+            "State": 13
+          },
+          {
+            "State": 14
+          },
+          {
+            "State": 15
+          },
+          {
+            "State": 16
+          },
+          {
+            "State": 17
+          },
+          {
+            "State": 18
+          },
+          {
+            "State": 19
+          },
+          {
+            "State": 20
+          },
+          {
+            "State": 21
+          },
+          {
+            "State": 22
+          },
+          {
+            "State": 23
+          },
+          {
+            "State": 24
+          },
+          {
+            "State": 25
+          },
+          {
+            "State": 26
+          },
+          {
+            "State": 27
+          },
+          {
+            "State": 28
+          },
+          {
+            "State": 29
+          },
+          {
+            "State": 30
+          },
+          {
+            "State": 31
+          },
+          {
+            "State": 32
+          },
+          {
+            "State": 33
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            },
+            "//",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "BinaryOp": [
+                                                        {
+                                                          "BinaryOp": [
+                                                            {
+                                                              "BinaryOp": [
+                                                                {
+                                                                  "BinaryOp": [
+                                                                    {
+                                                                      "BinaryOp": [
+                                                                        {
+                                                                          "BinaryOp": [
+                                                                            {
+                                                                              "BinaryOp": [
+                                                                                {
+                                                                                  "BinaryOp": [
+                                                                                    {
+                                                                                      "BinaryOp": [
+                                                                                        {
+                                                                                          "BinaryOp": [
+                                                                                            {
+                                                                                              "BinaryOp": [
+                                                                                                {
+                                                                                                  "BinaryOp": [
+                                                                                                    {
+                                                                                                      "BinaryOp": [
+                                                                                                        {
+                                                                                                          "BinaryOp": [
+                                                                                                            {
+                                                                                                              "BinaryOp": [
+                                                                                                                {
+                                                                                                                  "BinaryOp": [
+                                                                                                                    {
+                                                                                                                      "BinaryOp": [
+                                                                                                                        {
+                                                                                                                          "BinaryOp": [
+                                                                                                                            {
+                                                                                                                              "Const": [
+                                                                                                                                "M31",
+                                                                                                                                "0"
+                                                                                                                              ]
+                                                                                                                            },
+                                                                                                                            "+",
+                                                                                                                            {
+                                                                                                                              "State": 6
+                                                                                                                            }
+                                                                                                                          ]
+                                                                                                                        },
+                                                                                                                        "+",
+                                                                                                                        {
+                                                                                                                          "State": 7
+                                                                                                                        }
+                                                                                                                      ]
+                                                                                                                    },
+                                                                                                                    "+",
+                                                                                                                    {
+                                                                                                                      "State": 8
+                                                                                                                    }
+                                                                                                                  ]
+                                                                                                                },
+                                                                                                                "+",
+                                                                                                                {
+                                                                                                                  "State": 9
+                                                                                                                }
+                                                                                                              ]
+                                                                                                            },
+                                                                                                            "+",
+                                                                                                            {
+                                                                                                              "State": 10
+                                                                                                            }
+                                                                                                          ]
+                                                                                                        },
+                                                                                                        "+",
+                                                                                                        {
+                                                                                                          "State": 11
+                                                                                                        }
+                                                                                                      ]
+                                                                                                    },
+                                                                                                    "+",
+                                                                                                    {
+                                                                                                      "State": 12
+                                                                                                    }
+                                                                                                  ]
+                                                                                                },
+                                                                                                "+",
+                                                                                                {
+                                                                                                  "State": 13
+                                                                                                }
+                                                                                              ]
+                                                                                            },
+                                                                                            "+",
+                                                                                            {
+                                                                                              "State": 14
+                                                                                            }
+                                                                                          ]
+                                                                                        },
+                                                                                        "+",
+                                                                                        {
+                                                                                          "State": 15
+                                                                                        }
+                                                                                      ]
+                                                                                    },
+                                                                                    "+",
+                                                                                    {
+                                                                                      "State": 16
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                "+",
+                                                                                {
+                                                                                  "State": 17
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            "+",
+                                                                            {
+                                                                              "State": 18
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        "+",
+                                                                        {
+                                                                          "State": 19
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    "+",
+                                                                    {
+                                                                      "State": 20
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                "+",
+                                                                {
+                                                                  "State": 21
+                                                                }
+                                                              ]
+                                                            },
+                                                            "+",
+                                                            {
+                                                              "State": 22
+                                                            }
+                                                          ]
+                                                        },
+                                                        "+",
+                                                        {
+                                                          "State": 23
+                                                        }
+                                                      ]
+                                                    },
+                                                    "+",
+                                                    {
+                                                      "State": 24
+                                                    }
+                                                  ]
+                                                },
+                                                "+",
+                                                {
+                                                  "State": 25
+                                                }
+                                              ]
+                                            },
+                                            "+",
+                                            {
+                                              "State": 26
+                                            }
+                                          ]
+                                        },
+                                        "+",
+                                        {
+                                          "State": 27
+                                        }
+                                      ]
+                                    },
+                                    "+",
+                                    {
+                                      "State": 28
+                                    }
+                                  ]
+                                },
+                                "+",
+                                {
+                                  "State": 29
+                                }
+                              ]
+                            },
+                            "+",
+                            {
+                              "State": 30
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": 31
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "State": 32
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "State": 33
+                }
+              ]
+            }
+          ]
+        },
+        "res"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_40",
+        {
+          "BinaryOp": [
+            {
+              "State": 6
+            },
+            "-",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_41",
+        {
+          "BinaryOp": [
+            {
+              "State": 27
+            },
+            "-",
+            {
+              "Const": [
+                "M31",
+                "136"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_42",
+        {
+          "BinaryOp": [
+            {
+              "State": 33
+            },
+            "-",
+            {
+              "Const": [
+                "M31",
+                "256"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            },
+            "//",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "BinaryOp": [
+                                                        {
+                                                          "BinaryOp": [
+                                                            {
+                                                              "BinaryOp": [
+                                                                {
+                                                                  "BinaryOp": [
+                                                                    {
+                                                                      "BinaryOp": [
+                                                                        {
+                                                                          "BinaryOp": [
+                                                                            {
+                                                                              "BinaryOp": [
+                                                                                {
+                                                                                  "BinaryOp": [
+                                                                                    {
+                                                                                      "BinaryOp": [
+                                                                                        {
+                                                                                          "BinaryOp": [
+                                                                                            {
+                                                                                              "BinaryOp": [
+                                                                                                {
+                                                                                                  "BinaryOp": [
+                                                                                                    {
+                                                                                                      "BinaryOp": [
+                                                                                                        {
+                                                                                                          "BinaryOp": [
+                                                                                                            {
+                                                                                                              "BinaryOp": [
+                                                                                                                {
+                                                                                                                  "BinaryOp": [
+                                                                                                                    {
+                                                                                                                      "BinaryOp": [
+                                                                                                                        {
+                                                                                                                          "BinaryOp": [
+                                                                                                                            {
+                                                                                                                              "Const": [
+                                                                                                                                "M31",
+                                                                                                                                "0"
+                                                                                                                              ]
+                                                                                                                            },
+                                                                                                                            "+",
+                                                                                                                            {
+                                                                                                                              "BinaryOp": [
+                                                                                                                                {
+                                                                                                                                  "Var": [
+                                                                                                                                    "M31",
+                                                                                                                                    "tmp_40"
+                                                                                                                                  ]
+                                                                                                                                },
+                                                                                                                                "*",
+                                                                                                                                {
+                                                                                                                                  "Var": [
+                                                                                                                                    "M31",
+                                                                                                                                    "tmp_40"
+                                                                                                                                  ]
+                                                                                                                                }
+                                                                                                                              ]
+                                                                                                                            }
+                                                                                                                          ]
+                                                                                                                        },
+                                                                                                                        "+",
+                                                                                                                        {
+                                                                                                                          "State": 7
+                                                                                                                        }
+                                                                                                                      ]
+                                                                                                                    },
+                                                                                                                    "+",
+                                                                                                                    {
+                                                                                                                      "State": 8
+                                                                                                                    }
+                                                                                                                  ]
+                                                                                                                },
+                                                                                                                "+",
+                                                                                                                {
+                                                                                                                  "State": 9
+                                                                                                                }
+                                                                                                              ]
+                                                                                                            },
+                                                                                                            "+",
+                                                                                                            {
+                                                                                                              "State": 10
+                                                                                                            }
+                                                                                                          ]
+                                                                                                        },
+                                                                                                        "+",
+                                                                                                        {
+                                                                                                          "State": 11
+                                                                                                        }
+                                                                                                      ]
+                                                                                                    },
+                                                                                                    "+",
+                                                                                                    {
+                                                                                                      "State": 12
+                                                                                                    }
+                                                                                                  ]
+                                                                                                },
+                                                                                                "+",
+                                                                                                {
+                                                                                                  "State": 13
+                                                                                                }
+                                                                                              ]
+                                                                                            },
+                                                                                            "+",
+                                                                                            {
+                                                                                              "State": 14
+                                                                                            }
+                                                                                          ]
+                                                                                        },
+                                                                                        "+",
+                                                                                        {
+                                                                                          "State": 15
+                                                                                        }
+                                                                                      ]
+                                                                                    },
+                                                                                    "+",
+                                                                                    {
+                                                                                      "State": 16
+                                                                                    }
+                                                                                  ]
+                                                                                },
+                                                                                "+",
+                                                                                {
+                                                                                  "State": 17
+                                                                                }
+                                                                              ]
+                                                                            },
+                                                                            "+",
+                                                                            {
+                                                                              "State": 18
+                                                                            }
+                                                                          ]
+                                                                        },
+                                                                        "+",
+                                                                        {
+                                                                          "State": 19
+                                                                        }
+                                                                      ]
+                                                                    },
+                                                                    "+",
+                                                                    {
+                                                                      "State": 20
+                                                                    }
+                                                                  ]
+                                                                },
+                                                                "+",
+                                                                {
+                                                                  "State": 21
+                                                                }
+                                                              ]
+                                                            },
+                                                            "+",
+                                                            {
+                                                              "State": 22
+                                                            }
+                                                          ]
+                                                        },
+                                                        "+",
+                                                        {
+                                                          "State": 23
+                                                        }
+                                                      ]
+                                                    },
+                                                    "+",
+                                                    {
+                                                      "State": 24
+                                                    }
+                                                  ]
+                                                },
+                                                "+",
+                                                {
+                                                  "State": 25
+                                                }
+                                              ]
+                                            },
+                                            "+",
+                                            {
+                                              "State": 26
+                                            }
+                                          ]
+                                        },
+                                        "+",
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "Var": [
+                                                "M31",
+                                                "tmp_41"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "Var": [
+                                                "M31",
+                                                "tmp_41"
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "+",
+                                    {
+                                      "State": 28
+                                    }
+                                  ]
+                                },
+                                "+",
+                                {
+                                  "State": 29
+                                }
+                              ]
+                            },
+                            "+",
+                            {
+                              "State": 30
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": 31
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "State": 32
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_42"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_42"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "res_squares"
+      ]
+    },
+    {
+      "StartBlock": "ReadSmall"
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_M31",
+        "input": {
+          "BinaryOp": [
+            {
+              "State": 0
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        "output_name": "tmp_49"
+      }
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_49"
+          ]
+        },
+        "id"
+      ]
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": 0
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "State": 36
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_Felt252",
+        "input": {
+          "State": 36
+        },
+        "output_name": "tmp_50"
+      }
+    },
+    {
+      "StartBlock": "CondDecodeSmallSign"
+    },
+    {
+      "Intermediate": [
+        "tmp_51",
+        {
+          "MethodCall": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "tmp_50"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "27"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "eq",
+            [
+              {
+                "Const": [
+                  "M31",
+                  "256"
+                ]
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Bool",
+                "tmp_51"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "msb"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_52",
+        {
+          "MethodCall": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "tmp_50"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "20"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "eq",
+            [
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Bool",
+                "tmp_52"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "mid_limbs_set"
+      ]
+    },
+    "EndBlock",
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_50"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "0"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_50"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "1"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_50"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "2"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_2"
+      ]
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          {
+            "State": 36
+          },
+          {
+            "State": 39
+          },
+          {
+            "State": 40
+          },
+          {
+            "State": 41
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 38
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Const": [
+                      "M31",
+                      "136"
+                    ]
+                  },
+                  "*",
+                  {
+                    "State": 37
+                  }
+                ]
+              },
+              "-",
+              {
+                "State": 38
+              }
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 37
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "256"
+                ]
+              }
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          {
+            "State": 0
+          },
+          {
+            "State": 1
+          },
+          {
+            "State": 2
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": 0
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": 41
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "262144"
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": 40
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "512"
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "State": 39
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "-",
+                      {
+                        "State": 37
+                      }
+                    ]
+                  },
+                  "-",
+                  {
+                    "BinaryOp": [
+                      {
+                        "Const": [
+                          "M31",
+                          "134217728"
+                        ]
+                      },
+                      "*",
+                      {
+                        "State": 38
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 1
+              },
+              "+",
+              {
+                "State": 4
+              }
+            ]
+          },
+          {
+            "State": 2
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}

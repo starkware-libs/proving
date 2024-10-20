@@ -1,23 +1,22 @@
 use inst_def::InstDef;
 
+use compiled_casm_air::const_tables::{
+    STWO_COMPONENT_TYPE_RANGE_CHECK_16, STWO_COMPONENT_TYPE_RANGE_CHECK_19,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_2, STWO_COMPONENT_TYPE_RANGE_CHECK_3,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_6, STWO_COMPONENT_TYPE_RANGE_CHECK_9,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3, STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_7_2_5,
+};
+
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 #[cfg(test)]
 use crate::core::variables::*;
 
-const STWO_COMPONENT_TYPE_RANGE_CHECK_2: &str = "RangeCheck2";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_3: &str = "RangeCheck3";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_4: &str = "RangeCheck4";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_5: &str = "RangeCheck5";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_6: &str = "RangeCheck6";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_7: &str = "RangeCheck7";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_8: &str = "RangeCheck8";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_9: &str = "RangeCheck9";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_16: &str = "RangeCheck16";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_19: &str = "RangeCheck19";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_2_5: &str = "RangeCheckVector_2_5";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3: &str = "RangeCheckVector_4_3";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_7_2_5: &str = "RangeCheckVector_7_2_5";
 
 #[derive(Debug, InstDef)]
 pub struct RangeCheck<const N: usize> {

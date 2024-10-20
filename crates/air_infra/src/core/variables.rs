@@ -4,7 +4,9 @@ use std::fmt::Debug;
 use enum_dispatch::enum_dispatch;
 use serde::Serialize;
 
-use super::compiled_structs::*;
+use compiled_casm_air::compiled_structs::CompiledAirVar;
+use compiled_casm_air::prover_types::ProverType;
+
 use super::expressions::biguint_expr::*;
 use super::expressions::bool_expr::*;
 use super::expressions::expr::*;
@@ -15,7 +17,6 @@ use super::expressions::uint16_expr::*;
 use super::expressions::uint32_expr::*;
 use super::expressions::uint64_expr::*;
 use super::expressions::var_expr::*;
-use super::prover_types::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
 use crate::airs::casm::opcodes::generic_opcode::generic_opcode::*;

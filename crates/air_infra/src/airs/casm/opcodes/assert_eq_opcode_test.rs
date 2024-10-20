@@ -1,3 +1,5 @@
+use compiled_casm_air::utils::JSONS_OPCODES_DIR;
+
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::assert_eq_opcode::*;
@@ -21,13 +23,10 @@ fn test_entry_json() {
         is_imm: false,
         memory: Felt252IdMemory::default(),
     });
+    let name = entry.name.to_lowercase();
     compare_json(
-        &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_OPCODES_DIR,
-            entry.name.to_lowercase()
-        ),
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
     );
 
     let (_, entry) = AirFnRegistry::new(&AssertEqOpcode {
@@ -35,13 +34,10 @@ fn test_entry_json() {
         is_imm: false,
         memory: Felt252IdMemory::default(),
     });
+    let name = entry.name.to_lowercase();
     compare_json(
-        &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_OPCODES_DIR,
-            entry.name.to_lowercase()
-        ),
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
     );
 
     let (_, entry) = AirFnRegistry::new(&AssertEqOpcode {
@@ -49,13 +45,10 @@ fn test_entry_json() {
         is_imm: true,
         memory: Felt252IdMemory::default(),
     });
+    let name = entry.name.to_lowercase();
     compare_json(
-        &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_OPCODES_DIR,
-            entry.name.to_lowercase()
-        ),
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
     );
 }
 

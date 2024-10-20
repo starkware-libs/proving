@@ -3,7 +3,7 @@
 #![allow(unused_variables)]
 #![allow(dead_code)]
 use air_code_gen::code_gen::packed_types::{EqExtend, PackedCasmState, PackedM31Type};
-use air_infra::core::prover_types::*;
+use compiled_casm_air::prover_types::*;
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;

@@ -1,9 +1,10 @@
 use inst_def::InstDef;
 
+use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
+
 use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::prover_types::*;
 
 // Macros
 use crate::const_expr;

@@ -1,11 +1,12 @@
 use inst_def::InstDef;
 
+use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
+
 use crate::airs::casm::common::*;
 use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::prover_types::*;
 use crate::core::variables::*;
 
 use super::memory::*;

@@ -1,13 +1,14 @@
 #[cfg(test)]
 use std::collections::BTreeMap;
 
+use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
+
 use crate::airs::casm::common::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 
-use crate::core::prover_types::*;
 #[cfg(test)]
 use crate::core::variables::*;
 

@@ -2,8 +2,9 @@ use enum_dispatch::enum_dispatch;
 use serde::ser::SerializeStruct;
 use serde::{Serialize, Serializer};
 
-use super::super::compiled_structs::*;
-use super::super::prover_types::*;
+use compiled_casm_air::compiled_structs::CompiledAirVar;
+use compiled_casm_air::prover_types::{BigUInt, Bool, Felt252, ProverType, UInt16, UInt32, UInt64};
+
 use super::super::variables::*;
 use super::biguint_expr::*;
 use super::bool_expr::*;

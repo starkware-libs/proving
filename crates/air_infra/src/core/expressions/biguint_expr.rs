@@ -1,4 +1,5 @@
-use super::super::prover_types::*;
+use compiled_casm_air::prover_types::BigUInt;
+
 use super::super::variables::*;
 use super::expr::*;
 use super::felt_expr::*;
@@ -128,9 +129,7 @@ macro_rules! bigu256_expr {
     ($name:expr, $limb0:expr, $limb1:expr, $limb2:expr, $limb3:expr) => {
         BigUIntExpr::<256, 4>::Var($crate::core::expressions::var_expr::VarExpr::new(
             $name.to_string(),
-            Some($crate::core::prover_types::BigUInt::<256, 4>::from([
-                $limb0, $limb1, $limb2, $limb3,
-            ])),
+            Some(BigUInt::<256, 4>::from([$limb0, $limb1, $limb2, $limb3])),
             false,
             false,
             None,

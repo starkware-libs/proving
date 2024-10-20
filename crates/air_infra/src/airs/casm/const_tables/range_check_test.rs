@@ -1,13 +1,75 @@
 use inst_def::InstDef;
 
+use compiled_casm_air::utils::JSONS_LOOKUPS_DIR;
+
 use super::range_check::*;
 
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
+use crate::utils::test_utils::*;
 
 // Macros
 use crate::const_expr;
+
+#[test]
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&RangeCheck { bits: [7, 2, 5] });
+    let name = entry.name.to_lowercase();
+    compare_json(
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&RangeCheck { bits: [4, 3] });
+    let name = entry.name.to_lowercase();
+    compare_json(
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&RangeCheck { bits: [19] });
+    let name = entry.name.to_lowercase();
+    compare_json(
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&RangeCheck { bits: [16] });
+    let name = entry.name.to_lowercase();
+    compare_json(
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&RangeCheck { bits: [9] });
+    let name = entry.name.to_lowercase();
+    compare_json(
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&RangeCheck { bits: [6] });
+    let name = entry.name.to_lowercase();
+    compare_json(
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&RangeCheck { bits: [5] });
+    let name = entry.name.to_lowercase();
+    compare_json(
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
+    );
+
+    let (_, entry) = AirFnRegistry::new(&RangeCheck { bits: [3] });
+    let name = entry.name.to_lowercase();
+    compare_json(
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
+    );
+}
 
 #[derive(Debug, InstDef)]
 struct SmallAdd {}

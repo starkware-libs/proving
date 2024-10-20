@@ -1,0 +1,2635 @@
+{
+  "name": "VerifyInstruction",
+  "description": "VerifyInstruction",
+  "input": {
+    "Tuple": [
+      {
+        "Var": [
+          "M31",
+          "verifyinstruction_input.0"
+        ]
+      },
+      {
+        "Array": [
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.1[0]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.1[1]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.1[2]"
+            ]
+          }
+        ]
+      },
+      {
+        "Array": [
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[0]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[1]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[2]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[3]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[4]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[5]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[6]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[7]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[8]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[9]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[10]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[11]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[12]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[13]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verifyinstruction_input.2[14]"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "Tuple": []
+  },
+  "row_length": 28,
+  "lookup_relation_uses_count": {
+    "RangeCheck_N_3_bits_7_2_5": 1,
+    "RangeCheck_N_2_bits_4_3": 1,
+    "Memory_K_M31_V_M31": 1,
+    "Memory_K_M31_V_Felt252": 1
+  },
+  "input_num_of_felts": 19,
+  "output_num_of_felts": 0,
+  "constraints": [
+    {
+      "StartBlock": "EncodeOffsets"
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": 19
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 20
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "-",
+          {
+            "State": 1
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "State": 21
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": 22
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "4"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 23
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "2048"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "-",
+          {
+            "State": 2
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "State": 24
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": 25
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "16"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 26
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "8192"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          "-",
+          {
+            "State": 3
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_3_bits_7_2_5",
+        "felts": [
+          {
+            "State": 20
+          },
+          {
+            "State": 21
+          },
+          {
+            "State": 23
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_4_3",
+        "felts": [
+          {
+            "State": 24
+          },
+          {
+            "State": 26
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "EncodeFlags"
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 4
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 4
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 5
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 5
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 6
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 6
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 7
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 7
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 8
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 8
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 9
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 9
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 10
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 10
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 11
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 11
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 12
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 12
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 13
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 13
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 14
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 14
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 15
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 15
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 16
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 16
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 17
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 17
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 18
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              },
+              "-",
+              {
+                "State": 18
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "MemVerify"
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          {
+            "State": 0
+          },
+          {
+            "State": 27
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          {
+            "State": 27
+          },
+          {
+            "State": 19
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 20
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 21
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": 22
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 23
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 24
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "32"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": 25
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 26
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "0"
+                                        ]
+                                      },
+                                      "+",
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "State": 4
+                                          },
+                                          "*",
+                                          {
+                                            "Const": [
+                                              "M31",
+                                              "8"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "+",
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "State": 5
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "16"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": 6
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "32"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": 7
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "64"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": 8
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "128"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": 9
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "256"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "Const": [
+                                                  "M31",
+                                                  "0"
+                                                ]
+                                              },
+                                              "+",
+                                              {
+                                                "BinaryOp": [
+                                                  {
+                                                    "State": 10
+                                                  },
+                                                  "*",
+                                                  {
+                                                    "Const": [
+                                                      "M31",
+                                                      "1"
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          "+",
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "State": 11
+                                              },
+                                              "*",
+                                              {
+                                                "Const": [
+                                                  "M31",
+                                                  "2"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      "+",
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "State": 12
+                                          },
+                                          "*",
+                                          {
+                                            "Const": [
+                                              "M31",
+                                              "4"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "+",
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "State": 13
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "8"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": 14
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "16"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": 15
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "32"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": 16
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "64"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": 17
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "128"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 18
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "LookupData": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          {
+            "State": 0
+          },
+          {
+            "State": 1
+          },
+          {
+            "State": 2
+          },
+          {
+            "State": 3
+          },
+          {
+            "State": 4
+          },
+          {
+            "State": 5
+          },
+          {
+            "State": 6
+          },
+          {
+            "State": 7
+          },
+          {
+            "State": 8
+          },
+          {
+            "State": 9
+          },
+          {
+            "State": 10
+          },
+          {
+            "State": 11
+          },
+          {
+            "State": 12
+          },
+          {
+            "State": 13
+          },
+          {
+            "State": 14
+          },
+          {
+            "State": 15
+          },
+          {
+            "State": 16
+          },
+          {
+            "State": 17
+          },
+          {
+            "State": 18
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        {
+          "Tuple": [
+            {
+              "Var": [
+                "M31",
+                "verifyinstruction_input.0"
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.1[0]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.1[1]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.1[2]"
+                  ]
+                }
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[0]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[1]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[2]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[3]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[4]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[5]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[6]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[7]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[8]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[9]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[10]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[11]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[12]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[13]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verifyinstruction_input.2[14]"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.0"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.1[0]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.1[1]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.1[2]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[0]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[1]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[2]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[3]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[4]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[5]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[6]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[7]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[8]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[9]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[10]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[11]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[12]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[13]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.2[14]"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "StartBlock": "EncodeOffsets"
+    },
+    {
+      "Intermediate": [
+        "tmp_11",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": 1
+                  }
+                ]
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "511"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_11"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "offset_0_low"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_12",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": 1
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "9"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_12"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "offset_0_mid"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_13",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": 2
+                  }
+                ]
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "3"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_13"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "offset_1_low"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_14",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "State": 2
+                      }
+                    ]
+                  ]
+                },
+                ">>",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "511"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_14"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "offset_1_mid"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_15",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": 2
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "11"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_15"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "offset_1_high"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_16",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": 3
+                  }
+                ]
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "15"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_16"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "offset_2_low"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_17",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "State": 3
+                      }
+                    ]
+                  ]
+                },
+                ">>",
+                {
+                  "Const": [
+                    "UInt16",
+                    "4"
+                  ]
+                }
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "511"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_17"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "offset_2_mid"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_18",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": 3
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "13"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_18"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "offset_2_high"
+      ]
+    },
+    {
+      "LookupCall": {
+        "fn_name": "RangeCheck_N_3_bits_7_2_5",
+        "input": {
+          "Array": [
+            {
+              "State": 20
+            },
+            {
+              "State": 21
+            },
+            {
+              "State": 23
+            }
+          ]
+        },
+        "output_name": null
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_3_bits_7_2_5",
+        "felts": [
+          {
+            "State": 20
+          },
+          {
+            "State": 21
+          },
+          {
+            "State": 23
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "RangeCheck_N_2_bits_4_3",
+        "input": {
+          "Array": [
+            {
+              "State": 24
+            },
+            {
+              "State": 26
+            }
+          ]
+        },
+        "output_name": null
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_4_3",
+        "felts": [
+          {
+            "State": 24
+          },
+          {
+            "State": 26
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "EncodeFlags"
+    },
+    "EndBlock",
+    {
+      "StartBlock": "MemVerify"
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_M31",
+        "input": {
+          "State": 0
+        },
+        "output_name": "tmp_24"
+      }
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_24"
+          ]
+        },
+        "id"
+      ]
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          {
+            "State": 0
+          },
+          {
+            "State": 27
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          {
+            "State": 27
+          },
+          {
+            "State": 19
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 20
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 21
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": 22
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 23
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 24
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "32"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": 25
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 26
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "0"
+                                        ]
+                                      },
+                                      "+",
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "State": 4
+                                          },
+                                          "*",
+                                          {
+                                            "Const": [
+                                              "M31",
+                                              "8"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "+",
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "State": 5
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "16"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": 6
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "32"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": 7
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "64"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": 8
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "128"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": 9
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "256"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "Const": [
+                                                  "M31",
+                                                  "0"
+                                                ]
+                                              },
+                                              "+",
+                                              {
+                                                "BinaryOp": [
+                                                  {
+                                                    "State": 10
+                                                  },
+                                                  "*",
+                                                  {
+                                                    "Const": [
+                                                      "M31",
+                                                      "1"
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          "+",
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "State": 11
+                                              },
+                                              "*",
+                                              {
+                                                "Const": [
+                                                  "M31",
+                                                  "2"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      "+",
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "State": 12
+                                          },
+                                          "*",
+                                          {
+                                            "Const": [
+                                              "M31",
+                                              "4"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "+",
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "State": 13
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "8"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": 14
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "16"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": 15
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "32"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": 16
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "64"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": 17
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "128"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 18
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "LookupData": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          {
+            "State": 0
+          },
+          {
+            "State": 1
+          },
+          {
+            "State": 2
+          },
+          {
+            "State": 3
+          },
+          {
+            "State": 4
+          },
+          {
+            "State": 5
+          },
+          {
+            "State": 6
+          },
+          {
+            "State": 7
+          },
+          {
+            "State": 8
+          },
+          {
+            "State": 9
+          },
+          {
+            "State": 10
+          },
+          {
+            "State": 11
+          },
+          {
+            "State": 12
+          },
+          {
+            "State": 13
+          },
+          {
+            "State": 14
+          },
+          {
+            "State": 15
+          },
+          {
+            "State": 16
+          },
+          {
+            "State": 17
+          },
+          {
+            "State": 18
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}

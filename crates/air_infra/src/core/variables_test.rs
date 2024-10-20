@@ -1,9 +1,10 @@
+use compiled_casm_air::compiled_structs::CompiledAirVar;
+use compiled_casm_air::prover_types::Bool;
+
 use super::air_fn_registry::*;
 use super::expressions::bool_expr::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
-
-use crate::core::compiled_structs::*;
 
 // Macros
 use crate::bool_expr;

@@ -1,3 +1,5 @@
+use compiled_casm_air::utils::JSONS_BUILTINS_DIR;
+
 use super::bitwise::*;
 
 use crate::airs::felt252_id_memory::memory::*;
@@ -13,13 +15,10 @@ use crate::const_felt252_expr;
 #[test]
 fn test_entry_json() {
     let (_, entry) = AirFnRegistry::new(&BitwiseBuiltin::default());
+    let name = entry.name.to_lowercase();
     compare_json(
-        &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_BUILTINS_DIR,
-            entry.name.to_lowercase()
-        ),
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_BUILTINS_DIR, name),
     );
 }
 

@@ -6,9 +6,8 @@ pub mod utils;
 
 #[cfg(test)]
 mod tests {
-    // TODO(AnatG): move these to a different crate
-    use air_infra::core::compiled_structs::CompiledAirFn;
-    use air_infra::core::utils::read_json;
+    use compiled_casm_air::compiled_structs::CompiledAirFn;
+    use compiled_casm_air::utils::read_json;
     use serde_json::from_value;
 
     use crate::code_gen::utils::{compare_contents_or_fix_with_path, project_root};

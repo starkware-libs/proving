@@ -1,6 +1,6 @@
 use std::collections::HashMap;
 
-use air_infra::core::compiled_structs::{
+use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, LookupData, TraceGenStep, UseOrYield,
 };
 use genco::lang::{rust, Rust};
@@ -386,7 +386,7 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(unused_imports)]
         use air_code_gen::code_gen::packed_types::*;
-        use air_infra::core::prover_types::*;
+        use compiled_casm_air::prover_types::*;
         use itertools::{chain, zip_eq, Itertools};
         use num_traits::{One, Zero};
         use stwo_prover::constraint_framework::logup::LogupTraceGenerator;

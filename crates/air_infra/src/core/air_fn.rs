@@ -5,8 +5,9 @@ use std::hash::{DefaultHasher, Hash, Hasher};
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
+use compiled_casm_air::compiled_structs::UseOrYield;
+
 use super::air_fn_registry::*;
-use super::compiled_structs::*;
 use super::expressions::felt_expr::*;
 use super::memory::*;
 use super::state::*;

@@ -1,4 +1,5 @@
-use super::super::prover_types::*;
+use compiled_casm_air::prover_types::{Bool, SingleFeltType};
+
 use super::super::variables::*;
 use super::expr::*;
 use super::felt_expr::*;
@@ -82,7 +83,7 @@ macro_rules! bool_expr {
     ($name:expr, $val:expr) => {
         BoolExpr::Var($crate::core::expressions::var_expr::VarExpr::new(
             $name.to_string(),
-            Some($crate::core::prover_types::Bool::from($val)),
+            Some(Bool::from($val)),
             false,
             false,
             None,

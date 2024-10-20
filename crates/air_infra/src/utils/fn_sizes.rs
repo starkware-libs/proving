@@ -1,8 +1,9 @@
+use compiled_casm_air::compiled_structs::{CompiledAirFn, ConstraintEvalStep, TraceGenStep};
+
 use crate::airs::casm::opcodes::call_opcode::*;
 use crate::airs::casm::opcodes::jump_opcode::*;
 use crate::airs::casm::opcodes::ret_opcode::*;
 use crate::core::air_fn_registry::*;
-use crate::core::compiled_structs::*;
 
 fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
     let mut trace_cells_used = 0;

@@ -1,0 +1,7348 @@
+{
+  "name": "AddOpcode_is_small_f_is_imm_t",
+  "description": "AddOpcode_is_small_f_is_imm_t",
+  "input": {
+    "Var": [
+      "CasmState",
+      "addopcode_is_small_f_is_imm_t_input"
+    ]
+  },
+  "output": {
+    "Struct": {
+      "type": "CasmState",
+      "fields": [
+        [
+          "pc",
+          {
+            "BinaryOp": [
+              {
+                "State": 0
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "2"
+                ]
+              }
+            ]
+          }
+        ],
+        [
+          "ap",
+          {
+            "BinaryOp": [
+              {
+                "State": 1
+              },
+              "+",
+              {
+                "State": 7
+              }
+            ]
+          }
+        ],
+        [
+          "fp",
+          {
+            "State": 2
+          }
+        ]
+      ]
+    }
+  },
+  "row_length": 96,
+  "lookup_relation_uses_count": {
+    "VerifyInstruction": 1,
+    "Memory_K_M31_V_M31": 3,
+    "Memory_K_M31_V_Felt252": 3,
+    "opcodes": 1
+  },
+  "input_num_of_felts": 3,
+  "output_num_of_felts": 3,
+  "constraints": [
+    {
+      "StartBlock": "DecodeInstruction_9aed6a790187299c"
+    },
+    {
+      "LookupData": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          {
+            "State": 0
+          },
+          {
+            "State": 3
+          },
+          {
+            "State": 4
+          },
+          {
+            "Const": [
+              "M31",
+              "32769"
+            ]
+          },
+          {
+            "State": 5
+          },
+          {
+            "State": 6
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "State": 7
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "ReadPositive_num_bits_252"
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": 5
+                      },
+                      "*",
+                      {
+                        "State": 2
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "Const": [
+                              "M31",
+                              "1"
+                            ]
+                          },
+                          "-",
+                          {
+                            "State": 5
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "State": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 3
+                  },
+                  "-",
+                  {
+                    "Const": [
+                      "M31",
+                      "32768"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": 8
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          {
+            "State": 8
+          },
+          {
+            "State": 9
+          },
+          {
+            "State": 10
+          },
+          {
+            "State": 11
+          },
+          {
+            "State": 12
+          },
+          {
+            "State": 13
+          },
+          {
+            "State": 14
+          },
+          {
+            "State": 15
+          },
+          {
+            "State": 16
+          },
+          {
+            "State": 17
+          },
+          {
+            "State": 18
+          },
+          {
+            "State": 19
+          },
+          {
+            "State": 20
+          },
+          {
+            "State": 21
+          },
+          {
+            "State": 22
+          },
+          {
+            "State": 23
+          },
+          {
+            "State": 24
+          },
+          {
+            "State": 25
+          },
+          {
+            "State": 26
+          },
+          {
+            "State": 27
+          },
+          {
+            "State": 28
+          },
+          {
+            "State": 29
+          },
+          {
+            "State": 30
+          },
+          {
+            "State": 31
+          },
+          {
+            "State": 32
+          },
+          {
+            "State": 33
+          },
+          {
+            "State": 34
+          },
+          {
+            "State": 35
+          },
+          {
+            "State": 36
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "ReadPositive_num_bits_252"
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": 6
+                      },
+                      "*",
+                      {
+                        "State": 2
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "Const": [
+                              "M31",
+                              "1"
+                            ]
+                          },
+                          "-",
+                          {
+                            "State": 6
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "State": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 4
+                  },
+                  "-",
+                  {
+                    "Const": [
+                      "M31",
+                      "32768"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": 37
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          {
+            "State": 37
+          },
+          {
+            "State": 38
+          },
+          {
+            "State": 39
+          },
+          {
+            "State": 40
+          },
+          {
+            "State": 41
+          },
+          {
+            "State": 42
+          },
+          {
+            "State": 43
+          },
+          {
+            "State": 44
+          },
+          {
+            "State": 45
+          },
+          {
+            "State": 46
+          },
+          {
+            "State": 47
+          },
+          {
+            "State": 48
+          },
+          {
+            "State": 49
+          },
+          {
+            "State": 50
+          },
+          {
+            "State": 51
+          },
+          {
+            "State": 52
+          },
+          {
+            "State": 53
+          },
+          {
+            "State": 54
+          },
+          {
+            "State": 55
+          },
+          {
+            "State": 56
+          },
+          {
+            "State": 57
+          },
+          {
+            "State": 58
+          },
+          {
+            "State": 59
+          },
+          {
+            "State": 60
+          },
+          {
+            "State": 61
+          },
+          {
+            "State": 62
+          },
+          {
+            "State": 63
+          },
+          {
+            "State": 64
+          },
+          {
+            "State": 65
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "ReadPositive_num_bits_252"
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": 0
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "State": 66
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          {
+            "State": 66
+          },
+          {
+            "State": 67
+          },
+          {
+            "State": 68
+          },
+          {
+            "State": 69
+          },
+          {
+            "State": 70
+          },
+          {
+            "State": 71
+          },
+          {
+            "State": 72
+          },
+          {
+            "State": 73
+          },
+          {
+            "State": 74
+          },
+          {
+            "State": 75
+          },
+          {
+            "State": 76
+          },
+          {
+            "State": 77
+          },
+          {
+            "State": 78
+          },
+          {
+            "State": 79
+          },
+          {
+            "State": 80
+          },
+          {
+            "State": 81
+          },
+          {
+            "State": 82
+          },
+          {
+            "State": 83
+          },
+          {
+            "State": 84
+          },
+          {
+            "State": 85
+          },
+          {
+            "State": 86
+          },
+          {
+            "State": 87
+          },
+          {
+            "State": 88
+          },
+          {
+            "State": 89
+          },
+          {
+            "State": 90
+          },
+          {
+            "State": 91
+          },
+          {
+            "State": 92
+          },
+          {
+            "State": 93
+          },
+          {
+            "State": 94
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "VerifyAdd252"
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "State": 95
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "State": 95
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_79",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 38
+                            },
+                            "+",
+                            {
+                              "State": 67
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Const": [
+                            "M31",
+                            "0"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 9
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "1"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_79"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_79"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_79"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_80",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 39
+                            },
+                            "+",
+                            {
+                              "State": 68
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_79"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 10
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_80"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_80"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_80"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_81",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 40
+                            },
+                            "+",
+                            {
+                              "State": 69
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_80"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 11
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_81"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_81"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_81"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_82",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 41
+                            },
+                            "+",
+                            {
+                              "State": 70
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_81"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 12
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_82"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_82"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_82"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_83",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 42
+                            },
+                            "+",
+                            {
+                              "State": 71
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_82"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 13
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_83"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_83"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_83"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_84",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 43
+                            },
+                            "+",
+                            {
+                              "State": 72
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_83"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 14
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_84"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_84"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_84"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_85",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 44
+                            },
+                            "+",
+                            {
+                              "State": 73
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_84"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 15
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_85"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_85"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_85"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_86",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 45
+                            },
+                            "+",
+                            {
+                              "State": 74
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_85"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 16
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_86"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_86"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_86"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_87",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 46
+                            },
+                            "+",
+                            {
+                              "State": 75
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_86"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 17
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_87"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_87"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_87"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_88",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 47
+                            },
+                            "+",
+                            {
+                              "State": 76
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_87"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 18
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_88"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_88"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_88"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_89",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 48
+                            },
+                            "+",
+                            {
+                              "State": 77
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_88"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 19
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_89"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_89"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_89"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_90",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 49
+                            },
+                            "+",
+                            {
+                              "State": 78
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_89"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 20
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_90"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_90"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_90"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_91",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 50
+                            },
+                            "+",
+                            {
+                              "State": 79
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_90"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 21
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_91"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_91"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_91"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_92",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 51
+                            },
+                            "+",
+                            {
+                              "State": 80
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_91"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 22
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_92"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_92"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_92"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_93",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 52
+                            },
+                            "+",
+                            {
+                              "State": 81
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_92"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 23
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_93"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_93"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_93"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_94",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 53
+                            },
+                            "+",
+                            {
+                              "State": 82
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_93"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 24
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_94"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_94"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_94"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_95",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 54
+                            },
+                            "+",
+                            {
+                              "State": 83
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_94"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 25
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_95"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_95"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_95"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_96",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 55
+                            },
+                            "+",
+                            {
+                              "State": 84
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_95"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 26
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_96"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_96"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_96"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_97",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 56
+                            },
+                            "+",
+                            {
+                              "State": 85
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_96"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 27
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_97"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_97"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_97"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_98",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 57
+                            },
+                            "+",
+                            {
+                              "State": 86
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_97"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 28
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_98"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_98"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_98"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_99",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 58
+                            },
+                            "+",
+                            {
+                              "State": 87
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_98"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 29
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_99"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_99"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_99"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_100",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 59
+                            },
+                            "+",
+                            {
+                              "State": 88
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_99"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 30
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "136"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_100"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_100"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_100"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_101",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 60
+                            },
+                            "+",
+                            {
+                              "State": 89
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_100"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 31
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_101"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_101"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_101"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_102",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 61
+                            },
+                            "+",
+                            {
+                              "State": 90
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_101"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 32
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_102"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_102"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_102"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_103",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 62
+                            },
+                            "+",
+                            {
+                              "State": 91
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_102"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 33
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_103"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_103"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_103"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_104",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 63
+                            },
+                            "+",
+                            {
+                              "State": 92
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_103"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 34
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_104"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_104"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_104"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_105",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 64
+                            },
+                            "+",
+                            {
+                              "State": 93
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "tmp_104"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 35
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "0"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 95
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "Var": [
+              "M31",
+              "tmp_105"
+            ]
+          },
+          "*",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_105"
+                    ]
+                  },
+                  "*",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_105"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "Constraint": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": 65
+                      },
+                      "+",
+                      {
+                        "State": 94
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "Var": [
+                      "M31",
+                      "tmp_105"
+                    ]
+                  }
+                ]
+              },
+              "-",
+              {
+                "State": 36
+              }
+            ]
+          },
+          "-",
+          {
+            "BinaryOp": [
+              {
+                "Const": [
+                  "M31",
+                  "256"
+                ]
+              },
+              "*",
+              {
+                "State": 95
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          {
+            "State": 0
+          },
+          {
+            "State": 1
+          },
+          {
+            "State": 2
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": 0
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "2"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 1
+              },
+              "+",
+              {
+                "State": 7
+              }
+            ]
+          },
+          {
+            "State": 2
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        {
+          "Var": [
+            "CasmState",
+            "addopcode_is_small_f_is_imm_t_input"
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.pc"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.ap"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_0.fp"
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "StartBlock": "DecodeInstruction_9aed6a790187299c"
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_M31",
+        "input": {
+          "State": 0
+        },
+        "output_name": "tmp_34"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_Felt252",
+        "input": {
+          "Var": [
+            "M31",
+            "tmp_34"
+          ]
+        },
+        "output_name": "tmp_35"
+      }
+    },
+    {
+      "Intermediate": [
+        "tmp_36",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "tmp_35"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "0"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "StaticCall": [
+                        "UInt16::from_m31",
+                        [
+                          {
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "Felt252",
+                                  "tmp_35"
+                                ]
+                              },
+                              "get_m31",
+                              [
+                                {
+                                  "Const": [
+                                    "usize",
+                                    "1"
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "&",
+                    {
+                      "Const": [
+                        "UInt16",
+                        "127"
+                      ]
+                    }
+                  ]
+                },
+                "<<",
+                {
+                  "Const": [
+                    "UInt16",
+                    "9"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_36"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "offset_0"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_37",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "StaticCall": [
+                        "UInt16::from_m31",
+                        [
+                          {
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "Felt252",
+                                  "tmp_35"
+                                ]
+                              },
+                              "get_m31",
+                              [
+                                {
+                                  "Const": [
+                                    "usize",
+                                    "1"
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    ">>",
+                    {
+                      "Const": [
+                        "UInt16",
+                        "7"
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "StaticCall": [
+                        "UInt16::from_m31",
+                        [
+                          {
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "Felt252",
+                                  "tmp_35"
+                                ]
+                              },
+                              "get_m31",
+                              [
+                                {
+                                  "Const": [
+                                    "usize",
+                                    "2"
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "<<",
+                    {
+                      "Const": [
+                        "UInt16",
+                        "2"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "StaticCall": [
+                        "UInt16::from_m31",
+                        [
+                          {
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "Felt252",
+                                  "tmp_35"
+                                ]
+                              },
+                              "get_m31",
+                              [
+                                {
+                                  "Const": [
+                                    "usize",
+                                    "3"
+                                  ]
+                                }
+                              ]
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "&",
+                    {
+                      "Const": [
+                        "UInt16",
+                        "31"
+                      ]
+                    }
+                  ]
+                },
+                "<<",
+                {
+                  "Const": [
+                    "UInt16",
+                    "11"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_37"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "offset_1"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_38",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "tmp_35"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "5"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        ">>",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "3"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "tmp_35"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "6"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        "<<",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "6"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                ">>",
+                {
+                  "Const": [
+                    "UInt16",
+                    "0"
+                  ]
+                }
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_38"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "dst_base_fp"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_39",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "tmp_35"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "5"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        ">>",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "3"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "tmp_35"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "6"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        "<<",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "6"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                ">>",
+                {
+                  "Const": [
+                    "UInt16",
+                    "1"
+                  ]
+                }
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_39"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "op0_base_fp"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_40",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "tmp_35"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "5"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        ">>",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "3"
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "StaticCall": [
+                            "UInt16::from_m31",
+                            [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252",
+                                      "tmp_35"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "6"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        "<<",
+                        {
+                          "Const": [
+                            "UInt16",
+                            "6"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                ">>",
+                {
+                  "Const": [
+                    "UInt16",
+                    "11"
+                  ]
+                }
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_40"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "ap_update_add_1"
+      ]
+    },
+    {
+      "LookupCall": {
+        "fn_name": "VerifyInstruction",
+        "input": {
+          "Tuple": [
+            {
+              "State": 0
+            },
+            {
+              "Array": [
+                {
+                  "State": 3
+                },
+                {
+                  "State": 4
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "32769"
+                  ]
+                }
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "State": 5
+                },
+                {
+                  "State": 6
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "State": 7
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_name": null
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          {
+            "State": 0
+          },
+          {
+            "State": 3
+          },
+          {
+            "State": 4
+          },
+          {
+            "Const": [
+              "M31",
+              "32769"
+            ]
+          },
+          {
+            "State": 5
+          },
+          {
+            "State": 6
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "State": 7
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "1"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "ReadPositive_num_bits_252"
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_M31",
+        "input": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 5
+                    },
+                    "*",
+                    {
+                      "State": 2
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "1"
+                          ]
+                        },
+                        "-",
+                        {
+                          "State": 5
+                        }
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 1
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 3
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "32768"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_name": "tmp_44"
+      }
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_44"
+          ]
+        },
+        "id"
+      ]
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": 5
+                      },
+                      "*",
+                      {
+                        "State": 2
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "Const": [
+                              "M31",
+                              "1"
+                            ]
+                          },
+                          "-",
+                          {
+                            "State": 5
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "State": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 3
+                  },
+                  "-",
+                  {
+                    "Const": [
+                      "M31",
+                      "32768"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": 8
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_Felt252",
+        "input": {
+          "State": 8
+        },
+        "output_name": "tmp_45"
+      }
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "0"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "1"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "2"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_2"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "3"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "4"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "5"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_5"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "6"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "7"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "8"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_8"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "9"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_9"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "10"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_10"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "11"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_11"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "12"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_12"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "13"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_13"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "14"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_14"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "15"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_15"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "16"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_16"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "17"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_17"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "18"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_18"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "19"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_19"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "20"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_20"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "21"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_21"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "22"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_22"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "23"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_23"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "24"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_24"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "25"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_25"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "26"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_26"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_45"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "27"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_27"
+      ]
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          {
+            "State": 8
+          },
+          {
+            "State": 9
+          },
+          {
+            "State": 10
+          },
+          {
+            "State": 11
+          },
+          {
+            "State": 12
+          },
+          {
+            "State": 13
+          },
+          {
+            "State": 14
+          },
+          {
+            "State": 15
+          },
+          {
+            "State": 16
+          },
+          {
+            "State": 17
+          },
+          {
+            "State": 18
+          },
+          {
+            "State": 19
+          },
+          {
+            "State": 20
+          },
+          {
+            "State": 21
+          },
+          {
+            "State": 22
+          },
+          {
+            "State": 23
+          },
+          {
+            "State": 24
+          },
+          {
+            "State": 25
+          },
+          {
+            "State": 26
+          },
+          {
+            "State": 27
+          },
+          {
+            "State": 28
+          },
+          {
+            "State": 29
+          },
+          {
+            "State": 30
+          },
+          {
+            "State": 31
+          },
+          {
+            "State": 32
+          },
+          {
+            "State": 33
+          },
+          {
+            "State": 34
+          },
+          {
+            "State": 35
+          },
+          {
+            "State": 36
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "ReadPositive_num_bits_252"
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_M31",
+        "input": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 6
+                    },
+                    "*",
+                    {
+                      "State": 2
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "1"
+                          ]
+                        },
+                        "-",
+                        {
+                          "State": 6
+                        }
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 1
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": 4
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "32768"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "output_name": "tmp_46"
+      }
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_46"
+          ]
+        },
+        "id"
+      ]
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": 6
+                      },
+                      "*",
+                      {
+                        "State": 2
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "Const": [
+                              "M31",
+                              "1"
+                            ]
+                          },
+                          "-",
+                          {
+                            "State": 6
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "State": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": 4
+                  },
+                  "-",
+                  {
+                    "Const": [
+                      "M31",
+                      "32768"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": 37
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_Felt252",
+        "input": {
+          "State": 37
+        },
+        "output_name": "tmp_47"
+      }
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "0"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "1"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "2"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_2"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "3"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "4"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "5"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_5"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "6"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "7"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "8"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_8"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "9"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_9"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "10"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_10"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "11"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_11"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "12"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_12"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "13"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_13"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "14"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_14"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "15"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_15"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "16"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_16"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "17"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_17"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "18"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_18"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "19"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_19"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "20"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_20"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "21"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_21"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "22"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_22"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "23"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_23"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "24"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_24"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "25"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_25"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "26"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_26"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_47"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "27"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_27"
+      ]
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          {
+            "State": 37
+          },
+          {
+            "State": 38
+          },
+          {
+            "State": 39
+          },
+          {
+            "State": 40
+          },
+          {
+            "State": 41
+          },
+          {
+            "State": 42
+          },
+          {
+            "State": 43
+          },
+          {
+            "State": 44
+          },
+          {
+            "State": 45
+          },
+          {
+            "State": 46
+          },
+          {
+            "State": 47
+          },
+          {
+            "State": 48
+          },
+          {
+            "State": 49
+          },
+          {
+            "State": 50
+          },
+          {
+            "State": 51
+          },
+          {
+            "State": 52
+          },
+          {
+            "State": 53
+          },
+          {
+            "State": 54
+          },
+          {
+            "State": 55
+          },
+          {
+            "State": 56
+          },
+          {
+            "State": 57
+          },
+          {
+            "State": 58
+          },
+          {
+            "State": 59
+          },
+          {
+            "State": 60
+          },
+          {
+            "State": 61
+          },
+          {
+            "State": 62
+          },
+          {
+            "State": 63
+          },
+          {
+            "State": 64
+          },
+          {
+            "State": 65
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "ReadPositive_num_bits_252"
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_M31",
+        "input": {
+          "BinaryOp": [
+            {
+              "State": 0
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        "output_name": "tmp_48"
+      }
+    },
+    {
+      "Deduction": [
+        {
+          "Var": [
+            "M31",
+            "tmp_48"
+          ]
+        },
+        "id"
+      ]
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_M31",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": 0
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "State": 66
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "Memory_K_M31_V_Felt252",
+        "input": {
+          "State": 66
+        },
+        "output_name": "tmp_49"
+      }
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "0"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "1"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "2"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_2"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "3"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "4"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "5"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_5"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "6"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "7"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "8"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_8"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "9"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_9"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "10"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_10"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "11"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_11"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "12"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_12"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "13"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_13"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "14"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_14"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "15"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_15"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "16"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_16"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "17"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_17"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "18"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_18"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "19"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_19"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "20"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_20"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "21"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_21"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "22"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_22"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "23"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_23"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "24"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_24"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "25"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_25"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "26"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_26"
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "Felt252",
+                "tmp_49"
+              ]
+            },
+            "get_m31",
+            [
+              {
+                "Const": [
+                  "usize",
+                  "27"
+                ]
+              }
+            ]
+          ]
+        },
+        "limb_27"
+      ]
+    },
+    {
+      "LookupData": {
+        "relation_name": "Memory_K_M31_V_Felt252",
+        "felts": [
+          {
+            "State": 66
+          },
+          {
+            "State": 67
+          },
+          {
+            "State": 68
+          },
+          {
+            "State": 69
+          },
+          {
+            "State": 70
+          },
+          {
+            "State": 71
+          },
+          {
+            "State": 72
+          },
+          {
+            "State": 73
+          },
+          {
+            "State": 74
+          },
+          {
+            "State": 75
+          },
+          {
+            "State": 76
+          },
+          {
+            "State": 77
+          },
+          {
+            "State": 78
+          },
+          {
+            "State": 79
+          },
+          {
+            "State": 80
+          },
+          {
+            "State": 81
+          },
+          {
+            "State": 82
+          },
+          {
+            "State": 83
+          },
+          {
+            "State": 84
+          },
+          {
+            "State": 85
+          },
+          {
+            "State": 86
+          },
+          {
+            "State": 87
+          },
+          {
+            "State": 88
+          },
+          {
+            "State": 89
+          },
+          {
+            "State": 90
+          },
+          {
+            "State": 91
+          },
+          {
+            "State": 92
+          },
+          {
+            "State": 93
+          },
+          {
+            "State": 94
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "VerifyAdd252"
+    },
+    {
+      "Intermediate": [
+        "tmp_78",
+        {
+          "BinaryOp": [
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            },
+            "&",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "StaticCall": [
+                        "UInt16::from_m31",
+                        [
+                          {
+                            "State": 38
+                          }
+                        ]
+                      ]
+                    },
+                    "^",
+                    {
+                      "StaticCall": [
+                        "UInt16::from_m31",
+                        [
+                          {
+                            "State": 67
+                          }
+                        ]
+                      ]
+                    }
+                  ]
+                },
+                "^",
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "State": 9
+                      }
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        {
+          "MethodCall": [
+            {
+              "Var": [
+                "UInt16",
+                "tmp_78"
+              ]
+            },
+            "as_m31",
+            []
+          ]
+        },
+        "sub_p_bit"
+      ]
+    },
+    "EndBlock",
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          {
+            "State": 0
+          },
+          {
+            "State": 1
+          },
+          {
+            "State": 2
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": 0
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "2"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": 1
+              },
+              "+",
+              {
+                "State": 7
+              }
+            ]
+          },
+          {
+            "State": 2
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}

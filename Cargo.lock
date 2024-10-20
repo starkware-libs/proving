@@ -6,7 +6,7 @@ version = 3
 name = "air_code_gen"
 version = "0.1.0"
 dependencies = [
- "air_infra",
+ "compiled_casm_air",
  "genco",
  "indexmap",
  "itertools 0.12.1",
@@ -24,6 +24,7 @@ name = "air_infra"
 version = "0.1.0"
 dependencies = [
  "clap",
+ "compiled_casm_air",
  "enum_dispatch",
  "indexmap",
  "inst_def",
@@ -414,6 +415,18 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d3fd119d74b830634cea2a0f58bbd0d54540518a14397557951e79340abc28c0"
 
 [[package]]
+name = "compiled_casm_air"
+version = "0.1.0"
+dependencies = [
+ "indexmap",
+ "ruint",
+ "serde",
+ "serde_json",
+ "starknet-ff",
+ "stwo-prover",
+]
+
+[[package]]
 name = "constant_time_eq"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -626,7 +639,7 @@ name = "generated_components"
 version = "0.1.0"
 dependencies = [
  "air_code_gen",
- "air_infra",
+ "compiled_casm_air",
  "indexmap",
  "itertools 0.12.1",
  "num-traits",

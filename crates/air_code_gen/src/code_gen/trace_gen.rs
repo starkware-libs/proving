@@ -1,7 +1,7 @@
 use core::panic;
 use std::collections::{HashMap, HashSet};
 
-use air_infra::core::compiled_structs::{CompiledAirVar, LookupData, TraceGenStep};
+use compiled_casm_air::compiled_structs::{CompiledAirVar, LookupData, TraceGenStep};
 use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
@@ -340,7 +340,7 @@ fn to_component_body(component_name: &str) -> rust::Tokens {
 fn generate_imports_code(component_name: &str, deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(unused_imports)]
-        use air_infra::core::prover_types::*;
+        use compiled_casm_air::prover_types::*;
         use itertools::Itertools;
         use num_traits::Zero;
         use stwo_prover::core::air::Component;

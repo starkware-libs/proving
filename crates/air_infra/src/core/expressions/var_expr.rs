@@ -1,6 +1,7 @@
+use compiled_casm_air::compiled_structs::CompiledAirVar;
+use compiled_casm_air::prover_types::ProverType;
+
 use super::super::air_fn_registry::*;
-use super::super::compiled_structs::*;
-use super::super::prover_types::*;
 use super::super::variables::*;
 use super::expr::*;
 

@@ -1,5 +1,7 @@
 use inst_def::InstDef;
 
+use compiled_casm_air::const_tables::STWO_COMPONENT_TYPE_SEQ;
+
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 #[cfg(test)]
@@ -15,6 +17,10 @@ pub struct Seq {}
 impl AirFn for Seq {
     type In = ();
     type Out = FeltExpr;
+
+    fn name(&self) -> String {
+        STWO_COMPONENT_TYPE_SEQ.to_string()
+    }
 
     fn call(&self, _air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
         #[cfg(test)]

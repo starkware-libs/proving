@@ -1,4 +1,5 @@
-use super::super::prover_types::*;
+use compiled_casm_air::prover_types::{Felt252, FELT252_N_WORDS};
+
 use super::super::variables::*;
 use super::expr::*;
 use super::felt_expr::*;
@@ -147,7 +148,7 @@ macro_rules! felt252_expr {
     ($name:expr, $low:expr, $high:expr) => {
         Felt252Expr::Var($crate::core::expressions::var_expr::VarExpr::new(
             $name.to_string(),
-            Some($crate::core::prover_types::Felt252::from([
+            Some(Felt252::from([
                 ($low & 0xffffffff_ffffffffu128) as u64,
                 ($low as u128 >> 64) as u64,
                 ($high & 0xffffffff_ffffffffu128) as u64,
