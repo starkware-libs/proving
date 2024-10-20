@@ -270,7 +270,10 @@ pub fn seek_consts(expr: &CompiledAirVar) -> HashSet<(String, String)> {
     let mut hashset = HashSet::new();
     let mut insert = |expr: &CompiledAirVar| {
         if let CompiledAirVar::Const(ty, val) = expr {
-            hashset.insert((ty.to_string(), val.to_string()));
+            // Usize are used for array indexing, handled differently.
+            if ty != "usize" {
+                hashset.insert((ty.to_string(), val.to_string()));
+            }
         }
     };
     expr_iterator(expr, &mut insert);

@@ -123,9 +123,6 @@ pub fn write_trace_simd(
     let M31_32769 = PackedM31::broadcast(M31::from(32769));
     let M31_511 = PackedM31::broadcast(M31::from(511));
     let M31_512 = PackedM31::broadcast(M31::from(512));
-    let usize_0 = Packedusize::broadcast(usize::from(0));
-    let usize_1 = Packedusize::broadcast(usize::from(1));
-    let usize_2 = Packedusize::broadcast(usize::from(2));
 
     inputs.into_iter().enumerate().for_each(
         |(row_index, addapopcode_is_imm_t_op1_base_fp_f_input)| {
