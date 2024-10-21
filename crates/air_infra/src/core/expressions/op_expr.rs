@@ -129,6 +129,7 @@ pub enum Operation {
     Felt252FromFelt,
     Felt252FromBigUInt256,
     UInt32FromFelt,
+    UInt32FromFeltsPair,
     BigUInt512FromUInt64Array,
     BigUInt256FromUInt64Array,
     BigUInt256FromBigUInt512,
@@ -162,6 +163,7 @@ impl Display for Operation {
             Operation::Felt252FromFelt => write!(f, "Felt252::from_m31"),
             Operation::Felt252FromBigUInt256 => write!(f, "Felt252::from_biguint256"),
             Operation::UInt32FromFelt => write!(f, "UInt32::from_m31"),
+            Operation::UInt32FromFeltsPair => write!(f, "UInt32::from_limbs"),
             Operation::BigUInt512FromUInt64Array => write!(f, "BigUInt::<512, 8>::from_limbs"),
             Operation::BigUInt256FromUInt64Array => write!(f, "BigUInt::<256, 4>::from_limbs"),
             Operation::BigUInt256FromBigUInt512 => {
@@ -187,6 +189,7 @@ impl From<Operation> for OpType {
             Operation::Felt252FromFelt => OpType::Static(op.to_string()),
             Operation::Felt252FromBigUInt256 => OpType::Static(op.to_string()),
             Operation::UInt32FromFelt => OpType::Static(op.to_string()),
+            Operation::UInt32FromFeltsPair => OpType::Static(op.to_string()),
             Operation::BigUInt512FromUInt64Array => OpType::Static(op.to_string()),
             Operation::BigUInt256FromUInt64Array => OpType::Static(op.to_string()),
             Operation::BigUInt256FromBigUInt512 => OpType::Static(op.to_string()),
@@ -283,6 +286,21 @@ impl<const B: usize, const L: usize> BigUIntExpr<B, L> {
         BigUIntExpr::Op(BigUIntOperation::new(
             Operation::WideningMul,
             vec![self.into(), other.into()],
+            value,
+        ))
+    }
+}
+
+impl From<(FeltExpr, FeltExpr)> for UInt32Expr {
+    fn from((low, high): (FeltExpr, FeltExpr)) -> UInt32Expr {
+        let value = low
+            .value()
+            .zip(high.value())
+            .map(|(l, h)| UInt32::from_limbs(l, h));
+
+        UInt32Expr::Op(OpExpr::new(
+            Operation::UInt32FromFeltsPair,
+            vec![low.into(), high.into()],
             value,
         ))
     }

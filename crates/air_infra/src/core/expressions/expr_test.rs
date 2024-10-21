@@ -62,7 +62,15 @@ fn test_uint32() {
 
     let mut res = u32_expr!("c".to_string(), 0xFFFF + 1);
     assert_eq!(res.low_mut().calc(), 0.to_string());
+    assert_eq!(&CompiledAirVar::from(res.low()).to_string(), "c.low()");
     assert_eq!(res.high_mut().calc(), 1.to_string());
+    assert_eq!(&CompiledAirVar::from(res.high()).to_string(), "c.high()");
+
+    let d = UInt32Expr::from(const_expr!(0xFFFFFF));
+    assert_eq!(d.calc(), 0xFFFFFF.to_string());
+
+    let d = UInt32Expr::from((const_expr!(0), const_expr!(0x1)));
+    assert_eq!(d.calc(), 65536.to_string());
 }
 
 #[test]

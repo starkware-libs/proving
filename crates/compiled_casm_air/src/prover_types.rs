@@ -229,6 +229,12 @@ impl UInt32 {
     pub fn from_m31(felt: M31) -> Self {
         Self { value: felt.0 }
     }
+
+    pub fn from_limbs(low: M31, high: M31) -> Self {
+        Self {
+            value: (low.0 & 0xFFFF) | ((high.0 & 0xFFFF) << 16),
+        }
+    }
 }
 
 impl From<u32> for UInt32 {
