@@ -121,9 +121,9 @@ fn test_no_consts() {
         offsets,
         is_offset_const,
         vec![
-            (49953, "offset_0"),
-            (30875, "offset_1"),
-            (36026, "offset_2"),
+            (49953, "offset0"),
+            (30875, "offset1"),
+            (36026, "offset2"),
             (0, "dst_base_fp"),
             (1, "op0_base_fp"),
             (0, "op1_imm"),
@@ -172,6 +172,6 @@ fn test_some_consts() {
         is_flag_const,
         offsets,
         is_offset_const,
-        vec![(30875, "offset_1"), (0, "dst_base_fp"), (0, "op1_imm")].into(),
+        vec![(30875, "offset1"), (0, "dst_base_fp"), (0, "op1_imm")].into(),
     );
 }

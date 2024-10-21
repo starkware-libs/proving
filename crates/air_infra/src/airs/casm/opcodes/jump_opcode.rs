@@ -84,7 +84,10 @@ impl AirFn for JumpOpcode {
                 + (const_expr!(1) - op0_base_fp) * casm_state.ap.clone();
             self.memory.read_address(ab, mem0_base + offset1)
         } else {
-            ab.constrain(op1_base_fp.clone() + op1_base_ap.clone() - const_expr!(1));
+            ab.constrain(
+                op1_base_fp.clone() + op1_base_ap.clone() - const_expr!(1),
+                "Either flag op1_base_fp is on or flag op1_base_ap is on",
+            );
             op1_base_fp * casm_state.fp.clone() + op1_base_ap * casm_state.ap.clone()
         };
 

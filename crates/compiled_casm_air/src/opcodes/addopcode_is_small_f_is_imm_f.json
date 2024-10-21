@@ -161,28 +161,32 @@
     },
     "EndBlock",
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 8
-              },
-              "+",
-              {
-                "State": 9
-              }
-            ]
-          },
-          "-",
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 8
+                },
+                "+",
+                {
+                  "State": 9
+                }
+              ]
+            },
+            "-",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        "((state[8] + state[9]) - const_1)",
+        "Either flag op1_base_fp is on or flag op1_base_ap is on"
+      ]
     },
     {
       "StartBlock": "ReadPositive_num_bits_252"
@@ -678,28 +682,32 @@
       "StartBlock": "VerifyAdd252"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 98
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 98
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 98
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 98
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[98] * (state[98] - const_1))",
+        "sub_p_bit is a bit"
+      ]
     },
     {
       "Intermediate": [
@@ -767,45 +775,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_97"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_97"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_97"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_97"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_97"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_97"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_97 * ((tmp_97 * tmp_97) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -873,45 +885,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_98"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_98"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_98"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_98"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_98"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_98"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_98 * ((tmp_98 * tmp_98) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -979,45 +995,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_99"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_99"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_99"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_99"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_99"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_99"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_99 * ((tmp_99 * tmp_99) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -1085,45 +1105,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_100"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_100"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_100"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_100"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_100"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_100"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_100 * ((tmp_100 * tmp_100) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -1191,45 +1215,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_101"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_101"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_101"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_101"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_101"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_101"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_101 * ((tmp_101 * tmp_101) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -1297,45 +1325,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_102"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_102"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_102"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_102"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_102"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_102"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_102 * ((tmp_102 * tmp_102) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -1403,45 +1435,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_103"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_103"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_103"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_103"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_103"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_103"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_103 * ((tmp_103 * tmp_103) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -1509,45 +1545,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_104"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_104"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_104"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_104"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_104"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_104"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_104 * ((tmp_104 * tmp_104) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -1615,45 +1655,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_105"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_105"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_105"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_105"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_105"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_105"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_105 * ((tmp_105 * tmp_105) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -1721,45 +1765,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_106"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_106"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_106"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_106"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_106"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_106"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_106 * ((tmp_106 * tmp_106) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -1827,45 +1875,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_107"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_107"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_107"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_107"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_107"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_107"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_107 * ((tmp_107 * tmp_107) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -1933,45 +1985,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_108"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_108"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_108"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_108"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_108"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_108"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_108 * ((tmp_108 * tmp_108) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -2039,45 +2095,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_109"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_109"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_109"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_109"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_109"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_109"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_109 * ((tmp_109 * tmp_109) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -2145,45 +2205,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_110"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_110"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_110"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_110"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_110"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_110"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_110 * ((tmp_110 * tmp_110) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -2251,45 +2315,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_111"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_111"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_111"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_111"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_111"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_111"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_111 * ((tmp_111 * tmp_111) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -2357,45 +2425,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_112"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_112"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_112"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_112"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_112"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_112"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_112 * ((tmp_112 * tmp_112) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -2463,45 +2535,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_113"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_113"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_113"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_113"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_113"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_113"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_113 * ((tmp_113 * tmp_113) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -2569,45 +2645,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_114"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_114"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_114"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_114"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_114"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_114"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_114 * ((tmp_114 * tmp_114) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -2675,45 +2755,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_115"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_115"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_115"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_115"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_115"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_115"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_115 * ((tmp_115 * tmp_115) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -2781,45 +2865,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_116"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_116"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_116"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_116"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_116"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_116"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_116 * ((tmp_116 * tmp_116) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -2887,45 +2975,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_117"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_117"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_117"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_117"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_117"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_117"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_117 * ((tmp_117 * tmp_117) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -2993,45 +3085,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_118"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_118"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_118"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_118"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_118"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_118"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_118 * ((tmp_118 * tmp_118) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -3099,45 +3195,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_119"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_119"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_119"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_119"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_119"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_119"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_119 * ((tmp_119 * tmp_119) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -3205,45 +3305,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_120"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_120"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_120"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_120"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_120"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_120"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_120 * ((tmp_120 * tmp_120) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -3311,45 +3415,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_121"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_121"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_121"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_121"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_121"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_121"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_121 * ((tmp_121 * tmp_121) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -3417,45 +3525,49 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_122"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_122"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_122"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_122"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_122"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_122"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_122 * ((tmp_122 * tmp_122) - const_1))",
+        null
+      ]
     },
     {
       "Intermediate": [
@@ -3523,96 +3635,104 @@
       ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "Var": [
-              "M31",
-              "tmp_123"
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_123"
-                    ]
-                  },
-                  "*",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_123"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_123"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_123"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_123"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(tmp_123 * ((tmp_123 * tmp_123) - const_1))",
+        null
+      ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": 68
-                      },
-                      "+",
-                      {
-                        "State": 97
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Var": [
-                      "M31",
-                      "tmp_123"
-                    ]
-                  }
-                ]
-              },
-              "-",
-              {
-                "State": 39
-              }
-            ]
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "Const": [
-                  "M31",
-                  "256"
-                ]
-              },
-              "*",
-              {
-                "State": 98
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": 68
+                        },
+                        "+",
+                        {
+                          "State": 97
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "tmp_123"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": 39
+                }
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                },
+                "*",
+                {
+                  "State": 98
+                }
+              ]
+            }
+          ]
+        },
+        "((((state[68] + state[97]) + tmp_123) - state[39]) - (const_256 * state[98]))",
+        null
+      ]
     },
     "EndBlock",
     {
@@ -3836,7 +3956,7 @@
             []
           ]
         },
-        "offset_0"
+        "offset0"
       ]
     },
     {
@@ -3990,7 +4110,7 @@
             []
           ]
         },
-        "offset_1"
+        "offset1"
       ]
     },
     {
@@ -4144,7 +4264,7 @@
             []
           ]
         },
-        "offset_2"
+        "offset2"
       ]
     },
     {

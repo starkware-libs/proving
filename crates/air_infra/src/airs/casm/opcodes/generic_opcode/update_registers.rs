@@ -69,7 +69,10 @@ impl AirFn for UpdateRegisters {
             &mut (const_expr!(1) / dst_sum_squares.clone()),
             "dst_sum_squares_inv",
         );
-        air_builder.constrain(dst_sum_squares * sum_squares_inv - const_expr!(1));
+        air_builder.constrain(
+            dst_sum_squares * sum_squares_inv - const_expr!(1),
+            "dst_not_p",
+        );
 
         // Calcualte npc for jnz
         let dst_sum = dst
@@ -102,10 +105,12 @@ impl AirFn for UpdateRegisters {
         );
         air_builder.constrain(
             (npc_jnz.clone() - (casm_state.pc.clone() + op1_as_rel_imm.clone())) * dst_sum.clone(),
+            "Constraint1 for conditional jump",
         );
         air_builder.constrain(
             (npc_jnz.clone() - (casm_state.pc.clone() + flags[INSTRUCTION_SIZE_INDEX].clone()))
                 * (dst_sum.clone() * sum_inv.clone() - const_expr!(1)),
+            "Constraint2 for conditional jump",
         );
 
         // Update pc

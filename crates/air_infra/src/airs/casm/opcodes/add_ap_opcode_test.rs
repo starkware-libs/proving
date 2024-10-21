@@ -156,7 +156,7 @@ fn test_add_ap_deref_base_fp() {
         (30, ""),
         (11, ""),
         (6, ""),
-        (33168, "offset_2"),
+        (33168, "offset2"),
         (1, "id"),
         (0, "msb"),
         (0, "mid_limbs_set"),

@@ -244,87 +244,99 @@
       "StartBlock": "CondDecodeSmallSign"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 9
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 9
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 9
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 9
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[9] * (state[9] - const_1))",
+        "msb is a bit"
+      ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 10
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 10
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 10
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 10
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[10] * (state[10] - const_1))",
+        "mid_limbs_set is a bit"
+      ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              },
-              "*",
-              {
-                "State": 10
-              }
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 9
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "*",
+                {
+                  "State": 10
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 9
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "((const_1 * state[10]) * (state[9] - const_1))",
+        "Cannot have msb equals 0 and mid_limbs_set equals 1"
+      ]
     },
     "EndBlock",
     {
@@ -741,87 +753,99 @@
       "StartBlock": "CondDecodeSmallSign"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 15
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 15
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 15
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 15
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[15] * (state[15] - const_1))",
+        "msb is a bit"
+      ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 16
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 16
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 16
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 16
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[16] * (state[16] - const_1))",
+        "mid_limbs_set is a bit"
+      ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              },
-              "*",
-              {
-                "State": 16
-              }
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 15
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "*",
+                {
+                  "State": 16
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 15
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "((const_1 * state[16]) * (state[15] - const_1))",
+        "Cannot have msb equals 0 and mid_limbs_set equals 1"
+      ]
     },
     "EndBlock",
     {
@@ -1195,87 +1219,99 @@
       "StartBlock": "CondDecodeSmallSign"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 21
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 21
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 21
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 21
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[21] * (state[21] - const_1))",
+        "msb is a bit"
+      ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 22
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 22
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 22
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 22
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[22] * (state[22] - const_1))",
+        "mid_limbs_set is a bit"
+      ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              },
-              "*",
-              {
-                "State": 22
-              }
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 21
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "*",
+                {
+                  "State": 22
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 21
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "((const_1 * state[22]) * (state[21] - const_1))",
+        "Cannot have msb equals 0 and mid_limbs_set equals 1"
+      ]
     },
     "EndBlock",
     {
@@ -1618,220 +1654,224 @@
     },
     "EndBlock",
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": 13
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "262144"
-                            ]
-                          }
-                        ]
-                      },
-                      "+",
-                      {
-                        "BinaryOp": [
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": 12
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "512"
-                                ]
-                              }
-                            ]
-                          },
-                          "+",
-                          {
-                            "State": 11
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "State": 9
-                  }
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "Const": [
-                      "M31",
-                      "134217728"
-                    ]
-                  },
-                  "*",
-                  {
-                    "State": 10
-                  }
-                ]
-              }
-            ]
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": 19
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "262144"
-                                ]
-                              }
-                            ]
-                          },
-                          "+",
-                          {
-                            "BinaryOp": [
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "State": 18
-                                  },
-                                  "*",
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "512"
-                                    ]
-                                  }
-                                ]
-                              },
-                              "+",
-                              {
-                                "State": 17
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": 15
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "Const": [
-                          "M31",
-                          "134217728"
-                        ]
-                      },
-                      "*",
-                      {
-                        "State": 16
-                      }
-                    ]
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": 25
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "262144"
-                                ]
-                              }
-                            ]
-                          },
-                          "+",
-                          {
-                            "BinaryOp": [
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "State": 24
-                                  },
-                                  "*",
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "512"
-                                    ]
-                                  }
-                                ]
-                              },
-                              "+",
-                              {
-                                "State": 23
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": 21
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "Const": [
-                          "M31",
-                          "134217728"
-                        ]
-                      },
-                      "*",
-                      {
-                        "State": 22
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": 13
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "262144"
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": 12
+                                },
+                                "*",
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "512"
+                                  ]
+                                }
+                              ]
+                            },
+                            "+",
+                            {
+                              "State": 11
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": 9
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "134217728"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 10
+                    }
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": 19
+                                },
+                                "*",
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "262144"
+                                  ]
+                                }
+                              ]
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": 18
+                                    },
+                                    "*",
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "512"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "+",
+                                {
+                                  "State": 17
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "-",
+                        {
+                          "State": 15
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "134217728"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": 16
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": 25
+                                },
+                                "*",
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "262144"
+                                  ]
+                                }
+                              ]
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": 24
+                                    },
+                                    "*",
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "512"
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "+",
+                                {
+                                  "State": 23
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "-",
+                        {
+                          "State": 21
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "134217728"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": 22
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(((((state[13] * const_262144) + ((state[12] * const_512) + state[11])) - state[9]) - (const_134217728 * state[10])) - (((((state[19] * const_262144) + ((state[18] * const_512) + state[17])) - state[15]) - (const_134217728 * state[16])) + ((((state[25] * const_262144) + ((state[24] * const_512) + state[23])) - state[21]) - (const_134217728 * state[22]))))",
+        "dst equals op0 + op1"
+      ]
     },
     {
       "LookupData": {
@@ -2054,7 +2094,7 @@
             []
           ]
         },
-        "offset_0"
+        "offset0"
       ]
     },
     {
@@ -2208,7 +2248,7 @@
             []
           ]
         },
-        "offset_1"
+        "offset1"
       ]
     },
     {

@@ -40,7 +40,9 @@
       }
     },
     {
-      "Constraint": "((tmp_3 * state[0]) + ((const_1 - tmp_3) * (state[0] - const_2)))"
+      "Constraint": [
+        "((tmp_3 * state[0]) + ((const_1 - tmp_3) * (state[0] - const_2)))"
+      ]
     }
   ]
 }

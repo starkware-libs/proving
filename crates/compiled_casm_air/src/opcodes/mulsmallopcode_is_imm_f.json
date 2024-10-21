@@ -669,28 +669,32 @@
     },
     "EndBlock",
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 8
-              },
-              "+",
-              {
-                "State": 9
-              }
-            ]
-          },
-          "-",
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 8
+                },
+                "+",
+                {
+                  "State": 9
+                }
+              ]
+            },
+            "-",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        "((state[8] + state[9]) - const_1)",
+        "Either flag op1_base_fp is on or flag op1_base_ap is on"
+      ]
     },
     {
       "StartBlock": "ReadPositive_num_bits_15"
@@ -938,120 +942,124 @@
     },
     "EndBlock",
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": 12
-                      },
-                      "+",
-                      {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          },
-                          "*",
-                          {
-                            "State": 13
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "Const": [
-                          "M31",
-                          "262144"
-                        ]
-                      },
-                      "*",
-                      {
-                        "State": 14
-                      }
-                    ]
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "Const": [
-                      "M31",
-                      "134217728"
-                    ]
-                  },
-                  "*",
-                  {
-                    "State": 15
-                  }
-                ]
-              }
-            ]
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 17
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      },
-                      "*",
-                      {
-                        "State": 18
-                      }
-                    ]
-                  }
-                ]
-              },
-              "*",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 20
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      },
-                      "*",
-                      {
-                        "State": 21
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": 12
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": 13
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": 14
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "134217728"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 15
+                    }
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 17
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": 18
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 20
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": 21
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "((((state[12] + (const_512 * state[13])) + (const_262144 * state[14])) + (const_134217728 * state[15])) - ((state[17] + (const_512 * state[18])) * (state[20] + (const_512 * state[21]))))",
+        "dst equals op0 * op1"
+      ]
     },
     {
       "LookupData": {
@@ -1274,7 +1282,7 @@
             []
           ]
         },
-        "offset_0"
+        "offset0"
       ]
     },
     {
@@ -1428,7 +1436,7 @@
             []
           ]
         },
-        "offset_1"
+        "offset1"
       ]
     },
     {
@@ -1582,7 +1590,7 @@
             []
           ]
         },
-        "offset_2"
+        "offset2"
       ]
     },
     {

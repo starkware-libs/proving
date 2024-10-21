@@ -200,28 +200,32 @@
     },
     "EndBlock",
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 4
-              },
-              "+",
-              {
-                "State": 5
-              }
-            ]
-          },
-          "-",
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 4
+                },
+                "+",
+                {
+                  "State": 5
+                }
+              ]
+            },
+            "-",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        "((state[4] + state[5]) - const_1)",
+        "Either flag op1_base_fp is on or flag op1_base_ap is on"
+      ]
     },
     {
       "StartBlock": "ReadPositive_num_bits_27"
@@ -755,7 +759,7 @@
             []
           ]
         },
-        "offset_2"
+        "offset2"
       ]
     },
     {

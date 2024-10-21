@@ -185,7 +185,7 @@ impl AirBuilder {
         self.row_number
     }
 
-    pub fn constrain(&mut self, expr: FeltExpr) {
+    pub fn constrain(&mut self, expr: FeltExpr, desc: &str) {
         #[cfg(test)]
         if self.run {
             // Cannot assert this in build mode, since we don't put the inputs in the state.
@@ -205,7 +205,10 @@ impl AirBuilder {
             "Constraint contains an intermediate variable that is not in constraints"
         );
 
-        self.air_body.push(AirBodyComponent::Constraint(expr));
+        self.air_body.push(AirBodyComponent::Constraint(
+            expr,
+            (!desc.is_empty()).then(|| desc.to_string()),
+        ));
     }
 
     pub fn deduce(&mut self, expr: &mut FeltExpr, desc: &str) -> FeltExpr {
@@ -572,7 +575,10 @@ pub struct LookupCall {
 // These are the components of the air function.
 #[derive(Clone, Debug, Serialize)]
 pub enum AirBodyComponent {
-    Constraint(FeltExpr),
+    Constraint(
+        FeltExpr,
+        #[serde(skip_serializing_if = "Option::is_none")] Option<String>,
+    ),
     Deduction(
         FeltExpr,
         #[serde(skip_serializing_if = "Option::is_none")] Option<String>,

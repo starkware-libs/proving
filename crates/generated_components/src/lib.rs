@@ -5,8 +5,8 @@
 
 use stwo_prover::core::backend::simd::m31::PackedM31;
 pub mod addapopcode_is_imm_t_op1_base_fp_f;
-pub mod memory_k_m31_v_felt252;
-pub mod memory_k_m31_v_m31;
+pub mod memoryaddresstoid;
+pub mod memoryidtobig;
 pub mod narrowfib_num_steps_20;
 pub mod opcodes;
 pub mod rangecheck_n_2_bits_4_3;

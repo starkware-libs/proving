@@ -57,21 +57,21 @@ impl AirFn for DecodeInstruction {
             const_expr!(offset_as_u16(off) as u32)
         } else {
             off0 = ab.let_for_deduction(off0);
-            ab.deduce(off0.as_felt_mut(), "offset_0")
+            ab.deduce(off0.as_felt_mut(), "offset0")
         };
 
         let off1_f = if let Some(off) = self.const_offsets[1] {
             const_expr!(offset_as_u16(off) as u32)
         } else {
             off1 = ab.let_for_deduction(off1);
-            ab.deduce(off1.as_felt_mut(), "offset_1")
+            ab.deduce(off1.as_felt_mut(), "offset1")
         };
 
         let off2_f = if let Some(off) = self.const_offsets[2] {
             const_expr!(offset_as_u16(off) as u32)
         } else {
             off2 = ab.let_for_deduction(off2);
-            ab.deduce(off2.as_felt_mut(), "offset_2")
+            ab.deduce(off2.as_felt_mut(), "offset2")
         };
 
         // Deduce the non-constant flags

@@ -108,7 +108,10 @@ impl AirFn for AssertEqOpcode {
         } else if self.is_imm {
             casm_state.pc.clone()
         } else {
-            ab.constrain(flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1));
+            ab.constrain(
+                flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1),
+                "Either flag op1_base_fp is on or flag op1_base_ap is on",
+            );
             flag_op1_base_fp * casm_state.fp.clone() + flag_op1_base_ap * casm_state.ap.clone()
         };
 

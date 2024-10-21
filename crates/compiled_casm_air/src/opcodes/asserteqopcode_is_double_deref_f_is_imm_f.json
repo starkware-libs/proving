@@ -166,28 +166,32 @@
     },
     "EndBlock",
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "State": 6
-              },
-              "+",
-              {
-                "State": 7
-              }
-            ]
-          },
-          "-",
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": 6
+                },
+                "+",
+                {
+                  "State": 7
+                }
+              ]
+            },
+            "-",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        "((state[6] + state[7]) - const_1)",
+        "Either flag op1_base_fp is on or flag op1_base_ap is on"
+      ]
     },
     {
       "StartBlock": "MemVerifyEqual"
@@ -539,7 +543,7 @@
             []
           ]
         },
-        "offset_0"
+        "offset0"
       ]
     },
     {
@@ -693,7 +697,7 @@
             []
           ]
         },
-        "offset_2"
+        "offset2"
       ]
     },
     {

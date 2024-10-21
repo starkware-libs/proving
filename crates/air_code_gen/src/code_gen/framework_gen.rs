@@ -178,7 +178,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
 
     for constraint in lists.constraints.iter() {
         match constraint {
-            ConstraintEvalStep::Constraint(expr) => {
+            ConstraintEvalStep::Constraint(expr, ..) => {
                 code.extend(quote! {
                     eval.add_constraint(
                         $(parse_eval_constraint(expr,&const_names))
@@ -222,7 +222,7 @@ fn constraint_consts(constraints: &[ConstraintEvalStep]) -> Vec<(String, String)
         .iter()
         .fold(HashSet::new(), |mut const_defs, constraint| {
             match constraint {
-                ConstraintEvalStep::Constraint(compiled_air_var) => {
+                ConstraintEvalStep::Constraint(compiled_air_var, ..) => {
                     const_defs.extend(seek_consts(compiled_air_var))
                 }
                 ConstraintEvalStep::LookupData(LookupData {

@@ -36,820 +36,900 @@
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 2
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 0
-                  },
-                  "*",
-                  {
-                    "State": 0
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 1
-                  },
-                  "*",
-                  {
-                    "State": 1
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 2
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 0
+                    },
+                    "*",
+                    {
+                      "State": 0
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 1
+                    },
+                    "*",
+                    {
+                      "State": 1
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[2] - ((state[0] * state[0]) + (state[1] * state[1])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 3
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 1
-                  },
-                  "*",
-                  {
-                    "State": 1
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 2
-                  },
-                  "*",
-                  {
-                    "State": 2
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 3
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 1
+                    },
+                    "*",
+                    {
+                      "State": 1
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 2
+                    },
+                    "*",
+                    {
+                      "State": 2
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[3] - ((state[1] * state[1]) + (state[2] * state[2])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 4
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 2
-                  },
-                  "*",
-                  {
-                    "State": 2
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 3
-                  },
-                  "*",
-                  {
-                    "State": 3
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 4
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 2
+                    },
+                    "*",
+                    {
+                      "State": 2
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 3
+                    },
+                    "*",
+                    {
+                      "State": 3
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[4] - ((state[2] * state[2]) + (state[3] * state[3])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 5
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 3
-                  },
-                  "*",
-                  {
-                    "State": 3
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 4
-                  },
-                  "*",
-                  {
-                    "State": 4
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 5
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 3
+                    },
+                    "*",
+                    {
+                      "State": 3
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 4
+                    },
+                    "*",
+                    {
+                      "State": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[5] - ((state[3] * state[3]) + (state[4] * state[4])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 6
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 4
-                  },
-                  "*",
-                  {
-                    "State": 4
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 5
-                  },
-                  "*",
-                  {
-                    "State": 5
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 6
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 4
+                    },
+                    "*",
+                    {
+                      "State": 4
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 5
+                    },
+                    "*",
+                    {
+                      "State": 5
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[6] - ((state[4] * state[4]) + (state[5] * state[5])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 7
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 5
-                  },
-                  "*",
-                  {
-                    "State": 5
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 6
-                  },
-                  "*",
-                  {
-                    "State": 6
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 7
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 5
+                    },
+                    "*",
+                    {
+                      "State": 5
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 6
+                    },
+                    "*",
+                    {
+                      "State": 6
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[7] - ((state[5] * state[5]) + (state[6] * state[6])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 8
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 6
-                  },
-                  "*",
-                  {
-                    "State": 6
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 7
-                  },
-                  "*",
-                  {
-                    "State": 7
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 8
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 6
+                    },
+                    "*",
+                    {
+                      "State": 6
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 7
+                    },
+                    "*",
+                    {
+                      "State": 7
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[8] - ((state[6] * state[6]) + (state[7] * state[7])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 9
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 7
-                  },
-                  "*",
-                  {
-                    "State": 7
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 8
-                  },
-                  "*",
-                  {
-                    "State": 8
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 9
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 7
+                    },
+                    "*",
+                    {
+                      "State": 7
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 8
+                    },
+                    "*",
+                    {
+                      "State": 8
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[9] - ((state[7] * state[7]) + (state[8] * state[8])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 10
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 8
-                  },
-                  "*",
-                  {
-                    "State": 8
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 9
-                  },
-                  "*",
-                  {
-                    "State": 9
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 10
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 8
+                    },
+                    "*",
+                    {
+                      "State": 8
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 9
+                    },
+                    "*",
+                    {
+                      "State": 9
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[10] - ((state[8] * state[8]) + (state[9] * state[9])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 11
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 9
-                  },
-                  "*",
-                  {
-                    "State": 9
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 10
-                  },
-                  "*",
-                  {
-                    "State": 10
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 11
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 9
+                    },
+                    "*",
+                    {
+                      "State": 9
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 10
+                    },
+                    "*",
+                    {
+                      "State": 10
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[11] - ((state[9] * state[9]) + (state[10] * state[10])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 12
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 10
-                  },
-                  "*",
-                  {
-                    "State": 10
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 11
-                  },
-                  "*",
-                  {
-                    "State": 11
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 12
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 10
+                    },
+                    "*",
+                    {
+                      "State": 10
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 11
+                    },
+                    "*",
+                    {
+                      "State": 11
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[12] - ((state[10] * state[10]) + (state[11] * state[11])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 13
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 11
-                  },
-                  "*",
-                  {
-                    "State": 11
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 12
-                  },
-                  "*",
-                  {
-                    "State": 12
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 13
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 11
+                    },
+                    "*",
+                    {
+                      "State": 11
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 12
+                    },
+                    "*",
+                    {
+                      "State": 12
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[13] - ((state[11] * state[11]) + (state[12] * state[12])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 14
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 12
-                  },
-                  "*",
-                  {
-                    "State": 12
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 13
-                  },
-                  "*",
-                  {
-                    "State": 13
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 14
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 12
+                    },
+                    "*",
+                    {
+                      "State": 12
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 13
+                    },
+                    "*",
+                    {
+                      "State": 13
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[14] - ((state[12] * state[12]) + (state[13] * state[13])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 15
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 13
-                  },
-                  "*",
-                  {
-                    "State": 13
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 14
-                  },
-                  "*",
-                  {
-                    "State": 14
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 15
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 13
+                    },
+                    "*",
+                    {
+                      "State": 13
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 14
+                    },
+                    "*",
+                    {
+                      "State": 14
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[15] - ((state[13] * state[13]) + (state[14] * state[14])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 16
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 14
-                  },
-                  "*",
-                  {
-                    "State": 14
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 15
-                  },
-                  "*",
-                  {
-                    "State": 15
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 16
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 14
+                    },
+                    "*",
+                    {
+                      "State": 14
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 15
+                    },
+                    "*",
+                    {
+                      "State": 15
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[16] - ((state[14] * state[14]) + (state[15] * state[15])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 17
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 15
-                  },
-                  "*",
-                  {
-                    "State": 15
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 16
-                  },
-                  "*",
-                  {
-                    "State": 16
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 17
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 15
+                    },
+                    "*",
+                    {
+                      "State": 15
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 16
+                    },
+                    "*",
+                    {
+                      "State": 16
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[17] - ((state[15] * state[15]) + (state[16] * state[16])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 18
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 16
-                  },
-                  "*",
-                  {
-                    "State": 16
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 17
-                  },
-                  "*",
-                  {
-                    "State": 17
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 18
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 16
+                    },
+                    "*",
+                    {
+                      "State": 16
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 17
+                    },
+                    "*",
+                    {
+                      "State": 17
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[18] - ((state[16] * state[16]) + (state[17] * state[17])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 19
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 17
-                  },
-                  "*",
-                  {
-                    "State": 17
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 18
-                  },
-                  "*",
-                  {
-                    "State": 18
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 19
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 17
+                    },
+                    "*",
+                    {
+                      "State": 17
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 18
+                    },
+                    "*",
+                    {
+                      "State": 18
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[19] - ((state[17] * state[17]) + (state[18] * state[18])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 20
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 18
-                  },
-                  "*",
-                  {
-                    "State": 18
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 19
-                  },
-                  "*",
-                  {
-                    "State": 19
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 20
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 18
+                    },
+                    "*",
+                    {
+                      "State": 18
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 19
+                    },
+                    "*",
+                    {
+                      "State": 19
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[20] - ((state[18] * state[18]) + (state[19] * state[19])))",
+        null
+      ]
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 21
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 19
-                  },
-                  "*",
-                  {
-                    "State": 19
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 20
-                  },
-                  "*",
-                  {
-                    "State": 20
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 21
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 19
+                    },
+                    "*",
+                    {
+                      "State": 19
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 20
+                    },
+                    "*",
+                    {
+                      "State": 20
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[21] - ((state[19] * state[19]) + (state[20] * state[20])))",
+        null
+      ]
     },
     "EndBlock",
     {

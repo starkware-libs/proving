@@ -17,7 +17,7 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
 use super::component::{Claim, ComponentLookupElements, InteractionClaim};
-use crate::{memory_k_m31_v_felt252, memory_k_m31_v_m31, opcodes, verifyinstruction};
+use crate::{memoryaddresstoid, memoryidtobig, opcodes, verifyinstruction};
 
 pub type InputType = PackedCasmState;
 
@@ -29,28 +29,25 @@ impl ClaimGenerator {
     pub fn write_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        memory_k_m31_v_felt252_state: &mut memory_k_m31_v_felt252::ClaimGenerator,
-        memory_k_m31_v_m31_state: &mut memory_k_m31_v_m31::ClaimGenerator,
+        memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
+        memoryidtobig_state: &mut memoryidtobig::ClaimGenerator,
         verifyinstruction_state: &mut verifyinstruction::ClaimGenerator,
     ) -> ClaimProver {
         let len = self.inputs.len();
         #[allow(unused_variables)]
-        let (trace, sub_components_inputs, lookup_data) = write_trace_simd(
-            self.inputs,
-            memory_k_m31_v_felt252_state,
-            memory_k_m31_v_m31_state,
-        );
+        let (trace, sub_components_inputs, lookup_data) =
+            write_trace_simd(self.inputs, memoryaddresstoid_state, memoryidtobig_state);
         sub_components_inputs
-            .memory_k_m31_v_felt252_inputs
+            .memoryaddresstoid_inputs
             .iter()
             .for_each(|inputs| {
-                memory_k_m31_v_felt252_state.add_inputs(inputs);
+                memoryaddresstoid_state.add_inputs(inputs);
             });
         sub_components_inputs
-            .memory_k_m31_v_m31_inputs
+            .memoryidtobig_inputs
             .iter()
             .for_each(|inputs| {
-                memory_k_m31_v_m31_state.add_inputs(inputs);
+                memoryidtobig_state.add_inputs(inputs);
             });
         sub_components_inputs
             .verifyinstruction_inputs
@@ -74,19 +71,16 @@ impl ClaimGenerator {
 
 #[allow(non_snake_case)]
 pub struct SubComponentInputs {
-    pub memory_k_m31_v_felt252_inputs: [Vec<memory_k_m31_v_felt252::InputType>; 2],
-    pub memory_k_m31_v_m31_inputs: [Vec<memory_k_m31_v_m31::InputType>; 2],
+    pub memoryaddresstoid_inputs: [Vec<memoryaddresstoid::InputType>; 2],
+    pub memoryidtobig_inputs: [Vec<memoryidtobig::InputType>; 2],
     pub verifyinstruction_inputs: [Vec<verifyinstruction::InputType>; 1],
 }
 impl SubComponentInputs {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            memory_k_m31_v_felt252_inputs: [
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-            ],
-            memory_k_m31_v_m31_inputs: [Vec::with_capacity(capacity), Vec::with_capacity(capacity)],
+            memoryaddresstoid_inputs: [Vec::with_capacity(capacity), Vec::with_capacity(capacity)],
+            memoryidtobig_inputs: [Vec::with_capacity(capacity), Vec::with_capacity(capacity)],
             verifyinstruction_inputs: [Vec::with_capacity(capacity)],
         }
     }
@@ -96,8 +90,8 @@ impl SubComponentInputs {
 #[allow(unused_variables)]
 pub fn write_trace_simd(
     inputs: Vec<InputType>,
-    memory_k_m31_v_felt252_state: &mut memory_k_m31_v_felt252::ClaimGenerator,
-    memory_k_m31_v_m31_state: &mut memory_k_m31_v_m31::ClaimGenerator,
+    memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
+    memoryidtobig_state: &mut memoryidtobig::ClaimGenerator,
 ) -> (
     Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
     SubComponentInputs,
@@ -132,10 +126,10 @@ pub fn write_trace_simd(
             trace_values[1].data[row_index] = col1;
             let col2 = tmp_0.fp;
             trace_values[2].data[row_index] = col2;
-            sub_components_inputs.memory_k_m31_v_m31_inputs[0].push(col0.into());
-            let tmp_29 = memory_k_m31_v_m31_state.deduce_output(col0.into());
-            sub_components_inputs.memory_k_m31_v_felt252_inputs[0].push(tmp_29.into());
-            let tmp_30 = memory_k_m31_v_felt252_state.deduce_output(tmp_29.into());
+            sub_components_inputs.memoryaddresstoid_inputs[0].push(col0.into());
+            let tmp_41 = memoryaddresstoid_state.deduce_output(col0.into());
+            sub_components_inputs.memoryidtobig_inputs[0].push(tmp_41.into());
+            let tmp_42 = memoryidtobig_state.deduce_output(tmp_41.into());
             sub_components_inputs.verifyinstruction_inputs[0].push(
                 (
                     col0,
@@ -151,26 +145,26 @@ pub fn write_trace_simd(
                 col0, M31_32767, M31_32767, M31_32769, M31_1, M31_1, M31_1, M31_0, M31_0, M31_0,
                 M31_0, M31_0, M31_0, M31_0, M31_1, M31_0, M31_0, M31_0, M31_0,
             ]);
-            sub_components_inputs.memory_k_m31_v_m31_inputs[1].push(((col0) + (M31_1)).into());
-            let tmp_38 = memory_k_m31_v_m31_state.deduce_output(((col0) + (M31_1)).into());
-            let col3 = tmp_38;
+            sub_components_inputs.memoryaddresstoid_inputs[1].push(((col0) + (M31_1)).into());
+            let tmp_50 = memoryaddresstoid_state.deduce_output(((col0) + (M31_1)).into());
+            let col3 = tmp_50;
             trace_values[3].data[row_index] = col3;
-            lookup_data.memory_k_m31_v_m31[0].push([((col0) + (M31_1)), col3]);
-            sub_components_inputs.memory_k_m31_v_felt252_inputs[1].push(col3.into());
-            let tmp_39 = memory_k_m31_v_felt252_state.deduce_output(col3.into());
-            let tmp_40 = tmp_39.get_m31(27).eq(M31_256);
-            let col4 = tmp_40.as_m31();
+            lookup_data.memoryaddresstoid[0].push([((col0) + (M31_1)), col3]);
+            sub_components_inputs.memoryidtobig_inputs[1].push(col3.into());
+            let tmp_51 = memoryidtobig_state.deduce_output(col3.into());
+            let tmp_52 = tmp_51.get_m31(27).eq(M31_256);
+            let col4 = tmp_52.as_m31();
             trace_values[4].data[row_index] = col4;
-            let tmp_41 = tmp_39.get_m31(20).eq(M31_511);
-            let col5 = tmp_41.as_m31();
+            let tmp_53 = tmp_51.get_m31(20).eq(M31_511);
+            let col5 = tmp_53.as_m31();
             trace_values[5].data[row_index] = col5;
-            let col6 = tmp_39.get_m31(0);
+            let col6 = tmp_51.get_m31(0);
             trace_values[6].data[row_index] = col6;
-            let col7 = tmp_39.get_m31(1);
+            let col7 = tmp_51.get_m31(1);
             trace_values[7].data[row_index] = col7;
-            let col8 = tmp_39.get_m31(2);
+            let col8 = tmp_51.get_m31(2);
             trace_values[8].data[row_index] = col8;
-            lookup_data.memory_k_m31_v_felt252[0].push([
+            lookup_data.memoryidtobig[0].push([
                 col3,
                 col6,
                 col7,
@@ -229,8 +223,8 @@ pub fn write_trace_simd(
 
 #[allow(non_snake_case)]
 pub struct LookupData {
-    pub memory_k_m31_v_felt252: [Vec<[PackedM31; 29]>; 1],
-    pub memory_k_m31_v_m31: [Vec<[PackedM31; 2]>; 1],
+    pub memoryaddresstoid: [Vec<[PackedM31; 2]>; 1],
+    pub memoryidtobig: [Vec<[PackedM31; 29]>; 1],
     pub verifyinstruction: [Vec<[PackedM31; 19]>; 1],
     pub opcodes: [Vec<[PackedM31; 3]>; 2],
 }
@@ -238,8 +232,8 @@ impl LookupData {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            memory_k_m31_v_felt252: [Vec::with_capacity(capacity)],
-            memory_k_m31_v_m31: [Vec::with_capacity(capacity)],
+            memoryaddresstoid: [Vec::with_capacity(capacity)],
+            memoryidtobig: [Vec::with_capacity(capacity)],
             verifyinstruction: [Vec::with_capacity(capacity)],
             opcodes: [Vec::with_capacity(capacity), Vec::with_capacity(capacity)],
         }
@@ -254,8 +248,8 @@ impl ClaimProver {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        memory_k_m31_v_felt252_lookup_elements: &memory_k_m31_v_felt252::ComponentLookupElements,
-        memory_k_m31_v_m31_lookup_elements: &memory_k_m31_v_m31::ComponentLookupElements,
+        memoryaddresstoid_lookup_elements: &memoryaddresstoid::ComponentLookupElements,
+        memoryidtobig_lookup_elements: &memoryidtobig::ComponentLookupElements,
         verifyinstruction_lookup_elements: &verifyinstruction::ComponentLookupElements,
         opcodes_lookup_elements: &opcodes::ComponentLookupElements,
     ) -> InteractionClaim {
@@ -271,17 +265,17 @@ impl ClaimProver {
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.memory_k_m31_v_m31[0];
+        let lookup_row = &self.lookup_data.memoryaddresstoid[0];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = memory_k_m31_v_m31_lookup_elements.combine(lookup_values);
+            let denom = memoryaddresstoid_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.memory_k_m31_v_felt252[0];
+        let lookup_row = &self.lookup_data.memoryidtobig[0];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = memory_k_m31_v_felt252_lookup_elements.combine(lookup_values);
+            let denom = memoryidtobig_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();

@@ -102,7 +102,7 @@ impl AirFn for JnzOpcode {
             // This sum still can't wrap around m31 and is zero iff dst is P.
             // Hence dst is not P iff this sum has an inverse modulo m31.
             let res = ab.deduce(&mut (const_expr!(1) / dst_sum.clone()), "res");
-            ab.constrain(dst_sum * res - const_expr!(1));
+            ab.constrain(dst_sum * res - const_expr!(1), "dst doesn't equal 0");
 
             let dst_sum_squares = dst
                 .into_iter()
@@ -121,14 +121,17 @@ impl AirFn for JnzOpcode {
                 &mut (const_expr!(1) / dst_sum_squares.clone()),
                 "res_squares",
             );
-            ab.constrain(dst_sum_squares * res_squares - const_expr!(1));
+            ab.constrain(
+                dst_sum_squares * res_squares - const_expr!(1),
+                "dst doesn't equal P",
+            );
 
             casm_state.pc.clone() + self.memory.read_rel_imm(ab, casm_state.pc + const_expr!(1))
         } else {
             // constrain dst == 0
             // This is sound because in this case it is sufficient to make sure that dst is zero.
             // The sum of the parts of dst is zero iff dst is zero because they are too small to wrap around m31.
-            ab.constrain(dst_sum);
+            ab.constrain(dst_sum, "dst equals 0");
             casm_state.pc + const_expr!(2)
         };
 

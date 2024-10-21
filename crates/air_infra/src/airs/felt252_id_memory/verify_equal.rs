@@ -43,6 +43,9 @@ impl AirFn for MemCondVerifyEqualKnownId {
         air_builder.deduce(&mut id1, "id");
         air_builder.mem_verify(&self.memory.address_to_id, &addr1, id1.clone());
 
-        air_builder.constrain((id1 - id2) * cond);
+        air_builder.constrain(
+            (id1 - id2) * cond,
+            "The two ids are equal if the condition is met",
+        );
     }
 }

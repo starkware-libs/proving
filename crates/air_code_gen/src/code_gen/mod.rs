@@ -39,9 +39,8 @@ mod tests {
 
     #[test]
     fn add_ap_code_gen() {
-        let serialized_air_fn = read_json(
-            "../air_infra/src/airs/examples/test_jsons/addapopcode_is_imm_t_op1_base_fp_f.json",
-        );
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/opcodes/addapopcode_is_imm_t_op1_base_fp_f.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
@@ -49,7 +48,7 @@ mod tests {
     #[test]
     fn verify_instruction_code_gen() {
         let serialized_air_fn =
-            read_json("../air_infra/src/airs/examples/test_jsons/verifyinstruction.json");
+            read_json("../compiled_casm_air/src/lookups/verifyinstruction.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }

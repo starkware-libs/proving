@@ -40,7 +40,10 @@ impl AirFn for DecodeGenericInstruction {
             - generic_flags_vec[FLAG_OP1_BASE_FP_INDEX].clone()
             - generic_flags_vec[FLAG_OP1_BASE_AP_INDEX].clone();
         // Assert op1_src = 0 / 1 / 2 / 4
-        air_builder.constrain(op1_base_op0.clone() * (const_expr!(1) - op1_base_op0.clone()));
+        air_builder.constrain(
+            op1_base_op0.clone() * (const_expr!(1) - op1_base_op0.clone()),
+            "op1_src is 0, 1, 2, or 4",
+        );
         assert_eq!(flags.len(), FLAG_OP1_BASE_OP0_INDEX);
         generic_flags_vec.push(op1_base_op0);
 
@@ -50,7 +53,10 @@ impl AirFn for DecodeGenericInstruction {
             - generic_flags_vec[FLAG_RES_MUL_INDEX].clone()
             - generic_flags_vec[FLAG_PC_UPDATE_JNZ_INDEX].clone();
         // Assert res_logic = 0 / 1 / 2
-        air_builder.constrain(res_op1.clone() * (const_expr!(1) - res_op1.clone()));
+        air_builder.constrain(
+            res_op1.clone() * (const_expr!(1) - res_op1.clone()),
+            "res_logic is 0, 1, or 2",
+        );
         assert_eq!(generic_flags_vec.len(), FLAG_RES_OP1_INDEX);
         generic_flags_vec.push(res_op1.clone());
 
@@ -60,8 +66,10 @@ impl AirFn for DecodeGenericInstruction {
             - generic_flags_vec[FLAG_PC_UPDATE_JUMP_REL_INDEX].clone()
             - generic_flags_vec[FLAG_PC_UPDATE_JNZ_INDEX].clone();
         // Assert pc_update = 0 / 1 / 2 / 4
-        air_builder
-            .constrain(pc_update_regular.clone() * (const_expr!(1) - pc_update_regular.clone()));
+        air_builder.constrain(
+            pc_update_regular.clone() * (const_expr!(1) - pc_update_regular.clone()),
+            "pc_update is 0, 1, 2, or 4",
+        );
         assert_eq!(generic_flags_vec.len(), FLAG_PC_UPDATE_REGULAR_INDEX);
         generic_flags_vec.push(pc_update_regular);
 
@@ -70,17 +78,21 @@ impl AirFn for DecodeGenericInstruction {
             - generic_flags_vec[FLAG_AP_UPDATE_ADD_INDEX].clone()
             - generic_flags_vec[FLAG_AP_UPDATE_ADD_1_INDEX].clone()
             - generic_flags_vec[FLAG_OPCODE_CALL_INDEX].clone();
-        // Assert ap_update = 0 / 1 / 2 /4
-        air_builder
-            .constrain(ap_update_regular.clone() * (const_expr!(1) - ap_update_regular.clone()));
+        // Assert ap_update = 0 / 1 / 2 / 4
+        air_builder.constrain(
+            ap_update_regular.clone() * (const_expr!(1) - ap_update_regular.clone()),
+            "ap_update is 0, 1, 2, or 4",
+        );
 
         // fp_update_regular = 1 iff FLAG_OPCODE_CALL = 0 and FLAG_OPCODE_RET = 0
         let fp_update_regular = const_expr!(1)
             - generic_flags_vec[FLAG_OPCODE_CALL_INDEX].clone()
             - generic_flags_vec[FLAG_OPCODE_RET_INDEX].clone();
         // Assert opcode = 0 / 1 / 2 /4
-        air_builder
-            .constrain(fp_update_regular.clone() * (const_expr!(1) - fp_update_regular.clone()));
+        air_builder.constrain(
+            fp_update_regular.clone() * (const_expr!(1) - fp_update_regular.clone()),
+            "opcode is 0, 1, 2, or 4",
+        );
         assert_eq!(generic_flags_vec.len(), FLAG_FP_UPDATE_REGULAR_INDEX);
         generic_flags_vec.push(fp_update_regular);
 

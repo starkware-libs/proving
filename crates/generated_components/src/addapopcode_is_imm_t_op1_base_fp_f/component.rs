@@ -10,17 +10,15 @@ use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
 
-use crate::{
-    memory_k_m31_v_felt252, memory_k_m31_v_m31, opcodes, verifyinstruction, LOGUP_BATCH_SIZE,
-};
+use crate::{memoryaddresstoid, memoryidtobig, opcodes, verifyinstruction, LOGUP_BATCH_SIZE};
 
 pub type ComponentLookupElements = LookupElements<4>;
 
 pub struct AddApOpcode_is_imm_t_op1_base_fp_fEval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
-    pub memory_k_m31_v_felt252_lookup_elements: memory_k_m31_v_felt252::ComponentLookupElements,
-    pub memory_k_m31_v_m31_lookup_elements: memory_k_m31_v_m31::ComponentLookupElements,
+    pub memoryaddresstoid_lookup_elements: memoryaddresstoid::ComponentLookupElements,
+    pub memoryidtobig_lookup_elements: memoryidtobig::ComponentLookupElements,
     pub verifyinstruction_lookup_elements: verifyinstruction::ComponentLookupElements,
     pub opcodes_lookup_elements: opcodes::ComponentLookupElements,
 }
@@ -110,7 +108,7 @@ impl FrameworkEval for AddApOpcode_is_imm_t_op1_base_fp_fEval {
             &mut eval,
             E::EF::one(),
             &[(trace_row[0] + M31_1), trace_row[3]],
-            &self.memory_k_m31_v_m31_lookup_elements,
+            &self.memoryaddresstoid_lookup_elements,
         );
         eval.add_constraint((trace_row[4] * (trace_row[4] - M31_1)));
         eval.add_constraint((trace_row[5] * (trace_row[5] - M31_1)));
@@ -149,7 +147,7 @@ impl FrameworkEval for AddApOpcode_is_imm_t_op1_base_fp_fEval {
                 M31_0,
                 (trace_row[4] * M31_256),
             ],
-            &self.memory_k_m31_v_felt252_lookup_elements,
+            &self.memoryidtobig_lookup_elements,
         );
         logup.push_lookup(
             &mut eval,

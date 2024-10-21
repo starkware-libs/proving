@@ -47,11 +47,17 @@ impl AirFn for CondDecodeSmallSign {
         let mid_limbs_set = air_builder.deduce(mid_limbs_set_bool.as_felt_mut(), "mid_limbs_set");
 
         // Require case bits to be bits
-        air_builder.constrain(msb.clone() * (msb.clone() - const_expr!(1)));
-        air_builder.constrain(mid_limbs_set.clone() * (mid_limbs_set.clone() - const_expr!(1)));
+        air_builder.constrain(msb.clone() * (msb.clone() - const_expr!(1)), "msb is a bit");
+        air_builder.constrain(
+            mid_limbs_set.clone() * (mid_limbs_set.clone() - const_expr!(1)),
+            "mid_limbs_set is a bit",
+        );
 
         // Forbid the case msb = 0, mid_limbs_set = 1
-        air_builder.constrain(condition * mid_limbs_set.clone() * (msb.clone() - const_expr!(1)));
+        air_builder.constrain(
+            condition * mid_limbs_set.clone() * (msb.clone() - const_expr!(1)),
+            "Cannot have msb equals 0 and mid_limbs_set equals 1",
+        );
 
         [msb, mid_limbs_set]
     }

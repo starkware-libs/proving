@@ -23,7 +23,10 @@ impl AirFn for CondFelt252AsAddr {
 
     fn call(&self, ab: &mut AirBuilder, (value, condition): Self::In) -> Self::Out {
         for i in LIMBS_IN_M31..FELT252_N_WORDS {
-            ab.constrain(condition.clone() * value.get_felt(i));
+            ab.constrain(
+                condition.clone() * value.get_felt(i),
+                &format!("Address limb {} equals 0", i),
+            );
         }
         Felt252IdMemory::felt252_to_addr(value)
     }
@@ -56,7 +59,10 @@ impl AirFn for CondFelt252AsRelImm {
             .enumerate()
             .skip(LIMBS_IN_M31)
         {
-            ab.constrain(condition.clone() * (value.get_felt(i) - expected_limb));
+            ab.constrain(
+                condition.clone() * (value.get_felt(i) - expected_limb),
+                &format!("rel_imm limb {} is fixed", i),
+            );
         }
 
         // Return the rel imm value

@@ -110,7 +110,10 @@ impl AirFn for MulSmallOpcode {
         let mem1_base = if self.is_imm {
             casm_state.pc.clone()
         } else {
-            ab.constrain(flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1));
+            ab.constrain(
+                flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1),
+                "Either flag op1_base_fp is on or flag op1_base_ap is on",
+            );
             flag_op1_base_fp * casm_state.fp.clone() + flag_op1_base_ap * casm_state.ap.clone()
         };
         let (op1_value, _) = ab.call(
@@ -123,10 +126,8 @@ impl AirFn for MulSmallOpcode {
         let op1_m31 = op1_value.get_felt(0).clone()
             + const_expr!(1 << FELT252_BITS_PER_WORD) * op1_value.get_felt(1).clone();
 
-        let res = op0_m31 * op1_m31;
-
         // Assert that dst == res
-        ab.constrain(dst_m31 - res);
+        ab.constrain(dst_m31 - (op0_m31 * op1_m31), "dst equals op0 * op1");
 
         // Calculate the next ap
         let next_ap = casm_state.ap.clone() + flag_ap_update_add_1;

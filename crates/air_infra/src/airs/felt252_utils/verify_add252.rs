@@ -38,7 +38,10 @@ impl AirFn for VerifyAdd252 {
                 ^ UInt16Expr::from(c.get_felt(0)));
         sub_p_bit_u16 = air_builder.let_for_deduction(sub_p_bit_u16);
         let sub_p_bit = air_builder.deduce(sub_p_bit_u16.as_felt_mut(), "sub_p_bit");
-        air_builder.constrain(sub_p_bit.clone() * (sub_p_bit.clone() - const_expr!(1)));
+        air_builder.constrain(
+            sub_p_bit.clone() * (sub_p_bit.clone() - const_expr!(1)),
+            "sub_p_bit is a bit",
+        );
 
         let mut prev_carry = const_expr!(0);
         for (i, &p_felt) in P_FELTS.iter().enumerate().take(FELT252_N_WORDS - 1) {
@@ -46,7 +49,10 @@ impl AirFn for VerifyAdd252 {
                 - c.get_felt(i)
                 - const_expr!(p_felt) * sub_p_bit.clone();
             carry = air_builder.let_for_constraint(carry * shift_inverse.clone());
-            air_builder.constrain(carry.clone() * (carry.clone() * carry.clone() - const_expr!(1)));
+            air_builder.constrain(
+                carry.clone() * (carry.clone() * carry.clone() - const_expr!(1)),
+                "",
+            );
             prev_carry = carry;
         }
         let i = FELT252_N_WORDS - 1;
@@ -54,6 +60,7 @@ impl AirFn for VerifyAdd252 {
             a.get_felt(i) + b.get_felt(i) + prev_carry
                 - c.get_felt(i)
                 - const_expr!(P_FELTS[i]) * sub_p_bit,
+            "",
         );
     }
 }

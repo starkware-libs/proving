@@ -99,7 +99,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_3 * (tmp_3 - const_65536))"
+      "Constraint": [
+        "(tmp_3 * (tmp_3 - const_65536))"
+      ]
     },
     {
       "Intermediate": [
@@ -115,7 +117,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_4 * (tmp_4 - const_65536))"
+      "Constraint": [
+        "(tmp_4 * (tmp_4 - const_65536))"
+      ]
     }
   ]
 }

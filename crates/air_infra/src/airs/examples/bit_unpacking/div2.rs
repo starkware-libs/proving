@@ -25,7 +25,7 @@ impl AirFn for Div2 {
         // Calculate the least significant bit of the input = x0 - 2 * x1
         let lsb = air_builder.let_for_constraint(x0.as_felt() - (x1_felt * const_expr!(2)));
         // Constrain the least significant bit to be 0 or 1, i.e. (x0 - 2x1) * (x0 - 2x1 - 1) = 0
-        air_builder.constrain(lsb.clone() * (lsb.clone() - const_expr!(1)));
+        air_builder.constrain(lsb.clone() * (lsb.clone() - const_expr!(1)), "");
 
         (lsb.into(), x1)
     }

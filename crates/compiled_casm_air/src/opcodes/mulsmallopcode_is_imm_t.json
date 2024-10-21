@@ -891,120 +891,124 @@
     },
     "EndBlock",
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": 9
-                      },
-                      "+",
-                      {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          },
-                          "*",
-                          {
-                            "State": 10
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "Const": [
-                          "M31",
-                          "262144"
-                        ]
-                      },
-                      "*",
-                      {
-                        "State": 11
-                      }
-                    ]
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "Const": [
-                      "M31",
-                      "134217728"
-                    ]
-                  },
-                  "*",
-                  {
-                    "State": 12
-                  }
-                ]
-              }
-            ]
-          },
-          "-",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": 14
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      },
-                      "*",
-                      {
-                        "State": 15
-                      }
-                    ]
-                  }
-                ]
-              },
-              "*",
-              {
-                "BinaryOp": [
-                  {
-                    "State": 17
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      },
-                      "*",
-                      {
-                        "State": 18
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": 9
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": 10
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": 11
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "134217728"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": 12
+                    }
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 14
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": 15
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "*",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": 17
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": 18
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "((((state[9] + (const_512 * state[10])) + (const_262144 * state[11])) + (const_134217728 * state[12])) - ((state[14] + (const_512 * state[15])) * (state[17] + (const_512 * state[18]))))",
+        "dst equals op0 * op1"
+      ]
     },
     {
       "LookupData": {
@@ -1227,7 +1231,7 @@
             []
           ]
         },
-        "offset_0"
+        "offset0"
       ]
     },
     {
@@ -1381,7 +1385,7 @@
             []
           ]
         },
-        "offset_1"
+        "offset1"
       ]
     },
     {

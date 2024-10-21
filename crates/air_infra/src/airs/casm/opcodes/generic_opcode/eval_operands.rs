@@ -91,6 +91,7 @@ impl AirFn for EvalOperands {
                             * (res_felt.clone() - sum_felt.clone())
                         + flags[FLAG_RES_MUL_INDEX].clone()
                             * (res_felt.clone() - prod_felt.clone())),
+                "",
             );
         }
         [dst, op0, op1, res]

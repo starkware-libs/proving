@@ -18,7 +18,7 @@ use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleH
 
 use super::component::{Claim, ComponentLookupElements, InteractionClaim};
 use crate::{
-    memory_k_m31_v_felt252, memory_k_m31_v_m31, rangecheck_n_2_bits_4_3, rangecheck_n_3_bits_7_2_5,
+    memoryaddresstoid, memoryidtobig, rangecheck_n_2_bits_4_3, rangecheck_n_3_bits_7_2_5,
     verifyinstruction,
 };
 
@@ -32,19 +32,19 @@ impl ClaimGenerator {
     pub fn write_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        memory_k_m31_v_m31_state: &mut memory_k_m31_v_m31::ClaimGenerator,
+        memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
         rangecheck_n_2_bits_4_3_state: &mut rangecheck_n_2_bits_4_3::ClaimGenerator,
         rangecheck_n_3_bits_7_2_5_state: &mut rangecheck_n_3_bits_7_2_5::ClaimGenerator,
     ) -> ClaimProver {
         let len = self.inputs.len();
         #[allow(unused_variables)]
         let (trace, sub_components_inputs, lookup_data) =
-            write_trace_simd(self.inputs, memory_k_m31_v_m31_state);
+            write_trace_simd(self.inputs, memoryaddresstoid_state);
         sub_components_inputs
-            .memory_k_m31_v_m31_inputs
+            .memoryaddresstoid_inputs
             .iter()
             .for_each(|inputs| {
-                memory_k_m31_v_m31_state.add_inputs(inputs);
+                memoryaddresstoid_state.add_inputs(inputs);
             });
         sub_components_inputs
             .rangecheck_n_2_bits_4_3_inputs
@@ -74,7 +74,7 @@ impl ClaimGenerator {
 
 #[allow(non_snake_case)]
 pub struct SubComponentInputs {
-    pub memory_k_m31_v_m31_inputs: [Vec<memory_k_m31_v_m31::InputType>; 1],
+    pub memoryaddresstoid_inputs: [Vec<memoryaddresstoid::InputType>; 1],
     pub rangecheck_n_2_bits_4_3_inputs: [Vec<rangecheck_n_2_bits_4_3::InputType>; 1],
     pub rangecheck_n_3_bits_7_2_5_inputs: [Vec<rangecheck_n_3_bits_7_2_5::InputType>; 1],
 }
@@ -82,7 +82,7 @@ impl SubComponentInputs {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            memory_k_m31_v_m31_inputs: [Vec::with_capacity(capacity)],
+            memoryaddresstoid_inputs: [Vec::with_capacity(capacity)],
             rangecheck_n_2_bits_4_3_inputs: [Vec::with_capacity(capacity)],
             rangecheck_n_3_bits_7_2_5_inputs: [Vec::with_capacity(capacity)],
         }
@@ -93,7 +93,7 @@ impl SubComponentInputs {
 #[allow(unused_variables)]
 pub fn write_trace_simd(
     inputs: Vec<InputType>,
-    memory_k_m31_v_m31_state: &mut memory_k_m31_v_m31::ClaimGenerator,
+    memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
 ) -> (
     Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
     SubComponentInputs,
@@ -222,12 +222,12 @@ pub fn write_trace_simd(
             lookup_data.rangecheck_n_3_bits_7_2_5[0].push([col20, col21, col23]);
             sub_components_inputs.rangecheck_n_2_bits_4_3_inputs[0].push([col24, col26].into());
             lookup_data.rangecheck_n_2_bits_4_3[0].push([col24, col26]);
-            sub_components_inputs.memory_k_m31_v_m31_inputs[0].push(col0.into());
-            let tmp_24 = memory_k_m31_v_m31_state.deduce_output(col0.into());
-            let col27 = tmp_24;
+            sub_components_inputs.memoryaddresstoid_inputs[0].push(col0.into());
+            let tmp_36 = memoryaddresstoid_state.deduce_output(col0.into());
+            let col27 = tmp_36;
             trace_values[27].data[row_index] = col27;
-            lookup_data.memory_k_m31_v_m31[0].push([col0, col27]);
-            lookup_data.memory_k_m31_v_felt252[0].push([
+            lookup_data.memoryaddresstoid[0].push([col0, col27]);
+            lookup_data.memoryidtobig[0].push([
                 col27,
                 col19,
                 ((col20) + ((col21) * (M31_128))),
@@ -293,8 +293,8 @@ pub fn write_trace_simd(
 
 #[allow(non_snake_case)]
 pub struct LookupData {
-    pub memory_k_m31_v_felt252: [Vec<[PackedM31; 29]>; 1],
-    pub memory_k_m31_v_m31: [Vec<[PackedM31; 2]>; 1],
+    pub memoryaddresstoid: [Vec<[PackedM31; 2]>; 1],
+    pub memoryidtobig: [Vec<[PackedM31; 29]>; 1],
     pub rangecheck_n_2_bits_4_3: [Vec<[PackedM31; 2]>; 1],
     pub rangecheck_n_3_bits_7_2_5: [Vec<[PackedM31; 3]>; 1],
     pub verifyinstruction: [Vec<[PackedM31; 19]>; 1],
@@ -303,8 +303,8 @@ impl LookupData {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            memory_k_m31_v_felt252: [Vec::with_capacity(capacity)],
-            memory_k_m31_v_m31: [Vec::with_capacity(capacity)],
+            memoryaddresstoid: [Vec::with_capacity(capacity)],
+            memoryidtobig: [Vec::with_capacity(capacity)],
             rangecheck_n_2_bits_4_3: [Vec::with_capacity(capacity)],
             rangecheck_n_3_bits_7_2_5: [Vec::with_capacity(capacity)],
             verifyinstruction: [Vec::with_capacity(capacity)],
@@ -320,8 +320,8 @@ impl ClaimProver {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        memory_k_m31_v_felt252_lookup_elements: &memory_k_m31_v_felt252::ComponentLookupElements,
-        memory_k_m31_v_m31_lookup_elements: &memory_k_m31_v_m31::ComponentLookupElements,
+        memoryaddresstoid_lookup_elements: &memoryaddresstoid::ComponentLookupElements,
+        memoryidtobig_lookup_elements: &memoryidtobig::ComponentLookupElements,
         rangecheck_n_2_bits_4_3_lookup_elements: &rangecheck_n_2_bits_4_3::ComponentLookupElements,
         rangecheck_n_3_bits_7_2_5_lookup_elements: &rangecheck_n_3_bits_7_2_5::ComponentLookupElements,
         verifyinstruction_lookup_elements: &verifyinstruction::ComponentLookupElements,
@@ -346,17 +346,17 @@ impl ClaimProver {
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.memory_k_m31_v_m31[0];
+        let lookup_row = &self.lookup_data.memoryaddresstoid[0];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = memory_k_m31_v_m31_lookup_elements.combine(lookup_values);
+            let denom = memoryaddresstoid_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.memory_k_m31_v_felt252[0];
+        let lookup_row = &self.lookup_data.memoryidtobig[0];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = memory_k_m31_v_felt252_lookup_elements.combine(lookup_values);
+            let denom = memoryidtobig_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();

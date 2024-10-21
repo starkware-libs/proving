@@ -2,6 +2,7 @@ use inst_def::InstDef;
 
 use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
 
+use crate::airs::casm::common::*;
 use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
@@ -31,8 +32,11 @@ impl AirFn for EncodeFlags {
             "FlagsToFelts assumes there are 9 bits per felt in a felt252"
         );
 
-        for flag in flags.iter() {
-            ab.constrain(flag.clone() * (const_expr!(1) - flag.clone()));
+        for (i, flag) in flags.iter().enumerate() {
+            ab.constrain(
+                flag.clone() * (const_expr!(1) - flag.clone()),
+                &format!("Flag {} is a bit", FLAG_NAMES[i]),
+            );
         }
 
         let mut felt5 = const_expr!(0);

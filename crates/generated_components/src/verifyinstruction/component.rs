@@ -11,7 +11,7 @@ use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
 
 use crate::{
-    memory_k_m31_v_felt252, memory_k_m31_v_m31, rangecheck_n_2_bits_4_3, rangecheck_n_3_bits_7_2_5,
+    memoryaddresstoid, memoryidtobig, rangecheck_n_2_bits_4_3, rangecheck_n_3_bits_7_2_5,
     verifyinstruction, LOGUP_BATCH_SIZE,
 };
 
@@ -20,8 +20,8 @@ pub type ComponentLookupElements = LookupElements<3>;
 pub struct VerifyInstructionEval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
-    pub memory_k_m31_v_felt252_lookup_elements: memory_k_m31_v_felt252::ComponentLookupElements,
-    pub memory_k_m31_v_m31_lookup_elements: memory_k_m31_v_m31::ComponentLookupElements,
+    pub memoryaddresstoid_lookup_elements: memoryaddresstoid::ComponentLookupElements,
+    pub memoryidtobig_lookup_elements: memoryidtobig::ComponentLookupElements,
     pub rangecheck_n_2_bits_4_3_lookup_elements: rangecheck_n_2_bits_4_3::ComponentLookupElements,
     pub rangecheck_n_3_bits_7_2_5_lookup_elements:
         rangecheck_n_3_bits_7_2_5::ComponentLookupElements,
@@ -128,7 +128,7 @@ impl FrameworkEval for VerifyInstructionEval {
             &mut eval,
             E::EF::one(),
             &[trace_row[0], trace_row[27]],
-            &self.memory_k_m31_v_m31_lookup_elements,
+            &self.memoryaddresstoid_lookup_elements,
         );
         logup.push_lookup(
             &mut eval,
@@ -155,7 +155,7 @@ impl FrameworkEval for VerifyInstructionEval {
                     + (trace_row[17] * M31_128))
                     + (trace_row[18] * M31_256)),
             ],
-            &self.memory_k_m31_v_felt252_lookup_elements,
+            &self.memoryidtobig_lookup_elements,
         );
         logup.push_lookup(
             &mut eval,

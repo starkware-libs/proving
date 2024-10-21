@@ -702,87 +702,99 @@
       "StartBlock": "CondDecodeSmallSign"
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 6
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 6
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 6
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 6
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[6] * (state[6] - const_1))",
+        "msb is a bit"
+      ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "State": 7
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 7
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": 7
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 7
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "(state[7] * (state[7] - const_1))",
+        "mid_limbs_set is a bit"
+      ]
     },
     {
-      "Constraint": {
-        "BinaryOp": [
-          {
-            "BinaryOp": [
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              },
-              "*",
-              {
-                "State": 7
-              }
-            ]
-          },
-          "*",
-          {
-            "BinaryOp": [
-              {
-                "State": 6
-              },
-              "-",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ]
-      }
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "*",
+                {
+                  "State": 7
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": 6
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "((const_1 * state[7]) * (state[6] - const_1))",
+        "Cannot have msb equals 0 and mid_limbs_set equals 1"
+      ]
     },
     "EndBlock",
     {

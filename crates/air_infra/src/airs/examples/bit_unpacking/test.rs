@@ -56,6 +56,7 @@ impl AirFn for AirFnBitMux {
         air_builder.constrain(
             (bit.as_felt() * x_f.clone())
                 + (const_expr!(1) - bit.as_felt()) * (x_f - const_expr!(2)),
+            "",
         );
         bit
     }

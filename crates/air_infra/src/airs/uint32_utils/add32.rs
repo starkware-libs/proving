@@ -25,14 +25,14 @@ impl AirFn for Add32 {
 
         // Verify addition of the low halves
         let carry = air_builder.let_for_constraint((a.low().as_felt() + b.low().as_felt()) - cl);
-        air_builder.constrain(carry.clone() * (carry.clone() - const_expr!(1 << 16)));
+        air_builder.constrain(carry.clone() * (carry.clone() - const_expr!(1 << 16)), "");
 
         // Verify addition of the high halves
         let carry_hi = air_builder.let_for_constraint(
             ((a.high().as_felt() + b.high().as_felt()) - ch)
                 + carry * (const_expr!(1) / const_expr!(1 << 16)),
         );
-        air_builder.constrain(carry_hi.clone() * (carry_hi - const_expr!(1 << 16)));
+        air_builder.constrain(carry_hi.clone() * (carry_hi - const_expr!(1 << 16)), "");
 
         c
     }

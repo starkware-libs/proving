@@ -56,14 +56,14 @@ fn test_verify_inst() {
         (0, ""),     // opcode_call
         (0, ""),     // opcode_ret
         (1, ""),     // opcode_assert_eq
-        (1, "offset_0_low"),
-        (64, "offset_0_mid"),
-        (3, "offset_1_low"),
-        (511, "offset_1_mid"),
-        (15, "offset_1_high"),
-        (2, "offset_2_low"),
-        (0, "offset_2_mid"),
-        (4, "offset_2_high"),
+        (1, "offset0_low"),
+        (64, "offset0_mid"),
+        (3, "offset1_low"),
+        (511, "offset1_mid"),
+        (15, "offset1_high"),
+        (2, "offset2_low"),
+        (0, "offset2_mid"),
+        (4, "offset2_high"),
         (0, "id"),
     ]
     .into();

@@ -85,7 +85,10 @@ impl AirFn for AddOpcode {
         let mem1_base = if self.is_imm {
             casm_state.pc.clone()
         } else {
-            ab.constrain(flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1));
+            ab.constrain(
+                flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1),
+                "Either flag op1_base_fp is on or flag op1_base_ap is on",
+            );
             flag_op1_base_fp * casm_state.fp.clone() + flag_op1_base_ap * casm_state.ap.clone()
         };
 
@@ -110,7 +113,7 @@ impl AirFn for AddOpcode {
                 mem1_base + offset2,
             );
             // Assert that dst == op0 + op1
-            ab.constrain(dst - (op0 + op1));
+            ab.constrain(dst - (op0 + op1), "dst equals op0 + op1");
         } else {
             // Add big
             let (dst, _) = ab.call(

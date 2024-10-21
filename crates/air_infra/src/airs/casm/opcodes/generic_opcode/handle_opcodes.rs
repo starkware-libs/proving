@@ -40,16 +40,21 @@ impl AirFn for HandleOpcodes {
         for (res_felt, dst_felt) in res.as_felts().into_iter().zip(dst.as_felts().iter()) {
             air_builder.constrain(
                 flags[FLAG_OPCODE_ASSERT_EQ_INDEX].clone() * (res_felt.clone() - dst_felt.clone()),
+                "",
             );
         }
 
         // Handle ret
         // offset0 = -2
-        air_builder
-            .constrain(flags[FLAG_OPCODE_RET_INDEX].clone() * (offset0.clone() + const_expr!(2)));
+        air_builder.constrain(
+            flags[FLAG_OPCODE_RET_INDEX].clone() * (offset0.clone() + const_expr!(2)),
+            "ret opcode offset0 equals -2",
+        );
         // offset2 = -1
-        air_builder
-            .constrain(flags[FLAG_OPCODE_RET_INDEX].clone() * (offset2.clone() + const_expr!(1)));
+        air_builder.constrain(
+            flags[FLAG_OPCODE_RET_INDEX].clone() * (offset2.clone() + const_expr!(1)),
+            "ret opcode offset2 equals -1",
+        );
         // Assert that FLAG_PC_UPDATE_JUMP = FLAG_DST_BASE_FP = FLAG_OP1_BASE_FP =FLAG_RES_OP1 = 1
         air_builder.constrain(
             flags[FLAG_OPCODE_RET_INDEX].clone()
@@ -58,18 +63,25 @@ impl AirFn for HandleOpcodes {
                     - flags[FLAG_DST_BASE_FP_INDEX].clone()
                     - flags[FLAG_OP1_BASE_FP_INDEX].clone()
                     - flags[FLAG_RES_OP1_INDEX].clone()),
+            "ret opcode flags pc_update_jump and dst_base_fp and op1_base_fp_and_res_op1 are on",
         );
 
         // Handle call
         // ofsset0 = 0
-        air_builder.constrain(flags[FLAG_OPCODE_CALL_INDEX].clone() * offset0.clone());
+        air_builder.constrain(
+            flags[FLAG_OPCODE_CALL_INDEX].clone() * offset0.clone(),
+            "call opcode offset0 equals 0",
+        );
         // offset1 = 1
-        air_builder
-            .constrain(flags[FLAG_OPCODE_CALL_INDEX].clone() * (const_expr!(1) - offset1.clone()));
+        air_builder.constrain(
+            flags[FLAG_OPCODE_CALL_INDEX].clone() * (const_expr!(1) - offset1.clone()),
+            "call opcode offset1 equals 1",
+        );
         // Assert that FLAG_OP0_BASE_FP = FLAG_DST_BASE_FP = 0
         air_builder.constrain(
             flags[FLAG_OPCODE_CALL_INDEX].clone()
                 * (flags[FLAG_OP0_BASE_FP_INDEX].clone() + flags[FLAG_DST_BASE_FP_INDEX].clone()),
+            "call opcode flags op0_base_fp and dst_base_fp are off",
         );
 
         // Push fp
@@ -79,6 +91,7 @@ impl AirFn for HandleOpcodes {
         );
         air_builder.constrain(
             flags[FLAG_OPCODE_CALL_INDEX].clone() * (dst_as_addr - casm_state.fp.clone()),
+            "",
         );
 
         // Push pc
@@ -89,6 +102,7 @@ impl AirFn for HandleOpcodes {
         air_builder.constrain(
             flags[FLAG_OPCODE_CALL_INDEX].clone()
                 * (op0_as_addr - (casm_state.pc.clone() + flags[INSTRUCTION_SIZE_INDEX].clone())),
+            "",
         );
     }
 }

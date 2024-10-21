@@ -41,7 +41,10 @@
       ]
     },
     {
-      "Constraint": "(state[0] * (state[0] - const_1))"
+      "Constraint": [
+        "(state[0] * (state[0] - const_1))",
+        "sub_p_bit is a bit"
+      ]
     },
     {
       "Intermediate": [
@@ -57,7 +60,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_1 * ((tmp_1 * tmp_1) - const_1))"
+      "Constraint": [
+        "(tmp_1 * ((tmp_1 * tmp_1) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -73,7 +78,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_2 * ((tmp_2 * tmp_2) - const_1))"
+      "Constraint": [
+        "(tmp_2 * ((tmp_2 * tmp_2) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -89,7 +96,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_3 * ((tmp_3 * tmp_3) - const_1))"
+      "Constraint": [
+        "(tmp_3 * ((tmp_3 * tmp_3) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -105,7 +114,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_4 * ((tmp_4 * tmp_4) - const_1))"
+      "Constraint": [
+        "(tmp_4 * ((tmp_4 * tmp_4) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -121,7 +132,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_5 * ((tmp_5 * tmp_5) - const_1))"
+      "Constraint": [
+        "(tmp_5 * ((tmp_5 * tmp_5) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -137,7 +150,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_6 * ((tmp_6 * tmp_6) - const_1))"
+      "Constraint": [
+        "(tmp_6 * ((tmp_6 * tmp_6) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -153,7 +168,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_7 * ((tmp_7 * tmp_7) - const_1))"
+      "Constraint": [
+        "(tmp_7 * ((tmp_7 * tmp_7) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -169,7 +186,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_8 * ((tmp_8 * tmp_8) - const_1))"
+      "Constraint": [
+        "(tmp_8 * ((tmp_8 * tmp_8) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -185,7 +204,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_9 * ((tmp_9 * tmp_9) - const_1))"
+      "Constraint": [
+        "(tmp_9 * ((tmp_9 * tmp_9) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -201,7 +222,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_10 * ((tmp_10 * tmp_10) - const_1))"
+      "Constraint": [
+        "(tmp_10 * ((tmp_10 * tmp_10) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -217,7 +240,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_11 * ((tmp_11 * tmp_11) - const_1))"
+      "Constraint": [
+        "(tmp_11 * ((tmp_11 * tmp_11) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -233,7 +258,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_12 * ((tmp_12 * tmp_12) - const_1))"
+      "Constraint": [
+        "(tmp_12 * ((tmp_12 * tmp_12) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -249,7 +276,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_13 * ((tmp_13 * tmp_13) - const_1))"
+      "Constraint": [
+        "(tmp_13 * ((tmp_13 * tmp_13) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -265,7 +294,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_14 * ((tmp_14 * tmp_14) - const_1))"
+      "Constraint": [
+        "(tmp_14 * ((tmp_14 * tmp_14) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -281,7 +312,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_15 * ((tmp_15 * tmp_15) - const_1))"
+      "Constraint": [
+        "(tmp_15 * ((tmp_15 * tmp_15) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -297,7 +330,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_16 * ((tmp_16 * tmp_16) - const_1))"
+      "Constraint": [
+        "(tmp_16 * ((tmp_16 * tmp_16) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -313,7 +348,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_17 * ((tmp_17 * tmp_17) - const_1))"
+      "Constraint": [
+        "(tmp_17 * ((tmp_17 * tmp_17) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -329,7 +366,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_18 * ((tmp_18 * tmp_18) - const_1))"
+      "Constraint": [
+        "(tmp_18 * ((tmp_18 * tmp_18) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -345,7 +384,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_19 * ((tmp_19 * tmp_19) - const_1))"
+      "Constraint": [
+        "(tmp_19 * ((tmp_19 * tmp_19) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -361,7 +402,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_20 * ((tmp_20 * tmp_20) - const_1))"
+      "Constraint": [
+        "(tmp_20 * ((tmp_20 * tmp_20) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -377,7 +420,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_21 * ((tmp_21 * tmp_21) - const_1))"
+      "Constraint": [
+        "(tmp_21 * ((tmp_21 * tmp_21) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -393,7 +438,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_22 * ((tmp_22 * tmp_22) - const_1))"
+      "Constraint": [
+        "(tmp_22 * ((tmp_22 * tmp_22) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -409,7 +456,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_23 * ((tmp_23 * tmp_23) - const_1))"
+      "Constraint": [
+        "(tmp_23 * ((tmp_23 * tmp_23) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -425,7 +474,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_24 * ((tmp_24 * tmp_24) - const_1))"
+      "Constraint": [
+        "(tmp_24 * ((tmp_24 * tmp_24) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -441,7 +492,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_25 * ((tmp_25 * tmp_25) - const_1))"
+      "Constraint": [
+        "(tmp_25 * ((tmp_25 * tmp_25) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -457,7 +510,9 @@
       ]
     },
     {
-      "Constraint": "(tmp_26 * ((tmp_26 * tmp_26) - const_1))"
+      "Constraint": [
+        "(tmp_26 * ((tmp_26 * tmp_26) - const_1))"
+      ]
     },
     {
       "Intermediate": [
@@ -473,10 +528,14 @@
       ]
     },
     {
-      "Constraint": "(tmp_27 * ((tmp_27 * tmp_27) - const_1))"
+      "Constraint": [
+        "(tmp_27 * ((tmp_27 * tmp_27) - const_1))"
+      ]
     },
     {
-      "Constraint": "((((verifyadd252_input[0].get_m31(const_27) + verifyadd252_input[1].get_m31(const_27)) + tmp_27) - verifyadd252_input[2].get_m31(const_27)) - (const_256 * state[0]))"
+      "Constraint": [
+        "((((verifyadd252_input[0].get_m31(const_27) + verifyadd252_input[1].get_m31(const_27)) + tmp_27) - verifyadd252_input[2].get_m31(const_27)) - (const_256 * state[0]))"
+      ]
     }
   ]
 }

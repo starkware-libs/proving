@@ -28,7 +28,7 @@ impl<const N: usize> AirFn for BitUnpack<N> {
             output.push(bit);
         }
 
-        air_builder.constrain(input.as_felt());
+        air_builder.constrain(input.as_felt(), "");
         output.try_into().expect("Invalid number of bits")
     }
 }

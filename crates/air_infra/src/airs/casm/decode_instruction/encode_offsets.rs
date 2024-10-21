@@ -40,43 +40,43 @@ impl AirFn for EncodeOffsets {
         // Deduce the parts of offset0.
         let off0 = UInt16Expr::from(off0_f.clone());
         let mut low0 = ab.let_for_deduction(off0.clone() & const_u16_expr!(0x1FF));
-        let low0_f = ab.deduce(low0.as_felt_mut(), "offset_0_low");
+        let low0_f = ab.deduce(low0.as_felt_mut(), "offset0_low");
         let mut mid0 = ab.let_for_deduction(off0 >> const_u16_expr!(9));
-        let mid0_f = ab.deduce(mid0.as_felt_mut(), "offset_0_mid");
+        let mid0_f = ab.deduce(mid0.as_felt_mut(), "offset0_mid");
 
         // Reconstruct offset0 as felt from the middle and low parts.
         let new_off0_f = low0_f.clone() + (mid0_f.clone() * const_expr!(1 << 9));
-        ab.constrain(new_off0_f - off0_f);
+        ab.constrain(new_off0_f - off0_f, "Reconstructed offset0 is correct");
 
         // Deduce the parts of offset1.
         let off1 = UInt16Expr::from(off1_f.clone());
         let mut low1 = ab.let_for_deduction(off1.clone() & const_u16_expr!(0x3));
-        let low1_f = ab.deduce(low1.as_felt_mut(), "offset_1_low");
+        let low1_f = ab.deduce(low1.as_felt_mut(), "offset1_low");
         let mut mid1 =
             ab.let_for_deduction((off1.clone() >> const_u16_expr!(2)) & const_u16_expr!(0x1FF));
-        let mid1_f = ab.deduce(mid1.as_felt_mut(), "offset_1_mid");
+        let mid1_f = ab.deduce(mid1.as_felt_mut(), "offset1_mid");
         let mut high1 = ab.let_for_deduction(off1 >> const_u16_expr!(11));
-        let high1_f = ab.deduce(high1.as_felt_mut(), "offset_1_high");
+        let high1_f = ab.deduce(high1.as_felt_mut(), "offset1_high");
 
         // Reconstruct offset1 as felt from the high, middle and low parts.
         let new_off1_f = (low1_f.clone() + (mid1_f.clone() * const_expr!(1 << 2)))
             + (high1_f.clone() * const_expr!(1 << 11));
-        ab.constrain(new_off1_f - off1_f);
+        ab.constrain(new_off1_f - off1_f, "Reconstructed offset1 is correct");
 
         // Deduce the parts of offset2.
         let off2 = UInt16Expr::from(off2_f.clone());
         let mut low2 = ab.let_for_deduction(off2.clone() & const_u16_expr!(0xF));
-        let low2_f = ab.deduce(low2.as_felt_mut(), "offset_2_low");
+        let low2_f = ab.deduce(low2.as_felt_mut(), "offset2_low");
         let mut mid2 =
             ab.let_for_deduction((off2.clone() >> const_u16_expr!(4)) & const_u16_expr!(0x1FF));
-        let mid2_f = ab.deduce(mid2.as_felt_mut(), "offset_2_mid");
+        let mid2_f = ab.deduce(mid2.as_felt_mut(), "offset2_mid");
         let mut high2 = ab.let_for_deduction(off2 >> const_u16_expr!(13));
-        let high2_f = ab.deduce(high2.as_felt_mut(), "offset_2_high");
+        let high2_f = ab.deduce(high2.as_felt_mut(), "offset2_high");
 
         // Reconstruct offset2 as felt from the high, middle and low parts.
         let new_off2_f = (low2_f.clone() + (mid2_f.clone() * const_expr!(1 << 4)))
             + (high2_f.clone() * const_expr!(1 << 13));
-        ab.constrain(new_off2_f - off2_f);
+        ab.constrain(new_off2_f - off2_f, "Reconstructed offset2 is correct");
 
         ab.lookup_call(
             &RangeCheck { bits: [7, 2, 5] },

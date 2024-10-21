@@ -150,7 +150,7 @@ impl AirFn for VerifyMul252 {
                 max_bound: shifted_carry.max_bound >> FELT252_BITS_PER_WORD,
                 min_bound: shifted_carry.min_bound >> FELT252_BITS_PER_WORD,
             };
-            air_builder.constrain(carry.expr.clone() * shift.clone() - shifted_carry.expr);
+            air_builder.constrain(carry.expr.clone() * shift.clone() - shifted_carry.expr, "");
 
             // All carries fit inside the range (-2**17, 2**19 - 2**17), and are range-checked
             // correspondigly. This range is nearly sharp for the largest carries, and in particular
@@ -169,7 +169,10 @@ impl AirFn for VerifyMul252 {
             carry.min_bound = -(1i32 << 17);
         }
         // For the final limb, the computation must yield zero with no further carry.
-        air_builder.constrain(conv_mod_tmps[FELT252_N_WORDS - 1].expr.clone() + carry.expr);
+        air_builder.constrain(
+            conv_mod_tmps[FELT252_N_WORDS - 1].expr.clone() + carry.expr,
+            "",
+        );
     }
 }
 
