@@ -63,17 +63,17 @@ fn test_ret_opcode() {
     assert_eq!(output.fp.calc(), saved_fp.to_string());
     assert_eq!(output.ap.calc(), ap_value.to_string());
     let expected_state = vec![
-        (3, ""),
-        (11, ""),
-        (6, ""),
-        (1, "id"),
-        (1, "limb_0"),
-        (0, "limb_1"),
-        (0, "limb_2"),
-        (2, "id"),
-        (4, "limb_0"),
-        (0, "limb_1"),
-        (0, "limb_2"),
+        (3, "input_pc"),
+        (11, "input_ap"),
+        (6, "input_fp"),
+        (1, "next_pc_id"),
+        (1, "next_pc_limb_0"),
+        (0, "next_pc_limb_1"),
+        (0, "next_pc_limb_2"),
+        (2, "next_fp_id"),
+        (4, "next_fp_limb_0"),
+        (0, "next_fp_limb_1"),
+        (0, "next_fp_limb_2"),
     ]
     .into();
     assert!(

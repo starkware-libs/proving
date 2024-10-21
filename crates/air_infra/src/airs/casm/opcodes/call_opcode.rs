@@ -83,7 +83,7 @@ impl AirFn for CallOpcode {
             },
             (
                 casm_state.ap.clone(),
-                Felt252Expr::from(vec![casm_state.fp.clone()]),
+                Felt252Expr::from(vec![casm_state.fp.value.clone()]),
             ),
         );
 
@@ -93,29 +93,34 @@ impl AirFn for CallOpcode {
                 memory: self.memory.clone(),
             },
             (
-                casm_state.ap.clone() + const_expr!(1),
+                CasmAddress::new(casm_state.ap.value.clone() + const_expr!(1), "ap_plus_one"),
                 Felt252Expr::from(vec![
-                    (casm_state.pc.clone() + const_expr!(1 + (self.is_rel as u32))),
+                    (casm_state.pc.value.clone() + const_expr!(1 + (self.is_rel as u32))),
                 ]),
             ),
         );
 
         // Update pc.
         let next_pc = if self.is_rel {
-            casm_state.pc.clone() + self.memory.read_rel_imm(ab, casm_state.pc + const_expr!(1))
+            casm_state.pc.value.clone()
+                + self.memory.read_rel_imm(
+                    ab,
+                    CasmAddress::new(casm_state.pc.value + const_expr!(1), "next_pc"),
+                )
         } else {
             let mem1_base = if self.op1_base_fp {
-                casm_state.fp.clone()
+                casm_state.fp.value.clone()
             } else {
-                casm_state.ap.clone()
+                casm_state.ap.value.clone()
             };
-            self.memory.read_address(ab, mem1_base + offset2)
+            self.memory
+                .read_address(ab, CasmAddress::new(mem1_base + offset2, "next_pc"))
         };
 
         CasmStateVar::new(
             next_pc,
-            casm_state.ap.clone() + const_expr!(2),
-            casm_state.ap + const_expr!(2),
+            casm_state.ap.value.clone() + const_expr!(2),
+            casm_state.ap.value + const_expr!(2),
         )
     }
 

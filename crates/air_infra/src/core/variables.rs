@@ -18,7 +18,6 @@ use super::expressions::uint32_expr::*;
 use super::expressions::uint64_expr::*;
 use super::expressions::var_expr::*;
 use crate::airs::casm::casm_state::*;
-use crate::airs::casm::common::*;
 use crate::airs::casm::opcodes::generic_opcode::generic_opcode::*;
 
 #[cfg(test)]
@@ -29,6 +28,10 @@ use crate::impl_air_var;
 
 /// Every input and output of an air function is an AirVar.
 pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
+    fn get_felt_descriptions(&self) -> Option<Vec<String>> {
+        None
+    }
+
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr>;
 
     fn as_felts(&self) -> Vec<FeltExpr> {
@@ -241,13 +244,14 @@ impl InternalAirVarActions for () {
 impl_air_var!((BoolExpr, FeltExpr));
 impl_air_var!((BoolExpr, UInt16Expr));
 impl_air_var!((UInt16Expr, FeltExpr));
-impl_air_var!((FeltExpr, Felt252Expr));
+impl_air_var!((CasmAddress, Felt252Expr));
 impl_air_var!((Felt252Expr, FeltExpr));
 impl_air_var!([UInt32Expr]);
 impl_air_var!([BoolExpr]);
 impl_air_var!([FeltExpr]);
 impl_air_var!([UInt16Expr]);
 impl_air_var!([Felt252Expr]);
+impl_air_var!([CasmAddress]);
 type Flags = [FeltExpr; 15];
 type Offsets = [FeltExpr; 3];
 impl_air_var!((Offsets, Flags));

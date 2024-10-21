@@ -66,14 +66,16 @@ fn test_add_ap_negative_imm() {
     let fp = 6;
 
     // Fill memory
-    let mut memory_values = vec![(
-        const_expr!(pc),
-        const_felt252_expr!(
-            assemble_instruction(-1, -1, 1, add_ap_opcode.get_flags().into()) as u128,
-            0
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(-1, -1, 1, add_ap_opcode.get_flags().into()) as u128,
+                0
+            ),
         ),
-    )];
-    memory_values.push((const_expr!(pc + 1), const_felt252_expr!(-1i128)));
+        (const_expr!(pc + 1), const_felt252_expr!(-1i128)),
+    ];
     add_ap_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
@@ -90,15 +92,15 @@ fn test_add_ap_negative_imm() {
 
     // Check the state
     let expected_state = vec![
-        (30, ""),
-        (11, ""),
-        (6, ""),
-        (1, "id"),
+        (30, "input_pc"),
+        (11, "input_ap"),
+        (6, "input_fp"),
+        (1, "op1_id"),
         (1, "msb"),
         (0, "mid_limbs_set"),
-        (0, "limb_0"),
-        (0, "limb_1"),
-        (0, "limb_2"),
+        (0, "op1_limb_0"),
+        (0, "op1_limb_1"),
+        (0, "op1_limb_2"),
     ]
     .into();
     assert!(
@@ -126,17 +128,19 @@ fn test_add_ap_deref_base_fp() {
     let offset2 = 400;
 
     // Fill memory
-    let mut memory_values = vec![(
-        const_expr!(pc),
-        const_felt252_expr!(
-            assemble_instruction(-1, -1, offset2, add_ap_opcode.get_flags().into()) as u128,
-            0
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(-1, -1, offset2, add_ap_opcode.get_flags().into()) as u128,
+                0
+            ),
         ),
-    )];
-    memory_values.push((
-        const_expr!((fp as i16 + offset2) as u32),
-        const_felt252_expr!(op1),
-    ));
+        (
+            const_expr!((fp as i16 + offset2) as u32),
+            const_felt252_expr!(op1),
+        ),
+    ];
     add_ap_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
@@ -153,16 +157,16 @@ fn test_add_ap_deref_base_fp() {
 
     // Check the state
     let expected_state = vec![
-        (30, ""),
-        (11, ""),
-        (6, ""),
+        (30, "input_pc"),
+        (11, "input_ap"),
+        (6, "input_fp"),
         (33168, "offset2"),
-        (1, "id"),
+        (1, "op1_id"),
         (0, "msb"),
         (0, "mid_limbs_set"),
-        (299, "limb_0"),
-        (0, "limb_1"),
-        (0, "limb_2"),
+        (299, "op1_limb_0"),
+        (0, "op1_limb_1"),
+        (0, "op1_limb_2"),
     ]
     .into();
     assert!(
@@ -191,17 +195,19 @@ fn test_failed_op1_src() {
     let offset2 = 400;
 
     // Fill memory
-    let mut memory_values = vec![(
-        const_expr!(pc),
-        const_felt252_expr!(
-            assemble_instruction(-1, -1, offset2, add_ap_opcode.get_flags().into()) as u128,
-            0
+    let memory_values = vec![
+        (
+            const_expr!(pc),
+            const_felt252_expr!(
+                assemble_instruction(-1, -1, offset2, add_ap_opcode.get_flags().into()) as u128,
+                0
+            ),
         ),
-    )];
-    memory_values.push((
-        const_expr!((fp as i16 + offset2) as u32),
-        const_felt252_expr!(op1),
-    ));
+        (
+            const_expr!((fp as i16 + offset2) as u32),
+            const_felt252_expr!(op1),
+        ),
+    ];
     add_ap_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function

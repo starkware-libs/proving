@@ -3,6 +3,7 @@ use compiled_casm_air::prover_types::PRIME;
 use super::super::common::*;
 use super::decode_inst::*;
 
+use crate::airs::casm::casm_state::*;
 use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
@@ -57,7 +58,8 @@ fn test_with_matching_memory(
     };
 
     let (registry, entry) = AirFnRegistry::new(&air_fn);
-    let (state, (offsets_output, flags_output)) = registry.run_air(&air_fn, pc);
+    let (state, (offsets_output, flags_output)) =
+        registry.run_air(&air_fn, CasmAddress::new(pc, "pc"));
 
     // Check entry
     compare_json(

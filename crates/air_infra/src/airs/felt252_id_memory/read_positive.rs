@@ -2,7 +2,7 @@ use inst_def::InstDef;
 
 use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
 
-use crate::airs::casm::common::*;
+use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
@@ -26,9 +26,16 @@ impl AirFn for ReadPositive {
 
     fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
         // Read the id and deduce it as-is
-        let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &address);
-        air_builder.deduce(&mut id, "id");
-        air_builder.mem_verify(&self.memory.address_to_id, &address, id.clone());
+        let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &address.value);
+        air_builder.deduce(
+            &mut id,
+            &address
+                .desc
+                .clone()
+                .map(|s| format!("{}_id", s))
+                .unwrap_or("id".to_string()),
+        );
+        air_builder.mem_verify(&self.memory.address_to_id, &address.value, id.clone());
 
         // Prepare for value deduction
         let mut value = air_builder.mem_read_unverified(&self.memory.id_to_value, &id);
@@ -42,7 +49,14 @@ impl AirFn for ReadPositive {
             .take(num_nonzero_limbs)
             .enumerate()
         {
-            air_builder.deduce(limb, &format!("limb_{}", i));
+            air_builder.deduce(
+                limb,
+                &address
+                    .desc
+                    .clone()
+                    .map(|s| format!("{}_limb_{}", s, i))
+                    .unwrap_or(format!("limb_{}", i)),
+            );
         }
 
         // If required - range-check the most significant limb

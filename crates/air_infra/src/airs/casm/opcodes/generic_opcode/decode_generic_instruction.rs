@@ -2,6 +2,7 @@ use inst_def::InstDef;
 
 use super::generic_opcode::*;
 
+use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
 use crate::airs::casm::decode_instruction::decode_inst::*;
 use crate::airs::felt252_id_memory::memory::*;
@@ -20,7 +21,7 @@ pub struct DecodeGenericInstruction {
 // Returns a Decoded instance containing the values of the control flags and the offsets.
 // Adds the relevant constraints to assert a defined behavior.
 impl AirFn for DecodeGenericInstruction {
-    type In = FeltExpr;
+    type In = CasmAddress;
     type Out = ([FeltExpr; GENERIC_FLAGS_SIZE], [FeltExpr; 3]);
 
     fn call(&self, air_builder: &mut AirBuilder, pc: Self::In) -> Self::Out {

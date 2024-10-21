@@ -1,5 +1,6 @@
 use inst_def::InstDef;
 
+use super::super::casm_state::*;
 use super::super::common::*;
 use super::verify_inst::*;
 

@@ -3,8 +3,6 @@ use crate::core::expressions::felt_expr::*;
 // Macros
 use crate::const_expr;
 
-pub type CasmAddress = FeltExpr;
-
 pub const ADDRESS_BITS: usize = 27;
 pub const OFFSET_BITS: u32 = 16;
 

@@ -3,21 +3,86 @@ use compiled_casm_air::prover_types::{CasmState, ProverType};
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 
+use crate::core::Felt;
+
+#[derive(Clone, Debug, Default)]
+pub struct CasmAddress {
+    pub desc: Option<String>,
+    pub value: FeltExpr,
+}
+
+impl CasmAddress {
+    pub fn new(value: FeltExpr, desc: &str) -> Self {
+        CasmAddress {
+            desc: (!desc.is_empty()).then(|| desc.to_string()),
+            value,
+        }
+    }
+}
+
+impl AsProverType<Felt> for CasmAddress {
+    fn value(&self) -> Option<Felt> {
+        self.value.value()
+    }
+}
+
+impl From<CasmAddress> for AirVarImpl {
+    fn from(address: CasmAddress) -> AirVarImpl {
+        AirVarImpl::Expr(address.value.into())
+    }
+}
+
+impl InternalAirVarInfo for CasmAddress {
+    fn is_const(&self) -> bool {
+        self.value.is_const()
+    }
+
+    fn in_state(&self) -> bool {
+        self.value.in_state()
+    }
+
+    fn get_intermediate_types(&self) -> Vec<IntermediateType> {
+        self.value.get_intermediate_types()
+    }
+}
+
+impl InternalAirVarActions for CasmAddress {
+    fn let_(&self, name: String, intermediate_type: IntermediateType) -> Self {
+        CasmAddress {
+            desc: self.desc.clone(),
+            value: self.value.let_(name, intermediate_type.clone()),
+        }
+    }
+
+    fn new(name: String) -> Self {
+        CasmAddress {
+            desc: Some(name.clone()),
+            value: FeltExpr::new(name),
+        }
+    }
+}
+
+impl AirVar for CasmAddress {
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        self.value.as_felts_mut()
+    }
+}
+
 #[derive(Clone, Debug)]
 pub struct CasmStateVar {
     pub(super) name: Option<String>,
-    pub pc: FeltExpr,
-    pub ap: FeltExpr,
-    pub fp: FeltExpr,
+    pub pc: CasmAddress,
+    pub ap: CasmAddress,
+    pub fp: CasmAddress,
 }
 
 impl CasmStateVar {
     pub fn new(pc: FeltExpr, ap: FeltExpr, fp: FeltExpr) -> Self {
         CasmStateVar {
             name: None,
-            pc,
-            ap,
-            fp,
+            pc: CasmAddress::new(pc, "pc"),
+            ap: CasmAddress::new(ap, "ap"),
+            fp: CasmAddress::new(fp, "fp"),
         }
     }
 }
@@ -83,14 +148,18 @@ impl InternalAirVarActions for CasmStateVar {
     fn new(name: String) -> Self {
         CasmStateVar {
             name: Some(name.clone()),
-            pc: FeltExpr::new(format!("{}.pc", name)),
-            ap: FeltExpr::new(format!("{}.ap", name)),
-            fp: FeltExpr::new(format!("{}.fp", name)),
+            pc: CasmAddress::new(FeltExpr::new(format!("{}.pc", name)), "pc"),
+            ap: CasmAddress::new(FeltExpr::new(format!("{}.ap", name)), "ap"),
+            fp: CasmAddress::new(FeltExpr::new(format!("{}.fp", name)), "fp"),
         }
     }
 }
 
 impl AirVar for CasmStateVar {
+    fn get_felt_descriptions(&self) -> Option<Vec<String>> {
+        Some(vec!["pc".to_string(), "ap".to_string(), "fp".to_string()])
+    }
+
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         self.pc
             .as_felts_mut()

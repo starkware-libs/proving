@@ -2,7 +2,8 @@ use compiled_casm_air::utils::JSONS_LOOKUPS_DIR;
 
 use super::verify_inst::*;
 
-use crate::airs::casm::common::*;
+use super::super::casm_state::*;
+use super::super::common::*;
 use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
@@ -35,27 +36,30 @@ fn test_verify_inst() {
     );
 
     // Check state
-    let (state, _) = registry.run_air(&air_fn, (const_expr!(0), offsets, flags));
+    let (state, _) = registry.run_air(
+        &air_fn,
+        (CasmAddress::new(const_expr!(0), ""), offsets, flags),
+    );
     let expected_state = vec![
-        (0, ""),     // pc
-        (32769, ""), // offset_0
-        (32767, ""), // offset_1
-        (32770, ""), // offset_2
-        (0, ""),     // dst_base_fp
-        (1, ""),     // op0_base_fp
-        (0, ""),     // op1_imm
-        (1, ""),     // op1_base_fp
-        (0, ""),     // op1_base_ap
-        (0, ""),     // res_add
-        (0, ""),     // res_mul
-        (1, ""),     // pc_update_jump
-        (0, ""),     // pc_update_jump_rel
-        (1, ""),     // pc_update_jnz
-        (1, ""),     // ap_update_add
-        (0, ""),     // ap_update_add_1
-        (0, ""),     // opcode_call
-        (0, ""),     // opcode_ret
-        (1, ""),     // opcode_assert_eq
+        (0, "input"),     // pc
+        (32769, "input"), // offset_0
+        (32767, "input"), // offset_1
+        (32770, "input"), // offset_2
+        (0, "input"),     // dst_base_fp
+        (1, "input"),     // op0_base_fp
+        (0, "input"),     // op1_imm
+        (1, "input"),     // op1_base_fp
+        (0, "input"),     // op1_base_ap
+        (0, "input"),     // res_add
+        (0, "input"),     // res_mul
+        (1, "input"),     // pc_update_jump
+        (0, "input"),     // pc_update_jump_rel
+        (1, "input"),     // pc_update_jnz
+        (1, "input"),     // ap_update_add
+        (0, "input"),     // ap_update_add_1
+        (0, "input"),     // opcode_call
+        (0, "input"),     // opcode_ret
+        (1, "input"),     // opcode_assert_eq
         (1, "offset0_low"),
         (64, "offset0_mid"),
         (3, "offset1_low"),
@@ -64,7 +68,7 @@ fn test_verify_inst() {
         (2, "offset2_low"),
         (0, "offset2_mid"),
         (4, "offset2_high"),
-        (0, "id"),
+        (0, "instruction_id"),
     ]
     .into();
     assert!(

@@ -73,10 +73,20 @@ fn build_and_test(
     };
 
     // Fill memory
-    let mut memory_values = vec![(
-        pc.clone(),
-        const_felt252_expr!(assemble_call(offset2, &call_opcode.get_flags()) as u128, 0),
-    )];
+    let mut memory_values = vec![
+        (
+            pc.clone(),
+            const_felt252_expr!(assemble_call(offset2, &call_opcode.get_flags()) as u128, 0),
+        ),
+        (
+            const_expr!(ap_value),
+            const_felt252_expr!(fp_value as u128, 0),
+        ),
+        (
+            const_expr!(ap_value + 1),
+            const_felt252_expr!((pc_value + (if is_rel { 2 } else { 1 })) as u128, 0),
+        ),
+    ];
 
     let op1_value_252 = const_felt252_expr!(op1_value);
     if is_rel {
@@ -92,16 +102,6 @@ fn build_and_test(
             op1_value_252,
         ));
     }
-
-    memory_values.push((
-        const_expr!(ap_value),
-        const_felt252_expr!(fp_value as u128, 0),
-    ));
-    let ret_addr = pc_value + (if is_rel { 2 } else { 1 });
-    memory_values.push((
-        const_expr!(ap_value + 1),
-        const_felt252_expr!(ret_addr as u128, 0),
-    ));
 
     call_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
@@ -138,17 +138,17 @@ fn test_relative_call() {
         None,
         500,
         vec![
-            (50, ""),
-            (200, ""),
-            (150, ""),
-            (2, "id"),
-            (3, "id"),
-            (1, "id"),
+            (50, "input_pc"),
+            (200, "input_ap"),
+            (150, "input_fp"),
+            (1, "ap_id"),
+            (2, "ap_plus_one_id"),
+            (3, "next_pc_id"),
             (0, "msb"),
             (0, "mid_limbs_set"),
-            (500, "limb_0"),
-            (0, "limb_1"),
-            (0, "limb_2"),
+            (500, "next_pc_limb_0"),
+            (0, "next_pc_limb_1"),
+            (0, "next_pc_limb_2"),
         ]
         .into(),
     );
@@ -161,17 +161,17 @@ fn test_relative_call_negative() {
         None,
         -17,
         vec![
-            (50, ""),
-            (200, ""),
-            (150, ""),
-            (2, "id"),
-            (3, "id"),
-            (1, "id"),
+            (50, "input_pc"),
+            (200, "input_ap"),
+            (150, "input_fp"),
+            (1, "ap_id"),
+            (2, "ap_plus_one_id"),
+            (3, "next_pc_id"),
             (1, "msb"),
             (1, "mid_limbs_set"),
-            (496, "limb_0"),
-            (511, "limb_1"),
-            (511, "limb_2"),
+            (496, "next_pc_limb_0"),
+            (511, "next_pc_limb_1"),
+            (511, "next_pc_limb_2"),
         ]
         .into(),
     );
@@ -184,16 +184,16 @@ fn test_call_base_fp_positive_offset2() {
         Some(5),
         600,
         vec![
-            (50, ""),
-            (200, ""),
-            (150, ""),
+            (50, "input_pc"),
+            (200, "input_ap"),
+            (150, "input_fp"),
             (32773, "offset2"),
-            (2, "id"),
-            (3, "id"),
-            (1, "id"),
-            (88, "limb_0"),
-            (1, "limb_1"),
-            (0, "limb_2"),
+            (1, "ap_id"),
+            (2, "ap_plus_one_id"),
+            (3, "next_pc_id"),
+            (88, "next_pc_limb_0"),
+            (1, "next_pc_limb_1"),
+            (0, "next_pc_limb_2"),
         ]
         .into(),
     );
@@ -206,16 +206,16 @@ fn test_call_base_fp_negative_offset2() {
         Some(-5),
         400,
         vec![
-            (50, ""),
-            (200, ""),
-            (150, ""),
+            (50, "input_pc"),
+            (200, "input_ap"),
+            (150, "input_fp"),
             (32763, "offset2"),
-            (2, "id"),
-            (3, "id"),
-            (1, "id"),
-            (400, "limb_0"),
-            (0, "limb_1"),
-            (0, "limb_2"),
+            (1, "ap_id"),
+            (2, "ap_plus_one_id"),
+            (3, "next_pc_id"),
+            (400, "next_pc_limb_0"),
+            (0, "next_pc_limb_1"),
+            (0, "next_pc_limb_2"),
         ]
         .into(),
     );
@@ -228,16 +228,16 @@ fn test_call_base_ap_positive_offset2() {
         Some(10),
         1234,
         vec![
-            (50, ""),
-            (200, ""),
-            (150, ""),
+            (50, "input_pc"),
+            (200, "input_ap"),
+            (150, "input_fp"),
             (32778, "offset2"),
-            (2, "id"),
-            (3, "id"),
-            (1, "id"),
-            (210, "limb_0"),
-            (2, "limb_1"),
-            (0, "limb_2"),
+            (1, "ap_id"),
+            (2, "ap_plus_one_id"),
+            (3, "next_pc_id"),
+            (210, "next_pc_limb_0"),
+            (2, "next_pc_limb_1"),
+            (0, "next_pc_limb_2"),
         ]
         .into(),
     );
@@ -250,16 +250,16 @@ fn test_call_base_ap_negative_offset2() {
         Some(-10),
         55,
         vec![
-            (50, ""),
-            (200, ""),
-            (150, ""),
+            (50, "input_pc"),
+            (200, "input_ap"),
+            (150, "input_fp"),
             (32758, "offset2"),
-            (2, "id"),
-            (3, "id"),
-            (1, "id"),
-            (55, "limb_0"),
-            (0, "limb_1"),
-            (0, "limb_2"),
+            (1, "ap_id"),
+            (2, "ap_plus_one_id"),
+            (3, "next_pc_id"),
+            (55, "next_pc_limb_0"),
+            (0, "next_pc_limb_1"),
+            (0, "next_pc_limb_2"),
         ]
         .into(),
     );

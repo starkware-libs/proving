@@ -3,6 +3,7 @@ use inst_def::InstDef;
 use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
 
 use crate::airs::casm::bitwise_xor::*;
+use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::seq::*;
 use crate::airs::felt252_id_memory::memory::*;
 use crate::airs::felt252_id_memory::read_positive::*;
@@ -48,8 +49,14 @@ impl AirFn for BitwiseBuiltin {
         let verify_felt252 = MemVerify {
             memory: self.memory.clone(),
         };
-        let (a, _) = air_builder.call(&read_felt252, get_addr(instance_num.clone(), 0));
-        let (b, _) = air_builder.call(&read_felt252, get_addr(instance_num.clone(), 1));
+        let (a, _) = air_builder.call(
+            &read_felt252,
+            CasmAddress::new(get_addr(instance_num.clone(), 0), "op0"),
+        );
+        let (b, _) = air_builder.call(
+            &read_felt252,
+            CasmAddress::new(get_addr(instance_num.clone(), 1), "op1"),
+        );
         let mut expected_xor = vec![];
         let mut expected_and = vec![];
         let mut expected_or = vec![];
@@ -68,15 +75,24 @@ impl AirFn for BitwiseBuiltin {
         }
         air_builder.call(
             &verify_felt252,
-            (get_addr(instance_num.clone(), 2), expected_and.into()),
+            (
+                CasmAddress::new(get_addr(instance_num.clone(), 2), "and"),
+                expected_and.into(),
+            ),
         );
         air_builder.call(
             &verify_felt252,
-            (get_addr(instance_num.clone(), 3), expected_xor.into()),
+            (
+                CasmAddress::new(get_addr(instance_num.clone(), 3), "xor"),
+                expected_xor.into(),
+            ),
         );
         air_builder.call(
             &verify_felt252,
-            (get_addr(instance_num.clone(), 4), expected_or.into()),
+            (
+                CasmAddress::new(get_addr(instance_num.clone(), 4), "or"),
+                expected_or.into(),
+            ),
         );
     }
 

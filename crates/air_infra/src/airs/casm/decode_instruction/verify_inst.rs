@@ -2,7 +2,7 @@ use inst_def::InstDef;
 
 use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
 
-use super::super::common::*;
+use super::super::casm_state::*;
 use super::encode_flags::*;
 use super::encode_offsets::*;
 
@@ -56,7 +56,10 @@ impl AirFn for VerifyInstruction {
             &MemVerify {
                 memory: self.memory.clone(),
             },
-            (pc.clone(), expected_instruction),
+            (
+                CasmAddress::new(pc.value.clone(), "instruction"),
+                expected_instruction,
+            ),
         );
     }
 

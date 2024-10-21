@@ -78,18 +78,19 @@ impl AirFn for AddOpcode {
         let flag_op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].clone();
         let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
-        let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp.clone()
-            + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap.clone();
-        let mem0_base = flag_op0_base_fp.clone() * casm_state.fp.clone()
-            + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap.clone();
+        let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp.value.clone()
+            + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap.value.clone();
+        let mem0_base = flag_op0_base_fp.clone() * casm_state.fp.value.clone()
+            + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap.value.clone();
         let mem1_base = if self.is_imm {
-            casm_state.pc.clone()
+            casm_state.pc.value.clone()
         } else {
             ab.constrain(
                 flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1),
                 "Either flag op1_base_fp is on or flag op1_base_ap is on",
             );
-            flag_op1_base_fp * casm_state.fp.clone() + flag_op1_base_ap * casm_state.ap.clone()
+            flag_op1_base_fp * casm_state.fp.value.clone()
+                + flag_op1_base_ap * casm_state.ap.value.clone()
         };
 
         // Add Small
@@ -98,19 +99,19 @@ impl AirFn for AddOpcode {
                 &ReadSmall {
                     memory: self.memory.clone(),
                 },
-                mem_dst_base + offset0,
+                CasmAddress::new(mem_dst_base + offset0, "dst"),
             );
             let (op0, _) = ab.call(
                 &ReadSmall {
                     memory: self.memory.clone(),
                 },
-                mem0_base + offset1,
+                CasmAddress::new(mem0_base + offset1, "op0"),
             );
             let (op1, _) = ab.call(
                 &ReadSmall {
                     memory: self.memory.clone(),
                 },
-                mem1_base + offset2,
+                CasmAddress::new(mem1_base + offset2, "op1"),
             );
             // Assert that dst == op0 + op1
             ab.constrain(dst - (op0 + op1), "dst equals op0 + op1");
@@ -121,36 +122,36 @@ impl AirFn for AddOpcode {
                     num_bits: 252,
                     memory: self.memory.clone(),
                 },
-                mem_dst_base + offset0,
+                CasmAddress::new(mem_dst_base + offset0, "dst"),
             );
             let (op0, _) = ab.call(
                 &ReadPositive {
                     num_bits: 252,
                     memory: self.memory.clone(),
                 },
-                mem0_base + offset1,
+                CasmAddress::new(mem0_base + offset1, "op0"),
             );
             let (op1, _) = ab.call(
                 &ReadPositive {
                     num_bits: 252,
                     memory: self.memory.clone(),
                 },
-                mem1_base + offset2,
+                CasmAddress::new(mem1_base + offset2, "op1"),
             );
             ab.call(&VerifyAdd252 {}, [op0, op1, dst]);
         }
 
         // Calculate the next ap
-        let next_ap = casm_state.ap.clone() + flag_ap_update_add_1;
+        let next_ap = casm_state.ap.value.clone() + flag_ap_update_add_1;
 
         // Calculate the next pc
         let next_pc = if self.is_imm {
-            casm_state.pc + const_expr!(2)
+            casm_state.pc.value + const_expr!(2)
         } else {
-            casm_state.pc + const_expr!(1)
+            casm_state.pc.value + const_expr!(1)
         };
 
-        CasmStateVar::new(next_pc, next_ap, casm_state.fp)
+        CasmStateVar::new(next_pc, next_ap, casm_state.fp.value)
     }
 
     fn trace_type(&self) -> TraceType {

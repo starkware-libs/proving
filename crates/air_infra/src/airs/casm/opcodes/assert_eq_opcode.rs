@@ -97,22 +97,24 @@ impl AirFn for AssertEqOpcode {
         let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
         // Fetch dst
-        let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp.clone()
-            + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap.clone();
+        let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp.value.clone()
+            + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap.value.clone();
 
         // Find mem1_base
         let mem1_base = if self.is_double_deref {
-            let mem0_base = flag_op0_base_fp.clone() * casm_state.fp.clone()
-                + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap.clone();
-            self.memory.read_address(ab, mem0_base + offset1)
+            let mem0_base = flag_op0_base_fp.clone() * casm_state.fp.value.clone()
+                + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap.value.clone();
+            self.memory
+                .read_address(ab, CasmAddress::new(mem0_base + offset1, "mem1_base"))
         } else if self.is_imm {
-            casm_state.pc.clone()
+            casm_state.pc.value.clone()
         } else {
             ab.constrain(
                 flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1),
                 "Either flag op1_base_fp is on or flag op1_base_ap is on",
             );
-            flag_op1_base_fp * casm_state.fp.clone() + flag_op1_base_ap * casm_state.ap.clone()
+            flag_op1_base_fp * casm_state.fp.value.clone()
+                + flag_op1_base_ap * casm_state.ap.value.clone()
         };
 
         // Assert that dst == op1
@@ -120,20 +122,23 @@ impl AirFn for AssertEqOpcode {
             &MemVerifyEqual {
                 memory: self.memory.clone(),
             },
-            [mem_dst_base + offset0, mem1_base + offset2],
+            [
+                CasmAddress::new(mem_dst_base + offset0, "dst"),
+                CasmAddress::new(mem1_base + offset2, "op1"),
+            ],
         );
 
         // Calculate the next ap
-        let next_ap = casm_state.ap.clone() + flag_ap_update_add_1;
+        let next_ap = casm_state.ap.value.clone() + flag_ap_update_add_1;
 
         // Calculate the next pc
         let next_pc = if self.is_imm {
-            casm_state.pc + const_expr!(2)
+            casm_state.pc.value + const_expr!(2)
         } else {
-            casm_state.pc + const_expr!(1)
+            casm_state.pc.value + const_expr!(1)
         };
 
-        CasmStateVar::new(next_pc, next_ap, casm_state.fp)
+        CasmStateVar::new(next_pc, next_ap, casm_state.fp.value)
     }
 
     fn trace_type(&self) -> TraceType {

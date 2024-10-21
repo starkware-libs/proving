@@ -1,3 +1,4 @@
+use super::super::casm::casm_state::*;
 use super::memory::*;
 use super::read_positive::*;
 use super::read_small::*;
@@ -48,7 +49,7 @@ fn test_read_small() {
     let read_small = ReadSmall { memory };
     let (registry, _) = AirFnRegistry::new(&read_small);
 
-    let (state, output) = registry.run_air(&read_small, const_expr!(1));
+    let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(1), ""));
     assert_eq!(output.0.calc(), "7".to_string());
     let expected_state = vec![
         (0, "id"),
@@ -66,7 +67,7 @@ fn test_read_small() {
         expected_state
     );
 
-    let (state, output) = registry.run_air(&read_small, const_expr!(2));
+    let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(2), ""));
     assert_eq!(output.0.calc(), "7".to_string());
     let expected_state = vec![
         (0, "id"),
@@ -84,7 +85,7 @@ fn test_read_small() {
         expected_state
     );
 
-    let (state, output) = registry.run_air(&read_small, const_expr!(3));
+    let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(3), ""));
     assert_eq!(output.0.calc(), ((1i64 << 31) - 2).to_string());
     let expected_state = vec![
         (1, "id"),
@@ -102,7 +103,7 @@ fn test_read_small() {
         expected_state
     );
 
-    let (state, output) = registry.run_air(&read_small, const_expr!(4));
+    let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(4), ""));
     assert_eq!(output.0.calc(), ((1i64 << 31) - 3).to_string());
     let expected_state = vec![
         (2, "id"),
@@ -120,7 +121,7 @@ fn test_read_small() {
         expected_state
     );
 
-    let (state, output) = registry.run_air(&read_small, const_expr!(5));
+    let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(5), ""));
     assert_eq!(output.0.calc(), "0".to_string());
     let expected_state = vec![
         (3, "id"),
@@ -138,7 +139,7 @@ fn test_read_small() {
         expected_state
     );
 
-    let (state, output) = registry.run_air(&read_small, const_expr!(6));
+    let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(6), ""));
     assert_eq!(output.0.calc(), "1".to_string());
     let expected_state = vec![
         (4, "id"),
@@ -176,7 +177,7 @@ fn test_read_positive(value: Felt252Expr, num_bits: usize) {
     let read_positive = ReadPositive { memory, num_bits };
 
     let (registry, _) = AirFnRegistry::new(&read_positive);
-    let (_state, output) = registry.run_air(&read_positive, const_expr!(0));
+    let (_state, output) = registry.run_air(&read_positive, CasmAddress::new(const_expr!(0), ""));
 
     assert_eq!(output.0.calc(), value.calc());
 }

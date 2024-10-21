@@ -1,5 +1,6 @@
 use inst_def::InstDef;
 
+use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::seq::*;
 use crate::airs::felt252_id_memory::memory::*;
 use crate::airs::felt252_id_memory::read_positive::*;
@@ -32,7 +33,7 @@ impl AirFn for RangeCheckBuiltin {
                 num_bits: self.bits,
                 memory: self.memory.clone(),
             },
-            const_expr!(DUMMY_SEGMENT_START) + instance_number,
+            CasmAddress::new(const_expr!(DUMMY_SEGMENT_START) + instance_number, "value"),
         );
     }
 

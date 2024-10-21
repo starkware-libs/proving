@@ -4,7 +4,7 @@ use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
 
 use super::memory::*;
 
-use crate::airs::casm::common::*;
+use crate::airs::casm::casm_state::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -129,9 +129,16 @@ impl AirFn for ReadSmall {
     type Out = (FeltExpr, FeltExpr);
 
     fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
-        let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &address);
-        air_builder.deduce(&mut id, "id");
-        air_builder.mem_verify(&self.memory.address_to_id, &address, id.clone());
+        let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &address.value);
+        air_builder.deduce(
+            &mut id,
+            &address
+                .desc
+                .clone()
+                .map(|s| format!("{}_id", s))
+                .unwrap_or("id".to_string()),
+        );
+        air_builder.mem_verify(&self.memory.address_to_id, &address.value, id.clone());
         let mut value = air_builder.mem_read_unverified(&self.memory.id_to_value, &id);
 
         // Compute and deduce "case" bits: msb and mid_limbs_set
@@ -141,7 +148,16 @@ impl AirFn for ReadSmall {
         // Least significant three are deduced as-is
         let mut low_value_limbs = vec![];
         for i in 0..LIMBS_IN_M31 {
-            low_value_limbs.push(air_builder.deduce(value.get_felt_mut(i), &format!("limb_{}", i)));
+            low_value_limbs.push(
+                air_builder.deduce(
+                    value.get_felt_mut(i),
+                    &address
+                        .desc
+                        .clone()
+                        .map(|s| format!("{}_limb_{}", s, i))
+                        .unwrap_or(format!("limb_{}", i)),
+                ),
+            );
         }
         let low_limbs_arr: [FeltExpr; LIMBS_IN_M31] = low_value_limbs
             .try_into()

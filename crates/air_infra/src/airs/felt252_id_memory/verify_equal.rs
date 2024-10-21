@@ -2,7 +2,7 @@ use inst_def::InstDef;
 
 use super::memory::*;
 
-use crate::airs::casm::common::*;
+use crate::airs::casm::casm_state::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 
@@ -18,10 +18,16 @@ impl AirFn for MemVerifyEqual {
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, [addr1, addr2]: Self::In) -> Self::Out {
-        let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &addr1);
-        air_builder.deduce(&mut id, "id");
-        air_builder.mem_verify(&self.memory.address_to_id, &addr1, id.clone());
-        air_builder.mem_verify(&self.memory.address_to_id, &addr2, id);
+        let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &addr1.value);
+        air_builder.deduce(
+            &mut id,
+            &addr1
+                .desc
+                .map(|s| format!("{}_id", s))
+                .unwrap_or("id".to_string()),
+        );
+        air_builder.mem_verify(&self.memory.address_to_id, &addr1.value, id.clone());
+        air_builder.mem_verify(&self.memory.address_to_id, &addr2.value, id);
     }
 }
 
@@ -39,9 +45,15 @@ impl AirFn for MemCondVerifyEqualKnownId {
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, (addr1, id2, cond): Self::In) -> Self::Out {
-        let mut id1 = air_builder.mem_read_unverified(&self.memory.address_to_id, &addr1);
-        air_builder.deduce(&mut id1, "id");
-        air_builder.mem_verify(&self.memory.address_to_id, &addr1, id1.clone());
+        let mut id1 = air_builder.mem_read_unverified(&self.memory.address_to_id, &addr1.value);
+        air_builder.deduce(
+            &mut id1,
+            &addr1
+                .desc
+                .map(|s| format!("{}_id", s))
+                .unwrap_or("id".to_string()),
+        );
+        air_builder.mem_verify(&self.memory.address_to_id, &addr1.value, id1.clone());
 
         air_builder.constrain(
             (id1 - id2) * cond,

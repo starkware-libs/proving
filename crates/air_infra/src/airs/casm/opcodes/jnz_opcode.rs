@@ -70,11 +70,10 @@ impl AirFn for JnzOpcode {
 
         // Fetch dst - the value upon which the jump is conditioned.
         let mem_dst_base = if self.dst_base_fp {
-            casm_state.fp.clone()
+            casm_state.fp.value.clone()
         } else {
-            casm_state.ap.clone()
+            casm_state.ap.value.clone()
         };
-        let dst_key = mem_dst_base + offset_dst;
 
         let dst = ab
             .call(
@@ -82,7 +81,7 @@ impl AirFn for JnzOpcode {
                     num_bits: 252,
                     memory: self.memory.clone(),
                 },
-                dst_key,
+                CasmAddress::new(mem_dst_base + offset_dst, "dst"),
             )
             .0
             .as_felts();
@@ -126,19 +125,23 @@ impl AirFn for JnzOpcode {
                 "dst doesn't equal P",
             );
 
-            casm_state.pc.clone() + self.memory.read_rel_imm(ab, casm_state.pc + const_expr!(1))
+            casm_state.pc.value.clone()
+                + self.memory.read_rel_imm(
+                    ab,
+                    CasmAddress::new(casm_state.pc.value + const_expr!(1), "next_pc"),
+                )
         } else {
             // constrain dst == 0
             // This is sound because in this case it is sufficient to make sure that dst is zero.
             // The sum of the parts of dst is zero iff dst is zero because they are too small to wrap around m31.
             ab.constrain(dst_sum, "dst equals 0");
-            casm_state.pc + const_expr!(2)
+            casm_state.pc.value + const_expr!(2)
         };
 
         // Calculate the next ap
-        let next_ap = casm_state.ap + ap_update_add_1;
+        let next_ap = casm_state.ap.value + ap_update_add_1;
 
-        CasmStateVar::new(next_pc, next_ap, casm_state.fp)
+        CasmStateVar::new(next_pc, next_ap, casm_state.fp.value)
     }
 
     fn trace_type(&self) -> TraceType {

@@ -121,8 +121,14 @@ pub trait AirFn: Debug + InstDefTrait {
             }
         } else if !Self::In::is_empty() {
             input = air_builder.let_for_deduction(input);
-            for felt in input.as_felts_mut() {
-                air_builder.deduce(felt, "");
+            if let Some(descs) = input.get_felt_descriptions() {
+                for (felt, desc) in input.as_felts_mut().into_iter().zip(descs) {
+                    air_builder.deduce(felt, &format!("input_{}", desc));
+                }
+            } else {
+                for felt in input.as_felts_mut() {
+                    air_builder.deduce(felt, "input");
+                }
             }
         }
 
@@ -419,8 +425,14 @@ impl AirBuilder {
                 },
             );
 
-            for felt in output.as_felts_mut() {
-                self.deduce(felt, "");
+            if let Some(descs) = output.get_felt_descriptions() {
+                for (felt, desc) in output.as_felts_mut().into_iter().zip(descs) {
+                    self.deduce(felt, &format!("{}_output_{}", air_fn.name(), desc));
+                }
+            } else {
+                for felt in output.as_felts_mut() {
+                    self.deduce(felt, &format!("{}_output", air_fn.name()));
+                }
             }
         }
 

@@ -99,20 +99,20 @@ fn test_assert_eq_double_deref_big_op0() {
         1546487,
         15,
         vec![
-            (3, ""),
-            (11, ""),
-            (6, ""),
+            (3, "input_pc"),
+            (11, "input_ap"),
+            (6, "input_fp"),
             (32771, "offset0"),
             (32775, "offset1"),
             (32770, "offset2"),
             (1, "dst_base_fp"),
             (0, "op0_base_fp"),
             (0, "ap_update_add_1"),
-            (2, "id"),
-            (247, "limb_0"),
-            (460, "limb_1"),
-            (5, "limb_2"),
-            (1, "id"),
+            (2, "mem1_base_id"),
+            (247, "mem1_base_limb_0"),
+            (460, "mem1_base_limb_1"),
+            (5, "mem1_base_limb_2"),
+            (1, "dst_id"),
         ]
         .into(),
     );
@@ -139,16 +139,16 @@ fn test_assert_eq_deref() {
         4,
         15,
         vec![
-            (3, ""),
-            (11, ""),
-            (6, ""),
+            (3, "input_pc"),
+            (11, "input_ap"),
+            (6, "input_fp"),
             (32771, "offset0"),
             (32770, "offset2"),
             (0, "dst_base_fp"),
             (1, "op1_base_fp"),
             (0, "op1_base_ap"),
             (0, "ap_update_add_1"),
-            (1, "id"),
+            (1, "dst_id"),
         ]
         .into(),
     );
@@ -163,13 +163,13 @@ fn test_assert_eq_imm() {
         4,
         15,
         vec![
-            (3, ""),
-            (11, ""),
-            (6, ""),
+            (3, "input_pc"),
+            (11, "input_ap"),
+            (6, "input_fp"),
             (32771, "offset0"),
             (1, "dst_base_fp"),
             (0, "ap_update_add_1"),
-            (1, "id"),
+            (1, "dst_id"),
         ]
         .into(),
     );
@@ -184,20 +184,20 @@ fn test_assert_eq_double_deref() {
         4,
         15,
         vec![
-            (3, ""),
-            (11, ""),
-            (6, ""),
+            (3, "input_pc"),
+            (11, "input_ap"),
+            (6, "input_fp"),
             (32771, "offset0"),
             (32775, "offset1"),
             (32770, "offset2"),
             (1, "dst_base_fp"),
             (0, "op0_base_fp"),
             (0, "ap_update_add_1"),
-            (2, "id"),
-            (4, "limb_0"),
-            (0, "limb_1"),
-            (0, "limb_2"),
-            (1, "id"),
+            (2, "mem1_base_id"),
+            (4, "mem1_base_limb_0"),
+            (0, "mem1_base_limb_1"),
+            (0, "mem1_base_limb_2"),
+            (1, "dst_id"),
         ]
         .into(),
     );
@@ -314,16 +314,16 @@ fn test_assert_equal(
     );
 
     // Check output
-    assert_eq!(next_state.fp.calc(), fp.calc());
+    assert_eq!(next_state.fp.value.calc(), fp.calc());
     if flag_ap_update_add_1 {
-        assert_eq!(next_state.ap.calc(), (ap_value + 1).to_string());
+        assert_eq!(next_state.ap.value.calc(), (ap_value + 1).to_string());
     } else {
-        assert_eq!(next_state.ap.calc(), ap.calc());
+        assert_eq!(next_state.ap.value.calc(), ap.calc());
     }
     if flag_op1_imm {
-        assert_eq!(next_state.pc.calc(), (pc_value + 2).to_string());
+        assert_eq!(next_state.pc.value.calc(), (pc_value + 2).to_string());
     } else {
-        assert_eq!(next_state.pc.calc(), (pc_value + 1).to_string());
+        assert_eq!(next_state.pc.value.calc(), (pc_value + 1).to_string());
     };
 
     // Check state

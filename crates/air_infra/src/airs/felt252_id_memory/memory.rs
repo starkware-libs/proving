@@ -3,6 +3,7 @@ use std::collections::BTreeMap;
 
 use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
 
+use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
@@ -68,14 +69,14 @@ impl Felt252IdMemory {
     pub fn read_unverified(
         &self,
         air_builder: &mut AirBuilder,
-        address: &FeltExpr,
+        address: &CasmAddress,
     ) -> (Felt252Expr, FeltExpr) {
-        let id = air_builder.mem_read_unverified(&self.address_to_id, address);
+        let id = air_builder.mem_read_unverified(&self.address_to_id, &address.value);
         let value = air_builder.mem_read_unverified(&self.id_to_value, &id);
         (value, id)
     }
 
-    pub fn read_rel_imm(&self, air_builder: &mut AirBuilder, address: FeltExpr) -> FeltExpr {
+    pub fn read_rel_imm(&self, air_builder: &mut AirBuilder, address: CasmAddress) -> FeltExpr {
         air_builder
             .call(
                 &ReadSmall {
@@ -96,7 +97,7 @@ impl Felt252IdMemory {
         result
     }
 
-    pub fn read_address(&self, air_builder: &mut AirBuilder, address: FeltExpr) -> FeltExpr {
+    pub fn read_address(&self, air_builder: &mut AirBuilder, address: CasmAddress) -> FeltExpr {
         let (address_f252, _) = air_builder.call(
             &ReadPositive {
                 memory: self.clone(),

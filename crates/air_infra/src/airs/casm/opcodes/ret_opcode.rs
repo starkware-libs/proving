@@ -49,15 +49,17 @@ impl AirFn for RetOpcode {
         air_builder.call(&decode_instruction, casm_state.pc);
 
         // Read the saved pc and fp
-        let next_pc = self
-            .memory
-            .read_address(air_builder, casm_state.fp.clone() - const_expr!(1));
+        let next_pc = self.memory.read_address(
+            air_builder,
+            CasmAddress::new(casm_state.fp.value.clone() - const_expr!(1), "next_pc"),
+        );
 
-        let next_fp = self
-            .memory
-            .read_address(air_builder, casm_state.fp - const_expr!(2));
+        let next_fp = self.memory.read_address(
+            air_builder,
+            CasmAddress::new(casm_state.fp.value - const_expr!(2), "next_fp"),
+        );
 
-        CasmStateVar::new(next_pc, casm_state.ap, next_fp)
+        CasmStateVar::new(next_pc, casm_state.ap.value, next_fp)
     }
 
     fn trace_type(&self) -> TraceType {
