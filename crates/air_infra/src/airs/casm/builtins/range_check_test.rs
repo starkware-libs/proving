@@ -45,7 +45,7 @@ fn test_range_check_whole_limbs() {
 }
 
 #[test]
-#[should_panic(expected = "Memory::set() failed")]
+#[should_panic(expected = "given value != value in memory")]
 fn test_range_check_whole_limbs_fail() {
     run_range_check(const_felt252_expr!(1u128 << 74, 0), 72);
 }

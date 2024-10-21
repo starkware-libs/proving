@@ -24,23 +24,23 @@
   "air_body": [
     {
       "LookupCall": {
-        "air_fn_name": "Memory_K_M31_V_M31",
+        "air_fn_name": "MemoryAddressToId",
         "input_arg": {
           "name": "readpositive_num_bits_16_input",
           "type": "M31"
         },
-        "output_name": "tmp_1"
+        "output_name": "tmp_0"
       }
     },
     {
       "Deduction": [
-        "tmp_1",
+        "tmp_0",
         "id"
       ]
     },
     {
       "LookupData": {
-        "relation_name": "Memory_K_M31_V_M31",
+        "relation_name": "MemoryAddressToId",
         "felts": [
           "readpositive_num_bits_16_input",
           "state[0]"
@@ -50,23 +50,23 @@
     },
     {
       "LookupCall": {
-        "air_fn_name": "Memory_K_M31_V_Felt252",
+        "air_fn_name": "MemoryIdToBig",
         "input_arg": {
           "name": "state[0]",
           "type": "M31"
         },
-        "output_name": "tmp_3"
+        "output_name": "tmp_15"
       }
     },
     {
       "Deduction": [
-        "tmp_3.get_m31(const_0)",
+        "tmp_15.get_m31(const_0)",
         "limb_0"
       ]
     },
     {
       "Deduction": [
-        "tmp_3.get_m31(const_1)",
+        "tmp_15.get_m31(const_1)",
         "limb_1"
       ]
     },
@@ -92,7 +92,7 @@
     },
     {
       "LookupData": {
-        "relation_name": "Memory_K_M31_V_Felt252",
+        "relation_name": "MemoryIdToBig",
         "felts": [
           "state[0]",
           "state[1]",

@@ -2,6 +2,7 @@ use super::memory::*;
 use super::read_positive::*;
 use super::read_small::*;
 
+use crate::airs::felt252_id_memory::id_to_big::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -211,4 +212,17 @@ fn test_read_positive_partial_limbs() {
 fn test_read_positive_failure() {
     // Try to read a small negative number using ReadPositive
     test_read_positive(const_felt252_expr!(u128::MAX - 1, u128::MAX), 4);
+}
+
+#[test]
+fn test_memory_constraints() {
+    let (_, entry) = AirFnRegistry::new(&MemoryIdToBig::default());
+    compare_json(
+        &entry,
+        &format!(
+            "{}{}.json",
+            TEST_JSONS_MEMORY_DIR,
+            entry.name.to_lowercase()
+        ),
+    );
 }

@@ -2,7 +2,7 @@ use compiled_casm_air::utils::JSONS_OPCODES_DIR;
 
 use super::generic_opcode::*;
 
-use crate::airs::casm::casm_state::CasmStateVar;
+use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
 use crate::airs::casm::opcodes::assert_eq_opcode::*;
 use crate::airs::casm::opcodes::call_opcode::*;

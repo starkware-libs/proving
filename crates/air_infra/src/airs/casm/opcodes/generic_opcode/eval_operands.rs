@@ -13,7 +13,7 @@ use crate::airs::felt252_utils::mul252::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::variables::AirVar;
+use crate::core::variables::*;
 
 //  Macros
 use crate::const_expr;

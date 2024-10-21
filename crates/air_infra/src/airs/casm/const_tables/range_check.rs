@@ -17,6 +17,7 @@ const STWO_COMPONENT_TYPE_RANGE_CHECK_5: &str = "RangeCheck5";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_7: &str = "RangeCheck7";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_8: &str = "RangeCheck8";
 const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_2_5: &str = "RangeCheckVector_2_5";
+const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_9_9: &str = "RangeCheckVector_9_9";
 
 #[derive(Debug, InstDef)]
 pub struct RangeCheck<const N: usize> {
@@ -43,6 +44,7 @@ impl<const N: usize> AirFn for RangeCheck<N> {
             [19] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_19.to_string()),
             [2, 5] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_2_5.to_string()),
             [4, 3] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3.to_string()),
+            [9, 9] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_9_9.to_string()),
             [7, 2, 5] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_7_2_5.to_string()),
             _ => panic!("Invalid range check bits {:?}.", self.bits),
         }

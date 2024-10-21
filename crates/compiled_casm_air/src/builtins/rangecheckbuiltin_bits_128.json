@@ -9,9 +9,9 @@
   },
   "row_length": 16,
   "lookup_relation_uses_count": {
-    "Memory_K_M31_V_M31": 1,
+    "MemoryAddressToId": 1,
     "RangeCheck_N_1_bits_2": 1,
-    "Memory_K_M31_V_Felt252": 1
+    "MemoryIdToBig": 1
   },
   "input_num_of_felts": 0,
   "output_num_of_felts": 0,
@@ -21,7 +21,7 @@
     },
     {
       "LookupData": {
-        "relation_name": "Memory_K_M31_V_M31",
+        "relation_name": "MemoryAddressToId",
         "felts": [
           {
             "BinaryOp": [
@@ -60,7 +60,7 @@
     },
     {
       "LookupData": {
-        "relation_name": "Memory_K_M31_V_Felt252",
+        "relation_name": "MemoryIdToBig",
         "felts": [
           {
             "State": 0
@@ -200,7 +200,7 @@
     },
     {
       "LookupCall": {
-        "fn_name": "Memory_K_M31_V_M31",
+        "fn_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -218,7 +218,7 @@
             }
           ]
         },
-        "output_name": "tmp_5"
+        "output_name": "tmp_17"
       }
     },
     {
@@ -226,7 +226,7 @@
         {
           "Var": [
             "M31",
-            "tmp_5"
+            "tmp_17"
           ]
         },
         "id"
@@ -234,7 +234,7 @@
     },
     {
       "LookupData": {
-        "relation_name": "Memory_K_M31_V_M31",
+        "relation_name": "MemoryAddressToId",
         "felts": [
           {
             "BinaryOp": [
@@ -262,11 +262,11 @@
     },
     {
       "LookupCall": {
-        "fn_name": "Memory_K_M31_V_Felt252",
+        "fn_name": "MemoryIdToBig",
         "input": {
           "State": 0
         },
-        "output_name": "tmp_6"
+        "output_name": "tmp_18"
       }
     },
     {
@@ -276,7 +276,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -300,7 +300,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -324,7 +324,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -348,7 +348,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -372,7 +372,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -396,7 +396,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -420,7 +420,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -444,7 +444,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -468,7 +468,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -492,7 +492,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -516,7 +516,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -540,7 +540,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -564,7 +564,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -588,7 +588,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -612,7 +612,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_6"
+                "tmp_18"
               ]
             },
             "get_m31",
@@ -655,7 +655,7 @@
     },
     {
       "LookupData": {
-        "relation_name": "Memory_K_M31_V_Felt252",
+        "relation_name": "MemoryIdToBig",
         "felts": [
           {
             "State": 0

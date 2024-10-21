@@ -1,0 +1,405 @@
+{
+  "name": "MemoryIdToBig",
+  "description": "MemoryIdToBig",
+  "inst_def": {},
+  "input": {
+    "name": "memoryidtobig_input",
+    "type": "M31"
+  },
+  "input_num_of_felts": 1,
+  "output": {
+    "name": "Felt252::from_limbs([external_state(IdToBig_value)[0], external_state(IdToBig_value)[1], external_state(IdToBig_value)[2], external_state(IdToBig_value)[3], external_state(IdToBig_value)[4], external_state(IdToBig_value)[5], external_state(IdToBig_value)[6], external_state(IdToBig_value)[7], external_state(IdToBig_value)[8], external_state(IdToBig_value)[9], external_state(IdToBig_value)[10], external_state(IdToBig_value)[11], external_state(IdToBig_value)[12], external_state(IdToBig_value)[13], external_state(IdToBig_value)[14], external_state(IdToBig_value)[15], external_state(IdToBig_value)[16], external_state(IdToBig_value)[17], external_state(IdToBig_value)[18], external_state(IdToBig_value)[19], external_state(IdToBig_value)[20], external_state(IdToBig_value)[21], external_state(IdToBig_value)[22], external_state(IdToBig_value)[23], external_state(IdToBig_value)[24], external_state(IdToBig_value)[25], external_state(IdToBig_value)[26], external_state(IdToBig_value)[27]])",
+    "type": "Felt252"
+  },
+  "output_num_of_felts": 28,
+  "trace_type": "Component",
+  "air_body": [
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[0]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[1]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[0]",
+          "external_state(IdToBig_value)[1]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[2]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[3]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[2]",
+          "external_state(IdToBig_value)[3]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[4]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[5]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[4]",
+          "external_state(IdToBig_value)[5]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[6]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[7]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[6]",
+          "external_state(IdToBig_value)[7]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[8]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[9]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[8]",
+          "external_state(IdToBig_value)[9]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[10]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[11]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[10]",
+          "external_state(IdToBig_value)[11]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[12]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[13]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[12]",
+          "external_state(IdToBig_value)[13]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[14]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[15]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[14]",
+          "external_state(IdToBig_value)[15]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[16]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[17]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[16]",
+          "external_state(IdToBig_value)[17]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[18]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[19]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[18]",
+          "external_state(IdToBig_value)[19]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[20]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[21]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[20]",
+          "external_state(IdToBig_value)[21]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[22]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[23]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[22]",
+          "external_state(IdToBig_value)[23]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[24]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[25]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[24]",
+          "external_state(IdToBig_value)[25]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "RangeCheck_N_2_bits_9_9",
+        "input_arg": [
+          {
+            "name": "external_state(IdToBig_value)[26]",
+            "type": "M31"
+          },
+          {
+            "name": "external_state(IdToBig_value)[27]",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "RangeCheck_N_2_bits_9_9",
+        "felts": [
+          "external_state(IdToBig_value)[26]",
+          "external_state(IdToBig_value)[27]"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          "external_state(IdToBig_key)[0]",
+          "external_state(IdToBig_value)[0]",
+          "external_state(IdToBig_value)[1]",
+          "external_state(IdToBig_value)[2]",
+          "external_state(IdToBig_value)[3]",
+          "external_state(IdToBig_value)[4]",
+          "external_state(IdToBig_value)[5]",
+          "external_state(IdToBig_value)[6]",
+          "external_state(IdToBig_value)[7]",
+          "external_state(IdToBig_value)[8]",
+          "external_state(IdToBig_value)[9]",
+          "external_state(IdToBig_value)[10]",
+          "external_state(IdToBig_value)[11]",
+          "external_state(IdToBig_value)[12]",
+          "external_state(IdToBig_value)[13]",
+          "external_state(IdToBig_value)[14]",
+          "external_state(IdToBig_value)[15]",
+          "external_state(IdToBig_value)[16]",
+          "external_state(IdToBig_value)[17]",
+          "external_state(IdToBig_value)[18]",
+          "external_state(IdToBig_value)[19]",
+          "external_state(IdToBig_value)[20]",
+          "external_state(IdToBig_value)[21]",
+          "external_state(IdToBig_value)[22]",
+          "external_state(IdToBig_value)[23]",
+          "external_state(IdToBig_value)[24]",
+          "external_state(IdToBig_value)[25]",
+          "external_state(IdToBig_value)[26]",
+          "external_state(IdToBig_value)[27]"
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}

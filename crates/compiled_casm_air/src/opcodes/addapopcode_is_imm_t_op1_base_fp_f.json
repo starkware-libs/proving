@@ -119,8 +119,8 @@
   "row_length": 9,
   "lookup_relation_uses_count": {
     "VerifyInstruction": 1,
-    "Memory_K_M31_V_M31": 1,
-    "Memory_K_M31_V_Felt252": 1,
+    "MemoryAddressToId": 1,
+    "MemoryIdToBig": 1,
     "opcodes": 1
   },
   "input_num_of_felts": 3,
@@ -254,7 +254,7 @@
     },
     {
       "LookupData": {
-        "relation_name": "Memory_K_M31_V_M31",
+        "relation_name": "MemoryAddressToId",
         "felts": [
           {
             "BinaryOp": [
@@ -366,7 +366,7 @@
     "EndBlock",
     {
       "LookupData": {
-        "relation_name": "Memory_K_M31_V_Felt252",
+        "relation_name": "MemoryIdToBig",
         "felts": [
           {
             "State": 3
@@ -872,23 +872,23 @@
     },
     {
       "LookupCall": {
-        "fn_name": "Memory_K_M31_V_M31",
+        "fn_name": "MemoryAddressToId",
         "input": {
           "State": 0
         },
-        "output_name": "tmp_29"
+        "output_name": "tmp_41"
       }
     },
     {
       "LookupCall": {
-        "fn_name": "Memory_K_M31_V_Felt252",
+        "fn_name": "MemoryIdToBig",
         "input": {
           "Var": [
             "M31",
-            "tmp_29"
+            "tmp_41"
           ]
         },
-        "output_name": "tmp_30"
+        "output_name": "tmp_42"
       }
     },
     {
@@ -1145,7 +1145,7 @@
     },
     {
       "LookupCall": {
-        "fn_name": "Memory_K_M31_V_M31",
+        "fn_name": "MemoryAddressToId",
         "input": {
           "BinaryOp": [
             {
@@ -1160,7 +1160,7 @@
             }
           ]
         },
-        "output_name": "tmp_38"
+        "output_name": "tmp_50"
       }
     },
     {
@@ -1168,7 +1168,7 @@
         {
           "Var": [
             "M31",
-            "tmp_38"
+            "tmp_50"
           ]
         },
         "id"
@@ -1176,7 +1176,7 @@
     },
     {
       "LookupData": {
-        "relation_name": "Memory_K_M31_V_M31",
+        "relation_name": "MemoryAddressToId",
         "felts": [
           {
             "BinaryOp": [
@@ -1201,11 +1201,11 @@
     },
     {
       "LookupCall": {
-        "fn_name": "Memory_K_M31_V_Felt252",
+        "fn_name": "MemoryIdToBig",
         "input": {
           "State": 3
         },
-        "output_name": "tmp_39"
+        "output_name": "tmp_51"
       }
     },
     {
@@ -1213,7 +1213,7 @@
     },
     {
       "Intermediate": [
-        "tmp_40",
+        "tmp_52",
         {
           "MethodCall": [
             {
@@ -1221,7 +1221,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "tmp_39"
+                    "tmp_51"
                   ]
                 },
                 "get_m31",
@@ -1255,7 +1255,7 @@
             {
               "Var": [
                 "Bool",
-                "tmp_40"
+                "tmp_52"
               ]
             },
             "as_m31",
@@ -1267,7 +1267,7 @@
     },
     {
       "Intermediate": [
-        "tmp_41",
+        "tmp_53",
         {
           "MethodCall": [
             {
@@ -1275,7 +1275,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "tmp_39"
+                    "tmp_51"
                   ]
                 },
                 "get_m31",
@@ -1309,7 +1309,7 @@
             {
               "Var": [
                 "Bool",
-                "tmp_41"
+                "tmp_53"
               ]
             },
             "as_m31",
@@ -1327,7 +1327,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_39"
+                "tmp_51"
               ]
             },
             "get_m31",
@@ -1351,7 +1351,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_39"
+                "tmp_51"
               ]
             },
             "get_m31",
@@ -1375,7 +1375,7 @@
             {
               "Var": [
                 "Felt252",
-                "tmp_39"
+                "tmp_51"
               ]
             },
             "get_m31",
@@ -1394,7 +1394,7 @@
     },
     {
       "LookupData": {
-        "relation_name": "Memory_K_M31_V_Felt252",
+        "relation_name": "MemoryIdToBig",
         "felts": [
           {
             "State": 3

@@ -7,6 +7,8 @@ use crate::airs::casm::common::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+
+#[cfg(test)]
 use crate::core::memory::*;
 
 #[cfg(test)]
@@ -17,6 +19,8 @@ use crate::core::Felt;
 
 use crate::const_expr;
 
+use super::address_to_id::*;
+use super::id_to_big::*;
 use super::read_positive::*;
 use super::read_small::*;
 
@@ -29,15 +33,15 @@ use super::read_small::*;
 /// (the two addresses, and the value ID).
 #[derive(Debug, Clone, Default)]
 pub struct Felt252IdMemory {
-    pub(super) address_to_id: Memory<FeltExpr, FeltExpr>,
-    pub(super) id_to_value: Memory<FeltExpr, Felt252Expr>,
+    pub(super) address_to_id: MemoryAddressToId,
+    pub(super) id_to_value: MemoryIdToBig,
 }
 
 impl Felt252IdMemory {
     #[cfg(test)]
     pub fn new_with_data(data: Vec<(FeltExpr, Felt252Expr)>) -> Self {
         let mut value_to_id = BTreeMap::<Vec<Felt>, u32>::new();
-        let result = Self::default();
+        let mut result = Self::default();
         let mut id = 0;
 
         for (addr, felt252) in data {
@@ -46,13 +50,16 @@ impl Felt252IdMemory {
             // If it is a new value, create a new ID
             if !value_to_id.contains_key(&limbs) {
                 value_to_id.insert(limbs.clone(), id);
-                result.id_to_value.set(const_expr!(id), felt252);
+                result.id_to_value.mem_mut().set(const_expr!(id), felt252);
                 id += 1;
             }
 
             // Set ID in address_to_id memory
             let felt252_id = value_to_id.get(&limbs).unwrap();
-            result.address_to_id.set(addr, const_expr!(*felt252_id));
+            result
+                .address_to_id
+                .mem_mut()
+                .set(addr.clone(), const_expr!(*felt252_id));
         }
 
         result
