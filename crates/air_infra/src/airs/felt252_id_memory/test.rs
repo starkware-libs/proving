@@ -1,8 +1,11 @@
+use compiled_casm_air::utils::JSONS_LOOKUPS_DIR;
+
 use super::super::casm::casm_state::*;
 use super::memory::*;
 use super::read_positive::*;
 use super::read_small::*;
 
+use crate::airs::felt252_id_memory::address_to_id::*;
 use crate::airs::felt252_id_memory::id_to_big::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
@@ -218,12 +221,19 @@ fn test_read_positive_failure() {
 #[test]
 fn test_memory_constraints() {
     let (_, entry) = AirFnRegistry::new(&MemoryIdToBig::default());
+    let name = entry.name.to_lowercase();
     compare_json(
-        &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_MEMORY_DIR,
-            entry.name.to_lowercase()
-        ),
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
+    );
+}
+
+#[test]
+fn test_address_to_id_json() {
+    let (_, entry) = AirFnRegistry::new(&MemoryAddressToId::default());
+    let name = entry.name.to_lowercase();
+    compare_json(
+        &entry.compile(),
+        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
     );
 }
