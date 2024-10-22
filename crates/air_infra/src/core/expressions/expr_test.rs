@@ -71,6 +71,11 @@ fn test_uint32() {
 
     let d = UInt32Expr::from((const_expr!(0), const_expr!(0x1)));
     assert_eq!(d.calc(), 65536.to_string());
+    assert_eq!(d.as_felts()[1].calc(), 1.to_string());
+    assert_eq!(
+        &CompiledAirVar::from(d.as_felts()[1].clone()).to_string(),
+        "const_1"
+    );
 }
 
 #[test]

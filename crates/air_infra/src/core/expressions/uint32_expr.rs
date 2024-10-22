@@ -84,11 +84,23 @@ impl UInt32Expr {
 
 impl AirVar for UInt32Expr {
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        self.get_var()
-            .get_children()
-            .into_iter()
-            .flat_map(|e| e.as_felts_mut())
-            .collect()
+        match self {
+            UInt32Expr::Var(v) => v
+                .get_children()
+                .into_iter()
+                .flat_map(|e| e.as_felts_mut())
+                .collect(),
+            UInt32Expr::Op(op) => {
+                if op.op == Operation::UInt32FromFeltsPair {
+                    if let [AirVarImpl::Expr(ExprImpl::Felt(felt1)), AirVarImpl::Expr(ExprImpl::Felt(felt2))] =
+                        &mut op.children[..]
+                    {
+                        return vec![felt1, felt2];
+                    }
+                }
+                panic!("Cannot convert to felts");
+            }
+        }
     }
 }
 
