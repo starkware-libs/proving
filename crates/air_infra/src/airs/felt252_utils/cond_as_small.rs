@@ -4,6 +4,7 @@ use inst_def::InstDef;
 
 use compiled_casm_air::prover_types::FELT252_N_WORDS;
 
+use crate::airs::casm::casm_state::*;
 use crate::airs::felt252_id_memory::memory::*;
 use crate::airs::felt252_id_memory::read_small::*;
 use crate::core::air_fn::*;
@@ -19,7 +20,7 @@ pub struct CondFelt252AsAddr {}
 
 impl AirFn for CondFelt252AsAddr {
     type In = (Felt252Expr, FeltExpr);
-    type Out = FeltExpr;
+    type Out = CasmAddress;
 
     fn call(&self, ab: &mut AirBuilder, (value, condition): Self::In) -> Self::Out {
         for i in LIMBS_IN_M31..FELT252_N_WORDS {

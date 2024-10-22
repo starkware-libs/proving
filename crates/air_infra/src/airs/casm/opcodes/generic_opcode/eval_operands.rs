@@ -62,7 +62,7 @@ impl AirFn for EvalOperands {
         let op1_src = flags[FLAG_OP1_BASE_FP_INDEX].clone() * casm_state.fp.value.clone()
             + flags[FLAG_OP1_BASE_AP_INDEX].clone() * casm_state.ap.value.clone()
             + flags[FLAG_OP1_IMM_INDEX].clone() * casm_state.pc.value.clone()
-            + flags[FLAG_OP1_BASE_OP0_INDEX].clone() * op0_as_addr;
+            + flags[FLAG_OP1_BASE_OP0_INDEX].clone() * op0_as_addr.value;
         let (op1, _) = air_builder.call(&read_felt_252, CasmAddress::new(op1_src + offset2, "op1"));
 
         let sum = air_builder.call(&Add252 {}, [op0.clone(), op1.clone()]);

@@ -59,7 +59,7 @@ impl AirFn for RetOpcode {
             CasmAddress::new(casm_state.fp.value - const_expr!(2), "next_fp"),
         );
 
-        CasmStateVar::new(next_pc, casm_state.ap.value, next_fp)
+        CasmStateVar::new(next_pc.value, casm_state.ap.value, next_fp.value)
     }
 
     fn trace_type(&self) -> TraceType {

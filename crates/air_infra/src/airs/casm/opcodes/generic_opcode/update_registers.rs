@@ -41,6 +41,7 @@ impl AirFn for UpdateRegisters {
             &CondFelt252AsAddr {},
             (dst.clone(), flags[FLAG_OPCODE_RET_INDEX].clone()),
         );
+
         let res_as_rel_imm = air_builder.call(
             &CondFelt252AsRelImm {},
             (
@@ -118,7 +119,7 @@ impl AirFn for UpdateRegisters {
         // Update pc
         let next_pc = flags[FLAG_PC_UPDATE_REGULAR_INDEX].clone()
             * (casm_state.pc.value.clone() + flags[INSTRUCTION_SIZE_INDEX].clone())
-            + flags[FLAG_PC_UPDATE_JUMP_INDEX].clone() * res_as_addr.clone()
+            + flags[FLAG_PC_UPDATE_JUMP_INDEX].clone() * res_as_addr.value
             + flags[FLAG_PC_UPDATE_JUMP_REL_INDEX].clone()
                 * (casm_state.pc.value.clone() + res_as_rel_imm.clone())
             + flags[FLAG_PC_UPDATE_JNZ_INDEX].clone() * npc_jnz;
@@ -131,7 +132,7 @@ impl AirFn for UpdateRegisters {
 
         // Update fp
         let next_fp = flags[FLAG_FP_UPDATE_REGULAR_INDEX].clone() * casm_state.fp.value.clone()
-            + flags[FLAG_OPCODE_RET_INDEX].clone() * dst_as_addr
+            + flags[FLAG_OPCODE_RET_INDEX].clone() * dst_as_addr.value
             + flags[FLAG_OPCODE_CALL_INDEX].clone()
                 * (casm_state.ap.value.clone() + const_expr!(2));
 

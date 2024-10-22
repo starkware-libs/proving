@@ -94,6 +94,7 @@ impl AirFn for JumpOpcode {
                 + (const_expr!(1) - op0_base_fp) * casm_state.ap.value.clone();
             self.memory
                 .read_address(ab, CasmAddress::new(mem0_base + offset1, "mem1_base"))
+                .value
         } else {
             ab.constrain(
                 op1_base_fp.clone() + op1_base_ap.clone() - const_expr!(1),
@@ -110,6 +111,7 @@ impl AirFn for JumpOpcode {
         } else {
             self.memory
                 .read_address(ab, CasmAddress::new(mem1_base + offset2, "next_pc"))
+                .value
         };
 
         // Calculate the next ap
