@@ -145,7 +145,7 @@ impl Display for Operation {
             Operation::Add => write!(f, "+"),
             Operation::Sub => write!(f, "-"),
             Operation::Mul => write!(f, "*"),
-            Operation::Div => write!(f, "//"),
+            Operation::Div => write!(f, "/"),
             Operation::Eq => write!(f, "eq"),
             Operation::Rem => write!(f, "%"),
             Operation::Shl => write!(f, "<<"),
