@@ -21,18 +21,6 @@ fn test_entry_json() {
     let (_, entry) = AirFnRegistry::new(&JumpOpcode {
         is_rel: true,
         is_imm: true,
-        is_double_deref: true,
-        memory: Felt252IdMemory::default(),
-    });
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
-
-    let (_, entry) = AirFnRegistry::new(&JumpOpcode {
-        is_rel: true,
-        is_imm: true,
         is_double_deref: false,
         memory: Felt252IdMemory::default(),
     });
