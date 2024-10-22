@@ -54,10 +54,10 @@ impl InternalAirVarActions for CasmAddress {
         }
     }
 
-    fn new(name: String) -> Self {
+    fn new(name: String, in_state: bool) -> Self {
         CasmAddress {
             desc: Some(name.clone()),
-            value: FeltExpr::new(name),
+            value: FeltExpr::new(name, in_state),
         }
     }
 }
@@ -145,12 +145,12 @@ impl InternalAirVarActions for CasmStateVar {
         }
     }
 
-    fn new(name: String) -> Self {
+    fn new(name: String, in_state: bool) -> Self {
         CasmStateVar {
             name: Some(name.clone()),
-            pc: CasmAddress::new(FeltExpr::new(format!("{}.pc", name)), "pc"),
-            ap: CasmAddress::new(FeltExpr::new(format!("{}.ap", name)), "ap"),
-            fp: CasmAddress::new(FeltExpr::new(format!("{}.fp", name)), "fp"),
+            pc: CasmAddress::new(FeltExpr::new(format!("{}.pc", name), in_state), "pc"),
+            ap: CasmAddress::new(FeltExpr::new(format!("{}.ap", name), in_state), "ap"),
+            fp: CasmAddress::new(FeltExpr::new(format!("{}.fp", name), in_state), "fp"),
         }
     }
 }

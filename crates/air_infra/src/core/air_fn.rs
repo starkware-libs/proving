@@ -107,6 +107,14 @@ pub trait AirFn: Debug + InstDefTrait {
         None
     }
 
+    // Returns whether the input of the air function should be in the trace when it is called.
+    // If None, it means that the input is a tuple or array, and parts of it should be in the trace
+    // and parts should not. In this case, the infra will not check if the input is in the trace.
+    // (see CondDecodeSmallSign)
+    fn input_in_trace(&self) -> Option<bool> {
+        Some(self.trace_type() == TraceType::Const || self.trace_type() == TraceType::Inline)
+    }
+
     fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out;
 
     fn lookup_call(&self, air_builder: &mut AirBuilder, mut input: Self::In) -> Self::Out {
@@ -192,14 +200,13 @@ impl AirBuilder {
     }
 
     pub fn constrain(&mut self, expr: FeltExpr, desc: &str) {
+        assert!(
+            expr.in_state(),
+            "The mask of the constraint must be in the trace."
+        );
+
         #[cfg(test)]
         if self.run {
-            // Cannot assert this in build mode, since we don't put the inputs in the state.
-            assert!(
-                expr.in_state(),
-                "The mask of the constraint must be in the trace."
-            );
-
             assert!(
                 expr.calc() == 0.to_string(),
                 "Added incorrect constraint (does not evalutate to 0)"
@@ -244,14 +251,10 @@ impl AirBuilder {
             assert!(!expr.is_const(), "Cannot assign a constant");
         }
 
-        #[cfg(test)]
-        if self.run {
-            // Cannot assert this in build mode, since we don't put the inputs in the state.
-            assert!(
-                expr.in_state(),
-                "The mask of the constraint must be in the trace."
-            );
-        }
+        assert!(
+            expr.in_state(),
+            "The mask of the constraint must be in the trace."
+        );
 
         let intermediate_type = expr.get_intermediate_type();
         assert!(
@@ -289,13 +292,11 @@ impl AirBuilder {
     }
 
     pub fn let_for_constraint(&mut self, expr: FeltExpr) -> FeltExpr {
-        #[cfg(test)]
-        if self.run {
-            assert!(
-                expr.in_state(),
-                "The mask of the intermediate variable for constraints must be in the trace."
-            );
-        }
+        assert!(
+            expr.in_state(),
+            "The mask of the intermediate variable for constraints must be in the trace."
+        );
+
         let name = self.registry.get_intermediate_name();
         let intermediate_type = IntermediateType {
             in_constraints: true,
@@ -310,13 +311,11 @@ impl AirBuilder {
     }
 
     pub fn let_(&mut self, expr: FeltExpr) -> FeltExpr {
-        #[cfg(test)]
-        if self.run {
-            assert!(
-                expr.in_state(),
-                "The mask of the intermediate variable for constraints must be in the trace."
-            );
-        }
+        assert!(
+            expr.in_state(),
+            "The mask of the intermediate variable for constraints must be in the trace."
+        );
+
         let name = self.registry.get_intermediate_name();
         let intermediate_type = IntermediateType {
             in_constraints: true,
@@ -343,6 +342,12 @@ impl AirBuilder {
             air_fn.trace_type() == TraceType::Inline,
             "AirFn must be inline"
         );
+
+        if let Some(input_in_trace) = air_fn.input_in_trace() {
+            if input_in_trace {
+                assert!(input.in_state(), "Input should be in the trace.");
+            }
+        }
 
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);
@@ -377,19 +382,16 @@ impl AirBuilder {
             "AirFn must be a component"
         );
 
+        assert!(
+            input.in_state(),
+            "The mask of the input to a lookup call must be in the trace."
+        );
+
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);
 
-        #[cfg(test)]
-        if self.run {
-            assert!(
-                input.in_state(),
-                "The mask of the input to a lookup call must be in the trace."
-            );
-        }
-
         let output_name = self.registry.get_intermediate_name();
-        let mut output = O::new(output_name.clone());
+        let mut output = O::new(output_name.clone(), false);
 
         #[cfg(test)]
         if self.run {
@@ -468,7 +470,7 @@ impl AirBuilder {
         }));
 
         #[allow(unused_mut)]
-        let mut value = V::new(value_name.clone());
+        let mut value = V::new(value_name.clone(), false);
 
         #[cfg(test)]
         if self.run {
@@ -502,10 +504,11 @@ impl AirBuilder {
         // Make sure the memory is in the registry
         self.registry.add_entry(memory);
 
+        assert!(key.in_state(), "The key must be in the trace.");
+        assert!(value.in_state(), "The value must be in the trace.");
+
         #[cfg(test)]
         if self.run {
-            assert!(key.in_state(), "The key must be in the trace.");
-            assert!(value.in_state(), "The value must be in the trace.");
             assert_eq!(
                 memory
                     .mem()
@@ -551,7 +554,7 @@ impl AirBuilder {
             return air_fn.call(&mut air_builder, ());
         }
 
-        let mut output = O::new("".to_string());
+        let mut output = O::new("".to_string(), false);
         for (i, felt) in output.as_felts_mut().into_iter().enumerate() {
             felt.to_state(i, Some(air_fn.name()));
         }

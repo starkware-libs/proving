@@ -264,8 +264,6 @@ impl AirFnRegistry {
             TraceType::Opcode => air_fn.lookup_call(&mut air_builder, input),
         };
 
-        // Make sure that the output is in the state.
-        assert!(output.in_state());
         (air_builder.state, output)
     }
 
@@ -275,7 +273,14 @@ impl AirFnRegistry {
         I: AirVar,
         O: AirVar,
     {
-        let input = I::new(format!("{}_input", air_fn.name().to_lowercase()));
+        let input_name = format!("{}_input", air_fn.name().to_lowercase());
+        // If input_in_trace is None, we put the input in the trace so air_builder checks don't fail.
+        let mut input = I::new(input_name.clone(), true);
+        if let Some(input_in_trace) = air_fn.input_in_trace() {
+            if !input_in_trace {
+                input = I::new(input_name, false);
+            }
+        }
         let mut air_builder = AirBuilder {
             state: State::default(),
             air_body: vec![],
@@ -289,21 +294,28 @@ impl AirFnRegistry {
         };
         let output = match air_fn.trace_type() {
             TraceType::Inline => air_fn.call(&mut air_builder, input.clone()),
-            TraceType::Component => air_fn.lookup_call(&mut air_builder, input.clone()),
-            // For constant AirFns the value of <output> is meaningless, as we don't
-            // output any constraints or deductions. It just has to be of the correct type.
-            TraceType::Const => {
-                // Make sure that the output is in the trace.
-                let output = air_fn.call(&mut air_builder, input.clone());
-                assert!(output.in_state(), "Output must be in the trace");
+            TraceType::Component | TraceType::Opcode => {
+                let output = air_fn.lookup_call(&mut air_builder, input.clone());
+                // Make sure that the output has no intermediate variables that are not in both
+                // constraints and deductions, since the output goes into lookup data (used in
+                // trace generation and in constraints evaluation).
+                assert!(
+                    output.get_intermediate_type().in_constraints && output.get_intermediate_type().in_deductions,
+                    "Output must have no intermediate variables that are not in both constraints and deductions",
+                );
                 output
             }
+            // For constant AirFns the value of <output> is meaningless, as we don't
+            // output any constraints or deductions. It just has to be of the correct type.
+            TraceType::Const => air_fn.call(&mut air_builder, input.clone()),
             TraceType::Builtin => air_fn.call(&mut air_builder, input.clone()),
-            TraceType::Opcode => air_fn.lookup_call(&mut air_builder, input.clone()),
         };
 
         // Make sure that the output is a variable or a felt expression.
         let _output_felts = output.as_felts();
+        // Make sure that the output is in the state.
+        assert!(output.in_state(), "Output must be in the trace");
+
         (air_builder.air_body, input, output)
     }
 

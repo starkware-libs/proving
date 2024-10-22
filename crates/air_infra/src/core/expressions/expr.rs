@@ -48,8 +48,16 @@ where
     Self: Into<ExprImpl>,
     VarExpr<T>: VarExprUpdate,
 {
-    fn new(name: String) -> Self {
-        VarExpr::new(name, None, false, false, None).into()
+    fn new(name: String, in_state: bool) -> Self {
+        let intermediate_type = if in_state {
+            Some(IntermediateType {
+                in_constraints: true,
+                in_deductions: true,
+            })
+        } else {
+            None
+        };
+        VarExpr::new(name, None, false, in_state, intermediate_type).into()
     }
 
     fn let_(&self, name: String, intermediate_type: IntermediateType) -> Self {

@@ -26,6 +26,7 @@ use crate::core::Felt;
 // Macros
 use crate::impl_air_var;
 
+#[allow(private_bounds)]
 /// Every input and output of an air function is an AirVar.
 pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
     fn get_felt_descriptions(&self) -> Option<Vec<String>> {
@@ -89,8 +90,8 @@ pub trait InternalAirVarInfo: Debug {
 }
 
 // Actions on air variables used by the air builder.
-pub trait InternalAirVarActions: Clone + Into<AirVarImpl> {
-    fn new(name: String) -> Self;
+pub(crate) trait InternalAirVarActions: Clone + Into<AirVarImpl> {
+    fn new(name: String, in_state: bool) -> Self;
     fn let_(&self, name: String, intermediate_type: IntermediateType) -> Self;
 }
 
@@ -237,7 +238,7 @@ impl InternalAirVarInfo for () {
 }
 
 impl InternalAirVarActions for () {
-    fn new(_name: String) -> Self {}
+    fn new(_name: String, _in_state: bool) -> Self {}
     fn let_(&self, _name: String, _intermediate_type: IntermediateType) -> Self {}
 }
 
@@ -298,8 +299,8 @@ macro_rules! impl_air_var {
                 }
                 res
             }
-            fn new(name: String) -> Self {
-                from_fn(|i| <$s as InternalAirVarActions>::new(format!("{}[{}]", name, i)))
+            fn new(name: String, in_state: bool) -> Self {
+                from_fn(|i| <$s as InternalAirVarActions>::new(format!("{}[{}]", name, i), in_state))
             }
         }
 
@@ -351,9 +352,9 @@ macro_rules! impl_air_var {
                 let mut i = 0;
                 ($($s.let_(format!("{}.{}", name, { i += 1; i - 1 }), intermediate_type.clone()),)+)
             }
-            fn new(name: String) -> Self {
+            fn new(name: String, in_state: bool) -> Self {
                 let mut i = 0;
-                ($(<$s as InternalAirVarActions>::new(format!("{}.{}", name, { i += 1; i - 1 })),)+)
+                ($(<$s as InternalAirVarActions>::new(format!("{}.{}", name, { i += 1; i - 1 }), in_state),)+)
             }
         }
 

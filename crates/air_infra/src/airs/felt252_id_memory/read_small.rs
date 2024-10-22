@@ -29,7 +29,7 @@ pub const LIMBS_IN_M31: usize = 3;
 // -2      0x100 000 000 000 000 000 087 1ff 1ff ... 1ff 1ff 1ff 1ff 1ff 1ff
 // -3      0x100 000 000 000 000 000 087 1ff 1ff ... 1ff 1ff 1ff 1ff 1ff 1fe
 
-/// Receives a felt252, deduces, and conditionally constrains its sign bits as a relative-immediate
+/// Receives a felt252, and conditionally constrains its sign bits as a relative-immediate
 /// (the "case" bits: msb and mid_limbs_set).
 /// Returns the deduced sign bits.
 #[derive(Clone, Debug, InstDef)]
@@ -60,6 +60,11 @@ impl AirFn for CondDecodeSmallSign {
         );
 
         [msb, mid_limbs_set]
+    }
+
+    fn input_in_trace(&self) -> Option<bool> {
+        // The value doesn't have to be in trace, but the condition does.
+        None
     }
 }
 
