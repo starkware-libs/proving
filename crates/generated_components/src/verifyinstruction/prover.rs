@@ -323,7 +323,8 @@ impl ClaimProver {
         memoryaddresstoid_lookup_elements: &memoryaddresstoid::ComponentLookupElements,
         memoryidtobig_lookup_elements: &memoryidtobig::ComponentLookupElements,
         rangecheck_n_2_bits_4_3_lookup_elements: &rangecheck_n_2_bits_4_3::ComponentLookupElements,
-        rangecheck_n_3_bits_7_2_5_lookup_elements: &rangecheck_n_3_bits_7_2_5::ComponentLookupElements,
+        rangecheck_n_3_bits_7_2_5_lookup_elements:
+            &rangecheck_n_3_bits_7_2_5::ComponentLookupElements,
         verifyinstruction_lookup_elements: &verifyinstruction::ComponentLookupElements,
     ) -> InteractionClaim {
         let log_size = self.claim.n_calls.next_power_of_two().ilog2();
@@ -369,7 +370,7 @@ impl ClaimProver {
         }
         col_gen.finalize_col();
 
-        let (trace, claimed_sum) = logup_gen.finalize();
+        let (trace, claimed_sum) = logup_gen.finalize_last();
         tree_builder.extend_evals(trace);
 
         InteractionClaim { claimed_sum }

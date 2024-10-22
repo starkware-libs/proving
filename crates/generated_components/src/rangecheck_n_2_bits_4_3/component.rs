@@ -33,8 +33,8 @@ impl Claim {
     }
 
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        channel.mix_nonce(self.log_size as u64);
-        channel.mix_nonce(self.n_calls as u64);
+        channel.mix_u64(self.log_size as u64);
+        channel.mix_u64(self.n_calls as u64);
     }
 }
 

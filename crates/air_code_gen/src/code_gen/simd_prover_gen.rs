@@ -130,14 +130,14 @@ fn generate_simd_write_trace_body_code(
 
 // Removes trailing zeroes from a comma-separated sequence of M31 elements.
 // Used to reduce 0 multiplications in the extension field.
-pub fn remove_trailing_zeroes(felts: &str) -> String {
-    let mut values: Vec<&str> = felts.split(", ").collect();
-
-    while values.last() == Some(&"M31_0") {
-        values.pop();
+pub fn remove_trailing_zeroes(mut felts: Vec<String>) -> Vec<String> {
+    while felts
+        .last()
+        .is_some_and(|f| f.eq("M31_0") || f.eq("M31_0.clone()"))
+    {
+        felts.pop();
     }
-
-    values.join(",")
+    felts
 }
 
 #[allow(dead_code)]
@@ -452,7 +452,8 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut lookup_elements = quote! {};
     for relation_name in unique_relation_calls(deductions).iter() {
         lookup_elements.extend(quote! {
-            $(relation_name.to_lowercase())_lookup_elements: &$(relation_name.to_lowercase())::ComponentLookupElements,
+            $(relation_name.to_lowercase())_lookup_elements:
+                    &$(relation_name.to_lowercase())::ComponentLookupElements,
         });
     }
     quote! {
@@ -468,7 +469,7 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
 
                 $(generate_write_interaction_trace_body(deductions))
 
-                let (trace, claimed_sum) = logup_gen.finalize();
+                let (trace, claimed_sum) = logup_gen.finalize_last();
                 tree_builder.extend_evals(trace);
 
                 InteractionClaim { claimed_sum }

@@ -82,7 +82,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
             }
              // TODO(Ohad): better mix_into.
             pub fn mix_into(&self, channel: &mut impl Channel) {
-                channel.mix_nonce(self.n_calls as u64);
+                channel.mix_u64(self.n_calls as u64);
             }
         }
     });
@@ -155,18 +155,25 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     for (ty, val) in constants.into_iter() {
         let name = format!("{ty}_{val}");
         const_names.insert((ty.clone(), val.clone()), name.clone());
-        let ty = if ty == "M31" { "E::F" } else { &ty };
-        code.append(quote! {
-            let $(name) = $(ty)::from(M31::from($(val)));
-        });
+        if ty == "M31" {
+            code.append(quote! {
+                let $(name) = E::F::from($(ty)::from($(val)));
+            });
+        } else {
+            code.append(quote! {
+                let $(name) = $(ty)::from($(val));
+            });
+        }
     }
 
     // Logup.
     code.append(quote! {
-        let mut logup = LogupAtRow::<LOGUP_BATCH_SIZE, E>::new(
+        let [is_first] = eval.next_interaction_mask(2, [0]);
+        let mut logup = LogupAtRow::<E>::new(
             1,
             self.interaction_claim.claimed_sum,
-            self.log_size(),
+            None,
+            is_first
         );
     });
 
@@ -283,11 +290,14 @@ fn parse_eval_constraint(
     constant_names: &HashMap<(String, String), String>,
 ) -> String {
     match expr {
-        CompiledAirVar::Const(ty, val) => constant_names
-            .get(&(ty.to_owned(), val.to_owned()))
-            .unwrap()
-            .to_string(),
-        CompiledAirVar::State(index) => format!("trace_row[{index}]"),
+        CompiledAirVar::Const(ty, val) => {
+            constant_names
+                .get(&(ty.to_owned(), val.to_owned()))
+                .unwrap()
+                .to_string()
+                + ".clone()"
+        }
+        CompiledAirVar::State(index) => format!("trace_row[{index}].clone()"),
         CompiledAirVar::StaticCall(id, args) => {
             let mut arg_str = String::new();
             for (i, arg) in args.iter().enumerate() {
@@ -313,7 +323,7 @@ fn parse_eval_constraint(
                 arg_str
             )
         }
-        CompiledAirVar::Var(_, id) => id.to_string(),
+        CompiledAirVar::Var(_, id) => id.to_string() + ".clone()",
         CompiledAirVar::BinaryOp(lhs, op, rhs) => {
             format!(
                 "({} {op} {})",
@@ -346,6 +356,7 @@ fn imports(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_prover::core::fields::qm31::SecureField;
         use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
         use stwo_prover::core::pcs::TreeVec;
+        use stwo_prover::core::lookups::utils::Fraction;
 
         use crate::LOGUP_BATCH_SIZE;
         $(generate_sub_component_imports(deductions))
@@ -361,19 +372,17 @@ fn parse_lookup_constraint(
     let lookup_values = felts
         .iter()
         .map(|felt| parse_eval_constraint(felt, constant_defs))
-        .collect_vec()
-        .join(", ");
-    let lookup_values = remove_trailing_zeroes(&lookup_values);
+        .collect_vec();
+    let lookup_values = remove_trailing_zeroes(lookup_values);
     let sign = match use_or_yield {
         UseOrYield::Use => "",
         UseOrYield::Yield => "-",
     };
     quote! {
-        logup.push_lookup(
-            &mut eval,
-            $(sign)E::EF::one(),
-            &[$lookup_values],
-            &self.$(relation_name.to_lowercase())_lookup_elements,
-        );
+        let frac = Fraction::new($(sign)E::EF::one(),
+                    self.
+                    $(relation_name.to_lowercase())_lookup_elements.
+                        combine(&[$(lookup_values.join(","))]));
+        logup.write_frac(&mut eval,frac);
     }
 }

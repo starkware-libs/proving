@@ -8,6 +8,7 @@ use stwo_prover::core::channel::Channel;
 use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
+use stwo_prover::core::lookups::utils::Fraction;
 use stwo_prover::core::pcs::TreeVec;
 
 use crate::{narrowfib_num_steps_20, LOGUP_BATCH_SIZE};
@@ -33,7 +34,7 @@ impl Claim {
     }
 
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        channel.mix_nonce(self.n_calls as u64);
+        channel.mix_u64(self.n_calls as u64);
     }
 }
 
@@ -61,78 +62,119 @@ impl FrameworkEval for NarrowFib_num_steps_20Eval {
     #[allow(unused_parens)]
     #[allow(clippy::double_parens)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let mut logup = LogupAtRow::<LOGUP_BATCH_SIZE, E>::new(
-            1,
-            self.interaction_claim.claimed_sum,
-            self.log_size(),
-        );
+        let [is_first] = eval.next_interaction_mask(2, [0]);
+        let mut logup = LogupAtRow::<E>::new(1, self.interaction_claim.claimed_sum, None, is_first);
         let trace_row: [_; 22] = std::array::from_fn(|_| eval.next_trace_mask());
         eval.add_constraint(
-            (trace_row[2] - ((trace_row[0] * trace_row[0]) + (trace_row[1] * trace_row[1]))),
+            (trace_row[2].clone()
+                - ((trace_row[0].clone() * trace_row[0].clone())
+                    + (trace_row[1].clone() * trace_row[1].clone()))),
         );
         eval.add_constraint(
-            (trace_row[3] - ((trace_row[1] * trace_row[1]) + (trace_row[2] * trace_row[2]))),
+            (trace_row[3].clone()
+                - ((trace_row[1].clone() * trace_row[1].clone())
+                    + (trace_row[2].clone() * trace_row[2].clone()))),
         );
         eval.add_constraint(
-            (trace_row[4] - ((trace_row[2] * trace_row[2]) + (trace_row[3] * trace_row[3]))),
+            (trace_row[4].clone()
+                - ((trace_row[2].clone() * trace_row[2].clone())
+                    + (trace_row[3].clone() * trace_row[3].clone()))),
         );
         eval.add_constraint(
-            (trace_row[5] - ((trace_row[3] * trace_row[3]) + (trace_row[4] * trace_row[4]))),
+            (trace_row[5].clone()
+                - ((trace_row[3].clone() * trace_row[3].clone())
+                    + (trace_row[4].clone() * trace_row[4].clone()))),
         );
         eval.add_constraint(
-            (trace_row[6] - ((trace_row[4] * trace_row[4]) + (trace_row[5] * trace_row[5]))),
+            (trace_row[6].clone()
+                - ((trace_row[4].clone() * trace_row[4].clone())
+                    + (trace_row[5].clone() * trace_row[5].clone()))),
         );
         eval.add_constraint(
-            (trace_row[7] - ((trace_row[5] * trace_row[5]) + (trace_row[6] * trace_row[6]))),
+            (trace_row[7].clone()
+                - ((trace_row[5].clone() * trace_row[5].clone())
+                    + (trace_row[6].clone() * trace_row[6].clone()))),
         );
         eval.add_constraint(
-            (trace_row[8] - ((trace_row[6] * trace_row[6]) + (trace_row[7] * trace_row[7]))),
+            (trace_row[8].clone()
+                - ((trace_row[6].clone() * trace_row[6].clone())
+                    + (trace_row[7].clone() * trace_row[7].clone()))),
         );
         eval.add_constraint(
-            (trace_row[9] - ((trace_row[7] * trace_row[7]) + (trace_row[8] * trace_row[8]))),
+            (trace_row[9].clone()
+                - ((trace_row[7].clone() * trace_row[7].clone())
+                    + (trace_row[8].clone() * trace_row[8].clone()))),
         );
         eval.add_constraint(
-            (trace_row[10] - ((trace_row[8] * trace_row[8]) + (trace_row[9] * trace_row[9]))),
+            (trace_row[10].clone()
+                - ((trace_row[8].clone() * trace_row[8].clone())
+                    + (trace_row[9].clone() * trace_row[9].clone()))),
         );
         eval.add_constraint(
-            (trace_row[11] - ((trace_row[9] * trace_row[9]) + (trace_row[10] * trace_row[10]))),
+            (trace_row[11].clone()
+                - ((trace_row[9].clone() * trace_row[9].clone())
+                    + (trace_row[10].clone() * trace_row[10].clone()))),
         );
         eval.add_constraint(
-            (trace_row[12] - ((trace_row[10] * trace_row[10]) + (trace_row[11] * trace_row[11]))),
+            (trace_row[12].clone()
+                - ((trace_row[10].clone() * trace_row[10].clone())
+                    + (trace_row[11].clone() * trace_row[11].clone()))),
         );
         eval.add_constraint(
-            (trace_row[13] - ((trace_row[11] * trace_row[11]) + (trace_row[12] * trace_row[12]))),
+            (trace_row[13].clone()
+                - ((trace_row[11].clone() * trace_row[11].clone())
+                    + (trace_row[12].clone() * trace_row[12].clone()))),
         );
         eval.add_constraint(
-            (trace_row[14] - ((trace_row[12] * trace_row[12]) + (trace_row[13] * trace_row[13]))),
+            (trace_row[14].clone()
+                - ((trace_row[12].clone() * trace_row[12].clone())
+                    + (trace_row[13].clone() * trace_row[13].clone()))),
         );
         eval.add_constraint(
-            (trace_row[15] - ((trace_row[13] * trace_row[13]) + (trace_row[14] * trace_row[14]))),
+            (trace_row[15].clone()
+                - ((trace_row[13].clone() * trace_row[13].clone())
+                    + (trace_row[14].clone() * trace_row[14].clone()))),
         );
         eval.add_constraint(
-            (trace_row[16] - ((trace_row[14] * trace_row[14]) + (trace_row[15] * trace_row[15]))),
+            (trace_row[16].clone()
+                - ((trace_row[14].clone() * trace_row[14].clone())
+                    + (trace_row[15].clone() * trace_row[15].clone()))),
         );
         eval.add_constraint(
-            (trace_row[17] - ((trace_row[15] * trace_row[15]) + (trace_row[16] * trace_row[16]))),
+            (trace_row[17].clone()
+                - ((trace_row[15].clone() * trace_row[15].clone())
+                    + (trace_row[16].clone() * trace_row[16].clone()))),
         );
         eval.add_constraint(
-            (trace_row[18] - ((trace_row[16] * trace_row[16]) + (trace_row[17] * trace_row[17]))),
+            (trace_row[18].clone()
+                - ((trace_row[16].clone() * trace_row[16].clone())
+                    + (trace_row[17].clone() * trace_row[17].clone()))),
         );
         eval.add_constraint(
-            (trace_row[19] - ((trace_row[17] * trace_row[17]) + (trace_row[18] * trace_row[18]))),
+            (trace_row[19].clone()
+                - ((trace_row[17].clone() * trace_row[17].clone())
+                    + (trace_row[18].clone() * trace_row[18].clone()))),
         );
         eval.add_constraint(
-            (trace_row[20] - ((trace_row[18] * trace_row[18]) + (trace_row[19] * trace_row[19]))),
+            (trace_row[20].clone()
+                - ((trace_row[18].clone() * trace_row[18].clone())
+                    + (trace_row[19].clone() * trace_row[19].clone()))),
         );
         eval.add_constraint(
-            (trace_row[21] - ((trace_row[19] * trace_row[19]) + (trace_row[20] * trace_row[20]))),
+            (trace_row[21].clone()
+                - ((trace_row[19].clone() * trace_row[19].clone())
+                    + (trace_row[20].clone() * trace_row[20].clone()))),
         );
-        logup.push_lookup(
-            &mut eval,
+        let frac = Fraction::new(
             -E::EF::one(),
-            &[trace_row[0], trace_row[1], trace_row[20], trace_row[21]],
-            &self.narrowfib_num_steps_20_lookup_elements,
+            self.narrowfib_num_steps_20_lookup_elements.combine(&[
+                trace_row[0].clone(),
+                trace_row[1].clone(),
+                trace_row[20].clone(),
+                trace_row[21].clone(),
+            ]),
         );
+        logup.write_frac(&mut eval, frac);
         logup.finalize(&mut eval);
 
         eval

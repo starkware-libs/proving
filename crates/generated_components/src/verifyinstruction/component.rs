@@ -8,6 +8,7 @@ use stwo_prover::core::channel::Channel;
 use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
+use stwo_prover::core::lookups::utils::Fraction;
 use stwo_prover::core::pcs::TreeVec;
 
 use crate::{
@@ -41,7 +42,7 @@ impl Claim {
     }
 
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        channel.mix_nonce(self.n_calls as u64);
+        channel.mix_u64(self.n_calls as u64);
     }
 }
 
@@ -82,107 +83,112 @@ impl FrameworkEval for VerifyInstructionEval {
         let M31_64 = E::F::from(M31::from(64));
         let M31_8 = E::F::from(M31::from(8));
         let M31_8192 = E::F::from(M31::from(8192));
-        let mut logup = LogupAtRow::<LOGUP_BATCH_SIZE, E>::new(
-            1,
-            self.interaction_claim.claimed_sum,
-            self.log_size(),
-        );
+        let [is_first] = eval.next_interaction_mask(2, [0]);
+        let mut logup = LogupAtRow::<E>::new(1, self.interaction_claim.claimed_sum, None, is_first);
         let trace_row: [_; 28] = std::array::from_fn(|_| eval.next_trace_mask());
-        eval.add_constraint(((trace_row[19] + (trace_row[20] * M31_512)) - trace_row[1]));
         eval.add_constraint(
-            (((trace_row[21] + (trace_row[22] * M31_4)) + (trace_row[23] * M31_2048))
-                - trace_row[2]),
+            ((trace_row[19].clone() + (trace_row[20].clone() * M31_512.clone()))
+                - trace_row[1].clone()),
         );
         eval.add_constraint(
-            (((trace_row[24] + (trace_row[25] * M31_16)) + (trace_row[26] * M31_8192))
-                - trace_row[3]),
+            (((trace_row[21].clone() + (trace_row[22].clone() * M31_4.clone()))
+                + (trace_row[23].clone() * M31_2048.clone()))
+                - trace_row[2].clone()),
         );
-        logup.push_lookup(
-            &mut eval,
+        eval.add_constraint(
+            (((trace_row[24].clone() + (trace_row[25].clone() * M31_16.clone()))
+                + (trace_row[26].clone() * M31_8192.clone()))
+                - trace_row[3].clone()),
+        );
+        let frac = Fraction::new(
             E::EF::one(),
-            &[trace_row[20], trace_row[21], trace_row[23]],
-            &self.rangecheck_n_3_bits_7_2_5_lookup_elements,
+            self.rangecheck_n_3_bits_7_2_5_lookup_elements.combine(&[
+                trace_row[20].clone(),
+                trace_row[21].clone(),
+                trace_row[23].clone(),
+            ]),
         );
-        logup.push_lookup(
-            &mut eval,
+        logup.write_frac(&mut eval, frac);
+        let frac = Fraction::new(
             E::EF::one(),
-            &[trace_row[24], trace_row[26]],
-            &self.rangecheck_n_2_bits_4_3_lookup_elements,
+            self.rangecheck_n_2_bits_4_3_lookup_elements
+                .combine(&[trace_row[24].clone(), trace_row[26].clone()]),
         );
-        eval.add_constraint((trace_row[4] * (M31_1 - trace_row[4])));
-        eval.add_constraint((trace_row[5] * (M31_1 - trace_row[5])));
-        eval.add_constraint((trace_row[6] * (M31_1 - trace_row[6])));
-        eval.add_constraint((trace_row[7] * (M31_1 - trace_row[7])));
-        eval.add_constraint((trace_row[8] * (M31_1 - trace_row[8])));
-        eval.add_constraint((trace_row[9] * (M31_1 - trace_row[9])));
-        eval.add_constraint((trace_row[10] * (M31_1 - trace_row[10])));
-        eval.add_constraint((trace_row[11] * (M31_1 - trace_row[11])));
-        eval.add_constraint((trace_row[12] * (M31_1 - trace_row[12])));
-        eval.add_constraint((trace_row[13] * (M31_1 - trace_row[13])));
-        eval.add_constraint((trace_row[14] * (M31_1 - trace_row[14])));
-        eval.add_constraint((trace_row[15] * (M31_1 - trace_row[15])));
-        eval.add_constraint((trace_row[16] * (M31_1 - trace_row[16])));
-        eval.add_constraint((trace_row[17] * (M31_1 - trace_row[17])));
-        eval.add_constraint((trace_row[18] * (M31_1 - trace_row[18])));
-        logup.push_lookup(
-            &mut eval,
+        logup.write_frac(&mut eval, frac);
+        eval.add_constraint((trace_row[4].clone() * (M31_1.clone() - trace_row[4].clone())));
+        eval.add_constraint((trace_row[5].clone() * (M31_1.clone() - trace_row[5].clone())));
+        eval.add_constraint((trace_row[6].clone() * (M31_1.clone() - trace_row[6].clone())));
+        eval.add_constraint((trace_row[7].clone() * (M31_1.clone() - trace_row[7].clone())));
+        eval.add_constraint((trace_row[8].clone() * (M31_1.clone() - trace_row[8].clone())));
+        eval.add_constraint((trace_row[9].clone() * (M31_1.clone() - trace_row[9].clone())));
+        eval.add_constraint((trace_row[10].clone() * (M31_1.clone() - trace_row[10].clone())));
+        eval.add_constraint((trace_row[11].clone() * (M31_1.clone() - trace_row[11].clone())));
+        eval.add_constraint((trace_row[12].clone() * (M31_1.clone() - trace_row[12].clone())));
+        eval.add_constraint((trace_row[13].clone() * (M31_1.clone() - trace_row[13].clone())));
+        eval.add_constraint((trace_row[14].clone() * (M31_1.clone() - trace_row[14].clone())));
+        eval.add_constraint((trace_row[15].clone() * (M31_1.clone() - trace_row[15].clone())));
+        eval.add_constraint((trace_row[16].clone() * (M31_1.clone() - trace_row[16].clone())));
+        eval.add_constraint((trace_row[17].clone() * (M31_1.clone() - trace_row[17].clone())));
+        eval.add_constraint((trace_row[18].clone() * (M31_1.clone() - trace_row[18].clone())));
+        let frac = Fraction::new(
             E::EF::one(),
-            &[trace_row[0], trace_row[27]],
-            &self.memoryaddresstoid_lookup_elements,
+            self.memoryaddresstoid_lookup_elements
+                .combine(&[trace_row[0].clone(), trace_row[27].clone()]),
         );
-        logup.push_lookup(
-            &mut eval,
+        logup.write_frac(&mut eval, frac);
+        let frac = Fraction::new(
             E::EF::one(),
-            &[
-                trace_row[27],
-                trace_row[19],
-                (trace_row[20] + (trace_row[21] * M31_128)),
-                trace_row[22],
-                (trace_row[23] + (trace_row[24] * M31_32)),
-                trace_row[25],
-                (trace_row[26]
-                    + ((((((M31_0 + (trace_row[4] * M31_8)) + (trace_row[5] * M31_16))
-                        + (trace_row[6] * M31_32))
-                        + (trace_row[7] * M31_64))
-                        + (trace_row[8] * M31_128))
-                        + (trace_row[9] * M31_256))),
-                (((((((((M31_0 + (trace_row[10] * M31_1)) + (trace_row[11] * M31_2))
-                    + (trace_row[12] * M31_4))
-                    + (trace_row[13] * M31_8))
-                    + (trace_row[14] * M31_16))
-                    + (trace_row[15] * M31_32))
-                    + (trace_row[16] * M31_64))
-                    + (trace_row[17] * M31_128))
-                    + (trace_row[18] * M31_256)),
-            ],
-            &self.memoryidtobig_lookup_elements,
+            self.memoryidtobig_lookup_elements.combine(&[
+                trace_row[27].clone(),
+                trace_row[19].clone(),
+                (trace_row[20].clone() + (trace_row[21].clone() * M31_128.clone())),
+                trace_row[22].clone(),
+                (trace_row[23].clone() + (trace_row[24].clone() * M31_32.clone())),
+                trace_row[25].clone(),
+                (trace_row[26].clone()
+                    + ((((((M31_0.clone() + (trace_row[4].clone() * M31_8.clone()))
+                        + (trace_row[5].clone() * M31_16.clone()))
+                        + (trace_row[6].clone() * M31_32.clone()))
+                        + (trace_row[7].clone() * M31_64.clone()))
+                        + (trace_row[8].clone() * M31_128.clone()))
+                        + (trace_row[9].clone() * M31_256.clone()))),
+                (((((((((M31_0.clone() + (trace_row[10].clone() * M31_1.clone()))
+                    + (trace_row[11].clone() * M31_2.clone()))
+                    + (trace_row[12].clone() * M31_4.clone()))
+                    + (trace_row[13].clone() * M31_8.clone()))
+                    + (trace_row[14].clone() * M31_16.clone()))
+                    + (trace_row[15].clone() * M31_32.clone()))
+                    + (trace_row[16].clone() * M31_64.clone()))
+                    + (trace_row[17].clone() * M31_128.clone()))
+                    + (trace_row[18].clone() * M31_256.clone())),
+            ]),
         );
-        logup.push_lookup(
-            &mut eval,
+        logup.write_frac(&mut eval, frac);
+        let frac = Fraction::new(
             -E::EF::one(),
-            &[
-                trace_row[0],
-                trace_row[1],
-                trace_row[2],
-                trace_row[3],
-                trace_row[4],
-                trace_row[5],
-                trace_row[6],
-                trace_row[7],
-                trace_row[8],
-                trace_row[9],
-                trace_row[10],
-                trace_row[11],
-                trace_row[12],
-                trace_row[13],
-                trace_row[14],
-                trace_row[15],
-                trace_row[16],
-                trace_row[17],
-                trace_row[18],
-            ],
-            &self.verifyinstruction_lookup_elements,
+            self.verifyinstruction_lookup_elements.combine(&[
+                trace_row[0].clone(),
+                trace_row[1].clone(),
+                trace_row[2].clone(),
+                trace_row[3].clone(),
+                trace_row[4].clone(),
+                trace_row[5].clone(),
+                trace_row[6].clone(),
+                trace_row[7].clone(),
+                trace_row[8].clone(),
+                trace_row[9].clone(),
+                trace_row[10].clone(),
+                trace_row[11].clone(),
+                trace_row[12].clone(),
+                trace_row[13].clone(),
+                trace_row[14].clone(),
+                trace_row[15].clone(),
+                trace_row[16].clone(),
+                trace_row[17].clone(),
+                trace_row[18].clone(),
+            ]),
         );
+        logup.write_frac(&mut eval, frac);
         logup.finalize(&mut eval);
 
         eval
