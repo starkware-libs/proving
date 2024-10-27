@@ -176,11 +176,15 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         );
     });
 
-    for name in &lists.state_names {
-        code.append(quote! {
-            let $name = eval.next_trace_mask();
-        });
+    // TODO(Ohad): handle next_trace_mask for external states.
+    if !lists.state_names.is_empty() {
+        for name in &lists.state_names {
+            code.append(quote! {
+                let $name = eval.next_trace_mask();
+            });
+        }
     }
+
     for constraint in lists.constraints.iter() {
         match constraint {
             ConstraintEvalStep::Constraint(expr, ..) => {
@@ -257,6 +261,7 @@ where
         CompiledAirVar::Const(..) => f(expr),
         CompiledAirVar::Var(..) => f(expr),
         CompiledAirVar::State(..) => f(expr),
+        CompiledAirVar::ExternalState(..) => f(expr),
         CompiledAirVar::StaticCall(_, vars) => iter_many(vars),
         CompiledAirVar::MethodCall(_, _, vars) => iter_many(vars),
         CompiledAirVar::BinaryOp(lhs, _, rhs) => iter_many(&[*lhs.clone(), *rhs.clone()]),
@@ -266,7 +271,6 @@ where
         CompiledAirVar::Struct { r#type: _, fields } => {
             iter_many(&fields.iter().cloned().map(|(_, var)| var).collect_vec())
         }
-        CompiledAirVar::ExternalState(..) => todo!(),
         CompiledAirVar::PublicParam(_) => todo!(),
     }
 }

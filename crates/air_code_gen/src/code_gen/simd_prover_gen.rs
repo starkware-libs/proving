@@ -143,6 +143,14 @@ pub fn remove_trailing_zeroes(mut felts: Vec<String>) -> Vec<String> {
 
 #[allow(dead_code)]
 fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
+    let contains_deductions = !lists.state_names.is_empty();
+    if !contains_deductions {
+        return quote! {
+        pub fn write_trace_simd() {
+            unimplemented!()
+        }};
+    }
+
     // Declare constants.
     let mut constants_def_code = quote! {};
     let constants = deduction_consts(&lists.deductions);
