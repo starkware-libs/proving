@@ -8,8 +8,7 @@ use genco::quote;
 use itertools::{chain, Itertools};
 
 use super::utils::{n_logup_columns, n_trace_cells};
-use crate::code_gen::simd_prover_gen::remove_trailing_zeroes;
-use crate::code_gen::trace_gen::generate_sub_component_imports;
+use crate::code_gen::simd_prover_gen::{generate_sub_component_imports, remove_trailing_zeroes};
 use crate::code_gen::utils::{callee_lookup_length, unique_constraint_relations};
 
 pub fn generate_component_structs(component_name: &str, lists: CompiledAirFn) -> rust::Tokens {

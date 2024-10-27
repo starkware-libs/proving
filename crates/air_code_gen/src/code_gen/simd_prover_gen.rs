@@ -8,11 +8,7 @@ use genco::quote;
 use itertools::Itertools;
 
 use super::framework_gen::seek_consts;
-use super::trace_gen::generate_lookup_data_struct;
 use super::utils::{n_trace_cells, unique_deduction_function_calls, unique_relation_calls};
-use crate::code_gen::trace_gen::{
-    generate_sub_component_imports, generate_sub_components_inputs_struct,
-};
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
@@ -365,6 +361,93 @@ fn add_inputs_simd_body() -> rust::Tokens {
     }
 }
 
+pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut members_code = quote! {};
+    let mut initialization_code = quote! {};
+
+    let mut function_call_multiplicity = HashMap::new();
+    for deduction in deductions {
+        if let TraceGenStep::LookupCall { fn_name, .. } = deduction {
+            let multiplicity = function_call_multiplicity.entry(fn_name).or_insert(0);
+            *multiplicity += 1;
+        }
+    }
+
+    for (&fn_name, &multiplicity) in function_call_multiplicity
+        .iter()
+        .sorted_by(|a, b| a.0.cmp(b.0))
+    {
+        let fn_name = fn_name.to_lowercase();
+        members_code.extend(quote! {
+            pub $(&fn_name)_inputs: [Vec<$(&fn_name)::InputType>; $(multiplicity)],
+        });
+        let inner_vecs = (0..multiplicity)
+            .map(|_| quote! {Vec::with_capacity(capacity),})
+            .collect_vec();
+        initialization_code.extend(quote!($(&fn_name)_inputs: [$(inner_vecs)],));
+    }
+
+    quote! {
+        #[allow(non_snake_case)]
+        pub struct SubComponentInputs
+        {$(members_code)}
+        impl SubComponentInputs {
+            #[allow(unused_variables)]
+            fn with_capacity(capacity: usize) -> Self {
+                Self {$(initialization_code)}
+
+            }
+        }
+    }
+}
+
+pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut members_code = quote! {};
+    let mut initialization_code = quote! {};
+
+    let mut relation_multiplicity = HashMap::new();
+    for deduction in deductions {
+        if let TraceGenStep::LookupData(LookupData {
+            relation_name,
+            felts,
+            ..
+        }) = deduction
+        {
+            let multiplicity = relation_multiplicity
+                .entry((relation_name, felts.len()))
+                .or_insert(0);
+            *multiplicity += 1;
+        }
+    }
+
+    for (&(relation_name, width), &multiplicity) in relation_multiplicity
+        .iter()
+        .sorted_by(|a, b| a.0 .0.cmp(b.0 .0))
+    {
+        let relation_name = relation_name.to_lowercase();
+        members_code.extend(quote! {
+            pub $(&relation_name): [Vec<[PackedM31; $width]>; $(multiplicity)],
+        });
+        let inner_vecs = (0..multiplicity)
+            .map(|_| quote! {Vec::with_capacity(capacity),})
+            .collect_vec();
+        initialization_code.extend(quote!($(&relation_name): [$(inner_vecs)],));
+    }
+
+    quote! {
+        #[allow(non_snake_case)]
+        pub struct LookupData
+        {$(members_code)}
+        impl LookupData {
+            #[allow(unused_variables)]
+            fn with_capacity(capacity: usize) -> Self {
+                Self {$(initialization_code)}
+
+            }
+        }
+    }
+}
+
 fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut lookup_elements = quote! {};
     for relation_name in unique_relation_calls(deductions).iter() {
@@ -433,6 +516,22 @@ fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::T
     }
     code
 }
+
+pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Tokens {
+    let mut code = rust::Tokens::new();
+    let mut seen_functions = HashSet::new();
+    for deduction in deductions {
+        if let TraceGenStep::LookupData(LookupData { relation_name, .. }) = deduction {
+            if seen_functions.insert(relation_name) {
+                code.extend(quote! {
+                    use crate::$(relation_name.to_lowercase());
+                });
+            }
+        }
+    }
+    code
+}
+
 fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(unused_imports)]
