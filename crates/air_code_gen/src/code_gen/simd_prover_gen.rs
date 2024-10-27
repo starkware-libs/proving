@@ -532,12 +532,25 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
     let mut code = rust::Tokens::new();
     let mut seen_functions = HashSet::new();
     for deduction in deductions {
-        if let TraceGenStep::LookupData(LookupData { relation_name, .. }) = deduction {
-            if seen_functions.insert(relation_name) {
-                code.extend(quote! {
-                    use crate::$(relation_name.to_lowercase());
-                });
+        match deduction {
+            TraceGenStep::LookupData(LookupData { relation_name, .. }) => {
+                if seen_functions.insert(relation_name) {
+                    code.extend(quote! {
+                        use crate::$(relation_name.to_lowercase());
+                    });
+                }
             }
+            TraceGenStep::LookupCall { fn_name, .. } => {
+                if seen_functions.insert(fn_name) {
+                    code.extend(quote! {
+                        use crate::$(fn_name.to_lowercase());
+                    });
+                }
+            }
+            TraceGenStep::StartBlock(_) => {}
+            TraceGenStep::EndBlock => {}
+            TraceGenStep::Deduction(..) => {}
+            TraceGenStep::Intermediate(..) => {}
         }
     }
     code
