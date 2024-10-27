@@ -91,6 +91,7 @@ impl SubComponentInputs {
 
 #[allow(clippy::useless_conversion)]
 #[allow(unused_variables)]
+#[allow(clippy::double_parens)]
 pub fn write_trace_simd(
     inputs: Vec<InputType>,
     memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
@@ -217,18 +218,21 @@ pub fn write_trace_simd(
             let tmp_18 = ((PackedUInt16::from_m31(input_col3)) >> (UInt16_13));
             let offset2_high_col26 = tmp_18.as_m31();
             trace_values[26].data[row_index] = offset2_high_col26;
-            sub_components_inputs.rangecheck_n_3_bits_7_2_5_inputs[0]
-                .push([offset0_mid_col20, offset1_low_col21, offset1_high_col23].into());
+            sub_components_inputs.rangecheck_n_3_bits_7_2_5_inputs[0].push([
+                offset0_mid_col20,
+                offset1_low_col21,
+                offset1_high_col23,
+            ]);
             lookup_data.rangecheck_n_3_bits_7_2_5[0].push([
                 offset0_mid_col20,
                 offset1_low_col21,
                 offset1_high_col23,
             ]);
             sub_components_inputs.rangecheck_n_2_bits_4_3_inputs[0]
-                .push([offset2_low_col24, offset2_high_col26].into());
+                .push([offset2_low_col24, offset2_high_col26]);
             lookup_data.rangecheck_n_2_bits_4_3[0].push([offset2_low_col24, offset2_high_col26]);
-            sub_components_inputs.memoryaddresstoid_inputs[0].push(input_col0.into());
-            let tmp_50 = memoryaddresstoid_state.deduce_output(input_col0.into());
+            sub_components_inputs.memoryaddresstoid_inputs[0].push(input_col0);
+            let tmp_50 = memoryaddresstoid_state.deduce_output(input_col0);
             let instruction_id_col27 = tmp_50;
             trace_values[27].data[row_index] = instruction_id_col27;
             lookup_data.memoryaddresstoid[0].push([input_col0, instruction_id_col27]);

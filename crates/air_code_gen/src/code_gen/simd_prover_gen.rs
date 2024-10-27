@@ -87,7 +87,7 @@ fn generate_simd_write_trace_body_code(
                 write_trace_body.extend(quote! {
                     sub_components_inputs
                         .$(&fn_name)_inputs[$(multiplicity.to_string())]
-                        .push($(&input).into());
+                        .push($(&input));
                 });
 
                 if let Some(output_name) = output_name {
@@ -98,7 +98,7 @@ fn generate_simd_write_trace_body_code(
                     };
                     write_trace_body.extend(quote! {
                             let $(output_name) = $(fn_name.to_lowercase())$(delimiter)deduce_output(
-                                $(input).into()
+                                $(input)
                             );
                     });
                 }
@@ -168,6 +168,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         #[allow(clippy::useless_conversion)]
         // TODO(Ohad): attempt to remove this.
         #[allow(unused_variables)]
+        #[allow(clippy::double_parens)]
         pub fn write_trace_simd(
             inputs: $(vec_of_type("InputType")),
             $(generate_stateful_component_params(&lists.deductions))

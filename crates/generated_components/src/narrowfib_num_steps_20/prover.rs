@@ -58,6 +58,7 @@ impl SubComponentInputs {
 
 #[allow(clippy::useless_conversion)]
 #[allow(unused_variables)]
+#[allow(clippy::double_parens)]
 pub fn write_trace_simd(
     inputs: Vec<InputType>,
 ) -> (

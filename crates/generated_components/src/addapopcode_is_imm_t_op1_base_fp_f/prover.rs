@@ -88,6 +88,7 @@ impl SubComponentInputs {
 
 #[allow(clippy::useless_conversion)]
 #[allow(unused_variables)]
+#[allow(clippy::double_parens)]
 pub fn write_trace_simd(
     inputs: Vec<InputType>,
     memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
@@ -126,21 +127,18 @@ pub fn write_trace_simd(
             trace_values[1].data[row_index] = input_ap_col1;
             let input_fp_col2 = tmp_0.fp;
             trace_values[2].data[row_index] = input_fp_col2;
-            sub_components_inputs.memoryaddresstoid_inputs[0].push(input_pc_col0.into());
-            let tmp_55 = memoryaddresstoid_state.deduce_output(input_pc_col0.into());
-            sub_components_inputs.memoryidtobig_inputs[0].push(tmp_55.into());
-            let tmp_56 = memoryidtobig_state.deduce_output(tmp_55.into());
-            sub_components_inputs.verifyinstruction_inputs[0].push(
-                (
-                    input_pc_col0,
-                    [M31_32767, M31_32767, M31_32769],
-                    [
-                        M31_1, M31_1, M31_1, M31_0, M31_0, M31_0, M31_0, M31_0, M31_0, M31_0,
-                        M31_1, M31_0, M31_0, M31_0, M31_0,
-                    ],
-                )
-                    .into(),
-            );
+            sub_components_inputs.memoryaddresstoid_inputs[0].push(input_pc_col0);
+            let tmp_55 = memoryaddresstoid_state.deduce_output(input_pc_col0);
+            sub_components_inputs.memoryidtobig_inputs[0].push(tmp_55);
+            let tmp_56 = memoryidtobig_state.deduce_output(tmp_55);
+            sub_components_inputs.verifyinstruction_inputs[0].push((
+                input_pc_col0,
+                [M31_32767, M31_32767, M31_32769],
+                [
+                    M31_1, M31_1, M31_1, M31_0, M31_0, M31_0, M31_0, M31_0, M31_0, M31_0, M31_1,
+                    M31_0, M31_0, M31_0, M31_0,
+                ],
+            ));
             lookup_data.verifyinstruction[0].push([
                 input_pc_col0,
                 M31_32767,
@@ -162,14 +160,13 @@ pub fn write_trace_simd(
                 M31_0,
                 M31_0,
             ]);
-            sub_components_inputs.memoryaddresstoid_inputs[1]
-                .push(((input_pc_col0) + (M31_1)).into());
-            let tmp_64 = memoryaddresstoid_state.deduce_output(((input_pc_col0) + (M31_1)).into());
+            sub_components_inputs.memoryaddresstoid_inputs[1].push(((input_pc_col0) + (M31_1)));
+            let tmp_64 = memoryaddresstoid_state.deduce_output(((input_pc_col0) + (M31_1)));
             let op1_id_col3 = tmp_64;
             trace_values[3].data[row_index] = op1_id_col3;
             lookup_data.memoryaddresstoid[0].push([((input_pc_col0) + (M31_1)), op1_id_col3]);
-            sub_components_inputs.memoryidtobig_inputs[1].push(op1_id_col3.into());
-            let tmp_65 = memoryidtobig_state.deduce_output(op1_id_col3.into());
+            sub_components_inputs.memoryidtobig_inputs[1].push(op1_id_col3);
+            let tmp_65 = memoryidtobig_state.deduce_output(op1_id_col3);
             let tmp_66 = tmp_65.get_m31(27).eq(M31_256);
             let msb_col4 = tmp_66.as_m31();
             trace_values[4].data[row_index] = msb_col4;
