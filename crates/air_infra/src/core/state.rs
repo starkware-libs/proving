@@ -30,10 +30,18 @@ impl Default for State {
 }
 
 impl State {
-    pub(super) fn add(&self, expr: &mut FeltExpr, desc: &str) {
+    pub(super) fn add(&mut self, expr: &mut FeltExpr, desc: &str) {
         let len = self.row.borrow().len();
         expr.to_state(len, None);
         self.row.borrow_mut().push((expr.clone(), desc.to_string()));
+    }
+
+    pub fn get_felts(&self) -> Vec<FeltExpr> {
+        self.row
+            .borrow()
+            .iter()
+            .map(|(felt, _)| felt.clone())
+            .collect()
     }
 }
 

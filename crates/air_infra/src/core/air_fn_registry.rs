@@ -262,6 +262,7 @@ impl AirFnRegistry {
             }
             TraceType::Builtin => air_fn.call(&mut air_builder, input),
             TraceType::Opcode => air_fn.lookup_call(&mut air_builder, input),
+            TraceType::Memory => air_fn.lookup_call(&mut air_builder, input),
         };
 
         (air_builder.state, output)
@@ -309,6 +310,7 @@ impl AirFnRegistry {
             // output any constraints or deductions. It just has to be of the correct type.
             TraceType::Const => air_fn.call(&mut air_builder, input.clone()),
             TraceType::Builtin => air_fn.call(&mut air_builder, input.clone()),
+            TraceType::Memory => air_fn.lookup_call(&mut air_builder, input.clone()),
         };
 
         // Make sure that the output is a variable or a felt expression.

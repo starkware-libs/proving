@@ -7,36 +7,10 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 
-// Stwo fills an IdToBig table and splits it into two components: The key (Id) component
-// and the value (Big) component.
-const STWO_COMPONENT_TYPE_MEMORY_IDS: &str = "IdToBig_key";
-const STWO_COMPONENT_TYPE_BIG_VALUE_FOR_ID: &str = "IdToBig_value";
-
-// An AirFn representing the value component of the IdToBig table.
-#[derive(Debug, Clone, Default, InstDef)]
-pub struct BigValueForId {}
-
 #[derive(Debug, Clone, Default, InstDef)]
 pub struct MemoryIdToBig {
     #[instdef(skip)]
     memory: Memory<FeltExpr, Felt252Expr>,
-}
-
-impl AirFn for BigValueForId {
-    type In = ();
-    type Out = Felt252Expr;
-
-    fn name(&self) -> String {
-        STWO_COMPONENT_TYPE_BIG_VALUE_FOR_ID.to_string()
-    }
-
-    fn call(&self, _air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
-        Self::Out::default()
-    }
-
-    fn trace_type(&self) -> TraceType {
-        TraceType::Const
-    }
 }
 
 impl IsMemory<FeltExpr, Felt252Expr> for MemoryIdToBig {
@@ -55,7 +29,7 @@ impl AirFn for MemoryIdToBig {
 
     fn call(&self, air_builder: &mut AirBuilder, _id: Self::In) -> Self::Out {
         #[allow(unused_mut)]
-        let mut value_in_state = air_builder.call_external_column(&BigValueForId {});
+        let mut value_in_state: Felt252Expr = air_builder.state().get_felts()[1..].to_vec().into();
 
         #[cfg(test)]
         if air_builder.is_run_mode() {
@@ -89,11 +63,7 @@ impl AirFn for MemoryIdToBig {
         value_in_state
     }
 
-    fn const_input(&self) -> Option<String> {
-        Some(STWO_COMPONENT_TYPE_MEMORY_IDS.to_string())
-    }
-
     fn trace_type(&self) -> TraceType {
-        TraceType::Component
+        TraceType::Memory
     }
 }

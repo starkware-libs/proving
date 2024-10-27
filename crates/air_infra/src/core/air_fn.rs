@@ -41,6 +41,11 @@ pub enum TraceType {
     // Generates accumulated sum column where the input
     // is used and the output is yielded (chain lookup constraint).
     Opcode,
+
+    // Memory components are pre-filled. Their trace consists of only input and output columns, or
+    // only output columns, if the input is const. They don't generate deductions. They can
+    // generate constraints, and they yield lookup data. They implement the IsMemory trait.
+    Memory,
 }
 
 // An air function should define a struct that implements the AirFn trait.
@@ -119,13 +124,19 @@ pub trait AirFn: Debug + InstDefTrait {
 
     fn lookup_call(&self, air_builder: &mut AirBuilder, mut input: Self::In) -> Self::Out {
         assert!(
-            self.trace_type() == TraceType::Component || self.trace_type() == TraceType::Opcode,
-            "AirFn must be a component or an opcode"
+            self.trace_type() == TraceType::Component
+                || self.trace_type() == TraceType::Opcode
+                || self.trace_type() == TraceType::Memory,
+            "AirFn must be a component, opcode or memory"
         );
 
         if let Some(const_name) = self.const_input() {
             for (i, felt) in input.as_felts_mut().into_iter().enumerate() {
                 felt.to_state(i, Some(const_name.clone()));
+            }
+        } else if self.trace_type() == TraceType::Memory {
+            for felt in input.as_felts_mut() {
+                air_builder.state.add(felt, "input");
             }
         } else if !Self::In::is_empty() {
             input = air_builder.let_for_deduction(input);
@@ -140,6 +151,14 @@ pub trait AirFn: Debug + InstDefTrait {
             }
         }
 
+        if self.trace_type() == TraceType::Memory {
+            let mut output = Self::Out::new("".to_string(), false);
+            for felt in output.as_felts_mut() {
+                air_builder
+                    .state
+                    .add(felt, &format!("{}_output", self.name().to_lowercase()));
+            }
+        }
         let output = self.call(air_builder, input.clone());
 
         if self.trace_type() == TraceType::Opcode {
@@ -197,6 +216,10 @@ impl AirBuilder {
     #[cfg(test)]
     pub fn row_number(&self) -> Option<usize> {
         self.row_number
+    }
+
+    pub fn state(&self) -> &State {
+        &self.state
     }
 
     pub fn constrain(&mut self, expr: FeltExpr, desc: &str) {
