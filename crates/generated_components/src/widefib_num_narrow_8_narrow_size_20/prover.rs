@@ -85,10 +85,10 @@ pub fn write_trace_simd(
     SubComponentInputs,
     LookupData,
 ) {
-    let n_trace_columns = 17;
-    let mut trace_values = (0..n_trace_columns)
-        .map(|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES))
-        .collect_vec();
+    const N_TRACE_COLUMNS: usize = 17;
+    let mut trace_values: [_; N_TRACE_COLUMNS] =
+        std::array::from_fn(|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES));
+
     let mut lookup_data = LookupData::with_capacity(inputs.len());
     #[allow(unused_mut)]
     let mut sub_components_inputs = SubComponentInputs::with_capacity(inputs.len());

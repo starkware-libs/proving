@@ -8,7 +8,7 @@ use genco::quote;
 use itertools::Itertools;
 
 use super::framework_gen::seek_consts;
-use super::utils::{n_trace_cells, unique_deduction_function_calls, unique_relation_calls};
+use super::utils::{unique_deduction_function_calls, unique_relation_calls};
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
@@ -165,10 +165,10 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         ) -> (Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
             SubComponentInputs,
             LookupData) {
-            let n_trace_columns = $(n_trace_cells(&lists.deductions));
-            let mut trace_values = (0..n_trace_columns)
-                .map(|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES))
-                .collect_vec();
+            const N_TRACE_COLUMNS: usize = $(lists.row_length);
+            let mut trace_values: [_ ;N_TRACE_COLUMNS]= std::array::from_fn
+                    (|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES));
+
             let mut lookup_data = LookupData::with_capacity(inputs.len());
             #[allow(unused_mut)]
             let mut sub_components_inputs = SubComponentInputs::with_capacity(inputs.len());

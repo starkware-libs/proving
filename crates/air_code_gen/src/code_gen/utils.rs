@@ -189,13 +189,6 @@ pub fn n_logup_columns(lists: &CompiledAirFn) -> usize {
     n_function_calls + callee_lookup_length(lists)
 }
 
-pub fn n_trace_cells(deductions: &[TraceGenStep]) -> usize {
-    deductions
-        .iter()
-        .filter(|c| matches!(c, TraceGenStep::Deduction(_, _)))
-        .count()
-}
-
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'
 #[cfg(test)]
 pub fn compare_contents_or_fix_with_path(air_fn: CompiledAirFn, folder_path: &Path) {

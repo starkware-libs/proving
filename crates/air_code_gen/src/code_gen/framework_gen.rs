@@ -7,7 +7,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::{chain, Itertools};
 
-use super::utils::{n_logup_columns, n_trace_cells};
+use super::utils::n_logup_columns;
 use crate::code_gen::simd_prover_gen::{generate_sub_component_imports, remove_trailing_zeroes};
 use crate::code_gen::utils::{callee_lookup_length, unique_constraint_relations};
 
@@ -71,12 +71,11 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     // impl
     let mut impl_code = rust::Tokens::new();
     let n_logup_columns = n_logup_columns(lists);
-    let n_trace_cells = n_trace_cells(&lists.deductions);
     impl_code.append(quote! {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
                 let log_size = self.n_calls.next_power_of_two().ilog2();
-                let interaction_0_log_sizes = vec![log_size; $n_trace_cells];
+                let interaction_0_log_sizes = vec![log_size; $(lists.row_length)];
                 let interaction_1_log_sizes = vec![log_size; SECURE_EXTENSION_DEGREE * $n_logup_columns];
                 TreeVec::new(vec![interaction_0_log_sizes, interaction_1_log_sizes])
             }
@@ -178,7 +177,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     });
 
     code.append(quote! {
-        let trace_row: [_; $(n_trace_cells(&lists.deductions))]
+        let trace_row: [_; $(lists.row_length)]
             = std::array::from_fn(|_| eval.next_trace_mask());
     });
 
