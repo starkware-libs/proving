@@ -45,7 +45,7 @@ fn generate_component_struct(
     for fn_name in unique_constraint_relations(constraints) {
         let fn_name = fn_name.to_lowercase();
         members.append(quote! {
-            pub $(&fn_name)_lookup_elements: $(fn_name)::ComponentLookupElements,
+            pub $(&fn_name)_lookup_elements: $(fn_name)::RelationElements,
         });
     }
 
@@ -62,7 +62,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
         pub n_calls: usize,
     });
     let struct_code = quote! {
-        #[derive(Copy, Clone)]
+        #[derive(Copy, Clone, Serialize, Deserialize)]
         pub struct Claim {
             $(members)
         }
@@ -91,6 +91,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
 
 fn generate_interaction_claim_struct() -> rust::Tokens {
     let struct_code = quote! {
+        #[derive(Copy, Clone, Serialize, Deserialize)]
         pub struct InteractionClaim {
             pub claimed_sum: SecureField,
         }
@@ -110,7 +111,7 @@ fn generate_interaction_claim_struct() -> rust::Tokens {
 fn generate_interaction_elements_struct(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
         // TODO(Ohad): figure this out.
-        pub type ComponentLookupElements = LookupElements<$(callee_lookup_length(lists))>;
+        pub type RelationElements = LookupElements<$(callee_lookup_length(lists))>;
     }
 }
 
@@ -353,6 +354,7 @@ fn imports(deductions: &[TraceGenStep]) -> rust::Tokens {
         #![allow(non_camel_case_types)]
         #![allow(unused_imports)]
         use num_traits::One;
+        use serde::{Deserialize, Serialize};
         use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
         use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
         use stwo_prover::core::channel::Channel;

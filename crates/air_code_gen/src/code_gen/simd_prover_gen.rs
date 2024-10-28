@@ -260,7 +260,7 @@ fn generate_claim_generator_struct() -> rust::Tokens {
 fn generate_claim_prover_struct() -> rust::Tokens {
     quote! {
 
-        pub struct ClaimProver {
+        pub struct InteractionClaimGenerator {
             pub claim: Claim,
             pub lookup_data: LookupData,
         }
@@ -274,7 +274,7 @@ fn generate_claim_generator_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
                 self,
                 tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
                 $(generate_sub_component_params(deductions))
-            ) -> ClaimProver {
+            ) -> InteractionClaimGenerator {
                 $(write_trace_body_simd(deductions))
             }
 
@@ -357,7 +357,7 @@ fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
             n_calls: len * N_LANES,
         };
 
-        ClaimProver {
+        InteractionClaimGenerator {
             claim,
             lookup_data,
         }
@@ -463,11 +463,11 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
     for relation_name in unique_relation_calls(deductions).iter() {
         lookup_elements.extend(quote! {
             $(relation_name.to_lowercase())_lookup_elements:
-                    &$(relation_name.to_lowercase())::ComponentLookupElements,
+                    &$(relation_name.to_lowercase())::RelationElements,
         });
     }
     quote! {
-        impl ClaimProver {
+        impl InteractionClaimGenerator {
             // TODO(Ohad): Batch in pairs.
             pub fn write_interaction_trace(
                 self,
@@ -575,7 +575,7 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_prover::core::poly::BitReversedOrder;
         use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
-        use super::component::{Claim, ComponentLookupElements, InteractionClaim};
+        use super::component::{Claim, RelationElements, InteractionClaim};
         $(generate_sub_component_imports(deductions))
     }
 }

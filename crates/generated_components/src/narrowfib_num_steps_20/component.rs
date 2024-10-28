@@ -1,6 +1,7 @@
 #![allow(non_camel_case_types)]
 #![allow(unused_imports)]
 use num_traits::One;
+use serde::{Deserialize, Serialize};
 use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
 use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
 use stwo_prover::core::backend::simd::m31::PackedM31;
@@ -13,15 +14,15 @@ use stwo_prover::core::pcs::TreeVec;
 
 use crate::{narrowfib_num_steps_20, LOGUP_BATCH_SIZE};
 
-pub type ComponentLookupElements = LookupElements<4>;
+pub type RelationElements = LookupElements<4>;
 
 pub struct NarrowFib_num_steps_20Eval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
-    pub narrowfib_num_steps_20_lookup_elements: narrowfib_num_steps_20::ComponentLookupElements,
+    pub narrowfib_num_steps_20_lookup_elements: narrowfib_num_steps_20::RelationElements,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Claim {
     pub n_calls: usize,
 }
@@ -38,6 +39,7 @@ impl Claim {
     }
 }
 
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct InteractionClaim {
     pub claimed_sum: SecureField,
 }

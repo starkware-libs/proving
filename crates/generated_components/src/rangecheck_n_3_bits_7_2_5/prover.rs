@@ -18,7 +18,7 @@ use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
-use super::component::{Claim, ComponentLookupElements, InteractionClaim};
+use super::component::{Claim, InteractionClaim, RelationElements};
 use crate::rangecheck_n_3_bits_7_2_5;
 
 pub type InputType = [PackedM31; 3];
@@ -31,7 +31,7 @@ impl ClaimGenerator {
     pub fn write_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-    ) -> ClaimProver {
+    ) -> InteractionClaimGenerator {
         todo!()
     }
 
@@ -82,15 +82,15 @@ impl LookupData {
     }
 }
 
-pub struct ClaimProver {
+pub struct InteractionClaimGenerator {
     pub claim: Claim,
     pub lookup_data: LookupData,
 }
-impl ClaimProver {
+impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        rangecheck_n_3_bits_7_2_5_lookup_elements: &rangecheck_n_3_bits_7_2_5::ComponentLookupElements,
+        rangecheck_n_3_bits_7_2_5_lookup_elements: &rangecheck_n_3_bits_7_2_5::RelationElements,
     ) -> InteractionClaim {
         todo!()
     }

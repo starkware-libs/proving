@@ -55,7 +55,7 @@ pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
             pub mod component;
             pub mod prover;
 
-            pub use component::{ComponentLookupElements, Claim, InteractionClaim};
+            pub use component::{RelationElements, Claim, InteractionClaim};
             pub use prover::{ClaimGenerator, InputType};
         };
         let text = reformat_rust_code(mod_rs_code.to_string().unwrap());

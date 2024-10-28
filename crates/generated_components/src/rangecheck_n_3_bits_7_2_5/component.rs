@@ -12,13 +12,12 @@ use stwo_prover::core::pcs::TreeVec;
 
 use crate::{rangecheck_n_3_bits_7_2_5, LOGUP_BATCH_SIZE};
 
-pub type ComponentLookupElements = LookupElements<3>;
+pub type RelationElements = LookupElements<3>;
 
 pub struct RangeCheck_N_3_bits_7_2_5Eval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
-    pub rangecheck_n_3_bits_7_2_5_lookup_elements:
-        rangecheck_n_3_bits_7_2_5::ComponentLookupElements,
+    pub rangecheck_n_3_bits_7_2_5_lookup_elements: rangecheck_n_3_bits_7_2_5::RelationElements,
 }
 
 #[derive(Copy, Clone)]

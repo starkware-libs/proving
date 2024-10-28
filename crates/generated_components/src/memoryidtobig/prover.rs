@@ -7,7 +7,7 @@ use stwo_prover::core::pcs::TreeBuilder;
 use stwo_prover::core::vcs::blake2_merkle::Blake2sMerkleChannel;
 
 use super::component::N_M31_IN_FELT252;
-use super::{Claim, ComponentLookupElements, InteractionClaim};
+use super::{Claim, InteractionClaim, RelationElements};
 
 pub type InputType = PackedM31;
 pub type LookupFelts = [PackedM31; N_M31_IN_FELT252 + 1];
@@ -24,17 +24,17 @@ impl ClaimGenerator {
     pub fn write_trace(
         &mut self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-    ) -> (Claim, ClaimProver) {
+    ) -> (Claim, InteractionClaimGenerator) {
         todo!()
     }
 }
 
 #[derive(Debug)]
-pub struct ClaimProver {
+pub struct InteractionClaimGenerator {
     pub adresses_and_values: [Vec<PackedM31>; N_M31_IN_FELT252 + 1],
     pub multiplicities: Vec<PackedM31>,
 }
-impl ClaimProver {
+impl InteractionClaimGenerator {
     pub fn with_capacity(capacity: usize) -> Self {
         todo!()
     }
@@ -42,7 +42,7 @@ impl ClaimProver {
     pub fn write_interaction_trace(
         &self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        lookup_elements: &ComponentLookupElements,
+        lookup_elements: &RelationElements,
     ) -> InteractionClaim {
         todo!()
     }

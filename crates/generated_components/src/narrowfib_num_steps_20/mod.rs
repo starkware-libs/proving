@@ -4,8 +4,8 @@ use stwo_prover::core::fields::FieldExpOps;
 pub mod component;
 pub mod prover;
 
-pub use component::{Claim, ComponentLookupElements, InteractionClaim};
-pub use prover::{ClaimGenerator, ClaimProver, InputType};
+pub use component::{Claim, InteractionClaim, RelationElements};
+pub use prover::{ClaimGenerator, InputType, InteractionClaimGenerator};
 
 pub fn deduce_output(input: [PackedM31; 2]) -> [PackedM31; 2] {
     let mut state = input;

@@ -16,7 +16,7 @@ use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
-use super::component::{Claim, ComponentLookupElements, InteractionClaim};
+use super::component::{Claim, InteractionClaim, RelationElements};
 use crate::narrowfib_num_steps_20;
 
 pub type InputType = [PackedM31; 2];
@@ -29,7 +29,7 @@ impl ClaimGenerator {
     pub fn write_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-    ) -> ClaimProver {
+    ) -> InteractionClaimGenerator {
         let len = self.inputs.len();
         #[allow(unused_variables)]
         let (trace, sub_components_inputs, lookup_data) = write_trace_simd(self.inputs);
@@ -39,7 +39,7 @@ impl ClaimGenerator {
             n_calls: len * N_LANES,
         };
 
-        ClaimProver { claim, lookup_data }
+        InteractionClaimGenerator { claim, lookup_data }
     }
 
     pub fn add_inputs(&mut self, inputs: &[InputType]) {
@@ -157,15 +157,15 @@ impl LookupData {
     }
 }
 
-pub struct ClaimProver {
+pub struct InteractionClaimGenerator {
     pub claim: Claim,
     pub lookup_data: LookupData,
 }
-impl ClaimProver {
+impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        narrowfib_num_steps_20_lookup_elements: &narrowfib_num_steps_20::ComponentLookupElements,
+        narrowfib_num_steps_20_lookup_elements: &narrowfib_num_steps_20::RelationElements,
     ) -> InteractionClaim {
         let log_size = self.claim.n_calls.next_power_of_two().ilog2();
         let mut logup_gen = LogupTraceGenerator::new(log_size);

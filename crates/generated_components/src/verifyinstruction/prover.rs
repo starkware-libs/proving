@@ -16,7 +16,7 @@ use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
-use super::component::{Claim, ComponentLookupElements, InteractionClaim};
+use super::component::{Claim, InteractionClaim, RelationElements};
 use crate::{
     memoryaddresstoid, memoryidtobig, rangecheck_n_2_bits_4_3, rangecheck_n_3_bits_7_2_5,
     verifyinstruction,
@@ -35,7 +35,7 @@ impl ClaimGenerator {
         memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
         rangecheck_n_2_bits_4_3_state: &mut rangecheck_n_2_bits_4_3::ClaimGenerator,
         rangecheck_n_3_bits_7_2_5_state: &mut rangecheck_n_3_bits_7_2_5::ClaimGenerator,
-    ) -> ClaimProver {
+    ) -> InteractionClaimGenerator {
         let len = self.inputs.len();
         #[allow(unused_variables)]
         let (trace, sub_components_inputs, lookup_data) =
@@ -64,7 +64,7 @@ impl ClaimGenerator {
             n_calls: len * N_LANES,
         };
 
-        ClaimProver { claim, lookup_data }
+        InteractionClaimGenerator { claim, lookup_data }
     }
 
     pub fn add_inputs(&mut self, inputs: &[InputType]) {
@@ -338,20 +338,19 @@ impl LookupData {
     }
 }
 
-pub struct ClaimProver {
+pub struct InteractionClaimGenerator {
     pub claim: Claim,
     pub lookup_data: LookupData,
 }
-impl ClaimProver {
+impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        memoryaddresstoid_lookup_elements: &memoryaddresstoid::ComponentLookupElements,
-        memoryidtobig_lookup_elements: &memoryidtobig::ComponentLookupElements,
-        rangecheck_n_2_bits_4_3_lookup_elements: &rangecheck_n_2_bits_4_3::ComponentLookupElements,
-        rangecheck_n_3_bits_7_2_5_lookup_elements:
-            &rangecheck_n_3_bits_7_2_5::ComponentLookupElements,
-        verifyinstruction_lookup_elements: &verifyinstruction::ComponentLookupElements,
+        memoryaddresstoid_lookup_elements: &memoryaddresstoid::RelationElements,
+        memoryidtobig_lookup_elements: &memoryidtobig::RelationElements,
+        rangecheck_n_2_bits_4_3_lookup_elements: &rangecheck_n_2_bits_4_3::RelationElements,
+        rangecheck_n_3_bits_7_2_5_lookup_elements: &rangecheck_n_3_bits_7_2_5::RelationElements,
+        verifyinstruction_lookup_elements: &verifyinstruction::RelationElements,
     ) -> InteractionClaim {
         let log_size = self.claim.n_calls.next_power_of_two().ilog2();
         let mut logup_gen = LogupTraceGenerator::new(log_size);

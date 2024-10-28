@@ -1,6 +1,7 @@
 #![allow(non_camel_case_types)]
 #![allow(unused_imports)]
 use num_traits::One;
+use serde::{Deserialize, Serialize};
 use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
 use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
 use stwo_prover::core::backend::simd::m31::PackedM31;
@@ -16,20 +17,19 @@ use crate::{
     verifyinstruction, LOGUP_BATCH_SIZE,
 };
 
-pub type ComponentLookupElements = LookupElements<3>;
+pub type RelationElements = LookupElements<3>;
 
 pub struct VerifyInstructionEval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
-    pub memoryaddresstoid_lookup_elements: memoryaddresstoid::ComponentLookupElements,
-    pub memoryidtobig_lookup_elements: memoryidtobig::ComponentLookupElements,
-    pub rangecheck_n_2_bits_4_3_lookup_elements: rangecheck_n_2_bits_4_3::ComponentLookupElements,
-    pub rangecheck_n_3_bits_7_2_5_lookup_elements:
-        rangecheck_n_3_bits_7_2_5::ComponentLookupElements,
-    pub verifyinstruction_lookup_elements: verifyinstruction::ComponentLookupElements,
+    pub memoryaddresstoid_lookup_elements: memoryaddresstoid::RelationElements,
+    pub memoryidtobig_lookup_elements: memoryidtobig::RelationElements,
+    pub rangecheck_n_2_bits_4_3_lookup_elements: rangecheck_n_2_bits_4_3::RelationElements,
+    pub rangecheck_n_3_bits_7_2_5_lookup_elements: rangecheck_n_3_bits_7_2_5::RelationElements,
+    pub verifyinstruction_lookup_elements: verifyinstruction::RelationElements,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Claim {
     pub n_calls: usize,
 }
@@ -46,6 +46,7 @@ impl Claim {
     }
 }
 
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct InteractionClaim {
     pub claimed_sum: SecureField,
 }

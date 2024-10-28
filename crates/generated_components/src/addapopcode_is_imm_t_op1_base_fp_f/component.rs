@@ -1,6 +1,7 @@
 #![allow(non_camel_case_types)]
 #![allow(unused_imports)]
 use num_traits::One;
+use serde::{Deserialize, Serialize};
 use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
 use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
 use stwo_prover::core::backend::simd::m31::PackedM31;
@@ -13,18 +14,18 @@ use stwo_prover::core::pcs::TreeVec;
 
 use crate::{memoryaddresstoid, memoryidtobig, opcodes, verifyinstruction, LOGUP_BATCH_SIZE};
 
-pub type ComponentLookupElements = LookupElements<4>;
+pub type RelationElements = LookupElements<4>;
 
 pub struct AddApOpcode_is_imm_t_op1_base_fp_fEval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
-    pub memoryaddresstoid_lookup_elements: memoryaddresstoid::ComponentLookupElements,
-    pub memoryidtobig_lookup_elements: memoryidtobig::ComponentLookupElements,
-    pub verifyinstruction_lookup_elements: verifyinstruction::ComponentLookupElements,
-    pub opcodes_lookup_elements: opcodes::ComponentLookupElements,
+    pub memoryaddresstoid_lookup_elements: memoryaddresstoid::RelationElements,
+    pub memoryidtobig_lookup_elements: memoryidtobig::RelationElements,
+    pub verifyinstruction_lookup_elements: verifyinstruction::RelationElements,
+    pub opcodes_lookup_elements: opcodes::RelationElements,
 }
 
-#[derive(Copy, Clone)]
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct Claim {
     pub n_calls: usize,
 }
@@ -41,6 +42,7 @@ impl Claim {
     }
 }
 
+#[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct InteractionClaim {
     pub claimed_sum: SecureField,
 }

@@ -13,7 +13,7 @@ pub const MEMORY_ADDRESS_BOUND: usize = 1 << LOG_MEMORY_ADDRESS_BOUND;
 pub const N_LOGUP_POWERS: usize = N_MEMORY_COLUMNS + 1;
 pub const N_BITS_PER_FELT: usize = 9;
 
-pub type ComponentLookupElements = LookupElements<N_LOGUP_POWERS>;
+pub type RelationElements = LookupElements<N_LOGUP_POWERS>;
 
 /// Addresses are continuous and start from 0.
 /// Values are Felt252 stored as `N_M31_IN_FELT252` M31 values (each value containing 9 bits).
@@ -25,7 +25,7 @@ impl MemoryComponent {
     }
     pub fn new(
         claim: Claim,
-        lookup_elements: ComponentLookupElements,
+        lookup_elements: RelationElements,
         interaction_claim: InteractionClaim,
     ) -> Self {
         todo!()
