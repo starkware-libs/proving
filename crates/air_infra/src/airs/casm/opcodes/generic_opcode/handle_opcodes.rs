@@ -95,7 +95,7 @@ impl AirFn for HandleOpcodes {
             "",
         );
 
-        // Push pc
+        // Push next pc
         let op0_as_addr = air_builder.call(
             &CondFelt252AsAddr {},
             (op0.clone(), flags[FLAG_OPCODE_CALL_INDEX].clone()),
