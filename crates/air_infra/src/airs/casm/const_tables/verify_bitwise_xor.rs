@@ -1,12 +1,10 @@
-use compiled_casm_air::const_tables::STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9;
+use compiled_casm_air::const_tables::*;
 use inst_def::InstDef;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 #[cfg(test)]
 use crate::core::variables::*;
-
-const STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4: &str = "VerifyBitwiseXor4";
 
 #[derive(Debug, InstDef)]
 pub struct VerifyBitwiseXor {
@@ -24,7 +22,10 @@ impl AirFn for VerifyBitwiseXor {
             // Note: Each specific xor in the list must be implemented in stwo by a component of
             // the same name.
             4 => Some(STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4.to_string()),
+            7 => Some(STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_7.to_string()),
+            8 => Some(STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_8.to_string()),
             9 => Some(STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9.to_string()),
+            12 => Some(STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_12.to_string()),
             _ => panic!(
                 "Invalid verify bitwise xor number of bits {:?}.",
                 self.num_bits
