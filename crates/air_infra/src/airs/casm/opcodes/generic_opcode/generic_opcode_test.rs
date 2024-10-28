@@ -1361,7 +1361,7 @@ fn test_generic_jump_abs_imm() {
 fn test_generic_jump_rel_double_deref() {
     let mut generic_opcode = GenericOpcode::default();
     let jump_opcode = JumpOpcode {
-        is_rel: true,
+        is_rel: false,
         is_imm: false,
         is_double_deref: true,
         memory: Felt252IdMemory::default(),
@@ -1369,6 +1369,8 @@ fn test_generic_jump_rel_double_deref() {
 
     // Create flags
     let mut flags = jump_opcode.get_flags();
+    flags.pc_update_jump = Some(false);
+    flags.pc_update_jump_rel = Some(true);
     flags.op1_imm = Some(false);
     flags.op0_base_fp = Some(true);
     flags.ap_update_add_1 = Some(false);
