@@ -115,6 +115,7 @@ impl AirFn for CallOpcode {
             };
             self.memory
                 .read_address(ab, CasmAddress::new(mem1_base + offset2, "next_pc"))
+                .value
         };
 
         CasmStateVar::new(

@@ -106,6 +106,7 @@ impl AirFn for AssertEqOpcode {
                 + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap.value.clone();
             self.memory
                 .read_address(ab, CasmAddress::new(mem0_base + offset1, "mem1_base"))
+                .value
         } else if self.is_imm {
             casm_state.pc.value.clone()
         } else {
