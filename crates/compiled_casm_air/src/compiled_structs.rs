@@ -89,6 +89,9 @@ pub enum CompiledAirVar {
     },
     // A variable written to the trace of a const table at the given index.
     ExternalState(String, usize),
+    // A value passed to the verifier outside the trace. Can influence the constraints
+    // that the verifier checks.
+    PublicParam(String),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]

@@ -1,3 +1,4 @@
+use compiled_casm_air::public_params::PublicParam;
 use serde::{Serialize, Serializer};
 
 use compiled_casm_air::compiled_structs::CompiledAirVar;
@@ -15,6 +16,22 @@ use crate::const_expr;
 pub type FeltOperation = OpExpr<Felt>;
 pub type FeltExpr = Expr<Felt>;
 
+// Describes where in the state this FeltExpr resides
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum StateInfo {
+    // The felt is in the state of the current component, at the specified index.
+    StateIndex(usize),
+    // If the <bool> value is true, the felt is a polynomial expression in the state. It is unspecified
+    // what this polynomial is. If the <bool> is false, the felt is not a polynomial expression in the
+    // state (for example, a value read from the memory and not written to the state yet).
+    IsPolyOfState(bool),
+    // The felt is in the state of another component. The arguments are the component name and the index
+    // inside that component.
+    ExternalColumnStateIndex(String, usize),
+    // The felt is one of the public parameters.
+    PublicParam(PublicParam),
+}
+
 impl VarExprUpdate for VarExpr<Felt> {
     fn create_children(&mut self) {
         // Felt does not have children.
@@ -27,23 +44,28 @@ impl VarExprUpdate for VarExpr<Felt> {
 impl FeltExpr {
     // When an expression is written to the trace, this function is called to change the expression
     // into a variable that has a state index.
-    pub fn to_state(&mut self, index: usize, external: Option<String>) {
-        let name = format!("state[{}]", index);
+    pub fn to_state(&mut self, new_state_info: StateInfo) {
+        let name = match &new_state_info {
+            StateInfo::StateIndex(index) => format!("state[{}]", index),
+            StateInfo::IsPolyOfState(_) => {
+                panic!("to_state shouldn't be used to make a FeltExpr an IsPolyOfState")
+            }
+            StateInfo::ExternalColumnStateIndex(name, index) => {
+                format!("{}_state[{}]", name, index)
+            }
+            StateInfo::PublicParam(public_param) => public_param.name(),
+        };
         let value = self.value();
         match self {
             FeltExpr::Var(v) => {
                 v.name = name;
-                v.complex_or_felt = if let Some(external_name) = external {
-                    ComplexOrFelt::Felt(StateInfo::ExternalColumnStateIndex(external_name, index))
-                } else {
-                    ComplexOrFelt::Felt(StateInfo::StateIndex(index))
-                };
+                v.complex_or_felt = ComplexOrFelt::Felt(new_state_info);
                 // A felt expression that is written to the trace is no longer an intermediate variable.
                 v.intermediate_type = None;
             }
             _ => {
                 let mut v = VarExpr::new(name, value, false, true, None);
-                v.complex_or_felt = ComplexOrFelt::Felt(StateInfo::StateIndex(index));
+                v.complex_or_felt = ComplexOrFelt::Felt(new_state_info);
                 *self = Self::Var(v);
             }
         }

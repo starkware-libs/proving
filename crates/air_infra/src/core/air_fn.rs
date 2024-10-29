@@ -6,6 +6,7 @@ use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
 use compiled_casm_air::compiled_structs::UseOrYield;
+use compiled_casm_air::public_params::PublicParam;
 
 use super::air_fn_registry::*;
 use super::expressions::felt_expr::*;
@@ -132,7 +133,7 @@ pub trait AirFn: Debug + InstDefTrait {
 
         if let Some(const_name) = self.const_input() {
             for (i, felt) in input.as_felts_mut().into_iter().enumerate() {
-                felt.to_state(i, Some(const_name.clone()));
+                felt.to_state(StateInfo::ExternalColumnStateIndex(const_name.clone(), i));
             }
         } else if self.trace_type() == TraceType::Memory {
             for felt in input.as_felts_mut() {
@@ -579,9 +580,13 @@ impl AirBuilder {
 
         let mut output = O::new("".to_string(), false);
         for (i, felt) in output.as_felts_mut().into_iter().enumerate() {
-            felt.to_state(i, Some(air_fn.name()));
+            felt.to_state(StateInfo::ExternalColumnStateIndex(air_fn.name(), i));
         }
         O::from(output.as_felts())
+    }
+
+    pub fn get_public_param(&self, which: PublicParam) -> FeltExpr {
+        self.registry.public_params.get(which)
     }
 }
 

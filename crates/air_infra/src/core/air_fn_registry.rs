@@ -9,6 +9,7 @@ use compiled_casm_air::compiled_structs::{
 };
 
 use super::air_fn::*;
+use super::public_params::*;
 use super::state::*;
 use super::variables::*;
 
@@ -169,6 +170,8 @@ pub struct AirFnRegistry {
     air_fns: Rc<RefCell<IndexMap<String, AirFnEntry>>>,
     #[serde(skip)]
     intermediate_index: Rc<RefCell<usize>>,
+    #[serde(skip)]
+    pub public_params: PublicParams,
 }
 
 impl AirFnRegistry {
@@ -176,6 +179,7 @@ impl AirFnRegistry {
         Self {
             air_fns: Rc::new(RefCell::new(IndexMap::new())),
             intermediate_index: Rc::new(RefCell::new(0)),
+            public_params: Default::default(),
         }
     }
 

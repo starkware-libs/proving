@@ -267,6 +267,7 @@ where
             iter_many(&fields.iter().cloned().map(|(_, var)| var).collect_vec())
         }
         CompiledAirVar::ExternalState(..) => todo!(),
+        CompiledAirVar::PublicParam(_) => todo!(),
     }
 }
 
@@ -339,6 +340,7 @@ fn parse_eval_constraint(
             todo!()
         }
         CompiledAirVar::ExternalState(..) => "todo!()".to_string(),
+        CompiledAirVar::PublicParam(_) => todo!(),
     }
 }
 

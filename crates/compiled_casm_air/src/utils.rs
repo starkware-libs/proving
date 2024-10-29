@@ -64,6 +64,9 @@ impl Display for CompiledAirVar {
             CompiledAirVar::ExternalState(name, i) => {
                 write!(f, "external_state({})[{}]", name, i)
             }
+            CompiledAirVar::PublicParam(name) => {
+                write!(f, "public_params.{}", name)
+            }
         }
     }
 }
