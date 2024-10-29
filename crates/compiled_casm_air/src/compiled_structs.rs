@@ -53,9 +53,8 @@ pub enum ConstraintEvalStep {
 
     // The first argument is a polynomial in in-state values. The constraint requires it
     // to evaluate to zero.
-    // The second argument is the display of the first argument, and the third argument is the
-    // description of the constraint.
-    Constraint(CompiledAirVar, String, Option<String>),
+    // The second argument is the description of the constraint.
+    Constraint(CompiledAirVar, Option<String>),
 
     // Used to create the constraints between the trace and the interaction trace, and the
     // constraints on the accumulated sum (the logup).

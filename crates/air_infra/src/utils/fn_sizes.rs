@@ -12,7 +12,7 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
 
     for constraint in compiled_fn.constraints {
         match constraint {
-            ConstraintEvalStep::Constraint(_, _, _) => num_regular_constraints += 1,
+            ConstraintEvalStep::Constraint(_, _) => num_regular_constraints += 1,
             ConstraintEvalStep::LookupData(_) => {
                 num_lookup_constraints += 1;
             }

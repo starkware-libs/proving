@@ -666,7 +666,6 @@
             }
           ]
         },
-        "((((((((((((((((((((((((((((((const_0 + dst_limb_0_col6) + dst_limb_1_col7) + dst_limb_2_col8) + dst_limb_3_col9) + dst_limb_4_col10) + dst_limb_5_col11) + dst_limb_6_col12) + dst_limb_7_col13) + dst_limb_8_col14) + dst_limb_9_col15) + dst_limb_10_col16) + dst_limb_11_col17) + dst_limb_12_col18) + dst_limb_13_col19) + dst_limb_14_col20) + dst_limb_15_col21) + dst_limb_16_col22) + dst_limb_17_col23) + dst_limb_18_col24) + dst_limb_19_col25) + dst_limb_20_col26) + dst_limb_21_col27) + dst_limb_22_col28) + dst_limb_23_col29) + dst_limb_24_col30) + dst_limb_25_col31) + dst_limb_26_col32) + dst_limb_27_col33) * res_col34) - const_1)",
         "dst doesn't equal 0"
       ]
     },
@@ -1020,7 +1019,6 @@
             }
           ]
         },
-        "((((((((((((((((((((((((((((((const_0 + (tmp_66 * tmp_66)) + dst_limb_1_col7) + dst_limb_2_col8) + dst_limb_3_col9) + dst_limb_4_col10) + dst_limb_5_col11) + dst_limb_6_col12) + dst_limb_7_col13) + dst_limb_8_col14) + dst_limb_9_col15) + dst_limb_10_col16) + dst_limb_11_col17) + dst_limb_12_col18) + dst_limb_13_col19) + dst_limb_14_col20) + dst_limb_15_col21) + dst_limb_16_col22) + dst_limb_17_col23) + dst_limb_18_col24) + dst_limb_19_col25) + dst_limb_20_col26) + (tmp_67 * tmp_67)) + dst_limb_22_col28) + dst_limb_23_col29) + dst_limb_24_col30) + dst_limb_25_col31) + dst_limb_26_col32) + (tmp_68 * tmp_68)) * res_squares_col35) - const_1)",
         "dst doesn't equal P"
       ]
     },
@@ -1079,7 +1077,6 @@
             }
           ]
         },
-        "(msb_col37 * (msb_col37 - const_1))",
         "msb is a bit"
       ]
     },
@@ -1107,7 +1104,6 @@
             }
           ]
         },
-        "(mid_limbs_set_col38 * (mid_limbs_set_col38 - const_1))",
         "mid_limbs_set is a bit"
       ]
     },
@@ -1146,7 +1142,6 @@
             }
           ]
         },
-        "((const_1 * mid_limbs_set_col38) * (msb_col37 - const_1))",
         "Cannot have msb equals 0 and mid_limbs_set equals 1"
       ]
     },

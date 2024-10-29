@@ -294,7 +294,6 @@
             }
           ]
         },
-        "(msb_col9 * (msb_col9 - const_1))",
         "msb is a bit"
       ]
     },
@@ -322,7 +321,6 @@
             }
           ]
         },
-        "(mid_limbs_set_col10 * (mid_limbs_set_col10 - const_1))",
         "mid_limbs_set is a bit"
       ]
     },
@@ -361,7 +359,6 @@
             }
           ]
         },
-        "((const_1 * mid_limbs_set_col10) * (msb_col9 - const_1))",
         "Cannot have msb equals 0 and mid_limbs_set equals 1"
       ]
     },
@@ -803,7 +800,6 @@
             }
           ]
         },
-        "(msb_col15 * (msb_col15 - const_1))",
         "msb is a bit"
       ]
     },
@@ -831,7 +827,6 @@
             }
           ]
         },
-        "(mid_limbs_set_col16 * (mid_limbs_set_col16 - const_1))",
         "mid_limbs_set is a bit"
       ]
     },
@@ -870,7 +865,6 @@
             }
           ]
         },
-        "((const_1 * mid_limbs_set_col16) * (msb_col15 - const_1))",
         "Cannot have msb equals 0 and mid_limbs_set equals 1"
       ]
     },
@@ -1269,7 +1263,6 @@
             }
           ]
         },
-        "(msb_col21 * (msb_col21 - const_1))",
         "msb is a bit"
       ]
     },
@@ -1297,7 +1290,6 @@
             }
           ]
         },
-        "(mid_limbs_set_col22 * (mid_limbs_set_col22 - const_1))",
         "mid_limbs_set is a bit"
       ]
     },
@@ -1336,7 +1328,6 @@
             }
           ]
         },
-        "((const_1 * mid_limbs_set_col22) * (msb_col21 - const_1))",
         "Cannot have msb equals 0 and mid_limbs_set equals 1"
       ]
     },
@@ -1896,7 +1887,6 @@
             }
           ]
         },
-        "(((((dst_limb_2_col13 * const_262144) + ((dst_limb_1_col12 * const_512) + dst_limb_0_col11)) - msb_col9) - (const_134217728 * mid_limbs_set_col10)) - (((((op0_limb_2_col19 * const_262144) + ((op0_limb_1_col18 * const_512) + op0_limb_0_col17)) - msb_col15) - (const_134217728 * mid_limbs_set_col16)) + ((((op1_limb_2_col25 * const_262144) + ((op1_limb_1_col24 * const_512) + op1_limb_0_col23)) - msb_col21) - (const_134217728 * mid_limbs_set_col22))))",
         "dst equals op0 + op1"
       ]
     },

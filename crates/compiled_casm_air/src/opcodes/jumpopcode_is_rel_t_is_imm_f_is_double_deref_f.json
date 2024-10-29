@@ -272,7 +272,6 @@
             }
           ]
         },
-        "((op1_base_fp_col4 + op1_base_ap_col5) - const_1)",
         "Either flag op1_base_fp is on or flag op1_base_ap is on"
       ]
     },
@@ -363,7 +362,6 @@
             }
           ]
         },
-        "(msb_col8 * (msb_col8 - const_1))",
         "msb is a bit"
       ]
     },
@@ -391,7 +389,6 @@
             }
           ]
         },
-        "(mid_limbs_set_col9 * (mid_limbs_set_col9 - const_1))",
         "mid_limbs_set is a bit"
       ]
     },
@@ -430,7 +427,6 @@
             }
           ]
         },
-        "((const_1 * mid_limbs_set_col9) * (msb_col8 - const_1))",
         "Cannot have msb equals 0 and mid_limbs_set equals 1"
       ]
     },

@@ -309,7 +309,6 @@
             }
           ]
         },
-        "(msb_col5 * (msb_col5 - const_1))",
         "msb is a bit"
       ]
     },
@@ -337,7 +336,6 @@
             }
           ]
         },
-        "(mid_limbs_set_col6 * (mid_limbs_set_col6 - const_1))",
         "mid_limbs_set is a bit"
       ]
     },
@@ -376,7 +374,6 @@
             }
           ]
         },
-        "((const_1 * mid_limbs_set_col6) * (msb_col5 - const_1))",
         "Cannot have msb equals 0 and mid_limbs_set equals 1"
       ]
     },

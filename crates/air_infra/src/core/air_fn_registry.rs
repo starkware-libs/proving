@@ -5,7 +5,7 @@ use indexmap::IndexMap;
 use serde::Serialize;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupData, TraceGenStep, UseOrYield,
+    CompiledAirFn, ConstraintEvalStep, LookupData, TraceGenStep, UseOrYield,
 };
 
 use super::air_fn::*;
@@ -78,7 +78,6 @@ impl AirFnEntry {
                 AirBodyComponent::Constraint(constraint, desc) => {
                     constraints.push(ConstraintEvalStep::Constraint(
                         constraint.clone().into(),
-                        CompiledAirVar::from(constraint).to_string(),
                         desc,
                     ));
                 }
@@ -89,7 +88,6 @@ impl AirFnEntry {
                 } => {
                     constraints.push(ConstraintEvalStep::Constraint(
                         constraint.clone().into(),
-                        CompiledAirVar::from(constraint).to_string(),
                         desc.clone(),
                     ));
                     deductions.push(TraceGenStep::Deduction(deduction.into()));
