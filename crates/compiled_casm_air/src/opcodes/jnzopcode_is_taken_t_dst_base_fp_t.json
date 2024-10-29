@@ -672,7 +672,7 @@
     },
     {
       "Intermediate": [
-        "tmp_52",
+        "tmp_66",
         {
           "BinaryOp": [
             {
@@ -691,7 +691,7 @@
     },
     {
       "Intermediate": [
-        "tmp_53",
+        "tmp_67",
         {
           "BinaryOp": [
             {
@@ -710,7 +710,7 @@
     },
     {
       "Intermediate": [
-        "tmp_54",
+        "tmp_68",
         {
           "BinaryOp": [
             {
@@ -801,14 +801,14 @@
                                                                                                                                     {
                                                                                                                                       "Var": [
                                                                                                                                         "M31",
-                                                                                                                                        "tmp_52"
+                                                                                                                                        "tmp_66"
                                                                                                                                       ]
                                                                                                                                     },
                                                                                                                                     "*",
                                                                                                                                     {
                                                                                                                                       "Var": [
                                                                                                                                         "M31",
-                                                                                                                                        "tmp_52"
+                                                                                                                                        "tmp_66"
                                                                                                                                       ]
                                                                                                                                     }
                                                                                                                                   ]
@@ -941,14 +941,14 @@
                                                 {
                                                   "Var": [
                                                     "M31",
-                                                    "tmp_53"
+                                                    "tmp_67"
                                                   ]
                                                 },
                                                 "*",
                                                 {
                                                   "Var": [
                                                     "M31",
-                                                    "tmp_53"
+                                                    "tmp_67"
                                                   ]
                                                 }
                                               ]
@@ -991,14 +991,14 @@
                         {
                           "Var": [
                             "M31",
-                            "tmp_54"
+                            "tmp_68"
                           ]
                         },
                         "*",
                         {
                           "Var": [
                             "M31",
-                            "tmp_54"
+                            "tmp_68"
                           ]
                         }
                       ]
@@ -1020,7 +1020,7 @@
             }
           ]
         },
-        "((((((((((((((((((((((((((((((const_0 + (tmp_52 * tmp_52)) + dst_limb_1_col7) + dst_limb_2_col8) + dst_limb_3_col9) + dst_limb_4_col10) + dst_limb_5_col11) + dst_limb_6_col12) + dst_limb_7_col13) + dst_limb_8_col14) + dst_limb_9_col15) + dst_limb_10_col16) + dst_limb_11_col17) + dst_limb_12_col18) + dst_limb_13_col19) + dst_limb_14_col20) + dst_limb_15_col21) + dst_limb_16_col22) + dst_limb_17_col23) + dst_limb_18_col24) + dst_limb_19_col25) + dst_limb_20_col26) + (tmp_53 * tmp_53)) + dst_limb_22_col28) + dst_limb_23_col29) + dst_limb_24_col30) + dst_limb_25_col31) + dst_limb_26_col32) + (tmp_54 * tmp_54)) * res_squares_col35) - const_1)",
+        "((((((((((((((((((((((((((((((const_0 + (tmp_66 * tmp_66)) + dst_limb_1_col7) + dst_limb_2_col8) + dst_limb_3_col9) + dst_limb_4_col10) + dst_limb_5_col11) + dst_limb_6_col12) + dst_limb_7_col13) + dst_limb_8_col14) + dst_limb_9_col15) + dst_limb_10_col16) + dst_limb_11_col17) + dst_limb_12_col18) + dst_limb_13_col19) + dst_limb_14_col20) + dst_limb_15_col21) + dst_limb_16_col22) + dst_limb_17_col23) + dst_limb_18_col24) + dst_limb_19_col25) + dst_limb_20_col26) + (tmp_67 * tmp_67)) + dst_limb_22_col28) + dst_limb_23_col29) + dst_limb_24_col30) + dst_limb_25_col31) + dst_limb_26_col32) + (tmp_68 * tmp_68)) * res_squares_col35) - const_1)",
         "dst doesn't equal P"
       ]
     },
@@ -1651,7 +1651,7 @@
         "input": {
           "State": "input_pc_col0"
         },
-        "output_name": "tmp_43"
+        "output_name": "tmp_57"
       }
     },
     {
@@ -1660,15 +1660,15 @@
         "input": {
           "Var": [
             "M31",
-            "tmp_43"
+            "tmp_57"
           ]
         },
-        "output_name": "tmp_44"
+        "output_name": "tmp_58"
       }
     },
     {
       "Intermediate": [
-        "tmp_45",
+        "tmp_59",
         {
           "BinaryOp": [
             {
@@ -1680,7 +1680,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "tmp_44"
+                          "tmp_58"
                         ]
                       },
                       "get_m31",
@@ -1711,7 +1711,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "tmp_44"
+                                  "tmp_58"
                                 ]
                               },
                               "get_m31",
@@ -1756,7 +1756,7 @@
           {
             "Var": [
               "UInt16",
-              "tmp_45"
+              "tmp_59"
             ]
           },
           "as_m31",
@@ -1766,7 +1766,7 @@
     },
     {
       "Intermediate": [
-        "tmp_46",
+        "tmp_60",
         {
           "BinaryOp": [
             {
@@ -1784,7 +1784,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "tmp_44"
+                                      "tmp_58"
                                     ]
                                   },
                                   "get_m31",
@@ -1822,7 +1822,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "tmp_44"
+                                      "tmp_58"
                                     ]
                                   },
                                   "get_m31",
@@ -1876,7 +1876,7 @@
           {
             "Var": [
               "UInt16",
-              "tmp_46"
+              "tmp_60"
             ]
           },
           "as_m31",
@@ -2149,14 +2149,14 @@
             }
           ]
         },
-        "output_name": "tmp_50"
+        "output_name": "tmp_64"
       }
     },
     {
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_50"
+          "tmp_64"
         ]
       }
     },
@@ -2199,7 +2199,7 @@
         "input": {
           "State": "dst_id_col5"
         },
-        "output_name": "tmp_51"
+        "output_name": "tmp_65"
       }
     },
     {
@@ -2208,7 +2208,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2229,7 +2229,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2250,7 +2250,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2271,7 +2271,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2292,7 +2292,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2313,7 +2313,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2334,7 +2334,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2355,7 +2355,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2376,7 +2376,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2397,7 +2397,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2418,7 +2418,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2439,7 +2439,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2460,7 +2460,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2481,7 +2481,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2502,7 +2502,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2523,7 +2523,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2544,7 +2544,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2565,7 +2565,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2586,7 +2586,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2607,7 +2607,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2628,7 +2628,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2649,7 +2649,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2670,7 +2670,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2691,7 +2691,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2712,7 +2712,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2733,7 +2733,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2754,7 +2754,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -2775,7 +2775,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_51"
+              "tmp_65"
             ]
           },
           "get_m31",
@@ -3131,7 +3131,7 @@
     },
     {
       "Intermediate": [
-        "tmp_52",
+        "tmp_66",
         {
           "BinaryOp": [
             {
@@ -3150,7 +3150,7 @@
     },
     {
       "Intermediate": [
-        "tmp_53",
+        "tmp_67",
         {
           "BinaryOp": [
             {
@@ -3169,7 +3169,7 @@
     },
     {
       "Intermediate": [
-        "tmp_54",
+        "tmp_68",
         {
           "BinaryOp": [
             {
@@ -3264,14 +3264,14 @@
                                                                                                                               {
                                                                                                                                 "Var": [
                                                                                                                                   "M31",
-                                                                                                                                  "tmp_52"
+                                                                                                                                  "tmp_66"
                                                                                                                                 ]
                                                                                                                               },
                                                                                                                               "*",
                                                                                                                               {
                                                                                                                                 "Var": [
                                                                                                                                   "M31",
-                                                                                                                                  "tmp_52"
+                                                                                                                                  "tmp_66"
                                                                                                                                 ]
                                                                                                                               }
                                                                                                                             ]
@@ -3404,14 +3404,14 @@
                                           {
                                             "Var": [
                                               "M31",
-                                              "tmp_53"
+                                              "tmp_67"
                                             ]
                                           },
                                           "*",
                                           {
                                             "Var": [
                                               "M31",
-                                              "tmp_53"
+                                              "tmp_67"
                                             ]
                                           }
                                         ]
@@ -3454,14 +3454,14 @@
                   {
                     "Var": [
                       "M31",
-                      "tmp_54"
+                      "tmp_68"
                     ]
                   },
                   "*",
                   {
                     "Var": [
                       "M31",
-                      "tmp_54"
+                      "tmp_68"
                     ]
                   }
                 ]
@@ -3491,14 +3491,14 @@
             }
           ]
         },
-        "output_name": "tmp_61"
+        "output_name": "tmp_75"
       }
     },
     {
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_61"
+          "tmp_75"
         ]
       }
     },
@@ -3533,7 +3533,7 @@
         "input": {
           "State": "next_pc_id_col36"
         },
-        "output_name": "tmp_62"
+        "output_name": "tmp_76"
       }
     },
     {
@@ -3541,7 +3541,7 @@
     },
     {
       "Intermediate": [
-        "tmp_63",
+        "tmp_77",
         {
           "MethodCall": [
             {
@@ -3549,7 +3549,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "tmp_62"
+                    "tmp_76"
                   ]
                 },
                 "get_m31",
@@ -3582,7 +3582,7 @@
           {
             "Var": [
               "Bool",
-              "tmp_63"
+              "tmp_77"
             ]
           },
           "as_m31",
@@ -3592,7 +3592,7 @@
     },
     {
       "Intermediate": [
-        "tmp_64",
+        "tmp_78",
         {
           "MethodCall": [
             {
@@ -3600,7 +3600,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "tmp_62"
+                    "tmp_76"
                   ]
                 },
                 "get_m31",
@@ -3633,7 +3633,7 @@
           {
             "Var": [
               "Bool",
-              "tmp_64"
+              "tmp_78"
             ]
           },
           "as_m31",
@@ -3648,7 +3648,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_62"
+              "tmp_76"
             ]
           },
           "get_m31",
@@ -3669,7 +3669,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_62"
+              "tmp_76"
             ]
           },
           "get_m31",
@@ -3690,7 +3690,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_62"
+              "tmp_76"
             ]
           },
           "get_m31",

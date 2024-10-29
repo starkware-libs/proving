@@ -36,6 +36,24 @@ impl AirFn for MemoryIdToBig {
             value_in_state = self.memory.get(&_id).expect("ID not in memory");
         }
 
+        air_builder.call(&RangeCheckBigValue {}, value_in_state.clone());
+
+        value_in_state
+    }
+
+    fn trace_type(&self) -> TraceType {
+        TraceType::Memory
+    }
+}
+
+#[derive(Debug, Clone, Default, InstDef)]
+pub struct RangeCheckBigValue {}
+
+impl AirFn for RangeCheckBigValue {
+    type In = Felt252Expr;
+    type Out = ();
+
+    fn call(&self, air_builder: &mut AirBuilder, value: Self::In) -> Self::Out {
         let mut i = 0;
         while i < FELT252_N_WORDS {
             let limbs_left = FELT252_N_WORDS - i;
@@ -45,7 +63,7 @@ impl AirFn for MemoryIdToBig {
                     &RangeCheck {
                         bits: [FELT252_BITS_PER_WORD as u16, FELT252_BITS_PER_WORD as u16],
                     },
-                    [value_in_state.get_felt(i), value_in_state.get_felt(i + 1)],
+                    [value.get_felt(i), value.get_felt(i + 1)],
                 );
                 i += 2;
             } else {
@@ -54,16 +72,10 @@ impl AirFn for MemoryIdToBig {
                     &RangeCheck {
                         bits: [FELT252_BITS_PER_WORD as u16],
                     },
-                    [value_in_state.get_felt(i)],
+                    [value.get_felt(i)],
                 );
                 i += 1;
             }
         }
-
-        value_in_state
-    }
-
-    fn trace_type(&self) -> TraceType {
-        TraceType::Memory
     }
 }

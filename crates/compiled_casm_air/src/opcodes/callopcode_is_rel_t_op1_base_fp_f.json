@@ -1323,7 +1323,7 @@
         "input": {
           "State": "input_pc_col0"
         },
-        "output_name": "tmp_41"
+        "output_name": "tmp_55"
       }
     },
     {
@@ -1332,10 +1332,10 @@
         "input": {
           "Var": [
             "M31",
-            "tmp_41"
+            "tmp_55"
           ]
         },
-        "output_name": "tmp_42"
+        "output_name": "tmp_56"
       }
     },
     {
@@ -1596,14 +1596,14 @@
         "input": {
           "State": "input_ap_col1"
         },
-        "output_name": "tmp_44"
+        "output_name": "tmp_58"
       }
     },
     {
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_44"
+          "tmp_58"
         ]
       }
     },
@@ -1818,14 +1818,14 @@
             }
           ]
         },
-        "output_name": "tmp_45"
+        "output_name": "tmp_59"
       }
     },
     {
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_45"
+          "tmp_59"
         ]
       }
     },
@@ -2062,14 +2062,14 @@
             }
           ]
         },
-        "output_name": "tmp_52"
+        "output_name": "tmp_66"
       }
     },
     {
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_52"
+          "tmp_66"
         ]
       }
     },
@@ -2104,7 +2104,7 @@
         "input": {
           "State": "next_pc_id_col5"
         },
-        "output_name": "tmp_53"
+        "output_name": "tmp_67"
       }
     },
     {
@@ -2112,7 +2112,7 @@
     },
     {
       "Intermediate": [
-        "tmp_54",
+        "tmp_68",
         {
           "MethodCall": [
             {
@@ -2120,7 +2120,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "tmp_53"
+                    "tmp_67"
                   ]
                 },
                 "get_m31",
@@ -2153,7 +2153,7 @@
           {
             "Var": [
               "Bool",
-              "tmp_54"
+              "tmp_68"
             ]
           },
           "as_m31",
@@ -2163,7 +2163,7 @@
     },
     {
       "Intermediate": [
-        "tmp_55",
+        "tmp_69",
         {
           "MethodCall": [
             {
@@ -2171,7 +2171,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "tmp_53"
+                    "tmp_67"
                   ]
                 },
                 "get_m31",
@@ -2204,7 +2204,7 @@
           {
             "Var": [
               "Bool",
-              "tmp_55"
+              "tmp_69"
             ]
           },
           "as_m31",
@@ -2219,7 +2219,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_53"
+              "tmp_67"
             ]
           },
           "get_m31",
@@ -2240,7 +2240,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_53"
+              "tmp_67"
             ]
           },
           "get_m31",
@@ -2261,7 +2261,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_53"
+              "tmp_67"
             ]
           },
           "get_m31",

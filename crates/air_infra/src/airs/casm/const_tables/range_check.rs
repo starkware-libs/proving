@@ -3,8 +3,8 @@ use inst_def::InstDef;
 use compiled_casm_air::const_tables::{
     STWO_COMPONENT_TYPE_RANGE_CHECK_16, STWO_COMPONENT_TYPE_RANGE_CHECK_19,
     STWO_COMPONENT_TYPE_RANGE_CHECK_2, STWO_COMPONENT_TYPE_RANGE_CHECK_3,
-    STWO_COMPONENT_TYPE_RANGE_CHECK_6, STWO_COMPONENT_TYPE_RANGE_CHECK_9,
-    STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3, STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_7_2_5,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_6, STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_7_2_5,
 };
 
 use crate::core::air_fn::*;
@@ -39,7 +39,6 @@ impl<const N: usize> AirFn for RangeCheck<N> {
             [6] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_6.to_string()),
             [7] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_7.to_string()),
             [8] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_8.to_string()),
-            [9] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_9.to_string()),
             [16] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_16.to_string()),
             [19] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_19.to_string()),
             [2, 5] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_2_5.to_string()),

@@ -140,6 +140,9 @@
   "output_num_of_felts": 28,
   "constraints": [
     {
+      "StartBlock": "RangeCheckBigValue"
+    },
+    {
       "LookupData": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -335,6 +338,7 @@
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
     {
       "LookupData": {
         "relation_name": "MemoryIdToBig",
@@ -432,6 +436,9 @@
     }
   ],
   "deductions": [
+    {
+      "StartBlock": "RangeCheckBigValue"
+    },
     {
       "LookupCall": {
         "fn_name": "RangeCheck_N_2_bits_9_9",
@@ -852,6 +859,7 @@
         "use_or_yield": "Use"
       }
     },
+    "EndBlock",
     {
       "LookupData": {
         "relation_name": "MemoryIdToBig",

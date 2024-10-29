@@ -228,8 +228,8 @@ pub fn write_trace_simd(
                 .push([offset2_low_col24, offset2_high_col26].into());
             lookup_data.rangecheck_n_2_bits_4_3[0].push([offset2_low_col24, offset2_high_col26]);
             sub_components_inputs.memoryaddresstoid_inputs[0].push(input_col0.into());
-            let tmp_36 = memoryaddresstoid_state.deduce_output(input_col0.into());
-            let instruction_id_col27 = tmp_36;
+            let tmp_50 = memoryaddresstoid_state.deduce_output(input_col0.into());
+            let instruction_id_col27 = tmp_50;
             trace_values[27].data[row_index] = instruction_id_col27;
             lookup_data.memoryaddresstoid[0].push([input_col0, instruction_id_col27]);
             lookup_data.memoryidtobig[0].push([

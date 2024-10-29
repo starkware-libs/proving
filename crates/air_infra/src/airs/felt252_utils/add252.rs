@@ -1,9 +1,7 @@
 use inst_def::InstDef;
 
-use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
-
 use super::verify_add252::*;
-use crate::airs::casm::const_tables::range_check::*;
+use crate::airs::felt252_id_memory::id_to_big::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
@@ -23,14 +21,8 @@ impl AirFn for Add252 {
         let mut c = air_builder.let_for_deduction(a.clone() + b.clone());
         for (i, c_limb) in c.as_felts_mut().into_iter().enumerate() {
             air_builder.deduce(c_limb, &format!("add_res_limb_{}", i));
-            // TODO(DanC): Consider batching these into vector range checks.
-            air_builder.lookup_call(
-                &RangeCheck {
-                    bits: [FELT252_BITS_PER_WORD as u16],
-                },
-                [c_limb.clone()],
-            );
         }
+        air_builder.call(&RangeCheckBigValue {}, c.clone());
 
         air_builder.call(&VerifyAdd252 {}, [a, b, c.clone()]);
 

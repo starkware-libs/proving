@@ -53,7 +53,7 @@
           "name": "readsmall_input_id_col0",
           "type": "M31"
         },
-        "output_name": "tmp_15"
+        "output_name": "tmp_29"
       }
     },
     {
@@ -62,7 +62,7 @@
         "air_fn_description": "CondDecodeSmallSign",
         "input_arg": [
           {
-            "name": "tmp_15",
+            "name": "tmp_29",
             "type": "Felt252"
           },
           {
@@ -84,19 +84,19 @@
     },
     {
       "Deduction": [
-        "tmp_15.get_m31(const_0)",
+        "tmp_29.get_m31(const_0)",
         "readsmall_input_limb_0"
       ]
     },
     {
       "Deduction": [
-        "tmp_15.get_m31(const_1)",
+        "tmp_29.get_m31(const_1)",
         "readsmall_input_limb_1"
       ]
     },
     {
       "Deduction": [
-        "tmp_15.get_m31(const_2)",
+        "tmp_29.get_m31(const_2)",
         "readsmall_input_limb_2"
       ]
     },

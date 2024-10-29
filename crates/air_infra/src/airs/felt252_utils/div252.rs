@@ -1,9 +1,7 @@
 use inst_def::InstDef;
 
-use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
-
 use super::verify_mul252::*;
-use crate::airs::casm::const_tables::range_check::*;
+use crate::airs::felt252_id_memory::id_to_big::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
@@ -24,14 +22,8 @@ impl AirFn for Div252 {
         let mut b = air_builder.let_for_deduction(c.clone() / a.clone());
         for (i, b_limb) in b.as_felts_mut().into_iter().enumerate() {
             air_builder.deduce(b_limb, &format!("div_res_limb_{}", i));
-            // TODO(DanC): Consider batching these into vector range checks.
-            air_builder.lookup_call(
-                &RangeCheck {
-                    bits: [FELT252_BITS_PER_WORD as u16],
-                },
-                [b_limb.clone()],
-            );
         }
+        air_builder.call(&RangeCheckBigValue {}, b.clone());
 
         air_builder.call(&VerifyMul252 {}, [a, b.clone(), c]);
 

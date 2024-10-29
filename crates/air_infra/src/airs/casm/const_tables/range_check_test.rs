@@ -42,13 +42,6 @@ fn test_entry_json() {
         &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
     );
 
-    let (_, entry) = AirFnRegistry::new(&RangeCheck { bits: [9] });
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
-    );
-
     let (_, entry) = AirFnRegistry::new(&RangeCheck { bits: [6] });
     let name = entry.name.to_lowercase();
     compare_json(
