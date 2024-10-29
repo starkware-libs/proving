@@ -16,7 +16,7 @@
           {
             "BinaryOp": [
               {
-                "State": 0
+                "State": "input_pc_col0"
               },
               "+",
               {
@@ -33,11 +33,11 @@
           {
             "BinaryOp": [
               {
-                "State": 1
+                "State": "input_ap_col1"
               },
               "+",
               {
-                "State": 5
+                "State": "ap_update_add_1_col5"
               }
             ]
           }
@@ -45,13 +45,21 @@
         [
           "fp",
           {
-            "State": 2
+            "State": "input_fp_col2"
           }
         ]
       ]
     }
   },
-  "row_length": 7,
+  "state_names": [
+    "input_pc_col0",
+    "input_ap_col1",
+    "input_fp_col2",
+    "offset0_col3",
+    "dst_base_fp_col4",
+    "ap_update_add_1_col5",
+    "dst_id_col6"
+  ],
   "lookup_relation_uses_count": {
     "VerifyInstruction": 1,
     "MemoryAddressToId": 2,
@@ -68,10 +76,10 @@
         "relation_name": "VerifyInstruction",
         "felts": [
           {
-            "State": 0
+            "State": "input_pc_col0"
           },
           {
-            "State": 3
+            "State": "offset0_col3"
           },
           {
             "Const": [
@@ -86,7 +94,7 @@
             ]
           },
           {
-            "State": 4
+            "State": "dst_base_fp_col4"
           },
           {
             "Const": [
@@ -149,7 +157,7 @@
             ]
           },
           {
-            "State": 5
+            "State": "ap_update_add_1_col5"
           },
           {
             "Const": [
@@ -188,11 +196,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": 4
+                        "State": "dst_base_fp_col4"
                       },
                       "*",
                       {
-                        "State": 2
+                        "State": "input_fp_col2"
                       }
                     ]
                   },
@@ -209,13 +217,13 @@
                           },
                           "-",
                           {
-                            "State": 4
+                            "State": "dst_base_fp_col4"
                           }
                         ]
                       },
                       "*",
                       {
-                        "State": 1
+                        "State": "input_ap_col1"
                       }
                     ]
                   }
@@ -225,7 +233,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": 3
+                    "State": "offset0_col3"
                   },
                   "-",
                   {
@@ -239,7 +247,7 @@
             ]
           },
           {
-            "State": 6
+            "State": "dst_id_col6"
           }
         ],
         "use_or_yield": "Use"
@@ -252,7 +260,7 @@
           {
             "BinaryOp": [
               {
-                "State": 0
+                "State": "input_pc_col0"
               },
               "+",
               {
@@ -264,7 +272,7 @@
             ]
           },
           {
-            "State": 6
+            "State": "dst_id_col6"
           }
         ],
         "use_or_yield": "Use"
@@ -276,13 +284,13 @@
         "relation_name": "opcodes",
         "felts": [
           {
-            "State": 0
+            "State": "input_pc_col0"
           },
           {
-            "State": 1
+            "State": "input_ap_col1"
           },
           {
-            "State": 2
+            "State": "input_fp_col2"
           }
         ],
         "use_or_yield": "Use"
@@ -295,7 +303,7 @@
           {
             "BinaryOp": [
               {
-                "State": 0
+                "State": "input_pc_col0"
               },
               "+",
               {
@@ -309,16 +317,16 @@
           {
             "BinaryOp": [
               {
-                "State": 1
+                "State": "input_ap_col1"
               },
               "+",
               {
-                "State": 5
+                "State": "ap_update_add_1_col5"
               }
             ]
           },
           {
-            "State": 2
+            "State": "input_fp_col2"
           }
         ],
         "use_or_yield": "Yield"
@@ -338,37 +346,28 @@
       ]
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_0.pc"
-          ]
-        },
-        "input_pc"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_0.pc"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_0.ap"
-          ]
-        },
-        "input_ap"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_0.ap"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_0.fp"
-          ]
-        },
-        "input_fp"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_0.fp"
+        ]
+      }
     },
     {
       "StartBlock": "DecodeInstruction_684cf7138ce526e3"
@@ -377,7 +376,7 @@
       "LookupCall": {
         "fn_name": "MemoryAddressToId",
         "input": {
-          "State": 0
+          "State": "input_pc_col0"
         },
         "output_name": "tmp_44"
       }
@@ -479,21 +478,18 @@
       ]
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "UInt16",
-                "tmp_46"
-              ]
-            },
-            "as_m31",
-            []
-          ]
-        },
-        "offset0"
-      ]
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_46"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
     },
     {
       "Intermediate": [
@@ -602,21 +598,18 @@
       ]
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "UInt16",
-                "tmp_47"
-              ]
-            },
-            "as_m31",
-            []
-          ]
-        },
-        "dst_base_fp"
-      ]
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_47"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
     },
     {
       "Intermediate": [
@@ -725,21 +718,18 @@
       ]
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "UInt16",
-                "tmp_48"
-              ]
-            },
-            "as_m31",
-            []
-          ]
-        },
-        "ap_update_add_1"
-      ]
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_48"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
     },
     {
       "LookupCall": {
@@ -747,12 +737,12 @@
         "input": {
           "Tuple": [
             {
-              "State": 0
+              "State": "input_pc_col0"
             },
             {
               "Array": [
                 {
-                  "State": 3
+                  "State": "offset0_col3"
                 },
                 {
                   "Const": [
@@ -771,7 +761,7 @@
             {
               "Array": [
                 {
-                  "State": 4
+                  "State": "dst_base_fp_col4"
                 },
                 {
                   "Const": [
@@ -834,7 +824,7 @@
                   ]
                 },
                 {
-                  "State": 5
+                  "State": "ap_update_add_1_col5"
                 },
                 {
                   "Const": [
@@ -866,10 +856,10 @@
         "relation_name": "VerifyInstruction",
         "felts": [
           {
-            "State": 0
+            "State": "input_pc_col0"
           },
           {
-            "State": 3
+            "State": "offset0_col3"
           },
           {
             "Const": [
@@ -884,7 +874,7 @@
             ]
           },
           {
-            "State": 4
+            "State": "dst_base_fp_col4"
           },
           {
             "Const": [
@@ -947,7 +937,7 @@
             ]
           },
           {
-            "State": 5
+            "State": "ap_update_add_1_col5"
           },
           {
             "Const": [
@@ -985,11 +975,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 4
+                      "State": "dst_base_fp_col4"
                     },
                     "*",
                     {
-                      "State": 2
+                      "State": "input_fp_col2"
                     }
                   ]
                 },
@@ -1006,13 +996,13 @@
                         },
                         "-",
                         {
-                          "State": 4
+                          "State": "dst_base_fp_col4"
                         }
                       ]
                     },
                     "*",
                     {
-                      "State": 1
+                      "State": "input_ap_col1"
                     }
                   ]
                 }
@@ -1022,7 +1012,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": 3
+                  "State": "offset0_col3"
                 },
                 "-",
                 {
@@ -1039,15 +1029,12 @@
       }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_51"
-          ]
-        },
-        "dst_id"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_51"
+        ]
+      }
     },
     {
       "LookupData": {
@@ -1060,11 +1047,11 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": 4
+                        "State": "dst_base_fp_col4"
                       },
                       "*",
                       {
-                        "State": 2
+                        "State": "input_fp_col2"
                       }
                     ]
                   },
@@ -1081,13 +1068,13 @@
                           },
                           "-",
                           {
-                            "State": 4
+                            "State": "dst_base_fp_col4"
                           }
                         ]
                       },
                       "*",
                       {
-                        "State": 1
+                        "State": "input_ap_col1"
                       }
                     ]
                   }
@@ -1097,7 +1084,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": 3
+                    "State": "offset0_col3"
                   },
                   "-",
                   {
@@ -1111,7 +1098,7 @@
             ]
           },
           {
-            "State": 6
+            "State": "dst_id_col6"
           }
         ],
         "use_or_yield": "Use"
@@ -1124,7 +1111,7 @@
           {
             "BinaryOp": [
               {
-                "State": 0
+                "State": "input_pc_col0"
               },
               "+",
               {
@@ -1136,7 +1123,7 @@
             ]
           },
           {
-            "State": 6
+            "State": "dst_id_col6"
           }
         ],
         "use_or_yield": "Use"
@@ -1148,13 +1135,13 @@
         "relation_name": "opcodes",
         "felts": [
           {
-            "State": 0
+            "State": "input_pc_col0"
           },
           {
-            "State": 1
+            "State": "input_ap_col1"
           },
           {
-            "State": 2
+            "State": "input_fp_col2"
           }
         ],
         "use_or_yield": "Use"
@@ -1167,7 +1154,7 @@
           {
             "BinaryOp": [
               {
-                "State": 0
+                "State": "input_pc_col0"
               },
               "+",
               {
@@ -1181,16 +1168,16 @@
           {
             "BinaryOp": [
               {
-                "State": 1
+                "State": "input_ap_col1"
               },
               "+",
               {
-                "State": 5
+                "State": "ap_update_add_1_col5"
               }
             ]
           },
           {
-            "State": 2
+            "State": "input_fp_col2"
           }
         ],
         "use_or_yield": "Yield"

@@ -11,11 +11,11 @@
   "input_num_of_felts": 1,
   "output": [
     {
-      "name": "Felt252::from_limbs(zero_extend([state[1], state[2]]))",
+      "name": "Felt252::from_limbs(zero_extend([readpositive_num_bits_16_input_limb_0_col1, readpositive_num_bits_16_input_limb_1_col2]))",
       "type": "Felt252"
     },
     {
-      "name": "state[0]",
+      "name": "readpositive_num_bits_16_input_id_col0",
       "type": "M31"
     }
   ],
@@ -43,7 +43,7 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           "readpositive_num_bits_16_input",
-          "state[0]"
+          "readpositive_num_bits_16_input_id_col0"
         ],
         "use_or_yield": "Use"
       }
@@ -52,7 +52,7 @@
       "LookupCall": {
         "air_fn_name": "MemoryIdToBig",
         "input_arg": {
-          "name": "state[0]",
+          "name": "readpositive_num_bits_16_input_id_col0",
           "type": "M31"
         },
         "output_name": "tmp_15"
@@ -75,7 +75,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_7",
         "input_arg": [
           {
-            "name": "state[2]",
+            "name": "readpositive_num_bits_16_input_limb_1_col2",
             "type": "M31"
           }
         ]
@@ -85,7 +85,7 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_7",
         "felts": [
-          "state[2]"
+          "readpositive_num_bits_16_input_limb_1_col2"
         ],
         "use_or_yield": "Use"
       }
@@ -94,9 +94,9 @@
       "LookupData": {
         "relation_name": "MemoryIdToBig",
         "felts": [
-          "state[0]",
-          "state[1]",
-          "state[2]",
+          "readpositive_num_bits_16_input_id_col0",
+          "readpositive_num_bits_16_input_limb_0_col1",
+          "readpositive_num_bits_16_input_limb_1_col2",
           "const_0",
           "const_0",
           "const_0",
@@ -127,5 +127,21 @@
         "use_or_yield": "Use"
       }
     }
-  ]
+  ],
+  "state": {
+    "row": [
+      [
+        "readpositive_num_bits_16_input_id_col0",
+        "readpositive_num_bits_16_input_id"
+      ],
+      [
+        "readpositive_num_bits_16_input_limb_0_col1",
+        "readpositive_num_bits_16_input_limb_0"
+      ],
+      [
+        "readpositive_num_bits_16_input_limb_1_col2",
+        "readpositive_num_bits_16_input_limb_1"
+      ]
+    ]
+  }
 }

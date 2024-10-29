@@ -20,14 +20,37 @@
   "output": {
     "Array": [
       {
-        "State": 20
+        "State": "col20"
       },
       {
-        "State": 21
+        "State": "col21"
       }
     ]
   },
-  "row_length": 22,
+  "state_names": [
+    "input_col0",
+    "input_col1",
+    "col2",
+    "col3",
+    "col4",
+    "col5",
+    "col6",
+    "col7",
+    "col8",
+    "col9",
+    "col10",
+    "col11",
+    "col12",
+    "col13",
+    "col14",
+    "col15",
+    "col16",
+    "col17",
+    "col18",
+    "col19",
+    "col20",
+    "col21"
+  ],
   "lookup_relation_uses_count": {},
   "input_num_of_felts": 2,
   "output_num_of_felts": 2,
@@ -40,7 +63,7 @@
         {
           "BinaryOp": [
             {
-              "State": 2
+              "State": "col2"
             },
             "-",
             {
@@ -48,11 +71,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 0
+                      "State": "input_col0"
                     },
                     "*",
                     {
-                      "State": 0
+                      "State": "input_col0"
                     }
                   ]
                 },
@@ -60,11 +83,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 1
+                      "State": "input_col1"
                     },
                     "*",
                     {
-                      "State": 1
+                      "State": "input_col1"
                     }
                   ]
                 }
@@ -72,7 +95,7 @@
             }
           ]
         },
-        "(state[2] - ((state[0] * state[0]) + (state[1] * state[1])))",
+        "(col2 - ((input_col0 * input_col0) + (input_col1 * input_col1)))",
         null
       ]
     },
@@ -85,7 +108,7 @@
         {
           "BinaryOp": [
             {
-              "State": 3
+              "State": "col3"
             },
             "-",
             {
@@ -93,11 +116,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 1
+                      "State": "input_col1"
                     },
                     "*",
                     {
-                      "State": 1
+                      "State": "input_col1"
                     }
                   ]
                 },
@@ -105,11 +128,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 2
+                      "State": "col2"
                     },
                     "*",
                     {
-                      "State": 2
+                      "State": "col2"
                     }
                   ]
                 }
@@ -117,7 +140,7 @@
             }
           ]
         },
-        "(state[3] - ((state[1] * state[1]) + (state[2] * state[2])))",
+        "(col3 - ((input_col1 * input_col1) + (col2 * col2)))",
         null
       ]
     },
@@ -130,7 +153,7 @@
         {
           "BinaryOp": [
             {
-              "State": 4
+              "State": "col4"
             },
             "-",
             {
@@ -138,11 +161,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 2
+                      "State": "col2"
                     },
                     "*",
                     {
-                      "State": 2
+                      "State": "col2"
                     }
                   ]
                 },
@@ -150,11 +173,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 3
+                      "State": "col3"
                     },
                     "*",
                     {
-                      "State": 3
+                      "State": "col3"
                     }
                   ]
                 }
@@ -162,7 +185,7 @@
             }
           ]
         },
-        "(state[4] - ((state[2] * state[2]) + (state[3] * state[3])))",
+        "(col4 - ((col2 * col2) + (col3 * col3)))",
         null
       ]
     },
@@ -175,7 +198,7 @@
         {
           "BinaryOp": [
             {
-              "State": 5
+              "State": "col5"
             },
             "-",
             {
@@ -183,11 +206,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 3
+                      "State": "col3"
                     },
                     "*",
                     {
-                      "State": 3
+                      "State": "col3"
                     }
                   ]
                 },
@@ -195,11 +218,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 4
+                      "State": "col4"
                     },
                     "*",
                     {
-                      "State": 4
+                      "State": "col4"
                     }
                   ]
                 }
@@ -207,7 +230,7 @@
             }
           ]
         },
-        "(state[5] - ((state[3] * state[3]) + (state[4] * state[4])))",
+        "(col5 - ((col3 * col3) + (col4 * col4)))",
         null
       ]
     },
@@ -220,7 +243,7 @@
         {
           "BinaryOp": [
             {
-              "State": 6
+              "State": "col6"
             },
             "-",
             {
@@ -228,11 +251,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 4
+                      "State": "col4"
                     },
                     "*",
                     {
-                      "State": 4
+                      "State": "col4"
                     }
                   ]
                 },
@@ -240,11 +263,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 5
+                      "State": "col5"
                     },
                     "*",
                     {
-                      "State": 5
+                      "State": "col5"
                     }
                   ]
                 }
@@ -252,7 +275,7 @@
             }
           ]
         },
-        "(state[6] - ((state[4] * state[4]) + (state[5] * state[5])))",
+        "(col6 - ((col4 * col4) + (col5 * col5)))",
         null
       ]
     },
@@ -265,7 +288,7 @@
         {
           "BinaryOp": [
             {
-              "State": 7
+              "State": "col7"
             },
             "-",
             {
@@ -273,11 +296,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 5
+                      "State": "col5"
                     },
                     "*",
                     {
-                      "State": 5
+                      "State": "col5"
                     }
                   ]
                 },
@@ -285,11 +308,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 6
+                      "State": "col6"
                     },
                     "*",
                     {
-                      "State": 6
+                      "State": "col6"
                     }
                   ]
                 }
@@ -297,7 +320,7 @@
             }
           ]
         },
-        "(state[7] - ((state[5] * state[5]) + (state[6] * state[6])))",
+        "(col7 - ((col5 * col5) + (col6 * col6)))",
         null
       ]
     },
@@ -310,7 +333,7 @@
         {
           "BinaryOp": [
             {
-              "State": 8
+              "State": "col8"
             },
             "-",
             {
@@ -318,11 +341,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 6
+                      "State": "col6"
                     },
                     "*",
                     {
-                      "State": 6
+                      "State": "col6"
                     }
                   ]
                 },
@@ -330,11 +353,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 7
+                      "State": "col7"
                     },
                     "*",
                     {
-                      "State": 7
+                      "State": "col7"
                     }
                   ]
                 }
@@ -342,7 +365,7 @@
             }
           ]
         },
-        "(state[8] - ((state[6] * state[6]) + (state[7] * state[7])))",
+        "(col8 - ((col6 * col6) + (col7 * col7)))",
         null
       ]
     },
@@ -355,7 +378,7 @@
         {
           "BinaryOp": [
             {
-              "State": 9
+              "State": "col9"
             },
             "-",
             {
@@ -363,11 +386,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 7
+                      "State": "col7"
                     },
                     "*",
                     {
-                      "State": 7
+                      "State": "col7"
                     }
                   ]
                 },
@@ -375,11 +398,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 8
+                      "State": "col8"
                     },
                     "*",
                     {
-                      "State": 8
+                      "State": "col8"
                     }
                   ]
                 }
@@ -387,7 +410,7 @@
             }
           ]
         },
-        "(state[9] - ((state[7] * state[7]) + (state[8] * state[8])))",
+        "(col9 - ((col7 * col7) + (col8 * col8)))",
         null
       ]
     },
@@ -400,7 +423,7 @@
         {
           "BinaryOp": [
             {
-              "State": 10
+              "State": "col10"
             },
             "-",
             {
@@ -408,11 +431,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 8
+                      "State": "col8"
                     },
                     "*",
                     {
-                      "State": 8
+                      "State": "col8"
                     }
                   ]
                 },
@@ -420,11 +443,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 9
+                      "State": "col9"
                     },
                     "*",
                     {
-                      "State": 9
+                      "State": "col9"
                     }
                   ]
                 }
@@ -432,7 +455,7 @@
             }
           ]
         },
-        "(state[10] - ((state[8] * state[8]) + (state[9] * state[9])))",
+        "(col10 - ((col8 * col8) + (col9 * col9)))",
         null
       ]
     },
@@ -445,7 +468,7 @@
         {
           "BinaryOp": [
             {
-              "State": 11
+              "State": "col11"
             },
             "-",
             {
@@ -453,11 +476,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 9
+                      "State": "col9"
                     },
                     "*",
                     {
-                      "State": 9
+                      "State": "col9"
                     }
                   ]
                 },
@@ -465,11 +488,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 10
+                      "State": "col10"
                     },
                     "*",
                     {
-                      "State": 10
+                      "State": "col10"
                     }
                   ]
                 }
@@ -477,7 +500,7 @@
             }
           ]
         },
-        "(state[11] - ((state[9] * state[9]) + (state[10] * state[10])))",
+        "(col11 - ((col9 * col9) + (col10 * col10)))",
         null
       ]
     },
@@ -490,7 +513,7 @@
         {
           "BinaryOp": [
             {
-              "State": 12
+              "State": "col12"
             },
             "-",
             {
@@ -498,11 +521,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 10
+                      "State": "col10"
                     },
                     "*",
                     {
-                      "State": 10
+                      "State": "col10"
                     }
                   ]
                 },
@@ -510,11 +533,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 11
+                      "State": "col11"
                     },
                     "*",
                     {
-                      "State": 11
+                      "State": "col11"
                     }
                   ]
                 }
@@ -522,7 +545,7 @@
             }
           ]
         },
-        "(state[12] - ((state[10] * state[10]) + (state[11] * state[11])))",
+        "(col12 - ((col10 * col10) + (col11 * col11)))",
         null
       ]
     },
@@ -535,7 +558,7 @@
         {
           "BinaryOp": [
             {
-              "State": 13
+              "State": "col13"
             },
             "-",
             {
@@ -543,11 +566,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 11
+                      "State": "col11"
                     },
                     "*",
                     {
-                      "State": 11
+                      "State": "col11"
                     }
                   ]
                 },
@@ -555,11 +578,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 12
+                      "State": "col12"
                     },
                     "*",
                     {
-                      "State": 12
+                      "State": "col12"
                     }
                   ]
                 }
@@ -567,7 +590,7 @@
             }
           ]
         },
-        "(state[13] - ((state[11] * state[11]) + (state[12] * state[12])))",
+        "(col13 - ((col11 * col11) + (col12 * col12)))",
         null
       ]
     },
@@ -580,7 +603,7 @@
         {
           "BinaryOp": [
             {
-              "State": 14
+              "State": "col14"
             },
             "-",
             {
@@ -588,11 +611,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 12
+                      "State": "col12"
                     },
                     "*",
                     {
-                      "State": 12
+                      "State": "col12"
                     }
                   ]
                 },
@@ -600,11 +623,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 13
+                      "State": "col13"
                     },
                     "*",
                     {
-                      "State": 13
+                      "State": "col13"
                     }
                   ]
                 }
@@ -612,7 +635,7 @@
             }
           ]
         },
-        "(state[14] - ((state[12] * state[12]) + (state[13] * state[13])))",
+        "(col14 - ((col12 * col12) + (col13 * col13)))",
         null
       ]
     },
@@ -625,7 +648,7 @@
         {
           "BinaryOp": [
             {
-              "State": 15
+              "State": "col15"
             },
             "-",
             {
@@ -633,11 +656,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 13
+                      "State": "col13"
                     },
                     "*",
                     {
-                      "State": 13
+                      "State": "col13"
                     }
                   ]
                 },
@@ -645,11 +668,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 14
+                      "State": "col14"
                     },
                     "*",
                     {
-                      "State": 14
+                      "State": "col14"
                     }
                   ]
                 }
@@ -657,7 +680,7 @@
             }
           ]
         },
-        "(state[15] - ((state[13] * state[13]) + (state[14] * state[14])))",
+        "(col15 - ((col13 * col13) + (col14 * col14)))",
         null
       ]
     },
@@ -670,7 +693,7 @@
         {
           "BinaryOp": [
             {
-              "State": 16
+              "State": "col16"
             },
             "-",
             {
@@ -678,11 +701,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 14
+                      "State": "col14"
                     },
                     "*",
                     {
-                      "State": 14
+                      "State": "col14"
                     }
                   ]
                 },
@@ -690,11 +713,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 15
+                      "State": "col15"
                     },
                     "*",
                     {
-                      "State": 15
+                      "State": "col15"
                     }
                   ]
                 }
@@ -702,7 +725,7 @@
             }
           ]
         },
-        "(state[16] - ((state[14] * state[14]) + (state[15] * state[15])))",
+        "(col16 - ((col14 * col14) + (col15 * col15)))",
         null
       ]
     },
@@ -715,7 +738,7 @@
         {
           "BinaryOp": [
             {
-              "State": 17
+              "State": "col17"
             },
             "-",
             {
@@ -723,11 +746,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 15
+                      "State": "col15"
                     },
                     "*",
                     {
-                      "State": 15
+                      "State": "col15"
                     }
                   ]
                 },
@@ -735,11 +758,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 16
+                      "State": "col16"
                     },
                     "*",
                     {
-                      "State": 16
+                      "State": "col16"
                     }
                   ]
                 }
@@ -747,7 +770,7 @@
             }
           ]
         },
-        "(state[17] - ((state[15] * state[15]) + (state[16] * state[16])))",
+        "(col17 - ((col15 * col15) + (col16 * col16)))",
         null
       ]
     },
@@ -760,7 +783,7 @@
         {
           "BinaryOp": [
             {
-              "State": 18
+              "State": "col18"
             },
             "-",
             {
@@ -768,11 +791,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 16
+                      "State": "col16"
                     },
                     "*",
                     {
-                      "State": 16
+                      "State": "col16"
                     }
                   ]
                 },
@@ -780,11 +803,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 17
+                      "State": "col17"
                     },
                     "*",
                     {
-                      "State": 17
+                      "State": "col17"
                     }
                   ]
                 }
@@ -792,7 +815,7 @@
             }
           ]
         },
-        "(state[18] - ((state[16] * state[16]) + (state[17] * state[17])))",
+        "(col18 - ((col16 * col16) + (col17 * col17)))",
         null
       ]
     },
@@ -805,7 +828,7 @@
         {
           "BinaryOp": [
             {
-              "State": 19
+              "State": "col19"
             },
             "-",
             {
@@ -813,11 +836,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 17
+                      "State": "col17"
                     },
                     "*",
                     {
-                      "State": 17
+                      "State": "col17"
                     }
                   ]
                 },
@@ -825,11 +848,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 18
+                      "State": "col18"
                     },
                     "*",
                     {
-                      "State": 18
+                      "State": "col18"
                     }
                   ]
                 }
@@ -837,7 +860,7 @@
             }
           ]
         },
-        "(state[19] - ((state[17] * state[17]) + (state[18] * state[18])))",
+        "(col19 - ((col17 * col17) + (col18 * col18)))",
         null
       ]
     },
@@ -850,7 +873,7 @@
         {
           "BinaryOp": [
             {
-              "State": 20
+              "State": "col20"
             },
             "-",
             {
@@ -858,11 +881,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 18
+                      "State": "col18"
                     },
                     "*",
                     {
-                      "State": 18
+                      "State": "col18"
                     }
                   ]
                 },
@@ -870,11 +893,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 19
+                      "State": "col19"
                     },
                     "*",
                     {
-                      "State": 19
+                      "State": "col19"
                     }
                   ]
                 }
@@ -882,7 +905,7 @@
             }
           ]
         },
-        "(state[20] - ((state[18] * state[18]) + (state[19] * state[19])))",
+        "(col20 - ((col18 * col18) + (col19 * col19)))",
         null
       ]
     },
@@ -895,7 +918,7 @@
         {
           "BinaryOp": [
             {
-              "State": 21
+              "State": "col21"
             },
             "-",
             {
@@ -903,11 +926,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 19
+                      "State": "col19"
                     },
                     "*",
                     {
-                      "State": 19
+                      "State": "col19"
                     }
                   ]
                 },
@@ -915,11 +938,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": 20
+                      "State": "col20"
                     },
                     "*",
                     {
-                      "State": 20
+                      "State": "col20"
                     }
                   ]
                 }
@@ -927,7 +950,7 @@
             }
           ]
         },
-        "(state[21] - ((state[19] * state[19]) + (state[20] * state[20])))",
+        "(col21 - ((col19 * col19) + (col20 * col20)))",
         null
       ]
     },
@@ -937,16 +960,16 @@
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 0
+            "State": "input_col0"
           },
           {
-            "State": 1
+            "State": "input_col1"
           },
           {
-            "State": 20
+            "State": "col20"
           },
           {
-            "State": 21
+            "State": "col21"
           }
         ],
         "use_or_yield": "Yield"
@@ -976,745 +999,679 @@
       ]
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_0[0]"
-          ]
-        },
-        "input"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_0[0]"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_0[1]"
-          ]
-        },
-        "input"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_0[1]"
+        ]
+      }
     },
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 0
-                },
-                "*",
-                {
-                  "State": 0
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 1
-                },
-                "*",
-                {
-                  "State": 1
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "input_col0"
+              },
+              "*",
+              {
+                "State": "input_col0"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "input_col1"
+              },
+              "*",
+              {
+                "State": "input_col1"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 1
-                },
-                "*",
-                {
-                  "State": 1
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 2
-                },
-                "*",
-                {
-                  "State": 2
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "input_col1"
+              },
+              "*",
+              {
+                "State": "input_col1"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col2"
+              },
+              "*",
+              {
+                "State": "col2"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 2
-                },
-                "*",
-                {
-                  "State": 2
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 3
-                },
-                "*",
-                {
-                  "State": 3
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col2"
+              },
+              "*",
+              {
+                "State": "col2"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col3"
+              },
+              "*",
+              {
+                "State": "col3"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 3
-                },
-                "*",
-                {
-                  "State": 3
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 4
-                },
-                "*",
-                {
-                  "State": 4
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col3"
+              },
+              "*",
+              {
+                "State": "col3"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col4"
+              },
+              "*",
+              {
+                "State": "col4"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 4
-                },
-                "*",
-                {
-                  "State": 4
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 5
-                },
-                "*",
-                {
-                  "State": 5
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col4"
+              },
+              "*",
+              {
+                "State": "col4"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col5"
+              },
+              "*",
+              {
+                "State": "col5"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 5
-                },
-                "*",
-                {
-                  "State": 5
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 6
-                },
-                "*",
-                {
-                  "State": 6
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col5"
+              },
+              "*",
+              {
+                "State": "col5"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col6"
+              },
+              "*",
+              {
+                "State": "col6"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 6
-                },
-                "*",
-                {
-                  "State": 6
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 7
-                },
-                "*",
-                {
-                  "State": 7
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col6"
+              },
+              "*",
+              {
+                "State": "col6"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col7"
+              },
+              "*",
+              {
+                "State": "col7"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 7
-                },
-                "*",
-                {
-                  "State": 7
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 8
-                },
-                "*",
-                {
-                  "State": 8
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col7"
+              },
+              "*",
+              {
+                "State": "col7"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col8"
+              },
+              "*",
+              {
+                "State": "col8"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 8
-                },
-                "*",
-                {
-                  "State": 8
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 9
-                },
-                "*",
-                {
-                  "State": 9
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col8"
+              },
+              "*",
+              {
+                "State": "col8"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col9"
+              },
+              "*",
+              {
+                "State": "col9"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 9
-                },
-                "*",
-                {
-                  "State": 9
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 10
-                },
-                "*",
-                {
-                  "State": 10
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col9"
+              },
+              "*",
+              {
+                "State": "col9"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col10"
+              },
+              "*",
+              {
+                "State": "col10"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 10
-                },
-                "*",
-                {
-                  "State": 10
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 11
-                },
-                "*",
-                {
-                  "State": 11
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col10"
+              },
+              "*",
+              {
+                "State": "col10"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col11"
+              },
+              "*",
+              {
+                "State": "col11"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 11
-                },
-                "*",
-                {
-                  "State": 11
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 12
-                },
-                "*",
-                {
-                  "State": 12
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col11"
+              },
+              "*",
+              {
+                "State": "col11"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col12"
+              },
+              "*",
+              {
+                "State": "col12"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 12
-                },
-                "*",
-                {
-                  "State": 12
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 13
-                },
-                "*",
-                {
-                  "State": 13
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col12"
+              },
+              "*",
+              {
+                "State": "col12"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col13"
+              },
+              "*",
+              {
+                "State": "col13"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 13
-                },
-                "*",
-                {
-                  "State": 13
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 14
-                },
-                "*",
-                {
-                  "State": 14
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col13"
+              },
+              "*",
+              {
+                "State": "col13"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col14"
+              },
+              "*",
+              {
+                "State": "col14"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 14
-                },
-                "*",
-                {
-                  "State": 14
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 15
-                },
-                "*",
-                {
-                  "State": 15
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col14"
+              },
+              "*",
+              {
+                "State": "col14"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col15"
+              },
+              "*",
+              {
+                "State": "col15"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 15
-                },
-                "*",
-                {
-                  "State": 15
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 16
-                },
-                "*",
-                {
-                  "State": 16
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col15"
+              },
+              "*",
+              {
+                "State": "col15"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col16"
+              },
+              "*",
+              {
+                "State": "col16"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 16
-                },
-                "*",
-                {
-                  "State": 16
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 17
-                },
-                "*",
-                {
-                  "State": 17
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col16"
+              },
+              "*",
+              {
+                "State": "col16"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col17"
+              },
+              "*",
+              {
+                "State": "col17"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 17
-                },
-                "*",
-                {
-                  "State": 17
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 18
-                },
-                "*",
-                {
-                  "State": 18
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col17"
+              },
+              "*",
+              {
+                "State": "col17"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col18"
+              },
+              "*",
+              {
+                "State": "col18"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 18
-                },
-                "*",
-                {
-                  "State": 18
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 19
-                },
-                "*",
-                {
-                  "State": 19
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col18"
+              },
+              "*",
+              {
+                "State": "col18"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col19"
+              },
+              "*",
+              {
+                "State": "col19"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
       "StartBlock": "FibStep"
     },
     {
-      "Deduction": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "State": 19
-                },
-                "*",
-                {
-                  "State": 19
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": 20
-                },
-                "*",
-                {
-                  "State": 20
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "col19"
+              },
+              "*",
+              {
+                "State": "col19"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "State": "col20"
+              },
+              "*",
+              {
+                "State": "col20"
+              }
+            ]
+          }
+        ]
+      }
     },
     "EndBlock",
     {
@@ -1722,16 +1679,16 @@
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 0
+            "State": "input_col0"
           },
           {
-            "State": 1
+            "State": "input_col1"
           },
           {
-            "State": 20
+            "State": "col20"
           },
           {
-            "State": 21
+            "State": "col21"
           }
         ],
         "use_or_yield": "Yield"

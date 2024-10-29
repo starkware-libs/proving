@@ -8,9 +8,27 @@
     ]
   },
   "output": {
-    "State": 16
+    "State": "narrowfib_num_steps_20_output_col16"
   },
-  "row_length": 17,
+  "state_names": [
+    "col0",
+    "narrowfib_num_steps_20_output_col1",
+    "narrowfib_num_steps_20_output_col2",
+    "narrowfib_num_steps_20_output_col3",
+    "narrowfib_num_steps_20_output_col4",
+    "narrowfib_num_steps_20_output_col5",
+    "narrowfib_num_steps_20_output_col6",
+    "narrowfib_num_steps_20_output_col7",
+    "narrowfib_num_steps_20_output_col8",
+    "narrowfib_num_steps_20_output_col9",
+    "narrowfib_num_steps_20_output_col10",
+    "narrowfib_num_steps_20_output_col11",
+    "narrowfib_num_steps_20_output_col12",
+    "narrowfib_num_steps_20_output_col13",
+    "narrowfib_num_steps_20_output_col14",
+    "narrowfib_num_steps_20_output_col15",
+    "narrowfib_num_steps_20_output_col16"
+  ],
   "lookup_relation_uses_count": {
     "NarrowFib_num_steps_20": 8
   },
@@ -28,13 +46,13 @@
             ]
           },
           {
-            "State": 0
+            "State": "col0"
           },
           {
-            "State": 1
+            "State": "narrowfib_num_steps_20_output_col1"
           },
           {
-            "State": 2
+            "State": "narrowfib_num_steps_20_output_col2"
           }
         ],
         "use_or_yield": "Use"
@@ -45,16 +63,16 @@
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 1
+            "State": "narrowfib_num_steps_20_output_col1"
           },
           {
-            "State": 2
+            "State": "narrowfib_num_steps_20_output_col2"
           },
           {
-            "State": 3
+            "State": "narrowfib_num_steps_20_output_col3"
           },
           {
-            "State": 4
+            "State": "narrowfib_num_steps_20_output_col4"
           }
         ],
         "use_or_yield": "Use"
@@ -65,16 +83,16 @@
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 3
+            "State": "narrowfib_num_steps_20_output_col3"
           },
           {
-            "State": 4
+            "State": "narrowfib_num_steps_20_output_col4"
           },
           {
-            "State": 5
+            "State": "narrowfib_num_steps_20_output_col5"
           },
           {
-            "State": 6
+            "State": "narrowfib_num_steps_20_output_col6"
           }
         ],
         "use_or_yield": "Use"
@@ -85,16 +103,16 @@
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 5
+            "State": "narrowfib_num_steps_20_output_col5"
           },
           {
-            "State": 6
+            "State": "narrowfib_num_steps_20_output_col6"
           },
           {
-            "State": 7
+            "State": "narrowfib_num_steps_20_output_col7"
           },
           {
-            "State": 8
+            "State": "narrowfib_num_steps_20_output_col8"
           }
         ],
         "use_or_yield": "Use"
@@ -105,16 +123,16 @@
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 7
+            "State": "narrowfib_num_steps_20_output_col7"
           },
           {
-            "State": 8
+            "State": "narrowfib_num_steps_20_output_col8"
           },
           {
-            "State": 9
+            "State": "narrowfib_num_steps_20_output_col9"
           },
           {
-            "State": 10
+            "State": "narrowfib_num_steps_20_output_col10"
           }
         ],
         "use_or_yield": "Use"
@@ -125,16 +143,16 @@
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 9
+            "State": "narrowfib_num_steps_20_output_col9"
           },
           {
-            "State": 10
+            "State": "narrowfib_num_steps_20_output_col10"
           },
           {
-            "State": 11
+            "State": "narrowfib_num_steps_20_output_col11"
           },
           {
-            "State": 12
+            "State": "narrowfib_num_steps_20_output_col12"
           }
         ],
         "use_or_yield": "Use"
@@ -145,16 +163,16 @@
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 11
+            "State": "narrowfib_num_steps_20_output_col11"
           },
           {
-            "State": 12
+            "State": "narrowfib_num_steps_20_output_col12"
           },
           {
-            "State": 13
+            "State": "narrowfib_num_steps_20_output_col13"
           },
           {
-            "State": 14
+            "State": "narrowfib_num_steps_20_output_col14"
           }
         ],
         "use_or_yield": "Use"
@@ -165,16 +183,16 @@
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 13
+            "State": "narrowfib_num_steps_20_output_col13"
           },
           {
-            "State": 14
+            "State": "narrowfib_num_steps_20_output_col14"
           },
           {
-            "State": 15
+            "State": "narrowfib_num_steps_20_output_col15"
           },
           {
-            "State": 16
+            "State": "narrowfib_num_steps_20_output_col16"
           }
         ],
         "use_or_yield": "Use"
@@ -183,15 +201,12 @@
   ],
   "deductions": [
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "widefib_num_narrow_8_narrow_size_20_input"
-          ]
-        },
-        null
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "widefib_num_narrow_8_narrow_size_20_input"
+        ]
+      }
     },
     {
       "LookupCall": {
@@ -205,7 +220,7 @@
               ]
             },
             {
-              "State": 0
+              "State": "col0"
             }
           ]
         },
@@ -213,26 +228,20 @@
       }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_1[0]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_1[0]"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_1[1]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_1[1]"
+        ]
+      }
     },
     {
       "LookupData": {
@@ -245,13 +254,13 @@
             ]
           },
           {
-            "State": 0
+            "State": "col0"
           },
           {
-            "State": 1
+            "State": "narrowfib_num_steps_20_output_col1"
           },
           {
-            "State": 2
+            "State": "narrowfib_num_steps_20_output_col2"
           }
         ],
         "use_or_yield": "Use"
@@ -263,10 +272,10 @@
         "input": {
           "Array": [
             {
-              "State": 1
+              "State": "narrowfib_num_steps_20_output_col1"
             },
             {
-              "State": 2
+              "State": "narrowfib_num_steps_20_output_col2"
             }
           ]
         },
@@ -274,42 +283,36 @@
       }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_2[0]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_2[0]"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_2[1]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_2[1]"
+        ]
+      }
     },
     {
       "LookupData": {
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 1
+            "State": "narrowfib_num_steps_20_output_col1"
           },
           {
-            "State": 2
+            "State": "narrowfib_num_steps_20_output_col2"
           },
           {
-            "State": 3
+            "State": "narrowfib_num_steps_20_output_col3"
           },
           {
-            "State": 4
+            "State": "narrowfib_num_steps_20_output_col4"
           }
         ],
         "use_or_yield": "Use"
@@ -321,10 +324,10 @@
         "input": {
           "Array": [
             {
-              "State": 3
+              "State": "narrowfib_num_steps_20_output_col3"
             },
             {
-              "State": 4
+              "State": "narrowfib_num_steps_20_output_col4"
             }
           ]
         },
@@ -332,42 +335,36 @@
       }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_3[0]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_3[0]"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_3[1]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_3[1]"
+        ]
+      }
     },
     {
       "LookupData": {
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 3
+            "State": "narrowfib_num_steps_20_output_col3"
           },
           {
-            "State": 4
+            "State": "narrowfib_num_steps_20_output_col4"
           },
           {
-            "State": 5
+            "State": "narrowfib_num_steps_20_output_col5"
           },
           {
-            "State": 6
+            "State": "narrowfib_num_steps_20_output_col6"
           }
         ],
         "use_or_yield": "Use"
@@ -379,10 +376,10 @@
         "input": {
           "Array": [
             {
-              "State": 5
+              "State": "narrowfib_num_steps_20_output_col5"
             },
             {
-              "State": 6
+              "State": "narrowfib_num_steps_20_output_col6"
             }
           ]
         },
@@ -390,42 +387,36 @@
       }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_4[0]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_4[0]"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_4[1]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_4[1]"
+        ]
+      }
     },
     {
       "LookupData": {
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 5
+            "State": "narrowfib_num_steps_20_output_col5"
           },
           {
-            "State": 6
+            "State": "narrowfib_num_steps_20_output_col6"
           },
           {
-            "State": 7
+            "State": "narrowfib_num_steps_20_output_col7"
           },
           {
-            "State": 8
+            "State": "narrowfib_num_steps_20_output_col8"
           }
         ],
         "use_or_yield": "Use"
@@ -437,10 +428,10 @@
         "input": {
           "Array": [
             {
-              "State": 7
+              "State": "narrowfib_num_steps_20_output_col7"
             },
             {
-              "State": 8
+              "State": "narrowfib_num_steps_20_output_col8"
             }
           ]
         },
@@ -448,42 +439,36 @@
       }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_5[0]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_5[0]"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_5[1]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_5[1]"
+        ]
+      }
     },
     {
       "LookupData": {
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 7
+            "State": "narrowfib_num_steps_20_output_col7"
           },
           {
-            "State": 8
+            "State": "narrowfib_num_steps_20_output_col8"
           },
           {
-            "State": 9
+            "State": "narrowfib_num_steps_20_output_col9"
           },
           {
-            "State": 10
+            "State": "narrowfib_num_steps_20_output_col10"
           }
         ],
         "use_or_yield": "Use"
@@ -495,10 +480,10 @@
         "input": {
           "Array": [
             {
-              "State": 9
+              "State": "narrowfib_num_steps_20_output_col9"
             },
             {
-              "State": 10
+              "State": "narrowfib_num_steps_20_output_col10"
             }
           ]
         },
@@ -506,42 +491,36 @@
       }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_6[0]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_6[0]"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_6[1]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_6[1]"
+        ]
+      }
     },
     {
       "LookupData": {
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 9
+            "State": "narrowfib_num_steps_20_output_col9"
           },
           {
-            "State": 10
+            "State": "narrowfib_num_steps_20_output_col10"
           },
           {
-            "State": 11
+            "State": "narrowfib_num_steps_20_output_col11"
           },
           {
-            "State": 12
+            "State": "narrowfib_num_steps_20_output_col12"
           }
         ],
         "use_or_yield": "Use"
@@ -553,10 +532,10 @@
         "input": {
           "Array": [
             {
-              "State": 11
+              "State": "narrowfib_num_steps_20_output_col11"
             },
             {
-              "State": 12
+              "State": "narrowfib_num_steps_20_output_col12"
             }
           ]
         },
@@ -564,42 +543,36 @@
       }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_7[0]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_7[0]"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_7[1]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_7[1]"
+        ]
+      }
     },
     {
       "LookupData": {
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 11
+            "State": "narrowfib_num_steps_20_output_col11"
           },
           {
-            "State": 12
+            "State": "narrowfib_num_steps_20_output_col12"
           },
           {
-            "State": 13
+            "State": "narrowfib_num_steps_20_output_col13"
           },
           {
-            "State": 14
+            "State": "narrowfib_num_steps_20_output_col14"
           }
         ],
         "use_or_yield": "Use"
@@ -611,10 +584,10 @@
         "input": {
           "Array": [
             {
-              "State": 13
+              "State": "narrowfib_num_steps_20_output_col13"
             },
             {
-              "State": 14
+              "State": "narrowfib_num_steps_20_output_col14"
             }
           ]
         },
@@ -622,42 +595,36 @@
       }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_8[0]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_8[0]"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_8[1]"
-          ]
-        },
-        "NarrowFib_num_steps_20_output"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_8[1]"
+        ]
+      }
     },
     {
       "LookupData": {
         "relation_name": "NarrowFib_num_steps_20",
         "felts": [
           {
-            "State": 13
+            "State": "narrowfib_num_steps_20_output_col13"
           },
           {
-            "State": 14
+            "State": "narrowfib_num_steps_20_output_col14"
           },
           {
-            "State": 15
+            "State": "narrowfib_num_steps_20_output_col15"
           },
           {
-            "State": 16
+            "State": "narrowfib_num_steps_20_output_col16"
           }
         ],
         "use_or_yield": "Use"

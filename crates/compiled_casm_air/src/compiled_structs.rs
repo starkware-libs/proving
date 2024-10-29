@@ -8,7 +8,7 @@ pub struct CompiledAirFn {
     pub input: CompiledAirVar,
     pub output: CompiledAirVar,
 
-    pub row_length: usize,
+    pub state_names: Vec<String>,
     pub lookup_relation_uses_count: IndexMap<String, usize>,
 
     // TODO: remove these:
@@ -26,7 +26,8 @@ pub enum TraceGenStep {
 
     EndBlock,
 
-    Deduction(CompiledAirVar, Option<String>),
+    // The argument is a polynomial in in-state values.
+    Deduction(CompiledAirVar),
 
     Intermediate(String, CompiledAirVar),
 
@@ -70,8 +71,8 @@ pub enum CompiledAirVar {
     Const(String, String),
     // A variable expression represented by the type of the variable and its name.
     Var(String, String),
-    // A variable written to the trace at the given index.
-    State(usize),
+    // A name for the variable written to the trace at the given index.
+    State(String),
     // A static function call. The name of the function and its arguments.
     StaticCall(String, Vec<CompiledAirVar>),
     // A method function call. The self variable, the name of the method and its arguments.

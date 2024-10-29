@@ -2,6 +2,7 @@ use compiled_casm_air::compiled_structs::CompiledAirVar;
 use compiled_casm_air::prover_types::ProverType;
 
 use super::super::air_fn_registry::*;
+use super::super::state::*;
 use super::super::variables::*;
 use super::expr::*;
 use super::felt_expr::*;
@@ -93,7 +94,7 @@ where
         }
 
         match &self.complex_or_felt {
-            ComplexOrFelt::Felt(StateInfo::StateIndex(_)) => true,
+            ComplexOrFelt::Felt(StateInfo::StateIndex(_, _)) => true,
             ComplexOrFelt::Felt(StateInfo::IsPolyOfState(b)) => *b,
             ComplexOrFelt::Felt(StateInfo::ExternalColumnStateIndex(_, _)) => true,
             ComplexOrFelt::Felt(StateInfo::PublicParam(_)) => true,
@@ -129,8 +130,8 @@ where
         }
 
         // v was written to the trace
-        if let ComplexOrFelt::Felt(StateInfo::StateIndex(i)) = v.complex_or_felt {
-            return CompiledAirVar::State(i);
+        if let ComplexOrFelt::Felt(StateInfo::StateIndex(i, desc)) = v.complex_or_felt {
+            return CompiledAirVar::State(State::get_cell_name(i, &desc));
         }
 
         // v was written to the trace of an external const table

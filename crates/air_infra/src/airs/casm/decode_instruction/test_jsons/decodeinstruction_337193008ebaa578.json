@@ -13,77 +13,77 @@
   "output": [
     [
       {
-        "name": "(state[0] - const_32768)",
+        "name": "(offset0_col0 - const_32768)",
         "type": "M31"
       },
       {
-        "name": "(state[1] - const_32768)",
+        "name": "(offset1_col1 - const_32768)",
         "type": "M31"
       },
       {
-        "name": "(state[2] - const_32768)",
+        "name": "(offset2_col2 - const_32768)",
         "type": "M31"
       }
     ],
     [
       {
-        "name": "state[3]",
+        "name": "dst_base_fp_col3",
         "type": "M31"
       },
       {
-        "name": "state[4]",
+        "name": "op0_base_fp_col4",
         "type": "M31"
       },
       {
-        "name": "state[5]",
+        "name": "op1_imm_col5",
         "type": "M31"
       },
       {
-        "name": "state[6]",
+        "name": "op1_base_fp_col6",
         "type": "M31"
       },
       {
-        "name": "state[7]",
+        "name": "op1_base_ap_col7",
         "type": "M31"
       },
       {
-        "name": "state[8]",
+        "name": "res_add_col8",
         "type": "M31"
       },
       {
-        "name": "state[9]",
+        "name": "res_mul_col9",
         "type": "M31"
       },
       {
-        "name": "state[10]",
+        "name": "pc_update_jump_col10",
         "type": "M31"
       },
       {
-        "name": "state[11]",
+        "name": "pc_update_jump_rel_col11",
         "type": "M31"
       },
       {
-        "name": "state[12]",
+        "name": "pc_update_jnz_col12",
         "type": "M31"
       },
       {
-        "name": "state[13]",
+        "name": "ap_update_add_col13",
         "type": "M31"
       },
       {
-        "name": "state[14]",
+        "name": "ap_update_add_1_col14",
         "type": "M31"
       },
       {
-        "name": "state[15]",
+        "name": "opcode_call_col15",
         "type": "M31"
       },
       {
-        "name": "state[16]",
+        "name": "opcode_ret_col16",
         "type": "M31"
       },
       {
-        "name": "state[17]",
+        "name": "opcode_assert_eq_col17",
         "type": "M31"
       }
     ]
@@ -463,77 +463,77 @@
           },
           [
             {
-              "name": "state[0]",
+              "name": "offset0_col0",
               "type": "M31"
             },
             {
-              "name": "state[1]",
+              "name": "offset1_col1",
               "type": "M31"
             },
             {
-              "name": "state[2]",
+              "name": "offset2_col2",
               "type": "M31"
             }
           ],
           [
             {
-              "name": "state[3]",
+              "name": "dst_base_fp_col3",
               "type": "M31"
             },
             {
-              "name": "state[4]",
+              "name": "op0_base_fp_col4",
               "type": "M31"
             },
             {
-              "name": "state[5]",
+              "name": "op1_imm_col5",
               "type": "M31"
             },
             {
-              "name": "state[6]",
+              "name": "op1_base_fp_col6",
               "type": "M31"
             },
             {
-              "name": "state[7]",
+              "name": "op1_base_ap_col7",
               "type": "M31"
             },
             {
-              "name": "state[8]",
+              "name": "res_add_col8",
               "type": "M31"
             },
             {
-              "name": "state[9]",
+              "name": "res_mul_col9",
               "type": "M31"
             },
             {
-              "name": "state[10]",
+              "name": "pc_update_jump_col10",
               "type": "M31"
             },
             {
-              "name": "state[11]",
+              "name": "pc_update_jump_rel_col11",
               "type": "M31"
             },
             {
-              "name": "state[12]",
+              "name": "pc_update_jnz_col12",
               "type": "M31"
             },
             {
-              "name": "state[13]",
+              "name": "ap_update_add_col13",
               "type": "M31"
             },
             {
-              "name": "state[14]",
+              "name": "ap_update_add_1_col14",
               "type": "M31"
             },
             {
-              "name": "state[15]",
+              "name": "opcode_call_col15",
               "type": "M31"
             },
             {
-              "name": "state[16]",
+              "name": "opcode_ret_col16",
               "type": "M31"
             },
             {
-              "name": "state[17]",
+              "name": "opcode_assert_eq_col17",
               "type": "M31"
             }
           ]
@@ -545,27 +545,103 @@
         "relation_name": "VerifyInstruction",
         "felts": [
           "decodeinstruction_337193008ebaa578_input",
-          "state[0]",
-          "state[1]",
-          "state[2]",
-          "state[3]",
-          "state[4]",
-          "state[5]",
-          "state[6]",
-          "state[7]",
-          "state[8]",
-          "state[9]",
-          "state[10]",
-          "state[11]",
-          "state[12]",
-          "state[13]",
-          "state[14]",
-          "state[15]",
-          "state[16]",
-          "state[17]"
+          "offset0_col0",
+          "offset1_col1",
+          "offset2_col2",
+          "dst_base_fp_col3",
+          "op0_base_fp_col4",
+          "op1_imm_col5",
+          "op1_base_fp_col6",
+          "op1_base_ap_col7",
+          "res_add_col8",
+          "res_mul_col9",
+          "pc_update_jump_col10",
+          "pc_update_jump_rel_col11",
+          "pc_update_jnz_col12",
+          "ap_update_add_col13",
+          "ap_update_add_1_col14",
+          "opcode_call_col15",
+          "opcode_ret_col16",
+          "opcode_assert_eq_col17"
         ],
         "use_or_yield": "Use"
       }
     }
-  ]
+  ],
+  "state": {
+    "row": [
+      [
+        "offset0_col0",
+        "offset0"
+      ],
+      [
+        "offset1_col1",
+        "offset1"
+      ],
+      [
+        "offset2_col2",
+        "offset2"
+      ],
+      [
+        "dst_base_fp_col3",
+        "dst_base_fp"
+      ],
+      [
+        "op0_base_fp_col4",
+        "op0_base_fp"
+      ],
+      [
+        "op1_imm_col5",
+        "op1_imm"
+      ],
+      [
+        "op1_base_fp_col6",
+        "op1_base_fp"
+      ],
+      [
+        "op1_base_ap_col7",
+        "op1_base_ap"
+      ],
+      [
+        "res_add_col8",
+        "res_add"
+      ],
+      [
+        "res_mul_col9",
+        "res_mul"
+      ],
+      [
+        "pc_update_jump_col10",
+        "pc_update_jump"
+      ],
+      [
+        "pc_update_jump_rel_col11",
+        "pc_update_jump_rel"
+      ],
+      [
+        "pc_update_jnz_col12",
+        "pc_update_jnz"
+      ],
+      [
+        "ap_update_add_col13",
+        "ap_update_add"
+      ],
+      [
+        "ap_update_add_1_col14",
+        "ap_update_add_1"
+      ],
+      [
+        "opcode_call_col15",
+        "opcode_call"
+      ],
+      [
+        "opcode_ret_col16",
+        "opcode_ret"
+      ],
+      [
+        "opcode_assert_eq_col17",
+        "opcode_assert_eq"
+      ]
+    ]
+  }
 }

@@ -64,114 +64,98 @@ impl FrameworkEval for NarrowFib_num_steps_20Eval {
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let [is_first] = eval.next_interaction_mask(2, [0]);
         let mut logup = LogupAtRow::<E>::new(1, self.interaction_claim.claimed_sum, None, is_first);
-        let trace_row: [_; 22] = std::array::from_fn(|_| eval.next_trace_mask());
+        let input_col0 = eval.next_trace_mask();
+        let input_col1 = eval.next_trace_mask();
+        let col2 = eval.next_trace_mask();
+        let col3 = eval.next_trace_mask();
+        let col4 = eval.next_trace_mask();
+        let col5 = eval.next_trace_mask();
+        let col6 = eval.next_trace_mask();
+        let col7 = eval.next_trace_mask();
+        let col8 = eval.next_trace_mask();
+        let col9 = eval.next_trace_mask();
+        let col10 = eval.next_trace_mask();
+        let col11 = eval.next_trace_mask();
+        let col12 = eval.next_trace_mask();
+        let col13 = eval.next_trace_mask();
+        let col14 = eval.next_trace_mask();
+        let col15 = eval.next_trace_mask();
+        let col16 = eval.next_trace_mask();
+        let col17 = eval.next_trace_mask();
+        let col18 = eval.next_trace_mask();
+        let col19 = eval.next_trace_mask();
+        let col20 = eval.next_trace_mask();
+        let col21 = eval.next_trace_mask();
         eval.add_constraint(
-            (trace_row[2].clone()
-                - ((trace_row[0].clone() * trace_row[0].clone())
-                    + (trace_row[1].clone() * trace_row[1].clone()))),
+            (col2.clone()
+                - ((input_col0.clone() * input_col0.clone())
+                    + (input_col1.clone() * input_col1.clone()))),
         );
         eval.add_constraint(
-            (trace_row[3].clone()
-                - ((trace_row[1].clone() * trace_row[1].clone())
-                    + (trace_row[2].clone() * trace_row[2].clone()))),
+            (col3.clone()
+                - ((input_col1.clone() * input_col1.clone()) + (col2.clone() * col2.clone()))),
         );
         eval.add_constraint(
-            (trace_row[4].clone()
-                - ((trace_row[2].clone() * trace_row[2].clone())
-                    + (trace_row[3].clone() * trace_row[3].clone()))),
+            (col4.clone() - ((col2.clone() * col2.clone()) + (col3.clone() * col3.clone()))),
         );
         eval.add_constraint(
-            (trace_row[5].clone()
-                - ((trace_row[3].clone() * trace_row[3].clone())
-                    + (trace_row[4].clone() * trace_row[4].clone()))),
+            (col5.clone() - ((col3.clone() * col3.clone()) + (col4.clone() * col4.clone()))),
         );
         eval.add_constraint(
-            (trace_row[6].clone()
-                - ((trace_row[4].clone() * trace_row[4].clone())
-                    + (trace_row[5].clone() * trace_row[5].clone()))),
+            (col6.clone() - ((col4.clone() * col4.clone()) + (col5.clone() * col5.clone()))),
         );
         eval.add_constraint(
-            (trace_row[7].clone()
-                - ((trace_row[5].clone() * trace_row[5].clone())
-                    + (trace_row[6].clone() * trace_row[6].clone()))),
+            (col7.clone() - ((col5.clone() * col5.clone()) + (col6.clone() * col6.clone()))),
         );
         eval.add_constraint(
-            (trace_row[8].clone()
-                - ((trace_row[6].clone() * trace_row[6].clone())
-                    + (trace_row[7].clone() * trace_row[7].clone()))),
+            (col8.clone() - ((col6.clone() * col6.clone()) + (col7.clone() * col7.clone()))),
         );
         eval.add_constraint(
-            (trace_row[9].clone()
-                - ((trace_row[7].clone() * trace_row[7].clone())
-                    + (trace_row[8].clone() * trace_row[8].clone()))),
+            (col9.clone() - ((col7.clone() * col7.clone()) + (col8.clone() * col8.clone()))),
         );
         eval.add_constraint(
-            (trace_row[10].clone()
-                - ((trace_row[8].clone() * trace_row[8].clone())
-                    + (trace_row[9].clone() * trace_row[9].clone()))),
+            (col10.clone() - ((col8.clone() * col8.clone()) + (col9.clone() * col9.clone()))),
         );
         eval.add_constraint(
-            (trace_row[11].clone()
-                - ((trace_row[9].clone() * trace_row[9].clone())
-                    + (trace_row[10].clone() * trace_row[10].clone()))),
+            (col11.clone() - ((col9.clone() * col9.clone()) + (col10.clone() * col10.clone()))),
         );
         eval.add_constraint(
-            (trace_row[12].clone()
-                - ((trace_row[10].clone() * trace_row[10].clone())
-                    + (trace_row[11].clone() * trace_row[11].clone()))),
+            (col12.clone() - ((col10.clone() * col10.clone()) + (col11.clone() * col11.clone()))),
         );
         eval.add_constraint(
-            (trace_row[13].clone()
-                - ((trace_row[11].clone() * trace_row[11].clone())
-                    + (trace_row[12].clone() * trace_row[12].clone()))),
+            (col13.clone() - ((col11.clone() * col11.clone()) + (col12.clone() * col12.clone()))),
         );
         eval.add_constraint(
-            (trace_row[14].clone()
-                - ((trace_row[12].clone() * trace_row[12].clone())
-                    + (trace_row[13].clone() * trace_row[13].clone()))),
+            (col14.clone() - ((col12.clone() * col12.clone()) + (col13.clone() * col13.clone()))),
         );
         eval.add_constraint(
-            (trace_row[15].clone()
-                - ((trace_row[13].clone() * trace_row[13].clone())
-                    + (trace_row[14].clone() * trace_row[14].clone()))),
+            (col15.clone() - ((col13.clone() * col13.clone()) + (col14.clone() * col14.clone()))),
         );
         eval.add_constraint(
-            (trace_row[16].clone()
-                - ((trace_row[14].clone() * trace_row[14].clone())
-                    + (trace_row[15].clone() * trace_row[15].clone()))),
+            (col16.clone() - ((col14.clone() * col14.clone()) + (col15.clone() * col15.clone()))),
         );
         eval.add_constraint(
-            (trace_row[17].clone()
-                - ((trace_row[15].clone() * trace_row[15].clone())
-                    + (trace_row[16].clone() * trace_row[16].clone()))),
+            (col17.clone() - ((col15.clone() * col15.clone()) + (col16.clone() * col16.clone()))),
         );
         eval.add_constraint(
-            (trace_row[18].clone()
-                - ((trace_row[16].clone() * trace_row[16].clone())
-                    + (trace_row[17].clone() * trace_row[17].clone()))),
+            (col18.clone() - ((col16.clone() * col16.clone()) + (col17.clone() * col17.clone()))),
         );
         eval.add_constraint(
-            (trace_row[19].clone()
-                - ((trace_row[17].clone() * trace_row[17].clone())
-                    + (trace_row[18].clone() * trace_row[18].clone()))),
+            (col19.clone() - ((col17.clone() * col17.clone()) + (col18.clone() * col18.clone()))),
         );
         eval.add_constraint(
-            (trace_row[20].clone()
-                - ((trace_row[18].clone() * trace_row[18].clone())
-                    + (trace_row[19].clone() * trace_row[19].clone()))),
+            (col20.clone() - ((col18.clone() * col18.clone()) + (col19.clone() * col19.clone()))),
         );
         eval.add_constraint(
-            (trace_row[21].clone()
-                - ((trace_row[19].clone() * trace_row[19].clone())
-                    + (trace_row[20].clone() * trace_row[20].clone()))),
+            (col21.clone() - ((col19.clone() * col19.clone()) + (col20.clone() * col20.clone()))),
         );
         let frac = Fraction::new(
             -E::EF::one(),
             self.narrowfib_num_steps_20_lookup_elements.combine(&[
-                trace_row[0].clone(),
-                trace_row[1].clone(),
-                trace_row[20].clone(),
-                trace_row[21].clone(),
+                input_col0.clone(),
+                input_col1.clone(),
+                col20.clone(),
+                col21.clone(),
             ]),
         );
         logup.write_frac(&mut eval, frac);

@@ -66,84 +66,100 @@ impl FrameworkEval for WideFib_num_narrow_8_narrow_size_20Eval {
         let M31_1 = E::F::from(M31::from(1));
         let [is_first] = eval.next_interaction_mask(2, [0]);
         let mut logup = LogupAtRow::<E>::new(1, self.interaction_claim.claimed_sum, None, is_first);
-        let trace_row: [_; 17] = std::array::from_fn(|_| eval.next_trace_mask());
+        let col0 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col1 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col2 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col3 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col4 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col5 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col6 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col7 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col8 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col9 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col10 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col11 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col12 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col13 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col14 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col15 = eval.next_trace_mask();
+        let narrowfib_num_steps_20_output_col16 = eval.next_trace_mask();
         let frac = Fraction::new(
             E::EF::one(),
             self.narrowfib_num_steps_20_lookup_elements.combine(&[
                 M31_1.clone(),
-                trace_row[0].clone(),
-                trace_row[1].clone(),
-                trace_row[2].clone(),
+                col0.clone(),
+                narrowfib_num_steps_20_output_col1.clone(),
+                narrowfib_num_steps_20_output_col2.clone(),
             ]),
         );
         logup.write_frac(&mut eval, frac);
         let frac = Fraction::new(
             E::EF::one(),
             self.narrowfib_num_steps_20_lookup_elements.combine(&[
-                trace_row[1].clone(),
-                trace_row[2].clone(),
-                trace_row[3].clone(),
-                trace_row[4].clone(),
+                narrowfib_num_steps_20_output_col1.clone(),
+                narrowfib_num_steps_20_output_col2.clone(),
+                narrowfib_num_steps_20_output_col3.clone(),
+                narrowfib_num_steps_20_output_col4.clone(),
             ]),
         );
         logup.write_frac(&mut eval, frac);
         let frac = Fraction::new(
             E::EF::one(),
             self.narrowfib_num_steps_20_lookup_elements.combine(&[
-                trace_row[3].clone(),
-                trace_row[4].clone(),
-                trace_row[5].clone(),
-                trace_row[6].clone(),
+                narrowfib_num_steps_20_output_col3.clone(),
+                narrowfib_num_steps_20_output_col4.clone(),
+                narrowfib_num_steps_20_output_col5.clone(),
+                narrowfib_num_steps_20_output_col6.clone(),
             ]),
         );
         logup.write_frac(&mut eval, frac);
         let frac = Fraction::new(
             E::EF::one(),
             self.narrowfib_num_steps_20_lookup_elements.combine(&[
-                trace_row[5].clone(),
-                trace_row[6].clone(),
-                trace_row[7].clone(),
-                trace_row[8].clone(),
+                narrowfib_num_steps_20_output_col5.clone(),
+                narrowfib_num_steps_20_output_col6.clone(),
+                narrowfib_num_steps_20_output_col7.clone(),
+                narrowfib_num_steps_20_output_col8.clone(),
             ]),
         );
         logup.write_frac(&mut eval, frac);
         let frac = Fraction::new(
             E::EF::one(),
             self.narrowfib_num_steps_20_lookup_elements.combine(&[
-                trace_row[7].clone(),
-                trace_row[8].clone(),
-                trace_row[9].clone(),
-                trace_row[10].clone(),
+                narrowfib_num_steps_20_output_col7.clone(),
+                narrowfib_num_steps_20_output_col8.clone(),
+                narrowfib_num_steps_20_output_col9.clone(),
+                narrowfib_num_steps_20_output_col10.clone(),
             ]),
         );
         logup.write_frac(&mut eval, frac);
         let frac = Fraction::new(
             E::EF::one(),
             self.narrowfib_num_steps_20_lookup_elements.combine(&[
-                trace_row[9].clone(),
-                trace_row[10].clone(),
-                trace_row[11].clone(),
-                trace_row[12].clone(),
+                narrowfib_num_steps_20_output_col9.clone(),
+                narrowfib_num_steps_20_output_col10.clone(),
+                narrowfib_num_steps_20_output_col11.clone(),
+                narrowfib_num_steps_20_output_col12.clone(),
             ]),
         );
         logup.write_frac(&mut eval, frac);
         let frac = Fraction::new(
             E::EF::one(),
             self.narrowfib_num_steps_20_lookup_elements.combine(&[
-                trace_row[11].clone(),
-                trace_row[12].clone(),
-                trace_row[13].clone(),
-                trace_row[14].clone(),
+                narrowfib_num_steps_20_output_col11.clone(),
+                narrowfib_num_steps_20_output_col12.clone(),
+                narrowfib_num_steps_20_output_col13.clone(),
+                narrowfib_num_steps_20_output_col14.clone(),
             ]),
         );
         logup.write_frac(&mut eval, frac);
         let frac = Fraction::new(
             E::EF::one(),
             self.narrowfib_num_steps_20_lookup_elements.combine(&[
-                trace_row[13].clone(),
-                trace_row[14].clone(),
-                trace_row[15].clone(),
-                trace_row[16].clone(),
+                narrowfib_num_steps_20_output_col13.clone(),
+                narrowfib_num_steps_20_output_col14.clone(),
+                narrowfib_num_steps_20_output_col15.clone(),
+                narrowfib_num_steps_20_output_col16.clone(),
             ]),
         );
         logup.write_frac(&mut eval, frac);

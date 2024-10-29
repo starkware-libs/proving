@@ -9,11 +9,11 @@
   "input_num_of_felts": 1,
   "output": [
     {
-      "name": "((((state[5] * const_262144) + ((state[4] * const_512) + state[3])) - state[1]) - (const_134217728 * state[2]))",
+      "name": "((((readsmall_input_limb_2_col5 * const_262144) + ((readsmall_input_limb_1_col4 * const_512) + readsmall_input_limb_0_col3)) - msb_col1) - (const_134217728 * mid_limbs_set_col2))",
       "type": "M31"
     },
     {
-      "name": "state[0]",
+      "name": "readsmall_input_id_col0",
       "type": "M31"
     }
   ],
@@ -41,7 +41,7 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           "readsmall_input",
-          "state[0]"
+          "readsmall_input_id_col0"
         ],
         "use_or_yield": "Use"
       }
@@ -50,7 +50,7 @@
       "LookupCall": {
         "air_fn_name": "MemoryIdToBig",
         "input_arg": {
-          "name": "state[0]",
+          "name": "readsmall_input_id_col0",
           "type": "M31"
         },
         "output_name": "tmp_15"
@@ -72,11 +72,11 @@
         ],
         "output": [
           {
-            "name": "state[1]",
+            "name": "msb_col1",
             "type": "M31"
           },
           {
-            "name": "state[2]",
+            "name": "mid_limbs_set_col2",
             "type": "M31"
           }
         ]
@@ -104,38 +104,66 @@
       "LookupData": {
         "relation_name": "MemoryIdToBig",
         "felts": [
-          "state[0]",
-          "state[3]",
-          "state[4]",
-          "state[5]",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "(state[2] * const_511)",
-          "((const_136 * state[1]) - state[2])",
+          "readsmall_input_id_col0",
+          "readsmall_input_limb_0_col3",
+          "readsmall_input_limb_1_col4",
+          "readsmall_input_limb_2_col5",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "(mid_limbs_set_col2 * const_511)",
+          "((const_136 * msb_col1) - mid_limbs_set_col2)",
           "const_0",
           "const_0",
           "const_0",
           "const_0",
           "const_0",
-          "(state[1] * const_256)"
+          "(msb_col1 * const_256)"
         ],
         "use_or_yield": "Use"
       }
     }
-  ]
+  ],
+  "state": {
+    "row": [
+      [
+        "readsmall_input_id_col0",
+        "readsmall_input_id"
+      ],
+      [
+        "msb_col1",
+        "msb"
+      ],
+      [
+        "mid_limbs_set_col2",
+        "mid_limbs_set"
+      ],
+      [
+        "readsmall_input_limb_0_col3",
+        "readsmall_input_limb_0"
+      ],
+      [
+        "readsmall_input_limb_1_col4",
+        "readsmall_input_limb_1"
+      ],
+      [
+        "readsmall_input_limb_2_col5",
+        "readsmall_input_limb_2"
+      ]
+    ]
+  }
 }

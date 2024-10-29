@@ -27,18 +27,19 @@ pub struct AirFnEntry {
     pub(crate) output_num_of_felts: usize,
     pub(crate) trace_type: TraceType,
     pub(crate) air_body: Vec<AirBodyComponent>,
+    pub(crate) state: State,
 }
 
 impl AirFnEntry {
     // Compiles the air function entry into a compiled air function.
     pub(crate) fn compile(self) -> CompiledAirFn {
-        let (deductions, constraints) = Self::compile_air_body(self.air_body);
+        let (deductions, constraints) = Self::compile_air_body(self.air_body.clone());
         CompiledAirFn {
             name: self.name,
             description: self.description,
             input: self.input.into(),
             output: self.output.into(),
-            row_length: Self::get_row_length(deductions.clone()),
+            state_names: self.state.get_state_names(),
             lookup_relation_uses_count: Self::get_lookup_relation_uses_count(deductions.clone()),
             input_num_of_felts: self.input_num_of_felts,
             output_num_of_felts: self.output_num_of_felts,
@@ -63,20 +64,6 @@ impl AirFnEntry {
             }
         }
         lookup_calls
-    }
-
-    // Returns the number of columns in a trace row of the air function.
-    fn get_row_length(deductions: Vec<TraceGenStep>) -> usize {
-        deductions
-            .iter()
-            .filter_map(|deduction| {
-                if let TraceGenStep::Deduction(_, _) = deduction {
-                    Some(1)
-                } else {
-                    None
-                }
-            })
-            .sum()
     }
 
     // Transforms the air body of an air function into the compiled air fn format.
@@ -105,10 +92,10 @@ impl AirFnEntry {
                         CompiledAirVar::from(constraint).to_string(),
                         desc.clone(),
                     ));
-                    deductions.push(TraceGenStep::Deduction(deduction.into(), desc));
+                    deductions.push(TraceGenStep::Deduction(deduction.into()));
                 }
-                AirBodyComponent::Deduction(deduction, desc) => {
-                    deductions.push(TraceGenStep::Deduction(deduction.into(), desc));
+                AirBodyComponent::Deduction(deduction, _) => {
+                    deductions.push(TraceGenStep::Deduction(deduction.into()));
                 }
                 AirBodyComponent::Intermediate(name, var, ty) => {
                     if ty.in_constraints {
@@ -203,7 +190,7 @@ impl AirFnRegistry {
             return entry.clone();
         }
 
-        let (air_body, input, output) = self.build_air(air_fn);
+        let (air_body, state, input, output) = self.build_air(air_fn);
         let entry = AirFnEntry {
             name: air_fn.name(),
             description: air_fn.description(),
@@ -214,6 +201,7 @@ impl AirFnRegistry {
             output_num_of_felts: output.as_felts().len(),
             trace_type: air_fn.trace_type(),
             air_body,
+            state,
         };
 
         self.air_fns
@@ -273,7 +261,10 @@ impl AirFnRegistry {
     }
 
     // Builds the air function on a default input in order to create an air function entry for it.
-    fn build_air<I, O>(&self, air_fn: &dyn AirFn<In = I, Out = O>) -> (Vec<AirBodyComponent>, I, O)
+    fn build_air<I, O>(
+        &self,
+        air_fn: &dyn AirFn<In = I, Out = O>,
+    ) -> (Vec<AirBodyComponent>, State, I, O)
     where
         I: AirVar,
         O: AirVar,
@@ -322,7 +313,7 @@ impl AirFnRegistry {
         // Make sure that the output is in the state.
         assert!(output.in_state(), "Output must be in the trace");
 
-        (air_builder.air_body, input, output)
+        (air_builder.air_body, air_builder.state, input, output)
     }
 
     #[cfg(test)]

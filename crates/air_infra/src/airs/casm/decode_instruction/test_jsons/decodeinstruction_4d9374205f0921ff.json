@@ -17,7 +17,7 @@
         "type": "M31"
       },
       {
-        "name": "(state[0] - const_32768)",
+        "name": "(offset1_col0 - const_32768)",
         "type": "M31"
       },
       {
@@ -27,7 +27,7 @@
     ],
     [
       {
-        "name": "state[1]",
+        "name": "dst_base_fp_col1",
         "type": "M31"
       },
       {
@@ -35,7 +35,7 @@
         "type": "M31"
       },
       {
-        "name": "state[2]",
+        "name": "op1_imm_col2",
         "type": "M31"
       },
       {
@@ -182,7 +182,7 @@
               "type": "M31"
             },
             {
-              "name": "state[0]",
+              "name": "offset1_col0",
               "type": "M31"
             },
             {
@@ -192,7 +192,7 @@
           ],
           [
             {
-              "name": "state[1]",
+              "name": "dst_base_fp_col1",
               "type": "M31"
             },
             {
@@ -200,7 +200,7 @@
               "type": "M31"
             },
             {
-              "name": "state[2]",
+              "name": "op1_imm_col2",
               "type": "M31"
             },
             {
@@ -261,11 +261,11 @@
         "felts": [
           "decodeinstruction_4d9374205f0921ff_input",
           "const_49953",
-          "state[0]",
+          "offset1_col0",
           "const_36026",
-          "state[1]",
+          "dst_base_fp_col1",
           "const_1",
-          "state[2]",
+          "op1_imm_col2",
           "const_1",
           "const_0",
           "const_0",
@@ -282,5 +282,21 @@
         "use_or_yield": "Use"
       }
     }
-  ]
+  ],
+  "state": {
+    "row": [
+      [
+        "offset1_col0",
+        "offset1"
+      ],
+      [
+        "dst_base_fp_col1",
+        "dst_base_fp"
+      ],
+      [
+        "op1_imm_col2",
+        "op1_imm"
+      ]
+    ]
+  }
 }

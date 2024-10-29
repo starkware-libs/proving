@@ -16,7 +16,7 @@
           {
             "BinaryOp": [
               {
-                "State": 0
+                "State": "input_pc_col0"
               },
               "+",
               {
@@ -33,11 +33,11 @@
           {
             "BinaryOp": [
               {
-                "State": 1
+                "State": "input_ap_col1"
               },
               "+",
               {
-                "State": 4
+                "State": "ap_update_add_1_col4"
               }
             ]
           }
@@ -45,13 +45,48 @@
         [
           "fp",
           {
-            "State": 2
+            "State": "input_fp_col2"
           }
         ]
       ]
     }
   },
-  "row_length": 34,
+  "state_names": [
+    "input_pc_col0",
+    "input_ap_col1",
+    "input_fp_col2",
+    "offset0_col3",
+    "ap_update_add_1_col4",
+    "dst_id_col5",
+    "dst_limb_0_col6",
+    "dst_limb_1_col7",
+    "dst_limb_2_col8",
+    "dst_limb_3_col9",
+    "dst_limb_4_col10",
+    "dst_limb_5_col11",
+    "dst_limb_6_col12",
+    "dst_limb_7_col13",
+    "dst_limb_8_col14",
+    "dst_limb_9_col15",
+    "dst_limb_10_col16",
+    "dst_limb_11_col17",
+    "dst_limb_12_col18",
+    "dst_limb_13_col19",
+    "dst_limb_14_col20",
+    "dst_limb_15_col21",
+    "dst_limb_16_col22",
+    "dst_limb_17_col23",
+    "dst_limb_18_col24",
+    "dst_limb_19_col25",
+    "dst_limb_20_col26",
+    "dst_limb_21_col27",
+    "dst_limb_22_col28",
+    "dst_limb_23_col29",
+    "dst_limb_24_col30",
+    "dst_limb_25_col31",
+    "dst_limb_26_col32",
+    "dst_limb_27_col33"
+  ],
   "lookup_relation_uses_count": {
     "VerifyInstruction": 1,
     "MemoryAddressToId": 1,
@@ -69,10 +104,10 @@
         "relation_name": "VerifyInstruction",
         "felts": [
           {
-            "State": 0
+            "State": "input_pc_col0"
           },
           {
-            "State": 3
+            "State": "offset0_col3"
           },
           {
             "Const": [
@@ -153,7 +188,7 @@
             ]
           },
           {
-            "State": 4
+            "State": "ap_update_add_1_col4"
           },
           {
             "Const": [
@@ -188,13 +223,13 @@
           {
             "BinaryOp": [
               {
-                "State": 1
+                "State": "input_ap_col1"
               },
               "+",
               {
                 "BinaryOp": [
                   {
-                    "State": 3
+                    "State": "offset0_col3"
                   },
                   "-",
                   {
@@ -208,7 +243,7 @@
             ]
           },
           {
-            "State": 5
+            "State": "dst_id_col5"
           }
         ],
         "use_or_yield": "Use"
@@ -219,91 +254,91 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "State": 5
+            "State": "dst_id_col5"
           },
           {
-            "State": 6
+            "State": "dst_limb_0_col6"
           },
           {
-            "State": 7
+            "State": "dst_limb_1_col7"
           },
           {
-            "State": 8
+            "State": "dst_limb_2_col8"
           },
           {
-            "State": 9
+            "State": "dst_limb_3_col9"
           },
           {
-            "State": 10
+            "State": "dst_limb_4_col10"
           },
           {
-            "State": 11
+            "State": "dst_limb_5_col11"
           },
           {
-            "State": 12
+            "State": "dst_limb_6_col12"
           },
           {
-            "State": 13
+            "State": "dst_limb_7_col13"
           },
           {
-            "State": 14
+            "State": "dst_limb_8_col14"
           },
           {
-            "State": 15
+            "State": "dst_limb_9_col15"
           },
           {
-            "State": 16
+            "State": "dst_limb_10_col16"
           },
           {
-            "State": 17
+            "State": "dst_limb_11_col17"
           },
           {
-            "State": 18
+            "State": "dst_limb_12_col18"
           },
           {
-            "State": 19
+            "State": "dst_limb_13_col19"
           },
           {
-            "State": 20
+            "State": "dst_limb_14_col20"
           },
           {
-            "State": 21
+            "State": "dst_limb_15_col21"
           },
           {
-            "State": 22
+            "State": "dst_limb_16_col22"
           },
           {
-            "State": 23
+            "State": "dst_limb_17_col23"
           },
           {
-            "State": 24
+            "State": "dst_limb_18_col24"
           },
           {
-            "State": 25
+            "State": "dst_limb_19_col25"
           },
           {
-            "State": 26
+            "State": "dst_limb_20_col26"
           },
           {
-            "State": 27
+            "State": "dst_limb_21_col27"
           },
           {
-            "State": 28
+            "State": "dst_limb_22_col28"
           },
           {
-            "State": 29
+            "State": "dst_limb_23_col29"
           },
           {
-            "State": 30
+            "State": "dst_limb_24_col30"
           },
           {
-            "State": 31
+            "State": "dst_limb_25_col31"
           },
           {
-            "State": 32
+            "State": "dst_limb_26_col32"
           },
           {
-            "State": 33
+            "State": "dst_limb_27_col33"
           }
         ],
         "use_or_yield": "Use"
@@ -376,173 +411,173 @@
                                                                                                                         },
                                                                                                                         "+",
                                                                                                                         {
-                                                                                                                          "State": 6
+                                                                                                                          "State": "dst_limb_0_col6"
                                                                                                                         }
                                                                                                                       ]
                                                                                                                     },
                                                                                                                     "+",
                                                                                                                     {
-                                                                                                                      "State": 7
+                                                                                                                      "State": "dst_limb_1_col7"
                                                                                                                     }
                                                                                                                   ]
                                                                                                                 },
                                                                                                                 "+",
                                                                                                                 {
-                                                                                                                  "State": 8
+                                                                                                                  "State": "dst_limb_2_col8"
                                                                                                                 }
                                                                                                               ]
                                                                                                             },
                                                                                                             "+",
                                                                                                             {
-                                                                                                              "State": 9
+                                                                                                              "State": "dst_limb_3_col9"
                                                                                                             }
                                                                                                           ]
                                                                                                         },
                                                                                                         "+",
                                                                                                         {
-                                                                                                          "State": 10
+                                                                                                          "State": "dst_limb_4_col10"
                                                                                                         }
                                                                                                       ]
                                                                                                     },
                                                                                                     "+",
                                                                                                     {
-                                                                                                      "State": 11
+                                                                                                      "State": "dst_limb_5_col11"
                                                                                                     }
                                                                                                   ]
                                                                                                 },
                                                                                                 "+",
                                                                                                 {
-                                                                                                  "State": 12
+                                                                                                  "State": "dst_limb_6_col12"
                                                                                                 }
                                                                                               ]
                                                                                             },
                                                                                             "+",
                                                                                             {
-                                                                                              "State": 13
+                                                                                              "State": "dst_limb_7_col13"
                                                                                             }
                                                                                           ]
                                                                                         },
                                                                                         "+",
                                                                                         {
-                                                                                          "State": 14
+                                                                                          "State": "dst_limb_8_col14"
                                                                                         }
                                                                                       ]
                                                                                     },
                                                                                     "+",
                                                                                     {
-                                                                                      "State": 15
+                                                                                      "State": "dst_limb_9_col15"
                                                                                     }
                                                                                   ]
                                                                                 },
                                                                                 "+",
                                                                                 {
-                                                                                  "State": 16
+                                                                                  "State": "dst_limb_10_col16"
                                                                                 }
                                                                               ]
                                                                             },
                                                                             "+",
                                                                             {
-                                                                              "State": 17
+                                                                              "State": "dst_limb_11_col17"
                                                                             }
                                                                           ]
                                                                         },
                                                                         "+",
                                                                         {
-                                                                          "State": 18
+                                                                          "State": "dst_limb_12_col18"
                                                                         }
                                                                       ]
                                                                     },
                                                                     "+",
                                                                     {
-                                                                      "State": 19
+                                                                      "State": "dst_limb_13_col19"
                                                                     }
                                                                   ]
                                                                 },
                                                                 "+",
                                                                 {
-                                                                  "State": 20
+                                                                  "State": "dst_limb_14_col20"
                                                                 }
                                                               ]
                                                             },
                                                             "+",
                                                             {
-                                                              "State": 21
+                                                              "State": "dst_limb_15_col21"
                                                             }
                                                           ]
                                                         },
                                                         "+",
                                                         {
-                                                          "State": 22
+                                                          "State": "dst_limb_16_col22"
                                                         }
                                                       ]
                                                     },
                                                     "+",
                                                     {
-                                                      "State": 23
+                                                      "State": "dst_limb_17_col23"
                                                     }
                                                   ]
                                                 },
                                                 "+",
                                                 {
-                                                  "State": 24
+                                                  "State": "dst_limb_18_col24"
                                                 }
                                               ]
                                             },
                                             "+",
                                             {
-                                              "State": 25
+                                              "State": "dst_limb_19_col25"
                                             }
                                           ]
                                         },
                                         "+",
                                         {
-                                          "State": 26
+                                          "State": "dst_limb_20_col26"
                                         }
                                       ]
                                     },
                                     "+",
                                     {
-                                      "State": 27
+                                      "State": "dst_limb_21_col27"
                                     }
                                   ]
                                 },
                                 "+",
                                 {
-                                  "State": 28
+                                  "State": "dst_limb_22_col28"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": 29
+                              "State": "dst_limb_23_col29"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": 30
+                          "State": "dst_limb_24_col30"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": 31
+                      "State": "dst_limb_25_col31"
                     }
                   ]
                 },
                 "+",
                 {
-                  "State": 32
+                  "State": "dst_limb_26_col32"
                 }
               ]
             },
             "+",
             {
-              "State": 33
+              "State": "dst_limb_27_col33"
             }
           ]
         },
-        "((((((((((((((((((((((((((((const_0 + state[6]) + state[7]) + state[8]) + state[9]) + state[10]) + state[11]) + state[12]) + state[13]) + state[14]) + state[15]) + state[16]) + state[17]) + state[18]) + state[19]) + state[20]) + state[21]) + state[22]) + state[23]) + state[24]) + state[25]) + state[26]) + state[27]) + state[28]) + state[29]) + state[30]) + state[31]) + state[32]) + state[33])",
+        "((((((((((((((((((((((((((((const_0 + dst_limb_0_col6) + dst_limb_1_col7) + dst_limb_2_col8) + dst_limb_3_col9) + dst_limb_4_col10) + dst_limb_5_col11) + dst_limb_6_col12) + dst_limb_7_col13) + dst_limb_8_col14) + dst_limb_9_col15) + dst_limb_10_col16) + dst_limb_11_col17) + dst_limb_12_col18) + dst_limb_13_col19) + dst_limb_14_col20) + dst_limb_15_col21) + dst_limb_16_col22) + dst_limb_17_col23) + dst_limb_18_col24) + dst_limb_19_col25) + dst_limb_20_col26) + dst_limb_21_col27) + dst_limb_22_col28) + dst_limb_23_col29) + dst_limb_24_col30) + dst_limb_25_col31) + dst_limb_26_col32) + dst_limb_27_col33)",
         "dst equals 0"
       ]
     },
@@ -551,13 +586,13 @@
         "relation_name": "opcodes",
         "felts": [
           {
-            "State": 0
+            "State": "input_pc_col0"
           },
           {
-            "State": 1
+            "State": "input_ap_col1"
           },
           {
-            "State": 2
+            "State": "input_fp_col2"
           }
         ],
         "use_or_yield": "Use"
@@ -570,7 +605,7 @@
           {
             "BinaryOp": [
               {
-                "State": 0
+                "State": "input_pc_col0"
               },
               "+",
               {
@@ -584,16 +619,16 @@
           {
             "BinaryOp": [
               {
-                "State": 1
+                "State": "input_ap_col1"
               },
               "+",
               {
-                "State": 4
+                "State": "ap_update_add_1_col4"
               }
             ]
           },
           {
-            "State": 2
+            "State": "input_fp_col2"
           }
         ],
         "use_or_yield": "Yield"
@@ -613,37 +648,28 @@
       ]
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_0.pc"
-          ]
-        },
-        "input_pc"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_0.pc"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_0.ap"
-          ]
-        },
-        "input_ap"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_0.ap"
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_0.fp"
-          ]
-        },
-        "input_fp"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_0.fp"
+        ]
+      }
     },
     {
       "StartBlock": "DecodeInstruction_d2b4cd588a3e2a7b"
@@ -652,7 +678,7 @@
       "LookupCall": {
         "fn_name": "MemoryAddressToId",
         "input": {
-          "State": 0
+          "State": "input_pc_col0"
         },
         "output_name": "tmp_43"
       }
@@ -754,21 +780,18 @@
       ]
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "UInt16",
-                "tmp_45"
-              ]
-            },
-            "as_m31",
-            []
-          ]
-        },
-        "offset0"
-      ]
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_45"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
     },
     {
       "Intermediate": [
@@ -877,21 +900,18 @@
       ]
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "UInt16",
-                "tmp_46"
-              ]
-            },
-            "as_m31",
-            []
-          ]
-        },
-        "ap_update_add_1"
-      ]
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "tmp_46"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
     },
     {
       "LookupCall": {
@@ -899,12 +919,12 @@
         "input": {
           "Tuple": [
             {
-              "State": 0
+              "State": "input_pc_col0"
             },
             {
               "Array": [
                 {
-                  "State": 3
+                  "State": "offset0_col3"
                 },
                 {
                   "Const": [
@@ -989,7 +1009,7 @@
                   ]
                 },
                 {
-                  "State": 4
+                  "State": "ap_update_add_1_col4"
                 },
                 {
                   "Const": [
@@ -1021,10 +1041,10 @@
         "relation_name": "VerifyInstruction",
         "felts": [
           {
-            "State": 0
+            "State": "input_pc_col0"
           },
           {
-            "State": 3
+            "State": "offset0_col3"
           },
           {
             "Const": [
@@ -1105,7 +1125,7 @@
             ]
           },
           {
-            "State": 4
+            "State": "ap_update_add_1_col4"
           },
           {
             "Const": [
@@ -1139,13 +1159,13 @@
         "input": {
           "BinaryOp": [
             {
-              "State": 1
+              "State": "input_ap_col1"
             },
             "+",
             {
               "BinaryOp": [
                 {
-                  "State": 3
+                  "State": "offset0_col3"
                 },
                 "-",
                 {
@@ -1162,15 +1182,12 @@
       }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_50"
-          ]
-        },
-        "dst_id"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_50"
+        ]
+      }
     },
     {
       "LookupData": {
@@ -1179,13 +1196,13 @@
           {
             "BinaryOp": [
               {
-                "State": 1
+                "State": "input_ap_col1"
               },
               "+",
               {
                 "BinaryOp": [
                   {
-                    "State": 3
+                    "State": "offset0_col3"
                   },
                   "-",
                   {
@@ -1199,7 +1216,7 @@
             ]
           },
           {
-            "State": 5
+            "State": "dst_id_col5"
           }
         ],
         "use_or_yield": "Use"
@@ -1209,773 +1226,689 @@
       "LookupCall": {
         "fn_name": "MemoryIdToBig",
         "input": {
-          "State": 5
+          "State": "dst_id_col5"
         },
         "output_name": "tmp_51"
       }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "0"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "0"
+              ]
+            }
           ]
-        },
-        "dst_limb_0"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "1"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "1"
+              ]
+            }
           ]
-        },
-        "dst_limb_1"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "2"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "2"
+              ]
+            }
           ]
-        },
-        "dst_limb_2"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "3"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "3"
+              ]
+            }
           ]
-        },
-        "dst_limb_3"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "4"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "4"
+              ]
+            }
           ]
-        },
-        "dst_limb_4"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "5"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "5"
+              ]
+            }
           ]
-        },
-        "dst_limb_5"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "6"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "6"
+              ]
+            }
           ]
-        },
-        "dst_limb_6"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "7"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "7"
+              ]
+            }
           ]
-        },
-        "dst_limb_7"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "8"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "8"
+              ]
+            }
           ]
-        },
-        "dst_limb_8"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "9"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "9"
+              ]
+            }
           ]
-        },
-        "dst_limb_9"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "10"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "10"
+              ]
+            }
           ]
-        },
-        "dst_limb_10"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "11"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "11"
+              ]
+            }
           ]
-        },
-        "dst_limb_11"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "12"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "12"
+              ]
+            }
           ]
-        },
-        "dst_limb_12"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "13"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "13"
+              ]
+            }
           ]
-        },
-        "dst_limb_13"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "14"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "14"
+              ]
+            }
           ]
-        },
-        "dst_limb_14"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "15"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "15"
+              ]
+            }
           ]
-        },
-        "dst_limb_15"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "16"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "16"
+              ]
+            }
           ]
-        },
-        "dst_limb_16"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "17"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "17"
+              ]
+            }
           ]
-        },
-        "dst_limb_17"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "18"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "18"
+              ]
+            }
           ]
-        },
-        "dst_limb_18"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "19"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "19"
+              ]
+            }
           ]
-        },
-        "dst_limb_19"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "20"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "20"
+              ]
+            }
           ]
-        },
-        "dst_limb_20"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "21"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "21"
+              ]
+            }
           ]
-        },
-        "dst_limb_21"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "22"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "22"
+              ]
+            }
           ]
-        },
-        "dst_limb_22"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "23"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "23"
+              ]
+            }
           ]
-        },
-        "dst_limb_23"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "24"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "24"
+              ]
+            }
           ]
-        },
-        "dst_limb_24"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "25"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "25"
+              ]
+            }
           ]
-        },
-        "dst_limb_25"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "26"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "26"
+              ]
+            }
           ]
-        },
-        "dst_limb_26"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_51"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "27"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_51"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "27"
+              ]
+            }
           ]
-        },
-        "dst_limb_27"
-      ]
+        ]
+      }
     },
     {
       "LookupData": {
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "State": 5
+            "State": "dst_id_col5"
           },
           {
-            "State": 6
+            "State": "dst_limb_0_col6"
           },
           {
-            "State": 7
+            "State": "dst_limb_1_col7"
           },
           {
-            "State": 8
+            "State": "dst_limb_2_col8"
           },
           {
-            "State": 9
+            "State": "dst_limb_3_col9"
           },
           {
-            "State": 10
+            "State": "dst_limb_4_col10"
           },
           {
-            "State": 11
+            "State": "dst_limb_5_col11"
           },
           {
-            "State": 12
+            "State": "dst_limb_6_col12"
           },
           {
-            "State": 13
+            "State": "dst_limb_7_col13"
           },
           {
-            "State": 14
+            "State": "dst_limb_8_col14"
           },
           {
-            "State": 15
+            "State": "dst_limb_9_col15"
           },
           {
-            "State": 16
+            "State": "dst_limb_10_col16"
           },
           {
-            "State": 17
+            "State": "dst_limb_11_col17"
           },
           {
-            "State": 18
+            "State": "dst_limb_12_col18"
           },
           {
-            "State": 19
+            "State": "dst_limb_13_col19"
           },
           {
-            "State": 20
+            "State": "dst_limb_14_col20"
           },
           {
-            "State": 21
+            "State": "dst_limb_15_col21"
           },
           {
-            "State": 22
+            "State": "dst_limb_16_col22"
           },
           {
-            "State": 23
+            "State": "dst_limb_17_col23"
           },
           {
-            "State": 24
+            "State": "dst_limb_18_col24"
           },
           {
-            "State": 25
+            "State": "dst_limb_19_col25"
           },
           {
-            "State": 26
+            "State": "dst_limb_20_col26"
           },
           {
-            "State": 27
+            "State": "dst_limb_21_col27"
           },
           {
-            "State": 28
+            "State": "dst_limb_22_col28"
           },
           {
-            "State": 29
+            "State": "dst_limb_23_col29"
           },
           {
-            "State": 30
+            "State": "dst_limb_24_col30"
           },
           {
-            "State": 31
+            "State": "dst_limb_25_col31"
           },
           {
-            "State": 32
+            "State": "dst_limb_26_col32"
           },
           {
-            "State": 33
+            "State": "dst_limb_27_col33"
           }
         ],
         "use_or_yield": "Use"
@@ -1987,13 +1920,13 @@
         "relation_name": "opcodes",
         "felts": [
           {
-            "State": 0
+            "State": "input_pc_col0"
           },
           {
-            "State": 1
+            "State": "input_ap_col1"
           },
           {
-            "State": 2
+            "State": "input_fp_col2"
           }
         ],
         "use_or_yield": "Use"
@@ -2006,7 +1939,7 @@
           {
             "BinaryOp": [
               {
-                "State": 0
+                "State": "input_pc_col0"
               },
               "+",
               {
@@ -2020,16 +1953,16 @@
           {
             "BinaryOp": [
               {
-                "State": 1
+                "State": "input_ap_col1"
               },
               "+",
               {
-                "State": 4
+                "State": "ap_update_add_1_col4"
               }
             ]
           },
           {
-            "State": 2
+            "State": "input_fp_col2"
           }
         ],
         "use_or_yield": "Yield"

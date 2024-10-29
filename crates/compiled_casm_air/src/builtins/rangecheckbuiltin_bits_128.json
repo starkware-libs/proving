@@ -7,7 +7,24 @@
   "output": {
     "Tuple": []
   },
-  "row_length": 16,
+  "state_names": [
+    "value_id_col0",
+    "value_limb_0_col1",
+    "value_limb_1_col2",
+    "value_limb_2_col3",
+    "value_limb_3_col4",
+    "value_limb_4_col5",
+    "value_limb_5_col6",
+    "value_limb_6_col7",
+    "value_limb_7_col8",
+    "value_limb_8_col9",
+    "value_limb_9_col10",
+    "value_limb_10_col11",
+    "value_limb_11_col12",
+    "value_limb_12_col13",
+    "value_limb_13_col14",
+    "value_limb_14_col15"
+  ],
   "lookup_relation_uses_count": {
     "MemoryAddressToId": 1,
     "RangeCheck_N_1_bits_2": 1,
@@ -41,7 +58,7 @@
             ]
           },
           {
-            "State": 0
+            "State": "value_id_col0"
           }
         ],
         "use_or_yield": "Use"
@@ -52,7 +69,7 @@
         "relation_name": "RangeCheck_N_1_bits_2",
         "felts": [
           {
-            "State": 15
+            "State": "value_limb_14_col15"
           }
         ],
         "use_or_yield": "Use"
@@ -63,52 +80,52 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "State": 0
+            "State": "value_id_col0"
           },
           {
-            "State": 1
+            "State": "value_limb_0_col1"
           },
           {
-            "State": 2
+            "State": "value_limb_1_col2"
           },
           {
-            "State": 3
+            "State": "value_limb_2_col3"
           },
           {
-            "State": 4
+            "State": "value_limb_3_col4"
           },
           {
-            "State": 5
+            "State": "value_limb_4_col5"
           },
           {
-            "State": 6
+            "State": "value_limb_5_col6"
           },
           {
-            "State": 7
+            "State": "value_limb_6_col7"
           },
           {
-            "State": 8
+            "State": "value_limb_7_col8"
           },
           {
-            "State": 9
+            "State": "value_limb_8_col9"
           },
           {
-            "State": 10
+            "State": "value_limb_9_col10"
           },
           {
-            "State": 11
+            "State": "value_limb_10_col11"
           },
           {
-            "State": 12
+            "State": "value_limb_11_col12"
           },
           {
-            "State": 13
+            "State": "value_limb_12_col13"
           },
           {
-            "State": 14
+            "State": "value_limb_13_col14"
           },
           {
-            "State": 15
+            "State": "value_limb_14_col15"
           },
           {
             "Const": [
@@ -222,15 +239,12 @@
       }
     },
     {
-      "Deduction": [
-        {
-          "Var": [
-            "M31",
-            "tmp_17"
-          ]
-        },
-        "value_id"
-      ]
+      "Deduction": {
+        "Var": [
+          "M31",
+          "tmp_17"
+        ]
+      }
     },
     {
       "LookupData": {
@@ -254,7 +268,7 @@
             ]
           },
           {
-            "State": 0
+            "State": "value_id_col0"
           }
         ],
         "use_or_yield": "Use"
@@ -264,370 +278,325 @@
       "LookupCall": {
         "fn_name": "MemoryIdToBig",
         "input": {
-          "State": 0
+          "State": "value_id_col0"
         },
         "output_name": "tmp_18"
       }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "0"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "0"
+              ]
+            }
           ]
-        },
-        "value_limb_0"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "1"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "1"
+              ]
+            }
           ]
-        },
-        "value_limb_1"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "2"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "2"
+              ]
+            }
           ]
-        },
-        "value_limb_2"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "3"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "3"
+              ]
+            }
           ]
-        },
-        "value_limb_3"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "4"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "4"
+              ]
+            }
           ]
-        },
-        "value_limb_4"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "5"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "5"
+              ]
+            }
           ]
-        },
-        "value_limb_5"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "6"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "6"
+              ]
+            }
           ]
-        },
-        "value_limb_6"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "7"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "7"
+              ]
+            }
           ]
-        },
-        "value_limb_7"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "8"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "8"
+              ]
+            }
           ]
-        },
-        "value_limb_8"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "9"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "9"
+              ]
+            }
           ]
-        },
-        "value_limb_9"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "10"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "10"
+              ]
+            }
           ]
-        },
-        "value_limb_10"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "11"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "11"
+              ]
+            }
           ]
-        },
-        "value_limb_11"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "12"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "12"
+              ]
+            }
           ]
-        },
-        "value_limb_12"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "13"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "13"
+              ]
+            }
           ]
-        },
-        "value_limb_13"
-      ]
+        ]
+      }
     },
     {
-      "Deduction": [
-        {
-          "MethodCall": [
-            {
-              "Var": [
-                "Felt252",
-                "tmp_18"
-              ]
-            },
-            "get_m31",
-            [
-              {
-                "Const": [
-                  "usize",
-                  "14"
-                ]
-              }
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Felt252",
+              "tmp_18"
             ]
+          },
+          "get_m31",
+          [
+            {
+              "Const": [
+                "usize",
+                "14"
+              ]
+            }
           ]
-        },
-        "value_limb_14"
-      ]
+        ]
+      }
     },
     {
       "LookupCall": {
@@ -635,7 +604,7 @@
         "input": {
           "Array": [
             {
-              "State": 15
+              "State": "value_limb_14_col15"
             }
           ]
         },
@@ -647,7 +616,7 @@
         "relation_name": "RangeCheck_N_1_bits_2",
         "felts": [
           {
-            "State": 15
+            "State": "value_limb_14_col15"
           }
         ],
         "use_or_yield": "Use"
@@ -658,52 +627,52 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "State": 0
+            "State": "value_id_col0"
           },
           {
-            "State": 1
+            "State": "value_limb_0_col1"
           },
           {
-            "State": 2
+            "State": "value_limb_1_col2"
           },
           {
-            "State": 3
+            "State": "value_limb_2_col3"
           },
           {
-            "State": 4
+            "State": "value_limb_3_col4"
           },
           {
-            "State": 5
+            "State": "value_limb_4_col5"
           },
           {
-            "State": 6
+            "State": "value_limb_5_col6"
           },
           {
-            "State": 7
+            "State": "value_limb_6_col7"
           },
           {
-            "State": 8
+            "State": "value_limb_7_col8"
           },
           {
-            "State": 9
+            "State": "value_limb_8_col9"
           },
           {
-            "State": 10
+            "State": "value_limb_9_col10"
           },
           {
-            "State": 11
+            "State": "value_limb_10_col11"
           },
           {
-            "State": 12
+            "State": "value_limb_11_col12"
           },
           {
-            "State": 13
+            "State": "value_limb_12_col13"
           },
           {
-            "State": 14
+            "State": "value_limb_13_col14"
           },
           {
-            "State": 15
+            "State": "value_limb_14_col15"
           },
           {
             "Const": [

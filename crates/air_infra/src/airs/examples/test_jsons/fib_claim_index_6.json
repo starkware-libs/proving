@@ -10,7 +10,7 @@
   },
   "input_num_of_felts": 1,
   "output": {
-    "name": "state[4]",
+    "name": "col4",
     "type": "M31"
   },
   "output_num_of_felts": 1,
@@ -31,12 +31,12 @@
             "type": "M31"
           },
           {
-            "name": "state[0]",
+            "name": "col0",
             "type": "M31"
           }
         ],
         "output": {
-          "name": "state[1]",
+          "name": "col1",
           "type": "M31"
         }
       }
@@ -47,16 +47,16 @@
         "air_fn_description": "FibStep",
         "input_arg": [
           {
-            "name": "state[0]",
+            "name": "col0",
             "type": "M31"
           },
           {
-            "name": "state[1]",
+            "name": "col1",
             "type": "M31"
           }
         ],
         "output": {
-          "name": "state[2]",
+          "name": "col2",
           "type": "M31"
         }
       }
@@ -67,16 +67,16 @@
         "air_fn_description": "FibStep",
         "input_arg": [
           {
-            "name": "state[1]",
+            "name": "col1",
             "type": "M31"
           },
           {
-            "name": "state[2]",
+            "name": "col2",
             "type": "M31"
           }
         ],
         "output": {
-          "name": "state[3]",
+          "name": "col3",
           "type": "M31"
         }
       }
@@ -87,19 +87,43 @@
         "air_fn_description": "FibStep",
         "input_arg": [
           {
-            "name": "state[2]",
+            "name": "col2",
             "type": "M31"
           },
           {
-            "name": "state[3]",
+            "name": "col3",
             "type": "M31"
           }
         ],
         "output": {
-          "name": "state[4]",
+          "name": "col4",
           "type": "M31"
         }
       }
     }
-  ]
+  ],
+  "state": {
+    "row": [
+      [
+        "col0",
+        null
+      ],
+      [
+        "col1",
+        null
+      ],
+      [
+        "col2",
+        null
+      ],
+      [
+        "col3",
+        null
+      ],
+      [
+        "col4",
+        null
+      ]
+    ]
+  }
 }

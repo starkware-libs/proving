@@ -41,8 +41,20 @@
     },
     {
       "Constraint": [
-        "((tmp_3 * state[0]) + ((const_1 - tmp_3) * (state[0] - const_2)))"
+        "((tmp_3 * col0) + ((const_1 - tmp_3) * (col0 - const_2)))"
       ]
     }
-  ]
+  ],
+  "state": {
+    "row": [
+      [
+        "col0",
+        null
+      ],
+      [
+        "col1",
+        null
+      ]
+    ]
+  }
 }

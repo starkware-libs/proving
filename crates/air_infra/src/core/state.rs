@@ -17,8 +17,11 @@ use super::variables::*;
 use crate::const_expr;
 
 #[derive(Clone, Debug, Serialize)]
+pub struct StateCell(FeltExpr, Option<String>);
+
+#[derive(Clone, Debug, Serialize)]
 pub struct State {
-    row: Rc<RefCell<Vec<(FeltExpr, String)>>>,
+    row: Rc<RefCell<Vec<StateCell>>>,
 }
 
 impl Default for State {
@@ -32,15 +35,32 @@ impl Default for State {
 impl State {
     pub(super) fn add(&mut self, expr: &mut FeltExpr, desc: &str) {
         let len = self.row.borrow().len();
-        expr.to_state(StateInfo::StateIndex(len));
-        self.row.borrow_mut().push((expr.clone(), desc.to_string()));
+        let desc = (!desc.is_empty()).then(|| desc.to_string());
+        expr.to_state(StateInfo::StateIndex(len, desc.clone()));
+        self.row.borrow_mut().push(StateCell(expr.clone(), desc));
     }
 
     pub fn get_felts(&self) -> Vec<FeltExpr> {
         self.row
             .borrow()
             .iter()
-            .map(|(felt, _)| felt.clone())
+            .map(|cell| cell.0.clone())
+            .collect()
+    }
+
+    pub(super) fn get_cell_name(index: usize, desc: &Option<String>) -> String {
+        match desc {
+            Some(desc) => format!("{}_col{}", desc, index),
+            None => format!("col{}", index),
+        }
+    }
+
+    pub(super) fn get_state_names(&self) -> Vec<String> {
+        self.row
+            .borrow()
+            .iter()
+            .enumerate()
+            .map(|(i, cell)| Self::get_cell_name(i, &cell.1))
             .collect()
     }
 }
@@ -51,7 +71,12 @@ impl From<Vec<(u32, &str)>> for State {
         Self {
             row: Rc::new(RefCell::new(
                 row.iter()
-                    .map(|(x, desc)| (const_expr!(*x), desc.to_string()))
+                    .map(|(x, desc)| {
+                        StateCell(
+                            const_expr!(*x),
+                            (!desc.is_empty()).then(|| desc.to_string()),
+                        )
+                    })
                     .collect(),
             )),
         }
@@ -68,7 +93,7 @@ impl PartialEq for State {
             .borrow()
             .iter()
             .zip(other.row.borrow().iter())
-            .all(|((a, sa), (b, sb))| a.calc() == b.calc() && sa == sb)
+            .all(|(a, b)| a.0.calc() == b.0.calc() && a.1 == b.1)
     }
 }
 
@@ -76,8 +101,12 @@ impl PartialEq for State {
 impl Display for State {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut s = "\n".to_string();
-        for (expr, desc) in self.row.borrow().iter() {
-            s.push_str(&format!("({}, \"{}\"),\n", expr.calc(), desc));
+        for cell in self.row.borrow().iter() {
+            s.push_str(&format!(
+                "({}, \"{}\"),\n",
+                cell.0.calc(),
+                cell.1.clone().unwrap_or_default()
+            ));
         }
         write!(f, "{}", s)
     }

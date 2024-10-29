@@ -39,7 +39,9 @@ impl Display for CompiledAirVar {
             }
             CompiledAirVar::Const(_, id) => write!(f, "const_{}", id),
             CompiledAirVar::Var(_, id) => write!(f, "{}", id),
-            CompiledAirVar::State(i) => write!(f, "state[{}]", i),
+            CompiledAirVar::State(name) => {
+                write!(f, "{}", name)
+            }
             CompiledAirVar::BinaryOp(lhs, op, rhs) => {
                 write!(f, "({} {} {})", lhs, op, rhs)
             }

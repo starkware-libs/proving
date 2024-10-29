@@ -1124,7 +1124,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[0] + const_262144)",
+            "name": "(k_col0 + const_262144)",
             "type": "M31"
           }
         ]
@@ -1134,20 +1134,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[0] + const_262144)"
+          "(k_col0 + const_262144)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "(((tmp_55 - (const_1 * state[0])) + const_0) * const_4194304)",
+        "(((tmp_55 - (const_1 * k_col0)) + const_0) * const_4194304)",
         "carry_0"
       ]
     },
     {
       "Constraint": [
-        "((state[1] * const_512) - ((tmp_55 - (const_1 * state[0])) + const_0))"
+        "((carry_0_col1 * const_512) - ((tmp_55 - (const_1 * k_col0)) + const_0))"
       ]
     },
     {
@@ -1155,7 +1155,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[1] + const_131072)",
+            "name": "(carry_0_col1 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1165,20 +1165,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[1] + const_131072)"
+          "(carry_0_col1 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_56 + state[1]) * const_4194304)",
+        "((tmp_56 + carry_0_col1) * const_4194304)",
         "carry_1"
       ]
     },
     {
       "Constraint": [
-        "((state[2] * const_512) - (tmp_56 + state[1]))"
+        "((carry_1_col2 * const_512) - (tmp_56 + carry_0_col1))"
       ]
     },
     {
@@ -1186,7 +1186,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[2] + const_131072)",
+            "name": "(carry_1_col2 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1196,20 +1196,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[2] + const_131072)"
+          "(carry_1_col2 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_57 + state[2]) * const_4194304)",
+        "((tmp_57 + carry_1_col2) * const_4194304)",
         "carry_2"
       ]
     },
     {
       "Constraint": [
-        "((state[3] * const_512) - (tmp_57 + state[2]))"
+        "((carry_2_col3 * const_512) - (tmp_57 + carry_1_col2))"
       ]
     },
     {
@@ -1217,7 +1217,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[3] + const_131072)",
+            "name": "(carry_2_col3 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1227,20 +1227,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[3] + const_131072)"
+          "(carry_2_col3 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_58 + state[3]) * const_4194304)",
+        "((tmp_58 + carry_2_col3) * const_4194304)",
         "carry_3"
       ]
     },
     {
       "Constraint": [
-        "((state[4] * const_512) - (tmp_58 + state[3]))"
+        "((carry_3_col4 * const_512) - (tmp_58 + carry_2_col3))"
       ]
     },
     {
@@ -1248,7 +1248,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[4] + const_131072)",
+            "name": "(carry_3_col4 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1258,20 +1258,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[4] + const_131072)"
+          "(carry_3_col4 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_59 + state[4]) * const_4194304)",
+        "((tmp_59 + carry_3_col4) * const_4194304)",
         "carry_4"
       ]
     },
     {
       "Constraint": [
-        "((state[5] * const_512) - (tmp_59 + state[4]))"
+        "((carry_4_col5 * const_512) - (tmp_59 + carry_3_col4))"
       ]
     },
     {
@@ -1279,7 +1279,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[5] + const_131072)",
+            "name": "(carry_4_col5 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1289,20 +1289,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[5] + const_131072)"
+          "(carry_4_col5 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_60 + state[5]) * const_4194304)",
+        "((tmp_60 + carry_4_col5) * const_4194304)",
         "carry_5"
       ]
     },
     {
       "Constraint": [
-        "((state[6] * const_512) - (tmp_60 + state[5]))"
+        "((carry_5_col6 * const_512) - (tmp_60 + carry_4_col5))"
       ]
     },
     {
@@ -1310,7 +1310,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[6] + const_131072)",
+            "name": "(carry_5_col6 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1320,20 +1320,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[6] + const_131072)"
+          "(carry_5_col6 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_61 + state[6]) * const_4194304)",
+        "((tmp_61 + carry_5_col6) * const_4194304)",
         "carry_6"
       ]
     },
     {
       "Constraint": [
-        "((state[7] * const_512) - (tmp_61 + state[6]))"
+        "((carry_6_col7 * const_512) - (tmp_61 + carry_5_col6))"
       ]
     },
     {
@@ -1341,7 +1341,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[7] + const_131072)",
+            "name": "(carry_6_col7 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1351,20 +1351,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[7] + const_131072)"
+          "(carry_6_col7 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_62 + state[7]) * const_4194304)",
+        "((tmp_62 + carry_6_col7) * const_4194304)",
         "carry_7"
       ]
     },
     {
       "Constraint": [
-        "((state[8] * const_512) - (tmp_62 + state[7]))"
+        "((carry_7_col8 * const_512) - (tmp_62 + carry_6_col7))"
       ]
     },
     {
@@ -1372,7 +1372,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[8] + const_131072)",
+            "name": "(carry_7_col8 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1382,20 +1382,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[8] + const_131072)"
+          "(carry_7_col8 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_63 + state[8]) * const_4194304)",
+        "((tmp_63 + carry_7_col8) * const_4194304)",
         "carry_8"
       ]
     },
     {
       "Constraint": [
-        "((state[9] * const_512) - (tmp_63 + state[8]))"
+        "((carry_8_col9 * const_512) - (tmp_63 + carry_7_col8))"
       ]
     },
     {
@@ -1403,7 +1403,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[9] + const_131072)",
+            "name": "(carry_8_col9 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1413,20 +1413,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[9] + const_131072)"
+          "(carry_8_col9 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_64 + state[9]) * const_4194304)",
+        "((tmp_64 + carry_8_col9) * const_4194304)",
         "carry_9"
       ]
     },
     {
       "Constraint": [
-        "((state[10] * const_512) - (tmp_64 + state[9]))"
+        "((carry_9_col10 * const_512) - (tmp_64 + carry_8_col9))"
       ]
     },
     {
@@ -1434,7 +1434,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[10] + const_131072)",
+            "name": "(carry_9_col10 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1444,20 +1444,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[10] + const_131072)"
+          "(carry_9_col10 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_65 + state[10]) * const_4194304)",
+        "((tmp_65 + carry_9_col10) * const_4194304)",
         "carry_10"
       ]
     },
     {
       "Constraint": [
-        "((state[11] * const_512) - (tmp_65 + state[10]))"
+        "((carry_10_col11 * const_512) - (tmp_65 + carry_9_col10))"
       ]
     },
     {
@@ -1465,7 +1465,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[11] + const_131072)",
+            "name": "(carry_10_col11 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1475,20 +1475,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[11] + const_131072)"
+          "(carry_10_col11 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_66 + state[11]) * const_4194304)",
+        "((tmp_66 + carry_10_col11) * const_4194304)",
         "carry_11"
       ]
     },
     {
       "Constraint": [
-        "((state[12] * const_512) - (tmp_66 + state[11]))"
+        "((carry_11_col12 * const_512) - (tmp_66 + carry_10_col11))"
       ]
     },
     {
@@ -1496,7 +1496,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[12] + const_131072)",
+            "name": "(carry_11_col12 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1506,20 +1506,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[12] + const_131072)"
+          "(carry_11_col12 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_67 + state[12]) * const_4194304)",
+        "((tmp_67 + carry_11_col12) * const_4194304)",
         "carry_12"
       ]
     },
     {
       "Constraint": [
-        "((state[13] * const_512) - (tmp_67 + state[12]))"
+        "((carry_12_col13 * const_512) - (tmp_67 + carry_11_col12))"
       ]
     },
     {
@@ -1527,7 +1527,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[13] + const_131072)",
+            "name": "(carry_12_col13 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1537,20 +1537,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[13] + const_131072)"
+          "(carry_12_col13 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_68 + state[13]) * const_4194304)",
+        "((tmp_68 + carry_12_col13) * const_4194304)",
         "carry_13"
       ]
     },
     {
       "Constraint": [
-        "((state[14] * const_512) - (tmp_68 + state[13]))"
+        "((carry_13_col14 * const_512) - (tmp_68 + carry_12_col13))"
       ]
     },
     {
@@ -1558,7 +1558,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[14] + const_131072)",
+            "name": "(carry_13_col14 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1568,20 +1568,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[14] + const_131072)"
+          "(carry_13_col14 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_69 + state[14]) * const_4194304)",
+        "((tmp_69 + carry_13_col14) * const_4194304)",
         "carry_14"
       ]
     },
     {
       "Constraint": [
-        "((state[15] * const_512) - (tmp_69 + state[14]))"
+        "((carry_14_col15 * const_512) - (tmp_69 + carry_13_col14))"
       ]
     },
     {
@@ -1589,7 +1589,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[15] + const_131072)",
+            "name": "(carry_14_col15 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1599,20 +1599,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[15] + const_131072)"
+          "(carry_14_col15 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_70 + state[15]) * const_4194304)",
+        "((tmp_70 + carry_14_col15) * const_4194304)",
         "carry_15"
       ]
     },
     {
       "Constraint": [
-        "((state[16] * const_512) - (tmp_70 + state[15]))"
+        "((carry_15_col16 * const_512) - (tmp_70 + carry_14_col15))"
       ]
     },
     {
@@ -1620,7 +1620,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[16] + const_131072)",
+            "name": "(carry_15_col16 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1630,20 +1630,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[16] + const_131072)"
+          "(carry_15_col16 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_71 + state[16]) * const_4194304)",
+        "((tmp_71 + carry_15_col16) * const_4194304)",
         "carry_16"
       ]
     },
     {
       "Constraint": [
-        "((state[17] * const_512) - (tmp_71 + state[16]))"
+        "((carry_16_col17 * const_512) - (tmp_71 + carry_15_col16))"
       ]
     },
     {
@@ -1651,7 +1651,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[17] + const_131072)",
+            "name": "(carry_16_col17 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1661,20 +1661,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[17] + const_131072)"
+          "(carry_16_col17 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_72 + state[17]) * const_4194304)",
+        "((tmp_72 + carry_16_col17) * const_4194304)",
         "carry_17"
       ]
     },
     {
       "Constraint": [
-        "((state[18] * const_512) - (tmp_72 + state[17]))"
+        "((carry_17_col18 * const_512) - (tmp_72 + carry_16_col17))"
       ]
     },
     {
@@ -1682,7 +1682,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[18] + const_131072)",
+            "name": "(carry_17_col18 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1692,20 +1692,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[18] + const_131072)"
+          "(carry_17_col18 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_73 + state[18]) * const_4194304)",
+        "((tmp_73 + carry_17_col18) * const_4194304)",
         "carry_18"
       ]
     },
     {
       "Constraint": [
-        "((state[19] * const_512) - (tmp_73 + state[18]))"
+        "((carry_18_col19 * const_512) - (tmp_73 + carry_17_col18))"
       ]
     },
     {
@@ -1713,7 +1713,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[19] + const_131072)",
+            "name": "(carry_18_col19 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1723,20 +1723,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[19] + const_131072)"
+          "(carry_18_col19 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_74 + state[19]) * const_4194304)",
+        "((tmp_74 + carry_18_col19) * const_4194304)",
         "carry_19"
       ]
     },
     {
       "Constraint": [
-        "((state[20] * const_512) - (tmp_74 + state[19]))"
+        "((carry_19_col20 * const_512) - (tmp_74 + carry_18_col19))"
       ]
     },
     {
@@ -1744,7 +1744,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[20] + const_131072)",
+            "name": "(carry_19_col20 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1754,20 +1754,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[20] + const_131072)"
+          "(carry_19_col20 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_75 + state[20]) * const_4194304)",
+        "((tmp_75 + carry_19_col20) * const_4194304)",
         "carry_20"
       ]
     },
     {
       "Constraint": [
-        "((state[21] * const_512) - (tmp_75 + state[20]))"
+        "((carry_20_col21 * const_512) - (tmp_75 + carry_19_col20))"
       ]
     },
     {
@@ -1775,7 +1775,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[21] + const_131072)",
+            "name": "(carry_20_col21 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1785,20 +1785,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[21] + const_131072)"
+          "(carry_20_col21 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "(((tmp_76 - (const_136 * state[0])) + state[21]) * const_4194304)",
+        "(((tmp_76 - (const_136 * k_col0)) + carry_20_col21) * const_4194304)",
         "carry_21"
       ]
     },
     {
       "Constraint": [
-        "((state[22] * const_512) - ((tmp_76 - (const_136 * state[0])) + state[21]))"
+        "((carry_21_col22 * const_512) - ((tmp_76 - (const_136 * k_col0)) + carry_20_col21))"
       ]
     },
     {
@@ -1806,7 +1806,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[22] + const_131072)",
+            "name": "(carry_21_col22 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1816,20 +1816,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[22] + const_131072)"
+          "(carry_21_col22 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_77 + state[22]) * const_4194304)",
+        "((tmp_77 + carry_21_col22) * const_4194304)",
         "carry_22"
       ]
     },
     {
       "Constraint": [
-        "((state[23] * const_512) - (tmp_77 + state[22]))"
+        "((carry_22_col23 * const_512) - (tmp_77 + carry_21_col22))"
       ]
     },
     {
@@ -1837,7 +1837,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[23] + const_131072)",
+            "name": "(carry_22_col23 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1847,20 +1847,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[23] + const_131072)"
+          "(carry_22_col23 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_78 + state[23]) * const_4194304)",
+        "((tmp_78 + carry_22_col23) * const_4194304)",
         "carry_23"
       ]
     },
     {
       "Constraint": [
-        "((state[24] * const_512) - (tmp_78 + state[23]))"
+        "((carry_23_col24 * const_512) - (tmp_78 + carry_22_col23))"
       ]
     },
     {
@@ -1868,7 +1868,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[24] + const_131072)",
+            "name": "(carry_23_col24 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1878,20 +1878,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[24] + const_131072)"
+          "(carry_23_col24 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_79 + state[24]) * const_4194304)",
+        "((tmp_79 + carry_23_col24) * const_4194304)",
         "carry_24"
       ]
     },
     {
       "Constraint": [
-        "((state[25] * const_512) - (tmp_79 + state[24]))"
+        "((carry_24_col25 * const_512) - (tmp_79 + carry_23_col24))"
       ]
     },
     {
@@ -1899,7 +1899,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[25] + const_131072)",
+            "name": "(carry_24_col25 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1909,20 +1909,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[25] + const_131072)"
+          "(carry_24_col25 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_80 + state[25]) * const_4194304)",
+        "((tmp_80 + carry_24_col25) * const_4194304)",
         "carry_25"
       ]
     },
     {
       "Constraint": [
-        "((state[26] * const_512) - (tmp_80 + state[25]))"
+        "((carry_25_col26 * const_512) - (tmp_80 + carry_24_col25))"
       ]
     },
     {
@@ -1930,7 +1930,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[26] + const_131072)",
+            "name": "(carry_25_col26 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1940,20 +1940,20 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[26] + const_131072)"
+          "(carry_25_col26 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((tmp_81 + state[26]) * const_4194304)",
+        "((tmp_81 + carry_25_col26) * const_4194304)",
         "carry_26"
       ]
     },
     {
       "Constraint": [
-        "((state[27] * const_512) - (tmp_81 + state[26]))"
+        "((carry_26_col27 * const_512) - (tmp_81 + carry_25_col26))"
       ]
     },
     {
@@ -1961,7 +1961,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_19",
         "input_arg": [
           {
-            "name": "(state[27] + const_131072)",
+            "name": "(carry_26_col27 + const_131072)",
             "type": "M31"
           }
         ]
@@ -1971,15 +1971,131 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
-          "(state[27] + const_131072)"
+          "(carry_26_col27 + const_131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Constraint": [
-        "((tmp_82 - (const_256 * state[0])) + state[27])"
+        "((tmp_82 - (const_256 * k_col0)) + carry_26_col27)"
       ]
     }
-  ]
+  ],
+  "state": {
+    "row": [
+      [
+        "k_col0",
+        "k"
+      ],
+      [
+        "carry_0_col1",
+        "carry_0"
+      ],
+      [
+        "carry_1_col2",
+        "carry_1"
+      ],
+      [
+        "carry_2_col3",
+        "carry_2"
+      ],
+      [
+        "carry_3_col4",
+        "carry_3"
+      ],
+      [
+        "carry_4_col5",
+        "carry_4"
+      ],
+      [
+        "carry_5_col6",
+        "carry_5"
+      ],
+      [
+        "carry_6_col7",
+        "carry_6"
+      ],
+      [
+        "carry_7_col8",
+        "carry_7"
+      ],
+      [
+        "carry_8_col9",
+        "carry_8"
+      ],
+      [
+        "carry_9_col10",
+        "carry_9"
+      ],
+      [
+        "carry_10_col11",
+        "carry_10"
+      ],
+      [
+        "carry_11_col12",
+        "carry_11"
+      ],
+      [
+        "carry_12_col13",
+        "carry_12"
+      ],
+      [
+        "carry_13_col14",
+        "carry_13"
+      ],
+      [
+        "carry_14_col15",
+        "carry_14"
+      ],
+      [
+        "carry_15_col16",
+        "carry_15"
+      ],
+      [
+        "carry_16_col17",
+        "carry_16"
+      ],
+      [
+        "carry_17_col18",
+        "carry_17"
+      ],
+      [
+        "carry_18_col19",
+        "carry_18"
+      ],
+      [
+        "carry_19_col20",
+        "carry_19"
+      ],
+      [
+        "carry_20_col21",
+        "carry_20"
+      ],
+      [
+        "carry_21_col22",
+        "carry_21"
+      ],
+      [
+        "carry_22_col23",
+        "carry_22"
+      ],
+      [
+        "carry_23_col24",
+        "carry_23"
+      ],
+      [
+        "carry_24_col25",
+        "carry_24"
+      ],
+      [
+        "carry_25_col26",
+        "carry_25"
+      ],
+      [
+        "carry_26_col27",
+        "carry_26"
+      ]
+    ]
+  }
 }

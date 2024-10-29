@@ -75,7 +75,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
                 let log_size = self.n_calls.next_power_of_two().ilog2();
-                let interaction_0_log_sizes = vec![log_size; $(lists.row_length)];
+                let interaction_0_log_sizes = vec![log_size; $(lists.state_names.len())];
                 let interaction_1_log_sizes = vec![log_size; SECURE_EXTENSION_DEGREE * $n_logup_columns];
                 TreeVec::new(vec![interaction_0_log_sizes, interaction_1_log_sizes])
             }
@@ -176,11 +176,11 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         );
     });
 
-    code.append(quote! {
-        let trace_row: [_; $(lists.row_length)]
-            = std::array::from_fn(|_| eval.next_trace_mask());
-    });
-
+    for name in &lists.state_names {
+        code.append(quote! {
+            let $name = eval.next_trace_mask();
+        });
+    }
     for constraint in lists.constraints.iter() {
         match constraint {
             ConstraintEvalStep::Constraint(expr, ..) => {
@@ -297,7 +297,7 @@ fn parse_eval_constraint(
                 .to_string()
                 + ".clone()"
         }
-        CompiledAirVar::State(index) => format!("trace_row[{index}].clone()"),
+        CompiledAirVar::State(name) => format!("{}.clone()", name),
         CompiledAirVar::StaticCall(id, args) => {
             let mut arg_str = String::new();
             for (i, arg) in args.iter().enumerate() {

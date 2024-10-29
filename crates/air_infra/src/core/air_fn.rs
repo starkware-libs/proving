@@ -453,11 +453,14 @@ impl AirBuilder {
 
             if let Some(descs) = output.get_felt_descriptions() {
                 for (felt, desc) in output.as_felts_mut().into_iter().zip(descs) {
-                    self.deduce(felt, &format!("{}_output_{}", air_fn.name(), desc));
+                    self.deduce(
+                        felt,
+                        &format!("{}_output_{}", air_fn.name().to_lowercase(), desc),
+                    );
                 }
             } else {
                 for felt in output.as_felts_mut() {
-                    self.deduce(felt, &format!("{}_output", air_fn.name()));
+                    self.deduce(felt, &format!("{}_output", air_fn.name().to_lowercase()));
                 }
             }
         }

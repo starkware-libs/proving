@@ -5,6 +5,7 @@ use compiled_casm_air::compiled_structs::CompiledAirVar;
 
 use crate::core::Felt;
 
+use super::super::state::*;
 use super::super::variables::*;
 use super::expr::*;
 use super::op_expr::*;
@@ -20,7 +21,9 @@ pub type FeltExpr = Expr<Felt>;
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum StateInfo {
     // The felt is in the state of the current component, at the specified index.
-    StateIndex(usize),
+    // The second argument is the description of the trace cell. It is used only for compilation.
+    // Consider moving to a compilation context.
+    StateIndex(usize, Option<String>),
     // If the <bool> value is true, the felt is a polynomial expression in the state. It is unspecified
     // what this polynomial is. If the <bool> is false, the felt is not a polynomial expression in the
     // state (for example, a value read from the memory and not written to the state yet).
@@ -46,7 +49,7 @@ impl FeltExpr {
     // into a variable that has a state index.
     pub fn to_state(&mut self, new_state_info: StateInfo) {
         let name = match &new_state_info {
-            StateInfo::StateIndex(index) => format!("state[{}]", index),
+            StateInfo::StateIndex(index, desc) => State::get_cell_name(*index, desc),
             StateInfo::IsPolyOfState(_) => {
                 panic!("to_state shouldn't be used to make a FeltExpr an IsPolyOfState")
             }
@@ -56,6 +59,7 @@ impl FeltExpr {
             StateInfo::PublicParam(public_param) => public_param.name(),
         };
         let value = self.value();
+
         match self {
             FeltExpr::Var(v) => {
                 v.name = name;

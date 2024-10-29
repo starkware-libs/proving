@@ -216,11 +216,11 @@ fn test_conversion_bool_to_uint16() {
     let compiled_felt: CompiledAirVar = i.as_felt().into();
     assert_eq!(&compiled_felt.to_string(), "tmp_0.as_m31()");
 
-    b.as_felt_mut().to_state(StateInfo::StateIndex(0));
+    b.as_felt_mut().to_state(StateInfo::StateIndex(0, None));
     let mut i: UInt16Expr = b.clone().into();
     assert!(i.in_state());
     let compiled_felt: CompiledAirVar = i.as_felt().into();
-    assert_eq!(&compiled_felt.to_string(), "state[0]");
+    assert_eq!(&compiled_felt.to_string(), "col0");
     let compiled_i: CompiledAirVar = i.into();
     assert_eq!(&compiled_i.to_string(), "UInt16::from_bool(tmp_0)");
 
@@ -245,13 +245,13 @@ fn test_conversion_felt_to_uint16() {
     let compiled_felt: CompiledAirVar = i.as_felt().clone().into();
     assert_eq!(&compiled_felt.to_string(), "tmp_0");
 
-    f.to_state(StateInfo::StateIndex(0));
+    f.to_state(StateInfo::StateIndex(0, None));
     let mut i: UInt16Expr = f.clone().into();
     assert!(i.in_state());
     let compiled_felt: CompiledAirVar = i.as_felt().into();
-    assert_eq!(&compiled_felt.to_string(), "state[0]");
+    assert_eq!(&compiled_felt.to_string(), "col0");
     let compiled_i: CompiledAirVar = i.into();
-    assert_eq!(&compiled_i.to_string(), "UInt16::from_m31(state[0])");
+    assert_eq!(&compiled_i.to_string(), "UInt16::from_m31(col0)");
 
     let f = f.let_(
         format!("{}0", INTERMEDIATE_VAR_PREFIX),

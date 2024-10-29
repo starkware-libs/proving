@@ -61,10 +61,11 @@ fn generate_simd_write_trace_body_code(
 
     for deduction in &lists.deductions {
         match deduction {
-            TraceGenStep::Deduction(expr, _desc) => {
+            TraceGenStep::Deduction(expr) => {
+                let name = lists.state_names[offset].clone();
                 write_trace_body.append(quote! {
-                    let col$(offset) = $(simd_parse_air_var(expr,const_names));
-                    trace_values[$(offset)].data[row_index] = col$(offset);
+                    let $(name.clone()) = $(simd_parse_air_var(expr,const_names));
+                    trace_values[$(offset)].data[row_index] = $(name);
                 });
                 offset += 1;
             }
@@ -165,7 +166,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         ) -> (Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
             SubComponentInputs,
             LookupData) {
-            const N_TRACE_COLUMNS: usize = $(lists.row_length);
+            const N_TRACE_COLUMNS: usize = $(lists.state_names.len());
             let mut trace_values: [_ ;N_TRACE_COLUMNS]= std::array::from_fn
                     (|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES));
 
@@ -570,9 +571,7 @@ fn simd_parse_air_var(
             _ => constant_names[&(ty.clone(), val.clone())].clone(),
         },
         CompiledAirVar::Var(_, id) => id.to_lowercase(),
-        CompiledAirVar::State(index) => {
-            format!("col{}", index)
-        }
+        CompiledAirVar::State(name) => name.clone(),
         CompiledAirVar::StaticCall(id, args) => {
             let mut arg_str = String::new();
             for (i, arg) in args.iter().enumerate() {

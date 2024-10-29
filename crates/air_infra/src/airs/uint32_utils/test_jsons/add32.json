@@ -50,7 +50,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_16",
         "input_arg": [
           {
-            "name": "state[0]",
+            "name": "add_res_limb_0_col0",
             "type": "M31"
           }
         ]
@@ -60,7 +60,7 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_16",
         "felts": [
-          "state[0]"
+          "add_res_limb_0_col0"
         ],
         "use_or_yield": "Use"
       }
@@ -70,7 +70,7 @@
         "air_fn_name": "RangeCheck_N_1_bits_16",
         "input_arg": [
           {
-            "name": "state[1]",
+            "name": "add_res_limb_1_col1",
             "type": "M31"
           }
         ]
@@ -80,7 +80,7 @@
       "LookupData": {
         "relation_name": "RangeCheck_N_1_bits_16",
         "felts": [
-          "state[1]"
+          "add_res_limb_1_col1"
         ],
         "use_or_yield": "Use"
       }
@@ -89,7 +89,7 @@
       "Intermediate": [
         "tmp_3",
         {
-          "name": "((add32_input[0].low().as_m31() + add32_input[1].low().as_m31()) - state[0])",
+          "name": "((add32_input[0].low().as_m31() + add32_input[1].low().as_m31()) - add_res_limb_0_col0)",
           "type": "M31"
         },
         {
@@ -107,7 +107,7 @@
       "Intermediate": [
         "tmp_4",
         {
-          "name": "(((add32_input[0].high().as_m31() + add32_input[1].high().as_m31()) - state[1]) + (tmp_3 * const_32768))",
+          "name": "(((add32_input[0].high().as_m31() + add32_input[1].high().as_m31()) - add_res_limb_1_col1) + (tmp_3 * const_32768))",
           "type": "M31"
         },
         {
@@ -121,5 +121,17 @@
         "(tmp_4 * (tmp_4 - const_65536))"
       ]
     }
-  ]
+  ],
+  "state": {
+    "row": [
+      [
+        "add_res_limb_0_col0",
+        "add_res_limb_0"
+      ],
+      [
+        "add_res_limb_1_col1",
+        "add_res_limb_1"
+      ]
+    ]
+  }
 }
