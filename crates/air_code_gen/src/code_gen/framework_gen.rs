@@ -106,9 +106,20 @@ fn generate_interaction_claim_struct() -> rust::Tokens {
 }
 
 fn generate_interaction_elements_struct(lists: &CompiledAirFn) -> rust::Tokens {
+    let relation_n_elements = callee_lookup_length(lists);
     quote! {
-        // TODO(Ohad): figure this out.
-        pub type RelationElements = LookupElements<$(callee_lookup_length(lists))>;
+        #[derive(Clone, Debug, PartialEq, Eq)]
+        pub struct RelationElements(LookupElements<$relation_n_elements>);
+        impl RelationElements {
+            pub fn draw(channel: &mut impl Channel) -> Self {
+                Self(LookupElements::<$relation_n_elements>::draw(channel))
+            }
+            pub fn combine<F: Clone, EF>(&self, values: &[F]) -> EF
+            where
+                EF: Clone + Zero + From<F> + From<SecureField> + Mul<F, Output = EF> + Sub<EF, Output = EF>, {
+                self.0.combine(values)
+            }
+        }
     }
 }
 
@@ -349,17 +360,18 @@ fn imports(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(non_camel_case_types)]
         #![allow(unused_imports)]
-        use num_traits::One;
+        use num_traits::{One, Zero};
         use serde::{Deserialize, Serialize};
-        use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
+        use std::ops::{Mul, Sub};
         use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
-        use stwo_prover::core::channel::Channel;
+        use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
         use stwo_prover::core::backend::simd::m31::PackedM31;
+        use stwo_prover::core::channel::Channel;
         use stwo_prover::core::fields::m31::M31;
         use stwo_prover::core::fields::qm31::SecureField;
         use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
-        use stwo_prover::core::pcs::TreeVec;
         use stwo_prover::core::lookups::utils::Fraction;
+        use stwo_prover::core::pcs::TreeVec;
 
         use crate::LOGUP_BATCH_SIZE;
         $(generate_sub_component_imports(deductions))

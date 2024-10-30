@@ -1,6 +1,8 @@
 #![allow(non_camel_case_types)]
 #![allow(unused_imports)]
-use num_traits::One;
+use std::ops::{Mul, Sub};
+
+use num_traits::{One, Zero};
 use serde::{Deserialize, Serialize};
 use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
 use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
@@ -14,7 +16,19 @@ use stwo_prover::core::pcs::TreeVec;
 
 use crate::{rangecheck_n_1_bits_6, LOGUP_BATCH_SIZE};
 
-pub type RelationElements = LookupElements<1>;
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct RelationElements(LookupElements<1>);
+impl RelationElements {
+    pub fn draw(channel: &mut impl Channel) -> Self {
+        Self(LookupElements::<1>::draw(channel))
+    }
+    pub fn combine<F: Clone, EF>(&self, values: &[F]) -> EF
+    where
+        EF: Clone + Zero + From<F> + From<SecureField> + Mul<F, Output = EF> + Sub<EF, Output = EF>,
+    {
+        self.0.combine(values)
+    }
+}
 
 pub struct Eval {
     pub claim: Claim,
