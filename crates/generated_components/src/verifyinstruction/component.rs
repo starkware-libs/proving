@@ -19,7 +19,7 @@ use crate::{
 
 pub type RelationElements = LookupElements<3>;
 
-pub struct VerifyInstructionEval {
+pub struct Eval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub memoryaddresstoid_lookup_elements: memoryaddresstoid::RelationElements,
@@ -56,10 +56,9 @@ impl InteractionClaim {
     }
 }
 
-#[allow(non_snake_case)]
-pub type VerifyInstructionComponent = FrameworkComponent<VerifyInstructionEval>;
+pub type Component = FrameworkComponent<Eval>;
 
-impl FrameworkEval for VerifyInstructionEval {
+impl FrameworkEval for Eval {
     fn log_size(&self) -> u32 {
         self.claim.n_calls.next_power_of_two().ilog2()
     }
@@ -70,6 +69,7 @@ impl FrameworkEval for VerifyInstructionEval {
 
     #[allow(unused_parens)]
     #[allow(clippy::double_parens)]
+    #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_0 = E::F::from(M31::from(0));
         let M31_1 = E::F::from(M31::from(1));

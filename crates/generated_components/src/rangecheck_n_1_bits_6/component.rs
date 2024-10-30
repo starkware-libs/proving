@@ -16,7 +16,7 @@ use crate::{rangecheck_n_1_bits_6, LOGUP_BATCH_SIZE};
 
 pub type RelationElements = LookupElements<1>;
 
-pub struct RangeCheck_N_1_bits_6Eval {
+pub struct Eval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub rangecheck_n_1_bits_6_lookup_elements: rangecheck_n_1_bits_6::RelationElements,
@@ -49,10 +49,9 @@ impl InteractionClaim {
     }
 }
 
-#[allow(non_snake_case)]
-pub type RangeCheck_N_1_bits_6Component = FrameworkComponent<RangeCheck_N_1_bits_6Eval>;
+pub type Component = FrameworkComponent<Eval>;
 
-impl FrameworkEval for RangeCheck_N_1_bits_6Eval {
+impl FrameworkEval for Eval {
     fn log_size(&self) -> u32 {
         self.claim.n_calls.next_power_of_two().ilog2()
     }
@@ -63,6 +62,7 @@ impl FrameworkEval for RangeCheck_N_1_bits_6Eval {
 
     #[allow(unused_parens)]
     #[allow(clippy::double_parens)]
+    #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let [is_first] = eval.next_interaction_mask(2, [0]);
         let mut logup = LogupAtRow::<E>::new(1, self.interaction_claim.claimed_sum, None, is_first);

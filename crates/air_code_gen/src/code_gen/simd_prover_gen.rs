@@ -398,7 +398,6 @@ pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rus
     }
 
     quote! {
-        #[allow(non_snake_case)]
         pub struct SubComponentInputs
         {$(members_code)}
         impl SubComponentInputs {
@@ -445,7 +444,6 @@ pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens 
     }
 
     quote! {
-        #[allow(non_snake_case)]
         pub struct LookupData
         {$(members_code)}
         impl LookupData {

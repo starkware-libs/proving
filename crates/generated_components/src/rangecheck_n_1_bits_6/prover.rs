@@ -47,7 +47,6 @@ impl ClaimGenerator {
     }
 }
 
-#[allow(non_snake_case)]
 pub struct SubComponentInputs {}
 impl SubComponentInputs {
     #[allow(unused_variables)]
@@ -60,7 +59,6 @@ pub fn write_trace_simd() {
     unimplemented!()
 }
 
-#[allow(non_snake_case)]
 pub struct LookupData {
     pub rangecheck_n_1_bits_6: [Vec<[PackedM31; 1]>; 1],
 }

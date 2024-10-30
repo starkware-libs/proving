@@ -16,7 +16,7 @@ use crate::{narrowfib_num_steps_20, LOGUP_BATCH_SIZE};
 
 pub type RelationElements = LookupElements<2>;
 
-pub struct WideFib_num_narrow_8_narrow_size_20Eval {
+pub struct Eval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub narrowfib_num_steps_20_lookup_elements: narrowfib_num_steps_20::RelationElements,
@@ -49,11 +49,9 @@ impl InteractionClaim {
     }
 }
 
-#[allow(non_snake_case)]
-pub type WideFib_num_narrow_8_narrow_size_20Component =
-    FrameworkComponent<WideFib_num_narrow_8_narrow_size_20Eval>;
+pub type Component = FrameworkComponent<Eval>;
 
-impl FrameworkEval for WideFib_num_narrow_8_narrow_size_20Eval {
+impl FrameworkEval for Eval {
     fn log_size(&self) -> u32 {
         self.claim.n_calls.next_power_of_two().ilog2()
     }
@@ -64,6 +62,7 @@ impl FrameworkEval for WideFib_num_narrow_8_narrow_size_20Eval {
 
     #[allow(unused_parens)]
     #[allow(clippy::double_parens)]
+    #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
         let [is_first] = eval.next_interaction_mask(2, [0]);

@@ -16,7 +16,7 @@ use crate::{memoryaddresstoid, memoryidtobig, opcodes, verifyinstruction, LOGUP_
 
 pub type RelationElements = LookupElements<4>;
 
-pub struct AddApOpcode_is_imm_t_op1_base_fp_fEval {
+pub struct Eval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub memoryaddresstoid_lookup_elements: memoryaddresstoid::RelationElements,
@@ -52,11 +52,9 @@ impl InteractionClaim {
     }
 }
 
-#[allow(non_snake_case)]
-pub type AddApOpcode_is_imm_t_op1_base_fp_fComponent =
-    FrameworkComponent<AddApOpcode_is_imm_t_op1_base_fp_fEval>;
+pub type Component = FrameworkComponent<Eval>;
 
-impl FrameworkEval for AddApOpcode_is_imm_t_op1_base_fp_fEval {
+impl FrameworkEval for Eval {
     fn log_size(&self) -> u32 {
         self.claim.n_calls.next_power_of_two().ilog2()
     }
@@ -67,6 +65,7 @@ impl FrameworkEval for AddApOpcode_is_imm_t_op1_base_fp_fEval {
 
     #[allow(unused_parens)]
     #[allow(clippy::double_parens)]
+    #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_0 = E::F::from(M31::from(0));
         let M31_1 = E::F::from(M31::from(1));

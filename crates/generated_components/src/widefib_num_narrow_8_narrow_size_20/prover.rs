@@ -54,7 +54,6 @@ impl ClaimGenerator {
     }
 }
 
-#[allow(non_snake_case)]
 pub struct SubComponentInputs {
     pub narrowfib_num_steps_20_inputs: [Vec<narrowfib_num_steps_20::InputType>; 8],
 }
@@ -256,7 +255,6 @@ pub fn write_trace_simd(
     (trace, sub_components_inputs, lookup_data)
 }
 
-#[allow(non_snake_case)]
 pub struct LookupData {
     pub narrowfib_num_steps_20: [Vec<[PackedM31; 4]>; 8],
 }

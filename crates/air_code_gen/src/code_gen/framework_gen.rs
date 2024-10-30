@@ -11,28 +11,25 @@ use super::utils::n_logup_columns;
 use crate::code_gen::simd_prover_gen::{generate_sub_component_imports, remove_trailing_zeroes};
 use crate::code_gen::utils::{callee_lookup_length, unique_constraint_relations};
 
-pub fn generate_component_structs(component_name: &str, lists: CompiledAirFn) -> rust::Tokens {
+pub fn generate_component_code(lists: CompiledAirFn) -> rust::Tokens {
     quote! {
         $(imports(&lists.deductions))
         $['\n']
         $(generate_interaction_elements_struct(&lists))
         $['\n']
-        $(generate_component_struct(component_name, &lists.constraints))
+        $(generate_component_structs(&lists.constraints))
         $['\n']
         $(generate_claim_struct(&lists))
         $['\n']
         $(generate_interaction_claim_struct())
         $['\n']
-        $(generate_component_type_def(component_name))
+        $(generate_component_type_def())
         $['\n']
-        $(generate_framework_impl(component_name, &lists))
+        $(generate_framework_impl(&lists))
     }
 }
 
-fn generate_component_struct(
-    component_name: &str,
-    constraints: &[ConstraintEvalStep],
-) -> rust::Tokens {
+fn generate_component_structs(constraints: &[ConstraintEvalStep]) -> rust::Tokens {
     let mut members = rust::Tokens::new();
 
     // Claims.
@@ -50,7 +47,7 @@ fn generate_component_struct(
     }
 
     quote! {
-        pub struct $(component_name)Eval {
+        pub struct Eval {
             $(members)
         }
     }
@@ -115,18 +112,16 @@ fn generate_interaction_elements_struct(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn generate_component_type_def(component_name: &str) -> rust::Tokens {
+fn generate_component_type_def() -> rust::Tokens {
     quote! {
-        // TODO(Ohad): remove this after names are changed.
-        #[allow(non_snake_case)]
-        pub type $(component_name)Component = FrameworkComponent<$(component_name)Eval>;
+        pub type Component = FrameworkComponent<Eval>;
     }
 }
 
-fn generate_framework_impl(component_name: &str, lists: &CompiledAirFn) -> rust::Tokens {
+fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     code.append(quote! {
-        impl FrameworkEval for $(component_name)Eval {
+        impl FrameworkEval for Eval {
             fn log_size(&self) -> u32 {
                 self.claim.n_calls.next_power_of_two().ilog2()
             }
@@ -138,6 +133,7 @@ fn generate_framework_impl(component_name: &str, lists: &CompiledAirFn) -> rust:
 
             #[allow(unused_parens)]
             #[allow(clippy::double_parens)]
+            #[allow(non_snake_case)]
             fn evaluate<E: EvalAtRow>(&self, mut eval:E) -> E{
                 $(generate_evaluate(lists))
             }

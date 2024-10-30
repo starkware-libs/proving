@@ -69,7 +69,6 @@ impl ClaimGenerator {
     }
 }
 
-#[allow(non_snake_case)]
 pub struct SubComponentInputs {
     pub memoryaddresstoid_inputs: [Vec<memoryaddresstoid::InputType>; 2],
     pub memoryidtobig_inputs: [Vec<memoryidtobig::InputType>; 2],
@@ -238,7 +237,6 @@ pub fn write_trace_simd(
     (trace, sub_components_inputs, lookup_data)
 }
 
-#[allow(non_snake_case)]
 pub struct LookupData {
     pub memoryaddresstoid: [Vec<[PackedM31; 2]>; 1],
     pub memoryidtobig: [Vec<[PackedM31; 29]>; 1],

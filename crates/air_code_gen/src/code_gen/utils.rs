@@ -11,7 +11,7 @@ use itertools::Itertools;
 use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
-use super::framework_gen::generate_component_structs;
+use super::framework_gen::generate_component_code;
 use crate::code_gen::simd_prover_gen::generate_simd_claim_provers;
 
 pub fn project_root() -> PathBuf {
@@ -40,7 +40,7 @@ pub fn reformat_rust_code_inner(code_text: String) -> String {
 // Generates the prover & verifier code.
 pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
     let claim_provers = generate_simd_claim_provers(&air_fn);
-    let eval_tokens = generate_component_structs(&air_fn.name.clone(), air_fn);
+    let eval_tokens = generate_component_code(air_fn);
 
     // Write the generated code to files.
     let text = reformat_rust_code(claim_provers.to_string().unwrap());
@@ -55,7 +55,7 @@ pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
             pub mod component;
             pub mod prover;
 
-            pub use component::{RelationElements, Claim, InteractionClaim};
+            pub use component::{RelationElements, Claim, InteractionClaim, Component, Eval};
             pub use prover::{ClaimGenerator, InputType};
         };
         let text = reformat_rust_code(mod_rs_code.to_string().unwrap());
