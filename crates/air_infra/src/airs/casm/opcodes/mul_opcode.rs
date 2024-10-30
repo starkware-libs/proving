@@ -1,9 +1,8 @@
 use inst_def::InstDef;
 
-use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
-
 use crate::airs::felt252_id_memory::memory::*;
 use crate::airs::felt252_id_memory::read_positive::*;
+use crate::airs::felt252_utils::verify_mul252::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 
@@ -18,18 +17,18 @@ use crate::const_expr;
 /// Implements the Cairo0 instructions:
 /// - [ap/fp + offset0] = [ap/fp + offset1] * [ap/fp + offset2]
 /// - [ap/fp + offset0] = [ap/fp + offset1] * Imm
-/// Where multiplication factors are in the range [0, 2^15-1].
-///
-/// TODO: Support negatives and update the range when the correct range is known.
+/// is_small = true : multiplication factors are in the range [0, 2^15-1].
+/// is_small = false :  multiplication factors are in the range [0, 2**252 - 1].
 
 #[derive(Clone, Debug, InstDef)]
-pub struct MulSmallOpcode {
+pub struct MulOpcode {
+    pub is_small: bool,
     pub is_imm: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
-impl MulSmallOpcode {
+impl MulOpcode {
     pub fn get_flags(&self) -> Flags {
         Flags {
             dst_base_fp: None,
@@ -51,7 +50,7 @@ impl MulSmallOpcode {
     }
 }
 
-impl AirFn for MulSmallOpcode {
+impl AirFn for MulOpcode {
     type In = CasmStateVar;
     type Out = CasmStateVar;
 
@@ -78,35 +77,10 @@ impl AirFn for MulSmallOpcode {
         let flag_op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].clone();
         let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
-        // Fetch dst - the value at the destination address for the multiplication
         let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp.value.clone()
             + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap.value.clone();
-        let (dst_value, _) = ab.call(
-            &ReadPositive {
-                num_bits: 30,
-                memory: self.memory.clone(),
-            },
-            CasmAddress::new(mem_dst_base + offset0, "dst"),
-        );
-        let dst_m31 = dst_value.get_felt(0).clone()
-            + const_expr!(1 << FELT252_BITS_PER_WORD) * dst_value.get_felt(1).clone()
-            + const_expr!(1 << (2 * FELT252_BITS_PER_WORD)) * dst_value.get_felt(2).clone()
-            + const_expr!(1 << (3 * FELT252_BITS_PER_WORD)) * dst_value.get_felt(3).clone();
-
-        // Fetch op0 - the first operand for the multiplication
         let mem0_base = flag_op0_base_fp.clone() * casm_state.fp.value.clone()
             + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap.value.clone();
-        let (op0_value, _) = ab.call(
-            &ReadPositive {
-                num_bits: 15,
-                memory: self.memory.clone(),
-            },
-            CasmAddress::new(mem0_base + offset1, "op0"),
-        );
-        let op0_m31 = op0_value.get_felt(0).clone()
-            + const_expr!(1 << FELT252_BITS_PER_WORD) * op0_value.get_felt(1).clone();
-
-        // Fetch op1 - the second operand for the multiplication
         let mem1_base = if self.is_imm {
             casm_state.pc.value.clone()
         } else {
@@ -117,18 +91,42 @@ impl AirFn for MulSmallOpcode {
             flag_op1_base_fp * casm_state.fp.value.clone()
                 + flag_op1_base_ap * casm_state.ap.value.clone()
         };
-        let (op1_value, _) = ab.call(
+
+        // Fetch dst - the value at the destination address for the multiplication
+        let (dst, _) = ab.call(
             &ReadPositive {
-                num_bits: 15,
+                num_bits: if self.is_small { 30 } else { 252 },
+                memory: self.memory.clone(),
+            },
+            CasmAddress::new(mem_dst_base + offset0, "dst"),
+        );
+
+        // Fetch op0 - the first operand for the multiplication
+        let (op0, _) = ab.call(
+            &ReadPositive {
+                num_bits: if self.is_small { 15 } else { 252 },
+                memory: self.memory.clone(),
+            },
+            CasmAddress::new(mem0_base + offset1, "op0"),
+        );
+
+        // Fetch op1 - the second operand for the multiplication
+        let (op1, _) = ab.call(
+            &ReadPositive {
+                num_bits: if self.is_small { 15 } else { 252 },
                 memory: self.memory.clone(),
             },
             CasmAddress::new(mem1_base + offset2, "op1"),
         );
-        let op1_m31 = op1_value.get_felt(0).clone()
-            + const_expr!(1 << FELT252_BITS_PER_WORD) * op1_value.get_felt(1).clone();
 
-        // Assert that dst == res
-        ab.constrain(dst_m31 - (op0_m31 * op1_m31), "dst equals op0 * op1");
+        // Perform the multiplication
+        if self.is_small {
+            let res = felt252_to_m31(op0, 15) * felt252_to_m31(op1, 15);
+            // Assert that dst == op0 * op1
+            ab.constrain(felt252_to_m31(dst, 30) - res, "dst equals op0 * op1");
+        } else {
+            ab.call(&VerifyMul252 {}, [op0, op1, dst]);
+        }
 
         // Calculate the next ap
         let next_ap = casm_state.ap.value.clone() + flag_ap_update_add_1;

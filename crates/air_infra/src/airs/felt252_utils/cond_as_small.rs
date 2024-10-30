@@ -5,7 +5,7 @@ use inst_def::InstDef;
 use compiled_casm_air::prover_types::FELT252_N_WORDS;
 
 use crate::airs::casm::casm_state::*;
-use crate::airs::felt252_id_memory::memory::*;
+use crate::airs::casm::common::*;
 use crate::airs::felt252_id_memory::read_small::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
@@ -29,7 +29,7 @@ impl AirFn for CondFelt252AsAddr {
                 &format!("Address limb {} equals 0", i),
             );
         }
-        Felt252IdMemory::felt252_to_addr(value)
+        CasmAddress::new(felt252_to_m31(value, ADDRESS_BITS), "")
     }
 }
 

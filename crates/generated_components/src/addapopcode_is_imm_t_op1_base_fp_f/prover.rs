@@ -217,8 +217,8 @@ pub fn write_trace_simd(
             lookup_data.opcodes[1].push([
                 ((input_pc_col0) + (M31_2)),
                 ((input_ap_col1)
-                    + (((((op1_limb_2_col8) * (M31_262144))
-                        + (((op1_limb_1_col7) * (M31_512)) + (op1_limb_0_col6)))
+                    + (((((op1_limb_0_col6) + ((op1_limb_1_col7) * (M31_512)))
+                        + ((op1_limb_2_col8) * (M31_262144)))
                         - (msb_col4))
                         - ((M31_134217728) * (mid_limbs_set_col5)))),
                 input_fp_col2,

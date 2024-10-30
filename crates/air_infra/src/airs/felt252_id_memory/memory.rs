@@ -1,8 +1,6 @@
 #[cfg(test)]
 use std::collections::BTreeMap;
 
-use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
-
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
 use crate::core::air_fn::*;
@@ -18,6 +16,7 @@ use crate::core::variables::*;
 #[cfg(test)]
 use crate::core::Felt;
 
+#[cfg(test)]
 use crate::const_expr;
 
 use super::address_to_id::*;
@@ -87,16 +86,6 @@ impl Felt252IdMemory {
             .0
     }
 
-    pub fn felt252_to_addr(value: Felt252Expr) -> CasmAddress {
-        let mut result = value.get_felt(0);
-
-        for i in 1..(ADDRESS_BITS.div_ceil(FELT252_BITS_PER_WORD)) {
-            result = result + value.get_felt(i) * const_expr!(1 << (FELT252_BITS_PER_WORD * i));
-        }
-
-        CasmAddress::new(result, "")
-    }
-
     pub fn read_address(&self, air_builder: &mut AirBuilder, address: CasmAddress) -> CasmAddress {
         let (address_f252, _) = air_builder.call(
             &ReadPositive {
@@ -106,6 +95,6 @@ impl Felt252IdMemory {
             address,
         );
 
-        Self::felt252_to_addr(address_f252)
+        CasmAddress::new(felt252_to_m31(address_f252, ADDRESS_BITS), "")
     }
 }

@@ -17,9 +17,9 @@ pub mod jnz_opcode_test;
 pub mod jump_opcode;
 #[cfg(test)]
 pub mod jump_opcode_test;
-pub mod mul_small_opcode;
+pub mod mul_opcode;
 #[cfg(test)]
-pub mod mul_small_opcode_test;
+pub mod mul_opcode_test;
 pub mod ret_opcode;
 #[cfg(test)]
 pub mod ret_opcode_test;

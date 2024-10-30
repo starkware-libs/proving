@@ -1,3 +1,6 @@
+use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
+
+use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 
 // Macros
@@ -138,4 +141,15 @@ pub fn assemble_instruction(off_0: i16, off_1: i16, off_2: i16, flags: [bool; 15
     let biased_off_1: u64 = offset_as_u16(off_1) as u64;
     let biased_off_2: u64 = offset_as_u16(off_2) as u64;
     (flags_int << 48) + (biased_off_2 << 32) + (biased_off_1 << 16) + biased_off_0
+}
+
+pub fn felt252_to_m31(value: Felt252Expr, num_bits: usize) -> FeltExpr {
+    assert!(num_bits <= 31, "{} bits can't fit in M31", num_bits);
+    let mut result = value.get_felt(0);
+
+    for i in 1..(num_bits.div_ceil(FELT252_BITS_PER_WORD)) {
+        result = result + value.get_felt(i) * const_expr!(1 << (FELT252_BITS_PER_WORD * i));
+    }
+
+    result
 }

@@ -1,0 +1,826 @@
+{
+  "name": "MulOpcode_is_small_f_is_imm_f",
+  "description": "MulOpcode_is_small_f_is_imm_f",
+  "inst_def": {
+    "is_small": "f",
+    "is_imm": "f"
+  },
+  "input": {
+    "name": "mulopcode_is_small_f_is_imm_f_input",
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "mulopcode_is_small_f_is_imm_f_input.pc",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "mulopcode_is_small_f_is_imm_f_input.ap",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "mulopcode_is_small_f_is_imm_f_input.fp",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "input_num_of_felts": 3,
+  "output": {
+    "name": null,
+    "type": "CasmState",
+    "fields": [
+      [
+        "pc",
+        {
+          "name": "(input_pc_col0 + const_1)",
+          "type": "M31"
+        }
+      ],
+      [
+        "ap",
+        {
+          "name": "(input_ap_col1 + ap_update_add_1_col10)",
+          "type": "M31"
+        }
+      ],
+      [
+        "fp",
+        {
+          "name": "input_fp_col2",
+          "type": "M31"
+        }
+      ]
+    ]
+  },
+  "output_num_of_felts": 3,
+  "trace_type": "Opcode",
+  "air_body": [
+    {
+      "Intermediate": [
+        "tmp_0",
+        {
+          "name": "mulopcode_is_small_f_is_imm_f_input",
+          "type": "CasmState",
+          "fields": [
+            [
+              "pc",
+              {
+                "name": "mulopcode_is_small_f_is_imm_f_input.pc",
+                "type": "M31"
+              }
+            ],
+            [
+              "ap",
+              {
+                "name": "mulopcode_is_small_f_is_imm_f_input.ap",
+                "type": "M31"
+              }
+            ],
+            [
+              "fp",
+              {
+                "name": "mulopcode_is_small_f_is_imm_f_input.fp",
+                "type": "M31"
+              }
+            ]
+          ]
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_0.pc",
+        "input_pc"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_0.ap",
+        "input_ap"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp_0.fp",
+        "input_fp"
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "DecodeInstruction_15f7159a39884cc",
+        "air_fn_description": "DecodeInstruction_15f7159a39884cc",
+        "input_arg": {
+          "name": "input_pc_col0",
+          "type": "M31"
+        },
+        "output": [
+          [
+            {
+              "name": "(offset0_col3 - const_32768)",
+              "type": "M31"
+            },
+            {
+              "name": "(offset1_col4 - const_32768)",
+              "type": "M31"
+            },
+            {
+              "name": "(offset2_col5 - const_32768)",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "dst_base_fp_col6",
+              "type": "M31"
+            },
+            {
+              "name": "op0_base_fp_col7",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "op1_base_fp_col8",
+              "type": "M31"
+            },
+            {
+              "name": "op1_base_ap_col9",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "ap_update_add_1_col10",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "Constraint": [
+        "((op1_base_fp_col8 + op1_base_ap_col9) - const_1)",
+        "Either flag op1_base_fp is on or flag op1_base_ap is on"
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadPositive_num_bits_252",
+        "air_fn_description": "ReadPositive_num_bits_252",
+        "input_arg": {
+          "name": "(((dst_base_fp_col6 * input_fp_col2) + ((const_1 - dst_base_fp_col6) * input_ap_col1)) + (offset0_col3 - const_32768))",
+          "type": "M31"
+        },
+        "output": [
+          {
+            "name": "Felt252::from_limbs([dst_limb_0_col12, dst_limb_1_col13, dst_limb_2_col14, dst_limb_3_col15, dst_limb_4_col16, dst_limb_5_col17, dst_limb_6_col18, dst_limb_7_col19, dst_limb_8_col20, dst_limb_9_col21, dst_limb_10_col22, dst_limb_11_col23, dst_limb_12_col24, dst_limb_13_col25, dst_limb_14_col26, dst_limb_15_col27, dst_limb_16_col28, dst_limb_17_col29, dst_limb_18_col30, dst_limb_19_col31, dst_limb_20_col32, dst_limb_21_col33, dst_limb_22_col34, dst_limb_23_col35, dst_limb_24_col36, dst_limb_25_col37, dst_limb_26_col38, dst_limb_27_col39])",
+            "type": "Felt252"
+          },
+          {
+            "name": "dst_id_col11",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadPositive_num_bits_252",
+        "air_fn_description": "ReadPositive_num_bits_252",
+        "input_arg": {
+          "name": "(((op0_base_fp_col7 * input_fp_col2) + ((const_1 - op0_base_fp_col7) * input_ap_col1)) + (offset1_col4 - const_32768))",
+          "type": "M31"
+        },
+        "output": [
+          {
+            "name": "Felt252::from_limbs([op0_limb_0_col41, op0_limb_1_col42, op0_limb_2_col43, op0_limb_3_col44, op0_limb_4_col45, op0_limb_5_col46, op0_limb_6_col47, op0_limb_7_col48, op0_limb_8_col49, op0_limb_9_col50, op0_limb_10_col51, op0_limb_11_col52, op0_limb_12_col53, op0_limb_13_col54, op0_limb_14_col55, op0_limb_15_col56, op0_limb_16_col57, op0_limb_17_col58, op0_limb_18_col59, op0_limb_19_col60, op0_limb_20_col61, op0_limb_21_col62, op0_limb_22_col63, op0_limb_23_col64, op0_limb_24_col65, op0_limb_25_col66, op0_limb_26_col67, op0_limb_27_col68])",
+            "type": "Felt252"
+          },
+          {
+            "name": "op0_id_col40",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "ReadPositive_num_bits_252",
+        "air_fn_description": "ReadPositive_num_bits_252",
+        "input_arg": {
+          "name": "(((op1_base_fp_col8 * input_fp_col2) + (op1_base_ap_col9 * input_ap_col1)) + (offset2_col5 - const_32768))",
+          "type": "M31"
+        },
+        "output": [
+          {
+            "name": "Felt252::from_limbs([op1_limb_0_col70, op1_limb_1_col71, op1_limb_2_col72, op1_limb_3_col73, op1_limb_4_col74, op1_limb_5_col75, op1_limb_6_col76, op1_limb_7_col77, op1_limb_8_col78, op1_limb_9_col79, op1_limb_10_col80, op1_limb_11_col81, op1_limb_12_col82, op1_limb_13_col83, op1_limb_14_col84, op1_limb_15_col85, op1_limb_16_col86, op1_limb_17_col87, op1_limb_18_col88, op1_limb_19_col89, op1_limb_20_col90, op1_limb_21_col91, op1_limb_22_col92, op1_limb_23_col93, op1_limb_24_col94, op1_limb_25_col95, op1_limb_26_col96, op1_limb_27_col97])",
+            "type": "Felt252"
+          },
+          {
+            "name": "op1_id_col69",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "VerifyMul252",
+        "air_fn_description": "VerifyMul252",
+        "input_arg": [
+          {
+            "name": "Felt252::from_limbs([op0_limb_0_col41, op0_limb_1_col42, op0_limb_2_col43, op0_limb_3_col44, op0_limb_4_col45, op0_limb_5_col46, op0_limb_6_col47, op0_limb_7_col48, op0_limb_8_col49, op0_limb_9_col50, op0_limb_10_col51, op0_limb_11_col52, op0_limb_12_col53, op0_limb_13_col54, op0_limb_14_col55, op0_limb_15_col56, op0_limb_16_col57, op0_limb_17_col58, op0_limb_18_col59, op0_limb_19_col60, op0_limb_20_col61, op0_limb_21_col62, op0_limb_22_col63, op0_limb_23_col64, op0_limb_24_col65, op0_limb_25_col66, op0_limb_26_col67, op0_limb_27_col68])",
+            "type": "Felt252"
+          },
+          {
+            "name": "Felt252::from_limbs([op1_limb_0_col70, op1_limb_1_col71, op1_limb_2_col72, op1_limb_3_col73, op1_limb_4_col74, op1_limb_5_col75, op1_limb_6_col76, op1_limb_7_col77, op1_limb_8_col78, op1_limb_9_col79, op1_limb_10_col80, op1_limb_11_col81, op1_limb_12_col82, op1_limb_13_col83, op1_limb_14_col84, op1_limb_15_col85, op1_limb_16_col86, op1_limb_17_col87, op1_limb_18_col88, op1_limb_19_col89, op1_limb_20_col90, op1_limb_21_col91, op1_limb_22_col92, op1_limb_23_col93, op1_limb_24_col94, op1_limb_25_col95, op1_limb_26_col96, op1_limb_27_col97])",
+            "type": "Felt252"
+          },
+          {
+            "name": "Felt252::from_limbs([dst_limb_0_col12, dst_limb_1_col13, dst_limb_2_col14, dst_limb_3_col15, dst_limb_4_col16, dst_limb_5_col17, dst_limb_6_col18, dst_limb_7_col19, dst_limb_8_col20, dst_limb_9_col21, dst_limb_10_col22, dst_limb_11_col23, dst_limb_12_col24, dst_limb_13_col25, dst_limb_14_col26, dst_limb_15_col27, dst_limb_16_col28, dst_limb_17_col29, dst_limb_18_col30, dst_limb_19_col31, dst_limb_20_col32, dst_limb_21_col33, dst_limb_22_col34, dst_limb_23_col35, dst_limb_24_col36, dst_limb_25_col37, dst_limb_26_col38, dst_limb_27_col39])",
+            "type": "Felt252"
+          }
+        ],
+        "output": []
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          "input_pc_col0",
+          "input_ap_col1",
+          "input_fp_col2"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupData": {
+        "relation_name": "opcodes",
+        "felts": [
+          "(input_pc_col0 + const_1)",
+          "(input_ap_col1 + ap_update_add_1_col10)",
+          "input_fp_col2"
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "state": {
+    "row": [
+      [
+        "input_pc_col0",
+        "input_pc"
+      ],
+      [
+        "input_ap_col1",
+        "input_ap"
+      ],
+      [
+        "input_fp_col2",
+        "input_fp"
+      ],
+      [
+        "offset0_col3",
+        "offset0"
+      ],
+      [
+        "offset1_col4",
+        "offset1"
+      ],
+      [
+        "offset2_col5",
+        "offset2"
+      ],
+      [
+        "dst_base_fp_col6",
+        "dst_base_fp"
+      ],
+      [
+        "op0_base_fp_col7",
+        "op0_base_fp"
+      ],
+      [
+        "op1_base_fp_col8",
+        "op1_base_fp"
+      ],
+      [
+        "op1_base_ap_col9",
+        "op1_base_ap"
+      ],
+      [
+        "ap_update_add_1_col10",
+        "ap_update_add_1"
+      ],
+      [
+        "dst_id_col11",
+        "dst_id"
+      ],
+      [
+        "dst_limb_0_col12",
+        "dst_limb_0"
+      ],
+      [
+        "dst_limb_1_col13",
+        "dst_limb_1"
+      ],
+      [
+        "dst_limb_2_col14",
+        "dst_limb_2"
+      ],
+      [
+        "dst_limb_3_col15",
+        "dst_limb_3"
+      ],
+      [
+        "dst_limb_4_col16",
+        "dst_limb_4"
+      ],
+      [
+        "dst_limb_5_col17",
+        "dst_limb_5"
+      ],
+      [
+        "dst_limb_6_col18",
+        "dst_limb_6"
+      ],
+      [
+        "dst_limb_7_col19",
+        "dst_limb_7"
+      ],
+      [
+        "dst_limb_8_col20",
+        "dst_limb_8"
+      ],
+      [
+        "dst_limb_9_col21",
+        "dst_limb_9"
+      ],
+      [
+        "dst_limb_10_col22",
+        "dst_limb_10"
+      ],
+      [
+        "dst_limb_11_col23",
+        "dst_limb_11"
+      ],
+      [
+        "dst_limb_12_col24",
+        "dst_limb_12"
+      ],
+      [
+        "dst_limb_13_col25",
+        "dst_limb_13"
+      ],
+      [
+        "dst_limb_14_col26",
+        "dst_limb_14"
+      ],
+      [
+        "dst_limb_15_col27",
+        "dst_limb_15"
+      ],
+      [
+        "dst_limb_16_col28",
+        "dst_limb_16"
+      ],
+      [
+        "dst_limb_17_col29",
+        "dst_limb_17"
+      ],
+      [
+        "dst_limb_18_col30",
+        "dst_limb_18"
+      ],
+      [
+        "dst_limb_19_col31",
+        "dst_limb_19"
+      ],
+      [
+        "dst_limb_20_col32",
+        "dst_limb_20"
+      ],
+      [
+        "dst_limb_21_col33",
+        "dst_limb_21"
+      ],
+      [
+        "dst_limb_22_col34",
+        "dst_limb_22"
+      ],
+      [
+        "dst_limb_23_col35",
+        "dst_limb_23"
+      ],
+      [
+        "dst_limb_24_col36",
+        "dst_limb_24"
+      ],
+      [
+        "dst_limb_25_col37",
+        "dst_limb_25"
+      ],
+      [
+        "dst_limb_26_col38",
+        "dst_limb_26"
+      ],
+      [
+        "dst_limb_27_col39",
+        "dst_limb_27"
+      ],
+      [
+        "op0_id_col40",
+        "op0_id"
+      ],
+      [
+        "op0_limb_0_col41",
+        "op0_limb_0"
+      ],
+      [
+        "op0_limb_1_col42",
+        "op0_limb_1"
+      ],
+      [
+        "op0_limb_2_col43",
+        "op0_limb_2"
+      ],
+      [
+        "op0_limb_3_col44",
+        "op0_limb_3"
+      ],
+      [
+        "op0_limb_4_col45",
+        "op0_limb_4"
+      ],
+      [
+        "op0_limb_5_col46",
+        "op0_limb_5"
+      ],
+      [
+        "op0_limb_6_col47",
+        "op0_limb_6"
+      ],
+      [
+        "op0_limb_7_col48",
+        "op0_limb_7"
+      ],
+      [
+        "op0_limb_8_col49",
+        "op0_limb_8"
+      ],
+      [
+        "op0_limb_9_col50",
+        "op0_limb_9"
+      ],
+      [
+        "op0_limb_10_col51",
+        "op0_limb_10"
+      ],
+      [
+        "op0_limb_11_col52",
+        "op0_limb_11"
+      ],
+      [
+        "op0_limb_12_col53",
+        "op0_limb_12"
+      ],
+      [
+        "op0_limb_13_col54",
+        "op0_limb_13"
+      ],
+      [
+        "op0_limb_14_col55",
+        "op0_limb_14"
+      ],
+      [
+        "op0_limb_15_col56",
+        "op0_limb_15"
+      ],
+      [
+        "op0_limb_16_col57",
+        "op0_limb_16"
+      ],
+      [
+        "op0_limb_17_col58",
+        "op0_limb_17"
+      ],
+      [
+        "op0_limb_18_col59",
+        "op0_limb_18"
+      ],
+      [
+        "op0_limb_19_col60",
+        "op0_limb_19"
+      ],
+      [
+        "op0_limb_20_col61",
+        "op0_limb_20"
+      ],
+      [
+        "op0_limb_21_col62",
+        "op0_limb_21"
+      ],
+      [
+        "op0_limb_22_col63",
+        "op0_limb_22"
+      ],
+      [
+        "op0_limb_23_col64",
+        "op0_limb_23"
+      ],
+      [
+        "op0_limb_24_col65",
+        "op0_limb_24"
+      ],
+      [
+        "op0_limb_25_col66",
+        "op0_limb_25"
+      ],
+      [
+        "op0_limb_26_col67",
+        "op0_limb_26"
+      ],
+      [
+        "op0_limb_27_col68",
+        "op0_limb_27"
+      ],
+      [
+        "op1_id_col69",
+        "op1_id"
+      ],
+      [
+        "op1_limb_0_col70",
+        "op1_limb_0"
+      ],
+      [
+        "op1_limb_1_col71",
+        "op1_limb_1"
+      ],
+      [
+        "op1_limb_2_col72",
+        "op1_limb_2"
+      ],
+      [
+        "op1_limb_3_col73",
+        "op1_limb_3"
+      ],
+      [
+        "op1_limb_4_col74",
+        "op1_limb_4"
+      ],
+      [
+        "op1_limb_5_col75",
+        "op1_limb_5"
+      ],
+      [
+        "op1_limb_6_col76",
+        "op1_limb_6"
+      ],
+      [
+        "op1_limb_7_col77",
+        "op1_limb_7"
+      ],
+      [
+        "op1_limb_8_col78",
+        "op1_limb_8"
+      ],
+      [
+        "op1_limb_9_col79",
+        "op1_limb_9"
+      ],
+      [
+        "op1_limb_10_col80",
+        "op1_limb_10"
+      ],
+      [
+        "op1_limb_11_col81",
+        "op1_limb_11"
+      ],
+      [
+        "op1_limb_12_col82",
+        "op1_limb_12"
+      ],
+      [
+        "op1_limb_13_col83",
+        "op1_limb_13"
+      ],
+      [
+        "op1_limb_14_col84",
+        "op1_limb_14"
+      ],
+      [
+        "op1_limb_15_col85",
+        "op1_limb_15"
+      ],
+      [
+        "op1_limb_16_col86",
+        "op1_limb_16"
+      ],
+      [
+        "op1_limb_17_col87",
+        "op1_limb_17"
+      ],
+      [
+        "op1_limb_18_col88",
+        "op1_limb_18"
+      ],
+      [
+        "op1_limb_19_col89",
+        "op1_limb_19"
+      ],
+      [
+        "op1_limb_20_col90",
+        "op1_limb_20"
+      ],
+      [
+        "op1_limb_21_col91",
+        "op1_limb_21"
+      ],
+      [
+        "op1_limb_22_col92",
+        "op1_limb_22"
+      ],
+      [
+        "op1_limb_23_col93",
+        "op1_limb_23"
+      ],
+      [
+        "op1_limb_24_col94",
+        "op1_limb_24"
+      ],
+      [
+        "op1_limb_25_col95",
+        "op1_limb_25"
+      ],
+      [
+        "op1_limb_26_col96",
+        "op1_limb_26"
+      ],
+      [
+        "op1_limb_27_col97",
+        "op1_limb_27"
+      ],
+      [
+        "k_col98",
+        "k"
+      ],
+      [
+        "carry_0_col99",
+        "carry_0"
+      ],
+      [
+        "carry_1_col100",
+        "carry_1"
+      ],
+      [
+        "carry_2_col101",
+        "carry_2"
+      ],
+      [
+        "carry_3_col102",
+        "carry_3"
+      ],
+      [
+        "carry_4_col103",
+        "carry_4"
+      ],
+      [
+        "carry_5_col104",
+        "carry_5"
+      ],
+      [
+        "carry_6_col105",
+        "carry_6"
+      ],
+      [
+        "carry_7_col106",
+        "carry_7"
+      ],
+      [
+        "carry_8_col107",
+        "carry_8"
+      ],
+      [
+        "carry_9_col108",
+        "carry_9"
+      ],
+      [
+        "carry_10_col109",
+        "carry_10"
+      ],
+      [
+        "carry_11_col110",
+        "carry_11"
+      ],
+      [
+        "carry_12_col111",
+        "carry_12"
+      ],
+      [
+        "carry_13_col112",
+        "carry_13"
+      ],
+      [
+        "carry_14_col113",
+        "carry_14"
+      ],
+      [
+        "carry_15_col114",
+        "carry_15"
+      ],
+      [
+        "carry_16_col115",
+        "carry_16"
+      ],
+      [
+        "carry_17_col116",
+        "carry_17"
+      ],
+      [
+        "carry_18_col117",
+        "carry_18"
+      ],
+      [
+        "carry_19_col118",
+        "carry_19"
+      ],
+      [
+        "carry_20_col119",
+        "carry_20"
+      ],
+      [
+        "carry_21_col120",
+        "carry_21"
+      ],
+      [
+        "carry_22_col121",
+        "carry_22"
+      ],
+      [
+        "carry_23_col122",
+        "carry_23"
+      ],
+      [
+        "carry_24_col123",
+        "carry_24"
+      ],
+      [
+        "carry_25_col124",
+        "carry_25"
+      ],
+      [
+        "carry_26_col125",
+        "carry_26"
+      ]
+    ]
+  }
+}
