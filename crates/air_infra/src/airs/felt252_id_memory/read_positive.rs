@@ -7,9 +7,14 @@ use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::expressions::uint16_expr::*;
 use crate::core::variables::*;
 
 use super::memory::*;
+
+//  Macros
+use crate::const_expr;
+use crate::const_u16_expr;
 
 #[derive(Debug, InstDef)]
 pub struct ReadPositive {
@@ -60,13 +65,9 @@ impl AirFn for ReadPositive {
         }
 
         // If required - range-check the most significant limb
-        if bits_in_ms_limb != 0 {
-            air_builder.lookup_call(
-                &RangeCheck {
-                    bits: [bits_in_ms_limb as u16],
-                },
-                [value.get_felt(num_nonzero_limbs - 1)],
-            );
+        if bits_in_ms_limb > 0 {
+            let msl = value.get_felt(num_nonzero_limbs - 1);
+            air_builder.call(&RangeCheckLastLimb { bits_in_ms_limb }, msl);
         }
 
         let expected_value_in_memory = Felt252Expr::from(
@@ -86,5 +87,46 @@ impl AirFn for ReadPositive {
         );
 
         (expected_value_in_memory, id)
+    }
+}
+
+#[derive(Debug, InstDef)]
+pub struct RangeCheckLastLimb {
+    pub bits_in_ms_limb: usize,
+}
+
+impl AirFn for RangeCheckLastLimb {
+    type In = FeltExpr;
+    type Out = ();
+
+    fn call(&self, air_builder: &mut AirBuilder, msl: Self::In) -> Self::Out {
+        match self.bits_in_ms_limb {
+            0 => (),
+            1 => air_builder.constrain(
+                msl.clone() * (const_expr!(1) - msl.clone()),
+                "most significant limb is a bit",
+            ),
+            2 => {
+                let mut mslh = air_builder.let_for_deduction(
+                    (UInt16Expr::from(msl.clone()) & const_u16_expr!(0b10)) >> const_u16_expr!(1),
+                );
+                let mslh = air_builder.deduce(mslh.as_felt_mut(), "msb");
+                air_builder.constrain(
+                    mslh.clone() * (const_expr!(1) - mslh.clone()),
+                    "msb is a bit",
+                );
+                let msll = air_builder.let_for_constraint(msl - (mslh * const_expr!(2)));
+                air_builder.constrain(
+                    msll.clone() * (const_expr!(1) - msll.clone()),
+                    "bit before msb is a bit",
+                );
+            }
+            _ => air_builder.lookup_call(
+                &RangeCheck {
+                    bits: [self.bits_in_ms_limb as u16],
+                },
+                [msl],
+            ),
+        }
     }
 }

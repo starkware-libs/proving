@@ -2,9 +2,8 @@ use inst_def::InstDef;
 
 use compiled_casm_air::const_tables::{
     STWO_COMPONENT_TYPE_RANGE_CHECK_16, STWO_COMPONENT_TYPE_RANGE_CHECK_19,
-    STWO_COMPONENT_TYPE_RANGE_CHECK_2, STWO_COMPONENT_TYPE_RANGE_CHECK_3,
-    STWO_COMPONENT_TYPE_RANGE_CHECK_6, STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3,
-    STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_7_2_5,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_3, STWO_COMPONENT_TYPE_RANGE_CHECK_6,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3, STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_7_2_5,
 };
 
 use crate::core::air_fn::*;
@@ -32,7 +31,6 @@ impl<const N: usize> AirFn for RangeCheck<N> {
         match self.bits.as_slice() {
             // Note: Each specific rc in the list must be implemented in stwo by a component of
             // the same name.
-            [2] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_2.to_string()),
             [3] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_3.to_string()),
             [4] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_4.to_string()),
             [5] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_5.to_string()),

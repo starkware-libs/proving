@@ -23,11 +23,11 @@
     "value_limb_11_col12",
     "value_limb_12_col13",
     "value_limb_13_col14",
-    "value_limb_14_col15"
+    "value_limb_14_col15",
+    "msb_col16"
   ],
   "lookup_relation_uses_count": {
     "MemoryAddressToId": 1,
-    "RangeCheck_N_1_bits_2": 1,
     "MemoryIdToBig": 1
   },
   "input_num_of_felts": 0,
@@ -65,16 +65,96 @@
       }
     },
     {
-      "LookupData": {
-        "relation_name": "RangeCheck_N_1_bits_2",
-        "felts": [
-          {
-            "State": "value_limb_14_col15"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
+      "StartBlock": "RangeCheckLastLimb_bits_in_ms_limb_2"
     },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "msb_col16"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "msb_col16"
+                }
+              ]
+            }
+          ]
+        },
+        "msb is a bit"
+      ]
+    },
+    {
+      "Intermediate": [
+        "tmp_37",
+        {
+          "BinaryOp": [
+            {
+              "State": "value_limb_14_col15"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col16"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "tmp_37"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "tmp_37"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "bit before msb is a bit"
+      ]
+    },
+    "EndBlock",
     {
       "LookupData": {
         "relation_name": "MemoryIdToBig",
@@ -235,14 +315,14 @@
             }
           ]
         },
-        "output_name": "tmp_31"
+        "output_name": "tmp_34"
       }
     },
     {
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_31"
+          "tmp_34"
         ]
       }
     },
@@ -280,7 +360,7 @@
         "input": {
           "State": "value_id_col0"
         },
-        "output_name": "tmp_32"
+        "output_name": "tmp_35"
       }
     },
     {
@@ -289,7 +369,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -310,7 +390,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -331,7 +411,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -352,7 +432,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -373,7 +453,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -394,7 +474,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -415,7 +495,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -436,7 +516,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -457,7 +537,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -478,7 +558,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -499,7 +579,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -520,7 +600,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -541,7 +621,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -562,7 +642,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -583,7 +663,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_32"
+              "tmp_35"
             ]
           },
           "get_m31",
@@ -599,29 +679,60 @@
       }
     },
     {
-      "LookupCall": {
-        "fn_name": "RangeCheck_N_1_bits_2",
-        "input": {
-          "Array": [
-            {
-              "State": "value_limb_14_col15"
-            }
-          ]
-        },
-        "output_name": null
-      }
+      "StartBlock": "RangeCheckLastLimb_bits_in_ms_limb_2"
     },
     {
-      "LookupData": {
-        "relation_name": "RangeCheck_N_1_bits_2",
-        "felts": [
+      "Intermediate": [
+        "tmp_36",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "State": "value_limb_14_col15"
+                      }
+                    ]
+                  ]
+                },
+                "&",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "1"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
           {
-            "State": "value_limb_14_col15"
-          }
-        ],
-        "use_or_yield": "Use"
+            "Var": [
+              "UInt16",
+              "tmp_36"
+            ]
+          },
+          "as_m31",
+          []
+        ]
       }
     },
+    "EndBlock",
     {
       "LookupData": {
         "relation_name": "MemoryIdToBig",

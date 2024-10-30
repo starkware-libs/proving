@@ -1,5 +1,3 @@
-// TODO: Replace RC2 with constraints
-pub const STWO_COMPONENT_TYPE_RANGE_CHECK_2: &str = "RangeCheck2";
 pub const STWO_COMPONENT_TYPE_RANGE_CHECK_3: &str = "RangeCheck3";
 pub const STWO_COMPONENT_TYPE_RANGE_CHECK_6: &str = "RangeCheck6";
 pub const STWO_COMPONENT_TYPE_RANGE_CHECK_16: &str = "RangeCheck16";

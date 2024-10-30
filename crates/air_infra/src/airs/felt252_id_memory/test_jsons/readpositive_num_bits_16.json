@@ -71,23 +71,14 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "RangeCheck_N_1_bits_7",
-        "input_arg": [
-          {
-            "name": "readpositive_num_bits_16_input_limb_1_col2",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
-      "LookupData": {
-        "relation_name": "RangeCheck_N_1_bits_7",
-        "felts": [
-          "readpositive_num_bits_16_input_limb_1_col2"
-        ],
-        "use_or_yield": "Use"
+      "Call": {
+        "air_fn_name": "RangeCheckLastLimb_bits_in_ms_limb_7",
+        "air_fn_description": "RangeCheckLastLimb_bits_in_ms_limb_7",
+        "input_arg": {
+          "name": "readpositive_num_bits_16_input_limb_1_col2",
+          "type": "M31"
+        },
+        "output": []
       }
     },
     {

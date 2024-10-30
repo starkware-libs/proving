@@ -57,7 +57,13 @@ fn test_range_check_partial_limbs() {
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck2 on input 4")]
-fn test_range_check_partial_limbs_fail() {
+#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+fn test_range_check_2_bit_msl_fail() {
     run_range_check(const_felt252_expr!(0, 1), 128);
+}
+
+#[test]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck3 on input 8")]
+fn test_range_check_partial_limbs_fail() {
+    run_range_check(const_felt252_expr!(0, 2), 129);
 }

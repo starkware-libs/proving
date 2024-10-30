@@ -24,7 +24,7 @@ fn test_entry_json() {
         memory: Felt252IdMemory::default(),
     });
     compare_json(
-        &entry,
+        &entry.clone().compile(),
         &format!("{}{}.json", JSONS_OPCODES_DIR, entry.name.to_lowercase()),
     );
 
@@ -34,7 +34,7 @@ fn test_entry_json() {
         memory: Felt252IdMemory::default(),
     });
     compare_json(
-        &entry,
+        &entry.clone().compile(),
         &format!("{}{}.json", JSONS_OPCODES_DIR, entry.name.to_lowercase()),
     );
     let (_, entry) = AirFnRegistry::new(&MulOpcode {
@@ -43,7 +43,7 @@ fn test_entry_json() {
         memory: Felt252IdMemory::default(),
     });
     compare_json(
-        &entry,
+        &entry.clone().compile(),
         &format!("{}{}.json", JSONS_OPCODES_DIR, entry.name.to_lowercase()),
     );
     let (_, entry) = AirFnRegistry::new(&MulOpcode {
@@ -52,7 +52,7 @@ fn test_entry_json() {
         memory: Felt252IdMemory::default(),
     });
     compare_json(
-        &entry,
+        &entry.clone().compile(),
         &format!("{}{}.json", JSONS_OPCODES_DIR, entry.name.to_lowercase()),
     );
 }
