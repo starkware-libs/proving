@@ -169,6 +169,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         // TODO(Ohad): attempt to remove this.
         #[allow(unused_variables)]
         #[allow(clippy::double_parens)]
+        #[allow(non_snake_case)]
         pub fn write_trace_simd(
             inputs: $(vec_of_type("InputType")),
             $(generate_stateful_component_params(&lists.deductions))

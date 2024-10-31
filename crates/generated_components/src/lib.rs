@@ -1,6 +1,5 @@
 #![allow(incomplete_features)]
 #![feature(generic_const_exprs)]
-#![allow(non_snake_case)]
 #![feature(portable_simd)]
 
 pub mod addapopcode_is_imm_t_op1_base_fp_f;
