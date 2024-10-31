@@ -1,7 +1,7 @@
 use std::array::from_fn;
 
-use compiled_casm_air::prover_types::{FELT252_BITS_PER_WORD, MOD_BUILTIN_WORD_BIT_LEN};
 use inst_def::InstDef;
+use prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use crate::airs::casm::casm_state::*;
 use crate::airs::felt252_id_memory::memory::*;
@@ -13,6 +13,8 @@ use crate::core::expressions::felt_expr::*;
 // Macros
 use crate::const_expr;
 
+// Length of each modulo builtin word in bits.
+pub const MOD_BUILTIN_WORD_BIT_LEN: usize = 96;
 // Number of words composing a mod_builtin number.
 pub const MOD_BUILTIN_N_WORDS: usize = 4;
 // Number of subwords in a word when each FELT252_BITS_PER_WORD bits is a subword.

@@ -5,8 +5,5 @@ edition.workspace = true
 
 [dependencies]
 indexmap = { workspace = true, features = ["serde"] }
-ruint = "1.12.3"
 serde = { workspace = true, features = ["derive", "rc"] }
 serde_json.workspace = true
-starknet-ff = "0.3.7"
-stwo-prover.workspace = true

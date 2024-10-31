@@ -1,4 +1,4 @@
-use compiled_casm_air::prover_types::{Bool, SingleFeltType};
+use prover_types::cpu::{Bool, SingleFeltType};
 
 use super::super::variables::*;
 use super::expr::*;

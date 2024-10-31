@@ -3,7 +3,7 @@ use serde::ser::SerializeStruct;
 use serde::{Serialize, Serializer};
 
 use compiled_casm_air::compiled_structs::CompiledAirVar;
-use compiled_casm_air::prover_types::{BigUInt, Bool, Felt252, ProverType, UInt16, UInt32, UInt64};
+use prover_types::cpu::{BigUInt, Bool, Felt252, ProverType, UInt16, UInt32, UInt64};
 
 use super::super::variables::*;
 use super::biguint_expr::*;

@@ -9,9 +9,8 @@ serde = { workspace = true, features = ["derive", "rc"] }
 serde_json.workspace = true
 num-integer.workspace = true
 stwo-prover.workspace = true
+prover_types.workspace = true
 enum_dispatch = "0.3.13"
 clap = { version = "4.5.9", features = ["derive"] }
-starknet-ff = "0.3.7"
 indexmap = { workspace = true, features = ["serde"] }
-ruint = "1.12.3"
 inst_def = { path = "../derive_macros/inst_def" }

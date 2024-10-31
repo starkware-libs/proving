@@ -1,4 +1,4 @@
-use compiled_casm_air::prover_types::UInt32;
+use prover_types::cpu::UInt32;
 
 use super::super::variables::*;
 use super::expr::*;

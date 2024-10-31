@@ -3,9 +3,9 @@
 #![allow(unused_variables)]
 #![allow(dead_code)]
 use air_code_gen::code_gen::packed_types::{EqExtend, PackedCasmState, PackedM31Type};
-use compiled_casm_air::prover_types::*;
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
+use prover_types::cpu::*;
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::core::air::Component;
 use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};

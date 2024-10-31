@@ -1,4 +1,4 @@
-use compiled_casm_air::prover_types::PRIME;
+use prover_types::cpu::PRIME;
 
 use super::super::common::*;
 use super::decode_inst::*;

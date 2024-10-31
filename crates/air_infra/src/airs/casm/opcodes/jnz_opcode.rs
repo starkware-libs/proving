@@ -1,6 +1,6 @@
 use inst_def::InstDef;
 
-use compiled_casm_air::prover_types::P_FELTS;
+use prover_types::cpu::P_FELTS;
 
 use super::super::casm_state::*;
 use super::super::common::*;

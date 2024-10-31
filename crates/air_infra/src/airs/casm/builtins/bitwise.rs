@@ -1,6 +1,6 @@
 use inst_def::InstDef;
 
-use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
+use prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use crate::airs::casm::bitwise_xor::*;
 use crate::airs::casm::casm_state::*;

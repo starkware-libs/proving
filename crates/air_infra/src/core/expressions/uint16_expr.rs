@@ -1,4 +1,4 @@
-use compiled_casm_air::prover_types::{SingleFeltType, UInt16};
+use prover_types::cpu::{SingleFeltType, UInt16};
 
 use super::super::variables::*;
 use super::expr::*;

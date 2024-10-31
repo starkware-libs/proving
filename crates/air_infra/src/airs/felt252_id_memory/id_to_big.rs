@@ -1,5 +1,5 @@
-use compiled_casm_air::prover_types::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 use inst_def::InstDef;
+use prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;

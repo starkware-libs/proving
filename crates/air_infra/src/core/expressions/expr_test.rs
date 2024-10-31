@@ -1,5 +1,5 @@
 use compiled_casm_air::compiled_structs::CompiledAirVar;
-use compiled_casm_air::prover_types::{BigUInt, Bool, Felt252, UInt32, UInt64, PRIME};
+use prover_types::cpu::{BigUInt, Bool, Felt252, UInt32, UInt64, PRIME};
 
 use super::super::air_fn_registry::*;
 use super::super::variables::*;

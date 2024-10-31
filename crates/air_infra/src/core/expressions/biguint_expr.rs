@@ -1,4 +1,4 @@
-use compiled_casm_air::prover_types::BigUInt;
+use prover_types::cpu::BigUInt;
 
 use super::super::variables::*;
 use super::expr::*;

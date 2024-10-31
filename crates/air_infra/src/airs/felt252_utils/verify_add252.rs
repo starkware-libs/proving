@@ -1,6 +1,6 @@
 use inst_def::InstDef;
 
-use compiled_casm_air::prover_types::{FELT252_BITS_PER_WORD, FELT252_N_WORDS, P_FELTS};
+use prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS, P_FELTS};
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;

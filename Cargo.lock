@@ -12,6 +12,7 @@ dependencies = [
  "itertools 0.12.1",
  "num-traits",
  "pretty_assertions",
+ "prover_types",
  "rand",
  "serde_json",
  "stwo-prover",
@@ -29,10 +30,9 @@ dependencies = [
  "indexmap",
  "inst_def",
  "num-integer",
- "ruint",
+ "prover_types",
  "serde",
  "serde_json",
- "starknet-ff",
  "stwo-prover",
 ]
 
@@ -419,11 +419,8 @@ name = "compiled_casm_air"
 version = "0.1.0"
 dependencies = [
  "indexmap",
- "ruint",
  "serde",
  "serde_json",
- "starknet-ff",
- "stwo-prover",
 ]
 
 [[package]]
@@ -643,6 +640,7 @@ dependencies = [
  "indexmap",
  "itertools 0.12.1",
  "num-traits",
+ "prover_types",
  "rand",
  "serde",
  "stwo-prover",
@@ -959,6 +957,19 @@ dependencies = [
  "rand_xorshift",
  "regex-syntax",
  "unarray",
+]
+
+[[package]]
+name = "prover_types"
+version = "0.1.0"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=194e411#194e411c1763120f625119930609d822b039afc3"
+dependencies = [
+ "bytemuck",
+ "itertools 0.12.1",
+ "ruint",
+ "serde",
+ "starknet-ff",
+ "stwo-prover",
 ]
 
 [[package]]

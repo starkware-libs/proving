@@ -1,4 +1,4 @@
-use compiled_casm_air::prover_types::{Felt252, FELT252_N_WORDS};
+use prover_types::cpu::{Felt252, FELT252_N_WORDS};
 
 use super::super::variables::*;
 use super::expr::*;

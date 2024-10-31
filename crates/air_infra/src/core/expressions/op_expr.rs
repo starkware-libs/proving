@@ -4,7 +4,7 @@ use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 use serde::{Deserialize, Serialize};
 
 use compiled_casm_air::compiled_structs::CompiledAirVar;
-use compiled_casm_air::prover_types::{
+use prover_types::cpu::{
     BigUInt, Bool, Felt252, ProverType, UInt16, UInt32, UInt64, FELT252_N_WORDS,
 };
 

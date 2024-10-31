@@ -1,6 +1,6 @@
 use inst_def::InstDef;
 
-use compiled_casm_air::prover_types::FELT252_BITS_PER_WORD;
+use prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::super::const_tables::range_check::*;
 

@@ -5,7 +5,7 @@ use enum_dispatch::enum_dispatch;
 use serde::Serialize;
 
 use compiled_casm_air::compiled_structs::CompiledAirVar;
-use compiled_casm_air::prover_types::ProverType;
+use prover_types::cpu::ProverType;
 
 use super::expressions::biguint_expr::*;
 use super::expressions::bool_expr::*;
