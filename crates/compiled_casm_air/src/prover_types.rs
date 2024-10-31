@@ -565,6 +565,9 @@ impl ProverType for Felt252 {
     }
 }
 
+// Length of each modulo builtin word in bits.
+pub const MOD_BUILTIN_WORD_BIT_LEN: usize = 96;
+
 #[derive(Copy, Clone, Debug, Eq, PartialEq, Hash)]
 pub struct BigUInt<const B: usize, const L: usize> {
     pub limbs: [u64; L],

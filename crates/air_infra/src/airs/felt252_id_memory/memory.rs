@@ -86,8 +86,12 @@ impl Felt252IdMemory {
             .0
     }
 
-    pub fn read_address(&self, air_builder: &mut AirBuilder, address: CasmAddress) -> CasmAddress {
-        let (address_f252, _) = air_builder.call(
+    pub fn read_address_and_id(
+        &self,
+        air_builder: &mut AirBuilder,
+        address: CasmAddress,
+    ) -> (CasmAddress, FeltExpr) {
+        let (address_f252, id) = air_builder.call(
             &ReadPositive {
                 memory: self.clone(),
                 num_bits: ADDRESS_BITS,
@@ -95,6 +99,13 @@ impl Felt252IdMemory {
             address,
         );
 
-        CasmAddress::new(felt252_to_m31(address_f252, ADDRESS_BITS), "")
+        (
+            CasmAddress::new(felt252_to_m31(address_f252, ADDRESS_BITS), ""),
+            id,
+        )
+    }
+
+    pub fn read_address(&self, air_builder: &mut AirBuilder, address: CasmAddress) -> CasmAddress {
+        self.read_address_and_id(air_builder, address).0
     }
 }

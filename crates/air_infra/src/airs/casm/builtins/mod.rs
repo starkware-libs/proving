@@ -1,6 +1,7 @@
 pub mod bitwise;
 #[cfg(test)]
 pub mod bitwise_test;
+pub mod modulo;
 pub mod range_check;
 
 #[cfg(test)]

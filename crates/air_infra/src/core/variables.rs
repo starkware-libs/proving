@@ -17,6 +17,7 @@ use super::expressions::uint16_expr::*;
 use super::expressions::uint32_expr::*;
 use super::expressions::uint64_expr::*;
 use super::expressions::var_expr::*;
+use crate::airs::casm::builtins::modulo::mod_utils::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::opcodes::generic_opcode::generic_opcode::*;
 
@@ -267,6 +268,9 @@ impl_air_var!((GenericFlags, Offsets));
 impl_air_var!((CasmStateVar, GenericFlags, Offsets));
 impl_air_var!((CasmStateVar, GenericFlags, Offsets, Operands));
 impl_air_var!((CasmStateVar, GenericFlags, Operands));
+type ModValue = [Felt252Expr; MOD_BUILTIN_N_WORDS];
+impl_air_var!([ModValue]);
+impl_air_var!((CasmAddress, FeltExpr));
 
 // Implements AirVar for arrays and tuples of air vars.
 #[macro_export]
