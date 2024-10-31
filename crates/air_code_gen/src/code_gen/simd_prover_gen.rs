@@ -557,8 +557,8 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
 fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(unused_imports)]
-        use air_code_gen::code_gen::packed_types::*;
         use prover_types::cpu::*;
+        use prover_types::simd::*;
         use itertools::{chain, zip_eq, Itertools};
         use num_traits::{One, Zero};
         use stwo_prover::constraint_framework::logup::LogupTraceGenerator;

@@ -1,6 +1,6 @@
 #![allow(unused_variables)]
 
-use air_code_gen::code_gen::packed_types::PackedFelt252;
+use prover_types::simd::PackedFelt252;
 use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::backend::simd::SimdBackend;
 use stwo_prover::core::pcs::TreeBuilder;
