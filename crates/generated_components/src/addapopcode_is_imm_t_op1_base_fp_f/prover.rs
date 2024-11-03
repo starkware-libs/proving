@@ -32,7 +32,7 @@ impl ClaimGenerator {
         memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
         memoryidtobig_state: &mut memoryidtobig::ClaimGenerator,
         verifyinstruction_state: &mut verifyinstruction::ClaimGenerator,
-    ) -> InteractionClaimGenerator {
+    ) -> (Claim, InteractionClaimGenerator) {
         let len = self.inputs.len();
         #[allow(unused_variables)]
         let (trace, sub_components_inputs, lookup_data) =
@@ -57,11 +57,15 @@ impl ClaimGenerator {
             });
 
         tree_builder.extend_evals(trace);
-        let claim = Claim {
-            n_calls: len * N_LANES,
-        };
 
-        InteractionClaimGenerator { claim, lookup_data }
+        let n_calls = len * N_LANES;
+        (
+            Claim { n_calls },
+            InteractionClaimGenerator {
+                n_calls,
+                lookup_data,
+            },
+        )
     }
 
     pub fn add_inputs(&mut self, inputs: &[InputType]) {
@@ -257,7 +261,7 @@ impl LookupData {
 }
 
 pub struct InteractionClaimGenerator {
-    pub claim: Claim,
+    pub n_calls: usize,
     pub lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
@@ -269,8 +273,7 @@ impl InteractionClaimGenerator {
         verifyinstruction_lookup_elements: &verifyinstruction::RelationElements,
         opcodes_lookup_elements: &opcodes::RelationElements,
     ) -> InteractionClaim {
-        let log_size = self.claim.n_calls.next_power_of_two().ilog2();
-        let mut logup_gen = LogupTraceGenerator::new(log_size);
+        let mut logup_gen = LogupTraceGenerator::new(self.n_calls.next_power_of_two().ilog2());
 
         let mut col_gen = logup_gen.new_col();
         let lookup_row = &self.lookup_data.verifyinstruction[0];

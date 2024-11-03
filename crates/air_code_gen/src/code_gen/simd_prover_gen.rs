@@ -262,7 +262,7 @@ fn generate_claim_prover_struct() -> rust::Tokens {
     quote! {
 
         pub struct InteractionClaimGenerator {
-            pub claim: Claim,
+            pub n_calls: usize,
             pub lookup_data: LookupData,
         }
     }
@@ -275,7 +275,7 @@ fn generate_claim_generator_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
                 self,
                 tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
                 $(generate_sub_component_params(deductions))
-            ) -> InteractionClaimGenerator {
+            ) -> (Claim, InteractionClaimGenerator) {
                 $(write_trace_body_simd(deductions))
             }
 
@@ -354,14 +354,17 @@ fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
         $(generate_sub_component_add_inputs(deductions));
 
         tree_builder.extend_evals(trace);
-        let claim = Claim {
-            n_calls: len * N_LANES,
-        };
 
+        let n_calls = len * N_LANES;
+        (
+        Claim {
+            n_calls
+        },
         InteractionClaimGenerator {
-            claim,
+            n_calls,
             lookup_data,
-        }
+        },
+        )
     }
 }
 
@@ -473,8 +476,7 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
                 tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
                 $(lookup_elements)
             ) -> InteractionClaim {
-                let log_size = self.claim.n_calls.next_power_of_two().ilog2();
-                let mut logup_gen = LogupTraceGenerator::new(log_size);
+                let mut logup_gen = LogupTraceGenerator::new(self.n_calls.next_power_of_two().ilog2());
 
                 $(generate_write_interaction_trace_body(deductions))
 
