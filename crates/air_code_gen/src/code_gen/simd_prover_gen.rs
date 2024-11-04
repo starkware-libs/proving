@@ -8,7 +8,7 @@ use genco::quote;
 use itertools::Itertools;
 
 use super::framework_gen::seek_consts;
-use super::utils::{unique_deduction_function_calls, unique_relation_calls};
+use super::utils::{block_doc, unique_deduction_function_calls, unique_relation_calls};
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
@@ -104,8 +104,14 @@ fn generate_simd_write_trace_body_code(
                 }
                 *multiplicity += 1;
             }
-            TraceGenStep::StartBlock(_) => (),
-            TraceGenStep::EndBlock => (),
+            TraceGenStep::StartBlock(msg) => {
+                write_trace_body.extend(block_doc(msg));
+            }
+            TraceGenStep::EndBlock => {
+                write_trace_body.extend(quote!(
+                    $['\n']
+                ));
+            }
             TraceGenStep::LookupData(LookupData {
                 relation_name,
                 felts,
@@ -125,6 +131,9 @@ fn generate_simd_write_trace_body_code(
                 *multiplicity += 1;
             }
         }
+        write_trace_body.extend(quote!(
+            $("\n")
+        ));
     }
     write_trace_body
 }

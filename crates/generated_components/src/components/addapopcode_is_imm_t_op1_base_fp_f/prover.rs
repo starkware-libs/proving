@@ -131,6 +131,9 @@ pub fn write_trace_simd(
             trace_values[1].data[row_index] = input_ap_col1;
             let input_fp_col2 = input_tmp_0.fp;
             trace_values[2].data[row_index] = input_fp_col2;
+
+            // DecodeInstruction_a14b71db698d77c8.
+
             sub_components_inputs.memoryaddresstoid_inputs[0].push(input_pc_col0);
             let memoryaddresstoid_value_tmp_55 =
                 memoryaddresstoid_state.deduce_output(input_pc_col0);
@@ -145,6 +148,7 @@ pub fn write_trace_simd(
                     M31_0, M31_0, M31_0, M31_0,
                 ],
             ));
+
             lookup_data.verifyinstruction[0].push([
                 input_pc_col0,
                 M31_32767,
@@ -166,6 +170,9 @@ pub fn write_trace_simd(
                 M31_0,
                 M31_0,
             ]);
+
+            // ReadSmall.
+
             sub_components_inputs.memoryaddresstoid_inputs[1].push(((input_pc_col0) + (M31_1)));
             let memoryaddresstoid_value_tmp_64 =
                 memoryaddresstoid_state.deduce_output(((input_pc_col0) + (M31_1)));
@@ -174,12 +181,16 @@ pub fn write_trace_simd(
             lookup_data.memoryaddresstoid[0].push([((input_pc_col0) + (M31_1)), op1_id_col3]);
             sub_components_inputs.memoryidtobig_inputs[1].push(op1_id_col3);
             let memoryidtobig_value_tmp_65 = memoryidtobig_state.deduce_output(op1_id_col3);
+
+            // CondDecodeSmallSign.
+
             let msb_tmp_66 = memoryidtobig_value_tmp_65.get_m31(27).eq(M31_256);
             let msb_col4 = msb_tmp_66.as_m31();
             trace_values[4].data[row_index] = msb_col4;
             let mid_limbs_set_tmp_67 = memoryidtobig_value_tmp_65.get_m31(20).eq(M31_511);
             let mid_limbs_set_col5 = mid_limbs_set_tmp_67.as_m31();
             trace_values[5].data[row_index] = mid_limbs_set_col5;
+
             let op1_limb_0_col6 = memoryidtobig_value_tmp_65.get_m31(0);
             trace_values[6].data[row_index] = op1_limb_0_col6;
             let op1_limb_1_col7 = memoryidtobig_value_tmp_65.get_m31(1);
@@ -217,6 +228,7 @@ pub fn write_trace_simd(
                 M31_0,
                 ((msb_col4) * (M31_256)),
             ]);
+
             lookup_data.opcodes[0].push([input_pc_col0, input_ap_col1, input_fp_col2]);
             lookup_data.opcodes[1].push([
                 ((input_pc_col0) + (M31_2)),

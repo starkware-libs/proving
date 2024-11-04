@@ -198,6 +198,9 @@ pub fn write_trace_simd(
             trace_values[17].data[row_index] = input_col17;
             let input_col18 = input_tmp_0.2[14];
             trace_values[18].data[row_index] = input_col18;
+
+            // EncodeOffsets.
+
             let offset0_low_tmp_11 = ((PackedUInt16::from_m31(input_col1)) & (UInt16_511));
             let offset0_low_col19 = offset0_low_tmp_11.as_m31();
             trace_values[19].data[row_index] = offset0_low_col19;
@@ -229,6 +232,7 @@ pub fn write_trace_simd(
                 offset1_low_col21,
                 offset1_high_col23,
             ]);
+
             lookup_data.rangecheck_n_3_bits_7_2_5[0].push([
                 offset0_mid_col20,
                 offset1_low_col21,
@@ -236,7 +240,13 @@ pub fn write_trace_simd(
             ]);
             sub_components_inputs.rangecheck_n_2_bits_4_3_inputs[0]
                 .push([offset2_low_col24, offset2_high_col26]);
+
             lookup_data.rangecheck_n_2_bits_4_3[0].push([offset2_low_col24, offset2_high_col26]);
+
+            // EncodeFlags.
+
+            // MemVerify.
+
             sub_components_inputs.memoryaddresstoid_inputs[0].push(input_col0);
             let memoryaddresstoid_value_tmp_50 = memoryaddresstoid_state.deduce_output(input_col0);
             let instruction_id_col27 = memoryaddresstoid_value_tmp_50;
@@ -285,6 +295,7 @@ pub fn write_trace_simd(
                 M31_0,
                 M31_0,
             ]);
+
             lookup_data.verifyinstruction[0].push([
                 input_col0,
                 input_col1,

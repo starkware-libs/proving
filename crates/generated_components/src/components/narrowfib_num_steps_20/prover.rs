@@ -90,46 +90,107 @@ pub fn write_trace_simd(
             trace_values[0].data[row_index] = input_col0;
             let input_col1 = input_tmp_0[1];
             trace_values[1].data[row_index] = input_col1;
+
+            // FibStep.
+
             let col2 = (((input_col0) * (input_col0)) + ((input_col1) * (input_col1)));
             trace_values[2].data[row_index] = col2;
+
+            // FibStep.
+
             let col3 = (((input_col1) * (input_col1)) + ((col2) * (col2)));
             trace_values[3].data[row_index] = col3;
+
+            // FibStep.
+
             let col4 = (((col2) * (col2)) + ((col3) * (col3)));
             trace_values[4].data[row_index] = col4;
+
+            // FibStep.
+
             let col5 = (((col3) * (col3)) + ((col4) * (col4)));
             trace_values[5].data[row_index] = col5;
+
+            // FibStep.
+
             let col6 = (((col4) * (col4)) + ((col5) * (col5)));
             trace_values[6].data[row_index] = col6;
+
+            // FibStep.
+
             let col7 = (((col5) * (col5)) + ((col6) * (col6)));
             trace_values[7].data[row_index] = col7;
+
+            // FibStep.
+
             let col8 = (((col6) * (col6)) + ((col7) * (col7)));
             trace_values[8].data[row_index] = col8;
+
+            // FibStep.
+
             let col9 = (((col7) * (col7)) + ((col8) * (col8)));
             trace_values[9].data[row_index] = col9;
+
+            // FibStep.
+
             let col10 = (((col8) * (col8)) + ((col9) * (col9)));
             trace_values[10].data[row_index] = col10;
+
+            // FibStep.
+
             let col11 = (((col9) * (col9)) + ((col10) * (col10)));
             trace_values[11].data[row_index] = col11;
+
+            // FibStep.
+
             let col12 = (((col10) * (col10)) + ((col11) * (col11)));
             trace_values[12].data[row_index] = col12;
+
+            // FibStep.
+
             let col13 = (((col11) * (col11)) + ((col12) * (col12)));
             trace_values[13].data[row_index] = col13;
+
+            // FibStep.
+
             let col14 = (((col12) * (col12)) + ((col13) * (col13)));
             trace_values[14].data[row_index] = col14;
+
+            // FibStep.
+
             let col15 = (((col13) * (col13)) + ((col14) * (col14)));
             trace_values[15].data[row_index] = col15;
+
+            // FibStep.
+
             let col16 = (((col14) * (col14)) + ((col15) * (col15)));
             trace_values[16].data[row_index] = col16;
+
+            // FibStep.
+
             let col17 = (((col15) * (col15)) + ((col16) * (col16)));
             trace_values[17].data[row_index] = col17;
+
+            // FibStep.
+
             let col18 = (((col16) * (col16)) + ((col17) * (col17)));
             trace_values[18].data[row_index] = col18;
+
+            // FibStep.
+
             let col19 = (((col17) * (col17)) + ((col18) * (col18)));
             trace_values[19].data[row_index] = col19;
+
+            // FibStep.
+
             let col20 = (((col18) * (col18)) + ((col19) * (col19)));
             trace_values[20].data[row_index] = col20;
+
+            // FibStep.
+
             let col21 = (((col19) * (col19)) + ((col20) * (col20)));
             trace_values[21].data[row_index] = col21;
+
             lookup_data.narrowfib_num_steps_20[0].push([input_col0, input_col1, col20, col21]);
         });
 
