@@ -48,7 +48,8 @@ impl AirFn for ModUtils {
         };
 
         // Instance 0 is a special case because it doesn't have a previous instance to compare to.
-        let mut is_instance_0 = ab.let_for_deduction(instance_num.clone().eq(const_expr!(0)));
+        let mut is_instance_0 =
+            ab.let_for_deduction(instance_num.clone().eq(const_expr!(0)), "is_instance_0");
         let is_instance_0 = ab.deduce(is_instance_0.as_felt_mut(), "is_instance_0");
         ab.constrain(
             is_instance_0.clone() * (is_instance_0.clone() - const_expr!(1)),
@@ -118,6 +119,7 @@ impl AirFn for ModUtils {
         // If instance 0, then n_val_prev = 1, else n_val_prev = n_val_prev_nominal
         let n_val_prev = ab.let_for_constraint(
             n_val_prev_nominal * (const_expr!(1) - is_instance_0.clone()) + is_instance_0.clone(),
+            "n_val_prev",
         );
         // Condition for block reset, i.e. when the input variables can progress arbitrarily.
         let block_reset_condition = n_val_prev.clone() - const_expr!(1);
