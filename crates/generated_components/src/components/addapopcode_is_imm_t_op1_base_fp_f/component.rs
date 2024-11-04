@@ -103,6 +103,9 @@ impl FrameworkEval for Eval {
         let op1_limb_0_col6 = eval.next_trace_mask();
         let op1_limb_1_col7 = eval.next_trace_mask();
         let op1_limb_2_col8 = eval.next_trace_mask();
+
+        // DecodeInstruction_a14b71db698d77c8.
+
         let frac = Fraction::new(
             E::EF::one(),
             self.verifyinstruction_lookup_elements.combine(&[
@@ -124,19 +127,29 @@ impl FrameworkEval for Eval {
             ]),
         );
         logup.write_frac(&mut eval, frac);
+
+        // ReadSmall.
+
         let frac = Fraction::new(
             E::EF::one(),
             self.memoryaddresstoid_lookup_elements
                 .combine(&[(input_pc_col0.clone() + M31_1.clone()), op1_id_col3.clone()]),
         );
         logup.write_frac(&mut eval, frac);
+
+        // CondDecodeSmallSign.
+
+        // msb is a bit.
         eval.add_constraint((msb_col4.clone() * (msb_col4.clone() - M31_1.clone())));
+        // mid_limbs_set is a bit.
         eval.add_constraint(
             (mid_limbs_set_col5.clone() * (mid_limbs_set_col5.clone() - M31_1.clone())),
         );
+        // Cannot have msb equals 0 and mid_limbs_set equals 1.
         eval.add_constraint(
             ((M31_1.clone() * mid_limbs_set_col5.clone()) * (msb_col4.clone() - M31_1.clone())),
         );
+
         let frac = Fraction::new(
             E::EF::one(),
             self.memoryidtobig_lookup_elements.combine(&[
@@ -172,6 +185,7 @@ impl FrameworkEval for Eval {
             ]),
         );
         logup.write_frac(&mut eval, frac);
+
         let frac = Fraction::new(
             E::EF::one(),
             self.opcodes_lookup_elements.combine(&[

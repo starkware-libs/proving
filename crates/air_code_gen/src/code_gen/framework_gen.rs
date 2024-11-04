@@ -7,7 +7,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::{chain, Itertools};
 
-use super::utils::n_logup_columns;
+use super::utils::{block_doc, n_logup_columns};
 use crate::code_gen::simd_prover_gen::{generate_sub_component_imports, remove_trailing_zeroes};
 use crate::code_gen::utils::{callee_lookup_length, unique_constraint_relations};
 
@@ -195,7 +195,12 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
 
     for constraint in lists.constraints.iter() {
         match constraint {
-            ConstraintEvalStep::Constraint(expr, ..) => {
+            ConstraintEvalStep::Constraint(expr, desc) => {
+                if let Some(desc) = desc {
+                    code.append(quote! {
+                        $("//")$desc.$("\n")
+                    });
+                }
                 code.extend(quote! {
                     eval.add_constraint(
                         $(parse_eval_constraint(expr,&const_names))
@@ -220,9 +225,18 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                     &const_names,
                 ));
             }
-            ConstraintEvalStep::StartBlock(_) => (),
-            ConstraintEvalStep::EndBlock => (),
+            ConstraintEvalStep::StartBlock(msg) => {
+                code.extend(block_doc(msg));
+            }
+            ConstraintEvalStep::EndBlock => {
+                code.extend(quote!(
+                    $['\n']
+                ));
+            }
         }
+        code.extend(quote! {
+            $("\n")
+        });
     }
     code.extend(quote! {
 

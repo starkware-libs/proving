@@ -128,15 +128,21 @@ impl FrameworkEval for Eval {
         let offset2_mid_col25 = eval.next_trace_mask();
         let offset2_high_col26 = eval.next_trace_mask();
         let instruction_id_col27 = eval.next_trace_mask();
+
+        // EncodeOffsets.
+
+        // Reconstructed offset0 is correct.
         eval.add_constraint(
             ((offset0_low_col19.clone() + (offset0_mid_col20.clone() * M31_512.clone()))
                 - input_col1.clone()),
         );
+        // Reconstructed offset1 is correct.
         eval.add_constraint(
             (((offset1_low_col21.clone() + (offset1_mid_col22.clone() * M31_4.clone()))
                 + (offset1_high_col23.clone() * M31_2048.clone()))
                 - input_col2.clone()),
         );
+        // Reconstructed offset2 is correct.
         eval.add_constraint(
             (((offset2_low_col24.clone() + (offset2_mid_col25.clone() * M31_16.clone()))
                 + (offset2_high_col26.clone() * M31_8192.clone()))
@@ -157,21 +163,42 @@ impl FrameworkEval for Eval {
                 .combine(&[offset2_low_col24.clone(), offset2_high_col26.clone()]),
         );
         logup.write_frac(&mut eval, frac);
+
+        // EncodeFlags.
+
+        // Flag dst_base_fp is a bit.
         eval.add_constraint((input_col4.clone() * (M31_1.clone() - input_col4.clone())));
+        // Flag op0_base_fp is a bit.
         eval.add_constraint((input_col5.clone() * (M31_1.clone() - input_col5.clone())));
+        // Flag op1_imm is a bit.
         eval.add_constraint((input_col6.clone() * (M31_1.clone() - input_col6.clone())));
+        // Flag op1_base_fp is a bit.
         eval.add_constraint((input_col7.clone() * (M31_1.clone() - input_col7.clone())));
+        // Flag op1_base_ap is a bit.
         eval.add_constraint((input_col8.clone() * (M31_1.clone() - input_col8.clone())));
+        // Flag res_add is a bit.
         eval.add_constraint((input_col9.clone() * (M31_1.clone() - input_col9.clone())));
+        // Flag res_mul is a bit.
         eval.add_constraint((input_col10.clone() * (M31_1.clone() - input_col10.clone())));
+        // Flag pc_update_jump is a bit.
         eval.add_constraint((input_col11.clone() * (M31_1.clone() - input_col11.clone())));
+        // Flag pc_update_jump_rel is a bit.
         eval.add_constraint((input_col12.clone() * (M31_1.clone() - input_col12.clone())));
+        // Flag pc_update_jnz is a bit.
         eval.add_constraint((input_col13.clone() * (M31_1.clone() - input_col13.clone())));
+        // Flag ap_update_add is a bit.
         eval.add_constraint((input_col14.clone() * (M31_1.clone() - input_col14.clone())));
+        // Flag ap_update_add_1 is a bit.
         eval.add_constraint((input_col15.clone() * (M31_1.clone() - input_col15.clone())));
+        // Flag opcode_call is a bit.
         eval.add_constraint((input_col16.clone() * (M31_1.clone() - input_col16.clone())));
+        // Flag opcode_ret is a bit.
         eval.add_constraint((input_col17.clone() * (M31_1.clone() - input_col17.clone())));
+        // Flag opcode_assert_eq is a bit.
         eval.add_constraint((input_col18.clone() * (M31_1.clone() - input_col18.clone())));
+
+        // MemVerify.
+
         let frac = Fraction::new(
             E::EF::one(),
             self.memoryaddresstoid_lookup_elements
@@ -206,6 +233,7 @@ impl FrameworkEval for Eval {
             ]),
         );
         logup.write_frac(&mut eval, frac);
+
         let frac = Fraction::new(
             -E::EF::one(),
             self.verifyinstruction_lookup_elements.combine(&[
