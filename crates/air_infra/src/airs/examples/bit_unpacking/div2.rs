@@ -20,10 +20,10 @@ impl AirFn for Div2 {
     type Out = (BoolExpr, UInt16Expr);
 
     fn call(&self, air_builder: &mut AirBuilder, x0: Self::In) -> Self::Out {
-        let mut x1 = air_builder.let_for_deduction(x0.clone() >> const_u16_expr!(1));
+        let mut x1 = air_builder.let_for_deduction(x0.clone() >> const_u16_expr!(1), "");
         let x1_felt = air_builder.deduce(x1.as_felt_mut(), "");
         // Calculate the least significant bit of the input = x0 - 2 * x1
-        let lsb = air_builder.let_for_constraint(x0.as_felt() - (x1_felt * const_expr!(2)));
+        let lsb = air_builder.let_for_constraint(x0.as_felt() - (x1_felt * const_expr!(2)), "");
         // Constrain the least significant bit to be 0 or 1, i.e. (x0 - 2x1) * (x0 - 2x1 - 1) = 0
         air_builder.constrain(lsb.clone() * (lsb.clone() - const_expr!(1)), "");
 

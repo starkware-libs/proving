@@ -18,7 +18,7 @@ impl AirFn for Sub252 {
     type Out = Felt252Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, [c, a]: Self::In) -> Self::Out {
-        let mut b = air_builder.let_for_deduction(c.clone() - a.clone());
+        let mut b = air_builder.let_for_deduction(c.clone() - a.clone(), "sub_res");
         for (i, b_limb) in b.as_felts_mut().into_iter().enumerate() {
             air_builder.deduce(b_limb, &format!("sub_res_limb_{}", i));
         }

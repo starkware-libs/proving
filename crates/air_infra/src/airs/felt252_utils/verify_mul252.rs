@@ -51,7 +51,7 @@ impl AirFn for VerifyMul252 {
             for j in convolution_start..=convolution_end {
                 conv += (a.get_felt(j) * b.get_felt(i - j), MAX_WORD * MAX_WORD, 0).into()
             }
-            conv.expr = air_builder.let_(conv.expr);
+            conv.expr = air_builder.let_(conv.expr, "conv");
             conv_tmps[i] = conv;
         }
 
@@ -89,7 +89,7 @@ impl AirFn for VerifyMul252 {
         }
         // Save the reduced convolution elements as temp variables.
         for conv_mod in conv_mod_tmps.iter_mut() {
-            conv_mod.expr = air_builder.let_(conv_mod.expr.clone());
+            conv_mod.expr = air_builder.let_(conv_mod.expr.clone(), "conv_mod");
         }
 
         // Compute and deduce k: the coefficient of P in the equation
@@ -112,7 +112,7 @@ impl AirFn for VerifyMul252 {
         let mut k_mod_2_18_biased =
             (k_low + (k_high_mod_2_9 << const_u32_expr!(9u32)) + const_u32_expr!(1u32 << 16))
                 & const_u32_expr!((1u32 << 18) - 1);
-        k_mod_2_18_biased = air_builder.let_for_deduction(k_mod_2_18_biased);
+        k_mod_2_18_biased = air_builder.let_for_deduction(k_mod_2_18_biased, "k_mod_2_18_biased");
         let k_expr = air_builder.deduce(
             &mut (k_mod_2_18_biased.low().as_felt()
                 + (k_mod_2_18_biased.high().as_felt() - const_expr!(1)) * const_expr!(1u32 << 16)),

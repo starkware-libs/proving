@@ -389,7 +389,7 @@
   "deductions": [
     {
       "Intermediate": [
-        "tmp_0",
+        "input_tmp_0",
         {
           "Var": [
             "CasmState",
@@ -402,7 +402,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_0.pc"
+          "input_tmp_0.pc"
         ]
       }
     },
@@ -410,7 +410,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_0.ap"
+          "input_tmp_0.ap"
         ]
       }
     },
@@ -418,7 +418,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_0.fp"
+          "input_tmp_0.fp"
         ]
       }
     },
@@ -431,7 +431,7 @@
         "input": {
           "State": "input_pc_col0"
         },
-        "output_name": "tmp_61"
+        "output_name": "memoryaddresstoid_value_tmp_61"
       }
     },
     {
@@ -440,15 +440,15 @@
         "input": {
           "Var": [
             "M31",
-            "tmp_61"
+            "memoryaddresstoid_value_tmp_61"
           ]
         },
-        "output_name": "tmp_62"
+        "output_name": "memoryidtobig_value_tmp_62"
       }
     },
     {
       "Intermediate": [
-        "tmp_63",
+        "offset0_tmp_63",
         {
           "BinaryOp": [
             {
@@ -460,7 +460,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "tmp_62"
+                          "memoryidtobig_value_tmp_62"
                         ]
                       },
                       "get_m31",
@@ -491,7 +491,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "tmp_62"
+                                  "memoryidtobig_value_tmp_62"
                                 ]
                               },
                               "get_m31",
@@ -536,7 +536,7 @@
           {
             "Var": [
               "UInt16",
-              "tmp_63"
+              "offset0_tmp_63"
             ]
           },
           "as_m31",
@@ -546,7 +546,7 @@
     },
     {
       "Intermediate": [
-        "tmp_64",
+        "offset2_tmp_64",
         {
           "BinaryOp": [
             {
@@ -562,7 +562,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "tmp_62"
+                                  "memoryidtobig_value_tmp_62"
                                 ]
                               },
                               "get_m31",
@@ -600,7 +600,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "tmp_62"
+                                  "memoryidtobig_value_tmp_62"
                                 ]
                               },
                               "get_m31",
@@ -642,7 +642,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "tmp_62"
+                                  "memoryidtobig_value_tmp_62"
                                 ]
                               },
                               "get_m31",
@@ -687,7 +687,7 @@
           {
             "Var": [
               "UInt16",
-              "tmp_64"
+              "offset2_tmp_64"
             ]
           },
           "as_m31",
@@ -697,7 +697,7 @@
     },
     {
       "Intermediate": [
-        "tmp_65",
+        "dst_base_fp_tmp_65",
         {
           "BinaryOp": [
             {
@@ -715,7 +715,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "tmp_62"
+                                      "memoryidtobig_value_tmp_62"
                                     ]
                                   },
                                   "get_m31",
@@ -753,7 +753,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "tmp_62"
+                                      "memoryidtobig_value_tmp_62"
                                     ]
                                   },
                                   "get_m31",
@@ -807,7 +807,7 @@
           {
             "Var": [
               "UInt16",
-              "tmp_65"
+              "dst_base_fp_tmp_65"
             ]
           },
           "as_m31",
@@ -817,7 +817,7 @@
     },
     {
       "Intermediate": [
-        "tmp_66",
+        "op1_base_fp_tmp_66",
         {
           "BinaryOp": [
             {
@@ -835,7 +835,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "tmp_62"
+                                      "memoryidtobig_value_tmp_62"
                                     ]
                                   },
                                   "get_m31",
@@ -873,7 +873,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "tmp_62"
+                                      "memoryidtobig_value_tmp_62"
                                     ]
                                   },
                                   "get_m31",
@@ -927,7 +927,7 @@
           {
             "Var": [
               "UInt16",
-              "tmp_66"
+              "op1_base_fp_tmp_66"
             ]
           },
           "as_m31",
@@ -937,7 +937,7 @@
     },
     {
       "Intermediate": [
-        "tmp_67",
+        "op1_base_ap_tmp_67",
         {
           "BinaryOp": [
             {
@@ -955,7 +955,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "tmp_62"
+                                      "memoryidtobig_value_tmp_62"
                                     ]
                                   },
                                   "get_m31",
@@ -993,7 +993,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "tmp_62"
+                                      "memoryidtobig_value_tmp_62"
                                     ]
                                   },
                                   "get_m31",
@@ -1047,7 +1047,7 @@
           {
             "Var": [
               "UInt16",
-              "tmp_67"
+              "op1_base_ap_tmp_67"
             ]
           },
           "as_m31",
@@ -1057,7 +1057,7 @@
     },
     {
       "Intermediate": [
-        "tmp_68",
+        "ap_update_add_1_tmp_68",
         {
           "BinaryOp": [
             {
@@ -1075,7 +1075,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "tmp_62"
+                                      "memoryidtobig_value_tmp_62"
                                     ]
                                   },
                                   "get_m31",
@@ -1113,7 +1113,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "tmp_62"
+                                      "memoryidtobig_value_tmp_62"
                                     ]
                                   },
                                   "get_m31",
@@ -1167,7 +1167,7 @@
           {
             "Var": [
               "UInt16",
-              "tmp_68"
+              "ap_update_add_1_tmp_68"
             ]
           },
           "as_m31",
@@ -1451,14 +1451,14 @@
             }
           ]
         },
-        "output_name": "tmp_71"
+        "output_name": "memoryaddresstoid_value_tmp_71"
       }
     },
     {
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_71"
+          "memoryaddresstoid_value_tmp_71"
         ]
       }
     },

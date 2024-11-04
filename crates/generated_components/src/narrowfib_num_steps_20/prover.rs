@@ -82,13 +82,13 @@ pub fn write_trace_simd(
         .into_iter()
         .enumerate()
         .for_each(|(row_index, narrowfib_num_steps_20_input)| {
-            let tmp_0 = [
+            let input_tmp_0 = [
                 narrowfib_num_steps_20_input[0],
                 narrowfib_num_steps_20_input[1],
             ];
-            let input_col0 = tmp_0[0];
+            let input_col0 = input_tmp_0[0];
             trace_values[0].data[row_index] = input_col0;
-            let input_col1 = tmp_0[1];
+            let input_col1 = input_tmp_0[1];
             trace_values[1].data[row_index] = input_col1;
             let col2 = (((input_col0) * (input_col0)) + ((input_col1) * (input_col1)));
             trace_values[2].data[row_index] = col2;

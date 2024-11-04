@@ -850,7 +850,7 @@
   "deductions": [
     {
       "Intermediate": [
-        "tmp_0",
+        "input_tmp_0",
         {
           "Var": [
             "CasmState",
@@ -863,7 +863,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_0.pc"
+          "input_tmp_0.pc"
         ]
       }
     },
@@ -871,7 +871,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_0.ap"
+          "input_tmp_0.ap"
         ]
       }
     },
@@ -879,7 +879,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_0.fp"
+          "input_tmp_0.fp"
         ]
       }
     },
@@ -892,7 +892,7 @@
         "input": {
           "State": "input_pc_col0"
         },
-        "output_name": "tmp_56"
+        "output_name": "memoryaddresstoid_value_tmp_56"
       }
     },
     {
@@ -901,15 +901,15 @@
         "input": {
           "Var": [
             "M31",
-            "tmp_56"
+            "memoryaddresstoid_value_tmp_56"
           ]
         },
-        "output_name": "tmp_57"
+        "output_name": "memoryidtobig_value_tmp_57"
       }
     },
     {
       "Intermediate": [
-        "tmp_58",
+        "offset2_tmp_58",
         {
           "BinaryOp": [
             {
@@ -925,7 +925,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "tmp_57"
+                                  "memoryidtobig_value_tmp_57"
                                 ]
                               },
                               "get_m31",
@@ -963,7 +963,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "tmp_57"
+                                  "memoryidtobig_value_tmp_57"
                                 ]
                               },
                               "get_m31",
@@ -1005,7 +1005,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "tmp_57"
+                                  "memoryidtobig_value_tmp_57"
                                 ]
                               },
                               "get_m31",
@@ -1050,7 +1050,7 @@
           {
             "Var": [
               "UInt16",
-              "tmp_58"
+              "offset2_tmp_58"
             ]
           },
           "as_m31",
@@ -1329,14 +1329,14 @@
             }
           ]
         },
-        "output_name": "tmp_66"
+        "output_name": "memoryaddresstoid_value_tmp_66"
       }
     },
     {
       "Deduction": {
         "Var": [
           "M31",
-          "tmp_66"
+          "memoryaddresstoid_value_tmp_66"
         ]
       }
     },
@@ -1379,7 +1379,7 @@
         "input": {
           "State": "op1_id_col4"
         },
-        "output_name": "tmp_67"
+        "output_name": "memoryidtobig_value_tmp_67"
       }
     },
     {
@@ -1387,7 +1387,7 @@
     },
     {
       "Intermediate": [
-        "tmp_68",
+        "msb_tmp_68",
         {
           "MethodCall": [
             {
@@ -1395,7 +1395,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "tmp_67"
+                    "memoryidtobig_value_tmp_67"
                   ]
                 },
                 "get_m31",
@@ -1428,7 +1428,7 @@
           {
             "Var": [
               "Bool",
-              "tmp_68"
+              "msb_tmp_68"
             ]
           },
           "as_m31",
@@ -1438,7 +1438,7 @@
     },
     {
       "Intermediate": [
-        "tmp_69",
+        "mid_limbs_set_tmp_69",
         {
           "MethodCall": [
             {
@@ -1446,7 +1446,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "tmp_67"
+                    "memoryidtobig_value_tmp_67"
                   ]
                 },
                 "get_m31",
@@ -1479,7 +1479,7 @@
           {
             "Var": [
               "Bool",
-              "tmp_69"
+              "mid_limbs_set_tmp_69"
             ]
           },
           "as_m31",
@@ -1494,7 +1494,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_67"
+              "memoryidtobig_value_tmp_67"
             ]
           },
           "get_m31",
@@ -1515,7 +1515,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_67"
+              "memoryidtobig_value_tmp_67"
             ]
           },
           "get_m31",
@@ -1536,7 +1536,7 @@
           {
             "Var": [
               "Felt252",
-              "tmp_67"
+              "memoryidtobig_value_tmp_67"
             ]
           },
           "get_m31",

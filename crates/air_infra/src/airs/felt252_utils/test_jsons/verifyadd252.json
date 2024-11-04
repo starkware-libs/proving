@@ -23,7 +23,7 @@
   "air_body": [
     {
       "Intermediate": [
-        "tmp_0",
+        "sub_p_bit_tmp_0",
         {
           "name": "(const_1 & ((UInt16::from_m31(verifyadd252_input[0].get_m31(const_0)) ^ UInt16::from_m31(verifyadd252_input[1].get_m31(const_0))) ^ UInt16::from_m31(verifyadd252_input[2].get_m31(const_0))))",
           "type": "UInt16"
@@ -36,7 +36,7 @@
     },
     {
       "Deduction": [
-        "tmp_0.as_m31()",
+        "sub_p_bit_tmp_0.as_m31()",
         "sub_p_bit"
       ]
     },
@@ -48,7 +48,7 @@
     },
     {
       "Intermediate": [
-        "tmp_1",
+        "carry_tmp_1",
         {
           "name": "(((((verifyadd252_input[0].get_m31(const_0) + verifyadd252_input[1].get_m31(const_0)) + const_0) - verifyadd252_input[2].get_m31(const_0)) - (const_1 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
@@ -61,14 +61,14 @@
     },
     {
       "Constraint": [
-        "(tmp_1 * ((tmp_1 * tmp_1) - const_1))"
+        "(carry_tmp_1 * ((carry_tmp_1 * carry_tmp_1) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_2",
+        "carry_tmp_2",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_1) + verifyadd252_input[1].get_m31(const_1)) + tmp_1) - verifyadd252_input[2].get_m31(const_1)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_1) + verifyadd252_input[1].get_m31(const_1)) + carry_tmp_1) - verifyadd252_input[2].get_m31(const_1)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -79,14 +79,14 @@
     },
     {
       "Constraint": [
-        "(tmp_2 * ((tmp_2 * tmp_2) - const_1))"
+        "(carry_tmp_2 * ((carry_tmp_2 * carry_tmp_2) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_3",
+        "carry_tmp_3",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_2) + verifyadd252_input[1].get_m31(const_2)) + tmp_2) - verifyadd252_input[2].get_m31(const_2)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_2) + verifyadd252_input[1].get_m31(const_2)) + carry_tmp_2) - verifyadd252_input[2].get_m31(const_2)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -97,14 +97,14 @@
     },
     {
       "Constraint": [
-        "(tmp_3 * ((tmp_3 * tmp_3) - const_1))"
+        "(carry_tmp_3 * ((carry_tmp_3 * carry_tmp_3) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_4",
+        "carry_tmp_4",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_3) + verifyadd252_input[1].get_m31(const_3)) + tmp_3) - verifyadd252_input[2].get_m31(const_3)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_3) + verifyadd252_input[1].get_m31(const_3)) + carry_tmp_3) - verifyadd252_input[2].get_m31(const_3)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -115,14 +115,14 @@
     },
     {
       "Constraint": [
-        "(tmp_4 * ((tmp_4 * tmp_4) - const_1))"
+        "(carry_tmp_4 * ((carry_tmp_4 * carry_tmp_4) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_5",
+        "carry_tmp_5",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_4) + verifyadd252_input[1].get_m31(const_4)) + tmp_4) - verifyadd252_input[2].get_m31(const_4)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_4) + verifyadd252_input[1].get_m31(const_4)) + carry_tmp_4) - verifyadd252_input[2].get_m31(const_4)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -133,14 +133,14 @@
     },
     {
       "Constraint": [
-        "(tmp_5 * ((tmp_5 * tmp_5) - const_1))"
+        "(carry_tmp_5 * ((carry_tmp_5 * carry_tmp_5) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_6",
+        "carry_tmp_6",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_5) + verifyadd252_input[1].get_m31(const_5)) + tmp_5) - verifyadd252_input[2].get_m31(const_5)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_5) + verifyadd252_input[1].get_m31(const_5)) + carry_tmp_5) - verifyadd252_input[2].get_m31(const_5)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -151,14 +151,14 @@
     },
     {
       "Constraint": [
-        "(tmp_6 * ((tmp_6 * tmp_6) - const_1))"
+        "(carry_tmp_6 * ((carry_tmp_6 * carry_tmp_6) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_7",
+        "carry_tmp_7",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_6) + verifyadd252_input[1].get_m31(const_6)) + tmp_6) - verifyadd252_input[2].get_m31(const_6)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_6) + verifyadd252_input[1].get_m31(const_6)) + carry_tmp_6) - verifyadd252_input[2].get_m31(const_6)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -169,14 +169,14 @@
     },
     {
       "Constraint": [
-        "(tmp_7 * ((tmp_7 * tmp_7) - const_1))"
+        "(carry_tmp_7 * ((carry_tmp_7 * carry_tmp_7) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_8",
+        "carry_tmp_8",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_7) + verifyadd252_input[1].get_m31(const_7)) + tmp_7) - verifyadd252_input[2].get_m31(const_7)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_7) + verifyadd252_input[1].get_m31(const_7)) + carry_tmp_7) - verifyadd252_input[2].get_m31(const_7)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -187,14 +187,14 @@
     },
     {
       "Constraint": [
-        "(tmp_8 * ((tmp_8 * tmp_8) - const_1))"
+        "(carry_tmp_8 * ((carry_tmp_8 * carry_tmp_8) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_9",
+        "carry_tmp_9",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_8) + verifyadd252_input[1].get_m31(const_8)) + tmp_8) - verifyadd252_input[2].get_m31(const_8)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_8) + verifyadd252_input[1].get_m31(const_8)) + carry_tmp_8) - verifyadd252_input[2].get_m31(const_8)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -205,14 +205,14 @@
     },
     {
       "Constraint": [
-        "(tmp_9 * ((tmp_9 * tmp_9) - const_1))"
+        "(carry_tmp_9 * ((carry_tmp_9 * carry_tmp_9) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_10",
+        "carry_tmp_10",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_9) + verifyadd252_input[1].get_m31(const_9)) + tmp_9) - verifyadd252_input[2].get_m31(const_9)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_9) + verifyadd252_input[1].get_m31(const_9)) + carry_tmp_9) - verifyadd252_input[2].get_m31(const_9)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -223,14 +223,14 @@
     },
     {
       "Constraint": [
-        "(tmp_10 * ((tmp_10 * tmp_10) - const_1))"
+        "(carry_tmp_10 * ((carry_tmp_10 * carry_tmp_10) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_11",
+        "carry_tmp_11",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_10) + verifyadd252_input[1].get_m31(const_10)) + tmp_10) - verifyadd252_input[2].get_m31(const_10)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_10) + verifyadd252_input[1].get_m31(const_10)) + carry_tmp_10) - verifyadd252_input[2].get_m31(const_10)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -241,14 +241,14 @@
     },
     {
       "Constraint": [
-        "(tmp_11 * ((tmp_11 * tmp_11) - const_1))"
+        "(carry_tmp_11 * ((carry_tmp_11 * carry_tmp_11) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_12",
+        "carry_tmp_12",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_11) + verifyadd252_input[1].get_m31(const_11)) + tmp_11) - verifyadd252_input[2].get_m31(const_11)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_11) + verifyadd252_input[1].get_m31(const_11)) + carry_tmp_11) - verifyadd252_input[2].get_m31(const_11)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -259,14 +259,14 @@
     },
     {
       "Constraint": [
-        "(tmp_12 * ((tmp_12 * tmp_12) - const_1))"
+        "(carry_tmp_12 * ((carry_tmp_12 * carry_tmp_12) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_13",
+        "carry_tmp_13",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_12) + verifyadd252_input[1].get_m31(const_12)) + tmp_12) - verifyadd252_input[2].get_m31(const_12)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_12) + verifyadd252_input[1].get_m31(const_12)) + carry_tmp_12) - verifyadd252_input[2].get_m31(const_12)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -277,14 +277,14 @@
     },
     {
       "Constraint": [
-        "(tmp_13 * ((tmp_13 * tmp_13) - const_1))"
+        "(carry_tmp_13 * ((carry_tmp_13 * carry_tmp_13) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_14",
+        "carry_tmp_14",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_13) + verifyadd252_input[1].get_m31(const_13)) + tmp_13) - verifyadd252_input[2].get_m31(const_13)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_13) + verifyadd252_input[1].get_m31(const_13)) + carry_tmp_13) - verifyadd252_input[2].get_m31(const_13)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -295,14 +295,14 @@
     },
     {
       "Constraint": [
-        "(tmp_14 * ((tmp_14 * tmp_14) - const_1))"
+        "(carry_tmp_14 * ((carry_tmp_14 * carry_tmp_14) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_15",
+        "carry_tmp_15",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_14) + verifyadd252_input[1].get_m31(const_14)) + tmp_14) - verifyadd252_input[2].get_m31(const_14)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_14) + verifyadd252_input[1].get_m31(const_14)) + carry_tmp_14) - verifyadd252_input[2].get_m31(const_14)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -313,14 +313,14 @@
     },
     {
       "Constraint": [
-        "(tmp_15 * ((tmp_15 * tmp_15) - const_1))"
+        "(carry_tmp_15 * ((carry_tmp_15 * carry_tmp_15) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_16",
+        "carry_tmp_16",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_15) + verifyadd252_input[1].get_m31(const_15)) + tmp_15) - verifyadd252_input[2].get_m31(const_15)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_15) + verifyadd252_input[1].get_m31(const_15)) + carry_tmp_15) - verifyadd252_input[2].get_m31(const_15)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -331,14 +331,14 @@
     },
     {
       "Constraint": [
-        "(tmp_16 * ((tmp_16 * tmp_16) - const_1))"
+        "(carry_tmp_16 * ((carry_tmp_16 * carry_tmp_16) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_17",
+        "carry_tmp_17",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_16) + verifyadd252_input[1].get_m31(const_16)) + tmp_16) - verifyadd252_input[2].get_m31(const_16)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_16) + verifyadd252_input[1].get_m31(const_16)) + carry_tmp_16) - verifyadd252_input[2].get_m31(const_16)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -349,14 +349,14 @@
     },
     {
       "Constraint": [
-        "(tmp_17 * ((tmp_17 * tmp_17) - const_1))"
+        "(carry_tmp_17 * ((carry_tmp_17 * carry_tmp_17) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_18",
+        "carry_tmp_18",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_17) + verifyadd252_input[1].get_m31(const_17)) + tmp_17) - verifyadd252_input[2].get_m31(const_17)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_17) + verifyadd252_input[1].get_m31(const_17)) + carry_tmp_17) - verifyadd252_input[2].get_m31(const_17)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -367,14 +367,14 @@
     },
     {
       "Constraint": [
-        "(tmp_18 * ((tmp_18 * tmp_18) - const_1))"
+        "(carry_tmp_18 * ((carry_tmp_18 * carry_tmp_18) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_19",
+        "carry_tmp_19",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_18) + verifyadd252_input[1].get_m31(const_18)) + tmp_18) - verifyadd252_input[2].get_m31(const_18)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_18) + verifyadd252_input[1].get_m31(const_18)) + carry_tmp_18) - verifyadd252_input[2].get_m31(const_18)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -385,14 +385,14 @@
     },
     {
       "Constraint": [
-        "(tmp_19 * ((tmp_19 * tmp_19) - const_1))"
+        "(carry_tmp_19 * ((carry_tmp_19 * carry_tmp_19) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_20",
+        "carry_tmp_20",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_19) + verifyadd252_input[1].get_m31(const_19)) + tmp_19) - verifyadd252_input[2].get_m31(const_19)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_19) + verifyadd252_input[1].get_m31(const_19)) + carry_tmp_19) - verifyadd252_input[2].get_m31(const_19)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -403,14 +403,14 @@
     },
     {
       "Constraint": [
-        "(tmp_20 * ((tmp_20 * tmp_20) - const_1))"
+        "(carry_tmp_20 * ((carry_tmp_20 * carry_tmp_20) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_21",
+        "carry_tmp_21",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_20) + verifyadd252_input[1].get_m31(const_20)) + tmp_20) - verifyadd252_input[2].get_m31(const_20)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_20) + verifyadd252_input[1].get_m31(const_20)) + carry_tmp_20) - verifyadd252_input[2].get_m31(const_20)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -421,14 +421,14 @@
     },
     {
       "Constraint": [
-        "(tmp_21 * ((tmp_21 * tmp_21) - const_1))"
+        "(carry_tmp_21 * ((carry_tmp_21 * carry_tmp_21) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_22",
+        "carry_tmp_22",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_21) + verifyadd252_input[1].get_m31(const_21)) + tmp_21) - verifyadd252_input[2].get_m31(const_21)) - (const_136 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_21) + verifyadd252_input[1].get_m31(const_21)) + carry_tmp_21) - verifyadd252_input[2].get_m31(const_21)) - (const_136 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -439,14 +439,14 @@
     },
     {
       "Constraint": [
-        "(tmp_22 * ((tmp_22 * tmp_22) - const_1))"
+        "(carry_tmp_22 * ((carry_tmp_22 * carry_tmp_22) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_23",
+        "carry_tmp_23",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_22) + verifyadd252_input[1].get_m31(const_22)) + tmp_22) - verifyadd252_input[2].get_m31(const_22)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_22) + verifyadd252_input[1].get_m31(const_22)) + carry_tmp_22) - verifyadd252_input[2].get_m31(const_22)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -457,14 +457,14 @@
     },
     {
       "Constraint": [
-        "(tmp_23 * ((tmp_23 * tmp_23) - const_1))"
+        "(carry_tmp_23 * ((carry_tmp_23 * carry_tmp_23) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_24",
+        "carry_tmp_24",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_23) + verifyadd252_input[1].get_m31(const_23)) + tmp_23) - verifyadd252_input[2].get_m31(const_23)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_23) + verifyadd252_input[1].get_m31(const_23)) + carry_tmp_23) - verifyadd252_input[2].get_m31(const_23)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -475,14 +475,14 @@
     },
     {
       "Constraint": [
-        "(tmp_24 * ((tmp_24 * tmp_24) - const_1))"
+        "(carry_tmp_24 * ((carry_tmp_24 * carry_tmp_24) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_25",
+        "carry_tmp_25",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_24) + verifyadd252_input[1].get_m31(const_24)) + tmp_24) - verifyadd252_input[2].get_m31(const_24)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_24) + verifyadd252_input[1].get_m31(const_24)) + carry_tmp_24) - verifyadd252_input[2].get_m31(const_24)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -493,14 +493,14 @@
     },
     {
       "Constraint": [
-        "(tmp_25 * ((tmp_25 * tmp_25) - const_1))"
+        "(carry_tmp_25 * ((carry_tmp_25 * carry_tmp_25) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_26",
+        "carry_tmp_26",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_25) + verifyadd252_input[1].get_m31(const_25)) + tmp_25) - verifyadd252_input[2].get_m31(const_25)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_25) + verifyadd252_input[1].get_m31(const_25)) + carry_tmp_25) - verifyadd252_input[2].get_m31(const_25)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -511,14 +511,14 @@
     },
     {
       "Constraint": [
-        "(tmp_26 * ((tmp_26 * tmp_26) - const_1))"
+        "(carry_tmp_26 * ((carry_tmp_26 * carry_tmp_26) - const_1))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_27",
+        "carry_tmp_27",
         {
-          "name": "(((((verifyadd252_input[0].get_m31(const_26) + verifyadd252_input[1].get_m31(const_26)) + tmp_26) - verifyadd252_input[2].get_m31(const_26)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((verifyadd252_input[0].get_m31(const_26) + verifyadd252_input[1].get_m31(const_26)) + carry_tmp_26) - verifyadd252_input[2].get_m31(const_26)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
           "type": "M31"
         },
         {
@@ -529,12 +529,12 @@
     },
     {
       "Constraint": [
-        "(tmp_27 * ((tmp_27 * tmp_27) - const_1))"
+        "(carry_tmp_27 * ((carry_tmp_27 * carry_tmp_27) - const_1))"
       ]
     },
     {
       "Constraint": [
-        "((((verifyadd252_input[0].get_m31(const_27) + verifyadd252_input[1].get_m31(const_27)) + tmp_27) - verifyadd252_input[2].get_m31(const_27)) - (const_256 * sub_p_bit_col0))"
+        "((((verifyadd252_input[0].get_m31(const_27) + verifyadd252_input[1].get_m31(const_27)) + carry_tmp_27) - verifyadd252_input[2].get_m31(const_27)) - (const_256 * sub_p_bit_col0))"
       ]
     }
   ],

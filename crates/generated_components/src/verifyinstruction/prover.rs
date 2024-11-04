@@ -135,7 +135,7 @@ pub fn write_trace_simd(
         .into_iter()
         .enumerate()
         .for_each(|(row_index, verifyinstruction_input)| {
-            let tmp_0 = (
+            let input_tmp_0 = (
                 verifyinstruction_input.0,
                 [
                     verifyinstruction_input.1[0],
@@ -160,67 +160,69 @@ pub fn write_trace_simd(
                     verifyinstruction_input.2[14],
                 ],
             );
-            let input_col0 = tmp_0.0;
+            let input_col0 = input_tmp_0.0;
             trace_values[0].data[row_index] = input_col0;
-            let input_col1 = tmp_0.1[0];
+            let input_col1 = input_tmp_0.1[0];
             trace_values[1].data[row_index] = input_col1;
-            let input_col2 = tmp_0.1[1];
+            let input_col2 = input_tmp_0.1[1];
             trace_values[2].data[row_index] = input_col2;
-            let input_col3 = tmp_0.1[2];
+            let input_col3 = input_tmp_0.1[2];
             trace_values[3].data[row_index] = input_col3;
-            let input_col4 = tmp_0.2[0];
+            let input_col4 = input_tmp_0.2[0];
             trace_values[4].data[row_index] = input_col4;
-            let input_col5 = tmp_0.2[1];
+            let input_col5 = input_tmp_0.2[1];
             trace_values[5].data[row_index] = input_col5;
-            let input_col6 = tmp_0.2[2];
+            let input_col6 = input_tmp_0.2[2];
             trace_values[6].data[row_index] = input_col6;
-            let input_col7 = tmp_0.2[3];
+            let input_col7 = input_tmp_0.2[3];
             trace_values[7].data[row_index] = input_col7;
-            let input_col8 = tmp_0.2[4];
+            let input_col8 = input_tmp_0.2[4];
             trace_values[8].data[row_index] = input_col8;
-            let input_col9 = tmp_0.2[5];
+            let input_col9 = input_tmp_0.2[5];
             trace_values[9].data[row_index] = input_col9;
-            let input_col10 = tmp_0.2[6];
+            let input_col10 = input_tmp_0.2[6];
             trace_values[10].data[row_index] = input_col10;
-            let input_col11 = tmp_0.2[7];
+            let input_col11 = input_tmp_0.2[7];
             trace_values[11].data[row_index] = input_col11;
-            let input_col12 = tmp_0.2[8];
+            let input_col12 = input_tmp_0.2[8];
             trace_values[12].data[row_index] = input_col12;
-            let input_col13 = tmp_0.2[9];
+            let input_col13 = input_tmp_0.2[9];
             trace_values[13].data[row_index] = input_col13;
-            let input_col14 = tmp_0.2[10];
+            let input_col14 = input_tmp_0.2[10];
             trace_values[14].data[row_index] = input_col14;
-            let input_col15 = tmp_0.2[11];
+            let input_col15 = input_tmp_0.2[11];
             trace_values[15].data[row_index] = input_col15;
-            let input_col16 = tmp_0.2[12];
+            let input_col16 = input_tmp_0.2[12];
             trace_values[16].data[row_index] = input_col16;
-            let input_col17 = tmp_0.2[13];
+            let input_col17 = input_tmp_0.2[13];
             trace_values[17].data[row_index] = input_col17;
-            let input_col18 = tmp_0.2[14];
+            let input_col18 = input_tmp_0.2[14];
             trace_values[18].data[row_index] = input_col18;
-            let tmp_11 = ((PackedUInt16::from_m31(input_col1)) & (UInt16_511));
-            let offset0_low_col19 = tmp_11.as_m31();
+            let offset0_low_tmp_11 = ((PackedUInt16::from_m31(input_col1)) & (UInt16_511));
+            let offset0_low_col19 = offset0_low_tmp_11.as_m31();
             trace_values[19].data[row_index] = offset0_low_col19;
-            let tmp_12 = ((PackedUInt16::from_m31(input_col1)) >> (UInt16_9));
-            let offset0_mid_col20 = tmp_12.as_m31();
+            let offset0_mid_tmp_12 = ((PackedUInt16::from_m31(input_col1)) >> (UInt16_9));
+            let offset0_mid_col20 = offset0_mid_tmp_12.as_m31();
             trace_values[20].data[row_index] = offset0_mid_col20;
-            let tmp_13 = ((PackedUInt16::from_m31(input_col2)) & (UInt16_3));
-            let offset1_low_col21 = tmp_13.as_m31();
+            let offset1_low_tmp_13 = ((PackedUInt16::from_m31(input_col2)) & (UInt16_3));
+            let offset1_low_col21 = offset1_low_tmp_13.as_m31();
             trace_values[21].data[row_index] = offset1_low_col21;
-            let tmp_14 = (((PackedUInt16::from_m31(input_col2)) >> (UInt16_2)) & (UInt16_511));
-            let offset1_mid_col22 = tmp_14.as_m31();
+            let offset1_mid_tmp_14 =
+                (((PackedUInt16::from_m31(input_col2)) >> (UInt16_2)) & (UInt16_511));
+            let offset1_mid_col22 = offset1_mid_tmp_14.as_m31();
             trace_values[22].data[row_index] = offset1_mid_col22;
-            let tmp_15 = ((PackedUInt16::from_m31(input_col2)) >> (UInt16_11));
-            let offset1_high_col23 = tmp_15.as_m31();
+            let offset1_high_tmp_15 = ((PackedUInt16::from_m31(input_col2)) >> (UInt16_11));
+            let offset1_high_col23 = offset1_high_tmp_15.as_m31();
             trace_values[23].data[row_index] = offset1_high_col23;
-            let tmp_16 = ((PackedUInt16::from_m31(input_col3)) & (UInt16_15));
-            let offset2_low_col24 = tmp_16.as_m31();
+            let offset2_low_tmp_16 = ((PackedUInt16::from_m31(input_col3)) & (UInt16_15));
+            let offset2_low_col24 = offset2_low_tmp_16.as_m31();
             trace_values[24].data[row_index] = offset2_low_col24;
-            let tmp_17 = (((PackedUInt16::from_m31(input_col3)) >> (UInt16_4)) & (UInt16_511));
-            let offset2_mid_col25 = tmp_17.as_m31();
+            let offset2_mid_tmp_17 =
+                (((PackedUInt16::from_m31(input_col3)) >> (UInt16_4)) & (UInt16_511));
+            let offset2_mid_col25 = offset2_mid_tmp_17.as_m31();
             trace_values[25].data[row_index] = offset2_mid_col25;
-            let tmp_18 = ((PackedUInt16::from_m31(input_col3)) >> (UInt16_13));
-            let offset2_high_col26 = tmp_18.as_m31();
+            let offset2_high_tmp_18 = ((PackedUInt16::from_m31(input_col3)) >> (UInt16_13));
+            let offset2_high_col26 = offset2_high_tmp_18.as_m31();
             trace_values[26].data[row_index] = offset2_high_col26;
             sub_components_inputs.rangecheck_n_3_bits_7_2_5_inputs[0].push([
                 offset0_mid_col20,
@@ -236,8 +238,8 @@ pub fn write_trace_simd(
                 .push([offset2_low_col24, offset2_high_col26]);
             lookup_data.rangecheck_n_2_bits_4_3[0].push([offset2_low_col24, offset2_high_col26]);
             sub_components_inputs.memoryaddresstoid_inputs[0].push(input_col0);
-            let tmp_50 = memoryaddresstoid_state.deduce_output(input_col0);
-            let instruction_id_col27 = tmp_50;
+            let memoryaddresstoid_value_tmp_50 = memoryaddresstoid_state.deduce_output(input_col0);
+            let instruction_id_col27 = memoryaddresstoid_value_tmp_50;
             trace_values[27].data[row_index] = instruction_id_col27;
             lookup_data.memoryaddresstoid[0].push([input_col0, instruction_id_col27]);
             lookup_data.memoryidtobig[0].push([

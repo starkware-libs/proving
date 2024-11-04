@@ -71,10 +71,13 @@ impl AirFn for EvalOperands {
             Felt252Expr::from(flags[FLAG_RES_OP1_INDEX].clone()) * op1.clone()
                 + Felt252Expr::from(flags[FLAG_RES_MUL_INDEX].clone()) * prod.clone()
                 + Felt252Expr::from(flags[FLAG_RES_ADD_INDEX].clone()) * sum.clone(),
+            "res",
         );
 
-        let res_constrained = air_builder
-            .let_for_constraint(const_expr!(1) - flags[FLAG_PC_UPDATE_JNZ_INDEX].clone());
+        let res_constrained = air_builder.let_for_constraint(
+            const_expr!(1) - flags[FLAG_PC_UPDATE_JNZ_INDEX].clone(),
+            "res_constrained",
+        );
         for (i, (res_felt, (op1_felt, (sum_felt, prod_felt)))) in res
             .as_felts_mut()
             .into_iter()

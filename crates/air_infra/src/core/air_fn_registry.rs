@@ -339,8 +339,11 @@ impl AirFnRegistry {
         res
     }
 
-    pub(super) fn get_intermediate_name(&self) -> String {
+    pub(super) fn get_intermediate_name(&self, desc: Option<String>) -> String {
         let index = self.get_intermediate_index();
-        format!("{}{}", INTERMEDIATE_VAR_PREFIX, index)
+        match desc {
+            Some(desc) => format!("{}_{}{}", desc, INTERMEDIATE_VAR_PREFIX, index),
+            None => format!("{}{}", INTERMEDIATE_VAR_PREFIX, index),
+        }
     }
 }

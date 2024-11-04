@@ -109,13 +109,15 @@ impl AirFn for RangeCheckLastLimb {
             2 => {
                 let mut mslh = air_builder.let_for_deduction(
                     (UInt16Expr::from(msl.clone()) & const_u16_expr!(0b10)) >> const_u16_expr!(1),
+                    "msb",
                 );
                 let mslh = air_builder.deduce(mslh.as_felt_mut(), "msb");
                 air_builder.constrain(
                     mslh.clone() * (const_expr!(1) - mslh.clone()),
                     "msb is a bit",
                 );
-                let msll = air_builder.let_for_constraint(msl - (mslh * const_expr!(2)));
+                let msll =
+                    air_builder.let_for_constraint(msl - (mslh * const_expr!(2)), "bit_before_msb");
                 air_builder.constrain(
                     msll.clone() * (const_expr!(1) - msll.clone()),
                     "bit before msb is a bit",

@@ -105,10 +105,11 @@ pub fn write_trace_simd(
             let col0 = widefib_num_narrow_8_narrow_size_20_input;
             trace_values[0].data[row_index] = col0;
             sub_components_inputs.narrowfib_num_steps_20_inputs[0].push([M31_1, col0]);
-            let tmp_1 = narrowfib_num_steps_20::deduce_output([M31_1, col0]);
-            let narrowfib_num_steps_20_output_col1 = tmp_1[0];
+            let narrowfib_num_steps_20_output_tmp_1 =
+                narrowfib_num_steps_20::deduce_output([M31_1, col0]);
+            let narrowfib_num_steps_20_output_col1 = narrowfib_num_steps_20_output_tmp_1[0];
             trace_values[1].data[row_index] = narrowfib_num_steps_20_output_col1;
-            let narrowfib_num_steps_20_output_col2 = tmp_1[1];
+            let narrowfib_num_steps_20_output_col2 = narrowfib_num_steps_20_output_tmp_1[1];
             trace_values[2].data[row_index] = narrowfib_num_steps_20_output_col2;
             lookup_data.narrowfib_num_steps_20[0].push([
                 M31_1,
@@ -120,13 +121,13 @@ pub fn write_trace_simd(
                 narrowfib_num_steps_20_output_col1,
                 narrowfib_num_steps_20_output_col2,
             ]);
-            let tmp_2 = narrowfib_num_steps_20::deduce_output([
+            let narrowfib_num_steps_20_output_tmp_2 = narrowfib_num_steps_20::deduce_output([
                 narrowfib_num_steps_20_output_col1,
                 narrowfib_num_steps_20_output_col2,
             ]);
-            let narrowfib_num_steps_20_output_col3 = tmp_2[0];
+            let narrowfib_num_steps_20_output_col3 = narrowfib_num_steps_20_output_tmp_2[0];
             trace_values[3].data[row_index] = narrowfib_num_steps_20_output_col3;
-            let narrowfib_num_steps_20_output_col4 = tmp_2[1];
+            let narrowfib_num_steps_20_output_col4 = narrowfib_num_steps_20_output_tmp_2[1];
             trace_values[4].data[row_index] = narrowfib_num_steps_20_output_col4;
             lookup_data.narrowfib_num_steps_20[1].push([
                 narrowfib_num_steps_20_output_col1,
@@ -138,13 +139,13 @@ pub fn write_trace_simd(
                 narrowfib_num_steps_20_output_col3,
                 narrowfib_num_steps_20_output_col4,
             ]);
-            let tmp_3 = narrowfib_num_steps_20::deduce_output([
+            let narrowfib_num_steps_20_output_tmp_3 = narrowfib_num_steps_20::deduce_output([
                 narrowfib_num_steps_20_output_col3,
                 narrowfib_num_steps_20_output_col4,
             ]);
-            let narrowfib_num_steps_20_output_col5 = tmp_3[0];
+            let narrowfib_num_steps_20_output_col5 = narrowfib_num_steps_20_output_tmp_3[0];
             trace_values[5].data[row_index] = narrowfib_num_steps_20_output_col5;
-            let narrowfib_num_steps_20_output_col6 = tmp_3[1];
+            let narrowfib_num_steps_20_output_col6 = narrowfib_num_steps_20_output_tmp_3[1];
             trace_values[6].data[row_index] = narrowfib_num_steps_20_output_col6;
             lookup_data.narrowfib_num_steps_20[2].push([
                 narrowfib_num_steps_20_output_col3,
@@ -156,13 +157,13 @@ pub fn write_trace_simd(
                 narrowfib_num_steps_20_output_col5,
                 narrowfib_num_steps_20_output_col6,
             ]);
-            let tmp_4 = narrowfib_num_steps_20::deduce_output([
+            let narrowfib_num_steps_20_output_tmp_4 = narrowfib_num_steps_20::deduce_output([
                 narrowfib_num_steps_20_output_col5,
                 narrowfib_num_steps_20_output_col6,
             ]);
-            let narrowfib_num_steps_20_output_col7 = tmp_4[0];
+            let narrowfib_num_steps_20_output_col7 = narrowfib_num_steps_20_output_tmp_4[0];
             trace_values[7].data[row_index] = narrowfib_num_steps_20_output_col7;
-            let narrowfib_num_steps_20_output_col8 = tmp_4[1];
+            let narrowfib_num_steps_20_output_col8 = narrowfib_num_steps_20_output_tmp_4[1];
             trace_values[8].data[row_index] = narrowfib_num_steps_20_output_col8;
             lookup_data.narrowfib_num_steps_20[3].push([
                 narrowfib_num_steps_20_output_col5,
@@ -174,13 +175,13 @@ pub fn write_trace_simd(
                 narrowfib_num_steps_20_output_col7,
                 narrowfib_num_steps_20_output_col8,
             ]);
-            let tmp_5 = narrowfib_num_steps_20::deduce_output([
+            let narrowfib_num_steps_20_output_tmp_5 = narrowfib_num_steps_20::deduce_output([
                 narrowfib_num_steps_20_output_col7,
                 narrowfib_num_steps_20_output_col8,
             ]);
-            let narrowfib_num_steps_20_output_col9 = tmp_5[0];
+            let narrowfib_num_steps_20_output_col9 = narrowfib_num_steps_20_output_tmp_5[0];
             trace_values[9].data[row_index] = narrowfib_num_steps_20_output_col9;
-            let narrowfib_num_steps_20_output_col10 = tmp_5[1];
+            let narrowfib_num_steps_20_output_col10 = narrowfib_num_steps_20_output_tmp_5[1];
             trace_values[10].data[row_index] = narrowfib_num_steps_20_output_col10;
             lookup_data.narrowfib_num_steps_20[4].push([
                 narrowfib_num_steps_20_output_col7,
@@ -192,13 +193,13 @@ pub fn write_trace_simd(
                 narrowfib_num_steps_20_output_col9,
                 narrowfib_num_steps_20_output_col10,
             ]);
-            let tmp_6 = narrowfib_num_steps_20::deduce_output([
+            let narrowfib_num_steps_20_output_tmp_6 = narrowfib_num_steps_20::deduce_output([
                 narrowfib_num_steps_20_output_col9,
                 narrowfib_num_steps_20_output_col10,
             ]);
-            let narrowfib_num_steps_20_output_col11 = tmp_6[0];
+            let narrowfib_num_steps_20_output_col11 = narrowfib_num_steps_20_output_tmp_6[0];
             trace_values[11].data[row_index] = narrowfib_num_steps_20_output_col11;
-            let narrowfib_num_steps_20_output_col12 = tmp_6[1];
+            let narrowfib_num_steps_20_output_col12 = narrowfib_num_steps_20_output_tmp_6[1];
             trace_values[12].data[row_index] = narrowfib_num_steps_20_output_col12;
             lookup_data.narrowfib_num_steps_20[5].push([
                 narrowfib_num_steps_20_output_col9,
@@ -210,13 +211,13 @@ pub fn write_trace_simd(
                 narrowfib_num_steps_20_output_col11,
                 narrowfib_num_steps_20_output_col12,
             ]);
-            let tmp_7 = narrowfib_num_steps_20::deduce_output([
+            let narrowfib_num_steps_20_output_tmp_7 = narrowfib_num_steps_20::deduce_output([
                 narrowfib_num_steps_20_output_col11,
                 narrowfib_num_steps_20_output_col12,
             ]);
-            let narrowfib_num_steps_20_output_col13 = tmp_7[0];
+            let narrowfib_num_steps_20_output_col13 = narrowfib_num_steps_20_output_tmp_7[0];
             trace_values[13].data[row_index] = narrowfib_num_steps_20_output_col13;
-            let narrowfib_num_steps_20_output_col14 = tmp_7[1];
+            let narrowfib_num_steps_20_output_col14 = narrowfib_num_steps_20_output_tmp_7[1];
             trace_values[14].data[row_index] = narrowfib_num_steps_20_output_col14;
             lookup_data.narrowfib_num_steps_20[6].push([
                 narrowfib_num_steps_20_output_col11,
@@ -228,13 +229,13 @@ pub fn write_trace_simd(
                 narrowfib_num_steps_20_output_col13,
                 narrowfib_num_steps_20_output_col14,
             ]);
-            let tmp_8 = narrowfib_num_steps_20::deduce_output([
+            let narrowfib_num_steps_20_output_tmp_8 = narrowfib_num_steps_20::deduce_output([
                 narrowfib_num_steps_20_output_col13,
                 narrowfib_num_steps_20_output_col14,
             ]);
-            let narrowfib_num_steps_20_output_col15 = tmp_8[0];
+            let narrowfib_num_steps_20_output_col15 = narrowfib_num_steps_20_output_tmp_8[0];
             trace_values[15].data[row_index] = narrowfib_num_steps_20_output_col15;
-            let narrowfib_num_steps_20_output_col16 = tmp_8[1];
+            let narrowfib_num_steps_20_output_col16 = narrowfib_num_steps_20_output_tmp_8[1];
             trace_values[16].data[row_index] = narrowfib_num_steps_20_output_col16;
             lookup_data.narrowfib_num_steps_20[7].push([
                 narrowfib_num_steps_20_output_col13,

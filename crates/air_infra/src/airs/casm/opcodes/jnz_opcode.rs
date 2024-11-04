@@ -110,7 +110,7 @@ impl AirFn for JnzOpcode {
                     if P_FELTS[i] == 0 {
                         x
                     } else {
-                        let x = ab.let_(x - const_expr!(P_FELTS[i]));
+                        let x = ab.let_(x - const_expr!(P_FELTS[i]), "diff_from_p");
                         x.clone() * x
                     }
                 })

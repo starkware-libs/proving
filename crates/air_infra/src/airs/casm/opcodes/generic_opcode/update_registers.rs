@@ -61,7 +61,7 @@ impl AirFn for UpdateRegisters {
                 if P_FELTS[i] == 0 {
                     x
                 } else {
-                    let x = air_builder.let_(x - const_expr!(P_FELTS[i]));
+                    let x = air_builder.let_(x - const_expr!(P_FELTS[i]), "diff_from_p");
                     x.clone() * x
                 }
             })
@@ -81,7 +81,8 @@ impl AirFn for UpdateRegisters {
             .clone()
             .into_iter()
             .fold(const_expr!(0), |acc, x| acc + x);
-        let dst_is_zero = air_builder.let_for_deduction(dst_sum.clone().eq(const_expr!(0)));
+        let dst_is_zero =
+            air_builder.let_for_deduction(dst_sum.clone().eq(const_expr!(0)), "dst_is_zero");
         // If dst_sum is 0, then sum_inv = 1
         let sum_inv = air_builder.deduce(
             &mut (const_expr!(1) / (dst_sum.clone() + dst_is_zero.as_felt())),

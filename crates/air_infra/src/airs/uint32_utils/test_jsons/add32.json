@@ -14,7 +14,7 @@
   ],
   "input_num_of_felts": 4,
   "output": {
-    "name": "tmp_0",
+    "name": "add_res_tmp_0",
     "type": "UInt32"
   },
   "output_num_of_felts": 2,
@@ -22,7 +22,7 @@
   "air_body": [
     {
       "Intermediate": [
-        "tmp_0",
+        "add_res_tmp_0",
         {
           "name": "(add32_input[0] + add32_input[1])",
           "type": "UInt32"
@@ -35,13 +35,13 @@
     },
     {
       "Deduction": [
-        "tmp_0.low().as_m31()",
+        "add_res_tmp_0.low().as_m31()",
         "add_res_limb_0"
       ]
     },
     {
       "Deduction": [
-        "tmp_0.high().as_m31()",
+        "add_res_tmp_0.high().as_m31()",
         "add_res_limb_1"
       ]
     },
@@ -87,7 +87,7 @@
     },
     {
       "Intermediate": [
-        "tmp_3",
+        "carry_tmp_3",
         {
           "name": "((add32_input[0].low().as_m31() + add32_input[1].low().as_m31()) - add_res_limb_0_col0)",
           "type": "M31"
@@ -100,14 +100,14 @@
     },
     {
       "Constraint": [
-        "(tmp_3 * (tmp_3 - const_65536))"
+        "(carry_tmp_3 * (carry_tmp_3 - const_65536))"
       ]
     },
     {
       "Intermediate": [
-        "tmp_4",
+        "carry_high_tmp_4",
         {
-          "name": "(((add32_input[0].high().as_m31() + add32_input[1].high().as_m31()) - add_res_limb_1_col1) + (tmp_3 * const_32768))",
+          "name": "(((add32_input[0].high().as_m31() + add32_input[1].high().as_m31()) - add_res_limb_1_col1) + (carry_tmp_3 * const_32768))",
           "type": "M31"
         },
         {
@@ -118,7 +118,7 @@
     },
     {
       "Constraint": [
-        "(tmp_4 * (tmp_4 - const_65536))"
+        "(carry_high_tmp_4 * (carry_high_tmp_4 - const_65536))"
       ]
     }
   ],

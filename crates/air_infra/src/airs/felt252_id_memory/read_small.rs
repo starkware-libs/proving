@@ -41,10 +41,11 @@ impl AirFn for CondDecodeSmallSign {
     type Out = [FeltExpr; 2];
 
     fn call(&self, air_builder: &mut AirBuilder, (value, condition): Self::In) -> Self::Out {
-        let mut msb_bool = air_builder.let_for_deduction(value.get_felt(27).eq(const_expr!(0x100)));
+        let mut msb_bool =
+            air_builder.let_for_deduction(value.get_felt(27).eq(const_expr!(0x100)), "msb");
         let msb = air_builder.deduce(msb_bool.as_felt_mut(), "msb");
-        let mut mid_limbs_set_bool =
-            air_builder.let_for_deduction(value.get_felt(20).eq(const_expr!(0x1ff)));
+        let mut mid_limbs_set_bool = air_builder
+            .let_for_deduction(value.get_felt(20).eq(const_expr!(0x1ff)), "mid_limbs_set");
         let mid_limbs_set = air_builder.deduce(mid_limbs_set_bool.as_felt_mut(), "mid_limbs_set");
 
         // Require case bits to be bits

@@ -57,21 +57,21 @@ impl AirFn for DecodeInstruction {
         let off0_f = if let Some(off) = self.const_offsets[0] {
             const_expr!(offset_as_u16(off) as u32)
         } else {
-            off0 = ab.let_for_deduction(off0);
+            off0 = ab.let_for_deduction(off0, "offset0");
             ab.deduce(off0.as_felt_mut(), "offset0")
         };
 
         let off1_f = if let Some(off) = self.const_offsets[1] {
             const_expr!(offset_as_u16(off) as u32)
         } else {
-            off1 = ab.let_for_deduction(off1);
+            off1 = ab.let_for_deduction(off1, "offset1");
             ab.deduce(off1.as_felt_mut(), "offset1")
         };
 
         let off2_f = if let Some(off) = self.const_offsets[2] {
             const_expr!(offset_as_u16(off) as u32)
         } else {
-            off2 = ab.let_for_deduction(off2);
+            off2 = ab.let_for_deduction(off2, "offset2");
             ab.deduce(off2.as_felt_mut(), "offset2")
         };
 
@@ -87,6 +87,7 @@ impl AirFn for DecodeInstruction {
                 } else {
                     let mut flag = ab.let_for_deduction(
                         (flags.clone() >> const_u16_expr!(i as u16)) & const_u16_expr!(1),
+                        FLAG_NAMES[i],
                     );
                     ab.deduce(flag.as_felt_mut(), FLAG_NAMES[i])
                 }

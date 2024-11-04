@@ -140,7 +140,7 @@ pub trait AirFn: Debug + InstDefTrait {
                 air_builder.state.add(felt, "input");
             }
         } else if !Self::In::is_empty() {
-            input = air_builder.let_for_deduction(input);
+            input = air_builder.let_for_deduction(input, "input");
             if let Some(descs) = input.get_felt_descriptions() {
                 for (felt, desc) in input.as_felts_mut().into_iter().zip(descs) {
                     air_builder.deduce(felt, &format!("input_{}", desc));
@@ -298,11 +298,13 @@ impl AirBuilder {
         expr.clone()
     }
 
-    pub fn let_for_deduction<V>(&mut self, var: V) -> V
+    pub fn let_for_deduction<V>(&mut self, var: V, desc: &str) -> V
     where
         V: AirVar,
     {
-        let name = self.registry.get_intermediate_name();
+        let name = self
+            .registry
+            .get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
         let intermediate_type = IntermediateType {
             in_constraints: false,
             in_deductions: true,
@@ -315,13 +317,15 @@ impl AirBuilder {
         var.let_(name, intermediate_type)
     }
 
-    pub fn let_for_constraint(&mut self, expr: FeltExpr) -> FeltExpr {
+    pub fn let_for_constraint(&mut self, expr: FeltExpr, desc: &str) -> FeltExpr {
         assert!(
             expr.in_state(),
             "The mask of the intermediate variable for constraints must be in the trace."
         );
 
-        let name = self.registry.get_intermediate_name();
+        let name = self
+            .registry
+            .get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
         let intermediate_type = IntermediateType {
             in_constraints: true,
             in_deductions: false,
@@ -334,13 +338,15 @@ impl AirBuilder {
         expr.let_(name, intermediate_type)
     }
 
-    pub fn let_(&mut self, expr: FeltExpr) -> FeltExpr {
+    pub fn let_(&mut self, expr: FeltExpr, desc: &str) -> FeltExpr {
         assert!(
             expr.in_state(),
             "The mask of the intermediate variable for constraints must be in the trace."
         );
 
-        let name = self.registry.get_intermediate_name();
+        let name = self
+            .registry
+            .get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
         let intermediate_type = IntermediateType {
             in_constraints: true,
             in_deductions: true,
@@ -414,7 +420,9 @@ impl AirBuilder {
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);
 
-        let output_name = self.registry.get_intermediate_name();
+        let output_name = self
+            .registry
+            .get_intermediate_name(Some(format!("{}_output", air_fn.name().to_lowercase())));
         let mut output = O::new(output_name.clone(), false);
 
         #[cfg(test)]
@@ -488,7 +496,9 @@ impl AirBuilder {
         // Make sure the memory is in the registry
         self.registry.add_entry(memory);
 
-        let value_name = self.registry.get_intermediate_name();
+        let value_name = self
+            .registry
+            .get_intermediate_name(Some(format!("{}_value", memory.name().to_lowercase())));
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: memory.name(),

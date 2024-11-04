@@ -36,7 +36,7 @@ impl AirFn for VerifyAdd252 {
             & (UInt16Expr::from(a.get_felt(0))
                 ^ UInt16Expr::from(b.get_felt(0))
                 ^ UInt16Expr::from(c.get_felt(0)));
-        sub_p_bit_u16 = air_builder.let_for_deduction(sub_p_bit_u16);
+        sub_p_bit_u16 = air_builder.let_for_deduction(sub_p_bit_u16, "sub_p_bit");
         let sub_p_bit = air_builder.deduce(sub_p_bit_u16.as_felt_mut(), "sub_p_bit");
         air_builder.constrain(
             sub_p_bit.clone() * (sub_p_bit.clone() - const_expr!(1)),
@@ -48,7 +48,7 @@ impl AirFn for VerifyAdd252 {
             let mut carry = a.get_felt(i) + b.get_felt(i) + prev_carry
                 - c.get_felt(i)
                 - const_expr!(p_felt) * sub_p_bit.clone();
-            carry = air_builder.let_for_constraint(carry * shift_inverse.clone());
+            carry = air_builder.let_for_constraint(carry * shift_inverse.clone(), "carry");
             air_builder.constrain(
                 carry.clone() * (carry.clone() * carry.clone() - const_expr!(1)),
                 "",
