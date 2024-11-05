@@ -182,7 +182,7 @@ pub struct AirFnRegistry {
     #[serde(skip)]
     intermediate_index: Rc<RefCell<usize>>,
     #[serde(skip)]
-    pub(super) public_params: PublicParams,
+    pub public_params: PublicParams,
 }
 
 impl AirFnRegistry {

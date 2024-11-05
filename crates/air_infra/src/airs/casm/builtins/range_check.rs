@@ -1,17 +1,11 @@
+use compiled_casm_air::public_params::PublicParam;
 use inst_def::InstDef;
 
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::seq::*;
-use crate::const_expr;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::felt252_id_memory::read_positive::*;
-
-// Start address of the segment for this builtin.
-// TODO: receive this at proof time as a public param. Until public params
-// are implemented, have it as a dummy constant for testing.
-pub const DUMMY_SEGMENT_START: u32 = 100;
 
 #[derive(Debug, InstDef)]
 pub struct RangeCheckBuiltin {
@@ -26,13 +20,15 @@ impl AirFn for RangeCheckBuiltin {
 
     fn call(&self, air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
         let instance_number = air_builder.call_external_column(&Seq {});
+        let segment_start =
+            air_builder.get_public_param(PublicParam::RangeCheckBuiltinSegmentStart);
 
         air_builder.call(
             &ReadPositive {
                 num_bits: self.bits,
                 memory: self.memory.clone(),
             },
-            CasmAddress::new(const_expr!(DUMMY_SEGMENT_START) + instance_number, "value"),
+            CasmAddress::new(segment_start + instance_number, "value"),
         );
     }
 
