@@ -338,7 +338,10 @@ impl AirBuilder {
         expr.let_(name, intermediate_type)
     }
 
-    pub fn let_(&mut self, expr: FeltExpr, desc: &str) -> FeltExpr {
+    fn let_for_deduction_and_constraint<O>(&mut self, expr: O, desc: &str) -> O
+    where
+        O: AirVar,
+    {
         assert!(
             expr.in_state(),
             "The mask of the intermediate variable for constraints must be in the trace."
@@ -357,6 +360,18 @@ impl AirBuilder {
             intermediate_type.clone(),
         ));
         expr.let_(name, intermediate_type)
+    }
+
+    pub fn let_(&mut self, expr: FeltExpr, desc: &str) -> FeltExpr {
+        self.let_for_deduction_and_constraint(expr, desc)
+    }
+
+    pub fn let_vec<O>(&mut self, vec: Vec<FeltExpr>, desc: &str) -> O
+    where
+        O: AirVar + From<Vec<FeltExpr>>,
+    {
+        let output = O::from(vec);
+        self.let_for_deduction_and_constraint(output, desc)
     }
 
     pub fn call<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>, input: I) -> O

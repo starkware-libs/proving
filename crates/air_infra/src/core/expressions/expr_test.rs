@@ -69,7 +69,7 @@ fn test_uint32() {
     let d = UInt32Expr::from(const_expr!(0xFFFFFF));
     assert_eq!(d.calc(), 0xFFFFFF.to_string());
 
-    let d = UInt32Expr::from((const_expr!(0), const_expr!(0x1)));
+    let d = UInt32Expr::from(vec![const_expr!(0), const_expr!(0x1)]);
     assert_eq!(d.calc(), 65536.to_string());
     assert_eq!(d.as_felts()[1].calc(), 1.to_string());
     assert_eq!(

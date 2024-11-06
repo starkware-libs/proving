@@ -291,16 +291,17 @@ impl<const B: usize, const L: usize> BigUIntExpr<B, L> {
     }
 }
 
-impl From<(FeltExpr, FeltExpr)> for UInt32Expr {
-    fn from((low, high): (FeltExpr, FeltExpr)) -> UInt32Expr {
-        let value = low
+impl From<Vec<FeltExpr>> for UInt32Expr {
+    fn from(felts: Vec<FeltExpr>) -> UInt32Expr {
+        assert!(felts.len() == 2, "UInt32Expr must have exactly 2 felts");
+        let value = felts[0]
             .value()
-            .zip(high.value())
+            .zip(felts[1].value())
             .map(|(l, h)| UInt32::from_limbs(l, h));
 
         UInt32Expr::Op(OpExpr::new(
             Operation::UInt32FromFeltsPair,
-            vec![low.into(), high.into()],
+            vec![felts[0].clone().into(), felts[1].clone().into()],
             value,
         ))
     }
