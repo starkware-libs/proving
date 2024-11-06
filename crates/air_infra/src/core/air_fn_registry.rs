@@ -34,6 +34,11 @@ impl AirFnEntry {
     // Compiles the air function entry into a compiled air function.
     pub(crate) fn compile(self) -> CompiledAirFn {
         let (deductions, constraints) = Self::compile_air_body(self.air_body.clone());
+        let multiplicity_col_index = match self.trace_type {
+            TraceType::Component | TraceType::Memory => Some(self.state.get_state_names().len()),
+            _ => None,
+        };
+
         CompiledAirFn {
             name: self.name,
             description: self.description,
@@ -45,6 +50,7 @@ impl AirFnEntry {
             output_num_of_felts: self.output_num_of_felts,
             constraints,
             deductions,
+            multiplicity_col_index,
         }
     }
 

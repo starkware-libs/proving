@@ -17,6 +17,10 @@ pub struct CompiledAirFn {
 
     pub constraints: Vec<ConstraintEvalStep>,
     pub deductions: Vec<TraceGenStep>,
+
+    // The index of the multiplicity column in the lookup table that is used / yielded.
+    // None for chain lookup relations, such as "opcodes".
+    pub multiplicity_col_index: Option<usize>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]

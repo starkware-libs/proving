@@ -639,7 +639,6 @@ pub struct LookupCall {
     // None if there is no output
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output_name: Option<String>,
-    // TODO: add multiplicity column
 }
 
 // Each air function has an air_body, which is a vector of AirBodyComponent.
@@ -672,6 +671,5 @@ pub enum AirBodyComponent {
         relation_name: String,
         felts: Vec<FeltExpr>,
         use_or_yield: UseOrYield,
-        // TODO: add optional multiplicity column
     },
 }
