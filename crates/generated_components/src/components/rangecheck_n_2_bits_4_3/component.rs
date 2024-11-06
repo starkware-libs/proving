@@ -10,7 +10,7 @@ use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
 
-use crate::{rangecheck_n_2_bits_4_3, LOGUP_BATCH_SIZE};
+use crate::components::rangecheck_n_2_bits_4_3;
 
 pub type RelationElements = LookupElements<2>;
 

@@ -11,7 +11,7 @@ mod tests {
     use crate::code_gen::utils::{compare_contents_or_fix_with_path, project_root};
 
     fn generate_component_code(air_fn: CompiledAirFn) {
-        const COMPONENTS_DIR: &str = "../generated_components/src/";
+        const COMPONENTS_DIR: &str = "../generated_components/src/components";
         let folder_path = project_root().join(COMPONENTS_DIR);
         compare_contents_or_fix_with_path(air_fn, &folder_path);
     }

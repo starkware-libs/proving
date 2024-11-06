@@ -17,7 +17,7 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
 use super::component::{Claim, InteractionClaim, RelationElements};
-use crate::{memoryaddresstoid, memoryidtobig, opcodes, verifyinstruction};
+use crate::components::{memoryaddresstoid, memoryidtobig, opcodes, verifyinstruction};
 
 pub type InputType = PackedCasmState;
 

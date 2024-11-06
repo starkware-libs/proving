@@ -10,7 +10,7 @@ mod tests {
     use stwo_prover::core::fields::m31::M31;
 
     use super::prover::write_trace_simd;
-    use crate::narrowfib_num_steps_20;
+    use crate::components::narrowfib_num_steps_20;
 
     #[test]
     fn wide_fib_test_write_trace() {

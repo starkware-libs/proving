@@ -14,7 +14,7 @@ use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::lookups::utils::Fraction;
 use stwo_prover::core::pcs::TreeVec;
 
-use crate::{memoryaddresstoid, memoryidtobig, opcodes, verifyinstruction, LOGUP_BATCH_SIZE};
+use crate::components::{memoryaddresstoid, memoryidtobig, opcodes, verifyinstruction};
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RelationElements(LookupElements<4>);

@@ -1,10 +1,9 @@
 #![allow(unused_parens)]
 #![allow(unused_imports)]
-#![allow(unused_variables)]
-#![allow(dead_code)]
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use prover_types::cpu::*;
+use prover_types::simd::*;
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::core::air::Component;
 use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
@@ -18,9 +17,9 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
 use super::component::{Claim, InteractionClaim, RelationElements};
-use crate::rangecheck_n_2_bits_4_3;
+use crate::components::rangecheck_n_1_bits_6;
 
-pub type InputType = [PackedM31; 2];
+pub type InputType = [PackedM31; 1];
 
 #[derive(Default)]
 pub struct ClaimGenerator {
@@ -29,9 +28,22 @@ pub struct ClaimGenerator {
 impl ClaimGenerator {
     pub fn write_trace(
         self,
-        _tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-    ) -> InteractionClaimGenerator {
-        todo!()
+        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
+    ) -> (Claim, InteractionClaimGenerator) {
+        let len = self.inputs.len();
+        #[allow(unused_variables)]
+        let (trace, sub_components_inputs, lookup_data) = write_trace_simd(self.inputs);
+
+        tree_builder.extend_evals(trace);
+
+        let n_calls = len * N_LANES;
+        (
+            Claim { n_calls },
+            InteractionClaimGenerator {
+                n_calls,
+                lookup_data,
+            },
+        )
     }
 
     pub fn add_inputs(&mut self, inputs: &[InputType]) {
@@ -39,7 +51,6 @@ impl ClaimGenerator {
     }
 }
 
-#[allow(non_snake_case)]
 pub struct SubComponentInputs {}
 impl SubComponentInputs {
     #[allow(unused_variables)]
@@ -48,49 +59,45 @@ impl SubComponentInputs {
     }
 }
 
-pub fn write_trace_simd(
-    inputs: Vec<InputType>,
-) -> (
-    Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
-    SubComponentInputs,
-    LookupData,
-) {
-    todo!()
-}
-#[allow(clippy::useless_conversion)]
-#[allow(unused_variables)]
-fn write_trace_row(
-    dst: &mut [Col<SimdBackend, M31>],
-    rangecheck_n_2_bits_4_3_input: InputType,
-    row_index: usize,
-    sub_component_inputs: &mut SubComponentInputs,
-    lookup_data: &mut LookupData,
-) {
+pub fn write_trace_simd() {
+    unimplemented!()
 }
 
-#[allow(non_snake_case)]
 pub struct LookupData {
-    pub rangecheck_n_2_bits_4_3: [Vec<Vec<PackedM31>>; 1],
+    pub rangecheck_n_1_bits_6: [Vec<[PackedM31; 1]>; 1],
 }
 impl LookupData {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            rangecheck_n_2_bits_4_3: [Vec::with_capacity(capacity)],
+            rangecheck_n_1_bits_6: [Vec::with_capacity(capacity)],
         }
     }
 }
 
 pub struct InteractionClaimGenerator {
-    pub claim: Claim,
+    pub n_calls: usize,
     pub lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        rangecheck_n_2_bits_4_3_lookup_elements: &rangecheck_n_2_bits_4_3::RelationElements,
+        rangecheck_n_1_bits_6_lookup_elements: &rangecheck_n_1_bits_6::RelationElements,
     ) -> InteractionClaim {
-        todo!()
+        let mut logup_gen = LogupTraceGenerator::new(self.n_calls.next_power_of_two().ilog2());
+
+        let mut col_gen = logup_gen.new_col();
+        let lookup_row = &self.lookup_data.rangecheck_n_1_bits_6[0];
+        for (i, lookup_values) in lookup_row.iter().enumerate() {
+            let denom = rangecheck_n_1_bits_6_lookup_elements.combine(lookup_values);
+            col_gen.write_frac(i, -PackedQM31::one(), denom);
+        }
+        col_gen.finalize_col();
+
+        let (trace, claimed_sum) = logup_gen.finalize_last();
+        tree_builder.extend_evals(trace);
+
+        InteractionClaim { claimed_sum }
     }
 }

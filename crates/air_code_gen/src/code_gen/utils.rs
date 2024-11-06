@@ -56,7 +56,7 @@ pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
             pub mod prover;
 
             pub use component::{RelationElements, Claim, InteractionClaim, Component, Eval};
-            pub use prover::{ClaimGenerator, InputType};
+            pub use prover::{ClaimGenerator, InputType, InteractionClaimGenerator};
         };
         let text = reformat_rust_code(mod_rs_code.to_string().unwrap());
         fs::write(mod_rs_path, text).unwrap();

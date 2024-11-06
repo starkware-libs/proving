@@ -17,7 +17,7 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
 use super::component::{Claim, InteractionClaim, RelationElements};
-use crate::narrowfib_num_steps_20;
+use crate::components::narrowfib_num_steps_20;
 
 pub type InputType = [PackedM31; 2];
 

@@ -14,7 +14,7 @@ use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::lookups::utils::Fraction;
 use stwo_prover::core::pcs::TreeVec;
 
-use crate::{narrowfib_num_steps_20, LOGUP_BATCH_SIZE};
+use crate::components::narrowfib_num_steps_20;
 
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub struct RelationElements(LookupElements<2>);

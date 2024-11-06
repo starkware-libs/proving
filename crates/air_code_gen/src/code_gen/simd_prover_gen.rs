@@ -537,14 +537,14 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
             TraceGenStep::LookupData(LookupData { relation_name, .. }) => {
                 if seen_functions.insert(relation_name) {
                     code.extend(quote! {
-                        use crate::$(relation_name.to_lowercase());
+                        use crate::components::$(relation_name.to_lowercase());
                     });
                 }
             }
             TraceGenStep::LookupCall { fn_name, .. } => {
                 if seen_functions.insert(fn_name) {
                     code.extend(quote! {
-                        use crate::$(fn_name.to_lowercase());
+                        use crate::components::$(fn_name.to_lowercase());
                     });
                 }
             }

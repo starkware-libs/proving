@@ -373,7 +373,6 @@ fn imports(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_prover::core::lookups::utils::Fraction;
         use stwo_prover::core::pcs::TreeVec;
 
-        use crate::LOGUP_BATCH_SIZE;
         $(generate_sub_component_imports(deductions))
     }
 }

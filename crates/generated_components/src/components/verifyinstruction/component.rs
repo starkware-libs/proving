@@ -14,9 +14,9 @@ use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::lookups::utils::Fraction;
 use stwo_prover::core::pcs::TreeVec;
 
-use crate::{
+use crate::components::{
     memoryaddresstoid, memoryidtobig, rangecheck_n_2_bits_4_3, rangecheck_n_3_bits_7_2_5,
-    verifyinstruction, LOGUP_BATCH_SIZE,
+    verifyinstruction,
 };
 
 #[derive(Clone, Debug, PartialEq, Eq)]
