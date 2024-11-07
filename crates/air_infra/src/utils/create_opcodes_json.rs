@@ -7,7 +7,6 @@ use crate::airs::casm::opcodes::ret_opcode::*;
 use crate::airs::examples::bit_unpacking::bit_unpack::*;
 use crate::airs::examples::fibonacci::fib::*;
 use crate::airs::felt252_id_memory::memory::*;
-use crate::airs::uint32_utils::add32::*;
 use crate::core::air_fn_registry::*;
 
 #[derive(Args, Debug)]
@@ -19,7 +18,6 @@ pub struct WriteJsonCommand {
 #[derive(Subcommand, Debug)]
 pub enum AirFnArgs {
     Fib(FibArgs),
-    Add32,
     BitUnpack,
     Ret,
     AssertEq(AssertEqOpcodeArgs),
@@ -81,7 +79,6 @@ pub fn create_air_fn_registry(arguments: AirFnArgs) -> AirFnRegistry {
         AirFnArgs::Fib(arguments) => registry.add_entry(&Fib {
             claim_index: arguments.claim_index,
         }),
-        AirFnArgs::Add32 => registry.add_entry(&Add32 {}),
         AirFnArgs::BitUnpack => registry.add_entry(&BitUnpack::<4> {}),
         AirFnArgs::Ret => registry.add_entry(&RetOpcode::default()),
     };
