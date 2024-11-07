@@ -1,6 +1,10 @@
 pub mod g;
 #[cfg(test)]
 mod g_test;
+pub mod round_sigma;
+#[cfg(test)]
+pub mod round_sigma_test;
+pub mod sigma;
 pub mod triple_sum32;
 #[cfg(test)]
 pub mod triple_sum32_test;
