@@ -7,6 +7,7 @@ pub struct CompiledAirFn {
     pub name: String,
     pub description: String,
     pub input: CompiledAirVar,
+    // TODO: delete after update callee_lookup_length function.
     pub output: CompiledAirVar,
 
     pub state_names: Vec<String>,
@@ -19,6 +20,9 @@ pub struct CompiledAirFn {
     // The index of the multiplicity column in the lookup table that is used / yielded.
     // None for chain lookup relations, such as "opcodes".
     pub multiplicity_col_index: Option<usize>,
+
+    // The number of lookup terms (use or yield) in the air function.
+    pub n_lookup_terms: usize,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
