@@ -7,6 +7,7 @@ pub mod add_opcode_test;
 pub mod assert_eq_opcode;
 #[cfg(test)]
 pub mod assert_eq_opcode_test;
+pub mod blake;
 pub mod call_opcode;
 #[cfg(test)]
 pub mod call_opcode_test;
