@@ -1,12 +1,11 @@
 use std::cell::RefCell;
 use std::rc::Rc;
 
-use indexmap::IndexMap;
-use serde::Serialize;
-
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, ConstraintEvalStep, LookupData, TraceGenStep, UseOrYield,
 };
+use indexmap::IndexMap;
+use serde::Serialize;
 
 use super::air_fn::*;
 use super::public_params::*;
@@ -250,7 +249,8 @@ impl AirFnRegistry {
         let output = match air_fn.trace_type() {
             TraceType::Inline => air_fn.call(&mut air_builder, input),
             TraceType::Component => air_fn.lookup_call(&mut air_builder, input),
-            // For constant AirFns there are no constraints or deductions, so we just return the output.
+            // For constant AirFns there are no constraints or deductions, so we just return the
+            // output.
             TraceType::Const => {
                 let output = air_fn.call(&mut air_builder, input);
                 assert!(output.is_const(), "Output must be a constant");
@@ -274,7 +274,8 @@ impl AirFnRegistry {
         O: AirVar,
     {
         let input_name = format!("{}_input", air_fn.name().to_lowercase());
-        // If input_in_trace is None, we put the input in the trace so air_builder checks don't fail.
+        // If input_in_trace is None, we put the input in the trace so air_builder checks don't
+        // fail.
         let mut input = I::new(input_name.clone(), true);
         if let Some(input_in_trace) = air_fn.input_in_trace() {
             if !input_in_trace {

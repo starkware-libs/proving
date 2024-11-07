@@ -1,12 +1,10 @@
 use super::fib::*;
-
 use crate::airs::examples::fibonacci::wide_fib::*;
+use crate::const_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
-
-use crate::const_expr;
 
 #[test]
 fn test_wide_fibonacci() {

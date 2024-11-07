@@ -1,12 +1,10 @@
-use inst_def::InstDef;
-
 use compiled_casm_air::const_tables::STWO_COMPONENT_TYPE_SEQ;
+use inst_def::InstDef;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 #[cfg(test)]
 use crate::core::expressions::var_expr::*;
-
 #[cfg(test)]
 use crate::core::Felt;
 

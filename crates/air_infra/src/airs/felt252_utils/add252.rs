@@ -8,8 +8,8 @@ use crate::core::variables::*;
 
 /// Addition of two 252-bit felts.
 /// The function assumes the inputs have range-checked limbs, and range-checks the result.
-/// The result is not constrained to be fully reduced, i.e. an assignement with c = ((a+b) % P) + P
-/// could satisfy the constraints.
+/// The result is not constrained to be fully reduced,
+/// i.e. an assignement with c = ((a+b) % P) + P could satisfy the constraints.
 #[derive(Clone, Debug, InstDef)]
 pub struct Add252 {}
 

@@ -1,17 +1,14 @@
 use inst_def::InstDef;
-
 use prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::memory::*;
-
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
+// Macros
+use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-
-// Macros
-use crate::const_expr;
 
 // The number of limbs that fit in an M31. When reading a "small" value into an M31
 // we'll deduce that many limbs.
@@ -83,7 +80,8 @@ pub fn small_to_rel_imm(
     low_limbs_value - msb - const_expr!(1 << (LIMBS_IN_M31 * FELT252_BITS_PER_WORD)) * mid_limbs_set
 }
 
-// Receives sign bits and 3 low limbs, and returns a `felt252` that represents this relative immediate.
+// Receives sign bits and 3 low limbs, and returns a `felt252` that represents this relative
+// immediate.
 pub fn small_to_felt252(
     low_limbs: [FeltExpr; LIMBS_IN_M31],
     msb: FeltExpr,

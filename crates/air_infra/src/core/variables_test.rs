@@ -5,7 +5,6 @@ use super::air_fn_registry::*;
 use super::expressions::bool_expr::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
-
 // Macros
 use crate::bool_expr;
 

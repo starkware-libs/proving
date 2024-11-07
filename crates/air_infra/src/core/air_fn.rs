@@ -2,11 +2,10 @@ use std::any::type_name;
 use std::fmt::Debug;
 use std::hash::{DefaultHasher, Hash, Hasher};
 
-use indexmap::IndexMap;
-use serde::{Deserialize, Serialize};
-
 use compiled_casm_air::compiled_structs::UseOrYield;
 use compiled_casm_air::public_params::PublicParam;
+use indexmap::IndexMap;
+use serde::{Deserialize, Serialize};
 
 use super::air_fn_registry::*;
 use super::expressions::felt_expr::*;
@@ -27,8 +26,8 @@ pub enum TraceType {
     // Can be called only with lookup_call. Yields lookup data.
     Component,
 
-    // Has its own component in the trace. The trace for this component is pre-filled with rows for
-    // all possible inputs by external means. Doesn't generate deductions or constraints.
+    // Has its own component in the trace. The trace for this component is pre-filled with rows
+    // for all possible inputs by external means. Doesn't generate deductions or constraints.
     // Has no input, only output. Can be called only with call_external_column. Doesn't yield
     // lookup data.
     Const,

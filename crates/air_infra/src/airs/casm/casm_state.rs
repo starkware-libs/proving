@@ -2,7 +2,6 @@ use prover_types::cpu::{CasmState, ProverType};
 
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
-
 use crate::core::Felt;
 
 #[derive(Clone, Debug, Default)]

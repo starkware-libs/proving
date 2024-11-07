@@ -4,7 +4,6 @@ use super::super::casm::casm_state::*;
 use super::memory::*;
 use super::read_positive::*;
 use super::read_small::*;
-
 use crate::airs::felt252_id_memory::address_to_id::*;
 use crate::airs::felt252_id_memory::id_to_big::*;
 use crate::core::air_fn_registry::*;
@@ -12,9 +11,7 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
-
-use crate::const_expr;
-use crate::const_felt252_expr;
+use crate::{const_expr, const_felt252_expr};
 
 #[test]
 fn test_read_small() {

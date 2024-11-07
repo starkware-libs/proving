@@ -1,18 +1,15 @@
+use compiled_casm_air::compiled_structs::CompiledAirVar;
 use compiled_casm_air::public_params::PublicParam;
 use serde::{Serialize, Serializer};
-
-use compiled_casm_air::compiled_structs::CompiledAirVar;
-
-use crate::core::Felt;
 
 use super::super::state::*;
 use super::super::variables::*;
 use super::expr::*;
 use super::op_expr::*;
 use super::var_expr::*;
-
 // Macros
 use crate::const_expr;
+use crate::core::Felt;
 
 pub type FeltOperation = OpExpr<Felt>;
 pub type FeltExpr = Expr<Felt>;
@@ -24,12 +21,13 @@ pub enum StateInfo {
     // The second argument is the description of the trace cell. It is used only for compilation.
     // Consider moving to a compilation context.
     StateIndex(usize, Option<String>),
-    // If the <bool> value is true, the felt is a polynomial expression in the state. It is unspecified
-    // what this polynomial is. If the <bool> is false, the felt is not a polynomial expression in the
-    // state (for example, a value read from the memory and not written to the state yet).
+    // If the <bool> value is true, the felt is a polynomial expression in the state. It is
+    // unspecified what this polynomial is. If the <bool> is false, the felt is not a
+    // polynomial expression in the state (for example, a value read from the memory and not
+    // written to the state yet).
     IsPolyOfState(bool),
-    // The felt is in the state of another component. The arguments are the component name and the index
-    // inside that component.
+    // The felt is in the state of another component. The arguments are the component name and the
+    // index inside that component.
     ExternalColumnStateIndex(String, usize),
     // The felt is one of the public parameters.
     PublicParam(PublicParam),
@@ -64,7 +62,8 @@ impl FeltExpr {
             FeltExpr::Var(v) => {
                 v.name = name;
                 v.complex_or_felt = ComplexOrFelt::Felt(new_state_info);
-                // A felt expression that is written to the trace is no longer an intermediate variable.
+                // A felt expression that is written to the trace is no longer an intermediate
+                // variable.
                 v.intermediate_type = None;
             }
             _ => {

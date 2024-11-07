@@ -1,5 +1,6 @@
-use inst_def::InstDef;
 use std::fmt::Debug;
+
+use inst_def::InstDef;
 
 use super::fib_step::*;
 use crate::core::air_fn::*;

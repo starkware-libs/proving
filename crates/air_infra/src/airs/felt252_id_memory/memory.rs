@@ -1,28 +1,23 @@
 #[cfg(test)]
 use std::collections::BTreeMap;
 
-use crate::airs::casm::casm_state::*;
-use crate::airs::casm::common::*;
-use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::*;
-use crate::core::expressions::felt_expr::*;
-
-#[cfg(test)]
-use crate::core::memory::*;
-
-#[cfg(test)]
-use crate::core::variables::*;
-
-#[cfg(test)]
-use crate::core::Felt;
-
-#[cfg(test)]
-use crate::const_expr;
-
 use super::address_to_id::*;
 use super::id_to_big::*;
 use super::read_positive::*;
 use super::read_small::*;
+use crate::airs::casm::casm_state::*;
+use crate::airs::casm::common::*;
+#[cfg(test)]
+use crate::const_expr;
+use crate::core::air_fn::*;
+use crate::core::expressions::felt252_expr::*;
+use crate::core::expressions::felt_expr::*;
+#[cfg(test)]
+use crate::core::memory::*;
+#[cfg(test)]
+use crate::core::variables::*;
+#[cfg(test)]
+use crate::core::Felt;
 
 /// Stores an address -> Felt252 mapping using two components: 1. address -> ID table and
 /// 2. ID -> Felt252 table. The ID is a single M31 felt and it is guaranteed that different

@@ -1,7 +1,6 @@
 use super::expressions::felt_expr::*;
 use super::state::*;
 use super::variables::*;
-
 // Macros
 use crate::const_expr;
 

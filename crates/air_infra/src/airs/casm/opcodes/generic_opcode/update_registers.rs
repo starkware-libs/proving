@@ -1,19 +1,16 @@
 use inst_def::InstDef;
-
 use prover_types::cpu::P_FELTS;
 
 use super::generic_opcode::*;
-
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
 use crate::airs::felt252_utils::cond_as_small::*;
+// Macros
+use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
-
-// Macros
-use crate::const_expr;
 
 #[derive(Clone, Debug, InstDef)]
 // Find the next pc, ap, fp and add constraints for jump not zero.

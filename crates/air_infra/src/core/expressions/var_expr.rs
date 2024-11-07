@@ -94,9 +94,9 @@ where
         }
 
         match &self.complex_or_felt {
-            ComplexOrFelt::Felt(StateInfo::StateIndex(_, _)) => true,
+            ComplexOrFelt::Felt(StateInfo::StateIndex(..)) => true,
             ComplexOrFelt::Felt(StateInfo::IsPolyOfState(b)) => *b,
-            ComplexOrFelt::Felt(StateInfo::ExternalColumnStateIndex(_, _)) => true,
+            ComplexOrFelt::Felt(StateInfo::ExternalColumnStateIndex(..)) => true,
             ComplexOrFelt::Felt(StateInfo::PublicParam(_)) => true,
             ComplexOrFelt::Complex(children) => children.iter().all(|c| c.in_state()),
         }

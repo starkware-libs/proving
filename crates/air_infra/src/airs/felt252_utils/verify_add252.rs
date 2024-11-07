@@ -1,14 +1,13 @@
 use inst_def::InstDef;
-
 use prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS, P_FELTS};
 
+// Macros
+use crate::const_expr;
+use crate::const_u16_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
-// Macros
-use crate::const_expr;
-use crate::const_u16_expr;
 
 /// Verifying that two 252-bit felts sum to a third.
 /// The function assumes all inputs have range-checked limbs.

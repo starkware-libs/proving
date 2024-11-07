@@ -1,20 +1,17 @@
 use inst_def::InstDef;
-
 use prover_types::cpu::FELT252_BITS_PER_WORD;
 
+use super::memory::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::range_check::*;
+//  Macros
+use crate::const_expr;
+use crate::const_u16_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::core::variables::*;
-
-use super::memory::*;
-
-//  Macros
-use crate::const_expr;
-use crate::const_u16_expr;
 
 #[derive(Debug, InstDef)]
 pub struct ReadPositive {

@@ -1,8 +1,8 @@
 use proc_macro::TokenStream;
 use quote::quote;
-use syn::{
-    parse_macro_input, Data::Struct, DeriveInput, GenericParam::Const, GenericParam::Type, Meta,
-};
+use syn::Data::Struct;
+use syn::GenericParam::{Const, Type};
+use syn::{parse_macro_input, DeriveInput, Meta};
 
 #[proc_macro_derive(InstDef, attributes(instdef))]
 pub fn derive_air_fn(input: TokenStream) -> TokenStream {
@@ -12,7 +12,7 @@ pub fn derive_air_fn(input: TokenStream) -> TokenStream {
 
 fn impl_inst_def(ast: &DeriveInput) -> TokenStream {
     let name = &ast.ident;
-    //handle genric structs
+    // handle genric structs
     let (impl_generics, type_generics, where_clause) = ast.generics.split_for_impl();
 
     let fields = match &ast.data {

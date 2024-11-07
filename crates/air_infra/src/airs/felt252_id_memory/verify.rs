@@ -1,10 +1,9 @@
 use inst_def::InstDef;
 
+use super::memory::*;
 use crate::airs::casm::casm_state::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
-
-use super::memory::*;
 
 #[derive(Debug, InstDef)]
 pub struct MemVerify {

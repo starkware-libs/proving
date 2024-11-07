@@ -1,14 +1,13 @@
 use inst_def::InstDef;
 
+// Macros
+use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
 
-// Macros
-use crate::const_expr;
-
-/// Receives a = (al, ah), b = (bl, bh), and c = (cl, ch) as three pairs of range-checked felts such that
-/// each pair represents UInt32.
+/// Receives a = (al, ah), b = (bl, bh), and c = (cl, ch) as three pairs of range-checked felts such
+/// that each pair represents UInt32.
 /// Returns their sum mod 2^32.
 /// The caller is responsible to range check the output.
 #[derive(Clone, Debug, InstDef)]

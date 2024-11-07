@@ -1,11 +1,10 @@
 use inst_def::InstDef;
 
 use super::narrow_fib::*;
-use crate::core::air_fn::*;
-use crate::core::expressions::felt_expr::*;
-
 // Macros
 use crate::const_expr;
+use crate::core::air_fn::*;
+use crate::core::expressions::felt_expr::*;
 
 #[derive(Debug, InstDef)]
 pub struct WideFib {

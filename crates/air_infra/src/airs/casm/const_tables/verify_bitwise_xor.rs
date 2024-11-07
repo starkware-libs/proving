@@ -1,5 +1,4 @@
 use compiled_casm_air::const_tables::STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9;
-
 use inst_def::InstDef;
 
 use crate::core::air_fn::*;

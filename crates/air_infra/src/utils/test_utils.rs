@@ -1,6 +1,5 @@
-use serde::Serialize;
-
 use compiled_casm_air::utils::{dump_to_file, read_json};
+use serde::Serialize;
 
 pub const TEST_JSONS_DECODE_INSTRUCTION_DIR: &str = "src/airs/casm/decode_instruction/test_jsons/";
 pub const TEST_JSONS_EXAMPLES_DIR: &str = "src/airs/examples/test_jsons/";

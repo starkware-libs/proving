@@ -1,18 +1,16 @@
 use compiled_casm_air::utils::JSONS_LOOKUPS_DIR;
 
-use super::verify_inst::*;
-
 use super::super::casm_state::*;
 use super::super::common::*;
+use super::verify_inst::*;
 use crate::airs::felt252_id_memory::memory::*;
+// Macro
+use crate::const_expr;
+use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::utils::test_utils::*;
-
-// Macro
-use crate::const_expr;
-use crate::const_felt252_expr;
 
 #[test]
 fn test_verify_inst() {

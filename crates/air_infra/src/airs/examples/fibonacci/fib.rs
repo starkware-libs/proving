@@ -3,11 +3,10 @@ use std::fmt::Debug;
 use inst_def::InstDef;
 
 use super::fib_step::*;
-use crate::core::air_fn::*;
-use crate::core::expressions::felt_expr::*;
-
 // Macros
 use crate::const_expr;
+use crate::core::air_fn::*;
+use crate::core::expressions::felt_expr::*;
 
 /// Returns the Fibonacci number at the given index.
 #[derive(Clone, Debug, InstDef)]

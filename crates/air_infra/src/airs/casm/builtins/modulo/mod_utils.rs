@@ -7,11 +7,11 @@ use crate::airs::casm::casm_state::*;
 use crate::airs::felt252_id_memory::memory::*;
 use crate::airs::felt252_id_memory::read_positive::*;
 use crate::airs::felt252_id_memory::verify_equal::*;
+// Macros
+use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-// Macros
-use crate::const_expr;
 
 // Length of each modulo builtin word in bits.
 pub const MOD_BUILTIN_WORD_BIT_LEN: usize = 96;
@@ -123,7 +123,8 @@ impl AirFn for ModUtils {
         );
         // Condition for block reset, i.e. when the input variables can progress arbitrarily.
         let block_reset_condition = n_val_prev.clone() - const_expr!(1);
-        // Constrain the values of n, offsets_ptr, values_ptr to be consistent with the previous instance.
+        // Constrain the values of n, offsets_ptr, values_ptr to be consistent with the previous
+        // instance.
         ab.constrain(
             block_reset_condition.clone() * (n_val_prev.clone() - const_expr!(1) - n_val.clone()),
             "Progression of n between instances.",

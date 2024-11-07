@@ -1,11 +1,10 @@
 use super::div252::*;
+// Macros
+use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
-
-// Macros
-use crate::const_felt252_expr;
 
 #[test]
 fn test_entry_json() {
@@ -170,7 +169,7 @@ fn test_div252_with_overflow() {
 fn test_div252_by_zero() {
     let air_fn = Div252 {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
-    let (_, _) = registry.run_air(
+    let (..) = registry.run_air(
         &air_fn,
         [
             const_felt252_expr!(0x2008020003400040001u128, 0u128),
@@ -184,7 +183,7 @@ fn test_div252_by_zero() {
 fn test_div252_by_p() {
     let air_fn = Div252 {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
-    let (_, _) = registry.run_air(
+    let (..) = registry.run_air(
         &air_fn,
         [
             const_felt252_expr!(0x2008020003400040001u128, 0u128),

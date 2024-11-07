@@ -3,15 +3,13 @@ use inst_def::InstDef;
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::super::decode_instruction::decode_inst::*;
-
 use crate::airs::felt252_id_memory::memory::*;
 use crate::airs::felt252_id_memory::verify::*;
+// Macros
+use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-
-// Macros
-use crate::const_expr;
 
 /// The call opcode.
 /// Implements the Cairo0 instructions:

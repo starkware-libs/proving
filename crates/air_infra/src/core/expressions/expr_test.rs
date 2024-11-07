@@ -10,7 +10,6 @@ use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
-
 // Macros
 use crate::{
     bool_expr, const_bigu256_expr, const_bigu512_expr, const_expr, const_felt252_expr,

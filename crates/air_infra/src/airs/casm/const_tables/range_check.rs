@@ -1,10 +1,9 @@
-use inst_def::InstDef;
-
 use compiled_casm_air::const_tables::{
     STWO_COMPONENT_TYPE_RANGE_CHECK_16, STWO_COMPONENT_TYPE_RANGE_CHECK_19,
     STWO_COMPONENT_TYPE_RANGE_CHECK_3, STWO_COMPONENT_TYPE_RANGE_CHECK_6,
     STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3, STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_7_2_5,
 };
+use inst_def::InstDef;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;

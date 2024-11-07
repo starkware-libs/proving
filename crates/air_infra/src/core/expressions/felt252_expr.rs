@@ -5,7 +5,6 @@ use super::expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
 use super::var_expr::*;
-
 // Macros
 use crate::const_felt252_expr;
 

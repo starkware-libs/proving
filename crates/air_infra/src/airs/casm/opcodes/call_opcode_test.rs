@@ -10,9 +10,7 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::state::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
-
-use crate::const_expr;
-use crate::const_felt252_expr;
+use crate::{const_expr, const_felt252_expr};
 
 #[test]
 fn test_entry_json() {

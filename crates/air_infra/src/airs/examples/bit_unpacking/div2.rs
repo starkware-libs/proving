@@ -1,14 +1,14 @@
-use inst_def::InstDef;
 use std::fmt::Debug;
 
-use crate::core::air_fn::*;
-use crate::core::expressions::bool_expr::*;
-use crate::core::expressions::felt_expr::*;
-use crate::core::expressions::uint16_expr::*;
+use inst_def::InstDef;
 
 // Macros
 use crate::const_expr;
 use crate::const_u16_expr;
+use crate::core::air_fn::*;
+use crate::core::expressions::bool_expr::*;
+use crate::core::expressions::felt_expr::*;
+use crate::core::expressions::uint16_expr::*;
 
 /// Divides a 16-bit unsigned integer by 2. Returns the quotient and the remainder.
 

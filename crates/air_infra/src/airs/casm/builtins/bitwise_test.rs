@@ -1,16 +1,14 @@
 use compiled_casm_air::utils::JSONS_BUILTINS_DIR;
 
 use super::bitwise::*;
-
 use crate::airs::felt252_id_memory::memory::*;
+// Macros
+use crate::const_expr;
+use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::utils::test_utils::*;
-
-//Macros
-use crate::const_expr;
-use crate::const_felt252_expr;
 
 #[test]
 fn test_entry_json() {

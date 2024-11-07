@@ -1,5 +1,4 @@
-use clap::Args;
-use clap::Subcommand;
+use clap::{Args, Subcommand};
 
 use crate::airs::casm::opcodes::assert_eq_opcode::*;
 use crate::airs::casm::opcodes::call_opcode::*;

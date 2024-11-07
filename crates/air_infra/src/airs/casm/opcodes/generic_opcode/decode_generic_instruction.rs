@@ -1,16 +1,14 @@
 use inst_def::InstDef;
 
 use super::generic_opcode::*;
-
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
 use crate::airs::casm::decode_instruction::decode_inst::*;
 use crate::airs::felt252_id_memory::memory::*;
-use crate::core::air_fn::*;
-use crate::core::expressions::felt_expr::*;
-
 //  Macros
 use crate::const_expr;
+use crate::core::air_fn::*;
+use crate::core::expressions::felt_expr::*;
 
 #[derive(Clone, Debug, InstDef)]
 pub struct DecodeGenericInstruction {
@@ -67,7 +65,8 @@ impl AirFn for DecodeGenericInstruction {
         assert_eq!(generic_flags_vec.len(), FLAG_RES_OP1_INDEX);
         generic_flags_vec.push(res_op1.clone());
 
-        // pc_update_regular = 1 iff FLAG_PC_UPDATE_JUMP = 0 and FLAG_PC_UPDATE_JUMP_REL = 0 and FLAG_PC_UPDATE_JNZ = 0
+        // pc_update_regular = 1 iff FLAG_PC_UPDATE_JUMP = 0 and FLAG_PC_UPDATE_JUMP_REL = 0 and
+        // FLAG_PC_UPDATE_JNZ = 0
         let pc_update_regular = air_builder.let_(
             const_expr!(1)
                 - generic_flags_vec[FLAG_PC_UPDATE_JUMP_INDEX].clone()
@@ -83,7 +82,8 @@ impl AirFn for DecodeGenericInstruction {
         assert_eq!(generic_flags_vec.len(), FLAG_PC_UPDATE_REGULAR_INDEX);
         generic_flags_vec.push(pc_update_regular);
 
-        // ap_update_regular = 1 iff FLAG_AP_UPDATE_ADD = 0 and FLAG_AP_UPDATE_ADD_1 = 0 and FLAG_OPCODE_CALL = 0
+        // ap_update_regular = 1 iff FLAG_AP_UPDATE_ADD = 0 and FLAG_AP_UPDATE_ADD_1 = 0 and
+        // FLAG_OPCODE_CALL = 0
         let ap_update_regular = air_builder.let_(
             const_expr!(1)
                 - generic_flags_vec[FLAG_AP_UPDATE_ADD_INDEX].clone()

@@ -3,22 +3,21 @@ use std::cmp::{max, min};
 use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
 
 use inst_def::InstDef;
-
 use prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::const_tables::range_check::*;
+// Macros
+use crate::const_expr;
+use crate::const_u32_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
 
-// Macros
-use crate::const_expr;
-use crate::const_u32_expr;
-
 /// Verifying that two 252-bit felts multiply to a third.
 /// The function assumes all inputs have range-checked limbs.
-/// None of the inputs are constrained to be fully reduced, but (a * b - c)/P must be in [0, 2**252).
+/// None of the inputs are constrained to be fully reduced,
+/// but (a * b - c)/P must be in [0, 2**252).
 #[derive(Clone, Debug, InstDef)]
 pub struct VerifyMul252 {}
 

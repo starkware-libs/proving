@@ -1,18 +1,16 @@
 use inst_def::InstDef;
 
 use super::generic_opcode::*;
-
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
 use crate::airs::felt252_id_memory::memory::*;
 use crate::airs::felt252_utils::cond_as_small::*;
+//  Macros
+use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
-
-//  Macros
-use crate::const_expr;
 
 #[derive(Clone, Debug, InstDef)]
 // Add the relevant constraints for valid call, assert equal and ret opcodes.

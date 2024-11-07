@@ -1,17 +1,15 @@
 use inst_def::InstDef;
 
-use crate::airs::felt252_id_memory::memory::*;
-use crate::airs::felt252_id_memory::read_positive::*;
-use crate::airs::felt252_utils::verify_mul252::*;
-use crate::core::air_fn::*;
-use crate::core::expressions::felt_expr::*;
-
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::super::decode_instruction::decode_inst::*;
-
+use crate::airs::felt252_id_memory::memory::*;
+use crate::airs::felt252_id_memory::read_positive::*;
+use crate::airs::felt252_utils::verify_mul252::*;
 // Macros
 use crate::const_expr;
+use crate::core::air_fn::*;
+use crate::core::expressions::felt_expr::*;
 
 /// The mul_small opcode.
 /// Implements the Cairo0 instructions:

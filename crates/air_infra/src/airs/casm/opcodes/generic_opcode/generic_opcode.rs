@@ -4,7 +4,6 @@ use super::decode_generic_instruction::*;
 use super::eval_operands::*;
 use super::handle_opcodes::*;
 use super::update_registers::*;
-
 use crate::airs::casm::casm_state::*;
 use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn::*;

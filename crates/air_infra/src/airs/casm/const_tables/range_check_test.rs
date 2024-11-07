@@ -1,16 +1,13 @@
+use compiled_casm_air::utils::JSONS_LOOKUPS_DIR;
 use inst_def::InstDef;
 
-use compiled_casm_air::utils::JSONS_LOOKUPS_DIR;
-
 use super::range_check::*;
-
+// Macros
+use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
 use crate::utils::test_utils::*;
-
-// Macros
-use crate::const_expr;
 
 #[test]
 fn test_entry_json() {

@@ -1,11 +1,10 @@
 use std::array::from_fn;
 use std::fmt::Debug;
 
-use enum_dispatch::enum_dispatch;
-use serde::Serialize;
-
 use compiled_casm_air::compiled_structs::CompiledAirVar;
+use enum_dispatch::enum_dispatch;
 use prover_types::cpu::ProverType;
+use serde::Serialize;
 
 use super::expressions::biguint_expr::*;
 use super::expressions::bool_expr::*;
@@ -20,10 +19,8 @@ use super::expressions::var_expr::*;
 use crate::airs::casm::builtins::modulo::mod_utils::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::opcodes::generic_opcode::generic_opcode::*;
-
 #[cfg(test)]
 use crate::core::Felt;
-
 // Macros
 use crate::impl_air_var;
 
@@ -60,23 +57,23 @@ pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
 // Information about air variables used by the air builder.
 #[enum_dispatch]
 pub trait InternalAirVarInfo: Debug {
-    // An AirVar is in_state if it is stored in a trace cell or a polynomial of felts stored in trace cells.
-    // Used to verify that expressions of constraints are polynomials of felts written to the trace.
-    // We check this in run mode, since when building an air body, we want all constraints to refer to sepecial
-    // inputs carrying the AirFn name.
+    // An AirVar is in_state if it is stored in a trace cell or a polynomial of felts stored in
+    // trace cells. Used to verify that expressions of constraints are polynomials of felts
+    // written to the trace. We check this in run mode, since when building an air body, we want
+    // all constraints to refer to sepecial inputs carrying the AirFn name.
     fn in_state(&self) -> bool;
 
-    // An AirVar is_const if was created with a value and the flag is_const = true, or if it is the result of
-    // operations on other constants.
-    // Used to verify that a constant variable is not written to the trace in a top-level AirFn, since this
-    // would create a constant column in the trace.
-    // Note that in runtime, we allow deduction of constant variables in internal calls, since an AirFn can
-    // be called with different inputs in different calls.
+    // An AirVar is_const if was created with a value and the flag is_const = true, or if it is the
+    // result of operations on other constants.
+    // Used to verify that a constant variable is not written to the trace in a top-level AirFn,
+    // since this would create a constant column in the trace.
+    // Note that in runtime, we allow deduction of constant variables in internal calls, since an
+    // AirFn can be called with different inputs in different calls.
     fn is_const(&self) -> bool;
 
-    // An AirVar is in_constraints if each of its intermediate variables was created with let_for_constraint
-    // or with let_. Similarly, an AirVar is in_deductions if each of its intermediate variables was created
-    // with let_for_deduction or with let_.
+    // An AirVar is in_constraints if each of its intermediate variables was created with
+    // let_for_constraint or with let_. Similarly, an AirVar is in_deductions if each of its
+    // intermediate variables was created with let_for_deduction or with let_.
     // If it has no intermediate variables, it is both in_constraints and in_deductions.
     // Used to verify that intermediate variables are used in the correct context.
     fn get_intermediate_type(&self) -> IntermediateType {

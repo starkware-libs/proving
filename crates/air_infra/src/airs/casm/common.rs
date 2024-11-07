@@ -1,10 +1,9 @@
 use prover_types::cpu::FELT252_BITS_PER_WORD;
 
-use crate::core::expressions::felt252_expr::*;
-use crate::core::expressions::felt_expr::*;
-
 // Macros
 use crate::const_expr;
+use crate::core::expressions::felt252_expr::*;
+use crate::core::expressions::felt_expr::*;
 
 pub const ADDRESS_BITS: usize = 27;
 pub const OFFSET_BITS: u32 = 16;

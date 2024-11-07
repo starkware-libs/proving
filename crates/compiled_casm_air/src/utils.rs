@@ -1,9 +1,8 @@
 use std::fmt::Display;
-use std::fs;
 use std::fs::File;
-use std::io;
 use std::io::{BufWriter, Write};
 use std::path::PathBuf;
+use std::{fs, io};
 
 use serde::Serialize;
 use serde_json::{to_writer_pretty, Value};

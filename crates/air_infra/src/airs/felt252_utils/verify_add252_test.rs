@@ -1,11 +1,9 @@
 use super::verify_add252::*;
-
+// Macros
+use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::utils::test_utils::*;
-
-// Macros
-use crate::const_felt252_expr;
 
 #[test]
 fn test_entry_json() {

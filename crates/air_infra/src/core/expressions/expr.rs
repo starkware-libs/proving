@@ -1,9 +1,8 @@
+use compiled_casm_air::compiled_structs::CompiledAirVar;
 use enum_dispatch::enum_dispatch;
+use prover_types::cpu::{BigUInt, Bool, Felt252, ProverType, UInt16, UInt32, UInt64};
 use serde::ser::SerializeStruct;
 use serde::{Serialize, Serializer};
-
-use compiled_casm_air::compiled_structs::CompiledAirVar;
-use prover_types::cpu::{BigUInt, Bool, Felt252, ProverType, UInt16, UInt32, UInt64};
 
 use super::super::variables::*;
 use super::biguint_expr::*;
@@ -15,7 +14,6 @@ use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
 use super::var_expr::*;
-
 use crate::core::Felt;
 
 /// Experssions can be manipulated with binary and unary operations.

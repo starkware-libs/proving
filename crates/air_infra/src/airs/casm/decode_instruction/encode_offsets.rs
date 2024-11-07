@@ -1,17 +1,14 @@
 use inst_def::InstDef;
-
 use prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::super::const_tables::range_check::*;
-
 use crate::airs::felt252_id_memory::memory::*;
-use crate::core::air_fn::*;
-use crate::core::expressions::felt_expr::*;
-use crate::core::expressions::uint16_expr::*;
-
 // Macros
 use crate::const_expr;
 use crate::const_u16_expr;
+use crate::core::air_fn::*;
+use crate::core::expressions::felt_expr::*;
+use crate::core::expressions::uint16_expr::*;
 
 #[derive(Clone, Debug, InstDef)]
 pub struct EncodeOffsets {

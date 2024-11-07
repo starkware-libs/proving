@@ -3,16 +3,14 @@ use inst_def::InstDef;
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::verify_inst::*;
-
 use crate::airs::felt252_id_memory::memory::*;
+// Macros
+use crate::const_expr;
+use crate::const_u16_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
-
-// Macros
-use crate::const_expr;
-use crate::const_u16_expr;
 
 #[derive(Clone, Debug, InstDef)]
 pub struct DecodeInstruction {

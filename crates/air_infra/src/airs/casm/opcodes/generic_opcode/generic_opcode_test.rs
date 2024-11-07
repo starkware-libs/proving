@@ -1,7 +1,6 @@
 use compiled_casm_air::utils::JSONS_OPCODES_DIR;
 
 use super::generic_opcode::*;
-
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
 use crate::airs::casm::opcodes::add_ap_opcode::*;
@@ -13,17 +12,14 @@ use crate::airs::casm::opcodes::jump_opcode_test::*;
 use crate::airs::casm::opcodes::ret_opcode::*;
 use crate::airs::casm::opcodes::ret_opcode_test::*;
 use crate::airs::felt252_id_memory::memory::*;
-
+// Macros
+use crate::const_expr;
+use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
-
 use crate::utils::test_utils::*;
-
-// Macros
-use crate::const_expr;
-use crate::const_felt252_expr;
 
 #[test]
 fn test_entry_json() {
@@ -2330,7 +2326,7 @@ fn test_generic_soundness_call_wrong_offset() {
     // Run air function
     let (mut registry, _) = AirFnRegistry::new(&generic_opcode);
     registry.add_entry(&call_opcode);
-    let (_, _) = registry.run_air(
+    let (..) = registry.run_air(
         &generic_opcode,
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
@@ -2370,7 +2366,7 @@ fn test_generic_soundness_call_fp_not_pushed() {
     // Run air function
     let (mut registry, _) = AirFnRegistry::new(&generic_opcode);
     registry.add_entry(&call_opcode);
-    let (_, _) = registry.run_air(
+    let (..) = registry.run_air(
         &generic_opcode,
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
@@ -2413,7 +2409,7 @@ fn test_generic_soundness_call_wrong_next_pc() {
 
     // Run air function
     let (registry, _) = AirFnRegistry::new(&generic_opcode);
-    let (_, _) = registry.run_air(
+    let (..) = registry.run_air(
         &generic_opcode,
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );

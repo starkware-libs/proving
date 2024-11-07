@@ -1,7 +1,6 @@
-use clap::{Parser, Subcommand};
-
 use air_infra::utils::create_opcodes_json::*;
 use air_infra::utils::fn_sizes::*;
+use clap::{Parser, Subcommand};
 use compiled_casm_air::utils::*;
 
 #[derive(Subcommand, Debug)]

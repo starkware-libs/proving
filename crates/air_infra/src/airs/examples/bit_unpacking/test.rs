@@ -2,7 +2,9 @@ use inst_def::InstDef;
 
 use super::bit_unpack::*;
 use super::div2::*;
-
+// Macros
+use crate::const_expr;
+use crate::const_u16_expr;
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::bool_expr::*;
@@ -10,10 +12,6 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
-
-// Macros
-use crate::const_expr;
-use crate::const_u16_expr;
 
 #[test]
 fn test_bit_unpacking() {

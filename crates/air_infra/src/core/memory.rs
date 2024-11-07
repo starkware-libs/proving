@@ -9,15 +9,13 @@ use std::rc::Rc;
 
 use super::air_fn::*;
 use super::variables::*;
-
 #[cfg(test)]
 use super::Felt;
 
 /// Describes an AirFn that is a memory component. This means:
 /// 1. Each trace row contains a key (of type K), a value (of type V) and nothing else
-/// 2. Writing the keys and values into the trace is not the responsibility of the AIR
-///    infra, but is implemented directly in the prover. Therefore, call() doesn't
-///    write anything to the trace.
+/// 2. Writing the keys and values into the trace is not the responsibility of the AIR infra, but is
+///    implemented directly in the prover. Therefore, call() doesn't write anything to the trace.
 pub trait IsMemory<K, V>: AirFn<In = K, Out = V>
 where
     K: AirVar,

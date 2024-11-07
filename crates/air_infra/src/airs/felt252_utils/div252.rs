@@ -8,8 +8,8 @@ use crate::core::variables::*;
 
 /// Division of two 252-bit felts.
 /// The function assumes the inputs have range-checked limbs, and range-checks the result.
-/// The result is not constrained to be fully reduced, i.e. an assignement with c = ((a / b) % P) + P
-/// could satisfy the constraints.
+/// The result is not constrained to be fully reduced,
+/// i.e. an assignement with c = ((a / b) % P) + P could satisfy the constraints.
 /// The function will panic if the denominator is 0 modulo P.
 #[derive(Clone, Debug, InstDef)]
 pub struct Div252 {}

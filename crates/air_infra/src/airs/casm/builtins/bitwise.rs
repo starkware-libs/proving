@@ -1,5 +1,4 @@
 use inst_def::InstDef;
-
 use prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use crate::airs::casm::bitwise_xor::*;
@@ -8,12 +7,11 @@ use crate::airs::casm::const_tables::seq::*;
 use crate::airs::felt252_id_memory::memory::*;
 use crate::airs::felt252_id_memory::read_positive::*;
 use crate::airs::felt252_id_memory::verify::*;
+// Macros
+use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
-
-// Macros
-use crate::const_expr;
 
 // Start address of the segment for this builtin.
 // TODO: receive this at proof time as a public param. Until public params

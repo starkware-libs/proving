@@ -11,7 +11,6 @@ use serde::Serialize;
 use super::expressions::felt_expr::*;
 #[cfg(test)]
 use super::variables::*;
-
 // Macros
 #[cfg(test)]
 use crate::const_expr;

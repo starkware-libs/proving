@@ -1,12 +1,11 @@
 use inst_def::InstDef;
 
 use crate::airs::casm::const_tables::range_check::*;
+// Macros
+use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
-
-// Macros
-use crate::const_expr;
 
 /// Wrapping addition of two 32-bit unsigned integers.
 #[derive(Clone, Debug, InstDef)]

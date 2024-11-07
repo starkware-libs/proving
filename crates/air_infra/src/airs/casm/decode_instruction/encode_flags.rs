@@ -1,14 +1,12 @@
 use inst_def::InstDef;
-
 use prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use crate::airs::casm::common::*;
 use crate::airs::felt252_id_memory::memory::*;
-use crate::core::air_fn::*;
-use crate::core::expressions::felt_expr::*;
-
 // Macros
 use crate::const_expr;
+use crate::core::air_fn::*;
+use crate::core::expressions::felt_expr::*;
 
 #[derive(Clone, Debug, InstDef)]
 pub struct EncodeFlags {

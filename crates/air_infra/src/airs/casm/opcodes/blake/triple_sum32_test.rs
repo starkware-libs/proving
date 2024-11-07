@@ -1,11 +1,9 @@
 use super::triple_sum32::*;
-
+// Macros
+use crate::const_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
-
-// Macros
-use crate::const_expr;
 
 #[test]
 fn test_triple_sum1() {
