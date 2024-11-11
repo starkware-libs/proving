@@ -5,7 +5,6 @@ pub const TEST_JSONS_DECODE_INSTRUCTION_DIR: &str = "src/airs/casm/decode_instru
 pub const TEST_JSONS_EXAMPLES_DIR: &str = "src/airs/examples/test_jsons/";
 pub const TEST_JSONS_FELT252_DIR: &str = "src/airs/felt252_utils/test_jsons/";
 pub const TEST_JSONS_MEMORY_DIR: &str = "src/airs/felt252_id_memory/test_jsons/";
-pub const TEST_JSONS_UINT32_DIR: &str = "src/airs/uint32_utils/test_jsons/";
 
 pub fn compare_json<T>(value: &T, file_path: &String)
 where
