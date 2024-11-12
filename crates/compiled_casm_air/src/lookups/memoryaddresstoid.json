@@ -18,7 +18,7 @@
   "output_num_of_felts": 1,
   "constraints": [
     {
-      "LookupData": {
+      "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
@@ -37,7 +37,7 @@
   ],
   "deductions": [
     {
-      "LookupData": {
+      "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
           {

@@ -1,7 +1,7 @@
 use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, LookupData, TraceGenStep, UseOrYield,
+    CompiledAirFn, CompiledAirVar, LookupTerm, TraceGenStep, UseOrYield,
 };
 use genco::lang::{rust, Rust};
 use genco::quote;
@@ -112,7 +112,7 @@ fn generate_simd_write_trace_body_code(
                     $['\n']
                 ));
             }
-            TraceGenStep::LookupData(LookupData {
+            TraceGenStep::LookupTerm(LookupTerm {
                 relation_name,
                 felts,
                 ..
@@ -232,7 +232,7 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
                 TraceGenStep::Intermediate(_, expr) => {
                     const_defs.extend(seek_consts(expr));
                 }
-                TraceGenStep::LookupData(LookupData {
+                TraceGenStep::LookupTerm(LookupTerm {
                     relation_name: _,
                     felts,
                     ..
@@ -429,7 +429,7 @@ pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens 
 
     let mut relation_multiplicity = HashMap::new();
     for deduction in deductions {
-        if let TraceGenStep::LookupData(LookupData {
+        if let TraceGenStep::LookupTerm(LookupTerm {
             relation_name,
             felts,
             ..
@@ -505,12 +505,12 @@ fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::T
     }
     let mut code = rust::Tokens::new();
 
-    for LookupData {
+    for LookupTerm {
         relation_name,
         felts: _,
         use_or_yield,
     } in deductions.iter().filter_map(|d| {
-        if let TraceGenStep::LookupData(lookup_data) = d {
+        if let TraceGenStep::LookupTerm(lookup_data) = d {
             Some(lookup_data)
         } else {
             None
@@ -543,7 +543,7 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
     let mut seen_functions = HashSet::new();
     for deduction in deductions {
         match deduction {
-            TraceGenStep::LookupData(LookupData { relation_name, .. }) => {
+            TraceGenStep::LookupTerm(LookupTerm { relation_name, .. }) => {
                 if seen_functions.insert(relation_name) {
                     code.extend(quote! {
                         use crate::components::$(relation_name.to_lowercase());

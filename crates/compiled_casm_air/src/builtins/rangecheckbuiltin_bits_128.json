@@ -37,7 +37,7 @@
       "StartBlock": "ReadPositive_num_bits_128"
     },
     {
-      "LookupData": {
+      "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
@@ -156,7 +156,7 @@
     },
     "EndBlock",
     {
-      "LookupData": {
+      "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
@@ -327,7 +327,7 @@
       }
     },
     {
-      "LookupData": {
+      "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
@@ -734,7 +734,7 @@
     },
     "EndBlock",
     {
-      "LookupData": {
+      "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
           {

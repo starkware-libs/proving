@@ -1,7 +1,7 @@
 use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupData, TraceGenStep, UseOrYield,
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm, TraceGenStep, UseOrYield,
 };
 use genco::lang::rust;
 use genco::quote;
@@ -213,7 +213,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 });
             }
             // TODO(Ohad): implement.
-            ConstraintEvalStep::LookupData(LookupData {
+            ConstraintEvalStep::LookupTerm(LookupTerm {
                 relation_name,
                 felts,
                 use_or_yield,
@@ -256,7 +256,7 @@ fn constraint_consts(constraints: &[ConstraintEvalStep]) -> Vec<(String, String)
                 ConstraintEvalStep::Constraint(compiled_air_var, ..) => {
                     const_defs.extend(seek_consts(compiled_air_var))
                 }
-                ConstraintEvalStep::LookupData(LookupData {
+                ConstraintEvalStep::LookupTerm(LookupTerm {
                     relation_name: _,
                     felts,
                     ..
