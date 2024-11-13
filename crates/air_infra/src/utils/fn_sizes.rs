@@ -13,7 +13,7 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
     for constraint in compiled_fn.constraints {
         match constraint {
             ConstraintEvalStep::Constraint(..) => num_regular_constraints += 1,
-            ConstraintEvalStep::LookupData(_) => {
+            ConstraintEvalStep::LookupTerm(_) => {
                 num_lookup_constraints += 1;
             }
             ConstraintEvalStep::Intermediate(..) => {}
@@ -33,7 +33,7 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
             } => {}
             TraceGenStep::StartBlock(_) => {}
             TraceGenStep::EndBlock => {}
-            TraceGenStep::LookupData(_) => {}
+            TraceGenStep::LookupTerm(_) => {}
         }
     }
 

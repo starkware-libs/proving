@@ -45,7 +45,7 @@ pub enum TraceGenStep {
     },
 
     // Saves the information from the trace needed for the generation of the interaction trace.
-    LookupData(LookupData),
+    LookupTerm(LookupTerm),
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
@@ -62,7 +62,7 @@ pub enum ConstraintEvalStep {
 
     // Used to create the constraints between the trace and the interaction trace, and the
     // constraints on the accumulated sum (the logup).
-    LookupData(LookupData),
+    LookupTerm(LookupTerm),
 
     Intermediate(String, CompiledAirVar),
 }
@@ -99,7 +99,7 @@ pub enum CompiledAirVar {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
-pub struct LookupData {
+pub struct LookupTerm {
     pub relation_name: String,
     pub felts: Vec<CompiledAirVar>,
     pub use_or_yield: UseOrYield,

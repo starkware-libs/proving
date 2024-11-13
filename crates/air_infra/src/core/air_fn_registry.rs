@@ -2,7 +2,7 @@ use std::cell::RefCell;
 use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, ConstraintEvalStep, LookupData, TraceGenStep, UseOrYield,
+    CompiledAirFn, ConstraintEvalStep, LookupTerm, TraceGenStep, UseOrYield,
 };
 use indexmap::IndexMap;
 use serde::Serialize;
@@ -57,7 +57,7 @@ impl AirFnEntry {
     fn get_lookup_relation_uses_count(deductions: Vec<TraceGenStep>) -> IndexMap<String, usize> {
         let mut lookup_calls = IndexMap::new();
         for deduction in deductions {
-            if let TraceGenStep::LookupData(LookupData {
+            if let TraceGenStep::LookupTerm(LookupTerm {
                 relation_name,
                 use_or_yield,
                 ..
@@ -135,12 +135,12 @@ impl AirFnEntry {
                     felts,
                     use_or_yield,
                 } => {
-                    constraints.push(ConstraintEvalStep::LookupData(LookupData {
+                    constraints.push(ConstraintEvalStep::LookupTerm(LookupTerm {
                         relation_name: relation_name.clone(),
                         felts: felts.clone().into_iter().map(|f| f.into()).collect(),
                         use_or_yield: use_or_yield.clone(),
                     }));
-                    deductions.push(TraceGenStep::LookupData(LookupData {
+                    deductions.push(TraceGenStep::LookupTerm(LookupTerm {
                         relation_name,
                         felts: felts.into_iter().map(|f| f.into()).collect(),
                         use_or_yield,

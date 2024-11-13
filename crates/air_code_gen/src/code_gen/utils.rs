@@ -3,7 +3,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupData, TraceGenStep,
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm, TraceGenStep,
 };
 use genco::lang::rust;
 use genco::quote;
@@ -92,7 +92,7 @@ pub fn assert_generated_code_unchanged(air_fn: CompiledAirFn, folder_path: &Path
             existing_code,
             r#"
             Generated code in {}.
-            is different from the code in {}. 
+            is different from the code in {}.
             Run the following  to update the code:
             '$ FIX_CODE=1 cargo test'"#,
             path.display(),
@@ -105,7 +105,7 @@ pub fn relation_calls_from_constraints(constraints: &[ConstraintEvalStep]) -> Ve
     constraints
         .iter()
         .filter_map(|constraint| {
-            if let ConstraintEvalStep::LookupData(LookupData { relation_name, .. }) = constraint {
+            if let ConstraintEvalStep::LookupTerm(LookupTerm { relation_name, .. }) = constraint {
                 Some(relation_name.to_string())
             } else {
                 None
@@ -150,7 +150,7 @@ pub fn unique_deduction_function_calls(deductions: &[TraceGenStep]) -> Vec<Strin
 pub fn unique_relation_calls(deductions: &[TraceGenStep]) -> Vec<String> {
     let mut seen_relations = HashSet::new();
     deductions.iter().for_each(|d| {
-        if let TraceGenStep::LookupData(LookupData { relation_name, .. }) = d {
+        if let TraceGenStep::LookupTerm(LookupTerm { relation_name, .. }) = d {
             seen_relations.insert(relation_name.to_string());
         }
     });
@@ -160,7 +160,7 @@ pub fn unique_relation_calls(deductions: &[TraceGenStep]) -> Vec<String> {
 pub fn n_function_calls(constraints: &[ConstraintEvalStep]) -> usize {
     constraints
         .iter()
-        .filter(|c| matches!(c, ConstraintEvalStep::LookupData { .. }))
+        .filter(|c| matches!(c, ConstraintEvalStep::LookupTerm { .. }))
         .count()
 }
 
