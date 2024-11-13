@@ -1,5 +1,3 @@
-use compiled_casm_air::utils::JSONS_OPCODES_DIR;
-
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::jnz_opcode::*;
@@ -9,55 +7,7 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::state::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 use crate::{const_expr, const_felt252_expr};
-
-#[test]
-fn test_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&JnzOpcode {
-        is_taken: true,
-        dst_base_fp: true,
-        memory: Felt252IdMemory::default(),
-    });
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
-
-    let (_, entry) = AirFnRegistry::new(&JnzOpcode {
-        is_taken: false,
-        dst_base_fp: false,
-        memory: Felt252IdMemory::default(),
-    });
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
-
-    let (_, entry) = AirFnRegistry::new(&JnzOpcode {
-        is_taken: true,
-        dst_base_fp: false,
-        memory: Felt252IdMemory::default(),
-    });
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
-
-    let (_, entry) = AirFnRegistry::new(&JnzOpcode {
-        is_taken: false,
-        dst_base_fp: true,
-        memory: Felt252IdMemory::default(),
-    });
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
-}
 
 fn build_and_test(
     [is_taken, dst_base_fp, ap_update_add_1]: [bool; 3],

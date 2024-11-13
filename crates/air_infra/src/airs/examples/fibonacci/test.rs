@@ -17,7 +17,7 @@ fn test_wide_fibonacci() {
     assert_eq!(output.calc(), *"1594392009");
 
     // Check entries
-    for (name, entry) in registry.compile().iter() {
+    for (name, (_, entry)) in registry.compile().iter() {
         compare_json(
             &entry,
             &format!("{}{}.json", TEST_JSONS_EXAMPLES_DIR, name.to_lowercase()),

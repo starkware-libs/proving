@@ -1,5 +1,3 @@
-use compiled_casm_air::utils::JSONS_OPCODES_DIR;
-
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::ret_opcode::*;
@@ -8,7 +6,6 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
 use crate::{const_expr, const_felt252_expr};
 
 pub fn assemble_ret() -> u64 {
@@ -16,16 +13,6 @@ pub fn assemble_ret() -> u64 {
     let ret_off_1 = -1;
     let ret_off_2 = -1;
     assemble_instruction(ret_off_0, ret_off_1, ret_off_2, RET_FLAGS.into())
-}
-
-#[test]
-fn test_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&RetOpcode::default());
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
 }
 
 #[test]

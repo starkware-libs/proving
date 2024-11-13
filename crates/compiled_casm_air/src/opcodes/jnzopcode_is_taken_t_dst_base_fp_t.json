@@ -157,14 +157,12 @@
     "next_pc_limb_1_col40",
     "next_pc_limb_2_col41"
   ],
-  "lookup_relation_uses_count": {
-    "VerifyInstruction": 1,
-    "MemoryAddressToId": 2,
-    "MemoryIdToBig": 2,
-    "opcodes": 1
-  },
-  "input_num_of_felts": 3,
-  "output_num_of_felts": 3,
+  "lookup_names": [
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "VerifyInstruction",
+    "opcodes"
+  ],
   "constraints": [
     {
       "StartBlock": "DecodeInstruction_113648125c3c3f56"
@@ -671,7 +669,7 @@
     },
     {
       "Intermediate": [
-        "diff_from_p_tmp_66",
+        "diff_from_p_tmp_1221",
         {
           "BinaryOp": [
             {
@@ -690,7 +688,7 @@
     },
     {
       "Intermediate": [
-        "diff_from_p_tmp_67",
+        "diff_from_p_tmp_1222",
         {
           "BinaryOp": [
             {
@@ -709,7 +707,7 @@
     },
     {
       "Intermediate": [
-        "diff_from_p_tmp_68",
+        "diff_from_p_tmp_1223",
         {
           "BinaryOp": [
             {
@@ -800,14 +798,14 @@
                                                                                                                                     {
                                                                                                                                       "Var": [
                                                                                                                                         "M31",
-                                                                                                                                        "diff_from_p_tmp_66"
+                                                                                                                                        "diff_from_p_tmp_1221"
                                                                                                                                       ]
                                                                                                                                     },
                                                                                                                                     "*",
                                                                                                                                     {
                                                                                                                                       "Var": [
                                                                                                                                         "M31",
-                                                                                                                                        "diff_from_p_tmp_66"
+                                                                                                                                        "diff_from_p_tmp_1221"
                                                                                                                                       ]
                                                                                                                                     }
                                                                                                                                   ]
@@ -940,14 +938,14 @@
                                                 {
                                                   "Var": [
                                                     "M31",
-                                                    "diff_from_p_tmp_67"
+                                                    "diff_from_p_tmp_1222"
                                                   ]
                                                 },
                                                 "*",
                                                 {
                                                   "Var": [
                                                     "M31",
-                                                    "diff_from_p_tmp_67"
+                                                    "diff_from_p_tmp_1222"
                                                   ]
                                                 }
                                               ]
@@ -990,14 +988,14 @@
                         {
                           "Var": [
                             "M31",
-                            "diff_from_p_tmp_68"
+                            "diff_from_p_tmp_1223"
                           ]
                         },
                         "*",
                         {
                           "Var": [
                             "M31",
-                            "diff_from_p_tmp_68"
+                            "diff_from_p_tmp_1223"
                           ]
                         }
                       ]
@@ -1604,7 +1602,7 @@
   "deductions": [
     {
       "Intermediate": [
-        "input_tmp_0",
+        "input_tmp_1208",
         {
           "Var": [
             "CasmState",
@@ -1617,7 +1615,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_0.pc"
+          "input_tmp_1208.pc"
         ]
       }
     },
@@ -1625,7 +1623,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_0.ap"
+          "input_tmp_1208.ap"
         ]
       }
     },
@@ -1633,7 +1631,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_0.fp"
+          "input_tmp_1208.fp"
         ]
       }
     },
@@ -1646,7 +1644,7 @@
         "input": {
           "State": "input_pc_col0"
         },
-        "output_name": "memoryaddresstoid_value_tmp_57"
+        "output_name": "memoryaddresstoid_value_tmp_1214"
       }
     },
     {
@@ -1655,15 +1653,15 @@
         "input": {
           "Var": [
             "M31",
-            "memoryaddresstoid_value_tmp_57"
+            "memoryaddresstoid_value_tmp_1214"
           ]
         },
-        "output_name": "memoryidtobig_value_tmp_58"
+        "output_name": "memoryidtobig_value_tmp_1215"
       }
     },
     {
       "Intermediate": [
-        "offset0_tmp_59",
+        "offset0_tmp_1216",
         {
           "BinaryOp": [
             {
@@ -1675,7 +1673,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memoryidtobig_value_tmp_58"
+                          "memoryidtobig_value_tmp_1215"
                         ]
                       },
                       "get_m31",
@@ -1706,7 +1704,7 @@
                               {
                                 "Var": [
                                   "Felt252",
-                                  "memoryidtobig_value_tmp_58"
+                                  "memoryidtobig_value_tmp_1215"
                                 ]
                               },
                               "get_m31",
@@ -1751,7 +1749,7 @@
           {
             "Var": [
               "UInt16",
-              "offset0_tmp_59"
+              "offset0_tmp_1216"
             ]
           },
           "as_m31",
@@ -1761,7 +1759,7 @@
     },
     {
       "Intermediate": [
-        "ap_update_add_1_tmp_60",
+        "ap_update_add_1_tmp_1217",
         {
           "BinaryOp": [
             {
@@ -1779,7 +1777,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "memoryidtobig_value_tmp_58"
+                                      "memoryidtobig_value_tmp_1215"
                                     ]
                                   },
                                   "get_m31",
@@ -1817,7 +1815,7 @@
                                   {
                                     "Var": [
                                       "Felt252",
-                                      "memoryidtobig_value_tmp_58"
+                                      "memoryidtobig_value_tmp_1215"
                                     ]
                                   },
                                   "get_m31",
@@ -1871,7 +1869,7 @@
           {
             "Var": [
               "UInt16",
-              "ap_update_add_1_tmp_60"
+              "ap_update_add_1_tmp_1217"
             ]
           },
           "as_m31",
@@ -2144,14 +2142,14 @@
             }
           ]
         },
-        "output_name": "memoryaddresstoid_value_tmp_64"
+        "output_name": "memoryaddresstoid_value_tmp_1219"
       }
     },
     {
       "Deduction": {
         "Var": [
           "M31",
-          "memoryaddresstoid_value_tmp_64"
+          "memoryaddresstoid_value_tmp_1219"
         ]
       }
     },
@@ -2194,7 +2192,7 @@
         "input": {
           "State": "dst_id_col5"
         },
-        "output_name": "memoryidtobig_value_tmp_65"
+        "output_name": "memoryidtobig_value_tmp_1220"
       }
     },
     {
@@ -2203,7 +2201,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2224,7 +2222,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2245,7 +2243,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2266,7 +2264,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2287,7 +2285,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2308,7 +2306,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2329,7 +2327,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2350,7 +2348,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2371,7 +2369,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2392,7 +2390,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2413,7 +2411,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2434,7 +2432,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2455,7 +2453,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2476,7 +2474,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2497,7 +2495,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2518,7 +2516,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2539,7 +2537,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2560,7 +2558,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2581,7 +2579,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2602,7 +2600,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2623,7 +2621,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2644,7 +2642,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2665,7 +2663,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2686,7 +2684,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2707,7 +2705,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2728,7 +2726,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2749,7 +2747,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -2770,7 +2768,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_65"
+              "memoryidtobig_value_tmp_1220"
             ]
           },
           "get_m31",
@@ -3126,7 +3124,7 @@
     },
     {
       "Intermediate": [
-        "diff_from_p_tmp_66",
+        "diff_from_p_tmp_1221",
         {
           "BinaryOp": [
             {
@@ -3145,7 +3143,7 @@
     },
     {
       "Intermediate": [
-        "diff_from_p_tmp_67",
+        "diff_from_p_tmp_1222",
         {
           "BinaryOp": [
             {
@@ -3164,7 +3162,7 @@
     },
     {
       "Intermediate": [
-        "diff_from_p_tmp_68",
+        "diff_from_p_tmp_1223",
         {
           "BinaryOp": [
             {
@@ -3259,14 +3257,14 @@
                                                                                                                               {
                                                                                                                                 "Var": [
                                                                                                                                   "M31",
-                                                                                                                                  "diff_from_p_tmp_66"
+                                                                                                                                  "diff_from_p_tmp_1221"
                                                                                                                                 ]
                                                                                                                               },
                                                                                                                               "*",
                                                                                                                               {
                                                                                                                                 "Var": [
                                                                                                                                   "M31",
-                                                                                                                                  "diff_from_p_tmp_66"
+                                                                                                                                  "diff_from_p_tmp_1221"
                                                                                                                                 ]
                                                                                                                               }
                                                                                                                             ]
@@ -3399,14 +3397,14 @@
                                           {
                                             "Var": [
                                               "M31",
-                                              "diff_from_p_tmp_67"
+                                              "diff_from_p_tmp_1222"
                                             ]
                                           },
                                           "*",
                                           {
                                             "Var": [
                                               "M31",
-                                              "diff_from_p_tmp_67"
+                                              "diff_from_p_tmp_1222"
                                             ]
                                           }
                                         ]
@@ -3449,14 +3447,14 @@
                   {
                     "Var": [
                       "M31",
-                      "diff_from_p_tmp_68"
+                      "diff_from_p_tmp_1223"
                     ]
                   },
                   "*",
                   {
                     "Var": [
                       "M31",
-                      "diff_from_p_tmp_68"
+                      "diff_from_p_tmp_1223"
                     ]
                   }
                 ]
@@ -3486,14 +3484,14 @@
             }
           ]
         },
-        "output_name": "memoryaddresstoid_value_tmp_75"
+        "output_name": "memoryaddresstoid_value_tmp_1224"
       }
     },
     {
       "Deduction": {
         "Var": [
           "M31",
-          "memoryaddresstoid_value_tmp_75"
+          "memoryaddresstoid_value_tmp_1224"
         ]
       }
     },
@@ -3528,7 +3526,7 @@
         "input": {
           "State": "next_pc_id_col36"
         },
-        "output_name": "memoryidtobig_value_tmp_76"
+        "output_name": "memoryidtobig_value_tmp_1225"
       }
     },
     {
@@ -3536,7 +3534,7 @@
     },
     {
       "Intermediate": [
-        "msb_tmp_77",
+        "msb_tmp_1226",
         {
           "MethodCall": [
             {
@@ -3544,7 +3542,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "memoryidtobig_value_tmp_76"
+                    "memoryidtobig_value_tmp_1225"
                   ]
                 },
                 "get_m31",
@@ -3577,7 +3575,7 @@
           {
             "Var": [
               "Bool",
-              "msb_tmp_77"
+              "msb_tmp_1226"
             ]
           },
           "as_m31",
@@ -3587,7 +3585,7 @@
     },
     {
       "Intermediate": [
-        "mid_limbs_set_tmp_78",
+        "mid_limbs_set_tmp_1227",
         {
           "MethodCall": [
             {
@@ -3595,7 +3593,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "memoryidtobig_value_tmp_76"
+                    "memoryidtobig_value_tmp_1225"
                   ]
                 },
                 "get_m31",
@@ -3628,7 +3626,7 @@
           {
             "Var": [
               "Bool",
-              "mid_limbs_set_tmp_78"
+              "mid_limbs_set_tmp_1227"
             ]
           },
           "as_m31",
@@ -3643,7 +3641,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_76"
+              "memoryidtobig_value_tmp_1225"
             ]
           },
           "get_m31",
@@ -3664,7 +3662,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_76"
+              "memoryidtobig_value_tmp_1225"
             ]
           },
           "get_m31",
@@ -3685,7 +3683,7 @@
           {
             "Var": [
               "Felt252",
-              "memoryidtobig_value_tmp_76"
+              "memoryidtobig_value_tmp_1225"
             ]
           },
           "get_m31",

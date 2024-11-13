@@ -1,5 +1,7 @@
 pub mod bitwise_xor;
 pub mod builtins;
+#[cfg(test)]
+mod casm_registry_test;
 pub mod casm_state;
 pub mod common;
 pub mod const_tables;

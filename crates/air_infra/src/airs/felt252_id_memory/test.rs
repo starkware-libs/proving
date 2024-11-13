@@ -1,11 +1,7 @@
-use compiled_casm_air::utils::JSONS_LOOKUPS_DIR;
-
 use super::super::casm::casm_state::*;
 use super::memory::*;
 use super::read_positive::*;
 use super::read_small::*;
-use crate::airs::felt252_id_memory::address_to_id::*;
-use crate::airs::felt252_id_memory::id_to_big::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -213,24 +209,4 @@ fn test_read_positive_partial_limbs() {
 fn test_read_positive_failure() {
     // Try to read a small negative number using ReadPositive
     test_read_positive(const_felt252_expr!(u128::MAX - 1, u128::MAX), 4);
-}
-
-#[test]
-fn test_memory_constraints() {
-    let (_, entry) = AirFnRegistry::new(&MemoryIdToBig::default());
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
-    );
-}
-
-#[test]
-fn test_address_to_id_json() {
-    let (_, entry) = AirFnRegistry::new(&MemoryAddressToId::default());
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
-    );
 }

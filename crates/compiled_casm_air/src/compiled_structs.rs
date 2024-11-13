@@ -1,4 +1,5 @@
-use indexmap::IndexMap;
+use std::collections::BTreeSet;
+
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -9,11 +10,8 @@ pub struct CompiledAirFn {
     pub output: CompiledAirVar,
 
     pub state_names: Vec<String>,
-    pub lookup_relation_uses_count: IndexMap<String, usize>,
-
-    // TODO: remove these:
-    pub input_num_of_felts: usize,
-    pub output_num_of_felts: usize,
+    // The names of the lookup relations used and lookup components called.
+    pub lookup_names: BTreeSet<String>,
 
     pub constraints: Vec<ConstraintEvalStep>,
     pub deductions: Vec<TraceGenStep>,
@@ -109,4 +107,15 @@ pub struct LookupTerm {
 pub enum UseOrYield {
     Use,
     Yield,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
+pub struct CompiledAirFnStat {
+    pub num_trace_cols: usize,
+    pub num_lookup_uses: usize,
+    pub lookup_yield: bool,
+    pub lookup_multiplicity: bool,
+    pub total_num_trace_cols: usize,
+    pub trace_cells_upper_bound: usize,
+    pub lookup_uses_upper_bound: usize,
 }

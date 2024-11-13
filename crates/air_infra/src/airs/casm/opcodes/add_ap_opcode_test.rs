@@ -1,5 +1,3 @@
-use compiled_casm_air::utils::JSONS_OPCODES_DIR;
-
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::add_ap_opcode::*;
@@ -11,43 +9,6 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
-
-#[test]
-fn test_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&AddApOpcode {
-        is_imm: false,
-        op1_base_fp: false,
-        memory: Felt252IdMemory::default(),
-    });
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
-
-    let (_, entry) = AirFnRegistry::new(&AddApOpcode {
-        is_imm: true,
-        op1_base_fp: false,
-        memory: Felt252IdMemory::default(),
-    });
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
-
-    let (_, entry) = AirFnRegistry::new(&AddApOpcode {
-        is_imm: false,
-        op1_base_fp: true,
-        memory: Felt252IdMemory::default(),
-    });
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
-}
 
 #[test]
 fn test_add_ap_negative_imm() {

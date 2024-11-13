@@ -1,5 +1,3 @@
-use compiled_casm_air::utils::JSONS_OPCODES_DIR;
-
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::mul_opcode::*;
@@ -12,48 +10,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::state::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
-
-#[test]
-fn test_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&MulOpcode {
-        is_small: true,
-        is_imm: true,
-        memory: Felt252IdMemory::default(),
-    });
-    compare_json(
-        &entry.clone().compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, entry.name.to_lowercase()),
-    );
-
-    let (_, entry) = AirFnRegistry::new(&MulOpcode {
-        is_small: true,
-        is_imm: false,
-        memory: Felt252IdMemory::default(),
-    });
-    compare_json(
-        &entry.clone().compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, entry.name.to_lowercase()),
-    );
-    let (_, entry) = AirFnRegistry::new(&MulOpcode {
-        is_small: false,
-        is_imm: false,
-        memory: Felt252IdMemory::default(),
-    });
-    compare_json(
-        &entry.clone().compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, entry.name.to_lowercase()),
-    );
-    let (_, entry) = AirFnRegistry::new(&MulOpcode {
-        is_small: false,
-        is_imm: true,
-        memory: Felt252IdMemory::default(),
-    });
-    compare_json(
-        &entry.clone().compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, entry.name.to_lowercase()),
-    );
-}
 
 fn test_mul(
     non_consts_flags: [bool; 7],

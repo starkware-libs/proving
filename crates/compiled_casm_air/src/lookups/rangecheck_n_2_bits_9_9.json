@@ -1,24 +1,18 @@
 {
-  "name": "RangeCheck_N_3_bits_7_2_5",
-  "description": "RangeCheck_N_3_bits_7_2_5",
+  "name": "RangeCheck_N_2_bits_9_9",
+  "description": "RangeCheck_N_2_bits_9_9",
   "input": {
     "Array": [
       {
         "Var": [
           "M31",
-          "rangecheck_n_3_bits_7_2_5_input[0]"
+          "rangecheck_n_2_bits_9_9_input[0]"
         ]
       },
       {
         "Var": [
           "M31",
-          "rangecheck_n_3_bits_7_2_5_input[1]"
-        ]
-      },
-      {
-        "Var": [
-          "M31",
-          "rangecheck_n_3_bits_7_2_5_input[2]"
+          "rangecheck_n_2_bits_9_9_input[1]"
         ]
       }
     ]
@@ -31,24 +25,18 @@
   "constraints": [
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_N_3_bits_7_2_5",
+        "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
           {
             "ExternalState": [
-              "RangeCheckVector_7_2_5",
+              "RangeCheckVector_9_9",
               0
             ]
           },
           {
             "ExternalState": [
-              "RangeCheckVector_7_2_5",
+              "RangeCheckVector_9_9",
               1
-            ]
-          },
-          {
-            "ExternalState": [
-              "RangeCheckVector_7_2_5",
-              2
             ]
           }
         ],
@@ -59,24 +47,18 @@
   "deductions": [
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_N_3_bits_7_2_5",
+        "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
           {
             "ExternalState": [
-              "RangeCheckVector_7_2_5",
+              "RangeCheckVector_9_9",
               0
             ]
           },
           {
             "ExternalState": [
-              "RangeCheckVector_7_2_5",
+              "RangeCheckVector_9_9",
               1
-            ]
-          },
-          {
-            "ExternalState": [
-              "RangeCheckVector_7_2_5",
-              2
             ]
           }
         ],

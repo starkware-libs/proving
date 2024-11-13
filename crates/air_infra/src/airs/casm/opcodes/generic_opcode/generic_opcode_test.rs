@@ -1,5 +1,3 @@
-use compiled_casm_air::utils::JSONS_OPCODES_DIR;
-
 use super::generic_opcode::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
@@ -19,17 +17,6 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
-
-#[test]
-fn test_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&GenericOpcode::default());
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
-}
 
 #[test]
 fn test_generic_consistency_rel_call() {

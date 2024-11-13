@@ -1,4 +1,5 @@
 use std::cell::RefCell;
+use std::collections::BTreeSet;
 use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{
@@ -21,9 +22,7 @@ pub struct AirFnEntry {
     pub(crate) description: String,
     pub(crate) inst_def: IndexMap<String, String>,
     pub(crate) input: AirVarImpl,
-    pub(crate) input_num_of_felts: usize,
     pub(crate) output: AirVarImpl,
-    pub(crate) output_num_of_felts: usize,
     pub(crate) trace_type: TraceType,
     pub(crate) air_body: Vec<AirBodyComponent>,
     pub(crate) state: State,
@@ -44,28 +43,32 @@ impl AirFnEntry {
             input: self.input.into(),
             output: self.output.into(),
             state_names: self.state.get_state_names(),
-            lookup_relation_uses_count: Self::get_lookup_relation_uses_count(deductions.clone()),
-            input_num_of_felts: self.input_num_of_felts,
-            output_num_of_felts: self.output_num_of_felts,
+            lookup_names: Self::get_lookup_names(deductions.clone()),
             constraints,
             deductions,
             multiplicity_col_index,
         }
     }
 
-    // Returns the number of times a lookup relation is used by the air function.
-    fn get_lookup_relation_uses_count(deductions: Vec<TraceGenStep>) -> IndexMap<String, usize> {
-        let mut lookup_calls = IndexMap::new();
+    // Returns the names of the lookup relations used and lookup components called by the air
+    // function.
+    fn get_lookup_names(deductions: Vec<TraceGenStep>) -> BTreeSet<String> {
+        let mut lookup_calls = BTreeSet::new();
         for deduction in deductions {
-            if let TraceGenStep::LookupTerm(LookupTerm {
-                relation_name,
-                use_or_yield,
-                ..
-            }) = deduction
-            {
-                if use_or_yield == UseOrYield::Use {
-                    *lookup_calls.entry(relation_name).or_insert(0) += 1;
+            match deduction {
+                TraceGenStep::LookupCall { fn_name, .. } => {
+                    lookup_calls.insert(fn_name);
                 }
+                TraceGenStep::LookupTerm(LookupTerm {
+                    relation_name,
+                    use_or_yield,
+                    ..
+                }) => {
+                    if use_or_yield == UseOrYield::Use {
+                        lookup_calls.insert(relation_name);
+                    }
+                }
+                _ => (),
             }
         }
         lookup_calls
@@ -161,7 +164,7 @@ pub struct AirFnRegistry {
     #[serde(skip)]
     intermediate_index: Rc<RefCell<usize>>,
     #[serde(skip)]
-    pub public_params: PublicParams,
+    pub(super) public_params: PublicParams,
 }
 
 impl AirFnRegistry {
@@ -199,9 +202,7 @@ impl AirFnRegistry {
             description: air_fn.description(),
             inst_def: air_fn.inst_def(),
             input: input.clone().into(),
-            input_num_of_felts: input.as_felts().len(),
             output: output.clone().into(),
-            output_num_of_felts: output.as_felts().len(),
             trace_type: air_fn.trace_type(),
             air_body,
             state,
@@ -322,19 +323,15 @@ impl AirFnRegistry {
     }
 
     #[cfg(test)]
-    pub fn compile(self) -> IndexMap<String, CompiledAirFn> {
+    pub fn compile(self) -> IndexMap<String, (TraceType, CompiledAirFn)> {
         self.air_fns
             .borrow()
             .iter()
-            .enumerate()
-            .filter_map(|(i, (name, entry))| {
-                if (entry.trace_type == TraceType::Const || entry.trace_type == TraceType::Inline)
-                    && (i != self.air_fns.borrow().len() - 1)
-                {
-                    None
-                } else {
-                    Some((name.clone(), entry.clone().compile()))
-                }
+            .map(|(name, entry)| {
+                (
+                    name.clone(),
+                    (entry.trace_type.clone(), entry.clone().compile()),
+                )
             })
             .collect()
     }

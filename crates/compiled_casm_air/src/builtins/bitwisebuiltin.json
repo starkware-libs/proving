@@ -98,13 +98,11 @@
     "xor_id_col87",
     "or_id_col88"
   ],
-  "lookup_relation_uses_count": {
-    "MemoryAddressToId": 5,
-    "MemoryIdToBig": 5,
-    "VerifyBitwiseXor_num_bits_9": 28
-  },
-  "input_num_of_felts": 0,
-  "output_num_of_felts": 0,
+  "lookup_names": [
+    "MemoryAddressToId",
+    "MemoryIdToBig",
+    "VerifyBitwiseXor_num_bits_9"
+  ],
   "constraints": [
     {
       "StartBlock": "ReadPositive_num_bits_252"

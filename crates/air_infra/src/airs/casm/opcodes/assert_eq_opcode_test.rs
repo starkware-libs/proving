@@ -1,5 +1,3 @@
-use compiled_casm_air::utils::JSONS_OPCODES_DIR;
-
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::assert_eq_opcode::*;
@@ -12,43 +10,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::state::*;
 use crate::core::variables::*;
-use crate::utils::test_utils::*;
-
-#[test]
-fn test_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&AssertEqOpcode {
-        is_double_deref: false,
-        is_imm: false,
-        memory: Felt252IdMemory::default(),
-    });
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
-
-    let (_, entry) = AirFnRegistry::new(&AssertEqOpcode {
-        is_double_deref: true,
-        is_imm: false,
-        memory: Felt252IdMemory::default(),
-    });
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
-
-    let (_, entry) = AirFnRegistry::new(&AssertEqOpcode {
-        is_double_deref: false,
-        is_imm: true,
-        memory: Felt252IdMemory::default(),
-    });
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_OPCODES_DIR, name),
-    );
-}
 
 // [fp + offset] == [ap + offset]
 #[test]

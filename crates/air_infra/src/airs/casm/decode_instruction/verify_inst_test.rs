@@ -1,5 +1,3 @@
-use compiled_casm_air::utils::JSONS_LOOKUPS_DIR;
-
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::verify_inst::*;
@@ -10,7 +8,6 @@ use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
-use crate::utils::test_utils::*;
 
 #[test]
 fn test_verify_inst() {
@@ -24,14 +21,7 @@ fn test_verify_inst() {
     )]);
 
     let air_fn = VerifyInstruction { memory };
-    let (registry, entry) = AirFnRegistry::new(&air_fn);
-
-    // Check entry
-    let name = entry.name.to_lowercase();
-    compare_json(
-        &entry.compile(),
-        &format!("{}{}.json", JSONS_LOOKUPS_DIR, name),
-    );
+    let (registry, _) = AirFnRegistry::new(&air_fn);
 
     // Check state
     let (state, _) = registry.run_air(

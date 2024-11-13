@@ -1,0 +1,125 @@
+{
+  "name": "FibStep",
+  "description": "FibStep",
+  "input": {
+    "Array": [
+      {
+        "Var": [
+          "M31",
+          "fibstep_input[0]"
+        ]
+      },
+      {
+        "Var": [
+          "M31",
+          "fibstep_input[1]"
+        ]
+      }
+    ]
+  },
+  "output": {
+    "State": "col0"
+  },
+  "state_names": [
+    "col0"
+  ],
+  "lookup_names": [],
+  "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "col0"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "fibstep_input[0]"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "fibstep_input[0]"
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "fibstep_input[1]"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "fibstep_input[1]"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    }
+  ],
+  "deductions": [
+    {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "fibstep_input[0]"
+                ]
+              },
+              "*",
+              {
+                "Var": [
+                  "M31",
+                  "fibstep_input[0]"
+                ]
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "fibstep_input[1]"
+                ]
+              },
+              "*",
+              {
+                "Var": [
+                  "M31",
+                  "fibstep_input[1]"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ],
+  "multiplicity_col_index": null
+}

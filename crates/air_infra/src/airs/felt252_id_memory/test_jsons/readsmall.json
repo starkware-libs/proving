@@ -6,7 +6,6 @@
     "name": "readsmall_input",
     "type": "M31"
   },
-  "input_num_of_felts": 1,
   "output": [
     {
       "name": "((((readsmall_input_limb_0_col3 + (readsmall_input_limb_1_col4 * const_512)) + (readsmall_input_limb_2_col5 * const_262144)) - msb_col1) - (const_134217728 * mid_limbs_set_col2))",
@@ -17,7 +16,6 @@
       "type": "M31"
     }
   ],
-  "output_num_of_felts": 2,
   "trace_type": "Inline",
   "air_body": [
     {

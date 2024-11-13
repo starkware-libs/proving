@@ -8,7 +8,6 @@
     "name": "readpositive_num_bits_16_input",
     "type": "M31"
   },
-  "input_num_of_felts": 1,
   "output": [
     {
       "name": "Felt252::from_limbs(zero_extend([readpositive_num_bits_16_input_limb_0_col1, readpositive_num_bits_16_input_limb_1_col2]))",
@@ -19,7 +18,6 @@
       "type": "M31"
     }
   ],
-  "output_num_of_felts": 29,
   "trace_type": "Inline",
   "air_body": [
     {
