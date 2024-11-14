@@ -29,3 +29,34 @@ impl AirFn for MemVerify {
         air_builder.mem_verify(&self.memory.id_to_value, &id, value);
     }
 }
+
+/// Receives an array of addresses and a value. Verifies that all the addresses contain this value.
+#[derive(Debug, InstDef)]
+pub struct MemVerifyAll<const N: usize> {
+    #[instdef(skip)]
+    pub memory: Felt252IdMemory,
+}
+
+impl<const N: usize> AirFn for MemVerifyAll<N> {
+    type In = ([CasmAddress; N], Felt252Expr);
+    type Out = ();
+
+    fn call(&self, air_builder: &mut AirBuilder, (addresses, value): Self::In) -> Self::Out {
+        let mut id =
+            air_builder.mem_read_unverified(&self.memory.address_to_id, &addresses[0].value);
+        air_builder.deduce(
+            &mut id,
+            &addresses[0]
+                .desc
+                .clone()
+                .map(|s| format!("{}_id", s))
+                .unwrap_or("id".to_string()),
+        );
+        air_builder.mem_verify(&self.memory.address_to_id, &addresses[0].value, id.clone());
+        air_builder.mem_verify(&self.memory.id_to_value, &id, value);
+
+        for address in addresses.iter().skip(1) {
+            air_builder.mem_verify(&self.memory.address_to_id, &address.value, id.clone());
+        }
+    }
+}
