@@ -1,3 +1,6 @@
+pub mod g;
+#[cfg(test)]
+mod g_test;
 pub mod triple_sum32;
 #[cfg(test)]
 pub mod triple_sum32_test;

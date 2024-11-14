@@ -49,6 +49,6 @@ impl AirFn for TripleSum32 {
             "carry high is 0 or 1 or 2",
         );
 
-        s
+        air_builder.let_vec(vec![sl, sh], "triple_sum32_res")
     }
 }
