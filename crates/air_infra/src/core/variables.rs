@@ -240,34 +240,58 @@ impl InternalAirVarActions for () {
     fn let_(&self, _name: String, _intermediate_type: IntermediateType) -> Self {}
 }
 
-impl_air_var!((BoolExpr, FeltExpr));
+// Examples + tests
+
 impl_air_var!((BoolExpr, UInt16Expr));
-impl_air_var!((UInt16Expr, FeltExpr));
-impl_air_var!((CasmAddress, Felt252Expr));
-impl_air_var!((Felt252Expr, FeltExpr));
+impl_air_var!((BoolExpr, FeltExpr));
 impl_air_var!([UInt32Expr]);
 impl_air_var!([BoolExpr]);
-impl_air_var!([FeltExpr]);
-impl_air_var!([UInt16Expr]);
+
+// Inline airs
+
+// MemVerify
+impl_air_var!((CasmAddress, Felt252Expr));
+// ReadPositive + CondDecodeSmallSign + CondFelt252AsAddr + CondFelt252AsRelImm
+impl_air_var!((Felt252Expr, FeltExpr));
+// Add252 + Div252 + Mul252 + Sub252 + VerifyAdd252 + VerifyMul252
 impl_air_var!([Felt252Expr]);
+// MemVerifyEqual
 impl_air_var!([CasmAddress]);
 type Flags = [FeltExpr; 15];
 type Offsets = [FeltExpr; 3];
+// DecodeInstruction
 impl_air_var!((Offsets, Flags));
-impl_air_var!((CasmAddress, Offsets, Flags));
 type Cond = FeltExpr;
+// MemCondVerifyEqualKnownId
 impl_air_var!((CasmAddress, FeltExpr, Cond));
 type Id = FeltExpr;
+// ReadSmall
 impl_air_var!((FeltExpr, Id));
 type GenericFlags = [FeltExpr; GENERIC_FLAGS_SIZE];
 type Operands = [Felt252Expr; 3];
+// DecodeGenericInstruction
 impl_air_var!((GenericFlags, Offsets));
+// EvalOperands
 impl_air_var!((CasmStateVar, GenericFlags, Offsets));
+// HandleOpcodes
 impl_air_var!((CasmStateVar, GenericFlags, Offsets, Operands));
+// UpdateRegisters
 impl_air_var!((CasmStateVar, GenericFlags, Operands));
 type ModValue = [Felt252Expr; MOD_BUILTIN_N_WORDS];
+// ModUtils
 impl_air_var!([ModValue]);
+// ModUtils
 impl_air_var!((CasmAddress, FeltExpr));
+type Addresses<const N: usize> = [CasmAddress; N];
+// MemVerifyAll
+impl_air_var!((Addresses<const N: usize>, Felt252Expr));
+
+// Components
+
+// RangeCheck + VerifyBitwiseXor (+ BitwiseXor + EncodeFlags + EncodeOffsets)
+impl_air_var!([FeltExpr]);
+// VerifyInstruction
+impl_air_var!((CasmAddress, Offsets, Flags));
 
 // Implements AirVar for arrays and tuples of air vars.
 #[macro_export]
@@ -312,8 +336,9 @@ macro_rules! impl_air_var {
         }
     };
 
-    (($($s:ident),+)) => {
-        impl AirVar for ($($s),+) where $($s: AirVar),+
+    ( ($($s:ident $(<$(const $lt:tt$(: $clt:tt )?),+>)?),+) ) => {
+        impl $($(<$(const $lt$(: $clt )?),+>)?)+ AirVar for ($($s$(< $( $lt ),+ >)?),+)
+            where $($s$(< $( $lt ),+ >)?: AirVar),+
         {
             fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
                 let mut res = vec!();
@@ -324,7 +349,8 @@ macro_rules! impl_air_var {
             }
         }
 
-        impl InternalAirVarInfo for ($($s),+) where $($s: InternalAirVarInfo),+
+        impl $($(<$(const $lt$(: $clt )?),+>)?)+ InternalAirVarInfo for ($($s$(< $( $lt ),+ >)?),+)
+            where $($s$(< $( $lt ),+ >)?: InternalAirVarInfo),+
         {
             fn in_state(&self) -> bool {
                 #[allow(non_snake_case)]
@@ -345,7 +371,8 @@ macro_rules! impl_air_var {
             }
         }
 
-        impl InternalAirVarActions for ($($s),+) where $($s: InternalAirVarActions),+
+        impl $($(<$(const $lt$(: $clt )?),+>)?)+ InternalAirVarActions for ($($s$(< $( $lt ),+ >)?),+)
+            where $($s$(< $( $lt ),+ >)?: InternalAirVarActions),+
         {
             fn let_(&self, name: String, intermediate_type: IntermediateType) -> Self {
                 #[allow(non_snake_case)]
@@ -355,12 +382,12 @@ macro_rules! impl_air_var {
             }
             fn new(name: String, in_state: bool) -> Self {
                 let mut i = 0;
-                ($(<$s as InternalAirVarActions>::new(format!("{}.{}", name, { i += 1; i - 1 }), in_state),)+)
+                ($(<$s$(< $( $lt ),+ >)? as InternalAirVarActions>::new(format!("{}.{}", name, { i += 1; i - 1 }), in_state),)+)
             }
         }
 
-        impl From<($($s),+)> for AirVarImpl {
-            fn from(tuple: ($($s),+)) -> AirVarImpl {
+        impl $($(<$(const $lt$(: $clt )?),+>)?)+ From<($($s$(< $( $lt ),+ >)?),+)> for AirVarImpl {
+            fn from(tuple: ($($s$(< $( $lt ),+ >)?),+)) -> AirVarImpl {
                 #[allow(non_snake_case)]
                 let ($($s),+) = tuple.clone();
                 AirVarImpl::Tuple(vec![$($s.into(),)+])
