@@ -1,8 +1,8 @@
-use super::super::casm::casm_state::*;
 use super::memory::*;
 use super::read_positive::*;
 use super::read_small::*;
 use super::verify::*;
+use crate::airs::casm::casm_state::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;

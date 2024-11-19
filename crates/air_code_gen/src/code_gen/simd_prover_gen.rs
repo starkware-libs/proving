@@ -130,6 +130,8 @@ fn generate_simd_write_trace_body_code(
                 write_trace_body.extend(collect_felts);
                 *multiplicity += 1;
             }
+            // TODO
+            TraceGenStep::LookupAddInput { .. } => {}
         }
         write_trace_body.extend(quote!(
             $("\n")
@@ -244,6 +246,8 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
                 }
                 TraceGenStep::StartBlock(_) => {}
                 TraceGenStep::EndBlock => {}
+                // TODO
+                TraceGenStep::LookupAddInput { .. } => {}
             };
             const_defs
         })
@@ -561,6 +565,8 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
             TraceGenStep::EndBlock => {}
             TraceGenStep::Deduction(..) => {}
             TraceGenStep::Intermediate(..) => {}
+            // TODO
+            TraceGenStep::LookupAddInput { .. } => {}
         }
     }
     code

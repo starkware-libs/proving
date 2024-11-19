@@ -1029,6 +1029,134 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "VerifyInstruction",
+        "input": {
+          "Tuple": [
+            {
+              "State": "input_pc_col0"
+            },
+            {
+              "Array": [
+                {
+                  "Const": [
+                    "M31",
+                    "32767"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "32767"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "32769"
+                  ]
+                }
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "VerifyInstruction",
         "felts": [
@@ -1172,11 +1300,42 @@
       }
     },
     {
+      "LookupCall": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "Var": [
+            "M31",
+            "memoryaddresstoid_value_tmp_940"
+          ]
+        },
+        "output_name": "memoryidtobig_value_tmp_941"
+      }
+    },
+    {
       "Deduction": {
         "Var": [
           "M31",
           "memoryaddresstoid_value_tmp_940"
         ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryAddressToId",
+        "input": {
+          "BinaryOp": [
+            {
+              "State": "input_pc_col0"
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -1202,15 +1361,6 @@
           }
         ],
         "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupCall": {
-        "fn_name": "MemoryIdToBig",
-        "input": {
-          "State": "op1_id_col3"
-        },
-        "output_name": "memoryidtobig_value_tmp_941"
       }
     },
     {
@@ -1380,6 +1530,14 @@
             }
           ]
         ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "State": "op1_id_col3"
+        }
       }
     },
     {

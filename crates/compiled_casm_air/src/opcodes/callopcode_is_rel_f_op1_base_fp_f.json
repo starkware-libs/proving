@@ -1281,6 +1281,131 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "VerifyInstruction",
+        "input": {
+          "Tuple": [
+            {
+              "State": "input_pc_col0"
+            },
+            {
+              "Array": [
+                {
+                  "Const": [
+                    "M31",
+                    "32768"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "32769"
+                  ]
+                },
+                {
+                  "State": "offset2_col3"
+                }
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "VerifyInstruction",
         "felts": [
@@ -1418,6 +1543,14 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "MemoryAddressToId",
+        "input": {
+          "State": "input_ap_col1"
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
@@ -1429,6 +1562,14 @@
           }
         ],
         "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "State": "ap_id_col4"
+        }
       }
     },
     {
@@ -1640,6 +1781,25 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "MemoryAddressToId",
+        "input": {
+          "BinaryOp": [
+            {
+              "State": "input_ap_col1"
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
@@ -1662,6 +1822,14 @@
           }
         ],
         "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "State": "ap_plus_one_id_col5"
+        }
       }
     },
     {
@@ -1884,11 +2052,50 @@
       }
     },
     {
+      "LookupCall": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "Var": [
+            "M31",
+            "memoryaddresstoid_value_tmp_1180"
+          ]
+        },
+        "output_name": "memoryidtobig_value_tmp_1181"
+      }
+    },
+    {
       "Deduction": {
         "Var": [
           "M31",
           "memoryaddresstoid_value_tmp_1180"
         ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryAddressToId",
+        "input": {
+          "BinaryOp": [
+            {
+              "State": "input_ap_col1"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "offset2_col3"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "32768"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -1922,15 +2129,6 @@
           }
         ],
         "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupCall": {
-        "fn_name": "MemoryIdToBig",
-        "input": {
-          "State": "next_pc_id_col6"
-        },
-        "output_name": "memoryidtobig_value_tmp_1181"
       }
     },
     {
@@ -1994,6 +2192,14 @@
             }
           ]
         ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "State": "next_pc_id_col6"
+        }
       }
     },
     {

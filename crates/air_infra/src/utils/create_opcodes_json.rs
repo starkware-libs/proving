@@ -6,8 +6,8 @@ use crate::airs::casm::opcodes::jump_opcode::*;
 use crate::airs::casm::opcodes::ret_opcode::*;
 use crate::airs::examples::bit_unpacking::bit_unpack::*;
 use crate::airs::examples::fibonacci::fib::*;
-use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn_registry::*;
+use crate::core::felt252_id_memory::memory::*;
 
 #[derive(Args, Debug)]
 pub struct WriteJsonCommand {

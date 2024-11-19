@@ -27,8 +27,9 @@ impl AirFn for ReadPositive {
     type Out = (Felt252Expr, FeltExpr);
 
     fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
-        // Read the id and deduce it as-is
-        let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &address.value);
+        let (mut value, mut id) = self.memory.read_unverified(air_builder, &address);
+
+        // Deduce the ID as-is
         air_builder.deduce(
             &mut id,
             &address
@@ -40,7 +41,6 @@ impl AirFn for ReadPositive {
         air_builder.mem_verify(&self.memory.address_to_id, &address.value, id.clone());
 
         // Prepare for value deduction
-        let mut value = air_builder.mem_read_unverified(&self.memory.id_to_value, &id);
         let num_nonzero_limbs = self.num_bits.div_ceil(FELT252_BITS_PER_WORD);
         let bits_in_ms_limb = self.num_bits % FELT252_BITS_PER_WORD;
 

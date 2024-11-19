@@ -4,11 +4,11 @@ use prover_types::cpu::FELT252_BITS_PER_WORD;
 use super::super::casm_state::*;
 use super::encode_flags::*;
 use super::encode_offsets::*;
-use crate::airs::felt252_id_memory::memory::*;
-use crate::airs::felt252_id_memory::verify::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::felt252_id_memory::memory::*;
+use crate::core::felt252_id_memory::verify::*;
 
 #[derive(Clone, Debug, InstDef, Default)]
 pub struct VerifyInstruction {

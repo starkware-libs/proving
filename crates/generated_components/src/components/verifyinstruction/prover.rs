@@ -251,7 +251,9 @@ pub fn write_trace_simd(
             let memoryaddresstoid_value_tmp_176 = memoryaddresstoid_state.deduce_output(input_col0);
             let instruction_id_col27 = memoryaddresstoid_value_tmp_176;
             trace_values[27].data[row_index] = instruction_id_col27;
+
             lookup_data.memoryaddresstoid[0].push([input_col0, instruction_id_col27]);
+
             lookup_data.memoryidtobig[0].push([
                 instruction_id_col27,
                 offset0_low_col19,

@@ -1982,6 +1982,24 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_3_bits_7_2_5",
+        "input": {
+          "Array": [
+            {
+              "State": "offset0_mid_col20"
+            },
+            {
+              "State": "offset1_low_col21"
+            },
+            {
+              "State": "offset1_high_col23"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_3_bits_7_2_5",
         "felts": [
@@ -2012,6 +2030,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_4_3",
+        "input": {
+          "Array": [
+            {
+              "State": "offset2_low_col24"
+            },
+            {
+              "State": "offset2_high_col26"
+            }
+          ]
+        }
       }
     },
     {
@@ -2054,6 +2087,14 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "MemoryAddressToId",
+        "input": {
+          "State": "input_col0"
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
@@ -2065,6 +2106,14 @@
           }
         ],
         "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "State": "instruction_id_col27"
+        }
       }
     },
     {

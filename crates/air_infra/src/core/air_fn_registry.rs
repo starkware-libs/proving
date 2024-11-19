@@ -142,7 +142,16 @@ impl AirFnEntry {
                         output_name: call.output_name,
                     });
                 }
-                AirBodyComponent::LookupData {
+                AirBodyComponent::LookupAddInput {
+                    air_fn_name,
+                    input_arg,
+                } => {
+                    deductions.push(TraceGenStep::LookupAddInput {
+                        fn_name: air_fn_name,
+                        input: input_arg.into(),
+                    });
+                }
+                AirBodyComponent::LookupTerm {
                     relation_name,
                     felts,
                     use_or_yield,

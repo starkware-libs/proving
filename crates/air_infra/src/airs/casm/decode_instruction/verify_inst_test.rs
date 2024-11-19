@@ -1,13 +1,13 @@
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::verify_inst::*;
-use crate::airs::felt252_id_memory::memory::*;
 // Macro
 use crate::const_expr;
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::felt252_id_memory::memory::*;
 
 #[test]
 fn test_verify_inst() {

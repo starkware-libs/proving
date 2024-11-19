@@ -4,12 +4,12 @@ use prover_types::cpu::P_FELTS;
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::super::decode_instruction::decode_inst::*;
-use crate::airs::felt252_id_memory::memory::*;
-use crate::airs::felt252_id_memory::read_positive::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::felt252_id_memory::memory::*;
+use crate::core::felt252_id_memory::read_positive::*;
 use crate::core::variables::*;
 
 /// The jnz opcode.

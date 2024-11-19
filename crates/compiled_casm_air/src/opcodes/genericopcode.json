@@ -34527,6 +34527,80 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "VerifyInstruction",
+        "input": {
+          "Tuple": [
+            {
+              "State": "input_pc_col0"
+            },
+            {
+              "Array": [
+                {
+                  "State": "offset0_col3"
+                },
+                {
+                  "State": "offset1_col4"
+                },
+                {
+                  "State": "offset2_col5"
+                }
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "State": "dst_base_fp_col6"
+                },
+                {
+                  "State": "op0_base_fp_col7"
+                },
+                {
+                  "State": "op1_imm_col8"
+                },
+                {
+                  "State": "op1_base_fp_col9"
+                },
+                {
+                  "State": "op1_base_ap_col10"
+                },
+                {
+                  "State": "res_add_col11"
+                },
+                {
+                  "State": "res_mul_col12"
+                },
+                {
+                  "State": "pc_update_jump_col13"
+                },
+                {
+                  "State": "pc_update_jump_rel_col14"
+                },
+                {
+                  "State": "pc_update_jnz_col15"
+                },
+                {
+                  "State": "ap_update_add_col16"
+                },
+                {
+                  "State": "ap_update_add_1_col17"
+                },
+                {
+                  "State": "opcode_call_col18"
+                },
+                {
+                  "State": "opcode_ret_col19"
+                },
+                {
+                  "State": "opcode_assert_eq_col20"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "VerifyInstruction",
         "felts": [
@@ -34830,11 +34904,85 @@
       }
     },
     {
+      "LookupCall": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "Var": [
+            "M31",
+            "memoryaddresstoid_value_tmp_718"
+          ]
+        },
+        "output_name": "memoryidtobig_value_tmp_719"
+      }
+    },
+    {
       "Deduction": {
         "Var": [
           "M31",
           "memoryaddresstoid_value_tmp_718"
         ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryAddressToId",
+        "input": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "dst_base_fp_col6"
+                    },
+                    "*",
+                    {
+                      "State": "input_fp_col2"
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "1"
+                          ]
+                        },
+                        "-",
+                        {
+                          "State": "dst_base_fp_col6"
+                        }
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": "input_ap_col1"
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "offset0_col3"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "32768"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -34903,15 +35051,6 @@
           }
         ],
         "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupCall": {
-        "fn_name": "MemoryIdToBig",
-        "input": {
-          "State": "dst_id_col21"
-        },
-        "output_name": "memoryidtobig_value_tmp_719"
       }
     },
     {
@@ -35500,6 +35639,14 @@
             }
           ]
         ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "State": "dst_id_col21"
+        }
       }
     },
     {
@@ -35665,11 +35812,85 @@
       }
     },
     {
+      "LookupCall": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "Var": [
+            "M31",
+            "memoryaddresstoid_value_tmp_720"
+          ]
+        },
+        "output_name": "memoryidtobig_value_tmp_721"
+      }
+    },
+    {
       "Deduction": {
         "Var": [
           "M31",
           "memoryaddresstoid_value_tmp_720"
         ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryAddressToId",
+        "input": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_base_fp_col7"
+                    },
+                    "*",
+                    {
+                      "State": "input_fp_col2"
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "1"
+                          ]
+                        },
+                        "-",
+                        {
+                          "State": "op0_base_fp_col7"
+                        }
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": "input_ap_col1"
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "offset1_col4"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "32768"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -35738,15 +35959,6 @@
           }
         ],
         "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupCall": {
-        "fn_name": "MemoryIdToBig",
-        "input": {
-          "State": "op0_id_col50"
-        },
-        "output_name": "memoryidtobig_value_tmp_721"
       }
     },
     {
@@ -36335,6 +36547,14 @@
             }
           ]
         ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "State": "op0_id_col50"
+        }
       }
     },
     {
@@ -36566,11 +36786,147 @@
       }
     },
     {
+      "LookupCall": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "Var": [
+            "M31",
+            "memoryaddresstoid_value_tmp_722"
+          ]
+        },
+        "output_name": "memoryidtobig_value_tmp_723"
+      }
+    },
+    {
       "Deduction": {
         "Var": [
           "M31",
           "memoryaddresstoid_value_tmp_722"
         ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryAddressToId",
+        "input": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "op1_base_fp_col9"
+                            },
+                            "*",
+                            {
+                              "State": "input_fp_col2"
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "op1_base_ap_col10"
+                            },
+                            "*",
+                            {
+                              "State": "input_ap_col1"
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "op1_imm_col8"
+                        },
+                        "*",
+                        {
+                          "State": "input_pc_col0"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "op1_base_op0_tmp_225"
+                      ]
+                    },
+                    "*",
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "op0_limb_0_col51"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "op0_limb_1_col52"
+                                },
+                                "*",
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "512"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "op0_limb_2_col53"
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "262144"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "offset2_col5"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "32768"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -36701,15 +37057,6 @@
           }
         ],
         "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupCall": {
-        "fn_name": "MemoryIdToBig",
-        "input": {
-          "State": "op1_id_col79"
-        },
-        "output_name": "memoryidtobig_value_tmp_723"
       }
     },
     {
@@ -37298,6 +37645,14 @@
             }
           ]
         ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "State": "op1_id_col79"
+        }
       }
     },
     {
@@ -38207,6 +38562,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_0_col108"
+            },
+            {
+              "State": "add_res_limb_1_col109"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -38234,6 +38604,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_2_col110"
+            },
+            {
+              "State": "add_res_limb_3_col111"
+            }
+          ]
+        }
       }
     },
     {
@@ -38267,6 +38652,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_4_col112"
+            },
+            {
+              "State": "add_res_limb_5_col113"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -38294,6 +38694,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_6_col114"
+            },
+            {
+              "State": "add_res_limb_7_col115"
+            }
+          ]
+        }
       }
     },
     {
@@ -38327,6 +38742,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_8_col116"
+            },
+            {
+              "State": "add_res_limb_9_col117"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -38354,6 +38784,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_10_col118"
+            },
+            {
+              "State": "add_res_limb_11_col119"
+            }
+          ]
+        }
       }
     },
     {
@@ -38387,6 +38832,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_12_col120"
+            },
+            {
+              "State": "add_res_limb_13_col121"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -38414,6 +38874,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_14_col122"
+            },
+            {
+              "State": "add_res_limb_15_col123"
+            }
+          ]
+        }
       }
     },
     {
@@ -38447,6 +38922,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_16_col124"
+            },
+            {
+              "State": "add_res_limb_17_col125"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -38474,6 +38964,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_18_col126"
+            },
+            {
+              "State": "add_res_limb_19_col127"
+            }
+          ]
+        }
       }
     },
     {
@@ -38507,6 +39012,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_20_col128"
+            },
+            {
+              "State": "add_res_limb_21_col129"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -38534,6 +39054,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_22_col130"
+            },
+            {
+              "State": "add_res_limb_23_col131"
+            }
+          ]
+        }
       }
     },
     {
@@ -38567,6 +39102,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_24_col132"
+            },
+            {
+              "State": "add_res_limb_25_col133"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -38594,6 +39144,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "add_res_limb_26_col134"
+            },
+            {
+              "State": "add_res_limb_27_col135"
+            }
+          ]
+        }
       }
     },
     {
@@ -39497,6 +40062,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_0_col137"
+            },
+            {
+              "State": "mul_res_limb_1_col138"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -39524,6 +40104,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_2_col139"
+            },
+            {
+              "State": "mul_res_limb_3_col140"
+            }
+          ]
+        }
       }
     },
     {
@@ -39557,6 +40152,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_4_col141"
+            },
+            {
+              "State": "mul_res_limb_5_col142"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -39584,6 +40194,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_6_col143"
+            },
+            {
+              "State": "mul_res_limb_7_col144"
+            }
+          ]
+        }
       }
     },
     {
@@ -39617,6 +40242,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_8_col145"
+            },
+            {
+              "State": "mul_res_limb_9_col146"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -39644,6 +40284,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_10_col147"
+            },
+            {
+              "State": "mul_res_limb_11_col148"
+            }
+          ]
+        }
       }
     },
     {
@@ -39677,6 +40332,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_12_col149"
+            },
+            {
+              "State": "mul_res_limb_13_col150"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -39704,6 +40374,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_14_col151"
+            },
+            {
+              "State": "mul_res_limb_15_col152"
+            }
+          ]
+        }
       }
     },
     {
@@ -39737,6 +40422,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_16_col153"
+            },
+            {
+              "State": "mul_res_limb_17_col154"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -39764,6 +40464,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_18_col155"
+            },
+            {
+              "State": "mul_res_limb_19_col156"
+            }
+          ]
+        }
       }
     },
     {
@@ -39797,6 +40512,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_20_col157"
+            },
+            {
+              "State": "mul_res_limb_21_col158"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -39824,6 +40554,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_22_col159"
+            },
+            {
+              "State": "mul_res_limb_23_col160"
+            }
+          ]
+        }
       }
     },
     {
@@ -39857,6 +40602,21 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_24_col161"
+            },
+            {
+              "State": "mul_res_limb_25_col162"
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_2_bits_9_9",
         "felts": [
@@ -39884,6 +40644,21 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_2_bits_9_9",
+        "input": {
+          "Array": [
+            {
+              "State": "mul_res_limb_26_col163"
+            },
+            {
+              "State": "mul_res_limb_27_col164"
+            }
+          ]
+        }
       }
     },
     {
@@ -56175,6 +56950,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "k_col165"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -56270,6 +57068,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_0_col166"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -56340,6 +57161,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_1_col167"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -56416,6 +57260,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_2_col168"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -56486,6 +57353,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_3_col169"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -56562,6 +57452,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_4_col170"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -56632,6 +57545,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_5_col171"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -56708,6 +57644,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_6_col172"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -56778,6 +57737,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_7_col173"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -56854,6 +57836,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_8_col174"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -56924,6 +57929,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_9_col175"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -57000,6 +58028,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_10_col176"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -57070,6 +58121,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_11_col177"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -57146,6 +58220,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_12_col178"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -57216,6 +58313,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_13_col179"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -57292,6 +58412,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_14_col180"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -57362,6 +58505,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_15_col181"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -57438,6 +58604,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_16_col182"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -57508,6 +58697,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_17_col183"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -57584,6 +58796,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_18_col184"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -57657,6 +58892,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_19_col185"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -57727,6 +58985,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_20_col186"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -57822,6 +59103,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_21_col187"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -57892,6 +59196,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_22_col188"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -57968,6 +59295,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_23_col189"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -58038,6 +59388,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_24_col190"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -58114,6 +59487,29 @@
       }
     },
     {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_25_col191"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "LookupTerm": {
         "relation_name": "RangeCheck_N_1_bits_19",
         "felts": [
@@ -58184,6 +59580,29 @@
           ]
         },
         "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "RangeCheck_N_1_bits_19",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_26_col192"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "131072"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
       }
     },
     {

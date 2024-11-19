@@ -31,29 +31,38 @@
       }
     },
     {
+      "LookupCall": {
+        "air_fn_name": "MemoryIdToBig",
+        "input_arg": {
+          "name": "memoryaddresstoid_value_tmp_0",
+          "type": "M31"
+        },
+        "output_name": "memoryidtobig_value_tmp_29"
+      }
+    },
+    {
       "Deduction": [
         "memoryaddresstoid_value_tmp_0",
         "readpositive_num_bits_16_input_id"
       ]
     },
     {
-      "LookupData": {
+      "LookupAddInput": {
+        "air_fn_name": "MemoryAddressToId",
+        "input_arg": {
+          "name": "readpositive_num_bits_16_input",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
           "readpositive_num_bits_16_input",
           "readpositive_num_bits_16_input_id_col0"
         ],
         "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "MemoryIdToBig",
-        "input_arg": {
-          "name": "readpositive_num_bits_16_input_id_col0",
-          "type": "M31"
-        },
-        "output_name": "memoryidtobig_value_tmp_29"
       }
     },
     {
@@ -80,7 +89,16 @@
       }
     },
     {
-      "LookupData": {
+      "LookupAddInput": {
+        "air_fn_name": "MemoryIdToBig",
+        "input_arg": {
+          "name": "readpositive_num_bits_16_input_id_col0",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
           "readpositive_num_bits_16_input_id_col0",

@@ -4,7 +4,6 @@ use compiled_casm_air::compiled_structs::{
 use compiled_casm_air::utils::{JSONS_BUILTINS_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR};
 use indexmap::IndexMap;
 
-use super::super::felt252_id_memory::memory::*;
 // Builtins
 use super::builtins::bitwise::BitwiseBuiltin;
 use super::builtins::range_check::RangeCheckBuiltin;
@@ -20,6 +19,7 @@ use super::opcodes::mul_opcode::MulOpcode;
 use super::opcodes::ret_opcode::RetOpcode;
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
+use crate::core::felt252_id_memory::memory::*;
 use crate::utils::test_utils::*;
 
 const TRACE_COLUMNS_PER_LOGUP: usize = 2;

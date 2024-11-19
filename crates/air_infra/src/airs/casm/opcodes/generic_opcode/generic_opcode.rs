@@ -5,8 +5,8 @@ use super::eval_operands::*;
 use super::handle_opcodes::*;
 use super::update_registers::*;
 use crate::airs::casm::casm_state::*;
-use crate::airs::felt252_id_memory::memory::*;
 use crate::core::air_fn::*;
+use crate::core::felt252_id_memory::memory::*;
 
 pub const FLAG_OP1_BASE_OP0_INDEX: usize = 15;
 pub const FLAG_RES_OP1_INDEX: usize = 16;

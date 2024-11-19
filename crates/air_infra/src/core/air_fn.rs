@@ -162,19 +162,19 @@ pub trait AirFn: Debug + InstDefTrait {
         let output = self.call(air_builder, input.clone());
 
         if self.trace_type() == TraceType::Opcode {
-            air_builder.air_body.push(AirBodyComponent::LookupData {
+            air_builder.air_body.push(AirBodyComponent::LookupTerm {
                 relation_name: OPCODES_RELATION_NAME.to_string(),
                 felts: input.as_felts(),
                 use_or_yield: UseOrYield::Use,
             });
 
-            air_builder.air_body.push(AirBodyComponent::LookupData {
+            air_builder.air_body.push(AirBodyComponent::LookupTerm {
                 relation_name: OPCODES_RELATION_NAME.to_string(),
                 felts: output.as_felts(),
                 use_or_yield: UseOrYield::Yield,
             });
         } else {
-            air_builder.air_body.push(AirBodyComponent::LookupData {
+            air_builder.air_body.push(AirBodyComponent::LookupTerm {
                 relation_name: self.name(),
                 felts: input
                     .as_felts()
@@ -487,7 +487,11 @@ impl AirBuilder {
             }
         }
 
-        self.air_body.push(AirBodyComponent::LookupData {
+        self.air_body.push(AirBodyComponent::LookupAddInput {
+            air_fn_name: air_fn.name(),
+            input_arg: input.clone().into(),
+        });
+        self.air_body.push(AirBodyComponent::LookupTerm {
             relation_name: air_fn.name(),
             felts: input
                 .as_felts()
@@ -502,7 +506,7 @@ impl AirBuilder {
 
     // Reads the value from the memory, creates an intermediate variable for the value, and returns
     // it. Does not add any constraints or deductions.
-    pub fn mem_read_unverified<K, V>(&mut self, memory: &dyn IsMemory<K, V>, key: &K) -> V
+    pub(super) fn mem_read_unverified<K, V>(&mut self, memory: &dyn IsMemory<K, V>, key: &K) -> V
     where
         K: AirVar + Default,
         V: AirVar + Default,
@@ -571,7 +575,11 @@ impl AirBuilder {
             );
         }
 
-        self.air_body.push(AirBodyComponent::LookupData {
+        self.air_body.push(AirBodyComponent::LookupAddInput {
+            air_fn_name: memory.name(),
+            input_arg: key.clone().into(),
+        });
+        self.air_body.push(AirBodyComponent::LookupTerm {
             relation_name: memory.name(),
             felts: key.as_felts().into_iter().chain(value.as_felts()).collect(),
             use_or_yield: UseOrYield::Use,
@@ -663,10 +671,15 @@ pub enum AirBodyComponent {
     Intermediate(String, AirVarImpl, IntermediateType),
     Call(Call),
     LookupCall(LookupCall),
+    // Adds the input to the lookup table or updates multiplicity.
+    LookupAddInput {
+        air_fn_name: String,
+        input_arg: AirVarImpl,
+    },
     // Saves the information from the trace needed for the generation of the interaction trace,
     // and creates the constraints between the trace and the interaction trace, and the
     // constraints on the accumulated sum (the logup).
-    LookupData {
+    LookupTerm {
         relation_name: String,
         felts: Vec<FeltExpr>,
         use_or_yield: UseOrYield,

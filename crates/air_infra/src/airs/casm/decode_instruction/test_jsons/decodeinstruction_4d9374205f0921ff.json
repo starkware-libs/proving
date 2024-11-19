@@ -254,7 +254,94 @@
       }
     },
     {
-      "LookupData": {
+      "LookupAddInput": {
+        "air_fn_name": "VerifyInstruction",
+        "input_arg": [
+          {
+            "name": "decodeinstruction_4d9374205f0921ff_input",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "const_49953",
+              "type": "M31"
+            },
+            {
+              "name": "offset1_col0",
+              "type": "M31"
+            },
+            {
+              "name": "const_36026",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "dst_base_fp_col1",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "op1_imm_col2",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_0",
+              "type": "M31"
+            },
+            {
+              "name": "const_1",
+              "type": "M31"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
         "relation_name": "VerifyInstruction",
         "felts": [
           "decodeinstruction_4d9374205f0921ff_input",

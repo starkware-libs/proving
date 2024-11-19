@@ -317,11 +317,45 @@
       }
     },
     {
+      "LookupCall": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "Var": [
+            "M31",
+            "memoryaddresstoid_value_tmp_130"
+          ]
+        },
+        "output_name": "memoryidtobig_value_tmp_131"
+      }
+    },
+    {
       "Deduction": {
         "Var": [
           "M31",
           "memoryaddresstoid_value_tmp_130"
         ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryAddressToId",
+        "input": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "100"
+              ]
+            },
+            "+",
+            {
+              "ExternalState": [
+                "Seq",
+                0
+              ]
+            }
+          ]
+        }
       }
     },
     {
@@ -350,15 +384,6 @@
           }
         ],
         "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupCall": {
-        "fn_name": "MemoryIdToBig",
-        "input": {
-          "State": "value_id_col0"
-        },
-        "output_name": "memoryidtobig_value_tmp_131"
       }
     },
     {
@@ -731,6 +756,14 @@
       }
     },
     "EndBlock",
+    {
+      "LookupAddInput": {
+        "fn_name": "MemoryIdToBig",
+        "input": {
+          "State": "value_id_col0"
+        }
+      }
+    },
     {
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",

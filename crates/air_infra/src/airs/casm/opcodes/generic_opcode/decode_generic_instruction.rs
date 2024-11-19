@@ -4,11 +4,11 @@ use super::generic_opcode::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
 use crate::airs::casm::decode_instruction::decode_inst::*;
-use crate::airs::felt252_id_memory::memory::*;
 //  Macros
 use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::felt252_id_memory::memory::*;
 
 #[derive(Clone, Debug, InstDef)]
 pub struct DecodeGenericInstruction {

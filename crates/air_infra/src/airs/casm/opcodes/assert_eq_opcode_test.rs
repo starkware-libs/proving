@@ -1,13 +1,13 @@
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::assert_eq_opcode::*;
-use crate::airs::felt252_id_memory::memory::*;
 // Macros
 use crate::const_expr;
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::*;
 use crate::core::variables::*;
 

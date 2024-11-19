@@ -176,11 +176,13 @@ pub fn write_trace_simd(
             sub_components_inputs.memoryaddresstoid_inputs[1].push(((input_pc_col0) + (M31_1)));
             let memoryaddresstoid_value_tmp_940 =
                 memoryaddresstoid_state.deduce_output(((input_pc_col0) + (M31_1)));
+            sub_components_inputs.memoryidtobig_inputs[1].push(memoryaddresstoid_value_tmp_940);
+            let memoryidtobig_value_tmp_941 =
+                memoryidtobig_state.deduce_output(memoryaddresstoid_value_tmp_940);
             let op1_id_col3 = memoryaddresstoid_value_tmp_940;
             trace_values[3].data[row_index] = op1_id_col3;
+
             lookup_data.memoryaddresstoid[0].push([((input_pc_col0) + (M31_1)), op1_id_col3]);
-            sub_components_inputs.memoryidtobig_inputs[1].push(op1_id_col3);
-            let memoryidtobig_value_tmp_941 = memoryidtobig_state.deduce_output(op1_id_col3);
 
             // CondDecodeSmallSign.
 
@@ -197,6 +199,7 @@ pub fn write_trace_simd(
             trace_values[7].data[row_index] = op1_limb_1_col7;
             let op1_limb_2_col8 = memoryidtobig_value_tmp_941.get_m31(2);
             trace_values[8].data[row_index] = op1_limb_2_col8;
+
             lookup_data.memoryidtobig[0].push([
                 op1_id_col3,
                 op1_limb_0_col6,

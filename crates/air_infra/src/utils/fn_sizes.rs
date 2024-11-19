@@ -34,6 +34,10 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
             TraceGenStep::StartBlock(_) => {}
             TraceGenStep::EndBlock => {}
             TraceGenStep::LookupTerm(_) => {}
+            TraceGenStep::LookupAddInput {
+                fn_name: _,
+                input: _,
+            } => {}
         }
     }
 

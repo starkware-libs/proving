@@ -4,14 +4,14 @@ use inst_def::InstDef;
 use prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use crate::airs::casm::casm_state::*;
-use crate::airs::felt252_id_memory::memory::*;
-use crate::airs::felt252_id_memory::read_positive::*;
-use crate::airs::felt252_id_memory::verify_equal::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::felt252_id_memory::memory::*;
+use crate::core::felt252_id_memory::read_positive::*;
+use crate::core::felt252_id_memory::verify_equal::*;
 
 // Length of each modulo builtin word in bits.
 pub const MOD_BUILTIN_WORD_BIT_LEN: usize = 96;

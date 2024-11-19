@@ -3,11 +3,11 @@ use inst_def::InstDef;
 use super::super::casm_state::*;
 use super::super::common::*;
 use super::super::decode_instruction::decode_inst::*;
-use crate::airs::felt252_id_memory::memory::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::felt252_id_memory::memory::*;
 
 /// The jump opcode.
 /// Implements the Cairo0 instructions:

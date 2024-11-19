@@ -37,13 +37,19 @@ pub enum TraceGenStep {
 
     Intermediate(String, CompiledAirVar),
 
-    // Deduces the output and updates inputs / multiplicity of the component.
+    // Gets the output of the component (fast deduction).
     LookupCall {
         fn_name: String,
         input: CompiledAirVar,
         // output_name is the name of the intermediate variable into which the lookup result should
         // be placed. If it is None, there is no output and no intermediate variable is created.
         output_name: Option<String>,
+    },
+
+    // Adds the input to the lookup table or updates multiplicity.
+    LookupAddInput {
+        fn_name: String,
+        input: CompiledAirVar,
     },
 
     // Saves the information from the trace needed for the generation of the interaction trace.

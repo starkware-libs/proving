@@ -539,7 +539,94 @@
       }
     },
     {
-      "LookupData": {
+      "LookupAddInput": {
+        "air_fn_name": "VerifyInstruction",
+        "input_arg": [
+          {
+            "name": "decodeinstruction_337193008ebaa578_input",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "offset0_col0",
+              "type": "M31"
+            },
+            {
+              "name": "offset1_col1",
+              "type": "M31"
+            },
+            {
+              "name": "offset2_col2",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "dst_base_fp_col3",
+              "type": "M31"
+            },
+            {
+              "name": "op0_base_fp_col4",
+              "type": "M31"
+            },
+            {
+              "name": "op1_imm_col5",
+              "type": "M31"
+            },
+            {
+              "name": "op1_base_fp_col6",
+              "type": "M31"
+            },
+            {
+              "name": "op1_base_ap_col7",
+              "type": "M31"
+            },
+            {
+              "name": "res_add_col8",
+              "type": "M31"
+            },
+            {
+              "name": "res_mul_col9",
+              "type": "M31"
+            },
+            {
+              "name": "pc_update_jump_col10",
+              "type": "M31"
+            },
+            {
+              "name": "pc_update_jump_rel_col11",
+              "type": "M31"
+            },
+            {
+              "name": "pc_update_jnz_col12",
+              "type": "M31"
+            },
+            {
+              "name": "ap_update_add_col13",
+              "type": "M31"
+            },
+            {
+              "name": "ap_update_add_1_col14",
+              "type": "M31"
+            },
+            {
+              "name": "opcode_call_col15",
+              "type": "M31"
+            },
+            {
+              "name": "opcode_ret_col16",
+              "type": "M31"
+            },
+            {
+              "name": "opcode_assert_eq_col17",
+              "type": "M31"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
         "relation_name": "VerifyInstruction",
         "felts": [
           "decodeinstruction_337193008ebaa578_input",

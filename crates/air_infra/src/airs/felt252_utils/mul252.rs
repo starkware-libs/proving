@@ -1,9 +1,9 @@
 use inst_def::InstDef;
 
 use super::verify_mul252::*;
-use crate::airs::felt252_id_memory::id_to_big::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
+use crate::core::felt252_id_memory::id_to_big::*;
 use crate::core::variables::*;
 
 /// Multiplication of two 252-bit felts.

@@ -9,13 +9,13 @@ use crate::airs::casm::opcodes::jump_opcode::*;
 use crate::airs::casm::opcodes::jump_opcode_test::*;
 use crate::airs::casm::opcodes::ret_opcode::*;
 use crate::airs::casm::opcodes::ret_opcode_test::*;
-use crate::airs::felt252_id_memory::memory::*;
 // Macros
 use crate::const_expr;
 use crate::const_felt252_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
 
 #[test]

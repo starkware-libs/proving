@@ -3,8 +3,6 @@ use inst_def::InstDef;
 use super::generic_opcode::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
-use crate::airs::felt252_id_memory::memory::*;
-use crate::airs::felt252_id_memory::read_positive::*;
 use crate::airs::felt252_utils::add252::*;
 use crate::airs::felt252_utils::cond_as_small::*;
 use crate::airs::felt252_utils::mul252::*;
@@ -13,6 +11,8 @@ use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::felt252_id_memory::memory::*;
+use crate::core::felt252_id_memory::read_positive::*;
 use crate::core::variables::*;
 
 // Reads and verifies op0, op1 and dst from the memory.
