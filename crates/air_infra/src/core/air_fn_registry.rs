@@ -45,8 +45,9 @@ impl AirFnEntry {
             state_names: self.state.get_state_names(),
             lookup_names: Self::get_lookup_names(deductions.clone()),
             constraints,
-            deductions,
+            deductions: deductions.clone(),
             multiplicity_col_index,
+            n_lookup_terms: Self::get_n_lookup_terms(deductions),
         }
     }
 
@@ -72,6 +73,14 @@ impl AirFnEntry {
             }
         }
         lookup_calls
+    }
+
+    // Sums the number of uses and yields.
+    fn get_n_lookup_terms(deductions: Vec<TraceGenStep>) -> usize {
+        deductions
+            .into_iter()
+            .filter(|deduction| matches!(deduction, TraceGenStep::LookupTerm(_)))
+            .count()
     }
 
     // Transforms the air body of an air function into the compiled air fn format.
