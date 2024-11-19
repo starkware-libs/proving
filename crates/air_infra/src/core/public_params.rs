@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use std::rc::Rc;
 
 use compiled_casm_air::public_params::PublicParam;
-use stwo_prover::core::fields::m31::M31;
+use prover_types::cpu::M31;
 
 use super::expressions::felt_expr::*;
 use crate::core::expressions::var_expr::*;

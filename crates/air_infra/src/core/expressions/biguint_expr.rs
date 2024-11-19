@@ -8,12 +8,12 @@ use super::uint64_expr::*;
 use super::var_expr::*;
 
 pub type BigUIntOperation<const B: usize, const L: usize> = OpExpr<BigUInt<B, L>>;
-pub type BigUInt256Operation = BigUIntOperation<256, 4>;
-pub type BigUInt512Operation = BigUIntOperation<512, 8>;
+pub type BigUInt384Operation = BigUIntOperation<384, 6>;
+pub type BigUInt768Operation = BigUIntOperation<768, 12>;
 
 pub type BigUIntExpr<const B: usize, const L: usize> = Expr<BigUInt<B, L>>;
-pub type BigUInt256Expr = BigUIntExpr<256, 4>;
-pub type BigUInt512Expr = BigUIntExpr<512, 8>;
+pub type BigUInt384Expr = BigUIntExpr<384, 6>;
+pub type BigUInt768Expr = BigUIntExpr<768, 12>;
 
 const CHILD_NAME: &str = "get_u64";
 
@@ -68,8 +68,8 @@ impl<const B: usize, const L: usize> BigUIntExpr<B, L> {
         match self {
             BigUIntExpr::Var(v) => v.get_children()[index],
             BigUIntExpr::Op(op) => {
-                if (op.op == Operation::BigUInt512FromUInt64Array && B == 512)
-                    || (op.op == Operation::BigUInt256FromUInt64Array && B == 256)
+                if (op.op == Operation::BigUInt384FromUInt64Array && B == 384)
+                    || (op.op == Operation::BigUInt768FromUInt64Array && B == 768)
                 {
                     if let AirVarImpl::Array(arr) = &mut op.children[0] {
                         if let AirVarImpl::Expr(ExprImpl::UInt64(expr)) =
@@ -104,20 +104,21 @@ where
 }
 
 #[macro_export]
-macro_rules! const_bigu256_expr {
-    ($limb0:expr, $limb1:expr, $limb2:expr, $limb3:expr) => {
-        BigUIntExpr::<256, 4>::Var($crate::core::expressions::var_expr::VarExpr::new_const(
-            [$limb0, $limb1, $limb2, $limb3].into(),
+macro_rules! const_bigu384_expr {
+    ($limb0:expr, $limb1:expr, $limb2:expr, $limb3:expr, $limb4:expr, $limb5:expr) => {
+        BigUIntExpr::<384, 6>::Var($crate::core::expressions::var_expr::VarExpr::new_const(
+            [$limb0, $limb1, $limb2, $limb3, $limb4, $limb5].into(),
         ))
     };
 }
 
 #[macro_export]
-macro_rules! const_bigu512_expr {
-    ($limb0:expr, $limb1:expr, $limb2:expr, $limb3:expr, $limb4:expr, $limb5:expr, $limb6:expr, $limb7:expr) => {
-        BigUIntExpr::<512, 8>::Var($crate::core::expressions::var_expr::VarExpr::new_const(
+macro_rules! const_bigu768_expr {
+    ($limb0:expr, $limb1:expr, $limb2:expr, $limb3:expr, $limb4:expr, $limb5:expr, $limb6:expr, $limb7:expr, $limb8:expr, $limb9:expr, $limb10:expr, $limb11:expr) => {
+        BigUIntExpr::<768, 12>::Var($crate::core::expressions::var_expr::VarExpr::new_const(
             [
-                $limb0, $limb1, $limb2, $limb3, $limb4, $limb5, $limb6, $limb7,
+                $limb0, $limb1, $limb2, $limb3, $limb4, $limb5, $limb6, $limb7, $limb8, $limb9,
+                $limb10, $limb11,
             ]
             .into(),
         ))
@@ -125,11 +126,13 @@ macro_rules! const_bigu512_expr {
 }
 
 #[cfg(test)]
-macro_rules! bigu256_expr {
-    ($name:expr, $limb0:expr, $limb1:expr, $limb2:expr, $limb3:expr) => {
-        BigUIntExpr::<256, 4>::Var($crate::core::expressions::var_expr::VarExpr::new(
+macro_rules! bigu384_expr {
+    ($name:expr, $limb0:expr, $limb1:expr, $limb2:expr, $limb3:expr, $limb4:expr, $limb5:expr) => {
+        BigUIntExpr::<384, 6>::Var($crate::core::expressions::var_expr::VarExpr::new(
             $name.to_string(),
-            Some(BigUInt::<256, 4>::from([$limb0, $limb1, $limb2, $limb3])),
+            Some(BigUInt::<384, 6>::from([
+                $limb0, $limb1, $limb2, $limb3, $limb4, $limb5,
+            ])),
             false,
             false,
             None,
@@ -137,4 +140,4 @@ macro_rules! bigu256_expr {
     };
 }
 #[cfg(test)]
-pub(super) use bigu256_expr;
+pub(super) use bigu384_expr;

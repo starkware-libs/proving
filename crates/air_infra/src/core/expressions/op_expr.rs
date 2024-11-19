@@ -126,15 +126,14 @@ pub enum Operation {
     UInt16FromFelt,
     Felt252FromFeltsArray,
     Felt252FromFelt,
-    Felt252FromBigUInt256,
     UInt32FromFelt,
     UInt32FromFeltsPair,
-    BigUInt512FromUInt64Array,
-    BigUInt256FromUInt64Array,
-    BigUInt256FromBigUInt512,
-    BigUInt512FromBigUInt256,
-    BigUInt256FromFelt252,
-    BigUInt512FromFelt252,
+    BigUInt768FromUInt64Array,
+    BigUInt384FromUInt64Array,
+    BigUInt768FromBigUInt384,
+    BigUInt384FromBigUInt764,
+    BigUInt384FromFelt252,
+    BigUInt768FromFelt252,
 }
 
 // Note that all operations from the same type should have different names for the code generation.
@@ -160,19 +159,18 @@ impl Display for Operation {
             Operation::UInt16FromFelt => write!(f, "UInt16::from_m31"),
             Operation::Felt252FromFeltsArray => write!(f, "Felt252::from_limbs"),
             Operation::Felt252FromFelt => write!(f, "Felt252::from_m31"),
-            Operation::Felt252FromBigUInt256 => write!(f, "Felt252::from_biguint256"),
             Operation::UInt32FromFelt => write!(f, "UInt32::from_m31"),
             Operation::UInt32FromFeltsPair => write!(f, "UInt32::from_limbs"),
-            Operation::BigUInt512FromUInt64Array => write!(f, "BigUInt::<512, 8>::from_limbs"),
-            Operation::BigUInt256FromUInt64Array => write!(f, "BigUInt::<256, 4>::from_limbs"),
-            Operation::BigUInt256FromBigUInt512 => {
-                write!(f, "BigUInt::<256, 4>::from_biguint::<512, 8>")
+            Operation::BigUInt768FromUInt64Array => write!(f, "BigUInt::<768, 12>::from_limbs"),
+            Operation::BigUInt384FromUInt64Array => write!(f, "BigUInt::<384, 6>::from_limbs"),
+            Operation::BigUInt768FromBigUInt384 => {
+                write!(f, "BigUInt::<768, 12>::from_biguint::<384, 6>")
             }
-            Operation::BigUInt512FromBigUInt256 => {
-                write!(f, "BigUInt::<512, 8>::from_biguint::<256, 4>")
+            Operation::BigUInt384FromBigUInt764 => {
+                write!(f, "BigUInt::<384, 6>::from_biguint::<768, 12>")
             }
-            Operation::BigUInt256FromFelt252 => write!(f, "BigUInt::<256, 4>::from_felt252"),
-            Operation::BigUInt512FromFelt252 => write!(f, "BigUInt::<512, 8>::from_felt252"),
+            Operation::BigUInt384FromFelt252 => write!(f, "BigUInt::<384, 6>::from_felt252"),
+            Operation::BigUInt768FromFelt252 => write!(f, "BigUInt::<768, 12>::from_felt252"),
         }
     }
 }
@@ -186,15 +184,14 @@ impl From<Operation> for OpType {
             Operation::UInt16FromFelt => OpType::Static(op.to_string()),
             Operation::Felt252FromFeltsArray => OpType::Static(op.to_string()),
             Operation::Felt252FromFelt => OpType::Static(op.to_string()),
-            Operation::Felt252FromBigUInt256 => OpType::Static(op.to_string()),
             Operation::UInt32FromFelt => OpType::Static(op.to_string()),
             Operation::UInt32FromFeltsPair => OpType::Static(op.to_string()),
-            Operation::BigUInt512FromUInt64Array => OpType::Static(op.to_string()),
-            Operation::BigUInt256FromUInt64Array => OpType::Static(op.to_string()),
-            Operation::BigUInt256FromBigUInt512 => OpType::Static(op.to_string()),
-            Operation::BigUInt512FromBigUInt256 => OpType::Static(op.to_string()),
-            Operation::BigUInt256FromFelt252 => OpType::Static(op.to_string()),
-            Operation::BigUInt512FromFelt252 => OpType::Static(op.to_string()),
+            Operation::BigUInt768FromUInt64Array => OpType::Static(op.to_string()),
+            Operation::BigUInt384FromUInt64Array => OpType::Static(op.to_string()),
+            Operation::BigUInt768FromBigUInt384 => OpType::Static(op.to_string()),
+            Operation::BigUInt384FromBigUInt764 => OpType::Static(op.to_string()),
+            Operation::BigUInt384FromFelt252 => OpType::Static(op.to_string()),
+            Operation::BigUInt768FromFelt252 => OpType::Static(op.to_string()),
             // Currently, the rest of the operations are represented as operators.
             _ => OpType::Op(op.to_string()),
         }
@@ -222,25 +219,24 @@ impl_unary_op!(from UInt16FromFelt, from_m31, FeltExpr, UInt16Expr, UInt16);
 impl_unary_op!(from UInt32FromFelt, from_m31, FeltExpr, UInt32Expr, UInt32);
 impl_unary_op!(from Felt252FromFelt, from_m31, FeltExpr, Felt252Expr, Felt252);
 
-impl_unary_op!(from Felt252FromBigUInt256, from_biguint256, BigUInt256Expr, Felt252Expr, Felt252);
 impl_binary_op!(ops Add, add, Felt252Expr, Felt252Operation);
 impl_binary_op!(ops Sub, sub, Felt252Expr, Felt252Operation);
 impl_binary_op!(ops Mul, mul, Felt252Expr, Felt252Operation);
 impl_binary_op!(ops Div, div, Felt252Expr, Felt252Operation);
 impl_binary_op!(Eq, eq, Felt252Expr, BoolExpr, BoolOperation);
 
-impl_unary_op!(from BigUInt256FromBigUInt512, from_biguint, BigUInt512Expr, BigUInt256Expr, BigUInt);
-impl_unary_op!(from BigUInt512FromBigUInt256, from_biguint, BigUInt256Expr, BigUInt512Expr, BigUInt);
-impl_unary_op!(from BigUInt256FromFelt252, from_felt252, Felt252Expr, BigUInt256Expr, BigUInt);
-impl_unary_op!(from BigUInt512FromFelt252, from_felt252, Felt252Expr, BigUInt512Expr, BigUInt);
-impl_binary_op!(ops Add, add, BigUInt256Expr, BigUInt256Operation);
-impl_binary_op!(ops Sub, sub, BigUInt256Expr, BigUInt256Operation);
-impl_binary_op!(ops Mul, mul, BigUInt256Expr, BigUInt256Operation);
-impl_binary_op!(ops Div, div, BigUInt256Expr, BigUInt256Operation);
-impl_binary_op!(ops Add, add, BigUInt512Expr, BigUInt512Operation);
-impl_binary_op!(ops Sub, sub, BigUInt512Expr, BigUInt512Operation);
-impl_binary_op!(ops Mul, mul, BigUInt512Expr, BigUInt512Operation);
-impl_binary_op!(ops Div, div, BigUInt512Expr, BigUInt512Operation);
+impl_unary_op!(from BigUInt384FromBigUInt764, from_biguint, BigUInt768Expr, BigUInt384Expr, BigUInt);
+impl_unary_op!(from BigUInt768FromBigUInt384, from_biguint, BigUInt384Expr, BigUInt768Expr, BigUInt);
+impl_unary_op!(from BigUInt384FromFelt252, from_felt252, Felt252Expr, BigUInt384Expr, BigUInt);
+impl_unary_op!(from BigUInt768FromFelt252, from_felt252, Felt252Expr, BigUInt768Expr, BigUInt);
+impl_binary_op!(ops Add, add, BigUInt384Expr, BigUInt384Operation);
+impl_binary_op!(ops Sub, sub, BigUInt384Expr, BigUInt384Operation);
+impl_binary_op!(ops Mul, mul, BigUInt384Expr, BigUInt384Operation);
+impl_binary_op!(ops Div, div, BigUInt384Expr, BigUInt384Operation);
+impl_binary_op!(ops Add, add, BigUInt768Expr, BigUInt768Operation);
+impl_binary_op!(ops Sub, sub, BigUInt768Expr, BigUInt768Operation);
+impl_binary_op!(ops Mul, mul, BigUInt768Expr, BigUInt768Operation);
+impl_binary_op!(ops Div, div, BigUInt768Expr, BigUInt768Operation);
 
 impl_binary_op!(ops Add, add, UInt16Expr, UInt16Operation);
 impl_binary_op!(ops Sub, sub, UInt16Expr, UInt16Operation);
@@ -359,13 +355,13 @@ impl<const B: usize, const L: usize> From<Vec<UInt64Expr>> for BigUIntExpr<B, L>
             .map(|f| f.into())
             .collect::<Vec<AirVarImpl>>();
         match B {
-            512 => BigUIntExpr::Op(OpExpr::new(
-                Operation::BigUInt512FromUInt64Array,
+            768 => BigUIntExpr::Op(OpExpr::new(
+                Operation::BigUInt768FromUInt64Array,
                 vec![AirVarImpl::Array(arr)],
                 value,
             )),
-            256 => BigUIntExpr::Op(OpExpr::new(
-                Operation::BigUInt256FromUInt64Array,
+            384 => BigUIntExpr::Op(OpExpr::new(
+                Operation::BigUInt384FromUInt64Array,
                 vec![AirVarImpl::Array(arr)],
                 value,
             )),

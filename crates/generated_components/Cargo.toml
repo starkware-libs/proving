@@ -4,14 +4,11 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
-compiled_casm_air = { path = "../compiled_casm_air" }
-air_code_gen = { path = "../air_code_gen" }
-indexmap.workspace = true
+stwo-prover = { git = "https://github.com/starkware-libs/stwo", rev = "9cfd48a" }
+prover_types = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "194e411" }
 itertools.workspace = true
 num-traits.workspace = true
-prover_types.workspace = true
 serde.workspace = true
-stwo-prover.workspace = true
 
 [features]
 default = []

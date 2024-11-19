@@ -7,7 +7,7 @@ pub mod public_params;
 pub mod state;
 pub mod variables;
 
-pub type Felt = stwo_prover::core::fields::m31::M31;
+pub type Felt = prover_types::cpu::M31;
 
 #[cfg(test)]
 mod air_fn_test;

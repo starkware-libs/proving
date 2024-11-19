@@ -4,6 +4,5 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
-indexmap = { workspace = true, features = ["serde"] }
 serde = { workspace = true, features = ["derive", "rc"] }
 serde_json.workspace = true

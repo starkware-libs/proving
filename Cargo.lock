@@ -8,14 +8,10 @@ version = "0.1.0"
 dependencies = [
  "compiled_casm_air",
  "genco",
- "indexmap",
  "itertools 0.12.1",
- "num-traits",
  "pretty_assertions",
- "prover_types",
  "rand",
  "serde_json",
- "stwo-prover",
  "tempfile",
  "xshell",
 ]
@@ -30,10 +26,9 @@ dependencies = [
  "indexmap",
  "inst_def",
  "num-integer",
- "prover_types",
+ "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=bb2aa5b)",
  "serde",
  "serde_json",
- "stwo-prover",
 ]
 
 [[package]]
@@ -418,7 +413,6 @@ checksum = "d3fd119d74b830634cea2a0f58bbd0d54540518a14397557951e79340abc28c0"
 name = "compiled_casm_air"
 version = "0.1.0"
 dependencies = [
- "indexmap",
  "serde",
  "serde_json",
 ]
@@ -635,15 +629,12 @@ dependencies = [
 name = "generated_components"
 version = "0.1.0"
 dependencies = [
- "air_code_gen",
- "compiled_casm_air",
- "indexmap",
  "itertools 0.12.1",
  "num-traits",
- "prover_types",
+ "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=194e411)",
  "rand",
  "serde",
- "stwo-prover",
+ "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=9cfd48a)",
 ]
 
 [[package]]
@@ -969,7 +960,20 @@ dependencies = [
  "ruint",
  "serde",
  "starknet-ff",
- "stwo-prover",
+ "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=9cfd48a)",
+]
+
+[[package]]
+name = "prover_types"
+version = "0.1.0"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=bb2aa5b#bb2aa5bb45caacb5186328687605e167a4b1360b"
+dependencies = [
+ "bytemuck",
+ "itertools 0.12.1",
+ "ruint",
+ "serde",
+ "starknet-ff",
+ "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=64270dc)",
 ]
 
 [[package]]
@@ -1275,6 +1279,28 @@ name = "strsim"
 version = "0.11.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
+
+[[package]]
+name = "stwo-prover"
+version = "0.1.1"
+source = "git+https://github.com/starkware-libs/stwo?rev=64270dc#64270dc51420a6887e7c0695c71584949711dcb2"
+dependencies = [
+ "blake2",
+ "blake3",
+ "bytemuck",
+ "cfg-if",
+ "downcast-rs",
+ "educe",
+ "hex",
+ "itertools 0.12.1",
+ "num-traits",
+ "rand",
+ "serde",
+ "starknet-crypto",
+ "starknet-ff",
+ "thiserror",
+ "tracing",
+]
 
 [[package]]
 name = "stwo-prover"
