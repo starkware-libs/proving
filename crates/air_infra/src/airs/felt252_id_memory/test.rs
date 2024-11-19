@@ -2,6 +2,7 @@ use super::super::casm::casm_state::*;
 use super::memory::*;
 use super::read_positive::*;
 use super::read_small::*;
+use super::verify::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -209,4 +210,66 @@ fn test_read_positive_partial_limbs() {
 fn test_read_positive_failure() {
     // Try to read a small negative number using ReadPositive
     test_read_positive(const_felt252_expr!(u128::MAX - 1, u128::MAX), 4);
+}
+
+#[test]
+fn test_verify_all() {
+    let mem_data = vec![
+        (const_expr!(54665), const_felt252_expr!(78945)),
+        (const_expr!(456), const_felt252_expr!(78945)),
+        (const_expr!(21321), const_felt252_expr!(78945)),
+        (const_expr!(4), const_felt252_expr!(78945)),
+        (const_expr!(64356), const_felt252_expr!(78945)),
+        (const_expr!(12343), const_felt252_expr!(78945, 0)),
+    ];
+    let memory = Felt252IdMemory::new_with_data(mem_data.clone());
+    let verify_all = MemVerifyAll::<6> { memory };
+    let (registry, _) = AirFnRegistry::new(&verify_all);
+    let (state, _) = registry.run_air(
+        &verify_all,
+        (
+            mem_data
+                .into_iter()
+                .map(|(a, _)| (CasmAddress::new(a, "")))
+                .collect::<Vec<_>>()
+                .try_into()
+                .expect("Invalid size of array"),
+            const_felt252_expr!(78945),
+        ),
+    );
+    let expected_state = vec![(0, "id")].into();
+    assert!(
+        state == expected_state,
+        "State {} does not match {}",
+        state,
+        expected_state
+    );
+}
+
+#[test]
+#[should_panic(expected = "assertion `left == right` failed")]
+fn test_failed_verify_all() {
+    let mem_data = vec![
+        (const_expr!(54665), const_felt252_expr!(78945)),
+        (const_expr!(456), const_felt252_expr!(78945)),
+        (const_expr!(21321), const_felt252_expr!(78945)),
+        (const_expr!(4), const_felt252_expr!(78945)),
+        (const_expr!(64356), const_felt252_expr!(78944)),
+        (const_expr!(12343), const_felt252_expr!(78945, 0)),
+    ];
+    let memory = Felt252IdMemory::new_with_data(mem_data.clone());
+    let verify_all = MemVerifyAll::<6> { memory };
+    let (registry, _) = AirFnRegistry::new(&verify_all);
+    registry.run_air(
+        &verify_all,
+        (
+            mem_data
+                .into_iter()
+                .map(|(a, _)| (CasmAddress::new(a, "")))
+                .collect::<Vec<_>>()
+                .try_into()
+                .expect("Invalid size of array"),
+            const_felt252_expr!(78945),
+        ),
+    );
 }
