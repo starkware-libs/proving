@@ -237,6 +237,7 @@ impl_binary_op!(ops Add, add, BigUInt768Expr, BigUInt768Operation);
 impl_binary_op!(ops Sub, sub, BigUInt768Expr, BigUInt768Operation);
 impl_binary_op!(ops Mul, mul, BigUInt768Expr, BigUInt768Operation);
 impl_binary_op!(ops Div, div, BigUInt768Expr, BigUInt768Operation);
+impl_binary_op!(Eq, eq, BigUInt384Expr, BoolExpr, BoolOperation);
 
 impl_binary_op!(ops Add, add, UInt16Expr, UInt16Operation);
 impl_binary_op!(ops Sub, sub, UInt16Expr, UInt16Operation);
