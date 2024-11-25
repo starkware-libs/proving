@@ -6,6 +6,7 @@ use prover_types::cpu::*;
 use prover_types::simd::*;
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::core::air::Component;
+use stwo_prover::core::backend::simd::column::BaseColumn;
 use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
 use stwo_prover::core::backend::simd::qm31::PackedQM31;
 use stwo_prover::core::backend::simd::SimdBackend;
@@ -20,6 +21,7 @@ use super::component::{Claim, InteractionClaim, RelationElements};
 use crate::components::rangecheck_n_1_bits_6;
 
 pub type InputType = [PackedM31; 1];
+const N_TRACE_COLUMNS: usize = 0;
 
 #[derive(Default)]
 pub struct ClaimGenerator {
@@ -30,13 +32,27 @@ impl ClaimGenerator {
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
     ) -> (Claim, InteractionClaimGenerator) {
-        let len = self.inputs.len();
+        let n_calls = self.inputs.len();
+        assert_ne!(n_calls, 0);
+
         #[allow(unused_variables)]
         let (trace, sub_components_inputs, lookup_data) = write_trace_simd(self.inputs);
 
-        tree_builder.extend_evals(trace);
+        tree_builder.extend_evals(
+            trace
+                .into_iter()
+                .map(|eval| {
+                    let domain = CanonicCoset::new(
+                        eval.len()
+                            .checked_ilog2()
+                            .expect("Input is not a power of 2!"),
+                    )
+                    .circle_domain();
+                    CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
+                })
+                .collect_vec(),
+        );
 
-        let n_calls = len * N_LANES;
         (
             Claim { n_calls },
             InteractionClaimGenerator {
@@ -85,7 +101,8 @@ impl InteractionClaimGenerator {
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
         rangecheck_n_1_bits_6_lookup_elements: &rangecheck_n_1_bits_6::RelationElements,
     ) -> InteractionClaim {
-        let mut logup_gen = LogupTraceGenerator::new(self.n_calls.next_power_of_two().ilog2());
+        let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
+        let mut logup_gen = LogupTraceGenerator::new(log_size);
 
         let mut col_gen = logup_gen.new_col();
         let lookup_row = &self.lookup_data.rangecheck_n_1_bits_6[0];
@@ -95,9 +112,18 @@ impl InteractionClaimGenerator {
         }
         col_gen.finalize_col();
 
-        let (trace, claimed_sum) = logup_gen.finalize_last();
+        let (trace, _total_sum, claimed_sum) = if self.n_calls == 1 << log_size {
+            let (trace, claimed_sum) = logup_gen.finalize_last();
+            (trace, claimed_sum, None)
+        } else {
+            let (trace, [total_sum, claimed_sum]) =
+                logup_gen.finalize_at([(1 << log_size) - 1, self.n_calls - 1]);
+            (trace, total_sum, Some((claimed_sum, self.n_calls - 1)))
+        };
         tree_builder.extend_evals(trace);
 
-        InteractionClaim { claimed_sum }
+        InteractionClaim {
+            claimed_sum: claimed_sum.unwrap().0,
+        }
     }
 }

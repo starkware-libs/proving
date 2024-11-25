@@ -14,6 +14,7 @@ use super::utils::{block_doc, unique_deduction_function_calls, unique_relation_c
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     let imports_code = generate_imports_code(&lists.deductions);
     let typedefs = generate_input_output_typedefs(lists);
+    let n_trace_cols = generate_n_trace_columns(lists);
     let lookup_data_code = generate_lookup_data_struct(&lists.deductions);
     let sub_components_inputs = generate_sub_components_inputs_struct(&lists.deductions);
     let claim_generator_code = generate_claim_generator_struct();
@@ -26,6 +27,7 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
         $(imports_code)
         $['\n']
         $(typedefs)
+        $(n_trace_cols)
         $['\n']
         $(claim_generator_code)
         $(claim_generator_impl_code)
@@ -65,7 +67,7 @@ fn generate_simd_write_trace_body_code(
                 let name = lists.state_names[offset].clone();
                 write_trace_body.append(quote! {
                     let $(name.clone()) = $(simd_parse_air_var(expr,const_names));
-                    trace_values[$(offset)].data[row_index] = $(name);
+                    trace[$(offset)].data[row_index] = $(name);
                 });
                 offset += 1;
             }
@@ -184,11 +186,11 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         pub fn write_trace_simd(
             inputs: $(vec_of_type("InputType")),
             $(generate_stateful_component_params(&lists.deductions))
-        ) -> (Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
+        ) -> ([BaseColumn; N_TRACE_COLUMNS],
             SubComponentInputs,
             LookupData) {
             const N_TRACE_COLUMNS: usize = $(lists.state_names.len());
-            let mut trace_values: [_ ;N_TRACE_COLUMNS]= std::array::from_fn
+            let mut trace: [_ ;N_TRACE_COLUMNS]= std::array::from_fn
                     (|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES));
 
             let mut lookup_data = LookupData::with_capacity(inputs.len());
@@ -202,21 +204,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
                 $(generate_simd_write_trace_body_code(lists,&const_names))
             });
 
-            let trace = trace_values
-                .into_iter()
-                .map(|eval| {
-                 // TODO(Ohad): Support non-power of 2 inputs.
-                    let domain = CanonicCoset::new(
-                        eval.len()
-                        .checked_ilog2()
-                    .expect("Input is not a power of 2!"),
-                )
-            .circle_domain();
-            CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
-        })
-        .collect_vec();
-
-    (trace, sub_components_inputs, lookup_data)
+            (trace, sub_components_inputs, lookup_data)
         }
         $['\n']
     });
@@ -260,6 +248,10 @@ fn generate_input_output_typedefs(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
         pub type InputType = $(packed_air_var_type(&lists.input));
     }
+}
+
+fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
+    quote!(const N_TRACE_COLUMNS: usize = $(lists.state_names.len());)
 }
 
 fn generate_claim_generator_struct() -> rust::Tokens {
@@ -351,24 +343,40 @@ fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Token
     for fn_name in unique_deduction_function_calls(deductions).iter() {
         statement.extend(quote! {
             sub_components_inputs.$(fn_name.to_lowercase())_inputs.iter().for_each(|inputs| {
-                $(fn_name.to_lowercase())_state.add_inputs(inputs);
+                $(fn_name.to_lowercase())_state.add_inputs(&inputs[..n_calls]);
             });
         })
     }
     statement
 }
 
+// TODO(Ohad): Padding.
 fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
-        let len = self.inputs.len();
+        let n_calls = self.inputs.len();
+        assert_ne!(n_calls, 0);
+
         #[allow(unused_variables)]
         let (trace, sub_components_inputs, lookup_data) =
                 write_trace_simd(self.inputs, $(generate_stateful_component_args(deductions)));
+
         $(generate_sub_component_add_inputs(deductions));
 
-        tree_builder.extend_evals(trace);
+        tree_builder.extend_evals(
+            trace
+                .into_iter()
+                .map(|eval| {
+                    let domain = CanonicCoset::new(
+                        eval.len()
+                            .checked_ilog2()
+                            .expect("Input is not a power of 2!"),
+                    )
+                    .circle_domain();
+                    CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
+                })
+                .collect_vec(),
+        );
 
-        let n_calls = len * N_LANES;
         (
         Claim {
             n_calls
@@ -484,19 +492,30 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         impl InteractionClaimGenerator {
             // TODO(Ohad): Batch in pairs.
+            // TODO(Ohad): use partial sums.
             pub fn write_interaction_trace(
                 self,
                 tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
                 $(lookup_elements)
             ) -> InteractionClaim {
-                let mut logup_gen = LogupTraceGenerator::new(self.n_calls.next_power_of_two().ilog2());
+                let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
+                let mut logup_gen = LogupTraceGenerator::new(log_size);
 
                 $(generate_write_interaction_trace_body(deductions))
 
-                let (trace, claimed_sum) = logup_gen.finalize_last();
+                let (trace, _total_sum, claimed_sum) = if self.n_calls == 1 << log_size {
+                    let (trace, claimed_sum) = logup_gen.finalize_last();
+                    (trace, claimed_sum, None)
+                } else {
+                    let (trace, [total_sum, claimed_sum]) =
+                        logup_gen.finalize_at([(1 << log_size) - 1, self.n_calls - 1]);
+                    (trace, total_sum, Some((claimed_sum, self.n_calls - 1)))
+                };
                 tree_builder.extend_evals(trace);
 
-                InteractionClaim { claimed_sum }
+                InteractionClaim {
+                    claimed_sum: claimed_sum.unwrap().0,
+                }
             }
         }
     }
@@ -575,20 +594,21 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
 fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(unused_imports)]
-        use prover_types::cpu::*;
-        use prover_types::simd::*;
         use itertools::{chain, zip_eq, Itertools};
         use num_traits::{One, Zero};
+        use prover_types::cpu::*;
+        use prover_types::simd::*;
         use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
         use stwo_prover::core::air::Component;
+        use stwo_prover::core::backend::{Col, Column};
+        use stwo_prover::core::backend::simd::column::BaseColumn;
         use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
         use stwo_prover::core::backend::simd::qm31::PackedQM31;
         use stwo_prover::core::backend::simd::SimdBackend;
-        use stwo_prover::core::backend::{Col, Column};
         use stwo_prover::core::fields::m31::M31;
         use stwo_prover::core::pcs::TreeBuilder;
-        use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
         use stwo_prover::core::poly::BitReversedOrder;
+        use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
         use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
         use super::component::{Claim, RelationElements, InteractionClaim};

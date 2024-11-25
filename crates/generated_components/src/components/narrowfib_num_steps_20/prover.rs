@@ -6,6 +6,7 @@ use prover_types::cpu::*;
 use prover_types::simd::*;
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::core::air::Component;
+use stwo_prover::core::backend::simd::column::BaseColumn;
 use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
 use stwo_prover::core::backend::simd::qm31::PackedQM31;
 use stwo_prover::core::backend::simd::SimdBackend;
@@ -20,6 +21,7 @@ use super::component::{Claim, InteractionClaim, RelationElements};
 use crate::components::narrowfib_num_steps_20;
 
 pub type InputType = [PackedM31; 2];
+const N_TRACE_COLUMNS: usize = 22;
 
 #[derive(Default)]
 pub struct ClaimGenerator {
@@ -30,13 +32,27 @@ impl ClaimGenerator {
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
     ) -> (Claim, InteractionClaimGenerator) {
-        let len = self.inputs.len();
+        let n_calls = self.inputs.len();
+        assert_ne!(n_calls, 0);
+
         #[allow(unused_variables)]
         let (trace, sub_components_inputs, lookup_data) = write_trace_simd(self.inputs);
 
-        tree_builder.extend_evals(trace);
+        tree_builder.extend_evals(
+            trace
+                .into_iter()
+                .map(|eval| {
+                    let domain = CanonicCoset::new(
+                        eval.len()
+                            .checked_ilog2()
+                            .expect("Input is not a power of 2!"),
+                    )
+                    .circle_domain();
+                    CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
+                })
+                .collect_vec(),
+        );
 
-        let n_calls = len * N_LANES;
         (
             Claim { n_calls },
             InteractionClaimGenerator {
@@ -66,12 +82,12 @@ impl SubComponentInputs {
 pub fn write_trace_simd(
     inputs: Vec<InputType>,
 ) -> (
-    Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
+    [BaseColumn; N_TRACE_COLUMNS],
     SubComponentInputs,
     LookupData,
 ) {
     const N_TRACE_COLUMNS: usize = 22;
-    let mut trace_values: [_; N_TRACE_COLUMNS] =
+    let mut trace: [_; N_TRACE_COLUMNS] =
         std::array::from_fn(|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES));
 
     let mut lookup_data = LookupData::with_capacity(inputs.len());
@@ -87,125 +103,113 @@ pub fn write_trace_simd(
                 narrowfib_num_steps_20_input[1],
             ];
             let input_col0 = input_tmp_0[0];
-            trace_values[0].data[row_index] = input_col0;
+            trace[0].data[row_index] = input_col0;
             let input_col1 = input_tmp_0[1];
-            trace_values[1].data[row_index] = input_col1;
+            trace[1].data[row_index] = input_col1;
 
             // FibStep.
 
             let col2 = (((input_col0) * (input_col0)) + ((input_col1) * (input_col1)));
-            trace_values[2].data[row_index] = col2;
+            trace[2].data[row_index] = col2;
 
             // FibStep.
 
             let col3 = (((input_col1) * (input_col1)) + ((col2) * (col2)));
-            trace_values[3].data[row_index] = col3;
+            trace[3].data[row_index] = col3;
 
             // FibStep.
 
             let col4 = (((col2) * (col2)) + ((col3) * (col3)));
-            trace_values[4].data[row_index] = col4;
+            trace[4].data[row_index] = col4;
 
             // FibStep.
 
             let col5 = (((col3) * (col3)) + ((col4) * (col4)));
-            trace_values[5].data[row_index] = col5;
+            trace[5].data[row_index] = col5;
 
             // FibStep.
 
             let col6 = (((col4) * (col4)) + ((col5) * (col5)));
-            trace_values[6].data[row_index] = col6;
+            trace[6].data[row_index] = col6;
 
             // FibStep.
 
             let col7 = (((col5) * (col5)) + ((col6) * (col6)));
-            trace_values[7].data[row_index] = col7;
+            trace[7].data[row_index] = col7;
 
             // FibStep.
 
             let col8 = (((col6) * (col6)) + ((col7) * (col7)));
-            trace_values[8].data[row_index] = col8;
+            trace[8].data[row_index] = col8;
 
             // FibStep.
 
             let col9 = (((col7) * (col7)) + ((col8) * (col8)));
-            trace_values[9].data[row_index] = col9;
+            trace[9].data[row_index] = col9;
 
             // FibStep.
 
             let col10 = (((col8) * (col8)) + ((col9) * (col9)));
-            trace_values[10].data[row_index] = col10;
+            trace[10].data[row_index] = col10;
 
             // FibStep.
 
             let col11 = (((col9) * (col9)) + ((col10) * (col10)));
-            trace_values[11].data[row_index] = col11;
+            trace[11].data[row_index] = col11;
 
             // FibStep.
 
             let col12 = (((col10) * (col10)) + ((col11) * (col11)));
-            trace_values[12].data[row_index] = col12;
+            trace[12].data[row_index] = col12;
 
             // FibStep.
 
             let col13 = (((col11) * (col11)) + ((col12) * (col12)));
-            trace_values[13].data[row_index] = col13;
+            trace[13].data[row_index] = col13;
 
             // FibStep.
 
             let col14 = (((col12) * (col12)) + ((col13) * (col13)));
-            trace_values[14].data[row_index] = col14;
+            trace[14].data[row_index] = col14;
 
             // FibStep.
 
             let col15 = (((col13) * (col13)) + ((col14) * (col14)));
-            trace_values[15].data[row_index] = col15;
+            trace[15].data[row_index] = col15;
 
             // FibStep.
 
             let col16 = (((col14) * (col14)) + ((col15) * (col15)));
-            trace_values[16].data[row_index] = col16;
+            trace[16].data[row_index] = col16;
 
             // FibStep.
 
             let col17 = (((col15) * (col15)) + ((col16) * (col16)));
-            trace_values[17].data[row_index] = col17;
+            trace[17].data[row_index] = col17;
 
             // FibStep.
 
             let col18 = (((col16) * (col16)) + ((col17) * (col17)));
-            trace_values[18].data[row_index] = col18;
+            trace[18].data[row_index] = col18;
 
             // FibStep.
 
             let col19 = (((col17) * (col17)) + ((col18) * (col18)));
-            trace_values[19].data[row_index] = col19;
+            trace[19].data[row_index] = col19;
 
             // FibStep.
 
             let col20 = (((col18) * (col18)) + ((col19) * (col19)));
-            trace_values[20].data[row_index] = col20;
+            trace[20].data[row_index] = col20;
 
             // FibStep.
 
             let col21 = (((col19) * (col19)) + ((col20) * (col20)));
-            trace_values[21].data[row_index] = col21;
+            trace[21].data[row_index] = col21;
 
             lookup_data.narrowfib_num_steps_20[0].push([input_col0, input_col1, col20, col21]);
         });
 
-    let trace = trace_values
-        .into_iter()
-        .map(|eval| {
-            let domain = CanonicCoset::new(
-                eval.len()
-                    .checked_ilog2()
-                    .expect("Input is not a power of 2!"),
-            )
-            .circle_domain();
-            CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
-        })
-        .collect_vec();
     (trace, sub_components_inputs, lookup_data)
 }
 
@@ -231,7 +235,8 @@ impl InteractionClaimGenerator {
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
         narrowfib_num_steps_20_lookup_elements: &narrowfib_num_steps_20::RelationElements,
     ) -> InteractionClaim {
-        let mut logup_gen = LogupTraceGenerator::new(self.n_calls.next_power_of_two().ilog2());
+        let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
+        let mut logup_gen = LogupTraceGenerator::new(log_size);
 
         let mut col_gen = logup_gen.new_col();
         let lookup_row = &self.lookup_data.narrowfib_num_steps_20[0];
@@ -241,9 +246,18 @@ impl InteractionClaimGenerator {
         }
         col_gen.finalize_col();
 
-        let (trace, claimed_sum) = logup_gen.finalize_last();
+        let (trace, _total_sum, claimed_sum) = if self.n_calls == 1 << log_size {
+            let (trace, claimed_sum) = logup_gen.finalize_last();
+            (trace, claimed_sum, None)
+        } else {
+            let (trace, [total_sum, claimed_sum]) =
+                logup_gen.finalize_at([(1 << log_size) - 1, self.n_calls - 1]);
+            (trace, total_sum, Some((claimed_sum, self.n_calls - 1)))
+        };
         tree_builder.extend_evals(trace);
 
-        InteractionClaim { claimed_sum }
+        InteractionClaim {
+            claimed_sum: claimed_sum.unwrap().0,
+        }
     }
 }

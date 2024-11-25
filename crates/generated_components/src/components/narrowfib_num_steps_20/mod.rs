@@ -52,10 +52,7 @@ mod tests {
             .collect_vec();
 
         let (packed_trace, ..) = write_trace_simd(inputs);
-        let trace = packed_trace
-            .into_iter()
-            .map(|x| x.values.to_cpu())
-            .collect_vec();
+        let trace = packed_trace.into_iter().map(|x| x.to_cpu()).collect_vec();
         assert_fib_constraints_on_trace(&trace);
     }
 }

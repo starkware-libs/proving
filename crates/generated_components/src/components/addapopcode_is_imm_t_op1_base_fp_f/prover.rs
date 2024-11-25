@@ -6,6 +6,7 @@ use prover_types::cpu::*;
 use prover_types::simd::*;
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::core::air::Component;
+use stwo_prover::core::backend::simd::column::BaseColumn;
 use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
 use stwo_prover::core::backend::simd::qm31::PackedQM31;
 use stwo_prover::core::backend::simd::SimdBackend;
@@ -20,6 +21,7 @@ use super::component::{Claim, InteractionClaim, RelationElements};
 use crate::components::{memoryaddresstoid, memoryidtobig, opcodes, verifyinstruction};
 
 pub type InputType = PackedCasmState;
+const N_TRACE_COLUMNS: usize = 9;
 
 #[derive(Default)]
 pub struct ClaimGenerator {
@@ -33,32 +35,47 @@ impl ClaimGenerator {
         memoryidtobig_state: &mut memoryidtobig::ClaimGenerator,
         verifyinstruction_state: &mut verifyinstruction::ClaimGenerator,
     ) -> (Claim, InteractionClaimGenerator) {
-        let len = self.inputs.len();
+        let n_calls = self.inputs.len();
+        assert_ne!(n_calls, 0);
+
         #[allow(unused_variables)]
         let (trace, sub_components_inputs, lookup_data) =
             write_trace_simd(self.inputs, memoryaddresstoid_state, memoryidtobig_state);
+
         sub_components_inputs
             .memoryaddresstoid_inputs
             .iter()
             .for_each(|inputs| {
-                memoryaddresstoid_state.add_inputs(inputs);
+                memoryaddresstoid_state.add_inputs(&inputs[..n_calls]);
             });
         sub_components_inputs
             .memoryidtobig_inputs
             .iter()
             .for_each(|inputs| {
-                memoryidtobig_state.add_inputs(inputs);
+                memoryidtobig_state.add_inputs(&inputs[..n_calls]);
             });
         sub_components_inputs
             .verifyinstruction_inputs
             .iter()
             .for_each(|inputs| {
-                verifyinstruction_state.add_inputs(inputs);
+                verifyinstruction_state.add_inputs(&inputs[..n_calls]);
             });
 
-        tree_builder.extend_evals(trace);
+        tree_builder.extend_evals(
+            trace
+                .into_iter()
+                .map(|eval| {
+                    let domain = CanonicCoset::new(
+                        eval.len()
+                            .checked_ilog2()
+                            .expect("Input is not a power of 2!"),
+                    )
+                    .circle_domain();
+                    CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
+                })
+                .collect_vec(),
+        );
 
-        let n_calls = len * N_LANES;
         (
             Claim { n_calls },
             InteractionClaimGenerator {
@@ -98,12 +115,12 @@ pub fn write_trace_simd(
     memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
     memoryidtobig_state: &mut memoryidtobig::ClaimGenerator,
 ) -> (
-    Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
+    [BaseColumn; N_TRACE_COLUMNS],
     SubComponentInputs,
     LookupData,
 ) {
     const N_TRACE_COLUMNS: usize = 9;
-    let mut trace_values: [_; N_TRACE_COLUMNS] =
+    let mut trace: [_; N_TRACE_COLUMNS] =
         std::array::from_fn(|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES));
 
     let mut lookup_data = LookupData::with_capacity(inputs.len());
@@ -126,11 +143,11 @@ pub fn write_trace_simd(
         |(row_index, addapopcode_is_imm_t_op1_base_fp_f_input)| {
             let input_tmp_933 = addapopcode_is_imm_t_op1_base_fp_f_input;
             let input_pc_col0 = input_tmp_933.pc;
-            trace_values[0].data[row_index] = input_pc_col0;
+            trace[0].data[row_index] = input_pc_col0;
             let input_ap_col1 = input_tmp_933.ap;
-            trace_values[1].data[row_index] = input_ap_col1;
+            trace[1].data[row_index] = input_ap_col1;
             let input_fp_col2 = input_tmp_933.fp;
-            trace_values[2].data[row_index] = input_fp_col2;
+            trace[2].data[row_index] = input_fp_col2;
 
             // DecodeInstruction_a14b71db698d77c8.
 
@@ -180,7 +197,7 @@ pub fn write_trace_simd(
             let memoryidtobig_value_tmp_941 =
                 memoryidtobig_state.deduce_output(memoryaddresstoid_value_tmp_940);
             let op1_id_col3 = memoryaddresstoid_value_tmp_940;
-            trace_values[3].data[row_index] = op1_id_col3;
+            trace[3].data[row_index] = op1_id_col3;
 
             lookup_data.memoryaddresstoid[0].push([((input_pc_col0) + (M31_1)), op1_id_col3]);
 
@@ -188,17 +205,17 @@ pub fn write_trace_simd(
 
             let msb_tmp_942 = memoryidtobig_value_tmp_941.get_m31(27).eq(M31_256);
             let msb_col4 = msb_tmp_942.as_m31();
-            trace_values[4].data[row_index] = msb_col4;
+            trace[4].data[row_index] = msb_col4;
             let mid_limbs_set_tmp_943 = memoryidtobig_value_tmp_941.get_m31(20).eq(M31_511);
             let mid_limbs_set_col5 = mid_limbs_set_tmp_943.as_m31();
-            trace_values[5].data[row_index] = mid_limbs_set_col5;
+            trace[5].data[row_index] = mid_limbs_set_col5;
 
             let op1_limb_0_col6 = memoryidtobig_value_tmp_941.get_m31(0);
-            trace_values[6].data[row_index] = op1_limb_0_col6;
+            trace[6].data[row_index] = op1_limb_0_col6;
             let op1_limb_1_col7 = memoryidtobig_value_tmp_941.get_m31(1);
-            trace_values[7].data[row_index] = op1_limb_1_col7;
+            trace[7].data[row_index] = op1_limb_1_col7;
             let op1_limb_2_col8 = memoryidtobig_value_tmp_941.get_m31(2);
-            trace_values[8].data[row_index] = op1_limb_2_col8;
+            trace[8].data[row_index] = op1_limb_2_col8;
 
             lookup_data.memoryidtobig[0].push([
                 op1_id_col3,
@@ -245,18 +262,6 @@ pub fn write_trace_simd(
         },
     );
 
-    let trace = trace_values
-        .into_iter()
-        .map(|eval| {
-            let domain = CanonicCoset::new(
-                eval.len()
-                    .checked_ilog2()
-                    .expect("Input is not a power of 2!"),
-            )
-            .circle_domain();
-            CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
-        })
-        .collect_vec();
     (trace, sub_components_inputs, lookup_data)
 }
 
@@ -291,7 +296,8 @@ impl InteractionClaimGenerator {
         verifyinstruction_lookup_elements: &verifyinstruction::RelationElements,
         opcodes_lookup_elements: &opcodes::RelationElements,
     ) -> InteractionClaim {
-        let mut logup_gen = LogupTraceGenerator::new(self.n_calls.next_power_of_two().ilog2());
+        let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
+        let mut logup_gen = LogupTraceGenerator::new(log_size);
 
         let mut col_gen = logup_gen.new_col();
         let lookup_row = &self.lookup_data.verifyinstruction[0];
@@ -333,9 +339,18 @@ impl InteractionClaimGenerator {
         }
         col_gen.finalize_col();
 
-        let (trace, claimed_sum) = logup_gen.finalize_last();
+        let (trace, _total_sum, claimed_sum) = if self.n_calls == 1 << log_size {
+            let (trace, claimed_sum) = logup_gen.finalize_last();
+            (trace, claimed_sum, None)
+        } else {
+            let (trace, [total_sum, claimed_sum]) =
+                logup_gen.finalize_at([(1 << log_size) - 1, self.n_calls - 1]);
+            (trace, total_sum, Some((claimed_sum, self.n_calls - 1)))
+        };
         tree_builder.extend_evals(trace);
 
-        InteractionClaim { claimed_sum }
+        InteractionClaim {
+            claimed_sum: claimed_sum.unwrap().0,
+        }
     }
 }

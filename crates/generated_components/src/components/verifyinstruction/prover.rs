@@ -6,6 +6,7 @@ use prover_types::cpu::*;
 use prover_types::simd::*;
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::core::air::Component;
+use stwo_prover::core::backend::simd::column::BaseColumn;
 use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
 use stwo_prover::core::backend::simd::qm31::PackedQM31;
 use stwo_prover::core::backend::simd::SimdBackend;
@@ -23,6 +24,7 @@ use crate::components::{
 };
 
 pub type InputType = (PackedM31, [PackedM31; 3], [PackedM31; 15]);
+const N_TRACE_COLUMNS: usize = 28;
 
 #[derive(Default)]
 pub struct ClaimGenerator {
@@ -36,32 +38,47 @@ impl ClaimGenerator {
         rangecheck_n_2_bits_4_3_state: &mut rangecheck_n_2_bits_4_3::ClaimGenerator,
         rangecheck_n_3_bits_7_2_5_state: &mut rangecheck_n_3_bits_7_2_5::ClaimGenerator,
     ) -> (Claim, InteractionClaimGenerator) {
-        let len = self.inputs.len();
+        let n_calls = self.inputs.len();
+        assert_ne!(n_calls, 0);
+
         #[allow(unused_variables)]
         let (trace, sub_components_inputs, lookup_data) =
             write_trace_simd(self.inputs, memoryaddresstoid_state);
+
         sub_components_inputs
             .memoryaddresstoid_inputs
             .iter()
             .for_each(|inputs| {
-                memoryaddresstoid_state.add_inputs(inputs);
+                memoryaddresstoid_state.add_inputs(&inputs[..n_calls]);
             });
         sub_components_inputs
             .rangecheck_n_2_bits_4_3_inputs
             .iter()
             .for_each(|inputs| {
-                rangecheck_n_2_bits_4_3_state.add_inputs(inputs);
+                rangecheck_n_2_bits_4_3_state.add_inputs(&inputs[..n_calls]);
             });
         sub_components_inputs
             .rangecheck_n_3_bits_7_2_5_inputs
             .iter()
             .for_each(|inputs| {
-                rangecheck_n_3_bits_7_2_5_state.add_inputs(inputs);
+                rangecheck_n_3_bits_7_2_5_state.add_inputs(&inputs[..n_calls]);
             });
 
-        tree_builder.extend_evals(trace);
+        tree_builder.extend_evals(
+            trace
+                .into_iter()
+                .map(|eval| {
+                    let domain = CanonicCoset::new(
+                        eval.len()
+                            .checked_ilog2()
+                            .expect("Input is not a power of 2!"),
+                    )
+                    .circle_domain();
+                    CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
+                })
+                .collect_vec(),
+        );
 
-        let n_calls = len * N_LANES;
         (
             Claim { n_calls },
             InteractionClaimGenerator {
@@ -100,12 +117,12 @@ pub fn write_trace_simd(
     inputs: Vec<InputType>,
     memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
 ) -> (
-    Vec<CircleEvaluation<SimdBackend, M31, BitReversedOrder>>,
+    [BaseColumn; N_TRACE_COLUMNS],
     SubComponentInputs,
     LookupData,
 ) {
     const N_TRACE_COLUMNS: usize = 28;
-    let mut trace_values: [_; N_TRACE_COLUMNS] =
+    let mut trace: [_; N_TRACE_COLUMNS] =
         std::array::from_fn(|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES));
 
     let mut lookup_data = LookupData::with_capacity(inputs.len());
@@ -161,72 +178,72 @@ pub fn write_trace_simd(
                 ],
             );
             let input_col0 = input_tmp_155.0;
-            trace_values[0].data[row_index] = input_col0;
+            trace[0].data[row_index] = input_col0;
             let input_col1 = input_tmp_155.1[0];
-            trace_values[1].data[row_index] = input_col1;
+            trace[1].data[row_index] = input_col1;
             let input_col2 = input_tmp_155.1[1];
-            trace_values[2].data[row_index] = input_col2;
+            trace[2].data[row_index] = input_col2;
             let input_col3 = input_tmp_155.1[2];
-            trace_values[3].data[row_index] = input_col3;
+            trace[3].data[row_index] = input_col3;
             let input_col4 = input_tmp_155.2[0];
-            trace_values[4].data[row_index] = input_col4;
+            trace[4].data[row_index] = input_col4;
             let input_col5 = input_tmp_155.2[1];
-            trace_values[5].data[row_index] = input_col5;
+            trace[5].data[row_index] = input_col5;
             let input_col6 = input_tmp_155.2[2];
-            trace_values[6].data[row_index] = input_col6;
+            trace[6].data[row_index] = input_col6;
             let input_col7 = input_tmp_155.2[3];
-            trace_values[7].data[row_index] = input_col7;
+            trace[7].data[row_index] = input_col7;
             let input_col8 = input_tmp_155.2[4];
-            trace_values[8].data[row_index] = input_col8;
+            trace[8].data[row_index] = input_col8;
             let input_col9 = input_tmp_155.2[5];
-            trace_values[9].data[row_index] = input_col9;
+            trace[9].data[row_index] = input_col9;
             let input_col10 = input_tmp_155.2[6];
-            trace_values[10].data[row_index] = input_col10;
+            trace[10].data[row_index] = input_col10;
             let input_col11 = input_tmp_155.2[7];
-            trace_values[11].data[row_index] = input_col11;
+            trace[11].data[row_index] = input_col11;
             let input_col12 = input_tmp_155.2[8];
-            trace_values[12].data[row_index] = input_col12;
+            trace[12].data[row_index] = input_col12;
             let input_col13 = input_tmp_155.2[9];
-            trace_values[13].data[row_index] = input_col13;
+            trace[13].data[row_index] = input_col13;
             let input_col14 = input_tmp_155.2[10];
-            trace_values[14].data[row_index] = input_col14;
+            trace[14].data[row_index] = input_col14;
             let input_col15 = input_tmp_155.2[11];
-            trace_values[15].data[row_index] = input_col15;
+            trace[15].data[row_index] = input_col15;
             let input_col16 = input_tmp_155.2[12];
-            trace_values[16].data[row_index] = input_col16;
+            trace[16].data[row_index] = input_col16;
             let input_col17 = input_tmp_155.2[13];
-            trace_values[17].data[row_index] = input_col17;
+            trace[17].data[row_index] = input_col17;
             let input_col18 = input_tmp_155.2[14];
-            trace_values[18].data[row_index] = input_col18;
+            trace[18].data[row_index] = input_col18;
 
             // EncodeOffsets.
 
             let offset0_low_tmp_166 = ((PackedUInt16::from_m31(input_col1)) & (UInt16_511));
             let offset0_low_col19 = offset0_low_tmp_166.as_m31();
-            trace_values[19].data[row_index] = offset0_low_col19;
+            trace[19].data[row_index] = offset0_low_col19;
             let offset0_mid_tmp_167 = ((PackedUInt16::from_m31(input_col1)) >> (UInt16_9));
             let offset0_mid_col20 = offset0_mid_tmp_167.as_m31();
-            trace_values[20].data[row_index] = offset0_mid_col20;
+            trace[20].data[row_index] = offset0_mid_col20;
             let offset1_low_tmp_168 = ((PackedUInt16::from_m31(input_col2)) & (UInt16_3));
             let offset1_low_col21 = offset1_low_tmp_168.as_m31();
-            trace_values[21].data[row_index] = offset1_low_col21;
+            trace[21].data[row_index] = offset1_low_col21;
             let offset1_mid_tmp_169 =
                 (((PackedUInt16::from_m31(input_col2)) >> (UInt16_2)) & (UInt16_511));
             let offset1_mid_col22 = offset1_mid_tmp_169.as_m31();
-            trace_values[22].data[row_index] = offset1_mid_col22;
+            trace[22].data[row_index] = offset1_mid_col22;
             let offset1_high_tmp_170 = ((PackedUInt16::from_m31(input_col2)) >> (UInt16_11));
             let offset1_high_col23 = offset1_high_tmp_170.as_m31();
-            trace_values[23].data[row_index] = offset1_high_col23;
+            trace[23].data[row_index] = offset1_high_col23;
             let offset2_low_tmp_171 = ((PackedUInt16::from_m31(input_col3)) & (UInt16_15));
             let offset2_low_col24 = offset2_low_tmp_171.as_m31();
-            trace_values[24].data[row_index] = offset2_low_col24;
+            trace[24].data[row_index] = offset2_low_col24;
             let offset2_mid_tmp_172 =
                 (((PackedUInt16::from_m31(input_col3)) >> (UInt16_4)) & (UInt16_511));
             let offset2_mid_col25 = offset2_mid_tmp_172.as_m31();
-            trace_values[25].data[row_index] = offset2_mid_col25;
+            trace[25].data[row_index] = offset2_mid_col25;
             let offset2_high_tmp_173 = ((PackedUInt16::from_m31(input_col3)) >> (UInt16_13));
             let offset2_high_col26 = offset2_high_tmp_173.as_m31();
-            trace_values[26].data[row_index] = offset2_high_col26;
+            trace[26].data[row_index] = offset2_high_col26;
             sub_components_inputs.rangecheck_n_3_bits_7_2_5_inputs[0].push([
                 offset0_mid_col20,
                 offset1_low_col21,
@@ -250,7 +267,7 @@ pub fn write_trace_simd(
             sub_components_inputs.memoryaddresstoid_inputs[0].push(input_col0);
             let memoryaddresstoid_value_tmp_176 = memoryaddresstoid_state.deduce_output(input_col0);
             let instruction_id_col27 = memoryaddresstoid_value_tmp_176;
-            trace_values[27].data[row_index] = instruction_id_col27;
+            trace[27].data[row_index] = instruction_id_col27;
 
             lookup_data.memoryaddresstoid[0].push([input_col0, instruction_id_col27]);
 
@@ -321,18 +338,6 @@ pub fn write_trace_simd(
             ]);
         });
 
-    let trace = trace_values
-        .into_iter()
-        .map(|eval| {
-            let domain = CanonicCoset::new(
-                eval.len()
-                    .checked_ilog2()
-                    .expect("Input is not a power of 2!"),
-            )
-            .circle_domain();
-            CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
-        })
-        .collect_vec();
     (trace, sub_components_inputs, lookup_data)
 }
 
@@ -370,7 +375,8 @@ impl InteractionClaimGenerator {
         rangecheck_n_3_bits_7_2_5_lookup_elements: &rangecheck_n_3_bits_7_2_5::RelationElements,
         verifyinstruction_lookup_elements: &verifyinstruction::RelationElements,
     ) -> InteractionClaim {
-        let mut logup_gen = LogupTraceGenerator::new(self.n_calls.next_power_of_two().ilog2());
+        let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
+        let mut logup_gen = LogupTraceGenerator::new(log_size);
 
         let mut col_gen = logup_gen.new_col();
         let lookup_row = &self.lookup_data.rangecheck_n_3_bits_7_2_5[0];
@@ -412,9 +418,18 @@ impl InteractionClaimGenerator {
         }
         col_gen.finalize_col();
 
-        let (trace, claimed_sum) = logup_gen.finalize_last();
+        let (trace, _total_sum, claimed_sum) = if self.n_calls == 1 << log_size {
+            let (trace, claimed_sum) = logup_gen.finalize_last();
+            (trace, claimed_sum, None)
+        } else {
+            let (trace, [total_sum, claimed_sum]) =
+                logup_gen.finalize_at([(1 << log_size) - 1, self.n_calls - 1]);
+            (trace, total_sum, Some((claimed_sum, self.n_calls - 1)))
+        };
         tree_builder.extend_evals(trace);
 
-        InteractionClaim { claimed_sum }
+        InteractionClaim {
+            claimed_sum: claimed_sum.unwrap().0,
+        }
     }
 }
