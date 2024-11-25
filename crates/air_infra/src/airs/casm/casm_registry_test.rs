@@ -192,14 +192,16 @@ fn test_casm_registry() {
             TraceType::Opcode => JSONS_OPCODES_DIR,
             TraceType::Component | TraceType::Memory => JSONS_LOOKUPS_DIR,
             TraceType::Builtin => JSONS_BUILTINS_DIR,
-            TraceType::Const | TraceType::Inline => continue,
+            TraceType::Const | TraceType::Inline => "",
         };
 
-        // Check the compiled entry json.
-        compare_json(
-            &compiled_entry,
-            &format!("{}{}.json", dir, name.to_lowercase()),
-        );
+        if trace_type != &TraceType::Const && trace_type != &TraceType::Inline {
+            // Check the compiled entry json.
+            compare_json(
+                &compiled_entry,
+                &format!("{}{}.json", dir, name.to_lowercase()),
+            );
+        }
 
         // Collect statistics.
         get_compiled_entry_statistics(compiled_entry, trace_type, &mut stat);
@@ -217,18 +219,20 @@ fn get_compiled_entry_statistics(
     trace_type: &TraceType,
     stat: &mut IndexMap<String, CompiledAirFnStat>,
 ) {
-    assert!(trace_type != &TraceType::Const && trace_type != &TraceType::Inline);
-
     // Opcodes, components and memory have a lookup yield column, bulitins do not.
-    let lookup_yield = trace_type != &TraceType::Builtin;
+    let lookup_yield = trace_type != &TraceType::Builtin
+        && trace_type != &TraceType::Const
+        && trace_type != &TraceType::Inline;
     let lookup_multiplicity = compiled_entry.multiplicity_col_index.is_some();
-    let num_trace_cols = compiled_entry.state_names.len();
+    let num_state_cols = compiled_entry.state_names.len();
     let lookup_uses = get_lookup_uses_count(compiled_entry.deductions.clone());
     let num_lookup_uses = lookup_uses.iter().map(|(_, count)| count).sum();
 
-    let mut trace_cells_upper_bound = num_trace_cols
+    let total_num_trace_cols = num_state_cols
+        + (TRACE_COLUMNS_PER_LOGUP * num_lookup_uses)
         + (lookup_multiplicity as usize)
         + (TRACE_COLUMNS_PER_LOGUP * (lookup_yield as usize));
+    let mut trace_cells_upper_bound = total_num_trace_cols;
     let mut lookup_uses_upper_bound = num_lookup_uses;
     for (used_entry, num_uses) in lookup_uses.iter() {
         if stat.contains_key(used_entry) {
@@ -246,14 +250,12 @@ fn get_compiled_entry_statistics(
     stat.insert(
         compiled_entry.name.clone(),
         CompiledAirFnStat {
-            num_trace_cols,
-            num_lookup_uses,
+            trace_type: format!("{:?}", trace_type),
+            num_state_cols,
+            lookup_uses,
             lookup_yield,
             lookup_multiplicity,
-            total_num_trace_cols: num_trace_cols
-                + (TRACE_COLUMNS_PER_LOGUP * num_lookup_uses)
-                + (lookup_multiplicity as usize)
-                + (TRACE_COLUMNS_PER_LOGUP * (lookup_yield as usize)),
+            total_num_trace_cols,
             trace_cells_upper_bound,
             lookup_uses_upper_bound,
         },

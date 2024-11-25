@@ -1,5 +1,6 @@
 use std::collections::BTreeSet;
 
+use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
@@ -119,10 +120,11 @@ pub enum UseOrYield {
     Yield,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CompiledAirFnStat {
-    pub num_trace_cols: usize,
-    pub num_lookup_uses: usize,
+    pub trace_type: String,
+    pub num_state_cols: usize,
+    pub lookup_uses: IndexMap<String, usize>,
     pub lookup_yield: bool,
     pub lookup_multiplicity: bool,
     pub total_num_trace_cols: usize,

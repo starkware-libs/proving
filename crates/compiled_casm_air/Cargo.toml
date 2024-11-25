@@ -6,3 +6,4 @@ edition.workspace = true
 [dependencies]
 serde = { workspace = true, features = ["derive", "rc"] }
 serde_json.workspace = true
+indexmap = { workspace = true, features = ["serde"] }
