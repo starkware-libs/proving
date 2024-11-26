@@ -109,6 +109,7 @@ impl ClaimGenerator {
 
 pub struct SubComponentInputs {
     pub memoryaddresstoid_inputs: [Vec<memoryaddresstoid::InputType>; 1],
+    pub memoryidtobig_inputs: [Vec<memoryidtobig::InputType>; 1],
     pub rangecheck_n_2_bits_4_3_inputs: [Vec<rangecheck_n_2_bits_4_3::InputType>; 1],
     pub rangecheck_n_3_bits_7_2_5_inputs: [Vec<rangecheck_n_3_bits_7_2_5::InputType>; 1],
 }
@@ -117,6 +118,7 @@ impl SubComponentInputs {
     fn with_capacity(capacity: usize) -> Self {
         Self {
             memoryaddresstoid_inputs: [Vec::with_capacity(capacity)],
+            memoryidtobig_inputs: [Vec::with_capacity(capacity)],
             rangecheck_n_2_bits_4_3_inputs: [Vec::with_capacity(capacity)],
             rangecheck_n_3_bits_7_2_5_inputs: [Vec::with_capacity(capacity)],
         }
@@ -124,6 +126,9 @@ impl SubComponentInputs {
 
     fn bit_reverse_coset_to_circle_domain_order(&mut self) {
         self.memoryaddresstoid_inputs
+            .iter_mut()
+            .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
+        self.memoryidtobig_inputs
             .iter_mut()
             .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
         self.rangecheck_n_2_bits_4_3_inputs
@@ -270,6 +275,7 @@ pub fn write_trace_simd(
             let offset2_high_tmp_173 = ((PackedUInt16::from_m31(input_col3)) >> (UInt16_13));
             let offset2_high_col26 = offset2_high_tmp_173.as_m31();
             trace[26].data[row_index] = offset2_high_col26;
+
             sub_components_inputs.rangecheck_n_3_bits_7_2_5_inputs[0]
                 .extend([offset0_mid_col20, offset1_low_col21, offset1_high_col23].unpack());
 
@@ -278,6 +284,7 @@ pub fn write_trace_simd(
                 offset1_low_col21,
                 offset1_high_col23,
             ]);
+
             sub_components_inputs.rangecheck_n_2_bits_4_3_inputs[0]
                 .extend([offset2_low_col24, offset2_high_col26].unpack());
 
@@ -287,12 +294,13 @@ pub fn write_trace_simd(
 
             // MemVerify.
 
-            sub_components_inputs.memoryaddresstoid_inputs[0].extend(input_col0.unpack());
             let memoryaddresstoid_value_tmp_176 = memoryaddresstoid_state.deduce_output(input_col0);
             let instruction_id_col27 = memoryaddresstoid_value_tmp_176;
             trace[27].data[row_index] = instruction_id_col27;
+            sub_components_inputs.memoryaddresstoid_inputs[0].extend(input_col0.unpack());
 
             lookup_data.memoryaddresstoid[0].push([input_col0, instruction_id_col27]);
+            sub_components_inputs.memoryidtobig_inputs[0].extend(instruction_id_col27.unpack());
 
             lookup_data.memoryidtobig[0].push([
                 instruction_id_col27,

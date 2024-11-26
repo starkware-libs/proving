@@ -107,16 +107,16 @@ impl ClaimGenerator {
 }
 
 pub struct SubComponentInputs {
-    pub memoryaddresstoid_inputs: [Vec<memoryaddresstoid::InputType>; 2],
-    pub memoryidtobig_inputs: [Vec<memoryidtobig::InputType>; 2],
+    pub memoryaddresstoid_inputs: [Vec<memoryaddresstoid::InputType>; 1],
+    pub memoryidtobig_inputs: [Vec<memoryidtobig::InputType>; 1],
     pub verifyinstruction_inputs: [Vec<verifyinstruction::InputType>; 1],
 }
 impl SubComponentInputs {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            memoryaddresstoid_inputs: [Vec::with_capacity(capacity), Vec::with_capacity(capacity)],
-            memoryidtobig_inputs: [Vec::with_capacity(capacity), Vec::with_capacity(capacity)],
+            memoryaddresstoid_inputs: [Vec::with_capacity(capacity)],
+            memoryidtobig_inputs: [Vec::with_capacity(capacity)],
             verifyinstruction_inputs: [Vec::with_capacity(capacity)],
         }
     }
@@ -179,13 +179,11 @@ pub fn write_trace_simd(
 
             // DecodeInstruction_a14b71db698d77c8.
 
-            sub_components_inputs.memoryaddresstoid_inputs[0].extend(input_pc_col0.unpack());
             let memoryaddresstoid_value_tmp_937 =
                 memoryaddresstoid_state.deduce_output(input_pc_col0);
-            sub_components_inputs.memoryidtobig_inputs[0]
-                .extend(memoryaddresstoid_value_tmp_937.unpack());
             let memoryidtobig_value_tmp_938 =
                 memoryidtobig_state.deduce_output(memoryaddresstoid_value_tmp_937);
+
             sub_components_inputs.verifyinstruction_inputs[0].extend(
                 (
                     input_pc_col0,
@@ -222,16 +220,14 @@ pub fn write_trace_simd(
 
             // ReadSmall.
 
-            sub_components_inputs.memoryaddresstoid_inputs[1]
-                .extend(((input_pc_col0) + (M31_1)).unpack());
             let memoryaddresstoid_value_tmp_940 =
                 memoryaddresstoid_state.deduce_output(((input_pc_col0) + (M31_1)));
-            sub_components_inputs.memoryidtobig_inputs[1]
-                .extend(memoryaddresstoid_value_tmp_940.unpack());
             let memoryidtobig_value_tmp_941 =
                 memoryidtobig_state.deduce_output(memoryaddresstoid_value_tmp_940);
             let op1_id_col3 = memoryaddresstoid_value_tmp_940;
             trace[3].data[row_index] = op1_id_col3;
+            sub_components_inputs.memoryaddresstoid_inputs[0]
+                .extend(((input_pc_col0) + (M31_1)).unpack());
 
             lookup_data.memoryaddresstoid[0].push([((input_pc_col0) + (M31_1)), op1_id_col3]);
 
@@ -250,6 +246,7 @@ pub fn write_trace_simd(
             trace[7].data[row_index] = op1_limb_1_col7;
             let op1_limb_2_col8 = memoryidtobig_value_tmp_941.get_m31(2);
             trace[8].data[row_index] = op1_limb_2_col8;
+            sub_components_inputs.memoryidtobig_inputs[0].extend(op1_id_col3.unpack());
 
             lookup_data.memoryidtobig[0].push([
                 op1_id_col3,

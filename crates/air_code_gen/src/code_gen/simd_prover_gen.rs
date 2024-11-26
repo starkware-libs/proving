@@ -51,14 +51,16 @@ fn generate_simd_write_trace_body_code(
 ) -> rust::Tokens {
     let mut write_trace_body = rust::Tokens::new();
     let mut offset = 0;
-    let mut function_call_multiplicitiy = HashMap::new();
-    for fn_call in unique_deduction_function_calls(&lists.deductions) {
-        function_call_multiplicitiy.insert(fn_call, 0);
+    let mut add_inputs_offsets = HashMap::new();
+    for deduction in &lists.deductions {
+        if let TraceGenStep::LookupAddInput { fn_name, .. } = deduction {
+            add_inputs_offsets.insert(fn_name, 0);
+        }
     }
 
-    let mut relation_multiplicity = HashMap::new();
+    let mut relation_data_offsets = HashMap::new();
     for relation in unique_relation_calls(&lists.deductions) {
-        relation_multiplicity.insert(relation, 0);
+        relation_data_offsets.insert(relation, 0);
     }
 
     for deduction in &lists.deductions {
@@ -81,17 +83,8 @@ fn generate_simd_write_trace_body_code(
                 input,
                 output_name,
             } => {
-                let multiplicity = function_call_multiplicitiy.get_mut(fn_name).unwrap();
                 let input = simd_parse_air_var(input, const_names);
                 let fn_name = fn_name.to_lowercase();
-
-                // add inputs.
-                write_trace_body.extend(quote! {
-                    sub_components_inputs
-                        .$(&fn_name)_inputs[$(multiplicity.to_string())]
-                        .extend($(&input).unpack());
-                });
-
                 if let Some(output_name) = output_name {
                     let delimiter = if is_stateful(&fn_name) {
                         "_state."
@@ -104,7 +97,6 @@ fn generate_simd_write_trace_body_code(
                             );
                     });
                 }
-                *multiplicity += 1;
             }
             TraceGenStep::StartBlock(msg) => {
                 write_trace_body.extend(block_doc(msg));
@@ -119,7 +111,7 @@ fn generate_simd_write_trace_body_code(
                 felts,
                 ..
             }) => {
-                let multiplicity = relation_multiplicity.get_mut(relation_name).unwrap();
+                let offset = relation_data_offsets.get_mut(relation_name).unwrap();
                 let felts = felts
                     .iter()
                     .map(|felt| simd_parse_air_var(felt, const_names))
@@ -127,13 +119,20 @@ fn generate_simd_write_trace_body_code(
                 let felts = &felts;
                 let collect_felts = quote! {
                     // TODO(Ohad): change this to not vec.
-                    lookup_data.$(relation_name.to_lowercase())[$(*multiplicity)].push([$(felts)]);
+                    lookup_data.$(relation_name.to_lowercase())[$(*offset)].push([$(felts)]);
                 };
                 write_trace_body.extend(collect_felts);
-                *multiplicity += 1;
+                *offset += 1;
             }
-            // TODO
-            TraceGenStep::LookupAddInput { .. } => {}
+            TraceGenStep::LookupAddInput { fn_name, input } => {
+                let offset = add_inputs_offsets.get_mut(fn_name).unwrap();
+                write_trace_body.extend(quote! {
+                    sub_components_inputs
+                        .$(fn_name.to_lowercase())_inputs[$(offset.to_string())]
+                        .extend($(simd_parse_air_var(input, const_names)).unpack());
+                });
+                *offset += 1;
+            }
         }
         write_trace_body.extend(quote!(
             $("\n")
@@ -412,23 +411,20 @@ pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rus
     let mut initialization_code = quote! {};
     let mut bit_reverse_code = quote! {};
 
-    let mut function_call_multiplicity = HashMap::new();
+    let mut add_inputs_offsets = HashMap::new();
     for deduction in deductions {
-        if let TraceGenStep::LookupCall { fn_name, .. } = deduction {
-            let multiplicity = function_call_multiplicity.entry(fn_name).or_insert(0);
-            *multiplicity += 1;
+        if let TraceGenStep::LookupAddInput { fn_name, .. } = deduction {
+            let offset = add_inputs_offsets.entry(fn_name).or_insert(0);
+            *offset += 1;
         }
     }
 
-    for (&fn_name, &multiplicity) in function_call_multiplicity
-        .iter()
-        .sorted_by(|a, b| a.0.cmp(b.0))
-    {
+    for (&fn_name, &offset) in add_inputs_offsets.iter().sorted_by(|a, b| a.0.cmp(b.0)) {
         let fn_name = fn_name.to_lowercase();
         members_code.extend(quote! {
-            pub $(&fn_name)_inputs: [Vec<$(&fn_name)::InputType>; $(multiplicity)],
+            pub $(&fn_name)_inputs: [Vec<$(&fn_name)::InputType>; $(offset)],
         });
-        let inner_vecs = (0..multiplicity)
+        let inner_vecs = (0..offset)
             .map(|_| quote! {Vec::with_capacity(capacity),})
             .collect_vec();
         initialization_code.extend(quote!($(&fn_name)_inputs: [$(inner_vecs)],));
@@ -459,7 +455,7 @@ pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens 
     let mut members_code = quote! {};
     let mut initialization_code = quote! {};
 
-    let mut relation_multiplicity = HashMap::new();
+    let mut relation_offsets = HashMap::new();
     for deduction in deductions {
         if let TraceGenStep::LookupTerm(LookupTerm {
             relation_name,
@@ -467,22 +463,21 @@ pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens 
             ..
         }) = deduction
         {
-            let multiplicity = relation_multiplicity
+            let offset = relation_offsets
                 .entry((relation_name, felts.len()))
                 .or_insert(0);
-            *multiplicity += 1;
+            *offset += 1;
         }
     }
 
-    for (&(relation_name, width), &multiplicity) in relation_multiplicity
-        .iter()
-        .sorted_by(|a, b| a.0 .0.cmp(b.0 .0))
+    for (&(relation_name, width), &offset) in
+        relation_offsets.iter().sorted_by(|a, b| a.0 .0.cmp(b.0 .0))
     {
         let relation_name = relation_name.to_lowercase();
         members_code.extend(quote! {
-            pub $(&relation_name): [Vec<[PackedM31; $width]>; $(multiplicity)],
+            pub $(&relation_name): [Vec<[PackedM31; $width]>; $(offset)],
         });
-        let inner_vecs = (0..multiplicity)
+        let inner_vecs = (0..offset)
             .map(|_| quote! {Vec::with_capacity(capacity),})
             .collect_vec();
         initialization_code.extend(quote!($(&relation_name): [$(inner_vecs)],));
@@ -542,9 +537,9 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
 }
 
 fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::Tokens {
-    let mut relation_multiplicity = HashMap::new();
+    let mut relation_data_offsets = HashMap::new();
     for relation in unique_relation_calls(deductions) {
-        relation_multiplicity.insert(relation, 0);
+        relation_data_offsets.insert(relation, 0);
     }
     let mut code = rust::Tokens::new();
 
@@ -559,7 +554,7 @@ fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::T
             None
         }
     }) {
-        let call_multiplicity = relation_multiplicity.get_mut(relation_name).unwrap();
+        let term_offset = relation_data_offsets.get_mut(relation_name).unwrap();
         let sign = match use_or_yield {
             UseOrYield::Use => "",
             UseOrYield::Yield => "-",
@@ -567,7 +562,7 @@ fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::T
         code.extend(quote! {
                 let mut col_gen = logup_gen.new_col();
                 let lookup_row = &self.lookup_data
-                                .$(relation_name.to_lowercase())[$(*call_multiplicity)];
+                                .$(relation_name.to_lowercase())[$(*term_offset)];
                 for (i, lookup_values) in lookup_row.iter().enumerate() {
                     let denom =
                         $(&relation_name.to_lowercase())_lookup_elements.combine(lookup_values);
@@ -576,7 +571,7 @@ fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::T
                 col_gen.finalize_col();
                 $['\n']
         });
-        *call_multiplicity += 1;
+        *term_offset += 1;
     }
     code
 }
