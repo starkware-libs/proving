@@ -501,7 +501,7 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
     for relation_name in unique_relation_calls(deductions).iter() {
         lookup_elements.extend(quote! {
             $(relation_name.to_lowercase())_lookup_elements:
-                    &$(relation_name.to_lowercase())::RelationElements,
+                    &relations::$(relation_name),
         });
     }
     quote! {
@@ -581,13 +581,7 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
     let mut seen_functions = HashSet::new();
     for deduction in deductions {
         match deduction {
-            TraceGenStep::LookupTerm(LookupTerm { relation_name, .. }) => {
-                if seen_functions.insert(relation_name) {
-                    code.extend(quote! {
-                        use crate::components::$(relation_name.to_lowercase());
-                    });
-                }
-            }
+            TraceGenStep::LookupTerm(..) => {}
             TraceGenStep::LookupCall { fn_name, .. } => {
                 if seen_functions.insert(fn_name) {
                     code.extend(quote! {
@@ -600,7 +594,13 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
             TraceGenStep::Deduction(..) => {}
             TraceGenStep::Intermediate(..) => {}
             // TODO
-            TraceGenStep::LookupAddInput { .. } => {}
+            TraceGenStep::LookupAddInput { fn_name, .. } => {
+                if seen_functions.insert(fn_name) {
+                    code.extend(quote! {
+                        use crate::components::$(fn_name.to_lowercase());
+                    });
+                }
+            }
         }
     }
     code
@@ -629,8 +629,9 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
         use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
-        use super::component::{Claim, RelationElements, InteractionClaim};
+        use super::component::{Claim, InteractionClaim};
         use crate::components::pack_values;
+        use crate::relations;
         $(generate_sub_component_imports(deductions))
     }
 }

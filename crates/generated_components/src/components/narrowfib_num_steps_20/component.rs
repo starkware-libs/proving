@@ -13,13 +13,11 @@ use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
 
-use crate::components::narrowfib_num_steps_20;
-
-stwo_prover::relation!(RelationElements, 4);
+use crate::relations;
 
 pub struct Eval {
     pub claim: Claim,
-    pub narrowfib_num_steps_20_lookup_elements: narrowfib_num_steps_20::RelationElements,
+    pub narrowfib_num_steps_20_lookup_elements: relations::NarrowFib_num_steps_20,
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize)]

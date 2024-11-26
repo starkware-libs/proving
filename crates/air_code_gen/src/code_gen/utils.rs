@@ -55,7 +55,7 @@ pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
             pub mod component;
             pub mod prover;
 
-            pub use component::{RelationElements, Claim, InteractionClaim, Component, Eval};
+            pub use component::{Claim, InteractionClaim, Component, Eval};
             pub use prover::{ClaimGenerator, InputType, InteractionClaimGenerator};
         };
         let text = reformat_rust_code(mod_rs_code.to_string().unwrap());
@@ -128,11 +128,11 @@ pub fn fn_calls_from_deductions(deductions: &[TraceGenStep]) -> Vec<String> {
 }
 
 pub fn unique_constraint_relations(constraints: &[ConstraintEvalStep]) -> Vec<String> {
-    let function_calls = relation_calls_from_constraints(constraints);
-    let mut seen_functions = HashSet::new();
-    function_calls
+    let relations = relation_calls_from_constraints(constraints);
+    let mut seen_relation = HashSet::new();
+    relations
         .into_iter()
-        .filter(|fn_name| seen_functions.insert(fn_name.to_string()))
+        .filter(|relation| seen_relation.insert(relation.to_string()))
         .sorted()
         .collect()
 }

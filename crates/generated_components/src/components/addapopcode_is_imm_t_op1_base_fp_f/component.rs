@@ -13,16 +13,14 @@ use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
 
-use crate::components::{memoryaddresstoid, memoryidtobig, opcodes, verifyinstruction};
-
-stwo_prover::relation!(RelationElements, 4);
+use crate::relations;
 
 pub struct Eval {
     pub claim: Claim,
-    pub memoryaddresstoid_lookup_elements: memoryaddresstoid::RelationElements,
-    pub memoryidtobig_lookup_elements: memoryidtobig::RelationElements,
-    pub verifyinstruction_lookup_elements: verifyinstruction::RelationElements,
-    pub opcodes_lookup_elements: opcodes::RelationElements,
+    pub memoryaddresstoid_lookup_elements: relations::MemoryAddressToId,
+    pub memoryidtobig_lookup_elements: relations::MemoryIdToBig,
+    pub verifyinstruction_lookup_elements: relations::VerifyInstruction,
+    pub opcodes_lookup_elements: relations::opcodes,
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize)]

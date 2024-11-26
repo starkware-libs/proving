@@ -13,13 +13,11 @@ use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
 
-use crate::components::rangecheck_n_1_bits_6;
-
-stwo_prover::relation!(RelationElements, 1);
+use crate::relations;
 
 pub struct Eval {
     pub claim: Claim,
-    pub rangecheck_n_1_bits_6_lookup_elements: rangecheck_n_1_bits_6::RelationElements,
+    pub rangecheck_n_1_bits_6_lookup_elements: relations::RangeCheck_N_1_bits_6,
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize)]

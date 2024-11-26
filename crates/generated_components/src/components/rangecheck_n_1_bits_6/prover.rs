@@ -20,8 +20,9 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
-use super::component::{Claim, InteractionClaim, RelationElements};
-use crate::components::{pack_values, rangecheck_n_1_bits_6};
+use super::component::{Claim, InteractionClaim};
+use crate::components::pack_values;
+use crate::relations;
 
 pub type InputType = [M31; 1];
 pub type PackedInputType = [PackedM31; 1];
@@ -116,7 +117,7 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        rangecheck_n_1_bits_6_lookup_elements: &rangecheck_n_1_bits_6::RelationElements,
+        rangecheck_n_1_bits_6_lookup_elements: &relations::RangeCheck_N_1_bits_6,
     ) -> InteractionClaim {
         let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
         let mut logup_gen = LogupTraceGenerator::new(log_size);

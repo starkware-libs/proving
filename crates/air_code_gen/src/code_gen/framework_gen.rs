@@ -8,14 +8,12 @@ use genco::quote;
 use itertools::{chain, Itertools};
 
 use super::utils::block_doc;
-use crate::code_gen::simd_prover_gen::{generate_sub_component_imports, remove_trailing_zeroes};
-use crate::code_gen::utils::{callee_lookup_length, unique_constraint_relations};
+use crate::code_gen::simd_prover_gen::remove_trailing_zeroes;
+use crate::code_gen::utils::unique_constraint_relations;
 
 pub fn generate_component_code(lists: CompiledAirFn) -> rust::Tokens {
     quote! {
         $(imports(&lists.deductions))
-        $['\n']
-        $(generate_interaction_elements_struct(&lists))
         $['\n']
         $(generate_component_structs(&lists.constraints))
         $['\n']
@@ -38,10 +36,9 @@ fn generate_component_structs(constraints: &[ConstraintEvalStep]) -> rust::Token
     });
 
     // Sub-components Lookup elements.
-    for fn_name in unique_constraint_relations(constraints) {
-        let fn_name = fn_name.to_lowercase();
+    for relation in unique_constraint_relations(constraints) {
         members.append(quote! {
-            pub $(&fn_name)_lookup_elements: $(fn_name)::RelationElements,
+            pub $(&relation.to_lowercase())_lookup_elements: relations::$(relation),
         });
     }
 
@@ -116,13 +113,6 @@ fn generate_interaction_claim_struct() -> rust::Tokens {
     });
 
     chain!(struct_code, impl_code).collect()
-}
-
-fn generate_interaction_elements_struct(lists: &CompiledAirFn) -> rust::Tokens {
-    let relation_n_elements = callee_lookup_length(lists);
-    quote! {
-        stwo_prover::relation!(RelationElements, $(relation_n_elements));
-    }
 }
 
 fn generate_component_type_def() -> rust::Tokens {
@@ -360,7 +350,7 @@ fn parse_eval_constraint(
     }
 }
 
-fn imports(deductions: &[TraceGenStep]) -> rust::Tokens {
+fn imports(_deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(non_camel_case_types)]
         #![allow(unused_imports)]
@@ -374,8 +364,7 @@ fn imports(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_prover::core::fields::qm31::SecureField;
         use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
         use stwo_prover::core::pcs::TreeVec;
-
-        $(generate_sub_component_imports(deductions))
+        use crate::relations;
     }
 }
 
