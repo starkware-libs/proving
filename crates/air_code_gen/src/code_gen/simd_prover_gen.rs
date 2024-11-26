@@ -12,6 +12,7 @@ use super::utils::{block_doc, unique_deduction_function_calls, unique_relation_c
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
+    let configs = generate_configs(lists);
     let imports_code = generate_imports_code(&lists.deductions);
     let typedefs = generate_input_output_typedefs(lists);
     let n_trace_cols = generate_n_trace_columns(lists);
@@ -23,7 +24,7 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     let claim_prover_impl = generate_claim_prover_impl(&lists.deductions);
     let write_trace_code = generate_simd_write_trace_code(lists);
     quote! {
-        #![allow(unused_parens)]
+        $(configs)
         $(imports_code)
         $['\n']
         $(typedefs)
@@ -604,6 +605,17 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
         }
     }
     code
+}
+
+fn generate_configs(lists: &CompiledAirFn) -> rust::Tokens {
+    let mut configs = quote! {};
+    if lists.name.to_lowercase().contains("genericopcode") {
+        configs.extend(quote! {
+            #![cfg_attr(rustfmt, rustfmt_skip)]
+        });
+    };
+    configs.append(quote!(#![allow(unused_parens)]));
+    configs
 }
 
 fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
