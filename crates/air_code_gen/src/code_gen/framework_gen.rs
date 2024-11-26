@@ -7,7 +7,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::{chain, Itertools};
 
-use super::utils::{block_doc, n_logup_columns};
+use super::utils::block_doc;
 use crate::code_gen::simd_prover_gen::{generate_sub_component_imports, remove_trailing_zeroes};
 use crate::code_gen::utils::{callee_lookup_length, unique_constraint_relations};
 
@@ -66,13 +66,17 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
 
     // impl
     let mut impl_code = rust::Tokens::new();
-    let n_logup_columns = n_logup_columns(lists);
+    let n_logup_columns = match lists.n_lookup_terms {
+        0 => unimplemented!(),
+        1 => quote!(SECURE_EXTENSION_DEGREE),
+        _ => quote!(SECURE_EXTENSION_DEGREE * $(lists.n_lookup_terms)),
+    };
     impl_code.append(quote! {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
                 let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
                 let trace_log_sizes = vec![log_size; $(lists.state_names.len())];
-                let interaction_log_sizes = vec![log_size; SECURE_EXTENSION_DEGREE * $(n_logup_columns)];
+                let interaction_log_sizes = vec![log_size; $(n_logup_columns)];
                 let preprocessed_log_sizes = vec![log_size];
                 TreeVec::new(vec![
                     preprocessed_log_sizes,

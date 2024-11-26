@@ -184,11 +184,6 @@ pub fn callee_lookup_length(lists: &CompiledAirFn) -> usize {
     n_felts(lists.input.clone()) + n_felts(lists.output.clone())
 }
 
-pub fn n_logup_columns(lists: &CompiledAirFn) -> usize {
-    let n_function_calls = unique_constraint_relations(&lists.constraints).len();
-    n_function_calls + callee_lookup_length(lists)
-}
-
 pub fn block_doc(msg: &str) -> rust::Tokens {
     quote! {
         $['\n']$("//")$msg.$['\n']
