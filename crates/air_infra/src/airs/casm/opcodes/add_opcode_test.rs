@@ -11,7 +11,6 @@ use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::*;
 use crate::core::variables::*;
 
-// TODO: Support testing with negative dst/op0/op1, and add such test(s)
 fn test_add_opcode(
     non_consts_flags: [bool; 7],
     offset_values: [i16; 3],
@@ -93,7 +92,6 @@ fn test_add_opcode(
     add_small_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
     // Run air function
-
     let (registry, _) = AirFnRegistry::new(&add_small_opcode);
     let (state, next_state) = registry.run_air(
         &add_small_opcode,
@@ -191,13 +189,13 @@ fn test_add_small_over_27bit() {
 }
 
 #[test]
-fn test_add_small_imm() {
+fn test_add_small_neg_imm() {
     test_add_opcode(
         [true, true, false, true, false, true, false],
         [-3, -5, 1],
-        const_felt252_expr!(90125677),
-        const_felt252_expr!(77779999),
-        const_felt252_expr!(12345678),
+        const_felt252_expr!(-2687280i128),
+        const_felt252_expr!(-2662632i128),
+        const_felt252_expr!(-24648i128),
         vec![
             (10, "input_pc"),
             (50, "input_ap"),
@@ -208,23 +206,23 @@ fn test_add_small_imm() {
             (0, "op0_base_fp"),
             (0, "ap_update_add_1"),
             (1, "dst_id"),
-            (0, "msb"),
-            (0, "mid_limbs_set"),
-            (365, "dst_limb_0"),
-            (410, "dst_limb_1"),
-            (343, "dst_limb_2"),
+            (1, "msb"),
+            (1, "mid_limbs_set"),
+            (209, "dst_limb_0"),
+            (383, "dst_limb_1"),
+            (501, "dst_limb_2"),
             (2, "op0_id"),
-            (0, "msb"),
-            (0, "mid_limbs_set"),
-            (31, "op0_limb_0"),
-            (362, "op0_limb_1"),
-            (296, "op0_limb_2"),
+            (1, "msb"),
+            (1, "mid_limbs_set"),
+            (281, "op0_limb_0"),
+            (431, "op0_limb_1"),
+            (501, "op0_limb_2"),
             (3, "op1_id"),
-            (0, "msb"),
-            (0, "mid_limbs_set"),
-            (334, "op1_limb_0"),
-            (48, "op1_limb_1"),
-            (47, "op1_limb_2"),
+            (1, "msb"),
+            (1, "mid_limbs_set"),
+            (441, "op1_limb_0"),
+            (463, "op1_limb_1"),
+            (511, "op1_limb_2"),
         ]
         .into(),
     );
