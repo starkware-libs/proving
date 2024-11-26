@@ -4,8 +4,8 @@ version.workspace = true
 edition.workspace = true
 
 [dependencies]
-stwo-prover = { git = "https://github.com/starkware-libs/stwo", rev = "9cfd48a" }
-prover_types = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "194e411" }
+stwo-prover = { git = "https://github.com/starkware-libs/stwo", rev = "264922e" }
+prover_types = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "e741515" }
 itertools.workspace = true
 num-traits.workspace = true
 serde.workspace = true

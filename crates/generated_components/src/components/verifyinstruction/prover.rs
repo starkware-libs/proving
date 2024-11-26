@@ -5,8 +5,10 @@ use num_traits::{One, Zero};
 use prover_types::cpu::*;
 use prover_types::simd::*;
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
+use stwo_prover::constraint_framework::Relation;
 use stwo_prover::core::air::Component;
 use stwo_prover::core::backend::simd::column::BaseColumn;
+use stwo_prover::core::backend::simd::conversion::Unpack;
 use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
 use stwo_prover::core::backend::simd::qm31::PackedQM31;
 use stwo_prover::core::backend::simd::SimdBackend;
@@ -15,15 +17,17 @@ use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::pcs::TreeBuilder;
 use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
+use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
 use super::component::{Claim, InteractionClaim, RelationElements};
 use crate::components::{
-    memoryaddresstoid, memoryidtobig, rangecheck_n_2_bits_4_3, rangecheck_n_3_bits_7_2_5,
-    verifyinstruction,
+    memoryaddresstoid, memoryidtobig, pack_values, rangecheck_n_2_bits_4_3,
+    rangecheck_n_3_bits_7_2_5, verifyinstruction,
 };
 
-pub type InputType = (PackedM31, [PackedM31; 3], [PackedM31; 15]);
+pub type InputType = (M31, [M31; 3], [M31; 15]);
+pub type PackedInputType = (PackedM31, [PackedM31; 3], [PackedM31; 15]);
 const N_TRACE_COLUMNS: usize = 28;
 
 #[derive(Default)]
@@ -32,7 +36,7 @@ pub struct ClaimGenerator {
 }
 impl ClaimGenerator {
     pub fn write_trace(
-        self,
+        mut self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
         memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
         rangecheck_n_2_bits_4_3_state: &mut rangecheck_n_2_bits_4_3::ClaimGenerator,
@@ -40,11 +44,21 @@ impl ClaimGenerator {
     ) -> (Claim, InteractionClaimGenerator) {
         let n_calls = self.inputs.len();
         assert_ne!(n_calls, 0);
+        let size = std::cmp::max(n_calls.next_power_of_two(), N_LANES);
+        let need_padding = n_calls != size;
 
-        #[allow(unused_variables)]
-        let (trace, sub_components_inputs, lookup_data) =
-            write_trace_simd(self.inputs, memoryaddresstoid_state);
+        if need_padding {
+            self.inputs.resize(size, *self.inputs.first().unwrap());
+            bit_reverse_coset_to_circle_domain_order(&mut self.inputs);
+        }
 
+        let packed_inputs = pack_values(&self.inputs);
+        let (trace, mut sub_components_inputs, lookup_data) =
+            write_trace_simd(packed_inputs, memoryaddresstoid_state);
+
+        if need_padding {
+            sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
+        }
         sub_components_inputs
             .memoryaddresstoid_inputs
             .iter()
@@ -107,6 +121,18 @@ impl SubComponentInputs {
             rangecheck_n_3_bits_7_2_5_inputs: [Vec::with_capacity(capacity)],
         }
     }
+
+    fn bit_reverse_coset_to_circle_domain_order(&mut self) {
+        self.memoryaddresstoid_inputs
+            .iter_mut()
+            .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
+        self.rangecheck_n_2_bits_4_3_inputs
+            .iter_mut()
+            .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
+        self.rangecheck_n_3_bits_7_2_5_inputs
+            .iter_mut()
+            .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
+    }
 }
 
 #[allow(clippy::useless_conversion)]
@@ -114,7 +140,7 @@ impl SubComponentInputs {
 #[allow(clippy::double_parens)]
 #[allow(non_snake_case)]
 pub fn write_trace_simd(
-    inputs: Vec<InputType>,
+    inputs: Vec<PackedInputType>,
     memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
 ) -> (
     [BaseColumn; N_TRACE_COLUMNS],
@@ -244,11 +270,8 @@ pub fn write_trace_simd(
             let offset2_high_tmp_173 = ((PackedUInt16::from_m31(input_col3)) >> (UInt16_13));
             let offset2_high_col26 = offset2_high_tmp_173.as_m31();
             trace[26].data[row_index] = offset2_high_col26;
-            sub_components_inputs.rangecheck_n_3_bits_7_2_5_inputs[0].push([
-                offset0_mid_col20,
-                offset1_low_col21,
-                offset1_high_col23,
-            ]);
+            sub_components_inputs.rangecheck_n_3_bits_7_2_5_inputs[0]
+                .extend([offset0_mid_col20, offset1_low_col21, offset1_high_col23].unpack());
 
             lookup_data.rangecheck_n_3_bits_7_2_5[0].push([
                 offset0_mid_col20,
@@ -256,7 +279,7 @@ pub fn write_trace_simd(
                 offset1_high_col23,
             ]);
             sub_components_inputs.rangecheck_n_2_bits_4_3_inputs[0]
-                .push([offset2_low_col24, offset2_high_col26]);
+                .extend([offset2_low_col24, offset2_high_col26].unpack());
 
             lookup_data.rangecheck_n_2_bits_4_3[0].push([offset2_low_col24, offset2_high_col26]);
 
@@ -264,7 +287,7 @@ pub fn write_trace_simd(
 
             // MemVerify.
 
-            sub_components_inputs.memoryaddresstoid_inputs[0].push(input_col0);
+            sub_components_inputs.memoryaddresstoid_inputs[0].extend(input_col0.unpack());
             let memoryaddresstoid_value_tmp_176 = memoryaddresstoid_state.deduce_output(input_col0);
             let instruction_id_col27 = memoryaddresstoid_value_tmp_176;
             trace[27].data[row_index] = instruction_id_col27;
@@ -418,7 +441,7 @@ impl InteractionClaimGenerator {
         }
         col_gen.finalize_col();
 
-        let (trace, _total_sum, claimed_sum) = if self.n_calls == 1 << log_size {
+        let (trace, total_sum, claimed_sum) = if self.n_calls == 1 << log_size {
             let (trace, claimed_sum) = logup_gen.finalize_last();
             (trace, claimed_sum, None)
         } else {
@@ -429,7 +452,7 @@ impl InteractionClaimGenerator {
         tree_builder.extend_evals(trace);
 
         InteractionClaim {
-            claimed_sum: claimed_sum.unwrap().0,
+            logup_sums: (total_sum, claimed_sum),
         }
     }
 }

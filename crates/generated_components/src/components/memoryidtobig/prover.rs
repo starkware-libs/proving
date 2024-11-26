@@ -3,13 +3,15 @@
 use prover_types::simd::PackedFelt252;
 use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::backend::simd::SimdBackend;
+use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::pcs::TreeBuilder;
 use stwo_prover::core::vcs::blake2_merkle::Blake2sMerkleChannel;
 
 use super::component::N_M31_IN_FELT252;
 use super::{Claim, InteractionClaim, RelationElements};
 
-pub type InputType = PackedM31;
+pub type InputType = M31;
+pub type PackedInputType = PackedM31;
 pub type LookupFelts = [PackedM31; N_M31_IN_FELT252 + 1];
 pub struct ClaimGenerator {}
 impl ClaimGenerator {

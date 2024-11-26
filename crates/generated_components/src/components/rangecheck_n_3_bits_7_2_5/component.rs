@@ -9,10 +9,11 @@ use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
+use stwo_prover::relation;
 
 use crate::components::rangecheck_n_3_bits_7_2_5;
 
-pub type RelationElements = LookupElements<3>;
+relation!(RelationElements, 3);
 
 pub struct RangeCheck_N_3_bits_7_2_5Eval {
     pub claim: Claim,

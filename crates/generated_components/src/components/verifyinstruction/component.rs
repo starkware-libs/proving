@@ -1,17 +1,16 @@
 #![allow(non_camel_case_types)]
 #![allow(unused_imports)]
-use std::ops::{Mul, Sub};
-
 use num_traits::{One, Zero};
 use serde::{Deserialize, Serialize};
-use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
-use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
-use stwo_prover::core::backend::simd::m31::PackedM31;
+use stwo_prover::constraint_framework::logup::{LogupAtRow, LogupSums, LookupElements};
+use stwo_prover::constraint_framework::{
+    EvalAtRow, FrameworkComponent, FrameworkEval, RelationEntry,
+};
+use stwo_prover::core::backend::simd::m31::LOG_N_LANES;
 use stwo_prover::core::channel::Channel;
 use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
-use stwo_prover::core::lookups::utils::Fraction;
 use stwo_prover::core::pcs::TreeVec;
 
 use crate::components::{
@@ -19,23 +18,10 @@ use crate::components::{
     verifyinstruction,
 };
 
-#[derive(Clone, Debug, PartialEq, Eq)]
-pub struct RelationElements(LookupElements<3>);
-impl RelationElements {
-    pub fn draw(channel: &mut impl Channel) -> Self {
-        Self(LookupElements::<3>::draw(channel))
-    }
-    pub fn combine<F: Clone, EF>(&self, values: &[F]) -> EF
-    where
-        EF: Clone + Zero + From<F> + From<SecureField> + Mul<F, Output = EF> + Sub<EF, Output = EF>,
-    {
-        self.0.combine(values)
-    }
-}
+stwo_prover::relation!(RelationElements, 3);
 
 pub struct Eval {
     pub claim: Claim,
-    pub interaction_claim: InteractionClaim,
     pub memoryaddresstoid_lookup_elements: memoryaddresstoid::RelationElements,
     pub memoryidtobig_lookup_elements: memoryidtobig::RelationElements,
     pub rangecheck_n_2_bits_4_3_lookup_elements: rangecheck_n_2_bits_4_3::RelationElements,
@@ -49,10 +35,15 @@ pub struct Claim {
 }
 impl Claim {
     pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-        let log_size = self.n_calls.next_power_of_two().ilog2();
-        let interaction_0_log_sizes = vec![log_size; 28];
-        let interaction_1_log_sizes = vec![log_size; SECURE_EXTENSION_DEGREE * 8];
-        TreeVec::new(vec![interaction_0_log_sizes, interaction_1_log_sizes])
+        let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
+        let trace_log_sizes = vec![log_size; 28];
+        let interaction_log_sizes = vec![log_size; SECURE_EXTENSION_DEGREE * 8];
+        let preprocessed_log_sizes = vec![log_size];
+        TreeVec::new(vec![
+            preprocessed_log_sizes,
+            trace_log_sizes,
+            interaction_log_sizes,
+        ])
     }
 
     pub fn mix_into(&self, channel: &mut impl Channel) {
@@ -62,11 +53,16 @@ impl Claim {
 
 #[derive(Copy, Clone, Serialize, Deserialize)]
 pub struct InteractionClaim {
-    pub claimed_sum: SecureField,
+    pub logup_sums: LogupSums,
 }
 impl InteractionClaim {
     pub fn mix_into(&self, channel: &mut impl Channel) {
-        channel.mix_felts(&[self.claimed_sum]);
+        let (total_sum, claimed_sum) = self.logup_sums;
+        channel.mix_felts(&[total_sum]);
+        if let Some(claimed_sum) = claimed_sum {
+            channel.mix_felts(&[claimed_sum.0]);
+            channel.mix_u64(claimed_sum.1 as u64);
+        }
     }
 }
 
@@ -74,7 +70,7 @@ pub type Component = FrameworkComponent<Eval>;
 
 impl FrameworkEval for Eval {
     fn log_size(&self) -> u32 {
-        self.claim.n_calls.next_power_of_two().ilog2()
+        std::cmp::max(self.claim.n_calls.next_power_of_two().ilog2(), LOG_N_LANES)
     }
 
     fn max_constraint_log_degree_bound(&self) -> u32 {
@@ -98,8 +94,6 @@ impl FrameworkEval for Eval {
         let M31_64 = E::F::from(M31::from(64));
         let M31_8 = E::F::from(M31::from(8));
         let M31_8192 = E::F::from(M31::from(8192));
-        let [is_first] = eval.next_interaction_mask(2, [0]);
-        let mut logup = LogupAtRow::<E>::new(1, self.interaction_claim.claimed_sum, None, is_first);
         let input_col0 = eval.next_trace_mask();
         let input_col1 = eval.next_trace_mask();
         let input_col2 = eval.next_trace_mask();
@@ -148,21 +142,21 @@ impl FrameworkEval for Eval {
                 + (offset2_high_col26.clone() * M31_8192.clone()))
                 - input_col3.clone()),
         );
-        let frac = Fraction::new(
+        eval.add_to_relation(&[RelationEntry::new(
+            &self.rangecheck_n_3_bits_7_2_5_lookup_elements,
             E::EF::one(),
-            self.rangecheck_n_3_bits_7_2_5_lookup_elements.combine(&[
+            &[
                 offset0_mid_col20.clone(),
                 offset1_low_col21.clone(),
                 offset1_high_col23.clone(),
-            ]),
-        );
-        logup.write_frac(&mut eval, frac);
-        let frac = Fraction::new(
+            ],
+        )]);
+
+        eval.add_to_relation(&[RelationEntry::new(
+            &self.rangecheck_n_2_bits_4_3_lookup_elements,
             E::EF::one(),
-            self.rangecheck_n_2_bits_4_3_lookup_elements
-                .combine(&[offset2_low_col24.clone(), offset2_high_col26.clone()]),
-        );
-        logup.write_frac(&mut eval, frac);
+            &[offset2_low_col24.clone(), offset2_high_col26.clone()],
+        )]);
 
         // EncodeFlags.
 
@@ -199,15 +193,16 @@ impl FrameworkEval for Eval {
 
         // MemVerify.
 
-        let frac = Fraction::new(
+        eval.add_to_relation(&[RelationEntry::new(
+            &self.memoryaddresstoid_lookup_elements,
             E::EF::one(),
-            self.memoryaddresstoid_lookup_elements
-                .combine(&[input_col0.clone(), instruction_id_col27.clone()]),
-        );
-        logup.write_frac(&mut eval, frac);
-        let frac = Fraction::new(
+            &[input_col0.clone(), instruction_id_col27.clone()],
+        )]);
+
+        eval.add_to_relation(&[RelationEntry::new(
+            &self.memoryidtobig_lookup_elements,
             E::EF::one(),
-            self.memoryidtobig_lookup_elements.combine(&[
+            &[
                 instruction_id_col27.clone(),
                 offset0_low_col19.clone(),
                 (offset0_mid_col20.clone() + (offset1_low_col21.clone() * M31_128.clone())),
@@ -230,13 +225,13 @@ impl FrameworkEval for Eval {
                     + (input_col16.clone() * M31_64.clone()))
                     + (input_col17.clone() * M31_128.clone()))
                     + (input_col18.clone() * M31_256.clone())),
-            ]),
-        );
-        logup.write_frac(&mut eval, frac);
+            ],
+        )]);
 
-        let frac = Fraction::new(
+        eval.add_to_relation(&[RelationEntry::new(
+            &self.verifyinstruction_lookup_elements,
             -E::EF::one(),
-            self.verifyinstruction_lookup_elements.combine(&[
+            &[
                 input_col0.clone(),
                 input_col1.clone(),
                 input_col2.clone(),
@@ -256,11 +251,10 @@ impl FrameworkEval for Eval {
                 input_col16.clone(),
                 input_col17.clone(),
                 input_col18.clone(),
-            ]),
-        );
-        logup.write_frac(&mut eval, frac);
-        logup.finalize(&mut eval);
+            ],
+        )]);
 
+        eval.finalize_logup();
         eval
     }
 }

@@ -2,12 +2,14 @@
 
 use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::backend::simd::SimdBackend;
+use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::pcs::TreeBuilder;
 use stwo_prover::core::vcs::blake2_merkle::Blake2sMerkleChannel;
 
 use super::{Claim, InteractionClaim, RelationElements};
 
-pub type InputType = PackedM31;
+pub type InputType = M31;
+pub type PackedInputType = PackedM31;
 pub type LookupFelts = [PackedM31; 2];
 pub struct ClaimGenerator {}
 impl ClaimGenerator {

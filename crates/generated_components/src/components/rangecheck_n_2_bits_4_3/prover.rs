@@ -20,7 +20,8 @@ use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleH
 use super::component::{Claim, InteractionClaim, RelationElements};
 use crate::components::rangecheck_n_2_bits_4_3;
 
-pub type InputType = [PackedM31; 2];
+pub type InputType = [M31; 2];
+pub type PackedInputType = [PackedM31; 2];
 
 #[derive(Default)]
 pub struct ClaimGenerator {

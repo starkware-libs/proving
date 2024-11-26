@@ -35,7 +35,6 @@ fn generate_component_structs(constraints: &[ConstraintEvalStep]) -> rust::Token
     // Claims.
     members.append(quote! {
         pub claim: Claim,
-        pub interaction_claim: InteractionClaim,
     });
 
     // Sub-components Lookup elements.
@@ -71,10 +70,15 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     impl_code.append(quote! {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-                let log_size = self.n_calls.next_power_of_two().ilog2();
-                let interaction_0_log_sizes = vec![log_size; $(lists.state_names.len())];
-                let interaction_1_log_sizes = vec![log_size; SECURE_EXTENSION_DEGREE * $n_logup_columns];
-                TreeVec::new(vec![interaction_0_log_sizes, interaction_1_log_sizes])
+                let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
+                let trace_log_sizes = vec![log_size; $(lists.state_names.len())];
+                let interaction_log_sizes = vec![log_size; SECURE_EXTENSION_DEGREE * $(n_logup_columns)];
+                let preprocessed_log_sizes = vec![log_size];
+                TreeVec::new(vec![
+                    preprocessed_log_sizes,
+                    trace_log_sizes,
+                    interaction_log_sizes,
+                ])
             }
              // TODO(Ohad): better mix_into.
             pub fn mix_into(&self, channel: &mut impl Channel) {
@@ -90,14 +94,19 @@ fn generate_interaction_claim_struct() -> rust::Tokens {
     let struct_code = quote! {
         #[derive(Copy, Clone, Serialize, Deserialize)]
         pub struct InteractionClaim {
-            pub claimed_sum: SecureField,
+            pub logup_sums: LogupSums,
         }
     };
     let mut impl_code = rust::Tokens::new();
     impl_code.append(quote! {
         impl InteractionClaim {
             pub fn mix_into(&self, channel: &mut impl Channel) {
-                channel.mix_felts(&[self.claimed_sum]);
+                let (total_sum, claimed_sum) = self.logup_sums;
+                channel.mix_felts(&[total_sum]);
+                if let Some(claimed_sum) = claimed_sum {
+                    channel.mix_felts(&[claimed_sum.0]);
+                    channel.mix_u64(claimed_sum.1 as u64);
+                }
             }
         }
     });
@@ -108,18 +117,7 @@ fn generate_interaction_claim_struct() -> rust::Tokens {
 fn generate_interaction_elements_struct(lists: &CompiledAirFn) -> rust::Tokens {
     let relation_n_elements = callee_lookup_length(lists);
     quote! {
-        #[derive(Clone, Debug, PartialEq, Eq)]
-        pub struct RelationElements(LookupElements<$relation_n_elements>);
-        impl RelationElements {
-            pub fn draw(channel: &mut impl Channel) -> Self {
-                Self(LookupElements::<$relation_n_elements>::draw(channel))
-            }
-            pub fn combine<F: Clone, EF>(&self, values: &[F]) -> EF
-            where
-                EF: Clone + Zero + From<F> + From<SecureField> + Mul<F, Output = EF> + Sub<EF, Output = EF>, {
-                self.0.combine(values)
-            }
-        }
+        stwo_prover::relation!(RelationElements, $(relation_n_elements));
     }
 }
 
@@ -134,7 +132,7 @@ fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
     code.append(quote! {
         impl FrameworkEval for Eval {
             fn log_size(&self) -> u32 {
-                self.claim.n_calls.next_power_of_two().ilog2()
+                std::cmp::max(self.claim.n_calls.next_power_of_two().ilog2(), LOG_N_LANES)
             }
 
             fn max_constraint_log_degree_bound(&self) -> u32 {
@@ -172,17 +170,6 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             });
         }
     }
-
-    // Logup.
-    code.append(quote! {
-        let [is_first] = eval.next_interaction_mask(2, [0]);
-        let mut logup = LogupAtRow::<E>::new(
-            1,
-            self.interaction_claim.claimed_sum,
-            None,
-            is_first
-        );
-    });
 
     // TODO(Ohad): handle next_trace_mask for external states.
     if !lists.state_names.is_empty() {
@@ -240,8 +227,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     }
     code.extend(quote! {
 
-        logup.finalize(&mut eval);
-
+        eval.finalize_logup();
         eval
     });
     code
@@ -376,15 +362,13 @@ fn imports(deductions: &[TraceGenStep]) -> rust::Tokens {
         #![allow(unused_imports)]
         use num_traits::{One, Zero};
         use serde::{Deserialize, Serialize};
-        use std::ops::{Mul, Sub};
-        use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval};
-        use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
-        use stwo_prover::core::backend::simd::m31::PackedM31;
+        use stwo_prover::constraint_framework::logup::{LogupAtRow, LogupSums, LookupElements};
+        use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval, RelationEntry};
+        use stwo_prover::core::backend::simd::m31::LOG_N_LANES;
         use stwo_prover::core::channel::Channel;
         use stwo_prover::core::fields::m31::M31;
         use stwo_prover::core::fields::qm31::SecureField;
         use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
-        use stwo_prover::core::lookups::utils::Fraction;
         use stwo_prover::core::pcs::TreeVec;
 
         $(generate_sub_component_imports(deductions))
@@ -407,10 +391,8 @@ fn parse_lookup_constraint(
         UseOrYield::Yield => "-",
     };
     quote! {
-        let frac = Fraction::new($(sign)E::EF::one(),
-                    self.
-                    $(relation_name.to_lowercase())_lookup_elements.
-                        combine(&[$(lookup_values.join(","))]));
-        logup.write_frac(&mut eval,frac);
+        eval.add_to_relation(&[RelationEntry::new(&self.
+            $(relation_name.to_lowercase())_lookup_elements,
+            $(sign)E::EF::one(), &[$(lookup_values.join(","))])]);
     }
 }

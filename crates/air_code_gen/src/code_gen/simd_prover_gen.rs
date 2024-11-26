@@ -89,7 +89,7 @@ fn generate_simd_write_trace_body_code(
                 write_trace_body.extend(quote! {
                     sub_components_inputs
                         .$(&fn_name)_inputs[$(multiplicity.to_string())]
-                        .push($(&input));
+                        .extend($(&input).unpack());
                 });
 
                 if let Some(output_name) = output_name {
@@ -184,7 +184,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         #[allow(clippy::double_parens)]
         #[allow(non_snake_case)]
         pub fn write_trace_simd(
-            inputs: $(vec_of_type("InputType")),
+            inputs: $(vec_of_type("PackedInputType")),
             $(generate_stateful_component_params(&lists.deductions))
         ) -> ([BaseColumn; N_TRACE_COLUMNS],
             SubComponentInputs,
@@ -246,7 +246,8 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
 
 fn generate_input_output_typedefs(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
-        pub type InputType = $(packed_air_var_type(&lists.input));
+        pub type InputType = $(air_var_type(&lists.input, &mut |ty| quote!($ty)));
+        pub type PackedInputType = $(air_var_type(&lists.input, &mut |ty| quote!(Packed$ty)));
     }
 }
 
@@ -277,7 +278,7 @@ fn generate_claim_generator_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         impl ClaimGenerator {
             pub fn write_trace(
-                self,
+                mut self,
                 tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
                 $(generate_sub_component_params(deductions))
             ) -> (Claim, InteractionClaimGenerator) {
@@ -355,12 +356,22 @@ fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         let n_calls = self.inputs.len();
         assert_ne!(n_calls, 0);
+        let size = std::cmp::max(n_calls.next_power_of_two(), N_LANES);
+        let need_padding = n_calls != size;
 
-        #[allow(unused_variables)]
-        let (trace, sub_components_inputs, lookup_data) =
-                write_trace_simd(self.inputs, $(generate_stateful_component_args(deductions)));
+        if need_padding {
+            self.inputs.resize(size, *self.inputs.first().unwrap());
+            bit_reverse_coset_to_circle_domain_order(&mut self.inputs);
+        }
 
-        $(generate_sub_component_add_inputs(deductions));
+        let packed_inputs = pack_values(&self.inputs);
+        let (trace, mut sub_components_inputs, lookup_data) =
+                write_trace_simd(packed_inputs, $(generate_stateful_component_args(deductions)));
+
+        if need_padding {
+            sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
+        }
+        $(generate_sub_component_add_inputs(deductions))
 
         tree_builder.extend_evals(
             trace
@@ -399,6 +410,7 @@ fn add_inputs_simd_body() -> rust::Tokens {
 pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut members_code = quote! {};
     let mut initialization_code = quote! {};
+    let mut bit_reverse_code = quote! {};
 
     let mut function_call_multiplicity = HashMap::new();
     for deduction in deductions {
@@ -420,6 +432,11 @@ pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rus
             .map(|_| quote! {Vec::with_capacity(capacity),})
             .collect_vec();
         initialization_code.extend(quote!($(&fn_name)_inputs: [$(inner_vecs)],));
+        bit_reverse_code.extend(quote! {
+            self.$(fn_name)_inputs
+                .iter_mut()
+                .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
+        });
     }
 
     quote! {
@@ -429,7 +446,10 @@ pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rus
             #[allow(unused_variables)]
             fn with_capacity(capacity: usize) -> Self {
                 Self {$(initialization_code)}
+            }
 
+            fn bit_reverse_coset_to_circle_domain_order(&mut self) {
+                $(bit_reverse_code)
             }
         }
     }
@@ -503,7 +523,7 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
 
                 $(generate_write_interaction_trace_body(deductions))
 
-                let (trace, _total_sum, claimed_sum) = if self.n_calls == 1 << log_size {
+                let (trace, total_sum, claimed_sum) = if self.n_calls == 1 << log_size {
                     let (trace, claimed_sum) = logup_gen.finalize_last();
                     (trace, claimed_sum, None)
                 } else {
@@ -514,7 +534,7 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
                 tree_builder.extend_evals(trace);
 
                 InteractionClaim {
-                    claimed_sum: claimed_sum.unwrap().0,
+                    logup_sums: (total_sum,claimed_sum)
                 }
             }
         }
@@ -599,9 +619,11 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use prover_types::cpu::*;
         use prover_types::simd::*;
         use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
+        use stwo_prover::constraint_framework::Relation;
         use stwo_prover::core::air::Component;
         use stwo_prover::core::backend::{Col, Column};
         use stwo_prover::core::backend::simd::column::BaseColumn;
+        use stwo_prover::core::backend::simd::conversion::Unpack;
         use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
         use stwo_prover::core::backend::simd::qm31::PackedQM31;
         use stwo_prover::core::backend::simd::SimdBackend;
@@ -609,9 +631,11 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_prover::core::pcs::TreeBuilder;
         use stwo_prover::core::poly::BitReversedOrder;
         use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
+        use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
         use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
         use super::component::{Claim, RelationElements, InteractionClaim};
+        use crate::components::pack_values;
         $(generate_sub_component_imports(deductions))
     }
 }
@@ -707,30 +731,33 @@ fn simd_parse_air_var(
     }
 }
 
-fn packed_air_var_type(expr: &CompiledAirVar) -> rust::Tokens {
+fn air_var_type<F>(expr: &CompiledAirVar, append_type_prefix: &mut F) -> rust::Tokens
+where
+    F: FnMut(&str) -> rust::Tokens,
+{
     match expr {
-        CompiledAirVar::Const(ty, _) => quote!(Packed$ty),
-        CompiledAirVar::Var(ty, _) => quote!(Packed$ty),
-        CompiledAirVar::State(_) => quote!(PackedM31),
+        CompiledAirVar::Const(ty, _) => append_type_prefix(ty),
+        CompiledAirVar::Var(ty, _) => append_type_prefix(ty),
+        CompiledAirVar::State(_) => append_type_prefix("M31"),
         CompiledAirVar::Tuple(tuple) => {
-            let member_types = tuple.iter().map(packed_air_var_type).fold(
-                rust::Tokens::new(),
-                |mut member_types, t| {
+            let member_types = tuple
+                .iter()
+                .map(|var| air_var_type(var, append_type_prefix))
+                .fold(rust::Tokens::new(), |mut member_types, t| {
                     member_types.append(quote!($t,));
                     member_types
-                },
-            );
+                });
             quote!(($member_types))
         }
         CompiledAirVar::Array(arr) => {
-            let ty = packed_air_var_type(&arr[0]);
+            let ty = air_var_type(&arr[0], append_type_prefix);
             let len = arr.len();
             quote!([$ty; $len])
         }
         CompiledAirVar::Struct { r#type, fields } => {
             let members_code = fields
                 .iter()
-                .map(|(name, expr)| quote!($name: $(packed_air_var_type(expr))))
+                .map(|(name, expr)| quote!($name: $(air_var_type(expr,append_type_prefix))))
                 .fold(rust::Tokens::new(), |mut members_code, t| {
                     members_code.append(quote!($t,));
                     members_code

@@ -632,10 +632,10 @@ version = "0.1.0"
 dependencies = [
  "itertools 0.12.1",
  "num-traits",
- "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=194e411)",
+ "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=e741515)",
  "rand",
  "serde",
- "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=9cfd48a)",
+ "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=264922e)",
 ]
 
 [[package]]
@@ -955,19 +955,6 @@ dependencies = [
 [[package]]
 name = "prover_types"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=194e411#194e411c1763120f625119930609d822b039afc3"
-dependencies = [
- "bytemuck",
- "itertools 0.12.1",
- "ruint",
- "serde",
- "starknet-ff",
- "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=9cfd48a)",
-]
-
-[[package]]
-name = "prover_types"
-version = "0.1.0"
 source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=898211b#898211bdc8783a1d80f7a56365113c1643bda6f6"
 dependencies = [
  "bytemuck",
@@ -977,6 +964,20 @@ dependencies = [
  "serde",
  "starknet-ff",
  "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=64270dc)",
+]
+
+[[package]]
+name = "prover_types"
+version = "0.1.0"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=e741515#e741515d85a4970b7d077255a4a3b1a0d1618531"
+dependencies = [
+ "bytemuck",
+ "itertools 0.12.1",
+ "num-traits",
+ "ruint",
+ "serde",
+ "starknet-ff",
+ "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=264922e)",
 ]
 
 [[package]]
@@ -1292,7 +1293,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 [[package]]
 name = "stwo-prover"
 version = "0.1.1"
-source = "git+https://github.com/starkware-libs/stwo?rev=64270dc#64270dc51420a6887e7c0695c71584949711dcb2"
+source = "git+https://github.com/starkware-libs/stwo?rev=264922e#264922ee99bd875cadb656bddc1e4aaf3a0f7aa2"
 dependencies = [
  "blake2",
  "blake3",
@@ -1314,7 +1315,7 @@ dependencies = [
 [[package]]
 name = "stwo-prover"
 version = "0.1.1"
-source = "git+https://github.com/starkware-libs/stwo?rev=9cfd48a#9cfd48af4e8ac5dd67643a92927c894066fa989c"
+source = "git+https://github.com/starkware-libs/stwo?rev=64270dc#64270dc51420a6887e7c0695c71584949711dcb2"
 dependencies = [
  "blake2",
  "blake3",

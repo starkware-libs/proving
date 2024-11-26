@@ -5,8 +5,10 @@ use num_traits::{One, Zero};
 use prover_types::cpu::*;
 use prover_types::simd::*;
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
+use stwo_prover::constraint_framework::Relation;
 use stwo_prover::core::air::Component;
 use stwo_prover::core::backend::simd::column::BaseColumn;
+use stwo_prover::core::backend::simd::conversion::Unpack;
 use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
 use stwo_prover::core::backend::simd::qm31::PackedQM31;
 use stwo_prover::core::backend::simd::SimdBackend;
@@ -15,12 +17,14 @@ use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::pcs::TreeBuilder;
 use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
+use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
 use super::component::{Claim, InteractionClaim, RelationElements};
-use crate::components::narrowfib_num_steps_20;
+use crate::components::{narrowfib_num_steps_20, pack_values};
 
-pub type InputType = [PackedM31; 2];
+pub type InputType = [M31; 2];
+pub type PackedInputType = [PackedM31; 2];
 const N_TRACE_COLUMNS: usize = 22;
 
 #[derive(Default)]
@@ -29,14 +33,25 @@ pub struct ClaimGenerator {
 }
 impl ClaimGenerator {
     pub fn write_trace(
-        self,
+        mut self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
     ) -> (Claim, InteractionClaimGenerator) {
         let n_calls = self.inputs.len();
         assert_ne!(n_calls, 0);
+        let size = std::cmp::max(n_calls.next_power_of_two(), N_LANES);
+        let need_padding = n_calls != size;
 
-        #[allow(unused_variables)]
-        let (trace, sub_components_inputs, lookup_data) = write_trace_simd(self.inputs);
+        if need_padding {
+            self.inputs.resize(size, *self.inputs.first().unwrap());
+            bit_reverse_coset_to_circle_domain_order(&mut self.inputs);
+        }
+
+        let packed_inputs = pack_values(&self.inputs);
+        let (trace, mut sub_components_inputs, lookup_data) = write_trace_simd(packed_inputs);
+
+        if need_padding {
+            sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
+        }
 
         tree_builder.extend_evals(
             trace
@@ -73,6 +88,8 @@ impl SubComponentInputs {
     fn with_capacity(capacity: usize) -> Self {
         Self {}
     }
+
+    fn bit_reverse_coset_to_circle_domain_order(&mut self) {}
 }
 
 #[allow(clippy::useless_conversion)]
@@ -80,7 +97,7 @@ impl SubComponentInputs {
 #[allow(clippy::double_parens)]
 #[allow(non_snake_case)]
 pub fn write_trace_simd(
-    inputs: Vec<InputType>,
+    inputs: Vec<PackedInputType>,
 ) -> (
     [BaseColumn; N_TRACE_COLUMNS],
     SubComponentInputs,
@@ -246,7 +263,7 @@ impl InteractionClaimGenerator {
         }
         col_gen.finalize_col();
 
-        let (trace, _total_sum, claimed_sum) = if self.n_calls == 1 << log_size {
+        let (trace, total_sum, claimed_sum) = if self.n_calls == 1 << log_size {
             let (trace, claimed_sum) = logup_gen.finalize_last();
             (trace, claimed_sum, None)
         } else {
@@ -257,7 +274,7 @@ impl InteractionClaimGenerator {
         tree_builder.extend_evals(trace);
 
         InteractionClaim {
-            claimed_sum: claimed_sum.unwrap().0,
+            logup_sums: (total_sum, claimed_sum),
         }
     }
 }

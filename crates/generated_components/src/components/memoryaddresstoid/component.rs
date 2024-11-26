@@ -1,8 +1,8 @@
 #![allow(unused_variables)]
-use stwo_prover::constraint_framework::logup::LookupElements;
 use stwo_prover::constraint_framework::{EvalAtRow, FrameworkEval};
 use stwo_prover::core::channel::Channel;
 use stwo_prover::core::pcs::TreeVec;
+use stwo_prover::relation;
 
 pub const N_M31_IN_FELT252: usize = 28;
 pub const MULTIPLICITY_COLUMN_OFFSET: usize = N_M31_IN_FELT252 + 1;
@@ -13,7 +13,7 @@ pub const MEMORY_ADDRESS_BOUND: usize = 1 << LOG_MEMORY_ADDRESS_BOUND;
 pub const N_LOGUP_POWERS: usize = N_MEMORY_COLUMNS + 1;
 pub const N_BITS_PER_FELT: usize = 9;
 
-pub type RelationElements = LookupElements<N_LOGUP_POWERS>;
+relation!(RelationElements, N_MEMORY_COLUMNS);
 
 /// Addresses are continuous and start from 0.
 /// Values are Felt252 stored as `N_M31_IN_FELT252` M31 values (each value containing 9 bits).
