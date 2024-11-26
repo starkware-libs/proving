@@ -4,6 +4,7 @@ use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 use compiled_casm_air::compiled_structs::CompiledAirVar;
 use prover_types::cpu::{
     BigUInt, Bool, Felt252, ProverType, UInt16, UInt32, UInt64, FELT252_N_WORDS,
+    MOD_BUILTIN_WORD_BIT_LEN,
 };
 use serde::{Deserialize, Serialize};
 
@@ -134,6 +135,7 @@ pub enum Operation {
     BigUInt384FromBigUInt764,
     BigUInt384FromFelt252,
     BigUInt768FromFelt252,
+    BigUInt384FromFelt252Array,
 }
 
 // Note that all operations from the same type should have different names for the code generation.
@@ -171,6 +173,9 @@ impl Display for Operation {
             }
             Operation::BigUInt384FromFelt252 => write!(f, "BigUInt::<384, 6>::from_felt252"),
             Operation::BigUInt768FromFelt252 => write!(f, "BigUInt::<768, 12>::from_felt252"),
+            Operation::BigUInt384FromFelt252Array => {
+                write!(f, "BigUInt::<384, 6>::from_felt252_array")
+            }
         }
     }
 }
@@ -267,6 +272,37 @@ impl_binary_op!(ops BitOr, bitor, UInt64Expr, UInt64Operation);
 impl_binary_op!(ops BitXor, bitxor, UInt64Expr, UInt64Operation);
 impl_binary_op!(Eq, eq, UInt64Expr, BoolExpr, BoolOperation);
 
+impl From<Vec<Felt252Expr>> for BigUIntExpr<384, 6> {
+    fn from(mod_words: Vec<Felt252Expr>) -> BigUIntExpr<384, 6> {
+        // only takes MOD_BUILTIN_WORD_BIT_LEN from each Felt252
+        let needed_bits = mod_words.len() * MOD_BUILTIN_WORD_BIT_LEN;
+        assert!(
+            needed_bits <= 384,
+            "BigUIntExpr<384,6> can have at most 384 bits"
+        );
+
+        let values = mod_words
+            .iter()
+            .filter_map(|n| n.value())
+            .collect::<Vec<Felt252>>();
+        let value = if values.len() == mod_words.len() {
+            Some(BigUInt::<384, 6>::from_felt252_array(values))
+        } else {
+            None
+        };
+
+        let arr = mod_words
+            .into_iter()
+            .map(|f| f.into())
+            .collect::<Vec<AirVarImpl>>();
+        BigUIntExpr::Op(OpExpr::new(
+            Operation::BigUInt384FromFelt252Array,
+            vec![AirVarImpl::Array(arr)],
+            value,
+        ))
+    }
+}
+
 impl<const B: usize, const L: usize> BigUIntExpr<B, L> {
     pub fn widening_mul<const DB: usize, const DL: usize>(
         self,
@@ -315,7 +351,7 @@ impl From<Vec<FeltExpr>> for Felt252Expr {
             .filter_map(|f| f.value())
             .collect::<Vec<Felt>>();
         let value = if values.len() == felts.len() {
-            Some(Felt252::from_limbs(values))
+            Some(Felt252::from_limbs(&values))
         } else {
             None
         };

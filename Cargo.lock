@@ -26,7 +26,7 @@ dependencies = [
  "indexmap",
  "inst_def",
  "num-integer",
- "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=bb2aa5b)",
+ "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=898211b)",
  "serde",
  "serde_json",
 ]
@@ -968,10 +968,11 @@ dependencies = [
 [[package]]
 name = "prover_types"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=bb2aa5b#bb2aa5bb45caacb5186328687605e167a4b1360b"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=898211b#898211bdc8783a1d80f7a56365113c1643bda6f6"
 dependencies = [
  "bytemuck",
  "itertools 0.12.1",
+ "num-traits",
  "ruint",
  "serde",
  "starknet-ff",

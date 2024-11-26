@@ -395,3 +395,13 @@ fn test_bad_bigu768_to_bigu384() {
     let e = const_bigu768_expr!(0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0);
     let _: BigUInt384Expr = e.into();
 }
+
+#[test]
+fn test_from252_vec() {
+    let x0 = const_felt252_expr!(1, 0);
+    let x1 = const_felt252_expr!(2, 0);
+    let x2 = const_felt252_expr!(1u128 << 64, 0);
+    let x3 = const_felt252_expr!(1u128 << 32, 0);
+    let x: BigUInt384Expr = vec![x0.clone(), x1.clone(), x2.clone(), x3.clone()].into();
+    assert_eq!(x.calc(), "[1, 8589934592, 0, 0, 1, 1]".to_string());
+}
