@@ -277,6 +277,10 @@ fn generate_claim_prover_struct() -> rust::Tokens {
 fn generate_claim_generator_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         impl ClaimGenerator {
+            pub fn new(inputs: Vec<InputType>) -> Self {
+                Self { inputs }
+            }
+
             pub fn write_trace(
                 mut self,
                 tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
