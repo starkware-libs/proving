@@ -376,7 +376,7 @@ fn test_biguint384() {
     compiled = bigu384_expr!("v".to_string(), 1, 0, 1, 0, 0, 0).into();
     assert_eq!(format!("{:?}", compiled), "Var(\"BigUInt<384, 6>\", \"v\")");
 
-    let h: crate::core::expressions::expr::Expr<Felt252> = const_felt252_expr!(1, 1);
+    let h = const_felt252_expr!(1, 1);
     let g = BigUInt384Expr::from(h.clone());
     assert_eq!(g.calc(), "[1, 0, 1, 0, 0, 0]".to_string());
     assert_eq!(
