@@ -3,7 +3,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm, TraceGenStep,
+    CompiledAirFn, ConstraintEvalStep, LookupTerm, TraceGenStep,
 };
 use genco::lang::rust;
 use genco::quote;
@@ -155,33 +155,6 @@ pub fn unique_relation_calls(deductions: &[TraceGenStep]) -> Vec<String> {
         }
     });
     seen_relations.into_iter().sorted().collect()
-}
-
-pub fn n_function_calls(constraints: &[ConstraintEvalStep]) -> usize {
-    constraints
-        .iter()
-        .filter(|c| matches!(c, ConstraintEvalStep::LookupTerm { .. }))
-        .count()
-}
-
-/// Computes width of the lookup 'yield'. Used as 'n_alpha_powers'.
-///
-/// Assumption: lists.input, lists.output are either 1-trace-cell sized, or structs,
-/// arrays, tuples of variables that size.
-pub fn callee_lookup_length(lists: &CompiledAirFn) -> usize {
-    let n_felts = |expr| -> usize {
-        match expr {
-            CompiledAirVar::Var(..) => 1,
-            CompiledAirVar::State(_) => 1,
-            CompiledAirVar::BinaryOp(..) => 1,
-            CompiledAirVar::UnaryOp(..) => 1,
-            CompiledAirVar::Tuple(vec) => vec.len(),
-            CompiledAirVar::Array(vec) => vec.len(),
-            CompiledAirVar::Struct { r#type: _, fields } => fields.len(),
-            _ => panic!("Unexpected I/O type!"),
-        }
-    };
-    n_felts(lists.input.clone()) + n_felts(lists.output.clone())
 }
 
 pub fn block_doc(msg: &str) -> rust::Tokens {
