@@ -58,4 +58,12 @@ mod tests {
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
+
+    #[test]
+    fn jnz_code_gen() {
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/opcodes/jnzopcode_is_taken_t_dst_base_fp_t.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+    }
 }

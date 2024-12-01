@@ -696,6 +696,12 @@ fn simd_parse_air_var(
             format!("{}({})", op, simd_parse_air_var(expr, constant_names))
         }
         CompiledAirVar::BinaryOp(lhs, op, rhs) => {
+            let non_native_div = op == "/"
+                && air_var_type(lhs, &mut |ty| quote!($ty))
+                    .to_string()
+                    .unwrap()
+                    == "M31";
+            let op = if non_native_div { ".div" } else { op };
             format!(
                 "(({}) {} ({}))",
                 simd_parse_air_var(lhs, constant_names),
@@ -743,7 +749,7 @@ fn simd_parse_air_var(
     }
 }
 
-fn air_var_type<F>(expr: &CompiledAirVar, append_type_prefix: &mut F) -> rust::Tokens
+pub fn air_var_type<F>(expr: &CompiledAirVar, append_type_prefix: &mut F) -> rust::Tokens
 where
     F: FnMut(&str) -> rust::Tokens,
 {

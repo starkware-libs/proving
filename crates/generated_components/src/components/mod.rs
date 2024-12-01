@@ -8,6 +8,7 @@ pub mod rangecheck_n_2_bits_4_3;
 pub mod rangecheck_n_3_bits_7_2_5;
 pub mod verifyinstruction;
 pub mod widefib_num_narrow_8_narrow_size_20;
+pub mod jnzopcode_is_taken_t_dst_base_fp_t;
 
 // TODO(Ohad): remove.
 pub fn pack_values<T: Pack>(_values: &[T]) -> Vec<T::SimdType> {
