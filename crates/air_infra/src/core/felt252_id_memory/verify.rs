@@ -26,7 +26,7 @@ impl AirFn for MemVerify {
                 .unwrap_or("id".to_string()),
         );
         air_builder.mem_verify(&self.memory.address_to_id, &address.value, id.clone());
-        air_builder.mem_verify(&self.memory.id_to_value, &id, value);
+        air_builder.mem_verify(&self.memory.id_to_value, &id, Felt252Expr::from(value));
     }
 }
 

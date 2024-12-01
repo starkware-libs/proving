@@ -114,35 +114,12 @@ pub fn relation_calls_from_constraints(constraints: &[ConstraintEvalStep]) -> Ve
         .collect()
 }
 
-pub fn fn_calls_from_deductions(deductions: &[TraceGenStep]) -> Vec<String> {
-    deductions
-        .iter()
-        .filter_map(|deduction| {
-            if let TraceGenStep::LookupCall { fn_name, .. } = deduction {
-                Some(fn_name.to_string())
-            } else {
-                None
-            }
-        })
-        .collect()
-}
-
 pub fn unique_constraint_relations(constraints: &[ConstraintEvalStep]) -> Vec<String> {
     let relations = relation_calls_from_constraints(constraints);
     let mut seen_relation = HashSet::new();
     relations
         .into_iter()
         .filter(|relation| seen_relation.insert(relation.to_string()))
-        .sorted()
-        .collect()
-}
-
-pub fn unique_deduction_function_calls(deductions: &[TraceGenStep]) -> Vec<String> {
-    let function_calls = fn_calls_from_deductions(deductions);
-    let mut seen_functions = HashSet::new();
-    function_calls
-        .into_iter()
-        .filter(|fn_name| seen_functions.insert(fn_name.to_string()))
         .sorted()
         .collect()
 }

@@ -5,10 +5,10 @@ use compiled_casm_air::compiled_structs::{
 };
 use genco::lang::{rust, Rust};
 use genco::quote;
-use itertools::Itertools;
+use itertools::{chain, Itertools};
 
 use super::framework_gen::seek_consts;
-use super::utils::{block_doc, unique_deduction_function_calls, unique_relation_calls};
+use super::utils::{block_doc, unique_relation_calls};
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
@@ -293,15 +293,55 @@ fn generate_claim_generator_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
                 &mut self,
                 inputs: &[InputType],
             ) {
-                $(add_inputs_simd_body());
+                $(add_inputs_simd_body())
             }
         }
     }
 }
 
+fn unique_add_input_calls(deductions: &[TraceGenStep]) -> Vec<String> {
+    deductions
+        .iter()
+        .filter_map(|d| {
+            if let TraceGenStep::LookupAddInput { fn_name, .. } = d {
+                Some(fn_name.to_string())
+            } else {
+                None
+            }
+        })
+        .sorted()
+        .dedup()
+        .collect()
+}
+
+fn unique_function_calls(deductions: &[TraceGenStep]) -> Vec<String> {
+    deductions
+        .iter()
+        .filter_map(|d| {
+            if let TraceGenStep::LookupCall { fn_name, .. } = d {
+                Some(fn_name.to_string())
+            } else {
+                None
+            }
+        })
+        .sorted()
+        .dedup()
+        .collect()
+}
+
 fn generate_sub_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
+    // write_trace is responsible for generating the trace calling `add_inputs` on sub_components.
+    // Collect all the unique function and add_input calls.
+    let mut context = chain![
+        unique_function_calls(deductions),
+        unique_add_input_calls(deductions)
+    ]
+    .collect_vec();
+    context.sort_by_key(|a| a.to_lowercase());
+    context.dedup();
+
     let mut params = rust::Tokens::new();
-    for fn_name in unique_deduction_function_calls(deductions).iter() {
+    for fn_name in context {
         let fn_name = fn_name.to_lowercase();
         params.extend(quote! {
             $(&fn_name)_state: &mut $(fn_name)::ClaimGenerator,
@@ -315,12 +355,13 @@ fn is_stateful(fn_name: &str) -> bool {
     fn_name.to_lowercase().contains("mem")
 }
 
-// If the component calls for memory, it needs to be passed to the write_trace function.
+// Generates the parameters for `write_trace_simd` function.
 fn generate_stateful_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut params = rust::Tokens::new();
-    for fn_name in unique_deduction_function_calls(deductions).iter() {
+    // Does not need call add_inputs.
+    for fn_name in unique_function_calls(deductions) {
         // TODO(Ohad): get information about which function is stateful.
-        if is_stateful(fn_name) {
+        if is_stateful(&fn_name) {
             let fn_name = fn_name.to_lowercase();
             params.extend(quote! {
                 $(&fn_name)_state: &mut $(fn_name)::ClaimGenerator,
@@ -330,11 +371,12 @@ fn generate_stateful_component_params(deductions: &[TraceGenStep]) -> rust::Toke
     params
 }
 
+// Generates the arguments for `write_trace_simd` function.
 fn generate_stateful_component_args(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut args = rust::Tokens::new();
-    for fn_name in unique_deduction_function_calls(deductions).iter() {
+    for fn_name in unique_function_calls(deductions) {
         // TODO(Ohad): get information about which function is stateful.
-        if is_stateful(fn_name) {
+        if is_stateful(&fn_name) {
             args.extend(quote! {
                 $(fn_name.to_lowercase())_state,
             });
@@ -345,7 +387,7 @@ fn generate_stateful_component_args(deductions: &[TraceGenStep]) -> rust::Tokens
 
 fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut statement = rust::Tokens::new();
-    for fn_name in unique_deduction_function_calls(deductions).iter() {
+    for fn_name in unique_add_input_calls(deductions).iter() {
         statement.extend(quote! {
             sub_components_inputs.$(fn_name.to_lowercase())_inputs.iter().for_each(|inputs| {
                 $(fn_name.to_lowercase())_state.add_inputs(&inputs[..n_calls]);
@@ -613,7 +655,7 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
 
 fn generate_configs(lists: &CompiledAirFn) -> rust::Tokens {
     let mut configs = quote! {};
-    if lists.name.to_lowercase().contains("genericopcode") {
+    if lists.name.to_lowercase().contains("generic_opcode") {
         configs.extend(quote! {
             #![cfg_attr(rustfmt, rustfmt_skip)]
         });

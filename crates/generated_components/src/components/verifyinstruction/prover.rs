@@ -44,6 +44,7 @@ impl ClaimGenerator {
         mut self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
         memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
+        memoryidtobig_state: &mut memoryidtobig::ClaimGenerator,
         rangecheck_n_2_bits_4_3_state: &mut rangecheck_n_2_bits_4_3::ClaimGenerator,
         rangecheck_n_3_bits_7_2_5_state: &mut rangecheck_n_3_bits_7_2_5::ClaimGenerator,
     ) -> (Claim, InteractionClaimGenerator) {
@@ -69,6 +70,12 @@ impl ClaimGenerator {
             .iter()
             .for_each(|inputs| {
                 memoryaddresstoid_state.add_inputs(&inputs[..n_calls]);
+            });
+        sub_components_inputs
+            .memoryidtobig_inputs
+            .iter()
+            .for_each(|inputs| {
+                memoryidtobig_state.add_inputs(&inputs[..n_calls]);
             });
         sub_components_inputs
             .rangecheck_n_2_bits_4_3_inputs
