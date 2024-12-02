@@ -1,3 +1,5 @@
+use compiled_casm_air::public_params::PublicParam;
+
 use super::bitwise::*;
 // Macros
 use crate::const_expr;
@@ -6,30 +8,32 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
+use crate::core::*;
 
 #[test]
 fn simple_test_bitwise_builtin() {
     let instance_number = const_expr!(10);
+    let segment_start = 500;
 
     let memory = Felt252IdMemory::new_with_data(vec![
         (
-            get_addr(instance_number.clone(), 0),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 0),
             const_felt252_expr!(0, 0),
         ),
         (
-            get_addr(instance_number.clone(), 1),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 1),
             const_felt252_expr!(1, 0),
         ),
         (
-            get_addr(instance_number.clone(), 2),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 2),
             const_felt252_expr!(0, 0),
         ),
         (
-            get_addr(instance_number.clone(), 3),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 3),
             const_felt252_expr!(1, 0),
         ),
         (
-            get_addr(instance_number.clone(), 4),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 4),
             const_felt252_expr!(1, 0),
         ),
     ]);
@@ -37,7 +41,12 @@ fn simple_test_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let (registry, _) = AirFnRegistry::new(&bitwise);
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::BitwiseBuiltinSegmentStart,
+        Felt::from(segment_start),
+    );
+    registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 10);
 }
@@ -46,26 +55,27 @@ fn simple_test_bitwise_builtin() {
 #[should_panic(expected = "given value != value in memory")]
 fn simple_failed_test_bitwise_builtin() {
     let instance_number = const_expr!(10);
+    let segment_start = 500;
 
     let memory = Felt252IdMemory::new_with_data(vec![
         (
-            get_addr(instance_number.clone(), 0),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 0),
             const_felt252_expr!(0, 0),
         ),
         (
-            get_addr(instance_number.clone(), 1),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 1),
             const_felt252_expr!(1, 0),
         ),
         (
-            get_addr(instance_number.clone(), 2),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 2),
             const_felt252_expr!(0, 0),
         ),
         (
-            get_addr(instance_number.clone(), 3),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 3),
             const_felt252_expr!(0, 0),
         ),
         (
-            get_addr(instance_number.clone(), 4),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 4),
             const_felt252_expr!(1, 0),
         ),
     ]);
@@ -73,7 +83,12 @@ fn simple_failed_test_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let (registry, _) = AirFnRegistry::new(&bitwise);
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::BitwiseBuiltinSegmentStart,
+        Felt::from(segment_start),
+    );
+    registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 10);
 }
@@ -81,26 +96,27 @@ fn simple_failed_test_bitwise_builtin() {
 #[test]
 fn test_bitwise_builtin() {
     let instance_number = const_expr!(10);
+    let segment_start = 500;
 
     let memory = Felt252IdMemory::new_with_data(vec![
         (
-            get_addr(instance_number.clone(), 0),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 0),
             const_felt252_expr!(1546546796877, 0),
         ),
         (
-            get_addr(instance_number.clone(), 1),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 1),
             const_felt252_expr!(565820356494787, 0),
         ),
         (
-            get_addr(instance_number.clone(), 2),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 2),
             const_felt252_expr!(34650915137, 0),
         ),
         (
-            get_addr(instance_number.clone(), 3),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 3),
             const_felt252_expr!(567297601461390, 0),
         ),
         (
-            get_addr(instance_number.clone(), 4),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 4),
             const_felt252_expr!(567332252376527, 0),
         ),
     ]);
@@ -108,7 +124,12 @@ fn test_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let (registry, _) = AirFnRegistry::new(&bitwise);
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::BitwiseBuiltinSegmentStart,
+        Felt::from(segment_start),
+    );
+    registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 10);
 }
@@ -117,26 +138,27 @@ fn test_bitwise_builtin() {
 #[should_panic(expected = "given value != value in memory")]
 fn test_failed_or_bitwise_builtin() {
     let instance_number = const_expr!(27);
+    let segment_start = 500;
 
     let memory = Felt252IdMemory::new_with_data(vec![
         (
-            get_addr(instance_number.clone(), 0),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 0),
             const_felt252_expr!(1546546796877, 0),
         ),
         (
-            get_addr(instance_number.clone(), 1),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 1),
             const_felt252_expr!(565820356494787, 0),
         ),
         (
-            get_addr(instance_number.clone(), 2),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 2),
             const_felt252_expr!(34650915137, 0),
         ),
         (
-            get_addr(instance_number.clone(), 3),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 3),
             const_felt252_expr!(567297601461390, 0),
         ),
         (
-            get_addr(instance_number.clone(), 4),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 4),
             const_felt252_expr!(567332252375527, 0),
         ),
     ]);
@@ -144,7 +166,12 @@ fn test_failed_or_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let (registry, _) = AirFnRegistry::new(&bitwise);
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::BitwiseBuiltinSegmentStart,
+        Felt::from(segment_start),
+    );
+    registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 27);
 }
@@ -153,26 +180,27 @@ fn test_failed_or_bitwise_builtin() {
 #[should_panic(expected = "given value != value in memory")]
 fn test_failed_xor_bitwise_builtin() {
     let instance_number = const_expr!(10);
+    let segment_start = 500;
 
     let memory = Felt252IdMemory::new_with_data(vec![
         (
-            get_addr(instance_number.clone(), 0),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 0),
             const_felt252_expr!(1546546796877, 0),
         ),
         (
-            get_addr(instance_number.clone(), 1),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 1),
             const_felt252_expr!(565820356494787, 0),
         ),
         (
-            get_addr(instance_number.clone(), 2),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 2),
             const_felt252_expr!(34650915137, 0),
         ),
         (
-            get_addr(instance_number.clone(), 3),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 3),
             const_felt252_expr!(567257601461390, 0),
         ),
         (
-            get_addr(instance_number.clone(), 4),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 4),
             const_felt252_expr!(567332252376527, 0),
         ),
     ]);
@@ -180,7 +208,12 @@ fn test_failed_xor_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let (registry, _) = AirFnRegistry::new(&bitwise);
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::BitwiseBuiltinSegmentStart,
+        Felt::from(segment_start),
+    );
+    registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 10);
 }
@@ -189,26 +222,27 @@ fn test_failed_xor_bitwise_builtin() {
 #[should_panic(expected = "given value != value in memory")]
 fn test_failed_and_bitwise_builtin() {
     let instance_number = const_expr!(10);
+    let segment_start = 500;
 
     let memory = Felt252IdMemory::new_with_data(vec![
         (
-            get_addr(instance_number.clone(), 0),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 0),
             const_felt252_expr!(1546546796877, 0),
         ),
         (
-            get_addr(instance_number.clone(), 1),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 1),
             const_felt252_expr!(565820356494787, 0),
         ),
         (
-            get_addr(instance_number.clone(), 2),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 2),
             const_felt252_expr!(34650915127, 0),
         ),
         (
-            get_addr(instance_number.clone(), 3),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 3),
             const_felt252_expr!(567297601461390, 0),
         ),
         (
-            get_addr(instance_number.clone(), 4),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 4),
             const_felt252_expr!(567332252376527, 0),
         ),
     ]);
@@ -216,7 +250,12 @@ fn test_failed_and_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let (registry, _) = AirFnRegistry::new(&bitwise);
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::BitwiseBuiltinSegmentStart,
+        Felt::from(segment_start),
+    );
+    registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 10);
 }
@@ -224,25 +263,26 @@ fn test_failed_and_bitwise_builtin() {
 #[test]
 fn test_big_felt252_bitwise_builtin() {
     let instance_number = const_expr!(10);
+    let segment_start = 500;
     let memory = Felt252IdMemory::new_with_data(vec![
         (
-            get_addr(instance_number.clone(), 0),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 0),
             const_felt252_expr!(467968798486, 18694984798),
         ),
         (
-            get_addr(instance_number.clone(), 1),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 1),
             const_felt252_expr!(3468798969565, 4869486468496),
         ),
         (
-            get_addr(instance_number.clone(), 2),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 2),
             const_felt252_expr!(157370615316, 18253796368),
         ),
         (
-            get_addr(instance_number.clone(), 3),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 3),
             const_felt252_expr!(3622026537419, 4851673860558),
         ),
         (
-            get_addr(instance_number.clone(), 4),
+            get_addr(const_expr!(segment_start), instance_number.clone(), 4),
             const_felt252_expr!(3779397152735, 4869927656926),
         ),
     ]);
@@ -250,7 +290,12 @@ fn test_big_felt252_bitwise_builtin() {
     let bitwise = BitwiseBuiltin {
         memory: memory.clone(),
     };
-    let (registry, _) = AirFnRegistry::new(&bitwise);
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::BitwiseBuiltinSegmentStart,
+        Felt::from(segment_start),
+    );
+    registry.add_entry(&bitwise);
 
     registry.run_air_with_row_number(&bitwise, (), 10);
 }

@@ -1,3 +1,4 @@
+use compiled_casm_air::public_params::PublicParam;
 use inst_def::InstDef;
 use prover_types::cpu::FELT252_BITS_PER_WORD;
 
@@ -13,10 +14,6 @@ use crate::core::felt252_id_memory::read_positive::*;
 use crate::core::felt252_id_memory::verify::*;
 use crate::core::variables::*;
 
-// Start address of the segment for this builtin.
-// TODO: receive this at proof time as a public param. Until public params
-// are implemented, have it as a dummy constant for testing.
-pub const DUMMY_BITWISE_SEGMENT_START: u32 = 500;
 // Each bitwise operation consists of 5 cells (two inputs and three outputs - and, or, xor).
 pub const CELLS_PER_BITWISE: u32 = 5;
 
@@ -39,6 +36,7 @@ impl AirFn for BitwiseBuiltin {
 
     fn call(&self, air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
         let instance_num = air_builder.call_external_column(&Seq {});
+        let segment_start = air_builder.get_public_param(PublicParam::BitwiseBuiltinSegmentStart);
 
         let read_felt252 = ReadPositive {
             num_bits: 252,
@@ -49,11 +47,17 @@ impl AirFn for BitwiseBuiltin {
         };
         let (a, _) = air_builder.call(
             &read_felt252,
-            CasmAddress::new(get_addr(instance_num.clone(), 0), "op0"),
+            CasmAddress::new(
+                get_addr(segment_start.clone(), instance_num.clone(), 0),
+                "op0",
+            ),
         );
         let (b, _) = air_builder.call(
             &read_felt252,
-            CasmAddress::new(get_addr(instance_num.clone(), 1), "op1"),
+            CasmAddress::new(
+                get_addr(segment_start.clone(), instance_num.clone(), 1),
+                "op1",
+            ),
         );
         let mut expected_xor = vec![];
         let mut expected_and = vec![];
@@ -76,21 +80,30 @@ impl AirFn for BitwiseBuiltin {
         air_builder.call(
             &verify_felt252,
             (
-                CasmAddress::new(get_addr(instance_num.clone(), 2), "and"),
+                CasmAddress::new(
+                    get_addr(segment_start.clone(), instance_num.clone(), 2),
+                    "and",
+                ),
                 expected_and.into(),
             ),
         );
         air_builder.call(
             &verify_felt252,
             (
-                CasmAddress::new(get_addr(instance_num.clone(), 3), "xor"),
+                CasmAddress::new(
+                    get_addr(segment_start.clone(), instance_num.clone(), 3),
+                    "xor",
+                ),
                 expected_xor.into(),
             ),
         );
         air_builder.call(
             &verify_felt252,
             (
-                CasmAddress::new(get_addr(instance_num.clone(), 4), "or"),
+                CasmAddress::new(
+                    get_addr(segment_start.clone(), instance_num.clone(), 4),
+                    "or",
+                ),
                 expected_or.into(),
             ),
         );
@@ -101,8 +114,6 @@ impl AirFn for BitwiseBuiltin {
     }
 }
 
-pub fn get_addr(instance_num: FeltExpr, offset: u32) -> FeltExpr {
-    const_expr!(DUMMY_BITWISE_SEGMENT_START)
-        + instance_num * const_expr!(CELLS_PER_BITWISE)
-        + const_expr!(offset)
+pub fn get_addr(segment_start: FeltExpr, instance_num: FeltExpr, offset: u32) -> FeltExpr {
+    segment_start + instance_num * const_expr!(CELLS_PER_BITWISE) + const_expr!(offset)
 }

@@ -1,3 +1,5 @@
+use compiled_casm_air::public_params::PublicParam;
+
 use super::range_check::*;
 // Macros
 use crate::const_expr;
@@ -6,17 +8,23 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
+use crate::core::*;
 
 fn run_range_check(value: Felt252Expr, bits: usize) {
-    let address = DUMMY_SEGMENT_START;
-    let memory = Felt252IdMemory::new_with_data(vec![(const_expr!(address), value)]);
+    let segment_start = 100;
+    let memory = Felt252IdMemory::new_with_data(vec![(const_expr!(segment_start), value)]);
 
     let rc = RangeCheckBuiltin {
         bits,
         memory: memory.clone(),
     };
 
-    let (registry, _) = AirFnRegistry::new(&rc);
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::RangeCheckBuiltinSegmentStart,
+        Felt::from_u32_unchecked(segment_start),
+    );
+    registry.add_entry(&rc);
 
     registry.run_air_with_row_number(&rc, (), 0);
 }
