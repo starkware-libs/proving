@@ -291,8 +291,6 @@ pub fn write_trace_simd(
 
             lookup_data.rangecheck_n_2_bits_4_3[0].push([offset2_low_col24, offset2_high_col26]);
 
-            // EncodeFlags.
-
             // MemVerify.
 
             let memoryaddresstoid_value_tmp_176 = memoryaddresstoid_state.deduce_output(input_col0);

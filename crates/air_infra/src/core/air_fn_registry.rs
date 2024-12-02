@@ -126,14 +126,17 @@ impl AirFnEntry {
                 }
                 AirBodyComponent::Call(f) => {
                     let (new_deductions, new_constraints) = Self::compile_air_body(f.air_body);
-
-                    constraints.push(ConstraintEvalStep::StartBlock(f.air_fn_description.clone()));
-                    constraints.extend(new_constraints);
-                    constraints.push(ConstraintEvalStep::EndBlock);
-
-                    deductions.push(TraceGenStep::StartBlock(f.air_fn_description));
-                    deductions.extend(new_deductions);
-                    deductions.push(TraceGenStep::EndBlock);
+                    if !new_constraints.is_empty() {
+                        constraints
+                            .push(ConstraintEvalStep::StartBlock(f.air_fn_description.clone()));
+                        constraints.extend(new_constraints);
+                        constraints.push(ConstraintEvalStep::EndBlock);
+                    }
+                    if !new_deductions.is_empty() {
+                        deductions.push(TraceGenStep::StartBlock(f.air_fn_description));
+                        deductions.extend(new_deductions);
+                        deductions.push(TraceGenStep::EndBlock);
+                    }
                 }
                 AirBodyComponent::LookupCall(call) => {
                     deductions.push(TraceGenStep::LookupCall {
