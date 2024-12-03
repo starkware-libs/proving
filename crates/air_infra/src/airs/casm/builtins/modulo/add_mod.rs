@@ -1,5 +1,6 @@
 use std::array::from_fn;
 
+use compiled_casm_air::public_params::PublicParam;
 use inst_def::InstDef;
 use prover_types::cpu::FELT252_BITS_PER_WORD;
 
@@ -14,10 +15,6 @@ use crate::core::felt252_id_memory::memory::*;
 // Macros
 use crate::{const_bigu384_expr, const_expr};
 
-// Start address of the segment for this builtin.
-// TODO: receive this at proof time as a public param. Until public params
-// are implemented, have it as a dummy constant for testing.
-pub const DUMMY_ADD_MOD_SEGMENT_START: u32 = 200;
 // Number of subwords in a bundle. A bundle is a segment of consecutive subwords that can be grouped
 // into one M31 felt.
 pub const SUBWORD_BUNDLE_SIZE: usize = 3;
@@ -69,15 +66,13 @@ impl AirFn for AddModBuiltin {
 
     fn call(&self, ab: &mut AirBuilder, (): Self::In) -> Self::Out {
         let instance_num = ab.call_external_column(&Seq {});
+        let segment_start = ab.get_public_param(PublicParam::AddModBuiltinSegmentStart);
         // Get p, a, b, c from the memory segment of add_mod
         let [p, a, b, c] = ab.call(
             &ModUtils {
                 memory: self.memory.clone(),
             },
-            (
-                CasmAddress::new(const_expr!(DUMMY_ADD_MOD_SEGMENT_START), "op0"),
-                instance_num,
-            ),
+            (CasmAddress::new(segment_start, "op0"), instance_num),
         );
 
         // Compute and deduce sub_p_bit

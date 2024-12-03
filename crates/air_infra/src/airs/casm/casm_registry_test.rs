@@ -6,6 +6,7 @@ use indexmap::IndexMap;
 
 // Builtins
 use super::builtins::bitwise::*;
+use super::builtins::modulo::add_mod::*;
 use super::builtins::range_check::*;
 // Opcodes
 use super::opcodes::add_ap_opcode::*;
@@ -40,6 +41,7 @@ fn test_casm_registry() {
         bits: 128,
         memory: Felt252IdMemory::default(),
     });
+    reg.add_entry(&AddModBuiltin::default());
 
     // Add opcodes
 

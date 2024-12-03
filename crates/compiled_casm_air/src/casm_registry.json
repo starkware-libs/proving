@@ -151,6 +151,93 @@
     "trace_cells_upper_bound": 127,
     "lookup_uses_upper_bound": 16
   },
+  "ReadPositive_num_bits_99": {
+    "trace_type": "Inline",
+    "num_state_cols": 12,
+    "lookup_uses": {
+      "MemoryAddressToId": 1,
+      "MemoryIdToBig": 1
+    },
+    "lookup_yield": false,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 16,
+    "trace_cells_upper_bound": 122,
+    "lookup_uses_upper_bound": 16
+  },
+  "ReadPositive_num_bits_27": {
+    "trace_type": "Inline",
+    "num_state_cols": 4,
+    "lookup_uses": {
+      "MemoryAddressToId": 1,
+      "MemoryIdToBig": 1
+    },
+    "lookup_yield": false,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 8,
+    "trace_cells_upper_bound": 114,
+    "lookup_uses_upper_bound": 16
+  },
+  "MemCondVerifyEqualKnownId": {
+    "trace_type": "Inline",
+    "num_state_cols": 1,
+    "lookup_uses": {
+      "MemoryAddressToId": 1
+    },
+    "lookup_yield": false,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 3,
+    "trace_cells_upper_bound": 7,
+    "lookup_uses_upper_bound": 1
+  },
+  "CondDecodeSmallSign": {
+    "trace_type": "Inline",
+    "num_state_cols": 2,
+    "lookup_uses": {},
+    "lookup_yield": false,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 2,
+    "trace_cells_upper_bound": 2,
+    "lookup_uses_upper_bound": 0
+  },
+  "ReadSmall": {
+    "trace_type": "Inline",
+    "num_state_cols": 6,
+    "lookup_uses": {
+      "MemoryAddressToId": 1,
+      "MemoryIdToBig": 1
+    },
+    "lookup_yield": false,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 10,
+    "trace_cells_upper_bound": 116,
+    "lookup_uses_upper_bound": 16
+  },
+  "ModUtils": {
+    "trace_type": "Inline",
+    "num_state_cols": 236,
+    "lookup_uses": {
+      "MemoryAddressToId": 29,
+      "MemoryIdToBig": 24
+    },
+    "lookup_yield": false,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 342,
+    "trace_cells_upper_bound": 2906,
+    "lookup_uses_upper_bound": 389
+  },
+  "AddModBuiltin": {
+    "trace_type": "Builtin",
+    "num_state_cols": 251,
+    "lookup_uses": {
+      "MemoryAddressToId": 29,
+      "MemoryIdToBig": 24
+    },
+    "lookup_yield": false,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 357,
+    "trace_cells_upper_bound": 2921,
+    "lookup_uses_upper_bound": 389
+  },
   "RangeCheck_N_3_bits_7_2_5": {
     "trace_type": "Component",
     "num_state_cols": 0,
@@ -325,16 +412,6 @@
     "trace_cells_upper_bound": 0,
     "lookup_uses_upper_bound": 0
   },
-  "CondDecodeSmallSign": {
-    "trace_type": "Inline",
-    "num_state_cols": 2,
-    "lookup_uses": {},
-    "lookup_yield": false,
-    "lookup_multiplicity": false,
-    "total_num_trace_cols": 2,
-    "trace_cells_upper_bound": 2,
-    "lookup_uses_upper_bound": 0
-  },
   "CondFelt252AsRelImm": {
     "trace_type": "Inline",
     "num_state_cols": 2,
@@ -383,19 +460,6 @@
     "total_num_trace_cols": 3,
     "trace_cells_upper_bound": 154,
     "lookup_uses_upper_bound": 19
-  },
-  "ReadSmall": {
-    "trace_type": "Inline",
-    "num_state_cols": 6,
-    "lookup_uses": {
-      "MemoryAddressToId": 1,
-      "MemoryIdToBig": 1
-    },
-    "lookup_yield": false,
-    "lookup_multiplicity": false,
-    "total_num_trace_cols": 10,
-    "trace_cells_upper_bound": 116,
-    "lookup_uses_upper_bound": 16
   },
   "AddApOpcode_is_imm_f_op1_base_fp_f": {
     "trace_type": "Opcode",
@@ -599,19 +663,6 @@
     "total_num_trace_cols": 8,
     "trace_cells_upper_bound": 159,
     "lookup_uses_upper_bound": 19
-  },
-  "ReadPositive_num_bits_27": {
-    "trace_type": "Inline",
-    "num_state_cols": 4,
-    "lookup_uses": {
-      "MemoryAddressToId": 1,
-      "MemoryIdToBig": 1
-    },
-    "lookup_yield": false,
-    "lookup_multiplicity": false,
-    "total_num_trace_cols": 8,
-    "trace_cells_upper_bound": 114,
-    "lookup_uses_upper_bound": 16
   },
   "AssertEqOpcode_is_double_deref_t_is_imm_f": {
     "trace_type": "Opcode",

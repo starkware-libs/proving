@@ -1,5 +1,7 @@
 use std::array::from_fn;
 
+use compiled_casm_air::public_params::PublicParam;
+
 use super::add_mod::*;
 use super::mod_utils::*;
 // Macros
@@ -10,6 +12,7 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::State;
+use crate::core::*;
 
 type BigInt = [u128; MOD_BUILTIN_N_WORDS];
 
@@ -245,6 +248,7 @@ fn data_unravel_2d_252(data: [[Felt252Expr; MOD_BUILTIN_N_WORDS]; 3]) -> Vec<Fel
 }
 
 fn run_add_mod_builtin(instances: Vec<AddModInstance>, expected_states: Option<Vec<State>>) {
+    let segment_start = 200;
     let mut memory_addr_to_vals = vec![];
     for (ind, instance) in instances.iter().enumerate() {
         let offsets_ptr_val = instance.offsets_ptr;
@@ -271,21 +275,21 @@ fn run_add_mod_builtin(instances: Vec<AddModInstance>, expected_states: Option<V
 
         memory_addr_to_vals.extend(vec![
             (
-                const_expr!(DUMMY_ADD_MOD_SEGMENT_START + 4 + 7 * ind as u32),
+                const_expr!(segment_start + 4 + 7 * ind as u32),
                 const_felt252_expr!(values_ptr_val as u128, 0),
             ),
             (
-                const_expr!(DUMMY_ADD_MOD_SEGMENT_START + 5 + 7 * ind as u32),
+                const_expr!(segment_start + 5 + 7 * ind as u32),
                 const_felt252_expr!(offsets_ptr_val as u128, 0),
             ),
             (
-                const_expr!(DUMMY_ADD_MOD_SEGMENT_START + 6 + 7 * ind as u32),
+                const_expr!(segment_start + 6 + 7 * ind as u32),
                 const_felt252_expr!(instance.n as u128, 0),
             ),
         ]);
         memory_addr_to_vals.extend(
             (0..4)
-                .map(|i| const_expr!(DUMMY_ADD_MOD_SEGMENT_START + i + 7 * ind as u32))
+                .map(|i| const_expr!(segment_start + i + 7 * ind as u32))
                 .zip(p_val.iter().cloned()),
         );
 
@@ -299,7 +303,13 @@ fn run_add_mod_builtin(instances: Vec<AddModInstance>, expected_states: Option<V
     let memory = Felt252IdMemory::new_with_data(memory_addr_to_vals);
     let add_mod = AddModBuiltin { memory };
 
-    let (registry, _) = AirFnRegistry::new(&add_mod);
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::AddModBuiltinSegmentStart,
+        Felt::from(segment_start),
+    );
+    registry.add_entry(&add_mod);
+
     let mut state_per_instance = vec![];
     for row in 0..instances.len() {
         let (curr_state, ..) = registry.run_air_with_row_number(&add_mod, (), row);
