@@ -25,22 +25,22 @@
           "name": "readsmall_input",
           "type": "M31"
         },
-        "output_name": "memoryaddresstoid_value_tmp_0"
+        "output_name": "memoryaddresstoid_value_tmp_ceaa_0"
       }
     },
     {
       "LookupCall": {
         "air_fn_name": "MemoryIdToBig",
         "input_arg": {
-          "name": "memoryaddresstoid_value_tmp_0",
+          "name": "memoryaddresstoid_value_tmp_ceaa_0",
           "type": "M31"
         },
-        "output_name": "memoryidtobig_value_tmp_29"
+        "output_name": "memoryidtobig_value_tmp_ceaa_1"
       }
     },
     {
       "Deduction": [
-        "memoryaddresstoid_value_tmp_0",
+        "memoryaddresstoid_value_tmp_ceaa_0",
         "readsmall_input_id"
       ]
     },
@@ -69,7 +69,7 @@
         "air_fn_description": "CondDecodeSmallSign",
         "input_arg": [
           {
-            "name": "memoryidtobig_value_tmp_29",
+            "name": "memoryidtobig_value_tmp_ceaa_1",
             "type": "Felt252"
           },
           {
@@ -91,19 +91,19 @@
     },
     {
       "Deduction": [
-        "memoryidtobig_value_tmp_29.get_m31(const_0)",
+        "memoryidtobig_value_tmp_ceaa_1.get_m31(const_0)",
         "readsmall_input_limb_0"
       ]
     },
     {
       "Deduction": [
-        "memoryidtobig_value_tmp_29.get_m31(const_1)",
+        "memoryidtobig_value_tmp_ceaa_1.get_m31(const_1)",
         "readsmall_input_limb_1"
       ]
     },
     {
       "Deduction": [
-        "memoryidtobig_value_tmp_29.get_m31(const_2)",
+        "memoryidtobig_value_tmp_ceaa_1.get_m31(const_2)",
         "readsmall_input_limb_2"
       ]
     },

@@ -1,7 +1,7 @@
 use compiled_casm_air::compiled_structs::CompiledAirVar;
 use prover_types::cpu::Bool;
 
-use super::air_fn_registry::*;
+use super::air_fn::*;
 use super::expressions::bool_expr::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;

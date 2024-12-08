@@ -1,5 +1,5 @@
 use std::cell::RefCell;
-use std::collections::BTreeSet;
+use std::collections::{BTreeSet, HashSet};
 use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{
@@ -12,9 +12,6 @@ use super::air_fn::*;
 use super::public_params::*;
 use super::state::*;
 use super::variables::*;
-
-pub const INTERMEDIATE_VAR_PREFIX: &str = "tmp_";
-
 // AirFnEntry describes everything we know about an Air function.
 #[derive(Debug, Clone, Serialize)]
 pub struct AirFnEntry {
@@ -182,8 +179,7 @@ impl AirFnEntry {
 #[derive(Debug, Clone, Serialize, Default)]
 pub struct AirFnRegistry {
     air_fns: Rc<RefCell<IndexMap<String, AirFnEntry>>>,
-    #[serde(skip)]
-    intermediate_index: Rc<RefCell<usize>>,
+    air_fn_ids: Rc<RefCell<HashSet<String>>>,
     #[serde(skip)]
     pub public_params: PublicParams,
 }
@@ -192,7 +188,7 @@ impl AirFnRegistry {
     pub fn new_empty() -> Self {
         Self {
             air_fns: Rc::new(RefCell::new(IndexMap::new())),
-            intermediate_index: Rc::new(RefCell::new(0)),
+            air_fn_ids: Rc::new(RefCell::new(HashSet::new())),
             public_params: Default::default(),
         }
     }
@@ -217,7 +213,14 @@ impl AirFnRegistry {
             return entry.clone();
         }
 
-        let (air_body, state, input, output) = self.build_air(air_fn);
+        let air_fn_id = format!("{h:.*}", 4, h = format!("{:x}", air_fn.hash()));
+        assert!(
+            !self.air_fn_ids.borrow().contains(&air_fn_id),
+            "Air function with the same hash already exists"
+        );
+        self.air_fn_ids.borrow_mut().insert(air_fn_id.clone());
+
+        let (air_body, state, input, output) = self.build_air(air_fn, air_fn_id);
         let entry = AirFnEntry {
             name: air_fn.name(),
             description: air_fn.description(),
@@ -267,6 +270,7 @@ impl AirFnRegistry {
             row_number: Some(row_number),
             run: true,
             registry: self.clone(),
+            intermediate_id: Rc::new(RefCell::new(("".to_string(), 0))),
         };
         let output = match air_fn.trace_type() {
             TraceType::Inline => air_fn.call(&mut air_builder, input),
@@ -290,6 +294,7 @@ impl AirFnRegistry {
     fn build_air<I, O>(
         &self,
         air_fn: &dyn AirFn<In = I, Out = O>,
+        air_fn_id: String,
     ) -> (Vec<AirBodyComponent>, State, I, O)
     where
         I: AirVar,
@@ -314,6 +319,7 @@ impl AirFnRegistry {
             #[cfg(test)]
             run: false,
             registry: self.clone(),
+            intermediate_id: Rc::new(RefCell::new((air_fn_id, 0))),
         };
         let output = match air_fn.trace_type() {
             TraceType::Inline => air_fn.call(&mut air_builder, input.clone()),
@@ -355,20 +361,5 @@ impl AirFnRegistry {
                 )
             })
             .collect()
-    }
-
-    fn get_intermediate_index(&self) -> usize {
-        let mut index = self.intermediate_index.borrow_mut();
-        let res = *index;
-        *index += 1;
-        res
-    }
-
-    pub(super) fn get_intermediate_name(&self, desc: Option<String>) -> String {
-        let index = self.get_intermediate_index();
-        match desc {
-            Some(desc) => format!("{}_{}{}", desc, INTERMEDIATE_VAR_PREFIX, index),
-            None => format!("{}{}", INTERMEDIATE_VAR_PREFIX, index),
-        }
     }
 }

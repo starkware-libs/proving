@@ -7,7 +7,7 @@
     "type": "UInt16"
   },
   "output": {
-    "name": "Bool::from_m31(tmp_3)",
+    "name": "Bool::from_m31(tmp_6ffd_1)",
     "type": "Bool"
   },
   "trace_type": "Inline",
@@ -27,11 +27,11 @@
         },
         "output": [
           {
-            "name": "Bool::from_m31(tmp_3)",
+            "name": "Bool::from_m31(tmp_6ffd_1)",
             "type": "Bool"
           },
           {
-            "name": "tmp_2",
+            "name": "tmp_6ffd_0",
             "type": "UInt16"
           }
         ]
@@ -39,7 +39,7 @@
     },
     {
       "Constraint": [
-        "((tmp_3 * col0) + ((const_1 - tmp_3) * (col0 - const_2)))"
+        "((tmp_6ffd_1 * col0) + ((const_1 - tmp_6ffd_1) * (col0 - const_2)))"
       ]
     }
   ],

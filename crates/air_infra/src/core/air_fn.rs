@@ -1,6 +1,8 @@
 use std::any::type_name;
+use std::cell::RefCell;
 use std::fmt::Debug;
 use std::hash::{DefaultHasher, Hash, Hasher};
+use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::UseOrYield;
 use compiled_casm_air::public_params::PublicParam;
@@ -15,6 +17,7 @@ use super::variables::*;
 
 pub const MAX_NAME_LEN: usize = 50;
 pub const OPCODES_RELATION_NAME: &str = "opcodes";
+pub const INTERMEDIATE_VAR_PREFIX: &str = "tmp";
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum TraceType {
@@ -206,6 +209,7 @@ pub struct AirBuilder {
     #[cfg(test)]
     pub(super) run: bool,
     pub(super) registry: AirFnRegistry,
+    pub(super) intermediate_id: Rc<RefCell<(String, usize)>>,
 }
 impl AirBuilder {
     #[cfg(test)]
@@ -301,9 +305,7 @@ impl AirBuilder {
     where
         V: AirVar,
     {
-        let name = self
-            .registry
-            .get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
+        let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
         let intermediate_type = IntermediateType {
             in_constraints: false,
             in_deductions: true,
@@ -322,9 +324,7 @@ impl AirBuilder {
             "The mask of the intermediate variable for constraints must be in the trace."
         );
 
-        let name = self
-            .registry
-            .get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
+        let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
         let intermediate_type = IntermediateType {
             in_constraints: true,
             in_deductions: false,
@@ -346,9 +346,7 @@ impl AirBuilder {
             "The mask of the intermediate variable for constraints must be in the trace."
         );
 
-        let name = self
-            .registry
-            .get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
+        let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
         let intermediate_type = IntermediateType {
             in_constraints: true,
             in_deductions: true,
@@ -404,6 +402,7 @@ impl AirBuilder {
             #[cfg(test)]
             run: self.run,
             registry: self.registry.clone(),
+            intermediate_id: self.intermediate_id.clone(),
         };
         let output = air_fn.call(&mut air_builder, input.clone());
         self.air_body.push(AirBodyComponent::Call(Call {
@@ -434,9 +433,11 @@ impl AirBuilder {
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);
 
-        let output_name = self
-            .registry
-            .get_intermediate_name(Some(format!("{}_output", air_fn.name().to_lowercase())));
+        let output_name = if !O::is_empty() {
+            self.get_intermediate_name(Some(format!("{}_output", air_fn.name().to_lowercase())))
+        } else {
+            "".to_string()
+        };
         let mut output = O::new(output_name.clone(), false);
 
         #[cfg(test)]
@@ -450,6 +451,8 @@ impl AirBuilder {
                 row_number: None,
                 run: self.run,
                 registry: self.registry.clone(),
+                // The intermediate_id is not used in run mode.
+                intermediate_id: self.intermediate_id.clone(),
             };
             output = air_fn.lookup_call(&mut air_builder, input.clone());
         }
@@ -514,9 +517,8 @@ impl AirBuilder {
         // Make sure the memory is in the registry
         self.registry.add_entry(memory);
 
-        let value_name = self
-            .registry
-            .get_intermediate_name(Some(format!("{}_value", memory.name().to_lowercase())));
+        let value_name =
+            self.get_intermediate_name(Some(format!("{}_value", memory.name().to_lowercase())));
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: memory.name(),
@@ -536,6 +538,8 @@ impl AirBuilder {
                 row_number: None,
                 run: self.run,
                 registry: self.registry.clone(),
+                // The intermediate_id is not used in run mode.
+                intermediate_id: self.intermediate_id.clone(),
             };
             value = memory.lookup_call(&mut air_builder, key.clone());
         }
@@ -609,6 +613,8 @@ impl AirBuilder {
                 #[cfg(test)]
                 run: self.run,
                 registry: self.registry.clone(),
+                // The intermediate_id is not used in run mode.
+                intermediate_id: self.intermediate_id.clone(),
             };
             return air_fn.call(&mut air_builder, ());
         }
@@ -622,6 +628,24 @@ impl AirBuilder {
 
     pub fn get_public_param(&self, which: PublicParam) -> FeltExpr {
         self.registry.public_params.get(which)
+    }
+
+    fn get_intermediate_name(&mut self, desc: Option<String>) -> String {
+        let suffix = format!(
+            "{}_{}_{}",
+            INTERMEDIATE_VAR_PREFIX,
+            self.intermediate_id.borrow().0,
+            self.intermediate_id.borrow().1
+        );
+        let name = match desc {
+            Some(desc) => format!("{}_{}", desc, suffix),
+            None => suffix,
+        };
+
+        // Increase the intermediate index.
+        self.intermediate_id.borrow_mut().1 += 1;
+
+        name
     }
 }
 

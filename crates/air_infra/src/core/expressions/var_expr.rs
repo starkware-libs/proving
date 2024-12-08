@@ -1,7 +1,7 @@
 use compiled_casm_air::compiled_structs::CompiledAirVar;
 use prover_types::cpu::ProverType;
 
-use super::super::air_fn_registry::*;
+use super::super::air_fn::*;
 use super::super::state::*;
 use super::super::variables::*;
 use super::expr::*;
