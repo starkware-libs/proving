@@ -719,7 +719,7 @@
   },
   "CallOpcode_is_rel_f_op1_base_fp_f": {
     "trace_type": "Opcode",
-    "num_state_cols": 10,
+    "num_state_cols": 16,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -728,8 +728,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 28,
-    "trace_cells_upper_bound": 497,
+    "total_num_trace_cols": 34,
+    "trace_cells_upper_bound": 503,
     "lookup_uses_upper_bound": 68
   },
   "DecodeInstruction_553df0b64b2e381f": {
@@ -746,7 +746,7 @@
   },
   "CallOpcode_is_rel_t_op1_base_fp_f": {
     "trace_type": "Opcode",
-    "num_state_cols": 11,
+    "num_state_cols": 17,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -755,8 +755,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 29,
-    "trace_cells_upper_bound": 498,
+    "total_num_trace_cols": 35,
+    "trace_cells_upper_bound": 504,
     "lookup_uses_upper_bound": 68
   },
   "DecodeInstruction_52374a4f35d83024": {
@@ -773,7 +773,7 @@
   },
   "CallOpcode_is_rel_f_op1_base_fp_t": {
     "trace_type": "Opcode",
-    "num_state_cols": 10,
+    "num_state_cols": 16,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -782,8 +782,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 28,
-    "trace_cells_upper_bound": 497,
+    "total_num_trace_cols": 34,
+    "trace_cells_upper_bound": 503,
     "lookup_uses_upper_bound": 68
   },
   "DecodeInstruction_113648125c3c3f56": {

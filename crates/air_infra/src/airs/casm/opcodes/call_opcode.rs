@@ -6,10 +6,8 @@ use super::super::decode_instruction::decode_inst::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::felt252_id_memory::verify::*;
 
 /// The call opcode.
 /// Implements the Cairo0 instructions:
@@ -75,35 +73,25 @@ impl AirFn for CallOpcode {
         );
 
         // Push fp.
-        ab.call(
-            &MemVerify {
-                memory: self.memory.clone(),
-            },
-            (
-                casm_state.ap.clone(),
-                Felt252Expr::from(vec![casm_state.fp.value.clone()]),
-            ),
-        );
+        let stored_fp_address = CasmAddress::new(casm_state.ap.clone().value, "stored_fp");
+        let stored_fp = self.memory.read_address(ab, stored_fp_address);
+        ab.constrain(stored_fp.value - casm_state.fp.clone().value, "[ap] = fp");
 
         // Push pc + instruction_size.
-        ab.call(
-            &MemVerify {
-                memory: self.memory.clone(),
-            },
-            (
-                CasmAddress::new(casm_state.ap.value.clone() + const_expr!(1), "ap_plus_one"),
-                Felt252Expr::from(vec![
-                    (casm_state.pc.value.clone() + const_expr!(1 + (self.is_rel as u32))),
-                ]),
-            ),
+        let stored_ret_pc_address = CasmAddress::new(
+            casm_state.ap.clone().value + const_expr!(1),
+            "stored_ret_pc",
         );
+        let stored_ret_pc = self.memory.read_address(ab, stored_ret_pc_address);
+        let return_pc = casm_state.pc.clone().value + const_expr!(1 + (self.is_rel as u32));
+        ab.constrain(stored_ret_pc.value - return_pc, "[ap+1] = return_pc");
 
         // Update pc.
         let next_pc = if self.is_rel {
             casm_state.pc.value.clone()
                 + self.memory.read_rel_imm(
                     ab,
-                    CasmAddress::new(casm_state.pc.value + const_expr!(1), "next_pc"),
+                    CasmAddress::new(casm_state.pc.value + const_expr!(1), "distance_to_next_pc"),
                 )
         } else {
             let mem1_base = if self.op1_base_fp {

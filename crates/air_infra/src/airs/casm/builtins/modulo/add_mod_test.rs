@@ -11,7 +11,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::state::State;
+use crate::core::state::*;
 use crate::core::*;
 
 type BigInt = [u128; MOD_BUILTIN_N_WORDS];
