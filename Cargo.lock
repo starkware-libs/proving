@@ -27,7 +27,7 @@ dependencies = [
  "indexmap",
  "inst_def",
  "num-integer",
- "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=898211b)",
+ "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=3e2a64a)",
  "serde",
  "serde_json",
 ]
@@ -433,6 +433,31 @@ checksum = "16b80225097f2e5ae4e7179dd2266824648f3e2f49d9134d584b76389d31c4c3"
 dependencies = [
  "libc",
 ]
+
+[[package]]
+name = "crossbeam-deque"
+version = "0.8.5"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "613f8cc01fe9cf1a3eb3d7f488fd2fa8388403e97039e2f73692932e291a770d"
+dependencies = [
+ "crossbeam-epoch",
+ "crossbeam-utils",
+]
+
+[[package]]
+name = "crossbeam-epoch"
+version = "0.9.18"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "5b82ac4a3c2ca9c3460964f020e1402edd5753411d7737aa39c3714ad1b5420e"
+dependencies = [
+ "crossbeam-utils",
+]
+
+[[package]]
+name = "crossbeam-utils"
+version = "0.8.20"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "22ec99545bb0ed0ea7bb9b8e1e9122ea386ff8a48c0922e43f36d45ab09e0e80"
 
 [[package]]
 name = "crunchy"
@@ -956,7 +981,7 @@ dependencies = [
 [[package]]
 name = "prover_types"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=898211b#898211bdc8783a1d80f7a56365113c1643bda6f6"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=3e2a64a#3e2a64a0a1e95ae53eedde7d73f90b13ce4a2a5c"
 dependencies = [
  "bytemuck",
  "itertools 0.12.1",
@@ -964,7 +989,7 @@ dependencies = [
  "ruint",
  "serde",
  "starknet-ff",
- "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=64270dc)",
+ "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=76af3c6)",
 ]
 
 [[package]]
@@ -1033,6 +1058,26 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "d25bf25ec5ae4a3f1b92f929810509a2f53d7dca2f50b794ff57e3face536c8f"
 dependencies = [
  "rand_core",
+]
+
+[[package]]
+name = "rayon"
+version = "1.10.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b418a60154510ca1a002a752ca9714984e21e4241e804d32555251faf8b78ffa"
+dependencies = [
+ "either",
+ "rayon-core",
+]
+
+[[package]]
+name = "rayon-core"
+version = "1.12.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "1465873a3dfdaa8ae7cb14b4383657caab0b3e8a0aa9ae8e04b044854c8dfce2"
+dependencies = [
+ "crossbeam-deque",
+ "crossbeam-utils",
 ]
 
 [[package]]
@@ -1316,7 +1361,7 @@ dependencies = [
 [[package]]
 name = "stwo-prover"
 version = "0.1.1"
-source = "git+https://github.com/starkware-libs/stwo?rev=64270dc#64270dc51420a6887e7c0695c71584949711dcb2"
+source = "git+https://github.com/starkware-libs/stwo?rev=76af3c6#76af3c6c7afc5b6e582ec5d16a03e74efe5a11ee"
 dependencies = [
  "blake2",
  "blake3",
@@ -1328,6 +1373,7 @@ dependencies = [
  "itertools 0.12.1",
  "num-traits",
  "rand",
+ "rayon",
  "serde",
  "starknet-crypto",
  "starknet-ff",

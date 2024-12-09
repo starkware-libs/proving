@@ -387,6 +387,14 @@ fn test_biguint384() {
         g.eq(const_bigu384_expr!(1, 0, 1, 0, 0, 1)).calc(),
         "false".to_string()
     );
+
+    let felt1 = bigu384_expr!("x", 1, 0, 1, 0, 0, 1).as_felts_mut()[0].clone();
+    assert_eq!(
+        &CompiledAirVar::from(felt1.clone()).to_string(),
+        "x.get_m31(const_0)"
+    );
+    let felt2 = const_bigu384_expr!(1, 0, 1, 0, 0, 1).get_felt(0);
+    assert_eq!(felt1.value(), felt2.value());
 }
 
 #[test]

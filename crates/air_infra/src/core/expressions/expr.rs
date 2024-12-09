@@ -92,8 +92,8 @@ pub enum ExprImpl {
     UInt32(UInt32Expr),
     UInt64(UInt64Expr),
     Felt252(Felt252Expr),
-    BigUInt384(BigUIntExpr<384, 6>),
-    BigUInt768(BigUIntExpr<768, 12>),
+    BigUInt384(BigUIntExpr<384, 6, 32>),
+    BigUInt768(BigUIntExpr<768, 12, 64>),
 }
 
 impl ExprImpl {
@@ -105,8 +105,8 @@ impl ExprImpl {
             ExprImpl::UInt32(_) => UInt32::r#type(),
             ExprImpl::UInt64(_) => UInt64::r#type(),
             ExprImpl::Felt252(_) => Felt252::r#type(),
-            ExprImpl::BigUInt384(_) => BigUInt::<384, 6>::r#type(),
-            ExprImpl::BigUInt768(_) => BigUInt::<768, 12>::r#type(),
+            ExprImpl::BigUInt384(_) => BigUInt::<384, 6, 32>::r#type(),
+            ExprImpl::BigUInt768(_) => BigUInt::<768, 12, 64>::r#type(),
         }
     }
 }
