@@ -76,17 +76,13 @@ impl AirFn for AddModBuiltin {
         );
 
         // Compute and deduce sub_p_bit
-        let [a_512, b_512, c_512] = [a.clone(), b.clone(), c.clone()]
-            .iter()
-            .map(|x| get_biguint384(x.clone()))
-            .collect::<Vec<_>>()
-            .try_into()
-            .unwrap();
-        let diff_512 =
-            ab.let_for_deduction(a_512.clone() + b_512.clone() - c_512.clone(), "(a + b - c)");
+        let a_384: BigUInt384Expr = a.to_vec().into();
+        let b_384: BigUInt384Expr = b.to_vec().into();
+        let c_384: BigUInt384Expr = c.to_vec().into();
+        let diff_384 = ab.let_for_deduction(a_384.clone() + b_384.clone() - c_384.clone(), "diff");
         let is_diff_0 = ab.let_for_deduction(
-            diff_512.eq(const_bigu384_expr!(0, 0, 0, 0, 0, 0)),
-            "(a + b == c)",
+            diff_384.eq(const_bigu384_expr!(0, 0, 0, 0, 0, 0)),
+            "is_diff_0",
         );
         let sub_p_bit = ab.deduce(&mut (const_expr!(1) - is_diff_0.as_felt()), "sub_p_bit");
         ab.constrain(

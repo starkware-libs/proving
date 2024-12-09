@@ -6,9 +6,7 @@ use prover_types::cpu::FELT252_BITS_PER_WORD;
 use crate::airs::casm::casm_state::*;
 // Macros
 use crate::const_expr;
-use crate::const_felt252_expr;
 use crate::core::air_fn::*;
-use crate::core::expressions::biguint_expr::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
@@ -194,17 +192,4 @@ impl AirFn for ModUtils {
             vars_val[2].clone(),
         ]
     }
-}
-
-pub fn get_biguint384(x: [Felt252Expr; MOD_BUILTIN_N_WORDS]) -> BigUInt384Expr {
-    let mut result = BigUInt384Expr::from(x[MOD_BUILTIN_N_WORDS - 1].clone());
-    for i in 0..(MOD_BUILTIN_N_WORDS - 1) {
-        result = BigUInt384Expr::from(x[MOD_BUILTIN_N_WORDS - 2 - i].clone())
-            + result
-                * BigUInt384Expr::from(const_felt252_expr!(
-                    1u128 << (MOD_BUILTIN_WORD_BIT_LEN as u128),
-                    0
-                ));
-    }
-    result
 }
