@@ -22,8 +22,7 @@ use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleH
 
 use super::component::{Claim, InteractionClaim};
 use crate::components::{
-    memoryaddresstoid, memoryidtobig, pack_values, rangecheck_n_2_bits_4_3,
-    rangecheck_n_3_bits_7_2_5,
+    memoryaddresstoid, memoryidtobig, pack_values, rangecheck_4_3, rangecheck_7_2_5,
 };
 use crate::relations;
 
@@ -45,8 +44,8 @@ impl ClaimGenerator {
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
         memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
         memoryidtobig_state: &mut memoryidtobig::ClaimGenerator,
-        rangecheck_n_2_bits_4_3_state: &mut rangecheck_n_2_bits_4_3::ClaimGenerator,
-        rangecheck_n_3_bits_7_2_5_state: &mut rangecheck_n_3_bits_7_2_5::ClaimGenerator,
+        rangecheck_4_3_state: &mut rangecheck_4_3::ClaimGenerator,
+        rangecheck_7_2_5_state: &mut rangecheck_7_2_5::ClaimGenerator,
     ) -> (Claim, InteractionClaimGenerator) {
         let n_calls = self.inputs.len();
         assert_ne!(n_calls, 0);
@@ -78,16 +77,16 @@ impl ClaimGenerator {
                 memoryidtobig_state.add_inputs(&inputs[..n_calls]);
             });
         sub_components_inputs
-            .rangecheck_n_2_bits_4_3_inputs
+            .rangecheck_4_3_inputs
             .iter()
             .for_each(|inputs| {
-                rangecheck_n_2_bits_4_3_state.add_inputs(&inputs[..n_calls]);
+                rangecheck_4_3_state.add_inputs(&inputs[..n_calls]);
             });
         sub_components_inputs
-            .rangecheck_n_3_bits_7_2_5_inputs
+            .rangecheck_7_2_5_inputs
             .iter()
             .for_each(|inputs| {
-                rangecheck_n_3_bits_7_2_5_state.add_inputs(&inputs[..n_calls]);
+                rangecheck_7_2_5_state.add_inputs(&inputs[..n_calls]);
             });
 
         tree_builder.extend_evals(
@@ -122,8 +121,8 @@ impl ClaimGenerator {
 pub struct SubComponentInputs {
     pub memoryaddresstoid_inputs: [Vec<memoryaddresstoid::InputType>; 1],
     pub memoryidtobig_inputs: [Vec<memoryidtobig::InputType>; 1],
-    pub rangecheck_n_2_bits_4_3_inputs: [Vec<rangecheck_n_2_bits_4_3::InputType>; 1],
-    pub rangecheck_n_3_bits_7_2_5_inputs: [Vec<rangecheck_n_3_bits_7_2_5::InputType>; 1],
+    pub rangecheck_4_3_inputs: [Vec<rangecheck_4_3::InputType>; 1],
+    pub rangecheck_7_2_5_inputs: [Vec<rangecheck_7_2_5::InputType>; 1],
 }
 impl SubComponentInputs {
     #[allow(unused_variables)]
@@ -131,8 +130,8 @@ impl SubComponentInputs {
         Self {
             memoryaddresstoid_inputs: [Vec::with_capacity(capacity)],
             memoryidtobig_inputs: [Vec::with_capacity(capacity)],
-            rangecheck_n_2_bits_4_3_inputs: [Vec::with_capacity(capacity)],
-            rangecheck_n_3_bits_7_2_5_inputs: [Vec::with_capacity(capacity)],
+            rangecheck_4_3_inputs: [Vec::with_capacity(capacity)],
+            rangecheck_7_2_5_inputs: [Vec::with_capacity(capacity)],
         }
     }
 
@@ -143,10 +142,10 @@ impl SubComponentInputs {
         self.memoryidtobig_inputs
             .iter_mut()
             .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
-        self.rangecheck_n_2_bits_4_3_inputs
+        self.rangecheck_4_3_inputs
             .iter_mut()
             .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
-        self.rangecheck_n_3_bits_7_2_5_inputs
+        self.rangecheck_7_2_5_inputs
             .iter_mut()
             .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
     }
@@ -288,19 +287,19 @@ pub fn write_trace_simd(
             let offset2_high_col26 = offset2_high_tmp_16a4_8.as_m31();
             trace[26].data[row_index] = offset2_high_col26;
 
-            sub_components_inputs.rangecheck_n_3_bits_7_2_5_inputs[0]
+            sub_components_inputs.rangecheck_7_2_5_inputs[0]
                 .extend([offset0_mid_col20, offset1_low_col21, offset1_high_col23].unpack());
 
-            lookup_data.rangecheck_n_3_bits_7_2_5[0].push([
+            lookup_data.rangecheck_7_2_5[0].push([
                 offset0_mid_col20,
                 offset1_low_col21,
                 offset1_high_col23,
             ]);
 
-            sub_components_inputs.rangecheck_n_2_bits_4_3_inputs[0]
+            sub_components_inputs.rangecheck_4_3_inputs[0]
                 .extend([offset2_low_col24, offset2_high_col26].unpack());
 
-            lookup_data.rangecheck_n_2_bits_4_3[0].push([offset2_low_col24, offset2_high_col26]);
+            lookup_data.rangecheck_4_3[0].push([offset2_low_col24, offset2_high_col26]);
 
             // MemVerify.
 
@@ -386,8 +385,8 @@ pub fn write_trace_simd(
 pub struct LookupData {
     pub memoryaddresstoid: [Vec<[PackedM31; 2]>; 1],
     pub memoryidtobig: [Vec<[PackedM31; 29]>; 1],
-    pub rangecheck_n_2_bits_4_3: [Vec<[PackedM31; 2]>; 1],
-    pub rangecheck_n_3_bits_7_2_5: [Vec<[PackedM31; 3]>; 1],
+    pub rangecheck_4_3: [Vec<[PackedM31; 2]>; 1],
+    pub rangecheck_7_2_5: [Vec<[PackedM31; 3]>; 1],
     pub verifyinstruction: [Vec<[PackedM31; 19]>; 1],
 }
 impl LookupData {
@@ -396,8 +395,8 @@ impl LookupData {
         Self {
             memoryaddresstoid: [Vec::with_capacity(capacity)],
             memoryidtobig: [Vec::with_capacity(capacity)],
-            rangecheck_n_2_bits_4_3: [Vec::with_capacity(capacity)],
-            rangecheck_n_3_bits_7_2_5: [Vec::with_capacity(capacity)],
+            rangecheck_4_3: [Vec::with_capacity(capacity)],
+            rangecheck_7_2_5: [Vec::with_capacity(capacity)],
             verifyinstruction: [Vec::with_capacity(capacity)],
         }
     }
@@ -413,25 +412,25 @@ impl InteractionClaimGenerator {
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
         memoryaddresstoid_lookup_elements: &relations::MemoryAddressToId,
         memoryidtobig_lookup_elements: &relations::MemoryIdToBig,
-        rangecheck_n_2_bits_4_3_lookup_elements: &relations::RangeCheck_N_2_bits_4_3,
-        rangecheck_n_3_bits_7_2_5_lookup_elements: &relations::RangeCheck_N_3_bits_7_2_5,
+        rangecheck_4_3_lookup_elements: &relations::RangeCheck_4_3,
+        rangecheck_7_2_5_lookup_elements: &relations::RangeCheck_7_2_5,
         verifyinstruction_lookup_elements: &relations::VerifyInstruction,
     ) -> InteractionClaim {
         let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
         let mut logup_gen = LogupTraceGenerator::new(log_size);
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.rangecheck_n_3_bits_7_2_5[0];
+        let lookup_row = &self.lookup_data.rangecheck_7_2_5[0];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = rangecheck_n_3_bits_7_2_5_lookup_elements.combine(lookup_values);
+            let denom = rangecheck_7_2_5_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.rangecheck_n_2_bits_4_3[0];
+        let lookup_row = &self.lookup_data.rangecheck_4_3[0];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = rangecheck_n_2_bits_4_3_lookup_elements.combine(lookup_values);
+            let denom = rangecheck_4_3_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
         }
         col_gen.finalize_col();

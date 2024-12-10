@@ -75,8 +75,8 @@
   "lookup_names": [
     "MemoryAddressToId",
     "MemoryIdToBig",
-    "RangeCheck_N_1_bits_3",
-    "RangeCheck_N_1_bits_6",
+    "RangeCheck_3",
+    "RangeCheck_6",
     "VerifyInstruction",
     "opcodes"
   ],
@@ -265,7 +265,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_N_1_bits_3",
+        "relation_name": "RangeCheck_3",
         "felts": [
           {
             "State": "dst_limb_3_col12"
@@ -519,7 +519,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_N_1_bits_6",
+        "relation_name": "RangeCheck_6",
         "felts": [
           {
             "State": "op0_limb_1_col15"
@@ -736,7 +736,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_N_1_bits_6",
+        "relation_name": "RangeCheck_6",
         "felts": [
           {
             "State": "op1_limb_1_col18"
@@ -2399,7 +2399,7 @@
     },
     {
       "LookupCall": {
-        "fn_name": "RangeCheck_N_1_bits_3",
+        "fn_name": "RangeCheck_3",
         "input": {
           "Array": [
             {
@@ -2412,7 +2412,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "RangeCheck_N_1_bits_3",
+        "fn_name": "RangeCheck_3",
         "input": {
           "Array": [
             {
@@ -2424,7 +2424,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_N_1_bits_3",
+        "relation_name": "RangeCheck_3",
         "felts": [
           {
             "State": "dst_limb_3_col12"
@@ -2873,7 +2873,7 @@
     },
     {
       "LookupCall": {
-        "fn_name": "RangeCheck_N_1_bits_6",
+        "fn_name": "RangeCheck_6",
         "input": {
           "Array": [
             {
@@ -2886,7 +2886,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "RangeCheck_N_1_bits_6",
+        "fn_name": "RangeCheck_6",
         "input": {
           "Array": [
             {
@@ -2898,7 +2898,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_N_1_bits_6",
+        "relation_name": "RangeCheck_6",
         "felts": [
           {
             "State": "op0_limb_1_col15"
@@ -3224,7 +3224,7 @@
     },
     {
       "LookupCall": {
-        "fn_name": "RangeCheck_N_1_bits_6",
+        "fn_name": "RangeCheck_6",
         "input": {
           "Array": [
             {
@@ -3237,7 +3237,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "RangeCheck_N_1_bits_6",
+        "fn_name": "RangeCheck_6",
         "input": {
           "Array": [
             {
@@ -3249,7 +3249,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_N_1_bits_6",
+        "relation_name": "RangeCheck_6",
         "felts": [
           {
             "State": "op1_limb_1_col18"

@@ -53,8 +53,7 @@ mod tests {
 
     #[test]
     fn range_check_code_gen() {
-        let serialized_air_fn =
-            read_json("../compiled_casm_air/src/lookups/rangecheck_n_1_bits_6.json");
+        let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/rangecheck_6.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }

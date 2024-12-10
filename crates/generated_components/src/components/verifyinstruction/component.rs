@@ -19,8 +19,8 @@ pub struct Eval {
     pub claim: Claim,
     pub memoryaddresstoid_lookup_elements: relations::MemoryAddressToId,
     pub memoryidtobig_lookup_elements: relations::MemoryIdToBig,
-    pub rangecheck_n_2_bits_4_3_lookup_elements: relations::RangeCheck_N_2_bits_4_3,
-    pub rangecheck_n_3_bits_7_2_5_lookup_elements: relations::RangeCheck_N_3_bits_7_2_5,
+    pub rangecheck_4_3_lookup_elements: relations::RangeCheck_4_3,
+    pub rangecheck_7_2_5_lookup_elements: relations::RangeCheck_7_2_5,
     pub verifyinstruction_lookup_elements: relations::VerifyInstruction,
 }
 
@@ -138,7 +138,7 @@ impl FrameworkEval for Eval {
                 - input_col3.clone()),
         );
         eval.add_to_relation(&[RelationEntry::new(
-            &self.rangecheck_n_3_bits_7_2_5_lookup_elements,
+            &self.rangecheck_7_2_5_lookup_elements,
             E::EF::one(),
             &[
                 offset0_mid_col20.clone(),
@@ -148,7 +148,7 @@ impl FrameworkEval for Eval {
         )]);
 
         eval.add_to_relation(&[RelationEntry::new(
-            &self.rangecheck_n_2_bits_4_3_lookup_elements,
+            &self.rangecheck_4_3_lookup_elements,
             E::EF::one(),
             &[offset2_low_col24.clone(), offset2_high_col26.clone()],
         )]);

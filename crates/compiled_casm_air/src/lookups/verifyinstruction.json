@@ -163,8 +163,8 @@
   "lookup_names": [
     "MemoryAddressToId",
     "MemoryIdToBig",
-    "RangeCheck_N_2_bits_4_3",
-    "RangeCheck_N_3_bits_7_2_5"
+    "RangeCheck_4_3",
+    "RangeCheck_7_2_5"
   ],
   "constraints": [
     {
@@ -315,7 +315,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_N_3_bits_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
             "State": "offset0_mid_col20"
@@ -332,7 +332,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_N_2_bits_4_3",
+        "relation_name": "RangeCheck_4_3",
         "felts": [
           {
             "State": "offset2_low_col24"
@@ -1964,7 +1964,7 @@
     },
     {
       "LookupCall": {
-        "fn_name": "RangeCheck_N_3_bits_7_2_5",
+        "fn_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -1983,7 +1983,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "RangeCheck_N_3_bits_7_2_5",
+        "fn_name": "RangeCheck_7_2_5",
         "input": {
           "Array": [
             {
@@ -2001,7 +2001,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_N_3_bits_7_2_5",
+        "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
             "State": "offset0_mid_col20"
@@ -2018,7 +2018,7 @@
     },
     {
       "LookupCall": {
-        "fn_name": "RangeCheck_N_2_bits_4_3",
+        "fn_name": "RangeCheck_4_3",
         "input": {
           "Array": [
             {
@@ -2034,7 +2034,7 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "RangeCheck_N_2_bits_4_3",
+        "fn_name": "RangeCheck_4_3",
         "input": {
           "Array": [
             {
@@ -2049,7 +2049,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheck_N_2_bits_4_3",
+        "relation_name": "RangeCheck_4_3",
         "felts": [
           {
             "State": "offset2_low_col24"

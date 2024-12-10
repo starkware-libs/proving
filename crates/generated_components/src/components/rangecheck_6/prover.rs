@@ -102,13 +102,13 @@ pub fn write_trace_simd() {
 }
 
 pub struct LookupData {
-    pub rangecheck_n_1_bits_6: [Vec<[PackedM31; 1]>; 1],
+    pub rangecheck_6: [Vec<[PackedM31; 1]>; 1],
 }
 impl LookupData {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            rangecheck_n_1_bits_6: [Vec::with_capacity(capacity)],
+            rangecheck_6: [Vec::with_capacity(capacity)],
         }
     }
 }
@@ -121,15 +121,15 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        rangecheck_n_1_bits_6_lookup_elements: &relations::RangeCheck_N_1_bits_6,
+        rangecheck_6_lookup_elements: &relations::RangeCheck_6,
     ) -> InteractionClaim {
         let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
         let mut logup_gen = LogupTraceGenerator::new(log_size);
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.rangecheck_n_1_bits_6[0];
+        let lookup_row = &self.lookup_data.rangecheck_6[0];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = rangecheck_n_1_bits_6_lookup_elements.combine(lookup_values);
+            let denom = rangecheck_6_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, -PackedQM31::one(), denom);
         }
         col_gen.finalize_col();

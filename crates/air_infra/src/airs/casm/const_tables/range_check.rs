@@ -50,6 +50,16 @@ impl<const N: usize> AirFn for RangeCheck<N> {
         TraceType::Component
     }
 
+    fn name(&self) -> String {
+        let bits = self
+            .bits
+            .iter()
+            .map(|b| b.to_string())
+            .collect::<Vec<_>>()
+            .join("_");
+        format!("RangeCheck_{}", bits)
+    }
+
     fn call(&self, _air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
         #[cfg(test)]
         if _air_builder.is_run_mode() {

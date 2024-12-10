@@ -19,7 +19,7 @@
     "trace_cells_upper_bound": 4,
     "lookup_uses_upper_bound": 0
   },
-  "RangeCheck_N_2_bits_9_9": {
+  "RangeCheck_9_9": {
     "trace_type": "Component",
     "num_state_cols": 0,
     "lookup_uses": {},
@@ -33,7 +33,7 @@
     "trace_type": "Inline",
     "num_state_cols": 0,
     "lookup_uses": {
-      "RangeCheck_N_2_bits_9_9": 14
+      "RangeCheck_9_9": 14
     },
     "lookup_yield": false,
     "lookup_multiplicity": false,
@@ -45,7 +45,7 @@
     "trace_type": "Memory",
     "num_state_cols": 29,
     "lookup_uses": {
-      "RangeCheck_N_2_bits_9_9": 14
+      "RangeCheck_9_9": 14
     },
     "lookup_yield": true,
     "lookup_multiplicity": true,
@@ -238,7 +238,7 @@
     "trace_cells_upper_bound": 2921,
     "lookup_uses_upper_bound": 389
   },
-  "RangeCheck_N_3_bits_7_2_5": {
+  "RangeCheck_7_2_5": {
     "trace_type": "Component",
     "num_state_cols": 0,
     "lookup_uses": {},
@@ -248,7 +248,7 @@
     "trace_cells_upper_bound": 3,
     "lookup_uses_upper_bound": 0
   },
-  "RangeCheck_N_2_bits_4_3": {
+  "RangeCheck_4_3": {
     "trace_type": "Component",
     "num_state_cols": 0,
     "lookup_uses": {},
@@ -262,8 +262,8 @@
     "trace_type": "Inline",
     "num_state_cols": 8,
     "lookup_uses": {
-      "RangeCheck_N_3_bits_7_2_5": 1,
-      "RangeCheck_N_2_bits_4_3": 1
+      "RangeCheck_7_2_5": 1,
+      "RangeCheck_4_3": 1
     },
     "lookup_yield": false,
     "lookup_multiplicity": false,
@@ -285,8 +285,8 @@
     "trace_type": "Component",
     "num_state_cols": 28,
     "lookup_uses": {
-      "RangeCheck_N_3_bits_7_2_5": 1,
-      "RangeCheck_N_2_bits_4_3": 1,
+      "RangeCheck_7_2_5": 1,
+      "RangeCheck_4_3": 1,
       "MemoryAddressToId": 1,
       "MemoryIdToBig": 1
     },
@@ -344,7 +344,7 @@
     "trace_type": "Inline",
     "num_state_cols": 29,
     "lookup_uses": {
-      "RangeCheck_N_2_bits_9_9": 14
+      "RangeCheck_9_9": 14
     },
     "lookup_yield": false,
     "lookup_multiplicity": false,
@@ -352,7 +352,7 @@
     "trace_cells_upper_bound": 99,
     "lookup_uses_upper_bound": 14
   },
-  "RangeCheck_N_1_bits_19": {
+  "RangeCheck_19": {
     "trace_type": "Component",
     "num_state_cols": 0,
     "lookup_uses": {},
@@ -366,7 +366,7 @@
     "trace_type": "Inline",
     "num_state_cols": 28,
     "lookup_uses": {
-      "RangeCheck_N_1_bits_19": 28
+      "RangeCheck_19": 28
     },
     "lookup_yield": false,
     "lookup_multiplicity": false,
@@ -378,8 +378,8 @@
     "trace_type": "Inline",
     "num_state_cols": 56,
     "lookup_uses": {
-      "RangeCheck_N_2_bits_9_9": 14,
-      "RangeCheck_N_1_bits_19": 28
+      "RangeCheck_9_9": 14,
+      "RangeCheck_19": 28
     },
     "lookup_yield": false,
     "lookup_multiplicity": false,
@@ -393,8 +393,8 @@
     "lookup_uses": {
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
-      "RangeCheck_N_2_bits_9_9": 28,
-      "RangeCheck_N_1_bits_19": 28
+      "RangeCheck_9_9": 28,
+      "RangeCheck_19": 28
     },
     "lookup_yield": false,
     "lookup_multiplicity": false,
@@ -439,8 +439,8 @@
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
-      "RangeCheck_N_2_bits_9_9": 28,
-      "RangeCheck_N_1_bits_19": 28,
+      "RangeCheck_9_9": 28,
+      "RangeCheck_19": 28,
       "opcodes": 1
     },
     "lookup_yield": true,
@@ -990,7 +990,7 @@
     "trace_cells_upper_bound": 158,
     "lookup_uses_upper_bound": 19
   },
-  "RangeCheck_N_1_bits_3": {
+  "RangeCheck_3": {
     "trace_type": "Component",
     "num_state_cols": 0,
     "lookup_uses": {},
@@ -1004,7 +1004,7 @@
     "trace_type": "Inline",
     "num_state_cols": 0,
     "lookup_uses": {
-      "RangeCheck_N_1_bits_3": 1
+      "RangeCheck_3": 1
     },
     "lookup_yield": false,
     "lookup_multiplicity": false,
@@ -1017,7 +1017,7 @@
     "num_state_cols": 5,
     "lookup_uses": {
       "MemoryAddressToId": 1,
-      "RangeCheck_N_1_bits_3": 1,
+      "RangeCheck_3": 1,
       "MemoryIdToBig": 1
     },
     "lookup_yield": false,
@@ -1026,7 +1026,7 @@
     "trace_cells_upper_bound": 120,
     "lookup_uses_upper_bound": 17
   },
-  "RangeCheck_N_1_bits_6": {
+  "RangeCheck_6": {
     "trace_type": "Component",
     "num_state_cols": 0,
     "lookup_uses": {},
@@ -1040,7 +1040,7 @@
     "trace_type": "Inline",
     "num_state_cols": 0,
     "lookup_uses": {
-      "RangeCheck_N_1_bits_6": 1
+      "RangeCheck_6": 1
     },
     "lookup_yield": false,
     "lookup_multiplicity": false,
@@ -1053,7 +1053,7 @@
     "num_state_cols": 3,
     "lookup_uses": {
       "MemoryAddressToId": 1,
-      "RangeCheck_N_1_bits_6": 1,
+      "RangeCheck_6": 1,
       "MemoryIdToBig": 1
     },
     "lookup_yield": false,
@@ -1068,9 +1068,9 @@
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
-      "RangeCheck_N_1_bits_3": 1,
+      "RangeCheck_3": 1,
       "MemoryIdToBig": 3,
-      "RangeCheck_N_1_bits_6": 2,
+      "RangeCheck_6": 2,
       "opcodes": 1
     },
     "lookup_yield": true,
@@ -1097,9 +1097,9 @@
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
-      "RangeCheck_N_1_bits_3": 1,
+      "RangeCheck_3": 1,
       "MemoryIdToBig": 3,
-      "RangeCheck_N_1_bits_6": 2,
+      "RangeCheck_6": 2,
       "opcodes": 1
     },
     "lookup_yield": true,
@@ -1115,7 +1115,7 @@
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
-      "RangeCheck_N_1_bits_19": 28,
+      "RangeCheck_19": 28,
       "opcodes": 1
     },
     "lookup_yield": true,
@@ -1131,7 +1131,7 @@
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
       "MemoryIdToBig": 3,
-      "RangeCheck_N_1_bits_19": 28,
+      "RangeCheck_19": 28,
       "opcodes": 1
     },
     "lookup_yield": true,
