@@ -19,8 +19,8 @@ pub struct Eval {
     pub claim: Claim,
     pub memoryaddresstoid_lookup_elements: relations::MemoryAddressToId,
     pub memoryidtobig_lookup_elements: relations::MemoryIdToBig,
+    pub opcodes_lookup_elements: relations::Opcodes,
     pub verifyinstruction_lookup_elements: relations::VerifyInstruction,
-    pub opcodes_lookup_elements: relations::opcodes,
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize)]

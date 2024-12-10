@@ -302,8 +302,8 @@ pub fn write_trace_simd(
 pub struct LookupData {
     pub memoryaddresstoid: [Vec<[PackedM31; 2]>; 1],
     pub memoryidtobig: [Vec<[PackedM31; 29]>; 1],
-    pub verifyinstruction: [Vec<[PackedM31; 19]>; 1],
     pub opcodes: [Vec<[PackedM31; 3]>; 2],
+    pub verifyinstruction: [Vec<[PackedM31; 19]>; 1],
 }
 impl LookupData {
     #[allow(unused_variables)]
@@ -311,8 +311,8 @@ impl LookupData {
         Self {
             memoryaddresstoid: [Vec::with_capacity(capacity)],
             memoryidtobig: [Vec::with_capacity(capacity)],
-            verifyinstruction: [Vec::with_capacity(capacity)],
             opcodes: [Vec::with_capacity(capacity), Vec::with_capacity(capacity)],
+            verifyinstruction: [Vec::with_capacity(capacity)],
         }
     }
 }
@@ -327,8 +327,8 @@ impl InteractionClaimGenerator {
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
         memoryaddresstoid_lookup_elements: &relations::MemoryAddressToId,
         memoryidtobig_lookup_elements: &relations::MemoryIdToBig,
+        opcodes_lookup_elements: &relations::Opcodes,
         verifyinstruction_lookup_elements: &relations::VerifyInstruction,
-        opcodes_lookup_elements: &relations::opcodes,
     ) -> InteractionClaim {
         let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
         let mut logup_gen = LogupTraceGenerator::new(log_size);

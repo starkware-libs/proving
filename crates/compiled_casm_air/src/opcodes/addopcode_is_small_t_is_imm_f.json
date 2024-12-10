@@ -85,8 +85,8 @@
   "lookup_names": [
     "MemoryAddressToId",
     "MemoryIdToBig",
-    "VerifyInstruction",
-    "opcodes"
+    "Opcodes",
+    "VerifyInstruction"
   ],
   "constraints": [
     {
@@ -1943,7 +1943,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "opcodes",
+        "relation_name": "Opcodes",
         "felts": [
           {
             "State": "input_pc_col0"
@@ -1960,7 +1960,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "opcodes",
+        "relation_name": "Opcodes",
         "felts": [
           {
             "BinaryOp": [
@@ -5525,7 +5525,7 @@
     "EndBlock",
     {
       "LookupTerm": {
-        "relation_name": "opcodes",
+        "relation_name": "Opcodes",
         "felts": [
           {
             "State": "input_pc_col0"
@@ -5542,7 +5542,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "opcodes",
+        "relation_name": "Opcodes",
         "felts": [
           {
             "BinaryOp": [

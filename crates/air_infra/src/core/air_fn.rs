@@ -16,7 +16,7 @@ use super::state::*;
 use super::variables::*;
 
 pub const MAX_NAME_LEN: usize = 50;
-pub const OPCODES_RELATION_NAME: &str = "opcodes";
+pub const OPCODES_RELATION_NAME: &str = "Opcodes";
 pub const INTERMEDIATE_VAR_PREFIX: &str = "tmp";
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]

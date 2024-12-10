@@ -244,7 +244,7 @@ fn get_compiled_entry_statistics(
                 *num_uses * stat.get(used_entry).unwrap().lookup_uses_upper_bound;
         } else {
             // For now, the only lookup relation which is not a component is "opcodes".
-            assert_eq!(used_entry, "opcodes");
+            assert_eq!(used_entry, OPCODES_RELATION_NAME);
             assert_eq!(num_uses, &1);
         }
     }

@@ -4,7 +4,7 @@ use stwo_prover::relation;
 // TODO(Ohad): generate from json and rename these.
 relation!(MemoryAddressToId, 2);
 relation!(MemoryIdToBig, 29);
-relation!(opcodes, 3);
+relation!(Opcodes, 3);
 relation!(RangeCheck_4_3, 2);
 relation!(RangeCheck_7_2_5, 3);
 relation!(VerifyInstruction, 29);
