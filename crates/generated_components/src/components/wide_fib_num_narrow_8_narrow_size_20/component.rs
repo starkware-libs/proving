@@ -90,7 +90,7 @@ impl FrameworkEval for Eval {
         let narrowfib_num_steps_20_output_col14 = eval.next_trace_mask();
         let narrowfib_num_steps_20_output_col15 = eval.next_trace_mask();
         let narrowfib_num_steps_20_output_col16 = eval.next_trace_mask();
-        eval.add_to_relation(&[RelationEntry::new(
+        eval.add_to_relation(RelationEntry::new(
             &self.narrowfib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
@@ -99,9 +99,9 @@ impl FrameworkEval for Eval {
                 narrowfib_num_steps_20_output_col1.clone(),
                 narrowfib_num_steps_20_output_col2.clone(),
             ],
-        )]);
+        ));
 
-        eval.add_to_relation(&[RelationEntry::new(
+        eval.add_to_relation(RelationEntry::new(
             &self.narrowfib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
@@ -110,9 +110,9 @@ impl FrameworkEval for Eval {
                 narrowfib_num_steps_20_output_col3.clone(),
                 narrowfib_num_steps_20_output_col4.clone(),
             ],
-        )]);
+        ));
 
-        eval.add_to_relation(&[RelationEntry::new(
+        eval.add_to_relation(RelationEntry::new(
             &self.narrowfib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
@@ -121,9 +121,9 @@ impl FrameworkEval for Eval {
                 narrowfib_num_steps_20_output_col5.clone(),
                 narrowfib_num_steps_20_output_col6.clone(),
             ],
-        )]);
+        ));
 
-        eval.add_to_relation(&[RelationEntry::new(
+        eval.add_to_relation(RelationEntry::new(
             &self.narrowfib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
@@ -132,9 +132,9 @@ impl FrameworkEval for Eval {
                 narrowfib_num_steps_20_output_col7.clone(),
                 narrowfib_num_steps_20_output_col8.clone(),
             ],
-        )]);
+        ));
 
-        eval.add_to_relation(&[RelationEntry::new(
+        eval.add_to_relation(RelationEntry::new(
             &self.narrowfib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
@@ -143,9 +143,9 @@ impl FrameworkEval for Eval {
                 narrowfib_num_steps_20_output_col9.clone(),
                 narrowfib_num_steps_20_output_col10.clone(),
             ],
-        )]);
+        ));
 
-        eval.add_to_relation(&[RelationEntry::new(
+        eval.add_to_relation(RelationEntry::new(
             &self.narrowfib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
@@ -154,9 +154,9 @@ impl FrameworkEval for Eval {
                 narrowfib_num_steps_20_output_col11.clone(),
                 narrowfib_num_steps_20_output_col12.clone(),
             ],
-        )]);
+        ));
 
-        eval.add_to_relation(&[RelationEntry::new(
+        eval.add_to_relation(RelationEntry::new(
             &self.narrowfib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
@@ -165,9 +165,9 @@ impl FrameworkEval for Eval {
                 narrowfib_num_steps_20_output_col13.clone(),
                 narrowfib_num_steps_20_output_col14.clone(),
             ],
-        )]);
+        ));
 
-        eval.add_to_relation(&[RelationEntry::new(
+        eval.add_to_relation(RelationEntry::new(
             &self.narrowfib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
@@ -176,7 +176,7 @@ impl FrameworkEval for Eval {
                 narrowfib_num_steps_20_output_col15.clone(),
                 narrowfib_num_steps_20_output_col16.clone(),
             ],
-        )]);
+        ));
 
         eval.finalize_logup();
         eval

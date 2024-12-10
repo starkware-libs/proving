@@ -384,8 +384,8 @@ fn parse_lookup_constraint(
         UseOrYield::Yield => "-",
     };
     quote! {
-        eval.add_to_relation(&[RelationEntry::new(&self.
+        eval.add_to_relation(RelationEntry::new(&self.
             $(relation_name.to_lowercase())_lookup_elements,
-            $(sign)E::EF::one(), &[$(lookup_values.join(","))])]);
+            $(sign)E::EF::one(), &[$(lookup_values.join(","))]));
     }
 }

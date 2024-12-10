@@ -72,11 +72,11 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        eval.add_to_relation(&[RelationEntry::new(
+        eval.add_to_relation(RelationEntry::new(
             &self.rangecheck_6_lookup_elements,
             -E::EF::one(),
             &[todo!()],
-        )]);
+        ));
 
         eval.finalize_logup();
         eval

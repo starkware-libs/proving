@@ -218,7 +218,7 @@ impl FrameworkEval for Eval {
             (col21.clone() - ((col19.clone() * col19.clone()) + (col20.clone() * col20.clone()))),
         );
 
-        eval.add_to_relation(&[RelationEntry::new(
+        eval.add_to_relation(RelationEntry::new(
             &self.narrowfib_num_steps_20_lookup_elements,
             -E::EF::one(),
             &[
@@ -227,7 +227,7 @@ impl FrameworkEval for Eval {
                 col20.clone(),
                 col21.clone(),
             ],
-        )]);
+        ));
 
         eval.finalize_logup();
         eval

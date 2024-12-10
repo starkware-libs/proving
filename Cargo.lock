@@ -658,10 +658,10 @@ version = "0.1.0"
 dependencies = [
  "itertools 0.12.1",
  "num-traits",
- "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=e741515)",
+ "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=2bce94)",
  "rand",
  "serde",
- "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=264922e)",
+ "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=060f0e4)",
 ]
 
 [[package]]
@@ -981,6 +981,20 @@ dependencies = [
 [[package]]
 name = "prover_types"
 version = "0.1.0"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=2bce94#2bce94cab7dbde17ddf5a23d7a76f01e36871646"
+dependencies = [
+ "bytemuck",
+ "itertools 0.12.1",
+ "num-traits",
+ "ruint",
+ "serde",
+ "starknet-ff",
+ "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=060f0e4)",
+]
+
+[[package]]
+name = "prover_types"
+version = "0.1.0"
 source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=3e2a64a#3e2a64a0a1e95ae53eedde7d73f90b13ce4a2a5c"
 dependencies = [
  "bytemuck",
@@ -990,20 +1004,6 @@ dependencies = [
  "serde",
  "starknet-ff",
  "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=76af3c6)",
-]
-
-[[package]]
-name = "prover_types"
-version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=e741515#e741515d85a4970b7d077255a4a3b1a0d1618531"
-dependencies = [
- "bytemuck",
- "itertools 0.12.1",
- "num-traits",
- "ruint",
- "serde",
- "starknet-ff",
- "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=264922e)",
 ]
 
 [[package]]
@@ -1339,7 +1339,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 [[package]]
 name = "stwo-prover"
 version = "0.1.1"
-source = "git+https://github.com/starkware-libs/stwo?rev=264922e#264922ee99bd875cadb656bddc1e4aaf3a0f7aa2"
+source = "git+https://github.com/starkware-libs/stwo?rev=060f0e4#060f0e4e2b2d32bfad8eabc17ef66292d883e220"
 dependencies = [
  "blake2",
  "blake3",
@@ -1351,6 +1351,7 @@ dependencies = [
  "itertools 0.12.1",
  "num-traits",
  "rand",
+ "rayon",
  "serde",
  "starknet-crypto",
  "starknet-ff",
