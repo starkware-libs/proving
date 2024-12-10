@@ -18,10 +18,10 @@ use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
 use super::component::{Claim, InteractionClaim, RelationElements};
-use crate::components::rangecheck_7_2_5;
+use crate::components::range_check_4_3;
 
-pub type InputType = [M31; 3];
-pub type PackedInputType = [PackedM31; 3];
+pub type InputType = [M31; 2];
+pub type PackedInputType = [PackedM31; 2];
 
 #[derive(Default)]
 pub struct ClaimGenerator {
@@ -30,7 +30,7 @@ pub struct ClaimGenerator {
 impl ClaimGenerator {
     pub fn write_trace(
         self,
-        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
+        _tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
     ) -> InteractionClaimGenerator {
         todo!()
     }
@@ -62,7 +62,7 @@ pub fn write_trace_simd(
 #[allow(unused_variables)]
 fn write_trace_row(
     dst: &mut [Col<SimdBackend, M31>],
-    rangecheck_n_3_bits_7_2_5_input: InputType,
+    rangecheck_n_2_bits_4_3_input: InputType,
     row_index: usize,
     sub_component_inputs: &mut SubComponentInputs,
     lookup_data: &mut LookupData,
@@ -71,13 +71,13 @@ fn write_trace_row(
 
 #[allow(non_snake_case)]
 pub struct LookupData {
-    pub rangecheck_n_3_bits_7_2_5: [Vec<Vec<PackedM31>>; 1],
+    pub rangecheck_n_2_bits_4_3: [Vec<Vec<PackedM31>>; 1],
 }
 impl LookupData {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            rangecheck_n_3_bits_7_2_5: [Vec::with_capacity(capacity)],
+            rangecheck_n_2_bits_4_3: [Vec::with_capacity(capacity)],
         }
     }
 }
@@ -90,7 +90,7 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        rangecheck_n_3_bits_7_2_5_lookup_elements: &rangecheck_7_2_5::RelationElements,
+        rangecheck_n_2_bits_4_3_lookup_elements: &range_check_4_3::RelationElements,
     ) -> InteractionClaim {
         todo!()
     }

@@ -45,6 +45,9 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
+const INPUTS_SUFFIX: &str = "_inputs";
+const STATE_SUFFIX: &str = "_state";
+
 // Generates the body of the write_trace function.
 fn generate_simd_write_trace_body_code(
     lists: &CompiledAirFn,
@@ -85,15 +88,15 @@ fn generate_simd_write_trace_body_code(
                 output_name,
             } => {
                 let input = simd_parse_air_var(input, const_names);
-                let fn_name = fn_name.to_lowercase();
+                let fn_name = camel_to_snake(fn_name);
                 if let Some(output_name) = output_name {
                     let delimiter = if is_stateful(&fn_name) {
-                        "_state."
+                        STATE_SUFFIX.to_owned() + "."
                     } else {
-                        "::"
+                        "::".to_owned()
                     };
                     write_trace_body.extend(quote! {
-                            let $(output_name) = $(fn_name.to_lowercase())$(delimiter)deduce_output(
+                            let $(output_name) = $(camel_to_snake(&fn_name))$(delimiter)deduce_output(
                                 $(input)
                             );
                     });
@@ -128,8 +131,8 @@ fn generate_simd_write_trace_body_code(
             TraceGenStep::LookupAddInput { fn_name, input } => {
                 let offset = add_inputs_offsets.get_mut(fn_name).unwrap();
                 write_trace_body.extend(quote! {
-                    sub_components_inputs
-                        .$(fn_name.to_lowercase())_inputs[$(offset.to_string())]
+                    sub_components$INPUTS_SUFFIX
+                        .$(camel_to_snake(fn_name))$INPUTS_SUFFIX[$(offset.to_string())]
                         .extend($(simd_parse_air_var(input, const_names)).unpack());
                 });
                 *offset += 1;
@@ -342,9 +345,9 @@ fn generate_sub_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
 
     let mut params = rust::Tokens::new();
     for fn_name in context {
-        let fn_name = fn_name.to_lowercase();
+        let fn_name = camel_to_snake(&fn_name);
         params.extend(quote! {
-            $(&fn_name)_state: &mut $(fn_name)::ClaimGenerator,
+            $(&fn_name)$STATE_SUFFIX: &mut $(fn_name)::ClaimGenerator,
         });
     }
     params
@@ -362,9 +365,9 @@ fn generate_stateful_component_params(deductions: &[TraceGenStep]) -> rust::Toke
     for fn_name in unique_function_calls(deductions) {
         // TODO(Ohad): get information about which function is stateful.
         if is_stateful(&fn_name) {
-            let fn_name = fn_name.to_lowercase();
+            let fn_name = camel_to_snake(&fn_name);
             params.extend(quote! {
-                $(&fn_name)_state: &mut $(fn_name)::ClaimGenerator,
+                $(&fn_name)$STATE_SUFFIX: &mut $(fn_name)::ClaimGenerator,
             });
         }
     }
@@ -378,7 +381,7 @@ fn generate_stateful_component_args(deductions: &[TraceGenStep]) -> rust::Tokens
         // TODO(Ohad): get information about which function is stateful.
         if is_stateful(&fn_name) {
             args.extend(quote! {
-                $(fn_name.to_lowercase())_state,
+                $(camel_to_snake(&fn_name))$STATE_SUFFIX,
             });
         }
     }
@@ -389,8 +392,8 @@ fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Token
     let mut statement = rust::Tokens::new();
     for fn_name in unique_add_input_calls(deductions).iter() {
         statement.extend(quote! {
-            sub_components_inputs.$(fn_name.to_lowercase())_inputs.iter().for_each(|inputs| {
-                $(fn_name.to_lowercase())_state.add_inputs(&inputs[..n_calls]);
+            sub_components$INPUTS_SUFFIX.$(camel_to_snake(fn_name))$INPUTS_SUFFIX.iter().for_each(|inputs| {
+                $(camel_to_snake(fn_name))$STATE_SUFFIX.add_inputs(&inputs[..n_calls]);
             });
         })
     }
@@ -467,16 +470,16 @@ pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rus
     }
 
     for (&fn_name, &offset) in add_inputs_offsets.iter().sorted_by(|a, b| a.0.cmp(b.0)) {
-        let fn_name = fn_name.to_lowercase();
+        let fn_name = camel_to_snake(fn_name);
         members_code.extend(quote! {
-            pub $(&fn_name)_inputs: [Vec<$(&fn_name)::InputType>; $(offset)],
+            pub $(&fn_name)$INPUTS_SUFFIX: [Vec<$(&fn_name)::InputType>; $(offset)],
         });
         let inner_vecs = (0..offset)
             .map(|_| quote! {Vec::with_capacity(capacity),})
             .collect_vec();
-        initialization_code.extend(quote!($(&fn_name)_inputs: [$(inner_vecs)],));
+        initialization_code.extend(quote!($(&fn_name)$INPUTS_SUFFIX: [$(inner_vecs)],));
         bit_reverse_code.extend(quote! {
-            self.$(fn_name)_inputs
+            self.$(fn_name)$INPUTS_SUFFIX
                 .iter_mut()
                 .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
         });
@@ -632,7 +635,7 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
             TraceGenStep::LookupCall { fn_name, .. } => {
                 if seen_functions.insert(fn_name) {
                     code.extend(quote! {
-                        use crate::components::$(fn_name.to_lowercase());
+                        use crate::components::$(camel_to_snake(fn_name));
                     });
                 }
             }
@@ -644,7 +647,7 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
             TraceGenStep::LookupAddInput { fn_name, .. } => {
                 if seen_functions.insert(fn_name) {
                     code.extend(quote! {
-                        use crate::components::$(fn_name.to_lowercase());
+                        use crate::components::$(camel_to_snake(fn_name));
                     });
                 }
             }
@@ -655,7 +658,7 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
 
 fn generate_configs(lists: &CompiledAirFn) -> rust::Tokens {
     let mut configs = quote! {};
-    if lists.name.to_lowercase().contains("generic_opcode") {
+    if lists.name.to_lowercase().contains("genericopcode") {
         configs.extend(quote! {
             #![cfg_attr(rustfmt, rustfmt_skip)]
         });

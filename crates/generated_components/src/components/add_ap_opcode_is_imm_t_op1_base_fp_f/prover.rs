@@ -21,7 +21,7 @@ use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
 use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
 use super::component::{Claim, InteractionClaim};
-use crate::components::{memoryaddresstoid, memoryidtobig, pack_values, verifyinstruction};
+use crate::components::{memory_address_to_id, memory_id_to_big, pack_values, verify_instruction};
 use crate::relations;
 
 pub type InputType = CasmState;
@@ -40,9 +40,9 @@ impl ClaimGenerator {
     pub fn write_trace(
         mut self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
-        memoryidtobig_state: &mut memoryidtobig::ClaimGenerator,
-        verifyinstruction_state: &mut verifyinstruction::ClaimGenerator,
+        memory_address_to_id_state: &mut memory_address_to_id::ClaimGenerator,
+        memory_id_to_big_state: &mut memory_id_to_big::ClaimGenerator,
+        verify_instruction_state: &mut verify_instruction::ClaimGenerator,
     ) -> (Claim, InteractionClaimGenerator) {
         let n_calls = self.inputs.len();
         assert_ne!(n_calls, 0);
@@ -55,29 +55,32 @@ impl ClaimGenerator {
         }
 
         let packed_inputs = pack_values(&self.inputs);
-        let (trace, mut sub_components_inputs, lookup_data) =
-            write_trace_simd(packed_inputs, memoryaddresstoid_state, memoryidtobig_state);
+        let (trace, mut sub_components_inputs, lookup_data) = write_trace_simd(
+            packed_inputs,
+            memory_address_to_id_state,
+            memory_id_to_big_state,
+        );
 
         if need_padding {
             sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
         }
         sub_components_inputs
-            .memoryaddresstoid_inputs
+            .memory_address_to_id_inputs
             .iter()
             .for_each(|inputs| {
-                memoryaddresstoid_state.add_inputs(&inputs[..n_calls]);
+                memory_address_to_id_state.add_inputs(&inputs[..n_calls]);
             });
         sub_components_inputs
-            .memoryidtobig_inputs
+            .memory_id_to_big_inputs
             .iter()
             .for_each(|inputs| {
-                memoryidtobig_state.add_inputs(&inputs[..n_calls]);
+                memory_id_to_big_state.add_inputs(&inputs[..n_calls]);
             });
         sub_components_inputs
-            .verifyinstruction_inputs
+            .verify_instruction_inputs
             .iter()
             .for_each(|inputs| {
-                verifyinstruction_state.add_inputs(&inputs[..n_calls]);
+                verify_instruction_state.add_inputs(&inputs[..n_calls]);
             });
 
         tree_builder.extend_evals(
@@ -110,28 +113,28 @@ impl ClaimGenerator {
 }
 
 pub struct SubComponentInputs {
-    pub memoryaddresstoid_inputs: [Vec<memoryaddresstoid::InputType>; 1],
-    pub memoryidtobig_inputs: [Vec<memoryidtobig::InputType>; 1],
-    pub verifyinstruction_inputs: [Vec<verifyinstruction::InputType>; 1],
+    pub memory_address_to_id_inputs: [Vec<memory_address_to_id::InputType>; 1],
+    pub memory_id_to_big_inputs: [Vec<memory_id_to_big::InputType>; 1],
+    pub verify_instruction_inputs: [Vec<verify_instruction::InputType>; 1],
 }
 impl SubComponentInputs {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            memoryaddresstoid_inputs: [Vec::with_capacity(capacity)],
-            memoryidtobig_inputs: [Vec::with_capacity(capacity)],
-            verifyinstruction_inputs: [Vec::with_capacity(capacity)],
+            memory_address_to_id_inputs: [Vec::with_capacity(capacity)],
+            memory_id_to_big_inputs: [Vec::with_capacity(capacity)],
+            verify_instruction_inputs: [Vec::with_capacity(capacity)],
         }
     }
 
     fn bit_reverse_coset_to_circle_domain_order(&mut self) {
-        self.memoryaddresstoid_inputs
+        self.memory_address_to_id_inputs
             .iter_mut()
             .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
-        self.memoryidtobig_inputs
+        self.memory_id_to_big_inputs
             .iter_mut()
             .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
-        self.verifyinstruction_inputs
+        self.verify_instruction_inputs
             .iter_mut()
             .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
     }
@@ -143,8 +146,8 @@ impl SubComponentInputs {
 #[allow(non_snake_case)]
 pub fn write_trace_simd(
     inputs: Vec<PackedInputType>,
-    memoryaddresstoid_state: &mut memoryaddresstoid::ClaimGenerator,
-    memoryidtobig_state: &mut memoryidtobig::ClaimGenerator,
+    memory_address_to_id_state: &mut memory_address_to_id::ClaimGenerator,
+    memory_id_to_big_state: &mut memory_id_to_big::ClaimGenerator,
 ) -> (
     [BaseColumn; N_TRACE_COLUMNS],
     SubComponentInputs,
@@ -183,11 +186,11 @@ pub fn write_trace_simd(
             // DecodeInstruction_a14b71db698d77c8.
 
             let memoryaddresstoid_value_tmp_38a0_1 =
-                memoryaddresstoid_state.deduce_output(input_pc_col0);
+                memory_address_to_id_state.deduce_output(input_pc_col0);
             let memoryidtobig_value_tmp_38a0_2 =
-                memoryidtobig_state.deduce_output(memoryaddresstoid_value_tmp_38a0_1);
+                memory_id_to_big_state.deduce_output(memoryaddresstoid_value_tmp_38a0_1);
 
-            sub_components_inputs.verifyinstruction_inputs[0].extend(
+            sub_components_inputs.verify_instruction_inputs[0].extend(
                 (
                     input_pc_col0,
                     [M31_32767, M31_32767, M31_32769],
@@ -224,12 +227,12 @@ pub fn write_trace_simd(
             // ReadSmall.
 
             let memoryaddresstoid_value_tmp_38a0_3 =
-                memoryaddresstoid_state.deduce_output(((input_pc_col0) + (M31_1)));
+                memory_address_to_id_state.deduce_output(((input_pc_col0) + (M31_1)));
             let memoryidtobig_value_tmp_38a0_4 =
-                memoryidtobig_state.deduce_output(memoryaddresstoid_value_tmp_38a0_3);
+                memory_id_to_big_state.deduce_output(memoryaddresstoid_value_tmp_38a0_3);
             let op1_id_col3 = memoryaddresstoid_value_tmp_38a0_3;
             trace[3].data[row_index] = op1_id_col3;
-            sub_components_inputs.memoryaddresstoid_inputs[0]
+            sub_components_inputs.memory_address_to_id_inputs[0]
                 .extend(((input_pc_col0) + (M31_1)).unpack());
 
             lookup_data.memoryaddresstoid[0].push([((input_pc_col0) + (M31_1)), op1_id_col3]);
@@ -249,7 +252,7 @@ pub fn write_trace_simd(
             trace[7].data[row_index] = op1_limb_1_col7;
             let op1_limb_2_col8 = memoryidtobig_value_tmp_38a0_4.get_m31(2);
             trace[8].data[row_index] = op1_limb_2_col8;
-            sub_components_inputs.memoryidtobig_inputs[0].extend(op1_id_col3.unpack());
+            sub_components_inputs.memory_id_to_big_inputs[0].extend(op1_id_col3.unpack());
 
             lookup_data.memoryidtobig[0].push([
                 op1_id_col3,

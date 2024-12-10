@@ -11,14 +11,14 @@ use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
 use stwo_prover::relation;
 
-use crate::components::rangecheck_7_2_5;
+use crate::components::range_check_4_3;
 
-relation!(RelationElements, 3);
+relation!(RelationElements, 2);
 
-pub struct RangeCheck_N_3_bits_7_2_5Eval {
+pub struct RangeCheck_N_2_bits_4_3Eval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
-    pub rangecheck_n_3_bits_7_2_5_lookup_elements: rangecheck_7_2_5::RelationElements,
+    pub rangecheck_n_2_bits_4_3_lookup_elements: range_check_4_3::RelationElements,
 }
 
 #[derive(Copy, Clone)]
@@ -29,7 +29,7 @@ pub struct Claim {
 impl Claim {
     pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
         let interaction_0_log_sizes = vec![self.log_size; 0];
-        let interaction_1_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 4];
+        let interaction_1_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE * 3];
         TreeVec::new(vec![interaction_0_log_sizes, interaction_1_log_sizes])
     }
 
@@ -49,9 +49,9 @@ impl InteractionClaim {
 }
 
 #[allow(non_snake_case)]
-pub type RangeCheck_N_3_bits_7_2_5Component = FrameworkComponent<RangeCheck_N_3_bits_7_2_5Eval>;
+pub type RangeCheck_N_2_bits_4_3Component = FrameworkComponent<RangeCheck_N_2_bits_4_3Eval>;
 
-impl FrameworkEval for RangeCheck_N_3_bits_7_2_5Eval {
+impl FrameworkEval for RangeCheck_N_2_bits_4_3Eval {
     fn log_size(&self) -> u32 {
         self.claim.log_size
     }

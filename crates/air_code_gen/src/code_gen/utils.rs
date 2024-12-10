@@ -158,7 +158,7 @@ pub fn camel_to_snake(camel: &str) -> String {
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'
 #[cfg(test)]
 pub fn compare_contents_or_fix_with_path(air_fn: CompiledAirFn, folder_path: &Path) {
-    let component_name = air_fn.name.to_lowercase();
+    let component_name = camel_to_snake(&air_fn.name);
     let folder_path = folder_path.join(component_name + "/");
     fs::create_dir_all(&folder_path).ok();
     let is_fix_mode = std::env::var("FIX_CODE") == Ok("1".to_string());

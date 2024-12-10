@@ -3,7 +3,7 @@ use std::io::{self};
 use std::path::Path;
 use std::process;
 
-use air_code_gen::code_gen::utils::dump_component_code;
+use air_code_gen::code_gen::utils::{camel_to_snake, dump_component_code};
 use clap::Parser;
 use compiled_casm_air::compiled_structs::CompiledAirFn;
 use compiled_casm_air::utils::read_json;
@@ -27,19 +27,14 @@ fn process_json_files(src_dir: &Path, dest_dir: &Path) -> io::Result<()> {
         let path = entry.path();
 
         if path.extension().and_then(|e| e.to_str()) == Some("json") {
-            let file_stem = path
-                .file_stem()
-                .and_then(|stem| stem.to_str())
-                .ok_or_else(|| io::Error::new(io::ErrorKind::Other, "Invalid file name"))?;
-
             // Generate code.
             let serialized_air_fn = read_json(
                 path.to_str()
                     .ok_or_else(|| io::Error::new(io::ErrorKind::Other, "Invalid file path"))?,
             );
             let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
-
-            let component_dir = dest_dir.join(file_stem);
+            let file_stem = camel_to_snake(air_fn.name.as_str());
+            let component_dir = dest_dir.join(file_stem.clone());
             fs::create_dir_all(component_dir.clone())?;
             dump_component_code(air_fn, &component_dir);
 
