@@ -3,16 +3,16 @@
   "description": "ReadSmall",
   "inst_def": {},
   "input": {
-    "name": "readsmall_input",
+    "name": "read_small_input",
     "type": "M31"
   },
   "output": [
     {
-      "name": "((((readsmall_input_limb_0_col3 + (readsmall_input_limb_1_col4 * const_512)) + (readsmall_input_limb_2_col5 * const_262144)) - msb_col1) - (const_134217728 * mid_limbs_set_col2))",
+      "name": "((((read_small_input_limb_0_col3 + (read_small_input_limb_1_col4 * const_512)) + (read_small_input_limb_2_col5 * const_262144)) - msb_col1) - (const_134217728 * mid_limbs_set_col2))",
       "type": "M31"
     },
     {
-      "name": "readsmall_input_id_col0",
+      "name": "read_small_input_id_col0",
       "type": "M31"
     }
   ],
@@ -22,7 +22,7 @@
       "LookupCall": {
         "air_fn_name": "MemoryAddressToId",
         "input_arg": {
-          "name": "readsmall_input",
+          "name": "read_small_input",
           "type": "M31"
         },
         "output_name": "memoryaddresstoid_value_tmp_ceaa_0"
@@ -41,14 +41,14 @@
     {
       "Deduction": [
         "memoryaddresstoid_value_tmp_ceaa_0",
-        "readsmall_input_id"
+        "read_small_input_id"
       ]
     },
     {
       "LookupAddInput": {
         "air_fn_name": "MemoryAddressToId",
         "input_arg": {
-          "name": "readsmall_input",
+          "name": "read_small_input",
           "type": "M31"
         }
       }
@@ -57,8 +57,8 @@
       "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
-          "readsmall_input",
-          "readsmall_input_id_col0"
+          "read_small_input",
+          "read_small_input_id_col0"
         ],
         "use_or_yield": "Use"
       }
@@ -92,26 +92,26 @@
     {
       "Deduction": [
         "memoryidtobig_value_tmp_ceaa_1.get_m31(const_0)",
-        "readsmall_input_limb_0"
+        "read_small_input_limb_0"
       ]
     },
     {
       "Deduction": [
         "memoryidtobig_value_tmp_ceaa_1.get_m31(const_1)",
-        "readsmall_input_limb_1"
+        "read_small_input_limb_1"
       ]
     },
     {
       "Deduction": [
         "memoryidtobig_value_tmp_ceaa_1.get_m31(const_2)",
-        "readsmall_input_limb_2"
+        "read_small_input_limb_2"
       ]
     },
     {
       "LookupAddInput": {
         "air_fn_name": "MemoryIdToBig",
         "input_arg": {
-          "name": "readsmall_input_id_col0",
+          "name": "read_small_input_id_col0",
           "type": "M31"
         }
       }
@@ -120,10 +120,10 @@
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
-          "readsmall_input_id_col0",
-          "readsmall_input_limb_0_col3",
-          "readsmall_input_limb_1_col4",
-          "readsmall_input_limb_2_col5",
+          "read_small_input_id_col0",
+          "read_small_input_limb_0_col3",
+          "read_small_input_limb_1_col4",
+          "read_small_input_limb_2_col5",
           "(mid_limbs_set_col2 * const_511)",
           "(mid_limbs_set_col2 * const_511)",
           "(mid_limbs_set_col2 * const_511)",
@@ -157,8 +157,8 @@
   "state": {
     "row": [
       [
-        "readsmall_input_id_col0",
-        "readsmall_input_id"
+        "read_small_input_id_col0",
+        "read_small_input_id"
       ],
       [
         "msb_col1",
@@ -169,16 +169,16 @@
         "mid_limbs_set"
       ],
       [
-        "readsmall_input_limb_0_col3",
-        "readsmall_input_limb_0"
+        "read_small_input_limb_0_col3",
+        "read_small_input_limb_0"
       ],
       [
-        "readsmall_input_limb_1_col4",
-        "readsmall_input_limb_1"
+        "read_small_input_limb_1_col4",
+        "read_small_input_limb_1"
       ],
       [
-        "readsmall_input_limb_2_col5",
-        "readsmall_input_limb_2"
+        "read_small_input_limb_2_col5",
+        "read_small_input_limb_2"
       ]
     ]
   }

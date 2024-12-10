@@ -193,30 +193,30 @@ pub fn write_trace_simd(
     inputs
         .into_iter()
         .enumerate()
-        .for_each(|(row_index, verifyinstruction_input)| {
+        .for_each(|(row_index, verify_instruction_input)| {
             let input_tmp_16a4_0 = (
-                verifyinstruction_input.0,
+                verify_instruction_input.0,
                 [
-                    verifyinstruction_input.1[0],
-                    verifyinstruction_input.1[1],
-                    verifyinstruction_input.1[2],
+                    verify_instruction_input.1[0],
+                    verify_instruction_input.1[1],
+                    verify_instruction_input.1[2],
                 ],
                 [
-                    verifyinstruction_input.2[0],
-                    verifyinstruction_input.2[1],
-                    verifyinstruction_input.2[2],
-                    verifyinstruction_input.2[3],
-                    verifyinstruction_input.2[4],
-                    verifyinstruction_input.2[5],
-                    verifyinstruction_input.2[6],
-                    verifyinstruction_input.2[7],
-                    verifyinstruction_input.2[8],
-                    verifyinstruction_input.2[9],
-                    verifyinstruction_input.2[10],
-                    verifyinstruction_input.2[11],
-                    verifyinstruction_input.2[12],
-                    verifyinstruction_input.2[13],
-                    verifyinstruction_input.2[14],
+                    verify_instruction_input.2[0],
+                    verify_instruction_input.2[1],
+                    verify_instruction_input.2[2],
+                    verify_instruction_input.2[3],
+                    verify_instruction_input.2[4],
+                    verify_instruction_input.2[5],
+                    verify_instruction_input.2[6],
+                    verify_instruction_input.2[7],
+                    verify_instruction_input.2[8],
+                    verify_instruction_input.2[9],
+                    verify_instruction_input.2[10],
+                    verify_instruction_input.2[11],
+                    verify_instruction_input.2[12],
+                    verify_instruction_input.2[13],
+                    verify_instruction_input.2[14],
                 ],
             );
             let input_col0 = input_tmp_16a4_0.0;

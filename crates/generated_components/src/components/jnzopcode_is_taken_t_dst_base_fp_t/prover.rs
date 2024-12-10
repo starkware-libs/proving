@@ -177,8 +177,8 @@ pub fn write_trace_simd(
     let UInt16_9 = PackedUInt16::broadcast(UInt16::from(9));
 
     inputs.into_iter().enumerate().for_each(
-        |(row_index, jnzopcode_is_taken_t_dst_base_fp_t_input)| {
-            let input_tmp_1078_0 = jnzopcode_is_taken_t_dst_base_fp_t_input;
+        |(row_index, jnz_opcode_is_taken_t_dst_base_fp_t_input)| {
+            let input_tmp_1078_0 = jnz_opcode_is_taken_t_dst_base_fp_t_input;
             let input_pc_col0 = input_tmp_1078_0.pc;
             trace[0].data[row_index] = input_pc_col0;
             let input_ap_col1 = input_tmp_1078_0.ap;

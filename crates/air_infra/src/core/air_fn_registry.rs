@@ -12,6 +12,7 @@ use super::air_fn::*;
 use super::public_params::*;
 use super::state::*;
 use super::variables::*;
+
 // AirFnEntry describes everything we know about an Air function.
 #[derive(Debug, Clone, Serialize)]
 pub struct AirFnEntry {
@@ -300,7 +301,7 @@ impl AirFnRegistry {
         I: AirVar,
         O: AirVar,
     {
-        let input_name = format!("{}_input", air_fn.name().to_lowercase());
+        let input_name = format!("{}_input", camel_to_snake(&air_fn.name()));
         // If input_in_trace is None, we put the input in the trace so air_builder checks don't
         // fail.
         let mut input = I::new(input_name.clone(), true);
@@ -362,4 +363,19 @@ impl AirFnRegistry {
             })
             .collect()
     }
+}
+
+fn camel_to_snake(camel: &str) -> String {
+    let mut snake_case = String::new();
+    for (i, c) in camel.chars().enumerate() {
+        if c.is_uppercase() {
+            if i != 0 {
+                snake_case.push('_');
+            }
+            snake_case.push(c.to_ascii_lowercase());
+        } else {
+            snake_case.push(c);
+        }
+    }
+    snake_case
 }

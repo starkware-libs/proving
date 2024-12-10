@@ -119,10 +119,10 @@ pub fn write_trace_simd(
     inputs
         .into_iter()
         .enumerate()
-        .for_each(|(row_index, narrowfib_num_steps_20_input)| {
+        .for_each(|(row_index, narrow_fib_num_steps_20_input)| {
             let input_tmp_1ddf_0 = [
-                narrowfib_num_steps_20_input[0],
-                narrowfib_num_steps_20_input[1],
+                narrow_fib_num_steps_20_input[0],
+                narrow_fib_num_steps_20_input[1],
             ];
             let input_col0 = input_tmp_1ddf_0[0];
             trace[0].data[row_index] = input_col0;

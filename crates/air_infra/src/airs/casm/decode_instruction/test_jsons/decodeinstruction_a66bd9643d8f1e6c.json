@@ -6,7 +6,7 @@
     "const_flags": "Flags { dst_base_fp: Some(false), op0_base_fp: Some(true), op1_imm: Some(false), op1_base_fp: Some(true), op1_base_ap: Some(false), res_add: Some(false), res_mul: Some(false), pc_update_jump: Some(true), pc_update_jump_rel: Some(false), pc_update_jnz: Some(true), ap_update_add: Some(true), ap_update_add_1: Some(false), opcode_call: Some(false), opcode_ret: Some(false), opcode_assert_eq: Some(true) }"
   },
   "input": {
-    "name": "decodeinstruction_a66bd9643d8f1e6c_input",
+    "name": "decode_instruction_a66bd9643d8f1e6c_input",
     "type": "M31"
   },
   "output": [
@@ -93,7 +93,7 @@
       "LookupCall": {
         "air_fn_name": "MemoryAddressToId",
         "input_arg": {
-          "name": "decodeinstruction_a66bd9643d8f1e6c_input",
+          "name": "decode_instruction_a66bd9643d8f1e6c_input",
           "type": "M31"
         },
         "output_name": "memoryaddresstoid_value_tmp_a66b_0"
@@ -114,7 +114,7 @@
         "air_fn_name": "VerifyInstruction",
         "input_arg": [
           {
-            "name": "decodeinstruction_a66bd9643d8f1e6c_input",
+            "name": "decode_instruction_a66bd9643d8f1e6c_input",
             "type": "M31"
           },
           [
@@ -201,7 +201,7 @@
         "air_fn_name": "VerifyInstruction",
         "input_arg": [
           {
-            "name": "decodeinstruction_a66bd9643d8f1e6c_input",
+            "name": "decode_instruction_a66bd9643d8f1e6c_input",
             "type": "M31"
           },
           [
@@ -287,7 +287,7 @@
       "LookupTerm": {
         "relation_name": "VerifyInstruction",
         "felts": [
-          "decodeinstruction_a66bd9643d8f1e6c_input",
+          "decode_instruction_a66bd9643d8f1e6c_input",
           "const_49953",
           "const_30875",
           "const_36026",

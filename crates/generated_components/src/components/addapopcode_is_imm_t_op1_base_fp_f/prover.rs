@@ -171,8 +171,8 @@ pub fn write_trace_simd(
     let M31_512 = PackedM31::broadcast(M31::from(512));
 
     inputs.into_iter().enumerate().for_each(
-        |(row_index, addapopcode_is_imm_t_op1_base_fp_f_input)| {
-            let input_tmp_38a0_0 = addapopcode_is_imm_t_op1_base_fp_f_input;
+        |(row_index, add_ap_opcode_is_imm_t_op1_base_fp_f_input)| {
+            let input_tmp_38a0_0 = add_ap_opcode_is_imm_t_op1_base_fp_f_input;
             let input_pc_col0 = input_tmp_38a0_0.pc;
             trace[0].data[row_index] = input_pc_col0;
             let input_ap_col1 = input_tmp_38a0_0.ap;

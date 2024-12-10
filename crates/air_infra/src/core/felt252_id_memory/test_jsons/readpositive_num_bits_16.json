@@ -5,16 +5,16 @@
     "num_bits": "16"
   },
   "input": {
-    "name": "readpositive_num_bits_16_input",
+    "name": "read_positive_num_bits_16_input",
     "type": "M31"
   },
   "output": [
     {
-      "name": "Felt252::from_limbs(zero_extend([readpositive_num_bits_16_input_limb_0_col1, readpositive_num_bits_16_input_limb_1_col2]))",
+      "name": "Felt252::from_limbs(zero_extend([read_positive_num_bits_16_input_limb_0_col1, read_positive_num_bits_16_input_limb_1_col2]))",
       "type": "Felt252"
     },
     {
-      "name": "readpositive_num_bits_16_input_id_col0",
+      "name": "read_positive_num_bits_16_input_id_col0",
       "type": "M31"
     }
   ],
@@ -24,7 +24,7 @@
       "LookupCall": {
         "air_fn_name": "MemoryAddressToId",
         "input_arg": {
-          "name": "readpositive_num_bits_16_input",
+          "name": "read_positive_num_bits_16_input",
           "type": "M31"
         },
         "output_name": "memoryaddresstoid_value_tmp_f3ab_0"
@@ -43,14 +43,14 @@
     {
       "Deduction": [
         "memoryaddresstoid_value_tmp_f3ab_0",
-        "readpositive_num_bits_16_input_id"
+        "read_positive_num_bits_16_input_id"
       ]
     },
     {
       "LookupAddInput": {
         "air_fn_name": "MemoryAddressToId",
         "input_arg": {
-          "name": "readpositive_num_bits_16_input",
+          "name": "read_positive_num_bits_16_input",
           "type": "M31"
         }
       }
@@ -59,8 +59,8 @@
       "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
-          "readpositive_num_bits_16_input",
-          "readpositive_num_bits_16_input_id_col0"
+          "read_positive_num_bits_16_input",
+          "read_positive_num_bits_16_input_id_col0"
         ],
         "use_or_yield": "Use"
       }
@@ -68,13 +68,13 @@
     {
       "Deduction": [
         "memoryidtobig_value_tmp_f3ab_1.get_m31(const_0)",
-        "readpositive_num_bits_16_input_limb_0"
+        "read_positive_num_bits_16_input_limb_0"
       ]
     },
     {
       "Deduction": [
         "memoryidtobig_value_tmp_f3ab_1.get_m31(const_1)",
-        "readpositive_num_bits_16_input_limb_1"
+        "read_positive_num_bits_16_input_limb_1"
       ]
     },
     {
@@ -82,7 +82,7 @@
         "air_fn_name": "RangeCheckLastLimb_bits_in_ms_limb_7",
         "air_fn_description": "RangeCheckLastLimb_bits_in_ms_limb_7",
         "input_arg": {
-          "name": "readpositive_num_bits_16_input_limb_1_col2",
+          "name": "read_positive_num_bits_16_input_limb_1_col2",
           "type": "M31"
         },
         "output": []
@@ -92,7 +92,7 @@
       "LookupAddInput": {
         "air_fn_name": "MemoryIdToBig",
         "input_arg": {
-          "name": "readpositive_num_bits_16_input_id_col0",
+          "name": "read_positive_num_bits_16_input_id_col0",
           "type": "M31"
         }
       }
@@ -101,9 +101,9 @@
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
-          "readpositive_num_bits_16_input_id_col0",
-          "readpositive_num_bits_16_input_limb_0_col1",
-          "readpositive_num_bits_16_input_limb_1_col2",
+          "read_positive_num_bits_16_input_id_col0",
+          "read_positive_num_bits_16_input_limb_0_col1",
+          "read_positive_num_bits_16_input_limb_1_col2",
           "const_0",
           "const_0",
           "const_0",
@@ -138,16 +138,16 @@
   "state": {
     "row": [
       [
-        "readpositive_num_bits_16_input_id_col0",
-        "readpositive_num_bits_16_input_id"
+        "read_positive_num_bits_16_input_id_col0",
+        "read_positive_num_bits_16_input_id"
       ],
       [
-        "readpositive_num_bits_16_input_limb_0_col1",
-        "readpositive_num_bits_16_input_limb_0"
+        "read_positive_num_bits_16_input_limb_0_col1",
+        "read_positive_num_bits_16_input_limb_0"
       ],
       [
-        "readpositive_num_bits_16_input_limb_1_col2",
-        "readpositive_num_bits_16_input_limb_1"
+        "read_positive_num_bits_16_input_limb_1_col2",
+        "read_positive_num_bits_16_input_limb_1"
       ]
     ]
   }

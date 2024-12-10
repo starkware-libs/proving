@@ -3,7 +3,7 @@
   "description": "AirFnBitMux",
   "inst_def": {},
   "input": {
-    "name": "airfnbitmux_input",
+    "name": "air_fn_bit_mux_input",
     "type": "UInt16"
   },
   "output": {
@@ -14,7 +14,7 @@
   "air_body": [
     {
       "Deduction": [
-        "airfnbitmux_input.as_m31()"
+        "air_fn_bit_mux_input.as_m31()"
       ]
     },
     {
@@ -22,7 +22,7 @@
         "air_fn_name": "Div2",
         "air_fn_description": "Div2",
         "input_arg": {
-          "name": "airfnbitmux_input",
+          "name": "air_fn_bit_mux_input",
           "type": "UInt16"
         },
         "output": [

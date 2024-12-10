@@ -5,7 +5,7 @@
     "N": "4"
   },
   "input": {
-    "name": "bitunpack_n_4_input",
+    "name": "bit_unpack__n_4_input",
     "type": "UInt16"
   },
   "output": [
@@ -30,7 +30,7 @@
   "air_body": [
     {
       "Deduction": [
-        "bitunpack_n_4_input.as_m31()"
+        "bit_unpack__n_4_input.as_m31()"
       ]
     },
     {
@@ -38,7 +38,7 @@
         "air_fn_name": "Div2",
         "air_fn_description": "Div2",
         "input_arg": {
-          "name": "bitunpack_n_4_input",
+          "name": "bit_unpack__n_4_input",
           "type": "UInt16"
         },
         "output": [

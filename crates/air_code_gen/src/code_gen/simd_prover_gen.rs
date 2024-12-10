@@ -8,7 +8,7 @@ use genco::quote;
 use itertools::{chain, Itertools};
 
 use super::framework_gen::seek_consts;
-use super::utils::{block_doc, unique_relation_calls};
+use super::utils::{block_doc, camel_to_snake, unique_relation_calls};
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
@@ -200,7 +200,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
             $(constants_def_code)
 
             inputs.into_iter()
-                .enumerate().for_each(|(row_index, $(&lists.name.to_lowercase())_input)| {
+                .enumerate().for_each(|(row_index, $(camel_to_snake(&lists.name))_input)| {
                 $(generate_simd_write_trace_body_code(lists,&const_names))
             });
 

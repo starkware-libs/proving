@@ -143,8 +143,8 @@ pub fn write_trace_simd(
     let M31_1 = PackedM31::broadcast(M31::from(1));
 
     inputs.into_iter().enumerate().for_each(
-        |(row_index, widefib_num_narrow_8_narrow_size_20_input)| {
-            let col0 = widefib_num_narrow_8_narrow_size_20_input;
+        |(row_index, wide_fib_num_narrow_8_narrow_size_20_input)| {
+            let col0 = wide_fib_num_narrow_8_narrow_size_20_input;
             trace[0].data[row_index] = col0;
             let narrowfib_num_steps_20_output_tmp_d7cf_0 =
                 narrowfib_num_steps_20::deduce_output([M31_1, col0]);

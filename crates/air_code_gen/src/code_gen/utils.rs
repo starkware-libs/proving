@@ -140,6 +140,21 @@ pub fn block_doc(msg: &str) -> rust::Tokens {
     }
 }
 
+pub fn camel_to_snake(camel: &str) -> String {
+    let mut snake_case = String::new();
+    for (i, c) in camel.chars().enumerate() {
+        if c.is_uppercase() {
+            if i != 0 {
+                snake_case.push('_');
+            }
+            snake_case.push(c.to_ascii_lowercase());
+        } else {
+            snake_case.push(c);
+        }
+    }
+    snake_case
+}
+
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'
 #[cfg(test)]
 pub fn compare_contents_or_fix_with_path(air_fn: CompiledAirFn, folder_path: &Path) {
