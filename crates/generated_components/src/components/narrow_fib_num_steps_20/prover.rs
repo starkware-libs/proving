@@ -12,13 +12,13 @@ use stwo_prover::core::backend::simd::conversion::Unpack;
 use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
 use stwo_prover::core::backend::simd::qm31::PackedQM31;
 use stwo_prover::core::backend::simd::SimdBackend;
-use stwo_prover::core::backend::{Col, Column};
+use stwo_prover::core::backend::{BackendForChannel, Col, Column};
+use stwo_prover::core::channel::{Channel, MerkleChannel};
 use stwo_prover::core::fields::m31::M31;
 use stwo_prover::core::pcs::TreeBuilder;
 use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
 use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
-use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
 use super::component::{Claim, InteractionClaim};
 use crate::components::pack_values;
@@ -37,10 +37,13 @@ impl ClaimGenerator {
         Self { inputs }
     }
 
-    pub fn write_trace(
+    pub fn write_trace<MC: MerkleChannel>(
         mut self,
-        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-    ) -> (Claim, InteractionClaimGenerator) {
+        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
+    ) -> (Claim, InteractionClaimGenerator)
+    where
+        SimdBackend: BackendForChannel<MC>,
+    {
         let n_calls = self.inputs.len();
         assert_ne!(n_calls, 0);
         let size = std::cmp::max(n_calls.next_power_of_two(), N_LANES);
@@ -252,11 +255,14 @@ pub struct InteractionClaimGenerator {
     pub lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
-    pub fn write_interaction_trace(
+    pub fn write_interaction_trace<MC: MerkleChannel>(
         self,
-        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
+        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
         narrowfib_num_steps_20_lookup_elements: &relations::NarrowFib_num_steps_20,
-    ) -> InteractionClaim {
+    ) -> InteractionClaim
+    where
+        SimdBackend: BackendForChannel<MC>,
+    {
         let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
         let mut logup_gen = LogupTraceGenerator::new(log_size);
 
