@@ -348,9 +348,9 @@ fn test_generic_call_abs_imm() {
     );
 
     // Check output
-    assert_eq!(output.pc.calc(), (immediate).to_string());
-    assert_eq!(output.ap.calc(), (ap + 2).to_string());
-    assert_eq!(output.fp.calc(), (ap + 2).to_string());
+    assert_eq!(output.pc().calc(), (immediate).to_string());
+    assert_eq!(output.ap().calc(), (ap + 2).to_string());
+    assert_eq!(output.fp().calc(), (ap + 2).to_string());
 }
 
 #[test]
@@ -400,9 +400,9 @@ fn test_generic_call_rel_deref() {
     );
 
     // Check output
-    assert_eq!(output.pc.calc(), (pc + op1).to_string());
-    assert_eq!(output.ap.calc(), (ap + 2).to_string());
-    assert_eq!(output.fp.calc(), (ap + 2).to_string());
+    assert_eq!(output.pc().calc(), (pc + op1).to_string());
+    assert_eq!(output.ap().calc(), (ap + 2).to_string());
+    assert_eq!(output.fp().calc(), (ap + 2).to_string());
 }
 
 #[test]
@@ -1335,9 +1335,9 @@ fn test_generic_jump_abs_imm() {
     );
 
     // Check output
-    assert_eq!(output.pc.calc(), imm.to_string());
-    assert_eq!(output.fp.calc(), fp.to_string());
-    assert_eq!(output.ap.calc(), ap.to_string());
+    assert_eq!(output.pc().calc(), imm.to_string());
+    assert_eq!(output.fp().calc(), fp.to_string());
+    assert_eq!(output.ap().calc(), ap.to_string());
 }
 
 #[test]
@@ -1398,9 +1398,9 @@ fn test_generic_jump_rel_double_deref() {
     );
 
     // Check output
-    assert_eq!(output.pc.calc(), (pc as i64 + op1).to_string());
-    assert_eq!(output.fp.calc(), fp.to_string());
-    assert_eq!(output.ap.calc(), ap.to_string());
+    assert_eq!(output.pc().calc(), (pc as i64 + op1).to_string());
+    assert_eq!(output.fp().calc(), fp.to_string());
+    assert_eq!(output.ap().calc(), ap.to_string());
 }
 
 #[test]
@@ -2047,9 +2047,12 @@ fn test_generic_jnz_deref_taken() {
     );
 
     // Check output
-    assert_eq!(next_state.pc.calc(), (pc as i128 + op1 as i128).to_string());
-    assert_eq!(next_state.ap.calc(), (ap + 1).to_string());
-    assert_eq!(next_state.fp.calc(), fp.to_string());
+    assert_eq!(
+        next_state.pc().calc(),
+        (pc as i128 + op1 as i128).to_string()
+    );
+    assert_eq!(next_state.ap().calc(), (ap + 1).to_string());
+    assert_eq!(next_state.fp().calc(), fp.to_string());
 }
 
 #[test]
@@ -2104,9 +2107,9 @@ fn test_generic_jnz_deref_not_taken() {
     );
 
     // Check output
-    assert_eq!(next_state.pc.calc(), (pc + 1).to_string());
-    assert_eq!(next_state.ap.calc(), ap.to_string());
-    assert_eq!(next_state.fp.calc(), fp.to_string());
+    assert_eq!(next_state.pc().calc(), (pc + 1).to_string());
+    assert_eq!(next_state.ap().calc(), ap.to_string());
+    assert_eq!(next_state.fp().calc(), fp.to_string());
 }
 
 #[test]
@@ -2160,9 +2163,9 @@ fn test_generic_add_ap_double_deref() {
     );
 
     // Check the output
-    assert_eq!(next_state.pc.calc(), (pc + 1).to_string());
-    assert_eq!(next_state.fp.calc(), fp.to_string());
-    assert_eq!(next_state.ap.calc(), (ap + op1).to_string());
+    assert_eq!(next_state.pc().calc(), (pc + 1).to_string());
+    assert_eq!(next_state.fp().calc(), fp.to_string());
+    assert_eq!(next_state.ap().calc(), (ap + op1).to_string());
 }
 
 #[test]
@@ -2217,9 +2220,9 @@ fn test_generic_add_ap_res_mul() {
     );
 
     // Check the output
-    assert_eq!(next_state.pc.calc(), (pc + 1).to_string());
-    assert_eq!(next_state.fp.calc(), fp.to_string());
-    assert_eq!(next_state.ap.calc(), (ap + op1 * op0).to_string());
+    assert_eq!(next_state.pc().calc(), (pc + 1).to_string());
+    assert_eq!(next_state.fp().calc(), fp.to_string());
+    assert_eq!(next_state.ap().calc(), (ap + op1 * op0).to_string());
 }
 
 #[test]
@@ -2274,9 +2277,9 @@ fn test_generic_add_ap_res_add() {
     );
 
     // Check the output
-    assert_eq!(next_state.pc.calc(), (pc + 1).to_string());
-    assert_eq!(next_state.fp.calc(), fp.to_string());
-    assert_eq!(next_state.ap.calc(), (ap as i32 + op0 + op1).to_string());
+    assert_eq!(next_state.pc().calc(), (pc + 1).to_string());
+    assert_eq!(next_state.fp().calc(), fp.to_string());
+    assert_eq!(next_state.ap().calc(), (ap as i32 + op0 + op1).to_string());
 }
 
 #[test]

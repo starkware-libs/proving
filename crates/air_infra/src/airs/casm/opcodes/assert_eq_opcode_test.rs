@@ -273,16 +273,16 @@ fn test_assert_equal(
     );
 
     // Check output
-    assert_eq!(next_state.fp.value.calc(), fp.calc());
+    assert_eq!(next_state.fp().var.calc(), fp.calc());
     if flag_ap_update_add_1 {
-        assert_eq!(next_state.ap.value.calc(), (ap_value + 1).to_string());
+        assert_eq!(next_state.ap().var.calc(), (ap_value + 1).to_string());
     } else {
-        assert_eq!(next_state.ap.value.calc(), ap.calc());
+        assert_eq!(next_state.ap().var.calc(), ap.calc());
     }
     if flag_op1_imm {
-        assert_eq!(next_state.pc.value.calc(), (pc_value + 2).to_string());
+        assert_eq!(next_state.pc().var.calc(), (pc_value + 2).to_string());
     } else {
-        assert_eq!(next_state.pc.value.calc(), (pc_value + 1).to_string());
+        assert_eq!(next_state.pc().var.calc(), (pc_value + 1).to_string());
     };
 
     // Check state

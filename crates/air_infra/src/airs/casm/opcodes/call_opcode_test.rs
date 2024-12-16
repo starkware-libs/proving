@@ -72,14 +72,14 @@ fn build_and_test(
     // Check output
     if is_rel {
         assert_eq!(
-            next_state.pc.calc(),
+            next_state.pc().calc(),
             (pc_value as i128 + op1_value as i128).to_string()
         );
     } else {
-        assert_eq!(next_state.pc.calc(), op1_value.to_string());
+        assert_eq!(next_state.pc().calc(), op1_value.to_string());
     }
-    assert_eq!(next_state.ap.calc(), (ap_value + 2).to_string());
-    assert_eq!(next_state.fp.calc(), (ap_value + 2).to_string());
+    assert_eq!(next_state.ap().calc(), (ap_value + 2).to_string());
+    assert_eq!(next_state.fp().calc(), (ap_value + 2).to_string());
 
     // Check state
     assert!(

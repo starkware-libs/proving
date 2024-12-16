@@ -88,8 +88,7 @@ impl AirFn for HandleOpcodes {
             (dst, flags[FLAG_OPCODE_CALL_INDEX].clone()),
         );
         air_builder.constrain(
-            flags[FLAG_OPCODE_CALL_INDEX].clone()
-                * (dst_as_addr.value - casm_state.fp.value.clone()),
+            flags[FLAG_OPCODE_CALL_INDEX].clone() * (dst_as_addr.var - casm_state.fp().var),
             "",
         );
 
@@ -100,8 +99,7 @@ impl AirFn for HandleOpcodes {
         );
         air_builder.constrain(
             flags[FLAG_OPCODE_CALL_INDEX].clone()
-                * (op0_as_addr.value
-                    - (casm_state.pc.value.clone() + flags[INSTRUCTION_SIZE_INDEX].clone())),
+                * (op0_as_addr.var - (casm_state.pc().var + flags[INSTRUCTION_SIZE_INDEX].clone())),
             "",
         );
     }

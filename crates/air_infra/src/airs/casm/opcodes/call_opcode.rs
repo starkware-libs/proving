@@ -69,45 +69,43 @@ impl AirFn for CallOpcode {
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },
-            casm_state.pc.clone(),
+            casm_state.pc().clone(),
         );
 
         // Push fp.
-        let stored_fp_address = CasmAddress::new(casm_state.ap.clone().value, "stored_fp");
+        let stored_fp_address = CasmAddress::new(casm_state.ap().var, "stored_fp");
         let stored_fp = self.memory.read_address(ab, stored_fp_address);
-        ab.constrain(stored_fp.value - casm_state.fp.clone().value, "[ap] = fp");
+        ab.constrain(stored_fp.var - casm_state.fp().var, "[ap] = fp");
 
         // Push pc + instruction_size.
-        let stored_ret_pc_address = CasmAddress::new(
-            casm_state.ap.clone().value + const_expr!(1),
-            "stored_ret_pc",
-        );
+        let stored_ret_pc_address =
+            CasmAddress::new(casm_state.ap().var + const_expr!(1), "stored_ret_pc");
         let stored_ret_pc = self.memory.read_address(ab, stored_ret_pc_address);
-        let return_pc = casm_state.pc.clone().value + const_expr!(1 + (self.is_rel as u32));
-        ab.constrain(stored_ret_pc.value - return_pc, "[ap+1] = return_pc");
+        let return_pc = casm_state.pc().var + const_expr!(1 + (self.is_rel as u32));
+        ab.constrain(stored_ret_pc.var - return_pc, "[ap+1] = return_pc");
 
         // Update pc.
         let next_pc = if self.is_rel {
-            casm_state.pc.value.clone()
+            casm_state.pc().var
                 + self.memory.read_rel_imm(
                     ab,
-                    CasmAddress::new(casm_state.pc.value + const_expr!(1), "distance_to_next_pc"),
+                    CasmAddress::new(casm_state.pc().var + const_expr!(1), "distance_to_next_pc"),
                 )
         } else {
             let mem1_base = if self.op1_base_fp {
-                casm_state.fp.value.clone()
+                casm_state.fp().var
             } else {
-                casm_state.ap.value.clone()
+                casm_state.ap().var
             };
             self.memory
                 .read_address(ab, CasmAddress::new(mem1_base + offset2, "next_pc"))
-                .value
+                .var
         };
 
         CasmStateVar::new(
             next_pc,
-            casm_state.ap.value.clone() + const_expr!(2),
-            casm_state.ap.value + const_expr!(2),
+            casm_state.ap().var + const_expr!(2),
+            casm_state.ap().var + const_expr!(2),
         )
     }
 

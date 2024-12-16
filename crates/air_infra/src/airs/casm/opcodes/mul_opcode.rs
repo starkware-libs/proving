@@ -65,7 +65,7 @@ impl AirFn for MulOpcode {
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },
-            casm_state.pc.clone(),
+            casm_state.pc().clone(),
         );
 
         // Read the non-constant flags
@@ -75,19 +75,18 @@ impl AirFn for MulOpcode {
         let flag_op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].clone();
         let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
-        let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp.value.clone()
-            + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap.value.clone();
-        let mem0_base = flag_op0_base_fp.clone() * casm_state.fp.value.clone()
-            + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap.value.clone();
+        let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp().var
+            + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap().var;
+        let mem0_base = flag_op0_base_fp.clone() * casm_state.fp().var
+            + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap().var;
         let mem1_base = if self.is_imm {
-            casm_state.pc.value.clone()
+            casm_state.pc().var
         } else {
             ab.constrain(
                 flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1),
                 "Either flag op1_base_fp is on or flag op1_base_ap is on",
             );
-            flag_op1_base_fp * casm_state.fp.value.clone()
-                + flag_op1_base_ap * casm_state.ap.value.clone()
+            flag_op1_base_fp * casm_state.fp().var + flag_op1_base_ap * casm_state.ap().var
         };
 
         // Fetch dst - the value at the destination address for the multiplication
@@ -127,16 +126,16 @@ impl AirFn for MulOpcode {
         }
 
         // Calculate the next ap
-        let next_ap = casm_state.ap.value.clone() + flag_ap_update_add_1;
+        let next_ap = casm_state.ap().var + flag_ap_update_add_1;
 
         // Calculate the next pc
         let next_pc = if self.is_imm {
-            casm_state.pc.value + const_expr!(2)
+            casm_state.pc().var + const_expr!(2)
         } else {
-            casm_state.pc.value + const_expr!(1)
+            casm_state.pc().var + const_expr!(1)
         };
 
-        CasmStateVar::new(next_pc, next_ap, casm_state.fp.value)
+        CasmStateVar::new(next_pc, next_ap, casm_state.fp().var)
     }
 
     fn trace_type(&self) -> TraceType {

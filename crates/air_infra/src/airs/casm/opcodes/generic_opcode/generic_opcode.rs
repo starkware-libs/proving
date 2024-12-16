@@ -31,7 +31,7 @@ impl AirFn for GenericOpcode {
             &DecodeGenericInstruction {
                 memory: self.memory.clone(),
             },
-            casm_state.pc.clone(),
+            casm_state.pc().clone(),
         );
 
         let [dst, op0, op1, res] = air_builder.call(

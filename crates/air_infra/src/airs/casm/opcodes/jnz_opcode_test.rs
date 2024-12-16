@@ -69,20 +69,20 @@ fn build_and_test(
     // Check output
     if is_taken {
         assert_eq!(
-            next_state.pc.calc(),
+            next_state.pc().calc(),
             (pc_value as i128 + op1_value as i128).to_string()
         );
     } else {
-        assert_eq!(next_state.pc.calc(), (pc_value + 2).to_string());
+        assert_eq!(next_state.pc().calc(), (pc_value + 2).to_string());
     }
 
     if ap_update_add_1 {
-        assert_eq!(next_state.ap.calc(), (ap_value + 1).to_string());
+        assert_eq!(next_state.ap().calc(), (ap_value + 1).to_string());
     } else {
-        assert_eq!(next_state.ap.calc(), ap_value.to_string());
+        assert_eq!(next_state.ap().calc(), ap_value.to_string());
     }
 
-    assert_eq!(next_state.fp.calc(), fp_value.to_string());
+    assert_eq!(next_state.fp().calc(), fp_value.to_string());
 
     // Check state
     assert!(

@@ -38,7 +38,7 @@ impl AirFn for ReadPositive {
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),
         );
-        air_builder.mem_verify(&self.memory.address_to_id, &address.value, id.clone());
+        air_builder.mem_verify(&self.memory.address_to_id, &address.var, id.clone());
 
         // Prepare for value deduction
         let num_nonzero_limbs = self.num_bits.div_ceil(FELT252_BITS_PER_WORD);

@@ -142,7 +142,7 @@ impl AirFn for ReadSmall {
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),
         );
-        air_builder.mem_verify(&self.memory.address_to_id, &address.value, id.clone());
+        air_builder.mem_verify(&self.memory.address_to_id, &address.var, id.clone());
 
         // Compute and deduce "case" bits: msb and mid_limbs_set
         let [msb, mid_limbs_set] =

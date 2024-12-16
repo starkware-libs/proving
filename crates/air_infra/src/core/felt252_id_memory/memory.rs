@@ -65,7 +65,7 @@ impl Felt252IdMemory {
         air_builder: &mut AirBuilder,
         address: &CasmAddress,
     ) -> (Felt252Expr, FeltExpr) {
-        let id = air_builder.mem_read_unverified(&self.address_to_id, &address.value);
+        let id = air_builder.mem_read_unverified(&self.address_to_id, &address.var);
         let value = air_builder.mem_read_unverified(&self.id_to_value, &id);
         (value, id)
     }

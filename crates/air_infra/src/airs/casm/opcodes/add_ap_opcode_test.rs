@@ -45,9 +45,9 @@ fn test_add_ap_negative_imm() {
     );
 
     // Check the output
-    assert_eq!(next_state.pc.calc(), (pc + 2).to_string());
-    assert_eq!(next_state.fp.calc(), (fp).to_string());
-    assert_eq!(next_state.ap.calc(), (ap - 1).to_string());
+    assert_eq!(next_state.pc().calc(), (pc + 2).to_string());
+    assert_eq!(next_state.fp().calc(), (fp).to_string());
+    assert_eq!(next_state.ap().calc(), (ap - 1).to_string());
 
     // Check the state
     let expected_state = vec![
@@ -110,9 +110,9 @@ fn test_add_ap_deref_base_fp() {
     );
 
     // Check the output
-    assert_eq!(next_state.pc.calc(), (pc + 1).to_string());
-    assert_eq!(next_state.fp.calc(), (fp).to_string());
-    assert_eq!(next_state.ap.calc(), (ap + op1 as u32).to_string());
+    assert_eq!(next_state.pc().calc(), (pc + 1).to_string());
+    assert_eq!(next_state.fp().calc(), (fp).to_string());
+    assert_eq!(next_state.ap().calc(), (ap + op1 as u32).to_string());
 
     // Check the state
     let expected_state = vec![

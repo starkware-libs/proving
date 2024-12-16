@@ -100,16 +100,16 @@ fn test_mul(
     );
 
     // Check output
-    assert_eq!(next_state.fp.calc(), fp.calc());
+    assert_eq!(next_state.fp().calc(), fp.calc());
     if flag_ap_update_add_1 {
-        assert_eq!(next_state.ap.calc(), (ap_value + 1).to_string());
+        assert_eq!(next_state.ap().calc(), (ap_value + 1).to_string());
     } else {
-        assert_eq!(next_state.ap.calc(), ap.calc());
+        assert_eq!(next_state.ap().calc(), ap.calc());
     }
     if flag_op1_imm {
-        assert_eq!(next_state.pc.calc(), (pc_value + 2).to_string());
+        assert_eq!(next_state.pc().calc(), (pc_value + 2).to_string());
     } else {
-        assert_eq!(next_state.pc.calc(), (pc_value + 1).to_string());
+        assert_eq!(next_state.pc().calc(), (pc_value + 1).to_string());
     };
 
     assert!(

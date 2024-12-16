@@ -55,7 +55,7 @@ impl AirFn for VerifyInstruction {
                 memory: self.memory.clone(),
             },
             (
-                CasmAddress::new(pc.value.clone(), "instruction"),
+                CasmAddress::new(pc.var, "instruction"),
                 expected_instruction,
             ),
         );

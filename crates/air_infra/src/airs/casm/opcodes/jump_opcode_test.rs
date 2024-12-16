@@ -96,15 +96,15 @@ fn test_jump_opcode(
 
     // Check output
     if is_rel {
-        assert_eq!(next_state.pc.calc(), (pc as i64 + op1).to_string());
+        assert_eq!(next_state.pc().calc(), (pc as i64 + op1).to_string());
     } else {
-        assert_eq!(next_state.pc.calc(), op1.to_string());
+        assert_eq!(next_state.pc().calc(), op1.to_string());
     }
-    assert_eq!(next_state.fp.calc(), fp.to_string());
+    assert_eq!(next_state.fp().calc(), fp.to_string());
     if ap_update_add_1 {
-        assert_eq!(next_state.ap.calc(), (ap + 1).to_string());
+        assert_eq!(next_state.ap().calc(), (ap + 1).to_string());
     } else {
-        assert_eq!(next_state.ap.calc(), ap.to_string());
+        assert_eq!(next_state.ap().calc(), ap.to_string());
     }
 
     // Check state

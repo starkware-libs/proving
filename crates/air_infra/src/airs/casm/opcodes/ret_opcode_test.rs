@@ -43,9 +43,9 @@ fn test_ret_opcode() {
 
     let (state, output) = registry.run_air(&func, CasmStateVar::new(pc, ap, fp));
 
-    assert_eq!(output.pc.calc(), saved_pc.to_string());
-    assert_eq!(output.fp.calc(), saved_fp.to_string());
-    assert_eq!(output.ap.calc(), ap_value.to_string());
+    assert_eq!(output.pc().calc(), saved_pc.to_string());
+    assert_eq!(output.fp().calc(), saved_fp.to_string());
+    assert_eq!(output.ap().calc(), ap_value.to_string());
     let expected_state = vec![
         (3, "input_pc"),
         (11, "input_ap"),

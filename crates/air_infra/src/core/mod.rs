@@ -5,6 +5,7 @@ pub mod felt252_id_memory;
 pub mod memory;
 pub mod public_params;
 pub mod state;
+pub mod struct_var;
 pub mod variables;
 
 pub type Felt = prover_types::cpu::M31;

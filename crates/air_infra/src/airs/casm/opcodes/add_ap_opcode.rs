@@ -64,28 +64,28 @@ impl AirFn for AddApOpcode {
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },
-            casm_state.pc.clone(),
+            casm_state.pc().clone(),
         );
 
         let op1 = if self.is_imm {
             self.memory.read_rel_imm(
                 ab,
-                CasmAddress::new(casm_state.pc.value.clone() + const_expr!(1), "op1"),
+                CasmAddress::new(casm_state.pc().var + const_expr!(1), "op1"),
             )
         } else {
             let mem1_base = if self.op1_base_fp {
-                casm_state.fp.value.clone()
+                casm_state.fp().var
             } else {
-                casm_state.ap.value.clone()
+                casm_state.ap().var
             };
             self.memory
                 .read_rel_imm(ab, CasmAddress::new(mem1_base + offset2, "op1"))
         };
 
         CasmStateVar::new(
-            casm_state.pc.value + (const_expr!(1) + const_expr!(self.is_imm as u32)),
-            casm_state.ap.value + op1,
-            casm_state.fp.value,
+            casm_state.pc().var + (const_expr!(1) + const_expr!(self.is_imm as u32)),
+            casm_state.ap().var + op1,
+            casm_state.fp().var,
         )
     }
 

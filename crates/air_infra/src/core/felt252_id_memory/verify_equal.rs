@@ -17,16 +17,17 @@ impl AirFn for MemVerifyEqual {
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, [addr1, addr2]: Self::In) -> Self::Out {
-        let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &addr1.value);
+        let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &addr1.var);
         air_builder.deduce(
             &mut id,
             &addr1
                 .desc
+                .clone()
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),
         );
-        air_builder.mem_verify(&self.memory.address_to_id, &addr1.value, id.clone());
-        air_builder.mem_verify(&self.memory.address_to_id, &addr2.value, id);
+        air_builder.mem_verify(&self.memory.address_to_id, &addr1.var, id.clone());
+        air_builder.mem_verify(&self.memory.address_to_id, &addr2.var, id);
     }
 }
 
@@ -44,15 +45,16 @@ impl AirFn for MemCondVerifyEqualKnownId {
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, (addr1, id2, cond): Self::In) -> Self::Out {
-        let mut id1 = air_builder.mem_read_unverified(&self.memory.address_to_id, &addr1.value);
+        let mut id1 = air_builder.mem_read_unverified(&self.memory.address_to_id, &addr1.var);
         air_builder.deduce(
             &mut id1,
             &addr1
                 .desc
+                .clone()
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),
         );
-        air_builder.mem_verify(&self.memory.address_to_id, &addr1.value, id1.clone());
+        air_builder.mem_verify(&self.memory.address_to_id, &addr1.var, id1.clone());
 
         air_builder.constrain(
             (id1 - id2) * cond,

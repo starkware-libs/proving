@@ -75,7 +75,7 @@ impl AirFn for JumpOpcode {
                 const_flags: self.get_flags(),
                 memory: self.memory.clone(),
             },
-            casm_state.pc.clone(),
+            casm_state.pc().clone(),
         );
 
         // Read non-constant flags
@@ -86,36 +86,36 @@ impl AirFn for JumpOpcode {
 
         // Calculate the next pc
         let mem1_base = if self.is_imm {
-            casm_state.pc.value.clone()
+            casm_state.pc().var
         } else if self.is_double_deref {
-            let mem0_base = op0_base_fp.clone() * casm_state.fp.value.clone()
-                + (const_expr!(1) - op0_base_fp) * casm_state.ap.value.clone();
+            let mem0_base = op0_base_fp.clone() * casm_state.fp().var
+                + (const_expr!(1) - op0_base_fp) * casm_state.ap().var;
             self.memory
                 .read_address(ab, CasmAddress::new(mem0_base + offset1, "mem1_base"))
-                .value
+                .var
         } else {
             ab.constrain(
                 op1_base_fp.clone() + op1_base_ap.clone() - const_expr!(1),
                 "Either flag op1_base_fp is on or flag op1_base_ap is on",
             );
-            op1_base_fp * casm_state.fp.value.clone() + op1_base_ap * casm_state.ap.value.clone()
+            op1_base_fp * casm_state.fp().var + op1_base_ap * casm_state.ap().var
         };
 
         let next_pc = if self.is_rel {
-            casm_state.pc.value.clone()
+            casm_state.pc().var
                 + self
                     .memory
                     .read_rel_imm(ab, CasmAddress::new(mem1_base + offset2, "next_pc"))
         } else {
             self.memory
                 .read_address(ab, CasmAddress::new(mem1_base + offset2, "next_pc"))
-                .value
+                .var
         };
 
         // Calculate the next ap
-        let next_ap = casm_state.ap.value.clone() + flag_ap_update_add_1;
+        let next_ap = casm_state.ap().var + flag_ap_update_add_1;
 
-        CasmStateVar::new(next_pc, next_ap, casm_state.fp.value)
+        CasmStateVar::new(next_pc, next_ap, casm_state.fp().var)
     }
 
     fn trace_type(&self) -> TraceType {

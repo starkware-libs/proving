@@ -60,11 +60,11 @@ impl AirFn for ModUtils {
             "is_instance_0 is 0 when instance_num is not 0.",
         );
         // Calculate the starting address of the previous instance and the current one.
-        let input_var_addr_start_prev = first_addr.value.clone()
+        let input_var_addr_start_prev = first_addr.var.clone()
             + const_expr!(N_VAR_INPUTS as u32)
                 * (instance_num.clone() - const_expr!(1) + is_instance_0.clone());
         let input_var_addr_start =
-            first_addr.value.clone() + const_expr!(N_VAR_INPUTS as u32) * instance_num.clone();
+            first_addr.var + const_expr!(N_VAR_INPUTS as u32) * instance_num.clone();
 
         let (p_addr_prev, p_addr): (Vec<CasmAddress>, Vec<CasmAddress>) = (0..MOD_BUILTIN_N_WORDS)
             .map(|i| {
@@ -110,7 +110,7 @@ impl AirFn for ModUtils {
                 let (x, y) = self
                     .memory
                     .read_address_and_id(ab, CasmAddress::new(addr, name));
-                (x.value, y)
+                (x.var, y)
             })
             .collect::<Vec<_>>()
             .try_into()

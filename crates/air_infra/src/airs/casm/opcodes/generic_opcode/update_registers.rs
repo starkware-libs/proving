@@ -97,42 +97,39 @@ impl AirFn for UpdateRegisters {
         // Next pc for jnz = pc + op1_as_rel_imm if dst is not zero, else pc + instruction_size
         let npc_jnz = air_builder.deduce(
             &mut (dst_is_zero.as_felt()
-                * (casm_state.pc.value.clone() + flags[INSTRUCTION_SIZE_INDEX].clone())
+                * (casm_state.pc().var + flags[INSTRUCTION_SIZE_INDEX].clone())
                 + (const_expr!(1) - dst_is_zero.as_felt())
-                    * (casm_state.pc.value.clone() + op1_as_rel_imm.clone())),
+                    * (casm_state.pc().var + op1_as_rel_imm.clone())),
             "next_pc_jnz",
         );
         air_builder.constrain(
-            (npc_jnz.clone() - (casm_state.pc.value.clone() + op1_as_rel_imm.clone()))
-                * dst_sum.clone(),
+            (npc_jnz.clone() - (casm_state.pc().var + op1_as_rel_imm.clone())) * dst_sum.clone(),
             "Constraint1 for conditional jump",
         );
         air_builder.constrain(
-            (npc_jnz.clone()
-                - (casm_state.pc.value.clone() + flags[INSTRUCTION_SIZE_INDEX].clone()))
+            (npc_jnz.clone() - (casm_state.pc().var + flags[INSTRUCTION_SIZE_INDEX].clone()))
                 * (dst_sum.clone() * sum_inv.clone() - const_expr!(1)),
             "Constraint2 for conditional jump",
         );
 
         // Update pc
         let next_pc = flags[FLAG_PC_UPDATE_REGULAR_INDEX].clone()
-            * (casm_state.pc.value.clone() + flags[INSTRUCTION_SIZE_INDEX].clone())
-            + flags[FLAG_PC_UPDATE_JUMP_INDEX].clone() * res_as_addr.value
+            * (casm_state.pc().var + flags[INSTRUCTION_SIZE_INDEX].clone())
+            + flags[FLAG_PC_UPDATE_JUMP_INDEX].clone() * res_as_addr.var
             + flags[FLAG_PC_UPDATE_JUMP_REL_INDEX].clone()
-                * (casm_state.pc.value.clone() + res_as_rel_imm.clone())
+                * (casm_state.pc().var + res_as_rel_imm.clone())
             + flags[FLAG_PC_UPDATE_JNZ_INDEX].clone() * npc_jnz;
 
         // Update ap
-        let next_ap = casm_state.ap.value.clone()
+        let next_ap = casm_state.ap().var
             + flags[FLAG_AP_UPDATE_ADD_INDEX].clone() * res_as_rel_imm
             + flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone() * const_expr!(1)
             + flags[FLAG_OPCODE_CALL_INDEX].clone() * const_expr!(2);
 
         // Update fp
-        let next_fp = flags[FLAG_FP_UPDATE_REGULAR_INDEX].clone() * casm_state.fp.value.clone()
-            + flags[FLAG_OPCODE_RET_INDEX].clone() * dst_as_addr.value
-            + flags[FLAG_OPCODE_CALL_INDEX].clone()
-                * (casm_state.ap.value.clone() + const_expr!(2));
+        let next_fp = flags[FLAG_FP_UPDATE_REGULAR_INDEX].clone() * casm_state.fp().var
+            + flags[FLAG_OPCODE_RET_INDEX].clone() * dst_as_addr.var
+            + flags[FLAG_OPCODE_CALL_INDEX].clone() * (casm_state.ap().var + const_expr!(2));
 
         CasmStateVar::new(next_pc, next_ap, next_fp)
     }
