@@ -658,7 +658,7 @@ version = "0.1.0"
 dependencies = [
  "itertools 0.12.1",
  "num-traits",
- "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=2bce94)",
+ "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=8dda0bf)",
  "rand",
  "serde",
  "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=060f0e4)",
@@ -981,20 +981,6 @@ dependencies = [
 [[package]]
 name = "prover_types"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=2bce94#2bce94cab7dbde17ddf5a23d7a76f01e36871646"
-dependencies = [
- "bytemuck",
- "itertools 0.12.1",
- "num-traits",
- "ruint",
- "serde",
- "starknet-ff",
- "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=060f0e4)",
-]
-
-[[package]]
-name = "prover_types"
-version = "0.1.0"
 source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=3e2a64a#3e2a64a0a1e95ae53eedde7d73f90b13ce4a2a5c"
 dependencies = [
  "bytemuck",
@@ -1004,6 +990,20 @@ dependencies = [
  "serde",
  "starknet-ff",
  "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=76af3c6)",
+]
+
+[[package]]
+name = "prover_types"
+version = "0.1.0"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=8dda0bf#8dda0bf5320d3dd957b8babff11593c89a26ac2e"
+dependencies = [
+ "bytemuck",
+ "itertools 0.12.1",
+ "num-traits",
+ "ruint",
+ "serde",
+ "starknet-ff",
+ "stwo-prover 0.1.1 (git+https://github.com/starkware-libs/stwo?rev=060f0e4)",
 ]
 
 [[package]]
