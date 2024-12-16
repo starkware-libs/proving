@@ -6,6 +6,7 @@ use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::UseOrYield;
 use compiled_casm_air::public_params::PublicParam;
+use compiled_casm_air::utils::INTERMEDIATE_VAR_SUFFIX;
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
@@ -633,7 +634,7 @@ impl AirBuilder {
     fn get_intermediate_name(&mut self, desc: Option<String>) -> String {
         let suffix = format!(
             "{}_{}_{}",
-            INTERMEDIATE_VAR_PREFIX,
+            INTERMEDIATE_VAR_SUFFIX,
             self.intermediate_id.borrow().0,
             self.intermediate_id.borrow().1
         );

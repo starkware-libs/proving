@@ -120,6 +120,7 @@ pub enum UseOrYield {
     Yield,
 }
 
+/// See `casm_registry.json`.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CompiledAirFnStat {
     pub trace_type: String,
@@ -130,4 +131,21 @@ pub struct CompiledAirFnStat {
     pub total_num_trace_cols: usize,
     pub trace_cells_upper_bound: usize,
     pub lookup_uses_upper_bound: usize,
+}
+
+/// See `constraints.json`.
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash, PartialOrd, Ord)]
+#[serde(untagged)]
+pub enum ConstraintLeanCompare {
+    Intermediate(String, String),
+    Constraint(String),
+    Call {
+        fn_name: String,
+        input: String,
+        output: String,
+    },
+    LookupTerm {
+        relation_name: String,
+        felts: Vec<String>,
+    },
 }

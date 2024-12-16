@@ -4,15 +4,15 @@
   "inst_def": {},
   "input": [
     {
-      "name": "verify_add252_input[0]",
+      "name": "input[0]",
       "type": "Felt252"
     },
     {
-      "name": "verify_add252_input[1]",
+      "name": "input[1]",
       "type": "Felt252"
     },
     {
-      "name": "verify_add252_input[2]",
+      "name": "input[2]",
       "type": "Felt252"
     }
   ],
@@ -23,7 +23,7 @@
       "Intermediate": [
         "sub_p_bit_tmp_4afb_0",
         {
-          "name": "(const_1 & ((UInt16::from_m31(verify_add252_input[0].get_m31(const_0)) ^ UInt16::from_m31(verify_add252_input[1].get_m31(const_0))) ^ UInt16::from_m31(verify_add252_input[2].get_m31(const_0))))",
+          "name": "(1 & ((UInt16::from_m31(input[0].get_m31(0)) ^ UInt16::from_m31(input[1].get_m31(0))) ^ UInt16::from_m31(input[2].get_m31(0))))",
           "type": "UInt16"
         },
         {
@@ -34,13 +34,13 @@
     },
     {
       "Deduction": [
-        "sub_p_bit_tmp_4afb_0.as_m31()",
+        "tmp0.as_m31()",
         "sub_p_bit"
       ]
     },
     {
       "Constraint": [
-        "(sub_p_bit_col0 * (sub_p_bit_col0 - const_1))",
+        "(col0 * (col0 - 1))",
         "sub_p_bit is a bit"
       ]
     },
@@ -48,7 +48,7 @@
       "Intermediate": [
         "carry_tmp_4afb_1",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_0) + verify_add252_input[1].get_m31(const_0)) + const_0) - verify_add252_input[2].get_m31(const_0)) - (const_1 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(0) + input[1].get_m31(0)) + 0) - input[2].get_m31(0)) - (1 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -59,14 +59,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_1 * ((carry_tmp_4afb_1 * carry_tmp_4afb_1) - const_1))"
+        "(tmp1 * ((tmp1 * tmp1) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_2",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_1) + verify_add252_input[1].get_m31(const_1)) + carry_tmp_4afb_1) - verify_add252_input[2].get_m31(const_1)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(1) + input[1].get_m31(1)) + tmp1) - input[2].get_m31(1)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -77,14 +77,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_2 * ((carry_tmp_4afb_2 * carry_tmp_4afb_2) - const_1))"
+        "(tmp2 * ((tmp2 * tmp2) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_3",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_2) + verify_add252_input[1].get_m31(const_2)) + carry_tmp_4afb_2) - verify_add252_input[2].get_m31(const_2)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(2) + input[1].get_m31(2)) + tmp2) - input[2].get_m31(2)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -95,14 +95,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_3 * ((carry_tmp_4afb_3 * carry_tmp_4afb_3) - const_1))"
+        "(tmp3 * ((tmp3 * tmp3) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_4",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_3) + verify_add252_input[1].get_m31(const_3)) + carry_tmp_4afb_3) - verify_add252_input[2].get_m31(const_3)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(3) + input[1].get_m31(3)) + tmp3) - input[2].get_m31(3)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -113,14 +113,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_4 * ((carry_tmp_4afb_4 * carry_tmp_4afb_4) - const_1))"
+        "(tmp4 * ((tmp4 * tmp4) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_5",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_4) + verify_add252_input[1].get_m31(const_4)) + carry_tmp_4afb_4) - verify_add252_input[2].get_m31(const_4)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(4) + input[1].get_m31(4)) + tmp4) - input[2].get_m31(4)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -131,14 +131,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_5 * ((carry_tmp_4afb_5 * carry_tmp_4afb_5) - const_1))"
+        "(tmp5 * ((tmp5 * tmp5) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_6",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_5) + verify_add252_input[1].get_m31(const_5)) + carry_tmp_4afb_5) - verify_add252_input[2].get_m31(const_5)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(5) + input[1].get_m31(5)) + tmp5) - input[2].get_m31(5)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -149,14 +149,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_6 * ((carry_tmp_4afb_6 * carry_tmp_4afb_6) - const_1))"
+        "(tmp6 * ((tmp6 * tmp6) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_7",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_6) + verify_add252_input[1].get_m31(const_6)) + carry_tmp_4afb_6) - verify_add252_input[2].get_m31(const_6)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(6) + input[1].get_m31(6)) + tmp6) - input[2].get_m31(6)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -167,14 +167,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_7 * ((carry_tmp_4afb_7 * carry_tmp_4afb_7) - const_1))"
+        "(tmp7 * ((tmp7 * tmp7) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_8",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_7) + verify_add252_input[1].get_m31(const_7)) + carry_tmp_4afb_7) - verify_add252_input[2].get_m31(const_7)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(7) + input[1].get_m31(7)) + tmp7) - input[2].get_m31(7)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -185,14 +185,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_8 * ((carry_tmp_4afb_8 * carry_tmp_4afb_8) - const_1))"
+        "(tmp8 * ((tmp8 * tmp8) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_9",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_8) + verify_add252_input[1].get_m31(const_8)) + carry_tmp_4afb_8) - verify_add252_input[2].get_m31(const_8)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(8) + input[1].get_m31(8)) + tmp8) - input[2].get_m31(8)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -203,14 +203,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_9 * ((carry_tmp_4afb_9 * carry_tmp_4afb_9) - const_1))"
+        "(tmp9 * ((tmp9 * tmp9) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_10",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_9) + verify_add252_input[1].get_m31(const_9)) + carry_tmp_4afb_9) - verify_add252_input[2].get_m31(const_9)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(9) + input[1].get_m31(9)) + tmp9) - input[2].get_m31(9)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -221,14 +221,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_10 * ((carry_tmp_4afb_10 * carry_tmp_4afb_10) - const_1))"
+        "(tmp10 * ((tmp10 * tmp10) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_11",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_10) + verify_add252_input[1].get_m31(const_10)) + carry_tmp_4afb_10) - verify_add252_input[2].get_m31(const_10)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(10) + input[1].get_m31(10)) + tmp10) - input[2].get_m31(10)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -239,14 +239,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_11 * ((carry_tmp_4afb_11 * carry_tmp_4afb_11) - const_1))"
+        "(tmp11 * ((tmp11 * tmp11) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_12",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_11) + verify_add252_input[1].get_m31(const_11)) + carry_tmp_4afb_11) - verify_add252_input[2].get_m31(const_11)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(11) + input[1].get_m31(11)) + tmp11) - input[2].get_m31(11)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -257,14 +257,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_12 * ((carry_tmp_4afb_12 * carry_tmp_4afb_12) - const_1))"
+        "(tmp12 * ((tmp12 * tmp12) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_13",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_12) + verify_add252_input[1].get_m31(const_12)) + carry_tmp_4afb_12) - verify_add252_input[2].get_m31(const_12)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(12) + input[1].get_m31(12)) + tmp12) - input[2].get_m31(12)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -275,14 +275,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_13 * ((carry_tmp_4afb_13 * carry_tmp_4afb_13) - const_1))"
+        "(tmp13 * ((tmp13 * tmp13) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_14",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_13) + verify_add252_input[1].get_m31(const_13)) + carry_tmp_4afb_13) - verify_add252_input[2].get_m31(const_13)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(13) + input[1].get_m31(13)) + tmp13) - input[2].get_m31(13)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -293,14 +293,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_14 * ((carry_tmp_4afb_14 * carry_tmp_4afb_14) - const_1))"
+        "(tmp14 * ((tmp14 * tmp14) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_15",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_14) + verify_add252_input[1].get_m31(const_14)) + carry_tmp_4afb_14) - verify_add252_input[2].get_m31(const_14)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(14) + input[1].get_m31(14)) + tmp14) - input[2].get_m31(14)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -311,14 +311,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_15 * ((carry_tmp_4afb_15 * carry_tmp_4afb_15) - const_1))"
+        "(tmp15 * ((tmp15 * tmp15) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_16",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_15) + verify_add252_input[1].get_m31(const_15)) + carry_tmp_4afb_15) - verify_add252_input[2].get_m31(const_15)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(15) + input[1].get_m31(15)) + tmp15) - input[2].get_m31(15)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -329,14 +329,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_16 * ((carry_tmp_4afb_16 * carry_tmp_4afb_16) - const_1))"
+        "(tmp16 * ((tmp16 * tmp16) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_17",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_16) + verify_add252_input[1].get_m31(const_16)) + carry_tmp_4afb_16) - verify_add252_input[2].get_m31(const_16)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(16) + input[1].get_m31(16)) + tmp16) - input[2].get_m31(16)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -347,14 +347,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_17 * ((carry_tmp_4afb_17 * carry_tmp_4afb_17) - const_1))"
+        "(tmp17 * ((tmp17 * tmp17) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_18",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_17) + verify_add252_input[1].get_m31(const_17)) + carry_tmp_4afb_17) - verify_add252_input[2].get_m31(const_17)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(17) + input[1].get_m31(17)) + tmp17) - input[2].get_m31(17)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -365,14 +365,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_18 * ((carry_tmp_4afb_18 * carry_tmp_4afb_18) - const_1))"
+        "(tmp18 * ((tmp18 * tmp18) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_19",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_18) + verify_add252_input[1].get_m31(const_18)) + carry_tmp_4afb_18) - verify_add252_input[2].get_m31(const_18)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(18) + input[1].get_m31(18)) + tmp18) - input[2].get_m31(18)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -383,14 +383,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_19 * ((carry_tmp_4afb_19 * carry_tmp_4afb_19) - const_1))"
+        "(tmp19 * ((tmp19 * tmp19) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_20",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_19) + verify_add252_input[1].get_m31(const_19)) + carry_tmp_4afb_19) - verify_add252_input[2].get_m31(const_19)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(19) + input[1].get_m31(19)) + tmp19) - input[2].get_m31(19)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -401,14 +401,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_20 * ((carry_tmp_4afb_20 * carry_tmp_4afb_20) - const_1))"
+        "(tmp20 * ((tmp20 * tmp20) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_21",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_20) + verify_add252_input[1].get_m31(const_20)) + carry_tmp_4afb_20) - verify_add252_input[2].get_m31(const_20)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(20) + input[1].get_m31(20)) + tmp20) - input[2].get_m31(20)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -419,14 +419,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_21 * ((carry_tmp_4afb_21 * carry_tmp_4afb_21) - const_1))"
+        "(tmp21 * ((tmp21 * tmp21) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_22",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_21) + verify_add252_input[1].get_m31(const_21)) + carry_tmp_4afb_21) - verify_add252_input[2].get_m31(const_21)) - (const_136 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(21) + input[1].get_m31(21)) + tmp21) - input[2].get_m31(21)) - (136 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -437,14 +437,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_22 * ((carry_tmp_4afb_22 * carry_tmp_4afb_22) - const_1))"
+        "(tmp22 * ((tmp22 * tmp22) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_23",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_22) + verify_add252_input[1].get_m31(const_22)) + carry_tmp_4afb_22) - verify_add252_input[2].get_m31(const_22)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(22) + input[1].get_m31(22)) + tmp22) - input[2].get_m31(22)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -455,14 +455,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_23 * ((carry_tmp_4afb_23 * carry_tmp_4afb_23) - const_1))"
+        "(tmp23 * ((tmp23 * tmp23) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_24",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_23) + verify_add252_input[1].get_m31(const_23)) + carry_tmp_4afb_23) - verify_add252_input[2].get_m31(const_23)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(23) + input[1].get_m31(23)) + tmp23) - input[2].get_m31(23)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -473,14 +473,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_24 * ((carry_tmp_4afb_24 * carry_tmp_4afb_24) - const_1))"
+        "(tmp24 * ((tmp24 * tmp24) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_25",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_24) + verify_add252_input[1].get_m31(const_24)) + carry_tmp_4afb_24) - verify_add252_input[2].get_m31(const_24)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(24) + input[1].get_m31(24)) + tmp24) - input[2].get_m31(24)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -491,14 +491,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_25 * ((carry_tmp_4afb_25 * carry_tmp_4afb_25) - const_1))"
+        "(tmp25 * ((tmp25 * tmp25) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_26",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_25) + verify_add252_input[1].get_m31(const_25)) + carry_tmp_4afb_25) - verify_add252_input[2].get_m31(const_25)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(25) + input[1].get_m31(25)) + tmp25) - input[2].get_m31(25)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -509,14 +509,14 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_26 * ((carry_tmp_4afb_26 * carry_tmp_4afb_26) - const_1))"
+        "(tmp26 * ((tmp26 * tmp26) - 1))"
       ]
     },
     {
       "Intermediate": [
         "carry_tmp_4afb_27",
         {
-          "name": "(((((verify_add252_input[0].get_m31(const_26) + verify_add252_input[1].get_m31(const_26)) + carry_tmp_4afb_26) - verify_add252_input[2].get_m31(const_26)) - (const_0 * sub_p_bit_col0)) * const_4194304)",
+          "name": "(((((input[0].get_m31(26) + input[1].get_m31(26)) + tmp26) - input[2].get_m31(26)) - (0 * col0)) * 4194304)",
           "type": "M31"
         },
         {
@@ -527,19 +527,19 @@
     },
     {
       "Constraint": [
-        "(carry_tmp_4afb_27 * ((carry_tmp_4afb_27 * carry_tmp_4afb_27) - const_1))"
+        "(tmp27 * ((tmp27 * tmp27) - 1))"
       ]
     },
     {
       "Constraint": [
-        "((((verify_add252_input[0].get_m31(const_27) + verify_add252_input[1].get_m31(const_27)) + carry_tmp_4afb_27) - verify_add252_input[2].get_m31(const_27)) - (const_256 * sub_p_bit_col0))"
+        "((((input[0].get_m31(27) + input[1].get_m31(27)) + tmp27) - input[2].get_m31(27)) - (256 * col0))"
       ]
     }
   ],
   "state": {
     "row": [
       [
-        "sub_p_bit_col0",
+        "col0",
         "sub_p_bit"
       ]
     ]

@@ -5,24 +5,24 @@
     "N": "4"
   },
   "input": {
-    "name": "bit_unpack__n_4_input",
+    "name": "input",
     "type": "UInt16"
   },
   "output": [
     {
-      "name": "Bool::from_m31(tmp_ee5b_1)",
+      "name": "Bool::from_m31(tmp1)",
       "type": "Bool"
     },
     {
-      "name": "Bool::from_m31(tmp_ee5b_3)",
+      "name": "Bool::from_m31(tmp3)",
       "type": "Bool"
     },
     {
-      "name": "Bool::from_m31(tmp_ee5b_5)",
+      "name": "Bool::from_m31(tmp5)",
       "type": "Bool"
     },
     {
-      "name": "Bool::from_m31(tmp_ee5b_7)",
+      "name": "Bool::from_m31(tmp7)",
       "type": "Bool"
     }
   ],
@@ -30,7 +30,7 @@
   "air_body": [
     {
       "Deduction": [
-        "bit_unpack__n_4_input.as_m31()"
+        "input.as_m31()"
       ]
     },
     {
@@ -38,16 +38,16 @@
         "air_fn_name": "Div2",
         "air_fn_description": "Div2",
         "input_arg": {
-          "name": "bit_unpack__n_4_input",
+          "name": "input",
           "type": "UInt16"
         },
         "output": [
           {
-            "name": "Bool::from_m31(tmp_ee5b_1)",
+            "name": "Bool::from_m31(tmp1)",
             "type": "Bool"
           },
           {
-            "name": "tmp_ee5b_0",
+            "name": "tmp0",
             "type": "UInt16"
           }
         ]
@@ -58,16 +58,16 @@
         "air_fn_name": "Div2",
         "air_fn_description": "Div2",
         "input_arg": {
-          "name": "tmp_ee5b_0",
+          "name": "tmp0",
           "type": "UInt16"
         },
         "output": [
           {
-            "name": "Bool::from_m31(tmp_ee5b_3)",
+            "name": "Bool::from_m31(tmp3)",
             "type": "Bool"
           },
           {
-            "name": "tmp_ee5b_2",
+            "name": "tmp2",
             "type": "UInt16"
           }
         ]
@@ -78,16 +78,16 @@
         "air_fn_name": "Div2",
         "air_fn_description": "Div2",
         "input_arg": {
-          "name": "tmp_ee5b_2",
+          "name": "tmp2",
           "type": "UInt16"
         },
         "output": [
           {
-            "name": "Bool::from_m31(tmp_ee5b_5)",
+            "name": "Bool::from_m31(tmp5)",
             "type": "Bool"
           },
           {
-            "name": "tmp_ee5b_4",
+            "name": "tmp4",
             "type": "UInt16"
           }
         ]
@@ -98,16 +98,16 @@
         "air_fn_name": "Div2",
         "air_fn_description": "Div2",
         "input_arg": {
-          "name": "tmp_ee5b_4",
+          "name": "tmp4",
           "type": "UInt16"
         },
         "output": [
           {
-            "name": "Bool::from_m31(tmp_ee5b_7)",
+            "name": "Bool::from_m31(tmp7)",
             "type": "Bool"
           },
           {
-            "name": "tmp_ee5b_6",
+            "name": "tmp6",
             "type": "UInt16"
           }
         ]

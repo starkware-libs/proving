@@ -5,6 +5,7 @@ use std::rc::Rc;
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, ConstraintEvalStep, LookupTerm, TraceGenStep, UseOrYield,
 };
+use compiled_casm_air::utils::INPUT_VAR_SUFFIX;
 use indexmap::IndexMap;
 use serde::Serialize;
 
@@ -179,8 +180,8 @@ impl AirFnEntry {
 // for the air function and its subroutines.
 #[derive(Debug, Clone, Serialize, Default)]
 pub struct AirFnRegistry {
-    air_fns: Rc<RefCell<IndexMap<String, AirFnEntry>>>,
-    air_fn_ids: Rc<RefCell<HashSet<String>>>,
+    pub air_fns: Rc<RefCell<IndexMap<String, AirFnEntry>>>,
+    pub air_fn_ids: Rc<RefCell<HashSet<String>>>,
     #[serde(skip)]
     pub public_params: PublicParams,
 }
@@ -301,7 +302,7 @@ impl AirFnRegistry {
         I: AirVar,
         O: AirVar,
     {
-        let input_name = format!("{}_input", camel_to_snake(&air_fn.name()));
+        let input_name = format!("{}_{}", camel_to_snake(&air_fn.name()), INPUT_VAR_SUFFIX);
         // If input_in_trace is None, we put the input in the trace so air_builder checks don't
         // fail.
         let mut input = I::new(input_name.clone(), true);

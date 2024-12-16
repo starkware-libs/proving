@@ -5,7 +5,7 @@
     "claim_index": "6"
   },
   "input": {
-    "name": "fib_claim_index_6_input",
+    "name": "input",
     "type": "M31"
   },
   "output": {
@@ -16,7 +16,7 @@
   "air_body": [
     {
       "Deduction": [
-        "fib_claim_index_6_input"
+        "input"
       ]
     },
     {
@@ -25,7 +25,7 @@
         "air_fn_description": "FibStep",
         "input_arg": [
           {
-            "name": "const_1",
+            "name": "1",
             "type": "M31"
           },
           {

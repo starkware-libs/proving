@@ -5,16 +5,16 @@
     "num_bits": "16"
   },
   "input": {
-    "name": "read_positive_num_bits_16_input",
+    "name": "input",
     "type": "M31"
   },
   "output": [
     {
-      "name": "Felt252::from_limbs(zero_extend([read_positive_num_bits_16_input_limb_0_col1, read_positive_num_bits_16_input_limb_1_col2]))",
+      "name": "Felt252::from_limbs(zero_extend([col1, col2]))",
       "type": "Felt252"
     },
     {
-      "name": "read_positive_num_bits_16_input_id_col0",
+      "name": "col0",
       "type": "M31"
     }
   ],
@@ -24,7 +24,7 @@
       "LookupCall": {
         "air_fn_name": "MemoryAddressToId",
         "input_arg": {
-          "name": "read_positive_num_bits_16_input",
+          "name": "input",
           "type": "M31"
         },
         "output_name": "memoryaddresstoid_value_tmp_f3ab_0"
@@ -34,7 +34,7 @@
       "LookupCall": {
         "air_fn_name": "MemoryIdToBig",
         "input_arg": {
-          "name": "memoryaddresstoid_value_tmp_f3ab_0",
+          "name": "tmp0",
           "type": "M31"
         },
         "output_name": "memoryidtobig_value_tmp_f3ab_1"
@@ -42,7 +42,7 @@
     },
     {
       "Deduction": [
-        "memoryaddresstoid_value_tmp_f3ab_0",
+        "tmp0",
         "read_positive_num_bits_16_input_id"
       ]
     },
@@ -50,7 +50,7 @@
       "LookupAddInput": {
         "air_fn_name": "MemoryAddressToId",
         "input_arg": {
-          "name": "read_positive_num_bits_16_input",
+          "name": "input",
           "type": "M31"
         }
       }
@@ -59,21 +59,21 @@
       "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
-          "read_positive_num_bits_16_input",
-          "read_positive_num_bits_16_input_id_col0"
+          "input",
+          "col0"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "memoryidtobig_value_tmp_f3ab_1.get_m31(const_0)",
+        "tmp1.get_m31(0)",
         "read_positive_num_bits_16_input_limb_0"
       ]
     },
     {
       "Deduction": [
-        "memoryidtobig_value_tmp_f3ab_1.get_m31(const_1)",
+        "tmp1.get_m31(1)",
         "read_positive_num_bits_16_input_limb_1"
       ]
     },
@@ -82,7 +82,7 @@
         "air_fn_name": "RangeCheckLastLimb_bits_in_ms_limb_7",
         "air_fn_description": "RangeCheckLastLimb_bits_in_ms_limb_7",
         "input_arg": {
-          "name": "read_positive_num_bits_16_input_limb_1_col2",
+          "name": "col2",
           "type": "M31"
         },
         "output": []
@@ -92,7 +92,7 @@
       "LookupAddInput": {
         "air_fn_name": "MemoryIdToBig",
         "input_arg": {
-          "name": "read_positive_num_bits_16_input_id_col0",
+          "name": "col0",
           "type": "M31"
         }
       }
@@ -101,35 +101,35 @@
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
-          "read_positive_num_bits_16_input_id_col0",
-          "read_positive_num_bits_16_input_limb_0_col1",
-          "read_positive_num_bits_16_input_limb_1_col2",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0",
-          "const_0"
+          "col0",
+          "col1",
+          "col2",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
         ],
         "use_or_yield": "Use"
       }
@@ -138,15 +138,15 @@
   "state": {
     "row": [
       [
-        "read_positive_num_bits_16_input_id_col0",
+        "col0",
         "read_positive_num_bits_16_input_id"
       ],
       [
-        "read_positive_num_bits_16_input_limb_0_col1",
+        "col1",
         "read_positive_num_bits_16_input_limb_0"
       ],
       [
-        "read_positive_num_bits_16_input_limb_1_col2",
+        "col2",
         "read_positive_num_bits_16_input_limb_1"
       ]
     ]

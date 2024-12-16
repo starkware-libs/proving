@@ -4,16 +4,16 @@
   "inst_def": {},
   "input": [
     {
-      "name": "mul252_input[0]",
+      "name": "input[0]",
       "type": "Felt252"
     },
     {
-      "name": "mul252_input[1]",
+      "name": "input[1]",
       "type": "Felt252"
     }
   ],
   "output": {
-    "name": "mul_res_tmp_e0e7_0",
+    "name": "tmp0",
     "type": "Felt252"
   },
   "trace_type": "Inline",
@@ -22,7 +22,7 @@
       "Intermediate": [
         "mul_res_tmp_e0e7_0",
         {
-          "name": "(mul252_input[0] * mul252_input[1])",
+          "name": "(input[0] * input[1])",
           "type": "Felt252"
         },
         {
@@ -33,169 +33,169 @@
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_0)",
+        "tmp0.get_m31(0)",
         "mul_res_limb_0"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_1)",
+        "tmp0.get_m31(1)",
         "mul_res_limb_1"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_2)",
+        "tmp0.get_m31(2)",
         "mul_res_limb_2"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_3)",
+        "tmp0.get_m31(3)",
         "mul_res_limb_3"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_4)",
+        "tmp0.get_m31(4)",
         "mul_res_limb_4"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_5)",
+        "tmp0.get_m31(5)",
         "mul_res_limb_5"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_6)",
+        "tmp0.get_m31(6)",
         "mul_res_limb_6"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_7)",
+        "tmp0.get_m31(7)",
         "mul_res_limb_7"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_8)",
+        "tmp0.get_m31(8)",
         "mul_res_limb_8"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_9)",
+        "tmp0.get_m31(9)",
         "mul_res_limb_9"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_10)",
+        "tmp0.get_m31(10)",
         "mul_res_limb_10"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_11)",
+        "tmp0.get_m31(11)",
         "mul_res_limb_11"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_12)",
+        "tmp0.get_m31(12)",
         "mul_res_limb_12"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_13)",
+        "tmp0.get_m31(13)",
         "mul_res_limb_13"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_14)",
+        "tmp0.get_m31(14)",
         "mul_res_limb_14"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_15)",
+        "tmp0.get_m31(15)",
         "mul_res_limb_15"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_16)",
+        "tmp0.get_m31(16)",
         "mul_res_limb_16"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_17)",
+        "tmp0.get_m31(17)",
         "mul_res_limb_17"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_18)",
+        "tmp0.get_m31(18)",
         "mul_res_limb_18"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_19)",
+        "tmp0.get_m31(19)",
         "mul_res_limb_19"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_20)",
+        "tmp0.get_m31(20)",
         "mul_res_limb_20"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_21)",
+        "tmp0.get_m31(21)",
         "mul_res_limb_21"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_22)",
+        "tmp0.get_m31(22)",
         "mul_res_limb_22"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_23)",
+        "tmp0.get_m31(23)",
         "mul_res_limb_23"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_24)",
+        "tmp0.get_m31(24)",
         "mul_res_limb_24"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_25)",
+        "tmp0.get_m31(25)",
         "mul_res_limb_25"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_26)",
+        "tmp0.get_m31(26)",
         "mul_res_limb_26"
       ]
     },
     {
       "Deduction": [
-        "mul_res_tmp_e0e7_0.get_m31(const_27)",
+        "tmp0.get_m31(27)",
         "mul_res_limb_27"
       ]
     },
@@ -204,7 +204,7 @@
         "air_fn_name": "RangeCheckBigValue",
         "air_fn_description": "RangeCheckBigValue",
         "input_arg": {
-          "name": "mul_res_tmp_e0e7_0",
+          "name": "tmp0",
           "type": "Felt252"
         },
         "output": []
@@ -216,15 +216,15 @@
         "air_fn_description": "VerifyMul252",
         "input_arg": [
           {
-            "name": "mul252_input[0]",
+            "name": "input[0]",
             "type": "Felt252"
           },
           {
-            "name": "mul252_input[1]",
+            "name": "input[1]",
             "type": "Felt252"
           },
           {
-            "name": "mul_res_tmp_e0e7_0",
+            "name": "tmp0",
             "type": "Felt252"
           }
         ],
@@ -235,227 +235,227 @@
   "state": {
     "row": [
       [
-        "mul_res_limb_0_col0",
+        "col0",
         "mul_res_limb_0"
       ],
       [
-        "mul_res_limb_1_col1",
+        "col1",
         "mul_res_limb_1"
       ],
       [
-        "mul_res_limb_2_col2",
+        "col2",
         "mul_res_limb_2"
       ],
       [
-        "mul_res_limb_3_col3",
+        "col3",
         "mul_res_limb_3"
       ],
       [
-        "mul_res_limb_4_col4",
+        "col4",
         "mul_res_limb_4"
       ],
       [
-        "mul_res_limb_5_col5",
+        "col5",
         "mul_res_limb_5"
       ],
       [
-        "mul_res_limb_6_col6",
+        "col6",
         "mul_res_limb_6"
       ],
       [
-        "mul_res_limb_7_col7",
+        "col7",
         "mul_res_limb_7"
       ],
       [
-        "mul_res_limb_8_col8",
+        "col8",
         "mul_res_limb_8"
       ],
       [
-        "mul_res_limb_9_col9",
+        "col9",
         "mul_res_limb_9"
       ],
       [
-        "mul_res_limb_10_col10",
+        "col10",
         "mul_res_limb_10"
       ],
       [
-        "mul_res_limb_11_col11",
+        "col11",
         "mul_res_limb_11"
       ],
       [
-        "mul_res_limb_12_col12",
+        "col12",
         "mul_res_limb_12"
       ],
       [
-        "mul_res_limb_13_col13",
+        "col13",
         "mul_res_limb_13"
       ],
       [
-        "mul_res_limb_14_col14",
+        "col14",
         "mul_res_limb_14"
       ],
       [
-        "mul_res_limb_15_col15",
+        "col15",
         "mul_res_limb_15"
       ],
       [
-        "mul_res_limb_16_col16",
+        "col16",
         "mul_res_limb_16"
       ],
       [
-        "mul_res_limb_17_col17",
+        "col17",
         "mul_res_limb_17"
       ],
       [
-        "mul_res_limb_18_col18",
+        "col18",
         "mul_res_limb_18"
       ],
       [
-        "mul_res_limb_19_col19",
+        "col19",
         "mul_res_limb_19"
       ],
       [
-        "mul_res_limb_20_col20",
+        "col20",
         "mul_res_limb_20"
       ],
       [
-        "mul_res_limb_21_col21",
+        "col21",
         "mul_res_limb_21"
       ],
       [
-        "mul_res_limb_22_col22",
+        "col22",
         "mul_res_limb_22"
       ],
       [
-        "mul_res_limb_23_col23",
+        "col23",
         "mul_res_limb_23"
       ],
       [
-        "mul_res_limb_24_col24",
+        "col24",
         "mul_res_limb_24"
       ],
       [
-        "mul_res_limb_25_col25",
+        "col25",
         "mul_res_limb_25"
       ],
       [
-        "mul_res_limb_26_col26",
+        "col26",
         "mul_res_limb_26"
       ],
       [
-        "mul_res_limb_27_col27",
+        "col27",
         "mul_res_limb_27"
       ],
       [
-        "k_col28",
+        "col28",
         "k"
       ],
       [
-        "carry_0_col29",
+        "col29",
         "carry_0"
       ],
       [
-        "carry_1_col30",
+        "col30",
         "carry_1"
       ],
       [
-        "carry_2_col31",
+        "col31",
         "carry_2"
       ],
       [
-        "carry_3_col32",
+        "col32",
         "carry_3"
       ],
       [
-        "carry_4_col33",
+        "col33",
         "carry_4"
       ],
       [
-        "carry_5_col34",
+        "col34",
         "carry_5"
       ],
       [
-        "carry_6_col35",
+        "col35",
         "carry_6"
       ],
       [
-        "carry_7_col36",
+        "col36",
         "carry_7"
       ],
       [
-        "carry_8_col37",
+        "col37",
         "carry_8"
       ],
       [
-        "carry_9_col38",
+        "col38",
         "carry_9"
       ],
       [
-        "carry_10_col39",
+        "col39",
         "carry_10"
       ],
       [
-        "carry_11_col40",
+        "col40",
         "carry_11"
       ],
       [
-        "carry_12_col41",
+        "col41",
         "carry_12"
       ],
       [
-        "carry_13_col42",
+        "col42",
         "carry_13"
       ],
       [
-        "carry_14_col43",
+        "col43",
         "carry_14"
       ],
       [
-        "carry_15_col44",
+        "col44",
         "carry_15"
       ],
       [
-        "carry_16_col45",
+        "col45",
         "carry_16"
       ],
       [
-        "carry_17_col46",
+        "col46",
         "carry_17"
       ],
       [
-        "carry_18_col47",
+        "col47",
         "carry_18"
       ],
       [
-        "carry_19_col48",
+        "col48",
         "carry_19"
       ],
       [
-        "carry_20_col49",
+        "col49",
         "carry_20"
       ],
       [
-        "carry_21_col50",
+        "col50",
         "carry_21"
       ],
       [
-        "carry_22_col51",
+        "col51",
         "carry_22"
       ],
       [
-        "carry_23_col52",
+        "col52",
         "carry_23"
       ],
       [
-        "carry_24_col53",
+        "col53",
         "carry_24"
       ],
       [
-        "carry_25_col54",
+        "col54",
         "carry_25"
       ],
       [
-        "carry_26_col55",
+        "col55",
         "carry_26"
       ]
     ]

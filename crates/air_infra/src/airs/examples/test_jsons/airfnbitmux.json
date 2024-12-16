@@ -3,18 +3,18 @@
   "description": "AirFnBitMux",
   "inst_def": {},
   "input": {
-    "name": "air_fn_bit_mux_input",
+    "name": "input",
     "type": "UInt16"
   },
   "output": {
-    "name": "Bool::from_m31(tmp_6ffd_1)",
+    "name": "Bool::from_m31(tmp1)",
     "type": "Bool"
   },
   "trace_type": "Inline",
   "air_body": [
     {
       "Deduction": [
-        "air_fn_bit_mux_input.as_m31()"
+        "input.as_m31()"
       ]
     },
     {
@@ -22,16 +22,16 @@
         "air_fn_name": "Div2",
         "air_fn_description": "Div2",
         "input_arg": {
-          "name": "air_fn_bit_mux_input",
+          "name": "input",
           "type": "UInt16"
         },
         "output": [
           {
-            "name": "Bool::from_m31(tmp_6ffd_1)",
+            "name": "Bool::from_m31(tmp1)",
             "type": "Bool"
           },
           {
-            "name": "tmp_6ffd_0",
+            "name": "tmp0",
             "type": "UInt16"
           }
         ]
@@ -39,7 +39,7 @@
     },
     {
       "Constraint": [
-        "((tmp_6ffd_1 * col0) + ((const_1 - tmp_6ffd_1) * (col0 - const_2)))"
+        "((tmp1 * col0) + ((1 - tmp1) * (col0 - 2)))"
       ]
     }
   ],

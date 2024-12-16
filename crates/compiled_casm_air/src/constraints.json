@@ -1,0 +1,3297 @@
+{
+  "Seq": [],
+  "MemoryAddressToId": [],
+  "RangeCheck_9_9": [],
+  "RangeCheckBigValue": [
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(0)",
+        "input.get_m31(1)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(10)",
+        "input.get_m31(11)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(12)",
+        "input.get_m31(13)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(14)",
+        "input.get_m31(15)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(16)",
+        "input.get_m31(17)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(18)",
+        "input.get_m31(19)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(2)",
+        "input.get_m31(3)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(20)",
+        "input.get_m31(21)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(22)",
+        "input.get_m31(23)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(24)",
+        "input.get_m31(25)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(26)",
+        "input.get_m31(27)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(4)",
+        "input.get_m31(5)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(6)",
+        "input.get_m31(7)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_9_9",
+      "felts": [
+        "input.get_m31(8)",
+        "input.get_m31(9)"
+      ]
+    }
+  ],
+  "MemoryIdToBig": [
+    {
+      "fn_name": "RangeCheckBigValue",
+      "input": "Felt252::from_limbs([col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28])",
+      "output": "()"
+    }
+  ],
+  "ReadPositive_num_bits_252": [
+    {
+      "relation_name": "MemoryAddressToId",
+      "felts": [
+        "input",
+        "col0"
+      ]
+    },
+    {
+      "relation_name": "MemoryIdToBig",
+      "felts": [
+        "col0",
+        "col1",
+        "col2",
+        "col3",
+        "col4",
+        "col5",
+        "col6",
+        "col7",
+        "col8",
+        "col9",
+        "col10",
+        "col11",
+        "col12",
+        "col13",
+        "col14",
+        "col15",
+        "col16",
+        "col17",
+        "col18",
+        "col19",
+        "col20",
+        "col21",
+        "col22",
+        "col23",
+        "col24",
+        "col25",
+        "col26",
+        "col27",
+        "col28"
+      ]
+    }
+  ],
+  "VerifyBitwiseXor_num_bits_9": [],
+  "BitwiseXor_num_bits_9": [
+    {
+      "relation_name": "VerifyBitwiseXor_num_bits_9",
+      "felts": [
+        "input[0]",
+        "input[1]",
+        "col0"
+      ]
+    }
+  ],
+  "MemVerify": [
+    {
+      "relation_name": "MemoryAddressToId",
+      "felts": [
+        "input.0",
+        "col0"
+      ]
+    },
+    {
+      "relation_name": "MemoryIdToBig",
+      "felts": [
+        "col0",
+        "input.1.get_m31(0)",
+        "input.1.get_m31(1)",
+        "input.1.get_m31(2)",
+        "input.1.get_m31(3)",
+        "input.1.get_m31(4)",
+        "input.1.get_m31(5)",
+        "input.1.get_m31(6)",
+        "input.1.get_m31(7)",
+        "input.1.get_m31(8)",
+        "input.1.get_m31(9)",
+        "input.1.get_m31(10)",
+        "input.1.get_m31(11)",
+        "input.1.get_m31(12)",
+        "input.1.get_m31(13)",
+        "input.1.get_m31(14)",
+        "input.1.get_m31(15)",
+        "input.1.get_m31(16)",
+        "input.1.get_m31(17)",
+        "input.1.get_m31(18)",
+        "input.1.get_m31(19)",
+        "input.1.get_m31(20)",
+        "input.1.get_m31(21)",
+        "input.1.get_m31(22)",
+        "input.1.get_m31(23)",
+        "input.1.get_m31(24)",
+        "input.1.get_m31(25)",
+        "input.1.get_m31(26)",
+        "input.1.get_m31(27)"
+      ]
+    }
+  ],
+  "BitwiseBuiltin": [
+    [
+      "tmp11",
+      "(1073741824 * ((col4 + col33) - col61))"
+    ],
+    [
+      "tmp13",
+      "(1073741824 * ((col5 + col34) - col62))"
+    ],
+    [
+      "tmp15",
+      "(1073741824 * ((col6 + col35) - col63))"
+    ],
+    [
+      "tmp17",
+      "(1073741824 * ((col7 + col36) - col64))"
+    ],
+    [
+      "tmp19",
+      "(1073741824 * ((col8 + col37) - col65))"
+    ],
+    [
+      "tmp21",
+      "(1073741824 * ((col9 + col38) - col66))"
+    ],
+    [
+      "tmp23",
+      "(1073741824 * ((col10 + col39) - col67))"
+    ],
+    [
+      "tmp25",
+      "(1073741824 * ((col11 + col40) - col68))"
+    ],
+    [
+      "tmp27",
+      "(1073741824 * ((col12 + col41) - col69))"
+    ],
+    [
+      "tmp29",
+      "(1073741824 * ((col13 + col42) - col70))"
+    ],
+    [
+      "tmp31",
+      "(1073741824 * ((col14 + col43) - col71))"
+    ],
+    [
+      "tmp33",
+      "(1073741824 * ((col15 + col44) - col72))"
+    ],
+    [
+      "tmp35",
+      "(1073741824 * ((col16 + col45) - col73))"
+    ],
+    [
+      "tmp37",
+      "(1073741824 * ((col17 + col46) - col74))"
+    ],
+    [
+      "tmp39",
+      "(1073741824 * ((col18 + col47) - col75))"
+    ],
+    [
+      "tmp41",
+      "(1073741824 * ((col19 + col48) - col76))"
+    ],
+    [
+      "tmp43",
+      "(1073741824 * ((col20 + col49) - col77))"
+    ],
+    [
+      "tmp45",
+      "(1073741824 * ((col21 + col50) - col78))"
+    ],
+    [
+      "tmp47",
+      "(1073741824 * ((col22 + col51) - col79))"
+    ],
+    [
+      "tmp49",
+      "(1073741824 * ((col23 + col52) - col80))"
+    ],
+    [
+      "tmp5",
+      "(1073741824 * ((col1 + col30) - col58))"
+    ],
+    [
+      "tmp51",
+      "(1073741824 * ((col24 + col53) - col81))"
+    ],
+    [
+      "tmp53",
+      "(1073741824 * ((col25 + col54) - col82))"
+    ],
+    [
+      "tmp55",
+      "(1073741824 * ((col26 + col55) - col83))"
+    ],
+    [
+      "tmp57",
+      "(1073741824 * ((col27 + col56) - col84))"
+    ],
+    [
+      "tmp59",
+      "(1073741824 * ((col28 + col57) - col85))"
+    ],
+    [
+      "tmp7",
+      "(1073741824 * ((col2 + col31) - col59))"
+    ],
+    [
+      "tmp9",
+      "(1073741824 * ((col3 + col32) - col60))"
+    ],
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col1, col30]",
+      "output": "col58"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col10, col39]",
+      "output": "col67"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col11, col40]",
+      "output": "col68"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col12, col41]",
+      "output": "col69"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col13, col42]",
+      "output": "col70"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col14, col43]",
+      "output": "col71"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col15, col44]",
+      "output": "col72"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col16, col45]",
+      "output": "col73"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col17, col46]",
+      "output": "col74"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col18, col47]",
+      "output": "col75"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col19, col48]",
+      "output": "col76"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col2, col31]",
+      "output": "col59"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col20, col49]",
+      "output": "col77"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col21, col50]",
+      "output": "col78"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col22, col51]",
+      "output": "col79"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col23, col52]",
+      "output": "col80"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col24, col53]",
+      "output": "col81"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col25, col54]",
+      "output": "col82"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col26, col55]",
+      "output": "col83"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col27, col56]",
+      "output": "col84"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col28, col57]",
+      "output": "col85"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col3, col32]",
+      "output": "col60"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col4, col33]",
+      "output": "col61"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col5, col34]",
+      "output": "col62"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col6, col35]",
+      "output": "col63"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col7, col36]",
+      "output": "col64"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col8, col37]",
+      "output": "col65"
+    },
+    {
+      "fn_name": "BitwiseXor_num_bits_9",
+      "input": "[col9, col38]",
+      "output": "col66"
+    },
+    {
+      "fn_name": "MemVerify",
+      "input": "(((public_params.bitwise_builtin_segment_start + (Seq_col0 * 5)) + 2), Felt252::from_limbs([tmp5, tmp7, tmp9, tmp11, tmp13, tmp15, tmp17, tmp19, tmp21, tmp23, tmp25, tmp27, tmp29, tmp31, tmp33, tmp35, tmp37, tmp39, tmp41, tmp43, tmp45, tmp47, tmp49, tmp51, tmp53, tmp55, tmp57, tmp59]))",
+      "output": "()"
+    },
+    {
+      "fn_name": "MemVerify",
+      "input": "(((public_params.bitwise_builtin_segment_start + (Seq_col0 * 5)) + 3), Felt252::from_limbs([col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85]))",
+      "output": "()"
+    },
+    {
+      "fn_name": "MemVerify",
+      "input": "(((public_params.bitwise_builtin_segment_start + (Seq_col0 * 5)) + 4), Felt252::from_limbs([(tmp5 + col58), (tmp7 + col59), (tmp9 + col60), (tmp11 + col61), (tmp13 + col62), (tmp15 + col63), (tmp17 + col64), (tmp19 + col65), (tmp21 + col66), (tmp23 + col67), (tmp25 + col68), (tmp27 + col69), (tmp29 + col70), (tmp31 + col71), (tmp33 + col72), (tmp35 + col73), (tmp37 + col74), (tmp39 + col75), (tmp41 + col76), (tmp43 + col77), (tmp45 + col78), (tmp47 + col79), (tmp49 + col80), (tmp51 + col81), (tmp53 + col82), (tmp55 + col83), (tmp57 + col84), (tmp59 + col85)]))",
+      "output": "()"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "((public_params.bitwise_builtin_segment_start + (Seq_col0 * 5)) + 0)",
+      "output": "(Felt252::from_limbs([col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28]), col0)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "((public_params.bitwise_builtin_segment_start + (Seq_col0 * 5)) + 1)",
+      "output": "(Felt252::from_limbs([col30, col31, col32, col33, col34, col35, col36, col37, col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57]), col29)"
+    }
+  ],
+  "RangeCheckLastLimb_bits_in_ms_limb_2": [
+    [
+      "tmp1",
+      "(input - (col0 * 2))"
+    ],
+    "(col0 * (1 - col0))",
+    "(tmp1 * (1 - tmp1))"
+  ],
+  "ReadPositive_num_bits_128": [
+    {
+      "fn_name": "RangeCheckLastLimb_bits_in_ms_limb_2",
+      "input": "col15",
+      "output": "()"
+    },
+    {
+      "relation_name": "MemoryAddressToId",
+      "felts": [
+        "input",
+        "col0"
+      ]
+    },
+    {
+      "relation_name": "MemoryIdToBig",
+      "felts": [
+        "col0",
+        "col1",
+        "col2",
+        "col3",
+        "col4",
+        "col5",
+        "col6",
+        "col7",
+        "col8",
+        "col9",
+        "col10",
+        "col11",
+        "col12",
+        "col13",
+        "col14",
+        "col15",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "RangeCheckBuiltin_bits_128": [
+    {
+      "fn_name": "ReadPositive_num_bits_128",
+      "input": "(public_params.range_check_builtin_segment_start + Seq_col0)",
+      "output": "(Felt252::from_limbs(zero_extend([col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15])), col0)"
+    }
+  ],
+  "ReadPositive_num_bits_99": [
+    {
+      "relation_name": "MemoryAddressToId",
+      "felts": [
+        "input",
+        "col0"
+      ]
+    },
+    {
+      "relation_name": "MemoryIdToBig",
+      "felts": [
+        "col0",
+        "col1",
+        "col2",
+        "col3",
+        "col4",
+        "col5",
+        "col6",
+        "col7",
+        "col8",
+        "col9",
+        "col10",
+        "col11",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "ReadPositive_num_bits_27": [
+    {
+      "relation_name": "MemoryAddressToId",
+      "felts": [
+        "input",
+        "col0"
+      ]
+    },
+    {
+      "relation_name": "MemoryIdToBig",
+      "felts": [
+        "col0",
+        "col1",
+        "col2",
+        "col3",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "MemCondVerifyEqualKnownId": [
+    "((col0 - input.1) * input.2)",
+    {
+      "relation_name": "MemoryAddressToId",
+      "felts": [
+        "input.0",
+        "col0"
+      ]
+    }
+  ],
+  "CondDecodeSmallSign": [
+    "((input.1 * col1) * (col0 - 1))",
+    "(col0 * (col0 - 1))",
+    "(col1 * (col1 - 1))"
+  ],
+  "ReadSmall": [
+    {
+      "fn_name": "CondDecodeSmallSign",
+      "input": "(tmp1, 1)",
+      "output": "[col1, col2]"
+    },
+    {
+      "relation_name": "MemoryAddressToId",
+      "felts": [
+        "input",
+        "col0"
+      ]
+    },
+    {
+      "relation_name": "MemoryIdToBig",
+      "felts": [
+        "col0",
+        "col3",
+        "col4",
+        "col5",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "(col2 * 511)",
+        "((136 * col1) - col2)",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "(col1 * 256)"
+      ]
+    }
+  ],
+  "ModUtils": [
+    [
+      "tmp19",
+      "((((col66 + (col67 * 512)) + (col68 * 262144)) * (1 - col0)) + col0)"
+    ],
+    "((tmp19 - 1) * ((((col54 + (col55 * 512)) + (col56 * 262144)) - 3) - ((col58 + (col59 * 512)) + (col60 * 262144))))",
+    "((tmp19 - 1) * ((tmp19 - 1) - ((col62 + (col63 * 512)) + (col64 * 262144))))",
+    "(col0 * (col0 - 1))",
+    "(col0 * input.1)",
+    {
+      "fn_name": "MemCondVerifyEqualKnownId",
+      "input": "(((input.0 + (7 * ((input.1 - 1) + col0))) + 0), col1, (tmp19 - 1))",
+      "output": "()"
+    },
+    {
+      "fn_name": "MemCondVerifyEqualKnownId",
+      "input": "(((input.0 + (7 * ((input.1 - 1) + col0))) + 1), col13, (tmp19 - 1))",
+      "output": "()"
+    },
+    {
+      "fn_name": "MemCondVerifyEqualKnownId",
+      "input": "(((input.0 + (7 * ((input.1 - 1) + col0))) + 2), col25, (tmp19 - 1))",
+      "output": "()"
+    },
+    {
+      "fn_name": "MemCondVerifyEqualKnownId",
+      "input": "(((input.0 + (7 * ((input.1 - 1) + col0))) + 3), col37, (tmp19 - 1))",
+      "output": "()"
+    },
+    {
+      "fn_name": "MemCondVerifyEqualKnownId",
+      "input": "(((input.0 + (7 * ((input.1 - 1) + col0))) + 4), col49, (tmp19 - 1))",
+      "output": "()"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "((input.0 + (7 * ((input.1 - 1) + col0))) + 5)",
+      "output": "(Felt252::from_limbs(zero_extend([col58, col59, col60])), col57)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "((input.0 + (7 * ((input.1 - 1) + col0))) + 6)",
+      "output": "(Felt252::from_limbs(zero_extend([col66, col67, col68])), col65)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "((input.0 + (7 * input.1)) + 4)",
+      "output": "(Felt252::from_limbs(zero_extend([col50, col51, col52])), col49)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "((input.0 + (7 * input.1)) + 5)",
+      "output": "(Felt252::from_limbs(zero_extend([col54, col55, col56])), col53)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "((input.0 + (7 * input.1)) + 6)",
+      "output": "(Felt252::from_limbs(zero_extend([col62, col63, col64])), col61)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((((col50 + (col51 * 512)) + (col52 * 262144)) + ((((col77 + (col78 * 512)) + (col79 * 262144)) - col75) - (134217728 * col76))) + 0)",
+      "output": "(Felt252::from_limbs(zero_extend([col93, col94, col95, col96, col97, col98, col99, col100, col101, col102, col103])), col92)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((((col50 + (col51 * 512)) + (col52 * 262144)) + ((((col77 + (col78 * 512)) + (col79 * 262144)) - col75) - (134217728 * col76))) + 1)",
+      "output": "(Felt252::from_limbs(zero_extend([col105, col106, col107, col108, col109, col110, col111, col112, col113, col114, col115])), col104)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((((col50 + (col51 * 512)) + (col52 * 262144)) + ((((col77 + (col78 * 512)) + (col79 * 262144)) - col75) - (134217728 * col76))) + 2)",
+      "output": "(Felt252::from_limbs(zero_extend([col117, col118, col119, col120, col121, col122, col123, col124, col125, col126, col127])), col116)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((((col50 + (col51 * 512)) + (col52 * 262144)) + ((((col77 + (col78 * 512)) + (col79 * 262144)) - col75) - (134217728 * col76))) + 3)",
+      "output": "(Felt252::from_limbs(zero_extend([col129, col130, col131, col132, col133, col134, col135, col136, col137, col138, col139])), col128)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((((col50 + (col51 * 512)) + (col52 * 262144)) + ((((col83 + (col84 * 512)) + (col85 * 262144)) - col81) - (134217728 * col82))) + 0)",
+      "output": "(Felt252::from_limbs(zero_extend([col141, col142, col143, col144, col145, col146, col147, col148, col149, col150, col151])), col140)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((((col50 + (col51 * 512)) + (col52 * 262144)) + ((((col83 + (col84 * 512)) + (col85 * 262144)) - col81) - (134217728 * col82))) + 1)",
+      "output": "(Felt252::from_limbs(zero_extend([col153, col154, col155, col156, col157, col158, col159, col160, col161, col162, col163])), col152)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((((col50 + (col51 * 512)) + (col52 * 262144)) + ((((col83 + (col84 * 512)) + (col85 * 262144)) - col81) - (134217728 * col82))) + 2)",
+      "output": "(Felt252::from_limbs(zero_extend([col165, col166, col167, col168, col169, col170, col171, col172, col173, col174, col175])), col164)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((((col50 + (col51 * 512)) + (col52 * 262144)) + ((((col83 + (col84 * 512)) + (col85 * 262144)) - col81) - (134217728 * col82))) + 3)",
+      "output": "(Felt252::from_limbs(zero_extend([col177, col178, col179, col180, col181, col182, col183, col184, col185, col186, col187])), col176)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((((col50 + (col51 * 512)) + (col52 * 262144)) + ((((col89 + (col90 * 512)) + (col91 * 262144)) - col87) - (134217728 * col88))) + 0)",
+      "output": "(Felt252::from_limbs(zero_extend([col189, col190, col191, col192, col193, col194, col195, col196, col197, col198, col199])), col188)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((((col50 + (col51 * 512)) + (col52 * 262144)) + ((((col89 + (col90 * 512)) + (col91 * 262144)) - col87) - (134217728 * col88))) + 1)",
+      "output": "(Felt252::from_limbs(zero_extend([col201, col202, col203, col204, col205, col206, col207, col208, col209, col210, col211])), col200)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((((col50 + (col51 * 512)) + (col52 * 262144)) + ((((col89 + (col90 * 512)) + (col91 * 262144)) - col87) - (134217728 * col88))) + 2)",
+      "output": "(Felt252::from_limbs(zero_extend([col213, col214, col215, col216, col217, col218, col219, col220, col221, col222, col223])), col212)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((((col50 + (col51 * 512)) + (col52 * 262144)) + ((((col89 + (col90 * 512)) + (col91 * 262144)) - col87) - (134217728 * col88))) + 3)",
+      "output": "(Felt252::from_limbs(zero_extend([col225, col226, col227, col228, col229, col230, col231, col232, col233, col234, col235])), col224)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((input.0 + (7 * input.1)) + 0)",
+      "output": "(Felt252::from_limbs(zero_extend([col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12])), col1)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((input.0 + (7 * input.1)) + 1)",
+      "output": "(Felt252::from_limbs(zero_extend([col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24])), col13)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((input.0 + (7 * input.1)) + 2)",
+      "output": "(Felt252::from_limbs(zero_extend([col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36])), col25)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_99",
+      "input": "((input.0 + (7 * input.1)) + 3)",
+      "output": "(Felt252::from_limbs(zero_extend([col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48])), col37)"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(((col54 + (col55 * 512)) + (col56 * 262144)) + 0)",
+      "output": "(((((col77 + (col78 * 512)) + (col79 * 262144)) - col75) - (134217728 * col76)), col74)"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(((col54 + (col55 * 512)) + (col56 * 262144)) + 1)",
+      "output": "(((((col83 + (col84 * 512)) + (col85 * 262144)) - col81) - (134217728 * col82)), col80)"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(((col54 + (col55 * 512)) + (col56 * 262144)) + 2)",
+      "output": "(((((col89 + (col90 * 512)) + (col91 * 262144)) - col87) - (134217728 * col88)), col86)"
+    }
+  ],
+  "AddModBuiltin": [
+    "(((col250 + (1 * (((col138 + col186) - col234) - (col47 * col236)))) + (512 * (((col139 + col187) - col235) - (col48 * col236)))) + (32768 * (0 - (0 * col236))))",
+    "((col236 - 1) * col236)",
+    "(col237 * ((col237 * col237) - 1))",
+    "(col238 * ((col238 * col238) - 1))",
+    "(col239 * ((col239 * col239) - 1))",
+    "(col240 * ((col240 * col240) - 1))",
+    "(col241 * ((col241 * col241) - 1))",
+    "(col242 * ((col242 * col242) - 1))",
+    "(col243 * ((col243 * col243) - 1))",
+    "(col244 * ((col244 * col244) - 1))",
+    "(col245 * ((col245 * col245) - 1))",
+    "(col246 * ((col246 * col246) - 1))",
+    "(col247 * ((col247 * col247) - 1))",
+    "(col248 * ((col248 * col248) - 1))",
+    "(col249 * ((col249 * col249) - 1))",
+    "(col250 * ((col250 * col250) - 1))",
+    {
+      "fn_name": "ModUtils",
+      "input": "(public_params.add_mod_builtin_segment_start, Seq_col0)",
+      "output": "[[Felt252::from_limbs(zero_extend([col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12])), Felt252::from_limbs(zero_extend([col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24])), Felt252::from_limbs(zero_extend([col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36])), Felt252::from_limbs(zero_extend([col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48]))], [Felt252::from_limbs(zero_extend([col93, col94, col95, col96, col97, col98, col99, col100, col101, col102, col103])), Felt252::from_limbs(zero_extend([col105, col106, col107, col108, col109, col110, col111, col112, col113, col114, col115])), Felt252::from_limbs(zero_extend([col117, col118, col119, col120, col121, col122, col123, col124, col125, col126, col127])), Felt252::from_limbs(zero_extend([col129, col130, col131, col132, col133, col134, col135, col136, col137, col138, col139]))], [Felt252::from_limbs(zero_extend([col141, col142, col143, col144, col145, col146, col147, col148, col149, col150, col151])), Felt252::from_limbs(zero_extend([col153, col154, col155, col156, col157, col158, col159, col160, col161, col162, col163])), Felt252::from_limbs(zero_extend([col165, col166, col167, col168, col169, col170, col171, col172, col173, col174, col175])), Felt252::from_limbs(zero_extend([col177, col178, col179, col180, col181, col182, col183, col184, col185, col186, col187]))], [Felt252::from_limbs(zero_extend([col189, col190, col191, col192, col193, col194, col195, col196, col197, col198, col199])), Felt252::from_limbs(zero_extend([col201, col202, col203, col204, col205, col206, col207, col208, col209, col210, col211])), Felt252::from_limbs(zero_extend([col213, col214, col215, col216, col217, col218, col219, col220, col221, col222, col223])), Felt252::from_limbs(zero_extend([col225, col226, col227, col228, col229, col230, col231, col232, col233, col234, col235]))]]"
+    }
+  ],
+  "RangeCheck_7_2_5": [],
+  "RangeCheck_4_3": [],
+  "EncodeOffsets": [
+    "(((col2 + (col3 * 4)) + (col4 * 2048)) - input[1])",
+    "(((col5 + (col6 * 16)) + (col7 * 8192)) - input[2])",
+    "((col0 + (col1 * 512)) - input[0])",
+    {
+      "relation_name": "RangeCheck_4_3",
+      "felts": [
+        "col5",
+        "col7"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_7_2_5",
+      "felts": [
+        "col1",
+        "col2",
+        "col4"
+      ]
+    }
+  ],
+  "EncodeFlags": [
+    "(input[0] * (1 - input[0]))",
+    "(input[10] * (1 - input[10]))",
+    "(input[11] * (1 - input[11]))",
+    "(input[12] * (1 - input[12]))",
+    "(input[13] * (1 - input[13]))",
+    "(input[14] * (1 - input[14]))",
+    "(input[1] * (1 - input[1]))",
+    "(input[2] * (1 - input[2]))",
+    "(input[3] * (1 - input[3]))",
+    "(input[4] * (1 - input[4]))",
+    "(input[5] * (1 - input[5]))",
+    "(input[6] * (1 - input[6]))",
+    "(input[7] * (1 - input[7]))",
+    "(input[8] * (1 - input[8]))",
+    "(input[9] * (1 - input[9]))"
+  ],
+  "VerifyInstruction": [
+    {
+      "fn_name": "EncodeFlags",
+      "input": "[col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18]",
+      "output": "[((((((0 + (col4 * 8)) + (col5 * 16)) + (col6 * 32)) + (col7 * 64)) + (col8 * 128)) + (col9 * 256)), (((((((((0 + (col10 * 1)) + (col11 * 2)) + (col12 * 4)) + (col13 * 8)) + (col14 * 16)) + (col15 * 32)) + (col16 * 64)) + (col17 * 128)) + (col18 * 256))]"
+    },
+    {
+      "fn_name": "EncodeOffsets",
+      "input": "[col1, col2, col3]",
+      "output": "[col19, (col20 + (col21 * 128)), col22, (col23 + (col24 * 32)), col25, col26]"
+    },
+    {
+      "fn_name": "MemVerify",
+      "input": "(col0, Felt252::from_limbs(zero_extend([col19, (col20 + (col21 * 128)), col22, (col23 + (col24 * 32)), col25, (col26 + ((((((0 + (col4 * 8)) + (col5 * 16)) + (col6 * 32)) + (col7 * 64)) + (col8 * 128)) + (col9 * 256))), (((((((((0 + (col10 * 1)) + (col11 * 2)) + (col12 * 4)) + (col13 * 8)) + (col14 * 16)) + (col15 * 32)) + (col16 * 64)) + (col17 * 128)) + (col18 * 256))])))",
+      "output": "()"
+    }
+  ],
+  "DecodeInstruction_337193008ebaa578": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "col0",
+        "col1",
+        "col2",
+        "col3",
+        "col4",
+        "col5",
+        "col6",
+        "col7",
+        "col8",
+        "col9",
+        "col10",
+        "col11",
+        "col12",
+        "col13",
+        "col14",
+        "col15",
+        "col16",
+        "col17"
+      ]
+    }
+  ],
+  "DecodeGenericInstruction": [
+    [
+      "tmp20",
+      "(((1 - col5) - col6) - col7)"
+    ],
+    [
+      "tmp21",
+      "(((1 - col8) - col9) - col12)"
+    ],
+    [
+      "tmp22",
+      "(((1 - col10) - col11) - col12)"
+    ],
+    [
+      "tmp23",
+      "(((1 - col13) - col14) - col15)"
+    ],
+    [
+      "tmp24",
+      "((1 - col15) - col16)"
+    ],
+    "(tmp20 * (1 - tmp20))",
+    "(tmp21 * (1 - tmp21))",
+    "(tmp22 * (1 - tmp22))",
+    "(tmp23 * (1 - tmp23))",
+    "(tmp24 * (1 - tmp24))",
+    {
+      "fn_name": "DecodeInstruction_337193008ebaa578",
+      "input": "input",
+      "output": "([(col0 - 32768), (col1 - 32768), (col2 - 32768)], [col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17])"
+    }
+  ],
+  "CondFelt252AsAddr": [
+    "(input.1 * input.0.get_m31(10))",
+    "(input.1 * input.0.get_m31(11))",
+    "(input.1 * input.0.get_m31(12))",
+    "(input.1 * input.0.get_m31(13))",
+    "(input.1 * input.0.get_m31(14))",
+    "(input.1 * input.0.get_m31(15))",
+    "(input.1 * input.0.get_m31(16))",
+    "(input.1 * input.0.get_m31(17))",
+    "(input.1 * input.0.get_m31(18))",
+    "(input.1 * input.0.get_m31(19))",
+    "(input.1 * input.0.get_m31(20))",
+    "(input.1 * input.0.get_m31(21))",
+    "(input.1 * input.0.get_m31(22))",
+    "(input.1 * input.0.get_m31(23))",
+    "(input.1 * input.0.get_m31(24))",
+    "(input.1 * input.0.get_m31(25))",
+    "(input.1 * input.0.get_m31(26))",
+    "(input.1 * input.0.get_m31(27))",
+    "(input.1 * input.0.get_m31(3))",
+    "(input.1 * input.0.get_m31(4))",
+    "(input.1 * input.0.get_m31(5))",
+    "(input.1 * input.0.get_m31(6))",
+    "(input.1 * input.0.get_m31(7))",
+    "(input.1 * input.0.get_m31(8))",
+    "(input.1 * input.0.get_m31(9))"
+  ],
+  "VerifyAdd252": [
+    [
+      "tmp1",
+      "(((((input[0].get_m31(0) + input[1].get_m31(0)) + 0) - input[2].get_m31(0)) - (1 * col0)) * 4194304)"
+    ],
+    [
+      "tmp10",
+      "(((((input[0].get_m31(9) + input[1].get_m31(9)) + tmp9) - input[2].get_m31(9)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp11",
+      "(((((input[0].get_m31(10) + input[1].get_m31(10)) + tmp10) - input[2].get_m31(10)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp12",
+      "(((((input[0].get_m31(11) + input[1].get_m31(11)) + tmp11) - input[2].get_m31(11)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp13",
+      "(((((input[0].get_m31(12) + input[1].get_m31(12)) + tmp12) - input[2].get_m31(12)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp14",
+      "(((((input[0].get_m31(13) + input[1].get_m31(13)) + tmp13) - input[2].get_m31(13)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp15",
+      "(((((input[0].get_m31(14) + input[1].get_m31(14)) + tmp14) - input[2].get_m31(14)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp16",
+      "(((((input[0].get_m31(15) + input[1].get_m31(15)) + tmp15) - input[2].get_m31(15)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp17",
+      "(((((input[0].get_m31(16) + input[1].get_m31(16)) + tmp16) - input[2].get_m31(16)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp18",
+      "(((((input[0].get_m31(17) + input[1].get_m31(17)) + tmp17) - input[2].get_m31(17)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp19",
+      "(((((input[0].get_m31(18) + input[1].get_m31(18)) + tmp18) - input[2].get_m31(18)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp2",
+      "(((((input[0].get_m31(1) + input[1].get_m31(1)) + tmp1) - input[2].get_m31(1)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp20",
+      "(((((input[0].get_m31(19) + input[1].get_m31(19)) + tmp19) - input[2].get_m31(19)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp21",
+      "(((((input[0].get_m31(20) + input[1].get_m31(20)) + tmp20) - input[2].get_m31(20)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp22",
+      "(((((input[0].get_m31(21) + input[1].get_m31(21)) + tmp21) - input[2].get_m31(21)) - (136 * col0)) * 4194304)"
+    ],
+    [
+      "tmp23",
+      "(((((input[0].get_m31(22) + input[1].get_m31(22)) + tmp22) - input[2].get_m31(22)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp24",
+      "(((((input[0].get_m31(23) + input[1].get_m31(23)) + tmp23) - input[2].get_m31(23)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp25",
+      "(((((input[0].get_m31(24) + input[1].get_m31(24)) + tmp24) - input[2].get_m31(24)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp26",
+      "(((((input[0].get_m31(25) + input[1].get_m31(25)) + tmp25) - input[2].get_m31(25)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp27",
+      "(((((input[0].get_m31(26) + input[1].get_m31(26)) + tmp26) - input[2].get_m31(26)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp3",
+      "(((((input[0].get_m31(2) + input[1].get_m31(2)) + tmp2) - input[2].get_m31(2)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp4",
+      "(((((input[0].get_m31(3) + input[1].get_m31(3)) + tmp3) - input[2].get_m31(3)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp5",
+      "(((((input[0].get_m31(4) + input[1].get_m31(4)) + tmp4) - input[2].get_m31(4)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp6",
+      "(((((input[0].get_m31(5) + input[1].get_m31(5)) + tmp5) - input[2].get_m31(5)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp7",
+      "(((((input[0].get_m31(6) + input[1].get_m31(6)) + tmp6) - input[2].get_m31(6)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp8",
+      "(((((input[0].get_m31(7) + input[1].get_m31(7)) + tmp7) - input[2].get_m31(7)) - (0 * col0)) * 4194304)"
+    ],
+    [
+      "tmp9",
+      "(((((input[0].get_m31(8) + input[1].get_m31(8)) + tmp8) - input[2].get_m31(8)) - (0 * col0)) * 4194304)"
+    ],
+    "((((input[0].get_m31(27) + input[1].get_m31(27)) + tmp27) - input[2].get_m31(27)) - (256 * col0))",
+    "(col0 * (col0 - 1))",
+    "(tmp1 * ((tmp1 * tmp1) - 1))",
+    "(tmp10 * ((tmp10 * tmp10) - 1))",
+    "(tmp11 * ((tmp11 * tmp11) - 1))",
+    "(tmp12 * ((tmp12 * tmp12) - 1))",
+    "(tmp13 * ((tmp13 * tmp13) - 1))",
+    "(tmp14 * ((tmp14 * tmp14) - 1))",
+    "(tmp15 * ((tmp15 * tmp15) - 1))",
+    "(tmp16 * ((tmp16 * tmp16) - 1))",
+    "(tmp17 * ((tmp17 * tmp17) - 1))",
+    "(tmp18 * ((tmp18 * tmp18) - 1))",
+    "(tmp19 * ((tmp19 * tmp19) - 1))",
+    "(tmp2 * ((tmp2 * tmp2) - 1))",
+    "(tmp20 * ((tmp20 * tmp20) - 1))",
+    "(tmp21 * ((tmp21 * tmp21) - 1))",
+    "(tmp22 * ((tmp22 * tmp22) - 1))",
+    "(tmp23 * ((tmp23 * tmp23) - 1))",
+    "(tmp24 * ((tmp24 * tmp24) - 1))",
+    "(tmp25 * ((tmp25 * tmp25) - 1))",
+    "(tmp26 * ((tmp26 * tmp26) - 1))",
+    "(tmp27 * ((tmp27 * tmp27) - 1))",
+    "(tmp3 * ((tmp3 * tmp3) - 1))",
+    "(tmp4 * ((tmp4 * tmp4) - 1))",
+    "(tmp5 * ((tmp5 * tmp5) - 1))",
+    "(tmp6 * ((tmp6 * tmp6) - 1))",
+    "(tmp7 * ((tmp7 * tmp7) - 1))",
+    "(tmp8 * ((tmp8 * tmp8) - 1))",
+    "(tmp9 * ((tmp9 * tmp9) - 1))"
+  ],
+  "Add252": [
+    {
+      "fn_name": "RangeCheckBigValue",
+      "input": "tmp0",
+      "output": "()"
+    },
+    {
+      "fn_name": "VerifyAdd252",
+      "input": "[input[0], input[1], tmp0]",
+      "output": "()"
+    }
+  ],
+  "RangeCheck_19": [],
+  "VerifyMul252": [
+    [
+      "tmp0",
+      "((0 - input[2].get_m31(0)) + (input[0].get_m31(0) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp1",
+      "(((0 - input[2].get_m31(1)) + (input[0].get_m31(0) * input[1].get_m31(1))) + (input[0].get_m31(1) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp10",
+      "((((((((((((0 - input[2].get_m31(10)) + (input[0].get_m31(0) * input[1].get_m31(10))) + (input[0].get_m31(1) * input[1].get_m31(9))) + (input[0].get_m31(2) * input[1].get_m31(8))) + (input[0].get_m31(3) * input[1].get_m31(7))) + (input[0].get_m31(4) * input[1].get_m31(6))) + (input[0].get_m31(5) * input[1].get_m31(5))) + (input[0].get_m31(6) * input[1].get_m31(4))) + (input[0].get_m31(7) * input[1].get_m31(3))) + (input[0].get_m31(8) * input[1].get_m31(2))) + (input[0].get_m31(9) * input[1].get_m31(1))) + (input[0].get_m31(10) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp11",
+      "(((((((((((((0 - input[2].get_m31(11)) + (input[0].get_m31(0) * input[1].get_m31(11))) + (input[0].get_m31(1) * input[1].get_m31(10))) + (input[0].get_m31(2) * input[1].get_m31(9))) + (input[0].get_m31(3) * input[1].get_m31(8))) + (input[0].get_m31(4) * input[1].get_m31(7))) + (input[0].get_m31(5) * input[1].get_m31(6))) + (input[0].get_m31(6) * input[1].get_m31(5))) + (input[0].get_m31(7) * input[1].get_m31(4))) + (input[0].get_m31(8) * input[1].get_m31(3))) + (input[0].get_m31(9) * input[1].get_m31(2))) + (input[0].get_m31(10) * input[1].get_m31(1))) + (input[0].get_m31(11) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp12",
+      "((((((((((((((0 - input[2].get_m31(12)) + (input[0].get_m31(0) * input[1].get_m31(12))) + (input[0].get_m31(1) * input[1].get_m31(11))) + (input[0].get_m31(2) * input[1].get_m31(10))) + (input[0].get_m31(3) * input[1].get_m31(9))) + (input[0].get_m31(4) * input[1].get_m31(8))) + (input[0].get_m31(5) * input[1].get_m31(7))) + (input[0].get_m31(6) * input[1].get_m31(6))) + (input[0].get_m31(7) * input[1].get_m31(5))) + (input[0].get_m31(8) * input[1].get_m31(4))) + (input[0].get_m31(9) * input[1].get_m31(3))) + (input[0].get_m31(10) * input[1].get_m31(2))) + (input[0].get_m31(11) * input[1].get_m31(1))) + (input[0].get_m31(12) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp13",
+      "(((((((((((((((0 - input[2].get_m31(13)) + (input[0].get_m31(0) * input[1].get_m31(13))) + (input[0].get_m31(1) * input[1].get_m31(12))) + (input[0].get_m31(2) * input[1].get_m31(11))) + (input[0].get_m31(3) * input[1].get_m31(10))) + (input[0].get_m31(4) * input[1].get_m31(9))) + (input[0].get_m31(5) * input[1].get_m31(8))) + (input[0].get_m31(6) * input[1].get_m31(7))) + (input[0].get_m31(7) * input[1].get_m31(6))) + (input[0].get_m31(8) * input[1].get_m31(5))) + (input[0].get_m31(9) * input[1].get_m31(4))) + (input[0].get_m31(10) * input[1].get_m31(3))) + (input[0].get_m31(11) * input[1].get_m31(2))) + (input[0].get_m31(12) * input[1].get_m31(1))) + (input[0].get_m31(13) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp14",
+      "((((((((((((((((0 - input[2].get_m31(14)) + (input[0].get_m31(0) * input[1].get_m31(14))) + (input[0].get_m31(1) * input[1].get_m31(13))) + (input[0].get_m31(2) * input[1].get_m31(12))) + (input[0].get_m31(3) * input[1].get_m31(11))) + (input[0].get_m31(4) * input[1].get_m31(10))) + (input[0].get_m31(5) * input[1].get_m31(9))) + (input[0].get_m31(6) * input[1].get_m31(8))) + (input[0].get_m31(7) * input[1].get_m31(7))) + (input[0].get_m31(8) * input[1].get_m31(6))) + (input[0].get_m31(9) * input[1].get_m31(5))) + (input[0].get_m31(10) * input[1].get_m31(4))) + (input[0].get_m31(11) * input[1].get_m31(3))) + (input[0].get_m31(12) * input[1].get_m31(2))) + (input[0].get_m31(13) * input[1].get_m31(1))) + (input[0].get_m31(14) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp15",
+      "(((((((((((((((((0 - input[2].get_m31(15)) + (input[0].get_m31(0) * input[1].get_m31(15))) + (input[0].get_m31(1) * input[1].get_m31(14))) + (input[0].get_m31(2) * input[1].get_m31(13))) + (input[0].get_m31(3) * input[1].get_m31(12))) + (input[0].get_m31(4) * input[1].get_m31(11))) + (input[0].get_m31(5) * input[1].get_m31(10))) + (input[0].get_m31(6) * input[1].get_m31(9))) + (input[0].get_m31(7) * input[1].get_m31(8))) + (input[0].get_m31(8) * input[1].get_m31(7))) + (input[0].get_m31(9) * input[1].get_m31(6))) + (input[0].get_m31(10) * input[1].get_m31(5))) + (input[0].get_m31(11) * input[1].get_m31(4))) + (input[0].get_m31(12) * input[1].get_m31(3))) + (input[0].get_m31(13) * input[1].get_m31(2))) + (input[0].get_m31(14) * input[1].get_m31(1))) + (input[0].get_m31(15) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp16",
+      "((((((((((((((((((0 - input[2].get_m31(16)) + (input[0].get_m31(0) * input[1].get_m31(16))) + (input[0].get_m31(1) * input[1].get_m31(15))) + (input[0].get_m31(2) * input[1].get_m31(14))) + (input[0].get_m31(3) * input[1].get_m31(13))) + (input[0].get_m31(4) * input[1].get_m31(12))) + (input[0].get_m31(5) * input[1].get_m31(11))) + (input[0].get_m31(6) * input[1].get_m31(10))) + (input[0].get_m31(7) * input[1].get_m31(9))) + (input[0].get_m31(8) * input[1].get_m31(8))) + (input[0].get_m31(9) * input[1].get_m31(7))) + (input[0].get_m31(10) * input[1].get_m31(6))) + (input[0].get_m31(11) * input[1].get_m31(5))) + (input[0].get_m31(12) * input[1].get_m31(4))) + (input[0].get_m31(13) * input[1].get_m31(3))) + (input[0].get_m31(14) * input[1].get_m31(2))) + (input[0].get_m31(15) * input[1].get_m31(1))) + (input[0].get_m31(16) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp17",
+      "(((((((((((((((((((0 - input[2].get_m31(17)) + (input[0].get_m31(0) * input[1].get_m31(17))) + (input[0].get_m31(1) * input[1].get_m31(16))) + (input[0].get_m31(2) * input[1].get_m31(15))) + (input[0].get_m31(3) * input[1].get_m31(14))) + (input[0].get_m31(4) * input[1].get_m31(13))) + (input[0].get_m31(5) * input[1].get_m31(12))) + (input[0].get_m31(6) * input[1].get_m31(11))) + (input[0].get_m31(7) * input[1].get_m31(10))) + (input[0].get_m31(8) * input[1].get_m31(9))) + (input[0].get_m31(9) * input[1].get_m31(8))) + (input[0].get_m31(10) * input[1].get_m31(7))) + (input[0].get_m31(11) * input[1].get_m31(6))) + (input[0].get_m31(12) * input[1].get_m31(5))) + (input[0].get_m31(13) * input[1].get_m31(4))) + (input[0].get_m31(14) * input[1].get_m31(3))) + (input[0].get_m31(15) * input[1].get_m31(2))) + (input[0].get_m31(16) * input[1].get_m31(1))) + (input[0].get_m31(17) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp18",
+      "((((((((((((((((((((0 - input[2].get_m31(18)) + (input[0].get_m31(0) * input[1].get_m31(18))) + (input[0].get_m31(1) * input[1].get_m31(17))) + (input[0].get_m31(2) * input[1].get_m31(16))) + (input[0].get_m31(3) * input[1].get_m31(15))) + (input[0].get_m31(4) * input[1].get_m31(14))) + (input[0].get_m31(5) * input[1].get_m31(13))) + (input[0].get_m31(6) * input[1].get_m31(12))) + (input[0].get_m31(7) * input[1].get_m31(11))) + (input[0].get_m31(8) * input[1].get_m31(10))) + (input[0].get_m31(9) * input[1].get_m31(9))) + (input[0].get_m31(10) * input[1].get_m31(8))) + (input[0].get_m31(11) * input[1].get_m31(7))) + (input[0].get_m31(12) * input[1].get_m31(6))) + (input[0].get_m31(13) * input[1].get_m31(5))) + (input[0].get_m31(14) * input[1].get_m31(4))) + (input[0].get_m31(15) * input[1].get_m31(3))) + (input[0].get_m31(16) * input[1].get_m31(2))) + (input[0].get_m31(17) * input[1].get_m31(1))) + (input[0].get_m31(18) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp19",
+      "(((((((((((((((((((((0 - input[2].get_m31(19)) + (input[0].get_m31(0) * input[1].get_m31(19))) + (input[0].get_m31(1) * input[1].get_m31(18))) + (input[0].get_m31(2) * input[1].get_m31(17))) + (input[0].get_m31(3) * input[1].get_m31(16))) + (input[0].get_m31(4) * input[1].get_m31(15))) + (input[0].get_m31(5) * input[1].get_m31(14))) + (input[0].get_m31(6) * input[1].get_m31(13))) + (input[0].get_m31(7) * input[1].get_m31(12))) + (input[0].get_m31(8) * input[1].get_m31(11))) + (input[0].get_m31(9) * input[1].get_m31(10))) + (input[0].get_m31(10) * input[1].get_m31(9))) + (input[0].get_m31(11) * input[1].get_m31(8))) + (input[0].get_m31(12) * input[1].get_m31(7))) + (input[0].get_m31(13) * input[1].get_m31(6))) + (input[0].get_m31(14) * input[1].get_m31(5))) + (input[0].get_m31(15) * input[1].get_m31(4))) + (input[0].get_m31(16) * input[1].get_m31(3))) + (input[0].get_m31(17) * input[1].get_m31(2))) + (input[0].get_m31(18) * input[1].get_m31(1))) + (input[0].get_m31(19) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp2",
+      "((((0 - input[2].get_m31(2)) + (input[0].get_m31(0) * input[1].get_m31(2))) + (input[0].get_m31(1) * input[1].get_m31(1))) + (input[0].get_m31(2) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp20",
+      "((((((((((((((((((((((0 - input[2].get_m31(20)) + (input[0].get_m31(0) * input[1].get_m31(20))) + (input[0].get_m31(1) * input[1].get_m31(19))) + (input[0].get_m31(2) * input[1].get_m31(18))) + (input[0].get_m31(3) * input[1].get_m31(17))) + (input[0].get_m31(4) * input[1].get_m31(16))) + (input[0].get_m31(5) * input[1].get_m31(15))) + (input[0].get_m31(6) * input[1].get_m31(14))) + (input[0].get_m31(7) * input[1].get_m31(13))) + (input[0].get_m31(8) * input[1].get_m31(12))) + (input[0].get_m31(9) * input[1].get_m31(11))) + (input[0].get_m31(10) * input[1].get_m31(10))) + (input[0].get_m31(11) * input[1].get_m31(9))) + (input[0].get_m31(12) * input[1].get_m31(8))) + (input[0].get_m31(13) * input[1].get_m31(7))) + (input[0].get_m31(14) * input[1].get_m31(6))) + (input[0].get_m31(15) * input[1].get_m31(5))) + (input[0].get_m31(16) * input[1].get_m31(4))) + (input[0].get_m31(17) * input[1].get_m31(3))) + (input[0].get_m31(18) * input[1].get_m31(2))) + (input[0].get_m31(19) * input[1].get_m31(1))) + (input[0].get_m31(20) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp21",
+      "(((((((((((((((((((((((0 - input[2].get_m31(21)) + (input[0].get_m31(0) * input[1].get_m31(21))) + (input[0].get_m31(1) * input[1].get_m31(20))) + (input[0].get_m31(2) * input[1].get_m31(19))) + (input[0].get_m31(3) * input[1].get_m31(18))) + (input[0].get_m31(4) * input[1].get_m31(17))) + (input[0].get_m31(5) * input[1].get_m31(16))) + (input[0].get_m31(6) * input[1].get_m31(15))) + (input[0].get_m31(7) * input[1].get_m31(14))) + (input[0].get_m31(8) * input[1].get_m31(13))) + (input[0].get_m31(9) * input[1].get_m31(12))) + (input[0].get_m31(10) * input[1].get_m31(11))) + (input[0].get_m31(11) * input[1].get_m31(10))) + (input[0].get_m31(12) * input[1].get_m31(9))) + (input[0].get_m31(13) * input[1].get_m31(8))) + (input[0].get_m31(14) * input[1].get_m31(7))) + (input[0].get_m31(15) * input[1].get_m31(6))) + (input[0].get_m31(16) * input[1].get_m31(5))) + (input[0].get_m31(17) * input[1].get_m31(4))) + (input[0].get_m31(18) * input[1].get_m31(3))) + (input[0].get_m31(19) * input[1].get_m31(2))) + (input[0].get_m31(20) * input[1].get_m31(1))) + (input[0].get_m31(21) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp22",
+      "((((((((((((((((((((((((0 - input[2].get_m31(22)) + (input[0].get_m31(0) * input[1].get_m31(22))) + (input[0].get_m31(1) * input[1].get_m31(21))) + (input[0].get_m31(2) * input[1].get_m31(20))) + (input[0].get_m31(3) * input[1].get_m31(19))) + (input[0].get_m31(4) * input[1].get_m31(18))) + (input[0].get_m31(5) * input[1].get_m31(17))) + (input[0].get_m31(6) * input[1].get_m31(16))) + (input[0].get_m31(7) * input[1].get_m31(15))) + (input[0].get_m31(8) * input[1].get_m31(14))) + (input[0].get_m31(9) * input[1].get_m31(13))) + (input[0].get_m31(10) * input[1].get_m31(12))) + (input[0].get_m31(11) * input[1].get_m31(11))) + (input[0].get_m31(12) * input[1].get_m31(10))) + (input[0].get_m31(13) * input[1].get_m31(9))) + (input[0].get_m31(14) * input[1].get_m31(8))) + (input[0].get_m31(15) * input[1].get_m31(7))) + (input[0].get_m31(16) * input[1].get_m31(6))) + (input[0].get_m31(17) * input[1].get_m31(5))) + (input[0].get_m31(18) * input[1].get_m31(4))) + (input[0].get_m31(19) * input[1].get_m31(3))) + (input[0].get_m31(20) * input[1].get_m31(2))) + (input[0].get_m31(21) * input[1].get_m31(1))) + (input[0].get_m31(22) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp23",
+      "(((((((((((((((((((((((((0 - input[2].get_m31(23)) + (input[0].get_m31(0) * input[1].get_m31(23))) + (input[0].get_m31(1) * input[1].get_m31(22))) + (input[0].get_m31(2) * input[1].get_m31(21))) + (input[0].get_m31(3) * input[1].get_m31(20))) + (input[0].get_m31(4) * input[1].get_m31(19))) + (input[0].get_m31(5) * input[1].get_m31(18))) + (input[0].get_m31(6) * input[1].get_m31(17))) + (input[0].get_m31(7) * input[1].get_m31(16))) + (input[0].get_m31(8) * input[1].get_m31(15))) + (input[0].get_m31(9) * input[1].get_m31(14))) + (input[0].get_m31(10) * input[1].get_m31(13))) + (input[0].get_m31(11) * input[1].get_m31(12))) + (input[0].get_m31(12) * input[1].get_m31(11))) + (input[0].get_m31(13) * input[1].get_m31(10))) + (input[0].get_m31(14) * input[1].get_m31(9))) + (input[0].get_m31(15) * input[1].get_m31(8))) + (input[0].get_m31(16) * input[1].get_m31(7))) + (input[0].get_m31(17) * input[1].get_m31(6))) + (input[0].get_m31(18) * input[1].get_m31(5))) + (input[0].get_m31(19) * input[1].get_m31(4))) + (input[0].get_m31(20) * input[1].get_m31(3))) + (input[0].get_m31(21) * input[1].get_m31(2))) + (input[0].get_m31(22) * input[1].get_m31(1))) + (input[0].get_m31(23) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp24",
+      "((((((((((((((((((((((((((0 - input[2].get_m31(24)) + (input[0].get_m31(0) * input[1].get_m31(24))) + (input[0].get_m31(1) * input[1].get_m31(23))) + (input[0].get_m31(2) * input[1].get_m31(22))) + (input[0].get_m31(3) * input[1].get_m31(21))) + (input[0].get_m31(4) * input[1].get_m31(20))) + (input[0].get_m31(5) * input[1].get_m31(19))) + (input[0].get_m31(6) * input[1].get_m31(18))) + (input[0].get_m31(7) * input[1].get_m31(17))) + (input[0].get_m31(8) * input[1].get_m31(16))) + (input[0].get_m31(9) * input[1].get_m31(15))) + (input[0].get_m31(10) * input[1].get_m31(14))) + (input[0].get_m31(11) * input[1].get_m31(13))) + (input[0].get_m31(12) * input[1].get_m31(12))) + (input[0].get_m31(13) * input[1].get_m31(11))) + (input[0].get_m31(14) * input[1].get_m31(10))) + (input[0].get_m31(15) * input[1].get_m31(9))) + (input[0].get_m31(16) * input[1].get_m31(8))) + (input[0].get_m31(17) * input[1].get_m31(7))) + (input[0].get_m31(18) * input[1].get_m31(6))) + (input[0].get_m31(19) * input[1].get_m31(5))) + (input[0].get_m31(20) * input[1].get_m31(4))) + (input[0].get_m31(21) * input[1].get_m31(3))) + (input[0].get_m31(22) * input[1].get_m31(2))) + (input[0].get_m31(23) * input[1].get_m31(1))) + (input[0].get_m31(24) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp25",
+      "(((((((((((((((((((((((((((0 - input[2].get_m31(25)) + (input[0].get_m31(0) * input[1].get_m31(25))) + (input[0].get_m31(1) * input[1].get_m31(24))) + (input[0].get_m31(2) * input[1].get_m31(23))) + (input[0].get_m31(3) * input[1].get_m31(22))) + (input[0].get_m31(4) * input[1].get_m31(21))) + (input[0].get_m31(5) * input[1].get_m31(20))) + (input[0].get_m31(6) * input[1].get_m31(19))) + (input[0].get_m31(7) * input[1].get_m31(18))) + (input[0].get_m31(8) * input[1].get_m31(17))) + (input[0].get_m31(9) * input[1].get_m31(16))) + (input[0].get_m31(10) * input[1].get_m31(15))) + (input[0].get_m31(11) * input[1].get_m31(14))) + (input[0].get_m31(12) * input[1].get_m31(13))) + (input[0].get_m31(13) * input[1].get_m31(12))) + (input[0].get_m31(14) * input[1].get_m31(11))) + (input[0].get_m31(15) * input[1].get_m31(10))) + (input[0].get_m31(16) * input[1].get_m31(9))) + (input[0].get_m31(17) * input[1].get_m31(8))) + (input[0].get_m31(18) * input[1].get_m31(7))) + (input[0].get_m31(19) * input[1].get_m31(6))) + (input[0].get_m31(20) * input[1].get_m31(5))) + (input[0].get_m31(21) * input[1].get_m31(4))) + (input[0].get_m31(22) * input[1].get_m31(3))) + (input[0].get_m31(23) * input[1].get_m31(2))) + (input[0].get_m31(24) * input[1].get_m31(1))) + (input[0].get_m31(25) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp26",
+      "((((((((((((((((((((((((((((0 - input[2].get_m31(26)) + (input[0].get_m31(0) * input[1].get_m31(26))) + (input[0].get_m31(1) * input[1].get_m31(25))) + (input[0].get_m31(2) * input[1].get_m31(24))) + (input[0].get_m31(3) * input[1].get_m31(23))) + (input[0].get_m31(4) * input[1].get_m31(22))) + (input[0].get_m31(5) * input[1].get_m31(21))) + (input[0].get_m31(6) * input[1].get_m31(20))) + (input[0].get_m31(7) * input[1].get_m31(19))) + (input[0].get_m31(8) * input[1].get_m31(18))) + (input[0].get_m31(9) * input[1].get_m31(17))) + (input[0].get_m31(10) * input[1].get_m31(16))) + (input[0].get_m31(11) * input[1].get_m31(15))) + (input[0].get_m31(12) * input[1].get_m31(14))) + (input[0].get_m31(13) * input[1].get_m31(13))) + (input[0].get_m31(14) * input[1].get_m31(12))) + (input[0].get_m31(15) * input[1].get_m31(11))) + (input[0].get_m31(16) * input[1].get_m31(10))) + (input[0].get_m31(17) * input[1].get_m31(9))) + (input[0].get_m31(18) * input[1].get_m31(8))) + (input[0].get_m31(19) * input[1].get_m31(7))) + (input[0].get_m31(20) * input[1].get_m31(6))) + (input[0].get_m31(21) * input[1].get_m31(5))) + (input[0].get_m31(22) * input[1].get_m31(4))) + (input[0].get_m31(23) * input[1].get_m31(3))) + (input[0].get_m31(24) * input[1].get_m31(2))) + (input[0].get_m31(25) * input[1].get_m31(1))) + (input[0].get_m31(26) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp27",
+      "(((((((((((((((((((((((((((((0 - input[2].get_m31(27)) + (input[0].get_m31(0) * input[1].get_m31(27))) + (input[0].get_m31(1) * input[1].get_m31(26))) + (input[0].get_m31(2) * input[1].get_m31(25))) + (input[0].get_m31(3) * input[1].get_m31(24))) + (input[0].get_m31(4) * input[1].get_m31(23))) + (input[0].get_m31(5) * input[1].get_m31(22))) + (input[0].get_m31(6) * input[1].get_m31(21))) + (input[0].get_m31(7) * input[1].get_m31(20))) + (input[0].get_m31(8) * input[1].get_m31(19))) + (input[0].get_m31(9) * input[1].get_m31(18))) + (input[0].get_m31(10) * input[1].get_m31(17))) + (input[0].get_m31(11) * input[1].get_m31(16))) + (input[0].get_m31(12) * input[1].get_m31(15))) + (input[0].get_m31(13) * input[1].get_m31(14))) + (input[0].get_m31(14) * input[1].get_m31(13))) + (input[0].get_m31(15) * input[1].get_m31(12))) + (input[0].get_m31(16) * input[1].get_m31(11))) + (input[0].get_m31(17) * input[1].get_m31(10))) + (input[0].get_m31(18) * input[1].get_m31(9))) + (input[0].get_m31(19) * input[1].get_m31(8))) + (input[0].get_m31(20) * input[1].get_m31(7))) + (input[0].get_m31(21) * input[1].get_m31(6))) + (input[0].get_m31(22) * input[1].get_m31(5))) + (input[0].get_m31(23) * input[1].get_m31(4))) + (input[0].get_m31(24) * input[1].get_m31(3))) + (input[0].get_m31(25) * input[1].get_m31(2))) + (input[0].get_m31(26) * input[1].get_m31(1))) + (input[0].get_m31(27) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp28",
+      "(((((((((((((((((((((((((((0 + (input[0].get_m31(1) * input[1].get_m31(27))) + (input[0].get_m31(2) * input[1].get_m31(26))) + (input[0].get_m31(3) * input[1].get_m31(25))) + (input[0].get_m31(4) * input[1].get_m31(24))) + (input[0].get_m31(5) * input[1].get_m31(23))) + (input[0].get_m31(6) * input[1].get_m31(22))) + (input[0].get_m31(7) * input[1].get_m31(21))) + (input[0].get_m31(8) * input[1].get_m31(20))) + (input[0].get_m31(9) * input[1].get_m31(19))) + (input[0].get_m31(10) * input[1].get_m31(18))) + (input[0].get_m31(11) * input[1].get_m31(17))) + (input[0].get_m31(12) * input[1].get_m31(16))) + (input[0].get_m31(13) * input[1].get_m31(15))) + (input[0].get_m31(14) * input[1].get_m31(14))) + (input[0].get_m31(15) * input[1].get_m31(13))) + (input[0].get_m31(16) * input[1].get_m31(12))) + (input[0].get_m31(17) * input[1].get_m31(11))) + (input[0].get_m31(18) * input[1].get_m31(10))) + (input[0].get_m31(19) * input[1].get_m31(9))) + (input[0].get_m31(20) * input[1].get_m31(8))) + (input[0].get_m31(21) * input[1].get_m31(7))) + (input[0].get_m31(22) * input[1].get_m31(6))) + (input[0].get_m31(23) * input[1].get_m31(5))) + (input[0].get_m31(24) * input[1].get_m31(4))) + (input[0].get_m31(25) * input[1].get_m31(3))) + (input[0].get_m31(26) * input[1].get_m31(2))) + (input[0].get_m31(27) * input[1].get_m31(1)))"
+    ],
+    [
+      "tmp29",
+      "((((((((((((((((((((((((((0 + (input[0].get_m31(2) * input[1].get_m31(27))) + (input[0].get_m31(3) * input[1].get_m31(26))) + (input[0].get_m31(4) * input[1].get_m31(25))) + (input[0].get_m31(5) * input[1].get_m31(24))) + (input[0].get_m31(6) * input[1].get_m31(23))) + (input[0].get_m31(7) * input[1].get_m31(22))) + (input[0].get_m31(8) * input[1].get_m31(21))) + (input[0].get_m31(9) * input[1].get_m31(20))) + (input[0].get_m31(10) * input[1].get_m31(19))) + (input[0].get_m31(11) * input[1].get_m31(18))) + (input[0].get_m31(12) * input[1].get_m31(17))) + (input[0].get_m31(13) * input[1].get_m31(16))) + (input[0].get_m31(14) * input[1].get_m31(15))) + (input[0].get_m31(15) * input[1].get_m31(14))) + (input[0].get_m31(16) * input[1].get_m31(13))) + (input[0].get_m31(17) * input[1].get_m31(12))) + (input[0].get_m31(18) * input[1].get_m31(11))) + (input[0].get_m31(19) * input[1].get_m31(10))) + (input[0].get_m31(20) * input[1].get_m31(9))) + (input[0].get_m31(21) * input[1].get_m31(8))) + (input[0].get_m31(22) * input[1].get_m31(7))) + (input[0].get_m31(23) * input[1].get_m31(6))) + (input[0].get_m31(24) * input[1].get_m31(5))) + (input[0].get_m31(25) * input[1].get_m31(4))) + (input[0].get_m31(26) * input[1].get_m31(3))) + (input[0].get_m31(27) * input[1].get_m31(2)))"
+    ],
+    [
+      "tmp3",
+      "(((((0 - input[2].get_m31(3)) + (input[0].get_m31(0) * input[1].get_m31(3))) + (input[0].get_m31(1) * input[1].get_m31(2))) + (input[0].get_m31(2) * input[1].get_m31(1))) + (input[0].get_m31(3) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp30",
+      "(((((((((((((((((((((((((0 + (input[0].get_m31(3) * input[1].get_m31(27))) + (input[0].get_m31(4) * input[1].get_m31(26))) + (input[0].get_m31(5) * input[1].get_m31(25))) + (input[0].get_m31(6) * input[1].get_m31(24))) + (input[0].get_m31(7) * input[1].get_m31(23))) + (input[0].get_m31(8) * input[1].get_m31(22))) + (input[0].get_m31(9) * input[1].get_m31(21))) + (input[0].get_m31(10) * input[1].get_m31(20))) + (input[0].get_m31(11) * input[1].get_m31(19))) + (input[0].get_m31(12) * input[1].get_m31(18))) + (input[0].get_m31(13) * input[1].get_m31(17))) + (input[0].get_m31(14) * input[1].get_m31(16))) + (input[0].get_m31(15) * input[1].get_m31(15))) + (input[0].get_m31(16) * input[1].get_m31(14))) + (input[0].get_m31(17) * input[1].get_m31(13))) + (input[0].get_m31(18) * input[1].get_m31(12))) + (input[0].get_m31(19) * input[1].get_m31(11))) + (input[0].get_m31(20) * input[1].get_m31(10))) + (input[0].get_m31(21) * input[1].get_m31(9))) + (input[0].get_m31(22) * input[1].get_m31(8))) + (input[0].get_m31(23) * input[1].get_m31(7))) + (input[0].get_m31(24) * input[1].get_m31(6))) + (input[0].get_m31(25) * input[1].get_m31(5))) + (input[0].get_m31(26) * input[1].get_m31(4))) + (input[0].get_m31(27) * input[1].get_m31(3)))"
+    ],
+    [
+      "tmp31",
+      "((((((((((((((((((((((((0 + (input[0].get_m31(4) * input[1].get_m31(27))) + (input[0].get_m31(5) * input[1].get_m31(26))) + (input[0].get_m31(6) * input[1].get_m31(25))) + (input[0].get_m31(7) * input[1].get_m31(24))) + (input[0].get_m31(8) * input[1].get_m31(23))) + (input[0].get_m31(9) * input[1].get_m31(22))) + (input[0].get_m31(10) * input[1].get_m31(21))) + (input[0].get_m31(11) * input[1].get_m31(20))) + (input[0].get_m31(12) * input[1].get_m31(19))) + (input[0].get_m31(13) * input[1].get_m31(18))) + (input[0].get_m31(14) * input[1].get_m31(17))) + (input[0].get_m31(15) * input[1].get_m31(16))) + (input[0].get_m31(16) * input[1].get_m31(15))) + (input[0].get_m31(17) * input[1].get_m31(14))) + (input[0].get_m31(18) * input[1].get_m31(13))) + (input[0].get_m31(19) * input[1].get_m31(12))) + (input[0].get_m31(20) * input[1].get_m31(11))) + (input[0].get_m31(21) * input[1].get_m31(10))) + (input[0].get_m31(22) * input[1].get_m31(9))) + (input[0].get_m31(23) * input[1].get_m31(8))) + (input[0].get_m31(24) * input[1].get_m31(7))) + (input[0].get_m31(25) * input[1].get_m31(6))) + (input[0].get_m31(26) * input[1].get_m31(5))) + (input[0].get_m31(27) * input[1].get_m31(4)))"
+    ],
+    [
+      "tmp32",
+      "(((((((((((((((((((((((0 + (input[0].get_m31(5) * input[1].get_m31(27))) + (input[0].get_m31(6) * input[1].get_m31(26))) + (input[0].get_m31(7) * input[1].get_m31(25))) + (input[0].get_m31(8) * input[1].get_m31(24))) + (input[0].get_m31(9) * input[1].get_m31(23))) + (input[0].get_m31(10) * input[1].get_m31(22))) + (input[0].get_m31(11) * input[1].get_m31(21))) + (input[0].get_m31(12) * input[1].get_m31(20))) + (input[0].get_m31(13) * input[1].get_m31(19))) + (input[0].get_m31(14) * input[1].get_m31(18))) + (input[0].get_m31(15) * input[1].get_m31(17))) + (input[0].get_m31(16) * input[1].get_m31(16))) + (input[0].get_m31(17) * input[1].get_m31(15))) + (input[0].get_m31(18) * input[1].get_m31(14))) + (input[0].get_m31(19) * input[1].get_m31(13))) + (input[0].get_m31(20) * input[1].get_m31(12))) + (input[0].get_m31(21) * input[1].get_m31(11))) + (input[0].get_m31(22) * input[1].get_m31(10))) + (input[0].get_m31(23) * input[1].get_m31(9))) + (input[0].get_m31(24) * input[1].get_m31(8))) + (input[0].get_m31(25) * input[1].get_m31(7))) + (input[0].get_m31(26) * input[1].get_m31(6))) + (input[0].get_m31(27) * input[1].get_m31(5)))"
+    ],
+    [
+      "tmp33",
+      "((((((((((((((((((((((0 + (input[0].get_m31(6) * input[1].get_m31(27))) + (input[0].get_m31(7) * input[1].get_m31(26))) + (input[0].get_m31(8) * input[1].get_m31(25))) + (input[0].get_m31(9) * input[1].get_m31(24))) + (input[0].get_m31(10) * input[1].get_m31(23))) + (input[0].get_m31(11) * input[1].get_m31(22))) + (input[0].get_m31(12) * input[1].get_m31(21))) + (input[0].get_m31(13) * input[1].get_m31(20))) + (input[0].get_m31(14) * input[1].get_m31(19))) + (input[0].get_m31(15) * input[1].get_m31(18))) + (input[0].get_m31(16) * input[1].get_m31(17))) + (input[0].get_m31(17) * input[1].get_m31(16))) + (input[0].get_m31(18) * input[1].get_m31(15))) + (input[0].get_m31(19) * input[1].get_m31(14))) + (input[0].get_m31(20) * input[1].get_m31(13))) + (input[0].get_m31(21) * input[1].get_m31(12))) + (input[0].get_m31(22) * input[1].get_m31(11))) + (input[0].get_m31(23) * input[1].get_m31(10))) + (input[0].get_m31(24) * input[1].get_m31(9))) + (input[0].get_m31(25) * input[1].get_m31(8))) + (input[0].get_m31(26) * input[1].get_m31(7))) + (input[0].get_m31(27) * input[1].get_m31(6)))"
+    ],
+    [
+      "tmp34",
+      "(((((((((((((((((((((0 + (input[0].get_m31(7) * input[1].get_m31(27))) + (input[0].get_m31(8) * input[1].get_m31(26))) + (input[0].get_m31(9) * input[1].get_m31(25))) + (input[0].get_m31(10) * input[1].get_m31(24))) + (input[0].get_m31(11) * input[1].get_m31(23))) + (input[0].get_m31(12) * input[1].get_m31(22))) + (input[0].get_m31(13) * input[1].get_m31(21))) + (input[0].get_m31(14) * input[1].get_m31(20))) + (input[0].get_m31(15) * input[1].get_m31(19))) + (input[0].get_m31(16) * input[1].get_m31(18))) + (input[0].get_m31(17) * input[1].get_m31(17))) + (input[0].get_m31(18) * input[1].get_m31(16))) + (input[0].get_m31(19) * input[1].get_m31(15))) + (input[0].get_m31(20) * input[1].get_m31(14))) + (input[0].get_m31(21) * input[1].get_m31(13))) + (input[0].get_m31(22) * input[1].get_m31(12))) + (input[0].get_m31(23) * input[1].get_m31(11))) + (input[0].get_m31(24) * input[1].get_m31(10))) + (input[0].get_m31(25) * input[1].get_m31(9))) + (input[0].get_m31(26) * input[1].get_m31(8))) + (input[0].get_m31(27) * input[1].get_m31(7)))"
+    ],
+    [
+      "tmp35",
+      "((((((((((((((((((((0 + (input[0].get_m31(8) * input[1].get_m31(27))) + (input[0].get_m31(9) * input[1].get_m31(26))) + (input[0].get_m31(10) * input[1].get_m31(25))) + (input[0].get_m31(11) * input[1].get_m31(24))) + (input[0].get_m31(12) * input[1].get_m31(23))) + (input[0].get_m31(13) * input[1].get_m31(22))) + (input[0].get_m31(14) * input[1].get_m31(21))) + (input[0].get_m31(15) * input[1].get_m31(20))) + (input[0].get_m31(16) * input[1].get_m31(19))) + (input[0].get_m31(17) * input[1].get_m31(18))) + (input[0].get_m31(18) * input[1].get_m31(17))) + (input[0].get_m31(19) * input[1].get_m31(16))) + (input[0].get_m31(20) * input[1].get_m31(15))) + (input[0].get_m31(21) * input[1].get_m31(14))) + (input[0].get_m31(22) * input[1].get_m31(13))) + (input[0].get_m31(23) * input[1].get_m31(12))) + (input[0].get_m31(24) * input[1].get_m31(11))) + (input[0].get_m31(25) * input[1].get_m31(10))) + (input[0].get_m31(26) * input[1].get_m31(9))) + (input[0].get_m31(27) * input[1].get_m31(8)))"
+    ],
+    [
+      "tmp36",
+      "(((((((((((((((((((0 + (input[0].get_m31(9) * input[1].get_m31(27))) + (input[0].get_m31(10) * input[1].get_m31(26))) + (input[0].get_m31(11) * input[1].get_m31(25))) + (input[0].get_m31(12) * input[1].get_m31(24))) + (input[0].get_m31(13) * input[1].get_m31(23))) + (input[0].get_m31(14) * input[1].get_m31(22))) + (input[0].get_m31(15) * input[1].get_m31(21))) + (input[0].get_m31(16) * input[1].get_m31(20))) + (input[0].get_m31(17) * input[1].get_m31(19))) + (input[0].get_m31(18) * input[1].get_m31(18))) + (input[0].get_m31(19) * input[1].get_m31(17))) + (input[0].get_m31(20) * input[1].get_m31(16))) + (input[0].get_m31(21) * input[1].get_m31(15))) + (input[0].get_m31(22) * input[1].get_m31(14))) + (input[0].get_m31(23) * input[1].get_m31(13))) + (input[0].get_m31(24) * input[1].get_m31(12))) + (input[0].get_m31(25) * input[1].get_m31(11))) + (input[0].get_m31(26) * input[1].get_m31(10))) + (input[0].get_m31(27) * input[1].get_m31(9)))"
+    ],
+    [
+      "tmp37",
+      "((((((((((((((((((0 + (input[0].get_m31(10) * input[1].get_m31(27))) + (input[0].get_m31(11) * input[1].get_m31(26))) + (input[0].get_m31(12) * input[1].get_m31(25))) + (input[0].get_m31(13) * input[1].get_m31(24))) + (input[0].get_m31(14) * input[1].get_m31(23))) + (input[0].get_m31(15) * input[1].get_m31(22))) + (input[0].get_m31(16) * input[1].get_m31(21))) + (input[0].get_m31(17) * input[1].get_m31(20))) + (input[0].get_m31(18) * input[1].get_m31(19))) + (input[0].get_m31(19) * input[1].get_m31(18))) + (input[0].get_m31(20) * input[1].get_m31(17))) + (input[0].get_m31(21) * input[1].get_m31(16))) + (input[0].get_m31(22) * input[1].get_m31(15))) + (input[0].get_m31(23) * input[1].get_m31(14))) + (input[0].get_m31(24) * input[1].get_m31(13))) + (input[0].get_m31(25) * input[1].get_m31(12))) + (input[0].get_m31(26) * input[1].get_m31(11))) + (input[0].get_m31(27) * input[1].get_m31(10)))"
+    ],
+    [
+      "tmp38",
+      "(((((((((((((((((0 + (input[0].get_m31(11) * input[1].get_m31(27))) + (input[0].get_m31(12) * input[1].get_m31(26))) + (input[0].get_m31(13) * input[1].get_m31(25))) + (input[0].get_m31(14) * input[1].get_m31(24))) + (input[0].get_m31(15) * input[1].get_m31(23))) + (input[0].get_m31(16) * input[1].get_m31(22))) + (input[0].get_m31(17) * input[1].get_m31(21))) + (input[0].get_m31(18) * input[1].get_m31(20))) + (input[0].get_m31(19) * input[1].get_m31(19))) + (input[0].get_m31(20) * input[1].get_m31(18))) + (input[0].get_m31(21) * input[1].get_m31(17))) + (input[0].get_m31(22) * input[1].get_m31(16))) + (input[0].get_m31(23) * input[1].get_m31(15))) + (input[0].get_m31(24) * input[1].get_m31(14))) + (input[0].get_m31(25) * input[1].get_m31(13))) + (input[0].get_m31(26) * input[1].get_m31(12))) + (input[0].get_m31(27) * input[1].get_m31(11)))"
+    ],
+    [
+      "tmp39",
+      "((((((((((((((((0 + (input[0].get_m31(12) * input[1].get_m31(27))) + (input[0].get_m31(13) * input[1].get_m31(26))) + (input[0].get_m31(14) * input[1].get_m31(25))) + (input[0].get_m31(15) * input[1].get_m31(24))) + (input[0].get_m31(16) * input[1].get_m31(23))) + (input[0].get_m31(17) * input[1].get_m31(22))) + (input[0].get_m31(18) * input[1].get_m31(21))) + (input[0].get_m31(19) * input[1].get_m31(20))) + (input[0].get_m31(20) * input[1].get_m31(19))) + (input[0].get_m31(21) * input[1].get_m31(18))) + (input[0].get_m31(22) * input[1].get_m31(17))) + (input[0].get_m31(23) * input[1].get_m31(16))) + (input[0].get_m31(24) * input[1].get_m31(15))) + (input[0].get_m31(25) * input[1].get_m31(14))) + (input[0].get_m31(26) * input[1].get_m31(13))) + (input[0].get_m31(27) * input[1].get_m31(12)))"
+    ],
+    [
+      "tmp4",
+      "((((((0 - input[2].get_m31(4)) + (input[0].get_m31(0) * input[1].get_m31(4))) + (input[0].get_m31(1) * input[1].get_m31(3))) + (input[0].get_m31(2) * input[1].get_m31(2))) + (input[0].get_m31(3) * input[1].get_m31(1))) + (input[0].get_m31(4) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp40",
+      "(((((((((((((((0 + (input[0].get_m31(13) * input[1].get_m31(27))) + (input[0].get_m31(14) * input[1].get_m31(26))) + (input[0].get_m31(15) * input[1].get_m31(25))) + (input[0].get_m31(16) * input[1].get_m31(24))) + (input[0].get_m31(17) * input[1].get_m31(23))) + (input[0].get_m31(18) * input[1].get_m31(22))) + (input[0].get_m31(19) * input[1].get_m31(21))) + (input[0].get_m31(20) * input[1].get_m31(20))) + (input[0].get_m31(21) * input[1].get_m31(19))) + (input[0].get_m31(22) * input[1].get_m31(18))) + (input[0].get_m31(23) * input[1].get_m31(17))) + (input[0].get_m31(24) * input[1].get_m31(16))) + (input[0].get_m31(25) * input[1].get_m31(15))) + (input[0].get_m31(26) * input[1].get_m31(14))) + (input[0].get_m31(27) * input[1].get_m31(13)))"
+    ],
+    [
+      "tmp41",
+      "((((((((((((((0 + (input[0].get_m31(14) * input[1].get_m31(27))) + (input[0].get_m31(15) * input[1].get_m31(26))) + (input[0].get_m31(16) * input[1].get_m31(25))) + (input[0].get_m31(17) * input[1].get_m31(24))) + (input[0].get_m31(18) * input[1].get_m31(23))) + (input[0].get_m31(19) * input[1].get_m31(22))) + (input[0].get_m31(20) * input[1].get_m31(21))) + (input[0].get_m31(21) * input[1].get_m31(20))) + (input[0].get_m31(22) * input[1].get_m31(19))) + (input[0].get_m31(23) * input[1].get_m31(18))) + (input[0].get_m31(24) * input[1].get_m31(17))) + (input[0].get_m31(25) * input[1].get_m31(16))) + (input[0].get_m31(26) * input[1].get_m31(15))) + (input[0].get_m31(27) * input[1].get_m31(14)))"
+    ],
+    [
+      "tmp42",
+      "(((((((((((((0 + (input[0].get_m31(15) * input[1].get_m31(27))) + (input[0].get_m31(16) * input[1].get_m31(26))) + (input[0].get_m31(17) * input[1].get_m31(25))) + (input[0].get_m31(18) * input[1].get_m31(24))) + (input[0].get_m31(19) * input[1].get_m31(23))) + (input[0].get_m31(20) * input[1].get_m31(22))) + (input[0].get_m31(21) * input[1].get_m31(21))) + (input[0].get_m31(22) * input[1].get_m31(20))) + (input[0].get_m31(23) * input[1].get_m31(19))) + (input[0].get_m31(24) * input[1].get_m31(18))) + (input[0].get_m31(25) * input[1].get_m31(17))) + (input[0].get_m31(26) * input[1].get_m31(16))) + (input[0].get_m31(27) * input[1].get_m31(15)))"
+    ],
+    [
+      "tmp43",
+      "((((((((((((0 + (input[0].get_m31(16) * input[1].get_m31(27))) + (input[0].get_m31(17) * input[1].get_m31(26))) + (input[0].get_m31(18) * input[1].get_m31(25))) + (input[0].get_m31(19) * input[1].get_m31(24))) + (input[0].get_m31(20) * input[1].get_m31(23))) + (input[0].get_m31(21) * input[1].get_m31(22))) + (input[0].get_m31(22) * input[1].get_m31(21))) + (input[0].get_m31(23) * input[1].get_m31(20))) + (input[0].get_m31(24) * input[1].get_m31(19))) + (input[0].get_m31(25) * input[1].get_m31(18))) + (input[0].get_m31(26) * input[1].get_m31(17))) + (input[0].get_m31(27) * input[1].get_m31(16)))"
+    ],
+    [
+      "tmp44",
+      "(((((((((((0 + (input[0].get_m31(17) * input[1].get_m31(27))) + (input[0].get_m31(18) * input[1].get_m31(26))) + (input[0].get_m31(19) * input[1].get_m31(25))) + (input[0].get_m31(20) * input[1].get_m31(24))) + (input[0].get_m31(21) * input[1].get_m31(23))) + (input[0].get_m31(22) * input[1].get_m31(22))) + (input[0].get_m31(23) * input[1].get_m31(21))) + (input[0].get_m31(24) * input[1].get_m31(20))) + (input[0].get_m31(25) * input[1].get_m31(19))) + (input[0].get_m31(26) * input[1].get_m31(18))) + (input[0].get_m31(27) * input[1].get_m31(17)))"
+    ],
+    [
+      "tmp45",
+      "((((((((((0 + (input[0].get_m31(18) * input[1].get_m31(27))) + (input[0].get_m31(19) * input[1].get_m31(26))) + (input[0].get_m31(20) * input[1].get_m31(25))) + (input[0].get_m31(21) * input[1].get_m31(24))) + (input[0].get_m31(22) * input[1].get_m31(23))) + (input[0].get_m31(23) * input[1].get_m31(22))) + (input[0].get_m31(24) * input[1].get_m31(21))) + (input[0].get_m31(25) * input[1].get_m31(20))) + (input[0].get_m31(26) * input[1].get_m31(19))) + (input[0].get_m31(27) * input[1].get_m31(18)))"
+    ],
+    [
+      "tmp46",
+      "(((((((((0 + (input[0].get_m31(19) * input[1].get_m31(27))) + (input[0].get_m31(20) * input[1].get_m31(26))) + (input[0].get_m31(21) * input[1].get_m31(25))) + (input[0].get_m31(22) * input[1].get_m31(24))) + (input[0].get_m31(23) * input[1].get_m31(23))) + (input[0].get_m31(24) * input[1].get_m31(22))) + (input[0].get_m31(25) * input[1].get_m31(21))) + (input[0].get_m31(26) * input[1].get_m31(20))) + (input[0].get_m31(27) * input[1].get_m31(19)))"
+    ],
+    [
+      "tmp47",
+      "((((((((0 + (input[0].get_m31(20) * input[1].get_m31(27))) + (input[0].get_m31(21) * input[1].get_m31(26))) + (input[0].get_m31(22) * input[1].get_m31(25))) + (input[0].get_m31(23) * input[1].get_m31(24))) + (input[0].get_m31(24) * input[1].get_m31(23))) + (input[0].get_m31(25) * input[1].get_m31(22))) + (input[0].get_m31(26) * input[1].get_m31(21))) + (input[0].get_m31(27) * input[1].get_m31(20)))"
+    ],
+    [
+      "tmp48",
+      "(((((((0 + (input[0].get_m31(21) * input[1].get_m31(27))) + (input[0].get_m31(22) * input[1].get_m31(26))) + (input[0].get_m31(23) * input[1].get_m31(25))) + (input[0].get_m31(24) * input[1].get_m31(24))) + (input[0].get_m31(25) * input[1].get_m31(23))) + (input[0].get_m31(26) * input[1].get_m31(22))) + (input[0].get_m31(27) * input[1].get_m31(21)))"
+    ],
+    [
+      "tmp49",
+      "((((((0 + (input[0].get_m31(22) * input[1].get_m31(27))) + (input[0].get_m31(23) * input[1].get_m31(26))) + (input[0].get_m31(24) * input[1].get_m31(25))) + (input[0].get_m31(25) * input[1].get_m31(24))) + (input[0].get_m31(26) * input[1].get_m31(23))) + (input[0].get_m31(27) * input[1].get_m31(22)))"
+    ],
+    [
+      "tmp5",
+      "(((((((0 - input[2].get_m31(5)) + (input[0].get_m31(0) * input[1].get_m31(5))) + (input[0].get_m31(1) * input[1].get_m31(4))) + (input[0].get_m31(2) * input[1].get_m31(3))) + (input[0].get_m31(3) * input[1].get_m31(2))) + (input[0].get_m31(4) * input[1].get_m31(1))) + (input[0].get_m31(5) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp50",
+      "(((((0 + (input[0].get_m31(23) * input[1].get_m31(27))) + (input[0].get_m31(24) * input[1].get_m31(26))) + (input[0].get_m31(25) * input[1].get_m31(25))) + (input[0].get_m31(26) * input[1].get_m31(24))) + (input[0].get_m31(27) * input[1].get_m31(23)))"
+    ],
+    [
+      "tmp51",
+      "((((0 + (input[0].get_m31(24) * input[1].get_m31(27))) + (input[0].get_m31(25) * input[1].get_m31(26))) + (input[0].get_m31(26) * input[1].get_m31(25))) + (input[0].get_m31(27) * input[1].get_m31(24)))"
+    ],
+    [
+      "tmp52",
+      "(((0 + (input[0].get_m31(25) * input[1].get_m31(27))) + (input[0].get_m31(26) * input[1].get_m31(26))) + (input[0].get_m31(27) * input[1].get_m31(25)))"
+    ],
+    [
+      "tmp53",
+      "((0 + (input[0].get_m31(26) * input[1].get_m31(27))) + (input[0].get_m31(27) * input[1].get_m31(26)))"
+    ],
+    [
+      "tmp54",
+      "(0 + (input[0].get_m31(27) * input[1].get_m31(27)))"
+    ],
+    [
+      "tmp55",
+      "(((0 + (32 * tmp0)) - (4 * tmp21)) + (8 * tmp49))"
+    ],
+    [
+      "tmp56",
+      "((((0 + (1 * tmp0)) + (32 * tmp1)) - (4 * tmp22)) + (8 * tmp50))"
+    ],
+    [
+      "tmp57",
+      "((((0 + (1 * tmp1)) + (32 * tmp2)) - (4 * tmp23)) + (8 * tmp51))"
+    ],
+    [
+      "tmp58",
+      "((((0 + (1 * tmp2)) + (32 * tmp3)) - (4 * tmp24)) + (8 * tmp52))"
+    ],
+    [
+      "tmp59",
+      "((((0 + (1 * tmp3)) + (32 * tmp4)) - (4 * tmp25)) + (8 * tmp53))"
+    ],
+    [
+      "tmp6",
+      "((((((((0 - input[2].get_m31(6)) + (input[0].get_m31(0) * input[1].get_m31(6))) + (input[0].get_m31(1) * input[1].get_m31(5))) + (input[0].get_m31(2) * input[1].get_m31(4))) + (input[0].get_m31(3) * input[1].get_m31(3))) + (input[0].get_m31(4) * input[1].get_m31(2))) + (input[0].get_m31(5) * input[1].get_m31(1))) + (input[0].get_m31(6) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp60",
+      "((((0 + (1 * tmp4)) + (32 * tmp5)) - (4 * tmp26)) + (8 * tmp54))"
+    ],
+    [
+      "tmp61",
+      "(((0 + (1 * tmp5)) + (32 * tmp6)) - (4 * tmp27))"
+    ],
+    [
+      "tmp62",
+      "((((0 + (2 * tmp0)) + (1 * tmp6)) + (32 * tmp7)) - (4 * tmp28))"
+    ],
+    [
+      "tmp63",
+      "((((0 + (2 * tmp1)) + (1 * tmp7)) + (32 * tmp8)) - (4 * tmp29))"
+    ],
+    [
+      "tmp64",
+      "((((0 + (2 * tmp2)) + (1 * tmp8)) + (32 * tmp9)) - (4 * tmp30))"
+    ],
+    [
+      "tmp65",
+      "((((0 + (2 * tmp3)) + (1 * tmp9)) + (32 * tmp10)) - (4 * tmp31))"
+    ],
+    [
+      "tmp66",
+      "((((0 + (2 * tmp4)) + (1 * tmp10)) + (32 * tmp11)) - (4 * tmp32))"
+    ],
+    [
+      "tmp67",
+      "((((0 + (2 * tmp5)) + (1 * tmp11)) + (32 * tmp12)) - (4 * tmp33))"
+    ],
+    [
+      "tmp68",
+      "((((0 + (2 * tmp6)) + (1 * tmp12)) + (32 * tmp13)) - (4 * tmp34))"
+    ],
+    [
+      "tmp69",
+      "((((0 + (2 * tmp7)) + (1 * tmp13)) + (32 * tmp14)) - (4 * tmp35))"
+    ],
+    [
+      "tmp7",
+      "(((((((((0 - input[2].get_m31(7)) + (input[0].get_m31(0) * input[1].get_m31(7))) + (input[0].get_m31(1) * input[1].get_m31(6))) + (input[0].get_m31(2) * input[1].get_m31(5))) + (input[0].get_m31(3) * input[1].get_m31(4))) + (input[0].get_m31(4) * input[1].get_m31(3))) + (input[0].get_m31(5) * input[1].get_m31(2))) + (input[0].get_m31(6) * input[1].get_m31(1))) + (input[0].get_m31(7) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp70",
+      "((((0 + (2 * tmp8)) + (1 * tmp14)) + (32 * tmp15)) - (4 * tmp36))"
+    ],
+    [
+      "tmp71",
+      "((((0 + (2 * tmp9)) + (1 * tmp15)) + (32 * tmp16)) - (4 * tmp37))"
+    ],
+    [
+      "tmp72",
+      "((((0 + (2 * tmp10)) + (1 * tmp16)) + (32 * tmp17)) - (4 * tmp38))"
+    ],
+    [
+      "tmp73",
+      "((((0 + (2 * tmp11)) + (1 * tmp17)) + (32 * tmp18)) - (4 * tmp39))"
+    ],
+    [
+      "tmp74",
+      "((((0 + (2 * tmp12)) + (1 * tmp18)) + (32 * tmp19)) - (4 * tmp40))"
+    ],
+    [
+      "tmp75",
+      "((((0 + (2 * tmp13)) + (1 * tmp19)) + (32 * tmp20)) - (4 * tmp41))"
+    ],
+    [
+      "tmp76",
+      "((((0 + (2 * tmp14)) + (1 * tmp20)) - (4 * tmp42)) + (64 * tmp49))"
+    ],
+    [
+      "tmp77",
+      "((((0 + (2 * tmp15)) - (4 * tmp43)) + (2 * tmp49)) + (64 * tmp50))"
+    ],
+    [
+      "tmp78",
+      "((((0 + (2 * tmp16)) - (4 * tmp44)) + (2 * tmp50)) + (64 * tmp51))"
+    ],
+    [
+      "tmp79",
+      "((((0 + (2 * tmp17)) - (4 * tmp45)) + (2 * tmp51)) + (64 * tmp52))"
+    ],
+    [
+      "tmp8",
+      "((((((((((0 - input[2].get_m31(8)) + (input[0].get_m31(0) * input[1].get_m31(8))) + (input[0].get_m31(1) * input[1].get_m31(7))) + (input[0].get_m31(2) * input[1].get_m31(6))) + (input[0].get_m31(3) * input[1].get_m31(5))) + (input[0].get_m31(4) * input[1].get_m31(4))) + (input[0].get_m31(5) * input[1].get_m31(3))) + (input[0].get_m31(6) * input[1].get_m31(2))) + (input[0].get_m31(7) * input[1].get_m31(1))) + (input[0].get_m31(8) * input[1].get_m31(0)))"
+    ],
+    [
+      "tmp80",
+      "((((0 + (2 * tmp18)) - (4 * tmp46)) + (2 * tmp52)) + (64 * tmp53))"
+    ],
+    [
+      "tmp81",
+      "((((0 + (2 * tmp19)) - (4 * tmp47)) + (2 * tmp53)) + (64 * tmp54))"
+    ],
+    [
+      "tmp82",
+      "(((0 + (2 * tmp20)) - (4 * tmp48)) + (2 * tmp54))"
+    ],
+    [
+      "tmp9",
+      "(((((((((((0 - input[2].get_m31(9)) + (input[0].get_m31(0) * input[1].get_m31(9))) + (input[0].get_m31(1) * input[1].get_m31(8))) + (input[0].get_m31(2) * input[1].get_m31(7))) + (input[0].get_m31(3) * input[1].get_m31(6))) + (input[0].get_m31(4) * input[1].get_m31(5))) + (input[0].get_m31(5) * input[1].get_m31(4))) + (input[0].get_m31(6) * input[1].get_m31(3))) + (input[0].get_m31(7) * input[1].get_m31(2))) + (input[0].get_m31(8) * input[1].get_m31(1))) + (input[0].get_m31(9) * input[1].get_m31(0)))"
+    ],
+    "((col1 * 512) - ((tmp55 - (1 * col0)) + 0))",
+    "((col10 * 512) - (tmp64 + col9))",
+    "((col11 * 512) - (tmp65 + col10))",
+    "((col12 * 512) - (tmp66 + col11))",
+    "((col13 * 512) - (tmp67 + col12))",
+    "((col14 * 512) - (tmp68 + col13))",
+    "((col15 * 512) - (tmp69 + col14))",
+    "((col16 * 512) - (tmp70 + col15))",
+    "((col17 * 512) - (tmp71 + col16))",
+    "((col18 * 512) - (tmp72 + col17))",
+    "((col19 * 512) - (tmp73 + col18))",
+    "((col2 * 512) - (tmp56 + col1))",
+    "((col20 * 512) - (tmp74 + col19))",
+    "((col21 * 512) - (tmp75 + col20))",
+    "((col22 * 512) - ((tmp76 - (136 * col0)) + col21))",
+    "((col23 * 512) - (tmp77 + col22))",
+    "((col24 * 512) - (tmp78 + col23))",
+    "((col25 * 512) - (tmp79 + col24))",
+    "((col26 * 512) - (tmp80 + col25))",
+    "((col27 * 512) - (tmp81 + col26))",
+    "((col3 * 512) - (tmp57 + col2))",
+    "((col4 * 512) - (tmp58 + col3))",
+    "((col5 * 512) - (tmp59 + col4))",
+    "((col6 * 512) - (tmp60 + col5))",
+    "((col7 * 512) - (tmp61 + col6))",
+    "((col8 * 512) - (tmp62 + col7))",
+    "((col9 * 512) - (tmp63 + col8))",
+    "((tmp82 - (256 * col0)) + col27)",
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col0 + 262144)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col1 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col10 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col11 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col12 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col13 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col14 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col15 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col16 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col17 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col18 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col19 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col2 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col20 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col21 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col22 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col23 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col24 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col25 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col26 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col27 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col3 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col4 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col5 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col6 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col7 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col8 + 131072)"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_19",
+      "felts": [
+        "(col9 + 131072)"
+      ]
+    }
+  ],
+  "Mul252": [
+    {
+      "fn_name": "RangeCheckBigValue",
+      "input": "tmp0",
+      "output": "()"
+    },
+    {
+      "fn_name": "VerifyMul252",
+      "input": "[input[0], input[1], tmp0]",
+      "output": "()"
+    }
+  ],
+  "EvalOperands": [
+    [
+      "tmp121",
+      "(1 - input.1[9])"
+    ],
+    "(tmp121 * (((input.1[16] * (col172 - col59)) + (input.1[5] * (col172 - col87))) + (input.1[6] * (col172 - col116))))",
+    "(tmp121 * (((input.1[16] * (col173 - col60)) + (input.1[5] * (col173 - col88))) + (input.1[6] * (col173 - col117))))",
+    "(tmp121 * (((input.1[16] * (col174 - col61)) + (input.1[5] * (col174 - col89))) + (input.1[6] * (col174 - col118))))",
+    "(tmp121 * (((input.1[16] * (col175 - col62)) + (input.1[5] * (col175 - col90))) + (input.1[6] * (col175 - col119))))",
+    "(tmp121 * (((input.1[16] * (col176 - col63)) + (input.1[5] * (col176 - col91))) + (input.1[6] * (col176 - col120))))",
+    "(tmp121 * (((input.1[16] * (col177 - col64)) + (input.1[5] * (col177 - col92))) + (input.1[6] * (col177 - col121))))",
+    "(tmp121 * (((input.1[16] * (col178 - col65)) + (input.1[5] * (col178 - col93))) + (input.1[6] * (col178 - col122))))",
+    "(tmp121 * (((input.1[16] * (col179 - col66)) + (input.1[5] * (col179 - col94))) + (input.1[6] * (col179 - col123))))",
+    "(tmp121 * (((input.1[16] * (col180 - col67)) + (input.1[5] * (col180 - col95))) + (input.1[6] * (col180 - col124))))",
+    "(tmp121 * (((input.1[16] * (col181 - col68)) + (input.1[5] * (col181 - col96))) + (input.1[6] * (col181 - col125))))",
+    "(tmp121 * (((input.1[16] * (col182 - col69)) + (input.1[5] * (col182 - col97))) + (input.1[6] * (col182 - col126))))",
+    "(tmp121 * (((input.1[16] * (col183 - col70)) + (input.1[5] * (col183 - col98))) + (input.1[6] * (col183 - col127))))",
+    "(tmp121 * (((input.1[16] * (col184 - col71)) + (input.1[5] * (col184 - col99))) + (input.1[6] * (col184 - col128))))",
+    "(tmp121 * (((input.1[16] * (col185 - col72)) + (input.1[5] * (col185 - col100))) + (input.1[6] * (col185 - col129))))",
+    "(tmp121 * (((input.1[16] * (col186 - col73)) + (input.1[5] * (col186 - col101))) + (input.1[6] * (col186 - col130))))",
+    "(tmp121 * (((input.1[16] * (col187 - col74)) + (input.1[5] * (col187 - col102))) + (input.1[6] * (col187 - col131))))",
+    "(tmp121 * (((input.1[16] * (col188 - col75)) + (input.1[5] * (col188 - col103))) + (input.1[6] * (col188 - col132))))",
+    "(tmp121 * (((input.1[16] * (col189 - col76)) + (input.1[5] * (col189 - col104))) + (input.1[6] * (col189 - col133))))",
+    "(tmp121 * (((input.1[16] * (col190 - col77)) + (input.1[5] * (col190 - col105))) + (input.1[6] * (col190 - col134))))",
+    "(tmp121 * (((input.1[16] * (col191 - col78)) + (input.1[5] * (col191 - col106))) + (input.1[6] * (col191 - col135))))",
+    "(tmp121 * (((input.1[16] * (col192 - col79)) + (input.1[5] * (col192 - col107))) + (input.1[6] * (col192 - col136))))",
+    "(tmp121 * (((input.1[16] * (col193 - col80)) + (input.1[5] * (col193 - col108))) + (input.1[6] * (col193 - col137))))",
+    "(tmp121 * (((input.1[16] * (col194 - col81)) + (input.1[5] * (col194 - col109))) + (input.1[6] * (col194 - col138))))",
+    "(tmp121 * (((input.1[16] * (col195 - col82)) + (input.1[5] * (col195 - col110))) + (input.1[6] * (col195 - col139))))",
+    "(tmp121 * (((input.1[16] * (col196 - col83)) + (input.1[5] * (col196 - col111))) + (input.1[6] * (col196 - col140))))",
+    "(tmp121 * (((input.1[16] * (col197 - col84)) + (input.1[5] * (col197 - col112))) + (input.1[6] * (col197 - col141))))",
+    "(tmp121 * (((input.1[16] * (col198 - col85)) + (input.1[5] * (col198 - col113))) + (input.1[6] * (col198 - col142))))",
+    "(tmp121 * (((input.1[16] * (col199 - col86)) + (input.1[5] * (col199 - col114))) + (input.1[6] * (col199 - col143))))",
+    {
+      "fn_name": "Add252",
+      "input": "[Felt252::from_limbs([col30, col31, col32, col33, col34, col35, col36, col37, col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57]), Felt252::from_limbs([col59, col60, col61, col62, col63, col64, col65, col66, col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86])]",
+      "output": "tmp6"
+    },
+    {
+      "fn_name": "CondFelt252AsAddr",
+      "input": "(Felt252::from_limbs([col30, col31, col32, col33, col34, col35, col36, col37, col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57]), input.1[15])",
+      "output": "((col30 + (col31 * 512)) + (col32 * 262144))"
+    },
+    {
+      "fn_name": "Mul252",
+      "input": "[Felt252::from_limbs([col30, col31, col32, col33, col34, col35, col36, col37, col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57]), Felt252::from_limbs([col59, col60, col61, col62, col63, col64, col65, col66, col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86])]",
+      "output": "tmp35"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((((input.1[3] * input.0.fp) + (input.1[4] * input.0.ap)) + (input.1[2] * input.0.pc)) + (input.1[15] * ((col30 + (col31 * 512)) + (col32 * 262144)))) + input.2[2])",
+      "output": "(Felt252::from_limbs([col59, col60, col61, col62, col63, col64, col65, col66, col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86]), col58)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((input.1[0] * input.0.fp) + ((1 - input.1[0]) * input.0.ap)) + input.2[0])",
+      "output": "(Felt252::from_limbs([col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28]), col0)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((input.1[1] * input.0.fp) + ((1 - input.1[1]) * input.0.ap)) + input.2[1])",
+      "output": "(Felt252::from_limbs([col30, col31, col32, col33, col34, col35, col36, col37, col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57]), col29)"
+    }
+  ],
+  "HandleOpcodes": [
+    "(input.1[12] * (((input.3[0].get_m31(0) + (input.3[0].get_m31(1) * 512)) + (input.3[0].get_m31(2) * 262144)) - input.0.fp))",
+    "(input.1[12] * (((input.3[1].get_m31(0) + (input.3[1].get_m31(1) * 512)) + (input.3[1].get_m31(2) * 262144)) - (input.0.pc + input.1[19])))",
+    "(input.1[12] * (1 - input.2[1]))",
+    "(input.1[12] * (input.1[1] + input.1[0]))",
+    "(input.1[12] * input.2[0])",
+    "(input.1[13] * ((((4 - input.1[7]) - input.1[0]) - input.1[3]) - input.1[16]))",
+    "(input.1[13] * (input.2[0] + 2))",
+    "(input.1[13] * (input.2[2] + 1))",
+    "(input.1[14] * (input.3[2].get_m31(0) - input.3[0].get_m31(0)))",
+    "(input.1[14] * (input.3[2].get_m31(1) - input.3[0].get_m31(1)))",
+    "(input.1[14] * (input.3[2].get_m31(10) - input.3[0].get_m31(10)))",
+    "(input.1[14] * (input.3[2].get_m31(11) - input.3[0].get_m31(11)))",
+    "(input.1[14] * (input.3[2].get_m31(12) - input.3[0].get_m31(12)))",
+    "(input.1[14] * (input.3[2].get_m31(13) - input.3[0].get_m31(13)))",
+    "(input.1[14] * (input.3[2].get_m31(14) - input.3[0].get_m31(14)))",
+    "(input.1[14] * (input.3[2].get_m31(15) - input.3[0].get_m31(15)))",
+    "(input.1[14] * (input.3[2].get_m31(16) - input.3[0].get_m31(16)))",
+    "(input.1[14] * (input.3[2].get_m31(17) - input.3[0].get_m31(17)))",
+    "(input.1[14] * (input.3[2].get_m31(18) - input.3[0].get_m31(18)))",
+    "(input.1[14] * (input.3[2].get_m31(19) - input.3[0].get_m31(19)))",
+    "(input.1[14] * (input.3[2].get_m31(2) - input.3[0].get_m31(2)))",
+    "(input.1[14] * (input.3[2].get_m31(20) - input.3[0].get_m31(20)))",
+    "(input.1[14] * (input.3[2].get_m31(21) - input.3[0].get_m31(21)))",
+    "(input.1[14] * (input.3[2].get_m31(22) - input.3[0].get_m31(22)))",
+    "(input.1[14] * (input.3[2].get_m31(23) - input.3[0].get_m31(23)))",
+    "(input.1[14] * (input.3[2].get_m31(24) - input.3[0].get_m31(24)))",
+    "(input.1[14] * (input.3[2].get_m31(25) - input.3[0].get_m31(25)))",
+    "(input.1[14] * (input.3[2].get_m31(26) - input.3[0].get_m31(26)))",
+    "(input.1[14] * (input.3[2].get_m31(27) - input.3[0].get_m31(27)))",
+    "(input.1[14] * (input.3[2].get_m31(3) - input.3[0].get_m31(3)))",
+    "(input.1[14] * (input.3[2].get_m31(4) - input.3[0].get_m31(4)))",
+    "(input.1[14] * (input.3[2].get_m31(5) - input.3[0].get_m31(5)))",
+    "(input.1[14] * (input.3[2].get_m31(6) - input.3[0].get_m31(6)))",
+    "(input.1[14] * (input.3[2].get_m31(7) - input.3[0].get_m31(7)))",
+    "(input.1[14] * (input.3[2].get_m31(8) - input.3[0].get_m31(8)))",
+    "(input.1[14] * (input.3[2].get_m31(9) - input.3[0].get_m31(9)))",
+    {
+      "fn_name": "CondFelt252AsAddr",
+      "input": "(input.3[0], input.1[12])",
+      "output": "((input.3[0].get_m31(0) + (input.3[0].get_m31(1) * 512)) + (input.3[0].get_m31(2) * 262144))"
+    },
+    {
+      "fn_name": "CondFelt252AsAddr",
+      "input": "(input.3[1], input.1[12])",
+      "output": "((input.3[1].get_m31(0) + (input.3[1].get_m31(1) * 512)) + (input.3[1].get_m31(2) * 262144))"
+    }
+  ],
+  "CondFelt252AsRelImm": [
+    "(input.1 * (input.0.get_m31(10) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(11) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(12) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(13) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(14) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(15) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(16) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(17) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(18) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(19) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(20) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(21) - ((136 * col0) - col1)))",
+    "(input.1 * (input.0.get_m31(22) - 0))",
+    "(input.1 * (input.0.get_m31(23) - 0))",
+    "(input.1 * (input.0.get_m31(24) - 0))",
+    "(input.1 * (input.0.get_m31(25) - 0))",
+    "(input.1 * (input.0.get_m31(26) - 0))",
+    "(input.1 * (input.0.get_m31(27) - (col0 * 256)))",
+    "(input.1 * (input.0.get_m31(3) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(4) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(5) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(6) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(7) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(8) - (col1 * 511)))",
+    "(input.1 * (input.0.get_m31(9) - (col1 * 511)))",
+    {
+      "fn_name": "CondDecodeSmallSign",
+      "input": "(input.0, input.1)",
+      "output": "[col0, col1]"
+    }
+  ],
+  "UpdateRegisters": [
+    [
+      "tmp2",
+      "(input.2[0].get_m31(0) - 1)"
+    ],
+    [
+      "tmp3",
+      "(input.2[0].get_m31(21) - 136)"
+    ],
+    [
+      "tmp4",
+      "(input.2[0].get_m31(27) - 256)"
+    ],
+    "((((((((((((((((((((((((((((((0 + (tmp2 * tmp2)) + input.2[0].get_m31(1)) + input.2[0].get_m31(2)) + input.2[0].get_m31(3)) + input.2[0].get_m31(4)) + input.2[0].get_m31(5)) + input.2[0].get_m31(6)) + input.2[0].get_m31(7)) + input.2[0].get_m31(8)) + input.2[0].get_m31(9)) + input.2[0].get_m31(10)) + input.2[0].get_m31(11)) + input.2[0].get_m31(12)) + input.2[0].get_m31(13)) + input.2[0].get_m31(14)) + input.2[0].get_m31(15)) + input.2[0].get_m31(16)) + input.2[0].get_m31(17)) + input.2[0].get_m31(18)) + input.2[0].get_m31(19)) + input.2[0].get_m31(20)) + (tmp3 * tmp3)) + input.2[0].get_m31(22)) + input.2[0].get_m31(23)) + input.2[0].get_m31(24)) + input.2[0].get_m31(25)) + input.2[0].get_m31(26)) + (tmp4 * tmp4)) * col2) - 1)",
+    "((col7 - (input.0.pc + ((((input.2[1].get_m31(0) + (input.2[1].get_m31(1) * 512)) + (input.2[1].get_m31(2) * 262144)) - col5) - (134217728 * col6)))) * ((((((((((((((((((((((((((((0 + input.2[0].get_m31(0)) + input.2[0].get_m31(1)) + input.2[0].get_m31(2)) + input.2[0].get_m31(3)) + input.2[0].get_m31(4)) + input.2[0].get_m31(5)) + input.2[0].get_m31(6)) + input.2[0].get_m31(7)) + input.2[0].get_m31(8)) + input.2[0].get_m31(9)) + input.2[0].get_m31(10)) + input.2[0].get_m31(11)) + input.2[0].get_m31(12)) + input.2[0].get_m31(13)) + input.2[0].get_m31(14)) + input.2[0].get_m31(15)) + input.2[0].get_m31(16)) + input.2[0].get_m31(17)) + input.2[0].get_m31(18)) + input.2[0].get_m31(19)) + input.2[0].get_m31(20)) + input.2[0].get_m31(21)) + input.2[0].get_m31(22)) + input.2[0].get_m31(23)) + input.2[0].get_m31(24)) + input.2[0].get_m31(25)) + input.2[0].get_m31(26)) + input.2[0].get_m31(27)))",
+    "((col7 - (input.0.pc + input.1[19])) * ((((((((((((((((((((((((((((((0 + input.2[0].get_m31(0)) + input.2[0].get_m31(1)) + input.2[0].get_m31(2)) + input.2[0].get_m31(3)) + input.2[0].get_m31(4)) + input.2[0].get_m31(5)) + input.2[0].get_m31(6)) + input.2[0].get_m31(7)) + input.2[0].get_m31(8)) + input.2[0].get_m31(9)) + input.2[0].get_m31(10)) + input.2[0].get_m31(11)) + input.2[0].get_m31(12)) + input.2[0].get_m31(13)) + input.2[0].get_m31(14)) + input.2[0].get_m31(15)) + input.2[0].get_m31(16)) + input.2[0].get_m31(17)) + input.2[0].get_m31(18)) + input.2[0].get_m31(19)) + input.2[0].get_m31(20)) + input.2[0].get_m31(21)) + input.2[0].get_m31(22)) + input.2[0].get_m31(23)) + input.2[0].get_m31(24)) + input.2[0].get_m31(25)) + input.2[0].get_m31(26)) + input.2[0].get_m31(27)) * col3) - 1))",
+    "(col4 - (input.1[9] * ((((((((((((((((((((((((((((0 + input.2[0].get_m31(0)) + input.2[0].get_m31(1)) + input.2[0].get_m31(2)) + input.2[0].get_m31(3)) + input.2[0].get_m31(4)) + input.2[0].get_m31(5)) + input.2[0].get_m31(6)) + input.2[0].get_m31(7)) + input.2[0].get_m31(8)) + input.2[0].get_m31(9)) + input.2[0].get_m31(10)) + input.2[0].get_m31(11)) + input.2[0].get_m31(12)) + input.2[0].get_m31(13)) + input.2[0].get_m31(14)) + input.2[0].get_m31(15)) + input.2[0].get_m31(16)) + input.2[0].get_m31(17)) + input.2[0].get_m31(18)) + input.2[0].get_m31(19)) + input.2[0].get_m31(20)) + input.2[0].get_m31(21)) + input.2[0].get_m31(22)) + input.2[0].get_m31(23)) + input.2[0].get_m31(24)) + input.2[0].get_m31(25)) + input.2[0].get_m31(26)) + input.2[0].get_m31(27))))",
+    {
+      "fn_name": "CondFelt252AsAddr",
+      "input": "(input.2[0], input.1[13])",
+      "output": "((input.2[0].get_m31(0) + (input.2[0].get_m31(1) * 512)) + (input.2[0].get_m31(2) * 262144))"
+    },
+    {
+      "fn_name": "CondFelt252AsAddr",
+      "input": "(input.2[2], input.1[7])",
+      "output": "((input.2[2].get_m31(0) + (input.2[2].get_m31(1) * 512)) + (input.2[2].get_m31(2) * 262144))"
+    },
+    {
+      "fn_name": "CondFelt252AsRelImm",
+      "input": "(input.2[1], col4)",
+      "output": "((((input.2[1].get_m31(0) + (input.2[1].get_m31(1) * 512)) + (input.2[1].get_m31(2) * 262144)) - col5) - (134217728 * col6))"
+    },
+    {
+      "fn_name": "CondFelt252AsRelImm",
+      "input": "(input.2[2], (input.1[8] + input.1[10]))",
+      "output": "((((input.2[2].get_m31(0) + (input.2[2].get_m31(1) * 512)) + (input.2[2].get_m31(2) * 262144)) - col0) - (134217728 * col1))"
+    }
+  ],
+  "GenericOpcode": [
+    {
+      "fn_name": "DecodeGenericInstruction",
+      "input": "col0",
+      "output": "([col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, tmp21, tmp22, tmp23, tmp25, (1 + col8)], [(col3 - 32768), (col4 - 32768), (col5 - 32768)])"
+    },
+    {
+      "fn_name": "EvalOperands",
+      "input": "(tmp0, [col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, tmp21, tmp22, tmp23, tmp25, (1 + col8)], [(col3 - 32768), (col4 - 32768), (col5 - 32768)])",
+      "output": "[Felt252::from_limbs([col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49]), Felt252::from_limbs([col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78]), Felt252::from_limbs([col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97, col98, col99, col100, col101, col102, col103, col104, col105, col106, col107]), tmp146]"
+    },
+    {
+      "fn_name": "HandleOpcodes",
+      "input": "(tmp0, [col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, tmp21, tmp22, tmp23, tmp25, (1 + col8)], [(col3 - 32768), (col4 - 32768), (col5 - 32768)], [Felt252::from_limbs([col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49]), Felt252::from_limbs([col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78]), tmp146])",
+      "output": "()"
+    },
+    {
+      "fn_name": "UpdateRegisters",
+      "input": "(tmp0, [col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, tmp21, tmp22, tmp23, tmp25, (1 + col8)], [Felt252::from_limbs([col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49]), Felt252::from_limbs([col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97, col98, col99, col100, col101, col102, col103, col104, col105, col106, col107]), tmp146])",
+      "output": "{pc: ((((tmp23 * (col0 + (1 + col8))) + (col13 * ((col193 + (col194 * 512)) + (col195 * 262144)))) + (col14 * (col0 + ((((col193 + (col194 * 512)) + (col195 * 262144)) - col221) - (134217728 * col222))))) + (col15 * col228)), ap: (((col1 + (col16 * ((((col193 + (col194 * 512)) + (col195 * 262144)) - col221) - (134217728 * col222)))) + (col17 * 1)) + (col18 * 2)), fp: (((tmp25 * col2) + (col19 * ((col22 + (col23 * 512)) + (col24 * 262144)))) + (col18 * (col1 + 2)))}"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_95ed11aea2bb2eff": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "32767",
+        "32767",
+        "col0",
+        "1",
+        "1",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "AddApOpcode_is_imm_f_op1_base_fp_f": [
+    {
+      "fn_name": "DecodeInstruction_95ed11aea2bb2eff",
+      "input": "col0",
+      "output": "([2147483646, 2147483646, (col3 - 32768)], zero_extend([1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1]))"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(col1 + (col3 - 32768))",
+      "output": "(((((col7 + (col8 * 512)) + (col9 * 262144)) - col5) - (134217728 * col6)), col4)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_a14b71db698d77c8": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "32767",
+        "32767",
+        "32769",
+        "1",
+        "1",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "AddApOpcode_is_imm_t_op1_base_fp_f": [
+    {
+      "fn_name": "DecodeInstruction_a14b71db698d77c8",
+      "input": "col0",
+      "output": "([2147483646, 2147483646, 1], zero_extend([1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1]))"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(col0 + 1)",
+      "output": "(((((col6 + (col7 * 512)) + (col8 * 262144)) - col4) - (134217728 * col5)), col3)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_3a1aeaa2aac0bdcf": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "32767",
+        "32767",
+        "col0",
+        "1",
+        "1",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "AddApOpcode_is_imm_f_op1_base_fp_t": [
+    {
+      "fn_name": "DecodeInstruction_3a1aeaa2aac0bdcf",
+      "input": "col0",
+      "output": "([2147483646, 2147483646, (col3 - 32768)], zero_extend([1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1]))"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(col2 + (col3 - 32768))",
+      "output": "(((((col7 + (col8 * 512)) + (col9 * 262144)) - col5) - (134217728 * col6)), col4)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_9aed6a790187299c": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "col0",
+        "col1",
+        "32769",
+        "col2",
+        "col3",
+        "1",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "col4",
+        "0",
+        "0",
+        "1"
+      ]
+    }
+  ],
+  "AddOpcode_is_small_t_is_imm_t": [
+    "(((((col11 + (col12 * 512)) + (col13 * 262144)) - col9) - (134217728 * col10)) - (((((col17 + (col18 * 512)) + (col19 * 262144)) - col15) - (134217728 * col16)) + ((((col23 + (col24 * 512)) + (col25 * 262144)) - col21) - (134217728 * col22))))",
+    {
+      "fn_name": "DecodeInstruction_9aed6a790187299c",
+      "input": "col0",
+      "output": "([(col3 - 32768), (col4 - 32768), 1], [col5, col6, 1, 0, 0, 1, 0, 0, 0, 0, 0, col7, 0, 0, 1])"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(((col5 * col2) + ((1 - col5) * col1)) + (col3 - 32768))",
+      "output": "(((((col11 + (col12 * 512)) + (col13 * 262144)) - col9) - (134217728 * col10)), col8)"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col4 - 32768))",
+      "output": "(((((col17 + (col18 * 512)) + (col19 * 262144)) - col15) - (134217728 * col16)), col14)"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(col0 + 1)",
+      "output": "(((((col23 + (col24 * 512)) + (col25 * 262144)) - col21) - (134217728 * col22)), col20)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_52ce7a4a3d9be19a": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "col0",
+        "col1",
+        "col2",
+        "col3",
+        "col4",
+        "0",
+        "col5",
+        "col6",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "col7",
+        "0",
+        "0",
+        "1"
+      ]
+    }
+  ],
+  "AddOpcode_is_small_f_is_imm_f": [
+    "((col8 + col9) - 1)",
+    {
+      "fn_name": "DecodeInstruction_52ce7a4a3d9be19a",
+      "input": "col0",
+      "output": "([(col3 - 32768), (col4 - 32768), (col5 - 32768)], [col6, col7, 0, col8, col9, 1, 0, 0, 0, 0, 0, col10, 0, 0, 1])"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col3 - 32768))",
+      "output": "(Felt252::from_limbs([col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39]), col11)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((col7 * col2) + ((1 - col7) * col1)) + (col4 - 32768))",
+      "output": "(Felt252::from_limbs([col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68]), col40)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((col8 * col2) + (col9 * col1)) + (col5 - 32768))",
+      "output": "(Felt252::from_limbs([col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97]), col69)"
+    },
+    {
+      "fn_name": "VerifyAdd252",
+      "input": "[Felt252::from_limbs([col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68]), Felt252::from_limbs([col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97]), Felt252::from_limbs([col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39])]",
+      "output": "()"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "AddOpcode_is_small_t_is_imm_f": [
+    "(((((col14 + (col15 * 512)) + (col16 * 262144)) - col12) - (134217728 * col13)) - (((((col20 + (col21 * 512)) + (col22 * 262144)) - col18) - (134217728 * col19)) + ((((col26 + (col27 * 512)) + (col28 * 262144)) - col24) - (134217728 * col25))))",
+    "((col8 + col9) - 1)",
+    {
+      "fn_name": "DecodeInstruction_52ce7a4a3d9be19a",
+      "input": "col0",
+      "output": "([(col3 - 32768), (col4 - 32768), (col5 - 32768)], [col6, col7, 0, col8, col9, 1, 0, 0, 0, 0, 0, col10, 0, 0, 1])"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col3 - 32768))",
+      "output": "(((((col14 + (col15 * 512)) + (col16 * 262144)) - col12) - (134217728 * col13)), col11)"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(((col7 * col2) + ((1 - col7) * col1)) + (col4 - 32768))",
+      "output": "(((((col20 + (col21 * 512)) + (col22 * 262144)) - col18) - (134217728 * col19)), col17)"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(((col8 * col2) + (col9 * col1)) + (col5 - 32768))",
+      "output": "(((((col26 + (col27 * 512)) + (col28 * 262144)) - col24) - (134217728 * col25)), col23)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "AddOpcode_is_small_f_is_imm_t": [
+    {
+      "fn_name": "DecodeInstruction_9aed6a790187299c",
+      "input": "col0",
+      "output": "([(col3 - 32768), (col4 - 32768), 1], [col5, col6, 1, 0, 0, 1, 0, 0, 0, 0, 0, col7, 0, 0, 1])"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((col5 * col2) + ((1 - col5) * col1)) + (col3 - 32768))",
+      "output": "(Felt252::from_limbs([col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36]), col8)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col4 - 32768))",
+      "output": "(Felt252::from_limbs([col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65]), col37)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(col0 + 1)",
+      "output": "(Felt252::from_limbs([col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94]), col66)"
+    },
+    {
+      "fn_name": "VerifyAdd252",
+      "input": "[Felt252::from_limbs([col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65]), Felt252::from_limbs([col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94]), Felt252::from_limbs([col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36])]",
+      "output": "()"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_dc55adb272664963": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "col0",
+        "32767",
+        "col1",
+        "col2",
+        "1",
+        "0",
+        "col3",
+        "col4",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "col5",
+        "0",
+        "0",
+        "1"
+      ]
+    }
+  ],
+  "MemVerifyEqual": [
+    {
+      "relation_name": "MemoryAddressToId",
+      "felts": [
+        "input[0]",
+        "col0"
+      ]
+    },
+    {
+      "relation_name": "MemoryAddressToId",
+      "felts": [
+        "input[1]",
+        "col0"
+      ]
+    }
+  ],
+  "AssertEqOpcode_is_double_deref_f_is_imm_f": [
+    "((col6 + col7) - 1)",
+    {
+      "fn_name": "DecodeInstruction_dc55adb272664963",
+      "input": "col0",
+      "output": "([(col3 - 32768), 2147483646, (col4 - 32768)], [col5, 1, 0, col6, col7, 0, 0, 0, 0, 0, 0, col8, 0, 0, 1])"
+    },
+    {
+      "fn_name": "MemVerifyEqual",
+      "input": "[(((col5 * col2) + ((1 - col5) * col1)) + (col3 - 32768)), (((col6 * col2) + (col7 * col1)) + (col4 - 32768))]",
+      "output": "()"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_a2af169c0fec5c47": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "col0",
+        "col1",
+        "col2",
+        "col3",
+        "col4",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "col5",
+        "0",
+        "0",
+        "1"
+      ]
+    }
+  ],
+  "AssertEqOpcode_is_double_deref_t_is_imm_f": [
+    {
+      "fn_name": "DecodeInstruction_a2af169c0fec5c47",
+      "input": "col0",
+      "output": "([(col3 - 32768), (col4 - 32768), (col5 - 32768)], [col6, col7, 0, 0, 0, 0, 0, 0, 0, 0, 0, col8, 0, 0, 1])"
+    },
+    {
+      "fn_name": "MemVerifyEqual",
+      "input": "[(((col6 * col2) + ((1 - col6) * col1)) + (col3 - 32768)), (((col10 + (col11 * 512)) + (col12 * 262144)) + (col5 - 32768))]",
+      "output": "()"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "(((col7 * col2) + ((1 - col7) * col1)) + (col4 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col10, col11, col12])), col9)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_684cf7138ce526e3": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "col0",
+        "32767",
+        "32769",
+        "col1",
+        "1",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "col2",
+        "0",
+        "0",
+        "1"
+      ]
+    }
+  ],
+  "AssertEqOpcode_is_double_deref_f_is_imm_t": [
+    {
+      "fn_name": "DecodeInstruction_684cf7138ce526e3",
+      "input": "col0",
+      "output": "([(col3 - 32768), 2147483646, 1], [col4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, col5, 0, 0, 1])"
+    },
+    {
+      "fn_name": "MemVerifyEqual",
+      "input": "[(((col4 * col2) + ((1 - col4) * col1)) + (col3 - 32768)), (col0 + 1)]",
+      "output": "()"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_d06cc8770ddfafbc": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "32768",
+        "32769",
+        "col0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "CallOpcode_is_rel_f_op1_base_fp_f": [
+    "(((col5 + (col6 * 512)) + (col7 * 262144)) - col2)",
+    "(((col9 + (col10 * 512)) + (col11 * 262144)) - (col0 + 1))",
+    {
+      "fn_name": "DecodeInstruction_d06cc8770ddfafbc",
+      "input": "col0",
+      "output": "([0, 1, (col3 - 32768)], zero_extend([0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1]))"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "(col1 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col13, col14, col15])), col12)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "(col1 + 1)",
+      "output": "(Felt252::from_limbs(zero_extend([col9, col10, col11])), col8)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "col1",
+      "output": "(Felt252::from_limbs(zero_extend([col5, col6, col7])), col4)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_553df0b64b2e381f": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "32768",
+        "32769",
+        "32769",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "CallOpcode_is_rel_t_op1_base_fp_f": [
+    "(((col4 + (col5 * 512)) + (col6 * 262144)) - col2)",
+    "(((col8 + (col9 * 512)) + (col10 * 262144)) - (col0 + 2))",
+    {
+      "fn_name": "DecodeInstruction_553df0b64b2e381f",
+      "input": "col0",
+      "output": "([0, 1, 1], zero_extend([0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1]))"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "(col1 + 1)",
+      "output": "(Felt252::from_limbs(zero_extend([col8, col9, col10])), col7)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "col1",
+      "output": "(Felt252::from_limbs(zero_extend([col4, col5, col6])), col3)"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(col0 + 1)",
+      "output": "(((((col14 + (col15 * 512)) + (col16 * 262144)) - col12) - (134217728 * col13)), col11)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_52374a4f35d83024": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "32768",
+        "32769",
+        "col0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "CallOpcode_is_rel_f_op1_base_fp_t": [
+    "(((col5 + (col6 * 512)) + (col7 * 262144)) - col2)",
+    "(((col9 + (col10 * 512)) + (col11 * 262144)) - (col0 + 1))",
+    {
+      "fn_name": "DecodeInstruction_52374a4f35d83024",
+      "input": "col0",
+      "output": "([0, 1, (col3 - 32768)], zero_extend([0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1]))"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "(col1 + 1)",
+      "output": "(Felt252::from_limbs(zero_extend([col9, col10, col11])), col8)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "(col2 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col13, col14, col15])), col12)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "col1",
+      "output": "(Felt252::from_limbs(zero_extend([col5, col6, col7])), col4)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_113648125c3c3f56": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "col0",
+        "32767",
+        "32769",
+        "1",
+        "1",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "col1",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "JnzOpcode_is_taken_t_dst_base_fp_t": [
+    [
+      "tmp7",
+      "(col6 - 1)"
+    ],
+    [
+      "tmp8",
+      "(col27 - 136)"
+    ],
+    [
+      "tmp9",
+      "(col33 - 256)"
+    ],
+    "((((((((((((((((((((((((((((((0 + (tmp7 * tmp7)) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + (tmp8 * tmp8)) + col28) + col29) + col30) + col31) + col32) + (tmp9 * tmp9)) * col35) - 1)",
+    "((((((((((((((((((((((((((((((0 + col6) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + col27) + col28) + col29) + col30) + col31) + col32) + col33) * col34) - 1)",
+    {
+      "fn_name": "DecodeInstruction_113648125c3c3f56",
+      "input": "col0",
+      "output": "([(col3 - 32768), 2147483646, 1], zero_extend([1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, col4]))"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(col2 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs([col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33]), col5)"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(col0 + 1)",
+      "output": "(((((col39 + (col40 * 512)) + (col41 * 262144)) - col37) - (134217728 * col38)), col36)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_d2b4cd588a3e2a7b": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "col0",
+        "32767",
+        "32769",
+        "0",
+        "1",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "col1",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "JnzOpcode_is_taken_f_dst_base_fp_f": [
+    "((((((((((((((((((((((((((((0 + col6) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + col27) + col28) + col29) + col30) + col31) + col32) + col33)",
+    {
+      "fn_name": "DecodeInstruction_d2b4cd588a3e2a7b",
+      "input": "col0",
+      "output": "([(col3 - 32768), 2147483646, 1], zero_extend([0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, col4]))"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(col1 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs([col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33]), col5)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "JnzOpcode_is_taken_t_dst_base_fp_f": [
+    [
+      "tmp7",
+      "(col6 - 1)"
+    ],
+    [
+      "tmp8",
+      "(col27 - 136)"
+    ],
+    [
+      "tmp9",
+      "(col33 - 256)"
+    ],
+    "((((((((((((((((((((((((((((((0 + (tmp7 * tmp7)) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + (tmp8 * tmp8)) + col28) + col29) + col30) + col31) + col32) + (tmp9 * tmp9)) * col35) - 1)",
+    "((((((((((((((((((((((((((((((0 + col6) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + col27) + col28) + col29) + col30) + col31) + col32) + col33) * col34) - 1)",
+    {
+      "fn_name": "DecodeInstruction_d2b4cd588a3e2a7b",
+      "input": "col0",
+      "output": "([(col3 - 32768), 2147483646, 1], zero_extend([0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, col4]))"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(col1 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs([col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33]), col5)"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(col0 + 1)",
+      "output": "(((((col39 + (col40 * 512)) + (col41 * 262144)) - col37) - (134217728 * col38)), col36)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "JnzOpcode_is_taken_f_dst_base_fp_t": [
+    "((((((((((((((((((((((((((((0 + col6) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + col27) + col28) + col29) + col30) + col31) + col32) + col33)",
+    {
+      "fn_name": "DecodeInstruction_113648125c3c3f56",
+      "input": "col0",
+      "output": "([(col3 - 32768), 2147483646, 1], zero_extend([1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, col4]))"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(col2 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs([col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33]), col5)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_ccd4c4cd993af638": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "32767",
+        "32767",
+        "32769",
+        "1",
+        "1",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "col0",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "JumpOpcode_is_rel_t_is_imm_t_is_double_deref_f": [
+    {
+      "fn_name": "DecodeInstruction_ccd4c4cd993af638",
+      "input": "col0",
+      "output": "([2147483646, 2147483646, 1], zero_extend([1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, col3]))"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(col0 + 1)",
+      "output": "(((((col7 + (col8 * 512)) + (col9 * 262144)) - col5) - (134217728 * col6)), col4)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_2cd1887fb89e83e3": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "32767",
+        "32767",
+        "col0",
+        "1",
+        "1",
+        "0",
+        "col1",
+        "col2",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "col3",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "JumpOpcode_is_rel_t_is_imm_f_is_double_deref_f": [
+    "((col4 + col5) - 1)",
+    {
+      "fn_name": "DecodeInstruction_2cd1887fb89e83e3",
+      "input": "col0",
+      "output": "([2147483646, 2147483646, (col3 - 32768)], zero_extend([1, 1, 0, col4, col5, 0, 0, 0, 1, 0, 0, col6]))"
+    },
+    {
+      "fn_name": "ReadSmall",
+      "input": "(((col4 * col2) + (col5 * col1)) + (col3 - 32768))",
+      "output": "(((((col10 + (col11 * 512)) + (col12 * 262144)) - col8) - (134217728 * col9)), col7)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_d5cc27a6f788af1d": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "32767",
+        "col0",
+        "col1",
+        "1",
+        "col2",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "col3",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "JumpOpcode_is_rel_f_is_imm_f_is_double_deref_t": [
+    {
+      "fn_name": "DecodeInstruction_d5cc27a6f788af1d",
+      "input": "col0",
+      "output": "([2147483646, (col3 - 32768), (col4 - 32768)], zero_extend([1, col5, 0, 0, 0, 0, 0, 1, 0, 0, 0, col6]))"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "(((col5 * col2) + ((1 - col5) * col1)) + (col3 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col8, col9, col10])), col7)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "(((col8 + (col9 * 512)) + (col10 * 262144)) + (col4 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col12, col13, col14])), col11)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_ff344370bb4f7f54": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "32767",
+        "32767",
+        "col0",
+        "1",
+        "1",
+        "0",
+        "col1",
+        "col2",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "col3",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "JumpOpcode_is_rel_f_is_imm_f_is_double_deref_f": [
+    "((col4 + col5) - 1)",
+    {
+      "fn_name": "DecodeInstruction_ff344370bb4f7f54",
+      "input": "col0",
+      "output": "([2147483646, 2147483646, (col3 - 32768)], zero_extend([1, 1, 0, col4, col5, 0, 0, 1, 0, 0, 0, col6]))"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "(((col4 * col2) + (col5 * col1)) + (col3 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col8, col9, col10])), col7)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_cea21b812a0ef1a0": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "col0",
+        "col1",
+        "32769",
+        "col2",
+        "col3",
+        "1",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "col4",
+        "0",
+        "0",
+        "1"
+      ]
+    }
+  ],
+  "RangeCheck_3": [],
+  "RangeCheckLastLimb_bits_in_ms_limb_3": [
+    {
+      "relation_name": "RangeCheck_3",
+      "felts": [
+        "input"
+      ]
+    }
+  ],
+  "ReadPositive_num_bits_30": [
+    {
+      "fn_name": "RangeCheckLastLimb_bits_in_ms_limb_3",
+      "input": "col4",
+      "output": "()"
+    },
+    {
+      "relation_name": "MemoryAddressToId",
+      "felts": [
+        "input",
+        "col0"
+      ]
+    },
+    {
+      "relation_name": "MemoryIdToBig",
+      "felts": [
+        "col0",
+        "col1",
+        "col2",
+        "col3",
+        "col4",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "RangeCheck_6": [],
+  "RangeCheckLastLimb_bits_in_ms_limb_6": [
+    {
+      "relation_name": "RangeCheck_6",
+      "felts": [
+        "input"
+      ]
+    }
+  ],
+  "ReadPositive_num_bits_15": [
+    {
+      "fn_name": "RangeCheckLastLimb_bits_in_ms_limb_6",
+      "input": "col2",
+      "output": "()"
+    },
+    {
+      "relation_name": "MemoryAddressToId",
+      "felts": [
+        "input",
+        "col0"
+      ]
+    },
+    {
+      "relation_name": "MemoryIdToBig",
+      "felts": [
+        "col0",
+        "col1",
+        "col2",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
+      ]
+    }
+  ],
+  "MulOpcode_is_small_t_is_imm_t": [
+    "((((col9 + (col10 * 512)) + (col11 * 262144)) + (col12 * 134217728)) - ((col14 + (col15 * 512)) * (col17 + (col18 * 512))))",
+    {
+      "fn_name": "DecodeInstruction_cea21b812a0ef1a0",
+      "input": "col0",
+      "output": "([(col3 - 32768), (col4 - 32768), 1], [col5, col6, 1, 0, 0, 0, 1, 0, 0, 0, 0, col7, 0, 0, 1])"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_15",
+      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col4 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col14, col15])), col13)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_15",
+      "input": "(col0 + 1)",
+      "output": "(Felt252::from_limbs(zero_extend([col17, col18])), col16)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_30",
+      "input": "(((col5 * col2) + ((1 - col5) * col1)) + (col3 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col9, col10, col11, col12])), col8)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_15f7159a39884cc": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "col0",
+        "col1",
+        "col2",
+        "col3",
+        "col4",
+        "0",
+        "col5",
+        "col6",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "col7",
+        "0",
+        "0",
+        "1"
+      ]
+    }
+  ],
+  "MulOpcode_is_small_t_is_imm_f": [
+    "((((col12 + (col13 * 512)) + (col14 * 262144)) + (col15 * 134217728)) - ((col17 + (col18 * 512)) * (col20 + (col21 * 512))))",
+    "((col8 + col9) - 1)",
+    {
+      "fn_name": "DecodeInstruction_15f7159a39884cc",
+      "input": "col0",
+      "output": "([(col3 - 32768), (col4 - 32768), (col5 - 32768)], [col6, col7, 0, col8, col9, 0, 1, 0, 0, 0, 0, col10, 0, 0, 1])"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_15",
+      "input": "(((col7 * col2) + ((1 - col7) * col1)) + (col4 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col17, col18])), col16)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_15",
+      "input": "(((col8 * col2) + (col9 * col1)) + (col5 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col20, col21])), col19)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_30",
+      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col3 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col12, col13, col14, col15])), col11)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "MulOpcode_is_small_f_is_imm_f": [
+    "((col8 + col9) - 1)",
+    {
+      "fn_name": "DecodeInstruction_15f7159a39884cc",
+      "input": "col0",
+      "output": "([(col3 - 32768), (col4 - 32768), (col5 - 32768)], [col6, col7, 0, col8, col9, 0, 1, 0, 0, 0, 0, col10, 0, 0, 1])"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col3 - 32768))",
+      "output": "(Felt252::from_limbs([col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39]), col11)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((col7 * col2) + ((1 - col7) * col1)) + (col4 - 32768))",
+      "output": "(Felt252::from_limbs([col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68]), col40)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((col8 * col2) + (col9 * col1)) + (col5 - 32768))",
+      "output": "(Felt252::from_limbs([col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97]), col69)"
+    },
+    {
+      "fn_name": "VerifyMul252",
+      "input": "[Felt252::from_limbs([col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68]), Felt252::from_limbs([col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97]), Felt252::from_limbs([col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39])]",
+      "output": "()"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "MulOpcode_is_small_f_is_imm_t": [
+    {
+      "fn_name": "DecodeInstruction_cea21b812a0ef1a0",
+      "input": "col0",
+      "output": "([(col3 - 32768), (col4 - 32768), 1], [col5, col6, 1, 0, 0, 0, 1, 0, 0, 0, 0, col7, 0, 0, 1])"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((col5 * col2) + ((1 - col5) * col1)) + (col3 - 32768))",
+      "output": "(Felt252::from_limbs([col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36]), col8)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col4 - 32768))",
+      "output": "(Felt252::from_limbs([col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65]), col37)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_252",
+      "input": "(col0 + 1)",
+      "output": "(Felt252::from_limbs([col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94]), col66)"
+    },
+    {
+      "fn_name": "VerifyMul252",
+      "input": "[Felt252::from_limbs([col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65]), Felt252::from_limbs([col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94]), Felt252::from_limbs([col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36])]",
+      "output": "()"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ],
+  "DecodeInstruction_c94bba24192ecf68": [
+    {
+      "relation_name": "VerifyInstruction",
+      "felts": [
+        "input",
+        "32766",
+        "32767",
+        "32767",
+        "1",
+        "1",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "1",
+        "0"
+      ]
+    }
+  ],
+  "RetOpcode": [
+    {
+      "fn_name": "DecodeInstruction_c94bba24192ecf68",
+      "input": "col0",
+      "output": "([2147483645, 2147483646, 2147483646], zero_extend([1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1]))"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "(col2 - 1)",
+      "output": "(Felt252::from_limbs(zero_extend([col4, col5, col6])), col3)"
+    },
+    {
+      "fn_name": "ReadPositive_num_bits_27",
+      "input": "(col2 - 2)",
+      "output": "(Felt252::from_limbs(zero_extend([col8, col9, col10])), col7)"
+    },
+    {
+      "relation_name": "Opcodes",
+      "felts": [
+        "col0",
+        "col1",
+        "col2"
+      ]
+    }
+  ]
+}

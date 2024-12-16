@@ -1,7 +1,7 @@
 use compiled_casm_air::compiled_structs::CompiledAirVar;
+use compiled_casm_air::utils::INTERMEDIATE_VAR_SUFFIX;
 use prover_types::cpu::Bool;
 
-use super::air_fn::*;
 use super::expressions::bool_expr::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
@@ -15,7 +15,7 @@ fn test_expr_array() {
     // Let for deduction should change the element's names.
     assert_eq!(CompiledAirVar::from(array[0].clone()).to_string(), "x");
     assert_eq!(CompiledAirVar::from(array[1].clone()).to_string(), "y");
-    let prefix = format!("{}{}", INTERMEDIATE_VAR_PREFIX, 0);
+    let prefix = format!("{}{}", INTERMEDIATE_VAR_SUFFIX, 0);
     array = array.let_(prefix.clone(), IntermediateType::default());
     assert_eq!(
         CompiledAirVar::from(array[0].clone()).to_string(),
@@ -55,7 +55,7 @@ fn test_expr_tuple() {
     let mut tup = (bool_expr!("y", true), expr!("x", 5));
     assert_eq!(CompiledAirVar::from(tup.0.clone()).to_string(), "y");
     assert_eq!(CompiledAirVar::from(tup.1.clone()).to_string(), "x");
-    let prefix = format!("{}{}", INTERMEDIATE_VAR_PREFIX, 0);
+    let prefix = format!("{}{}", INTERMEDIATE_VAR_SUFFIX, 0);
     tup = tup.let_(prefix.clone(), IntermediateType::default());
     assert_eq!(
         CompiledAirVar::from(tup.0).to_string(),

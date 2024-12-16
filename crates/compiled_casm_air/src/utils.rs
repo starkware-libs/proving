@@ -13,6 +13,10 @@ pub const JSONS_OPCODES_DIR: &str = "../compiled_casm_air/src/opcodes/";
 pub const JSONS_BUILTINS_DIR: &str = "../compiled_casm_air/src/builtins/";
 pub const JSONS_LOOKUPS_DIR: &str = "../compiled_casm_air/src/lookups/";
 
+pub const INTERMEDIATE_VAR_SUFFIX: &str = "tmp";
+pub const STATE_VAR_SUFFIX: &str = "col";
+pub const INPUT_VAR_SUFFIX: &str = "input";
+
 impl Display for CompiledAirVar {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
@@ -36,9 +40,13 @@ impl Display for CompiledAirVar {
                 }
                 write!(f, ")")
             }
-            CompiledAirVar::Const(_, id) => write!(f, "const_{}", id),
-            CompiledAirVar::Var(_, id) => write!(f, "{}", id),
+            CompiledAirVar::Const(_, id) => write!(f, "{}", id),
+            CompiledAirVar::Var(_, id) => {
+                write!(f, "{}", remove_desc(id))
+            }
             CompiledAirVar::State(name) => {
+                // State variables must end with "colX", where X is an index.
+                let name = name.rfind(STATE_VAR_SUFFIX).map(|i| &name[i..]).unwrap();
                 write!(f, "{}", name)
             }
             CompiledAirVar::BinaryOp(lhs, op, rhs) => {
@@ -63,7 +71,7 @@ impl Display for CompiledAirVar {
                 write!(f, "{{{}}}", strs)
             }
             CompiledAirVar::ExternalState(name, i) => {
-                write!(f, "external_state({})[{}]", name, i)
+                write!(f, "{}_col{}", name, i)
             }
             CompiledAirVar::PublicParam(name) => {
                 write!(f, "public_params.{}", name)
@@ -72,12 +80,33 @@ impl Display for CompiledAirVar {
     }
 }
 
+// Removes descriptions and functions names/hashes from names of CompiledAirVar::Var.
+// The only variables that have these are temporary variables and input variables.
+// Temporary variables must end with "tmp_XXXX_Y", where XXXX is a shortened hash and Y is an
+// index. In tests we also have "tmpY". The returned name is "tmpY".
+// Input variables must end with "input" or "input.i" or "input[i]", where i is an
+// index. The returned name is this suffix.
+pub fn remove_desc(name: &str) -> String {
+    if let Some(i) = name.rfind(INTERMEDIATE_VAR_SUFFIX) {
+        return name.rfind('_').map_or_else(
+            || name[i..].to_string(),
+            |j| format!("{}{}", INTERMEDIATE_VAR_SUFFIX, &name[j + 1..]),
+        );
+    }
+
+    if let Some(i) = name.rfind(INPUT_VAR_SUFFIX) {
+        return name[i..].to_string();
+    }
+
+    name.to_string()
+}
+
 pub fn vars_arr_to_string(felts: &[CompiledAirVar]) -> String {
     let mut strs = felts.iter().map(ToString::to_string).collect::<Vec<_>>();
     let mut i = 0;
     let mut leading_zeros = false;
     for s in strs.iter().rev() {
-        if s == "const_0" {
+        if s == "0" {
             leading_zeros = true;
             i += 1;
         } else {

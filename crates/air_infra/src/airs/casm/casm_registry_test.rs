@@ -1,7 +1,10 @@
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirFnStat, LookupTerm, TraceGenStep, UseOrYield,
+    CompiledAirFn, CompiledAirFnStat, CompiledAirVar, ConstraintLeanCompare, LookupTerm,
+    TraceGenStep, UseOrYield,
 };
-use compiled_casm_air::utils::{JSONS_BUILTINS_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR};
+use compiled_casm_air::utils::{
+    remove_desc, JSONS_BUILTINS_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR,
+};
 use indexmap::IndexMap;
 
 // Builtins
@@ -21,6 +24,7 @@ use super::opcodes::ret_opcode::*;
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::felt252_id_memory::memory::*;
+use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
 const TRACE_COLUMNS_PER_LOGUP: usize = 2;
@@ -186,6 +190,16 @@ fn test_casm_registry() {
     // Ret opcode
     reg.add_entry(&RetOpcode::default());
 
+    //
+    let mut constraints = IndexMap::new();
+    for (name, entry) in reg.air_fns.borrow().iter() {
+        constraints.insert(name.clone(), get_constraints(entry));
+    }
+    compare_json(
+        &constraints,
+        &"../compiled_casm_air/src/constraints.json".to_string(),
+    );
+
     // Compile the registry, check the compiled entries jsons and collect the statistics.
     let compiled_reg = reg.compile();
     let mut stat = IndexMap::<String, CompiledAirFnStat>::new();
@@ -280,4 +294,71 @@ fn get_lookup_uses_count(deductions: Vec<TraceGenStep>) -> IndexMap<String, usiz
         }
     }
     lookup_uses
+}
+
+fn get_constraints(entry: &AirFnEntry) -> Vec<ConstraintLeanCompare> {
+    let mut res = vec![];
+
+    for comp in entry.air_body.clone().into_iter() {
+        match comp {
+            AirBodyComponent::Constraint(expr, _) => {
+                res.push(ConstraintLeanCompare::Constraint(
+                    CompiledAirVar::from(expr).to_string(),
+                ));
+            }
+            AirBodyComponent::Assignment {
+                constraint,
+                deduction: _,
+                desc: _,
+            } => {
+                res.push(ConstraintLeanCompare::Constraint(
+                    CompiledAirVar::from(constraint).to_string(),
+                ));
+            }
+            AirBodyComponent::Intermediate(
+                name,
+                expr,
+                IntermediateType {
+                    in_constraints: true,
+                    in_deductions: _,
+                },
+            ) => {
+                res.push(ConstraintLeanCompare::Intermediate(
+                    remove_desc(&name),
+                    CompiledAirVar::from(expr).to_string(),
+                ));
+            }
+            AirBodyComponent::Call(Call {
+                air_fn_name,
+                air_fn_description: _,
+                input_arg,
+                output,
+                air_body: _,
+            }) => {
+                res.push(ConstraintLeanCompare::Call {
+                    fn_name: air_fn_name,
+                    input: CompiledAirVar::from(input_arg).to_string(),
+                    output: CompiledAirVar::from(output).to_string(),
+                });
+            }
+            AirBodyComponent::LookupTerm {
+                relation_name,
+                felts,
+                use_or_yield: UseOrYield::Use,
+            } => {
+                let felts = felts
+                    .into_iter()
+                    .map(|f| CompiledAirVar::from(f).to_string())
+                    .collect::<Vec<_>>();
+                res.push(ConstraintLeanCompare::LookupTerm {
+                    relation_name,
+                    felts,
+                });
+            }
+            _ => {}
+        }
+    }
+
+    res.sort();
+    res
 }

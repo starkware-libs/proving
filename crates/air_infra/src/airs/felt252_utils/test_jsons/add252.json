@@ -4,16 +4,16 @@
   "inst_def": {},
   "input": [
     {
-      "name": "add252_input[0]",
+      "name": "input[0]",
       "type": "Felt252"
     },
     {
-      "name": "add252_input[1]",
+      "name": "input[1]",
       "type": "Felt252"
     }
   ],
   "output": {
-    "name": "add_res_tmp_dd24_0",
+    "name": "tmp0",
     "type": "Felt252"
   },
   "trace_type": "Inline",
@@ -22,7 +22,7 @@
       "Intermediate": [
         "add_res_tmp_dd24_0",
         {
-          "name": "(add252_input[0] + add252_input[1])",
+          "name": "(input[0] + input[1])",
           "type": "Felt252"
         },
         {
@@ -33,169 +33,169 @@
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_0)",
+        "tmp0.get_m31(0)",
         "add_res_limb_0"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_1)",
+        "tmp0.get_m31(1)",
         "add_res_limb_1"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_2)",
+        "tmp0.get_m31(2)",
         "add_res_limb_2"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_3)",
+        "tmp0.get_m31(3)",
         "add_res_limb_3"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_4)",
+        "tmp0.get_m31(4)",
         "add_res_limb_4"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_5)",
+        "tmp0.get_m31(5)",
         "add_res_limb_5"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_6)",
+        "tmp0.get_m31(6)",
         "add_res_limb_6"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_7)",
+        "tmp0.get_m31(7)",
         "add_res_limb_7"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_8)",
+        "tmp0.get_m31(8)",
         "add_res_limb_8"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_9)",
+        "tmp0.get_m31(9)",
         "add_res_limb_9"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_10)",
+        "tmp0.get_m31(10)",
         "add_res_limb_10"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_11)",
+        "tmp0.get_m31(11)",
         "add_res_limb_11"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_12)",
+        "tmp0.get_m31(12)",
         "add_res_limb_12"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_13)",
+        "tmp0.get_m31(13)",
         "add_res_limb_13"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_14)",
+        "tmp0.get_m31(14)",
         "add_res_limb_14"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_15)",
+        "tmp0.get_m31(15)",
         "add_res_limb_15"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_16)",
+        "tmp0.get_m31(16)",
         "add_res_limb_16"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_17)",
+        "tmp0.get_m31(17)",
         "add_res_limb_17"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_18)",
+        "tmp0.get_m31(18)",
         "add_res_limb_18"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_19)",
+        "tmp0.get_m31(19)",
         "add_res_limb_19"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_20)",
+        "tmp0.get_m31(20)",
         "add_res_limb_20"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_21)",
+        "tmp0.get_m31(21)",
         "add_res_limb_21"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_22)",
+        "tmp0.get_m31(22)",
         "add_res_limb_22"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_23)",
+        "tmp0.get_m31(23)",
         "add_res_limb_23"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_24)",
+        "tmp0.get_m31(24)",
         "add_res_limb_24"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_25)",
+        "tmp0.get_m31(25)",
         "add_res_limb_25"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_26)",
+        "tmp0.get_m31(26)",
         "add_res_limb_26"
       ]
     },
     {
       "Deduction": [
-        "add_res_tmp_dd24_0.get_m31(const_27)",
+        "tmp0.get_m31(27)",
         "add_res_limb_27"
       ]
     },
@@ -204,7 +204,7 @@
         "air_fn_name": "RangeCheckBigValue",
         "air_fn_description": "RangeCheckBigValue",
         "input_arg": {
-          "name": "add_res_tmp_dd24_0",
+          "name": "tmp0",
           "type": "Felt252"
         },
         "output": []
@@ -216,15 +216,15 @@
         "air_fn_description": "VerifyAdd252",
         "input_arg": [
           {
-            "name": "add252_input[0]",
+            "name": "input[0]",
             "type": "Felt252"
           },
           {
-            "name": "add252_input[1]",
+            "name": "input[1]",
             "type": "Felt252"
           },
           {
-            "name": "add_res_tmp_dd24_0",
+            "name": "tmp0",
             "type": "Felt252"
           }
         ],
@@ -235,119 +235,119 @@
   "state": {
     "row": [
       [
-        "add_res_limb_0_col0",
+        "col0",
         "add_res_limb_0"
       ],
       [
-        "add_res_limb_1_col1",
+        "col1",
         "add_res_limb_1"
       ],
       [
-        "add_res_limb_2_col2",
+        "col2",
         "add_res_limb_2"
       ],
       [
-        "add_res_limb_3_col3",
+        "col3",
         "add_res_limb_3"
       ],
       [
-        "add_res_limb_4_col4",
+        "col4",
         "add_res_limb_4"
       ],
       [
-        "add_res_limb_5_col5",
+        "col5",
         "add_res_limb_5"
       ],
       [
-        "add_res_limb_6_col6",
+        "col6",
         "add_res_limb_6"
       ],
       [
-        "add_res_limb_7_col7",
+        "col7",
         "add_res_limb_7"
       ],
       [
-        "add_res_limb_8_col8",
+        "col8",
         "add_res_limb_8"
       ],
       [
-        "add_res_limb_9_col9",
+        "col9",
         "add_res_limb_9"
       ],
       [
-        "add_res_limb_10_col10",
+        "col10",
         "add_res_limb_10"
       ],
       [
-        "add_res_limb_11_col11",
+        "col11",
         "add_res_limb_11"
       ],
       [
-        "add_res_limb_12_col12",
+        "col12",
         "add_res_limb_12"
       ],
       [
-        "add_res_limb_13_col13",
+        "col13",
         "add_res_limb_13"
       ],
       [
-        "add_res_limb_14_col14",
+        "col14",
         "add_res_limb_14"
       ],
       [
-        "add_res_limb_15_col15",
+        "col15",
         "add_res_limb_15"
       ],
       [
-        "add_res_limb_16_col16",
+        "col16",
         "add_res_limb_16"
       ],
       [
-        "add_res_limb_17_col17",
+        "col17",
         "add_res_limb_17"
       ],
       [
-        "add_res_limb_18_col18",
+        "col18",
         "add_res_limb_18"
       ],
       [
-        "add_res_limb_19_col19",
+        "col19",
         "add_res_limb_19"
       ],
       [
-        "add_res_limb_20_col20",
+        "col20",
         "add_res_limb_20"
       ],
       [
-        "add_res_limb_21_col21",
+        "col21",
         "add_res_limb_21"
       ],
       [
-        "add_res_limb_22_col22",
+        "col22",
         "add_res_limb_22"
       ],
       [
-        "add_res_limb_23_col23",
+        "col23",
         "add_res_limb_23"
       ],
       [
-        "add_res_limb_24_col24",
+        "col24",
         "add_res_limb_24"
       ],
       [
-        "add_res_limb_25_col25",
+        "col25",
         "add_res_limb_25"
       ],
       [
-        "add_res_limb_26_col26",
+        "col26",
         "add_res_limb_26"
       ],
       [
-        "add_res_limb_27_col27",
+        "col27",
         "add_res_limb_27"
       ],
       [
-        "sub_p_bit_col28",
+        "col28",
         "sub_p_bit"
       ]
     ]

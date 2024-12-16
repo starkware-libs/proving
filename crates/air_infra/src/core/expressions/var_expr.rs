@@ -1,7 +1,6 @@
 use compiled_casm_air::compiled_structs::CompiledAirVar;
 use prover_types::cpu::ProverType;
 
-use super::super::air_fn::*;
 use super::super::state::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -116,11 +115,6 @@ where
     T: ProverType,
 {
     fn from(v: VarExpr<T>) -> CompiledAirVar {
-        // v is an intermediate variable
-        if v.name.starts_with(INTERMEDIATE_VAR_PREFIX) {
-            return CompiledAirVar::Var(T::r#type(), v.name);
-        }
-
         // v is a constant
         if v.is_const {
             return CompiledAirVar::Const(

@@ -6,6 +6,7 @@ use std::fmt::Debug;
 use std::fmt::Display;
 use std::rc::Rc;
 
+use compiled_casm_air::utils::STATE_VAR_SUFFIX;
 use serde::Serialize;
 
 use super::expressions::felt_expr::*;
@@ -49,8 +50,8 @@ impl State {
 
     pub(super) fn get_cell_name(index: usize, desc: &Option<String>) -> String {
         match desc {
-            Some(desc) => format!("{}_col{}", desc, index),
-            None => format!("col{}", index),
+            Some(desc) => format!("{}_{}{}", desc, STATE_VAR_SUFFIX, index),
+            None => format!("{}{}", STATE_VAR_SUFFIX, index),
         }
     }
 
