@@ -284,11 +284,14 @@ fn generate_claim_generator_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
                 Self { inputs }
             }
 
-            pub fn write_trace(
+            pub fn write_trace<MC: MerkleChannel>(
                 mut self,
-                tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
+                tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
                 $(generate_sub_component_params(deductions))
-            ) -> (Claim, InteractionClaimGenerator) {
+            ) -> (Claim, InteractionClaimGenerator)
+            where
+                SimdBackend: BackendForChannel<MC>
+            {
                 $(write_trace_body_simd(deductions))
             }
 
@@ -558,11 +561,14 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
         impl InteractionClaimGenerator {
             // TODO(Ohad): Batch in pairs.
             // TODO(Ohad): use partial sums.
-            pub fn write_interaction_trace(
+            pub fn write_interaction_trace<MC: MerkleChannel>(
                 self,
-                tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
+                tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
                 $(lookup_elements)
-            ) -> InteractionClaim {
+            ) -> InteractionClaim
+            where
+                SimdBackend: BackendForChannel<MC>
+            {
                 let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
                 let mut logup_gen = LogupTraceGenerator::new(log_size);
 
@@ -677,18 +683,19 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
         use stwo_prover::constraint_framework::Relation;
         use stwo_prover::core::air::Component;
+        use stwo_prover::core::backend::BackendForChannel;
         use stwo_prover::core::backend::{Col, Column};
         use stwo_prover::core::backend::simd::column::BaseColumn;
         use stwo_prover::core::backend::simd::conversion::Unpack;
         use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
         use stwo_prover::core::backend::simd::qm31::PackedQM31;
         use stwo_prover::core::backend::simd::SimdBackend;
+        use stwo_prover::core::channel::{Channel, MerkleChannel};
         use stwo_prover::core::fields::m31::M31;
         use stwo_prover::core::pcs::TreeBuilder;
         use stwo_prover::core::poly::BitReversedOrder;
         use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
         use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
-        use stwo_prover::core::vcs::blake2_merkle::{Blake2sMerkleChannel, Blake2sMerkleHasher};
 
         use super::component::{Claim, InteractionClaim};
         use crate::components::pack_values;

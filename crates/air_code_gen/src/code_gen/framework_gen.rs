@@ -55,7 +55,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
         pub n_calls: usize,
     });
     let struct_code = quote! {
-        #[derive(Copy, Clone, Serialize, Deserialize)]
+        #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
         pub struct Claim {
             $(members)
         }
@@ -93,7 +93,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
 
 fn generate_interaction_claim_struct() -> rust::Tokens {
     let struct_code = quote! {
-        #[derive(Copy, Clone, Serialize, Deserialize)]
+        #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
         pub struct InteractionClaim {
             pub logup_sums: LogupSums,
         }
@@ -436,6 +436,7 @@ fn imports(_deductions: &[TraceGenStep]) -> rust::Tokens {
         #![allow(unused_imports)]
         use num_traits::{One, Zero};
         use serde::{Deserialize, Serialize};
+        use stwo_cairo_serialize::CairoSerialize;
         use stwo_prover::constraint_framework::logup::{LogupAtRow, LogupSums, LookupElements};
         use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval, RelationEntry};
         use stwo_prover::core::backend::simd::m31::LOG_N_LANES;
