@@ -150,72 +150,6 @@ fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
     code
 }
 
-/// Collects all M31 variables from an air variable.
-fn collect_m31_vars_from_air_var(air_var: &CompiledAirVar) -> Vec<String> {
-    match air_var {
-        CompiledAirVar::Const(..) => vec![],
-        CompiledAirVar::Var(ty, name) => {
-            if ty == "M31" {
-                vec![name.to_string()]
-            } else {
-                vec![]
-            }
-        }
-        CompiledAirVar::State(_) => vec![],
-        CompiledAirVar::StaticCall(_, vars) => vars
-            .iter()
-            .map(collect_m31_vars_from_air_var)
-            .collect_vec()
-            .concat(),
-        CompiledAirVar::MethodCall(_, _, vars) => vars
-            .iter()
-            .map(collect_m31_vars_from_air_var)
-            .collect_vec()
-            .concat(),
-        CompiledAirVar::BinaryOp(var_l, _, var_r) => [var_l, var_r]
-            .map(|var| collect_m31_vars_from_air_var(var))
-            .concat(),
-        CompiledAirVar::UnaryOp(_, var) => collect_m31_vars_from_air_var(var),
-        CompiledAirVar::Tuple(vars) => vars
-            .iter()
-            .map(collect_m31_vars_from_air_var)
-            .collect_vec()
-            .concat(),
-        CompiledAirVar::Array(vars) => vars
-            .iter()
-            .map(collect_m31_vars_from_air_var)
-            .collect_vec()
-            .concat(),
-        CompiledAirVar::Struct { r#type: _, fields } => fields
-            .iter()
-            .map(|(_, var)| collect_m31_vars_from_air_var(var))
-            .collect_vec()
-            .concat(),
-        CompiledAirVar::ExternalState(..) => vec![],
-        CompiledAirVar::PublicParam(_) => vec![],
-    }
-}
-
-/// Collects all M31 variables from a ConstraintEvalStep.
-fn collect_m31_vars_from_expr(constraint: &ConstraintEvalStep) -> Vec<String> {
-    match constraint {
-        ConstraintEvalStep::StartBlock(_) => vec![],
-        ConstraintEvalStep::EndBlock => vec![],
-        ConstraintEvalStep::Constraint(var, _) => collect_m31_vars_from_air_var(var),
-        ConstraintEvalStep::LookupTerm(term) => term
-            .felts
-            .iter()
-            .map(collect_m31_vars_from_air_var)
-            .collect_vec()
-            .concat(),
-        ConstraintEvalStep::Intermediate(Intermediate {
-            name: _,
-            r#type: _,
-            var,
-        }) => collect_m31_vars_from_air_var(var),
-    }
-}
-
 fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
 
@@ -245,13 +179,6 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         }
     }
 
-    let m31_vars = &lists
-        .constraints
-        .iter()
-        .map(collect_m31_vars_from_expr)
-        .collect_vec()
-        .concat();
-
     for constraint in lists.constraints.iter() {
         match constraint {
             ConstraintEvalStep::Constraint(expr, desc) => {
@@ -266,13 +193,8 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                     );
                 });
             }
-            ConstraintEvalStep::Intermediate(Intermediate {
-                name,
-                r#type: _,
-                var,
-            }) => {
-                // TODO(Ohad): change this condition once intermediate types are exported.
-                if m31_vars.contains(name) {
+            ConstraintEvalStep::Intermediate(Intermediate { name, r#type, var }) => {
+                if r#type == "M31" {
                     code.extend(quote! {
                         let $(name) = eval.add_intermediate(
                             $(parse_eval_constraint(var,&const_names))
