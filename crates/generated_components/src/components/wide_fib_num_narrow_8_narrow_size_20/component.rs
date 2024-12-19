@@ -18,7 +18,7 @@ use crate::relations;
 
 pub struct Eval {
     pub claim: Claim,
-    pub narrowfib_num_steps_20_lookup_elements: relations::NarrowFib_num_steps_20,
+    pub narrow_fib_num_steps_20_lookup_elements: relations::NarrowFibNumSteps20,
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
@@ -75,107 +75,107 @@ impl FrameworkEval for Eval {
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
         let col0 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col1 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col2 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col3 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col4 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col5 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col6 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col7 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col8 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col9 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col10 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col11 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col12 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col13 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col14 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col15 = eval.next_trace_mask();
-        let narrowfib_num_steps_20_output_col16 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col1 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col2 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col3 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col4 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col5 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col6 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col7 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col8 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col9 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col10 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col11 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col12 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col13 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col14 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col15 = eval.next_trace_mask();
+        let narrow_fib_num_steps_20_output_col16 = eval.next_trace_mask();
         eval.add_to_relation(RelationEntry::new(
-            &self.narrowfib_num_steps_20_lookup_elements,
+            &self.narrow_fib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
                 M31_1.clone(),
                 col0.clone(),
-                narrowfib_num_steps_20_output_col1.clone(),
-                narrowfib_num_steps_20_output_col2.clone(),
+                narrow_fib_num_steps_20_output_col1.clone(),
+                narrow_fib_num_steps_20_output_col2.clone(),
             ],
         ));
 
         eval.add_to_relation(RelationEntry::new(
-            &self.narrowfib_num_steps_20_lookup_elements,
+            &self.narrow_fib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
-                narrowfib_num_steps_20_output_col1.clone(),
-                narrowfib_num_steps_20_output_col2.clone(),
-                narrowfib_num_steps_20_output_col3.clone(),
-                narrowfib_num_steps_20_output_col4.clone(),
+                narrow_fib_num_steps_20_output_col1.clone(),
+                narrow_fib_num_steps_20_output_col2.clone(),
+                narrow_fib_num_steps_20_output_col3.clone(),
+                narrow_fib_num_steps_20_output_col4.clone(),
             ],
         ));
 
         eval.add_to_relation(RelationEntry::new(
-            &self.narrowfib_num_steps_20_lookup_elements,
+            &self.narrow_fib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
-                narrowfib_num_steps_20_output_col3.clone(),
-                narrowfib_num_steps_20_output_col4.clone(),
-                narrowfib_num_steps_20_output_col5.clone(),
-                narrowfib_num_steps_20_output_col6.clone(),
+                narrow_fib_num_steps_20_output_col3.clone(),
+                narrow_fib_num_steps_20_output_col4.clone(),
+                narrow_fib_num_steps_20_output_col5.clone(),
+                narrow_fib_num_steps_20_output_col6.clone(),
             ],
         ));
 
         eval.add_to_relation(RelationEntry::new(
-            &self.narrowfib_num_steps_20_lookup_elements,
+            &self.narrow_fib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
-                narrowfib_num_steps_20_output_col5.clone(),
-                narrowfib_num_steps_20_output_col6.clone(),
-                narrowfib_num_steps_20_output_col7.clone(),
-                narrowfib_num_steps_20_output_col8.clone(),
+                narrow_fib_num_steps_20_output_col5.clone(),
+                narrow_fib_num_steps_20_output_col6.clone(),
+                narrow_fib_num_steps_20_output_col7.clone(),
+                narrow_fib_num_steps_20_output_col8.clone(),
             ],
         ));
 
         eval.add_to_relation(RelationEntry::new(
-            &self.narrowfib_num_steps_20_lookup_elements,
+            &self.narrow_fib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
-                narrowfib_num_steps_20_output_col7.clone(),
-                narrowfib_num_steps_20_output_col8.clone(),
-                narrowfib_num_steps_20_output_col9.clone(),
-                narrowfib_num_steps_20_output_col10.clone(),
+                narrow_fib_num_steps_20_output_col7.clone(),
+                narrow_fib_num_steps_20_output_col8.clone(),
+                narrow_fib_num_steps_20_output_col9.clone(),
+                narrow_fib_num_steps_20_output_col10.clone(),
             ],
         ));
 
         eval.add_to_relation(RelationEntry::new(
-            &self.narrowfib_num_steps_20_lookup_elements,
+            &self.narrow_fib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
-                narrowfib_num_steps_20_output_col9.clone(),
-                narrowfib_num_steps_20_output_col10.clone(),
-                narrowfib_num_steps_20_output_col11.clone(),
-                narrowfib_num_steps_20_output_col12.clone(),
+                narrow_fib_num_steps_20_output_col9.clone(),
+                narrow_fib_num_steps_20_output_col10.clone(),
+                narrow_fib_num_steps_20_output_col11.clone(),
+                narrow_fib_num_steps_20_output_col12.clone(),
             ],
         ));
 
         eval.add_to_relation(RelationEntry::new(
-            &self.narrowfib_num_steps_20_lookup_elements,
+            &self.narrow_fib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
-                narrowfib_num_steps_20_output_col11.clone(),
-                narrowfib_num_steps_20_output_col12.clone(),
-                narrowfib_num_steps_20_output_col13.clone(),
-                narrowfib_num_steps_20_output_col14.clone(),
+                narrow_fib_num_steps_20_output_col11.clone(),
+                narrow_fib_num_steps_20_output_col12.clone(),
+                narrow_fib_num_steps_20_output_col13.clone(),
+                narrow_fib_num_steps_20_output_col14.clone(),
             ],
         ));
 
         eval.add_to_relation(RelationEntry::new(
-            &self.narrowfib_num_steps_20_lookup_elements,
+            &self.narrow_fib_num_steps_20_lookup_elements,
             E::EF::one(),
             &[
-                narrowfib_num_steps_20_output_col13.clone(),
-                narrowfib_num_steps_20_output_col14.clone(),
-                narrowfib_num_steps_20_output_col15.clone(),
-                narrowfib_num_steps_20_output_col16.clone(),
+                narrow_fib_num_steps_20_output_col13.clone(),
+                narrow_fib_num_steps_20_output_col14.clone(),
+                narrow_fib_num_steps_20_output_col15.clone(),
+                narrow_fib_num_steps_20_output_col16.clone(),
             ],
         ));
 

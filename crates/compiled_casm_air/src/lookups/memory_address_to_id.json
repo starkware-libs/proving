@@ -1,0 +1,58 @@
+{
+  "name": "memory_address_to_id",
+  "relation_name": "MemoryAddressToId",
+  "description": "Memory Address To Id",
+  "input": {
+    "Var": [
+      "M31",
+      "memory_address_to_id_input"
+    ]
+  },
+  "output": {
+    "State": "memory_address_to_id_output_col0"
+  },
+  "state_names": [
+    "memory_address_to_id_output_col0"
+  ],
+  "lookup_names": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "ExternalState": [
+              "Seq",
+              0
+            ]
+          },
+          {
+            "State": "memory_address_to_id_output_col0"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "ExternalState": [
+              "Seq",
+              0
+            ]
+          },
+          {
+            "State": "memory_address_to_id_output_col0"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "multiplicity_col_index": 1,
+  "n_lookup_terms": 1
+}

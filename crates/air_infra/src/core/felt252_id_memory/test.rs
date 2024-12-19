@@ -160,11 +160,7 @@ fn test_read_small_entry_json() {
     let (_, entry) = AirFnRegistry::new(&ReadSmall::default());
     compare_json(
         &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_MEMORY_DIR,
-            entry.name.to_lowercase()
-        ),
+        &format!("{}{}.json", TEST_JSONS_MEMORY_DIR, entry.name),
     );
 }
 
@@ -187,11 +183,7 @@ fn test_read_positive_entry_json() {
     });
     compare_json(
         &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_MEMORY_DIR,
-            entry.name.to_lowercase()
-        ),
+        &format!("{}{}.json", TEST_JSONS_MEMORY_DIR, entry.name),
     );
 }
 

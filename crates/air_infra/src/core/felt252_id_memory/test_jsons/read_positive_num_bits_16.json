@@ -1,0 +1,155 @@
+{
+  "name": "read_positive_num_bits_16",
+  "relation_name": null,
+  "description": "Read Positive Num Bits 16",
+  "inst_def": {
+    "num_bits": "16"
+  },
+  "input": {
+    "name": "input",
+    "type": "M31"
+  },
+  "output": [
+    {
+      "name": "Felt252::from_limbs(zero_extend([col1, col2]))",
+      "type": "Felt252"
+    },
+    {
+      "name": "col0",
+      "type": "M31"
+    }
+  ],
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "LookupCall": {
+        "air_fn_name": "memory_address_to_id",
+        "input_arg": {
+          "name": "input",
+          "type": "M31"
+        },
+        "output_name": "memory_address_to_id_value_tmp_f3ab_0"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "memory_id_to_big",
+        "input_arg": {
+          "name": "tmp0",
+          "type": "M31"
+        },
+        "output_name": "memory_id_to_big_value_tmp_f3ab_1"
+      }
+    },
+    {
+      "Deduction": [
+        "tmp0",
+        "read_positive_num_bits_16_input_id"
+      ]
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "memory_address_to_id",
+        "input_arg": {
+          "name": "input",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          "input",
+          "col0"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Deduction": [
+        "tmp1.get_m31(0)",
+        "read_positive_num_bits_16_input_limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp1.get_m31(1)",
+        "read_positive_num_bits_16_input_limb_1"
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "range_check_last_limb_bits_in_ms_limb_7",
+        "air_fn_description": "Range Check Last Limb Bits In Ms Limb 7",
+        "input_arg": {
+          "name": "col2",
+          "type": "M31"
+        },
+        "output": []
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "memory_id_to_big",
+        "input_arg": {
+          "name": "col0",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          "col0",
+          "col1",
+          "col2",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0"
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ],
+  "state": {
+    "row": [
+      [
+        "col0",
+        "read_positive_num_bits_16_input_id"
+      ],
+      [
+        "col1",
+        "read_positive_num_bits_16_input_limb_0"
+      ],
+      [
+        "col2",
+        "read_positive_num_bits_16_input_limb_1"
+      ]
+    ]
+  }
+}

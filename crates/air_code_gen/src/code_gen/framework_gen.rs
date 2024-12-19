@@ -3,6 +3,7 @@ use std::collections::{HashMap, HashSet};
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm, TraceGenStep, UseOrYield,
 };
+use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
 use itertools::{chain, Itertools};
@@ -38,7 +39,7 @@ fn generate_component_structs(constraints: &[ConstraintEvalStep]) -> rust::Token
     // Sub-components Lookup elements.
     for relation in unique_constraint_relations(constraints) {
         members.append(quote! {
-            pub $(&relation.to_lowercase())_lookup_elements: relations::$(relation),
+            pub $(&relation.to_case(Case::Snake))_lookup_elements: relations::$(relation),
         });
     }
 
@@ -466,7 +467,7 @@ fn parse_lookup_constraint(
     };
     quote! {
         eval.add_to_relation(RelationEntry::new(&self.
-            $(relation_name.to_lowercase())_lookup_elements,
+            $(relation_name.to_case(Case::Snake))_lookup_elements,
             $(sign)E::EF::one(), &[$(lookup_values.join(","))]));
     }
 }

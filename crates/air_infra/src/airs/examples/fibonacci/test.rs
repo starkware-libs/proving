@@ -18,10 +18,7 @@ fn test_wide_fibonacci() {
 
     // Check entries
     for (name, (_, entry)) in registry.compile().iter() {
-        compare_json(
-            &entry,
-            &format!("{}{}.json", TEST_JSONS_EXAMPLES_DIR, name.to_lowercase()),
-        );
+        compare_json(&entry, &format!("{}{}.json", TEST_JSONS_EXAMPLES_DIR, name));
     }
 }
 
@@ -40,10 +37,6 @@ fn test_fibonacci() {
     // Check entry
     compare_json(
         &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_EXAMPLES_DIR,
-            entry.name.to_lowercase()
-        ),
+        &format!("{}{}.json", TEST_JSONS_EXAMPLES_DIR, entry.name),
     );
 }

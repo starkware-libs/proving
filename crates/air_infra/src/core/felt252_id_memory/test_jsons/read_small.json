@@ -1,0 +1,186 @@
+{
+  "name": "read_small",
+  "relation_name": null,
+  "description": "Read Small",
+  "inst_def": {},
+  "input": {
+    "name": "input",
+    "type": "M31"
+  },
+  "output": [
+    {
+      "name": "((((col3 + (col4 * 512)) + (col5 * 262144)) - col1) - (134217728 * col2))",
+      "type": "M31"
+    },
+    {
+      "name": "col0",
+      "type": "M31"
+    }
+  ],
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "LookupCall": {
+        "air_fn_name": "memory_address_to_id",
+        "input_arg": {
+          "name": "input",
+          "type": "M31"
+        },
+        "output_name": "memory_address_to_id_value_tmp_ceaa_0"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "memory_id_to_big",
+        "input_arg": {
+          "name": "tmp0",
+          "type": "M31"
+        },
+        "output_name": "memory_id_to_big_value_tmp_ceaa_1"
+      }
+    },
+    {
+      "Deduction": [
+        "tmp0",
+        "read_small_input_id"
+      ]
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "memory_address_to_id",
+        "input_arg": {
+          "name": "input",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          "input",
+          "col0"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "cond_decode_small_sign",
+        "air_fn_description": "Cond Decode Small Sign",
+        "input_arg": [
+          {
+            "name": "tmp1",
+            "type": "Felt252"
+          },
+          {
+            "name": "1",
+            "type": "M31"
+          }
+        ],
+        "output": [
+          {
+            "name": "col1",
+            "type": "M31"
+          },
+          {
+            "name": "col2",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "Deduction": [
+        "tmp1.get_m31(0)",
+        "read_small_input_limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp1.get_m31(1)",
+        "read_small_input_limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp1.get_m31(2)",
+        "read_small_input_limb_2"
+      ]
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "memory_id_to_big",
+        "input_arg": {
+          "name": "col0",
+          "type": "M31"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          "col0",
+          "col3",
+          "col4",
+          "col5",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "(col2 * 511)",
+          "((136 * col1) - col2)",
+          "0",
+          "0",
+          "0",
+          "0",
+          "0",
+          "(col1 * 256)"
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ],
+  "state": {
+    "row": [
+      [
+        "col0",
+        "read_small_input_id"
+      ],
+      [
+        "col1",
+        "msb"
+      ],
+      [
+        "col2",
+        "mid_limbs_set"
+      ],
+      [
+        "col3",
+        "read_small_input_limb_0"
+      ],
+      [
+        "col4",
+        "read_small_input_limb_1"
+      ],
+      [
+        "col5",
+        "read_small_input_limb_2"
+      ]
+    ]
+  }
+}

@@ -18,7 +18,7 @@ use crate::relations;
 
 pub struct Eval {
     pub claim: Claim,
-    pub narrowfib_num_steps_20_lookup_elements: relations::NarrowFib_num_steps_20,
+    pub narrow_fib_num_steps_20_lookup_elements: relations::NarrowFibNumSteps20,
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
@@ -96,7 +96,7 @@ impl FrameworkEval for Eval {
         let col20 = eval.next_trace_mask();
         let col21 = eval.next_trace_mask();
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col2.clone()
@@ -104,123 +104,123 @@ impl FrameworkEval for Eval {
                     + (input_col1.clone() * input_col1.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col3.clone()
                 - ((input_col1.clone() * input_col1.clone()) + (col2.clone() * col2.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col4.clone() - ((col2.clone() * col2.clone()) + (col3.clone() * col3.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col5.clone() - ((col3.clone() * col3.clone()) + (col4.clone() * col4.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col6.clone() - ((col4.clone() * col4.clone()) + (col5.clone() * col5.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col7.clone() - ((col5.clone() * col5.clone()) + (col6.clone() * col6.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col8.clone() - ((col6.clone() * col6.clone()) + (col7.clone() * col7.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col9.clone() - ((col7.clone() * col7.clone()) + (col8.clone() * col8.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col10.clone() - ((col8.clone() * col8.clone()) + (col9.clone() * col9.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col11.clone() - ((col9.clone() * col9.clone()) + (col10.clone() * col10.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col12.clone() - ((col10.clone() * col10.clone()) + (col11.clone() * col11.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col13.clone() - ((col11.clone() * col11.clone()) + (col12.clone() * col12.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col14.clone() - ((col12.clone() * col12.clone()) + (col13.clone() * col13.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col15.clone() - ((col13.clone() * col13.clone()) + (col14.clone() * col14.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col16.clone() - ((col14.clone() * col14.clone()) + (col15.clone() * col15.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col17.clone() - ((col15.clone() * col15.clone()) + (col16.clone() * col16.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col18.clone() - ((col16.clone() * col16.clone()) + (col17.clone() * col17.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col19.clone() - ((col17.clone() * col17.clone()) + (col18.clone() * col18.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col20.clone() - ((col18.clone() * col18.clone()) + (col19.clone() * col19.clone()))),
         );
 
-        // FibStep.
+        // Fib Step.
 
         eval.add_constraint(
             (col21.clone() - ((col19.clone() * col19.clone()) + (col20.clone() * col20.clone()))),
         );
 
         eval.add_to_relation(RelationEntry::new(
-            &self.narrowfib_num_steps_20_lookup_elements,
+            &self.narrow_fib_num_steps_20_lookup_elements,
             -E::EF::one(),
             &[
                 input_col0.clone(),

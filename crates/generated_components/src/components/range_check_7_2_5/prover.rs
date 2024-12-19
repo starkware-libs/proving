@@ -62,7 +62,7 @@ pub fn write_trace_simd(
 #[allow(unused_variables)]
 fn write_trace_row(
     dst: &mut [Col<SimdBackend, M31>],
-    rangecheck_n_3_bits_7_2_5_input: InputType,
+    range_check_n_3_bits_7_2_5_input: InputType,
     row_index: usize,
     sub_component_inputs: &mut SubComponentInputs,
     lookup_data: &mut LookupData,
@@ -71,13 +71,13 @@ fn write_trace_row(
 
 #[allow(non_snake_case)]
 pub struct LookupData {
-    pub rangecheck_n_3_bits_7_2_5: [Vec<Vec<PackedM31>>; 1],
+    pub range_check_n_3_bits_7_2_5: [Vec<Vec<PackedM31>>; 1],
 }
 impl LookupData {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            rangecheck_n_3_bits_7_2_5: [Vec::with_capacity(capacity)],
+            range_check_n_3_bits_7_2_5: [Vec::with_capacity(capacity)],
         }
     }
 }
@@ -90,7 +90,7 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,
-        rangecheck_n_3_bits_7_2_5_lookup_elements: &range_check_7_2_5::RelationElements,
+        range_check_n_3_bits_7_2_5_lookup_elements: &range_check_7_2_5::RelationElements,
     ) -> InteractionClaim {
         todo!()
     }

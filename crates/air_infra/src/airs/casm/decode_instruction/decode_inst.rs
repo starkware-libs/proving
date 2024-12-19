@@ -115,4 +115,8 @@ impl AirFn for DecodeInstruction {
             flags_vec,
         )
     }
+
+    fn description(&self) -> String {
+        "Decode Instruction".to_string()
+    }
 }

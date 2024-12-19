@@ -3,12 +3,13 @@ use std::collections::{HashMap, HashSet};
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, LookupTerm, TraceGenStep, UseOrYield,
 };
+use convert_case::{Case, Casing};
 use genco::lang::{rust, Rust};
 use genco::quote;
 use itertools::{chain, Itertools};
 
 use super::framework_gen::seek_consts;
-use super::utils::{block_doc, camel_to_snake, unique_relation_calls};
+use super::utils::{block_doc, unique_relation_calls};
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
@@ -88,15 +89,14 @@ fn generate_simd_write_trace_body_code(
                 output_name,
             } => {
                 let input = simd_parse_air_var(input, const_names);
-                let fn_name = camel_to_snake(fn_name);
                 if let Some(output_name) = output_name {
-                    let delimiter = if is_stateful(&fn_name) {
+                    let delimiter = if is_stateful(fn_name) {
                         STATE_SUFFIX.to_owned() + "."
                     } else {
                         "::".to_owned()
                     };
                     write_trace_body.extend(quote! {
-                            let $(output_name) = $(camel_to_snake(&fn_name))$(delimiter)deduce_output(
+                            let $(output_name) = $(fn_name)$(delimiter)deduce_output(
                                 $(input)
                             );
                     });
@@ -123,7 +123,7 @@ fn generate_simd_write_trace_body_code(
                 let felts = &felts;
                 let collect_felts = quote! {
                     // TODO(Ohad): change this to not vec.
-                    lookup_data.$(relation_name.to_lowercase())[$(*offset)].push([$(felts)]);
+                    lookup_data.$(relation_name.to_case(Case::Snake))[$(*offset)].push([$(felts)]);
                 };
                 write_trace_body.extend(collect_felts);
                 *offset += 1;
@@ -132,7 +132,7 @@ fn generate_simd_write_trace_body_code(
                 let offset = add_inputs_offsets.get_mut(fn_name).unwrap();
                 write_trace_body.extend(quote! {
                     sub_components$INPUTS_SUFFIX
-                        .$(camel_to_snake(fn_name))$INPUTS_SUFFIX[$(offset.to_string())]
+                        .$(fn_name)$INPUTS_SUFFIX[$(offset.to_string())]
                         .extend($(simd_parse_air_var(input, const_names)).unpack());
                 });
                 *offset += 1;
@@ -203,7 +203,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
             $(constants_def_code)
 
             inputs.into_iter()
-                .enumerate().for_each(|(row_index, $(camel_to_snake(&lists.name))_input)| {
+                .enumerate().for_each(|(row_index, $(&lists.name)_input)| {
                 $(generate_simd_write_trace_body_code(lists,&const_names))
             });
 
@@ -343,12 +343,11 @@ fn generate_sub_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
         unique_add_input_calls(deductions)
     ]
     .collect_vec();
-    context.sort_by_key(|a| a.to_lowercase());
+    context.sort_by_key(|a| a.clone());
     context.dedup();
 
     let mut params = rust::Tokens::new();
     for fn_name in context {
-        let fn_name = camel_to_snake(&fn_name);
         params.extend(quote! {
             $(&fn_name)$STATE_SUFFIX: &mut $(fn_name)::ClaimGenerator,
         });
@@ -358,7 +357,7 @@ fn generate_sub_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
 
 // TODO(Ohad): get that information from the air infra.
 fn is_stateful(fn_name: &str) -> bool {
-    fn_name.to_lowercase().contains("mem")
+    fn_name.contains("mem")
 }
 
 // Generates the parameters for `write_trace_simd` function.
@@ -368,7 +367,6 @@ fn generate_stateful_component_params(deductions: &[TraceGenStep]) -> rust::Toke
     for fn_name in unique_function_calls(deductions) {
         // TODO(Ohad): get information about which function is stateful.
         if is_stateful(&fn_name) {
-            let fn_name = camel_to_snake(&fn_name);
             params.extend(quote! {
                 $(&fn_name)$STATE_SUFFIX: &mut $(fn_name)::ClaimGenerator,
             });
@@ -384,7 +382,7 @@ fn generate_stateful_component_args(deductions: &[TraceGenStep]) -> rust::Tokens
         // TODO(Ohad): get information about which function is stateful.
         if is_stateful(&fn_name) {
             args.extend(quote! {
-                $(camel_to_snake(&fn_name))$STATE_SUFFIX,
+                $(fn_name)$STATE_SUFFIX,
             });
         }
     }
@@ -395,8 +393,8 @@ fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Token
     let mut statement = rust::Tokens::new();
     for fn_name in unique_add_input_calls(deductions).iter() {
         statement.extend(quote! {
-            sub_components$INPUTS_SUFFIX.$(camel_to_snake(fn_name))$INPUTS_SUFFIX.iter().for_each(|inputs| {
-                $(camel_to_snake(fn_name))$STATE_SUFFIX.add_inputs(&inputs[..n_calls]);
+            sub_components$INPUTS_SUFFIX.$(fn_name)$INPUTS_SUFFIX.iter().for_each(|inputs| {
+                $(fn_name)$STATE_SUFFIX.add_inputs(&inputs[..n_calls]);
             });
         })
     }
@@ -473,14 +471,13 @@ pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rus
     }
 
     for (&fn_name, &offset) in add_inputs_offsets.iter().sorted_by(|a, b| a.0.cmp(b.0)) {
-        let fn_name = camel_to_snake(fn_name);
         members_code.extend(quote! {
-            pub $(&fn_name)$INPUTS_SUFFIX: [Vec<$(&fn_name)::InputType>; $(offset)],
+            pub $(fn_name.clone())$INPUTS_SUFFIX: [Vec<$(fn_name.clone())::InputType>; $(offset)],
         });
         let inner_vecs = (0..offset)
             .map(|_| quote! {Vec::with_capacity(capacity),})
             .collect_vec();
-        initialization_code.extend(quote!($(&fn_name)$INPUTS_SUFFIX: [$(inner_vecs)],));
+        initialization_code.extend(quote!($(fn_name.clone())$INPUTS_SUFFIX: [$(inner_vecs)],));
         bit_reverse_code.extend(quote! {
             self.$(fn_name)$INPUTS_SUFFIX
                 .iter_mut()
@@ -526,7 +523,7 @@ pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens 
     for (&(relation_name, width), &offset) in
         relation_offsets.iter().sorted_by(|a, b| a.0 .0.cmp(b.0 .0))
     {
-        let relation_name = relation_name.to_lowercase();
+        let relation_name = relation_name.to_case(Case::Snake);
         members_code.extend(quote! {
             pub $(&relation_name): [Vec<[PackedM31; $width]>; $(offset)],
         });
@@ -553,7 +550,7 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut lookup_elements = quote! {};
     for relation_name in unique_relation_calls(deductions).iter() {
         lookup_elements.extend(quote! {
-            $(relation_name.to_lowercase())_lookup_elements:
+            $(relation_name.to_case(Case::Snake))_lookup_elements:
                     &relations::$(relation_name),
         });
     }
@@ -618,10 +615,10 @@ fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::T
         code.extend(quote! {
                 let mut col_gen = logup_gen.new_col();
                 let lookup_row = &self.lookup_data
-                                .$(relation_name.to_lowercase())[$(*term_offset)];
+                                .$(relation_name.to_case(Case::Snake))[$(*term_offset)];
                 for (i, lookup_values) in lookup_row.iter().enumerate() {
                     let denom =
-                        $(&relation_name.to_lowercase())_lookup_elements.combine(lookup_values);
+                        $(&relation_name.to_case(Case::Snake))_lookup_elements.combine(lookup_values);
                     col_gen.write_frac(i, $(sign)PackedQM31::one(), denom);
                 }
                 col_gen.finalize_col();
@@ -641,7 +638,7 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
             TraceGenStep::LookupCall { fn_name, .. } => {
                 if seen_functions.insert(fn_name) {
                     code.extend(quote! {
-                        use crate::components::$(camel_to_snake(fn_name));
+                        use crate::components::$(fn_name);
                     });
                 }
             }
@@ -653,7 +650,7 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
             TraceGenStep::LookupAddInput { fn_name, .. } => {
                 if seen_functions.insert(fn_name) {
                     code.extend(quote! {
-                        use crate::components::$(camel_to_snake(fn_name));
+                        use crate::components::$(fn_name);
                     });
                 }
             }
@@ -664,7 +661,7 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
 
 fn generate_configs(lists: &CompiledAirFn) -> rust::Tokens {
     let mut configs = quote! {};
-    if lists.name.to_lowercase().contains("genericopcode") {
+    if lists.name.contains("generic_opcode") {
         configs.extend(quote! {
             #![cfg_attr(rustfmt, rustfmt_skip)]
         });
@@ -716,7 +713,7 @@ fn simd_parse_air_var(
             "usize" => val.to_string(),
             _ => constant_names[&(ty.clone(), val.clone())].clone(),
         },
-        CompiledAirVar::Var(_, id) => id.to_lowercase(),
+        CompiledAirVar::Var(_, id) => id.clone(),
         CompiledAirVar::State(name) => name.clone(),
         CompiledAirVar::StaticCall(id, args) => {
             let mut arg_str = String::new();

@@ -2,6 +2,7 @@ use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirFnStat, CompiledAirVar, ConstraintLeanCompare, LookupTerm,
     TraceGenStep, UseOrYield,
 };
+use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use compiled_casm_air::utils::{
     remove_desc, JSONS_BUILTINS_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR,
 };
@@ -213,10 +214,7 @@ fn test_casm_registry() {
 
         if trace_type != &TraceType::Const && trace_type != &TraceType::Inline {
             // Check the compiled entry json.
-            compare_json(
-                &compiled_entry,
-                &format!("{}{}.json", dir, name.to_lowercase()),
-            );
+            compare_json(&compiled_entry, &format!("{}{}.json", dir, name));
         }
 
         // Collect statistics.
@@ -257,14 +255,17 @@ fn get_compiled_entry_statistics(
             lookup_uses_upper_bound +=
                 *num_uses * stat.get(used_entry).unwrap().lookup_uses_upper_bound;
         } else {
-            // For now, the only lookup relation which is not a component is "opcodes".
+            // For now, the only lookup relation which is not a component is "Opcodes".
             assert_eq!(used_entry, OPCODES_RELATION_NAME);
             assert_eq!(num_uses, &1);
         }
     }
 
     stat.insert(
-        compiled_entry.name.clone(),
+        compiled_entry
+            .relation_name
+            .clone()
+            .unwrap_or(compiled_entry.name.clone()),
         CompiledAirFnStat {
             trace_type: format!("{:?}", trace_type),
             num_state_cols,

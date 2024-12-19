@@ -105,13 +105,13 @@ pub fn write_trace_simd() {
 }
 
 pub struct LookupData {
-    pub rangecheck_6: [Vec<[PackedM31; 1]>; 1],
+    pub range_check_6: [Vec<[PackedM31; 1]>; 1],
 }
 impl LookupData {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            rangecheck_6: [Vec::with_capacity(capacity)],
+            range_check_6: [Vec::with_capacity(capacity)],
         }
     }
 }
@@ -124,7 +124,7 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace<MC: MerkleChannel>(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
-        rangecheck_6_lookup_elements: &relations::RangeCheck_6,
+        range_check_6_lookup_elements: &relations::RangeCheck_6,
     ) -> InteractionClaim
     where
         SimdBackend: BackendForChannel<MC>,
@@ -133,9 +133,9 @@ impl InteractionClaimGenerator {
         let mut logup_gen = LogupTraceGenerator::new(log_size);
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.rangecheck_6[0];
+        let lookup_row = &self.lookup_data.range_check_6[0];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = rangecheck_6_lookup_elements.combine(lookup_values);
+            let denom = range_check_6_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, -PackedQM31::one(), denom);
         }
         col_gen.finalize_col();

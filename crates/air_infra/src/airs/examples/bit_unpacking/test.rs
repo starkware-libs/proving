@@ -31,11 +31,7 @@ fn test_bit_unpacking() {
     // Check entry
     compare_json(
         &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_EXAMPLES_DIR,
-            entry.name.to_lowercase()
-        ),
+        &format!("{}{}.json", TEST_JSONS_EXAMPLES_DIR, entry.name),
     );
 }
 
@@ -70,10 +66,6 @@ fn test_bit_mux() {
     // Check entry
     compare_json(
         &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_EXAMPLES_DIR,
-            entry.name.to_lowercase()
-        ),
+        &format!("{}{}.json", TEST_JSONS_EXAMPLES_DIR, entry.name),
     );
 }

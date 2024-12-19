@@ -18,7 +18,7 @@ use crate::relations;
 
 pub struct Eval {
     pub claim: Claim,
-    pub rangecheck_6_lookup_elements: relations::RangeCheck_6,
+    pub range_check_6_lookup_elements: relations::RangeCheck_6,
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
@@ -74,7 +74,7 @@ impl FrameworkEval for Eval {
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         eval.add_to_relation(RelationEntry::new(
-            &self.rangecheck_6_lookup_elements,
+            &self.range_check_6_lookup_elements,
             -E::EF::one(),
             &[todo!()],
         ));

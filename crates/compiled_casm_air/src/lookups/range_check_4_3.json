@@ -1,0 +1,72 @@
+{
+  "name": "range_check_4_3",
+  "relation_name": "RangeCheck_4_3",
+  "description": "Range Check 4 3",
+  "input": {
+    "Array": [
+      {
+        "Var": [
+          "M31",
+          "range_check_4_3_input[0]"
+        ]
+      },
+      {
+        "Var": [
+          "M31",
+          "range_check_4_3_input[1]"
+        ]
+      }
+    ]
+  },
+  "output": {
+    "Tuple": []
+  },
+  "state_names": [],
+  "lookup_names": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_4_3",
+        "felts": [
+          {
+            "ExternalState": [
+              "RangeCheckVector_4_3",
+              0
+            ]
+          },
+          {
+            "ExternalState": [
+              "RangeCheckVector_4_3",
+              1
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_4_3",
+        "felts": [
+          {
+            "ExternalState": [
+              "RangeCheckVector_4_3",
+              0
+            ]
+          },
+          {
+            "ExternalState": [
+              "RangeCheckVector_4_3",
+              1
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "multiplicity_col_index": 0,
+  "n_lookup_terms": 1
+}

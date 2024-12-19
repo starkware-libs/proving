@@ -60,7 +60,7 @@ fn impl_inst_def(ast: &DeriveInput) -> TokenStream {
                     .map(|i| type_name[i + 2..].to_string())
                     .unwrap_or(type_name);
                 type_name = type_name.replace('>', "");
-                map.insert(stringify!(#type_ident).to_string(), type_name);
+                map.insert(type_name, "".to_string());
             })
         } else if let Const(const_param) = param {
             let const_ident = &const_param.ident;

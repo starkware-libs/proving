@@ -1,0 +1,318 @@
+{
+  "name": "decode_instruction_a66bd9643d8f1e6c",
+  "relation_name": null,
+  "description": "Decode Instruction",
+  "inst_def": {
+    "const_offsets": "[Some(17185), Some(-1893), Some(3258)]",
+    "const_flags": "Flags { dst_base_fp: Some(false), op0_base_fp: Some(true), op1_imm: Some(false), op1_base_fp: Some(true), op1_base_ap: Some(false), res_add: Some(false), res_mul: Some(false), pc_update_jump: Some(true), pc_update_jump_rel: Some(false), pc_update_jnz: Some(true), ap_update_add: Some(true), ap_update_add_1: Some(false), opcode_call: Some(false), opcode_ret: Some(false), opcode_assert_eq: Some(true) }"
+  },
+  "input": {
+    "name": "input",
+    "type": "M31"
+  },
+  "output": [
+    [
+      {
+        "name": "17185",
+        "type": "M31"
+      },
+      {
+        "name": "2147481754",
+        "type": "M31"
+      },
+      {
+        "name": "3258",
+        "type": "M31"
+      }
+    ],
+    [
+      {
+        "name": "0",
+        "type": "M31"
+      },
+      {
+        "name": "1",
+        "type": "M31"
+      },
+      {
+        "name": "0",
+        "type": "M31"
+      },
+      {
+        "name": "1",
+        "type": "M31"
+      },
+      {
+        "name": "0",
+        "type": "M31"
+      },
+      {
+        "name": "0",
+        "type": "M31"
+      },
+      {
+        "name": "0",
+        "type": "M31"
+      },
+      {
+        "name": "1",
+        "type": "M31"
+      },
+      {
+        "name": "0",
+        "type": "M31"
+      },
+      {
+        "name": "1",
+        "type": "M31"
+      },
+      {
+        "name": "1",
+        "type": "M31"
+      },
+      {
+        "name": "0",
+        "type": "M31"
+      },
+      {
+        "name": "0",
+        "type": "M31"
+      },
+      {
+        "name": "0",
+        "type": "M31"
+      },
+      {
+        "name": "1",
+        "type": "M31"
+      }
+    ]
+  ],
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "LookupCall": {
+        "air_fn_name": "memory_address_to_id",
+        "input_arg": {
+          "name": "input",
+          "type": "M31"
+        },
+        "output_name": "memory_address_to_id_value_tmp_a66b_0"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "memory_id_to_big",
+        "input_arg": {
+          "name": "tmp0",
+          "type": "M31"
+        },
+        "output_name": "memory_id_to_big_value_tmp_a66b_1"
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "verify_instruction",
+        "input_arg": [
+          {
+            "name": "input",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "49953",
+              "type": "M31"
+            },
+            {
+              "name": "30875",
+              "type": "M31"
+            },
+            {
+              "name": "36026",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "1",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "1",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "1",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "1",
+              "type": "M31"
+            },
+            {
+              "name": "1",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "1",
+              "type": "M31"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "verify_instruction",
+        "input_arg": [
+          {
+            "name": "input",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "49953",
+              "type": "M31"
+            },
+            {
+              "name": "30875",
+              "type": "M31"
+            },
+            {
+              "name": "36026",
+              "type": "M31"
+            }
+          ],
+          [
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "1",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "1",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "1",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "1",
+              "type": "M31"
+            },
+            {
+              "name": "1",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "0",
+              "type": "M31"
+            },
+            {
+              "name": "1",
+              "type": "M31"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          "input",
+          "49953",
+          "30875",
+          "36026",
+          "0",
+          "1",
+          "0",
+          "1",
+          "0",
+          "0",
+          "0",
+          "1",
+          "0",
+          "1",
+          "1",
+          "0",
+          "0",
+          "0",
+          "1"
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ],
+  "state": {
+    "row": []
+  }
+}

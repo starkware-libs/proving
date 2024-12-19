@@ -62,11 +62,7 @@ fn test_with_matching_memory(
     // Check entry
     compare_json(
         &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_DECODE_INSTRUCTION_DIR,
-            entry.name.to_lowercase()
-        ),
+        &format!("{}{}.json", TEST_JSONS_DECODE_INSTRUCTION_DIR, entry.name),
     );
 
     assert!(

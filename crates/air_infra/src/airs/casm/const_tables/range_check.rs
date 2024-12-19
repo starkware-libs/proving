@@ -57,7 +57,17 @@ impl<const N: usize> AirFn for RangeCheck<N> {
             .map(|b| b.to_string())
             .collect::<Vec<_>>()
             .join("_");
-        format!("RangeCheck_{}", bits)
+        format!("range_check_{}", bits)
+    }
+
+    fn relation_name(&self) -> Option<String> {
+        let bits = self
+            .bits
+            .iter()
+            .map(|b| b.to_string())
+            .collect::<Vec<_>>()
+            .join("_");
+        Some(format!("RangeCheck_{}", bits))
     }
 
     fn call(&self, _air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {

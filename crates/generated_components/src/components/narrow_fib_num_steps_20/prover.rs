@@ -132,120 +132,120 @@ pub fn write_trace_simd(
             let input_col1 = input_tmp_1ddf_0[1];
             trace[1].data[row_index] = input_col1;
 
-            // FibStep.
+            // Fib Step.
 
             let col2 = (((input_col0) * (input_col0)) + ((input_col1) * (input_col1)));
             trace[2].data[row_index] = col2;
 
-            // FibStep.
+            // Fib Step.
 
             let col3 = (((input_col1) * (input_col1)) + ((col2) * (col2)));
             trace[3].data[row_index] = col3;
 
-            // FibStep.
+            // Fib Step.
 
             let col4 = (((col2) * (col2)) + ((col3) * (col3)));
             trace[4].data[row_index] = col4;
 
-            // FibStep.
+            // Fib Step.
 
             let col5 = (((col3) * (col3)) + ((col4) * (col4)));
             trace[5].data[row_index] = col5;
 
-            // FibStep.
+            // Fib Step.
 
             let col6 = (((col4) * (col4)) + ((col5) * (col5)));
             trace[6].data[row_index] = col6;
 
-            // FibStep.
+            // Fib Step.
 
             let col7 = (((col5) * (col5)) + ((col6) * (col6)));
             trace[7].data[row_index] = col7;
 
-            // FibStep.
+            // Fib Step.
 
             let col8 = (((col6) * (col6)) + ((col7) * (col7)));
             trace[8].data[row_index] = col8;
 
-            // FibStep.
+            // Fib Step.
 
             let col9 = (((col7) * (col7)) + ((col8) * (col8)));
             trace[9].data[row_index] = col9;
 
-            // FibStep.
+            // Fib Step.
 
             let col10 = (((col8) * (col8)) + ((col9) * (col9)));
             trace[10].data[row_index] = col10;
 
-            // FibStep.
+            // Fib Step.
 
             let col11 = (((col9) * (col9)) + ((col10) * (col10)));
             trace[11].data[row_index] = col11;
 
-            // FibStep.
+            // Fib Step.
 
             let col12 = (((col10) * (col10)) + ((col11) * (col11)));
             trace[12].data[row_index] = col12;
 
-            // FibStep.
+            // Fib Step.
 
             let col13 = (((col11) * (col11)) + ((col12) * (col12)));
             trace[13].data[row_index] = col13;
 
-            // FibStep.
+            // Fib Step.
 
             let col14 = (((col12) * (col12)) + ((col13) * (col13)));
             trace[14].data[row_index] = col14;
 
-            // FibStep.
+            // Fib Step.
 
             let col15 = (((col13) * (col13)) + ((col14) * (col14)));
             trace[15].data[row_index] = col15;
 
-            // FibStep.
+            // Fib Step.
 
             let col16 = (((col14) * (col14)) + ((col15) * (col15)));
             trace[16].data[row_index] = col16;
 
-            // FibStep.
+            // Fib Step.
 
             let col17 = (((col15) * (col15)) + ((col16) * (col16)));
             trace[17].data[row_index] = col17;
 
-            // FibStep.
+            // Fib Step.
 
             let col18 = (((col16) * (col16)) + ((col17) * (col17)));
             trace[18].data[row_index] = col18;
 
-            // FibStep.
+            // Fib Step.
 
             let col19 = (((col17) * (col17)) + ((col18) * (col18)));
             trace[19].data[row_index] = col19;
 
-            // FibStep.
+            // Fib Step.
 
             let col20 = (((col18) * (col18)) + ((col19) * (col19)));
             trace[20].data[row_index] = col20;
 
-            // FibStep.
+            // Fib Step.
 
             let col21 = (((col19) * (col19)) + ((col20) * (col20)));
             trace[21].data[row_index] = col21;
 
-            lookup_data.narrowfib_num_steps_20[0].push([input_col0, input_col1, col20, col21]);
+            lookup_data.narrow_fib_num_steps_20[0].push([input_col0, input_col1, col20, col21]);
         });
 
     (trace, sub_components_inputs, lookup_data)
 }
 
 pub struct LookupData {
-    pub narrowfib_num_steps_20: [Vec<[PackedM31; 4]>; 1],
+    pub narrow_fib_num_steps_20: [Vec<[PackedM31; 4]>; 1],
 }
 impl LookupData {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            narrowfib_num_steps_20: [Vec::with_capacity(capacity)],
+            narrow_fib_num_steps_20: [Vec::with_capacity(capacity)],
         }
     }
 }
@@ -258,7 +258,7 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace<MC: MerkleChannel>(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
-        narrowfib_num_steps_20_lookup_elements: &relations::NarrowFib_num_steps_20,
+        narrow_fib_num_steps_20_lookup_elements: &relations::NarrowFibNumSteps20,
     ) -> InteractionClaim
     where
         SimdBackend: BackendForChannel<MC>,
@@ -267,9 +267,9 @@ impl InteractionClaimGenerator {
         let mut logup_gen = LogupTraceGenerator::new(log_size);
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrowfib_num_steps_20[0];
+        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20[0];
         for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = narrowfib_num_steps_20_lookup_elements.combine(lookup_values);
+            let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, -PackedQM31::one(), denom);
         }
         col_gen.finalize_col();

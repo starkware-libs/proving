@@ -6,6 +6,7 @@ use serde::{Deserialize, Serialize};
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CompiledAirFn {
     pub name: String,
+    pub relation_name: Option<String>,
     pub description: String,
     pub input: CompiledAirVar,
     // TODO: delete after update callee_lookup_length function.
@@ -19,7 +20,7 @@ pub struct CompiledAirFn {
     pub deductions: Vec<TraceGenStep>,
 
     // The index of the multiplicity column in the lookup table that is used / yielded.
-    // None for chain lookup relations, such as "opcodes".
+    // None for chain lookup relations, such as "Opcodes".
     pub multiplicity_col_index: Option<usize>,
 
     // The number of lookup terms (use or yield) in the air function.

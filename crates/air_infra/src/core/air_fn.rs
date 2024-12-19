@@ -6,7 +6,9 @@ use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::UseOrYield;
 use compiled_casm_air::public_params::PublicParam;
+use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use compiled_casm_air::utils::INTERMEDIATE_VAR_SUFFIX;
+use convert_case::{Case, Casing};
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
 
@@ -17,7 +19,6 @@ use super::state::*;
 use super::variables::*;
 
 pub const MAX_NAME_LEN: usize = 50;
-pub const OPCODES_RELATION_NAME: &str = "Opcodes";
 pub const INTERMEDIATE_VAR_PREFIX: &str = "tmp";
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
@@ -88,14 +89,25 @@ pub trait AirFn: Debug + InstDefTrait {
             res.pop();
         }
         if res.len() < MAX_NAME_LEN {
-            res
+            res.to_case(Case::Snake)
         } else {
-            format!("{}_{:x}", name, self.hash())
+            format!("{}_{:x}", name.to_case(Case::Snake), self.hash())
+        }
+    }
+
+    fn relation_name(&self) -> Option<String> {
+        match self.trace_type() {
+            TraceType::Component => Some(self.name().to_case(Case::Pascal)),
+            TraceType::Const => None,
+            TraceType::Builtin => None,
+            TraceType::Opcode => Some(OPCODES_RELATION_NAME.to_string()),
+            TraceType::Memory => Some(self.name().to_case(Case::Pascal)),
+            TraceType::Inline => None,
         }
     }
 
     fn description(&self) -> String {
-        self.name()
+        self.name().to_case(Case::Title)
     }
 
     fn hash(&self) -> u64 {
@@ -160,7 +172,7 @@ pub trait AirFn: Debug + InstDefTrait {
             for felt in output.as_felts_mut() {
                 air_builder
                     .state
-                    .add(felt, &format!("{}_output", self.name().to_lowercase()));
+                    .add(felt, &format!("{}_output", self.name()));
             }
         }
         let output = self.call(air_builder, input.clone());
@@ -179,7 +191,7 @@ pub trait AirFn: Debug + InstDefTrait {
             });
         } else {
             air_builder.air_body.push(AirBodyComponent::LookupTerm {
-                relation_name: self.name(),
+                relation_name: self.relation_name().expect("Relation name not set"),
                 felts: input
                     .as_felts()
                     .into_iter()
@@ -435,7 +447,7 @@ impl AirBuilder {
         self.registry.add_entry(air_fn);
 
         let output_name = if !O::is_empty() {
-            self.get_intermediate_name(Some(format!("{}_output", air_fn.name().to_lowercase())))
+            self.get_intermediate_name(Some(format!("{}_output", air_fn.name())))
         } else {
             "".to_string()
         };
@@ -479,14 +491,11 @@ impl AirBuilder {
 
             if let Some(descs) = output.get_felt_descriptions() {
                 for (felt, desc) in output.as_felts_mut().into_iter().zip(descs) {
-                    self.deduce(
-                        felt,
-                        &format!("{}_output_{}", air_fn.name().to_lowercase(), desc),
-                    );
+                    self.deduce(felt, &format!("{}_output_{}", air_fn.name(), desc));
                 }
             } else {
                 for felt in output.as_felts_mut() {
-                    self.deduce(felt, &format!("{}_output", air_fn.name().to_lowercase()));
+                    self.deduce(felt, &format!("{}_output", air_fn.name()));
                 }
             }
         }
@@ -496,7 +505,7 @@ impl AirBuilder {
             input_arg: input.clone().into(),
         });
         self.air_body.push(AirBodyComponent::LookupTerm {
-            relation_name: air_fn.name(),
+            relation_name: air_fn.relation_name().expect("Relation name not set"),
             felts: input
                 .as_felts()
                 .into_iter()
@@ -518,8 +527,7 @@ impl AirBuilder {
         // Make sure the memory is in the registry
         self.registry.add_entry(memory);
 
-        let value_name =
-            self.get_intermediate_name(Some(format!("{}_value", memory.name().to_lowercase())));
+        let value_name = self.get_intermediate_name(Some(format!("{}_value", memory.name())));
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: memory.name(),
@@ -585,7 +593,7 @@ impl AirBuilder {
             input_arg: key.clone().into(),
         });
         self.air_body.push(AirBodyComponent::LookupTerm {
-            relation_name: memory.name(),
+            relation_name: memory.relation_name().expect("Relation name not set"),
             felts: key.as_felts().into_iter().chain(value.as_felts()).collect(),
             use_or_yield: UseOrYield::Use,
         });

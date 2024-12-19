@@ -8,6 +8,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "compiled_casm_air",
+ "convert_case",
  "genco",
  "itertools 0.12.1",
  "pretty_assertions",
@@ -23,6 +24,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "compiled_casm_air",
+ "convert_case",
  "enum_dispatch",
  "indexmap",
  "inst_def",
@@ -424,6 +426,15 @@ name = "constant_time_eq"
 version = "0.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "7c74b8349d32d297c9134b8c88677813a227df8f779daa29bfc29c183fe3dca6"
+
+[[package]]
+name = "convert_case"
+version = "0.6.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ec182b0ca2f35d8fc196cf3404988fd8b8c739a4d270ff118a398feb0cbec1ca"
+dependencies = [
+ "unicode-segmentation",
+]
 
 [[package]]
 name = "cpufeatures"
@@ -1029,7 +1040,7 @@ dependencies = [
 [[package]]
 name = "prover_types"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=4b1e23c#4b1e23cffa7e2a36453ac67951c100ca37cc5b50"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=3cff5e1#3cff5e1267180fff8c7d9b7b26537b3dd46e8835"
 dependencies = [
  "bytemuck",
  "itertools 0.12.1",
@@ -1380,7 +1391,7 @@ checksum = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70948a3f0b778838c5fb4f"
 [[package]]
 name = "stwo-cairo-serialize"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=4b1e23c#4b1e23cffa7e2a36453ac67951c100ca37cc5b50"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=3cff5e1#3cff5e1267180fff8c7d9b7b26537b3dd46e8835"
 dependencies = [
  "starknet-ff",
  "stwo-cairo-serialize-derive",
@@ -1390,7 +1401,7 @@ dependencies = [
 [[package]]
 name = "stwo-cairo-serialize-derive"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=4b1e23c#4b1e23cffa7e2a36453ac67951c100ca37cc5b50"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=3cff5e1#3cff5e1267180fff8c7d9b7b26537b3dd46e8835"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -1423,7 +1434,7 @@ dependencies = [
 [[package]]
 name = "stwo_cairo_utils"
 version = "0.1.0"
-source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=4b1e23c#4b1e23cffa7e2a36453ac67951c100ca37cc5b50"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=3cff5e1#3cff5e1267180fff8c7d9b7b26537b3dd46e8835"
 dependencies = [
  "env_logger",
  "log",
@@ -1637,6 +1648,12 @@ name = "unicode-ident"
 version = "1.0.14"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "adb9e6ca4f869e1180728b7950e35922a7fc6397f7b641499e8f3ef06e50dc83"
+
+[[package]]
+name = "unicode-segmentation"
+version = "1.12.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "f6ccf251212114b54433ec949fd6a7841275f9ada20dddd2f29e9ceea4501493"
 
 [[package]]
 name = "utf8parse"

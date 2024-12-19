@@ -1,0 +1,2680 @@
+{
+  "name": "verify_instruction",
+  "relation_name": "VerifyInstruction",
+  "description": "Verify Instruction",
+  "input": {
+    "Tuple": [
+      {
+        "Var": [
+          "M31",
+          "verify_instruction_input.0"
+        ]
+      },
+      {
+        "Array": [
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.1[0]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.1[1]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.1[2]"
+            ]
+          }
+        ]
+      },
+      {
+        "Array": [
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[0]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[1]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[2]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[3]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[4]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[5]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[6]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[7]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[8]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[9]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[10]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[11]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[12]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[13]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "verify_instruction_input.2[14]"
+            ]
+          }
+        ]
+      }
+    ]
+  },
+  "output": {
+    "Tuple": []
+  },
+  "state_names": [
+    "input_col0",
+    "input_col1",
+    "input_col2",
+    "input_col3",
+    "input_col4",
+    "input_col5",
+    "input_col6",
+    "input_col7",
+    "input_col8",
+    "input_col9",
+    "input_col10",
+    "input_col11",
+    "input_col12",
+    "input_col13",
+    "input_col14",
+    "input_col15",
+    "input_col16",
+    "input_col17",
+    "input_col18",
+    "offset0_low_col19",
+    "offset0_mid_col20",
+    "offset1_low_col21",
+    "offset1_mid_col22",
+    "offset1_high_col23",
+    "offset2_low_col24",
+    "offset2_mid_col25",
+    "offset2_high_col26",
+    "instruction_id_col27"
+  ],
+  "lookup_names": [
+    "memory_address_to_id",
+    "memory_id_to_big",
+    "range_check_4_3",
+    "range_check_7_2_5"
+  ],
+  "constraints": [
+    {
+      "StartBlock": "Encode Offsets"
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "offset0_low_col19"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "offset0_mid_col20"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "input_col1"
+            }
+          ]
+        },
+        "Reconstructed offset0 is correct"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "offset1_low_col21"
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "offset1_mid_col22"
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "4"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "offset1_high_col23"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "2048"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "input_col2"
+            }
+          ]
+        },
+        "Reconstructed offset1 is correct"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "offset2_low_col24"
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "offset2_mid_col25"
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "16"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "offset2_high_col26"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "8192"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "input_col3"
+            }
+          ]
+        },
+        "Reconstructed offset2 is correct"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_7_2_5",
+        "felts": [
+          {
+            "State": "offset0_mid_col20"
+          },
+          {
+            "State": "offset1_low_col21"
+          },
+          {
+            "State": "offset1_high_col23"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_4_3",
+        "felts": [
+          {
+            "State": "offset2_low_col24"
+          },
+          {
+            "State": "offset2_high_col26"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Encode Flags"
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col4"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col4"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag dst_base_fp is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col5"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col5"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag op0_base_fp is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col6"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col6"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag op1_imm is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col7"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col7"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag op1_base_fp is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col8"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col8"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag op1_base_ap is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col9"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col9"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag res_add is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col10"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col10"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag res_mul is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col11"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col11"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag pc_update_jump is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col12"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col12"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag pc_update_jump_rel is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col13"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col13"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag pc_update_jnz is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col14"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col14"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag ap_update_add is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col15"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col15"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag ap_update_add_1 is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col16"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col16"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag opcode_call is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col17"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col17"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag opcode_ret is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_col18"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "input_col18"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag opcode_assert_eq is a bit"
+      ]
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Mem Verify"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "State": "input_col0"
+          },
+          {
+            "State": "instruction_id_col27"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "instruction_id_col27"
+          },
+          {
+            "State": "offset0_low_col19"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "offset0_mid_col20"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "offset1_low_col21"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "offset1_mid_col22"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "offset1_high_col23"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "offset2_low_col24"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "32"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "offset2_mid_col25"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "offset2_high_col26"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "0"
+                                        ]
+                                      },
+                                      "+",
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "State": "input_col4"
+                                          },
+                                          "*",
+                                          {
+                                            "Const": [
+                                              "M31",
+                                              "8"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "+",
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "State": "input_col5"
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "16"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": "input_col6"
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "32"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "input_col7"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "64"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "input_col8"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "128"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "input_col9"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "256"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "Const": [
+                                                  "M31",
+                                                  "0"
+                                                ]
+                                              },
+                                              "+",
+                                              {
+                                                "BinaryOp": [
+                                                  {
+                                                    "State": "input_col10"
+                                                  },
+                                                  "*",
+                                                  {
+                                                    "Const": [
+                                                      "M31",
+                                                      "1"
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          "+",
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "State": "input_col11"
+                                              },
+                                              "*",
+                                              {
+                                                "Const": [
+                                                  "M31",
+                                                  "2"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      "+",
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "State": "input_col12"
+                                          },
+                                          "*",
+                                          {
+                                            "Const": [
+                                              "M31",
+                                              "4"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "+",
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "State": "input_col13"
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "8"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": "input_col14"
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "16"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "input_col15"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "32"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "input_col16"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "64"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "input_col17"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "128"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "input_col18"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          {
+            "State": "input_col0"
+          },
+          {
+            "State": "input_col1"
+          },
+          {
+            "State": "input_col2"
+          },
+          {
+            "State": "input_col3"
+          },
+          {
+            "State": "input_col4"
+          },
+          {
+            "State": "input_col5"
+          },
+          {
+            "State": "input_col6"
+          },
+          {
+            "State": "input_col7"
+          },
+          {
+            "State": "input_col8"
+          },
+          {
+            "State": "input_col9"
+          },
+          {
+            "State": "input_col10"
+          },
+          {
+            "State": "input_col11"
+          },
+          {
+            "State": "input_col12"
+          },
+          {
+            "State": "input_col13"
+          },
+          {
+            "State": "input_col14"
+          },
+          {
+            "State": "input_col15"
+          },
+          {
+            "State": "input_col16"
+          },
+          {
+            "State": "input_col17"
+          },
+          {
+            "State": "input_col18"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": [
+        "input_tmp_16a4_0",
+        {
+          "Tuple": [
+            {
+              "Var": [
+                "M31",
+                "verify_instruction_input.0"
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.1[0]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.1[1]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.1[2]"
+                  ]
+                }
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[0]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[1]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[2]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[3]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[4]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[5]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[6]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[7]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[8]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[9]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[10]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[11]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[12]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[13]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "M31",
+                    "verify_instruction_input.2[14]"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.0"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.1[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.1[1]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.1[2]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[0]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[1]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[2]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[3]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[4]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[5]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[6]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[7]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[8]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[9]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[10]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[11]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[12]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[13]"
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "input_tmp_16a4_0.2[14]"
+        ]
+      }
+    },
+    {
+      "StartBlock": "Encode Offsets"
+    },
+    {
+      "Intermediate": [
+        "offset0_low_tmp_16a4_1",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "input_col1"
+                  }
+                ]
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "511"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "offset0_low_tmp_16a4_1"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "offset0_mid_tmp_16a4_2",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "input_col1"
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "9"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "offset0_mid_tmp_16a4_2"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "offset1_low_tmp_16a4_3",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "input_col2"
+                  }
+                ]
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "3"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "offset1_low_tmp_16a4_3"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "offset1_mid_tmp_16a4_4",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "State": "input_col2"
+                      }
+                    ]
+                  ]
+                },
+                ">>",
+                {
+                  "Const": [
+                    "UInt16",
+                    "2"
+                  ]
+                }
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "511"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "offset1_mid_tmp_16a4_4"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "offset1_high_tmp_16a4_5",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "input_col2"
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "11"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "offset1_high_tmp_16a4_5"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "offset2_low_tmp_16a4_6",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "input_col3"
+                  }
+                ]
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "15"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "offset2_low_tmp_16a4_6"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "offset2_mid_tmp_16a4_7",
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "StaticCall": [
+                    "UInt16::from_m31",
+                    [
+                      {
+                        "State": "input_col3"
+                      }
+                    ]
+                  ]
+                },
+                ">>",
+                {
+                  "Const": [
+                    "UInt16",
+                    "4"
+                  ]
+                }
+              ]
+            },
+            "&",
+            {
+              "Const": [
+                "UInt16",
+                "511"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "offset2_mid_tmp_16a4_7"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": [
+        "offset2_high_tmp_16a4_8",
+        {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "input_col3"
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "13"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "offset2_high_tmp_16a4_8"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "range_check_7_2_5",
+        "input": {
+          "Array": [
+            {
+              "State": "offset0_mid_col20"
+            },
+            {
+              "State": "offset1_low_col21"
+            },
+            {
+              "State": "offset1_high_col23"
+            }
+          ]
+        },
+        "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_7_2_5",
+        "input": {
+          "Array": [
+            {
+              "State": "offset0_mid_col20"
+            },
+            {
+              "State": "offset1_low_col21"
+            },
+            {
+              "State": "offset1_high_col23"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_7_2_5",
+        "felts": [
+          {
+            "State": "offset0_mid_col20"
+          },
+          {
+            "State": "offset1_low_col21"
+          },
+          {
+            "State": "offset1_high_col23"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupCall": {
+        "fn_name": "range_check_4_3",
+        "input": {
+          "Array": [
+            {
+              "State": "offset2_low_col24"
+            },
+            {
+              "State": "offset2_high_col26"
+            }
+          ]
+        },
+        "output_name": null
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_4_3",
+        "input": {
+          "Array": [
+            {
+              "State": "offset2_low_col24"
+            },
+            {
+              "State": "offset2_high_col26"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_4_3",
+        "felts": [
+          {
+            "State": "offset2_low_col24"
+          },
+          {
+            "State": "offset2_high_col26"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Mem Verify"
+    },
+    {
+      "LookupCall": {
+        "fn_name": "memory_address_to_id",
+        "input": {
+          "State": "input_col0"
+        },
+        "output_name": "memory_address_to_id_value_tmp_16a4_9"
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_16a4_9"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "memory_address_to_id",
+        "input": {
+          "State": "input_col0"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "State": "input_col0"
+          },
+          {
+            "State": "instruction_id_col27"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "memory_id_to_big",
+        "input": {
+          "State": "instruction_id_col27"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "instruction_id_col27"
+          },
+          {
+            "State": "offset0_low_col19"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "offset0_mid_col20"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "offset1_low_col21"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "offset1_mid_col22"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "offset1_high_col23"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "offset2_low_col24"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "32"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "offset2_mid_col25"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "offset2_high_col26"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "0"
+                                        ]
+                                      },
+                                      "+",
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "State": "input_col4"
+                                          },
+                                          "*",
+                                          {
+                                            "Const": [
+                                              "M31",
+                                              "8"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "+",
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "State": "input_col5"
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "16"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": "input_col6"
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "32"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "input_col7"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "64"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "input_col8"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "128"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "input_col9"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "256"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "Const": [
+                                                  "M31",
+                                                  "0"
+                                                ]
+                                              },
+                                              "+",
+                                              {
+                                                "BinaryOp": [
+                                                  {
+                                                    "State": "input_col10"
+                                                  },
+                                                  "*",
+                                                  {
+                                                    "Const": [
+                                                      "M31",
+                                                      "1"
+                                                    ]
+                                                  }
+                                                ]
+                                              }
+                                            ]
+                                          },
+                                          "+",
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "State": "input_col11"
+                                              },
+                                              "*",
+                                              {
+                                                "Const": [
+                                                  "M31",
+                                                  "2"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      "+",
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "State": "input_col12"
+                                          },
+                                          "*",
+                                          {
+                                            "Const": [
+                                              "M31",
+                                              "4"
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  },
+                                  "+",
+                                  {
+                                    "BinaryOp": [
+                                      {
+                                        "State": "input_col13"
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "8"
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              },
+                              "+",
+                              {
+                                "BinaryOp": [
+                                  {
+                                    "State": "input_col14"
+                                  },
+                                  "*",
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "16"
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "input_col15"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "32"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "input_col16"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "64"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "input_col17"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "128"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "input_col18"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          {
+            "State": "input_col0"
+          },
+          {
+            "State": "input_col1"
+          },
+          {
+            "State": "input_col2"
+          },
+          {
+            "State": "input_col3"
+          },
+          {
+            "State": "input_col4"
+          },
+          {
+            "State": "input_col5"
+          },
+          {
+            "State": "input_col6"
+          },
+          {
+            "State": "input_col7"
+          },
+          {
+            "State": "input_col8"
+          },
+          {
+            "State": "input_col9"
+          },
+          {
+            "State": "input_col10"
+          },
+          {
+            "State": "input_col11"
+          },
+          {
+            "State": "input_col12"
+          },
+          {
+            "State": "input_col13"
+          },
+          {
+            "State": "input_col14"
+          },
+          {
+            "State": "input_col15"
+          },
+          {
+            "State": "input_col16"
+          },
+          {
+            "State": "input_col17"
+          },
+          {
+            "State": "input_col18"
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "multiplicity_col_index": 28,
+  "n_lookup_terms": 5
+}

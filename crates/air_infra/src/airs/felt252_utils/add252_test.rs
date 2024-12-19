@@ -11,11 +11,7 @@ fn test_entry_json() {
     let (_, entry) = AirFnRegistry::new(&Add252 {});
     compare_json(
         &entry,
-        &format!(
-            "{}{}.json",
-            TEST_JSONS_FELT252_DIR,
-            entry.name.to_lowercase()
-        ),
+        &format!("{}{}.json", TEST_JSONS_FELT252_DIR, entry.name),
     );
 }
 

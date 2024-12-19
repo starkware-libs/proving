@@ -106,7 +106,7 @@ pub fn relation_calls_from_constraints(constraints: &[ConstraintEvalStep]) -> Ve
         .iter()
         .filter_map(|constraint| {
             if let ConstraintEvalStep::LookupTerm(LookupTerm { relation_name, .. }) = constraint {
-                Some(relation_name.to_string())
+                Some(relation_name.clone())
             } else {
                 None
             }
@@ -119,7 +119,7 @@ pub fn unique_constraint_relations(constraints: &[ConstraintEvalStep]) -> Vec<St
     let mut seen_relation = HashSet::new();
     relations
         .into_iter()
-        .filter(|relation| seen_relation.insert(relation.to_string()))
+        .filter(|relation| seen_relation.insert(relation.clone()))
         .sorted()
         .collect()
 }
@@ -140,25 +140,10 @@ pub fn block_doc(msg: &str) -> rust::Tokens {
     }
 }
 
-pub fn camel_to_snake(camel: &str) -> String {
-    let mut snake_case = String::new();
-    for (i, c) in camel.chars().enumerate() {
-        if c.is_uppercase() {
-            if i != 0 {
-                snake_case.push('_');
-            }
-            snake_case.push(c.to_ascii_lowercase());
-        } else {
-            snake_case.push(c);
-        }
-    }
-    snake_case
-}
-
 /// To run in FIX mode - '$ FIX_CODE=1 cargo test'
 #[cfg(test)]
 pub fn compare_contents_or_fix_with_path(air_fn: CompiledAirFn, folder_path: &Path) {
-    let component_name = camel_to_snake(&air_fn.name);
+    let component_name = air_fn.name.clone();
     let folder_path = folder_path.join(component_name + "/");
     fs::create_dir_all(&folder_path).ok();
     let is_fix_mode = std::env::var("FIX_CODE") == Ok("1".to_string());

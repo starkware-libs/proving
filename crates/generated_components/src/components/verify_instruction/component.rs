@@ -18,11 +18,11 @@ use crate::relations;
 
 pub struct Eval {
     pub claim: Claim,
-    pub memoryaddresstoid_lookup_elements: relations::MemoryAddressToId,
-    pub memoryidtobig_lookup_elements: relations::MemoryIdToBig,
-    pub rangecheck_4_3_lookup_elements: relations::RangeCheck_4_3,
-    pub rangecheck_7_2_5_lookup_elements: relations::RangeCheck_7_2_5,
-    pub verifyinstruction_lookup_elements: relations::VerifyInstruction,
+    pub memory_address_to_id_lookup_elements: relations::MemoryAddressToId,
+    pub memory_id_to_big_lookup_elements: relations::MemoryIdToBig,
+    pub range_check_4_3_lookup_elements: relations::RangeCheck_4_3,
+    pub range_check_7_2_5_lookup_elements: relations::RangeCheck_7_2_5,
+    pub verify_instruction_lookup_elements: relations::VerifyInstruction,
 }
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
@@ -119,7 +119,7 @@ impl FrameworkEval for Eval {
         let offset2_high_col26 = eval.next_trace_mask();
         let instruction_id_col27 = eval.next_trace_mask();
 
-        // EncodeOffsets.
+        // Encode Offsets.
 
         // Reconstructed offset0 is correct.
         eval.add_constraint(
@@ -139,7 +139,7 @@ impl FrameworkEval for Eval {
                 - input_col3.clone()),
         );
         eval.add_to_relation(RelationEntry::new(
-            &self.rangecheck_7_2_5_lookup_elements,
+            &self.range_check_7_2_5_lookup_elements,
             E::EF::one(),
             &[
                 offset0_mid_col20.clone(),
@@ -149,12 +149,12 @@ impl FrameworkEval for Eval {
         ));
 
         eval.add_to_relation(RelationEntry::new(
-            &self.rangecheck_4_3_lookup_elements,
+            &self.range_check_4_3_lookup_elements,
             E::EF::one(),
             &[offset2_low_col24.clone(), offset2_high_col26.clone()],
         ));
 
-        // EncodeFlags.
+        // Encode Flags.
 
         // Flag dst_base_fp is a bit.
         eval.add_constraint((input_col4.clone() * (M31_1.clone() - input_col4.clone())));
@@ -187,16 +187,16 @@ impl FrameworkEval for Eval {
         // Flag opcode_assert_eq is a bit.
         eval.add_constraint((input_col18.clone() * (M31_1.clone() - input_col18.clone())));
 
-        // MemVerify.
+        // Mem Verify.
 
         eval.add_to_relation(RelationEntry::new(
-            &self.memoryaddresstoid_lookup_elements,
+            &self.memory_address_to_id_lookup_elements,
             E::EF::one(),
             &[input_col0.clone(), instruction_id_col27.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
-            &self.memoryidtobig_lookup_elements,
+            &self.memory_id_to_big_lookup_elements,
             E::EF::one(),
             &[
                 instruction_id_col27.clone(),
@@ -225,7 +225,7 @@ impl FrameworkEval for Eval {
         ));
 
         eval.add_to_relation(RelationEntry::new(
-            &self.verifyinstruction_lookup_elements,
+            &self.verify_instruction_lookup_elements,
             -E::EF::one(),
             &[
                 input_col0.clone(),

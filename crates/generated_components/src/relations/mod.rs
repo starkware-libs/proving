@@ -8,4 +8,4 @@ relation!(Opcodes, 3);
 relation!(RangeCheck_4_3, 2);
 relation!(RangeCheck_7_2_5, 3);
 relation!(VerifyInstruction, 29);
-relation!(NarrowFib_num_steps_20, 4);
+relation!(NarrowFibNumSteps20, 4);

@@ -6,6 +6,7 @@ use compiled_casm_air::compiled_structs::{
     CompiledAirFn, ConstraintEvalStep, LookupTerm, TraceGenStep, UseOrYield,
 };
 use compiled_casm_air::utils::INPUT_VAR_SUFFIX;
+use convert_case::{Case, Casing};
 use indexmap::IndexMap;
 use serde::Serialize;
 
@@ -18,6 +19,7 @@ use super::variables::*;
 #[derive(Debug, Clone, Serialize)]
 pub struct AirFnEntry {
     pub(crate) name: String,
+    pub(crate) relation_name: Option<String>,
     pub(crate) description: String,
     pub(crate) inst_def: IndexMap<String, String>,
     pub(crate) input: AirVarImpl,
@@ -38,6 +40,7 @@ impl AirFnEntry {
 
         CompiledAirFn {
             name: self.name,
+            relation_name: self.relation_name,
             description: self.description,
             input: self.input.into(),
             output: self.output.into(),
@@ -65,7 +68,7 @@ impl AirFnEntry {
                     ..
                 }) => {
                     if use_or_yield == UseOrYield::Use {
-                        lookup_calls.insert(relation_name);
+                        lookup_calls.insert(relation_name.to_case(Case::Snake));
                     }
                 }
                 _ => (),
@@ -225,6 +228,7 @@ impl AirFnRegistry {
         let (air_body, state, input, output) = self.build_air(air_fn, air_fn_id);
         let entry = AirFnEntry {
             name: air_fn.name(),
+            relation_name: air_fn.relation_name(),
             description: air_fn.description(),
             inst_def: air_fn.inst_def(),
             input: input.clone().into(),
@@ -302,7 +306,7 @@ impl AirFnRegistry {
         I: AirVar,
         O: AirVar,
     {
-        let input_name = format!("{}_{}", camel_to_snake(&air_fn.name()), INPUT_VAR_SUFFIX);
+        let input_name = format!("{}_{}", air_fn.name(), INPUT_VAR_SUFFIX);
         // If input_in_trace is None, we put the input in the trace so air_builder checks don't
         // fail.
         let mut input = I::new(input_name.clone(), true);
@@ -364,19 +368,4 @@ impl AirFnRegistry {
             })
             .collect()
     }
-}
-
-fn camel_to_snake(camel: &str) -> String {
-    let mut snake_case = String::new();
-    for (i, c) in camel.chars().enumerate() {
-        if c.is_uppercase() {
-            if i != 0 {
-                snake_case.push('_');
-            }
-            snake_case.push(c.to_ascii_lowercase());
-        } else {
-            snake_case.push(c);
-        }
-    }
-    snake_case
 }

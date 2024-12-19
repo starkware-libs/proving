@@ -1,0 +1,464 @@
+{
+  "name": "mul_252",
+  "relation_name": null,
+  "description": "Mul 252",
+  "inst_def": {},
+  "input": [
+    {
+      "name": "input[0]",
+      "type": "Felt252"
+    },
+    {
+      "name": "input[1]",
+      "type": "Felt252"
+    }
+  ],
+  "output": {
+    "name": "tmp0",
+    "type": "Felt252"
+  },
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "Intermediate": [
+        "mul_res_tmp_e0e7_0",
+        {
+          "name": "(input[0] * input[1])",
+          "type": "Felt252"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(0)",
+        "mul_res_limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(1)",
+        "mul_res_limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(2)",
+        "mul_res_limb_2"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(3)",
+        "mul_res_limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(4)",
+        "mul_res_limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(5)",
+        "mul_res_limb_5"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(6)",
+        "mul_res_limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(7)",
+        "mul_res_limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(8)",
+        "mul_res_limb_8"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(9)",
+        "mul_res_limb_9"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(10)",
+        "mul_res_limb_10"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(11)",
+        "mul_res_limb_11"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(12)",
+        "mul_res_limb_12"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(13)",
+        "mul_res_limb_13"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(14)",
+        "mul_res_limb_14"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(15)",
+        "mul_res_limb_15"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(16)",
+        "mul_res_limb_16"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(17)",
+        "mul_res_limb_17"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(18)",
+        "mul_res_limb_18"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(19)",
+        "mul_res_limb_19"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(20)",
+        "mul_res_limb_20"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(21)",
+        "mul_res_limb_21"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(22)",
+        "mul_res_limb_22"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(23)",
+        "mul_res_limb_23"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(24)",
+        "mul_res_limb_24"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(25)",
+        "mul_res_limb_25"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(26)",
+        "mul_res_limb_26"
+      ]
+    },
+    {
+      "Deduction": [
+        "tmp0.get_m31(27)",
+        "mul_res_limb_27"
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "range_check_big_value",
+        "air_fn_description": "Range Check Big Value",
+        "input_arg": {
+          "name": "tmp0",
+          "type": "Felt252"
+        },
+        "output": []
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "verify_mul_252",
+        "air_fn_description": "Verify Mul 252",
+        "input_arg": [
+          {
+            "name": "input[0]",
+            "type": "Felt252"
+          },
+          {
+            "name": "input[1]",
+            "type": "Felt252"
+          },
+          {
+            "name": "tmp0",
+            "type": "Felt252"
+          }
+        ],
+        "output": []
+      }
+    }
+  ],
+  "state": {
+    "row": [
+      [
+        "col0",
+        "mul_res_limb_0"
+      ],
+      [
+        "col1",
+        "mul_res_limb_1"
+      ],
+      [
+        "col2",
+        "mul_res_limb_2"
+      ],
+      [
+        "col3",
+        "mul_res_limb_3"
+      ],
+      [
+        "col4",
+        "mul_res_limb_4"
+      ],
+      [
+        "col5",
+        "mul_res_limb_5"
+      ],
+      [
+        "col6",
+        "mul_res_limb_6"
+      ],
+      [
+        "col7",
+        "mul_res_limb_7"
+      ],
+      [
+        "col8",
+        "mul_res_limb_8"
+      ],
+      [
+        "col9",
+        "mul_res_limb_9"
+      ],
+      [
+        "col10",
+        "mul_res_limb_10"
+      ],
+      [
+        "col11",
+        "mul_res_limb_11"
+      ],
+      [
+        "col12",
+        "mul_res_limb_12"
+      ],
+      [
+        "col13",
+        "mul_res_limb_13"
+      ],
+      [
+        "col14",
+        "mul_res_limb_14"
+      ],
+      [
+        "col15",
+        "mul_res_limb_15"
+      ],
+      [
+        "col16",
+        "mul_res_limb_16"
+      ],
+      [
+        "col17",
+        "mul_res_limb_17"
+      ],
+      [
+        "col18",
+        "mul_res_limb_18"
+      ],
+      [
+        "col19",
+        "mul_res_limb_19"
+      ],
+      [
+        "col20",
+        "mul_res_limb_20"
+      ],
+      [
+        "col21",
+        "mul_res_limb_21"
+      ],
+      [
+        "col22",
+        "mul_res_limb_22"
+      ],
+      [
+        "col23",
+        "mul_res_limb_23"
+      ],
+      [
+        "col24",
+        "mul_res_limb_24"
+      ],
+      [
+        "col25",
+        "mul_res_limb_25"
+      ],
+      [
+        "col26",
+        "mul_res_limb_26"
+      ],
+      [
+        "col27",
+        "mul_res_limb_27"
+      ],
+      [
+        "col28",
+        "k"
+      ],
+      [
+        "col29",
+        "carry_0"
+      ],
+      [
+        "col30",
+        "carry_1"
+      ],
+      [
+        "col31",
+        "carry_2"
+      ],
+      [
+        "col32",
+        "carry_3"
+      ],
+      [
+        "col33",
+        "carry_4"
+      ],
+      [
+        "col34",
+        "carry_5"
+      ],
+      [
+        "col35",
+        "carry_6"
+      ],
+      [
+        "col36",
+        "carry_7"
+      ],
+      [
+        "col37",
+        "carry_8"
+      ],
+      [
+        "col38",
+        "carry_9"
+      ],
+      [
+        "col39",
+        "carry_10"
+      ],
+      [
+        "col40",
+        "carry_11"
+      ],
+      [
+        "col41",
+        "carry_12"
+      ],
+      [
+        "col42",
+        "carry_13"
+      ],
+      [
+        "col43",
+        "carry_14"
+      ],
+      [
+        "col44",
+        "carry_15"
+      ],
+      [
+        "col45",
+        "carry_16"
+      ],
+      [
+        "col46",
+        "carry_17"
+      ],
+      [
+        "col47",
+        "carry_18"
+      ],
+      [
+        "col48",
+        "carry_19"
+      ],
+      [
+        "col49",
+        "carry_20"
+      ],
+      [
+        "col50",
+        "carry_21"
+      ],
+      [
+        "col51",
+        "carry_22"
+      ],
+      [
+        "col52",
+        "carry_23"
+      ],
+      [
+        "col53",
+        "carry_24"
+      ],
+      [
+        "col54",
+        "carry_25"
+      ],
+      [
+        "col55",
+        "carry_26"
+      ]
+    ]
+  }
+}
