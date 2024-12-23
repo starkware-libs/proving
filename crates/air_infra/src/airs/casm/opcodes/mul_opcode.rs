@@ -15,6 +15,7 @@ use crate::core::felt252_id_memory::read_positive::*;
 /// Implements the Cairo0 instructions:
 /// - [ap/fp + offset0] = [ap/fp + offset1] * [ap/fp + offset2]
 /// - [ap/fp + offset0] = [ap/fp + offset1] * Imm
+///
 /// is_small = true : multiplication factors are in the range [0, 2^15-1].
 /// is_small = false :  multiplication factors are in the range [0, 2**252 - 1].
 

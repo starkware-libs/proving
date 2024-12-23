@@ -27,7 +27,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           components: rustfmt
-          toolchain: nightly-2024-01-04
+          toolchain: nightly-2024-12-16
       - uses: Swatinem/rust-cache@v2
       - run: scripts/rust_fmt.sh --check
 
@@ -38,7 +38,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           components: clippy
-          toolchain: nightly-2024-01-04
+          toolchain: nightly-2024-12-16
       - uses: Swatinem/rust-cache@v2
       - run: scripts/clippy.sh
 
@@ -50,9 +50,9 @@ jobs:
         with:
           components: rustfmt
           profile: minimal
-          toolchain: nightly-2024-01-04
+          toolchain: nightly-2024-12-16
       - uses: Swatinem/rust-cache@v2
-      - run: cargo +nightly-2024-01-04 test --release
+      - run: cargo +nightly-2024-12-16 test --release
 
   run-avx-tests:
     runs-on: avx
@@ -61,7 +61,7 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         with:
           components: rustfmt
-          toolchain: nightly-2024-01-04
+          toolchain: nightly-2024-12-16
       - uses: Swatinem/rust-cache@v2
       - run: scripts/test_avx.sh
 
@@ -72,16 +72,16 @@ jobs:
       - uses: dtolnay/rust-toolchain@master
         name: "Rust Toolchain Setup"
         with:
-          toolchain: nightly-2024-01-04
+          toolchain: nightly-2024-12-16
       - uses: Swatinem/rust-cache@v2
         id: "cache-cargo"
       - if: ${{ steps.cache-cargo.outputs.cache-hit != 'true' }}
         name: "Download and run cargo-udeps"
         run: |
-          wget -O - -c https://github.com/est31/cargo-udeps/releases/download/v0.1.35/cargo-udeps-v0.1.35-x86_64-unknown-linux-gnu.tar.gz | tar -xz
+          wget -O - -c https://github.com/est31/cargo-udeps/releases/download/v0.1.53/cargo-udeps-v0.1.53-x86_64-unknown-linux-gnu.tar.gz | tar -xz
           cargo-udeps-*/cargo-udeps udeps
         env:
-          RUSTUP_TOOLCHAIN: nightly-2024-01-04
+          RUSTUP_TOOLCHAIN: nightly-2024-12-16
 
   all-tests:
     runs-on: ubuntu-latest
