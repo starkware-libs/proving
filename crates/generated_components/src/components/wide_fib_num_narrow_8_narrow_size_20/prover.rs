@@ -157,7 +157,7 @@ pub fn write_trace_simd(
             trace[2].data[row_index] = narrow_fib_num_steps_20_output_col2;
             sub_components_inputs.narrow_fib_num_steps_20_inputs[0].extend([M31_1, col0].unpack());
 
-            lookup_data.narrow_fib_num_steps_20[0].push([
+            lookup_data.narrow_fib_num_steps_20_0.push([
                 M31_1,
                 col0,
                 narrow_fib_num_steps_20_output_col1,
@@ -180,7 +180,7 @@ pub fn write_trace_simd(
                 .unpack(),
             );
 
-            lookup_data.narrow_fib_num_steps_20[1].push([
+            lookup_data.narrow_fib_num_steps_20_1.push([
                 narrow_fib_num_steps_20_output_col1,
                 narrow_fib_num_steps_20_output_col2,
                 narrow_fib_num_steps_20_output_col3,
@@ -203,7 +203,7 @@ pub fn write_trace_simd(
                 .unpack(),
             );
 
-            lookup_data.narrow_fib_num_steps_20[2].push([
+            lookup_data.narrow_fib_num_steps_20_2.push([
                 narrow_fib_num_steps_20_output_col3,
                 narrow_fib_num_steps_20_output_col4,
                 narrow_fib_num_steps_20_output_col5,
@@ -226,7 +226,7 @@ pub fn write_trace_simd(
                 .unpack(),
             );
 
-            lookup_data.narrow_fib_num_steps_20[3].push([
+            lookup_data.narrow_fib_num_steps_20_3.push([
                 narrow_fib_num_steps_20_output_col5,
                 narrow_fib_num_steps_20_output_col6,
                 narrow_fib_num_steps_20_output_col7,
@@ -249,7 +249,7 @@ pub fn write_trace_simd(
                 .unpack(),
             );
 
-            lookup_data.narrow_fib_num_steps_20[4].push([
+            lookup_data.narrow_fib_num_steps_20_4.push([
                 narrow_fib_num_steps_20_output_col7,
                 narrow_fib_num_steps_20_output_col8,
                 narrow_fib_num_steps_20_output_col9,
@@ -272,7 +272,7 @@ pub fn write_trace_simd(
                 .unpack(),
             );
 
-            lookup_data.narrow_fib_num_steps_20[5].push([
+            lookup_data.narrow_fib_num_steps_20_5.push([
                 narrow_fib_num_steps_20_output_col9,
                 narrow_fib_num_steps_20_output_col10,
                 narrow_fib_num_steps_20_output_col11,
@@ -295,7 +295,7 @@ pub fn write_trace_simd(
                 .unpack(),
             );
 
-            lookup_data.narrow_fib_num_steps_20[6].push([
+            lookup_data.narrow_fib_num_steps_20_6.push([
                 narrow_fib_num_steps_20_output_col11,
                 narrow_fib_num_steps_20_output_col12,
                 narrow_fib_num_steps_20_output_col13,
@@ -318,7 +318,7 @@ pub fn write_trace_simd(
                 .unpack(),
             );
 
-            lookup_data.narrow_fib_num_steps_20[7].push([
+            lookup_data.narrow_fib_num_steps_20_7.push([
                 narrow_fib_num_steps_20_output_col13,
                 narrow_fib_num_steps_20_output_col14,
                 narrow_fib_num_steps_20_output_col15,
@@ -331,22 +331,27 @@ pub fn write_trace_simd(
 }
 
 pub struct LookupData {
-    pub narrow_fib_num_steps_20: [Vec<[PackedM31; 4]>; 8],
+    narrow_fib_num_steps_20_0: Vec<[PackedM31; 4]>,
+    narrow_fib_num_steps_20_1: Vec<[PackedM31; 4]>,
+    narrow_fib_num_steps_20_2: Vec<[PackedM31; 4]>,
+    narrow_fib_num_steps_20_3: Vec<[PackedM31; 4]>,
+    narrow_fib_num_steps_20_4: Vec<[PackedM31; 4]>,
+    narrow_fib_num_steps_20_5: Vec<[PackedM31; 4]>,
+    narrow_fib_num_steps_20_6: Vec<[PackedM31; 4]>,
+    narrow_fib_num_steps_20_7: Vec<[PackedM31; 4]>,
 }
 impl LookupData {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            narrow_fib_num_steps_20: [
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-            ],
+            narrow_fib_num_steps_20_0: Vec::with_capacity(capacity),
+            narrow_fib_num_steps_20_1: Vec::with_capacity(capacity),
+            narrow_fib_num_steps_20_2: Vec::with_capacity(capacity),
+            narrow_fib_num_steps_20_3: Vec::with_capacity(capacity),
+            narrow_fib_num_steps_20_4: Vec::with_capacity(capacity),
+            narrow_fib_num_steps_20_5: Vec::with_capacity(capacity),
+            narrow_fib_num_steps_20_6: Vec::with_capacity(capacity),
+            narrow_fib_num_steps_20_7: Vec::with_capacity(capacity),
         }
     }
 }
@@ -368,7 +373,7 @@ impl InteractionClaimGenerator {
         let mut logup_gen = LogupTraceGenerator::new(log_size);
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20[0];
+        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_0;
         for (i, lookup_values) in lookup_row.iter().enumerate() {
             let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
@@ -376,7 +381,7 @@ impl InteractionClaimGenerator {
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20[1];
+        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_1;
         for (i, lookup_values) in lookup_row.iter().enumerate() {
             let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
@@ -384,7 +389,7 @@ impl InteractionClaimGenerator {
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20[2];
+        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_2;
         for (i, lookup_values) in lookup_row.iter().enumerate() {
             let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
@@ -392,7 +397,7 @@ impl InteractionClaimGenerator {
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20[3];
+        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_3;
         for (i, lookup_values) in lookup_row.iter().enumerate() {
             let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
@@ -400,7 +405,7 @@ impl InteractionClaimGenerator {
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20[4];
+        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_4;
         for (i, lookup_values) in lookup_row.iter().enumerate() {
             let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
@@ -408,7 +413,7 @@ impl InteractionClaimGenerator {
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20[5];
+        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_5;
         for (i, lookup_values) in lookup_row.iter().enumerate() {
             let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
@@ -416,7 +421,7 @@ impl InteractionClaimGenerator {
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20[6];
+        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_6;
         for (i, lookup_values) in lookup_row.iter().enumerate() {
             let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);
@@ -424,7 +429,7 @@ impl InteractionClaimGenerator {
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20[7];
+        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_7;
         for (i, lookup_values) in lookup_row.iter().enumerate() {
             let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, PackedQM31::one(), denom);

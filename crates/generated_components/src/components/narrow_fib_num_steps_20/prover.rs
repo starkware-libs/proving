@@ -232,20 +232,22 @@ pub fn write_trace_simd(
             let col21 = (((col19) * (col19)) + ((col20) * (col20)));
             trace[21].data[row_index] = col21;
 
-            lookup_data.narrow_fib_num_steps_20[0].push([input_col0, input_col1, col20, col21]);
+            lookup_data
+                .narrow_fib_num_steps_20_0
+                .push([input_col0, input_col1, col20, col21]);
         });
 
     (trace, sub_components_inputs, lookup_data)
 }
 
 pub struct LookupData {
-    pub narrow_fib_num_steps_20: [Vec<[PackedM31; 4]>; 1],
+    narrow_fib_num_steps_20_0: Vec<[PackedM31; 4]>,
 }
 impl LookupData {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            narrow_fib_num_steps_20: [Vec::with_capacity(capacity)],
+            narrow_fib_num_steps_20_0: Vec::with_capacity(capacity),
         }
     }
 }
@@ -267,7 +269,7 @@ impl InteractionClaimGenerator {
         let mut logup_gen = LogupTraceGenerator::new(log_size);
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20[0];
+        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_0;
         for (i, lookup_values) in lookup_row.iter().enumerate() {
             let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, -PackedQM31::one(), denom);

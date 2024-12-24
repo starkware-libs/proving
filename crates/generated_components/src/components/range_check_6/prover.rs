@@ -105,13 +105,13 @@ pub fn write_trace_simd() {
 }
 
 pub struct LookupData {
-    pub range_check_6: [Vec<[PackedM31; 1]>; 1],
+    range_check_6_0: Vec<[PackedM31; 1]>,
 }
 impl LookupData {
     #[allow(unused_variables)]
     fn with_capacity(capacity: usize) -> Self {
         Self {
-            range_check_6: [Vec::with_capacity(capacity)],
+            range_check_6_0: Vec::with_capacity(capacity),
         }
     }
 }
@@ -133,7 +133,7 @@ impl InteractionClaimGenerator {
         let mut logup_gen = LogupTraceGenerator::new(log_size);
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.range_check_6[0];
+        let lookup_row = &self.lookup_data.range_check_6_0;
         for (i, lookup_values) in lookup_row.iter().enumerate() {
             let denom = range_check_6_lookup_elements.combine(lookup_values);
             col_gen.write_frac(i, -PackedQM31::one(), denom);

@@ -123,7 +123,7 @@ fn generate_simd_write_trace_body_code(
                 let felts = &felts;
                 let collect_felts = quote! {
                     // TODO(Ohad): change this to not vec.
-                    lookup_data.$(relation_name.to_case(Case::Snake))[$(*offset)].push([$(felts)]);
+                    lookup_data.$(relation_name.to_case(Case::Snake))_$(*offset).push([$(felts)]);
                 };
                 write_trace_body.extend(collect_felts);
                 *offset += 1;
@@ -520,17 +520,17 @@ pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens 
         }
     }
 
-    for (&(relation_name, width), &offset) in
+    for (&(relation_name, width), &n_relation_terms) in
         relation_offsets.iter().sorted_by(|a, b| a.0 .0.cmp(b.0 .0))
     {
         let relation_name = relation_name.to_case(Case::Snake);
-        members_code.extend(quote! {
-            pub $(&relation_name): [Vec<[PackedM31; $width]>; $(offset)],
-        });
-        let inner_vecs = (0..offset)
-            .map(|_| quote! {Vec::with_capacity(capacity),})
-            .collect_vec();
-        initialization_code.extend(quote!($(&relation_name): [$(inner_vecs)],));
+        for offset in 0..n_relation_terms {
+            let member_name = format!("{relation_name}_{offset}");
+            members_code.extend(quote! {
+                $(&member_name): Vec<[PackedM31; $width]>,
+            });
+            initialization_code.extend(quote!($(member_name): Vec::with_capacity(capacity),));
+        }
     }
 
     quote! {
@@ -615,7 +615,7 @@ fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::T
         code.extend(quote! {
                 let mut col_gen = logup_gen.new_col();
                 let lookup_row = &self.lookup_data
-                                .$(relation_name.to_case(Case::Snake))[$(*term_offset)];
+                                .$(relation_name.to_case(Case::Snake))_$(*term_offset);
                 for (i, lookup_values) in lookup_row.iter().enumerate() {
                     let denom =
                         $(&relation_name.to_case(Case::Snake))_lookup_elements.combine(lookup_values);
