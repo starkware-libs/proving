@@ -67,7 +67,10 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     let n_logup_columns = match lists.n_lookup_terms {
         0 => unimplemented!(),
         1 => quote!(SECURE_EXTENSION_DEGREE),
-        _ => quote!(SECURE_EXTENSION_DEGREE * $(lists.n_lookup_terms)),
+        _ => {
+            let n_batches = lists.n_lookup_terms.div_ceil(2);
+            quote!(SECURE_EXTENSION_DEGREE * $(n_batches))
+        }
     };
     impl_code.append(quote! {
         impl Claim {
@@ -302,7 +305,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     }
     code.extend(quote! {
 
-        eval.finalize_logup();
+        eval.finalize_logup_in_pairs();
         eval
     });
     code

@@ -1,5 +1,7 @@
 #![allow(unused_parens)]
 #![allow(unused_imports)]
+use std::iter::zip;
+
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use prover_types::cpu::*;
@@ -260,7 +262,7 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace<MC: MerkleChannel>(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
-        narrow_fib_num_steps_20_lookup_elements: &relations::NarrowFibNumSteps20,
+        narrow_fib_num_steps_20: &relations::NarrowFibNumSteps20,
     ) -> InteractionClaim
     where
         SimdBackend: BackendForChannel<MC>,
@@ -268,10 +270,15 @@ impl InteractionClaimGenerator {
         let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
         let mut logup_gen = LogupTraceGenerator::new(log_size);
 
+        // Sum last logup term.
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_0;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
+        for (i, values) in self
+            .lookup_data
+            .narrow_fib_num_steps_20_0
+            .iter()
+            .enumerate()
+        {
+            let denom = narrow_fib_num_steps_20.combine(values);
             col_gen.write_frac(i, -PackedQM31::one(), denom);
         }
         col_gen.finalize_col();

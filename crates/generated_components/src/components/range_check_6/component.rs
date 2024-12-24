@@ -79,7 +79,7 @@ impl FrameworkEval for Eval {
             &[todo!()],
         ));
 
-        eval.finalize_logup();
+        eval.finalize_logup_in_pairs();
         eval
     }
 }

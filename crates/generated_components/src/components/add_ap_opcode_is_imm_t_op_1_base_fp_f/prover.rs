@@ -1,5 +1,7 @@
 #![allow(unused_parens)]
 #![allow(unused_imports)]
+use std::iter::zip;
+
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use prover_types::cpu::*;
@@ -338,10 +340,10 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace<MC: MerkleChannel>(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
-        memory_address_to_id_lookup_elements: &relations::MemoryAddressToId,
-        memory_id_to_big_lookup_elements: &relations::MemoryIdToBig,
-        opcodes_lookup_elements: &relations::Opcodes,
-        verify_instruction_lookup_elements: &relations::VerifyInstruction,
+        memory_address_to_id: &relations::MemoryAddressToId,
+        memory_id_to_big: &relations::MemoryIdToBig,
+        opcodes: &relations::Opcodes,
+        verify_instruction: &relations::VerifyInstruction,
     ) -> InteractionClaim
     where
         SimdBackend: BackendForChannel<MC>,
@@ -349,42 +351,37 @@ impl InteractionClaimGenerator {
         let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
         let mut logup_gen = LogupTraceGenerator::new(log_size);
 
+        // Sum logup terms in pairs.
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.verify_instruction_0;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = verify_instruction_lookup_elements.combine(lookup_values);
-            col_gen.write_frac(i, PackedQM31::one(), denom);
+        for (i, (values0, values1)) in zip(
+            &self.lookup_data.verify_instruction_0,
+            &self.lookup_data.memory_address_to_id_0,
+        )
+        .enumerate()
+        {
+            let denom0: PackedQM31 = verify_instruction.combine(values0);
+            let denom1: PackedQM31 = memory_address_to_id.combine(values1);
+            col_gen.write_frac(i, denom0 + denom1, denom0 * denom1);
         }
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.memory_address_to_id_0;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = memory_address_to_id_lookup_elements.combine(lookup_values);
-            col_gen.write_frac(i, PackedQM31::one(), denom);
+        for (i, (values0, values1)) in zip(
+            &self.lookup_data.memory_id_to_big_0,
+            &self.lookup_data.opcodes_0,
+        )
+        .enumerate()
+        {
+            let denom0: PackedQM31 = memory_id_to_big.combine(values0);
+            let denom1: PackedQM31 = opcodes.combine(values1);
+            col_gen.write_frac(i, denom0 + denom1, denom0 * denom1);
         }
         col_gen.finalize_col();
 
+        // Sum last logup term.
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.memory_id_to_big_0;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = memory_id_to_big_lookup_elements.combine(lookup_values);
-            col_gen.write_frac(i, PackedQM31::one(), denom);
-        }
-        col_gen.finalize_col();
-
-        let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.opcodes_0;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = opcodes_lookup_elements.combine(lookup_values);
-            col_gen.write_frac(i, PackedQM31::one(), denom);
-        }
-        col_gen.finalize_col();
-
-        let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.opcodes_1;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = opcodes_lookup_elements.combine(lookup_values);
+        for (i, values) in self.lookup_data.opcodes_1.iter().enumerate() {
+            let denom = opcodes.combine(values);
             col_gen.write_frac(i, -PackedQM31::one(), denom);
         }
         col_gen.finalize_col();

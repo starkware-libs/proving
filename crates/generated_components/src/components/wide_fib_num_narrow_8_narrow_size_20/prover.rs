@@ -1,5 +1,7 @@
 #![allow(unused_parens)]
 #![allow(unused_imports)]
+use std::iter::zip;
+
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use prover_types::cpu::*;
@@ -364,7 +366,7 @@ impl InteractionClaimGenerator {
     pub fn write_interaction_trace<MC: MerkleChannel>(
         self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
-        narrow_fib_num_steps_20_lookup_elements: &relations::NarrowFibNumSteps20,
+        narrow_fib_num_steps_20: &relations::NarrowFibNumSteps20,
     ) -> InteractionClaim
     where
         SimdBackend: BackendForChannel<MC>,
@@ -372,67 +374,56 @@ impl InteractionClaimGenerator {
         let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
         let mut logup_gen = LogupTraceGenerator::new(log_size);
 
+        // Sum logup terms in pairs.
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_0;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
-            col_gen.write_frac(i, PackedQM31::one(), denom);
+        for (i, (values0, values1)) in zip(
+            &self.lookup_data.narrow_fib_num_steps_20_0,
+            &self.lookup_data.narrow_fib_num_steps_20_1,
+        )
+        .enumerate()
+        {
+            let denom0: PackedQM31 = narrow_fib_num_steps_20.combine(values0);
+            let denom1: PackedQM31 = narrow_fib_num_steps_20.combine(values1);
+            col_gen.write_frac(i, denom0 + denom1, denom0 * denom1);
         }
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_1;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
-            col_gen.write_frac(i, PackedQM31::one(), denom);
+        for (i, (values0, values1)) in zip(
+            &self.lookup_data.narrow_fib_num_steps_20_2,
+            &self.lookup_data.narrow_fib_num_steps_20_3,
+        )
+        .enumerate()
+        {
+            let denom0: PackedQM31 = narrow_fib_num_steps_20.combine(values0);
+            let denom1: PackedQM31 = narrow_fib_num_steps_20.combine(values1);
+            col_gen.write_frac(i, denom0 + denom1, denom0 * denom1);
         }
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_2;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
-            col_gen.write_frac(i, PackedQM31::one(), denom);
+        for (i, (values0, values1)) in zip(
+            &self.lookup_data.narrow_fib_num_steps_20_4,
+            &self.lookup_data.narrow_fib_num_steps_20_5,
+        )
+        .enumerate()
+        {
+            let denom0: PackedQM31 = narrow_fib_num_steps_20.combine(values0);
+            let denom1: PackedQM31 = narrow_fib_num_steps_20.combine(values1);
+            col_gen.write_frac(i, denom0 + denom1, denom0 * denom1);
         }
         col_gen.finalize_col();
 
         let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_3;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
-            col_gen.write_frac(i, PackedQM31::one(), denom);
-        }
-        col_gen.finalize_col();
-
-        let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_4;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
-            col_gen.write_frac(i, PackedQM31::one(), denom);
-        }
-        col_gen.finalize_col();
-
-        let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_5;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
-            col_gen.write_frac(i, PackedQM31::one(), denom);
-        }
-        col_gen.finalize_col();
-
-        let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_6;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
-            col_gen.write_frac(i, PackedQM31::one(), denom);
-        }
-        col_gen.finalize_col();
-
-        let mut col_gen = logup_gen.new_col();
-        let lookup_row = &self.lookup_data.narrow_fib_num_steps_20_7;
-        for (i, lookup_values) in lookup_row.iter().enumerate() {
-            let denom = narrow_fib_num_steps_20_lookup_elements.combine(lookup_values);
-            col_gen.write_frac(i, PackedQM31::one(), denom);
+        for (i, (values0, values1)) in zip(
+            &self.lookup_data.narrow_fib_num_steps_20_6,
+            &self.lookup_data.narrow_fib_num_steps_20_7,
+        )
+        .enumerate()
+        {
+            let denom0: PackedQM31 = narrow_fib_num_steps_20.combine(values0);
+            let denom1: PackedQM31 = narrow_fib_num_steps_20.combine(values1);
+            col_gen.write_frac(i, denom0 + denom1, denom0 * denom1);
         }
         col_gen.finalize_col();
 

@@ -550,13 +550,12 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut lookup_elements = quote! {};
     for relation_name in unique_relation_calls(deductions).iter() {
         lookup_elements.extend(quote! {
-            $(relation_name.to_case(Case::Snake))_lookup_elements:
+            $(relation_name.to_case(Case::Snake)):
                     &relations::$(relation_name),
         });
     }
     quote! {
         impl InteractionClaimGenerator {
-            // TODO(Ohad): Batch in pairs.
             // TODO(Ohad): use partial sums.
             pub fn write_interaction_trace<MC: MerkleChannel>(
                 self,
@@ -595,30 +594,92 @@ fn generate_write_interaction_trace_body(deductions: &[TraceGenStep]) -> rust::T
         relation_data_offsets.insert(relation, 0);
     }
     let mut code = rust::Tokens::new();
+    let mut lookup_terms = deductions
+        .iter()
+        .filter_map(|d| {
+            if let TraceGenStep::LookupTerm(lookup_data) = d {
+                Some(lookup_data)
+            } else {
+                None
+            }
+        })
+        .collect_vec();
 
-    for LookupTerm {
+    // Batching logup in pairs. `finalize_logup_in_pairs` assumes that the first 2N terms are
+    // batched in pairs, and the remainder term is not batched.
+    let remainder = match lookup_terms.len() % 2 {
+        0 => None,
+        1 => lookup_terms.pop(),
+        _ => unreachable!(),
+    };
+    let pairs = lookup_terms.iter().tuples();
+
+    if lookup_terms.len() >= 2 {
+        code.extend(quote!($['\n']$("//")$(format!("Sum logup terms in pairs."))$("\n")));
+    }
+    for (term0, term1) in pairs {
+        code.extend(quote!());
+        let relation0 = &term0.relation_name;
+        let relation1 = &term1.relation_name;
+        let relation_0_snake_case = &relation0.to_case(Case::Snake);
+        let relation_1_snake_case = &relation1.to_case(Case::Snake);
+
+        let relation0_offset = relation_data_offsets.get_mut(relation0).unwrap();
+        let term0_offset = *relation0_offset;
+        *relation0_offset += 1;
+
+        let relation1_offset = relation_data_offsets.get_mut(relation1).unwrap();
+        let term1_offset = *relation1_offset;
+        *relation1_offset += 1;
+
+        // Projective fraction addition (with numerator +-1).
+        let (numerator, denom) = (
+            match (term0.use_or_yield, term1.use_or_yield) {
+                (UseOrYield::Use, UseOrYield::Use) => "denom0 + denom1",
+                (UseOrYield::Use, UseOrYield::Yield) => "denom1 - denom0",
+                (UseOrYield::Yield, UseOrYield::Use) => "denom - denom1",
+                (UseOrYield::Yield, UseOrYield::Yield) => "-(denom0 + denom1)",
+            },
+            "denom0 * denom1",
+        );
+        code.extend(quote! {
+            let mut col_gen = logup_gen.new_col();
+            for (i, (values0, values1)) in zip(
+                &self.lookup_data
+                            .$(relation_0_snake_case)_$(term0_offset),
+                &self.lookup_data
+                            .$(relation_1_snake_case)_$(term1_offset),
+            )
+            .enumerate()
+            {
+                let denom0: PackedQM31 = $(relation_0_snake_case).combine(values0);
+                let denom1: PackedQM31 = $(relation_1_snake_case).combine(values1);
+                col_gen.write_frac(i,$(numerator), $(denom));
+            }
+            col_gen.finalize_col();
+            $['\n']
+        });
+    }
+
+    // Handle odd remainder.
+    if let Some(LookupTerm {
         relation_name,
         felts: _,
         use_or_yield,
-    } in deductions.iter().filter_map(|d| {
-        if let TraceGenStep::LookupTerm(lookup_data) = d {
-            Some(lookup_data)
-        } else {
-            None
-        }
-    }) {
+    }) = remainder
+    {
         let term_offset = relation_data_offsets.get_mut(relation_name).unwrap();
         let sign = match use_or_yield {
             UseOrYield::Use => "",
             UseOrYield::Yield => "-",
         };
         code.extend(quote! {
+                $['\n']$("//")$(format!("Sum last logup term."))
                 let mut col_gen = logup_gen.new_col();
-                let lookup_row = &self.lookup_data
-                                .$(relation_name.to_case(Case::Snake))_$(*term_offset);
-                for (i, lookup_values) in lookup_row.iter().enumerate() {
+                for (i, values) in self.lookup_data
+                    .$(relation_name.to_case(Case::Snake))_$(*term_offset).iter().enumerate() {
                     let denom =
-                        $(&relation_name.to_case(Case::Snake))_lookup_elements.combine(lookup_values);
+                        $(&relation_name.to_case(Case::Snake)).combine(values);
                     col_gen.write_frac(i, $(sign)PackedQM31::one(), denom);
                 }
                 col_gen.finalize_col();
@@ -673,6 +734,8 @@ fn generate_configs(lists: &CompiledAirFn) -> rust::Tokens {
 fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         #![allow(unused_imports)]
+        use std::iter::zip;
+
         use itertools::{chain, zip_eq, Itertools};
         use num_traits::{One, Zero};
         use prover_types::cpu::*;

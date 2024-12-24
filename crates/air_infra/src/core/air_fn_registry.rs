@@ -164,7 +164,7 @@ impl AirFnEntry {
                     constraints.push(ConstraintEvalStep::LookupTerm(LookupTerm {
                         relation_name: relation_name.clone(),
                         felts: felts.clone().into_iter().map(|f| f.into()).collect(),
-                        use_or_yield: use_or_yield.clone(),
+                        use_or_yield,
                     }));
                     deductions.push(TraceGenStep::LookupTerm(LookupTerm {
                         relation_name,

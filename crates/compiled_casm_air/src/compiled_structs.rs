@@ -115,7 +115,7 @@ pub struct LookupTerm {
     pub use_or_yield: UseOrYield,
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub enum UseOrYield {
     Use,
     Yield,
