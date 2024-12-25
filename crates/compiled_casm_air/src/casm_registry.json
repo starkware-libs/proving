@@ -151,6 +151,56 @@
     "trace_cells_upper_bound": 127,
     "lookup_uses_upper_bound": 16
   },
+  "RangeCheck_6": {
+    "trace_type": "Component",
+    "num_state_cols": 0,
+    "lookup_uses": {},
+    "lookup_yield": true,
+    "lookup_multiplicity": true,
+    "total_num_trace_cols": 3,
+    "trace_cells_upper_bound": 3,
+    "lookup_uses_upper_bound": 0
+  },
+  "range_check_last_limb_bits_in_ms_limb_6": {
+    "trace_type": "Inline",
+    "num_state_cols": 0,
+    "lookup_uses": {
+      "RangeCheck_6": 1
+    },
+    "lookup_yield": false,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 2,
+    "trace_cells_upper_bound": 5,
+    "lookup_uses_upper_bound": 1
+  },
+  "read_positive_num_bits_96": {
+    "trace_type": "Inline",
+    "num_state_cols": 12,
+    "lookup_uses": {
+      "MemoryAddressToId": 1,
+      "RangeCheck_6": 1,
+      "MemoryIdToBig": 1
+    },
+    "lookup_yield": false,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 18,
+    "trace_cells_upper_bound": 127,
+    "lookup_uses_upper_bound": 17
+  },
+  "range_check_builtin_bits_96": {
+    "trace_type": "Builtin",
+    "num_state_cols": 12,
+    "lookup_uses": {
+      "MemoryAddressToId": 1,
+      "RangeCheck_6": 1,
+      "MemoryIdToBig": 1
+    },
+    "lookup_yield": false,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 18,
+    "trace_cells_upper_bound": 127,
+    "lookup_uses_upper_bound": 17
+  },
   "read_positive_num_bits_99": {
     "trace_type": "Inline",
     "num_state_cols": 12,
@@ -1025,28 +1075,6 @@
     "total_num_trace_cols": 11,
     "trace_cells_upper_bound": 120,
     "lookup_uses_upper_bound": 17
-  },
-  "RangeCheck_6": {
-    "trace_type": "Component",
-    "num_state_cols": 0,
-    "lookup_uses": {},
-    "lookup_yield": true,
-    "lookup_multiplicity": true,
-    "total_num_trace_cols": 3,
-    "trace_cells_upper_bound": 3,
-    "lookup_uses_upper_bound": 0
-  },
-  "range_check_last_limb_bits_in_ms_limb_6": {
-    "trace_type": "Inline",
-    "num_state_cols": 0,
-    "lookup_uses": {
-      "RangeCheck_6": 1
-    },
-    "lookup_yield": false,
-    "lookup_multiplicity": false,
-    "total_num_trace_cols": 2,
-    "trace_cells_upper_bound": 5,
-    "lookup_uses_upper_bound": 1
   },
   "read_positive_num_bits_15": {
     "trace_type": "Inline",

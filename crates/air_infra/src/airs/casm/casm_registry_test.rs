@@ -46,6 +46,10 @@ fn test_casm_registry() {
         bits: 128,
         memory: Felt252IdMemory::default(),
     });
+    reg.add_entry(&RangeCheckBuiltin {
+        bits: 96,
+        memory: Felt252IdMemory::default(),
+    });
     reg.add_entry(&AddModBuiltin::default());
 
     // Add opcodes
