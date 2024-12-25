@@ -95,13 +95,19 @@ impl AirFn for AssertEqOpcode {
         let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
         // Fetch dst
-        let mem_dst_base = flag_dst_base_fp.clone() * casm_state.fp().var
-            + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap().var;
+        let mem_dst_base = ab.assign(
+            &mut (flag_dst_base_fp.clone() * casm_state.fp().var
+                + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap().var),
+            "mem_dst_base",
+        );
 
         // Find mem1_base
         let mem1_base = if self.is_double_deref {
-            let mem0_base = flag_op0_base_fp.clone() * casm_state.fp().var
-                + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap().var;
+            let mem0_base = ab.assign(
+                &mut (flag_op0_base_fp.clone() * casm_state.fp().var
+                    + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap().var),
+                "mem0_base",
+            );
             self.memory
                 .read_address(ab, CasmAddress::new(mem0_base + offset1, "mem1_base"))
                 .var
@@ -112,7 +118,11 @@ impl AirFn for AssertEqOpcode {
                 flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1),
                 "Either flag op1_base_fp is on or flag op1_base_ap is on",
             );
-            flag_op1_base_fp * casm_state.fp().var + flag_op1_base_ap * casm_state.ap().var
+            ab.assign(
+                &mut (flag_op1_base_fp * casm_state.fp().var
+                    + flag_op1_base_ap * casm_state.ap().var),
+                "mem1_base",
+            )
         };
 
         // Assert that dst == op1

@@ -2300,7 +2300,9 @@
     }
   ],
   "add_opcode_is_small_t_is_imm_t": [
-    "(((((col11 + (col12 * 512)) + (col13 * 262144)) - col9) - (134217728 * col10)) - (((((col17 + (col18 * 512)) + (col19 * 262144)) - col15) - (134217728 * col16)) + ((((col23 + (col24 * 512)) + (col25 * 262144)) - col21) - (134217728 * col22))))",
+    "(((((col13 + (col14 * 512)) + (col15 * 262144)) - col11) - (134217728 * col12)) - (((((col19 + (col20 * 512)) + (col21 * 262144)) - col17) - (134217728 * col18)) + ((((col25 + (col26 * 512)) + (col27 * 262144)) - col23) - (134217728 * col24))))",
+    "(col8 - ((col5 * col2) + ((1 - col5) * col1)))",
+    "(col9 - ((col6 * col2) + ((1 - col6) * col1)))",
     {
       "fn_name": "decode_instruction_9aed6a790187299c",
       "input": "col0",
@@ -2308,18 +2310,18 @@
     },
     {
       "fn_name": "read_small",
-      "input": "(((col5 * col2) + ((1 - col5) * col1)) + (col3 - 32768))",
-      "output": "(((((col11 + (col12 * 512)) + (col13 * 262144)) - col9) - (134217728 * col10)), col8)"
-    },
-    {
-      "fn_name": "read_small",
-      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col4 - 32768))",
-      "output": "(((((col17 + (col18 * 512)) + (col19 * 262144)) - col15) - (134217728 * col16)), col14)"
-    },
-    {
-      "fn_name": "read_small",
       "input": "(col0 + 1)",
-      "output": "(((((col23 + (col24 * 512)) + (col25 * 262144)) - col21) - (134217728 * col22)), col20)"
+      "output": "(((((col25 + (col26 * 512)) + (col27 * 262144)) - col23) - (134217728 * col24)), col22)"
+    },
+    {
+      "fn_name": "read_small",
+      "input": "(col8 + (col3 - 32768))",
+      "output": "(((((col13 + (col14 * 512)) + (col15 * 262144)) - col11) - (134217728 * col12)), col10)"
+    },
+    {
+      "fn_name": "read_small",
+      "input": "(col9 + (col4 - 32768))",
+      "output": "(((((col19 + (col20 * 512)) + (col21 * 262144)) - col17) - (134217728 * col18)), col16)"
     },
     {
       "relation_name": "Opcodes",
@@ -2358,6 +2360,9 @@
   ],
   "add_opcode_is_small_f_is_imm_f": [
     "((col8 + col9) - 1)",
+    "(col11 - ((col6 * col2) + ((1 - col6) * col1)))",
+    "(col12 - ((col7 * col2) + ((1 - col7) * col1)))",
+    "(col13 - ((col8 * col2) + (col9 * col1)))",
     {
       "fn_name": "decode_instruction_52ce7a4a3d9be19a",
       "input": "col0",
@@ -2365,22 +2370,22 @@
     },
     {
       "fn_name": "read_positive_num_bits_252",
-      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col3 - 32768))",
-      "output": "(Felt252::from_limbs([col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39]), col11)"
+      "input": "(col11 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs([col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39, col40, col41, col42]), col14)"
     },
     {
       "fn_name": "read_positive_num_bits_252",
-      "input": "(((col7 * col2) + ((1 - col7) * col1)) + (col4 - 32768))",
-      "output": "(Felt252::from_limbs([col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68]), col40)"
+      "input": "(col12 + (col4 - 32768))",
+      "output": "(Felt252::from_limbs([col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68, col69, col70, col71]), col43)"
     },
     {
       "fn_name": "read_positive_num_bits_252",
-      "input": "(((col8 * col2) + (col9 * col1)) + (col5 - 32768))",
-      "output": "(Felt252::from_limbs([col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97]), col69)"
+      "input": "(col13 + (col5 - 32768))",
+      "output": "(Felt252::from_limbs([col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97, col98, col99, col100]), col72)"
     },
     {
       "fn_name": "verify_add_252",
-      "input": "[Felt252::from_limbs([col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68]), Felt252::from_limbs([col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97]), Felt252::from_limbs([col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39])]",
+      "input": "[Felt252::from_limbs([col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68, col69, col70, col71]), Felt252::from_limbs([col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97, col98, col99, col100]), Felt252::from_limbs([col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39, col40, col41, col42])]",
       "output": "()"
     },
     {
@@ -2393,8 +2398,11 @@
     }
   ],
   "add_opcode_is_small_t_is_imm_f": [
-    "(((((col14 + (col15 * 512)) + (col16 * 262144)) - col12) - (134217728 * col13)) - (((((col20 + (col21 * 512)) + (col22 * 262144)) - col18) - (134217728 * col19)) + ((((col26 + (col27 * 512)) + (col28 * 262144)) - col24) - (134217728 * col25))))",
+    "(((((col17 + (col18 * 512)) + (col19 * 262144)) - col15) - (134217728 * col16)) - (((((col23 + (col24 * 512)) + (col25 * 262144)) - col21) - (134217728 * col22)) + ((((col29 + (col30 * 512)) + (col31 * 262144)) - col27) - (134217728 * col28))))",
     "((col8 + col9) - 1)",
+    "(col11 - ((col6 * col2) + ((1 - col6) * col1)))",
+    "(col12 - ((col7 * col2) + ((1 - col7) * col1)))",
+    "(col13 - ((col8 * col2) + (col9 * col1)))",
     {
       "fn_name": "decode_instruction_52ce7a4a3d9be19a",
       "input": "col0",
@@ -2402,18 +2410,18 @@
     },
     {
       "fn_name": "read_small",
-      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col3 - 32768))",
-      "output": "(((((col14 + (col15 * 512)) + (col16 * 262144)) - col12) - (134217728 * col13)), col11)"
+      "input": "(col11 + (col3 - 32768))",
+      "output": "(((((col17 + (col18 * 512)) + (col19 * 262144)) - col15) - (134217728 * col16)), col14)"
     },
     {
       "fn_name": "read_small",
-      "input": "(((col7 * col2) + ((1 - col7) * col1)) + (col4 - 32768))",
-      "output": "(((((col20 + (col21 * 512)) + (col22 * 262144)) - col18) - (134217728 * col19)), col17)"
+      "input": "(col12 + (col4 - 32768))",
+      "output": "(((((col23 + (col24 * 512)) + (col25 * 262144)) - col21) - (134217728 * col22)), col20)"
     },
     {
       "fn_name": "read_small",
-      "input": "(((col8 * col2) + (col9 * col1)) + (col5 - 32768))",
-      "output": "(((((col26 + (col27 * 512)) + (col28 * 262144)) - col24) - (134217728 * col25)), col23)"
+      "input": "(col13 + (col5 - 32768))",
+      "output": "(((((col29 + (col30 * 512)) + (col31 * 262144)) - col27) - (134217728 * col28)), col26)"
     },
     {
       "relation_name": "Opcodes",
@@ -2425,6 +2433,8 @@
     }
   ],
   "add_opcode_is_small_f_is_imm_t": [
+    "(col8 - ((col5 * col2) + ((1 - col5) * col1)))",
+    "(col9 - ((col6 * col2) + ((1 - col6) * col1)))",
     {
       "fn_name": "decode_instruction_9aed6a790187299c",
       "input": "col0",
@@ -2432,22 +2442,22 @@
     },
     {
       "fn_name": "read_positive_num_bits_252",
-      "input": "(((col5 * col2) + ((1 - col5) * col1)) + (col3 - 32768))",
-      "output": "(Felt252::from_limbs([col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36]), col8)"
-    },
-    {
-      "fn_name": "read_positive_num_bits_252",
-      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col4 - 32768))",
-      "output": "(Felt252::from_limbs([col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65]), col37)"
-    },
-    {
-      "fn_name": "read_positive_num_bits_252",
       "input": "(col0 + 1)",
-      "output": "(Felt252::from_limbs([col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94]), col66)"
+      "output": "(Felt252::from_limbs([col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96]), col68)"
+    },
+    {
+      "fn_name": "read_positive_num_bits_252",
+      "input": "(col8 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs([col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38]), col10)"
+    },
+    {
+      "fn_name": "read_positive_num_bits_252",
+      "input": "(col9 + (col4 - 32768))",
+      "output": "(Felt252::from_limbs([col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67]), col39)"
     },
     {
       "fn_name": "verify_add_252",
-      "input": "[Felt252::from_limbs([col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65]), Felt252::from_limbs([col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94]), Felt252::from_limbs([col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36])]",
+      "input": "[Felt252::from_limbs([col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67]), Felt252::from_limbs([col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96]), Felt252::from_limbs([col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38])]",
       "output": "()"
     },
     {
@@ -2503,6 +2513,8 @@
   ],
   "assert_eq_opcode_is_double_deref_f_is_imm_f": [
     "((col6 + col7) - 1)",
+    "(col10 - ((col6 * col2) + (col7 * col1)))",
+    "(col9 - ((col5 * col2) + ((1 - col5) * col1)))",
     {
       "fn_name": "decode_instruction_dc55adb272664963",
       "input": "col0",
@@ -2510,7 +2522,7 @@
     },
     {
       "fn_name": "mem_verify_equal",
-      "input": "[(((col5 * col2) + ((1 - col5) * col1)) + (col3 - 32768)), (((col6 * col2) + (col7 * col1)) + (col4 - 32768))]",
+      "input": "[(col9 + (col3 - 32768)), (col10 + (col4 - 32768))]",
       "output": "()"
     },
     {
@@ -2549,6 +2561,8 @@
     }
   ],
   "assert_eq_opcode_is_double_deref_t_is_imm_f": [
+    "(col10 - ((col7 * col2) + ((1 - col7) * col1)))",
+    "(col9 - ((col6 * col2) + ((1 - col6) * col1)))",
     {
       "fn_name": "decode_instruction_a2af169c0fec5c47",
       "input": "col0",
@@ -2556,13 +2570,13 @@
     },
     {
       "fn_name": "mem_verify_equal",
-      "input": "[(((col6 * col2) + ((1 - col6) * col1)) + (col3 - 32768)), (((col10 + (col11 * 512)) + (col12 * 262144)) + (col5 - 32768))]",
+      "input": "[(col9 + (col3 - 32768)), (((col12 + (col13 * 512)) + (col14 * 262144)) + (col5 - 32768))]",
       "output": "()"
     },
     {
       "fn_name": "read_positive_num_bits_27",
-      "input": "(((col7 * col2) + ((1 - col7) * col1)) + (col4 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col10, col11, col12])), col9)"
+      "input": "(col10 + (col4 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col12, col13, col14])), col11)"
     },
     {
       "relation_name": "Opcodes",
@@ -2600,6 +2614,7 @@
     }
   ],
   "assert_eq_opcode_is_double_deref_f_is_imm_t": [
+    "(col6 - ((col4 * col2) + ((1 - col4) * col1)))",
     {
       "fn_name": "decode_instruction_684cf7138ce526e3",
       "input": "col0",
@@ -2607,7 +2622,7 @@
     },
     {
       "fn_name": "mem_verify_equal",
-      "input": "[(((col4 * col2) + ((1 - col4) * col1)) + (col3 - 32768)), (col0 + 1)]",
+      "input": "[(col6 + (col3 - 32768)), (col0 + 1)]",
       "output": "()"
     },
     {
@@ -3045,6 +3060,7 @@
   ],
   "jump_opcode_is_rel_t_is_imm_f_is_double_deref_f": [
     "((col4 + col5) - 1)",
+    "(col7 - ((col4 * col2) + (col5 * col1)))",
     {
       "fn_name": "decode_instruction_2cd1887fb89e83e3",
       "input": "col0",
@@ -3052,8 +3068,8 @@
     },
     {
       "fn_name": "read_small",
-      "input": "(((col4 * col2) + (col5 * col1)) + (col3 - 32768))",
-      "output": "(((((col10 + (col11 * 512)) + (col12 * 262144)) - col8) - (134217728 * col9)), col7)"
+      "input": "(col7 + (col3 - 32768))",
+      "output": "(((((col11 + (col12 * 512)) + (col13 * 262144)) - col9) - (134217728 * col10)), col8)"
     },
     {
       "relation_name": "Opcodes",
@@ -3091,6 +3107,7 @@
     }
   ],
   "jump_opcode_is_rel_f_is_imm_f_is_double_deref_t": [
+    "(col7 - ((col5 * col2) + ((1 - col5) * col1)))",
     {
       "fn_name": "decode_instruction_d5cc27a6f788af1d",
       "input": "col0",
@@ -3098,13 +3115,13 @@
     },
     {
       "fn_name": "read_positive_num_bits_27",
-      "input": "(((col5 * col2) + ((1 - col5) * col1)) + (col3 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col8, col9, col10])), col7)"
+      "input": "(((col9 + (col10 * 512)) + (col11 * 262144)) + (col4 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col13, col14, col15])), col12)"
     },
     {
       "fn_name": "read_positive_num_bits_27",
-      "input": "(((col8 + (col9 * 512)) + (col10 * 262144)) + (col4 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col12, col13, col14])), col11)"
+      "input": "(col7 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col9, col10, col11])), col8)"
     },
     {
       "relation_name": "Opcodes",
@@ -3143,6 +3160,7 @@
   ],
   "jump_opcode_is_rel_f_is_imm_f_is_double_deref_f": [
     "((col4 + col5) - 1)",
+    "(col7 - ((col4 * col2) + (col5 * col1)))",
     {
       "fn_name": "decode_instruction_ff344370bb4f7f54",
       "input": "col0",
@@ -3150,8 +3168,8 @@
     },
     {
       "fn_name": "read_positive_num_bits_27",
-      "input": "(((col4 * col2) + (col5 * col1)) + (col3 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col8, col9, col10])), col7)"
+      "input": "(col7 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col9, col10, col11])), col8)"
     },
     {
       "relation_name": "Opcodes",
@@ -3294,7 +3312,9 @@
     }
   ],
   "mul_opcode_is_small_t_is_imm_t": [
-    "((((col9 + (col10 * 512)) + (col11 * 262144)) + (col12 * 134217728)) - ((col14 + (col15 * 512)) * (col17 + (col18 * 512))))",
+    "((((col11 + (col12 * 512)) + (col13 * 262144)) + (col14 * 134217728)) - ((col16 + (col17 * 512)) * (col19 + (col20 * 512))))",
+    "(col8 - ((col5 * col2) + ((1 - col5) * col1)))",
+    "(col9 - ((col6 * col2) + ((1 - col6) * col1)))",
     {
       "fn_name": "decode_instruction_cea21b812a0ef1a0",
       "input": "col0",
@@ -3302,18 +3322,18 @@
     },
     {
       "fn_name": "read_positive_num_bits_15",
-      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col4 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col14, col15])), col13)"
+      "input": "(col0 + 1)",
+      "output": "(Felt252::from_limbs(zero_extend([col19, col20])), col18)"
     },
     {
       "fn_name": "read_positive_num_bits_15",
-      "input": "(col0 + 1)",
-      "output": "(Felt252::from_limbs(zero_extend([col17, col18])), col16)"
+      "input": "(col9 + (col4 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col16, col17])), col15)"
     },
     {
       "fn_name": "read_positive_num_bits_30",
-      "input": "(((col5 * col2) + ((1 - col5) * col1)) + (col3 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col9, col10, col11, col12])), col8)"
+      "input": "(col8 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col11, col12, col13, col14])), col10)"
     },
     {
       "relation_name": "Opcodes",
@@ -3351,8 +3371,11 @@
     }
   ],
   "mul_opcode_is_small_t_is_imm_f": [
-    "((((col12 + (col13 * 512)) + (col14 * 262144)) + (col15 * 134217728)) - ((col17 + (col18 * 512)) * (col20 + (col21 * 512))))",
+    "((((col15 + (col16 * 512)) + (col17 * 262144)) + (col18 * 134217728)) - ((col20 + (col21 * 512)) * (col23 + (col24 * 512))))",
     "((col8 + col9) - 1)",
+    "(col11 - ((col6 * col2) + ((1 - col6) * col1)))",
+    "(col12 - ((col7 * col2) + ((1 - col7) * col1)))",
+    "(col13 - ((col8 * col2) + (col9 * col1)))",
     {
       "fn_name": "decode_instruction_15f7159a39884cc",
       "input": "col0",
@@ -3360,18 +3383,18 @@
     },
     {
       "fn_name": "read_positive_num_bits_15",
-      "input": "(((col7 * col2) + ((1 - col7) * col1)) + (col4 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col17, col18])), col16)"
-    },
-    {
-      "fn_name": "read_positive_num_bits_15",
-      "input": "(((col8 * col2) + (col9 * col1)) + (col5 - 32768))",
+      "input": "(col12 + (col4 - 32768))",
       "output": "(Felt252::from_limbs(zero_extend([col20, col21])), col19)"
     },
     {
+      "fn_name": "read_positive_num_bits_15",
+      "input": "(col13 + (col5 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col23, col24])), col22)"
+    },
+    {
       "fn_name": "read_positive_num_bits_30",
-      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col3 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col12, col13, col14, col15])), col11)"
+      "input": "(col11 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs(zero_extend([col15, col16, col17, col18])), col14)"
     },
     {
       "relation_name": "Opcodes",
@@ -3384,6 +3407,9 @@
   ],
   "mul_opcode_is_small_f_is_imm_f": [
     "((col8 + col9) - 1)",
+    "(col11 - ((col6 * col2) + ((1 - col6) * col1)))",
+    "(col12 - ((col7 * col2) + ((1 - col7) * col1)))",
+    "(col13 - ((col8 * col2) + (col9 * col1)))",
     {
       "fn_name": "decode_instruction_15f7159a39884cc",
       "input": "col0",
@@ -3391,22 +3417,22 @@
     },
     {
       "fn_name": "read_positive_num_bits_252",
-      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col3 - 32768))",
-      "output": "(Felt252::from_limbs([col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39]), col11)"
+      "input": "(col11 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs([col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39, col40, col41, col42]), col14)"
     },
     {
       "fn_name": "read_positive_num_bits_252",
-      "input": "(((col7 * col2) + ((1 - col7) * col1)) + (col4 - 32768))",
-      "output": "(Felt252::from_limbs([col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68]), col40)"
+      "input": "(col12 + (col4 - 32768))",
+      "output": "(Felt252::from_limbs([col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68, col69, col70, col71]), col43)"
     },
     {
       "fn_name": "read_positive_num_bits_252",
-      "input": "(((col8 * col2) + (col9 * col1)) + (col5 - 32768))",
-      "output": "(Felt252::from_limbs([col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97]), col69)"
+      "input": "(col13 + (col5 - 32768))",
+      "output": "(Felt252::from_limbs([col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97, col98, col99, col100]), col72)"
     },
     {
       "fn_name": "verify_mul_252",
-      "input": "[Felt252::from_limbs([col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68]), Felt252::from_limbs([col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97]), Felt252::from_limbs([col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39])]",
+      "input": "[Felt252::from_limbs([col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67, col68, col69, col70, col71]), Felt252::from_limbs([col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96, col97, col98, col99, col100]), Felt252::from_limbs([col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38, col39, col40, col41, col42])]",
       "output": "()"
     },
     {
@@ -3419,6 +3445,8 @@
     }
   ],
   "mul_opcode_is_small_f_is_imm_t": [
+    "(col8 - ((col5 * col2) + ((1 - col5) * col1)))",
+    "(col9 - ((col6 * col2) + ((1 - col6) * col1)))",
     {
       "fn_name": "decode_instruction_cea21b812a0ef1a0",
       "input": "col0",
@@ -3426,22 +3454,22 @@
     },
     {
       "fn_name": "read_positive_num_bits_252",
-      "input": "(((col5 * col2) + ((1 - col5) * col1)) + (col3 - 32768))",
-      "output": "(Felt252::from_limbs([col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36]), col8)"
-    },
-    {
-      "fn_name": "read_positive_num_bits_252",
-      "input": "(((col6 * col2) + ((1 - col6) * col1)) + (col4 - 32768))",
-      "output": "(Felt252::from_limbs([col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65]), col37)"
-    },
-    {
-      "fn_name": "read_positive_num_bits_252",
       "input": "(col0 + 1)",
-      "output": "(Felt252::from_limbs([col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94]), col66)"
+      "output": "(Felt252::from_limbs([col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96]), col68)"
+    },
+    {
+      "fn_name": "read_positive_num_bits_252",
+      "input": "(col8 + (col3 - 32768))",
+      "output": "(Felt252::from_limbs([col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38]), col10)"
+    },
+    {
+      "fn_name": "read_positive_num_bits_252",
+      "input": "(col9 + (col4 - 32768))",
+      "output": "(Felt252::from_limbs([col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67]), col39)"
     },
     {
       "fn_name": "verify_mul_252",
-      "input": "[Felt252::from_limbs([col38, col39, col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65]), Felt252::from_limbs([col67, col68, col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94]), Felt252::from_limbs([col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36])]",
+      "input": "[Felt252::from_limbs([col40, col41, col42, col43, col44, col45, col46, col47, col48, col49, col50, col51, col52, col53, col54, col55, col56, col57, col58, col59, col60, col61, col62, col63, col64, col65, col66, col67]), Felt252::from_limbs([col69, col70, col71, col72, col73, col74, col75, col76, col77, col78, col79, col80, col81, col82, col83, col84, col85, col86, col87, col88, col89, col90, col91, col92, col93, col94, col95, col96]), Felt252::from_limbs([col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, col21, col22, col23, col24, col25, col26, col27, col28, col29, col30, col31, col32, col33, col34, col35, col36, col37, col38])]",
       "output": "()"
     },
     {

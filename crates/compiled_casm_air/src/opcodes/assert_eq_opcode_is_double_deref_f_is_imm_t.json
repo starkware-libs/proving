@@ -59,7 +59,8 @@
     "offset0_col3",
     "dst_base_fp_col4",
     "ap_update_add_1_col5",
-    "dst_id_col6"
+    "mem_dst_base_col6",
+    "dst_id_col7"
   ],
   "lookup_names": [
     "memory_address_to_id",
@@ -183,6 +184,57 @@
     },
     "EndBlock",
     {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mem_dst_base_col6"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "dst_base_fp_col4"
+                    },
+                    "*",
+                    {
+                      "State": "input_fp_col2"
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "1"
+                          ]
+                        },
+                        "-",
+                        {
+                          "State": "dst_base_fp_col4"
+                        }
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": "input_ap_col1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "mem_dst_base"
+      ]
+    },
+    {
       "StartBlock": "Mem Verify Equal"
     },
     {
@@ -192,42 +244,7 @@
           {
             "BinaryOp": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "dst_base_fp_col4"
-                      },
-                      "*",
-                      {
-                        "State": "input_fp_col2"
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
-                              "1"
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "dst_base_fp_col4"
-                          }
-                        ]
-                      },
-                      "*",
-                      {
-                        "State": "input_ap_col1"
-                      }
-                    ]
-                  }
-                ]
+                "State": "mem_dst_base_col6"
               },
               "+",
               {
@@ -247,7 +264,7 @@
             ]
           },
           {
-            "State": "dst_id_col6"
+            "State": "dst_id_col7"
           }
         ],
         "use_or_yield": "Use"
@@ -272,7 +289,7 @@
             ]
           },
           {
-            "State": "dst_id_col6"
+            "State": "dst_id_col7"
           }
         ],
         "use_or_yield": "Use"
@@ -1086,6 +1103,46 @@
     },
     "EndBlock",
     {
+      "Deduction": {
+        "BinaryOp": [
+          {
+            "BinaryOp": [
+              {
+                "State": "dst_base_fp_col4"
+              },
+              "*",
+              {
+                "State": "input_fp_col2"
+              }
+            ]
+          },
+          "+",
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Const": [
+                      "M31",
+                      "1"
+                    ]
+                  },
+                  "-",
+                  {
+                    "State": "dst_base_fp_col4"
+                  }
+                ]
+              },
+              "*",
+              {
+                "State": "input_ap_col1"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
       "StartBlock": "Mem Verify Equal"
     },
     {
@@ -1094,42 +1151,7 @@
         "input": {
           "BinaryOp": [
             {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "dst_base_fp_col4"
-                    },
-                    "*",
-                    {
-                      "State": "input_fp_col2"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "1"
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "dst_base_fp_col4"
-                        }
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "input_ap_col1"
-                    }
-                  ]
-                }
-              ]
+              "State": "mem_dst_base_col6"
             },
             "+",
             {
@@ -1165,42 +1187,7 @@
         "input": {
           "BinaryOp": [
             {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "dst_base_fp_col4"
-                    },
-                    "*",
-                    {
-                      "State": "input_fp_col2"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "1"
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "dst_base_fp_col4"
-                        }
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "input_ap_col1"
-                    }
-                  ]
-                }
-              ]
+              "State": "mem_dst_base_col6"
             },
             "+",
             {
@@ -1228,42 +1215,7 @@
           {
             "BinaryOp": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "dst_base_fp_col4"
-                      },
-                      "*",
-                      {
-                        "State": "input_fp_col2"
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
-                              "1"
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "dst_base_fp_col4"
-                          }
-                        ]
-                      },
-                      "*",
-                      {
-                        "State": "input_ap_col1"
-                      }
-                    ]
-                  }
-                ]
+                "State": "mem_dst_base_col6"
               },
               "+",
               {
@@ -1283,7 +1235,7 @@
             ]
           },
           {
-            "State": "dst_id_col6"
+            "State": "dst_id_col7"
           }
         ],
         "use_or_yield": "Use"
@@ -1327,7 +1279,7 @@
             ]
           },
           {
-            "State": "dst_id_col6"
+            "State": "dst_id_col7"
           }
         ],
         "use_or_yield": "Use"

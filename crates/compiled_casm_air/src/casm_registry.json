@@ -594,7 +594,7 @@
   },
   "add_opcode_is_small_t_is_imm_t": {
     "trace_type": "Opcode",
-    "num_state_cols": 26,
+    "num_state_cols": 28,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -603,8 +603,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 44,
-    "trace_cells_upper_bound": 513,
+    "total_num_trace_cols": 46,
+    "trace_cells_upper_bound": 515,
     "lookup_uses_upper_bound": 68
   },
   "decode_instruction_52ce7a4a3d9be19a": {
@@ -621,7 +621,7 @@
   },
   "add_opcode_is_small_f_is_imm_f": {
     "trace_type": "Opcode",
-    "num_state_cols": 99,
+    "num_state_cols": 102,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -630,13 +630,13 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 117,
-    "trace_cells_upper_bound": 586,
+    "total_num_trace_cols": 120,
+    "trace_cells_upper_bound": 589,
     "lookup_uses_upper_bound": 68
   },
   "add_opcode_is_small_t_is_imm_f": {
     "trace_type": "Opcode",
-    "num_state_cols": 29,
+    "num_state_cols": 32,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -645,13 +645,13 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 47,
-    "trace_cells_upper_bound": 516,
+    "total_num_trace_cols": 50,
+    "trace_cells_upper_bound": 519,
     "lookup_uses_upper_bound": 68
   },
   "add_opcode_is_small_f_is_imm_t": {
     "trace_type": "Opcode",
-    "num_state_cols": 96,
+    "num_state_cols": 98,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -660,8 +660,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 114,
-    "trace_cells_upper_bound": 583,
+    "total_num_trace_cols": 116,
+    "trace_cells_upper_bound": 585,
     "lookup_uses_upper_bound": 68
   },
   "decode_instruction_dc55adb272664963": {
@@ -690,7 +690,7 @@
   },
   "assert_eq_opcode_is_double_deref_f_is_imm_f": {
     "trace_type": "Opcode",
-    "num_state_cols": 10,
+    "num_state_cols": 12,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 2,
@@ -698,8 +698,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 20,
-    "trace_cells_upper_bound": 179,
+    "total_num_trace_cols": 22,
+    "trace_cells_upper_bound": 181,
     "lookup_uses_upper_bound": 22
   },
   "decode_instruction_a2af169c0fec5c47": {
@@ -716,7 +716,7 @@
   },
   "assert_eq_opcode_is_double_deref_t_is_imm_f": {
     "trace_type": "Opcode",
-    "num_state_cols": 14,
+    "num_state_cols": 16,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -725,8 +725,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 28,
-    "trace_cells_upper_bound": 293,
+    "total_num_trace_cols": 30,
+    "trace_cells_upper_bound": 295,
     "lookup_uses_upper_bound": 38
   },
   "decode_instruction_684cf7138ce526e3": {
@@ -743,7 +743,7 @@
   },
   "assert_eq_opcode_is_double_deref_f_is_imm_t": {
     "trace_type": "Opcode",
-    "num_state_cols": 7,
+    "num_state_cols": 8,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 2,
@@ -751,8 +751,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 17,
-    "trace_cells_upper_bound": 176,
+    "total_num_trace_cols": 18,
+    "trace_cells_upper_bound": 177,
     "lookup_uses_upper_bound": 22
   },
   "decode_instruction_d06cc8770ddfafbc": {
@@ -961,7 +961,7 @@
   },
   "jump_opcode_is_rel_t_is_imm_f_is_double_deref_f": {
     "trace_type": "Opcode",
-    "num_state_cols": 13,
+    "num_state_cols": 14,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 1,
@@ -970,8 +970,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 23,
-    "trace_cells_upper_bound": 280,
+    "total_num_trace_cols": 24,
+    "trace_cells_upper_bound": 281,
     "lookup_uses_upper_bound": 36
   },
   "decode_instruction_d5cc27a6f788af1d": {
@@ -988,7 +988,7 @@
   },
   "jump_opcode_is_rel_f_is_imm_f_is_double_deref_t": {
     "trace_type": "Opcode",
-    "num_state_cols": 15,
+    "num_state_cols": 16,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 2,
@@ -997,8 +997,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 29,
-    "trace_cells_upper_bound": 392,
+    "total_num_trace_cols": 30,
+    "trace_cells_upper_bound": 393,
     "lookup_uses_upper_bound": 52
   },
   "decode_instruction_ff344370bb4f7f54": {
@@ -1015,7 +1015,7 @@
   },
   "jump_opcode_is_rel_f_is_imm_f_is_double_deref_f": {
     "trace_type": "Opcode",
-    "num_state_cols": 11,
+    "num_state_cols": 12,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 1,
@@ -1024,8 +1024,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 21,
-    "trace_cells_upper_bound": 278,
+    "total_num_trace_cols": 22,
+    "trace_cells_upper_bound": 279,
     "lookup_uses_upper_bound": 36
   },
   "decode_instruction_cea21b812a0ef1a0": {
@@ -1092,7 +1092,7 @@
   },
   "mul_opcode_is_small_t_is_imm_t": {
     "trace_type": "Opcode",
-    "num_state_cols": 19,
+    "num_state_cols": 21,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -1103,8 +1103,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 43,
-    "trace_cells_upper_bound": 521,
+    "total_num_trace_cols": 45,
+    "trace_cells_upper_bound": 523,
     "lookup_uses_upper_bound": 71
   },
   "decode_instruction_15f7159a39884cc": {
@@ -1121,7 +1121,7 @@
   },
   "mul_opcode_is_small_t_is_imm_f": {
     "trace_type": "Opcode",
-    "num_state_cols": 22,
+    "num_state_cols": 25,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -1132,13 +1132,13 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 46,
-    "trace_cells_upper_bound": 524,
+    "total_num_trace_cols": 49,
+    "trace_cells_upper_bound": 527,
     "lookup_uses_upper_bound": 71
   },
   "mul_opcode_is_small_f_is_imm_f": {
     "trace_type": "Opcode",
-    "num_state_cols": 126,
+    "num_state_cols": 129,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -1148,13 +1148,13 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 200,
-    "trace_cells_upper_bound": 753,
+    "total_num_trace_cols": 203,
+    "trace_cells_upper_bound": 756,
     "lookup_uses_upper_bound": 96
   },
   "mul_opcode_is_small_f_is_imm_t": {
     "trace_type": "Opcode",
-    "num_state_cols": 123,
+    "num_state_cols": 125,
     "lookup_uses": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -1164,8 +1164,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 197,
-    "trace_cells_upper_bound": 750,
+    "total_num_trace_cols": 199,
+    "trace_cells_upper_bound": 752,
     "lookup_uses_upper_bound": 96
   },
   "decode_instruction_c94bba24192ecf68": {

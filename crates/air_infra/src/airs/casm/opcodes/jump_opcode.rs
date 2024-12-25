@@ -88,8 +88,11 @@ impl AirFn for JumpOpcode {
         let mem1_base = if self.is_imm {
             casm_state.pc().var
         } else if self.is_double_deref {
-            let mem0_base = op0_base_fp.clone() * casm_state.fp().var
-                + (const_expr!(1) - op0_base_fp) * casm_state.ap().var;
+            let mem0_base = ab.assign(
+                &mut (op0_base_fp.clone() * casm_state.fp().var
+                    + (const_expr!(1) - op0_base_fp) * casm_state.ap().var),
+                "mem0_base",
+            );
             self.memory
                 .read_address(ab, CasmAddress::new(mem0_base + offset1, "mem1_base"))
                 .var
@@ -98,7 +101,10 @@ impl AirFn for JumpOpcode {
                 op1_base_fp.clone() + op1_base_ap.clone() - const_expr!(1),
                 "Either flag op1_base_fp is on or flag op1_base_ap is on",
             );
-            op1_base_fp * casm_state.fp().var + op1_base_ap * casm_state.ap().var
+            ab.assign(
+                &mut (op1_base_fp * casm_state.fp().var + op1_base_ap * casm_state.ap().var),
+                "mem1_base",
+            )
         };
 
         let next_pc = if self.is_rel {
