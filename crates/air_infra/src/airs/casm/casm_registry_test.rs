@@ -261,11 +261,17 @@ fn get_compiled_entry_statistics(
         }
     }
 
-    stat.insert(
+    let key = if let Some(OPCODES_RELATION_NAME) = compiled_entry.relation_name.as_deref() {
+        compiled_entry.name.clone()
+    } else {
         compiled_entry
             .relation_name
             .clone()
-            .unwrap_or(compiled_entry.name.clone()),
+            .unwrap_or(compiled_entry.name.clone())
+    };
+
+    stat.insert(
+        key,
         CompiledAirFnStat {
             trace_type: format!("{:?}", trace_type),
             num_state_cols,
