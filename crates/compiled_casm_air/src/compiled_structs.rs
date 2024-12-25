@@ -37,7 +37,7 @@ pub enum TraceGenStep {
     // The argument is a polynomial in in-state values.
     Deduction(CompiledAirVar),
 
-    Intermediate(String, CompiledAirVar),
+    Intermediate(Intermediate),
 
     // Gets the output of the component (fast deduction).
     LookupCall {
@@ -74,7 +74,7 @@ pub enum ConstraintEvalStep {
     // constraints on the accumulated sum (the logup).
     LookupTerm(LookupTerm),
 
-    Intermediate(String, CompiledAirVar),
+    Intermediate(Intermediate),
 }
 
 // Air variables as represented in the deductions and constrains lists.
@@ -109,6 +109,13 @@ pub enum CompiledAirVar {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
+pub struct Intermediate {
+    pub name: String,
+    pub r#type: String,
+    pub var: CompiledAirVar,
+}
+
+#[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub struct LookupTerm {
     pub relation_name: String,
     pub felts: Vec<CompiledAirVar>,
@@ -138,7 +145,11 @@ pub struct CompiledAirFnStat {
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash, PartialOrd, Ord)]
 #[serde(untagged)]
 pub enum ConstraintLeanCompare {
-    Intermediate(String, String),
+    Intermediate {
+        name: String,
+        r#type: String,
+        var: String,
+    },
     Constraint(String),
     Call {
         fn_name: String,

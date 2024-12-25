@@ -91,9 +91,10 @@
       ]
     },
     {
-      "Intermediate": [
-        "bit_before_msb_tmp_c9e8_3",
-        {
+      "Intermediate": {
+        "name": "bit_before_msb_tmp_c9e8_3",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "State": "value_limb_14_col15"
@@ -115,7 +116,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Constraint": [
@@ -694,9 +695,10 @@
       "StartBlock": "Range Check Last Limb Bits In Ms Limb 2"
     },
     {
-      "Intermediate": [
-        "msb_tmp_c9e8_2",
-        {
+      "Intermediate": {
+        "name": "msb_tmp_c9e8_2",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -728,7 +730,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {

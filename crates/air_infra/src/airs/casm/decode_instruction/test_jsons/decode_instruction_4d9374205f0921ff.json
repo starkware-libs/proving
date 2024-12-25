@@ -113,6 +113,7 @@
     {
       "Intermediate": [
         "offset1_tmp_4d93_2",
+        "UInt16",
         {
           "name": "(((UInt16::from_m31(tmp1.get_m31(1)) >> 7) + (UInt16::from_m31(tmp1.get_m31(2)) << 2)) + ((UInt16::from_m31(tmp1.get_m31(3)) & 31) << 11))",
           "type": "UInt16"
@@ -132,6 +133,7 @@
     {
       "Intermediate": [
         "dst_base_fp_tmp_4d93_3",
+        "UInt16",
         {
           "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 0) & 1)",
           "type": "UInt16"
@@ -151,6 +153,7 @@
     {
       "Intermediate": [
         "op1_imm_tmp_4d93_4",
+        "UInt16",
         {
           "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 2) & 1)",
           "type": "UInt16"

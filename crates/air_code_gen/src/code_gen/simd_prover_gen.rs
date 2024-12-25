@@ -1,7 +1,7 @@
 use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, LookupTerm, TraceGenStep, UseOrYield,
+    CompiledAirFn, CompiledAirVar, Intermediate, LookupTerm, TraceGenStep, UseOrYield,
 };
 use convert_case::{Case, Casing};
 use genco::lang::{rust, Rust};
@@ -78,9 +78,13 @@ fn generate_simd_write_trace_body_code(
                 });
                 offset += 1;
             }
-            TraceGenStep::Intermediate(name, expr) => {
+            TraceGenStep::Intermediate(Intermediate {
+                name,
+                r#type: _,
+                var,
+            }) => {
                 write_trace_body.extend(quote! {
-                    let $(name) = $(simd_parse_air_var(expr,const_names));
+                    let $(name) = $(simd_parse_air_var(var,const_names));
                 });
             }
             TraceGenStep::LookupCall {
@@ -222,8 +226,12 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
                 TraceGenStep::Deduction(expr, ..) => {
                     const_defs.extend(seek_consts(expr));
                 }
-                TraceGenStep::Intermediate(_, expr) => {
-                    const_defs.extend(seek_consts(expr));
+                TraceGenStep::Intermediate(Intermediate {
+                    name: _,
+                    r#type: _,
+                    var,
+                }) => {
+                    const_defs.extend(seek_consts(var));
                 }
                 TraceGenStep::LookupTerm(LookupTerm {
                     relation_name: _,

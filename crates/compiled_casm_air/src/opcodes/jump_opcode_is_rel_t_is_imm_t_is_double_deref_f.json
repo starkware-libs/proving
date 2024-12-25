@@ -834,15 +834,16 @@
   ],
   "deductions": [
     {
-      "Intermediate": [
-        "input_tmp_ad2c_0",
-        {
+      "Intermediate": {
+        "name": "input_tmp_ad2c_0",
+        "type": "CasmState",
+        "var": {
           "Var": [
             "CasmState",
             "jump_opcode_is_rel_t_is_imm_t_is_double_deref_f_input"
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -893,9 +894,10 @@
       }
     },
     {
-      "Intermediate": [
-        "ap_update_add_1_tmp_ad2c_3",
-        {
+      "Intermediate": {
+        "name": "ap_update_add_1_tmp_ad2c_3",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -996,7 +998,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1471,9 +1473,10 @@
       "StartBlock": "Cond Decode Small Sign"
     },
     {
-      "Intermediate": [
-        "msb_tmp_ad2c_6",
-        {
+      "Intermediate": {
+        "name": "msb_tmp_ad2c_6",
+        "type": "Bool",
+        "var": {
           "MethodCall": [
             {
               "MethodCall": [
@@ -1505,7 +1508,7 @@
             ]
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1522,9 +1525,10 @@
       }
     },
     {
-      "Intermediate": [
-        "mid_limbs_set_tmp_ad2c_7",
-        {
+      "Intermediate": {
+        "name": "mid_limbs_set_tmp_ad2c_7",
+        "type": "Bool",
+        "var": {
           "MethodCall": [
             {
               "MethodCall": [
@@ -1556,7 +1560,7 @@
             ]
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {

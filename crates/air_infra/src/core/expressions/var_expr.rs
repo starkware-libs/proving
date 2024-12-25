@@ -108,6 +108,10 @@ where
     fn get_intermediate_types(&self) -> Vec<IntermediateType> {
         self.intermediate_type.clone().map_or(vec![], |t| vec![t])
     }
+
+    fn prover_type(&self) -> String {
+        T::r#type()
+    }
 }
 
 impl<T> From<VarExpr<T>> for CompiledAirVar

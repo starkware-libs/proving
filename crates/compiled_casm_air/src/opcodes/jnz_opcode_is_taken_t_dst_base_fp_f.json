@@ -669,9 +669,10 @@
       ]
     },
     {
-      "Intermediate": [
-        "diff_from_p_tmp_490d_7",
-        {
+      "Intermediate": {
+        "name": "diff_from_p_tmp_490d_7",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "State": "dst_limb_0_col6"
@@ -685,12 +686,13 @@
             }
           ]
         }
-      ]
+      }
     },
     {
-      "Intermediate": [
-        "diff_from_p_tmp_490d_8",
-        {
+      "Intermediate": {
+        "name": "diff_from_p_tmp_490d_8",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "State": "dst_limb_21_col27"
@@ -704,12 +706,13 @@
             }
           ]
         }
-      ]
+      }
     },
     {
-      "Intermediate": [
-        "diff_from_p_tmp_490d_9",
-        {
+      "Intermediate": {
+        "name": "diff_from_p_tmp_490d_9",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "State": "dst_limb_27_col33"
@@ -723,7 +726,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Constraint": [
@@ -1602,15 +1605,16 @@
   ],
   "deductions": [
     {
-      "Intermediate": [
-        "input_tmp_490d_0",
-        {
+      "Intermediate": {
+        "name": "input_tmp_490d_0",
+        "type": "CasmState",
+        "var": {
           "Var": [
             "CasmState",
             "jnz_opcode_is_taken_t_dst_base_fp_f_input"
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1661,9 +1665,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset0_tmp_490d_3",
-        {
+      "Intermediate": {
+        "name": "offset0_tmp_490d_3",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "StaticCall": [
@@ -1742,7 +1747,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1759,9 +1764,10 @@
       }
     },
     {
-      "Intermediate": [
-        "ap_update_add_1_tmp_490d_4",
-        {
+      "Intermediate": {
+        "name": "ap_update_add_1_tmp_490d_4",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1862,7 +1868,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -3284,9 +3290,10 @@
       }
     },
     {
-      "Intermediate": [
-        "diff_from_p_tmp_490d_7",
-        {
+      "Intermediate": {
+        "name": "diff_from_p_tmp_490d_7",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "State": "dst_limb_0_col6"
@@ -3300,12 +3307,13 @@
             }
           ]
         }
-      ]
+      }
     },
     {
-      "Intermediate": [
-        "diff_from_p_tmp_490d_8",
-        {
+      "Intermediate": {
+        "name": "diff_from_p_tmp_490d_8",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "State": "dst_limb_21_col27"
@@ -3319,12 +3327,13 @@
             }
           ]
         }
-      ]
+      }
     },
     {
-      "Intermediate": [
-        "diff_from_p_tmp_490d_9",
-        {
+      "Intermediate": {
+        "name": "diff_from_p_tmp_490d_9",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "State": "dst_limb_27_col33"
@@ -3338,7 +3347,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -3716,9 +3725,10 @@
       "StartBlock": "Cond Decode Small Sign"
     },
     {
-      "Intermediate": [
-        "msb_tmp_490d_12",
-        {
+      "Intermediate": {
+        "name": "msb_tmp_490d_12",
+        "type": "Bool",
+        "var": {
           "MethodCall": [
             {
               "MethodCall": [
@@ -3750,7 +3760,7 @@
             ]
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -3767,9 +3777,10 @@
       }
     },
     {
-      "Intermediate": [
-        "mid_limbs_set_tmp_490d_13",
-        {
+      "Intermediate": {
+        "name": "mid_limbs_set_tmp_490d_13",
+        "type": "Bool",
+        "var": {
           "MethodCall": [
             {
               "MethodCall": [
@@ -3801,7 +3812,7 @@
             ]
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {

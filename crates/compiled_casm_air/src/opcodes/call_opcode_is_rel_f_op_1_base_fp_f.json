@@ -1048,15 +1048,16 @@
   ],
   "deductions": [
     {
-      "Intermediate": [
-        "input_tmp_eefa_0",
-        {
+      "Intermediate": {
+        "name": "input_tmp_eefa_0",
+        "type": "CasmState",
+        "var": {
           "Var": [
             "CasmState",
             "call_opcode_is_rel_f_op_1_base_fp_f_input"
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1107,9 +1108,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset2_tmp_eefa_3",
-        {
+      "Intermediate": {
+        "name": "offset2_tmp_eefa_3",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1241,7 +1243,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {

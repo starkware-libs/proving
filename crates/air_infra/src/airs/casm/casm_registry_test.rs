@@ -318,16 +318,18 @@ fn get_constraints(entry: &AirFnEntry) -> Vec<ConstraintLeanCompare> {
             }
             AirBodyComponent::Intermediate(
                 name,
+                ty,
                 expr,
                 IntermediateType {
                     in_constraints: true,
                     in_deductions: _,
                 },
             ) => {
-                res.push(ConstraintLeanCompare::Intermediate(
-                    remove_desc(&name),
-                    CompiledAirVar::from(expr).to_string(),
-                ));
+                res.push(ConstraintLeanCompare::Intermediate {
+                    name: remove_desc(&name),
+                    r#type: ty,
+                    var: CompiledAirVar::from(expr).to_string(),
+                });
             }
             AirBodyComponent::Call(Call {
                 air_fn_name,

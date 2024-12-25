@@ -1149,15 +1149,16 @@
   ],
   "deductions": [
     {
-      "Intermediate": [
-        "input_tmp_96f2_0",
-        {
+      "Intermediate": {
+        "name": "input_tmp_96f2_0",
+        "type": "CasmState",
+        "var": {
           "Var": [
             "CasmState",
             "mul_opcode_is_small_t_is_imm_f_input"
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1208,9 +1209,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset0_tmp_96f2_3",
-        {
+      "Intermediate": {
+        "name": "offset0_tmp_96f2_3",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "StaticCall": [
@@ -1289,7 +1291,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1306,9 +1308,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset1_tmp_96f2_4",
-        {
+      "Intermediate": {
+        "name": "offset1_tmp_96f2_4",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1440,7 +1443,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1457,9 +1460,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset2_tmp_96f2_5",
-        {
+      "Intermediate": {
+        "name": "offset2_tmp_96f2_5",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1591,7 +1595,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1608,9 +1612,10 @@
       }
     },
     {
-      "Intermediate": [
-        "dst_base_fp_tmp_96f2_6",
-        {
+      "Intermediate": {
+        "name": "dst_base_fp_tmp_96f2_6",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1711,7 +1716,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1728,9 +1733,10 @@
       }
     },
     {
-      "Intermediate": [
-        "op0_base_fp_tmp_96f2_7",
-        {
+      "Intermediate": {
+        "name": "op0_base_fp_tmp_96f2_7",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1831,7 +1837,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1848,9 +1854,10 @@
       }
     },
     {
-      "Intermediate": [
-        "op1_base_fp_tmp_96f2_8",
-        {
+      "Intermediate": {
+        "name": "op1_base_fp_tmp_96f2_8",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1951,7 +1958,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1968,9 +1975,10 @@
       }
     },
     {
-      "Intermediate": [
-        "op1_base_ap_tmp_96f2_9",
-        {
+      "Intermediate": {
+        "name": "op1_base_ap_tmp_96f2_9",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -2071,7 +2079,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -2088,9 +2096,10 @@
       }
     },
     {
-      "Intermediate": [
-        "ap_update_add_1_tmp_96f2_10",
-        {
+      "Intermediate": {
+        "name": "ap_update_add_1_tmp_96f2_10",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -2191,7 +2200,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {

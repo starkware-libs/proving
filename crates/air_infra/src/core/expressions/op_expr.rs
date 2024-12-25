@@ -72,6 +72,10 @@ where
             .flat_map(|v| v.get_intermediate_types())
             .collect()
     }
+
+    fn prover_type(&self) -> String {
+        T::r#type()
+    }
 }
 
 impl<T> From<OpExpr<T>> for CompiledAirVar

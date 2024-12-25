@@ -23,6 +23,7 @@
     {
       "Intermediate": [
         "sub_p_bit_tmp_4afb_0",
+        "UInt16",
         {
           "name": "(1 & ((UInt16::from_m31(input[0].get_m31(0)) ^ UInt16::from_m31(input[1].get_m31(0))) ^ UInt16::from_m31(input[2].get_m31(0))))",
           "type": "UInt16"
@@ -48,6 +49,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_1",
+        "M31",
         {
           "name": "(((((input[0].get_m31(0) + input[1].get_m31(0)) + 0) - input[2].get_m31(0)) - (1 * col0)) * 4194304)",
           "type": "M31"
@@ -66,6 +68,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_2",
+        "M31",
         {
           "name": "(((((input[0].get_m31(1) + input[1].get_m31(1)) + tmp1) - input[2].get_m31(1)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -84,6 +87,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_3",
+        "M31",
         {
           "name": "(((((input[0].get_m31(2) + input[1].get_m31(2)) + tmp2) - input[2].get_m31(2)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -102,6 +106,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_4",
+        "M31",
         {
           "name": "(((((input[0].get_m31(3) + input[1].get_m31(3)) + tmp3) - input[2].get_m31(3)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -120,6 +125,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_5",
+        "M31",
         {
           "name": "(((((input[0].get_m31(4) + input[1].get_m31(4)) + tmp4) - input[2].get_m31(4)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -138,6 +144,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_6",
+        "M31",
         {
           "name": "(((((input[0].get_m31(5) + input[1].get_m31(5)) + tmp5) - input[2].get_m31(5)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -156,6 +163,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_7",
+        "M31",
         {
           "name": "(((((input[0].get_m31(6) + input[1].get_m31(6)) + tmp6) - input[2].get_m31(6)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -174,6 +182,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_8",
+        "M31",
         {
           "name": "(((((input[0].get_m31(7) + input[1].get_m31(7)) + tmp7) - input[2].get_m31(7)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -192,6 +201,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_9",
+        "M31",
         {
           "name": "(((((input[0].get_m31(8) + input[1].get_m31(8)) + tmp8) - input[2].get_m31(8)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -210,6 +220,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_10",
+        "M31",
         {
           "name": "(((((input[0].get_m31(9) + input[1].get_m31(9)) + tmp9) - input[2].get_m31(9)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -228,6 +239,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_11",
+        "M31",
         {
           "name": "(((((input[0].get_m31(10) + input[1].get_m31(10)) + tmp10) - input[2].get_m31(10)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -246,6 +258,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_12",
+        "M31",
         {
           "name": "(((((input[0].get_m31(11) + input[1].get_m31(11)) + tmp11) - input[2].get_m31(11)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -264,6 +277,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_13",
+        "M31",
         {
           "name": "(((((input[0].get_m31(12) + input[1].get_m31(12)) + tmp12) - input[2].get_m31(12)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -282,6 +296,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_14",
+        "M31",
         {
           "name": "(((((input[0].get_m31(13) + input[1].get_m31(13)) + tmp13) - input[2].get_m31(13)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -300,6 +315,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_15",
+        "M31",
         {
           "name": "(((((input[0].get_m31(14) + input[1].get_m31(14)) + tmp14) - input[2].get_m31(14)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -318,6 +334,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_16",
+        "M31",
         {
           "name": "(((((input[0].get_m31(15) + input[1].get_m31(15)) + tmp15) - input[2].get_m31(15)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -336,6 +353,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_17",
+        "M31",
         {
           "name": "(((((input[0].get_m31(16) + input[1].get_m31(16)) + tmp16) - input[2].get_m31(16)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -354,6 +372,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_18",
+        "M31",
         {
           "name": "(((((input[0].get_m31(17) + input[1].get_m31(17)) + tmp17) - input[2].get_m31(17)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -372,6 +391,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_19",
+        "M31",
         {
           "name": "(((((input[0].get_m31(18) + input[1].get_m31(18)) + tmp18) - input[2].get_m31(18)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -390,6 +410,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_20",
+        "M31",
         {
           "name": "(((((input[0].get_m31(19) + input[1].get_m31(19)) + tmp19) - input[2].get_m31(19)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -408,6 +429,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_21",
+        "M31",
         {
           "name": "(((((input[0].get_m31(20) + input[1].get_m31(20)) + tmp20) - input[2].get_m31(20)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -426,6 +448,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_22",
+        "M31",
         {
           "name": "(((((input[0].get_m31(21) + input[1].get_m31(21)) + tmp21) - input[2].get_m31(21)) - (136 * col0)) * 4194304)",
           "type": "M31"
@@ -444,6 +467,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_23",
+        "M31",
         {
           "name": "(((((input[0].get_m31(22) + input[1].get_m31(22)) + tmp22) - input[2].get_m31(22)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -462,6 +486,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_24",
+        "M31",
         {
           "name": "(((((input[0].get_m31(23) + input[1].get_m31(23)) + tmp23) - input[2].get_m31(23)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -480,6 +505,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_25",
+        "M31",
         {
           "name": "(((((input[0].get_m31(24) + input[1].get_m31(24)) + tmp24) - input[2].get_m31(24)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -498,6 +524,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_26",
+        "M31",
         {
           "name": "(((((input[0].get_m31(25) + input[1].get_m31(25)) + tmp25) - input[2].get_m31(25)) - (0 * col0)) * 4194304)",
           "type": "M31"
@@ -516,6 +543,7 @@
     {
       "Intermediate": [
         "carry_tmp_4afb_27",
+        "M31",
         {
           "name": "(((((input[0].get_m31(26) + input[1].get_m31(26)) + tmp26) - input[2].get_m31(26)) - (0 * col0)) * 4194304)",
           "type": "M31"

@@ -85,6 +85,8 @@ pub trait InternalAirVarInfo: Debug {
     }
 
     fn get_intermediate_types(&self) -> Vec<IntermediateType>;
+
+    fn prover_type(&self) -> String;
 }
 
 // Actions on air variables used by the air builder.
@@ -172,6 +174,35 @@ impl InternalAirVarInfo for AirVarImpl {
                 .collect(),
         }
     }
+
+    fn prover_type(&self) -> String {
+        match self {
+            AirVarImpl::Expr(expr) => expr.prover_type(),
+            AirVarImpl::Tuple(vars) => {
+                format!(
+                    "({})",
+                    vars.iter()
+                        .map(|v| v.prover_type())
+                        .collect::<Vec<_>>()
+                        .join(", ")
+                )
+            }
+            AirVarImpl::Array(vars) => {
+                format!(
+                    "[{}]",
+                    vars.iter()
+                        .map(|v| v.prover_type())
+                        .collect::<Vec<_>>()
+                        .join(", ")
+                )
+            }
+            AirVarImpl::Struct {
+                name: _,
+                r#type,
+                fields: _,
+            } => r#type.to_string(),
+        }
+    }
 }
 
 impl From<AirVarImpl> for CompiledAirVar {
@@ -232,6 +263,10 @@ impl InternalAirVarInfo for () {
 
     fn get_intermediate_types(&self) -> Vec<IntermediateType> {
         vec![]
+    }
+
+    fn prover_type(&self) -> String {
+        "()".to_string()
     }
 }
 
@@ -314,6 +349,9 @@ macro_rules! impl_air_var {
             fn get_intermediate_types(&self) -> Vec<IntermediateType> {
                 self.iter().flat_map(|s| s.get_intermediate_types()).collect()
             }
+            fn prover_type(&self) -> String {
+                format!("[{}]", self.iter().map(|s| s.prover_type()).collect::<Vec<_>>().join(", "))
+            }
         }
 
         impl<const N:usize> InternalAirVarActions for [$s;N] where $s: InternalAirVarActions {
@@ -368,6 +406,11 @@ macro_rules! impl_air_var {
                 let mut res = vec!();
                 $(res.extend($s.get_intermediate_types());)+
                 res
+            }
+            fn prover_type(&self) -> String {
+                #[allow(non_snake_case)]
+                let ($($s),+) = self;
+                format!("({})", vec![$($s.prover_type()),+].join(", "))
             }
         }
 

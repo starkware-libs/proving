@@ -635,15 +635,16 @@
   ],
   "deductions": [
     {
-      "Intermediate": [
-        "input_tmp_c1ec_0",
-        {
+      "Intermediate": {
+        "name": "input_tmp_c1ec_0",
+        "type": "CasmState",
+        "var": {
           "Var": [
             "CasmState",
             "jnz_opcode_is_taken_f_dst_base_fp_f_input"
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -694,9 +695,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset0_tmp_c1ec_3",
-        {
+      "Intermediate": {
+        "name": "offset0_tmp_c1ec_3",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "StaticCall": [
@@ -775,7 +777,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -792,9 +794,10 @@
       }
     },
     {
-      "Intermediate": [
-        "ap_update_add_1_tmp_c1ec_4",
-        {
+      "Intermediate": {
+        "name": "ap_update_add_1_tmp_c1ec_4",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -895,7 +898,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {

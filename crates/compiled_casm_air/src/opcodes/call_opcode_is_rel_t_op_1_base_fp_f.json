@@ -1378,15 +1378,16 @@
   ],
   "deductions": [
     {
-      "Intermediate": [
-        "input_tmp_4f8b_0",
-        {
+      "Intermediate": {
+        "name": "input_tmp_4f8b_0",
+        "type": "CasmState",
+        "var": {
           "Var": [
             "CasmState",
             "call_opcode_is_rel_t_op_1_base_fp_f_input"
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -2529,9 +2530,10 @@
       "StartBlock": "Cond Decode Small Sign"
     },
     {
-      "Intermediate": [
-        "msb_tmp_4f8b_9",
-        {
+      "Intermediate": {
+        "name": "msb_tmp_4f8b_9",
+        "type": "Bool",
+        "var": {
           "MethodCall": [
             {
               "MethodCall": [
@@ -2563,7 +2565,7 @@
             ]
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -2580,9 +2582,10 @@
       }
     },
     {
-      "Intermediate": [
-        "mid_limbs_set_tmp_4f8b_10",
-        {
+      "Intermediate": {
+        "name": "mid_limbs_set_tmp_4f8b_10",
+        "type": "Bool",
+        "var": {
           "MethodCall": [
             {
               "MethodCall": [
@@ -2614,7 +2617,7 @@
             ]
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {

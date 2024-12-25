@@ -1336,9 +1336,10 @@
   ],
   "deductions": [
     {
-      "Intermediate": [
-        "input_tmp_16a4_0",
-        {
+      "Intermediate": {
+        "name": "input_tmp_16a4_0",
+        "type": "(M31, [M31, M31, M31], [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31])",
+        "var": {
           "Tuple": [
             {
               "Var": [
@@ -1464,7 +1465,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1622,9 +1623,10 @@
       "StartBlock": "Encode Offsets"
     },
     {
-      "Intermediate": [
-        "offset0_low_tmp_16a4_1",
-        {
+      "Intermediate": {
+        "name": "offset0_low_tmp_16a4_1",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "StaticCall": [
@@ -1645,7 +1647,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1662,9 +1664,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset0_mid_tmp_16a4_2",
-        {
+      "Intermediate": {
+        "name": "offset0_mid_tmp_16a4_2",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "StaticCall": [
@@ -1685,7 +1688,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1702,9 +1705,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset1_low_tmp_16a4_3",
-        {
+      "Intermediate": {
+        "name": "offset1_low_tmp_16a4_3",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "StaticCall": [
@@ -1725,7 +1729,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1742,9 +1746,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset1_mid_tmp_16a4_4",
-        {
+      "Intermediate": {
+        "name": "offset1_mid_tmp_16a4_4",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1776,7 +1781,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1793,9 +1798,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset1_high_tmp_16a4_5",
-        {
+      "Intermediate": {
+        "name": "offset1_high_tmp_16a4_5",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "StaticCall": [
@@ -1816,7 +1822,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1833,9 +1839,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset2_low_tmp_16a4_6",
-        {
+      "Intermediate": {
+        "name": "offset2_low_tmp_16a4_6",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "StaticCall": [
@@ -1856,7 +1863,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1873,9 +1880,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset2_mid_tmp_16a4_7",
-        {
+      "Intermediate": {
+        "name": "offset2_mid_tmp_16a4_7",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1907,7 +1915,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1924,9 +1932,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset2_high_tmp_16a4_8",
-        {
+      "Intermediate": {
+        "name": "offset2_high_tmp_16a4_8",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "StaticCall": [
@@ -1947,7 +1956,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {

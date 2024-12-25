@@ -3,7 +3,7 @@ use std::collections::{BTreeSet, HashSet};
 use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, ConstraintEvalStep, LookupTerm, TraceGenStep, UseOrYield,
+    CompiledAirFn, ConstraintEvalStep, Intermediate, LookupTerm, TraceGenStep, UseOrYield,
 };
 use compiled_casm_air::utils::INPUT_VAR_SUFFIX;
 use convert_case::{Case, Casing};
@@ -114,16 +114,21 @@ impl AirFnEntry {
                 AirBodyComponent::Deduction(deduction, _) => {
                     deductions.push(TraceGenStep::Deduction(deduction.into()));
                 }
-                AirBodyComponent::Intermediate(name, var, ty) => {
+                AirBodyComponent::Intermediate(name, var_ty, var, ty) => {
                     if ty.in_constraints {
-                        constraints.push(ConstraintEvalStep::Intermediate(
-                            name.clone(),
-                            var.clone().into(),
-                        ));
+                        constraints.push(ConstraintEvalStep::Intermediate(Intermediate {
+                            name: name.clone(),
+                            r#type: var_ty.clone(),
+                            var: var.clone().into(),
+                        }));
                     }
 
                     if ty.in_deductions {
-                        deductions.push(TraceGenStep::Intermediate(name, var.into()));
+                        deductions.push(TraceGenStep::Intermediate(Intermediate {
+                            name,
+                            r#type: var_ty,
+                            var: var.into(),
+                        }));
                     }
                 }
                 AirBodyComponent::Call(f) => {

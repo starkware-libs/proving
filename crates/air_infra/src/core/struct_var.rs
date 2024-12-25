@@ -9,6 +9,7 @@ use super::variables::*;
 
 pub trait StructVarTrait {
     fn new_from_name(name: String, in_state: bool) -> Self;
+    fn prover_type() -> String;
 }
 
 // StructVar is a generic struct that holds several fields of the same type F.
@@ -31,7 +32,10 @@ impl<F: AirVar, T: ProverType> From<StructVar<F, T>> for AirVarImpl {
     }
 }
 
-impl<F: AirVar, T: ProverType> InternalAirVarInfo for StructVar<F, T> {
+impl<F: AirVar, T: ProverType> InternalAirVarInfo for StructVar<F, T>
+where
+    Self: StructVarTrait,
+{
     fn is_const(&self) -> bool {
         self.fields.iter().all(|(_, f)| f.is_const())
     }
@@ -45,6 +49,10 @@ impl<F: AirVar, T: ProverType> InternalAirVarInfo for StructVar<F, T> {
             .iter()
             .flat_map(|(_, f)| f.get_intermediate_types())
             .collect()
+    }
+
+    fn prover_type(&self) -> String {
+        <Self as StructVarTrait>::prover_type()
     }
 }
 
@@ -145,6 +153,10 @@ impl<V: AirVar> InternalAirVarInfo for VarWrapper<V> {
 
     fn get_intermediate_types(&self) -> Vec<IntermediateType> {
         self.var.get_intermediate_types()
+    }
+
+    fn prover_type(&self) -> String {
+        self.var.prover_type()
     }
 }
 

@@ -763,15 +763,16 @@
   ],
   "deductions": [
     {
-      "Intermediate": [
-        "input_tmp_e23a_0",
-        {
+      "Intermediate": {
+        "name": "input_tmp_e23a_0",
+        "type": "CasmState",
+        "var": {
           "Var": [
             "CasmState",
             "ret_opcode_input"
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {

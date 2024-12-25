@@ -551,15 +551,16 @@
   ],
   "deductions": [
     {
-      "Intermediate": [
-        "input_tmp_a5f5_0",
-        {
+      "Intermediate": {
+        "name": "input_tmp_a5f5_0",
+        "type": "CasmState",
+        "var": {
           "Var": [
             "CasmState",
             "jump_opcode_is_rel_f_is_imm_f_is_double_deref_f_input"
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -610,9 +611,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset2_tmp_a5f5_3",
-        {
+      "Intermediate": {
+        "name": "offset2_tmp_a5f5_3",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -744,7 +746,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -761,9 +763,10 @@
       }
     },
     {
-      "Intermediate": [
-        "op1_base_fp_tmp_a5f5_4",
-        {
+      "Intermediate": {
+        "name": "op1_base_fp_tmp_a5f5_4",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -864,7 +867,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -881,9 +884,10 @@
       }
     },
     {
-      "Intermediate": [
-        "op1_base_ap_tmp_a5f5_5",
-        {
+      "Intermediate": {
+        "name": "op1_base_ap_tmp_a5f5_5",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -984,7 +988,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1001,9 +1005,10 @@
       }
     },
     {
-      "Intermediate": [
-        "ap_update_add_1_tmp_a5f5_6",
-        {
+      "Intermediate": {
+        "name": "ap_update_add_1_tmp_a5f5_6",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1104,7 +1109,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {

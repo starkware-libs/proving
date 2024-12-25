@@ -10,6 +10,7 @@ use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use compiled_casm_air::utils::INTERMEDIATE_VAR_SUFFIX;
 use convert_case::{Case, Casing};
 use indexmap::IndexMap;
+use prover_types::cpu::ProverType;
 use serde::{Deserialize, Serialize};
 
 use super::air_fn_registry::*;
@@ -17,6 +18,7 @@ use super::expressions::felt_expr::*;
 use super::memory::*;
 use super::state::*;
 use super::variables::*;
+use crate::core::Felt;
 
 pub const MAX_NAME_LEN: usize = 50;
 pub const INTERMEDIATE_VAR_PREFIX: &str = "tmp";
@@ -325,6 +327,7 @@ impl AirBuilder {
         };
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
+            var.prover_type(),
             var.clone().into(),
             intermediate_type.clone(),
         ));
@@ -344,6 +347,7 @@ impl AirBuilder {
         };
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
+            Felt::r#type(),
             expr.clone().into(),
             intermediate_type.clone(),
         ));
@@ -366,6 +370,7 @@ impl AirBuilder {
         };
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
+            expr.prover_type(),
             expr.clone().into(),
             intermediate_type.clone(),
         ));
@@ -701,7 +706,7 @@ pub enum AirBodyComponent {
         #[serde(skip_serializing_if = "Option::is_none")]
         desc: Option<String>,
     },
-    Intermediate(String, AirVarImpl, IntermediateType),
+    Intermediate(String, String, AirVarImpl, IntermediateType),
     Call(Call),
     LookupCall(LookupCall),
     // Adds the input to the lookup table or updates multiplicity.

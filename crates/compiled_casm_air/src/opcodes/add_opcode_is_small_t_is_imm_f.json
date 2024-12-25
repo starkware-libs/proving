@@ -1998,15 +1998,16 @@
   ],
   "deductions": [
     {
-      "Intermediate": [
-        "input_tmp_6202_0",
-        {
+      "Intermediate": {
+        "name": "input_tmp_6202_0",
+        "type": "CasmState",
+        "var": {
           "Var": [
             "CasmState",
             "add_opcode_is_small_t_is_imm_f_input"
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -2057,9 +2058,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset0_tmp_6202_3",
-        {
+      "Intermediate": {
+        "name": "offset0_tmp_6202_3",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "StaticCall": [
@@ -2138,7 +2140,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -2155,9 +2157,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset1_tmp_6202_4",
-        {
+      "Intermediate": {
+        "name": "offset1_tmp_6202_4",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -2289,7 +2292,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -2306,9 +2309,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset2_tmp_6202_5",
-        {
+      "Intermediate": {
+        "name": "offset2_tmp_6202_5",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -2440,7 +2444,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -2457,9 +2461,10 @@
       }
     },
     {
-      "Intermediate": [
-        "dst_base_fp_tmp_6202_6",
-        {
+      "Intermediate": {
+        "name": "dst_base_fp_tmp_6202_6",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -2560,7 +2565,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -2577,9 +2582,10 @@
       }
     },
     {
-      "Intermediate": [
-        "op0_base_fp_tmp_6202_7",
-        {
+      "Intermediate": {
+        "name": "op0_base_fp_tmp_6202_7",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -2680,7 +2686,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -2697,9 +2703,10 @@
       }
     },
     {
-      "Intermediate": [
-        "op1_base_fp_tmp_6202_8",
-        {
+      "Intermediate": {
+        "name": "op1_base_fp_tmp_6202_8",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -2800,7 +2807,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -2817,9 +2824,10 @@
       }
     },
     {
-      "Intermediate": [
-        "op1_base_ap_tmp_6202_9",
-        {
+      "Intermediate": {
+        "name": "op1_base_ap_tmp_6202_9",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -2920,7 +2928,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -2937,9 +2945,10 @@
       }
     },
     {
-      "Intermediate": [
-        "ap_update_add_1_tmp_6202_10",
-        {
+      "Intermediate": {
+        "name": "ap_update_add_1_tmp_6202_10",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -3040,7 +3049,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -3581,9 +3590,10 @@
       "StartBlock": "Cond Decode Small Sign"
     },
     {
-      "Intermediate": [
-        "msb_tmp_6202_13",
-        {
+      "Intermediate": {
+        "name": "msb_tmp_6202_13",
+        "type": "Bool",
+        "var": {
           "MethodCall": [
             {
               "MethodCall": [
@@ -3615,7 +3625,7 @@
             ]
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -3632,9 +3642,10 @@
       }
     },
     {
-      "Intermediate": [
-        "mid_limbs_set_tmp_6202_14",
-        {
+      "Intermediate": {
+        "name": "mid_limbs_set_tmp_6202_14",
+        "type": "Bool",
+        "var": {
           "MethodCall": [
             {
               "MethodCall": [
@@ -3666,7 +3677,7 @@
             ]
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -4313,9 +4324,10 @@
       "StartBlock": "Cond Decode Small Sign"
     },
     {
-      "Intermediate": [
-        "msb_tmp_6202_17",
-        {
+      "Intermediate": {
+        "name": "msb_tmp_6202_17",
+        "type": "Bool",
+        "var": {
           "MethodCall": [
             {
               "MethodCall": [
@@ -4347,7 +4359,7 @@
             ]
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -4364,9 +4376,10 @@
       }
     },
     {
-      "Intermediate": [
-        "mid_limbs_set_tmp_6202_18",
-        {
+      "Intermediate": {
+        "name": "mid_limbs_set_tmp_6202_18",
+        "type": "Bool",
+        "var": {
           "MethodCall": [
             {
               "MethodCall": [
@@ -4398,7 +4411,7 @@
             ]
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -5012,9 +5025,10 @@
       "StartBlock": "Cond Decode Small Sign"
     },
     {
-      "Intermediate": [
-        "msb_tmp_6202_21",
-        {
+      "Intermediate": {
+        "name": "msb_tmp_6202_21",
+        "type": "Bool",
+        "var": {
           "MethodCall": [
             {
               "MethodCall": [
@@ -5046,7 +5060,7 @@
             ]
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -5063,9 +5077,10 @@
       }
     },
     {
-      "Intermediate": [
-        "mid_limbs_set_tmp_6202_22",
-        {
+      "Intermediate": {
+        "name": "mid_limbs_set_tmp_6202_22",
+        "type": "Bool",
+        "var": {
           "MethodCall": [
             {
               "MethodCall": [
@@ -5097,7 +5112,7 @@
             ]
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {

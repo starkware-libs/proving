@@ -388,15 +388,16 @@
   ],
   "deductions": [
     {
-      "Intermediate": [
-        "input_tmp_4299_0",
-        {
+      "Intermediate": {
+        "name": "input_tmp_4299_0",
+        "type": "CasmState",
+        "var": {
           "Var": [
             "CasmState",
             "assert_eq_opcode_is_double_deref_f_is_imm_f_input"
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -447,9 +448,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset0_tmp_4299_3",
-        {
+      "Intermediate": {
+        "name": "offset0_tmp_4299_3",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "StaticCall": [
@@ -528,7 +530,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -545,9 +547,10 @@
       }
     },
     {
-      "Intermediate": [
-        "offset2_tmp_4299_4",
-        {
+      "Intermediate": {
+        "name": "offset2_tmp_4299_4",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -679,7 +682,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -696,9 +699,10 @@
       }
     },
     {
-      "Intermediate": [
-        "dst_base_fp_tmp_4299_5",
-        {
+      "Intermediate": {
+        "name": "dst_base_fp_tmp_4299_5",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -799,7 +803,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -816,9 +820,10 @@
       }
     },
     {
-      "Intermediate": [
-        "op1_base_fp_tmp_4299_6",
-        {
+      "Intermediate": {
+        "name": "op1_base_fp_tmp_4299_6",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -919,7 +924,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -936,9 +941,10 @@
       }
     },
     {
-      "Intermediate": [
-        "op1_base_ap_tmp_4299_7",
-        {
+      "Intermediate": {
+        "name": "op1_base_ap_tmp_4299_7",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1039,7 +1045,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {
@@ -1056,9 +1062,10 @@
       }
     },
     {
-      "Intermediate": [
-        "ap_update_add_1_tmp_4299_8",
-        {
+      "Intermediate": {
+        "name": "ap_update_add_1_tmp_4299_8",
+        "type": "UInt16",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1159,7 +1166,7 @@
             }
           ]
         }
-      ]
+      }
     },
     {
       "Deduction": {

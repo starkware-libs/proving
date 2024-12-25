@@ -1,7 +1,8 @@
 use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm, TraceGenStep, UseOrYield,
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, Intermediate, LookupTerm, TraceGenStep,
+    UseOrYield,
 };
 use convert_case::{Case, Casing};
 use genco::lang::rust;
@@ -207,7 +208,11 @@ fn collect_m31_vars_from_expr(constraint: &ConstraintEvalStep) -> Vec<String> {
             .map(collect_m31_vars_from_air_var)
             .collect_vec()
             .concat(),
-        ConstraintEvalStep::Intermediate(_, var) => collect_m31_vars_from_air_var(var),
+        ConstraintEvalStep::Intermediate(Intermediate {
+            name: _,
+            r#type: _,
+            var,
+        }) => collect_m31_vars_from_air_var(var),
     }
 }
 
@@ -261,19 +266,23 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                     );
                 });
             }
-            ConstraintEvalStep::Intermediate(var, expr) => {
+            ConstraintEvalStep::Intermediate(Intermediate {
+                name,
+                r#type: _,
+                var,
+            }) => {
                 // TODO(Ohad): change this condition once intermediate types are exported.
-                if m31_vars.contains(var) {
+                if m31_vars.contains(name) {
                     code.extend(quote! {
-                        let $(var) = eval.add_intermediate(
-                            $(parse_eval_constraint(expr,&const_names))
+                        let $(name) = eval.add_intermediate(
+                            $(parse_eval_constraint(var,&const_names))
                         );
                     });
                 } else {
                     // TODO(alont) consdier producing a warning to indicate that the intermediate
                     // does not translate into expression efficiency.
                     code.extend(quote! {
-                        let $(var) = $(parse_eval_constraint(expr,&const_names));
+                        let $(name) = $(parse_eval_constraint(var,&const_names));
                     });
                 }
             }
@@ -325,7 +334,11 @@ fn constraint_consts(constraints: &[ConstraintEvalStep]) -> Vec<(String, String)
                     felts,
                     ..
                 }) => const_defs.extend(felts.iter().flat_map(seek_consts)),
-                ConstraintEvalStep::Intermediate(_, var) => const_defs.extend(seek_consts(var)),
+                ConstraintEvalStep::Intermediate(Intermediate {
+                    name: _,
+                    r#type: _,
+                    var,
+                }) => const_defs.extend(seek_consts(var)),
                 ConstraintEvalStep::StartBlock(_) => {}
                 ConstraintEvalStep::EndBlock => {}
             };
