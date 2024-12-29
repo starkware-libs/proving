@@ -4,6 +4,7 @@ use super::super::casm_state::*;
 use super::super::common::*;
 use super::super::decode_instruction::decode_inst::*;
 use crate::airs::felt252_utils::verify_mul252::*;
+use crate::airs::felt252_utils::verify_mul_small::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn::*;
@@ -11,13 +12,12 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::felt252_id_memory::read_positive::*;
 
-/// The mul_small opcode.
-/// Implements the Cairo0 instructions:
-/// - [ap/fp + offset0] = [ap/fp + offset1] * [ap/fp + offset2]
-/// - [ap/fp + offset0] = [ap/fp + offset1] * Imm
-///
-/// is_small = true : multiplication factors are in the range [0, 2^15-1].
-/// is_small = false :  multiplication factors are in the range [0, 2**252 - 1].
+// The mul_small opcode.
+// Implements the Cairo0 instructions:
+// - [ap/fp + offset0] = [ap/fp + offset1] * [ap/fp + offset2]
+// - [ap/fp + offset0] = [ap/fp + offset1] * Imm
+// is_small = true : multiplication factors are in the range [0, 2^36-1].
+// is_small = false :  multiplication factors are in the range [0, 2**252 - 1].
 
 #[derive(Clone, Debug, InstDef)]
 pub struct MulOpcode {
@@ -103,7 +103,7 @@ impl AirFn for MulOpcode {
         // Fetch dst - the value at the destination address for the multiplication
         let (dst, _) = ab.call(
             &ReadPositive {
-                num_bits: if self.is_small { 30 } else { 252 },
+                num_bits: if self.is_small { 72 } else { 252 },
                 memory: self.memory.clone(),
             },
             CasmAddress::new(mem_dst_base + offset0, "dst"),
@@ -112,7 +112,7 @@ impl AirFn for MulOpcode {
         // Fetch op0 - the first operand for the multiplication
         let (op0, _) = ab.call(
             &ReadPositive {
-                num_bits: if self.is_small { 15 } else { 252 },
+                num_bits: if self.is_small { 36 } else { 252 },
                 memory: self.memory.clone(),
             },
             CasmAddress::new(mem0_base + offset1, "op0"),
@@ -121,7 +121,7 @@ impl AirFn for MulOpcode {
         // Fetch op1 - the second operand for the multiplication
         let (op1, _) = ab.call(
             &ReadPositive {
-                num_bits: if self.is_small { 15 } else { 252 },
+                num_bits: if self.is_small { 36 } else { 252 },
                 memory: self.memory.clone(),
             },
             CasmAddress::new(mem1_base + offset2, "op1"),
@@ -129,9 +129,7 @@ impl AirFn for MulOpcode {
 
         // Perform the multiplication
         if self.is_small {
-            let res = felt252_to_m31(op0, 15) * felt252_to_m31(op1, 15);
-            // Assert that dst == op0 * op1
-            ab.constrain(felt252_to_m31(dst, 30) - res, "dst equals op0 * op1");
+            ab.call(&VerifyMulSmall {}, [op0, op1, dst]);
         } else {
             ab.call(&VerifyMul252 {}, [op0, op1, dst]);
         }

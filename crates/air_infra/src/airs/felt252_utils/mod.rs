@@ -17,3 +17,6 @@ mod verify_add252_test;
 pub mod verify_mul252;
 #[cfg(test)]
 mod verify_mul252_test;
+pub mod verify_mul_small;
+#[cfg(test)]
+pub mod verify_mul_small_test;

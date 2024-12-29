@@ -3206,21 +3206,50 @@
       ]
     }
   ],
-  "range_check_3": [],
-  "range_check_last_limb_bits_in_ms_limb_3": [
+  "read_positive_num_bits_72": [
     {
-      "relation_name": "RangeCheck_3",
+      "relation_name": "MemoryAddressToId",
       "felts": [
-        "input"
+        "input",
+        "col0"
+      ]
+    },
+    {
+      "relation_name": "MemoryIdToBig",
+      "felts": [
+        "col0",
+        "col1",
+        "col2",
+        "col3",
+        "col4",
+        "col5",
+        "col6",
+        "col7",
+        "col8",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0",
+        "0"
       ]
     }
   ],
-  "read_positive_num_bits_30": [
-    {
-      "fn_name": "range_check_last_limb_bits_in_ms_limb_3",
-      "input": "col4",
-      "output": "()"
-    },
+  "read_positive_num_bits_36": [
     {
       "relation_name": "MemoryAddressToId",
       "felts": [
@@ -3263,56 +3292,32 @@
       ]
     }
   ],
-  "read_positive_num_bits_15": [
+  "range_check_11": [],
+  "verify_mul_small": [
+    "(((col2 + (input[0].get_m31(3) * input[1].get_m31(3))) - (input[2].get_m31(7) * 512)) - input[2].get_m31(6))",
+    "((col0 * 262144) - (((((0 + ((input[0].get_m31(0) * input[1].get_m31(0)) * 1)) - (input[2].get_m31(0) * 1)) + ((input[0].get_m31(0) * input[1].get_m31(1)) * 512)) + ((input[0].get_m31(1) * input[1].get_m31(0)) * 512)) - (input[2].get_m31(1) * 512)))",
+    "((col1 * 262144) - (((((((((col0 + ((input[0].get_m31(0) * input[1].get_m31(2)) * 1)) + ((input[0].get_m31(1) * input[1].get_m31(1)) * 1)) + ((input[0].get_m31(2) * input[1].get_m31(0)) * 1)) - (input[2].get_m31(2) * 1)) + ((input[0].get_m31(0) * input[1].get_m31(3)) * 512)) + ((input[0].get_m31(1) * input[1].get_m31(2)) * 512)) + ((input[0].get_m31(2) * input[1].get_m31(1)) * 512)) + ((input[0].get_m31(3) * input[1].get_m31(0)) * 512)) - (input[2].get_m31(3) * 512)))",
+    "((col2 * 262144) - (((((((col1 + ((input[0].get_m31(1) * input[1].get_m31(3)) * 1)) + ((input[0].get_m31(2) * input[1].get_m31(2)) * 1)) + ((input[0].get_m31(3) * input[1].get_m31(1)) * 1)) - (input[2].get_m31(4) * 1)) + ((input[0].get_m31(2) * input[1].get_m31(3)) * 512)) + ((input[0].get_m31(3) * input[1].get_m31(2)) * 512)) - (input[2].get_m31(5) * 512)))",
     {
-      "fn_name": "range_check_last_limb_bits_in_ms_limb_6",
-      "input": "col2",
-      "output": "()"
-    },
-    {
-      "relation_name": "MemoryAddressToId",
+      "relation_name": "RangeCheck_11",
       "felts": [
-        "input",
         "col0"
       ]
     },
     {
-      "relation_name": "MemoryIdToBig",
+      "relation_name": "RangeCheck_11",
       "felts": [
-        "col0",
-        "col1",
-        "col2",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0",
-        "0"
+        "col1"
+      ]
+    },
+    {
+      "relation_name": "RangeCheck_11",
+      "felts": [
+        "col2"
       ]
     }
   ],
   "mul_opcode_is_small_t_is_imm_t": [
-    "((((col11 + (col12 * 512)) + (col13 * 262144)) + (col14 * 134217728)) - ((col16 + (col17 * 512)) * (col19 + (col20 * 512))))",
     "(col8 - ((col5 * col2) + ((1 - col5) * col1)))",
     "(col9 - ((col6 * col2) + ((1 - col6) * col1)))",
     {
@@ -3321,19 +3326,24 @@
       "output": "([(col3 - 32768), (col4 - 32768), 1], [col5, col6, 1, 0, 0, 0, 1, 0, 0, 0, 0, col7, 0, 0, 1])"
     },
     {
-      "fn_name": "read_positive_num_bits_15",
+      "fn_name": "read_positive_num_bits_36",
       "input": "(col0 + 1)",
-      "output": "(Felt252::from_limbs(zero_extend([col19, col20])), col18)"
+      "output": "(Felt252::from_limbs(zero_extend([col25, col26, col27, col28])), col24)"
     },
     {
-      "fn_name": "read_positive_num_bits_15",
+      "fn_name": "read_positive_num_bits_36",
       "input": "(col9 + (col4 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col16, col17])), col15)"
+      "output": "(Felt252::from_limbs(zero_extend([col20, col21, col22, col23])), col19)"
     },
     {
-      "fn_name": "read_positive_num_bits_30",
+      "fn_name": "read_positive_num_bits_72",
       "input": "(col8 + (col3 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col11, col12, col13, col14])), col10)"
+      "output": "(Felt252::from_limbs(zero_extend([col11, col12, col13, col14, col15, col16, col17, col18])), col10)"
+    },
+    {
+      "fn_name": "verify_mul_small",
+      "input": "[Felt252::from_limbs(zero_extend([col20, col21, col22, col23])), Felt252::from_limbs(zero_extend([col25, col26, col27, col28])), Felt252::from_limbs(zero_extend([col11, col12, col13, col14, col15, col16, col17, col18]))]",
+      "output": "()"
     },
     {
       "relation_name": "Opcodes",
@@ -3371,7 +3381,6 @@
     }
   ],
   "mul_opcode_is_small_t_is_imm_f": [
-    "((((col15 + (col16 * 512)) + (col17 * 262144)) + (col18 * 134217728)) - ((col20 + (col21 * 512)) * (col23 + (col24 * 512))))",
     "((col8 + col9) - 1)",
     "(col11 - ((col6 * col2) + ((1 - col6) * col1)))",
     "(col12 - ((col7 * col2) + ((1 - col7) * col1)))",
@@ -3382,19 +3391,24 @@
       "output": "([(col3 - 32768), (col4 - 32768), (col5 - 32768)], [col6, col7, 0, col8, col9, 0, 1, 0, 0, 0, 0, col10, 0, 0, 1])"
     },
     {
-      "fn_name": "read_positive_num_bits_15",
+      "fn_name": "read_positive_num_bits_36",
       "input": "(col12 + (col4 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col20, col21])), col19)"
+      "output": "(Felt252::from_limbs(zero_extend([col24, col25, col26, col27])), col23)"
     },
     {
-      "fn_name": "read_positive_num_bits_15",
+      "fn_name": "read_positive_num_bits_36",
       "input": "(col13 + (col5 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col23, col24])), col22)"
+      "output": "(Felt252::from_limbs(zero_extend([col29, col30, col31, col32])), col28)"
     },
     {
-      "fn_name": "read_positive_num_bits_30",
+      "fn_name": "read_positive_num_bits_72",
       "input": "(col11 + (col3 - 32768))",
-      "output": "(Felt252::from_limbs(zero_extend([col15, col16, col17, col18])), col14)"
+      "output": "(Felt252::from_limbs(zero_extend([col15, col16, col17, col18, col19, col20, col21, col22])), col14)"
+    },
+    {
+      "fn_name": "verify_mul_small",
+      "input": "[Felt252::from_limbs(zero_extend([col24, col25, col26, col27])), Felt252::from_limbs(zero_extend([col29, col30, col31, col32])), Felt252::from_limbs(zero_extend([col15, col16, col17, col18, col19, col20, col21, col22]))]",
+      "output": "()"
     },
     {
       "relation_name": "Opcodes",

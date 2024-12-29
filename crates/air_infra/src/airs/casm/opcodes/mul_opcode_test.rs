@@ -125,9 +125,9 @@ fn test_mul_small_not_imm() {
     test_mul(
         [true, true, false, false, false, true, false],
         [3, 5, 7],
-        const_felt252_expr!(1042584088),
-        const_felt252_expr!(32123),
-        const_felt252_expr!(32456),
+        const_felt252_expr!(4157290412704114895599, 0),
+        const_felt252_expr!(67891234567, 0),
+        const_felt252_expr!(61234567897, 0),
         vec![
             (10, "input_pc"),
             (50, "input_ap"),
@@ -144,42 +144,53 @@ fn test_mul_small_not_imm() {
             (50, "mem0_base"),
             (50, "mem1_base"),
             (1, "dst_id"),
-            (24, "dst_limb_0"),
-            (73, "dst_limb_1"),
-            (393, "dst_limb_2"),
-            (7, "dst_limb_3"),
+            (239, "dst_limb_0"),
+            (437, "dst_limb_1"),
+            (374, "dst_limb_2"),
+            (190, "dst_limb_3"),
+            (65, "dst_limb_4"),
+            (500, "dst_limb_5"),
+            (375, "dst_limb_6"),
+            (450, "dst_limb_7"),
             (2, "op0_id"),
-            (379, "op0_limb_0"),
-            (62, "op0_limb_1"),
+            (263, "op0_limb_0"),
+            (259, "op0_limb_1"),
+            (424, "op0_limb_2"),
+            (505, "op0_limb_3"),
             (3, "op1_id"),
-            (200, "op1_limb_0"),
-            (63, "op1_limb_1"),
+            (217, "op1_limb_0"),
+            (173, "op1_limb_1"),
+            (119, "op1_limb_2"),
+            (456, "op1_limb_3"),
+            (198, "carry_1"),
+            (652, "carry_3"),
+            (495, "carry_5"),
         ]
         .into(),
     );
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck11 on input 1796768395")]
 fn test_mul_small_not_equal() {
     test_mul(
         [true, false, true, true, false, false, true],
         [3, 5, 7],
-        const_felt252_expr!(1042584088),
-        const_felt252_expr!(32123),
-        const_felt252_expr!(32457),
+        const_felt252_expr!(4057290412704114895599, 0),
+        const_felt252_expr!(67891234567, 0),
+        const_felt252_expr!(61234567897, 0),
         vec![].into(),
     );
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck6 on input 64")]
-fn test_mul_small_over_15bit() {
+#[should_panic(expected = "assertion `left == right` failed: given value != value in memory")]
+fn test_mul_small_over_36bit() {
     test_mul(
         [true, false, true, true, false, false, true],
         [3, 5, 7],
-        const_felt252_expr!(32768),
-        const_felt252_expr!(32768),
+        const_felt252_expr!(1i128 << 36),
+        const_felt252_expr!(68719476736i128),
         const_felt252_expr!(1),
         vec![].into(),
     );
@@ -209,12 +220,23 @@ fn test_mul_small_imm() {
             (0, "dst_limb_1"),
             (0, "dst_limb_2"),
             (0, "dst_limb_3"),
+            (0, "dst_limb_4"),
+            (0, "dst_limb_5"),
+            (0, "dst_limb_6"),
+            (0, "dst_limb_7"),
             (2, "op0_id"),
             (7, "op0_limb_0"),
             (0, "op0_limb_1"),
+            (0, "op0_limb_2"),
+            (0, "op0_limb_3"),
             (3, "op1_id"),
             (8, "op1_limb_0"),
             (0, "op1_limb_1"),
+            (0, "op1_limb_2"),
+            (0, "op1_limb_3"),
+            (0, "carry_1"),
+            (0, "carry_3"),
+            (0, "carry_5"),
         ]
         .into(),
     );

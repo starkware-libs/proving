@@ -53,7 +53,7 @@ fn test_range_check_2_bit_msl_fail() {
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck3 on input 8")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck4 on input 16")]
 fn test_range_check_partial_limbs_fail() {
-    run_range_check(const_felt252_expr!(0, 2), 129);
+    run_range_check(const_felt252_expr!(0, 4), 130);
 }
