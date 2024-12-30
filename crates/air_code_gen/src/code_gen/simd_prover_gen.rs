@@ -8,7 +8,7 @@ use genco::lang::{rust, Rust};
 use genco::quote;
 use itertools::{chain, Itertools};
 
-use super::framework_gen::seek_consts;
+use super::parse::seek_consts;
 use super::utils::{block_doc, unique_relation_calls};
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
