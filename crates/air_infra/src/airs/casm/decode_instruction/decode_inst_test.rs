@@ -65,12 +65,7 @@ fn test_with_matching_memory(
         &format!("{}{}.json", TEST_JSONS_DECODE_INSTRUCTION_DIR, entry.name),
     );
 
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 
     for (i, &offset) in offsets.iter().enumerate() {
         assert_eq!(

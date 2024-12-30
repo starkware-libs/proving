@@ -4,6 +4,7 @@ use crate::const_u32_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 #[test]
 fn test_triple_sum1() {
@@ -26,12 +27,7 @@ fn test_triple_sum1() {
         (65120, "triple_sum32_res_high"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -56,12 +52,7 @@ fn test_triple_sum2() {
         (32769, "triple_sum32_res_high"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -86,12 +77,7 @@ fn test_triple_sum3() {
         (65535, "triple_sum32_res_high"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -116,10 +102,5 @@ fn test_pair_sum() {
         (2437, "triple_sum32_res_high"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }

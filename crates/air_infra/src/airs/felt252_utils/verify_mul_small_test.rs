@@ -27,12 +27,7 @@ fn test_verify_mul_small_simple() {
         ],
     );
     let expected_state = vec![(0, "carry_1"), (16, "carry_3"), (34, "carry_5")].into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -48,12 +43,7 @@ fn test_verify_mul_small_edge() {
         ],
     );
     let expected_state = vec![(1021, "carry_1"), (2043, "carry_3"), (1022, "carry_5")].into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -61,19 +51,12 @@ fn test_verify_mul_small_edge() {
 fn test_verify_mul_small_not_equal() {
     let air_fn = VerifyMulSmall {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
-    let (state, _) = registry.run_air(
+    let (..) = registry.run_air(
         &air_fn,
         [
             const_felt252_expr!(0xfff123fffu128, 0u128),
             const_felt252_expr!(0x456fff789u128, 0u128),
             const_felt252_expr!(0x466bf7ac5385844877u128, 0u128),
         ],
-    );
-    let expected_state = vec![(727, "carry"), (1230, "carry"), (569, "carry")].into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
     );
 }

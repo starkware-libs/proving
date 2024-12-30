@@ -63,12 +63,7 @@ fn test_add252_no_overflow() {
         (0, "sub_p_bit"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -122,10 +117,5 @@ fn test_add252_with_overflow() {
         (1, "sub_p_bit"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }

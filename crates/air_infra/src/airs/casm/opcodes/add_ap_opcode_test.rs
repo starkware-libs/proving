@@ -9,6 +9,7 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 #[test]
 fn test_add_ap_negative_imm() {
@@ -62,12 +63,7 @@ fn test_add_ap_negative_imm() {
         (0, "op1_limb_2"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -128,12 +124,7 @@ fn test_add_ap_deref_base_fp() {
         (0, "op1_limb_2"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]

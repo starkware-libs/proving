@@ -8,6 +8,7 @@ use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
+use crate::utils::test_utils::*;
 
 #[test]
 fn test_verify_inst() {
@@ -59,12 +60,7 @@ fn test_verify_inst() {
         (0, "instruction_id"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 fn init_flags_and_offsets() -> ([bool; 15], [FeltExpr; 15], [i16; 3], [FeltExpr; 3]) {

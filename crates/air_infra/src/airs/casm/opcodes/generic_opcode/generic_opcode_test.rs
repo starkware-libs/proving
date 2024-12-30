@@ -17,6 +17,7 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 #[test]
 fn test_generic_consistency_rel_call() {
@@ -296,12 +297,7 @@ fn test_generic_consistency_rel_call() {
         (349, "next_pc_jnz"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -678,12 +674,7 @@ fn test_generic_consistency_ret() {
         (4, "next_pc_jnz"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -983,12 +974,7 @@ fn test_generic_consistency_assert_equal() {
         (6, "next_pc_jnz"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -1283,12 +1269,7 @@ fn test_generic_consistency_jump() {
         (4, "next_pc_jnz"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -1691,12 +1672,7 @@ fn test_generic_consistency_jnz_taken() {
         (65, "next_pc_jnz"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -1987,12 +1963,7 @@ fn test_generic_consistency_jnz_not_taken() {
         (52, "next_pc_jnz"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]

@@ -13,6 +13,7 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::*;
 use crate::core::*;
+use crate::utils::test_utils::*;
 
 type BigInt = [u128; MOD_BUILTIN_N_WORDS];
 
@@ -319,12 +320,7 @@ fn run_add_mod_builtin(instances: Vec<AddModInstance>, expected_states: Option<V
     // check states
     if let Some(expected_states) = expected_states {
         for (i, state) in state_per_instance.iter().enumerate() {
-            assert!(
-                *state == expected_states[i].clone(),
-                "State {} does not match {}",
-                state,
-                expected_states[i]
-            );
+            assert_expected_state(state, &expected_states[i]);
         }
     }
 }

@@ -90,12 +90,7 @@ fn test_mul252_no_overflow() {
         (0, "carry_26"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]

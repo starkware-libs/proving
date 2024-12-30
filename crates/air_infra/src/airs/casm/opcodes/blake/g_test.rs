@@ -4,6 +4,7 @@ use crate::const_u32_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 #[test]
 fn test_g1() {
@@ -82,12 +83,7 @@ fn test_g1() {
         (288, "xor"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -167,10 +163,5 @@ fn test_g2() {
         (334, "xor"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }

@@ -10,6 +10,7 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 fn test_mul(
     non_consts_flags: [bool; 7],
@@ -112,12 +113,7 @@ fn test_mul(
         assert_eq!(next_state.pc().calc(), (pc_value + 1).to_string());
     };
 
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]

@@ -10,6 +10,7 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 
 // [fp + offset] == [ap + offset]
 #[test]
@@ -293,10 +294,5 @@ fn test_assert_equal(
     };
 
     // Check state
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }

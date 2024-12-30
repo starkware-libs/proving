@@ -57,12 +57,7 @@ fn test_read_small() {
         (0, "limb_2"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 
     let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(2), ""));
     assert_eq!(output.0.calc(), "7".to_string());
@@ -75,12 +70,7 @@ fn test_read_small() {
         (0, "limb_2"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 
     let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(3), ""));
     assert_eq!(output.0.calc(), ((1i64 << 31) - 2).to_string());
@@ -93,12 +83,7 @@ fn test_read_small() {
         (0, "limb_2"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 
     let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(4), ""));
     assert_eq!(output.0.calc(), ((1i64 << 31) - 3).to_string());
@@ -111,12 +96,7 @@ fn test_read_small() {
         (511, "limb_2"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 
     let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(5), ""));
     assert_eq!(output.0.calc(), "0".to_string());
@@ -129,12 +109,7 @@ fn test_read_small() {
         (0, "limb_2"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 
     let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(6), ""));
     assert_eq!(output.0.calc(), "1".to_string());
@@ -147,12 +122,7 @@ fn test_read_small() {
         (0, "limb_2"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -230,12 +200,7 @@ fn test_verify_all() {
         ),
     );
     let expected_state = vec![(0, "id")].into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]

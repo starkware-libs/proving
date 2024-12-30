@@ -4,7 +4,7 @@ use crate::const_u32_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::variables::*;
-
+use crate::utils::test_utils::*;
 #[test]
 fn test_xor_rot7() {
     let xor_rot = XorRot32 { r: 7 };
@@ -27,12 +27,7 @@ fn test_xor_rot7() {
         (196, "xor"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -57,12 +52,7 @@ fn test_xor_rot12() {
         (0, "xor"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -87,12 +77,7 @@ fn test_xor_rot8() {
         (130, "xor"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -117,10 +102,5 @@ fn test_xor_rot16() {
         (167, "xor"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }

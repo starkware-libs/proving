@@ -3,6 +3,7 @@ use super::state::*;
 use super::variables::*;
 // Macros
 use crate::const_expr;
+use crate::utils::test_utils::*;
 
 #[test]
 fn test_state_elements() {
@@ -13,9 +14,6 @@ fn test_state_elements() {
 
         assert!(e.in_state());
     }
-    assert!(
-        state == vec![(1, ""), (2, ""), (3, "")].into(),
-        "State {} does not match [(1, ''), (2, ''), (3, '')]",
-        state
-    );
+    let expected_state = vec![(1, ""), (2, ""), (3, "")].into();
+    assert_expected_state(&state, &expected_state);
 }

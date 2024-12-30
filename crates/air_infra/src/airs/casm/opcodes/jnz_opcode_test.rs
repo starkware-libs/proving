@@ -7,6 +7,7 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::state::*;
 use crate::core::variables::*;
+use crate::utils::test_utils::*;
 use crate::{const_expr, const_felt252_expr};
 
 fn build_and_test(
@@ -85,12 +86,7 @@ fn build_and_test(
     assert_eq!(next_state.fp().calc(), fp_value.to_string());
 
     // Check state
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]

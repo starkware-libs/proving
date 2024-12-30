@@ -57,12 +57,7 @@ fn test_verify_mul252_no_overflow() {
         (0, "carry_26"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -111,12 +106,7 @@ fn test_verify_mul252_with_overflow() {
         (8190, "carry_26"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 
     let (state, _) = registry.run_air(
         &air_fn,
@@ -166,12 +156,7 @@ fn test_verify_mul252_with_overflow() {
         (15342, "carry_26"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 
     let (state, _) = registry.run_air(
         &air_fn,
@@ -221,12 +206,7 @@ fn test_verify_mul252_with_overflow() {
         (2290, "carry_26"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
 
 #[test]
@@ -275,12 +255,7 @@ fn test_verify_mul252_with_overflow_negative_k() {
         (0, "carry_26"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 
     let (state, _) = registry.run_air(
         &air_fn,
@@ -324,12 +299,7 @@ fn test_verify_mul252_with_overflow_negative_k() {
         (0, "carry_26"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 
     let (state, _) = registry.run_air(
         &air_fn,
@@ -373,10 +343,5 @@ fn test_verify_mul252_with_overflow_negative_k() {
         (22552, "carry_26"),
     ]
     .into();
-    assert!(
-        state == expected_state,
-        "State {} does not match {}",
-        state,
-        expected_state
-    );
+    assert_expected_state(&state, &expected_state);
 }
