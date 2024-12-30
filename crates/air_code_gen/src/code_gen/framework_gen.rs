@@ -8,7 +8,10 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::chain;
 
-use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
+use crate::code_gen::parse::{
+    constraint_consts, get_public_params_from_lookup_terms, parse_eval_constraint,
+    parse_lookup_constraint,
+};
 use crate::code_gen::utils::{block_doc, unique_constraint_relations};
 
 pub fn generate_component_code(lists: CompiledAirFn) -> rust::Tokens {
@@ -69,10 +72,23 @@ fn generate_component_structs(constraints: &[ConstraintEvalStep]) -> rust::Token
 }
 
 fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut members = rust::Tokens::new();
-    members.append(quote! {
+    let mut channel_mix_code = quote! {
+        channel.mix_u64(self.n_calls as u64);
+    };
+    let mut members = quote! {
         pub n_calls: usize,
-    });
+    };
+    let public_params = get_public_params_from_lookup_terms(&lists.constraints);
+    for public_param in &public_params {
+        // TODO(Gali): Get the types of the public params from air_infra.
+        members.append(quote! {
+            pub $public_param: u32,
+        });
+        channel_mix_code.append(quote! {
+            channel.mix_u64(self.$public_param as u64);
+        });
+    }
+
     let struct_code = quote! {
         #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
         pub struct Claim {
@@ -80,8 +96,6 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
         }
     };
 
-    // impl
-    let mut impl_code = rust::Tokens::new();
     let n_logup_columns = match lists.n_lookup_terms {
         0 => unimplemented!(),
         1 => quote!(SECURE_EXTENSION_DEGREE),
@@ -90,7 +104,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
             quote!(SECURE_EXTENSION_DEGREE * $(n_batches))
         }
     };
-    impl_code.append(quote! {
+    let impl_code = quote! {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
                 let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
@@ -105,10 +119,10 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
             }
              // TODO(Ohad): better mix_into.
             pub fn mix_into(&self, channel: &mut impl Channel) {
-                channel.mix_u64(self.n_calls as u64);
+                $(channel_mix_code)
             }
         }
-    });
+    };
 
     chain!(struct_code, impl_code).collect()
 }

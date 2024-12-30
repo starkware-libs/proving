@@ -8,19 +8,20 @@ use genco::lang::{rust, Rust};
 use genco::quote;
 use itertools::{chain, Itertools};
 
-use super::parse::seek_consts;
+use super::parse::{get_public_params_from_lookup_terms, seek_consts};
 use super::utils::{block_doc, unique_relation_calls};
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
+    let public_params = get_public_params_from_lookup_terms(&lists.constraints);
     let configs = generate_configs(lists);
     let imports_code = generate_imports_code(&lists.deductions);
     let typedefs = generate_input_output_typedefs(lists);
     let n_trace_cols = generate_n_trace_columns(lists);
     let lookup_data_code = generate_lookup_data_struct(&lists.deductions);
     let sub_components_inputs = generate_sub_components_inputs_struct(&lists.deductions);
-    let claim_generator_code = generate_claim_generator_struct();
-    let claim_generator_impl_code = generate_claim_generator_impl(&lists.deductions);
+    let claim_generator_code = generate_claim_generator_struct(&public_params);
+    let claim_generator_impl_code = generate_claim_generator_impl(lists, &public_params);
     let claim_prover_code = generate_claim_prover_struct();
     let claim_prover_impl = generate_claim_prover_impl(&lists.deductions);
     let write_trace_code = generate_simd_write_trace_code(lists);
@@ -194,7 +195,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         #[allow(non_snake_case)]
         pub fn write_trace_simd(
             inputs: $(vec_of_type("PackedInputType")),
-            $(generate_stateful_component_params(&lists.deductions))
+            $(generate_stateful_component_params(lists))
         ) -> ([BaseColumn; N_TRACE_COLUMNS],
             SubComponentInputs,
             LookupData) {
@@ -268,11 +269,21 @@ fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
     quote!(const N_TRACE_COLUMNS: usize = $(lists.state_names.len());)
 }
 
-fn generate_claim_generator_struct() -> rust::Tokens {
+fn generate_claim_generator_struct(public_params: &[String]) -> rust::Tokens {
+    let mut claim_generator_fields = rust::Tokens::new();
+    claim_generator_fields.extend(quote! {
+        pub inputs: $(vec_of_type("InputType")),
+    });
+    // TODO(Gali): Get the types of the public params from air_infra.
+    for public_param in public_params {
+        claim_generator_fields.extend(quote! {
+            pub $(public_param): u32,
+        });
+    }
     quote! {
         #[derive(Default)]
         pub struct ClaimGenerator {
-            pub inputs: $(vec_of_type("InputType")),
+            $(claim_generator_fields)
         }
     }
 }
@@ -287,22 +298,36 @@ fn generate_claim_prover_struct() -> rust::Tokens {
     }
 }
 
-fn generate_claim_generator_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
+fn generate_claim_generator_impl(lists: &CompiledAirFn, public_params: &[String]) -> rust::Tokens {
+    let mut claim_generator_fields = quote! {
+        inputs,
+    };
+    let mut claim_generator_parameters = quote! {
+        inputs: Vec<InputType>,
+    };
+    for public_param in public_params {
+        claim_generator_fields.extend(quote! {
+            $(public_param),
+        });
+        claim_generator_parameters.extend(quote! {
+            $(public_param): u32,
+        });
+    }
     quote! {
         impl ClaimGenerator {
-            pub fn new(inputs: Vec<InputType>) -> Self {
-                Self { inputs }
+            pub fn new($(claim_generator_parameters)) -> Self {
+                Self { $(claim_generator_fields) }
             }
 
             pub fn write_trace<MC: MerkleChannel>(
                 mut self,
                 tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
-                $(generate_sub_component_params(deductions))
+                $(generate_sub_component_params(&lists.deductions))
             ) -> (Claim, InteractionClaimGenerator)
             where
                 SimdBackend: BackendForChannel<MC>
             {
-                $(write_trace_body_simd(deductions))
+                $(write_trace_body_simd(lists, public_params))
             }
 
             pub fn add_inputs(
@@ -371,10 +396,10 @@ fn is_stateful(fn_name: &str) -> bool {
 }
 
 // Generates the parameters for `write_trace_simd` function.
-fn generate_stateful_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
+fn generate_stateful_component_params(lists: &CompiledAirFn) -> rust::Tokens {
     let mut params = rust::Tokens::new();
     // Does not need call add_inputs.
-    for fn_name in unique_function_calls(deductions) {
+    for fn_name in unique_function_calls(&lists.deductions) {
         // TODO(Ohad): get information about which function is stateful.
         if is_stateful(&fn_name) {
             params.extend(quote! {
@@ -382,19 +407,29 @@ fn generate_stateful_component_params(deductions: &[TraceGenStep]) -> rust::Toke
             });
         }
     }
+    for public_param in get_public_params_from_lookup_terms(&lists.constraints) {
+        params.extend(quote! {
+            $(public_param): u32,
+        });
+    }
     params
 }
 
 // Generates the arguments for `write_trace_simd` function.
-fn generate_stateful_component_args(deductions: &[TraceGenStep]) -> rust::Tokens {
+fn generate_stateful_component_args(lists: &CompiledAirFn) -> rust::Tokens {
     let mut args = rust::Tokens::new();
-    for fn_name in unique_function_calls(deductions) {
+    for fn_name in unique_function_calls(&lists.deductions) {
         // TODO(Ohad): get information about which function is stateful.
         if is_stateful(&fn_name) {
             args.extend(quote! {
                 $(fn_name)$STATE_SUFFIX,
             });
         }
+    }
+    for public_param in get_public_params_from_lookup_terms(&lists.constraints) {
+        args.extend(quote! {
+            self.$(public_param),
+        });
     }
     args
 }
@@ -411,8 +446,14 @@ fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Token
     statement
 }
 
-// TODO(Ohad): Padding.
-fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
+fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rust::Tokens {
+    let mut claim_fields = quote! {n_calls,};
+    for public_param in public_params {
+        claim_fields.extend(quote! {
+            $(public_param): self.$(public_param),
+        });
+    }
+
     quote! {
         let n_calls = self.inputs.len();
         assert_ne!(n_calls, 0);
@@ -426,12 +467,12 @@ fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
 
         let packed_inputs = pack_values(&self.inputs);
         let (trace, mut sub_components_inputs, lookup_data) =
-                write_trace_simd(packed_inputs, $(generate_stateful_component_args(deductions)));
+                write_trace_simd(packed_inputs, $(generate_stateful_component_args(lists)));
 
         if need_padding {
             sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
         }
-        $(generate_sub_component_add_inputs(deductions))
+        $(generate_sub_component_add_inputs(&lists.deductions))
 
         tree_builder.extend_evals(
             trace
@@ -450,7 +491,7 @@ fn write_trace_body_simd(deductions: &[TraceGenStep]) -> rust::Tokens {
 
         (
         Claim {
-            n_calls
+            $(claim_fields)
         },
         InteractionClaimGenerator {
             n_calls,
@@ -848,7 +889,9 @@ fn simd_parse_air_var(
             quote.to_string().unwrap()
         }
         CompiledAirVar::ExternalState(_name, _i) => "todo!()".to_string(),
-        CompiledAirVar::PublicParam(_) => todo!(),
+        CompiledAirVar::PublicParam(public_param) => {
+            format!("PackedM31::broadcast(M31::from({public_param}))")
+        }
     }
 }
 
