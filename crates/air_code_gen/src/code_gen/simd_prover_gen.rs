@@ -8,8 +8,11 @@ use genco::lang::{rust, Rust};
 use genco::quote;
 use itertools::{chain, Itertools};
 
-use super::parse::{get_public_params_from_lookup_terms, seek_consts};
+use super::parse::{
+    get_external_states_from_lookup_terms, get_public_params_from_lookup_terms, seek_consts,
+};
 use super::utils::{block_doc, unique_relation_calls};
+use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
@@ -62,6 +65,17 @@ fn generate_simd_write_trace_body_code(
         if let TraceGenStep::LookupAddInput { fn_name, .. } = deduction {
             add_inputs_offsets.insert(fn_name, 0);
         }
+    }
+    // TODO(Gali): Get the variables of the PreprocessedColumn from air_infra.
+    let external_states = get_external_states_from_lookup_terms(&lists.constraints);
+    for (name, _) in external_states {
+        assert!(
+            SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
+            "unsupported {name}"
+        );
+        write_trace_body.append(quote! {
+            let $(&name.to_lowercase()) = PreprocessedColumn::$name(log_size).packed_at(row_index);
+        });
     }
 
     let mut relation_data_offsets = HashMap::new();
@@ -765,6 +779,7 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_air_utils::trace::component_trace::ComponentTrace;
         use stwo_air_utils_derive::{IterMut, ParIterMut, Uninitialized};
         use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
+        use stwo_prover::constraint_framework::preprocessed_columns::PreprocessedColumn;
         use stwo_prover::constraint_framework::Relation;
         use stwo_prover::core::air::Component;
         use stwo_prover::core::backend::simd::column::BaseColumn;
@@ -876,7 +891,7 @@ fn simd_parse_air_var(
             };
             quote.to_string().unwrap()
         }
-        CompiledAirVar::ExternalState(_name, _i) => "todo!()".to_string(),
+        CompiledAirVar::ExternalState(name, _) => name.to_lowercase(),
         CompiledAirVar::PublicParam(public_param) => {
             format!("PackedM31::broadcast(M31::from({public_param}))")
         }

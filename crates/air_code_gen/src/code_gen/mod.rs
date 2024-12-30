@@ -3,6 +3,10 @@ pub mod parse;
 pub mod simd_prover_gen;
 pub mod utils;
 
+/// Preprocessed Columns that can be generated because their only variable is log_size.
+/// TODO(Gali): Remove once air_infra provides the preprocessed columns with their variables.
+const SUPPORTED_PREPROCESSED_COLUMNS: [&str; 2] = ["Seq", "IsFirst"];
+
 #[cfg(test)]
 mod tests {
     use compiled_casm_air::compiled_structs::CompiledAirFn;
@@ -53,6 +57,8 @@ mod tests {
         generate_component_code(air_fn);
     }
 
+    // TODO(Gali): unignore when we have RangeCheck6 preprocessed column.
+    #[ignore]
     #[test]
     fn range_check_code_gen() {
         let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_6.json");
