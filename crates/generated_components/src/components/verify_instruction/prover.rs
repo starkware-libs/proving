@@ -2,6 +2,7 @@
 #![allow(unused_imports)]
 use std::iter::zip;
 
+use air_structs_derive::SubComponentInputs;
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use prover_types::cpu::*;
@@ -123,37 +124,12 @@ impl ClaimGenerator {
     }
 }
 
+#[derive(SubComponentInputs)]
 pub struct SubComponentInputs {
     pub memory_address_to_id_inputs: [Vec<memory_address_to_id::InputType>; 1],
     pub memory_id_to_big_inputs: [Vec<memory_id_to_big::InputType>; 1],
     pub range_check_4_3_inputs: [Vec<range_check_4_3::InputType>; 1],
     pub range_check_7_2_5_inputs: [Vec<range_check_7_2_5::InputType>; 1],
-}
-impl SubComponentInputs {
-    #[allow(unused_variables)]
-    fn with_capacity(capacity: usize) -> Self {
-        Self {
-            memory_address_to_id_inputs: [Vec::with_capacity(capacity)],
-            memory_id_to_big_inputs: [Vec::with_capacity(capacity)],
-            range_check_4_3_inputs: [Vec::with_capacity(capacity)],
-            range_check_7_2_5_inputs: [Vec::with_capacity(capacity)],
-        }
-    }
-
-    fn bit_reverse_coset_to_circle_domain_order(&mut self) {
-        self.memory_address_to_id_inputs
-            .iter_mut()
-            .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
-        self.memory_id_to_big_inputs
-            .iter_mut()
-            .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
-        self.range_check_4_3_inputs
-            .iter_mut()
-            .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
-        self.range_check_7_2_5_inputs
-            .iter_mut()
-            .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
-    }
 }
 
 #[allow(clippy::useless_conversion)]

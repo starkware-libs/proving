@@ -467,8 +467,6 @@ fn add_inputs_simd_body() -> rust::Tokens {
 
 pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut members_code = quote! {};
-    let mut initialization_code = quote! {};
-    let mut bit_reverse_code = quote! {};
 
     let mut add_inputs_offsets = HashMap::new();
     for deduction in deductions {
@@ -482,30 +480,12 @@ pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rus
         members_code.extend(quote! {
             pub $(fn_name.clone())$INPUTS_SUFFIX: [Vec<$(fn_name.clone())::InputType>; $(offset)],
         });
-        let inner_vecs = (0..offset)
-            .map(|_| quote! {Vec::with_capacity(capacity),})
-            .collect_vec();
-        initialization_code.extend(quote!($(fn_name.clone())$INPUTS_SUFFIX: [$(inner_vecs)],));
-        bit_reverse_code.extend(quote! {
-            self.$(fn_name)$INPUTS_SUFFIX
-                .iter_mut()
-                .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
-        });
     }
 
     quote! {
+        #[derive(SubComponentInputs)]
         pub struct SubComponentInputs
         {$(members_code)}
-        impl SubComponentInputs {
-            #[allow(unused_variables)]
-            fn with_capacity(capacity: usize) -> Self {
-                Self {$(initialization_code)}
-            }
-
-            fn bit_reverse_coset_to_circle_domain_order(&mut self) {
-                $(bit_reverse_code)
-            }
-        }
     }
 }
 
@@ -744,6 +724,7 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         #![allow(unused_imports)]
         use std::iter::zip;
 
+        use air_structs_derive::SubComponentInputs;
         use itertools::{chain, zip_eq, Itertools};
         use num_traits::{One, Zero};
         use prover_types::cpu::*;

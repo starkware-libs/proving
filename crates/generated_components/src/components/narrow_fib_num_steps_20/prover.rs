@@ -2,6 +2,7 @@
 #![allow(unused_imports)]
 use std::iter::zip;
 
+use air_structs_derive::SubComponentInputs;
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use prover_types::cpu::*;
@@ -92,15 +93,8 @@ impl ClaimGenerator {
     }
 }
 
+#[derive(SubComponentInputs)]
 pub struct SubComponentInputs {}
-impl SubComponentInputs {
-    #[allow(unused_variables)]
-    fn with_capacity(capacity: usize) -> Self {
-        Self {}
-    }
-
-    fn bit_reverse_coset_to_circle_domain_order(&mut self) {}
-}
 
 #[allow(clippy::useless_conversion)]
 #[allow(unused_variables)]

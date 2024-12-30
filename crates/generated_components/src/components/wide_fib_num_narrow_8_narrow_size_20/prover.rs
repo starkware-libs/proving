@@ -2,6 +2,7 @@
 #![allow(unused_imports)]
 use std::iter::zip;
 
+use air_structs_derive::SubComponentInputs;
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use prover_types::cpu::*;
@@ -99,31 +100,9 @@ impl ClaimGenerator {
     }
 }
 
+#[derive(SubComponentInputs)]
 pub struct SubComponentInputs {
     pub narrow_fib_num_steps_20_inputs: [Vec<narrow_fib_num_steps_20::InputType>; 8],
-}
-impl SubComponentInputs {
-    #[allow(unused_variables)]
-    fn with_capacity(capacity: usize) -> Self {
-        Self {
-            narrow_fib_num_steps_20_inputs: [
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-                Vec::with_capacity(capacity),
-            ],
-        }
-    }
-
-    fn bit_reverse_coset_to_circle_domain_order(&mut self) {
-        self.narrow_fib_num_steps_20_inputs
-            .iter_mut()
-            .for_each(|vec| bit_reverse_coset_to_circle_domain_order(vec));
-    }
 }
 
 #[allow(clippy::useless_conversion)]

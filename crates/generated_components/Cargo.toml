@@ -11,6 +11,7 @@ starknet-ff.workspace = true
 stwo-cairo-serialize = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "53c4ea9" }
 stwo-prover = { git = "https://github.com/starkware-libs/stwo", rev = "f24cde6" }
 prover_types = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "53c4ea9" }
+air_structs_derive = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "53c4ea9" }
 
 [features]
 default = []

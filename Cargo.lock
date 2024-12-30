@@ -35,6 +35,17 @@ dependencies = [
 ]
 
 [[package]]
+name = "air_structs_derive"
+version = "0.1.0"
+source = "git+https://github.com/starkware-libs/stwo-cairo.git?rev=53c4ea9#53c4ea9efb29a3c74c6c82626ee29efec22f1ec6"
+dependencies = [
+ "itertools 0.13.0",
+ "proc-macro2",
+ "quote",
+ "syn 2.0.90",
+]
+
+[[package]]
 name = "alloy-rlp"
 version = "0.3.10"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -691,6 +702,7 @@ dependencies = [
 name = "generated_components"
 version = "0.1.0"
 dependencies = [
+ "air_structs_derive",
  "itertools 0.12.1",
  "num-traits",
  "prover_types",
@@ -811,6 +823,15 @@ name = "itertools"
 version = "0.12.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "ba291022dbbd398a455acf126c1e341954079855bc60dfdda641363bd6922569"
+dependencies = [
+ "either",
+]
+
+[[package]]
+name = "itertools"
+version = "0.13.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "413ee7dfc52ee1a4949ceeb7dbc8a33f2d6c088194d9f922fb8318faf1f01186"
 dependencies = [
  "either",
 ]
