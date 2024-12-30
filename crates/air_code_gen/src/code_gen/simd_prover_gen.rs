@@ -75,7 +75,7 @@ fn generate_simd_write_trace_body_code(
                 let name = lists.state_names[offset].clone();
                 write_trace_body.append(quote! {
                     let $(name.clone()) = $(simd_parse_air_var(expr,const_names));
-                    trace[$(offset)].data[row_index] = $(name);
+                    *row[$(offset)] = $(name);
                 });
                 offset += 1;
             }
@@ -128,7 +128,7 @@ fn generate_simd_write_trace_body_code(
                 let felts = &felts;
                 let collect_felts = quote! {
                     // TODO(Ohad): change this to not vec.
-                    lookup_data.$(relation_name.to_case(Case::Snake))_$(*offset).push([$(felts)]);
+                    *lookup_data.$(relation_name.to_case(Case::Snake))_$(*offset) = [$(felts)];
                 };
                 write_trace_body.extend(collect_felts);
                 *offset += 1;
@@ -137,9 +137,10 @@ fn generate_simd_write_trace_body_code(
                 let offset = add_inputs_offsets.get_mut(fn_name).unwrap();
                 if input != &CompiledAirVar::Tuple(vec![]) {
                     write_trace_body.extend(quote! {
-                        sub_components$INPUTS_SUFFIX
-                            .$(fn_name)$INPUTS_SUFFIX[$(offset.to_string())]
-                            .extend($(simd_parse_air_var(input, const_names)).unpack());
+                    for (i, &input) in $(simd_parse_air_var(input, const_names)).unpack().iter().enumerate() {
+                        *sub_components$INPUTS_SUFFIX[i]
+                            .$(fn_name)$INPUTS_SUFFIX[$(offset.to_string())] = input;
+                    }
                     });
                 }
                 *offset += 1;
@@ -188,31 +189,38 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
 
     let mut code = rust::Tokens::new();
     code.extend(quote! {
-        #[allow(clippy::useless_conversion)]
         // TODO(Ohad): attempt to remove this.
+        #[allow(clippy::useless_conversion)]
         #[allow(unused_variables)]
         #[allow(clippy::double_parens)]
         #[allow(non_snake_case)]
-        pub fn write_trace_simd(
+        fn write_trace_simd(
             inputs: $(vec_of_type("PackedInputType")),
             $(generate_stateful_component_params(lists))
-        ) -> ([BaseColumn; N_TRACE_COLUMNS],
+        ) -> (ComponentTrace<N_TRACE_COLUMNS>,
             SubComponentInputs,
             LookupData) {
-            const N_TRACE_COLUMNS: usize = $(lists.state_names.len());
-            let mut trace: [_ ;N_TRACE_COLUMNS]= std::array::from_fn
-                    (|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES));
-
-            let mut lookup_data = LookupData::with_capacity(inputs.len());
-            #[allow(unused_mut)]
-            let mut sub_components_inputs = SubComponentInputs::with_capacity(inputs.len());
+            let log_n_packed_rows = inputs.len().ilog2();
+            let log_size = log_n_packed_rows + LOG_N_LANES;
+            let (mut trace, mut lookup_data, mut sub_components_inputs) = unsafe {
+                (
+                    ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
+                    LookupData::uninitialized(log_n_packed_rows),
+                    SubComponentInputs::uninitialized(log_size),
+                )
+            };
 
             $(constants_def_code)
 
-            inputs.into_iter()
-                .enumerate().for_each(|(row_index, $(&lists.name)_input)| {
-                $(generate_simd_write_trace_body_code(lists,&const_names))
-            });
+            trace
+            .par_iter_mut()
+            .zip(inputs.into_par_iter())
+            .zip(lookup_data.par_iter_mut())
+            .zip(sub_components_inputs.par_iter_mut().chunks(N_LANES))
+            .for_each(
+                |(((row, $(&lists.name)_input), lookup_data), mut sub_components_inputs)| {
+                    $(generate_simd_write_trace_body_code(lists,&const_names))
+                });
 
             (trace, sub_components_inputs, lookup_data)
         }
@@ -292,8 +300,8 @@ fn generate_claim_prover_struct() -> rust::Tokens {
     quote! {
 
         pub struct InteractionClaimGenerator {
-            pub n_calls: usize,
-            pub lookup_data: LookupData,
+            n_calls: usize,
+            lookup_data: LookupData,
         }
     }
 }
@@ -474,20 +482,7 @@ fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rus
         }
         $(generate_sub_component_add_inputs(&lists.deductions))
 
-        tree_builder.extend_evals(
-            trace
-                .into_iter()
-                .map(|eval| {
-                    let domain = CanonicCoset::new(
-                        eval.len()
-                            .checked_ilog2()
-                            .expect("Input is not a power of 2!"),
-                    )
-                    .circle_domain();
-                    CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
-                })
-                .collect_vec(),
-        );
+        tree_builder.extend_evals(trace.to_evals());
 
         (
         Claim {
@@ -526,7 +521,7 @@ pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rus
     }
 
     quote! {
-        #[derive(SubComponentInputs)]
+        #[derive(SubComponentInputs,Uninitialized,IterMut, ParIterMut)]
         pub struct SubComponentInputs
         {$(members_code)}
     }
@@ -534,7 +529,6 @@ pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rus
 
 pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut members_code = quote! {};
-    let mut initialization_code = quote! {};
 
     let mut relation_offsets = HashMap::new();
     for deduction in deductions {
@@ -560,20 +554,13 @@ pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens 
             members_code.extend(quote! {
                 $(&member_name): Vec<[PackedM31; $width]>,
             });
-            initialization_code.extend(quote!($(member_name): Vec::with_capacity(capacity),));
         }
     }
 
     quote! {
-        pub struct LookupData
+        #[derive(Uninitialized,IterMut, ParIterMut)]
+        struct LookupData
         {$(members_code)}
-        impl LookupData {
-            #[allow(unused_variables)]
-            fn with_capacity(capacity: usize) -> Self {
-                Self {$(initialization_code)}
-
-            }
-        }
     }
 }
 
@@ -772,24 +759,27 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use num_traits::{One, Zero};
         use prover_types::cpu::*;
         use prover_types::simd::*;
+        use rayon::iter::{
+            IndexedParallelIterator, IntoParallelIterator, IntoParallelRefIterator, ParallelIterator,
+        };
+        use stwo_air_utils::trace::component_trace::ComponentTrace;
+        use stwo_air_utils_derive::{IterMut, ParIterMut, Uninitialized};
         use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
         use stwo_prover::constraint_framework::Relation;
         use stwo_prover::core::air::Component;
-        use stwo_prover::core::backend::BackendForChannel;
-        use stwo_prover::core::backend::{Col, Column};
         use stwo_prover::core::backend::simd::column::BaseColumn;
         use stwo_prover::core::backend::simd::conversion::Unpack;
         use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
         use stwo_prover::core::backend::simd::qm31::PackedQM31;
         use stwo_prover::core::backend::simd::SimdBackend;
+        use stwo_prover::core::backend::{BackendForChannel, Col, Column};
         use stwo_prover::core::channel::{Channel, MerkleChannel};
         use stwo_prover::core::fields::m31::M31;
         use stwo_prover::core::fields::FieldExpOps;
         use stwo_prover::core::pcs::TreeBuilder;
-        use stwo_prover::core::poly::BitReversedOrder;
         use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
+        use stwo_prover::core::poly::BitReversedOrder;
         use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
-
         use super::component::{Claim, InteractionClaim};
         use crate::components::pack_values;
         use crate::relations;

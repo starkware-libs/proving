@@ -7,6 +7,11 @@ use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use prover_types::cpu::*;
 use prover_types::simd::*;
+use rayon::iter::{
+    IndexedParallelIterator, IntoParallelIterator, IntoParallelRefIterator, ParallelIterator,
+};
+use stwo_air_utils::trace::component_trace::ComponentTrace;
+use stwo_air_utils_derive::{IterMut, ParIterMut, Uninitialized};
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::constraint_framework::Relation;
 use stwo_prover::core::air::Component;
@@ -65,20 +70,7 @@ impl ClaimGenerator {
             sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
         }
 
-        tree_builder.extend_evals(
-            trace
-                .into_iter()
-                .map(|eval| {
-                    let domain = CanonicCoset::new(
-                        eval.len()
-                            .checked_ilog2()
-                            .expect("Input is not a power of 2!"),
-                    )
-                    .circle_domain();
-                    CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
-                })
-                .collect_vec(),
-        );
+        tree_builder.extend_evals(trace.to_evals());
 
         (
             Claim { n_calls },
@@ -94,28 +86,21 @@ impl ClaimGenerator {
     }
 }
 
-#[derive(SubComponentInputs)]
+#[derive(SubComponentInputs, Uninitialized, IterMut, ParIterMut)]
 pub struct SubComponentInputs {}
 
 pub fn write_trace_simd() {
     unimplemented!()
 }
 
-pub struct LookupData {
+#[derive(Uninitialized, IterMut, ParIterMut)]
+struct LookupData {
     range_check_6_0: Vec<[PackedM31; 1]>,
-}
-impl LookupData {
-    #[allow(unused_variables)]
-    fn with_capacity(capacity: usize) -> Self {
-        Self {
-            range_check_6_0: Vec::with_capacity(capacity),
-        }
-    }
 }
 
 pub struct InteractionClaimGenerator {
-    pub n_calls: usize,
-    pub lookup_data: LookupData,
+    n_calls: usize,
+    lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
     pub fn write_interaction_trace<MC: MerkleChannel>(

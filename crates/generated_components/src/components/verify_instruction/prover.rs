@@ -7,6 +7,11 @@ use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use prover_types::cpu::*;
 use prover_types::simd::*;
+use rayon::iter::{
+    IndexedParallelIterator, IntoParallelIterator, IntoParallelRefIterator, ParallelIterator,
+};
+use stwo_air_utils::trace::component_trace::ComponentTrace;
+use stwo_air_utils_derive::{IterMut, ParIterMut, Uninitialized};
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::constraint_framework::Relation;
 use stwo_prover::core::air::Component;
@@ -96,20 +101,7 @@ impl ClaimGenerator {
                 range_check_7_2_5_state.add_inputs(&inputs[..n_calls]);
             });
 
-        tree_builder.extend_evals(
-            trace
-                .into_iter()
-                .map(|eval| {
-                    let domain = CanonicCoset::new(
-                        eval.len()
-                            .checked_ilog2()
-                            .expect("Input is not a power of 2!"),
-                    )
-                    .circle_domain();
-                    CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
-                })
-                .collect_vec(),
-        );
+        tree_builder.extend_evals(trace.to_evals());
 
         (
             Claim { n_calls },
@@ -125,7 +117,7 @@ impl ClaimGenerator {
     }
 }
 
-#[derive(SubComponentInputs)]
+#[derive(SubComponentInputs, Uninitialized, IterMut, ParIterMut)]
 pub struct SubComponentInputs {
     pub memory_address_to_id_inputs: [Vec<memory_address_to_id::InputType>; 1],
     pub memory_id_to_big_inputs: [Vec<memory_id_to_big::InputType>; 1],
@@ -137,21 +129,23 @@ pub struct SubComponentInputs {
 #[allow(unused_variables)]
 #[allow(clippy::double_parens)]
 #[allow(non_snake_case)]
-pub fn write_trace_simd(
+fn write_trace_simd(
     inputs: Vec<PackedInputType>,
     memory_address_to_id_state: &mut memory_address_to_id::ClaimGenerator,
 ) -> (
-    [BaseColumn; N_TRACE_COLUMNS],
+    ComponentTrace<N_TRACE_COLUMNS>,
     SubComponentInputs,
     LookupData,
 ) {
-    const N_TRACE_COLUMNS: usize = 28;
-    let mut trace: [_; N_TRACE_COLUMNS] =
-        std::array::from_fn(|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES));
-
-    let mut lookup_data = LookupData::with_capacity(inputs.len());
-    #[allow(unused_mut)]
-    let mut sub_components_inputs = SubComponentInputs::with_capacity(inputs.len());
+    let log_n_packed_rows = inputs.len().ilog2();
+    let log_size = log_n_packed_rows + LOG_N_LANES;
+    let (mut trace, mut lookup_data, mut sub_components_inputs) = unsafe {
+        (
+            ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
+            LookupData::uninitialized(log_n_packed_rows),
+            SubComponentInputs::uninitialized(log_size),
+        )
+    };
 
     let M31_0 = PackedM31::broadcast(M31::from(0));
     let M31_1 = PackedM31::broadcast(M31::from(1));
@@ -172,223 +166,223 @@ pub fn write_trace_simd(
     let UInt16_511 = PackedUInt16::broadcast(UInt16::from(511));
     let UInt16_9 = PackedUInt16::broadcast(UInt16::from(9));
 
-    inputs
-        .into_iter()
-        .enumerate()
-        .for_each(|(row_index, verify_instruction_input)| {
-            let input_tmp_16a4f_0 = (
-                verify_instruction_input.0,
-                [
-                    verify_instruction_input.1[0],
-                    verify_instruction_input.1[1],
-                    verify_instruction_input.1[2],
-                ],
-                [
-                    verify_instruction_input.2[0],
-                    verify_instruction_input.2[1],
-                    verify_instruction_input.2[2],
-                    verify_instruction_input.2[3],
-                    verify_instruction_input.2[4],
-                    verify_instruction_input.2[5],
-                    verify_instruction_input.2[6],
-                    verify_instruction_input.2[7],
-                    verify_instruction_input.2[8],
-                    verify_instruction_input.2[9],
-                    verify_instruction_input.2[10],
-                    verify_instruction_input.2[11],
-                    verify_instruction_input.2[12],
-                    verify_instruction_input.2[13],
-                    verify_instruction_input.2[14],
-                ],
-            );
-            let input_col0 = input_tmp_16a4f_0.0;
-            trace[0].data[row_index] = input_col0;
-            let input_col1 = input_tmp_16a4f_0.1[0];
-            trace[1].data[row_index] = input_col1;
-            let input_col2 = input_tmp_16a4f_0.1[1];
-            trace[2].data[row_index] = input_col2;
-            let input_col3 = input_tmp_16a4f_0.1[2];
-            trace[3].data[row_index] = input_col3;
-            let input_col4 = input_tmp_16a4f_0.2[0];
-            trace[4].data[row_index] = input_col4;
-            let input_col5 = input_tmp_16a4f_0.2[1];
-            trace[5].data[row_index] = input_col5;
-            let input_col6 = input_tmp_16a4f_0.2[2];
-            trace[6].data[row_index] = input_col6;
-            let input_col7 = input_tmp_16a4f_0.2[3];
-            trace[7].data[row_index] = input_col7;
-            let input_col8 = input_tmp_16a4f_0.2[4];
-            trace[8].data[row_index] = input_col8;
-            let input_col9 = input_tmp_16a4f_0.2[5];
-            trace[9].data[row_index] = input_col9;
-            let input_col10 = input_tmp_16a4f_0.2[6];
-            trace[10].data[row_index] = input_col10;
-            let input_col11 = input_tmp_16a4f_0.2[7];
-            trace[11].data[row_index] = input_col11;
-            let input_col12 = input_tmp_16a4f_0.2[8];
-            trace[12].data[row_index] = input_col12;
-            let input_col13 = input_tmp_16a4f_0.2[9];
-            trace[13].data[row_index] = input_col13;
-            let input_col14 = input_tmp_16a4f_0.2[10];
-            trace[14].data[row_index] = input_col14;
-            let input_col15 = input_tmp_16a4f_0.2[11];
-            trace[15].data[row_index] = input_col15;
-            let input_col16 = input_tmp_16a4f_0.2[12];
-            trace[16].data[row_index] = input_col16;
-            let input_col17 = input_tmp_16a4f_0.2[13];
-            trace[17].data[row_index] = input_col17;
-            let input_col18 = input_tmp_16a4f_0.2[14];
-            trace[18].data[row_index] = input_col18;
+    trace
+        .par_iter_mut()
+        .zip(inputs.into_par_iter())
+        .zip(lookup_data.par_iter_mut())
+        .zip(sub_components_inputs.par_iter_mut().chunks(N_LANES))
+        .for_each(
+            |(((row, verify_instruction_input), lookup_data), mut sub_components_inputs)| {
+                let input_tmp_16a4f_0 = (
+                    verify_instruction_input.0,
+                    [
+                        verify_instruction_input.1[0],
+                        verify_instruction_input.1[1],
+                        verify_instruction_input.1[2],
+                    ],
+                    [
+                        verify_instruction_input.2[0],
+                        verify_instruction_input.2[1],
+                        verify_instruction_input.2[2],
+                        verify_instruction_input.2[3],
+                        verify_instruction_input.2[4],
+                        verify_instruction_input.2[5],
+                        verify_instruction_input.2[6],
+                        verify_instruction_input.2[7],
+                        verify_instruction_input.2[8],
+                        verify_instruction_input.2[9],
+                        verify_instruction_input.2[10],
+                        verify_instruction_input.2[11],
+                        verify_instruction_input.2[12],
+                        verify_instruction_input.2[13],
+                        verify_instruction_input.2[14],
+                    ],
+                );
+                let input_col0 = input_tmp_16a4f_0.0;
+                *row[0] = input_col0;
+                let input_col1 = input_tmp_16a4f_0.1[0];
+                *row[1] = input_col1;
+                let input_col2 = input_tmp_16a4f_0.1[1];
+                *row[2] = input_col2;
+                let input_col3 = input_tmp_16a4f_0.1[2];
+                *row[3] = input_col3;
+                let input_col4 = input_tmp_16a4f_0.2[0];
+                *row[4] = input_col4;
+                let input_col5 = input_tmp_16a4f_0.2[1];
+                *row[5] = input_col5;
+                let input_col6 = input_tmp_16a4f_0.2[2];
+                *row[6] = input_col6;
+                let input_col7 = input_tmp_16a4f_0.2[3];
+                *row[7] = input_col7;
+                let input_col8 = input_tmp_16a4f_0.2[4];
+                *row[8] = input_col8;
+                let input_col9 = input_tmp_16a4f_0.2[5];
+                *row[9] = input_col9;
+                let input_col10 = input_tmp_16a4f_0.2[6];
+                *row[10] = input_col10;
+                let input_col11 = input_tmp_16a4f_0.2[7];
+                *row[11] = input_col11;
+                let input_col12 = input_tmp_16a4f_0.2[8];
+                *row[12] = input_col12;
+                let input_col13 = input_tmp_16a4f_0.2[9];
+                *row[13] = input_col13;
+                let input_col14 = input_tmp_16a4f_0.2[10];
+                *row[14] = input_col14;
+                let input_col15 = input_tmp_16a4f_0.2[11];
+                *row[15] = input_col15;
+                let input_col16 = input_tmp_16a4f_0.2[12];
+                *row[16] = input_col16;
+                let input_col17 = input_tmp_16a4f_0.2[13];
+                *row[17] = input_col17;
+                let input_col18 = input_tmp_16a4f_0.2[14];
+                *row[18] = input_col18;
 
-            // Encode Offsets.
+                // Encode Offsets.
 
-            let offset0_low_tmp_16a4f_1 = ((PackedUInt16::from_m31(input_col1)) & (UInt16_511));
-            let offset0_low_col19 = offset0_low_tmp_16a4f_1.as_m31();
-            trace[19].data[row_index] = offset0_low_col19;
-            let offset0_mid_tmp_16a4f_2 = ((PackedUInt16::from_m31(input_col1)) >> (UInt16_9));
-            let offset0_mid_col20 = offset0_mid_tmp_16a4f_2.as_m31();
-            trace[20].data[row_index] = offset0_mid_col20;
-            let offset1_low_tmp_16a4f_3 = ((PackedUInt16::from_m31(input_col2)) & (UInt16_3));
-            let offset1_low_col21 = offset1_low_tmp_16a4f_3.as_m31();
-            trace[21].data[row_index] = offset1_low_col21;
-            let offset1_mid_tmp_16a4f_4 =
-                (((PackedUInt16::from_m31(input_col2)) >> (UInt16_2)) & (UInt16_511));
-            let offset1_mid_col22 = offset1_mid_tmp_16a4f_4.as_m31();
-            trace[22].data[row_index] = offset1_mid_col22;
-            let offset1_high_tmp_16a4f_5 = ((PackedUInt16::from_m31(input_col2)) >> (UInt16_11));
-            let offset1_high_col23 = offset1_high_tmp_16a4f_5.as_m31();
-            trace[23].data[row_index] = offset1_high_col23;
-            let offset2_low_tmp_16a4f_6 = ((PackedUInt16::from_m31(input_col3)) & (UInt16_15));
-            let offset2_low_col24 = offset2_low_tmp_16a4f_6.as_m31();
-            trace[24].data[row_index] = offset2_low_col24;
-            let offset2_mid_tmp_16a4f_7 =
-                (((PackedUInt16::from_m31(input_col3)) >> (UInt16_4)) & (UInt16_511));
-            let offset2_mid_col25 = offset2_mid_tmp_16a4f_7.as_m31();
-            trace[25].data[row_index] = offset2_mid_col25;
-            let offset2_high_tmp_16a4f_8 = ((PackedUInt16::from_m31(input_col3)) >> (UInt16_13));
-            let offset2_high_col26 = offset2_high_tmp_16a4f_8.as_m31();
-            trace[26].data[row_index] = offset2_high_col26;
-            sub_components_inputs.range_check_7_2_5_inputs[0]
-                .extend([offset0_mid_col20, offset1_low_col21, offset1_high_col23].unpack());
+                let offset0_low_tmp_16a4f_1 = ((PackedUInt16::from_m31(input_col1)) & (UInt16_511));
+                let offset0_low_col19 = offset0_low_tmp_16a4f_1.as_m31();
+                *row[19] = offset0_low_col19;
+                let offset0_mid_tmp_16a4f_2 = ((PackedUInt16::from_m31(input_col1)) >> (UInt16_9));
+                let offset0_mid_col20 = offset0_mid_tmp_16a4f_2.as_m31();
+                *row[20] = offset0_mid_col20;
+                let offset1_low_tmp_16a4f_3 = ((PackedUInt16::from_m31(input_col2)) & (UInt16_3));
+                let offset1_low_col21 = offset1_low_tmp_16a4f_3.as_m31();
+                *row[21] = offset1_low_col21;
+                let offset1_mid_tmp_16a4f_4 =
+                    (((PackedUInt16::from_m31(input_col2)) >> (UInt16_2)) & (UInt16_511));
+                let offset1_mid_col22 = offset1_mid_tmp_16a4f_4.as_m31();
+                *row[22] = offset1_mid_col22;
+                let offset1_high_tmp_16a4f_5 =
+                    ((PackedUInt16::from_m31(input_col2)) >> (UInt16_11));
+                let offset1_high_col23 = offset1_high_tmp_16a4f_5.as_m31();
+                *row[23] = offset1_high_col23;
+                let offset2_low_tmp_16a4f_6 = ((PackedUInt16::from_m31(input_col3)) & (UInt16_15));
+                let offset2_low_col24 = offset2_low_tmp_16a4f_6.as_m31();
+                *row[24] = offset2_low_col24;
+                let offset2_mid_tmp_16a4f_7 =
+                    (((PackedUInt16::from_m31(input_col3)) >> (UInt16_4)) & (UInt16_511));
+                let offset2_mid_col25 = offset2_mid_tmp_16a4f_7.as_m31();
+                *row[25] = offset2_mid_col25;
+                let offset2_high_tmp_16a4f_8 =
+                    ((PackedUInt16::from_m31(input_col3)) >> (UInt16_13));
+                let offset2_high_col26 = offset2_high_tmp_16a4f_8.as_m31();
+                *row[26] = offset2_high_col26;
+                for (i, &input) in [offset0_mid_col20, offset1_low_col21, offset1_high_col23]
+                    .unpack()
+                    .iter()
+                    .enumerate()
+                {
+                    *sub_components_inputs[i].range_check_7_2_5_inputs[0] = input;
+                }
+                *lookup_data.range_check_7_2_5_0 =
+                    [offset0_mid_col20, offset1_low_col21, offset1_high_col23];
+                for (i, &input) in [offset2_low_col24, offset2_high_col26]
+                    .unpack()
+                    .iter()
+                    .enumerate()
+                {
+                    *sub_components_inputs[i].range_check_4_3_inputs[0] = input;
+                }
+                *lookup_data.range_check_4_3_0 = [offset2_low_col24, offset2_high_col26];
 
-            lookup_data.range_check_7_2_5_0.push([
-                offset0_mid_col20,
-                offset1_low_col21,
-                offset1_high_col23,
-            ]);
-            sub_components_inputs.range_check_4_3_inputs[0]
-                .extend([offset2_low_col24, offset2_high_col26].unpack());
+                // Mem Verify.
 
-            lookup_data
-                .range_check_4_3_0
-                .push([offset2_low_col24, offset2_high_col26]);
+                let memory_address_to_id_value_tmp_16a4f_9 =
+                    memory_address_to_id_state.deduce_output(input_col0);
+                let instruction_id_col27 = memory_address_to_id_value_tmp_16a4f_9;
+                *row[27] = instruction_id_col27;
+                for (i, &input) in input_col0.unpack().iter().enumerate() {
+                    *sub_components_inputs[i].memory_address_to_id_inputs[0] = input;
+                }
+                *lookup_data.memory_address_to_id_0 = [input_col0, instruction_id_col27];
+                for (i, &input) in instruction_id_col27.unpack().iter().enumerate() {
+                    *sub_components_inputs[i].memory_id_to_big_inputs[0] = input;
+                }
+                *lookup_data.memory_id_to_big_0 = [
+                    instruction_id_col27,
+                    offset0_low_col19,
+                    ((offset0_mid_col20) + ((offset1_low_col21) * (M31_128))),
+                    offset1_mid_col22,
+                    ((offset1_high_col23) + ((offset2_low_col24) * (M31_32))),
+                    offset2_mid_col25,
+                    ((offset2_high_col26)
+                        + (((((((M31_0) + ((input_col4) * (M31_8)))
+                            + ((input_col5) * (M31_16)))
+                            + ((input_col6) * (M31_32)))
+                            + ((input_col7) * (M31_64)))
+                            + ((input_col8) * (M31_128)))
+                            + ((input_col9) * (M31_256)))),
+                    ((((((((((M31_0) + ((input_col10) * (M31_1)))
+                        + ((input_col11) * (M31_2)))
+                        + ((input_col12) * (M31_4)))
+                        + ((input_col13) * (M31_8)))
+                        + ((input_col14) * (M31_16)))
+                        + ((input_col15) * (M31_32)))
+                        + ((input_col16) * (M31_64)))
+                        + ((input_col17) * (M31_128)))
+                        + ((input_col18) * (M31_256))),
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                    M31_0,
+                ];
 
-            // Mem Verify.
-
-            let memory_address_to_id_value_tmp_16a4f_9 =
-                memory_address_to_id_state.deduce_output(input_col0);
-            let instruction_id_col27 = memory_address_to_id_value_tmp_16a4f_9;
-            trace[27].data[row_index] = instruction_id_col27;
-            sub_components_inputs.memory_address_to_id_inputs[0].extend(input_col0.unpack());
-
-            lookup_data
-                .memory_address_to_id_0
-                .push([input_col0, instruction_id_col27]);
-            sub_components_inputs.memory_id_to_big_inputs[0].extend(instruction_id_col27.unpack());
-
-            lookup_data.memory_id_to_big_0.push([
-                instruction_id_col27,
-                offset0_low_col19,
-                ((offset0_mid_col20) + ((offset1_low_col21) * (M31_128))),
-                offset1_mid_col22,
-                ((offset1_high_col23) + ((offset2_low_col24) * (M31_32))),
-                offset2_mid_col25,
-                ((offset2_high_col26)
-                    + (((((((M31_0) + ((input_col4) * (M31_8))) + ((input_col5) * (M31_16)))
-                        + ((input_col6) * (M31_32)))
-                        + ((input_col7) * (M31_64)))
-                        + ((input_col8) * (M31_128)))
-                        + ((input_col9) * (M31_256)))),
-                ((((((((((M31_0) + ((input_col10) * (M31_1))) + ((input_col11) * (M31_2)))
-                    + ((input_col12) * (M31_4)))
-                    + ((input_col13) * (M31_8)))
-                    + ((input_col14) * (M31_16)))
-                    + ((input_col15) * (M31_32)))
-                    + ((input_col16) * (M31_64)))
-                    + ((input_col17) * (M31_128)))
-                    + ((input_col18) * (M31_256))),
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-                M31_0,
-            ]);
-
-            lookup_data.verify_instruction_0.push([
-                input_col0,
-                input_col1,
-                input_col2,
-                input_col3,
-                input_col4,
-                input_col5,
-                input_col6,
-                input_col7,
-                input_col8,
-                input_col9,
-                input_col10,
-                input_col11,
-                input_col12,
-                input_col13,
-                input_col14,
-                input_col15,
-                input_col16,
-                input_col17,
-                input_col18,
-            ]);
-        });
+                *lookup_data.verify_instruction_0 = [
+                    input_col0,
+                    input_col1,
+                    input_col2,
+                    input_col3,
+                    input_col4,
+                    input_col5,
+                    input_col6,
+                    input_col7,
+                    input_col8,
+                    input_col9,
+                    input_col10,
+                    input_col11,
+                    input_col12,
+                    input_col13,
+                    input_col14,
+                    input_col15,
+                    input_col16,
+                    input_col17,
+                    input_col18,
+                ];
+            },
+        );
 
     (trace, sub_components_inputs, lookup_data)
 }
 
-pub struct LookupData {
+#[derive(Uninitialized, IterMut, ParIterMut)]
+struct LookupData {
     memory_address_to_id_0: Vec<[PackedM31; 2]>,
     memory_id_to_big_0: Vec<[PackedM31; 29]>,
     range_check_4_3_0: Vec<[PackedM31; 2]>,
     range_check_7_2_5_0: Vec<[PackedM31; 3]>,
     verify_instruction_0: Vec<[PackedM31; 19]>,
 }
-impl LookupData {
-    #[allow(unused_variables)]
-    fn with_capacity(capacity: usize) -> Self {
-        Self {
-            memory_address_to_id_0: Vec::with_capacity(capacity),
-            memory_id_to_big_0: Vec::with_capacity(capacity),
-            range_check_4_3_0: Vec::with_capacity(capacity),
-            range_check_7_2_5_0: Vec::with_capacity(capacity),
-            verify_instruction_0: Vec::with_capacity(capacity),
-        }
-    }
-}
 
 pub struct InteractionClaimGenerator {
-    pub n_calls: usize,
-    pub lookup_data: LookupData,
+    n_calls: usize,
+    lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
     pub fn write_interaction_trace<MC: MerkleChannel>(

@@ -7,6 +7,11 @@ use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use prover_types::cpu::*;
 use prover_types::simd::*;
+use rayon::iter::{
+    IndexedParallelIterator, IntoParallelIterator, IntoParallelRefIterator, ParallelIterator,
+};
+use stwo_air_utils::trace::component_trace::ComponentTrace;
+use stwo_air_utils_derive::{IterMut, ParIterMut, Uninitialized};
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::constraint_framework::Relation;
 use stwo_prover::core::air::Component;
@@ -72,20 +77,7 @@ impl ClaimGenerator {
                 narrow_fib_num_steps_20_state.add_inputs(&inputs[..n_calls]);
             });
 
-        tree_builder.extend_evals(
-            trace
-                .into_iter()
-                .map(|eval| {
-                    let domain = CanonicCoset::new(
-                        eval.len()
-                            .checked_ilog2()
-                            .expect("Input is not a power of 2!"),
-                    )
-                    .circle_domain();
-                    CircleEvaluation::<SimdBackend, M31, BitReversedOrder>::new(domain, eval)
-                })
-                .collect_vec(),
-        );
+        tree_builder.extend_evals(trace.to_evals());
 
         (
             Claim { n_calls },
@@ -101,7 +93,7 @@ impl ClaimGenerator {
     }
 }
 
-#[derive(SubComponentInputs)]
+#[derive(SubComponentInputs, Uninitialized, IterMut, ParIterMut)]
 pub struct SubComponentInputs {
     pub narrow_fib_num_steps_20_inputs: [Vec<narrow_fib_num_steps_20::InputType>; 8],
 }
@@ -110,216 +102,251 @@ pub struct SubComponentInputs {
 #[allow(unused_variables)]
 #[allow(clippy::double_parens)]
 #[allow(non_snake_case)]
-pub fn write_trace_simd(
+fn write_trace_simd(
     inputs: Vec<PackedInputType>,
 ) -> (
-    [BaseColumn; N_TRACE_COLUMNS],
+    ComponentTrace<N_TRACE_COLUMNS>,
     SubComponentInputs,
     LookupData,
 ) {
-    const N_TRACE_COLUMNS: usize = 17;
-    let mut trace: [_; N_TRACE_COLUMNS] =
-        std::array::from_fn(|_| Col::<SimdBackend, M31>::zeros(inputs.len() * N_LANES));
-
-    let mut lookup_data = LookupData::with_capacity(inputs.len());
-    #[allow(unused_mut)]
-    let mut sub_components_inputs = SubComponentInputs::with_capacity(inputs.len());
+    let log_n_packed_rows = inputs.len().ilog2();
+    let log_size = log_n_packed_rows + LOG_N_LANES;
+    let (mut trace, mut lookup_data, mut sub_components_inputs) = unsafe {
+        (
+            ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
+            LookupData::uninitialized(log_n_packed_rows),
+            SubComponentInputs::uninitialized(log_size),
+        )
+    };
 
     let M31_1 = PackedM31::broadcast(M31::from(1));
 
-    inputs.into_iter().enumerate().for_each(
-        |(row_index, wide_fib_num_narrow_8_narrow_size_20_input)| {
-            let col0 = wide_fib_num_narrow_8_narrow_size_20_input;
-            trace[0].data[row_index] = col0;
-            let narrow_fib_num_steps_20_output_tmp_d7cf2_0 =
-                narrow_fib_num_steps_20::deduce_output([M31_1, col0]);
-            let narrow_fib_num_steps_20_output_col1 = narrow_fib_num_steps_20_output_tmp_d7cf2_0[0];
-            trace[1].data[row_index] = narrow_fib_num_steps_20_output_col1;
-            let narrow_fib_num_steps_20_output_col2 = narrow_fib_num_steps_20_output_tmp_d7cf2_0[1];
-            trace[2].data[row_index] = narrow_fib_num_steps_20_output_col2;
-            sub_components_inputs.narrow_fib_num_steps_20_inputs[0].extend([M31_1, col0].unpack());
-
-            lookup_data.narrow_fib_num_steps_20_0.push([
-                M31_1,
-                col0,
-                narrow_fib_num_steps_20_output_col1,
-                narrow_fib_num_steps_20_output_col2,
-            ]);
-            let narrow_fib_num_steps_20_output_tmp_d7cf2_1 =
-                narrow_fib_num_steps_20::deduce_output([
+    trace
+        .par_iter_mut()
+        .zip(inputs.into_par_iter())
+        .zip(lookup_data.par_iter_mut())
+        .zip(sub_components_inputs.par_iter_mut().chunks(N_LANES))
+        .for_each(
+            |(
+                ((row, wide_fib_num_narrow_8_narrow_size_20_input), lookup_data),
+                mut sub_components_inputs,
+            )| {
+                let col0 = wide_fib_num_narrow_8_narrow_size_20_input;
+                *row[0] = col0;
+                let narrow_fib_num_steps_20_output_tmp_d7cf2_0 =
+                    narrow_fib_num_steps_20::deduce_output([M31_1, col0]);
+                let narrow_fib_num_steps_20_output_col1 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_0[0];
+                *row[1] = narrow_fib_num_steps_20_output_col1;
+                let narrow_fib_num_steps_20_output_col2 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_0[1];
+                *row[2] = narrow_fib_num_steps_20_output_col2;
+                for (i, &input) in [M31_1, col0].unpack().iter().enumerate() {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[0] = input;
+                }
+                *lookup_data.narrow_fib_num_steps_20_0 = [
+                    M31_1,
+                    col0,
                     narrow_fib_num_steps_20_output_col1,
                     narrow_fib_num_steps_20_output_col2,
-                ]);
-            let narrow_fib_num_steps_20_output_col3 = narrow_fib_num_steps_20_output_tmp_d7cf2_1[0];
-            trace[3].data[row_index] = narrow_fib_num_steps_20_output_col3;
-            let narrow_fib_num_steps_20_output_col4 = narrow_fib_num_steps_20_output_tmp_d7cf2_1[1];
-            trace[4].data[row_index] = narrow_fib_num_steps_20_output_col4;
-            sub_components_inputs.narrow_fib_num_steps_20_inputs[1].extend(
-                [
+                ];
+                let narrow_fib_num_steps_20_output_tmp_d7cf2_1 =
+                    narrow_fib_num_steps_20::deduce_output([
+                        narrow_fib_num_steps_20_output_col1,
+                        narrow_fib_num_steps_20_output_col2,
+                    ]);
+                let narrow_fib_num_steps_20_output_col3 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_1[0];
+                *row[3] = narrow_fib_num_steps_20_output_col3;
+                let narrow_fib_num_steps_20_output_col4 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_1[1];
+                *row[4] = narrow_fib_num_steps_20_output_col4;
+                for (i, &input) in [
                     narrow_fib_num_steps_20_output_col1,
                     narrow_fib_num_steps_20_output_col2,
                 ]
-                .unpack(),
-            );
-
-            lookup_data.narrow_fib_num_steps_20_1.push([
-                narrow_fib_num_steps_20_output_col1,
-                narrow_fib_num_steps_20_output_col2,
-                narrow_fib_num_steps_20_output_col3,
-                narrow_fib_num_steps_20_output_col4,
-            ]);
-            let narrow_fib_num_steps_20_output_tmp_d7cf2_2 =
-                narrow_fib_num_steps_20::deduce_output([
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[1] = input;
+                }
+                *lookup_data.narrow_fib_num_steps_20_1 = [
+                    narrow_fib_num_steps_20_output_col1,
+                    narrow_fib_num_steps_20_output_col2,
                     narrow_fib_num_steps_20_output_col3,
                     narrow_fib_num_steps_20_output_col4,
-                ]);
-            let narrow_fib_num_steps_20_output_col5 = narrow_fib_num_steps_20_output_tmp_d7cf2_2[0];
-            trace[5].data[row_index] = narrow_fib_num_steps_20_output_col5;
-            let narrow_fib_num_steps_20_output_col6 = narrow_fib_num_steps_20_output_tmp_d7cf2_2[1];
-            trace[6].data[row_index] = narrow_fib_num_steps_20_output_col6;
-            sub_components_inputs.narrow_fib_num_steps_20_inputs[2].extend(
-                [
+                ];
+                let narrow_fib_num_steps_20_output_tmp_d7cf2_2 =
+                    narrow_fib_num_steps_20::deduce_output([
+                        narrow_fib_num_steps_20_output_col3,
+                        narrow_fib_num_steps_20_output_col4,
+                    ]);
+                let narrow_fib_num_steps_20_output_col5 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_2[0];
+                *row[5] = narrow_fib_num_steps_20_output_col5;
+                let narrow_fib_num_steps_20_output_col6 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_2[1];
+                *row[6] = narrow_fib_num_steps_20_output_col6;
+                for (i, &input) in [
                     narrow_fib_num_steps_20_output_col3,
                     narrow_fib_num_steps_20_output_col4,
                 ]
-                .unpack(),
-            );
-
-            lookup_data.narrow_fib_num_steps_20_2.push([
-                narrow_fib_num_steps_20_output_col3,
-                narrow_fib_num_steps_20_output_col4,
-                narrow_fib_num_steps_20_output_col5,
-                narrow_fib_num_steps_20_output_col6,
-            ]);
-            let narrow_fib_num_steps_20_output_tmp_d7cf2_3 =
-                narrow_fib_num_steps_20::deduce_output([
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[2] = input;
+                }
+                *lookup_data.narrow_fib_num_steps_20_2 = [
+                    narrow_fib_num_steps_20_output_col3,
+                    narrow_fib_num_steps_20_output_col4,
                     narrow_fib_num_steps_20_output_col5,
                     narrow_fib_num_steps_20_output_col6,
-                ]);
-            let narrow_fib_num_steps_20_output_col7 = narrow_fib_num_steps_20_output_tmp_d7cf2_3[0];
-            trace[7].data[row_index] = narrow_fib_num_steps_20_output_col7;
-            let narrow_fib_num_steps_20_output_col8 = narrow_fib_num_steps_20_output_tmp_d7cf2_3[1];
-            trace[8].data[row_index] = narrow_fib_num_steps_20_output_col8;
-            sub_components_inputs.narrow_fib_num_steps_20_inputs[3].extend(
-                [
+                ];
+                let narrow_fib_num_steps_20_output_tmp_d7cf2_3 =
+                    narrow_fib_num_steps_20::deduce_output([
+                        narrow_fib_num_steps_20_output_col5,
+                        narrow_fib_num_steps_20_output_col6,
+                    ]);
+                let narrow_fib_num_steps_20_output_col7 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_3[0];
+                *row[7] = narrow_fib_num_steps_20_output_col7;
+                let narrow_fib_num_steps_20_output_col8 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_3[1];
+                *row[8] = narrow_fib_num_steps_20_output_col8;
+                for (i, &input) in [
                     narrow_fib_num_steps_20_output_col5,
                     narrow_fib_num_steps_20_output_col6,
                 ]
-                .unpack(),
-            );
-
-            lookup_data.narrow_fib_num_steps_20_3.push([
-                narrow_fib_num_steps_20_output_col5,
-                narrow_fib_num_steps_20_output_col6,
-                narrow_fib_num_steps_20_output_col7,
-                narrow_fib_num_steps_20_output_col8,
-            ]);
-            let narrow_fib_num_steps_20_output_tmp_d7cf2_4 =
-                narrow_fib_num_steps_20::deduce_output([
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[3] = input;
+                }
+                *lookup_data.narrow_fib_num_steps_20_3 = [
+                    narrow_fib_num_steps_20_output_col5,
+                    narrow_fib_num_steps_20_output_col6,
                     narrow_fib_num_steps_20_output_col7,
                     narrow_fib_num_steps_20_output_col8,
-                ]);
-            let narrow_fib_num_steps_20_output_col9 = narrow_fib_num_steps_20_output_tmp_d7cf2_4[0];
-            trace[9].data[row_index] = narrow_fib_num_steps_20_output_col9;
-            let narrow_fib_num_steps_20_output_col10 =
-                narrow_fib_num_steps_20_output_tmp_d7cf2_4[1];
-            trace[10].data[row_index] = narrow_fib_num_steps_20_output_col10;
-            sub_components_inputs.narrow_fib_num_steps_20_inputs[4].extend(
-                [
+                ];
+                let narrow_fib_num_steps_20_output_tmp_d7cf2_4 =
+                    narrow_fib_num_steps_20::deduce_output([
+                        narrow_fib_num_steps_20_output_col7,
+                        narrow_fib_num_steps_20_output_col8,
+                    ]);
+                let narrow_fib_num_steps_20_output_col9 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_4[0];
+                *row[9] = narrow_fib_num_steps_20_output_col9;
+                let narrow_fib_num_steps_20_output_col10 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_4[1];
+                *row[10] = narrow_fib_num_steps_20_output_col10;
+                for (i, &input) in [
                     narrow_fib_num_steps_20_output_col7,
                     narrow_fib_num_steps_20_output_col8,
                 ]
-                .unpack(),
-            );
-
-            lookup_data.narrow_fib_num_steps_20_4.push([
-                narrow_fib_num_steps_20_output_col7,
-                narrow_fib_num_steps_20_output_col8,
-                narrow_fib_num_steps_20_output_col9,
-                narrow_fib_num_steps_20_output_col10,
-            ]);
-            let narrow_fib_num_steps_20_output_tmp_d7cf2_5 =
-                narrow_fib_num_steps_20::deduce_output([
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[4] = input;
+                }
+                *lookup_data.narrow_fib_num_steps_20_4 = [
+                    narrow_fib_num_steps_20_output_col7,
+                    narrow_fib_num_steps_20_output_col8,
                     narrow_fib_num_steps_20_output_col9,
                     narrow_fib_num_steps_20_output_col10,
-                ]);
-            let narrow_fib_num_steps_20_output_col11 =
-                narrow_fib_num_steps_20_output_tmp_d7cf2_5[0];
-            trace[11].data[row_index] = narrow_fib_num_steps_20_output_col11;
-            let narrow_fib_num_steps_20_output_col12 =
-                narrow_fib_num_steps_20_output_tmp_d7cf2_5[1];
-            trace[12].data[row_index] = narrow_fib_num_steps_20_output_col12;
-            sub_components_inputs.narrow_fib_num_steps_20_inputs[5].extend(
-                [
+                ];
+                let narrow_fib_num_steps_20_output_tmp_d7cf2_5 =
+                    narrow_fib_num_steps_20::deduce_output([
+                        narrow_fib_num_steps_20_output_col9,
+                        narrow_fib_num_steps_20_output_col10,
+                    ]);
+                let narrow_fib_num_steps_20_output_col11 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_5[0];
+                *row[11] = narrow_fib_num_steps_20_output_col11;
+                let narrow_fib_num_steps_20_output_col12 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_5[1];
+                *row[12] = narrow_fib_num_steps_20_output_col12;
+                for (i, &input) in [
                     narrow_fib_num_steps_20_output_col9,
                     narrow_fib_num_steps_20_output_col10,
                 ]
-                .unpack(),
-            );
-
-            lookup_data.narrow_fib_num_steps_20_5.push([
-                narrow_fib_num_steps_20_output_col9,
-                narrow_fib_num_steps_20_output_col10,
-                narrow_fib_num_steps_20_output_col11,
-                narrow_fib_num_steps_20_output_col12,
-            ]);
-            let narrow_fib_num_steps_20_output_tmp_d7cf2_6 =
-                narrow_fib_num_steps_20::deduce_output([
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[5] = input;
+                }
+                *lookup_data.narrow_fib_num_steps_20_5 = [
+                    narrow_fib_num_steps_20_output_col9,
+                    narrow_fib_num_steps_20_output_col10,
                     narrow_fib_num_steps_20_output_col11,
                     narrow_fib_num_steps_20_output_col12,
-                ]);
-            let narrow_fib_num_steps_20_output_col13 =
-                narrow_fib_num_steps_20_output_tmp_d7cf2_6[0];
-            trace[13].data[row_index] = narrow_fib_num_steps_20_output_col13;
-            let narrow_fib_num_steps_20_output_col14 =
-                narrow_fib_num_steps_20_output_tmp_d7cf2_6[1];
-            trace[14].data[row_index] = narrow_fib_num_steps_20_output_col14;
-            sub_components_inputs.narrow_fib_num_steps_20_inputs[6].extend(
-                [
+                ];
+                let narrow_fib_num_steps_20_output_tmp_d7cf2_6 =
+                    narrow_fib_num_steps_20::deduce_output([
+                        narrow_fib_num_steps_20_output_col11,
+                        narrow_fib_num_steps_20_output_col12,
+                    ]);
+                let narrow_fib_num_steps_20_output_col13 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_6[0];
+                *row[13] = narrow_fib_num_steps_20_output_col13;
+                let narrow_fib_num_steps_20_output_col14 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_6[1];
+                *row[14] = narrow_fib_num_steps_20_output_col14;
+                for (i, &input) in [
                     narrow_fib_num_steps_20_output_col11,
                     narrow_fib_num_steps_20_output_col12,
                 ]
-                .unpack(),
-            );
-
-            lookup_data.narrow_fib_num_steps_20_6.push([
-                narrow_fib_num_steps_20_output_col11,
-                narrow_fib_num_steps_20_output_col12,
-                narrow_fib_num_steps_20_output_col13,
-                narrow_fib_num_steps_20_output_col14,
-            ]);
-            let narrow_fib_num_steps_20_output_tmp_d7cf2_7 =
-                narrow_fib_num_steps_20::deduce_output([
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[6] = input;
+                }
+                *lookup_data.narrow_fib_num_steps_20_6 = [
+                    narrow_fib_num_steps_20_output_col11,
+                    narrow_fib_num_steps_20_output_col12,
                     narrow_fib_num_steps_20_output_col13,
                     narrow_fib_num_steps_20_output_col14,
-                ]);
-            let narrow_fib_num_steps_20_output_col15 =
-                narrow_fib_num_steps_20_output_tmp_d7cf2_7[0];
-            trace[15].data[row_index] = narrow_fib_num_steps_20_output_col15;
-            let narrow_fib_num_steps_20_output_col16 =
-                narrow_fib_num_steps_20_output_tmp_d7cf2_7[1];
-            trace[16].data[row_index] = narrow_fib_num_steps_20_output_col16;
-            sub_components_inputs.narrow_fib_num_steps_20_inputs[7].extend(
-                [
+                ];
+                let narrow_fib_num_steps_20_output_tmp_d7cf2_7 =
+                    narrow_fib_num_steps_20::deduce_output([
+                        narrow_fib_num_steps_20_output_col13,
+                        narrow_fib_num_steps_20_output_col14,
+                    ]);
+                let narrow_fib_num_steps_20_output_col15 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_7[0];
+                *row[15] = narrow_fib_num_steps_20_output_col15;
+                let narrow_fib_num_steps_20_output_col16 =
+                    narrow_fib_num_steps_20_output_tmp_d7cf2_7[1];
+                *row[16] = narrow_fib_num_steps_20_output_col16;
+                for (i, &input) in [
                     narrow_fib_num_steps_20_output_col13,
                     narrow_fib_num_steps_20_output_col14,
                 ]
-                .unpack(),
-            );
-
-            lookup_data.narrow_fib_num_steps_20_7.push([
-                narrow_fib_num_steps_20_output_col13,
-                narrow_fib_num_steps_20_output_col14,
-                narrow_fib_num_steps_20_output_col15,
-                narrow_fib_num_steps_20_output_col16,
-            ]);
-        },
-    );
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[7] = input;
+                }
+                *lookup_data.narrow_fib_num_steps_20_7 = [
+                    narrow_fib_num_steps_20_output_col13,
+                    narrow_fib_num_steps_20_output_col14,
+                    narrow_fib_num_steps_20_output_col15,
+                    narrow_fib_num_steps_20_output_col16,
+                ];
+            },
+        );
 
     (trace, sub_components_inputs, lookup_data)
 }
 
-pub struct LookupData {
+#[derive(Uninitialized, IterMut, ParIterMut)]
+struct LookupData {
     narrow_fib_num_steps_20_0: Vec<[PackedM31; 4]>,
     narrow_fib_num_steps_20_1: Vec<[PackedM31; 4]>,
     narrow_fib_num_steps_20_2: Vec<[PackedM31; 4]>,
@@ -329,25 +356,10 @@ pub struct LookupData {
     narrow_fib_num_steps_20_6: Vec<[PackedM31; 4]>,
     narrow_fib_num_steps_20_7: Vec<[PackedM31; 4]>,
 }
-impl LookupData {
-    #[allow(unused_variables)]
-    fn with_capacity(capacity: usize) -> Self {
-        Self {
-            narrow_fib_num_steps_20_0: Vec::with_capacity(capacity),
-            narrow_fib_num_steps_20_1: Vec::with_capacity(capacity),
-            narrow_fib_num_steps_20_2: Vec::with_capacity(capacity),
-            narrow_fib_num_steps_20_3: Vec::with_capacity(capacity),
-            narrow_fib_num_steps_20_4: Vec::with_capacity(capacity),
-            narrow_fib_num_steps_20_5: Vec::with_capacity(capacity),
-            narrow_fib_num_steps_20_6: Vec::with_capacity(capacity),
-            narrow_fib_num_steps_20_7: Vec::with_capacity(capacity),
-        }
-    }
-}
 
 pub struct InteractionClaimGenerator {
-    pub n_calls: usize,
-    pub lookup_data: LookupData,
+    n_calls: usize,
+    lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
     pub fn write_interaction_trace<MC: MerkleChannel>(
