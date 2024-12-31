@@ -46,6 +46,30 @@ fn test_mod_sub() {
 }
 
 #[test]
+fn test_invert() {
+    let exp = 13;
+    let a = const_expr!(1 << exp);
+    let inv = a.inverse();
+    let res = 1u32 << (31 - exp);
+    assert_eq!(inv.calc(), res.to_string());
+}
+
+#[test]
+fn test_invert_arbitrary_number() {
+    let a = const_expr!(2098765432);
+    let inv = a.clone().inverse();
+    let res = const_expr!(1) / a;
+    assert_eq!(inv.calc(), res.calc());
+}
+
+#[test]
+#[should_panic(expected = "0 has no inverse")]
+fn test_invert_zero() {
+    let a = const_expr!(0);
+    let _inv = a.inverse();
+}
+
+#[test]
 fn test_bool_not() {
     let a = bool_expr!("a".to_string(), true);
     let b = !a;

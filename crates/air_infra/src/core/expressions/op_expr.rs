@@ -137,6 +137,7 @@ pub enum Operation {
     BigUInt384FromFelt252,
     BigUInt768FromFelt252,
     BigUInt384FromFelt252Array,
+    Inverse,
 }
 
 // Note that all operations from the same type should have different names for the code generation.
@@ -175,6 +176,7 @@ impl Display for Operation {
             Operation::BigUInt384FromFelt252Array => {
                 write!(f, "BigUInt::<384, 6>::from_felt252_array")
             }
+            Operation::Inverse => write!(f, "inverse"),
         }
     }
 }
@@ -194,6 +196,7 @@ impl From<Operation> for OpType {
             Operation::BigUInt384FromBigUInt764 => OpType::Static(op.to_string()),
             Operation::BigUInt384FromFelt252 => OpType::Static(op.to_string()),
             Operation::BigUInt768FromFelt252 => OpType::Static(op.to_string()),
+            Operation::Inverse => OpType::Method(op.to_string()),
             // Currently, the rest of the operations are represented as operators.
             _ => OpType::Op(op.to_string()),
         }
@@ -210,6 +213,7 @@ pub enum OpType {
 impl_binary_op!(Eq, eq, BoolExpr, BoolExpr, BoolOperation);
 impl_unary_op!(from UInt16FromBool, from_bool, BoolExpr, UInt16Expr, UInt16);
 impl_unary_op!(ops Not, not, BoolExpr);
+impl_unary_op!(Inverse, inverse, inverse, FeltExpr, FeltExpr);
 
 impl_binary_op!(ops Add, add, FeltExpr, FeltOperation);
 impl_binary_op!(ops Sub, sub, FeltExpr, FeltOperation);
@@ -439,6 +443,10 @@ macro_rules! impl_unary_op {
         impl $it {
             pub fn $name(self) -> $ot {
                 let value = self.value().map(|c| c.$op_lower());
+                if self.is_const() {
+                    return $ot::Var(VarExpr::new_const(value.unwrap()));
+                }
+
                 $ot::Op(OpExpr::new(Operation::$op, vec![self.into()], value))
             }
         }
