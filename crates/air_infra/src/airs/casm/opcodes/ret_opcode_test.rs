@@ -42,7 +42,7 @@ fn test_ret_opcode() {
     let func = RetOpcode { memory };
     let (registry, _) = AirFnRegistry::new(&func);
 
-    let (state, output) = registry.run_air(&func, CasmStateVar::new(pc, ap, fp));
+    let (state, output) = registry.run_air(&func, (), CasmStateVar::new(pc, ap, fp));
 
     assert_eq!(output.pc().calc(), saved_pc.to_string());
     assert_eq!(output.fp().calc(), saved_fp.to_string());

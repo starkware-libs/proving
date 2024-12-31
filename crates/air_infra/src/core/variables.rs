@@ -101,6 +101,30 @@ pub struct IntermediateType {
     pub in_deductions: bool,
 }
 
+// Describes an external preprocessed table and its type as used in the air infra.
+// Note that we can have two tables with the same CONST_TRACE_ID, but different types (see for
+// example Seq and SeqAddr), as long as they are represented by the same number of felts (i.e. the
+// number of columns in the table).
+pub trait ExtTable {
+    const CONST_TRACE_ID: &'static str;
+    type T: AirVar;
+
+    fn new() -> Self::T {
+        let mut res = Self::T::new("".to_string(), false);
+        Self::to_state(&mut res);
+        res
+    }
+
+    fn to_state(v: &mut Self::T) {
+        for (i, f) in v.as_felts_mut().into_iter().enumerate() {
+            f.to_state(StateInfo::ExternalColumnStateIndex(
+                Self::CONST_TRACE_ID.to_string(),
+                i,
+            ));
+        }
+    }
+}
+
 #[enum_dispatch]
 pub trait AsProverType<T>
 where
@@ -273,6 +297,13 @@ impl InternalAirVarInfo for () {
 impl InternalAirVarActions for () {
     fn new(_name: String, _in_state: bool) -> Self {}
     fn let_(&self, _name: String, _intermediate_type: IntermediateType) -> Self {}
+}
+
+impl ExtTable for () {
+    const CONST_TRACE_ID: &'static str = "";
+    type T = ();
+
+    fn to_state(_: &mut Self::T) {}
 }
 
 // Examples + tests

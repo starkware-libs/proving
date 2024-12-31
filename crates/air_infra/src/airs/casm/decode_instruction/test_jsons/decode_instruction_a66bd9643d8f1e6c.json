@@ -93,7 +93,7 @@
     {
       "LookupCall": {
         "air_fn_name": "memory_address_to_id",
-        "input_arg": {
+        "ext_input": {
           "name": "input",
           "type": "M31"
         },
@@ -103,7 +103,7 @@
     {
       "LookupCall": {
         "air_fn_name": "memory_id_to_big",
-        "input_arg": {
+        "ext_input": {
           "name": "tmp0",
           "type": "M31"
         },
@@ -113,7 +113,7 @@
     {
       "LookupCall": {
         "air_fn_name": "verify_instruction",
-        "input_arg": [
+        "input": [
           {
             "name": "input",
             "type": "M31"
@@ -200,7 +200,7 @@
     {
       "LookupAddInput": {
         "air_fn_name": "verify_instruction",
-        "input_arg": [
+        "input": [
           {
             "name": "input",
             "type": "M31"

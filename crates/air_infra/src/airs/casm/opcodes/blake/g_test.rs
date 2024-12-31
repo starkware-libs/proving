@@ -13,6 +13,7 @@ fn test_g1() {
 
     let (state, output) = registry.run_air(
         &air_fn,
+        (),
         [
             const_u32_expr!(305419896),
             const_u32_expr!(4294967295),
@@ -93,6 +94,7 @@ fn test_g2() {
 
     let (state, output) = registry.run_air(
         &air_fn,
+        (),
         [
             const_u32_expr!(3694142613),
             const_u32_expr!(170668591),

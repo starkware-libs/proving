@@ -11,6 +11,7 @@ fn test_xor_rot7() {
     let (registry, _) = AirFnRegistry::new(&xor_rot);
     let (state, new_state) = registry.run_air(
         &xor_rot,
+        (),
         [const_u32_expr!(95330889), const_u32_expr!(1741830375)],
     );
     assert_eq!(new_state.calc(), "1556412725");
@@ -36,6 +37,7 @@ fn test_xor_rot12() {
     let (registry, _) = AirFnRegistry::new(&xor_rot);
     let (state, new_state) = registry.run_air(
         &xor_rot,
+        (),
         [const_u32_expr!(9510598), const_u32_expr!(8063093)],
     );
     assert_eq!(new_state.calc(), "1798311585");
@@ -61,6 +63,7 @@ fn test_xor_rot8() {
     let (registry, _) = AirFnRegistry::new(&xor_rot);
     let (state, new_state) = registry.run_air(
         &xor_rot,
+        (),
         [const_u32_expr!(2147516416), const_u32_expr!(33558528)],
     );
     assert_eq!(new_state.calc(), "8519824");
@@ -86,6 +89,7 @@ fn test_xor_rot16() {
     let (registry, _) = AirFnRegistry::new(&xor_rot);
     let (state, new_state) = registry.run_air(
         &xor_rot,
+        (),
         [const_u32_expr!(3198041206), const_u32_expr!(423952538)],
     );
     assert_eq!(new_state.calc(), "1022142427");

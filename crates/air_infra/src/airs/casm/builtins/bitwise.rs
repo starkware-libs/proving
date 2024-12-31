@@ -31,10 +31,11 @@ pub struct BitwiseBuiltin {
 }
 
 impl AirFn for BitwiseBuiltin {
+    type ExtIn = ();
     type In = ();
     type Out = ();
 
-    fn call(&self, air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), _: ()) -> Self::Out {
         let instance_num = air_builder.call_external_column(&Seq {});
         let segment_start = air_builder.get_public_param(PublicParam::BitwiseBuiltinSegmentStart);
 

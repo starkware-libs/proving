@@ -1,25 +1,25 @@
 {
-  "name": "verify_bitwise_xor_num_bits_9",
-  "relation_name": "VerifyBitwiseXorNumBits9",
-  "description": "Verify Bitwise Xor Num Bits 9",
+  "name": "verify_bitwise_xor_9",
+  "relation_name": "VerifyBitwiseXor_9",
+  "description": "Verify Bitwise Xor 9",
   "input": {
     "Array": [
       {
-        "Var": [
-          "M31",
-          "verify_bitwise_xor_num_bits_9_input[0]"
+        "ExternalState": [
+          "VerifyBitwiseXor9",
+          0
         ]
       },
       {
-        "Var": [
-          "M31",
-          "verify_bitwise_xor_num_bits_9_input[1]"
+        "ExternalState": [
+          "VerifyBitwiseXor9",
+          1
         ]
       },
       {
-        "Var": [
-          "M31",
-          "verify_bitwise_xor_num_bits_9_input[2]"
+        "ExternalState": [
+          "VerifyBitwiseXor9",
+          2
         ]
       }
     ]
@@ -32,7 +32,7 @@
   "constraints": [
     {
       "LookupTerm": {
-        "relation_name": "VerifyBitwiseXorNumBits9",
+        "relation_name": "VerifyBitwiseXor_9",
         "felts": [
           {
             "ExternalState": [
@@ -60,7 +60,7 @@
   "deductions": [
     {
       "LookupTerm": {
-        "relation_name": "VerifyBitwiseXorNumBits9",
+        "relation_name": "VerifyBitwiseXor_9",
         "felts": [
           {
             "ExternalState": [

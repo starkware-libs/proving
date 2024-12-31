@@ -34,10 +34,11 @@ pub fn mod_value_to_12bit_array(
 pub struct ModWordTo12BitArray {}
 
 impl AirFn for ModWordTo12BitArray {
+    type ExtIn = ();
     type In = Felt252Expr;
     type Out = [FeltExpr; NUM_12BIT_LIMBS_PER_WORD];
 
-    fn call(&self, ab: &mut AirBuilder, mod_word: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: Self::ExtIn, mod_word: Self::In) -> Self::Out {
         let mut result: [FeltExpr; NUM_12BIT_LIMBS_PER_WORD] = from_fn(|_| FeltExpr::default());
         let mod_word_u16_arr: [UInt16Expr; N_SUBWORDS_IN_WORD] =
             from_fn(|i| UInt16Expr::from(mod_word.get_felt(i)));
@@ -61,13 +62,14 @@ impl AirFn for ModWordTo12BitArray {
         result[2] = limb2b.clone() + const_expr!(1 << 3) * mod_word.get_felt(3);
 
         ab.lookup_call(
-            &RangeCheck { bits: [3, 6, 6, 3] },
+            &RangeCheck::<RangeCheck3_6_6_3>::default(),
             [
                 limb1a.clone(),
                 limb1b.clone(),
                 limb2a.clone(),
                 limb2b.clone(),
             ],
+            (),
         );
 
         let mut limb5b_u16 = ab.let_for_deduction(
@@ -88,13 +90,14 @@ impl AirFn for ModWordTo12BitArray {
         result[5] = limb6b.clone() + const_expr!(1 << 3) * mod_word.get_felt(7);
 
         ab.lookup_call(
-            &RangeCheck { bits: [3, 6, 6, 3] },
+            &RangeCheck::<RangeCheck3_6_6_3>::default(),
             [
                 limb5a.clone(),
                 limb5b.clone(),
                 limb6a.clone(),
                 limb6b.clone(),
             ],
+            (),
         );
 
         let mut limb9b_u16 = ab.let_for_deduction(
@@ -109,8 +112,9 @@ impl AirFn for ModWordTo12BitArray {
 
         // TODO(OhadN): Consider batching these into [3, 6, 6, 3] range checks.
         ab.lookup_call(
-            &RangeCheck { bits: [3, 6] },
+            &RangeCheck::<RangeCheck3_6>::default(),
             [limb9a.clone(), limb9b.clone()],
+            (),
         );
 
         result

@@ -15,7 +15,7 @@ use crate::components::range_check_4_3;
 
 relation!(RelationElements, 2);
 
-pub struct RangeCheck_N_2_bits_4_3Eval {
+pub struct RangeCheck_4_3Eval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub range_check_4_3_lookup_elements: range_check_4_3::RelationElements,
@@ -49,9 +49,9 @@ impl InteractionClaim {
 }
 
 #[allow(non_snake_case)]
-pub type RangeCheck_N_2_bits_4_3Component = FrameworkComponent<RangeCheck_N_2_bits_4_3Eval>;
+pub type RangeCheck_4_3Component = FrameworkComponent<RangeCheck_4_3Eval>;
 
-impl FrameworkEval for RangeCheck_N_2_bits_4_3Eval {
+impl FrameworkEval for RangeCheck_4_3Eval {
     fn log_size(&self) -> u32 {
         self.claim.log_size
     }

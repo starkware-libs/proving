@@ -16,10 +16,11 @@ use crate::core::expressions::uint16_expr::*;
 pub struct Div2 {}
 
 impl AirFn for Div2 {
+    type ExtIn = ();
     type In = UInt16Expr;
     type Out = (BoolExpr, UInt16Expr);
 
-    fn call(&self, air_builder: &mut AirBuilder, x0: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), x0: Self::In) -> Self::Out {
         let mut x1 = air_builder.let_for_deduction(x0.clone() >> const_u16_expr!(1), "");
         let x1_felt = air_builder.deduce(x1.as_felt_mut(), "");
         // Calculate the least significant bit of the input = x0 - 2 * x1

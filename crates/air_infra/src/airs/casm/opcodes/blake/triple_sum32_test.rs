@@ -8,11 +8,11 @@ use crate::utils::test_utils::*;
 
 #[test]
 fn test_triple_sum1() {
-    let air_fn = TripleSum32 {};
-    let (registry, _) = AirFnRegistry::new(&air_fn);
-
+    let triple_sum = TripleSum32 {};
+    let (registry, _) = AirFnRegistry::new(&triple_sum);
     let (state, output) = registry.run_air(
-        &air_fn,
+        &triple_sum,
+        (),
         [
             const_u32_expr!(2724151460),
             const_u32_expr!(102499851),
@@ -33,11 +33,10 @@ fn test_triple_sum1() {
 #[test]
 fn test_triple_sum2() {
     let triple_sum = TripleSum32 {};
-    let air_fn = triple_sum;
-    let (registry, _) = AirFnRegistry::new(&air_fn);
-
+    let (registry, _) = AirFnRegistry::new(&triple_sum);
     let (state, output) = registry.run_air(
-        &air_fn,
+        &triple_sum,
+        (),
         [
             const_u32_expr!(2147516416),
             const_u32_expr!(2147516416),
@@ -58,11 +57,10 @@ fn test_triple_sum2() {
 #[test]
 fn test_triple_sum3() {
     let triple_sum = TripleSum32 {};
-    let air_fn = triple_sum;
-    let (registry, _) = AirFnRegistry::new(&air_fn);
-
+    let (registry, _) = AirFnRegistry::new(&triple_sum);
     let (state, output) = registry.run_air(
-        &air_fn,
+        &triple_sum,
+        (),
         [
             const_u32_expr!(4294967295),
             const_u32_expr!(4294967295),
@@ -83,11 +81,10 @@ fn test_triple_sum3() {
 #[test]
 fn test_pair_sum() {
     let triple_sum = TripleSum32 {};
-    let air_fn = triple_sum;
-    let (registry, _) = AirFnRegistry::new(&air_fn);
-
+    let (registry, _) = AirFnRegistry::new(&triple_sum);
     let (state, output) = registry.run_air(
-        &air_fn,
+        &triple_sum,
+        (),
         [
             const_u32_expr!(7945302),
             const_u32_expr!(151796478),

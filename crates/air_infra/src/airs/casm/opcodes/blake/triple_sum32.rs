@@ -13,10 +13,11 @@ use crate::core::expressions::uint32_expr::*;
 pub struct TripleSum32 {}
 
 impl AirFn for TripleSum32 {
+    type ExtIn = ();
     type In = [UInt32Expr; 3];
     type Out = UInt32Expr;
 
-    fn call(&self, air_builder: &mut AirBuilder, [a, b, c]: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
         let mut s =
             air_builder.let_for_deduction(a.clone() + b.clone() + c.clone(), "triple_sum32_res");
         let sl = air_builder.deduce(s.low_mut().as_felt_mut(), "triple_sum32_res_low");

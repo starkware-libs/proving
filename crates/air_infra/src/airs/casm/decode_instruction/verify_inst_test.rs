@@ -27,6 +27,7 @@ fn test_verify_inst() {
     // Check state
     let (state, _) = registry.run_air(
         &air_fn,
+        (),
         (CasmAddress::new(const_expr!(0), ""), offsets, flags),
     );
     let expected_state = vec![

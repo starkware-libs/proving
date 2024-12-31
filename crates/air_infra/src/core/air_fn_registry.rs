@@ -3,7 +3,8 @@ use std::collections::{BTreeSet, HashSet};
 use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, ConstraintEvalStep, Intermediate, LookupTerm, TraceGenStep, UseOrYield,
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, Intermediate, LookupTerm, TraceGenStep,
+    UseOrYield,
 };
 use compiled_casm_air::utils::INPUT_VAR_SUFFIX;
 use convert_case::{Case, Casing};
@@ -22,7 +23,10 @@ pub struct AirFnEntry {
     pub(crate) relation_name: Option<String>,
     pub(crate) description: String,
     pub(crate) inst_def: IndexMap<String, String>,
-    pub(crate) input: AirVarImpl,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub(crate) ext_input: Option<AirVarImpl>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub(crate) input: Option<AirVarImpl>,
     pub(crate) output: AirVarImpl,
     pub(crate) trace_type: TraceType,
     pub(crate) air_body: Vec<AirBodyComponent>,
@@ -42,7 +46,7 @@ impl AirFnEntry {
             name: self.name,
             relation_name: self.relation_name,
             description: self.description,
-            input: self.input.into(),
+            input: Self::generate_input(self.ext_input, self.input),
             output: self.output.into(),
             state_names: self.state.get_state_names(),
             lookup_names: Self::get_lookup_names(deductions.clone()),
@@ -148,17 +152,18 @@ impl AirFnEntry {
                 AirBodyComponent::LookupCall(call) => {
                     deductions.push(TraceGenStep::LookupCall {
                         fn_name: call.air_fn_name,
-                        input: call.input_arg.into(),
+                        input: Self::generate_input(call.ext_input, call.input),
                         output_name: call.output_name,
                     });
                 }
                 AirBodyComponent::LookupAddInput {
                     air_fn_name,
-                    input_arg,
+                    ext_input,
+                    input,
                 } => {
                     deductions.push(TraceGenStep::LookupAddInput {
                         fn_name: air_fn_name,
-                        input: input_arg.into(),
+                        input: Self::generate_input(ext_input, input),
                     });
                 }
                 AirBodyComponent::LookupTerm {
@@ -182,6 +187,17 @@ impl AirFnEntry {
 
         (deductions, constraints)
     }
+
+    fn generate_input(ext_input: Option<AirVarImpl>, input: Option<AirVarImpl>) -> CompiledAirVar {
+        match (ext_input, input) {
+            (Some(ext_input), None) => ext_input.into(),
+            (None, Some(input)) => input.into(),
+            (Some(ext_input), Some(input)) => {
+                CompiledAirVar::Tuple(vec![ext_input.into(), input.into()])
+            }
+            (None, None) => CompiledAirVar::Tuple(vec![]),
+        }
+    }
 }
 
 // AirFnRegistry is created for a specific air function. It keeps all the air function entries
@@ -204,8 +220,9 @@ impl AirFnRegistry {
     }
 
     #[cfg(test)]
-    pub fn new<I, O>(air_fn: &dyn AirFn<In = I, Out = O>) -> (Self, AirFnEntry)
+    pub fn new<E, I, O>(air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>) -> (Self, AirFnEntry)
     where
+        E: ExtTable,
         I: AirVar,
         O: AirVar,
     {
@@ -214,8 +231,12 @@ impl AirFnRegistry {
         (registry, entry)
     }
 
-    pub(crate) fn add_entry<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>) -> AirFnEntry
+    pub(crate) fn add_entry<E, I, O>(
+        &mut self,
+        air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
+    ) -> AirFnEntry
     where
+        E: ExtTable,
         I: AirVar,
         O: AirVar,
     {
@@ -230,14 +251,26 @@ impl AirFnRegistry {
         );
         self.air_fn_ids.borrow_mut().insert(air_fn_id.clone());
 
-        let (air_body, state, input, output) = self.build_air(air_fn, air_fn_id);
+        let (air_body, state, ext_input, input, output) = self.build_air(air_fn, air_fn_id);
+        let ext_input_option = if E::T::is_empty() {
+            None
+        } else {
+            Some(ext_input.clone().into())
+        };
+        let input_option = if I::is_empty() {
+            None
+        } else {
+            Some(input.clone().into())
+        };
+
         let entry = AirFnEntry {
             name: air_fn.name(),
             relation_name: air_fn.relation_name(),
             description: air_fn.description(),
             inst_def: air_fn.inst_def(),
-            input: input.clone().into(),
-            output: output.clone().into(),
+            ext_input: ext_input_option,
+            input: input_option,
+            output: output.into(),
             trace_type: air_fn.trace_type(),
             air_body,
             state,
@@ -252,24 +285,32 @@ impl AirFnRegistry {
 
     // Runs the air function on a given input and returns the resulting state and output.
     #[cfg(test)]
-    pub fn run_air<I, O>(&self, air_fn: &dyn AirFn<In = I, Out = O>, input: I) -> (State, O)
+    pub fn run_air<E, I, O>(
+        &self,
+        air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
+        ext_input: E::T,
+        input: I,
+    ) -> (State, O)
     where
+        E: ExtTable,
         I: AirVar,
         O: AirVar,
     {
-        self.run_air_with_row_number(air_fn, input, 0)
+        self.run_air_with_row_number(air_fn, ext_input, input, 0)
     }
 
     // Runs the air function on a given input in a specific row (relevant if it uses an
     // external column) and returns the resulting state and output.
     #[cfg(test)]
-    pub fn run_air_with_row_number<I, O>(
+    pub fn run_air_with_row_number<E, I, O>(
         &self,
-        air_fn: &dyn AirFn<In = I, Out = O>,
+        air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
+        ext_input: E::T,
         input: I,
         row_number: usize,
     ) -> (State, O)
     where
+        E: ExtTable,
         I: AirVar,
         O: AirVar,
     {
@@ -284,33 +325,35 @@ impl AirFnRegistry {
             intermediate_id: Rc::new(RefCell::new(("".to_string(), 0))),
         };
         let output = match air_fn.trace_type() {
-            TraceType::Inline => air_fn.call(&mut air_builder, input),
-            TraceType::Component => air_fn.lookup_call(&mut air_builder, input),
+            TraceType::Inline => air_fn.call(&mut air_builder, ext_input, input),
+            TraceType::Component => air_fn.lookup_call(&mut air_builder, ext_input, input),
             // For constant AirFns there are no constraints or deductions, so we just return the
             // output.
             TraceType::Const => {
-                let output = air_fn.call(&mut air_builder, input);
+                let output = air_fn.call(&mut air_builder, ext_input, input);
                 assert!(output.is_const(), "Output must be a constant");
                 output
             }
-            TraceType::Builtin => air_fn.call(&mut air_builder, input),
-            TraceType::Opcode => air_fn.lookup_call(&mut air_builder, input),
-            TraceType::Memory => air_fn.lookup_call(&mut air_builder, input),
+            TraceType::Builtin => air_fn.call(&mut air_builder, ext_input, input),
+            TraceType::Opcode => air_fn.lookup_call(&mut air_builder, ext_input, input),
+            TraceType::Memory => air_fn.lookup_call(&mut air_builder, ext_input, input),
         };
 
         (air_builder.state, output)
     }
 
     // Builds the air function on a default input in order to create an air function entry for it.
-    fn build_air<I, O>(
+    fn build_air<E, I, O>(
         &self,
-        air_fn: &dyn AirFn<In = I, Out = O>,
+        air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
         air_fn_id: String,
-    ) -> (Vec<AirBodyComponent>, State, I, O)
+    ) -> (Vec<AirBodyComponent>, State, E::T, I, O)
     where
+        E: ExtTable,
         I: AirVar,
         O: AirVar,
     {
+        let ext_input = E::new();
         let input_name = format!("{}_{}", air_fn.name(), INPUT_VAR_SUFFIX);
         // If input_in_trace is None, we put the input in the trace so air_builder checks don't
         // fail.
@@ -320,6 +363,7 @@ impl AirFnRegistry {
                 input = I::new(input_name, false);
             }
         }
+
         let mut air_builder = AirBuilder {
             state: State::default(),
             air_body: vec![],
@@ -332,10 +376,11 @@ impl AirFnRegistry {
             registry: self.clone(),
             intermediate_id: Rc::new(RefCell::new((air_fn_id, 0))),
         };
+
         let output = match air_fn.trace_type() {
-            TraceType::Inline => air_fn.call(&mut air_builder, input.clone()),
+            TraceType::Inline => air_fn.call(&mut air_builder, ext_input.clone(), input.clone()),
             TraceType::Component | TraceType::Opcode => {
-                let output = air_fn.lookup_call(&mut air_builder, input.clone());
+                let output = air_fn.lookup_call(&mut air_builder, ext_input.clone(), input.clone());
                 // Make sure that the output has no intermediate variables that are not in both
                 // constraints and deductions, since the output goes into lookup data (used in
                 // trace generation and in constraints evaluation).
@@ -347,9 +392,11 @@ impl AirFnRegistry {
             }
             // For constant AirFns the value of <output> is meaningless, as we don't
             // output any constraints or deductions. It just has to be of the correct type.
-            TraceType::Const => air_fn.call(&mut air_builder, input.clone()),
-            TraceType::Builtin => air_fn.call(&mut air_builder, input.clone()),
-            TraceType::Memory => air_fn.lookup_call(&mut air_builder, input.clone()),
+            TraceType::Const => air_fn.call(&mut air_builder, ext_input.clone(), input.clone()),
+            TraceType::Builtin => air_fn.call(&mut air_builder, ext_input.clone(), input.clone()),
+            TraceType::Memory => {
+                air_fn.lookup_call(&mut air_builder, ext_input.clone(), input.clone())
+            }
         };
 
         // Make sure that the output is a variable or a felt expression.
@@ -357,7 +404,13 @@ impl AirFnRegistry {
         // Make sure that the output is in the state.
         assert!(output.in_state(), "Output must be in the trace");
 
-        (air_builder.air_body, air_builder.state, input, output)
+        (
+            air_builder.air_body,
+            air_builder.state,
+            ext_input,
+            input,
+            output,
+        )
     }
 
     #[cfg(test)]

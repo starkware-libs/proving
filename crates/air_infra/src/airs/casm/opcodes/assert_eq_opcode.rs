@@ -59,10 +59,11 @@ impl AssertEqOpcode {
 }
 
 impl AirFn for AssertEqOpcode {
+    type ExtIn = ();
     type In = CasmStateVar;
     type Out = CasmStateVar;
 
-    fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         assert!(
             !(self.is_imm && self.is_double_deref),
             "Double deref and immediate can't be set together"

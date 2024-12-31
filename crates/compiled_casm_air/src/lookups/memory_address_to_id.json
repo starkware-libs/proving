@@ -3,9 +3,9 @@
   "relation_name": "MemoryAddressToId",
   "description": "Memory Address To Id",
   "input": {
-    "Var": [
-      "M31",
-      "memory_address_to_id_input"
+    "ExternalState": [
+      "Seq",
+      0
     ]
   },
   "output": {

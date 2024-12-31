@@ -24,12 +24,14 @@ pub struct EvalOperands {
 }
 
 impl AirFn for EvalOperands {
+    type ExtIn = ();
     type In = (CasmStateVar, [FeltExpr; GENERIC_FLAGS_SIZE], [FeltExpr; 3]);
     type Out = [Felt252Expr; 4];
 
     fn call(
         &self,
         air_builder: &mut AirBuilder,
+        _: (),
         (casm_state, flags, [offset0, offset1, offset2]): Self::In,
     ) -> Self::Out {
         // Read 252 bits since we don't know for what purpose is the reading

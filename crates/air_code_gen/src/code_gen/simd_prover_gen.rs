@@ -134,11 +134,13 @@ fn generate_simd_write_trace_body_code(
             }
             TraceGenStep::LookupAddInput { fn_name, input } => {
                 let offset = add_inputs_offsets.get_mut(fn_name).unwrap();
-                write_trace_body.extend(quote! {
-                    sub_components$INPUTS_SUFFIX
-                        .$(fn_name)$INPUTS_SUFFIX[$(offset.to_string())]
-                        .extend($(simd_parse_air_var(input, const_names)).unpack());
-                });
+                if input != &CompiledAirVar::Tuple(vec![]) {
+                    write_trace_body.extend(quote! {
+                        sub_components$INPUTS_SUFFIX
+                            .$(fn_name)$INPUTS_SUFFIX[$(offset.to_string())]
+                            .extend($(simd_parse_air_var(input, const_names)).unpack());
+                    });
+                }
                 *offset += 1;
             }
         }
@@ -887,6 +889,7 @@ where
                 }
             }
         }
+        CompiledAirVar::ExternalState(..) => append_type_prefix("M31"),
         _ => unimplemented!(),
     }
 }

@@ -13,7 +13,7 @@ fn test_wide_fibonacci() {
         narrow_size: 20,
     };
     let (registry, _) = AirFnRegistry::new(&air_fn);
-    let (_, output) = registry.run_air(&air_fn, const_expr!(1));
+    let (_, output) = registry.run_air(&air_fn, (), const_expr!(1));
     assert_eq!(output.calc(), *"1594392009");
 
     // Check entries
@@ -27,7 +27,7 @@ fn test_fibonacci() {
     let air_fn = Fib { claim_index: 6 };
     let (registry, entry) = AirFnRegistry::new(&air_fn);
 
-    let (state, output) = registry.run_air(&air_fn, const_expr!(1));
+    let (state, output) = registry.run_air(&air_fn, (), const_expr!(1));
     assert_eq!(output.calc(), "866");
     assert_eq!(
         state,

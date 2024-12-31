@@ -34,10 +34,11 @@ pub struct RetOpcode {
 }
 
 impl AirFn for RetOpcode {
+    type ExtIn = ();
     type In = CasmStateVar;
     type Out = CasmStateVar;
 
-    fn call(&self, air_builder: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         let decode_instruction = DecodeInstruction {
             const_offsets: [Some(-2), Some(-1), Some(-1)],
             const_flags: RET_FLAGS,

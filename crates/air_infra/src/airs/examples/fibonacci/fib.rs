@@ -15,10 +15,11 @@ pub struct Fib {
 }
 
 impl AirFn for Fib {
+    type ExtIn = ();
     type In = FeltExpr;
     type Out = FeltExpr;
 
-    fn call(&self, air_builder: &mut AirBuilder, mut secret: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), mut secret: Self::In) -> Self::Out {
         let mut input = [const_expr!(1), air_builder.deduce(&mut secret, "")];
         let air_fn = FibStep {};
 

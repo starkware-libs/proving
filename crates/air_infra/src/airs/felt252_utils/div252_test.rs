@@ -22,6 +22,7 @@ fn test_div252_no_overflow() {
 
     let (state, output) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(0x2008020003400040001u128, 0u128),
             const_felt252_expr!(0x1ff8020001u128, 0u128),
@@ -99,6 +100,7 @@ fn test_div252_with_overflow() {
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (_, output) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(
                 0x4cc3ffffffffff5cdf8002u128,
@@ -113,6 +115,7 @@ fn test_div252_with_overflow() {
     );
     let (_, output) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(
                 0x4cc3ffffffffff5cdf8005u128,
@@ -134,6 +137,7 @@ fn test_div252_with_overflow() {
     );
     let (_, output) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(
                 0x4d5e6f8091adf6392ea61d94f496c460u128,
@@ -162,6 +166,7 @@ fn test_div252_by_zero() {
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (..) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(0x2008020003400040001u128, 0u128),
             const_felt252_expr!(0u128, 0u128),
@@ -176,6 +181,7 @@ fn test_div252_by_p() {
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (..) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(0x2008020003400040001u128, 0u128),
             const_felt252_expr!(1u128, 0x08000000_00000011_00000000_00000000u128),

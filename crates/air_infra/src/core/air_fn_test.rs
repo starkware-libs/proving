@@ -12,10 +12,11 @@ use crate::{const_expr, const_felt252_expr, const_u32_expr};
 struct AirFnWithIncorrectConstraint {}
 
 impl AirFn for AirFnWithIncorrectConstraint {
+    type ExtIn = ();
     type In = FeltExpr;
     type Out = FeltExpr;
 
-    fn call(&self, air_builder: &mut AirBuilder, mut input: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: Self::ExtIn, mut input: Self::In) -> Self::Out {
         // Add the input twice to the state
         let x0 = air_builder.deduce(&mut input, "");
         let x1 = air_builder.deduce(&mut input, "");
@@ -32,17 +33,18 @@ impl AirFn for AirFnWithIncorrectConstraint {
 fn test_incompleteness() {
     let func = AirFnWithIncorrectConstraint {};
     let (registry, _) = AirFnRegistry::new(&func);
-    registry.run_air(&func, const_expr!(1234));
+    registry.run_air(&func, (), const_expr!(1234));
 }
 
 #[derive(Debug, InstDef)]
 struct AirFnWithUInt32 {}
 
 impl AirFn for AirFnWithUInt32 {
+    type ExtIn = ();
     type In = UInt32Expr;
     type Out = UInt32Expr;
 
-    fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: Self::ExtIn, input: Self::In) -> Self::Out {
         let mut x = air_builder.let_for_deduction(input + const_u32_expr!(4), "");
 
         let x0 = air_builder.deduce(x.low_mut().as_felt_mut(), "");
@@ -62,7 +64,7 @@ fn test_uint32_deduce() {
     let func = AirFnWithUInt32 {};
     let (registry, _) = AirFnRegistry::new(&func);
 
-    let (_, out) = registry.run_air(&func, const_u32_expr!(5));
+    let (_, out) = registry.run_air(&func, (), const_u32_expr!(5));
     assert!(out.in_state());
     assert!(out.calc() == "9");
 }
@@ -71,10 +73,11 @@ fn test_uint32_deduce() {
 struct AirFnWithFelt252 {}
 
 impl AirFn for AirFnWithFelt252 {
+    type ExtIn = ();
     type In = Felt252Expr;
     type Out = FeltExpr;
 
-    fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: Self::ExtIn, input: Self::In) -> Self::Out {
         let mut x = air_builder.let_for_deduction(input, "");
 
         for felt in x.as_felts_mut() {
@@ -90,7 +93,7 @@ fn test_felt252_deduce() {
     let func = AirFnWithFelt252 {};
     let (registry, _) = AirFnRegistry::new(&func);
 
-    let (_, out) = registry.run_air(&func, const_felt252_expr!(5, 0));
+    let (_, out) = registry.run_air(&func, (), const_felt252_expr!(5, 0));
     assert!(out.in_state());
     assert!(out.calc() == "5");
 }

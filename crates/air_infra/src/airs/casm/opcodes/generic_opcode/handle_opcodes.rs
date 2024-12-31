@@ -21,6 +21,7 @@ pub struct HandleOpcodes {
 }
 
 impl AirFn for HandleOpcodes {
+    type ExtIn = ();
     type In = (
         CasmStateVar,
         [FeltExpr; GENERIC_FLAGS_SIZE],
@@ -32,6 +33,7 @@ impl AirFn for HandleOpcodes {
     fn call(
         &self,
         air_builder: &mut AirBuilder,
+        _: (),
         (casm_state, flags, [offset0, offset1, offset2], [dst, op0, res]): Self::In,
     ) -> Self::Out {
         // Handle assert_eq

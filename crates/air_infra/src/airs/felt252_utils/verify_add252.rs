@@ -16,10 +16,11 @@ use crate::core::expressions::uint16_expr::*;
 pub struct VerifyAdd252 {}
 
 impl AirFn for VerifyAdd252 {
+    type ExtIn = ();
     type In = [Felt252Expr; 3];
     type Out = ();
 
-    fn call(&self, air_builder: &mut AirBuilder, [a, b, c]: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
         let shift = const_expr!(1 << FELT252_BITS_PER_WORD);
         let shift_inverse = const_expr!(1) / shift.clone();
 

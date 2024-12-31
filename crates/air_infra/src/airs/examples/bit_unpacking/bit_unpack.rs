@@ -13,10 +13,11 @@ use crate::core::expressions::uint16_expr::*;
 pub struct BitUnpack<const N: usize> {}
 
 impl<const N: usize> AirFn for BitUnpack<N> {
+    type ExtIn = ();
     type In = UInt16Expr;
     type Out = [BoolExpr; N];
 
-    fn call(&self, air_builder: &mut AirBuilder, mut x: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), mut x: Self::In) -> Self::Out {
         air_builder.deduce(x.as_felt_mut(), "");
         let mut input = x;
         let mut output = vec![];

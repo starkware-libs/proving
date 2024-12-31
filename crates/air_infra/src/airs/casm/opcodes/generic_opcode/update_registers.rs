@@ -17,6 +17,7 @@ use crate::core::variables::*;
 pub struct UpdateRegisters {}
 
 impl AirFn for UpdateRegisters {
+    type ExtIn = ();
     type In = (
         CasmStateVar,
         [FeltExpr; GENERIC_FLAGS_SIZE],
@@ -27,6 +28,7 @@ impl AirFn for UpdateRegisters {
     fn call(
         &self,
         air_builder: &mut AirBuilder,
+        _: (),
         (casm_state, flags, [dst, op1, res]): Self::In,
     ) -> Self::Out {
         let res_as_addr = air_builder.call(

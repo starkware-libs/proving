@@ -205,7 +205,7 @@
       "Call": {
         "air_fn_name": "range_check_big_value",
         "air_fn_description": "Range Check Big Value",
-        "input_arg": {
+        "input": {
           "name": "tmp0",
           "type": "Felt252"
         },
@@ -216,7 +216,7 @@
       "Call": {
         "air_fn_name": "verify_add_252",
         "air_fn_description": "Verify Add 252",
-        "input_arg": [
+        "input": [
           {
             "name": "input[0]",
             "type": "Felt252"

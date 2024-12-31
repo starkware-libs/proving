@@ -12,10 +12,11 @@ use crate::core::expressions::felt_expr::*;
 pub struct FibStep {}
 
 impl AirFn for FibStep {
+    type ExtIn = ();
     type In = [FeltExpr; 2];
     type Out = FeltExpr;
 
-    fn call(&self, air_builder: &mut AirBuilder, [x, y]: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), [x, y]: Self::In) -> Self::Out {
         air_builder.assign(&mut ((x.clone() * x) + (y.clone() * y)), "")
     }
 }

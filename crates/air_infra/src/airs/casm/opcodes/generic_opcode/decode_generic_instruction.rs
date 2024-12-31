@@ -19,10 +19,11 @@ pub struct DecodeGenericInstruction {
 // Returns a Decoded instance containing the values of the control flags and the offsets.
 // Adds the relevant constraints to assert a defined behavior.
 impl AirFn for DecodeGenericInstruction {
+    type ExtIn = ();
     type In = CasmAddress;
     type Out = ([FeltExpr; GENERIC_FLAGS_SIZE], [FeltExpr; 3]);
 
-    fn call(&self, air_builder: &mut AirBuilder, pc: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), pc: Self::In) -> Self::Out {
         let (offsets, flags) = air_builder.call(
             &DecodeInstruction {
                 const_offsets: [None, None, None],

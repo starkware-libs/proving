@@ -97,6 +97,7 @@ fn test_mul(
     let (registry, _) = AirFnRegistry::new(&mul_small_opcode);
     let (state, next_state) = registry.run_air(
         &mul_small_opcode,
+        (),
         CasmStateVar::new(pc.clone(), ap.clone(), fp.clone()),
     );
 

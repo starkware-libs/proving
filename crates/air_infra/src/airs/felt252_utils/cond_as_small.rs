@@ -18,10 +18,11 @@ use crate::core::variables::*;
 pub struct CondFelt252AsAddr {}
 
 impl AirFn for CondFelt252AsAddr {
+    type ExtIn = ();
     type In = (Felt252Expr, FeltExpr);
     type Out = CasmAddress;
 
-    fn call(&self, ab: &mut AirBuilder, (value, condition): Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), (value, condition): Self::In) -> Self::Out {
         for i in LIMBS_IN_M31..FELT252_N_WORDS {
             ab.constrain(
                 condition.clone() * value.get_felt(i),
@@ -39,10 +40,11 @@ impl AirFn for CondFelt252AsAddr {
 pub struct CondFelt252AsRelImm {}
 
 impl AirFn for CondFelt252AsRelImm {
+    type ExtIn = ();
     type In = (Felt252Expr, FeltExpr);
     type Out = FeltExpr;
 
-    fn call(&self, ab: &mut AirBuilder, (value, condition): Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), (value, condition): Self::In) -> Self::Out {
         // Compute and deduce "case" bits: msb and mid_limbs_set
         let [msb, mid_limbs] = ab.call(&CondDecodeSmallSign {}, (value.clone(), condition.clone()));
 

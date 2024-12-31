@@ -15,10 +15,16 @@ use crate::const_u32_expr;
 pub struct G {}
 
 impl AirFn for G {
+    type ExtIn = ();
     type In = [UInt32Expr; NUM_INPUT_WORDS_G];
     type Out = [UInt32Expr; NUM_OUTPUT_WORDS_G];
 
-    fn call(&self, air_builder: &mut AirBuilder, [a, b, c, d, f0, f1]: Self::In) -> Self::Out {
+    fn call(
+        &self,
+        air_builder: &mut AirBuilder,
+        _: (),
+        [a, b, c, d, f0, f1]: Self::In,
+    ) -> Self::Out {
         let a_tmp = air_builder.call(&TripleSum32 {}, [a, b.clone(), f0]);
         let d_tmp = air_builder.call(&XorRot32 { r: 16 }, [a_tmp.clone(), d]);
         let c_tmp = air_builder.call(&TripleSum32 {}, [c, d_tmp.clone(), const_u32_expr!(0)]);

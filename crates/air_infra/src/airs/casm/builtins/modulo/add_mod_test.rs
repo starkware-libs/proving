@@ -313,7 +313,7 @@ fn run_add_mod_builtin(instances: Vec<AddModInstance>, expected_states: Option<V
 
     let mut state_per_instance = vec![];
     for row in 0..instances.len() {
-        let (curr_state, ..) = registry.run_air_with_row_number(&add_mod, (), row);
+        let (curr_state, ..) = registry.run_air_with_row_number(&add_mod, (), (), row);
         state_per_instance.push(curr_state);
     }
 

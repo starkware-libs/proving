@@ -48,7 +48,7 @@ fn simple_test_bitwise_builtin() {
     );
     registry.add_entry(&bitwise);
 
-    registry.run_air_with_row_number(&bitwise, (), 10);
+    registry.run_air_with_row_number(&bitwise, (), (), 10);
 }
 
 #[test]
@@ -90,7 +90,7 @@ fn simple_failed_test_bitwise_builtin() {
     );
     registry.add_entry(&bitwise);
 
-    registry.run_air_with_row_number(&bitwise, (), 10);
+    registry.run_air_with_row_number(&bitwise, (), (), 10);
 }
 
 #[test]
@@ -131,7 +131,7 @@ fn test_bitwise_builtin() {
     );
     registry.add_entry(&bitwise);
 
-    registry.run_air_with_row_number(&bitwise, (), 10);
+    registry.run_air_with_row_number(&bitwise, (), (), 10);
 }
 
 #[test]
@@ -173,7 +173,7 @@ fn test_failed_or_bitwise_builtin() {
     );
     registry.add_entry(&bitwise);
 
-    registry.run_air_with_row_number(&bitwise, (), 27);
+    registry.run_air_with_row_number(&bitwise, (), (), 27);
 }
 
 #[test]
@@ -215,7 +215,7 @@ fn test_failed_xor_bitwise_builtin() {
     );
     registry.add_entry(&bitwise);
 
-    registry.run_air_with_row_number(&bitwise, (), 10);
+    registry.run_air_with_row_number(&bitwise, (), (), 10);
 }
 
 #[test]
@@ -257,7 +257,7 @@ fn test_failed_and_bitwise_builtin() {
     );
     registry.add_entry(&bitwise);
 
-    registry.run_air_with_row_number(&bitwise, (), 10);
+    registry.run_air_with_row_number(&bitwise, (), (), 10);
 }
 
 #[test]
@@ -297,5 +297,5 @@ fn test_big_felt252_bitwise_builtin() {
     );
     registry.add_entry(&bitwise);
 
-    registry.run_air_with_row_number(&bitwise, (), 10);
+    registry.run_air_with_row_number(&bitwise, (), (), 10);
 }

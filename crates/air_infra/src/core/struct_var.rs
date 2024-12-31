@@ -112,7 +112,7 @@ where
 
 // VarWrapper wraps an air var with an optional description.
 // It is compiled by compiling its field. See for example CasmAddress.
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Default)]
 pub struct VarWrapper<V: AirVar> {
     pub var: V,
     pub desc: Option<String>,

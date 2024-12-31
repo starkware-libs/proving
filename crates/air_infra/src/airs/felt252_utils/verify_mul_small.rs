@@ -21,10 +21,11 @@ const NUM_LIMBS: usize = 4;
 pub struct VerifyMulSmall {}
 
 impl AirFn for VerifyMulSmall {
+    type ExtIn = ();
     type In = [Felt252Expr; 3];
     type Out = ();
 
-    fn call(&self, air_builder: &mut AirBuilder, [a, b, c]: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: Self::ExtIn, [a, b, c]: Self::In) -> Self::Out {
         let shift = const_expr!(1 << FELT252_BITS_PER_WORD);
         let double_shift = shift.clone() * shift.clone();
         let double_shift_inverse = const_expr!(1) / double_shift.clone();
@@ -51,7 +52,11 @@ impl AirFn for VerifyMulSmall {
                     &format!("carry_{}", i),
                 );
                 // Each convolution has at most 4 addends, each addend has at most 2**9-1 overflow.
-                air_builder.lookup_call(&RangeCheck { bits: [11] }, [carry.clone()]);
+                air_builder.lookup_call(
+                    &RangeCheck::<RangeCheck11>::default(),
+                    [carry.clone()],
+                    (),
+                );
                 air_builder.constrain(
                     carry.clone() * double_shift.clone() - limb_accumulator,
                     &format!("carry {} definition", i),

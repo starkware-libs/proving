@@ -57,7 +57,7 @@ fn test_with_matching_memory(
 
     let (registry, entry) = AirFnRegistry::new(&air_fn);
     let (state, (offsets_output, flags_output)) =
-        registry.run_air(&air_fn, CasmAddress::new(pc, "pc"));
+        registry.run_air(&air_fn, (), CasmAddress::new(pc, "pc"));
 
     // Check entry
     compare_json(

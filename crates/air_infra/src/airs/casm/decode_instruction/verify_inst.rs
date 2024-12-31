@@ -23,10 +23,11 @@ pub struct VerifyInstruction {
 // Deduces and range checks the parts of each offset and flag.
 // Reconstructs the instruction and verifies it against the memory.
 impl AirFn for VerifyInstruction {
+    type ExtIn = ();
     type In = (CasmAddress, [FeltExpr; 3], [FeltExpr; 15]);
     type Out = ();
 
-    fn call(&self, ab: &mut AirBuilder, (pc, offsets, flags): Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), (pc, offsets, flags): Self::In) -> Self::Out {
         assert_eq!(
             FELT252_BITS_PER_WORD, 9,
             "VerifyInstruction assumes there are 9 bits per felt in a felt252"

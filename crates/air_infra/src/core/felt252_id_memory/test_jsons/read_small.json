@@ -22,7 +22,7 @@
     {
       "LookupCall": {
         "air_fn_name": "memory_address_to_id",
-        "input_arg": {
+        "ext_input": {
           "name": "input",
           "type": "M31"
         },
@@ -32,7 +32,7 @@
     {
       "LookupCall": {
         "air_fn_name": "memory_id_to_big",
-        "input_arg": {
+        "ext_input": {
           "name": "tmp0",
           "type": "M31"
         },
@@ -48,7 +48,7 @@
     {
       "LookupAddInput": {
         "air_fn_name": "memory_address_to_id",
-        "input_arg": {
+        "ext_input": {
           "name": "input",
           "type": "M31"
         }
@@ -68,7 +68,7 @@
       "Call": {
         "air_fn_name": "cond_decode_small_sign",
         "air_fn_description": "Cond Decode Small Sign",
-        "input_arg": [
+        "input": [
           {
             "name": "tmp1",
             "type": "Felt252"
@@ -111,7 +111,7 @@
     {
       "LookupAddInput": {
         "air_fn_name": "memory_id_to_big",
-        "input_arg": {
+        "ext_input": {
           "name": "col0",
           "type": "M31"
         }

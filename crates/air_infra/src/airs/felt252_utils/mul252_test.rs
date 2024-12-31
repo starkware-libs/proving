@@ -22,6 +22,7 @@ fn test_mul252_no_overflow() {
 
     let (state, output) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(0x1008020001u128, 0u128),
             const_felt252_expr!(0x1ff8020001u128, 0u128),
@@ -99,6 +100,7 @@ fn test_mul252_with_overflow() {
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (_, output) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(0, 1u128 << (251 - 128)),
             const_felt252_expr!(0, 1u128 << (251 - 128)),
@@ -114,6 +116,7 @@ fn test_mul252_with_overflow() {
     );
     let (_, output) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(
                 0xffffffff_ffffffff_ffffffff_ffffffffu128,
@@ -135,6 +138,7 @@ fn test_mul252_with_overflow() {
     );
     let (_, output) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(
                 0x01234567_89abcdef_fedcba98_76543210u128,

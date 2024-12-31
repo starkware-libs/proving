@@ -16,15 +16,15 @@ use super::Felt;
 /// 1. Each trace row contains a key (of type K), a value (of type V) and nothing else
 /// 2. Writing the keys and values into the trace is not the responsibility of the AIR infra, but is
 ///    implemented directly in the prover. Therefore, call() doesn't write anything to the trace.
-pub trait IsMemory<K, V>: AirFn<In = K, Out = V>
+pub trait IsMemory<K, V>: AirFn<ExtIn = K, In = (), Out = V>
 where
-    K: AirVar,
+    K: ExtTable,
     V: AirVar,
 {
     // Return the Memory object that contains the key-value pairs for this component
-    fn mem(&self) -> &Memory<K, V>;
+    fn mem(&self) -> &Memory<K::T, V>;
 
-    fn mem_mut(&mut self) -> &mut Memory<K, V>;
+    fn mem_mut(&mut self) -> &mut Memory<K::T, V>;
 }
 
 /// Implements the common logic for all IsMemory components
@@ -42,8 +42,8 @@ where
 
 impl<K, V> Memory<K, V>
 where
-    K: AirVar + Default,
-    V: AirVar + Default,
+    K: AirVar,
+    V: AirVar,
 {
     #[allow(unused)]
     pub(super) fn new() -> Self {

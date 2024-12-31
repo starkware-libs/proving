@@ -42,6 +42,7 @@ fn test_add_ap_negative_imm() {
     let (registry, _) = AirFnRegistry::new(&add_ap_opcode);
     let (state, next_state) = registry.run_air(
         &add_ap_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -102,6 +103,7 @@ fn test_add_ap_deref_base_fp() {
     let (registry, _) = AirFnRegistry::new(&add_ap_opcode);
     let (state, next_state) = registry.run_air(
         &add_ap_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -164,6 +166,7 @@ fn test_failed_op1_src() {
     let (registry, _) = AirFnRegistry::new(&add_ap_opcode);
     registry.run_air(
         &add_ap_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 }

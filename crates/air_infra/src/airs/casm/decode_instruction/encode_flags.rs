@@ -21,10 +21,11 @@ pub struct EncodeFlags {
 // Constrains that each flag is either 0 or 1.
 // Constructs the two felts holding the flags in the instruction.
 impl AirFn for EncodeFlags {
+    type ExtIn = ();
     type In = [FeltExpr; 15];
     type Out = [FeltExpr; 2];
 
-    fn call(&self, ab: &mut AirBuilder, flags: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), flags: Self::In) -> Self::Out {
         assert_eq!(
             FELT252_BITS_PER_WORD, 9,
             "FlagsToFelts assumes there are 9 bits per felt in a felt252"

@@ -22,10 +22,11 @@ use crate::core::expressions::uint32_expr::*;
 pub struct VerifyMul252 {}
 
 impl AirFn for VerifyMul252 {
+    type ExtIn = ();
     type In = [Felt252Expr; 3];
     type Out = ();
 
-    fn call(&self, air_builder: &mut AirBuilder, [a, b, c]: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
         let shift = const_expr!(1 << FELT252_BITS_PER_WORD);
         let shift_inverse = const_expr!(1) / shift.clone();
 
@@ -120,10 +121,9 @@ impl AirFn for VerifyMul252 {
         // The range of k fits inside a range check of 2**17, but the smallest commonly used size
         // is 19, the size of the largest range checks needed for the the carries.
         air_builder.lookup_call(
-            &RangeCheck {
-                bits: [MUL_RANGE_CHECKS],
-            },
+            &RangeCheck::<RangeCheck19>::default(),
             [k_expr.clone() + const_expr!(1u32 << 18)],
+            (),
         );
         // Bounds on k based on the range check constraint.
         let k = BoundedFeltExpr {
@@ -158,10 +158,9 @@ impl AirFn for VerifyMul252 {
             assert!(carry.min_bound >= -(1i32 << 17));
 
             air_builder.lookup_call(
-                &RangeCheck {
-                    bits: [MUL_RANGE_CHECKS],
-                },
+                &RangeCheck::<RangeCheck19>::default(),
                 [carry.expr.clone() + const_expr!(1u32 << 17)],
+                (),
             );
             // Bounds on the carry based on the range-check constraint.
             carry.max_bound = (1i32 << MUL_RANGE_CHECKS) - (1i32 << 17) - 1;

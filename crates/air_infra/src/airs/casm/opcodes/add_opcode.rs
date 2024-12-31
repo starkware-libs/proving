@@ -50,10 +50,11 @@ impl AddOpcode {
 }
 
 impl AirFn for AddOpcode {
+    type ExtIn = ();
     type In = CasmStateVar;
     type Out = CasmStateVar;
 
-    fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         let const_offsets = if self.is_imm {
             [None, None, Some(1)]
         } else {

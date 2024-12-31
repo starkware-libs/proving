@@ -61,10 +61,11 @@ pub struct AddModBuiltin {
 // bit felt.
 
 impl AirFn for AddModBuiltin {
+    type ExtIn = ();
     type In = ();
     type Out = ();
 
-    fn call(&self, ab: &mut AirBuilder, (): Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), _: ()) -> Self::Out {
         let instance_num = ab.call_external_column(&Seq {});
         let segment_start = ab.get_public_param(PublicParam::AddModBuiltinSegmentStart);
         // Get p, a, b, c from the memory segment of add_mod

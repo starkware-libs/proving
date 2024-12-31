@@ -54,7 +54,7 @@ impl Felt252IdMemory {
             result
                 .address_to_id
                 .mem_mut()
-                .set(addr.clone(), const_expr!(*felt252_id));
+                .set(CasmAddress::new(addr.clone(), ""), const_expr!(*felt252_id));
         }
 
         result
@@ -65,7 +65,7 @@ impl Felt252IdMemory {
         air_builder: &mut AirBuilder,
         address: &CasmAddress,
     ) -> (Felt252Expr, FeltExpr) {
-        let id = air_builder.mem_read_unverified(&self.address_to_id, &address.var);
+        let id = air_builder.mem_read_unverified(&self.address_to_id, address);
         let value = air_builder.mem_read_unverified(&self.id_to_value, &id);
         (value, id)
     }

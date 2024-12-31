@@ -14,7 +14,7 @@ use stwo_prover::relation;
 use crate::components::range_check_7_2_5;
 
 relation!(RelationElements, 3);
-pub struct RangeCheck_N_3_bits_7_2_5Eval {
+pub struct RangeCheck_7_2_5Eval {
     pub claim: Claim,
     pub interaction_claim: InteractionClaim,
     pub range_check_7_2_5_lookup_elements: range_check_7_2_5::RelationElements,
@@ -48,9 +48,9 @@ impl InteractionClaim {
 }
 
 #[allow(non_snake_case)]
-pub type RangeCheck_N_3_bits_7_2_5Component = FrameworkComponent<RangeCheck_N_3_bits_7_2_5Eval>;
+pub type RangeCheck_7_2_5Component = FrameworkComponent<RangeCheck_7_2_5Eval>;
 
-impl FrameworkEval for RangeCheck_N_3_bits_7_2_5Eval {
+impl FrameworkEval for RangeCheck_7_2_5Eval {
     fn log_size(&self) -> u32 {
         self.claim.log_size
     }

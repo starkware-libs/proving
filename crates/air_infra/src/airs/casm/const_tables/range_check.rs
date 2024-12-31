@@ -1,62 +1,141 @@
+use std::fmt::Debug;
+use std::marker::PhantomData;
+
 use compiled_casm_air::const_tables::{
-    STWO_COMPONENT_TYPE_RANGE_CHECK_11, STWO_COMPONENT_TYPE_RANGE_CHECK_16,
-    STWO_COMPONENT_TYPE_RANGE_CHECK_19, STWO_COMPONENT_TYPE_RANGE_CHECK_6,
-    STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3, STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_7_2_5,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_11, STWO_COMPONENT_TYPE_RANGE_CHECK_19,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_3_6, STWO_COMPONENT_TYPE_RANGE_CHECK_3_6_6_3,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_4_3, STWO_COMPONENT_TYPE_RANGE_CHECK_6,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_7_2_5, STWO_COMPONENT_TYPE_RANGE_CHECK_9,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_9_9,
 };
 use inst_def::InstDef;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
-#[cfg(test)]
 use crate::core::variables::*;
 
-const STWO_COMPONENT_TYPE_RANGE_CHECK_4: &str = "RangeCheck4";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_5: &str = "RangeCheck5";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_7: &str = "RangeCheck7";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_8: &str = "RangeCheck8";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_2_5: &str = "RangeCheckVector_2_5";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_9_9: &str = "RangeCheckVector_9_9";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_3_6: &str = "RangeCheckVector_3_6";
-const STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_3_6_6_3: &str = "RangeCheckVector_3_6_6_3";
+#[derive(Debug, Default)]
+pub struct RangeCheck6 {}
+#[derive(Debug, Default)]
+pub struct RangeCheck3_6 {}
+#[derive(Debug, Default)]
+pub struct RangeCheck3_6_6_3 {}
+#[derive(Debug, Default)]
+pub struct RangeCheck9 {}
+#[derive(Debug, Default)]
+pub struct RangeCheck11 {}
+#[derive(Debug, Default)]
+pub struct RangeCheck19 {}
+#[derive(Debug, Default)]
+pub struct RangeCheck4_3 {}
+#[derive(Debug, Default)]
+pub struct RangeCheck9_9 {}
+#[derive(Debug, Default)]
+pub struct RangeCheck7_2_5 {}
 
-#[derive(Debug, InstDef)]
-pub struct RangeCheck<const N: usize> {
-    pub bits: [u16; N],
+pub trait RangeCheckSize {
+    fn bits() -> &'static [u16];
+}
+impl RangeCheckSize for RangeCheck6 {
+    fn bits() -> &'static [u16] {
+        &[6]
+    }
+}
+impl RangeCheckSize for RangeCheck3_6 {
+    fn bits() -> &'static [u16] {
+        &[3, 6]
+    }
+}
+impl RangeCheckSize for RangeCheck3_6_6_3 {
+    fn bits() -> &'static [u16] {
+        &[3, 6, 6, 3]
+    }
+}
+impl RangeCheckSize for RangeCheck9 {
+    fn bits() -> &'static [u16] {
+        &[9]
+    }
+}
+impl RangeCheckSize for RangeCheck11 {
+    fn bits() -> &'static [u16] {
+        &[11]
+    }
+}
+impl RangeCheckSize for RangeCheck19 {
+    fn bits() -> &'static [u16] {
+        &[19]
+    }
+}
+impl RangeCheckSize for RangeCheck4_3 {
+    fn bits() -> &'static [u16] {
+        &[4, 3]
+    }
+}
+impl RangeCheckSize for RangeCheck9_9 {
+    fn bits() -> &'static [u16] {
+        &[9, 9]
+    }
+}
+impl RangeCheckSize for RangeCheck7_2_5 {
+    fn bits() -> &'static [u16] {
+        &[7, 2, 5]
+    }
 }
 
-impl<const N: usize> AirFn for RangeCheck<N> {
-    type In = [FeltExpr; N];
-    type Out = ();
+impl ExtTable for RangeCheck6 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_6;
+    type T = [FeltExpr; 1];
+}
+impl ExtTable for RangeCheck3_6 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_3_6;
+    type T = [FeltExpr; 2];
+}
+impl ExtTable for RangeCheck3_6_6_3 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_3_6_6_3;
+    type T = [FeltExpr; 4];
+}
+impl ExtTable for RangeCheck9 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_9;
+    type T = [FeltExpr; 1];
+}
+impl ExtTable for RangeCheck11 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_11;
+    type T = [FeltExpr; 1];
+}
+impl ExtTable for RangeCheck19 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_19;
+    type T = [FeltExpr; 1];
+}
+impl ExtTable for RangeCheck4_3 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_4_3;
+    type T = [FeltExpr; 2];
+}
+impl ExtTable for RangeCheck9_9 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_9_9;
+    type T = [FeltExpr; 2];
+}
+impl ExtTable for RangeCheck7_2_5 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_7_2_5;
+    type T = [FeltExpr; 3];
+}
 
-    fn const_input(&self) -> Option<String> {
-        match self.bits.as_slice() {
-            // Note: Each specific rc in the list must be implemented in stwo by a component of
-            // the same name.
-            [4] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_4.to_string()),
-            [5] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_5.to_string()),
-            [6] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_6.to_string()),
-            [7] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_7.to_string()),
-            [8] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_8.to_string()),
-            [11] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_11.to_string()),
-            [16] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_16.to_string()),
-            [19] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_19.to_string()),
-            [2, 5] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_2_5.to_string()),
-            [4, 3] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_4_3.to_string()),
-            [9, 9] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_9_9.to_string()),
-            [7, 2, 5] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_7_2_5.to_string()),
-            [3, 6] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_3_6.to_string()),
-            [3, 6, 6, 3] => Some(STWO_COMPONENT_TYPE_RANGE_CHECK_VECTOR_3_6_6_3.to_string()),
-            _ => panic!("Invalid range check bits {:?}.", self.bits),
-        }
-    }
+#[derive(Debug, InstDef, Default)]
+pub struct RangeCheck<R: RangeCheckSize + ExtTable + Debug> {
+    #[instdef(skip)]
+    pub _phantom: PhantomData<R>,
+}
+
+impl<R: RangeCheckSize + ExtTable + Debug> AirFn for RangeCheck<R> {
+    type ExtIn = R;
+    type In = ();
+    type Out = ();
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
     }
 
     fn name(&self) -> String {
-        let bits = self
-            .bits
+        let bits = R::bits()
             .iter()
             .map(|b| b.to_string())
             .collect::<Vec<_>>()
@@ -65,8 +144,7 @@ impl<const N: usize> AirFn for RangeCheck<N> {
     }
 
     fn relation_name(&self) -> Option<String> {
-        let bits = self
-            .bits
+        let bits = R::bits()
             .iter()
             .map(|b| b.to_string())
             .collect::<Vec<_>>()
@@ -74,14 +152,19 @@ impl<const N: usize> AirFn for RangeCheck<N> {
         Some(format!("RangeCheck_{}", bits))
     }
 
-    fn call(&self, _air_builder: &mut AirBuilder, _input: Self::In) -> Self::Out {
+    fn call(
+        &self,
+        _air_builder: &mut AirBuilder,
+        _const_input: <Self::ExtIn as ExtTable>::T,
+        _: (),
+    ) -> Self::Out {
         #[cfg(test)]
         if _air_builder.is_run_mode() {
-            for (index, (&input, &bits)) in _input
+            for (index, (&input, &bits)) in _const_input
                 .to_values()
                 .expect("input has no values")
                 .iter()
-                .zip(self.bits.iter())
+                .zip(R::bits().iter())
                 .enumerate()
             {
                 assert!(

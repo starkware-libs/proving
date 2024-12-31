@@ -46,7 +46,7 @@ fn test_read_small() {
     let read_small = ReadSmall { memory };
     let (registry, _) = AirFnRegistry::new(&read_small);
 
-    let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(1), ""));
+    let (state, output) = registry.run_air(&read_small, (), CasmAddress::new(const_expr!(1), ""));
     assert_eq!(output.0.calc(), "7".to_string());
     let expected_state = vec![
         (0, "id"),
@@ -59,7 +59,7 @@ fn test_read_small() {
     .into();
     assert_expected_state(&state, &expected_state);
 
-    let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(2), ""));
+    let (state, output) = registry.run_air(&read_small, (), CasmAddress::new(const_expr!(2), ""));
     assert_eq!(output.0.calc(), "7".to_string());
     let expected_state = vec![
         (0, "id"),
@@ -72,7 +72,7 @@ fn test_read_small() {
     .into();
     assert_expected_state(&state, &expected_state);
 
-    let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(3), ""));
+    let (state, output) = registry.run_air(&read_small, (), CasmAddress::new(const_expr!(3), ""));
     assert_eq!(output.0.calc(), ((1i64 << 31) - 2).to_string());
     let expected_state = vec![
         (1, "id"),
@@ -85,7 +85,7 @@ fn test_read_small() {
     .into();
     assert_expected_state(&state, &expected_state);
 
-    let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(4), ""));
+    let (state, output) = registry.run_air(&read_small, (), CasmAddress::new(const_expr!(4), ""));
     assert_eq!(output.0.calc(), ((1i64 << 31) - 3).to_string());
     let expected_state = vec![
         (2, "id"),
@@ -98,7 +98,7 @@ fn test_read_small() {
     .into();
     assert_expected_state(&state, &expected_state);
 
-    let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(5), ""));
+    let (state, output) = registry.run_air(&read_small, (), CasmAddress::new(const_expr!(5), ""));
     assert_eq!(output.0.calc(), "0".to_string());
     let expected_state = vec![
         (3, "id"),
@@ -111,7 +111,7 @@ fn test_read_small() {
     .into();
     assert_expected_state(&state, &expected_state);
 
-    let (state, output) = registry.run_air(&read_small, CasmAddress::new(const_expr!(6), ""));
+    let (state, output) = registry.run_air(&read_small, (), CasmAddress::new(const_expr!(6), ""));
     assert_eq!(output.0.calc(), "1".to_string());
     let expected_state = vec![
         (4, "id"),
@@ -140,7 +140,8 @@ fn test_read_positive(value: Felt252Expr, num_bits: usize) {
     let read_positive = ReadPositive { memory, num_bits };
 
     let (registry, _) = AirFnRegistry::new(&read_positive);
-    let (_state, output) = registry.run_air(&read_positive, CasmAddress::new(const_expr!(0), ""));
+    let (_state, output) =
+        registry.run_air(&read_positive, (), CasmAddress::new(const_expr!(0), ""));
 
     assert_eq!(output.0.calc(), value.calc());
 }
@@ -148,7 +149,7 @@ fn test_read_positive(value: Felt252Expr, num_bits: usize) {
 #[test]
 fn test_read_positive_entry_json() {
     let (_, entry) = AirFnRegistry::new(&ReadPositive {
-        num_bits: 16,
+        num_bits: 36,
         memory: Felt252IdMemory::default(),
     });
     compare_json(
@@ -164,14 +165,14 @@ fn test_read_positive_whole_limbs() {
 
 #[test]
 fn test_read_positive_partial_limbs() {
-    test_read_positive(const_felt252_expr!(12, 0), 4);
+    test_read_positive(const_felt252_expr!(9, 0), 6);
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck4 on input 510")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck6 on input 510")]
 fn test_read_positive_failure() {
     // Try to read a small negative number using ReadPositive
-    test_read_positive(const_felt252_expr!(u128::MAX - 1, u128::MAX), 4);
+    test_read_positive(const_felt252_expr!(u128::MAX - 1, u128::MAX), 6);
 }
 
 #[test]
@@ -189,6 +190,7 @@ fn test_verify_all() {
     let (registry, _) = AirFnRegistry::new(&verify_all);
     let (state, _) = registry.run_air(
         &verify_all,
+        (),
         (
             mem_data
                 .into_iter()
@@ -219,6 +221,7 @@ fn test_failed_verify_all() {
     let (registry, _) = AirFnRegistry::new(&verify_all);
     registry.run_air(
         &verify_all,
+        (),
         (
             mem_data
                 .into_iter()

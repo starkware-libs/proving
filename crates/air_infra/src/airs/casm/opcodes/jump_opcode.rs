@@ -60,10 +60,11 @@ impl JumpOpcode {
 }
 
 impl AirFn for JumpOpcode {
+    type ExtIn = ();
     type In = CasmStateVar;
     type Out = CasmStateVar;
 
-    fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Create the constant offsets.
         let offset1 = if self.is_double_deref { None } else { Some(-1) };
         let offset2 = if self.is_imm { Some(1) } else { None };

@@ -47,6 +47,7 @@ pub enum TraceType {
     // Cannot be called from another component. Doesn't yield multiplicity column.
     // Generates accumulated sum column where the input
     // is used and the output is yielded (chain lookup constraint).
+    // Their chain lookup relation is called OPCODES_RELATION_NAME.
     Opcode,
 
     // Memory components are pre-filled. Their trace consists of only input and output columns, or
@@ -61,6 +62,7 @@ pub enum TraceType {
 // The call method is the main method of the air function, and is used to build and run the air
 // function.
 pub trait AirFn: Debug + InstDefTrait {
+    type ExtIn: ExtTable;
     type In: AirVar;
     type Out: AirVar;
 
@@ -123,13 +125,6 @@ pub trait AirFn: Debug + InstDefTrait {
         TraceType::Inline
     }
 
-    // For lookup components that their input columns are a const table, returns the name of
-    // that const table. The const table contains only my input columns and nothing else.
-    // Note that the const table might not have a corresponding air function (e.g., "RangeCheck9").
-    fn const_input(&self) -> Option<String> {
-        None
-    }
-
     // Returns whether the input of the air function should be in the trace when it is called.
     // If None, it means that the input is a tuple or array, and parts of it should be in the trace
     // and parts should not. In this case, the infra will not check if the input is in the trace.
@@ -138,9 +133,19 @@ pub trait AirFn: Debug + InstDefTrait {
         Some(self.trace_type() == TraceType::Const || self.trace_type() == TraceType::Inline)
     }
 
-    fn call(&self, air_builder: &mut AirBuilder, input: Self::In) -> Self::Out;
+    fn call(
+        &self,
+        air_builder: &mut AirBuilder,
+        ext_input: <Self::ExtIn as ExtTable>::T,
+        input: Self::In,
+    ) -> Self::Out;
 
-    fn lookup_call(&self, air_builder: &mut AirBuilder, mut input: Self::In) -> Self::Out {
+    fn lookup_call(
+        &self,
+        air_builder: &mut AirBuilder,
+        mut ext_input: <Self::ExtIn as ExtTable>::T,
+        mut input: Self::In,
+    ) -> Self::Out {
         assert!(
             self.trace_type() == TraceType::Component
                 || self.trace_type() == TraceType::Opcode
@@ -148,13 +153,18 @@ pub trait AirFn: Debug + InstDefTrait {
             "AirFn must be a component, opcode or memory"
         );
 
-        if let Some(const_name) = self.const_input() {
-            for (i, felt) in input.as_felts_mut().into_iter().enumerate() {
-                felt.to_state(StateInfo::ExternalColumnStateIndex(const_name.clone(), i));
-            }
-        } else if self.trace_type() == TraceType::Memory {
+        Self::ExtIn::to_state(&mut ext_input);
+
+        if self.trace_type() == TraceType::Memory {
             for felt in input.as_felts_mut() {
                 air_builder.state.add(felt, "input");
+            }
+
+            let mut output = Self::Out::new("".to_string(), false);
+            for felt in output.as_felts_mut() {
+                air_builder
+                    .state
+                    .add(felt, &format!("{}_output", self.name()));
             }
         } else if !Self::In::is_empty() {
             input = air_builder.let_for_deduction(input, "input");
@@ -169,17 +179,14 @@ pub trait AirFn: Debug + InstDefTrait {
             }
         }
 
-        if self.trace_type() == TraceType::Memory {
-            let mut output = Self::Out::new("".to_string(), false);
-            for felt in output.as_felts_mut() {
-                air_builder
-                    .state
-                    .add(felt, &format!("{}_output", self.name()));
-            }
-        }
-        let output = self.call(air_builder, input.clone());
+        let output = self.call(air_builder, ext_input.clone(), input.clone());
 
         if self.trace_type() == TraceType::Opcode {
+            assert!(
+                <<Self as AirFn>::ExtIn as ExtTable>::T::is_empty(),
+                "Opcodes don't have external input"
+            );
+
             air_builder.air_body.push(AirBodyComponent::LookupTerm {
                 relation_name: OPCODES_RELATION_NAME.to_string(),
                 felts: input.as_felts(),
@@ -194,9 +201,10 @@ pub trait AirFn: Debug + InstDefTrait {
         } else {
             air_builder.air_body.push(AirBodyComponent::LookupTerm {
                 relation_name: self.relation_name().expect("Relation name not set"),
-                felts: input
+                felts: ext_input
                     .as_felts()
                     .into_iter()
+                    .chain(input.as_felts())
                     .chain(output.as_felts())
                     .collect(),
                 use_or_yield: UseOrYield::Yield,
@@ -389,7 +397,7 @@ impl AirBuilder {
         self.let_for_deduction_and_constraint(output, desc)
     }
 
-    pub fn call<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>, input: I) -> O
+    pub fn call<I, O>(&mut self, air_fn: &dyn AirFn<ExtIn = (), In = I, Out = O>, input: I) -> O
     where
         I: AirVar,
         O: AirVar,
@@ -422,19 +430,25 @@ impl AirBuilder {
             registry: self.registry.clone(),
             intermediate_id: self.intermediate_id.clone(),
         };
-        let output = air_fn.call(&mut air_builder, input.clone());
+        let output = air_fn.call(&mut air_builder, (), input.clone());
         self.air_body.push(AirBodyComponent::Call(Call {
             air_fn_name: air_fn.name(),
             air_fn_description: air_fn.description(),
-            input_arg: input.into(),
+            input: input.into(),
             output: output.clone().into(),
             air_body: air_builder.air_body,
         }));
         output
     }
 
-    pub fn lookup_call<I, O>(&mut self, air_fn: &dyn AirFn<In = I, Out = O>, input: I) -> O
+    pub fn lookup_call<E, I, O>(
+        &mut self,
+        air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
+        ext_input: E::T,
+        input: I,
+    ) -> O
     where
+        E: ExtTable,
         I: AirVar,
         O: AirVar,
     {
@@ -444,7 +458,7 @@ impl AirBuilder {
         );
 
         assert!(
-            input.in_state(),
+            input.in_state() && ext_input.in_state(),
             "The mask of the input to a lookup call must be in the trace."
         );
 
@@ -472,12 +486,23 @@ impl AirBuilder {
                 // The intermediate_id is not used in run mode.
                 intermediate_id: self.intermediate_id.clone(),
             };
-            output = air_fn.lookup_call(&mut air_builder, input.clone());
+            output = air_fn.lookup_call(&mut air_builder, ext_input.clone(), input.clone());
         }
 
+        let ext_input_option = if E::T::is_empty() {
+            None
+        } else {
+            Some(ext_input.clone().into())
+        };
+        let input_option = if I::is_empty() {
+            None
+        } else {
+            Some(input.clone().into())
+        };
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: air_fn.name(),
-            input_arg: input.clone().into(),
+            ext_input: ext_input_option.clone(),
+            input: input_option.clone(),
             output_name: if O::is_empty() {
                 None
             } else {
@@ -507,13 +532,15 @@ impl AirBuilder {
 
         self.air_body.push(AirBodyComponent::LookupAddInput {
             air_fn_name: air_fn.name(),
-            input_arg: input.clone().into(),
+            ext_input: ext_input_option,
+            input: input_option,
         });
         self.air_body.push(AirBodyComponent::LookupTerm {
             relation_name: air_fn.relation_name().expect("Relation name not set"),
-            felts: input
+            felts: ext_input
                 .as_felts()
                 .into_iter()
+                .chain(input.as_felts())
                 .chain(output.as_felts())
                 .collect(),
             use_or_yield: UseOrYield::Use,
@@ -524,10 +551,10 @@ impl AirBuilder {
 
     // Reads the value from the memory, creates an intermediate variable for the value, and returns
     // it. Does not add any constraints or deductions.
-    pub(super) fn mem_read_unverified<K, V>(&mut self, memory: &dyn IsMemory<K, V>, key: &K) -> V
+    pub(super) fn mem_read_unverified<K, V>(&mut self, memory: &dyn IsMemory<K, V>, key: &K::T) -> V
     where
-        K: AirVar + Default,
-        V: AirVar + Default,
+        K: ExtTable,
+        V: AirVar,
     {
         // Make sure the memory is in the registry
         self.registry.add_entry(memory);
@@ -536,7 +563,8 @@ impl AirBuilder {
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: memory.name(),
-            input_arg: key.clone().into(),
+            ext_input: Some(key.clone().into()),
+            input: None,
             output_name: Some(value_name.clone()),
         }));
 
@@ -555,7 +583,7 @@ impl AirBuilder {
                 // The intermediate_id is not used in run mode.
                 intermediate_id: self.intermediate_id.clone(),
             };
-            value = memory.lookup_call(&mut air_builder, key.clone());
+            value = memory.lookup_call(&mut air_builder, key.clone(), ());
         }
 
         value.let_(
@@ -569,10 +597,10 @@ impl AirBuilder {
 
     // Assumes the key and value are in the state (of the caller). Adds a lookup constraint
     // to verify that memory[key] == value.
-    pub fn mem_verify<K, V>(&mut self, memory: &dyn IsMemory<K, V>, key: &K, value: V)
+    pub fn mem_verify<K, V>(&mut self, memory: &dyn IsMemory<K, V>, key: &K::T, value: V)
     where
-        K: AirVar + Default,
-        V: AirVar + Default,
+        K: ExtTable,
+        V: AirVar,
     {
         // Make sure the memory is in the registry
         self.registry.add_entry(memory);
@@ -595,7 +623,8 @@ impl AirBuilder {
 
         self.air_body.push(AirBodyComponent::LookupAddInput {
             air_fn_name: memory.name(),
-            input_arg: key.clone().into(),
+            ext_input: Some(key.clone().into()),
+            input: None,
         });
         self.air_body.push(AirBodyComponent::LookupTerm {
             relation_name: memory.relation_name().expect("Relation name not set"),
@@ -605,9 +634,9 @@ impl AirBuilder {
     }
 
     #[allow(unused_variables)]
-    pub fn call_external_column<O>(&mut self, air_fn: &dyn AirFn<In = (), Out = O>) -> O
+    pub fn call_external_column<O>(&mut self, air_fn: &O) -> O::T
     where
-        O: AirVar + From<Vec<FeltExpr>>,
+        O: ExtTable + AirFn<ExtIn = (), In = (), Out = O::T>,
     {
         assert!(
             air_fn.trace_type() == TraceType::Const,
@@ -630,14 +659,10 @@ impl AirBuilder {
                 // The intermediate_id is not used in run mode.
                 intermediate_id: self.intermediate_id.clone(),
             };
-            return air_fn.call(&mut air_builder, ());
+            return air_fn.call(&mut air_builder, (), ());
         }
 
-        let mut output = O::new("".to_string(), false);
-        for (i, felt) in output.as_felts_mut().into_iter().enumerate() {
-            felt.to_state(StateInfo::ExternalColumnStateIndex(air_fn.name(), i));
-        }
-        O::from(output.as_felts())
+        O::new()
     }
 
     pub fn get_public_param(&self, which: PublicParam) -> FeltExpr {
@@ -670,7 +695,7 @@ impl AirBuilder {
 pub struct Call {
     pub air_fn_name: String,
     pub air_fn_description: String,
-    pub input_arg: AirVarImpl,
+    pub input: AirVarImpl,
     pub output: AirVarImpl,
     #[serde(skip)]
     pub air_body: Vec<AirBodyComponent>,
@@ -680,7 +705,10 @@ pub struct Call {
 #[derive(Clone, Debug, Serialize)]
 pub struct LookupCall {
     pub air_fn_name: String,
-    pub input_arg: AirVarImpl,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub ext_input: Option<AirVarImpl>,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub input: Option<AirVarImpl>,
     // None if there is no output
     #[serde(skip_serializing_if = "Option::is_none")]
     pub output_name: Option<String>,
@@ -712,7 +740,10 @@ pub enum AirBodyComponent {
     // Adds the input to the lookup table or updates multiplicity.
     LookupAddInput {
         air_fn_name: String,
-        input_arg: AirVarImpl,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        ext_input: Option<AirVarImpl>,
+        #[serde(skip_serializing_if = "Option::is_none")]
+        input: Option<AirVarImpl>,
     },
     // Saves the information from the trace needed for the generation of the interaction trace,
     // and creates the constraints between the trace and the interaction trace, and the

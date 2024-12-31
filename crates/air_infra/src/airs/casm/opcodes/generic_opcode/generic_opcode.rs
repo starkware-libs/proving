@@ -23,10 +23,11 @@ pub struct GenericOpcode {
 }
 
 impl AirFn for GenericOpcode {
+    type ExtIn = ();
     type In = CasmStateVar;
     type Out = CasmStateVar;
 
-    fn call(&self, air_builder: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         let (flags_as_felts, offsets) = air_builder.call(
             &DecodeGenericInstruction {
                 memory: self.memory.clone(),

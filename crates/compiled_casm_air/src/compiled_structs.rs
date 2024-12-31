@@ -51,6 +51,7 @@ pub enum TraceGenStep {
     // Adds the input to the lookup table or updates multiplicity.
     LookupAddInput {
         fn_name: String,
+        // TODO(AnatG): Add row index.
         input: CompiledAirVar,
     },
 

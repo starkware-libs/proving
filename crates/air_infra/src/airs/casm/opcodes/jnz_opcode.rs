@@ -48,10 +48,11 @@ impl JnzOpcode {
 }
 
 impl AirFn for JnzOpcode {
+    type ExtIn = ();
     type In = CasmStateVar;
     type Out = CasmStateVar;
 
-    fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Check the instruction.
         let ([offset_dst, _, _], flags) = ab.call(
             &DecodeInstruction {

@@ -67,8 +67,11 @@ fn build_and_test(
 
     // Run air function
     let (registry, _) = AirFnRegistry::new(&call_opcode);
-    let (state, next_state) =
-        registry.run_air(&call_opcode, CasmStateVar::new(pc, ap.clone(), fp.clone()));
+    let (state, next_state) = registry.run_air(
+        &call_opcode,
+        (),
+        CasmStateVar::new(pc, ap.clone(), fp.clone()),
+    );
 
     // Check output
     if is_rel {

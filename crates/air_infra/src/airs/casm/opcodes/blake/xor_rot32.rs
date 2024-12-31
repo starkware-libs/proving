@@ -22,10 +22,11 @@ pub struct XorRot32 {
 /// of size `r` becomes the highest part. Ensures that all elements are within range.
 /// 'r' must be one of 7, 8, 12, 16.
 impl AirFn for XorRot32 {
+    type ExtIn = ();
     type In = [UInt32Expr; 2];
     type Out = UInt32Expr;
 
-    fn call(&self, air_builder: &mut AirBuilder, [a, b]: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b]: Self::In) -> Self::Out {
         assert!(
             self.r == 7 || self.r == 8 || self.r == 12 || self.r == 16,
             "Invalid r value"

@@ -43,14 +43,14 @@
   },
   "MemoryIdToBig": {
     "trace_type": "Memory",
-    "num_state_cols": 29,
+    "num_state_cols": 28,
     "lookup_uses": {
       "RangeCheck_9_9": 14
     },
     "lookup_yield": true,
     "lookup_multiplicity": true,
-    "total_num_trace_cols": 60,
-    "trace_cells_upper_bound": 102,
+    "total_num_trace_cols": 59,
+    "trace_cells_upper_bound": 101,
     "lookup_uses_upper_bound": 14
   },
   "read_positive_num_bits_252": {
@@ -63,10 +63,10 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 33,
-    "trace_cells_upper_bound": 139,
+    "trace_cells_upper_bound": 138,
     "lookup_uses_upper_bound": 16
   },
-  "VerifyBitwiseXorNumBits9": {
+  "VerifyBitwiseXor_9": {
     "trace_type": "Component",
     "num_state_cols": 0,
     "lookup_uses": {},
@@ -80,7 +80,7 @@
     "trace_type": "Inline",
     "num_state_cols": 1,
     "lookup_uses": {
-      "VerifyBitwiseXorNumBits9": 1
+      "VerifyBitwiseXor_9": 1
     },
     "lookup_yield": false,
     "lookup_multiplicity": false,
@@ -98,7 +98,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 5,
-    "trace_cells_upper_bound": 111,
+    "trace_cells_upper_bound": 110,
     "lookup_uses_upper_bound": 16
   },
   "bitwise_builtin": {
@@ -107,12 +107,12 @@
     "lookup_uses": {
       "MemoryAddressToId": 5,
       "MemoryIdToBig": 5,
-      "VerifyBitwiseXorNumBits9": 28
+      "VerifyBitwiseXor_9": 28
     },
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 165,
-    "trace_cells_upper_bound": 779,
+    "trace_cells_upper_bound": 774,
     "lookup_uses_upper_bound": 108
   },
   "range_check_last_limb_bits_in_ms_limb_2": {
@@ -135,7 +135,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 21,
-    "trace_cells_upper_bound": 127,
+    "trace_cells_upper_bound": 126,
     "lookup_uses_upper_bound": 16
   },
   "range_check_builtin_bits_128": {
@@ -148,7 +148,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 21,
-    "trace_cells_upper_bound": 127,
+    "trace_cells_upper_bound": 126,
     "lookup_uses_upper_bound": 16
   },
   "RangeCheck_6": {
@@ -184,7 +184,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 18,
-    "trace_cells_upper_bound": 127,
+    "trace_cells_upper_bound": 126,
     "lookup_uses_upper_bound": 17
   },
   "range_check_builtin_bits_96": {
@@ -198,7 +198,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 18,
-    "trace_cells_upper_bound": 127,
+    "trace_cells_upper_bound": 126,
     "lookup_uses_upper_bound": 17
   },
   "read_positive_num_bits_99": {
@@ -211,7 +211,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 16,
-    "trace_cells_upper_bound": 122,
+    "trace_cells_upper_bound": 121,
     "lookup_uses_upper_bound": 16
   },
   "read_positive_num_bits_27": {
@@ -224,7 +224,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 8,
-    "trace_cells_upper_bound": 114,
+    "trace_cells_upper_bound": 113,
     "lookup_uses_upper_bound": 16
   },
   "mem_cond_verify_equal_known_id": {
@@ -259,7 +259,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 10,
-    "trace_cells_upper_bound": 116,
+    "trace_cells_upper_bound": 115,
     "lookup_uses_upper_bound": 16
   },
   "mod_utils": {
@@ -272,7 +272,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 342,
-    "trace_cells_upper_bound": 2906,
+    "trace_cells_upper_bound": 2882,
     "lookup_uses_upper_bound": 389
   },
   "add_mod_builtin": {
@@ -285,7 +285,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 357,
-    "trace_cells_upper_bound": 2921,
+    "trace_cells_upper_bound": 2897,
     "lookup_uses_upper_bound": 389
   },
   "RangeCheck_7_2_5": {
@@ -343,7 +343,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": true,
     "total_num_trace_cols": 39,
-    "trace_cells_upper_bound": 151,
+    "trace_cells_upper_bound": 150,
     "lookup_uses_upper_bound": 18
   },
   "decode_instruction_337193008ebaa578": {
@@ -355,7 +355,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 20,
-    "trace_cells_upper_bound": 171,
+    "trace_cells_upper_bound": 170,
     "lookup_uses_upper_bound": 19
   },
   "decode_generic_instruction": {
@@ -367,7 +367,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 20,
-    "trace_cells_upper_bound": 171,
+    "trace_cells_upper_bound": 170,
     "lookup_uses_upper_bound": 19
   },
   "cond_felt_252_as_addr": {
@@ -449,7 +449,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 324,
-    "trace_cells_upper_bound": 810,
+    "trace_cells_upper_bound": 807,
     "lookup_uses_upper_bound": 104
   },
   "handle_opcodes": {
@@ -496,7 +496,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 359,
-    "trace_cells_upper_bound": 996,
+    "trace_cells_upper_bound": 992,
     "lookup_uses_upper_bound": 124
   },
   "decode_instruction_95ed11aea2bb2eff": {
@@ -508,7 +508,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 3,
-    "trace_cells_upper_bound": 154,
+    "trace_cells_upper_bound": 153,
     "lookup_uses_upper_bound": 19
   },
   "add_ap_opcode_is_imm_f_op_1_base_fp_f": {
@@ -523,7 +523,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 20,
-    "trace_cells_upper_bound": 277,
+    "trace_cells_upper_bound": 275,
     "lookup_uses_upper_bound": 36
   },
   "decode_instruction_a14b71db698d77c8": {
@@ -535,7 +535,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 2,
-    "trace_cells_upper_bound": 153,
+    "trace_cells_upper_bound": 152,
     "lookup_uses_upper_bound": 19
   },
   "add_ap_opcode_is_imm_t_op_1_base_fp_f": {
@@ -550,7 +550,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 19,
-    "trace_cells_upper_bound": 276,
+    "trace_cells_upper_bound": 274,
     "lookup_uses_upper_bound": 36
   },
   "decode_instruction_3a1aeaa2aac0bdcf": {
@@ -562,7 +562,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 3,
-    "trace_cells_upper_bound": 154,
+    "trace_cells_upper_bound": 153,
     "lookup_uses_upper_bound": 19
   },
   "add_ap_opcode_is_imm_f_op_1_base_fp_t": {
@@ -577,7 +577,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 20,
-    "trace_cells_upper_bound": 277,
+    "trace_cells_upper_bound": 275,
     "lookup_uses_upper_bound": 36
   },
   "decode_instruction_9aed6a790187299c": {
@@ -589,7 +589,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 7,
-    "trace_cells_upper_bound": 158,
+    "trace_cells_upper_bound": 157,
     "lookup_uses_upper_bound": 19
   },
   "add_opcode_is_small_t_is_imm_t": {
@@ -604,7 +604,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 46,
-    "trace_cells_upper_bound": 515,
+    "trace_cells_upper_bound": 511,
     "lookup_uses_upper_bound": 68
   },
   "decode_instruction_52ce7a4a3d9be19a": {
@@ -616,7 +616,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 10,
-    "trace_cells_upper_bound": 161,
+    "trace_cells_upper_bound": 160,
     "lookup_uses_upper_bound": 19
   },
   "add_opcode_is_small_f_is_imm_f": {
@@ -631,7 +631,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 120,
-    "trace_cells_upper_bound": 589,
+    "trace_cells_upper_bound": 585,
     "lookup_uses_upper_bound": 68
   },
   "add_opcode_is_small_t_is_imm_f": {
@@ -646,7 +646,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 50,
-    "trace_cells_upper_bound": 519,
+    "trace_cells_upper_bound": 515,
     "lookup_uses_upper_bound": 68
   },
   "add_opcode_is_small_f_is_imm_t": {
@@ -661,7 +661,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 116,
-    "trace_cells_upper_bound": 585,
+    "trace_cells_upper_bound": 581,
     "lookup_uses_upper_bound": 68
   },
   "decode_instruction_dc55adb272664963": {
@@ -673,7 +673,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 8,
-    "trace_cells_upper_bound": 159,
+    "trace_cells_upper_bound": 158,
     "lookup_uses_upper_bound": 19
   },
   "mem_verify_equal": {
@@ -699,7 +699,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 22,
-    "trace_cells_upper_bound": 181,
+    "trace_cells_upper_bound": 180,
     "lookup_uses_upper_bound": 22
   },
   "decode_instruction_a2af169c0fec5c47": {
@@ -711,7 +711,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 8,
-    "trace_cells_upper_bound": 159,
+    "trace_cells_upper_bound": 158,
     "lookup_uses_upper_bound": 19
   },
   "assert_eq_opcode_is_double_deref_t_is_imm_f": {
@@ -726,7 +726,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 30,
-    "trace_cells_upper_bound": 295,
+    "trace_cells_upper_bound": 293,
     "lookup_uses_upper_bound": 38
   },
   "decode_instruction_684cf7138ce526e3": {
@@ -738,7 +738,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 5,
-    "trace_cells_upper_bound": 156,
+    "trace_cells_upper_bound": 155,
     "lookup_uses_upper_bound": 19
   },
   "assert_eq_opcode_is_double_deref_f_is_imm_t": {
@@ -752,7 +752,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 18,
-    "trace_cells_upper_bound": 177,
+    "trace_cells_upper_bound": 176,
     "lookup_uses_upper_bound": 22
   },
   "decode_instruction_d06cc8770ddfafbc": {
@@ -764,7 +764,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 3,
-    "trace_cells_upper_bound": 154,
+    "trace_cells_upper_bound": 153,
     "lookup_uses_upper_bound": 19
   },
   "call_opcode_is_rel_f_op_1_base_fp_f": {
@@ -779,7 +779,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 34,
-    "trace_cells_upper_bound": 503,
+    "trace_cells_upper_bound": 499,
     "lookup_uses_upper_bound": 68
   },
   "decode_instruction_553df0b64b2e381f": {
@@ -791,7 +791,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 2,
-    "trace_cells_upper_bound": 153,
+    "trace_cells_upper_bound": 152,
     "lookup_uses_upper_bound": 19
   },
   "call_opcode_is_rel_t_op_1_base_fp_f": {
@@ -806,7 +806,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 35,
-    "trace_cells_upper_bound": 504,
+    "trace_cells_upper_bound": 500,
     "lookup_uses_upper_bound": 68
   },
   "decode_instruction_52374a4f35d83024": {
@@ -818,7 +818,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 3,
-    "trace_cells_upper_bound": 154,
+    "trace_cells_upper_bound": 153,
     "lookup_uses_upper_bound": 19
   },
   "call_opcode_is_rel_f_op_1_base_fp_t": {
@@ -833,7 +833,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 34,
-    "trace_cells_upper_bound": 503,
+    "trace_cells_upper_bound": 499,
     "lookup_uses_upper_bound": 68
   },
   "decode_instruction_113648125c3c3f56": {
@@ -845,7 +845,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 4,
-    "trace_cells_upper_bound": 155,
+    "trace_cells_upper_bound": 154,
     "lookup_uses_upper_bound": 19
   },
   "jnz_opcode_is_taken_t_dst_base_fp_t": {
@@ -860,7 +860,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 56,
-    "trace_cells_upper_bound": 419,
+    "trace_cells_upper_bound": 416,
     "lookup_uses_upper_bound": 52
   },
   "decode_instruction_d2b4cd588a3e2a7b": {
@@ -872,7 +872,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 4,
-    "trace_cells_upper_bound": 155,
+    "trace_cells_upper_bound": 154,
     "lookup_uses_upper_bound": 19
   },
   "jnz_opcode_is_taken_f_dst_base_fp_f": {
@@ -887,7 +887,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 44,
-    "trace_cells_upper_bound": 301,
+    "trace_cells_upper_bound": 299,
     "lookup_uses_upper_bound": 36
   },
   "jnz_opcode_is_taken_t_dst_base_fp_f": {
@@ -902,7 +902,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 56,
-    "trace_cells_upper_bound": 419,
+    "trace_cells_upper_bound": 416,
     "lookup_uses_upper_bound": 52
   },
   "jnz_opcode_is_taken_f_dst_base_fp_t": {
@@ -917,7 +917,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 44,
-    "trace_cells_upper_bound": 301,
+    "trace_cells_upper_bound": 299,
     "lookup_uses_upper_bound": 36
   },
   "decode_instruction_ccd4c4cd993af638": {
@@ -929,7 +929,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 3,
-    "trace_cells_upper_bound": 154,
+    "trace_cells_upper_bound": 153,
     "lookup_uses_upper_bound": 19
   },
   "jump_opcode_is_rel_t_is_imm_t_is_double_deref_f": {
@@ -944,7 +944,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 20,
-    "trace_cells_upper_bound": 277,
+    "trace_cells_upper_bound": 275,
     "lookup_uses_upper_bound": 36
   },
   "decode_instruction_2cd1887fb89e83e3": {
@@ -956,7 +956,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 6,
-    "trace_cells_upper_bound": 157,
+    "trace_cells_upper_bound": 156,
     "lookup_uses_upper_bound": 19
   },
   "jump_opcode_is_rel_t_is_imm_f_is_double_deref_f": {
@@ -971,7 +971,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 24,
-    "trace_cells_upper_bound": 281,
+    "trace_cells_upper_bound": 279,
     "lookup_uses_upper_bound": 36
   },
   "decode_instruction_d5cc27a6f788af1d": {
@@ -983,7 +983,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 6,
-    "trace_cells_upper_bound": 157,
+    "trace_cells_upper_bound": 156,
     "lookup_uses_upper_bound": 19
   },
   "jump_opcode_is_rel_f_is_imm_f_is_double_deref_t": {
@@ -998,7 +998,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 30,
-    "trace_cells_upper_bound": 393,
+    "trace_cells_upper_bound": 390,
     "lookup_uses_upper_bound": 52
   },
   "decode_instruction_ff344370bb4f7f54": {
@@ -1010,7 +1010,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 6,
-    "trace_cells_upper_bound": 157,
+    "trace_cells_upper_bound": 156,
     "lookup_uses_upper_bound": 19
   },
   "jump_opcode_is_rel_f_is_imm_f_is_double_deref_f": {
@@ -1025,7 +1025,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 22,
-    "trace_cells_upper_bound": 279,
+    "trace_cells_upper_bound": 277,
     "lookup_uses_upper_bound": 36
   },
   "decode_instruction_cea21b812a0ef1a0": {
@@ -1037,7 +1037,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 7,
-    "trace_cells_upper_bound": 158,
+    "trace_cells_upper_bound": 157,
     "lookup_uses_upper_bound": 19
   },
   "read_positive_num_bits_72": {
@@ -1050,7 +1050,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 13,
-    "trace_cells_upper_bound": 119,
+    "trace_cells_upper_bound": 118,
     "lookup_uses_upper_bound": 16
   },
   "read_positive_num_bits_36": {
@@ -1063,7 +1063,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 9,
-    "trace_cells_upper_bound": 115,
+    "trace_cells_upper_bound": 114,
     "lookup_uses_upper_bound": 16
   },
   "RangeCheck_11": {
@@ -1101,7 +1101,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 56,
-    "trace_cells_upper_bound": 534,
+    "trace_cells_upper_bound": 530,
     "lookup_uses_upper_bound": 71
   },
   "decode_instruction_15f7159a39884cc": {
@@ -1113,7 +1113,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 10,
-    "trace_cells_upper_bound": 161,
+    "trace_cells_upper_bound": 160,
     "lookup_uses_upper_bound": 19
   },
   "mul_opcode_is_small_t_is_imm_f": {
@@ -1129,7 +1129,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 60,
-    "trace_cells_upper_bound": 538,
+    "trace_cells_upper_bound": 534,
     "lookup_uses_upper_bound": 71
   },
   "mul_opcode_is_small_f_is_imm_f": {
@@ -1145,7 +1145,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 203,
-    "trace_cells_upper_bound": 756,
+    "trace_cells_upper_bound": 752,
     "lookup_uses_upper_bound": 96
   },
   "mul_opcode_is_small_f_is_imm_t": {
@@ -1161,7 +1161,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 199,
-    "trace_cells_upper_bound": 752,
+    "trace_cells_upper_bound": 748,
     "lookup_uses_upper_bound": 96
   },
   "decode_instruction_c94bba24192ecf68": {
@@ -1173,7 +1173,7 @@
     "lookup_yield": false,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 2,
-    "trace_cells_upper_bound": 153,
+    "trace_cells_upper_bound": 152,
     "lookup_uses_upper_bound": 19
   },
   "ret_opcode": {
@@ -1188,7 +1188,7 @@
     "lookup_yield": true,
     "lookup_multiplicity": false,
     "total_num_trace_cols": 25,
-    "trace_cells_upper_bound": 388,
+    "trace_cells_upper_bound": 385,
     "lookup_uses_upper_bound": 52
   }
 }

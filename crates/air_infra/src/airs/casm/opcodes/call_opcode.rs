@@ -55,10 +55,11 @@ impl CallOpcode {
 }
 
 impl AirFn for CallOpcode {
+    type ExtIn = ();
     type In = CasmStateVar;
     type Out = CasmStateVar;
 
-    fn call(&self, ab: &mut AirBuilder, casm_state: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Create the constant offsets.
         let offset2 = if self.is_rel { Some(1) } else { None };
 

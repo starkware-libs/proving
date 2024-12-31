@@ -1,66 +1,141 @@
-use compiled_casm_air::const_tables::*;
+use std::fmt::Debug;
+use std::marker::PhantomData;
+
+use compiled_casm_air::const_tables::{
+    STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_12, STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4,
+    STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_7, STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_8,
+    STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9,
+};
 use inst_def::InstDef;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
-#[cfg(test)]
 use crate::core::variables::*;
 
-#[derive(Debug, InstDef)]
-pub struct VerifyBitwiseXor {
-    pub num_bits: usize,
+#[derive(Debug, Default)]
+pub struct VerifyBitwiseXor4 {}
+#[derive(Debug, Default)]
+pub struct VerifyBitwiseXor7 {}
+#[derive(Debug, Default)]
+pub struct VerifyBitwiseXor8 {}
+#[derive(Debug, Default)]
+pub struct VerifyBitwiseXor9 {}
+#[derive(Debug, Default)]
+pub struct VerifyBitwiseXor12 {}
+
+pub trait VerifyBitwiseXorSize {
+    fn bits() -> &'static u16;
+}
+impl VerifyBitwiseXorSize for VerifyBitwiseXor4 {
+    fn bits() -> &'static u16 {
+        &4
+    }
+}
+impl VerifyBitwiseXorSize for VerifyBitwiseXor7 {
+    fn bits() -> &'static u16 {
+        &7
+    }
+}
+impl VerifyBitwiseXorSize for VerifyBitwiseXor8 {
+    fn bits() -> &'static u16 {
+        &8
+    }
+}
+impl VerifyBitwiseXorSize for VerifyBitwiseXor9 {
+    fn bits() -> &'static u16 {
+        &9
+    }
+}
+impl VerifyBitwiseXorSize for VerifyBitwiseXor12 {
+    fn bits() -> &'static u16 {
+        &12
+    }
+}
+
+impl ExtTable for VerifyBitwiseXor4 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4;
+    type T = [FeltExpr; 3];
+}
+impl ExtTable for VerifyBitwiseXor7 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_7;
+    type T = [FeltExpr; 3];
+}
+impl ExtTable for VerifyBitwiseXor8 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_8;
+    type T = [FeltExpr; 3];
+}
+impl ExtTable for VerifyBitwiseXor9 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9;
+    type T = [FeltExpr; 3];
+}
+impl ExtTable for VerifyBitwiseXor12 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_12;
+    type T = [FeltExpr; 3];
+}
+
+#[derive(Debug, InstDef, Default)]
+pub struct VerifyBitwiseXor<V: VerifyBitwiseXorSize + ExtTable + Debug> {
+    #[instdef(skip)]
+    _phantom: PhantomData<V>,
 }
 
 // Asserts that the three felt expressions are in the correct range,
 // and that their bitwise XOR is 0.
-impl AirFn for VerifyBitwiseXor {
-    type In = [FeltExpr; 3];
+impl<V: VerifyBitwiseXorSize + ExtTable + Debug> AirFn for VerifyBitwiseXor<V> {
+    type ExtIn = V;
+    type In = ();
     type Out = ();
-
-    fn const_input(&self) -> Option<String> {
-        match self.num_bits {
-            // Note: Each specific xor in the list must be implemented in stwo by a component of
-            // the same name.
-            4 => Some(STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4.to_string()),
-            7 => Some(STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_7.to_string()),
-            8 => Some(STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_8.to_string()),
-            9 => Some(STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9.to_string()),
-            12 => Some(STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_12.to_string()),
-            _ => panic!(
-                "Invalid verify bitwise xor number of bits {:?}.",
-                self.num_bits
-            ),
-        }
-    }
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component
     }
 
-    fn call(&self, _air_builder: &mut AirBuilder, [_a, _b, _c]: Self::In) -> Self::Out {
+    fn name(&self) -> String {
+        format!("verify_bitwise_xor_{}", V::bits())
+    }
+
+    fn relation_name(&self) -> Option<String> {
+        Some(format!("VerifyBitwiseXor_{}", V::bits()))
+    }
+
+    fn call(
+        &self,
+        _air_builder: &mut AirBuilder,
+        _const_input: <Self::ExtIn as ExtTable>::T,
+        _: (),
+    ) -> Self::Out {
         #[cfg(test)]
         if _air_builder.is_run_mode() {
-            let a = _a.value().unwrap().0;
-            let b = _b.value().unwrap().0;
-            assert!(
-                a < (1u32 << self.num_bits),
-                "RangeCheck{} failed (input {})",
-                self.num_bits,
-                a
-            );
-            assert!(
-                b < (1u32 << self.num_bits),
-                "RangeCheck{} failed (input {})",
-                self.num_bits,
-                b
-            );
-            assert!(
-                (a ^ b).to_string() == _c.calc(),
-                "The bitwise XOR of {:b} and {:b} is not {:b}",
-                a,
-                b,
-                _c.value().unwrap().0
-            );
+            if let [a, b, c] = _const_input
+                .to_values()
+                .expect("input has no values")
+                .as_slice()
+            {
+                assert!(
+                    a.0 < (1u32 << V::bits()),
+                    "RangeCheck{} failed (input {})",
+                    V::bits(),
+                    a.0
+                );
+                assert!(
+                    b.0 < (1u32 << V::bits()),
+                    "RangeCheck{} failed (input {})",
+                    V::bits(),
+                    b.0
+                );
+                assert!(
+                    (a.0 ^ b.0) == c.0,
+                    "The bitwise XOR of {:b} and {:b} is not {:b}",
+                    a.0,
+                    b.0,
+                    c.0
+                );
+            } else {
+                panic!(
+                    "Expected 3 values, got {}",
+                    _const_input.to_values().expect("input has no values").len()
+                );
+            }
         }
     }
 }

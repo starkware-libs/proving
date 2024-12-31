@@ -21,6 +21,7 @@ fn test_sub252_no_underflow() {
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (state, output) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(0x3000040002u128, 0u128),
             const_felt252_expr!(0x1008020001u128, 0u128),
@@ -71,6 +72,7 @@ fn test_sub252_with_underflow() {
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (state, output) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(
                 0xffffffffffffffffffffffffffffffffu128,

@@ -13,10 +13,11 @@ pub struct NarrowFib {
 }
 
 impl AirFn for NarrowFib {
+    type ExtIn = ();
     type In = [FeltExpr; 2];
     type Out = [FeltExpr; 2];
 
-    fn call(&self, air_builder: &mut AirBuilder, mut input: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), mut input: Self::In) -> Self::Out {
         let air_fn = FibStep {};
 
         for _ in 0..self.num_steps {

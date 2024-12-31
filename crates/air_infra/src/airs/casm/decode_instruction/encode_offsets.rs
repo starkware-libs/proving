@@ -25,10 +25,11 @@ pub struct EncodeOffsets {
 // Reconstructs the offsets and verifies them against the input.
 // Constructs the six felts holding the offsets in the instruction.
 impl AirFn for EncodeOffsets {
+    type ExtIn = ();
     type In = [FeltExpr; 3];
     type Out = [FeltExpr; 6];
 
-    fn call(&self, ab: &mut AirBuilder, [off0_f, off1_f, off2_f]: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), [off0_f, off1_f, off2_f]: Self::In) -> Self::Out {
         assert_eq!(
             FELT252_BITS_PER_WORD, 9,
             "OffsetsToFelts assumes there are 9 bits per felt in a felt252"
@@ -80,12 +81,14 @@ impl AirFn for EncodeOffsets {
         ab.constrain(new_off2_f - off2_f, "Reconstructed offset2 is correct");
 
         ab.lookup_call(
-            &RangeCheck { bits: [7, 2, 5] },
+            &RangeCheck::<RangeCheck7_2_5>::default(),
             [mid0_f.clone(), low1_f.clone(), high1_f.clone()],
+            (),
         );
         ab.lookup_call(
-            &RangeCheck { bits: [4, 3] },
+            &RangeCheck::<RangeCheck4_3>::default(),
             [low2_f.clone(), high2_f.clone()],
+            (),
         );
 
         let felt0 = low0_f;

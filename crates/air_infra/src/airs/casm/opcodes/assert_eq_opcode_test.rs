@@ -277,6 +277,7 @@ fn test_assert_equal(
     let (registry, _) = AirFnRegistry::new(&assert_equal_opcode);
     let (state, next_state) = registry.run_air(
         &assert_equal_opcode,
+        (),
         CasmStateVar::new(pc.clone(), ap.clone(), fp.clone()),
     );
 

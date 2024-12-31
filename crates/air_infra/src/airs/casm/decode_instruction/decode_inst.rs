@@ -43,10 +43,11 @@ impl DecodeInstruction {
 // Given the address of the instructions, reads the instruction and deduces the non-constant
 // offsets and flags. Returns all offsets and flags (constants and deduced).
 impl AirFn for DecodeInstruction {
+    type ExtIn = ();
     type In = CasmAddress;
     type Out = ([FeltExpr; 3], [FeltExpr; 15]);
 
-    fn call(&self, ab: &mut AirBuilder, pc: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), pc: Self::In) -> Self::Out {
         // Decode the instruction without verification
         let (instruction, _) = self.memory.read_unverified(ab, &pc);
         let [mut off0, mut off1, mut off2, flags] = Self::decode_instruction(instruction);
@@ -99,6 +100,7 @@ impl AirFn for DecodeInstruction {
             &VerifyInstruction {
                 memory: self.memory.clone(),
             },
+            (),
             (
                 pc.clone(),
                 [off0_f.clone(), off1_f.clone(), off2_f.clone()],

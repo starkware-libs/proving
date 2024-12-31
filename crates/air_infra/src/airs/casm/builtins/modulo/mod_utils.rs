@@ -37,10 +37,11 @@ pub struct ModUtils {
 // and returns the values of p,a,b,c, while also verifying that the values n, offsets_ptr,
 // values_ptr and p are consistent with that of the previous instance.
 impl AirFn for ModUtils {
+    type ExtIn = ();
     type In = (CasmAddress, FeltExpr);
     type Out = [[Felt252Expr; MOD_BUILTIN_N_WORDS]; 4];
 
-    fn call(&self, ab: &mut AirBuilder, (first_addr, instance_num): Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), (first_addr, instance_num): Self::In) -> Self::Out {
         // Read a 96 bit word from the memory which is already range checked to be 96 bits.
         let read_word = ReadPositive {
             memory: self.memory.clone(),

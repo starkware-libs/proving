@@ -54,10 +54,12 @@ fn test_generic_consistency_rel_call() {
     registry.add_entry(&call_opcode);
     let (state, output) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
     let (_, expected_output) = registry.run_air(
         &call_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -340,6 +342,7 @@ fn test_generic_call_abs_imm() {
     registry.add_entry(&call_opcode);
     let (_, output) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -392,6 +395,7 @@ fn test_generic_call_rel_deref() {
     registry.add_entry(&call_opcode);
     let (_, output) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -431,10 +435,12 @@ fn test_generic_consistency_ret() {
     registry.add_entry(&ret_opcode);
     let (state, output) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
     let (_, expected_output) = registry.run_air(
         &ret_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -731,10 +737,12 @@ fn test_generic_consistency_assert_equal() {
     registry.add_entry(&assert_equal_opcode);
     let (state, output) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
     let (_, expected_output) = registry.run_air(
         &assert_equal_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -1026,10 +1034,12 @@ fn test_generic_consistency_jump() {
     registry.add_entry(&jump_opcode);
     let (state, output) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
     let (_, expected_output) = registry.run_air(
         &jump_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -1312,6 +1322,7 @@ fn test_generic_jump_abs_imm() {
     let (registry, _) = AirFnRegistry::new(&generic_opcode);
     let (_, output) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -1375,6 +1386,7 @@ fn test_generic_jump_rel_double_deref() {
     let (registry, _) = AirFnRegistry::new(&generic_opcode);
     let (_, output) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -1429,10 +1441,12 @@ fn test_generic_consistency_jnz_taken() {
     registry.add_entry(&jnz_opcode);
     let (state, output) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
     let (_, expected_output) = registry.run_air(
         &jnz_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -1720,10 +1734,12 @@ fn test_generic_consistency_jnz_not_taken() {
     registry.add_entry(&jnz_opcode);
     let (state, output) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
     let (_, expected_output) = registry.run_air(
         &jnz_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -2014,6 +2030,7 @@ fn test_generic_jnz_deref_taken() {
     let (registry, _) = AirFnRegistry::new(&generic_opcode);
     let (_, next_state) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -2074,6 +2091,7 @@ fn test_generic_jnz_deref_not_taken() {
     let (registry, _) = AirFnRegistry::new(&generic_opcode);
     let (_, next_state) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -2130,6 +2148,7 @@ fn test_generic_add_ap_double_deref() {
     let (registry, _) = AirFnRegistry::new(&generic_opcode);
     let (_, next_state) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -2187,6 +2206,7 @@ fn test_generic_add_ap_res_mul() {
     let (registry, _) = AirFnRegistry::new(&generic_opcode);
     let (_, next_state) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -2244,6 +2264,7 @@ fn test_generic_add_ap_res_add() {
     let (registry, _) = AirFnRegistry::new(&generic_opcode);
     let (_, next_state) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
@@ -2289,6 +2310,7 @@ fn test_generic_soundness_call_wrong_offset() {
     registry.add_entry(&call_opcode);
     let (..) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 }
@@ -2329,6 +2351,7 @@ fn test_generic_soundness_call_fp_not_pushed() {
     registry.add_entry(&call_opcode);
     let (..) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 }
@@ -2372,6 +2395,7 @@ fn test_generic_soundness_call_wrong_next_pc() {
     let (registry, _) = AirFnRegistry::new(&generic_opcode);
     let (..) = registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 }
@@ -2420,6 +2444,7 @@ fn test_generic_soundness_jnz_dst_is_p() {
     let (registry, _) = AirFnRegistry::new(&generic_opcode);
     registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 }
@@ -2481,6 +2506,7 @@ fn test_generic_soundness_assert_eq() {
     let (registry, _) = AirFnRegistry::new(&generic_opcode);
     registry.run_air(
         &generic_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 }

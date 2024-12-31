@@ -18,7 +18,7 @@ fn test_bit_unpacking() {
     let func = BitUnpack::<4> {};
     let (registry, entry) = AirFnRegistry::new(&func);
 
-    let (state, output) = registry.run_air(&func, const_u16_expr!(10));
+    let (state, output) = registry.run_air(&func, (), const_u16_expr!(10));
     assert_eq!(
         state,
         vec![(10, ""), (5, ""), (2, ""), (1, ""), (0, "")].into()
@@ -39,10 +39,11 @@ fn test_bit_unpacking() {
 struct AirFnBitMux {}
 
 impl AirFn for AirFnBitMux {
+    type ExtIn = ();
     type In = UInt16Expr;
     type Out = BoolExpr;
 
-    fn call(&self, air_builder: &mut AirBuilder, mut x: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), mut x: Self::In) -> Self::Out {
         let x_f = air_builder.deduce(x.as_felt_mut(), "");
         let air_fn = Div2 {};
 
@@ -60,7 +61,7 @@ impl AirFn for AirFnBitMux {
 fn test_bit_mux() {
     let func = AirFnBitMux {};
     let (registry, entry) = AirFnRegistry::new(&func);
-    let (_, out) = registry.run_air(&func, const_u16_expr!(2));
+    let (_, out) = registry.run_air(&func, (), const_u16_expr!(2));
     assert!(out.calc() == "false");
 
     // Check entry

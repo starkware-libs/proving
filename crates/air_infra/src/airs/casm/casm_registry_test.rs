@@ -344,13 +344,13 @@ fn get_constraints(entry: &AirFnEntry) -> Vec<ConstraintLeanCompare> {
             AirBodyComponent::Call(Call {
                 air_fn_name,
                 air_fn_description: _,
-                input_arg,
+                input,
                 output,
                 air_body: _,
             }) => {
                 res.push(ConstraintLeanCompare::Call {
                     fn_name: air_fn_name,
-                    input: CompiledAirVar::from(input_arg).to_string(),
+                    input: CompiledAirVar::from(input).to_string(),
                     output: CompiledAirVar::from(output).to_string(),
                 });
             }

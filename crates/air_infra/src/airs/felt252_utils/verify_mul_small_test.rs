@@ -20,6 +20,7 @@ fn test_verify_mul_small_simple() {
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (state, _) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(0x100802001u128, 0u128),
             const_felt252_expr!(0x1ff802001u128, 0u128),
@@ -36,6 +37,7 @@ fn test_verify_mul_small_edge() {
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (state, _) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(0xfffffffffu128, 0u128),
             const_felt252_expr!(0xfffffffffu128, 0u128),
@@ -53,6 +55,7 @@ fn test_verify_mul_small_not_equal() {
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (..) = registry.run_air(
         &air_fn,
+        (),
         [
             const_felt252_expr!(0xfff123fffu128, 0u128),
             const_felt252_expr!(0x456fff789u128, 0u128),

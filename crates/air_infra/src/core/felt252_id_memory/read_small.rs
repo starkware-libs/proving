@@ -34,10 +34,16 @@ pub const LIMBS_IN_M31: usize = 3;
 pub struct CondDecodeSmallSign {}
 
 impl AirFn for CondDecodeSmallSign {
+    type ExtIn = ();
     type In = (Felt252Expr, FeltExpr);
     type Out = [FeltExpr; 2];
 
-    fn call(&self, air_builder: &mut AirBuilder, (value, condition): Self::In) -> Self::Out {
+    fn call(
+        &self,
+        air_builder: &mut AirBuilder,
+        _: Self::ExtIn,
+        (value, condition): Self::In,
+    ) -> Self::Out {
         let mut msb_bool =
             air_builder.let_for_deduction(value.get_felt(27).eq(const_expr!(0x100)), "msb");
         let msb = air_builder.deduce(msb_bool.as_felt_mut(), "msb");
@@ -128,10 +134,11 @@ pub struct ReadSmall {
 /// for the Felt252 is [-2**27, 2**27 - 1] (for 9-bit limbs).
 /// Returns also the ID of the value in the memory.
 impl AirFn for ReadSmall {
+    type ExtIn = ();
     type In = CasmAddress;
     type Out = (FeltExpr, FeltExpr);
 
-    fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), address: Self::In) -> Self::Out {
         let (mut value, mut id) = self.memory.read_unverified(air_builder, &address);
 
         air_builder.deduce(
@@ -142,7 +149,7 @@ impl AirFn for ReadSmall {
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),
         );
-        air_builder.mem_verify(&self.memory.address_to_id, &address.var, id.clone());
+        air_builder.mem_verify(&self.memory.address_to_id, &address, id.clone());
 
         // Compute and deduce "case" bits: msb and mid_limbs_set
         let [msb, mid_limbs_set] =

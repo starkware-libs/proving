@@ -23,10 +23,11 @@ pub struct ReadPositive {
 /// Read a Felt252 in the range [0,2**num_bits - 1] from the memory
 /// Returns also the ID of the value in the memory.
 impl AirFn for ReadPositive {
+    type ExtIn = ();
     type In = CasmAddress;
     type Out = (Felt252Expr, FeltExpr);
 
-    fn call(&self, air_builder: &mut AirBuilder, address: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), address: Self::In) -> Self::Out {
         let (mut value, mut id) = self.memory.read_unverified(air_builder, &address);
 
         // Deduce the ID as-is
@@ -38,7 +39,7 @@ impl AirFn for ReadPositive {
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),
         );
-        air_builder.mem_verify(&self.memory.address_to_id, &address.var, id.clone());
+        air_builder.mem_verify(&self.memory.address_to_id, &address, id.clone());
 
         // Prepare for value deduction
         let num_nonzero_limbs = self.num_bits.div_ceil(FELT252_BITS_PER_WORD);
@@ -93,10 +94,11 @@ pub struct RangeCheckLastLimb {
 }
 
 impl AirFn for RangeCheckLastLimb {
+    type ExtIn = ();
     type In = FeltExpr;
     type Out = ();
 
-    fn call(&self, air_builder: &mut AirBuilder, msl: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), msl: Self::In) -> Self::Out {
         match self.bits_in_ms_limb {
             0 => (),
             1 => air_builder.constrain(
@@ -120,11 +122,12 @@ impl AirFn for RangeCheckLastLimb {
                     "bit before msb is a bit",
                 );
             }
-            _ => air_builder.lookup_call(
-                &RangeCheck {
-                    bits: [self.bits_in_ms_limb as u16],
-                },
-                [msl],
+            6 => air_builder.lookup_call(&RangeCheck::<RangeCheck6>::default(), [msl], ()),
+            9 => air_builder.lookup_call(&RangeCheck::<RangeCheck9>::default(), [msl], ()),
+            11 => air_builder.lookup_call(&RangeCheck::<RangeCheck11>::default(), [msl], ()),
+            _ => panic!(
+                "Unsupported number of bits in the most significant limb: {}",
+                self.bits_in_ms_limb
             ),
         }
     }

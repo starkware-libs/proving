@@ -13,12 +13,14 @@ pub struct WideFib {
 }
 
 impl AirFn for WideFib {
+    type ExtIn = ();
     type In = FeltExpr;
     type Out = FeltExpr;
 
     fn call(
         &self,
         air_builder: &mut crate::core::air_fn::AirBuilder,
+        _: (),
         mut input: Self::In,
     ) -> Self::Out {
         let narrow_fn = NarrowFib {
@@ -29,7 +31,7 @@ impl AirFn for WideFib {
         let mut narrow_input = [const_expr!(1), input];
 
         for _ in 0..self.num_narrow {
-            let narrow_output = air_builder.lookup_call(&narrow_fn, narrow_input);
+            let narrow_output = air_builder.lookup_call(&narrow_fn, (), narrow_input);
             narrow_input = narrow_output;
         }
 

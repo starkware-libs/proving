@@ -1,11 +1,19 @@
+use compiled_casm_air::const_tables::STWO_COMPONENT_TYPE_MEM_ID_FOR_BIG;
 use inst_def::InstDef;
-use prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
+use prover_types::cpu::FELT252_N_WORDS;
 
 use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
+use crate::core::variables::*;
+
+pub struct MemIdForBig {}
+impl ExtTable for MemIdForBig {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_MEM_ID_FOR_BIG;
+    type T = FeltExpr;
+}
 
 #[derive(Debug, Clone, Default, InstDef)]
 pub struct MemoryIdToBig {
@@ -13,7 +21,7 @@ pub struct MemoryIdToBig {
     memory: Memory<FeltExpr, Felt252Expr>,
 }
 
-impl IsMemory<FeltExpr, Felt252Expr> for MemoryIdToBig {
+impl IsMemory<MemIdForBig, Felt252Expr> for MemoryIdToBig {
     fn mem(&self) -> &Memory<FeltExpr, Felt252Expr> {
         &self.memory
     }
@@ -24,12 +32,13 @@ impl IsMemory<FeltExpr, Felt252Expr> for MemoryIdToBig {
 }
 
 impl AirFn for MemoryIdToBig {
-    type In = FeltExpr;
+    type ExtIn = MemIdForBig;
+    type In = ();
     type Out = Felt252Expr;
 
-    fn call(&self, air_builder: &mut AirBuilder, _id: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _id: FeltExpr, _: ()) -> Self::Out {
         #[allow(unused_mut)]
-        let mut value_in_state: Felt252Expr = air_builder.state().get_felts()[1..].to_vec().into();
+        let mut value_in_state: Felt252Expr = air_builder.state().get_felts().into();
 
         #[cfg(test)]
         if air_builder.is_run_mode() {
@@ -49,30 +58,30 @@ impl AirFn for MemoryIdToBig {
 #[derive(Debug, Clone, Default, InstDef)]
 pub struct RangeCheckBigValue {}
 
+// RangeCheckBigValue assumes there are 9 bits per felt in a felt252 (FELT252_BITS_PER_WORD)
 impl AirFn for RangeCheckBigValue {
+    type ExtIn = ();
     type In = Felt252Expr;
     type Out = ();
 
-    fn call(&self, air_builder: &mut AirBuilder, value: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), value: Self::In) -> Self::Out {
         let mut i = 0;
         while i < FELT252_N_WORDS {
             let limbs_left = FELT252_N_WORDS - i;
 
             if limbs_left >= 2 {
                 air_builder.lookup_call(
-                    &RangeCheck {
-                        bits: [FELT252_BITS_PER_WORD as u16, FELT252_BITS_PER_WORD as u16],
-                    },
+                    &RangeCheck::<RangeCheck9_9>::default(),
                     [value.get_felt(i), value.get_felt(i + 1)],
+                    (),
                 );
                 i += 2;
             } else {
                 assert!(limbs_left == 1);
                 air_builder.lookup_call(
-                    &RangeCheck {
-                        bits: [FELT252_BITS_PER_WORD as u16],
-                    },
+                    &RangeCheck::<RangeCheck9>::default(),
                     [value.get_felt(i)],
+                    (),
                 );
                 i += 1;
             }

@@ -14,10 +14,11 @@ use crate::core::variables::*;
 pub struct Mul252 {}
 
 impl AirFn for Mul252 {
+    type ExtIn = ();
     type In = [Felt252Expr; 2];
     type Out = Felt252Expr;
 
-    fn call(&self, air_builder: &mut AirBuilder, [a, b]: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b]: Self::In) -> Self::Out {
         let mut c = air_builder.let_for_deduction(a.clone() * b.clone(), "mul_res");
         for (i, c_limb) in c.as_felts_mut().into_iter().enumerate() {
             air_builder.deduce(c_limb, &format!("mul_res_limb_{}", i));

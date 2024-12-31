@@ -26,7 +26,7 @@ fn run_range_check(value: Felt252Expr, bits: usize) {
     );
     registry.add_entry(&rc);
 
-    registry.run_air_with_row_number(&rc, (), 0);
+    registry.run_air_with_row_number(&rc, (), (), 0);
 }
 
 #[test]
@@ -53,7 +53,7 @@ fn test_range_check_2_bit_msl_fail() {
 }
 
 #[test]
-#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck4 on input 16")]
+#[should_panic(expected = "RangeCheck failed on element 0: RangeCheck6 on input 260")]
 fn test_range_check_partial_limbs_fail() {
-    run_range_check(const_felt252_expr!(0, 4), 130);
+    run_range_check(const_felt252_expr!(0, 65), 132);
 }

@@ -92,6 +92,7 @@ fn test_jump_opcode(
     let (registry, _) = AirFnRegistry::new(&jump_opcode);
     let (state, next_state) = registry.run_air(
         &jump_opcode,
+        (),
         CasmStateVar::new(const_expr!(pc), const_expr!(ap), const_expr!(fp)),
     );
 
