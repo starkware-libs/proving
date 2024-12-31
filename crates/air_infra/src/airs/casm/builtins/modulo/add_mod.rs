@@ -73,7 +73,10 @@ impl AirFn for AddModBuiltin {
             &ModUtils {
                 memory: self.memory.clone(),
             },
-            (CasmAddress::new(segment_start, "op0"), instance_num),
+            (
+                CasmAddress::new(segment_start, "add_mod_segment_start"),
+                instance_num,
+            ),
         );
 
         // Compute and deduce sub_p_bit
