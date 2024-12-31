@@ -174,7 +174,6 @@ pub fn write_trace_simd(
                 memory_address_to_id_state.deduce_output(input_pc_col0);
             let memory_id_to_big_value_tmp_38a0f_2 =
                 memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_38a0f_1);
-
             sub_components_inputs.verify_instruction_inputs[0].extend(
                 (
                     input_pc_col0,

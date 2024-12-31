@@ -27,17 +27,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_11",
-        "ext_input": [
-          {
-            "name": "col0",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_11",
         "ext_input": [
@@ -70,17 +59,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_11",
-        "ext_input": [
-          {
-            "name": "col1",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_11",
         "ext_input": [
@@ -111,17 +89,6 @@
         "((((((((col1 + ((input[0].get_m31(1) * input[1].get_m31(3)) * 1)) + ((input[0].get_m31(2) * input[1].get_m31(2)) * 1)) + ((input[0].get_m31(3) * input[1].get_m31(1)) * 1)) - (input[2].get_m31(4) * 1)) + ((input[0].get_m31(2) * input[1].get_m31(3)) * 512)) + ((input[0].get_m31(3) * input[1].get_m31(2)) * 512)) - (input[2].get_m31(5) * 512)) * 8192)",
         "carry_5"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_11",
-        "ext_input": [
-          {
-            "name": "col2",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {

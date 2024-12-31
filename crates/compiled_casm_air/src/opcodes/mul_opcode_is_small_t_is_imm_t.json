@@ -2317,120 +2317,6 @@
       }
     },
     {
-      "LookupCall": {
-        "fn_name": "verify_instruction",
-        "input": {
-          "Tuple": [
-            {
-              "State": "input_pc_col0"
-            },
-            {
-              "Array": [
-                {
-                  "State": "offset0_col3"
-                },
-                {
-                  "State": "offset1_col4"
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "32769"
-                  ]
-                }
-              ]
-            },
-            {
-              "Array": [
-                {
-                  "State": "dst_base_fp_col5"
-                },
-                {
-                  "State": "op0_base_fp_col6"
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "0"
-                  ]
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "0"
-                  ]
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "0"
-                  ]
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "0"
-                  ]
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "0"
-                  ]
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "0"
-                  ]
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "0"
-                  ]
-                },
-                {
-                  "State": "ap_update_add_1_col7"
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "0"
-                  ]
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "0"
-                  ]
-                },
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "output_name": null
-      }
-    },
-    {
       "LookupAddInput": {
         "fn_name": "verify_instruction",
         "input": {
@@ -4031,19 +3917,6 @@
       }
     },
     {
-      "LookupCall": {
-        "fn_name": "range_check_11",
-        "input": {
-          "Array": [
-            {
-              "State": "carry_1_col29"
-            }
-          ]
-        },
-        "output_name": null
-      }
-    },
-    {
       "LookupAddInput": {
         "fn_name": "range_check_11",
         "input": {
@@ -4310,19 +4183,6 @@
       }
     },
     {
-      "LookupCall": {
-        "fn_name": "range_check_11",
-        "input": {
-          "Array": [
-            {
-              "State": "carry_3_col30"
-            }
-          ]
-        },
-        "output_name": null
-      }
-    },
-    {
       "LookupAddInput": {
         "fn_name": "range_check_11",
         "input": {
@@ -4532,19 +4392,6 @@
             ]
           }
         ]
-      }
-    },
-    {
-      "LookupCall": {
-        "fn_name": "range_check_11",
-        "input": {
-          "Array": [
-            {
-              "State": "carry_5_col31"
-            }
-          ]
-        },
-        "output_name": null
       }
     },
     {

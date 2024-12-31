@@ -465,12 +465,11 @@ impl AirBuilder {
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);
 
-        let output_name = if !O::is_empty() {
-            self.get_intermediate_name(Some(format!("{}_output", air_fn.name())))
-        } else {
-            "".to_string()
-        };
-        let mut output = O::new(output_name.clone(), false);
+        let output_name = (!O::is_empty())
+            .then(|| self.get_intermediate_name(Some(format!("{}_output", air_fn.name()))));
+        let mut output = O::new(output_name.clone().unwrap_or_default(), false);
+        let ext_input_option = (!E::T::is_empty()).then(|| ext_input.clone().into());
+        let input_option = (!I::is_empty()).then(|| input.clone().into());
 
         #[cfg(test)]
         if self.run {
@@ -489,30 +488,16 @@ impl AirBuilder {
             output = air_fn.lookup_call(&mut air_builder, ext_input.clone(), input.clone());
         }
 
-        let ext_input_option = if E::T::is_empty() {
-            None
-        } else {
-            Some(ext_input.clone().into())
-        };
-        let input_option = if I::is_empty() {
-            None
-        } else {
-            Some(input.clone().into())
-        };
-        self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
-            air_fn_name: air_fn.name(),
-            ext_input: ext_input_option.clone(),
-            input: input_option.clone(),
-            output_name: if O::is_empty() {
-                None
-            } else {
-                Some(output_name.clone())
-            },
-        }));
-
         if !O::is_empty() {
+            self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
+                air_fn_name: air_fn.name(),
+                ext_input: ext_input_option.clone(),
+                input: input_option.clone(),
+                output_name: output_name.clone(),
+            }));
+
             output = output.let_(
-                output_name.clone(),
+                output_name.unwrap_or_default(),
                 IntermediateType {
                     in_constraints: false,
                     in_deductions: true,
@@ -535,6 +520,7 @@ impl AirBuilder {
             ext_input: ext_input_option,
             input: input_option,
         });
+
         self.air_body.push(AirBodyComponent::LookupTerm {
             relation_name: air_fn.relation_name().expect("Relation name not set"),
             felts: ext_input

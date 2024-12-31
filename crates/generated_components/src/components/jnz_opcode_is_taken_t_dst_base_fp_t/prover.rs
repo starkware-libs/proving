@@ -196,7 +196,6 @@ pub fn write_trace_simd(
                     & (UInt16_1));
             let ap_update_add_1_col4 = ap_update_add_1_tmp_10786_4.as_m31();
             trace[4].data[row_index] = ap_update_add_1_col4;
-
             sub_components_inputs.verify_instruction_inputs[0].extend(
                 (
                     input_pc_col0,

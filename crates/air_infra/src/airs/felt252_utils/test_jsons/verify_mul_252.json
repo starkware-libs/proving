@@ -1203,17 +1203,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col0 + 262144)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -1243,17 +1232,6 @@
       "Constraint": [
         "((col1 * 512) - ((tmp55 - (1 * col0)) + 0))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col1 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -1287,17 +1265,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col2 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -1327,17 +1294,6 @@
       "Constraint": [
         "((col3 * 512) - (tmp57 + col2))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col3 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -1371,17 +1327,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col4 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -1411,17 +1356,6 @@
       "Constraint": [
         "((col5 * 512) - (tmp59 + col4))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col5 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -1455,17 +1389,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col6 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -1495,17 +1418,6 @@
       "Constraint": [
         "((col7 * 512) - (tmp61 + col6))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col7 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -1539,17 +1451,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col8 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -1579,17 +1480,6 @@
       "Constraint": [
         "((col9 * 512) - (tmp63 + col8))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col9 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -1623,17 +1513,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col10 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -1663,17 +1542,6 @@
       "Constraint": [
         "((col11 * 512) - (tmp65 + col10))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col11 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -1707,17 +1575,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col12 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -1747,17 +1604,6 @@
       "Constraint": [
         "((col13 * 512) - (tmp67 + col12))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col13 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -1791,17 +1637,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col14 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -1831,17 +1666,6 @@
       "Constraint": [
         "((col15 * 512) - (tmp69 + col14))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col15 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -1875,17 +1699,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col16 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -1915,17 +1728,6 @@
       "Constraint": [
         "((col17 * 512) - (tmp71 + col16))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col17 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -1959,17 +1761,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col18 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -1999,17 +1790,6 @@
       "Constraint": [
         "((col19 * 512) - (tmp73 + col18))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col19 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -2043,17 +1823,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col20 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -2083,17 +1852,6 @@
       "Constraint": [
         "((col21 * 512) - (tmp75 + col20))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col21 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -2127,17 +1885,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col22 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -2167,17 +1914,6 @@
       "Constraint": [
         "((col23 * 512) - (tmp77 + col22))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col23 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -2211,17 +1947,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col24 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -2251,17 +1976,6 @@
       "Constraint": [
         "((col25 * 512) - (tmp79 + col24))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col25 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {
@@ -2295,17 +2009,6 @@
       ]
     },
     {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col26 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
-    },
-    {
       "LookupAddInput": {
         "air_fn_name": "range_check_19",
         "ext_input": [
@@ -2335,17 +2038,6 @@
       "Constraint": [
         "((col27 * 512) - (tmp81 + col26))"
       ]
-    },
-    {
-      "LookupCall": {
-        "air_fn_name": "range_check_19",
-        "ext_input": [
-          {
-            "name": "(col27 + 131072)",
-            "type": "M31"
-          }
-        ]
-      }
     },
     {
       "LookupAddInput": {

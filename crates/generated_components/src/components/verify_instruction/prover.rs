@@ -267,7 +267,6 @@ pub fn write_trace_simd(
             let offset2_high_tmp_16a4f_8 = ((PackedUInt16::from_m31(input_col3)) >> (UInt16_13));
             let offset2_high_col26 = offset2_high_tmp_16a4f_8.as_m31();
             trace[26].data[row_index] = offset2_high_col26;
-
             sub_components_inputs.range_check_7_2_5_inputs[0]
                 .extend([offset0_mid_col20, offset1_low_col21, offset1_high_col23].unpack());
 
@@ -276,7 +275,6 @@ pub fn write_trace_simd(
                 offset1_low_col21,
                 offset1_high_col23,
             ]);
-
             sub_components_inputs.range_check_4_3_inputs[0]
                 .extend([offset2_low_col24, offset2_high_col26].unpack());
 
