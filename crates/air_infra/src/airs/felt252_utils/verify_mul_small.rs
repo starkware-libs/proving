@@ -28,7 +28,7 @@ impl AirFn for VerifyMulSmall {
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
         let shift = const_expr!(1 << FELT252_BITS_PER_WORD);
         let double_shift = shift.clone() * shift.clone();
-        let double_shift_inverse = const_expr!(1) / double_shift.clone();
+        let double_shift_inverse = double_shift.clone().inverse();
 
         let mut limb_accumulator = const_expr!(0u32);
 

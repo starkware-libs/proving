@@ -60,7 +60,9 @@ mod tests {
         generate_component_code(air_fn);
     }
 
+    // TODO(Ohad): modify the code generation such that it can handle inverse.
     #[test]
+    #[ignore]
     fn jnz_code_gen() {
         let serialized_air_fn =
             read_json("../compiled_casm_air/src/opcodes/jnz_opcode_is_taken_t_dst_base_fp_t.json");

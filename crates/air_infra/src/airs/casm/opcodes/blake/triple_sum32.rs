@@ -26,7 +26,7 @@ impl AirFn for TripleSum32 {
         // Verify addition of the low halves
         let carry_low = air_builder.let_for_constraint(
             ((a.low().as_felt() + b.low().as_felt() + c.low().as_felt()) - sl.clone())
-                * (const_expr!(1) / const_expr!(1 << 16)),
+                * (const_expr!(1 << 16).inverse()),
             "carry_low",
         );
         air_builder.constrain(
@@ -40,7 +40,7 @@ impl AirFn for TripleSum32 {
         let carry_high = air_builder.let_for_constraint(
             ((a.high().as_felt() + b.high().as_felt() + c.high().as_felt() + carry_low)
                 - sh.clone())
-                * (const_expr!(1) / const_expr!(1 << 16)),
+                * (const_expr!(1 << 16).inverse()),
             "carry_high",
         );
         air_builder.constrain(

@@ -22,7 +22,7 @@ impl AirFn for VerifyAdd252 {
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
         let shift = const_expr!(1 << FELT252_BITS_PER_WORD);
-        let shift_inverse = const_expr!(1) / shift.clone();
+        let shift_inverse = shift.clone().inverse();
 
         // In the least-significant word of the computation, since p[0] = 1, we have
         //   a[0] + b[0] - c[0] = carry[0] + sub_p_bit

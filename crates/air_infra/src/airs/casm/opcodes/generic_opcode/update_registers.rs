@@ -66,7 +66,7 @@ impl AirFn for UpdateRegisters {
             })
             .fold(const_expr!(0), |acc, z| acc + z);
         let sum_squares_inv = air_builder.deduce(
-            &mut (const_expr!(1) / dst_sum_squares.clone()),
+            &mut (dst_sum_squares.clone().inverse()),
             "dst_sum_squares_inv",
         );
         air_builder.constrain(
@@ -84,7 +84,7 @@ impl AirFn for UpdateRegisters {
             air_builder.let_for_deduction(dst_sum.clone().eq(const_expr!(0)), "dst_is_zero");
         // If dst_sum is 0, then sum_inv = 1
         let sum_inv = air_builder.deduce(
-            &mut (const_expr!(1) / (dst_sum.clone() + dst_is_zero.as_felt())),
+            &mut ((dst_sum.clone() + dst_is_zero.as_felt()).inverse()),
             "dst_sum_inv",
         );
 

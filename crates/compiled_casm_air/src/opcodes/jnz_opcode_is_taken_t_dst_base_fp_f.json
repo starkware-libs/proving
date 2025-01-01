@@ -2925,14 +2925,7 @@
     "EndBlock",
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -3162,7 +3155,9 @@
                 "State": "dst_limb_27_col33"
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },
@@ -3228,14 +3223,7 @@
     },
     {
       "Deduction": {
-        "BinaryOp": [
-          {
-            "Const": [
-              "M31",
-              "1"
-            ]
-          },
-          "/",
+        "MethodCall": [
           {
             "BinaryOp": [
               {
@@ -3507,7 +3495,9 @@
                 ]
               }
             ]
-          }
+          },
+          "inverse",
+          []
         ]
       }
     },

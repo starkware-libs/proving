@@ -28,7 +28,7 @@ impl AirFn for VerifyMul252 {
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
         let shift = const_expr!(1 << FELT252_BITS_PER_WORD);
-        let shift_inverse = const_expr!(1) / shift.clone();
+        let shift_inverse = shift.clone().inverse();
 
         const CONV_LEN: usize = 2 * FELT252_N_WORDS - 1;
         const MAX_WORD: i32 = (1 << FELT252_BITS_PER_WORD) - 1;
