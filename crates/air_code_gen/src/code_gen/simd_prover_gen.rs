@@ -314,7 +314,7 @@ fn generate_claim_prover_struct() -> rust::Tokens {
     quote! {
 
         pub struct InteractionClaimGenerator {
-            n_calls: usize,
+            n_rows: usize,
             lookup_data: LookupData,
         }
     }
@@ -461,7 +461,7 @@ fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Token
     for fn_name in unique_add_input_calls(deductions).iter() {
         statement.extend(quote! {
             sub_components$INPUTS_SUFFIX.$(fn_name)$INPUTS_SUFFIX.iter().for_each(|inputs| {
-                $(fn_name)$STATE_SUFFIX.add_inputs(&inputs[..n_calls]);
+                $(fn_name)$STATE_SUFFIX.add_inputs(&inputs[..n_rows]);
             });
         })
     }
@@ -469,7 +469,7 @@ fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Token
 }
 
 fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rust::Tokens {
-    let mut claim_fields = quote! {n_calls,};
+    let mut claim_fields = quote! {n_rows,};
     for public_param in public_params {
         claim_fields.extend(quote! {
             $(public_param): self.$(public_param),
@@ -477,10 +477,10 @@ fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rus
     }
 
     quote! {
-        let n_calls = self.inputs.len();
-        assert_ne!(n_calls, 0);
-        let size = std::cmp::max(n_calls.next_power_of_two(), N_LANES);
-        let need_padding = n_calls != size;
+        let n_rows = self.inputs.len();
+        assert_ne!(n_rows, 0);
+        let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
+        let need_padding = n_rows != size;
 
         if need_padding {
             self.inputs.resize(size, *self.inputs.first().unwrap());
@@ -503,7 +503,7 @@ fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rus
             $(claim_fields)
         },
         InteractionClaimGenerator {
-            n_calls,
+            n_rows,
             lookup_data,
         },
         )
@@ -597,18 +597,18 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
             where
                 SimdBackend: BackendForChannel<MC>
             {
-                let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
+                let log_size = std::cmp::max(self.n_rows.next_power_of_two().ilog2(), LOG_N_LANES);
                 let mut logup_gen = LogupTraceGenerator::new(log_size);
 
                 $(generate_write_interaction_trace_body(deductions))
 
-                let (trace, total_sum, claimed_sum) = if self.n_calls == 1 << log_size {
+                let (trace, total_sum, claimed_sum) = if self.n_rows == 1 << log_size {
                     let (trace, claimed_sum) = logup_gen.finalize_last();
                     (trace, claimed_sum, None)
                 } else {
                     let (trace, [total_sum, claimed_sum]) =
-                        logup_gen.finalize_at([(1 << log_size) - 1, self.n_calls - 1]);
-                    (trace, total_sum, Some((claimed_sum, self.n_calls - 1)))
+                        logup_gen.finalize_at([(1 << log_size) - 1, self.n_rows - 1]);
+                    (trace, total_sum, Some((claimed_sum, self.n_rows - 1)))
                 };
                 tree_builder.extend_evals(trace);
 

@@ -75,10 +75,10 @@ fn generate_component_structs(constraints: &[ConstraintEvalStep]) -> rust::Token
 
 fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     let mut channel_mix_code = quote! {
-        channel.mix_u64(self.n_calls as u64);
+        channel.mix_u64(self.n_rows as u64);
     };
     let mut members = quote! {
-        pub n_calls: usize,
+        pub n_rows: usize,
     };
     let public_params = get_public_params_from_lookup_terms(&lists.constraints);
     for public_param in &public_params {
@@ -109,7 +109,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     let impl_code = quote! {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-                let log_size = std::cmp::max(self.n_calls.next_power_of_two().ilog2(), LOG_N_LANES);
+                let log_size = std::cmp::max(self.n_rows.next_power_of_two().ilog2(), LOG_N_LANES);
                 let trace_log_sizes = vec![log_size; $(lists.state_names.len())];
                 let interaction_log_sizes = vec![log_size; $(n_logup_columns)];
                 let preprocessed_log_sizes = vec![log_size];
@@ -164,7 +164,7 @@ fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
     code.append(quote! {
         impl FrameworkEval for Eval {
             fn log_size(&self) -> u32 {
-                std::cmp::max(self.claim.n_calls.next_power_of_two().ilog2(), LOG_N_LANES)
+                std::cmp::max(self.claim.n_rows.next_power_of_two().ilog2(), LOG_N_LANES)
             }
 
             fn max_constraint_log_degree_bound(&self) -> u32 {
