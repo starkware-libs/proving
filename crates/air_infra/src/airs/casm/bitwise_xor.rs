@@ -22,35 +22,11 @@ impl AirFn for BitwiseXor {
             "xor",
         );
         let a_xor_b = air_builder.deduce(a_xor_b.as_felt_mut(), "xor");
-
-        match self.num_bits {
-            4 => air_builder.lookup_call(
-                &VerifyBitwiseXor::<VerifyBitwiseXor4>::default(),
-                [a, b, a_xor_b.clone()],
-                (),
-            ),
-            7 => air_builder.lookup_call(
-                &VerifyBitwiseXor::<VerifyBitwiseXor7>::default(),
-                [a, b, a_xor_b.clone()],
-                (),
-            ),
-            8 => air_builder.lookup_call(
-                &VerifyBitwiseXor::<VerifyBitwiseXor8>::default(),
-                [a, b, a_xor_b.clone()],
-                (),
-            ),
-            9 => air_builder.lookup_call(
-                &VerifyBitwiseXor::<VerifyBitwiseXor9>::default(),
-                [a, b, a_xor_b.clone()],
-                (),
-            ),
-            12 => air_builder.lookup_call(
-                &VerifyBitwiseXor::<VerifyBitwiseXor12>::default(),
-                [a, b, a_xor_b.clone()],
-                (),
-            ),
-            _ => panic!("Unsupported number of bits: {}", self.num_bits),
-        }
+        verify_bitwise_xor(
+            air_builder,
+            self.num_bits as u16,
+            [a.clone(), b.clone(), a_xor_b.clone()],
+        );
         a_xor_b
     }
 }

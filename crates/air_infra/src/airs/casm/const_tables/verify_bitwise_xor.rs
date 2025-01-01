@@ -12,6 +12,25 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 
+pub trait VerifyBitwiseXorSize {
+    fn bits() -> &'static u16;
+}
+
+pub fn verify_bitwise_xor(ab: &mut AirBuilder, bits: u16, input: [FeltExpr; 3]) {
+    match bits {
+        4 => ab.lookup_call(&VerifyBitwiseXor::<VerifyBitwiseXor4>::default(), input, ()),
+        7 => ab.lookup_call(&VerifyBitwiseXor::<VerifyBitwiseXor7>::default(), input, ()),
+        8 => ab.lookup_call(&VerifyBitwiseXor::<VerifyBitwiseXor8>::default(), input, ()),
+        9 => ab.lookup_call(&VerifyBitwiseXor::<VerifyBitwiseXor9>::default(), input, ()),
+        12 => ab.lookup_call(
+            &VerifyBitwiseXor::<VerifyBitwiseXor12>::default(),
+            input,
+            (),
+        ),
+        _ => panic!("Unsupported verify bitwise xor bits: {:?}", bits),
+    }
+}
+
 #[derive(Debug, Default)]
 pub struct VerifyBitwiseXor4 {}
 #[derive(Debug, Default)]
@@ -23,9 +42,6 @@ pub struct VerifyBitwiseXor9 {}
 #[derive(Debug, Default)]
 pub struct VerifyBitwiseXor12 {}
 
-pub trait VerifyBitwiseXorSize {
-    fn bits() -> &'static u16;
-}
 impl VerifyBitwiseXorSize for VerifyBitwiseXor4 {
     fn bits() -> &'static u16 {
         &4

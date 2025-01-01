@@ -61,15 +61,15 @@ impl AirFn for ModWordTo12BitArray {
         result[1] = limb1b.clone() + const_expr!(1 << 6) * limb2a.clone();
         result[2] = limb2b.clone() + const_expr!(1 << 3) * mod_word.get_felt(3);
 
-        ab.lookup_call(
-            &RangeCheck::<RangeCheck3_6_6_3>::default(),
-            [
+        range_check(
+            ab,
+            &[3, 6, 6, 3],
+            &[
                 limb1a.clone(),
                 limb1b.clone(),
                 limb2a.clone(),
                 limb2b.clone(),
             ],
-            (),
         );
 
         let mut limb5b_u16 = ab.let_for_deduction(
@@ -89,15 +89,15 @@ impl AirFn for ModWordTo12BitArray {
         result[4] = limb5b.clone() + const_expr!(1 << 6) * limb6a.clone();
         result[5] = limb6b.clone() + const_expr!(1 << 3) * mod_word.get_felt(7);
 
-        ab.lookup_call(
-            &RangeCheck::<RangeCheck3_6_6_3>::default(),
-            [
+        range_check(
+            ab,
+            &[3, 6, 6, 3],
+            &[
                 limb5a.clone(),
                 limb5b.clone(),
                 limb6a.clone(),
                 limb6b.clone(),
             ],
-            (),
         );
 
         let mut limb9b_u16 = ab.let_for_deduction(
@@ -111,11 +111,7 @@ impl AirFn for ModWordTo12BitArray {
         result[7] = limb9b.clone() + const_expr!(1 << 6) * mod_word.get_felt(10);
 
         // TODO(OhadN): Consider batching these into [3, 6, 6, 3] range checks.
-        ab.lookup_call(
-            &RangeCheck::<RangeCheck3_6>::default(),
-            [limb9a.clone(), limb9b.clone()],
-            (),
-        );
+        range_check(ab, &[3, 6], &[limb9a.clone(), limb9b.clone()]);
 
         result
     }

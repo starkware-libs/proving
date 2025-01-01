@@ -23,17 +23,15 @@ impl AirFn for SmallAdd {
         _: (),
         [mut a, mut b]: Self::In,
     ) -> Self::Out {
-        let rc_air_fn = RangeCheck::<RangeCheck19>::default();
-
         air_builder.deduce(&mut a, "");
         air_builder.deduce(&mut b, "");
 
-        air_builder.lookup_call(&rc_air_fn, [a.clone()], ());
-        air_builder.lookup_call(&rc_air_fn, [b.clone()], ());
+        range_check(air_builder, &[19], &[a.clone()]);
+        range_check(air_builder, &[19], &[b.clone()]);
 
         let result = a + b;
 
-        air_builder.lookup_call(&rc_air_fn, [result.clone()], ());
+        range_check(air_builder, &[19], &[result.clone()]);
 
         result
     }

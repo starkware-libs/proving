@@ -52,11 +52,7 @@ impl AirFn for VerifyMulSmall {
                     &format!("carry_{}", i),
                 );
                 // Each convolution has at most 4 addends, each addend has at most 2**9-1 overflow.
-                air_builder.lookup_call(
-                    &RangeCheck::<RangeCheck11>::default(),
-                    [carry.clone()],
-                    (),
-                );
+                range_check(air_builder, &[11], &[carry.clone()]);
                 air_builder.constrain(
                     carry.clone() * double_shift.clone() - limb_accumulator,
                     &format!("carry {} definition", i),

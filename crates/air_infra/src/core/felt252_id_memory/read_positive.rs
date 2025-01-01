@@ -122,13 +122,7 @@ impl AirFn for RangeCheckLastLimb {
                     "bit before msb is a bit",
                 );
             }
-            6 => air_builder.lookup_call(&RangeCheck::<RangeCheck6>::default(), [msl], ()),
-            9 => air_builder.lookup_call(&RangeCheck::<RangeCheck9>::default(), [msl], ()),
-            11 => air_builder.lookup_call(&RangeCheck::<RangeCheck11>::default(), [msl], ()),
-            _ => panic!(
-                "Unsupported number of bits in the most significant limb: {}",
-                self.bits_in_ms_limb
-            ),
+            _ => range_check(air_builder, &[self.bits_in_ms_limb as u16], &[msl]),
         }
     }
 }

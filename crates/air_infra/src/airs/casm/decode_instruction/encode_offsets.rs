@@ -80,16 +80,12 @@ impl AirFn for EncodeOffsets {
             + (high2_f.clone() * const_expr!(1 << 13));
         ab.constrain(new_off2_f - off2_f, "Reconstructed offset2 is correct");
 
-        ab.lookup_call(
-            &RangeCheck::<RangeCheck7_2_5>::default(),
-            [mid0_f.clone(), low1_f.clone(), high1_f.clone()],
-            (),
+        range_check(
+            ab,
+            &[7, 2, 5],
+            &[mid0_f.clone(), low1_f.clone(), high1_f.clone()],
         );
-        ab.lookup_call(
-            &RangeCheck::<RangeCheck4_3>::default(),
-            [low2_f.clone(), high2_f.clone()],
-            (),
-        );
+        range_check(ab, &[4, 3], &[low2_f.clone(), high2_f.clone()]);
 
         let felt0 = low0_f;
         let felt1 = mid0_f + (low1_f * const_expr!(1 << 7));

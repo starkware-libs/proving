@@ -1,6 +1,6 @@
 use compiled_casm_air::const_tables::STWO_COMPONENT_TYPE_MEM_ID_FOR_BIG;
 use inst_def::InstDef;
-use prover_types::cpu::FELT252_N_WORDS;
+use prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
@@ -70,18 +70,18 @@ impl AirFn for RangeCheckBigValue {
             let limbs_left = FELT252_N_WORDS - i;
 
             if limbs_left >= 2 {
-                air_builder.lookup_call(
-                    &RangeCheck::<RangeCheck9_9>::default(),
-                    [value.get_felt(i), value.get_felt(i + 1)],
-                    (),
+                range_check(
+                    air_builder,
+                    &[FELT252_BITS_PER_WORD as u16, FELT252_BITS_PER_WORD as u16],
+                    &[value.get_felt(i), value.get_felt(i + 1)],
                 );
                 i += 2;
             } else {
                 assert!(limbs_left == 1);
-                air_builder.lookup_call(
-                    &RangeCheck::<RangeCheck9>::default(),
-                    [value.get_felt(i)],
-                    (),
+                range_check(
+                    air_builder,
+                    &[FELT252_BITS_PER_WORD as u16],
+                    &[value.get_felt(i)],
                 );
                 i += 1;
             }

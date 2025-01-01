@@ -120,11 +120,12 @@ impl AirFn for VerifyMul252 {
         );
         // The range of k fits inside a range check of 2**17, but the smallest commonly used size
         // is 19, the size of the largest range checks needed for the the carries.
-        air_builder.lookup_call(
-            &RangeCheck::<RangeCheck19>::default(),
-            [k_expr.clone() + const_expr!(1u32 << 18)],
-            (),
+        range_check(
+            air_builder,
+            &[MUL_RANGE_CHECKS],
+            &[k_expr.clone() + const_expr!(1u32 << 18)],
         );
+
         // Bounds on k based on the range check constraint.
         let k = BoundedFeltExpr {
             expr: k_expr,
@@ -157,11 +158,12 @@ impl AirFn for VerifyMul252 {
             assert!(carry.max_bound < (1i32 << MUL_RANGE_CHECKS) - (1i32 << 17));
             assert!(carry.min_bound >= -(1i32 << 17));
 
-            air_builder.lookup_call(
-                &RangeCheck::<RangeCheck19>::default(),
-                [carry.expr.clone() + const_expr!(1u32 << 17)],
-                (),
+            range_check(
+                air_builder,
+                &[MUL_RANGE_CHECKS],
+                &[carry.expr.clone() + const_expr!(1u32 << 17)],
             );
+
             // Bounds on the carry based on the range-check constraint.
             carry.max_bound = (1i32 << MUL_RANGE_CHECKS) - (1i32 << 17) - 1;
             carry.min_bound = -(1i32 << 17);

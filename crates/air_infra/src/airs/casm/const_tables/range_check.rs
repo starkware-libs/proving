@@ -14,12 +14,90 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 
+pub trait RangeCheckSize {
+    fn bits() -> &'static [u16];
+}
+
+pub fn range_check(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]) {
+    match bits {
+        [6] => ab.lookup_call(
+            &RangeCheck::<RangeCheck6>::default(),
+            input
+                .to_vec()
+                .try_into()
+                .expect("Range check needs 1 argument"),
+            (),
+        ),
+        [9] => ab.lookup_call(
+            &RangeCheck::<RangeCheck9>::default(),
+            input
+                .to_vec()
+                .try_into()
+                .expect("Range check needs 1 argument"),
+            (),
+        ),
+        [11] => ab.lookup_call(
+            &RangeCheck::<RangeCheck11>::default(),
+            input
+                .to_vec()
+                .try_into()
+                .expect("Range check needs 1 argument"),
+            (),
+        ),
+        [19] => ab.lookup_call(
+            &RangeCheck::<RangeCheck19>::default(),
+            input
+                .to_vec()
+                .try_into()
+                .expect("Range check needs 1 argument"),
+            (),
+        ),
+        [3, 6] => ab.lookup_call(
+            &RangeCheck::<RangeCheck3_6>::default(),
+            input
+                .to_vec()
+                .try_into()
+                .expect("Range check needs 2 argument"),
+            (),
+        ),
+        [4, 3] => ab.lookup_call(
+            &RangeCheck::<RangeCheck4_3>::default(),
+            input
+                .to_vec()
+                .try_into()
+                .expect("Range check needs 2 argument"),
+            (),
+        ),
+        [9, 9] => ab.lookup_call(
+            &RangeCheck::<RangeCheck9_9>::default(),
+            input
+                .to_vec()
+                .try_into()
+                .expect("Range check needs 2 argument"),
+            (),
+        ),
+        [7, 2, 5] => ab.lookup_call(
+            &RangeCheck::<RangeCheck7_2_5>::default(),
+            input
+                .to_vec()
+                .try_into()
+                .expect("Range check needs 3 argument"),
+            (),
+        ),
+        [3, 6, 6, 3] => ab.lookup_call(
+            &RangeCheck::<RangeCheck3_6_6_3>::default(),
+            input
+                .to_vec()
+                .try_into()
+                .expect("Range check needs 4 argument"),
+            (),
+        ),
+        _ => panic!("Unsupported range check bits: {:?}", bits),
+    }
+}
+
 #[derive(Debug, Default)]
 pub struct RangeCheck6 {}
-#[derive(Debug, Default)]
-pub struct RangeCheck3_6 {}
-#[derive(Debug, Default)]
-pub struct RangeCheck3_6_6_3 {}
 #[derive(Debug, Default)]
 pub struct RangeCheck9 {}
 #[derive(Debug, Default)]
@@ -27,28 +105,19 @@ pub struct RangeCheck11 {}
 #[derive(Debug, Default)]
 pub struct RangeCheck19 {}
 #[derive(Debug, Default)]
+pub struct RangeCheck3_6 {}
+#[derive(Debug, Default)]
+pub struct RangeCheck3_6_6_3 {}
+#[derive(Debug, Default)]
 pub struct RangeCheck4_3 {}
 #[derive(Debug, Default)]
 pub struct RangeCheck9_9 {}
 #[derive(Debug, Default)]
 pub struct RangeCheck7_2_5 {}
 
-pub trait RangeCheckSize {
-    fn bits() -> &'static [u16];
-}
 impl RangeCheckSize for RangeCheck6 {
     fn bits() -> &'static [u16] {
         &[6]
-    }
-}
-impl RangeCheckSize for RangeCheck3_6 {
-    fn bits() -> &'static [u16] {
-        &[3, 6]
-    }
-}
-impl RangeCheckSize for RangeCheck3_6_6_3 {
-    fn bits() -> &'static [u16] {
-        &[3, 6, 6, 3]
     }
 }
 impl RangeCheckSize for RangeCheck9 {
@@ -64,6 +133,16 @@ impl RangeCheckSize for RangeCheck11 {
 impl RangeCheckSize for RangeCheck19 {
     fn bits() -> &'static [u16] {
         &[19]
+    }
+}
+impl RangeCheckSize for RangeCheck3_6 {
+    fn bits() -> &'static [u16] {
+        &[3, 6]
+    }
+}
+impl RangeCheckSize for RangeCheck3_6_6_3 {
+    fn bits() -> &'static [u16] {
+        &[3, 6, 6, 3]
     }
 }
 impl RangeCheckSize for RangeCheck4_3 {
@@ -86,14 +165,6 @@ impl ExtTable for RangeCheck6 {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_6;
     type T = [FeltExpr; 1];
 }
-impl ExtTable for RangeCheck3_6 {
-    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_3_6;
-    type T = [FeltExpr; 2];
-}
-impl ExtTable for RangeCheck3_6_6_3 {
-    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_3_6_6_3;
-    type T = [FeltExpr; 4];
-}
 impl ExtTable for RangeCheck9 {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_9;
     type T = [FeltExpr; 1];
@@ -105,6 +176,14 @@ impl ExtTable for RangeCheck11 {
 impl ExtTable for RangeCheck19 {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_19;
     type T = [FeltExpr; 1];
+}
+impl ExtTable for RangeCheck3_6 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_3_6;
+    type T = [FeltExpr; 2];
+}
+impl ExtTable for RangeCheck3_6_6_3 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_3_6_6_3;
+    type T = [FeltExpr; 4];
 }
 impl ExtTable for RangeCheck4_3 {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_4_3;
