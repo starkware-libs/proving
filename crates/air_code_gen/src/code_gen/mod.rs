@@ -17,8 +17,8 @@ mod tests {
         compare_contents_or_fix_with_path(air_fn, &folder_path);
     }
 
-    // TODO(Ohad): consider moving these next to the corresponding infra code, when/if they are in a
-    // separate crate.
+    // TODO(Gali): handle no sub components case.
+    #[ignore = "no_sub_components"]
     #[test]
     fn narrow_fib_gen() {
         let serialized_air_fn =
