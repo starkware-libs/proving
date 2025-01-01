@@ -2,7 +2,8 @@ use std::fmt::Debug;
 use std::marker::PhantomData;
 
 use compiled_casm_air::const_tables::{
-    STWO_COMPONENT_TYPE_RANGE_CHECK_11, STWO_COMPONENT_TYPE_RANGE_CHECK_19,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_11, STWO_COMPONENT_TYPE_RANGE_CHECK_12,
+    STWO_COMPONENT_TYPE_RANGE_CHECK_18, STWO_COMPONENT_TYPE_RANGE_CHECK_19,
     STWO_COMPONENT_TYPE_RANGE_CHECK_3_6, STWO_COMPONENT_TYPE_RANGE_CHECK_3_6_6_3,
     STWO_COMPONENT_TYPE_RANGE_CHECK_4_3, STWO_COMPONENT_TYPE_RANGE_CHECK_6,
     STWO_COMPONENT_TYPE_RANGE_CHECK_7_2_5, STWO_COMPONENT_TYPE_RANGE_CHECK_9,
@@ -38,6 +39,22 @@ pub fn range_check(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]) {
         ),
         [11] => ab.lookup_call(
             &RangeCheck::<RangeCheck11>::default(),
+            input
+                .to_vec()
+                .try_into()
+                .expect("Range check needs 1 argument"),
+            (),
+        ),
+        [12] => ab.lookup_call(
+            &RangeCheck::<RangeCheck12>::default(),
+            input
+                .to_vec()
+                .try_into()
+                .expect("Range check needs 1 argument"),
+            (),
+        ),
+        [18] => ab.lookup_call(
+            &RangeCheck::<RangeCheck18>::default(),
             input
                 .to_vec()
                 .try_into()
@@ -103,6 +120,10 @@ pub struct RangeCheck9 {}
 #[derive(Debug, Default)]
 pub struct RangeCheck11 {}
 #[derive(Debug, Default)]
+pub struct RangeCheck12 {}
+#[derive(Debug, Default)]
+pub struct RangeCheck18 {}
+#[derive(Debug, Default)]
 pub struct RangeCheck19 {}
 #[derive(Debug, Default)]
 pub struct RangeCheck3_6 {}
@@ -128,6 +149,16 @@ impl RangeCheckSize for RangeCheck9 {
 impl RangeCheckSize for RangeCheck11 {
     fn bits() -> &'static [u16] {
         &[11]
+    }
+}
+impl RangeCheckSize for RangeCheck12 {
+    fn bits() -> &'static [u16] {
+        &[12]
+    }
+}
+impl RangeCheckSize for RangeCheck18 {
+    fn bits() -> &'static [u16] {
+        &[18]
     }
 }
 impl RangeCheckSize for RangeCheck19 {
@@ -171,6 +202,14 @@ impl ExtTable for RangeCheck9 {
 }
 impl ExtTable for RangeCheck11 {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_11;
+    type T = [FeltExpr; 1];
+}
+impl ExtTable for RangeCheck12 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_12;
+    type T = [FeltExpr; 1];
+}
+impl ExtTable for RangeCheck18 {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK_18;
     type T = [FeltExpr; 1];
 }
 impl ExtTable for RangeCheck19 {
