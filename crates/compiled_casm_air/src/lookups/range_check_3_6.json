@@ -1,0 +1,72 @@
+{
+  "name": "range_check_3_6",
+  "relation_name": "RangeCheck_3_6",
+  "description": "Range Check 3 6",
+  "input": {
+    "Array": [
+      {
+        "ExternalState": [
+          "RangeCheck3_6",
+          0
+        ]
+      },
+      {
+        "ExternalState": [
+          "RangeCheck3_6",
+          1
+        ]
+      }
+    ]
+  },
+  "output": {
+    "Tuple": []
+  },
+  "state_names": [],
+  "lookup_names": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6",
+        "felts": [
+          {
+            "ExternalState": [
+              "RangeCheck3_6",
+              0
+            ]
+          },
+          {
+            "ExternalState": [
+              "RangeCheck3_6",
+              1
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6",
+        "felts": [
+          {
+            "ExternalState": [
+              "RangeCheck3_6",
+              0
+            ]
+          },
+          {
+            "ExternalState": [
+              "RangeCheck3_6",
+              1
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "multiplicity_col_index": 0,
+  "n_lookup_terms": 1
+}

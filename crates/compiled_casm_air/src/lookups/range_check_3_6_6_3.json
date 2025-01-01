@@ -1,0 +1,108 @@
+{
+  "name": "range_check_3_6_6_3",
+  "relation_name": "RangeCheck_3_6_6_3",
+  "description": "Range Check 3 6 6 3",
+  "input": {
+    "Array": [
+      {
+        "ExternalState": [
+          "RangeCheck3_6_6_3",
+          0
+        ]
+      },
+      {
+        "ExternalState": [
+          "RangeCheck3_6_6_3",
+          1
+        ]
+      },
+      {
+        "ExternalState": [
+          "RangeCheck3_6_6_3",
+          2
+        ]
+      },
+      {
+        "ExternalState": [
+          "RangeCheck3_6_6_3",
+          3
+        ]
+      }
+    ]
+  },
+  "output": {
+    "Tuple": []
+  },
+  "state_names": [],
+  "lookup_names": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "ExternalState": [
+              "RangeCheck3_6_6_3",
+              0
+            ]
+          },
+          {
+            "ExternalState": [
+              "RangeCheck3_6_6_3",
+              1
+            ]
+          },
+          {
+            "ExternalState": [
+              "RangeCheck3_6_6_3",
+              2
+            ]
+          },
+          {
+            "ExternalState": [
+              "RangeCheck3_6_6_3",
+              3
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "ExternalState": [
+              "RangeCheck3_6_6_3",
+              0
+            ]
+          },
+          {
+            "ExternalState": [
+              "RangeCheck3_6_6_3",
+              1
+            ]
+          },
+          {
+            "ExternalState": [
+              "RangeCheck3_6_6_3",
+              2
+            ]
+          },
+          {
+            "ExternalState": [
+              "RangeCheck3_6_6_3",
+              3
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "multiplicity_col_index": 0,
+  "n_lookup_terms": 1
+}
