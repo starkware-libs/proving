@@ -17,6 +17,7 @@ fn run_range_check(value: Felt252Expr, bits: usize) {
     let rc = RangeCheckBuiltin {
         bits,
         memory: memory.clone(),
+        segment_start: PublicParam::RangeCheckBuiltinSegmentStart,
     };
 
     let mut registry = AirFnRegistry::new_empty();

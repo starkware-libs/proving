@@ -2,6 +2,7 @@ use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirFnStat, CompiledAirVar, ConstraintLeanCompare, LookupTerm,
     TraceGenStep, UseOrYield,
 };
+use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use compiled_casm_air::utils::{JSONS_BUILTINS_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR};
 use indexmap::IndexMap;
@@ -43,10 +44,12 @@ fn test_casm_registry() {
     reg.add_entry(&RangeCheckBuiltin {
         bits: 128,
         memory: Felt252IdMemory::default(),
+        segment_start: PublicParam::RangeCheckBuiltinSegmentStart,
     });
     reg.add_entry(&RangeCheckBuiltin {
         bits: 96,
         memory: Felt252IdMemory::default(),
+        segment_start: PublicParam::RangeCheck96BuiltinSegmentStart,
     });
     reg.add_entry(&AddModBuiltin::default());
 

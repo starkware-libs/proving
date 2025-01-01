@@ -12,6 +12,8 @@ pub struct RangeCheckBuiltin {
     pub bits: usize,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
+    #[instdef(skip)]
+    pub segment_start: PublicParam,
 }
 
 impl AirFn for RangeCheckBuiltin {
@@ -21,8 +23,7 @@ impl AirFn for RangeCheckBuiltin {
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), _: ()) -> Self::Out {
         let instance_number = air_builder.call_external_column(&Seq {});
-        let segment_start =
-            air_builder.get_public_param(PublicParam::RangeCheckBuiltinSegmentStart);
+        let segment_start = air_builder.get_public_param(self.segment_start.clone());
 
         air_builder.call(
             &ReadPositive {
