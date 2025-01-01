@@ -20,7 +20,7 @@ impl AirFn for SmallAdd {
     fn call(
         &self,
         air_builder: &mut crate::core::air_fn::AirBuilder,
-        _: Self::ExtIn,
+        _: (),
         [mut a, mut b]: Self::In,
     ) -> Self::Out {
         let rc_air_fn = RangeCheck::<RangeCheck19>::default();

@@ -38,7 +38,7 @@ impl AirFn for ModWordTo12BitArray {
     type In = Felt252Expr;
     type Out = [FeltExpr; NUM_12BIT_LIMBS_PER_WORD];
 
-    fn call(&self, ab: &mut AirBuilder, _: Self::ExtIn, mod_word: Self::In) -> Self::Out {
+    fn call(&self, ab: &mut AirBuilder, _: (), mod_word: Self::In) -> Self::Out {
         let mut result: [FeltExpr; NUM_12BIT_LIMBS_PER_WORD] = from_fn(|_| FeltExpr::default());
         let mod_word_u16_arr: [UInt16Expr; N_SUBWORDS_IN_WORD] =
             from_fn(|i| UInt16Expr::from(mod_word.get_felt(i)));

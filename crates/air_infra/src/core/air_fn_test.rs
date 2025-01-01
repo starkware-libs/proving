@@ -16,7 +16,7 @@ impl AirFn for AirFnWithIncorrectConstraint {
     type In = FeltExpr;
     type Out = FeltExpr;
 
-    fn call(&self, air_builder: &mut AirBuilder, _: Self::ExtIn, mut input: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), mut input: Self::In) -> Self::Out {
         // Add the input twice to the state
         let x0 = air_builder.deduce(&mut input, "");
         let x1 = air_builder.deduce(&mut input, "");
@@ -44,7 +44,7 @@ impl AirFn for AirFnWithUInt32 {
     type In = UInt32Expr;
     type Out = UInt32Expr;
 
-    fn call(&self, air_builder: &mut AirBuilder, _: Self::ExtIn, input: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), input: Self::In) -> Self::Out {
         let mut x = air_builder.let_for_deduction(input + const_u32_expr!(4), "");
 
         let x0 = air_builder.deduce(x.low_mut().as_felt_mut(), "");
@@ -77,7 +77,7 @@ impl AirFn for AirFnWithFelt252 {
     type In = Felt252Expr;
     type Out = FeltExpr;
 
-    fn call(&self, air_builder: &mut AirBuilder, _: Self::ExtIn, input: Self::In) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), input: Self::In) -> Self::Out {
         let mut x = air_builder.let_for_deduction(input, "");
 
         for felt in x.as_felts_mut() {

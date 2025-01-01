@@ -44,12 +44,7 @@ impl<const N: usize> AirFn for MemVerifyAll<N> {
     type In = ([CasmAddress; N], Felt252Expr);
     type Out = ();
 
-    fn call(
-        &self,
-        air_builder: &mut AirBuilder,
-        _: Self::ExtIn,
-        (addresses, value): Self::In,
-    ) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), (addresses, value): Self::In) -> Self::Out {
         let mut id = air_builder.mem_read_unverified(&self.memory.address_to_id, &addresses[0]);
         air_builder.deduce(
             &mut id,

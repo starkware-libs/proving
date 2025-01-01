@@ -38,12 +38,7 @@ impl AirFn for CondDecodeSmallSign {
     type In = (Felt252Expr, FeltExpr);
     type Out = [FeltExpr; 2];
 
-    fn call(
-        &self,
-        air_builder: &mut AirBuilder,
-        _: Self::ExtIn,
-        (value, condition): Self::In,
-    ) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), (value, condition): Self::In) -> Self::Out {
         let mut msb_bool =
             air_builder.let_for_deduction(value.get_felt(27).eq(const_expr!(0x100)), "msb");
         let msb = air_builder.deduce(msb_bool.as_felt_mut(), "msb");
