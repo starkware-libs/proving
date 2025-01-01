@@ -784,6 +784,7 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_prover::core::backend::simd::SimdBackend;
         use stwo_prover::core::channel::{Channel, MerkleChannel};
         use stwo_prover::core::fields::m31::M31;
+        use stwo_prover::core::fields::FieldExpOps;
         use stwo_prover::core::pcs::TreeBuilder;
         use stwo_prover::core::poly::BitReversedOrder;
         use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
@@ -837,15 +838,12 @@ fn simd_parse_air_var(
             )
         }
         CompiledAirVar::UnaryOp(op, expr) => {
+            if op == "inverse" {
+                return format!("({}).inverse()", simd_parse_air_var(expr, constant_names));
+            }
             format!("{}({})", op, simd_parse_air_var(expr, constant_names))
         }
         CompiledAirVar::BinaryOp(lhs, op, rhs) => {
-            let non_native_div = op == "/"
-                && air_var_type(lhs, &mut |ty| quote!($ty))
-                    .to_string()
-                    .unwrap()
-                    == "M31";
-            let op = if non_native_div { ".div" } else { op };
             format!(
                 "(({}) {} ({}))",
                 simd_parse_air_var(lhs, constant_names),
