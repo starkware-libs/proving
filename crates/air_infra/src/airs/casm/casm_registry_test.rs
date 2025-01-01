@@ -3,9 +3,7 @@ use compiled_casm_air::compiled_structs::{
     TraceGenStep, UseOrYield,
 };
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
-use compiled_casm_air::utils::{
-    remove_desc, JSONS_BUILTINS_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR,
-};
+use compiled_casm_air::utils::{JSONS_BUILTINS_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR};
 use indexmap::IndexMap;
 
 // Builtins
@@ -336,7 +334,7 @@ fn get_constraints(entry: &AirFnEntry) -> Vec<ConstraintLeanCompare> {
                 },
             ) => {
                 res.push(ConstraintLeanCompare::Intermediate {
-                    name: remove_desc(&name),
+                    name: name.clone(),
                     r#type: ty,
                     var: CompiledAirVar::from(expr).to_string(),
                 });

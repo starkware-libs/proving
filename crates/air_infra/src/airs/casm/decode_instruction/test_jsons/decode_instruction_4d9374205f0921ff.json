@@ -7,7 +7,7 @@
     "const_flags": "Flags { dst_base_fp: None, op0_base_fp: Some(true), op1_imm: None, op1_base_fp: Some(true), op1_base_ap: Some(false), res_add: Some(false), res_mul: Some(false), pc_update_jump: Some(true), pc_update_jump_rel: Some(false), pc_update_jnz: Some(true), ap_update_add: Some(true), ap_update_add_1: Some(false), opcode_call: Some(false), opcode_ret: Some(false), opcode_assert_eq: Some(true) }"
   },
   "input": {
-    "name": "input",
+    "name": "decode_instruction_4d9374205f0921ff_input",
     "type": "M31"
   },
   "output": [
@@ -94,7 +94,7 @@
       "LookupCall": {
         "air_fn_name": "memory_address_to_id",
         "ext_input": {
-          "name": "input",
+          "name": "decode_instruction_4d9374205f0921ff_input",
           "type": "M31"
         },
         "output_name": "memory_address_to_id_value_tmp_4d937_0"
@@ -104,7 +104,7 @@
       "LookupCall": {
         "air_fn_name": "memory_id_to_big",
         "ext_input": {
-          "name": "tmp0",
+          "name": "memory_address_to_id_value_tmp_4d937_0",
           "type": "M31"
         },
         "output_name": "memory_id_to_big_value_tmp_4d937_1"
@@ -115,7 +115,7 @@
         "offset1_tmp_4d937_2",
         "UInt16",
         {
-          "name": "(((UInt16::from_m31(tmp1.get_m31(1)) >> 7) + (UInt16::from_m31(tmp1.get_m31(2)) << 2)) + ((UInt16::from_m31(tmp1.get_m31(3)) & 31) << 11))",
+          "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_4d937_1.get_m31(1)) >> 7) + (UInt16::from_m31(memory_id_to_big_value_tmp_4d937_1.get_m31(2)) << 2)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_4d937_1.get_m31(3)) & 31) << 11))",
           "type": "UInt16"
         },
         {
@@ -126,7 +126,7 @@
     },
     {
       "Deduction": [
-        "tmp2.as_m31()",
+        "offset1_tmp_4d937_2.as_m31()",
         "offset1"
       ]
     },
@@ -135,7 +135,7 @@
         "dst_base_fp_tmp_4d937_3",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 0) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_4d937_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_4d937_1.get_m31(6)) << 6)) >> 0) & 1)",
           "type": "UInt16"
         },
         {
@@ -146,7 +146,7 @@
     },
     {
       "Deduction": [
-        "tmp3.as_m31()",
+        "dst_base_fp_tmp_4d937_3.as_m31()",
         "dst_base_fp"
       ]
     },
@@ -155,7 +155,7 @@
         "op1_imm_tmp_4d937_4",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 2) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_4d937_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_4d937_1.get_m31(6)) << 6)) >> 2) & 1)",
           "type": "UInt16"
         },
         {
@@ -166,7 +166,7 @@
     },
     {
       "Deduction": [
-        "tmp4.as_m31()",
+        "op1_imm_tmp_4d937_4.as_m31()",
         "op1_imm"
       ]
     },
@@ -175,7 +175,7 @@
         "air_fn_name": "verify_instruction",
         "input": [
           {
-            "name": "input",
+            "name": "decode_instruction_4d9374205f0921ff_input",
             "type": "M31"
           },
           [
@@ -261,7 +261,7 @@
       "LookupTerm": {
         "relation_name": "VerifyInstruction",
         "felts": [
-          "input",
+          "decode_instruction_4d9374205f0921ff_input",
           "49953",
           "col0",
           "36026",

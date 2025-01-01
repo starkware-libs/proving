@@ -4,7 +4,7 @@
   "description": "Read Small",
   "inst_def": {},
   "input": {
-    "name": "input",
+    "name": "read_small_input",
     "type": "M31"
   },
   "output": [
@@ -23,7 +23,7 @@
       "LookupCall": {
         "air_fn_name": "memory_address_to_id",
         "ext_input": {
-          "name": "input",
+          "name": "read_small_input",
           "type": "M31"
         },
         "output_name": "memory_address_to_id_value_tmp_ceaaf_0"
@@ -33,7 +33,7 @@
       "LookupCall": {
         "air_fn_name": "memory_id_to_big",
         "ext_input": {
-          "name": "tmp0",
+          "name": "memory_address_to_id_value_tmp_ceaaf_0",
           "type": "M31"
         },
         "output_name": "memory_id_to_big_value_tmp_ceaaf_1"
@@ -41,7 +41,7 @@
     },
     {
       "Deduction": [
-        "tmp0",
+        "memory_address_to_id_value_tmp_ceaaf_0",
         "read_small_input_id"
       ]
     },
@@ -49,7 +49,7 @@
       "LookupAddInput": {
         "air_fn_name": "memory_address_to_id",
         "ext_input": {
-          "name": "input",
+          "name": "read_small_input",
           "type": "M31"
         }
       }
@@ -58,7 +58,7 @@
       "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
-          "input",
+          "read_small_input",
           "col0"
         ],
         "use_or_yield": "Use"
@@ -70,7 +70,7 @@
         "air_fn_description": "Cond Decode Small Sign",
         "input": [
           {
-            "name": "tmp1",
+            "name": "memory_id_to_big_value_tmp_ceaaf_1",
             "type": "Felt252"
           },
           {
@@ -92,19 +92,19 @@
     },
     {
       "Deduction": [
-        "tmp1.get_m31(0)",
+        "memory_id_to_big_value_tmp_ceaaf_1.get_m31(0)",
         "read_small_input_limb_0"
       ]
     },
     {
       "Deduction": [
-        "tmp1.get_m31(1)",
+        "memory_id_to_big_value_tmp_ceaaf_1.get_m31(1)",
         "read_small_input_limb_1"
       ]
     },
     {
       "Deduction": [
-        "tmp1.get_m31(2)",
+        "memory_id_to_big_value_tmp_ceaaf_1.get_m31(2)",
         "read_small_input_limb_2"
       ]
     },

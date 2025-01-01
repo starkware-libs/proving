@@ -42,7 +42,7 @@ impl Display for CompiledAirVar {
             }
             CompiledAirVar::Const(_, id) => write!(f, "{}", id),
             CompiledAirVar::Var(_, id) => {
-                write!(f, "{}", remove_desc(id))
+                write!(f, "{}", id)
             }
             CompiledAirVar::State(name) => {
                 // State variables must end with "colX", where X is an index.
@@ -78,27 +78,6 @@ impl Display for CompiledAirVar {
             }
         }
     }
-}
-
-// Removes descriptions and functions names/hashes from names of CompiledAirVar::Var.
-// The only variables that have these are temporary variables and input variables.
-// Temporary variables must end with "tmp_XXXX_Y", where XXXX is a shortened hash and Y is an
-// index. In tests we also have "tmpY". The returned name is "tmpY".
-// Input variables must end with "input" or "input.i" or "input[i]", where i is an
-// index. The returned name is this suffix.
-pub fn remove_desc(name: &str) -> String {
-    if let Some(i) = name.rfind(INTERMEDIATE_VAR_SUFFIX) {
-        return name.rfind('_').map_or_else(
-            || name[i..].to_string(),
-            |j| format!("{}{}", INTERMEDIATE_VAR_SUFFIX, &name[j + 1..]),
-        );
-    }
-
-    if let Some(i) = name.rfind(INPUT_VAR_SUFFIX) {
-        return name[i..].to_string();
-    }
-
-    name.to_string()
 }
 
 pub fn vars_arr_to_string(felts: &[CompiledAirVar]) -> String {

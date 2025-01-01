@@ -5,16 +5,16 @@
   "inst_def": {},
   "input": [
     {
-      "name": "input[0]",
+      "name": "add_252_input[0]",
       "type": "Felt252"
     },
     {
-      "name": "input[1]",
+      "name": "add_252_input[1]",
       "type": "Felt252"
     }
   ],
   "output": {
-    "name": "tmp0",
+    "name": "add_res_tmp_dd24c_0",
     "type": "Felt252"
   },
   "trace_type": "Inline",
@@ -24,7 +24,7 @@
         "add_res_tmp_dd24c_0",
         "Felt252",
         {
-          "name": "(input[0] + input[1])",
+          "name": "(add_252_input[0] + add_252_input[1])",
           "type": "Felt252"
         },
         {
@@ -35,169 +35,169 @@
     },
     {
       "Deduction": [
-        "tmp0.get_m31(0)",
+        "add_res_tmp_dd24c_0.get_m31(0)",
         "add_res_limb_0"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(1)",
+        "add_res_tmp_dd24c_0.get_m31(1)",
         "add_res_limb_1"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(2)",
+        "add_res_tmp_dd24c_0.get_m31(2)",
         "add_res_limb_2"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(3)",
+        "add_res_tmp_dd24c_0.get_m31(3)",
         "add_res_limb_3"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(4)",
+        "add_res_tmp_dd24c_0.get_m31(4)",
         "add_res_limb_4"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(5)",
+        "add_res_tmp_dd24c_0.get_m31(5)",
         "add_res_limb_5"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(6)",
+        "add_res_tmp_dd24c_0.get_m31(6)",
         "add_res_limb_6"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(7)",
+        "add_res_tmp_dd24c_0.get_m31(7)",
         "add_res_limb_7"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(8)",
+        "add_res_tmp_dd24c_0.get_m31(8)",
         "add_res_limb_8"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(9)",
+        "add_res_tmp_dd24c_0.get_m31(9)",
         "add_res_limb_9"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(10)",
+        "add_res_tmp_dd24c_0.get_m31(10)",
         "add_res_limb_10"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(11)",
+        "add_res_tmp_dd24c_0.get_m31(11)",
         "add_res_limb_11"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(12)",
+        "add_res_tmp_dd24c_0.get_m31(12)",
         "add_res_limb_12"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(13)",
+        "add_res_tmp_dd24c_0.get_m31(13)",
         "add_res_limb_13"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(14)",
+        "add_res_tmp_dd24c_0.get_m31(14)",
         "add_res_limb_14"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(15)",
+        "add_res_tmp_dd24c_0.get_m31(15)",
         "add_res_limb_15"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(16)",
+        "add_res_tmp_dd24c_0.get_m31(16)",
         "add_res_limb_16"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(17)",
+        "add_res_tmp_dd24c_0.get_m31(17)",
         "add_res_limb_17"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(18)",
+        "add_res_tmp_dd24c_0.get_m31(18)",
         "add_res_limb_18"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(19)",
+        "add_res_tmp_dd24c_0.get_m31(19)",
         "add_res_limb_19"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(20)",
+        "add_res_tmp_dd24c_0.get_m31(20)",
         "add_res_limb_20"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(21)",
+        "add_res_tmp_dd24c_0.get_m31(21)",
         "add_res_limb_21"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(22)",
+        "add_res_tmp_dd24c_0.get_m31(22)",
         "add_res_limb_22"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(23)",
+        "add_res_tmp_dd24c_0.get_m31(23)",
         "add_res_limb_23"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(24)",
+        "add_res_tmp_dd24c_0.get_m31(24)",
         "add_res_limb_24"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(25)",
+        "add_res_tmp_dd24c_0.get_m31(25)",
         "add_res_limb_25"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(26)",
+        "add_res_tmp_dd24c_0.get_m31(26)",
         "add_res_limb_26"
       ]
     },
     {
       "Deduction": [
-        "tmp0.get_m31(27)",
+        "add_res_tmp_dd24c_0.get_m31(27)",
         "add_res_limb_27"
       ]
     },
@@ -206,7 +206,7 @@
         "air_fn_name": "range_check_big_value",
         "air_fn_description": "Range Check Big Value",
         "input": {
-          "name": "tmp0",
+          "name": "add_res_tmp_dd24c_0",
           "type": "Felt252"
         },
         "output": []
@@ -218,15 +218,15 @@
         "air_fn_description": "Verify Add 252",
         "input": [
           {
-            "name": "input[0]",
+            "name": "add_252_input[0]",
             "type": "Felt252"
           },
           {
-            "name": "input[1]",
+            "name": "add_252_input[1]",
             "type": "Felt252"
           },
           {
-            "name": "tmp0",
+            "name": "add_res_tmp_dd24c_0",
             "type": "Felt252"
           }
         ],

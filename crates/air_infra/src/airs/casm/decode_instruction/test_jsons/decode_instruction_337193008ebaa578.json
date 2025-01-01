@@ -7,7 +7,7 @@
     "const_flags": "Flags { dst_base_fp: None, op0_base_fp: None, op1_imm: None, op1_base_fp: None, op1_base_ap: None, res_add: None, res_mul: None, pc_update_jump: None, pc_update_jump_rel: None, pc_update_jnz: None, ap_update_add: None, ap_update_add_1: None, opcode_call: None, opcode_ret: None, opcode_assert_eq: None }"
   },
   "input": {
-    "name": "input",
+    "name": "decode_instruction_337193008ebaa578_input",
     "type": "M31"
   },
   "output": [
@@ -94,7 +94,7 @@
       "LookupCall": {
         "air_fn_name": "memory_address_to_id",
         "ext_input": {
-          "name": "input",
+          "name": "decode_instruction_337193008ebaa578_input",
           "type": "M31"
         },
         "output_name": "memory_address_to_id_value_tmp_33719_0"
@@ -104,7 +104,7 @@
       "LookupCall": {
         "air_fn_name": "memory_id_to_big",
         "ext_input": {
-          "name": "tmp0",
+          "name": "memory_address_to_id_value_tmp_33719_0",
           "type": "M31"
         },
         "output_name": "memory_id_to_big_value_tmp_33719_1"
@@ -115,7 +115,7 @@
         "offset0_tmp_33719_2",
         "UInt16",
         {
-          "name": "(UInt16::from_m31(tmp1.get_m31(0)) + ((UInt16::from_m31(tmp1.get_m31(1)) & 127) << 9))",
+          "name": "(UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(0)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(1)) & 127) << 9))",
           "type": "UInt16"
         },
         {
@@ -126,7 +126,7 @@
     },
     {
       "Deduction": [
-        "tmp2.as_m31()",
+        "offset0_tmp_33719_2.as_m31()",
         "offset0"
       ]
     },
@@ -135,7 +135,7 @@
         "offset1_tmp_33719_3",
         "UInt16",
         {
-          "name": "(((UInt16::from_m31(tmp1.get_m31(1)) >> 7) + (UInt16::from_m31(tmp1.get_m31(2)) << 2)) + ((UInt16::from_m31(tmp1.get_m31(3)) & 31) << 11))",
+          "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(1)) >> 7) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(2)) << 2)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(3)) & 31) << 11))",
           "type": "UInt16"
         },
         {
@@ -146,7 +146,7 @@
     },
     {
       "Deduction": [
-        "tmp3.as_m31()",
+        "offset1_tmp_33719_3.as_m31()",
         "offset1"
       ]
     },
@@ -155,7 +155,7 @@
         "offset2_tmp_33719_4",
         "UInt16",
         {
-          "name": "(((UInt16::from_m31(tmp1.get_m31(3)) >> 5) + (UInt16::from_m31(tmp1.get_m31(4)) << 4)) + ((UInt16::from_m31(tmp1.get_m31(5)) & 7) << 13))",
+          "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(3)) >> 5) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(4)) << 4)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) & 7) << 13))",
           "type": "UInt16"
         },
         {
@@ -166,7 +166,7 @@
     },
     {
       "Deduction": [
-        "tmp4.as_m31()",
+        "offset2_tmp_33719_4.as_m31()",
         "offset2"
       ]
     },
@@ -175,7 +175,7 @@
         "dst_base_fp_tmp_33719_5",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 0) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 0) & 1)",
           "type": "UInt16"
         },
         {
@@ -186,7 +186,7 @@
     },
     {
       "Deduction": [
-        "tmp5.as_m31()",
+        "dst_base_fp_tmp_33719_5.as_m31()",
         "dst_base_fp"
       ]
     },
@@ -195,7 +195,7 @@
         "op0_base_fp_tmp_33719_6",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 1) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 1) & 1)",
           "type": "UInt16"
         },
         {
@@ -206,7 +206,7 @@
     },
     {
       "Deduction": [
-        "tmp6.as_m31()",
+        "op0_base_fp_tmp_33719_6.as_m31()",
         "op0_base_fp"
       ]
     },
@@ -215,7 +215,7 @@
         "op1_imm_tmp_33719_7",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 2) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 2) & 1)",
           "type": "UInt16"
         },
         {
@@ -226,7 +226,7 @@
     },
     {
       "Deduction": [
-        "tmp7.as_m31()",
+        "op1_imm_tmp_33719_7.as_m31()",
         "op1_imm"
       ]
     },
@@ -235,7 +235,7 @@
         "op1_base_fp_tmp_33719_8",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 3) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 3) & 1)",
           "type": "UInt16"
         },
         {
@@ -246,7 +246,7 @@
     },
     {
       "Deduction": [
-        "tmp8.as_m31()",
+        "op1_base_fp_tmp_33719_8.as_m31()",
         "op1_base_fp"
       ]
     },
@@ -255,7 +255,7 @@
         "op1_base_ap_tmp_33719_9",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 4) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 4) & 1)",
           "type": "UInt16"
         },
         {
@@ -266,7 +266,7 @@
     },
     {
       "Deduction": [
-        "tmp9.as_m31()",
+        "op1_base_ap_tmp_33719_9.as_m31()",
         "op1_base_ap"
       ]
     },
@@ -275,7 +275,7 @@
         "res_add_tmp_33719_10",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 5) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 5) & 1)",
           "type": "UInt16"
         },
         {
@@ -286,7 +286,7 @@
     },
     {
       "Deduction": [
-        "tmp10.as_m31()",
+        "res_add_tmp_33719_10.as_m31()",
         "res_add"
       ]
     },
@@ -295,7 +295,7 @@
         "res_mul_tmp_33719_11",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 6) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 6) & 1)",
           "type": "UInt16"
         },
         {
@@ -306,7 +306,7 @@
     },
     {
       "Deduction": [
-        "tmp11.as_m31()",
+        "res_mul_tmp_33719_11.as_m31()",
         "res_mul"
       ]
     },
@@ -315,7 +315,7 @@
         "pc_update_jump_tmp_33719_12",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 7) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 7) & 1)",
           "type": "UInt16"
         },
         {
@@ -326,7 +326,7 @@
     },
     {
       "Deduction": [
-        "tmp12.as_m31()",
+        "pc_update_jump_tmp_33719_12.as_m31()",
         "pc_update_jump"
       ]
     },
@@ -335,7 +335,7 @@
         "pc_update_jump_rel_tmp_33719_13",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 8) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 8) & 1)",
           "type": "UInt16"
         },
         {
@@ -346,7 +346,7 @@
     },
     {
       "Deduction": [
-        "tmp13.as_m31()",
+        "pc_update_jump_rel_tmp_33719_13.as_m31()",
         "pc_update_jump_rel"
       ]
     },
@@ -355,7 +355,7 @@
         "pc_update_jnz_tmp_33719_14",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 9) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 9) & 1)",
           "type": "UInt16"
         },
         {
@@ -366,7 +366,7 @@
     },
     {
       "Deduction": [
-        "tmp14.as_m31()",
+        "pc_update_jnz_tmp_33719_14.as_m31()",
         "pc_update_jnz"
       ]
     },
@@ -375,7 +375,7 @@
         "ap_update_add_tmp_33719_15",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 10) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 10) & 1)",
           "type": "UInt16"
         },
         {
@@ -386,7 +386,7 @@
     },
     {
       "Deduction": [
-        "tmp15.as_m31()",
+        "ap_update_add_tmp_33719_15.as_m31()",
         "ap_update_add"
       ]
     },
@@ -395,7 +395,7 @@
         "ap_update_add_1_tmp_33719_16",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 11) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 11) & 1)",
           "type": "UInt16"
         },
         {
@@ -406,7 +406,7 @@
     },
     {
       "Deduction": [
-        "tmp16.as_m31()",
+        "ap_update_add_1_tmp_33719_16.as_m31()",
         "ap_update_add_1"
       ]
     },
@@ -415,7 +415,7 @@
         "opcode_call_tmp_33719_17",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 12) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 12) & 1)",
           "type": "UInt16"
         },
         {
@@ -426,7 +426,7 @@
     },
     {
       "Deduction": [
-        "tmp17.as_m31()",
+        "opcode_call_tmp_33719_17.as_m31()",
         "opcode_call"
       ]
     },
@@ -435,7 +435,7 @@
         "opcode_ret_tmp_33719_18",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 13) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 13) & 1)",
           "type": "UInt16"
         },
         {
@@ -446,7 +446,7 @@
     },
     {
       "Deduction": [
-        "tmp18.as_m31()",
+        "opcode_ret_tmp_33719_18.as_m31()",
         "opcode_ret"
       ]
     },
@@ -455,7 +455,7 @@
         "opcode_assert_eq_tmp_33719_19",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(tmp1.get_m31(5)) >> 3) + (UInt16::from_m31(tmp1.get_m31(6)) << 6)) >> 14) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 14) & 1)",
           "type": "UInt16"
         },
         {
@@ -466,7 +466,7 @@
     },
     {
       "Deduction": [
-        "tmp19.as_m31()",
+        "opcode_assert_eq_tmp_33719_19.as_m31()",
         "opcode_assert_eq"
       ]
     },
@@ -475,7 +475,7 @@
         "air_fn_name": "verify_instruction",
         "input": [
           {
-            "name": "input",
+            "name": "decode_instruction_337193008ebaa578_input",
             "type": "M31"
           },
           [
@@ -561,7 +561,7 @@
       "LookupTerm": {
         "relation_name": "VerifyInstruction",
         "felts": [
-          "input",
+          "decode_instruction_337193008ebaa578_input",
           "col0",
           "col1",
           "col2",

@@ -6,7 +6,7 @@
     "num_bits": "36"
   },
   "input": {
-    "name": "input",
+    "name": "read_positive_num_bits_36_input",
     "type": "M31"
   },
   "output": [
@@ -25,7 +25,7 @@
       "LookupCall": {
         "air_fn_name": "memory_address_to_id",
         "ext_input": {
-          "name": "input",
+          "name": "read_positive_num_bits_36_input",
           "type": "M31"
         },
         "output_name": "memory_address_to_id_value_tmp_ee8dd_0"
@@ -35,7 +35,7 @@
       "LookupCall": {
         "air_fn_name": "memory_id_to_big",
         "ext_input": {
-          "name": "tmp0",
+          "name": "memory_address_to_id_value_tmp_ee8dd_0",
           "type": "M31"
         },
         "output_name": "memory_id_to_big_value_tmp_ee8dd_1"
@@ -43,7 +43,7 @@
     },
     {
       "Deduction": [
-        "tmp0",
+        "memory_address_to_id_value_tmp_ee8dd_0",
         "read_positive_num_bits_36_input_id"
       ]
     },
@@ -51,7 +51,7 @@
       "LookupAddInput": {
         "air_fn_name": "memory_address_to_id",
         "ext_input": {
-          "name": "input",
+          "name": "read_positive_num_bits_36_input",
           "type": "M31"
         }
       }
@@ -60,7 +60,7 @@
       "LookupTerm": {
         "relation_name": "MemoryAddressToId",
         "felts": [
-          "input",
+          "read_positive_num_bits_36_input",
           "col0"
         ],
         "use_or_yield": "Use"
@@ -68,25 +68,25 @@
     },
     {
       "Deduction": [
-        "tmp1.get_m31(0)",
+        "memory_id_to_big_value_tmp_ee8dd_1.get_m31(0)",
         "read_positive_num_bits_36_input_limb_0"
       ]
     },
     {
       "Deduction": [
-        "tmp1.get_m31(1)",
+        "memory_id_to_big_value_tmp_ee8dd_1.get_m31(1)",
         "read_positive_num_bits_36_input_limb_1"
       ]
     },
     {
       "Deduction": [
-        "tmp1.get_m31(2)",
+        "memory_id_to_big_value_tmp_ee8dd_1.get_m31(2)",
         "read_positive_num_bits_36_input_limb_2"
       ]
     },
     {
       "Deduction": [
-        "tmp1.get_m31(3)",
+        "memory_id_to_big_value_tmp_ee8dd_1.get_m31(3)",
         "read_positive_num_bits_36_input_limb_3"
       ]
     },

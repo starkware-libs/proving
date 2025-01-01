@@ -21,7 +21,6 @@ use super::variables::*;
 use crate::core::Felt;
 
 pub const MAX_NAME_LEN: usize = 50;
-pub const INTERMEDIATE_VAR_PREFIX: &str = "tmp";
 
 #[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
 pub enum TraceType {
