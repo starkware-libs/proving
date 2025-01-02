@@ -10,7 +10,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
 
-use crate::code_gen::simd_prover_gen::remove_trailing_zeroes;
+use crate::code_gen::utils::remove_trailing_zeroes;
 
 // TODO(Ohad): Optimize small constantF252 values initialization.
 pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> Vec<(String, String)> {
@@ -25,7 +25,10 @@ pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> Vec<(String, Str
                     relation_name: _,
                     felts,
                     ..
-                }) => const_defs.extend(felts.iter().flat_map(seek_consts)),
+                }) => {
+                    let felts = remove_trailing_zeroes(felts);
+                    const_defs.extend(felts.iter().flat_map(seek_consts))
+                }
                 ConstraintEvalStep::Intermediate(Intermediate {
                     name: _,
                     r#type: _,
@@ -213,11 +216,10 @@ pub fn parse_lookup_constraint(
     use_or_yield: &UseOrYield,
     constant_defs: &HashMap<(String, String), String>,
 ) -> rust::Tokens {
-    let lookup_values = felts
+    let lookup_values = remove_trailing_zeroes(felts)
         .iter()
         .map(|felt| parse_eval_constraint(felt, constant_defs))
         .collect_vec();
-    let lookup_values = remove_trailing_zeroes(lookup_values);
     let sign = match use_or_yield {
         UseOrYield::Use => "",
         UseOrYield::Yield => "-",

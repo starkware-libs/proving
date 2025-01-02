@@ -69,6 +69,7 @@ impl ClaimGenerator {
 
         let packed_inputs = pack_values(&self.inputs);
         let (trace, mut sub_components_inputs, lookup_data) = write_trace_simd(
+            n_rows,
             packed_inputs,
             memory_address_to_id_state,
             memory_id_to_big_state,
@@ -124,6 +125,7 @@ pub struct SubComponentInputs {
 #[allow(clippy::double_parens)]
 #[allow(non_snake_case)]
 fn write_trace_simd(
+    n_rows: usize,
     inputs: Vec<PackedInputType>,
     memory_address_to_id_state: &mut memory_address_to_id::ClaimGenerator,
     memory_id_to_big_state: &mut memory_id_to_big::ClaimGenerator,
@@ -162,12 +164,13 @@ fn write_trace_simd(
 
     trace
         .par_iter_mut()
+        .enumerate()
         .zip(inputs.into_par_iter())
         .zip(lookup_data.par_iter_mut())
         .zip(sub_components_inputs.par_iter_mut().chunks(N_LANES))
         .for_each(
             |(
-                ((row, jnz_opcode_is_taken_t_dst_base_fp_t_input), lookup_data),
+                (((row_index, row), jnz_opcode_is_taken_t_dst_base_fp_t_input), lookup_data),
                 mut sub_components_inputs,
             )| {
                 let input_tmp_10786_0 = jnz_opcode_is_taken_t_dst_base_fp_t_input;

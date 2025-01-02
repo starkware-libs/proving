@@ -11,19 +11,24 @@ use itertools::{chain, Itertools};
 use super::parse::{
     get_external_states_from_lookup_terms, get_public_params_from_lookup_terms, seek_consts,
 };
-use super::utils::{block_doc, unique_relation_calls};
+use super::utils::{block_doc, contains_inputs, unique_relation_calls};
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
+    let contains_inputs = contains_inputs(lists);
     let public_params = get_public_params_from_lookup_terms(&lists.constraints);
     let configs = generate_configs(lists);
     let imports_code = generate_imports_code(&lists.deductions);
-    let typedefs = generate_input_output_typedefs(lists);
+    let typedefs = if contains_inputs {
+        generate_input_output_typedefs(lists)
+    } else {
+        quote! {}
+    };
     let n_trace_cols = generate_n_trace_columns(lists);
     let lookup_data_code = generate_lookup_data_struct(&lists.deductions);
     let sub_components_inputs = generate_sub_components_inputs_struct(&lists.deductions);
-    let claim_generator_code = generate_claim_generator_struct(&public_params);
+    let claim_generator_code = generate_claim_generator_struct(&public_params, contains_inputs);
     let claim_generator_impl_code = generate_claim_generator_impl(lists, &public_params);
     let claim_prover_code = generate_claim_prover_struct();
     let claim_prover_impl = generate_claim_prover_impl(&lists.deductions);
@@ -167,18 +172,6 @@ fn generate_simd_write_trace_body_code(
     write_trace_body
 }
 
-// Removes trailing zeroes from a comma-separated sequence of M31 elements.
-// Used to reduce 0 multiplications in the extension field.
-pub fn remove_trailing_zeroes(mut felts: Vec<String>) -> Vec<String> {
-    while felts
-        .last()
-        .is_some_and(|f| f.eq("M31_0") || f.eq("M31_0.clone()"))
-    {
-        felts.pop();
-    }
-    felts
-}
-
 #[allow(dead_code)]
 fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
     let contains_deductions = !lists.state_names.is_empty();
@@ -200,7 +193,25 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
             let $(name) = $(packed_name(&ty))::broadcast($(ty)::from($(val)));
         });
     }
-
+    let (log_size_code, zip_inputs, for_each_variables) = if contains_inputs(lists) {
+        (
+            quote! {
+                let log_n_packed_rows = inputs.len().ilog2();
+                let log_size = log_n_packed_rows + LOG_N_LANES;
+            },
+            quote! { .zip(inputs.into_par_iter()) },
+            quote! { ((row_index, row), $(&lists.name)_input) },
+        )
+    } else {
+        (
+            quote! {
+                let log_size = n_rows.next_power_of_two().ilog2();
+                let log_n_packed_rows = log_size - LOG_N_LANES;
+            },
+            quote! {},
+            quote! { (row_index, row) },
+        )
+    };
     let mut code = rust::Tokens::new();
     code.extend(quote! {
         // TODO(Ohad): attempt to remove this.
@@ -209,13 +220,11 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         #[allow(clippy::double_parens)]
         #[allow(non_snake_case)]
         fn write_trace_simd(
-            inputs: $(vec_of_type("PackedInputType")),
             $(generate_stateful_component_params(lists))
         ) -> (ComponentTrace<N_TRACE_COLUMNS>,
             SubComponentInputs,
             LookupData) {
-            let log_n_packed_rows = inputs.len().ilog2();
-            let log_size = log_n_packed_rows + LOG_N_LANES;
+            $(log_size_code)
             let (mut trace, mut lookup_data, mut sub_components_inputs) = unsafe {
                 (
                     ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
@@ -228,11 +237,12 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
 
             trace
             .par_iter_mut()
-            .zip(inputs.into_par_iter())
+            .enumerate()
+            $(zip_inputs)
             .zip(lookup_data.par_iter_mut())
             .zip(sub_components_inputs.par_iter_mut().chunks(N_LANES))
             .for_each(
-                |(((row, $(&lists.name)_input), lookup_data), mut sub_components_inputs)| {
+                |(($(for_each_variables), lookup_data), mut sub_components_inputs)| {
                     $(generate_simd_write_trace_body_code(lists,&const_names))
                 });
 
@@ -291,16 +301,18 @@ fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
     quote!(const N_TRACE_COLUMNS: usize = $(lists.state_names.len());)
 }
 
-fn generate_claim_generator_struct(public_params: &[String]) -> rust::Tokens {
-    let mut claim_generator_fields = rust::Tokens::new();
-    claim_generator_fields.extend(quote! {
-        pub inputs: $(vec_of_type("InputType")),
-    });
+fn generate_claim_generator_struct(
+    public_params: &[String],
+    contains_inputs: bool,
+) -> rust::Tokens {
+    let mut claim_generator_fields = if contains_inputs {
+        quote! { pub inputs: $(vec_of_type("InputType")), }
+    } else {
+        quote! { pub n_rows: usize, }
+    };
     // TODO(Gali): Get the types of the public params from air_infra.
     for public_param in public_params {
-        claim_generator_fields.extend(quote! {
-            pub $(public_param): u32,
-        });
+        claim_generator_fields.extend(quote! { pub $(public_param): u32, });
     }
     quote! {
         #[derive(Default)]
@@ -321,19 +333,27 @@ fn generate_claim_prover_struct() -> rust::Tokens {
 }
 
 fn generate_claim_generator_impl(lists: &CompiledAirFn, public_params: &[String]) -> rust::Tokens {
-    let mut claim_generator_fields = quote! {
-        inputs,
-    };
-    let mut claim_generator_parameters = quote! {
-        inputs: Vec<InputType>,
-    };
+    let (mut claim_generator_fields, mut claim_generator_parameters, add_inputs_code, self_param) =
+        if contains_inputs(lists) {
+            (
+                quote! { inputs, },
+                quote! { inputs: Vec<InputType>, },
+                quote! { pub fn add_inputs(&mut self, inputs: &[InputType],) {
+                    $(add_inputs_simd_body())
+                }},
+                quote! {mut self, },
+            )
+        } else {
+            (
+                quote! { n_rows, },
+                quote! { n_rows: usize, },
+                quote! {},
+                quote! {self, },
+            )
+        };
     for public_param in public_params {
-        claim_generator_fields.extend(quote! {
-            $(public_param),
-        });
-        claim_generator_parameters.extend(quote! {
-            $(public_param): u32,
-        });
+        claim_generator_fields.extend(quote! { $(public_param), });
+        claim_generator_parameters.extend(quote! { $(public_param): u32, });
     }
     quote! {
         impl ClaimGenerator {
@@ -342,7 +362,7 @@ fn generate_claim_generator_impl(lists: &CompiledAirFn, public_params: &[String]
             }
 
             pub fn write_trace<MC: MerkleChannel>(
-                mut self,
+                $(self_param)
                 tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
                 $(generate_sub_component_params(&lists.deductions))
             ) -> (Claim, InteractionClaimGenerator)
@@ -352,12 +372,7 @@ fn generate_claim_generator_impl(lists: &CompiledAirFn, public_params: &[String]
                 $(write_trace_body_simd(lists, public_params))
             }
 
-            pub fn add_inputs(
-                &mut self,
-                inputs: &[InputType],
-            ) {
-                $(add_inputs_simd_body())
-            }
+            $(add_inputs_code)
         }
     }
 }
@@ -419,7 +434,10 @@ fn is_stateful(fn_name: &str) -> bool {
 
 // Generates the parameters for `write_trace_simd` function.
 fn generate_stateful_component_params(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut params = rust::Tokens::new();
+    let mut params = quote! { n_rows: usize, };
+    if contains_inputs(lists) {
+        params.extend(quote! { inputs: $(vec_of_type("PackedInputType")), });
+    }
     // Does not need call add_inputs.
     for fn_name in unique_function_calls(&lists.deductions) {
         // TODO(Ohad): get information about which function is stateful.
@@ -430,16 +448,17 @@ fn generate_stateful_component_params(lists: &CompiledAirFn) -> rust::Tokens {
         }
     }
     for public_param in get_public_params_from_lookup_terms(&lists.constraints) {
-        params.extend(quote! {
-            $(public_param): u32,
-        });
+        params.extend(quote! { $(public_param): u32, });
     }
     params
 }
 
 // Generates the arguments for `write_trace_simd` function.
 fn generate_stateful_component_args(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut args = rust::Tokens::new();
+    let mut args = quote! { n_rows, };
+    if contains_inputs(lists) {
+        args.extend(quote! { packed_inputs, });
+    }
     for fn_name in unique_function_calls(&lists.deductions) {
         // TODO(Ohad): get information about which function is stateful.
         if is_stateful(&fn_name) {
@@ -449,9 +468,7 @@ fn generate_stateful_component_args(lists: &CompiledAirFn) -> rust::Tokens {
         }
     }
     for public_param in get_public_params_from_lookup_terms(&lists.constraints) {
-        args.extend(quote! {
-            self.$(public_param),
-        });
+        args.extend(quote! { self.$(public_param), });
     }
     args
 }
@@ -476,20 +493,30 @@ fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rus
         });
     }
 
+    let (n_rows_init_code, inputs_code) = if contains_inputs(lists) {
+        (
+            quote! { let n_rows = self.inputs.len(); },
+            quote! {
+                if need_padding {
+                    self.inputs.resize(size, *self.inputs.first().unwrap());
+                    bit_reverse_coset_to_circle_domain_order(&mut self.inputs);
+                }
+
+                let packed_inputs = pack_values(&self.inputs);
+            },
+        )
+    } else {
+        (quote! { let n_rows = self.n_rows; }, quote! {})
+    };
     quote! {
-        let n_rows = self.inputs.len();
+        $(n_rows_init_code)
         assert_ne!(n_rows, 0);
         let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
         let need_padding = n_rows != size;
 
-        if need_padding {
-            self.inputs.resize(size, *self.inputs.first().unwrap());
-            bit_reverse_coset_to_circle_domain_order(&mut self.inputs);
-        }
-
-        let packed_inputs = pack_values(&self.inputs);
+        $(inputs_code)
         let (trace, mut sub_components_inputs, lookup_data) =
-                write_trace_simd(packed_inputs, $(generate_stateful_component_args(lists)));
+                write_trace_simd($(generate_stateful_component_args(lists)));
 
         if need_padding {
             sub_components_inputs.bit_reverse_coset_to_circle_domain_order();

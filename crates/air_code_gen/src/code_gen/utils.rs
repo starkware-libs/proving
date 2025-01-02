@@ -3,7 +3,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, ConstraintEvalStep, LookupTerm, TraceGenStep,
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm, TraceGenStep,
 };
 use genco::lang::rust;
 use genco::quote;
@@ -40,7 +40,7 @@ pub fn reformat_rust_code_inner(code_text: String) -> String {
 // Generates the prover & verifier code.
 pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
     let claim_provers = generate_simd_claim_provers(&air_fn);
-    let eval_tokens = generate_component_code(air_fn);
+    let eval_tokens = generate_component_code(&air_fn);
 
     // Write the generated code to files.
     let text = reformat_rust_code(claim_provers.to_string().unwrap());
@@ -51,13 +51,16 @@ pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
     // Generate mod.rs, if it does not exist.
     let mod_rs_path = folder_path.join("mod.rs");
     if !std::path::Path::new(&mod_rs_path).exists() {
-        let mod_rs_code: rust::Tokens = quote! {
+        let mut mod_rs_code: rust::Tokens = quote! {
             pub mod component;
             pub mod prover;
 
             pub use component::{Claim, InteractionClaim, Component, Eval};
-            pub use prover::{ClaimGenerator, InputType, InteractionClaimGenerator};
+            pub use prover::{ClaimGenerator, InteractionClaimGenerator};
         };
+        if contains_inputs(&air_fn) {
+            mod_rs_code.extend(quote! {pub use prover::InputType;});
+        }
         let text = reformat_rust_code(mod_rs_code.to_string().unwrap());
         fs::write(mod_rs_path, text).unwrap();
     }
@@ -99,6 +102,28 @@ pub fn assert_generated_code_unchanged(air_fn: CompiledAirFn, folder_path: &Path
             exisitng_file_path.display()
         );
     }
+}
+
+pub fn contains_inputs(lists: &CompiledAirFn) -> bool {
+    // No inputs is defined by an empty tuple.
+    if let CompiledAirVar::Tuple(inputs) = &lists.input {
+        !inputs.is_empty()
+    } else {
+        true
+    }
+}
+
+// Removes trailing zeroes from a comma-separated sequence of M31 elements.
+// Used to reduce 0 multiplications in the extension field.
+pub fn remove_trailing_zeroes(felts: &[CompiledAirVar]) -> Vec<CompiledAirVar> {
+    let mut felts = felts.to_vec();
+    while felts
+        .last()
+        .is_some_and(|f| f.eq(&CompiledAirVar::Const("M31".to_string(), "0".to_string())))
+    {
+        felts.pop();
+    }
+    felts
 }
 
 pub fn relation_calls_from_constraints(constraints: &[ConstraintEvalStep]) -> Vec<String> {

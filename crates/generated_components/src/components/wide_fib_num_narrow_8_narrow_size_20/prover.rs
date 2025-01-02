@@ -66,7 +66,8 @@ impl ClaimGenerator {
         }
 
         let packed_inputs = pack_values(&self.inputs);
-        let (trace, mut sub_components_inputs, lookup_data) = write_trace_simd(packed_inputs);
+        let (trace, mut sub_components_inputs, lookup_data) =
+            write_trace_simd(n_rows, packed_inputs);
 
         if need_padding {
             sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
@@ -104,6 +105,7 @@ pub struct SubComponentInputs {
 #[allow(clippy::double_parens)]
 #[allow(non_snake_case)]
 fn write_trace_simd(
+    n_rows: usize,
     inputs: Vec<PackedInputType>,
 ) -> (
     ComponentTrace<N_TRACE_COLUMNS>,
@@ -124,12 +126,13 @@ fn write_trace_simd(
 
     trace
         .par_iter_mut()
+        .enumerate()
         .zip(inputs.into_par_iter())
         .zip(lookup_data.par_iter_mut())
         .zip(sub_components_inputs.par_iter_mut().chunks(N_LANES))
         .for_each(
             |(
-                ((row, wide_fib_num_narrow_8_narrow_size_20_input), lookup_data),
+                (((row_index, row), wide_fib_num_narrow_8_narrow_size_20_input), lookup_data),
                 mut sub_components_inputs,
             )| {
                 let col0 = wide_fib_num_narrow_8_narrow_size_20_input;

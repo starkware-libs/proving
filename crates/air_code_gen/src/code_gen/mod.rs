@@ -73,4 +73,12 @@ mod tests {
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }
+
+    #[test]
+    fn rc128_builtin_code_gen() {
+        let serialized_air_fn =
+            read_json("../compiled_casm_air/src/builtins/range_check_builtin_bits_128.json");
+        let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
+        generate_component_code(air_fn);
+    }
 }

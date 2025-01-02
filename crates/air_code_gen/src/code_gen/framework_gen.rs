@@ -15,19 +15,19 @@ use crate::code_gen::parse::{
 use crate::code_gen::utils::{block_doc, unique_constraint_relations};
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
-pub fn generate_component_code(lists: CompiledAirFn) -> rust::Tokens {
+pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
         $(imports())
         $['\n']
         $(generate_component_structs(&lists.constraints))
         $['\n']
-        $(generate_claim_struct(&lists))
+        $(generate_claim_struct(lists))
         $['\n']
         $(generate_interaction_claim_struct())
         $['\n']
         $(generate_component_type_def())
         $['\n']
-        $(generate_framework_impl(&lists))
+        $(generate_framework_impl(lists))
     }
 }
 
@@ -100,7 +100,7 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
 
     let n_logup_columns = match lists.n_lookup_terms {
         0 => unimplemented!(),
-        1 => quote!(SECURE_EXTENSION_DEGREE),
+        1..=2 => quote!(SECURE_EXTENSION_DEGREE),
         _ => {
             let n_batches = lists.n_lookup_terms.div_ceil(2);
             quote!(SECURE_EXTENSION_DEGREE * $(n_batches))
