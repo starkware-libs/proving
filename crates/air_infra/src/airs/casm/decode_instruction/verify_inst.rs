@@ -33,19 +33,9 @@ impl AirFn for VerifyInstruction {
             "VerifyInstruction assumes there are 9 bits per felt in a felt252"
         );
 
-        let [felt0, felt1, felt2, felt3, felt4, felt5_low] = ab.call(
-            &EncodeOffsets {
-                memory: self.memory.clone(),
-            },
-            offsets,
-        );
+        let [felt0, felt1, felt2, felt3, felt4, felt5_low] = ab.call(&EncodeOffsets {}, offsets);
 
-        let [felt5_high, felt6] = ab.call(
-            &EncodeFlags {
-                memory: self.memory.clone(),
-            },
-            flags,
-        );
+        let [felt5_high, felt6] = ab.call(&EncodeFlags {}, flags);
 
         let felt5 = felt5_low + felt5_high;
         let expected_instruction =

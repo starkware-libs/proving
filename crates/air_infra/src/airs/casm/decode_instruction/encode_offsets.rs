@@ -8,13 +8,9 @@ use crate::const_u16_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
-use crate::core::felt252_id_memory::memory::*;
 
 #[derive(Clone, Debug, InstDef)]
-pub struct EncodeOffsets {
-    #[instdef(skip)]
-    pub memory: Felt252IdMemory,
-}
+pub struct EncodeOffsets {}
 
 // | - |   9   | 9 |   9   | 9 |   9   | 9 | Felts in the instruction
 // | - | - | 3 | 9 | 4 | 5 | 9 | 2 | 7 | 9 | Parts of offsets and flags

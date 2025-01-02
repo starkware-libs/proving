@@ -366,7 +366,7 @@ fn get_constraints(entry: &AirFnEntry) -> Vec<ConstraintLeanCompare> {
                     .into_iter()
                     .map(|f| CompiledAirVar::from(f).to_string())
                     .collect::<Vec<_>>();
-                res.push(ConstraintLeanCompare::LookupTerm {
+                res.push(ConstraintLeanCompare::LookupUse {
                     relation_name,
                     felts,
                 });

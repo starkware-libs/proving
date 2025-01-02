@@ -6,13 +6,9 @@ use crate::airs::casm::common::*;
 use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::felt252_id_memory::memory::*;
 
 #[derive(Clone, Debug, InstDef)]
-pub struct EncodeFlags {
-    #[instdef(skip)]
-    pub memory: Felt252IdMemory,
-}
+pub struct EncodeFlags {}
 
 // | 9 |   9   | - |   -   | - |   -   | - | Felts in the instruction
 // | 9 | 6 | - | - | - | - | - | - | - | - | Parts of flags
