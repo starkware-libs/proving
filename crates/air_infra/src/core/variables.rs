@@ -1,7 +1,9 @@
 use std::array::from_fn;
+use std::collections::HashSet;
 use std::fmt::Debug;
 
 use compiled_casm_air::compiled_structs::CompiledAirVar;
+use compiled_casm_air::public_params::PublicParam;
 use enum_dispatch::enum_dispatch;
 use prover_types::cpu::ProverType;
 use serde::Serialize;
@@ -85,6 +87,8 @@ pub trait InternalAirVarInfo: Debug {
     }
 
     fn get_intermediate_types(&self) -> Vec<IntermediateType>;
+
+    fn get_public_params(&self) -> HashSet<PublicParam>;
 
     fn prover_type(&self) -> String;
 }
@@ -199,6 +203,23 @@ impl InternalAirVarInfo for AirVarImpl {
         }
     }
 
+    fn get_public_params(&self) -> HashSet<PublicParam> {
+        match self {
+            AirVarImpl::Expr(expr) => expr.get_public_params(),
+            AirVarImpl::Tuple(vars) | AirVarImpl::Array(vars) => {
+                vars.iter().flat_map(|v| v.get_public_params()).collect()
+            }
+            AirVarImpl::Struct {
+                name: _,
+                r#type: _,
+                fields,
+            } => fields
+                .iter()
+                .flat_map(|(_, v)| v.get_public_params())
+                .collect(),
+        }
+    }
+
     fn prover_type(&self) -> String {
         match self {
             AirVarImpl::Expr(expr) => expr.prover_type(),
@@ -287,6 +308,10 @@ impl InternalAirVarInfo for () {
 
     fn get_intermediate_types(&self) -> Vec<IntermediateType> {
         vec![]
+    }
+
+    fn get_public_params(&self) -> HashSet<PublicParam> {
+        HashSet::new()
     }
 
     fn prover_type(&self) -> String {
@@ -380,6 +405,9 @@ macro_rules! impl_air_var {
             fn get_intermediate_types(&self) -> Vec<IntermediateType> {
                 self.iter().flat_map(|s| s.get_intermediate_types()).collect()
             }
+            fn get_public_params(&self) -> HashSet<PublicParam> {
+                self.iter().flat_map(|s| s.get_public_params()).collect()
+            }
             fn prover_type(&self) -> String {
                 format!("[{}]", self.iter().map(|s| s.prover_type()).collect::<Vec<_>>().join(", "))
             }
@@ -436,6 +464,13 @@ macro_rules! impl_air_var {
                 let ($($s),+) = self;
                 let mut res = vec!();
                 $(res.extend($s.get_intermediate_types());)+
+                res
+            }
+            fn get_public_params(&self) -> HashSet<PublicParam> {
+                #[allow(non_snake_case)]
+                let ($($s),+) = self;
+                let mut res = HashSet::new();
+                $(res.extend($s.get_public_params());)+
                 res
             }
             fn prover_type(&self) -> String {

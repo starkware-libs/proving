@@ -1,7 +1,9 @@
+use std::collections::HashSet;
 use std::fmt::Display;
 use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 
 use compiled_casm_air::compiled_structs::CompiledAirVar;
+use compiled_casm_air::public_params::PublicParam;
 use prover_types::cpu::{
     BigUInt, Bool, Felt252, ProverType, UInt16, UInt32, FELT252_N_WORDS, MOD_BUILTIN_WORD_BIT_LEN,
 };
@@ -70,6 +72,13 @@ where
         self.children
             .iter()
             .flat_map(|v| v.get_intermediate_types())
+            .collect()
+    }
+
+    fn get_public_params(&self) -> HashSet<PublicParam> {
+        self.children
+            .iter()
+            .flat_map(|v| v.get_public_params())
             .collect()
     }
 

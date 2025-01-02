@@ -1,6 +1,8 @@
+use std::collections::HashSet;
 use std::fmt::Debug;
 use std::marker::PhantomData;
 
+use compiled_casm_air::public_params::PublicParam;
 use indexmap::IndexMap;
 use prover_types::cpu::ProverType;
 
@@ -48,6 +50,13 @@ where
         self.fields
             .iter()
             .flat_map(|(_, f)| f.get_intermediate_types())
+            .collect()
+    }
+
+    fn get_public_params(&self) -> HashSet<PublicParam> {
+        self.fields
+            .iter()
+            .flat_map(|(_, f)| f.get_public_params())
             .collect()
     }
 
@@ -153,6 +162,10 @@ impl<V: AirVar> InternalAirVarInfo for VarWrapper<V> {
 
     fn get_intermediate_types(&self) -> Vec<IntermediateType> {
         self.var.get_intermediate_types()
+    }
+
+    fn get_public_params(&self) -> HashSet<PublicParam> {
+        self.var.get_public_params()
     }
 
     fn prover_type(&self) -> String {

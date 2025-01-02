@@ -1,4 +1,7 @@
+use std::collections::HashSet;
+
 use compiled_casm_air::compiled_structs::CompiledAirVar;
+use compiled_casm_air::public_params::PublicParam;
 use prover_types::cpu::ProverType;
 
 use super::super::state::*;
@@ -107,6 +110,14 @@ where
 
     fn get_intermediate_types(&self) -> Vec<IntermediateType> {
         self.intermediate_type.clone().map_or(vec![], |t| vec![t])
+    }
+
+    fn get_public_params(&self) -> HashSet<PublicParam> {
+        let mut res = HashSet::new();
+        if let ComplexOrFelt::Felt(StateInfo::PublicParam(ref p)) = self.complex_or_felt {
+            res.insert(p.clone());
+        }
+        res
     }
 
     fn prover_type(&self) -> String {
