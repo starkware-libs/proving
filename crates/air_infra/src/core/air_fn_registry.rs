@@ -6,6 +6,7 @@ use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, ConstraintEvalStep, Intermediate, LookupTerm, TraceGenStep,
     UseOrYield,
 };
+use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::utils::INPUT_VAR_SUFFIX;
 use convert_case::{Case, Casing};
 use indexmap::IndexMap;
@@ -36,7 +37,8 @@ pub struct AirFnEntry {
 impl AirFnEntry {
     // Compiles the air function entry into a compiled air function.
     pub(crate) fn compile(self) -> CompiledAirFn {
-        let (deductions, constraints) = Self::compile_air_body(self.air_body.clone());
+        let (deductions, constraints, public_params) =
+            Self::compile_air_body(self.air_body.clone());
         let multiplicity_col_index = match self.trace_type {
             TraceType::Component | TraceType::Memory => Some(self.state.get_state_names().len()),
             _ => None,
@@ -54,6 +56,7 @@ impl AirFnEntry {
             deductions: deductions.clone(),
             multiplicity_col_index,
             n_lookup_terms: Self::get_n_lookup_terms(deductions),
+            public_params,
         }
     }
 
@@ -92,9 +95,14 @@ impl AirFnEntry {
     // Transforms the air body of an air function into the compiled air fn format.
     fn compile_air_body(
         air_body: Vec<AirBodyComponent>,
-    ) -> (Vec<TraceGenStep>, Vec<ConstraintEvalStep>) {
+    ) -> (
+        Vec<TraceGenStep>,
+        Vec<ConstraintEvalStep>,
+        HashSet<PublicParam>,
+    ) {
         let mut constraints = vec![];
         let mut deductions = vec![];
+        let mut public_params = HashSet::new();
 
         for component in air_body {
             match component {
@@ -103,6 +111,7 @@ impl AirFnEntry {
                         constraint.clone().into(),
                         desc,
                     ));
+                    public_params.extend(constraint.get_public_params());
                 }
                 AirBodyComponent::Assignment {
                     constraint,
@@ -113,10 +122,12 @@ impl AirFnEntry {
                         constraint.clone().into(),
                         desc.clone(),
                     ));
-                    deductions.push(TraceGenStep::Deduction(deduction.into()));
+                    deductions.push(TraceGenStep::Deduction(deduction.clone().into()));
+                    public_params.extend(constraint.get_public_params());
                 }
                 AirBodyComponent::Deduction(deduction, _) => {
-                    deductions.push(TraceGenStep::Deduction(deduction.into()));
+                    deductions.push(TraceGenStep::Deduction(deduction.clone().into()));
+                    public_params.extend(deduction.get_public_params());
                 }
                 AirBodyComponent::Intermediate(name, var_ty, var, ty) => {
                     if ty.in_constraints {
@@ -131,12 +142,15 @@ impl AirFnEntry {
                         deductions.push(TraceGenStep::Intermediate(Intermediate {
                             name,
                             r#type: var_ty,
-                            var: var.into(),
+                            var: var.clone().into(),
                         }));
                     }
+
+                    public_params.extend(var.get_public_params());
                 }
                 AirBodyComponent::Call(f) => {
-                    let (new_deductions, new_constraints) = Self::compile_air_body(f.air_body);
+                    let (new_deductions, new_constraints, new_public_params) =
+                        Self::compile_air_body(f.air_body);
                     if !new_constraints.is_empty() {
                         constraints
                             .push(ConstraintEvalStep::StartBlock(f.air_fn_description.clone()));
@@ -148,6 +162,7 @@ impl AirFnEntry {
                         deductions.extend(new_deductions);
                         deductions.push(TraceGenStep::EndBlock);
                     }
+                    public_params.extend(new_public_params);
                 }
                 AirBodyComponent::LookupCall(call) => {
                     deductions.push(TraceGenStep::LookupCall {
@@ -178,14 +193,15 @@ impl AirFnEntry {
                     }));
                     deductions.push(TraceGenStep::LookupTerm(LookupTerm {
                         relation_name,
-                        felts: felts.into_iter().map(|f| f.into()).collect(),
+                        felts: felts.clone().into_iter().map(|f| f.into()).collect(),
                         use_or_yield,
                     }));
+                    public_params.extend(felts.iter().flat_map(|f| f.get_public_params()));
                 }
             }
         }
 
-        (deductions, constraints)
+        (deductions, constraints, public_params)
     }
 
     fn generate_input(ext_input: Option<AirVarImpl>, input: Option<AirVarImpl>) -> CompiledAirVar {

@@ -1,4 +1,6 @@
-#[derive(PartialEq, Eq, Hash, Clone, Debug)]
+use serde::{Deserialize, Serialize};
+
+#[derive(PartialEq, Eq, Hash, Clone, Debug, Deserialize, Serialize)]
 pub enum PublicParam {
     AddModBuiltinSegmentStart,
     MulModBuiltinSegmentStart,

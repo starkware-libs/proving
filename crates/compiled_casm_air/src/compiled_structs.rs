@@ -1,7 +1,9 @@
-use std::collections::BTreeSet;
+use std::collections::{BTreeSet, HashSet};
 
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
+
+use crate::public_params::PublicParam;
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize)]
 pub struct CompiledAirFn {
@@ -25,6 +27,9 @@ pub struct CompiledAirFn {
 
     // The number of lookup terms (use or yield) in the air function.
     pub n_lookup_terms: usize,
+
+    // The set of public parameters used in the air function.
+    pub public_params: HashSet<PublicParam>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
