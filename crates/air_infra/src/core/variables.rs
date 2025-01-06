@@ -59,11 +59,17 @@ pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
 // Information about air variables used by the air builder.
 #[enum_dispatch]
 pub trait InternalAirVarInfo: Debug {
+    fn get_info(&self) -> HashSet<AirVarInfo>;
+
+    fn prover_type(&self) -> String;
+
     // An AirVar is in_state if it is stored in a trace cell or a polynomial of felts stored in
     // trace cells. Used to verify that expressions of constraints are polynomials of felts
     // written to the trace. We check this in run mode, since when building an air body, we want
     // all constraints to refer to sepecial inputs carrying the AirFn name.
-    fn in_state(&self) -> bool;
+    fn in_state(&self) -> bool {
+        self.get_info().iter().all(|i| i.in_state)
+    }
 
     // An AirVar is_const if was created with a value and the flag is_const = true, or if it is the
     // result of operations on other constants.
@@ -71,26 +77,33 @@ pub trait InternalAirVarInfo: Debug {
     // since this would create a constant column in the trace.
     // Note that in runtime, we allow deduction of constant variables in internal calls, since an
     // AirFn can be called with different inputs in different calls.
-    fn is_const(&self) -> bool;
+    fn is_const(&self) -> bool {
+        self.get_info().iter().all(|i| i.is_const)
+    }
 
     // An AirVar is in_constraints if each of its intermediate variables was created with
     // let_for_constraint or with let_. Similarly, an AirVar is in_deductions if each of its
     // intermediate variables was created with let_for_deduction or with let_.
     // If it has no intermediate variables, it is both in_constraints and in_deductions.
     // Used to verify that intermediate variables are used in the correct context.
-    fn get_intermediate_type(&self) -> IntermediateType {
-        let intermediate_types = self.get_intermediate_types();
+    fn intermediate_type(&self) -> IntermediateType {
+        let intermediate_types = self
+            .get_info()
+            .iter()
+            .filter_map(|i| i.intermediate_type.clone())
+            .collect::<HashSet<_>>();
         IntermediateType {
             in_constraints: intermediate_types.iter().all(|t| t.in_constraints),
             in_deductions: intermediate_types.iter().all(|t| t.in_deductions),
         }
     }
 
-    fn get_intermediate_types(&self) -> Vec<IntermediateType>;
-
-    fn get_public_params(&self) -> HashSet<PublicParam>;
-
-    fn prover_type(&self) -> String;
+    fn public_params(&self) -> HashSet<PublicParam> {
+        self.get_info()
+            .iter()
+            .filter_map(|i| i.public_param.clone())
+            .collect()
+    }
 }
 
 // Actions on air variables used by the air builder.
@@ -99,7 +112,16 @@ pub(crate) trait InternalAirVarActions: Clone + Into<AirVarImpl> {
     fn let_(&self, name: String, intermediate_type: IntermediateType) -> Self;
 }
 
-#[derive(Clone, Debug, Serialize, Default)]
+#[derive(Clone, Debug, Default, PartialEq, Eq, Hash)]
+pub struct AirVarInfo {
+    pub in_state: bool,
+    pub is_const: bool,
+    // None if there are no intermediate variables.
+    pub intermediate_type: Option<IntermediateType>,
+    pub public_param: Option<PublicParam>,
+}
+
+#[derive(Clone, Debug, Serialize, Default, PartialEq, Eq, Hash)]
 pub struct IntermediateType {
     pub in_constraints: bool,
     pub in_deductions: bool,
@@ -161,62 +183,17 @@ pub enum AirVarImpl {
 }
 
 impl InternalAirVarInfo for AirVarImpl {
-    fn in_state(&self) -> bool {
+    fn get_info(&self) -> HashSet<AirVarInfo> {
         match self {
-            AirVarImpl::Expr(expr) => expr.in_state(),
-            AirVarImpl::Tuple(vars) | AirVarImpl::Array(vars) => vars.iter().all(|v| v.in_state()),
-            AirVarImpl::Struct {
-                name: _,
-                r#type: _,
-                fields,
-            } => fields.iter().all(|(_, v)| v.in_state()),
-        }
-    }
-
-    fn is_const(&self) -> bool {
-        match self {
-            AirVarImpl::Expr(expr) => expr.is_const(),
-            AirVarImpl::Tuple(vars) | AirVarImpl::Array(vars) => vars.iter().all(|v| v.is_const()),
-            AirVarImpl::Struct {
-                name: _,
-                r#type: _,
-                fields,
-            } => fields.iter().all(|(_, v)| v.is_const()),
-        }
-    }
-
-    fn get_intermediate_types(&self) -> Vec<IntermediateType> {
-        match self {
-            AirVarImpl::Expr(expr) => expr.get_intermediate_types(),
-            AirVarImpl::Tuple(vars) | AirVarImpl::Array(vars) => vars
-                .iter()
-                .flat_map(|v| v.get_intermediate_types())
-                .collect(),
-            AirVarImpl::Struct {
-                name: _,
-                r#type: _,
-                fields,
-            } => fields
-                .iter()
-                .flat_map(|(_, v)| v.get_intermediate_types())
-                .collect(),
-        }
-    }
-
-    fn get_public_params(&self) -> HashSet<PublicParam> {
-        match self {
-            AirVarImpl::Expr(expr) => expr.get_public_params(),
+            AirVarImpl::Expr(expr) => expr.get_info(),
             AirVarImpl::Tuple(vars) | AirVarImpl::Array(vars) => {
-                vars.iter().flat_map(|v| v.get_public_params()).collect()
+                vars.iter().flat_map(|v| v.get_info()).collect()
             }
             AirVarImpl::Struct {
                 name: _,
                 r#type: _,
                 fields,
-            } => fields
-                .iter()
-                .flat_map(|(_, v)| v.get_public_params())
-                .collect(),
+            } => fields.iter().flat_map(|(_, v)| v.get_info()).collect(),
         }
     }
 
@@ -298,20 +275,14 @@ impl AirVar for () {
 }
 
 impl InternalAirVarInfo for () {
-    fn in_state(&self) -> bool {
-        true
-    }
-
-    fn is_const(&self) -> bool {
-        true
-    }
-
-    fn get_intermediate_types(&self) -> Vec<IntermediateType> {
-        vec![]
-    }
-
-    fn get_public_params(&self) -> HashSet<PublicParam> {
-        HashSet::new()
+    fn get_info(&self) -> HashSet<AirVarInfo> {
+        let info = AirVarInfo {
+            in_state: true,
+            is_const: true,
+            intermediate_type: None,
+            public_param: None,
+        };
+        HashSet::from([info])
     }
 
     fn prover_type(&self) -> String {
@@ -396,17 +367,8 @@ macro_rules! impl_air_var {
         }
 
         impl<const N:usize> InternalAirVarInfo for [$s;N] where $s: InternalAirVarInfo {
-            fn in_state(&self) -> bool {
-                self.iter().all(|s| s.in_state())
-            }
-            fn is_const(&self) -> bool {
-                self.iter().all(|s| s.is_const())
-            }
-            fn get_intermediate_types(&self) -> Vec<IntermediateType> {
-                self.iter().flat_map(|s| s.get_intermediate_types()).collect()
-            }
-            fn get_public_params(&self) -> HashSet<PublicParam> {
-                self.iter().flat_map(|s| s.get_public_params()).collect()
+            fn get_info(&self) -> HashSet<AirVarInfo> {
+                self.iter().flat_map(|s| s.get_info()).collect()
             }
             fn prover_type(&self) -> String {
                 format!("[{}]", self.iter().map(|s| s.prover_type()).collect::<Vec<_>>().join(", "))
@@ -449,28 +411,11 @@ macro_rules! impl_air_var {
         impl $($(<$(const $lt$(: $clt )?),+>)?)+ InternalAirVarInfo for ($($s$(< $( $lt ),+ >)?),+)
             where $($s$(< $( $lt ),+ >)?: InternalAirVarInfo),+
         {
-            fn in_state(&self) -> bool {
-                #[allow(non_snake_case)]
-                let ($($s),+) = self;
-                $($s.in_state() &&)+ true
-            }
-            fn is_const(&self) -> bool {
-                #[allow(non_snake_case)]
-                let ($($s),+) = self;
-                $($s.is_const() &&)+ true
-            }
-            fn get_intermediate_types(&self) -> Vec<IntermediateType> {
-                #[allow(non_snake_case)]
-                let ($($s),+) = self;
-                let mut res = vec!();
-                $(res.extend($s.get_intermediate_types());)+
-                res
-            }
-            fn get_public_params(&self) -> HashSet<PublicParam> {
+            fn get_info(&self) -> HashSet<AirVarInfo> {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
                 let mut res = HashSet::new();
-                $(res.extend($s.get_public_params());)+
+                $(res.extend($s.get_info());)+
                 res
             }
             fn prover_type(&self) -> String {

@@ -1,7 +1,6 @@
 use std::collections::HashSet;
 
 use compiled_casm_air::compiled_structs::CompiledAirVar;
-use compiled_casm_air::public_params::PublicParam;
 use prover_types::cpu::ProverType;
 
 use super::super::state::*;
@@ -90,34 +89,32 @@ impl<T> InternalAirVarInfo for VarExpr<T>
 where
     T: ProverType,
 {
-    fn in_state(&self) -> bool {
-        if self.is_const() {
-            return true;
-        }
+    fn get_info(&self) -> HashSet<AirVarInfo> {
+        let in_state = if self.is_const {
+            true
+        } else {
+            match &self.complex_or_felt {
+                ComplexOrFelt::Felt(StateInfo::StateIndex(..)) => true,
+                ComplexOrFelt::Felt(StateInfo::IsPolyOfState(b)) => *b,
+                ComplexOrFelt::Felt(StateInfo::ExternalColumnStateIndex(..)) => true,
+                ComplexOrFelt::Felt(StateInfo::PublicParam(_)) => true,
+                ComplexOrFelt::Complex(children) => children.iter().all(|c| c.in_state()),
+            }
+        };
 
-        match &self.complex_or_felt {
-            ComplexOrFelt::Felt(StateInfo::StateIndex(..)) => true,
-            ComplexOrFelt::Felt(StateInfo::IsPolyOfState(b)) => *b,
-            ComplexOrFelt::Felt(StateInfo::ExternalColumnStateIndex(..)) => true,
-            ComplexOrFelt::Felt(StateInfo::PublicParam(_)) => true,
-            ComplexOrFelt::Complex(children) => children.iter().all(|c| c.in_state()),
-        }
-    }
-
-    fn is_const(&self) -> bool {
-        self.is_const
-    }
-
-    fn get_intermediate_types(&self) -> Vec<IntermediateType> {
-        self.intermediate_type.clone().map_or(vec![], |t| vec![t])
-    }
-
-    fn get_public_params(&self) -> HashSet<PublicParam> {
-        let mut res = HashSet::new();
-        if let ComplexOrFelt::Felt(StateInfo::PublicParam(ref p)) = self.complex_or_felt {
-            res.insert(p.clone());
-        }
-        res
+        let info = AirVarInfo {
+            in_state,
+            is_const: self.is_const,
+            intermediate_type: self.intermediate_type.clone(),
+            public_param: if let ComplexOrFelt::Felt(StateInfo::PublicParam(ref p)) =
+                self.complex_or_felt
+            {
+                Some(p.clone())
+            } else {
+                None
+            },
+        };
+        HashSet::from([info])
     }
 
     fn prover_type(&self) -> String {

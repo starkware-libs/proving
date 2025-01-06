@@ -2,7 +2,6 @@ use std::collections::HashSet;
 use std::fmt::Debug;
 use std::marker::PhantomData;
 
-use compiled_casm_air::public_params::PublicParam;
 use indexmap::IndexMap;
 use prover_types::cpu::ProverType;
 
@@ -38,26 +37,8 @@ impl<F: AirVar, T: ProverType> InternalAirVarInfo for StructVar<F, T>
 where
     Self: StructVarTrait,
 {
-    fn is_const(&self) -> bool {
-        self.fields.iter().all(|(_, f)| f.is_const())
-    }
-
-    fn in_state(&self) -> bool {
-        self.fields.iter().all(|(_, f)| f.in_state())
-    }
-
-    fn get_intermediate_types(&self) -> Vec<IntermediateType> {
-        self.fields
-            .iter()
-            .flat_map(|(_, f)| f.get_intermediate_types())
-            .collect()
-    }
-
-    fn get_public_params(&self) -> HashSet<PublicParam> {
-        self.fields
-            .iter()
-            .flat_map(|(_, f)| f.get_public_params())
-            .collect()
+    fn get_info(&self) -> HashSet<AirVarInfo> {
+        self.fields.iter().flat_map(|(_, f)| f.get_info()).collect()
     }
 
     fn prover_type(&self) -> String {
@@ -152,20 +133,8 @@ impl<V: AirVar> From<VarWrapper<V>> for AirVarImpl {
 }
 
 impl<V: AirVar> InternalAirVarInfo for VarWrapper<V> {
-    fn is_const(&self) -> bool {
-        self.var.is_const()
-    }
-
-    fn in_state(&self) -> bool {
-        self.var.in_state()
-    }
-
-    fn get_intermediate_types(&self) -> Vec<IntermediateType> {
-        self.var.get_intermediate_types()
-    }
-
-    fn get_public_params(&self) -> HashSet<PublicParam> {
-        self.var.get_public_params()
+    fn get_info(&self) -> HashSet<AirVarInfo> {
+        self.var.get_info()
     }
 
     fn prover_type(&self) -> String {

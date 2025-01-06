@@ -263,7 +263,7 @@ impl AirBuilder {
         }
 
         assert!(
-            expr.get_intermediate_type().in_constraints,
+            expr.intermediate_type().in_constraints,
             "Constraint contains an intermediate variable that is not in constraints"
         );
 
@@ -281,7 +281,7 @@ impl AirBuilder {
         }
 
         assert!(
-            expr.get_intermediate_type().in_deductions,
+            expr.intermediate_type().in_deductions,
             "Deduction contains an intermediate variable that is not in deductions"
         );
 
@@ -305,7 +305,7 @@ impl AirBuilder {
             "The mask of the constraint must be in the trace."
         );
 
-        let intermediate_type = expr.get_intermediate_type();
+        let intermediate_type = expr.intermediate_type();
         assert!(
             intermediate_type.in_deductions && intermediate_type.in_constraints,
             "Assignment contains an intermediate variable that is not in both constraints and deductions"

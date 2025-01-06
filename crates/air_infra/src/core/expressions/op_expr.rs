@@ -3,7 +3,6 @@ use std::fmt::Display;
 use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 
 use compiled_casm_air::compiled_structs::CompiledAirVar;
-use compiled_casm_air::public_params::PublicParam;
 use prover_types::cpu::{
     BigUInt, Bool, Felt252, ProverType, UInt16, UInt32, FELT252_N_WORDS, MOD_BUILTIN_WORD_BIT_LEN,
 };
@@ -60,26 +59,8 @@ impl<T> InternalAirVarInfo for OpExpr<T>
 where
     T: ProverType,
 {
-    fn in_state(&self) -> bool {
-        self.children.iter().all(|v| v.in_state())
-    }
-
-    fn is_const(&self) -> bool {
-        self.children.iter().all(|v| v.is_const())
-    }
-
-    fn get_intermediate_types(&self) -> Vec<IntermediateType> {
-        self.children
-            .iter()
-            .flat_map(|v| v.get_intermediate_types())
-            .collect()
-    }
-
-    fn get_public_params(&self) -> HashSet<PublicParam> {
-        self.children
-            .iter()
-            .flat_map(|v| v.get_public_params())
-            .collect()
+    fn get_info(&self) -> HashSet<AirVarInfo> {
+        self.children.iter().flat_map(|v| v.get_info()).collect()
     }
 
     fn prover_type(&self) -> String {

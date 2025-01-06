@@ -111,7 +111,7 @@ impl AirFnEntry {
                         constraint.clone().into(),
                         desc,
                     ));
-                    public_params.extend(constraint.get_public_params());
+                    public_params.extend(constraint.public_params());
                 }
                 AirBodyComponent::Assignment {
                     constraint,
@@ -123,11 +123,11 @@ impl AirFnEntry {
                         desc.clone(),
                     ));
                     deductions.push(TraceGenStep::Deduction(deduction.clone().into()));
-                    public_params.extend(constraint.get_public_params());
+                    public_params.extend(constraint.public_params());
                 }
                 AirBodyComponent::Deduction(deduction, _) => {
                     deductions.push(TraceGenStep::Deduction(deduction.clone().into()));
-                    public_params.extend(deduction.get_public_params());
+                    public_params.extend(deduction.public_params());
                 }
                 AirBodyComponent::Intermediate(name, var_ty, var, ty) => {
                     if ty.in_constraints {
@@ -146,7 +146,7 @@ impl AirFnEntry {
                         }));
                     }
 
-                    public_params.extend(var.get_public_params());
+                    public_params.extend(var.public_params());
                 }
                 AirBodyComponent::Call(f) => {
                     let (new_deductions, new_constraints, new_public_params) =
@@ -196,7 +196,7 @@ impl AirFnEntry {
                         felts: felts.clone().into_iter().map(|f| f.into()).collect(),
                         use_or_yield,
                     }));
-                    public_params.extend(felts.iter().flat_map(|f| f.get_public_params()));
+                    public_params.extend(felts.iter().flat_map(|f| f.public_params()));
                 }
             }
         }
@@ -401,7 +401,7 @@ impl AirFnRegistry {
                 // constraints and deductions, since the output goes into lookup data (used in
                 // trace generation and in constraints evaluation).
                 assert!(
-                    output.get_intermediate_type().in_constraints && output.get_intermediate_type().in_deductions,
+                    output.intermediate_type().in_constraints && output.intermediate_type().in_deductions,
                     "Output must have no intermediate variables that are not in both constraints and deductions",
                 );
                 output
