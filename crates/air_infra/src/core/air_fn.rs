@@ -13,6 +13,7 @@ use indexmap::IndexMap;
 use prover_types::cpu::ProverType;
 use serde::{Deserialize, Serialize};
 
+use super::air_body::*;
 use super::air_fn_registry::*;
 use super::expressions::felt_expr::*;
 use super::memory::*;
@@ -186,19 +187,19 @@ pub trait AirFn: Debug + InstDefTrait {
                 "Opcodes don't have external input"
             );
 
-            air_builder.air_body.push(AirBodyComponent::LookupTerm {
+            air_builder.air_body.0.push(AirBodyComponent::LookupTerm {
                 relation_name: OPCODES_RELATION_NAME.to_string(),
                 felts: input.as_felts(),
                 use_or_yield: UseOrYield::Use,
             });
 
-            air_builder.air_body.push(AirBodyComponent::LookupTerm {
+            air_builder.air_body.0.push(AirBodyComponent::LookupTerm {
                 relation_name: OPCODES_RELATION_NAME.to_string(),
                 felts: output.as_felts(),
                 use_or_yield: UseOrYield::Yield,
             });
         } else {
-            air_builder.air_body.push(AirBodyComponent::LookupTerm {
+            air_builder.air_body.0.push(AirBodyComponent::LookupTerm {
                 relation_name: self.relation_name().expect("Relation name not set"),
                 felts: ext_input
                     .as_felts()
@@ -225,7 +226,7 @@ pub trait InstDefTrait {
 #[derive(Debug)]
 pub struct AirBuilder {
     pub(super) state: State,
-    pub(super) air_body: Vec<AirBodyComponent>,
+    pub(super) air_body: AirBody,
     #[cfg(test)]
     pub(super) row_number: Option<usize>,
     #[cfg(test)]
@@ -267,7 +268,7 @@ impl AirBuilder {
             "Constraint contains an intermediate variable that is not in constraints"
         );
 
-        self.air_body.push(AirBodyComponent::Constraint(
+        self.air_body.0.push(AirBodyComponent::Constraint(
             expr,
             (!desc.is_empty()).then(|| desc.to_string()),
         ));
@@ -285,7 +286,7 @@ impl AirBuilder {
             "Deduction contains an intermediate variable that is not in deductions"
         );
 
-        self.air_body.push(AirBodyComponent::Deduction(
+        self.air_body.0.push(AirBodyComponent::Deduction(
             expr.clone(),
             (!desc.is_empty()).then(|| desc.to_string()),
         ));
@@ -315,7 +316,7 @@ impl AirBuilder {
         self.state.add(expr, desc);
 
         let constraint = expr.clone() - before.clone();
-        self.air_body.push(AirBodyComponent::Assignment {
+        self.air_body.0.push(AirBodyComponent::Assignment {
             constraint: constraint.clone(),
             deduction: before,
             desc: (!desc.is_empty()).then(|| desc.to_string()),
@@ -332,7 +333,7 @@ impl AirBuilder {
             in_constraints: false,
             in_deductions: true,
         };
-        self.air_body.push(AirBodyComponent::Intermediate(
+        self.air_body.0.push(AirBodyComponent::Intermediate(
             name.clone(),
             var.prover_type(),
             var.clone().into(),
@@ -352,7 +353,7 @@ impl AirBuilder {
             in_constraints: true,
             in_deductions: false,
         };
-        self.air_body.push(AirBodyComponent::Intermediate(
+        self.air_body.0.push(AirBodyComponent::Intermediate(
             name.clone(),
             Felt::r#type(),
             expr.clone().into(),
@@ -375,7 +376,7 @@ impl AirBuilder {
             in_constraints: true,
             in_deductions: true,
         };
-        self.air_body.push(AirBodyComponent::Intermediate(
+        self.air_body.0.push(AirBodyComponent::Intermediate(
             name.clone(),
             expr.prover_type(),
             expr.clone().into(),
@@ -421,7 +422,7 @@ impl AirBuilder {
 
         let mut air_builder = Self {
             state: self.state.clone(),
-            air_body: vec![],
+            air_body: AirBody(vec![]),
             #[cfg(test)]
             row_number: self.row_number,
             #[cfg(test)]
@@ -430,7 +431,7 @@ impl AirBuilder {
             intermediate_id: self.intermediate_id.clone(),
         };
         let output = air_fn.call(&mut air_builder, (), input.clone());
-        self.air_body.push(AirBodyComponent::Call(Call {
+        self.air_body.0.push(AirBodyComponent::Call(Call {
             air_fn_name: air_fn.name(),
             air_fn_description: air_fn.description(),
             input: input.into(),
@@ -474,7 +475,7 @@ impl AirBuilder {
         if self.run {
             let mut air_builder = Self {
                 state: State::default(),
-                air_body: vec![],
+                air_body: AirBody(vec![]),
                 // When we call a separate component using lookup, we access an arbitrary row in
                 // that component (depending on how its rows are sorted). That is, the row number
                 // in the callee is not related to the row number in the caller.
@@ -488,12 +489,14 @@ impl AirBuilder {
         }
 
         if !O::is_empty() {
-            self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
-                air_fn_name: air_fn.name(),
-                ext_input: ext_input_option.clone(),
-                input: input_option.clone(),
-                output_name: output_name.clone(),
-            }));
+            self.air_body
+                .0
+                .push(AirBodyComponent::LookupCall(LookupCall {
+                    air_fn_name: air_fn.name(),
+                    ext_input: ext_input_option.clone(),
+                    input: input_option.clone(),
+                    output_name: output_name.clone(),
+                }));
 
             output = output.let_(
                 output_name.unwrap_or_default(),
@@ -514,13 +517,13 @@ impl AirBuilder {
             }
         }
 
-        self.air_body.push(AirBodyComponent::LookupAddInput {
+        self.air_body.0.push(AirBodyComponent::LookupAddInput {
             air_fn_name: air_fn.name(),
             ext_input: ext_input_option,
             input: input_option,
         });
 
-        self.air_body.push(AirBodyComponent::LookupTerm {
+        self.air_body.0.push(AirBodyComponent::LookupTerm {
             relation_name: air_fn.relation_name().expect("Relation name not set"),
             felts: ext_input
                 .as_felts()
@@ -546,12 +549,14 @@ impl AirBuilder {
 
         let value_name = self.get_intermediate_name(Some(format!("{}_value", memory.name())));
 
-        self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
-            air_fn_name: memory.name(),
-            ext_input: Some(key.clone().into()),
-            input: None,
-            output_name: Some(value_name.clone()),
-        }));
+        self.air_body
+            .0
+            .push(AirBodyComponent::LookupCall(LookupCall {
+                air_fn_name: memory.name(),
+                ext_input: Some(key.clone().into()),
+                input: None,
+                output_name: Some(value_name.clone()),
+            }));
 
         #[allow(unused_mut)]
         let mut value = V::new(value_name.clone(), false);
@@ -560,7 +565,7 @@ impl AirBuilder {
         if self.run {
             let mut air_builder = Self {
                 state: State::default(),
-                air_body: vec![],
+                air_body: AirBody(vec![]),
                 // This is None for the same reason as in lookup_call.
                 row_number: None,
                 run: self.run,
@@ -606,12 +611,12 @@ impl AirBuilder {
             );
         }
 
-        self.air_body.push(AirBodyComponent::LookupAddInput {
+        self.air_body.0.push(AirBodyComponent::LookupAddInput {
             air_fn_name: memory.name(),
             ext_input: Some(key.clone().into()),
             input: None,
         });
-        self.air_body.push(AirBodyComponent::LookupTerm {
+        self.air_body.0.push(AirBodyComponent::LookupTerm {
             relation_name: memory.relation_name().expect("Relation name not set"),
             felts: key.as_felts().into_iter().chain(value.as_felts()).collect(),
             use_or_yield: UseOrYield::Use,
@@ -635,7 +640,7 @@ impl AirBuilder {
         if self.run {
             let mut air_builder = Self {
                 state: State::default(),
-                air_body: vec![],
+                air_body: AirBody(vec![]),
                 #[cfg(test)]
                 row_number: self.row_number,
                 #[cfg(test)]
@@ -671,71 +676,4 @@ impl AirBuilder {
 
         name
     }
-}
-
-// A Call is an air_body component that represents a call to another air function.
-// It contains the name of the air function, the input argument, the output of the call
-// and the air_body of the called function.
-#[derive(Clone, Debug, Serialize)]
-pub struct Call {
-    pub air_fn_name: String,
-    pub air_fn_description: String,
-    pub input: AirVarImpl,
-    pub output: AirVarImpl,
-    #[serde(skip)]
-    pub air_body: Vec<AirBodyComponent>,
-}
-
-// Deduces the output and updates inputs / multiplicity of the relation.
-#[derive(Clone, Debug, Serialize)]
-pub struct LookupCall {
-    pub air_fn_name: String,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub ext_input: Option<AirVarImpl>,
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub input: Option<AirVarImpl>,
-    // None if there is no output
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub output_name: Option<String>,
-}
-
-// Each air function has an air_body, which is a vector of AirBodyComponent.
-// These are the components of the air function.
-#[derive(Clone, Debug, Serialize)]
-pub enum AirBodyComponent {
-    Constraint(
-        FeltExpr,
-        #[serde(skip_serializing_if = "Option::is_none")] Option<String>,
-    ),
-    Deduction(
-        FeltExpr,
-        #[serde(skip_serializing_if = "Option::is_none")] Option<String>,
-    ),
-    // An assignment is a constraint and a deduction referring to the same trace cell.
-    // For example, when copying a value from one trace cell to another.
-    Assignment {
-        constraint: FeltExpr,
-        deduction: FeltExpr,
-        #[serde(skip_serializing_if = "Option::is_none")]
-        desc: Option<String>,
-    },
-    Intermediate(String, String, AirVarImpl, IntermediateType),
-    Call(Call),
-    LookupCall(LookupCall),
-    // Adds the input to the lookup table or updates multiplicity.
-    LookupAddInput {
-        air_fn_name: String,
-        #[serde(skip_serializing_if = "Option::is_none")]
-        ext_input: Option<AirVarImpl>,
-        #[serde(skip_serializing_if = "Option::is_none")]
-        input: Option<AirVarImpl>,
-    },
-    // Saves the information from the trace needed for the generation of the interaction trace,
-    // and creates the constraints between the trace and the interaction trace, and the
-    // constraints on the accumulated sum (the logup).
-    LookupTerm {
-        relation_name: String,
-        felts: Vec<FeltExpr>,
-        use_or_yield: UseOrYield,
-    },
 }

@@ -1,6 +1,5 @@
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirFnStat, CompiledAirVar, ConstraintLeanCompare, LookupTerm,
-    TraceGenStep, UseOrYield,
+    CompiledAirFn, CompiledAirFnStat, LookupTerm, TraceGenStep, UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
@@ -25,7 +24,6 @@ use super::opcodes::ret_opcode::*;
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
 const TRACE_COLUMNS_PER_LOGUP: usize = 2;
@@ -201,7 +199,7 @@ fn test_casm_registry() {
     //
     let mut constraints = IndexMap::new();
     for (name, entry) in reg.air_fns.borrow().iter() {
-        constraints.insert(name.clone(), get_constraints(entry));
+        constraints.insert(name.clone(), entry.air_body.get_constraints());
     }
     compare_json(
         &constraints,
@@ -308,73 +306,4 @@ fn get_lookup_uses_count(deductions: Vec<TraceGenStep>) -> IndexMap<String, usiz
         }
     }
     lookup_uses
-}
-
-fn get_constraints(entry: &AirFnEntry) -> Vec<ConstraintLeanCompare> {
-    let mut res = vec![];
-
-    for comp in entry.air_body.clone().into_iter() {
-        match comp {
-            AirBodyComponent::Constraint(expr, _) => {
-                res.push(ConstraintLeanCompare::Constraint(
-                    CompiledAirVar::from(expr).to_string(),
-                ));
-            }
-            AirBodyComponent::Assignment {
-                constraint,
-                deduction: _,
-                desc: _,
-            } => {
-                res.push(ConstraintLeanCompare::Constraint(
-                    CompiledAirVar::from(constraint).to_string(),
-                ));
-            }
-            AirBodyComponent::Intermediate(
-                name,
-                ty,
-                expr,
-                IntermediateType {
-                    in_constraints: true,
-                    in_deductions: _,
-                },
-            ) => {
-                res.push(ConstraintLeanCompare::Intermediate {
-                    name: name.clone(),
-                    r#type: ty,
-                    var: CompiledAirVar::from(expr).to_string(),
-                });
-            }
-            AirBodyComponent::Call(Call {
-                air_fn_name,
-                air_fn_description: _,
-                input,
-                output,
-                air_body: _,
-            }) => {
-                res.push(ConstraintLeanCompare::Call {
-                    fn_name: air_fn_name,
-                    input: CompiledAirVar::from(input).to_string(),
-                    output: CompiledAirVar::from(output).to_string(),
-                });
-            }
-            AirBodyComponent::LookupTerm {
-                relation_name,
-                felts,
-                use_or_yield: UseOrYield::Use,
-            } => {
-                let felts = felts
-                    .into_iter()
-                    .map(|f| CompiledAirVar::from(f).to_string())
-                    .collect::<Vec<_>>();
-                res.push(ConstraintLeanCompare::LookupUse {
-                    relation_name,
-                    felts,
-                });
-            }
-            _ => {}
-        }
-    }
-
-    res.sort();
-    res
 }
