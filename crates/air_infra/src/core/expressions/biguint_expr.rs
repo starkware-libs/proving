@@ -47,7 +47,7 @@ impl<const B: usize, const L: usize, const F: usize> VarExprUpdate for VarExpr<B
                     self.value.map(|v| v.get_m31(i)),
                     self.is_const,
                     self.in_state(),
-                    self.intermediate_type.clone(),
+                    self.visibility.clone(),
                 ))
                 .into()
             })
@@ -114,7 +114,7 @@ macro_rules! bigu384_expr {
             ])),
             false,
             false,
-            None,
+            Visibility::default(),
         ))
     };
 }

@@ -23,7 +23,7 @@ where
     pub(super) is_const: bool,
     pub(super) parent: Option<ParentExpr>,
     pub(super) complex_or_felt: ComplexOrFelt,
-    pub(super) intermediate_type: Option<IntermediateType>,
+    pub(super) visibility: Visibility,
 }
 
 impl<T> VarExpr<T>
@@ -36,7 +36,7 @@ where
         value: Option<T>,
         is_const: bool,
         in_state: bool,
-        intermediate_type: Option<IntermediateType>,
+        visibility: Visibility,
     ) -> Self {
         if is_const {
             assert!(value.is_some());
@@ -48,7 +48,7 @@ where
             is_const,
             parent: None,
             complex_or_felt: ComplexOrFelt::Felt(StateInfo::IsPolyOfState(in_state)),
-            intermediate_type,
+            visibility,
         };
         var.create_children();
         var.update_children();
@@ -56,7 +56,13 @@ where
     }
 
     pub fn new_const(value: T) -> Self {
-        Self::new(value.calc(), Some(value), true, false, None)
+        Self::new(
+            value.calc(),
+            Some(value),
+            true,
+            false,
+            Visibility::default(),
+        )
     }
 
     pub(super) fn set_parent<P>(&mut self, parent_var: &VarExpr<P>, index: Option<usize>)
@@ -105,7 +111,7 @@ where
         let info = AirVarInfo {
             in_state,
             is_const: self.is_const,
-            intermediate_type: self.intermediate_type.clone(),
+            visibility: self.visibility.clone(),
             public_param: if let ComplexOrFelt::Felt(StateInfo::PublicParam(ref p)) =
                 self.complex_or_felt
             {

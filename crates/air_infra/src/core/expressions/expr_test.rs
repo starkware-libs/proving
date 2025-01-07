@@ -210,7 +210,7 @@ fn test_conversion_felt_to_bool() {
 
     let f = f.let_(
         format!("{}0", INTERMEDIATE_VAR_SUFFIX),
-        IntermediateType::default(),
+        Visibility::default(),
     );
     let b: BoolExpr = f.into();
     assert_eq!(b.calc(), "true");
@@ -232,7 +232,7 @@ fn test_conversion_bool_to_uint16() {
     let mut b: BoolExpr = bool_expr!("x", true);
     b = b.let_(
         format!("{}0", INTERMEDIATE_VAR_SUFFIX),
-        IntermediateType::default(),
+        Visibility::default(),
     );
     let i: UInt16Expr = b.clone().into();
     assert_eq!(i.calc(), "1");
@@ -249,7 +249,7 @@ fn test_conversion_bool_to_uint16() {
 
     let f = b.as_felt().let_(
         format!("{}0", INTERMEDIATE_VAR_SUFFIX),
-        IntermediateType::default(),
+        Visibility::default(),
     );
     i = Into::<BoolExpr>::into(f).into();
     let compiled_felt: CompiledAirVar = i.as_felt().into();
@@ -261,7 +261,7 @@ fn test_conversion_felt_to_uint16() {
     let mut f = expr!("x", 0xFF);
     f = f.let_(
         format!("{}0", INTERMEDIATE_VAR_SUFFIX),
-        IntermediateType::default(),
+        Visibility::default(),
     );
     let i: UInt16Expr = f.clone().into();
     assert_eq!(i.calc(), "255");
@@ -278,7 +278,7 @@ fn test_conversion_felt_to_uint16() {
 
     let f = f.let_(
         format!("{}0", INTERMEDIATE_VAR_SUFFIX),
-        IntermediateType::default(),
+        Visibility::default(),
     );
     i = f.into();
     let compiled_felt: CompiledAirVar = i.as_felt().into();
@@ -322,7 +322,7 @@ fn test_conversion_felts_to_felt252() {
 
     f2 = f2.let_(
         format!("{}0", INTERMEDIATE_VAR_SUFFIX),
-        IntermediateType::default(),
+        Visibility::default(),
     );
     let mut e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
     let compiled_felt1: CompiledAirVar = e.as_felts_mut()[0].clone().into();

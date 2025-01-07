@@ -36,7 +36,7 @@ impl AirFn for Seq {
                 Some(Felt::from(row_number as u32)),
                 true,
                 true,
-                None,
+                Visibility::default(),
             ));
         }
 

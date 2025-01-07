@@ -86,13 +86,13 @@ pub trait InternalAirVarInfo: Debug {
     // intermediate variables was created with let_for_deduction or with let_.
     // If it has no intermediate variables, it is both in_constraints and in_deductions.
     // Used to verify that intermediate variables are used in the correct context.
-    fn intermediate_type(&self) -> IntermediateType {
+    fn visibility(&self) -> Visibility {
         let intermediate_types = self
             .get_info()
             .iter()
-            .filter_map(|i| i.intermediate_type.clone())
+            .map(|i| i.visibility.clone())
             .collect::<HashSet<_>>();
-        IntermediateType {
+        Visibility {
             in_constraints: intermediate_types.iter().all(|t| t.in_constraints),
             in_deductions: intermediate_types.iter().all(|t| t.in_deductions),
         }
@@ -109,22 +109,30 @@ pub trait InternalAirVarInfo: Debug {
 // Actions on air variables used by the air builder.
 pub(crate) trait InternalAirVarActions: Clone + Into<AirVarImpl> {
     fn new(name: String, in_state: bool) -> Self;
-    fn let_(&self, name: String, intermediate_type: IntermediateType) -> Self;
+    fn let_(&self, name: String, visibility: Visibility) -> Self;
 }
 
 #[derive(Clone, Debug, Default, PartialEq, Eq, Hash)]
 pub struct AirVarInfo {
     pub in_state: bool,
     pub is_const: bool,
-    // None if there are no intermediate variables.
-    pub intermediate_type: Option<IntermediateType>,
+    pub visibility: Visibility,
     pub public_param: Option<PublicParam>,
 }
 
-#[derive(Clone, Debug, Serialize, Default, PartialEq, Eq, Hash)]
-pub struct IntermediateType {
+#[derive(Clone, Debug, Serialize, PartialEq, Eq, Hash)]
+pub struct Visibility {
     pub in_constraints: bool,
     pub in_deductions: bool,
+}
+
+impl Default for Visibility {
+    fn default() -> Self {
+        Visibility {
+            in_constraints: true,
+            in_deductions: true,
+        }
+    }
 }
 
 // Describes an external preprocessed table and its type as used in the air infra.
@@ -279,7 +287,7 @@ impl InternalAirVarInfo for () {
         let info = AirVarInfo {
             in_state: true,
             is_const: true,
-            intermediate_type: None,
+            visibility: Visibility::default(),
             public_param: None,
         };
         HashSet::from([info])
@@ -292,7 +300,7 @@ impl InternalAirVarInfo for () {
 
 impl InternalAirVarActions for () {
     fn new(_name: String, _in_state: bool) -> Self {}
-    fn let_(&self, _name: String, _intermediate_type: IntermediateType) -> Self {}
+    fn let_(&self, _name: String, _intermediate_type: Visibility) -> Self {}
 }
 
 impl ExtTable for () {
@@ -376,10 +384,10 @@ macro_rules! impl_air_var {
         }
 
         impl<const N:usize> InternalAirVarActions for [$s;N] where $s: InternalAirVarActions {
-            fn let_(&self, name: String, intermediate_type: IntermediateType) -> Self {
+            fn let_(&self, name: String, visibility: Visibility) -> Self {
                 let mut res = self.clone();
                 for (i, s) in res.iter_mut().enumerate() {
-                    *s = s.let_(format!("{}[{}]", name, i), intermediate_type.clone());
+                    *s = s.let_(format!("{}[{}]", name, i), visibility.clone());
                 }
                 res
             }
@@ -428,11 +436,11 @@ macro_rules! impl_air_var {
         impl $($(<$(const $lt$(: $clt )?),+>)?)+ InternalAirVarActions for ($($s$(< $( $lt ),+ >)?),+)
             where $($s$(< $( $lt ),+ >)?: InternalAirVarActions),+
         {
-            fn let_(&self, name: String, intermediate_type: IntermediateType) -> Self {
+            fn let_(&self, name: String, visibility: Visibility) -> Self {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
                 let mut i = 0;
-                ($($s.let_(format!("{}.{}", name, { i += 1; i - 1 }), intermediate_type.clone()),)+)
+                ($($s.let_(format!("{}.{}", name, { i += 1; i - 1 }), visibility.clone()),)+)
             }
             fn new(name: String, in_state: bool) -> Self {
                 let mut i = 0;

@@ -255,7 +255,7 @@ impl AirFnRegistry {
                 // constraints and deductions, since the output goes into lookup data (used in
                 // trace generation and in constraints evaluation).
                 assert!(
-                    output.intermediate_type().in_constraints && output.intermediate_type().in_deductions,
+                    output.visibility().in_constraints && output.visibility().in_deductions,
                     "Output must have no intermediate variables that are not in both constraints and deductions",
                 );
                 output

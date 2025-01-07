@@ -41,14 +41,14 @@ impl VarExprUpdate for VarExpr<UInt32> {
             self.value.map(|v| v.low()),
             self.is_const,
             self.in_state(),
-            self.intermediate_type.clone(),
+            self.visibility.clone(),
         );
         let high = VarExpr::new(
             HIGH_NAME.to_string(),
             self.value.map(|v| v.high()),
             self.is_const,
             self.in_state(),
-            self.intermediate_type.clone(),
+            self.visibility.clone(),
         );
         self.complex_or_felt = ComplexOrFelt::Complex(vec![
             UInt16Expr::Var(low).into(),
@@ -121,7 +121,7 @@ macro_rules! u32_expr {
             Some(UInt32::from($val)),
             false,
             false,
-            None,
+            Visibility::default(),
         ))
     };
 }

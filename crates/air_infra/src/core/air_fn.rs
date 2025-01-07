@@ -264,7 +264,7 @@ impl AirBuilder {
         }
 
         assert!(
-            expr.intermediate_type().in_constraints,
+            expr.visibility().in_constraints,
             "Constraint contains an intermediate variable that is not in constraints"
         );
 
@@ -282,7 +282,7 @@ impl AirBuilder {
         }
 
         assert!(
-            expr.intermediate_type().in_deductions,
+            expr.visibility().in_deductions,
             "Deduction contains an intermediate variable that is not in deductions"
         );
 
@@ -306,9 +306,9 @@ impl AirBuilder {
             "The mask of the constraint must be in the trace."
         );
 
-        let intermediate_type = expr.intermediate_type();
+        let visibility = expr.visibility();
         assert!(
-            intermediate_type.in_deductions && intermediate_type.in_constraints,
+            visibility.in_deductions && visibility.in_constraints,
             "Assignment contains an intermediate variable that is not in both constraints and deductions"
         );
 
@@ -329,7 +329,7 @@ impl AirBuilder {
         V: AirVar,
     {
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
-        let intermediate_type = IntermediateType {
+        let visibility = Visibility {
             in_constraints: false,
             in_deductions: true,
         };
@@ -337,9 +337,9 @@ impl AirBuilder {
             name.clone(),
             var.prover_type(),
             var.clone().into(),
-            intermediate_type.clone(),
+            visibility.clone(),
         ));
-        var.let_(name, intermediate_type)
+        var.let_(name, visibility)
     }
 
     pub fn let_for_constraint(&mut self, expr: FeltExpr, desc: &str) -> FeltExpr {
@@ -349,7 +349,7 @@ impl AirBuilder {
         );
 
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
-        let intermediate_type = IntermediateType {
+        let visibility = Visibility {
             in_constraints: true,
             in_deductions: false,
         };
@@ -357,9 +357,9 @@ impl AirBuilder {
             name.clone(),
             Felt::r#type(),
             expr.clone().into(),
-            intermediate_type.clone(),
+            visibility.clone(),
         ));
-        expr.let_(name, intermediate_type)
+        expr.let_(name, visibility)
     }
 
     fn let_for_deduction_and_constraint<O>(&mut self, expr: O, desc: &str) -> O
@@ -372,7 +372,7 @@ impl AirBuilder {
         );
 
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
-        let intermediate_type = IntermediateType {
+        let visibility = Visibility {
             in_constraints: true,
             in_deductions: true,
         };
@@ -380,9 +380,9 @@ impl AirBuilder {
             name.clone(),
             expr.prover_type(),
             expr.clone().into(),
-            intermediate_type.clone(),
+            visibility.clone(),
         ));
-        expr.let_(name, intermediate_type)
+        expr.let_(name, visibility)
     }
 
     pub fn let_(&mut self, expr: FeltExpr, desc: &str) -> FeltExpr {
@@ -500,7 +500,7 @@ impl AirBuilder {
 
             output = output.let_(
                 output_name.unwrap_or_default(),
-                IntermediateType {
+                Visibility {
                     in_constraints: false,
                     in_deductions: true,
                 },
@@ -578,7 +578,7 @@ impl AirBuilder {
 
         value.let_(
             value_name,
-            IntermediateType {
+            Visibility {
                 in_constraints: false,
                 in_deductions: true,
             },

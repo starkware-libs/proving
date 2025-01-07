@@ -64,10 +64,10 @@ impl FeltExpr {
                 v.complex_or_felt = ComplexOrFelt::Felt(new_state_info);
                 // A felt expression that is written to the trace is no longer an intermediate
                 // variable.
-                v.intermediate_type = None;
+                v.visibility = Visibility::default();
             }
             _ => {
-                let mut v = VarExpr::new(name, value, false, true, None);
+                let mut v = VarExpr::new(name, value, false, true, Visibility::default());
                 v.complex_or_felt = ComplexOrFelt::Felt(new_state_info);
                 *self = Self::Var(v);
             }
@@ -116,7 +116,7 @@ macro_rules! expr {
             Some($crate::core::Felt::from($val)),
             false,
             false,
-            None,
+            Visibility::default(),
         ))
     };
 }

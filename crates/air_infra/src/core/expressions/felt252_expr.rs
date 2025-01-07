@@ -43,7 +43,7 @@ impl VarExprUpdate for VarExpr<Felt252> {
                     self.value.map(|v| v.get_m31(i)),
                     self.is_const,
                     self.in_state(),
-                    self.intermediate_type.clone(),
+                    self.visibility.clone(),
                 ))
                 .into()
             })
@@ -155,7 +155,7 @@ macro_rules! felt252_expr {
             ])),
             false,
             false,
-            None,
+            Visibility::default(),
         ))
     };
 }

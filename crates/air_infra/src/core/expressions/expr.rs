@@ -47,24 +47,16 @@ where
     VarExpr<T>: VarExprUpdate,
 {
     fn new(name: String, in_state: bool) -> Self {
-        let intermediate_type = if in_state {
-            Some(IntermediateType {
-                in_constraints: true,
-                in_deductions: true,
-            })
-        } else {
-            None
-        };
-        VarExpr::new(name, None, false, in_state, intermediate_type).into()
+        VarExpr::new(name, None, false, in_state, Visibility::default()).into()
     }
 
-    fn let_(&self, name: String, intermediate_type: IntermediateType) -> Self {
+    fn let_(&self, name: String, visibility: Visibility) -> Self {
         VarExpr::new(
             name,
             self.value(),
             self.is_const(),
             self.in_state(),
-            Some(intermediate_type),
+            visibility,
         )
         .into()
     }

@@ -59,7 +59,7 @@ pub enum AirBodyComponent {
         #[serde(skip_serializing_if = "Option::is_none")]
         desc: Option<String>,
     },
-    Intermediate(String, String, AirVarImpl, IntermediateType),
+    Intermediate(String, String, AirVarImpl, Visibility),
     Call(Call),
     LookupCall(LookupCall),
     // Adds the input to the lookup table or updates multiplicity.
@@ -258,7 +258,7 @@ impl AirBody {
                     name,
                     ty,
                     expr,
-                    IntermediateType {
+                    Visibility {
                         in_constraints: true,
                         in_deductions: _,
                     },
