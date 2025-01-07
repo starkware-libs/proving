@@ -439,6 +439,8 @@ impl_air_var!((ChainIdVar, RoundNumVar, PoseidonFullRoundState));
 type PoseidonPartialRoundState = [Felt252Packed27Expr; 4];
 impl_air_var!((PoseidonPartialRoundState, Felt252Packed27Expr));
 impl_air_var!((ChainIdVar, RoundNumVar, PoseidonPartialRoundState));
+// VerifyBlakeWord
+impl_air_var!((CasmAddress, UInt32Expr));
 
 // Components
 
