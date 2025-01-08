@@ -1,4 +1,3 @@
-use compiled_casm_air::const_tables::STWO_COMPONENT_TYPE_MEM_ID_FOR_BIG;
 use inst_def::InstDef;
 use prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
@@ -9,7 +8,11 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 use crate::core::variables::*;
 
+const STWO_COMPONENT_TYPE_MEM_ID_FOR_BIG: &str = "MemoryIdForBig";
+
+#[derive(Debug, Clone, Default)]
 pub struct MemIdForBig {}
+
 impl ExtTable for MemIdForBig {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_MEM_ID_FOR_BIG;
     type T = FeltExpr;

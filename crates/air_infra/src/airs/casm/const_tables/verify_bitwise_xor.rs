@@ -14,12 +14,28 @@ pub trait VerifyBitwiseXorSize: ExtTable + Debug + Default {
 
 pub fn verify_bitwise_xor(ab: &mut AirBuilder, bits: u16, input: [FeltExpr; 3]) {
     match bits {
-        4 => ab.lookup_call(&VerifyBitwiseXor::<VerifyBitwiseXor4>::default(), input, ()),
-        7 => ab.lookup_call(&VerifyBitwiseXor::<VerifyBitwiseXor7>::default(), input, ()),
-        8 => ab.lookup_call(&VerifyBitwiseXor::<VerifyBitwiseXor8>::default(), input, ()),
-        9 => ab.lookup_call(&VerifyBitwiseXor::<VerifyBitwiseXor9>::default(), input, ()),
+        4 => ab.lookup_call(
+            &VerifyBitwiseXor::<VerifyBitwiseXor_4_Const>::default(),
+            input,
+            (),
+        ),
+        7 => ab.lookup_call(
+            &VerifyBitwiseXor::<VerifyBitwiseXor_7_Const>::default(),
+            input,
+            (),
+        ),
+        8 => ab.lookup_call(
+            &VerifyBitwiseXor::<VerifyBitwiseXor_8_Const>::default(),
+            input,
+            (),
+        ),
+        9 => ab.lookup_call(
+            &VerifyBitwiseXor::<VerifyBitwiseXor_9_Const>::default(),
+            input,
+            (),
+        ),
         12 => ab.lookup_call(
-            &VerifyBitwiseXor::<VerifyBitwiseXor12>::default(),
+            &VerifyBitwiseXor::<VerifyBitwiseXor_12_Const>::default(),
             input,
             (),
         ),
@@ -27,11 +43,11 @@ pub fn verify_bitwise_xor(ab: &mut AirBuilder, bits: u16, input: [FeltExpr; 3]) 
     }
 }
 
-new_verify_bitwise_xor!(4, VerifyBitwiseXor4);
-new_verify_bitwise_xor!(7, VerifyBitwiseXor7);
-new_verify_bitwise_xor!(8, VerifyBitwiseXor8);
-new_verify_bitwise_xor!(9, VerifyBitwiseXor9);
-new_verify_bitwise_xor!(12, VerifyBitwiseXor12);
+new_verify_bitwise_xor!(4, VerifyBitwiseXor_4_Const);
+new_verify_bitwise_xor!(7, VerifyBitwiseXor_7_Const);
+new_verify_bitwise_xor!(8, VerifyBitwiseXor_8_Const);
+new_verify_bitwise_xor!(9, VerifyBitwiseXor_9_Const);
+new_verify_bitwise_xor!(12, VerifyBitwiseXor_12_Const);
 
 #[derive(Debug, InstDef, Default)]
 pub struct VerifyBitwiseXor<V: VerifyBitwiseXorSize> {

@@ -114,6 +114,18 @@ impl AirFnRegistry {
             return entry.clone();
         }
 
+        if !E::T::is_empty() {
+            let ext_input_air_fn = ExtTableAirFn::<E>::default();
+            if self
+                .air_fns
+                .borrow()
+                .get(&ext_input_air_fn.name())
+                .is_none()
+            {
+                self.add_entry(&ext_input_air_fn);
+            }
+        }
+
         let air_fn_id = format!("{h:.*}", 5, h = format!("{:x}", air_fn.hash()));
         assert!(
             !self.air_fn_ids.borrow().contains(&air_fn_id),

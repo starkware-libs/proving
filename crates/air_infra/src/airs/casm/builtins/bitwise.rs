@@ -36,7 +36,7 @@ impl AirFn for BitwiseBuiltin {
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), _: ()) -> Self::Out {
-        let instance_num = air_builder.call_external_column(&Seq {});
+        let instance_num = air_builder.call_external_table(&Seq {});
         let segment_start = air_builder.get_public_param(PublicParam::BitwiseBuiltinSegmentStart);
 
         let read_felt252 = ReadPositive {

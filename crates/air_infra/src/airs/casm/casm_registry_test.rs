@@ -209,6 +209,7 @@ fn test_casm_registry() {
     // Compile the registry, check the compiled entries jsons and collect the statistics.
     let compiled_reg = reg.compile();
     let mut stat = IndexMap::<String, CompiledAirFnStat>::new();
+    let mut const_tables = vec![];
     for (name, (trace_type, compiled_entry)) in compiled_reg.iter() {
         let dir = match trace_type {
             TraceType::Opcode => JSONS_OPCODES_DIR,
@@ -217,9 +218,18 @@ fn test_casm_registry() {
             TraceType::Const | TraceType::Inline => "",
         };
 
-        if trace_type != &TraceType::Const && trace_type != &TraceType::Inline {
-            // Check the compiled entry json.
-            compare_json(&compiled_entry, &format!("{}{}.json", dir, name));
+        match trace_type {
+            TraceType::Const => {
+                const_tables.push(name.clone());
+            }
+            TraceType::Inline => {
+                // Inline functions are not compiled.
+                continue;
+            }
+            _ => {
+                // Check the compiled entry json.
+                compare_json(&compiled_entry, &format!("{}{}.json", dir, name));
+            }
         }
 
         // Collect statistics.
@@ -229,6 +239,10 @@ fn test_casm_registry() {
     compare_json(
         &stat,
         &"../compiled_casm_air/src/casm_registry.json".to_string(),
+    );
+    compare_json(
+        &const_tables,
+        &"../compiled_casm_air/src/const_tables.json".to_string(),
     );
 }
 

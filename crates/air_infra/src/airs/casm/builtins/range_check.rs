@@ -22,7 +22,7 @@ impl AirFn for RangeCheckBuiltin {
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), _: ()) -> Self::Out {
-        let instance_number = air_builder.call_external_column(&Seq {});
+        let instance_number = air_builder.call_external_table(&Seq {});
         let segment_start = air_builder.get_public_param(self.segment_start.clone());
 
         air_builder.call(

@@ -14,17 +14,17 @@ pub trait RangeCheckSize: ExtTable + Debug + Default {
 
 pub fn range_check(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]) {
     match bits {
-        [6] => call_rc::<RangeCheck6>(ab, input),
-        [9] => call_rc::<RangeCheck9>(ab, input),
-        [11] => call_rc::<RangeCheck11>(ab, input),
-        [12] => call_rc::<RangeCheck12>(ab, input),
-        [18] => call_rc::<RangeCheck18>(ab, input),
-        [19] => call_rc::<RangeCheck19>(ab, input),
-        [3, 6] => call_rc::<RangeCheck3_6>(ab, input),
-        [4, 3] => call_rc::<RangeCheck4_3>(ab, input),
-        [9, 9] => call_rc::<RangeCheck9_9>(ab, input),
-        [7, 2, 5] => call_rc::<RangeCheck7_2_5>(ab, input),
-        [3, 6, 6, 3] => call_rc::<RangeCheck3_6_6_3>(ab, input),
+        [6] => call_rc::<RangeCheck_6_Const>(ab, input),
+        [9] => call_rc::<RangeCheck_9_Const>(ab, input),
+        [11] => call_rc::<RangeCheck_11_Const>(ab, input),
+        [12] => call_rc::<RangeCheck_12_Const>(ab, input),
+        [18] => call_rc::<RangeCheck_18_Const>(ab, input),
+        [19] => call_rc::<RangeCheck_19_Const>(ab, input),
+        [3, 6] => call_rc::<RangeCheck_3_6_Const>(ab, input),
+        [4, 3] => call_rc::<RangeCheck_4_3_Const>(ab, input),
+        [9, 9] => call_rc::<RangeCheck_9_9_Const>(ab, input),
+        [7, 2, 5] => call_rc::<RangeCheck_7_2_5_Const>(ab, input),
+        [3, 6, 6, 3] => call_rc::<RangeCheck_3_6_6_3_Const>(ab, input),
         _ => panic!("Unsupported range check bits: {:?}", bits),
     }
 }
@@ -42,17 +42,17 @@ where
     ab.lookup_call(&RangeCheck::<R>::default(), input, ())
 }
 
-new_range_check!([6], RangeCheck6);
-new_range_check!([9], RangeCheck9);
-new_range_check!([11], RangeCheck11);
-new_range_check!([12], RangeCheck12);
-new_range_check!([18], RangeCheck18);
-new_range_check!([19], RangeCheck19);
-new_range_check!([3, 6], RangeCheck3_6);
-new_range_check!([4, 3], RangeCheck4_3);
-new_range_check!([9, 9], RangeCheck9_9);
-new_range_check!([7, 2, 5], RangeCheck7_2_5);
-new_range_check!([3, 6, 6, 3], RangeCheck3_6_6_3);
+new_range_check!([6], RangeCheck_6_Const);
+new_range_check!([9], RangeCheck_9_Const);
+new_range_check!([11], RangeCheck_11_Const);
+new_range_check!([12], RangeCheck_12_Const);
+new_range_check!([18], RangeCheck_18_Const);
+new_range_check!([19], RangeCheck_19_Const);
+new_range_check!([3, 6], RangeCheck_3_6_Const);
+new_range_check!([4, 3], RangeCheck_4_3_Const);
+new_range_check!([9, 9], RangeCheck_9_9_Const);
+new_range_check!([7, 2, 5], RangeCheck_7_2_5_Const);
+new_range_check!([3, 6, 6, 3], RangeCheck_3_6_6_3_Const);
 
 #[derive(Debug, InstDef, Default)]
 pub struct RangeCheck<R: RangeCheckSize> {

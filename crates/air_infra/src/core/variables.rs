@@ -5,9 +5,11 @@ use std::fmt::Debug;
 use compiled_casm_air::compiled_structs::CompiledAirVar;
 use compiled_casm_air::public_params::PublicParam;
 use enum_dispatch::enum_dispatch;
+use inst_def::InstDef;
 use prover_types::cpu::ProverType;
 use serde::Serialize;
 
+use super::air_fn::*;
 use super::expressions::biguint_expr::*;
 use super::expressions::bool_expr::*;
 use super::expressions::expr::*;
@@ -89,14 +91,14 @@ pub trait InternalAirVarInfo: Debug {
     // If it has no intermediate variables, it is both in_constraints and in_deductions.
     // Used to verify that intermediate variables are used in the correct context.
     fn visibility(&self) -> Visibility {
-        let intermediate_types = self
+        let visibilities = self
             .get_info()
             .iter()
             .map(|i| i.visibility.clone())
             .collect::<HashSet<_>>();
         Visibility {
-            in_constraints: intermediate_types.iter().all(|t| t.in_constraints),
-            in_deductions: intermediate_types.iter().all(|t| t.in_deductions),
+            in_constraints: visibilities.iter().all(|t| t.in_constraints),
+            in_deductions: visibilities.iter().all(|t| t.in_deductions),
         }
     }
 
@@ -141,7 +143,7 @@ impl Default for Visibility {
 // Note that we can have two tables with the same CONST_TRACE_ID, but different types (see for
 // example Seq and SeqAddr), as long as they are represented by the same number of felts (i.e. the
 // number of columns in the table).
-pub trait ExtTable {
+pub trait ExtTable: Default + Debug + Clone {
     const CONST_TRACE_ID: &'static str;
     type T: AirVar;
 
@@ -158,6 +160,42 @@ pub trait ExtTable {
                 i,
             ));
         }
+    }
+
+    // External tables that can be called with air_builder.call_external_table should implement this
+    // method. See for example Seq.
+    fn call_impl(&self, _air_builder: &mut AirBuilder) -> Self::T {
+        Self::new()
+    }
+}
+
+#[derive(Clone, Debug, Default, InstDef)]
+pub struct ExtTableAirFn<E>
+where
+    E: ExtTable,
+{
+    #[instdef(skip)]
+    pub(super) ext_table: E,
+}
+
+impl<E> AirFn for ExtTableAirFn<E>
+where
+    E: ExtTable,
+{
+    type ExtIn = ();
+    type In = ();
+    type Out = E::T;
+
+    fn call(&self, _air_builder: &mut AirBuilder, _: (), _: ()) -> Self::Out {
+        self.ext_table.call_impl(_air_builder)
+    }
+
+    fn name(&self) -> String {
+        E::CONST_TRACE_ID.to_string()
+    }
+
+    fn trace_type(&self) -> TraceType {
+        TraceType::Const
     }
 }
 

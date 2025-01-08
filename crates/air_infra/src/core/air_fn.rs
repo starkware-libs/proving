@@ -37,7 +37,7 @@ pub enum TraceType {
 
     // Has its own component in the trace. The trace for this component is pre-filled with rows
     // for all possible inputs by external means. Doesn't generate deductions or constraints.
-    // Has no input, only output. Can be called only with call_external_column. Doesn't yield
+    // Has no input, only output. Can be called only with call_external_table. Doesn't yield
     // lookup data.
     Const,
 
@@ -555,7 +555,7 @@ impl AirBuilder {
 
         let mut output_name = "".to_string();
         let mut output = <(<Seq as ExtTable>::T, ChainRoundVar, S)>::new("".to_string(), false);
-        let first_row = self.call_external_column(&Seq {}) * const_expr!(num_iterations as u32);
+        let first_row = self.call_external_table(&Seq {}) * const_expr!(num_iterations as u32);
         let mut ext_input = first_row.clone();
         let mut input = (const_expr!(0), state);
 
@@ -756,17 +756,16 @@ impl AirBuilder {
     }
 
     #[allow(unused_variables)]
-    pub fn call_external_column<O>(&mut self, air_fn: &O) -> O::T
+    pub fn call_external_table<O>(&mut self, ext_table: &O) -> O::T
     where
-        O: ExtTable + AirFn<ExtIn = (), In = (), Out = O::T>,
+        O: ExtTable,
     {
-        assert!(
-            air_fn.trace_type() == TraceType::Const,
-            "External columns must be constant"
-        );
+        let air_fn = ExtTableAirFn {
+            ext_table: ext_table.clone(),
+        };
 
         // Make sure the callee is in the registry
-        self.registry.add_entry(air_fn);
+        self.registry.add_entry(&air_fn);
 
         #[cfg(test)]
         if self.run {

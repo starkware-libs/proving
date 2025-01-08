@@ -66,7 +66,7 @@ impl AirFn for AddModBuiltin {
     type Out = ();
 
     fn call(&self, ab: &mut AirBuilder, _: (), _: ()) -> Self::Out {
-        let instance_num = ab.call_external_column(&Seq {});
+        let instance_num = ab.call_external_table(&Seq {});
         let segment_start = ab.get_public_param(PublicParam::AddModBuiltinSegmentStart);
         // Get p, a, b, c from the memory segment of add_mod
         let [p, a, b, c] = ab.call(

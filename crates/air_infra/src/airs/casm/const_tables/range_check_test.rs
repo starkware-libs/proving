@@ -58,7 +58,7 @@ fn test_range_check_runtime_success() {
 
 #[test]
 fn test_range_check_vector() {
-    let range_check_vector = RangeCheck::<RangeCheck4_3>::default();
+    let range_check_vector = RangeCheck::<RangeCheck_4_3_Const>::default();
     let (registry, _) = AirFnRegistry::new(&range_check_vector);
     registry.run_air(
         &range_check_vector,
@@ -70,7 +70,7 @@ fn test_range_check_vector() {
 #[test]
 #[should_panic(expected = "RangeCheck failed on element 0: RangeCheck4 on input 31")]
 fn test_failed_range_check_first_element() {
-    let range_check_vector = RangeCheck::<RangeCheck4_3>::default();
+    let range_check_vector = RangeCheck::<RangeCheck_4_3_Const>::default();
     let (registry, _) = AirFnRegistry::new(&range_check_vector);
     registry.run_air(
         &range_check_vector,
@@ -82,7 +82,7 @@ fn test_failed_range_check_first_element() {
 #[test]
 #[should_panic(expected = "RangeCheck failed on element 1: RangeCheck3 on input 32")]
 fn test_failed_range_check_second_element() {
-    let range_check_vector = RangeCheck::<RangeCheck4_3>::default();
+    let range_check_vector = RangeCheck::<RangeCheck_4_3_Const>::default();
     let (registry, _) = AirFnRegistry::new(&range_check_vector);
     registry.run_air(
         &range_check_vector,
