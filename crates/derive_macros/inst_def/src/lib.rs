@@ -40,12 +40,11 @@ fn impl_inst_def(ast: &DeriveInput) -> TokenStream {
 
             quote! {
                 let mut field_value = format!("{:?}", self.#ident);
-                if field_value == "true" {
-                    field_value = "t".to_string();
-                } else if field_value == "false" {
-                    field_value = "f".to_string();
+                match field_value.as_str() {
+                    "false" => {},
+                    "true" => {map.insert(#field_name.to_string(), "".to_string());},
+                    _ => {map.insert(#field_name.to_string(), field_value);}
                 }
-                map.insert(#field_name.to_string(), field_value);
             }
         });
 

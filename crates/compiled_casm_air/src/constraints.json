@@ -4333,7 +4333,7 @@
       }
     }
   ],
-  "add_ap_opcode_imm_f_op_1_base_fp_f": [
+  "add_ap_opcode": [
     {
       "Call": {
         "fn_name": "decode_instruction_95ed11aea2bb2eff",
@@ -4387,7 +4387,7 @@
       }
     }
   ],
-  "add_ap_opcode_imm_t_op_1_base_fp_f": [
+  "add_ap_opcode_imm": [
     {
       "Call": {
         "fn_name": "decode_instruction_a14b71db698d77c8",
@@ -4441,7 +4441,7 @@
       }
     }
   ],
-  "add_ap_opcode_imm_f_op_1_base_fp_t": [
+  "add_ap_opcode_op_1_base_fp": [
     {
       "Call": {
         "fn_name": "decode_instruction_3a1aeaa2aac0bdcf",
@@ -4495,7 +4495,7 @@
       }
     }
   ],
-  "add_opcode_small_t_imm_t": [
+  "add_opcode_small_imm": [
     {
       "Constraint": "(((((col13 + (col14 * 512)) + (col15 * 262144)) - col11) - (134217728 * col12)) - (((((col19 + (col20 * 512)) + (col21 * 262144)) - col17) - (134217728 * col18)) + ((((col25 + (col26 * 512)) + (col27 * 262144)) - col23) - (134217728 * col24))))"
     },
@@ -4572,7 +4572,7 @@
       }
     }
   ],
-  "add_opcode_small_f_imm_f": [
+  "add_opcode": [
     {
       "Constraint": "((col8 + col9) - 1)"
     },
@@ -4631,7 +4631,7 @@
       }
     }
   ],
-  "add_opcode_small_t_imm_f": [
+  "add_opcode_small": [
     {
       "Constraint": "(((((col17 + (col18 * 512)) + (col19 * 262144)) - col15) - (134217728 * col16)) - (((((col23 + (col24 * 512)) + (col25 * 262144)) - col21) - (134217728 * col22)) + ((((col29 + (col30 * 512)) + (col31 * 262144)) - col27) - (134217728 * col28))))"
     },
@@ -4686,7 +4686,7 @@
       }
     }
   ],
-  "add_opcode_small_f_imm_t": [
+  "add_opcode_imm": [
     {
       "Constraint": "(col8 - ((col5 * col2) + ((1 - col5) * col1)))"
     },
@@ -4787,7 +4787,7 @@
       }
     }
   ],
-  "assert_eq_opcode_double_deref_f_imm_f": [
+  "assert_eq_opcode": [
     {
       "Constraint": "((col6 + col7) - 1)"
     },
@@ -4850,7 +4850,7 @@
       }
     }
   ],
-  "assert_eq_opcode_double_deref_t_imm_f": [
+  "assert_eq_opcode_double_deref": [
     {
       "Constraint": "(col10 - ((col7 * col2) + ((1 - col7) * col1)))"
     },
@@ -4917,7 +4917,7 @@
       }
     }
   ],
-  "assert_eq_opcode_double_deref_f_imm_t": [
+  "assert_eq_opcode_imm": [
     {
       "Constraint": "(col6 - ((col4 * col2) + ((1 - col4) * col1)))"
     },
@@ -4974,7 +4974,7 @@
       }
     }
   ],
-  "call_opcode_rel_f_op_1_base_fp_f": [
+  "call_opcode": [
     {
       "Constraint": "(((col5 + (col6 * 512)) + (col7 * 262144)) - col2)"
     },
@@ -5048,7 +5048,7 @@
       }
     }
   ],
-  "call_opcode_rel_t_op_1_base_fp_f": [
+  "call_opcode_rel": [
     {
       "Constraint": "(((col4 + (col5 * 512)) + (col6 * 262144)) - col2)"
     },
@@ -5122,7 +5122,7 @@
       }
     }
   ],
-  "call_opcode_rel_f_op_1_base_fp_t": [
+  "call_opcode_op_1_base_fp": [
     {
       "Constraint": "(((col5 + (col6 * 512)) + (col7 * 262144)) - col2)"
     },
@@ -5196,30 +5196,30 @@
       }
     }
   ],
-  "jnz_opcode_taken_t_dst_base_fp_t": [
+  "jnz_opcode_taken_dst_base_fp": [
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_578a4_7",
+        "name": "diff_from_p_tmp_8b848_7",
         "type": "M31",
         "var": "(col6 - 1)"
       }
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_578a4_8",
+        "name": "diff_from_p_tmp_8b848_8",
         "type": "M31",
         "var": "(col27 - 136)"
       }
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_578a4_9",
+        "name": "diff_from_p_tmp_8b848_9",
         "type": "M31",
         "var": "(col33 - 256)"
       }
     },
     {
-      "Constraint": "((((((((((((((((((((((((((((((0 + (diff_from_p_tmp_578a4_7 * diff_from_p_tmp_578a4_7)) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + (diff_from_p_tmp_578a4_8 * diff_from_p_tmp_578a4_8)) + col28) + col29) + col30) + col31) + col32) + (diff_from_p_tmp_578a4_9 * diff_from_p_tmp_578a4_9)) * col35) - 1)"
+      "Constraint": "((((((((((((((((((((((((((((((0 + (diff_from_p_tmp_8b848_7 * diff_from_p_tmp_8b848_7)) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + (diff_from_p_tmp_8b848_8 * diff_from_p_tmp_8b848_8)) + col28) + col29) + col30) + col31) + col32) + (diff_from_p_tmp_8b848_9 * diff_from_p_tmp_8b848_9)) * col35) - 1)"
     },
     {
       "Constraint": "((((((((((((((((((((((((((((((0 + col6) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + col27) + col28) + col29) + col30) + col31) + col32) + col33) * col34) - 1)"
@@ -5284,7 +5284,7 @@
       }
     }
   ],
-  "jnz_opcode_taken_f_dst_base_fp_f": [
+  "jnz_opcode": [
     {
       "Constraint": "((((((((((((((((((((((((((((0 + col6) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + col27) + col28) + col29) + col30) + col31) + col32) + col33)"
     },
@@ -5313,30 +5313,30 @@
       }
     }
   ],
-  "jnz_opcode_taken_t_dst_base_fp_f": [
+  "jnz_opcode_taken": [
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_5fa6d_7",
+        "name": "diff_from_p_tmp_65b05_7",
         "type": "M31",
         "var": "(col6 - 1)"
       }
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_5fa6d_8",
+        "name": "diff_from_p_tmp_65b05_8",
         "type": "M31",
         "var": "(col27 - 136)"
       }
     },
     {
       "Intermediate": {
-        "name": "diff_from_p_tmp_5fa6d_9",
+        "name": "diff_from_p_tmp_65b05_9",
         "type": "M31",
         "var": "(col33 - 256)"
       }
     },
     {
-      "Constraint": "((((((((((((((((((((((((((((((0 + (diff_from_p_tmp_5fa6d_7 * diff_from_p_tmp_5fa6d_7)) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + (diff_from_p_tmp_5fa6d_8 * diff_from_p_tmp_5fa6d_8)) + col28) + col29) + col30) + col31) + col32) + (diff_from_p_tmp_5fa6d_9 * diff_from_p_tmp_5fa6d_9)) * col35) - 1)"
+      "Constraint": "((((((((((((((((((((((((((((((0 + (diff_from_p_tmp_65b05_7 * diff_from_p_tmp_65b05_7)) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + (diff_from_p_tmp_65b05_8 * diff_from_p_tmp_65b05_8)) + col28) + col29) + col30) + col31) + col32) + (diff_from_p_tmp_65b05_9 * diff_from_p_tmp_65b05_9)) * col35) - 1)"
     },
     {
       "Constraint": "((((((((((((((((((((((((((((((0 + col6) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + col27) + col28) + col29) + col30) + col31) + col32) + col33) * col34) - 1)"
@@ -5373,7 +5373,7 @@
       }
     }
   ],
-  "jnz_opcode_taken_f_dst_base_fp_t": [
+  "jnz_opcode_dst_base_fp": [
     {
       "Constraint": "((((((((((((((((((((((((((((0 + col6) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + col27) + col28) + col29) + col30) + col31) + col32) + col33)"
     },
@@ -5430,7 +5430,7 @@
       }
     }
   ],
-  "jump_opcode_rel_t_imm_t_double_deref_f": [
+  "jump_opcode_rel_imm": [
     {
       "Call": {
         "fn_name": "decode_instruction_ccd4c4cd993af638",
@@ -5484,7 +5484,7 @@
       }
     }
   ],
-  "jump_opcode_rel_t_imm_f_double_deref_f": [
+  "jump_opcode_rel": [
     {
       "Constraint": "((col4 + col5) - 1)"
     },
@@ -5544,7 +5544,7 @@
       }
     }
   ],
-  "jump_opcode_rel_f_imm_f_double_deref_t": [
+  "jump_opcode_double_deref": [
     {
       "Constraint": "(col7 - ((col5 * col2) + ((1 - col5) * col1)))"
     },
@@ -5608,7 +5608,7 @@
       }
     }
   ],
-  "jump_opcode_rel_f_imm_f_double_deref_f": [
+  "jump_opcode": [
     {
       "Constraint": "((col4 + col5) - 1)"
     },
@@ -5802,7 +5802,7 @@
       }
     }
   ],
-  "mul_opcode_small_t_imm_t": [
+  "mul_opcode_small_imm": [
     {
       "Constraint": "(col8 - ((col5 * col2) + ((1 - col5) * col1)))"
     },
@@ -5883,7 +5883,7 @@
       }
     }
   ],
-  "mul_opcode_small_t_imm_f": [
+  "mul_opcode_small": [
     {
       "Constraint": "((col8 + col9) - 1)"
     },
@@ -5942,7 +5942,7 @@
       }
     }
   ],
-  "mul_opcode_small_f_imm_f": [
+  "mul_opcode": [
     {
       "Constraint": "((col8 + col9) - 1)"
     },
@@ -6001,7 +6001,7 @@
       }
     }
   ],
-  "mul_opcode_small_f_imm_t": [
+  "mul_opcode_imm": [
     {
       "Constraint": "(col8 - ((col5 * col2) + ((1 - col5) * col1)))"
     },
