@@ -21,7 +21,7 @@ fn test_mul(
     expected_state: State,
 ) {
     // Read the non-constant flags
-    let [mull_small, flag_dst_base_fp, flag_op0_base_fp, flag_op1_imm, flag_op1_base_fp, flag_op1_base_ap, flag_ap_update_add_1] =
+    let [mul_small, flag_dst_base_fp, flag_op0_base_fp, flag_op1_imm, flag_op1_base_fp, flag_op1_base_ap, flag_ap_update_add_1] =
         non_consts_flags;
 
     let [offset_dst_val, offset0_val, mut offset1_val] = offset_values;
@@ -31,8 +31,8 @@ fn test_mul(
 
     // Create the air function
     let mut mul_small_opcode = MulOpcode {
-        is_small: mull_small,
-        is_imm: flag_op1_imm,
+        small: mul_small,
+        imm: flag_op1_imm,
         memory: Felt252IdMemory::default(),
     };
 

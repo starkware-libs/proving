@@ -17,7 +17,7 @@ use crate::core::felt252_id_memory::memory::*;
 
 #[derive(Clone, Debug, InstDef)]
 pub struct CallOpcode {
-    pub is_rel: bool,
+    pub rel: bool,
     pub op1_base_fp: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
@@ -25,7 +25,7 @@ pub struct CallOpcode {
 
 impl CallOpcode {
     pub fn get_flags(&self) -> Flags {
-        let flag_op1_base_ap = if self.is_rel {
+        let flag_op1_base_ap = if self.rel {
             assert!(
                 !self.op1_base_fp,
                 "Flag op1_base_fp cannot be set for relative calls."
@@ -37,13 +37,13 @@ impl CallOpcode {
         Flags {
             dst_base_fp: Some(false),
             op0_base_fp: Some(false),
-            op1_imm: Some(self.is_rel),
+            op1_imm: Some(self.rel),
             op1_base_fp: Some(self.op1_base_fp),
             op1_base_ap: Some(flag_op1_base_ap),
             res_add: Some(false),
             res_mul: Some(false),
-            pc_update_jump: Some(!self.is_rel),
-            pc_update_jump_rel: Some(self.is_rel),
+            pc_update_jump: Some(!self.rel),
+            pc_update_jump_rel: Some(self.rel),
             pc_update_jnz: Some(false),
             ap_update_add: Some(false),
             ap_update_add_1: Some(false),
@@ -61,7 +61,7 @@ impl AirFn for CallOpcode {
 
     fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Create the constant offsets.
-        let offset2 = if self.is_rel { Some(1) } else { None };
+        let offset2 = if self.rel { Some(1) } else { None };
 
         // Check the instruction.
         let ([_, _, offset2], _) = ab.call(
@@ -82,11 +82,11 @@ impl AirFn for CallOpcode {
         let stored_ret_pc_address =
             CasmAddress::new(casm_state.ap().var + const_expr!(1), "stored_ret_pc");
         let stored_ret_pc = self.memory.read_address(ab, stored_ret_pc_address);
-        let return_pc = casm_state.pc().var + const_expr!(1 + (self.is_rel as u32));
+        let return_pc = casm_state.pc().var + const_expr!(1 + (self.rel as u32));
         ab.constrain(stored_ret_pc.var - return_pc, "[ap+1] = return_pc");
 
         // Update pc.
-        let next_pc = if self.is_rel {
+        let next_pc = if self.rel {
             casm_state.pc().var
                 + self.memory.read_rel_imm(
                     ab,

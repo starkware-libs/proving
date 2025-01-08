@@ -581,7 +581,7 @@
     "trace_cells_upper_bound": 153,
     "lookup_uses_upper_bound": 19
   },
-  "add_ap_opcode_is_imm_f_op_1_base_fp_f": {
+  "add_ap_opcode_imm_f_op_1_base_fp_f": {
     "trace_type": "Opcode",
     "num_state_cols": 10,
     "lookup_uses": {
@@ -608,7 +608,7 @@
     "trace_cells_upper_bound": 152,
     "lookup_uses_upper_bound": 19
   },
-  "add_ap_opcode_is_imm_t_op_1_base_fp_f": {
+  "add_ap_opcode_imm_t_op_1_base_fp_f": {
     "trace_type": "Opcode",
     "num_state_cols": 9,
     "lookup_uses": {
@@ -635,7 +635,7 @@
     "trace_cells_upper_bound": 153,
     "lookup_uses_upper_bound": 19
   },
-  "add_ap_opcode_is_imm_f_op_1_base_fp_t": {
+  "add_ap_opcode_imm_f_op_1_base_fp_t": {
     "trace_type": "Opcode",
     "num_state_cols": 10,
     "lookup_uses": {
@@ -662,7 +662,7 @@
     "trace_cells_upper_bound": 157,
     "lookup_uses_upper_bound": 19
   },
-  "add_opcode_is_small_t_is_imm_t": {
+  "add_opcode_small_t_imm_t": {
     "trace_type": "Opcode",
     "num_state_cols": 28,
     "lookup_uses": {
@@ -689,7 +689,7 @@
     "trace_cells_upper_bound": 160,
     "lookup_uses_upper_bound": 19
   },
-  "add_opcode_is_small_f_is_imm_f": {
+  "add_opcode_small_f_imm_f": {
     "trace_type": "Opcode",
     "num_state_cols": 102,
     "lookup_uses": {
@@ -704,7 +704,7 @@
     "trace_cells_upper_bound": 585,
     "lookup_uses_upper_bound": 68
   },
-  "add_opcode_is_small_t_is_imm_f": {
+  "add_opcode_small_t_imm_f": {
     "trace_type": "Opcode",
     "num_state_cols": 32,
     "lookup_uses": {
@@ -719,7 +719,7 @@
     "trace_cells_upper_bound": 515,
     "lookup_uses_upper_bound": 68
   },
-  "add_opcode_is_small_f_is_imm_t": {
+  "add_opcode_small_f_imm_t": {
     "trace_type": "Opcode",
     "num_state_cols": 98,
     "lookup_uses": {
@@ -758,7 +758,7 @@
     "trace_cells_upper_bound": 13,
     "lookup_uses_upper_bound": 2
   },
-  "assert_eq_opcode_is_double_deref_f_is_imm_f": {
+  "assert_eq_opcode_double_deref_f_imm_f": {
     "trace_type": "Opcode",
     "num_state_cols": 12,
     "lookup_uses": {
@@ -784,7 +784,7 @@
     "trace_cells_upper_bound": 158,
     "lookup_uses_upper_bound": 19
   },
-  "assert_eq_opcode_is_double_deref_t_is_imm_f": {
+  "assert_eq_opcode_double_deref_t_imm_f": {
     "trace_type": "Opcode",
     "num_state_cols": 16,
     "lookup_uses": {
@@ -811,7 +811,7 @@
     "trace_cells_upper_bound": 155,
     "lookup_uses_upper_bound": 19
   },
-  "assert_eq_opcode_is_double_deref_f_is_imm_t": {
+  "assert_eq_opcode_double_deref_f_imm_t": {
     "trace_type": "Opcode",
     "num_state_cols": 8,
     "lookup_uses": {
@@ -837,7 +837,7 @@
     "trace_cells_upper_bound": 153,
     "lookup_uses_upper_bound": 19
   },
-  "call_opcode_is_rel_f_op_1_base_fp_f": {
+  "call_opcode_rel_f_op_1_base_fp_f": {
     "trace_type": "Opcode",
     "num_state_cols": 16,
     "lookup_uses": {
@@ -864,7 +864,7 @@
     "trace_cells_upper_bound": 152,
     "lookup_uses_upper_bound": 19
   },
-  "call_opcode_is_rel_t_op_1_base_fp_f": {
+  "call_opcode_rel_t_op_1_base_fp_f": {
     "trace_type": "Opcode",
     "num_state_cols": 17,
     "lookup_uses": {
@@ -891,7 +891,7 @@
     "trace_cells_upper_bound": 153,
     "lookup_uses_upper_bound": 19
   },
-  "call_opcode_is_rel_f_op_1_base_fp_t": {
+  "call_opcode_rel_f_op_1_base_fp_t": {
     "trace_type": "Opcode",
     "num_state_cols": 16,
     "lookup_uses": {
@@ -918,7 +918,7 @@
     "trace_cells_upper_bound": 154,
     "lookup_uses_upper_bound": 19
   },
-  "jnz_opcode_is_taken_t_dst_base_fp_t": {
+  "jnz_opcode_taken_t_dst_base_fp_t": {
     "trace_type": "Opcode",
     "num_state_cols": 42,
     "lookup_uses": {
@@ -945,7 +945,7 @@
     "trace_cells_upper_bound": 154,
     "lookup_uses_upper_bound": 19
   },
-  "jnz_opcode_is_taken_f_dst_base_fp_f": {
+  "jnz_opcode_taken_f_dst_base_fp_f": {
     "trace_type": "Opcode",
     "num_state_cols": 34,
     "lookup_uses": {
@@ -960,7 +960,7 @@
     "trace_cells_upper_bound": 299,
     "lookup_uses_upper_bound": 36
   },
-  "jnz_opcode_is_taken_t_dst_base_fp_f": {
+  "jnz_opcode_taken_t_dst_base_fp_f": {
     "trace_type": "Opcode",
     "num_state_cols": 42,
     "lookup_uses": {
@@ -975,7 +975,7 @@
     "trace_cells_upper_bound": 416,
     "lookup_uses_upper_bound": 52
   },
-  "jnz_opcode_is_taken_f_dst_base_fp_t": {
+  "jnz_opcode_taken_f_dst_base_fp_t": {
     "trace_type": "Opcode",
     "num_state_cols": 34,
     "lookup_uses": {
@@ -1002,7 +1002,7 @@
     "trace_cells_upper_bound": 153,
     "lookup_uses_upper_bound": 19
   },
-  "jump_opcode_is_rel_t_is_imm_t_is_double_deref_f": {
+  "jump_opcode_rel_t_imm_t_double_deref_f": {
     "trace_type": "Opcode",
     "num_state_cols": 10,
     "lookup_uses": {
@@ -1029,7 +1029,7 @@
     "trace_cells_upper_bound": 156,
     "lookup_uses_upper_bound": 19
   },
-  "jump_opcode_is_rel_t_is_imm_f_is_double_deref_f": {
+  "jump_opcode_rel_t_imm_f_double_deref_f": {
     "trace_type": "Opcode",
     "num_state_cols": 14,
     "lookup_uses": {
@@ -1056,7 +1056,7 @@
     "trace_cells_upper_bound": 156,
     "lookup_uses_upper_bound": 19
   },
-  "jump_opcode_is_rel_f_is_imm_f_is_double_deref_t": {
+  "jump_opcode_rel_f_imm_f_double_deref_t": {
     "trace_type": "Opcode",
     "num_state_cols": 16,
     "lookup_uses": {
@@ -1083,7 +1083,7 @@
     "trace_cells_upper_bound": 156,
     "lookup_uses_upper_bound": 19
   },
-  "jump_opcode_is_rel_f_is_imm_f_is_double_deref_f": {
+  "jump_opcode_rel_f_imm_f_double_deref_f": {
     "trace_type": "Opcode",
     "num_state_cols": 12,
     "lookup_uses": {
@@ -1158,7 +1158,7 @@
     "trace_cells_upper_bound": 18,
     "lookup_uses_upper_bound": 3
   },
-  "mul_opcode_is_small_t_is_imm_t": {
+  "mul_opcode_small_t_imm_t": {
     "trace_type": "Opcode",
     "num_state_cols": 32,
     "lookup_uses": {
@@ -1186,7 +1186,7 @@
     "trace_cells_upper_bound": 160,
     "lookup_uses_upper_bound": 19
   },
-  "mul_opcode_is_small_t_is_imm_f": {
+  "mul_opcode_small_t_imm_f": {
     "trace_type": "Opcode",
     "num_state_cols": 36,
     "lookup_uses": {
@@ -1202,7 +1202,7 @@
     "trace_cells_upper_bound": 534,
     "lookup_uses_upper_bound": 71
   },
-  "mul_opcode_is_small_f_is_imm_f": {
+  "mul_opcode_small_f_imm_f": {
     "trace_type": "Opcode",
     "num_state_cols": 129,
     "lookup_uses": {
@@ -1218,7 +1218,7 @@
     "trace_cells_upper_bound": 752,
     "lookup_uses_upper_bound": 96
   },
-  "mul_opcode_is_small_f_is_imm_t": {
+  "mul_opcode_small_f_imm_t": {
     "trace_type": "Opcode",
     "num_state_cols": 125,
     "lookup_uses": {

@@ -23,7 +23,7 @@ use crate::utils::test_utils::*;
 fn test_generic_consistency_rel_call() {
     let mut generic_opcode = GenericOpcode::default();
     let mut call_opcode = CallOpcode {
-        is_rel: true,
+        rel: true,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
@@ -306,7 +306,7 @@ fn test_generic_consistency_rel_call() {
 fn test_generic_call_abs_imm() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
-        is_rel: false,
+        rel: false,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
@@ -356,7 +356,7 @@ fn test_generic_call_abs_imm() {
 fn test_generic_call_rel_deref() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
-        is_rel: true,
+        rel: true,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
@@ -687,8 +687,8 @@ fn test_generic_consistency_ret() {
 fn test_generic_consistency_assert_equal() {
     let mut generic_opcode = GenericOpcode::default();
     let mut assert_equal_opcode = AssertEqOpcode {
-        is_double_deref: false,
-        is_imm: false,
+        double_deref: false,
+        imm: false,
         memory: Felt252IdMemory::default(),
     };
     let [offset0, offset1, offset2] = [3, -1, 2];
@@ -989,9 +989,9 @@ fn test_generic_consistency_assert_equal() {
 fn test_generic_consistency_jump() {
     let mut generic_opcode = GenericOpcode::default();
     let mut jump_opcode = JumpOpcode {
-        is_rel: false,
-        is_imm: false,
-        is_double_deref: false,
+        rel: false,
+        imm: false,
+        double_deref: false,
         memory: Felt252IdMemory::default(),
     };
 
@@ -1286,9 +1286,9 @@ fn test_generic_consistency_jump() {
 fn test_generic_jump_abs_imm() {
     let mut generic_opcode = GenericOpcode::default();
     let jump_opcode = JumpOpcode {
-        is_rel: false,
-        is_imm: false,
-        is_double_deref: false,
+        rel: false,
+        imm: false,
+        double_deref: false,
         memory: Felt252IdMemory::default(),
     };
 
@@ -1336,9 +1336,9 @@ fn test_generic_jump_abs_imm() {
 fn test_generic_jump_rel_double_deref() {
     let mut generic_opcode = GenericOpcode::default();
     let jump_opcode = JumpOpcode {
-        is_rel: false,
-        is_imm: false,
-        is_double_deref: true,
+        rel: false,
+        imm: false,
+        double_deref: true,
         memory: Felt252IdMemory::default(),
     };
 
@@ -1400,7 +1400,7 @@ fn test_generic_jump_rel_double_deref() {
 fn test_generic_consistency_jnz_taken() {
     let mut generic_opcode = GenericOpcode::default();
     let mut jnz_opcode = JnzOpcode {
-        is_taken: true,
+        taken: true,
         dst_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
@@ -1693,7 +1693,7 @@ fn test_generic_consistency_jnz_taken() {
 fn test_generic_consistency_jnz_not_taken() {
     let mut generic_opcode = GenericOpcode::default();
     let mut jnz_opcode = JnzOpcode {
-        is_taken: false,
+        taken: false,
         dst_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
@@ -1986,7 +1986,7 @@ fn test_generic_consistency_jnz_not_taken() {
 fn test_generic_jnz_deref_taken() {
     let mut generic_opcode = GenericOpcode::default();
     let jnz_opcode = JnzOpcode {
-        is_taken: true,
+        taken: true,
         dst_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
@@ -2047,7 +2047,7 @@ fn test_generic_jnz_deref_taken() {
 fn test_generic_jnz_deref_not_taken() {
     let mut generic_opcode = GenericOpcode::default();
     let jnz_opcode = JnzOpcode {
-        is_taken: true,
+        taken: true,
         dst_base_fp: true,
         memory: Felt252IdMemory::default(),
     };
@@ -2105,7 +2105,7 @@ fn test_generic_jnz_deref_not_taken() {
 fn test_generic_add_ap_double_deref() {
     let mut generic_opcode = GenericOpcode::default();
     let add_ap = AddApOpcode {
-        is_imm: false,
+        imm: false,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
@@ -2162,7 +2162,7 @@ fn test_generic_add_ap_double_deref() {
 fn test_generic_add_ap_res_mul() {
     let mut generic_opcode = GenericOpcode::default();
     let add_ap = AddApOpcode {
-        is_imm: false,
+        imm: false,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
@@ -2220,7 +2220,7 @@ fn test_generic_add_ap_res_mul() {
 fn test_generic_add_ap_res_add() {
     let mut generic_opcode = GenericOpcode::default();
     let add_ap = AddApOpcode {
-        is_imm: false,
+        imm: false,
         op1_base_fp: true,
         memory: Felt252IdMemory::default(),
     };
@@ -2279,7 +2279,7 @@ fn test_generic_add_ap_res_add() {
 fn test_generic_soundness_call_wrong_offset() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
-        is_rel: true,
+        rel: true,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
@@ -2320,7 +2320,7 @@ fn test_generic_soundness_call_wrong_offset() {
 fn test_generic_soundness_call_fp_not_pushed() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
-        is_rel: true,
+        rel: true,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
@@ -2361,7 +2361,7 @@ fn test_generic_soundness_call_fp_not_pushed() {
 fn test_generic_soundness_call_wrong_next_pc() {
     let mut generic_opcode = GenericOpcode::default();
     let call_opcode = CallOpcode {
-        is_rel: false,
+        rel: false,
         op1_base_fp: true,
         memory: Felt252IdMemory::default(),
     };
@@ -2402,10 +2402,10 @@ fn test_generic_soundness_call_wrong_next_pc() {
 
 #[test]
 #[should_panic(expected = "0 has no inverse")]
-fn test_generic_soundness_jnz_dst_is_p() {
+fn test_generic_soundness_jnz_dst_p() {
     let mut generic_opcode = GenericOpcode::default();
     let jnz_opcode = JnzOpcode {
-        is_taken: false,
+        taken: false,
         dst_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
@@ -2454,8 +2454,8 @@ fn test_generic_soundness_jnz_dst_is_p() {
 fn test_generic_soundness_assert_eq() {
     let mut generic_opcode = GenericOpcode::default();
     let assert_eq = AssertEqOpcode {
-        is_double_deref: false,
-        is_imm: false,
+        double_deref: false,
+        imm: false,
         memory: Felt252IdMemory::default(),
     };
 

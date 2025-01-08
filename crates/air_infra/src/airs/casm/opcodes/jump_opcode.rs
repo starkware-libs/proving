@@ -18,9 +18,9 @@ use crate::core::felt252_id_memory::memory::*;
 
 #[derive(Clone, Debug, InstDef)]
 pub struct JumpOpcode {
-    pub is_rel: bool,
-    pub is_imm: bool,
-    pub is_double_deref: bool,
+    pub rel: bool,
+    pub imm: bool,
+    pub double_deref: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
@@ -28,27 +28,24 @@ pub struct JumpOpcode {
 impl JumpOpcode {
     pub fn get_flags(&self) -> Flags {
         assert!(
-            !self.is_imm || !self.is_double_deref,
+            !self.imm || !self.double_deref,
             "Cannot set flags to support double deref and immediate at the same time.",
         );
+        assert!(self.rel || !self.imm, "Immediate jump must be relative.",);
         assert!(
-            self.is_rel || !self.is_imm,
-            "Immediate jump must be relative.",
-        );
-        assert!(
-            !self.is_double_deref || !self.is_rel,
+            !self.double_deref || !self.rel,
             "Double deref jump must be absolute.",
         );
         Flags {
             dst_base_fp: Some(true),
-            op0_base_fp: (!self.is_double_deref).then_some(true),
-            op1_imm: Some(self.is_imm),
-            op1_base_fp: (self.is_imm || self.is_double_deref).then_some(false),
-            op1_base_ap: (self.is_imm || self.is_double_deref).then_some(false),
+            op0_base_fp: (!self.double_deref).then_some(true),
+            op1_imm: Some(self.imm),
+            op1_base_fp: (self.imm || self.double_deref).then_some(false),
+            op1_base_ap: (self.imm || self.double_deref).then_some(false),
             res_add: Some(false),
             res_mul: Some(false),
-            pc_update_jump: Some(!self.is_rel),
-            pc_update_jump_rel: Some(self.is_rel),
+            pc_update_jump: Some(!self.rel),
+            pc_update_jump_rel: Some(self.rel),
             pc_update_jnz: Some(false),
             ap_update_add: Some(false),
             ap_update_add_1: None,
@@ -66,8 +63,8 @@ impl AirFn for JumpOpcode {
 
     fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Create the constant offsets.
-        let offset1 = if self.is_double_deref { None } else { Some(-1) };
-        let offset2 = if self.is_imm { Some(1) } else { None };
+        let offset1 = if self.double_deref { None } else { Some(-1) };
+        let offset2 = if self.imm { Some(1) } else { None };
 
         // Check the instruction.
         let ([_, offset1, offset2], flags) = ab.call(
@@ -86,9 +83,9 @@ impl AirFn for JumpOpcode {
         let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
         // Calculate the next pc
-        let mem1_base = if self.is_imm {
+        let mem1_base = if self.imm {
             casm_state.pc().var
-        } else if self.is_double_deref {
+        } else if self.double_deref {
             let mem0_base = ab.assign(
                 &mut (op0_base_fp.clone() * casm_state.fp().var
                     + (const_expr!(1) - op0_base_fp) * casm_state.ap().var),
@@ -108,7 +105,7 @@ impl AirFn for JumpOpcode {
             )
         };
 
-        let next_pc = if self.is_rel {
+        let next_pc = if self.rel {
             casm_state.pc().var
                 + self
                     .memory

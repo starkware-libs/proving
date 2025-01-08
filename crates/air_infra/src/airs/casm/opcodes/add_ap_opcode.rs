@@ -15,7 +15,7 @@ use crate::core::felt252_id_memory::memory::*;
 /// - ap += [fp/ap + offset]
 #[derive(Clone, Debug, InstDef)]
 pub struct AddApOpcode {
-    pub is_imm: bool,
+    pub imm: bool,
     pub op1_base_fp: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
@@ -24,15 +24,15 @@ pub struct AddApOpcode {
 impl AddApOpcode {
     pub fn get_flags(&self) -> Flags {
         assert!(
-            !self.is_imm || !self.op1_base_fp,
+            !self.imm || !self.op1_base_fp,
             "FLAG_OP1_IMM and FLAG_OP1_BASE_FP cannot be set at the same time."
         );
         Flags {
             dst_base_fp: Some(true),
             op0_base_fp: Some(true),
-            op1_imm: if self.is_imm { Some(true) } else { Some(false) },
+            op1_imm: if self.imm { Some(true) } else { Some(false) },
             op1_base_fp: Some(self.op1_base_fp),
-            op1_base_ap: if self.is_imm {
+            op1_base_ap: if self.imm {
                 Some(false)
             } else {
                 Some(!self.op1_base_fp)
@@ -58,7 +58,7 @@ impl AirFn for AddApOpcode {
 
     fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Decode the instruction.
-        let offset2 = if self.is_imm { Some(1) } else { None };
+        let offset2 = if self.imm { Some(1) } else { None };
         let ([_, _, offset2], _) = ab.call(
             &DecodeInstruction {
                 const_offsets: [Some(-1), Some(-1), offset2],
@@ -68,7 +68,7 @@ impl AirFn for AddApOpcode {
             casm_state.pc().clone(),
         );
 
-        let op1 = if self.is_imm {
+        let op1 = if self.imm {
             self.memory.read_rel_imm(
                 ab,
                 CasmAddress::new(casm_state.pc().var + const_expr!(1), "op1"),
@@ -84,7 +84,7 @@ impl AirFn for AddApOpcode {
         };
 
         CasmStateVar::new(
-            casm_state.pc().var + (const_expr!(1) + const_expr!(self.is_imm as u32)),
+            casm_state.pc().var + (const_expr!(1) + const_expr!(self.imm as u32)),
             casm_state.ap().var + op1,
             casm_state.fp().var,
         )

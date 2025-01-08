@@ -19,7 +19,7 @@ use crate::core::variables::*;
 
 #[derive(Clone, Debug, InstDef)]
 pub struct JnzOpcode {
-    pub is_taken: bool,
+    pub taken: bool,
     pub dst_base_fp: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
@@ -90,7 +90,7 @@ impl AirFn for JnzOpcode {
             .into_iter()
             .fold(const_expr!(0), |acc, x| acc + x);
 
-        let next_pc = if self.is_taken {
+        let next_pc = if self.taken {
             // constrain dst != 0
             // This is sound because in this case it is sufficient to make sure that dst is not zero
             // or P (since 2P>2^252). The sum of the parts of dst is not zero iff dst is

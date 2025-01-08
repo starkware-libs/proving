@@ -1,7 +1,7 @@
 use stwo_prover::core::backend::simd::conversion::Pack;
 
-pub mod add_ap_opcode_is_imm_t_op_1_base_fp_f;
-pub mod jnz_opcode_is_taken_t_dst_base_fp_t;
+pub mod add_ap_opcode_imm_t_op_1_base_fp_f;
+pub mod jnz_opcode_taken_t_dst_base_fp_t;
 pub mod memory_address_to_id;
 pub mod memory_id_to_big;
 pub mod narrow_fib_num_steps_20;

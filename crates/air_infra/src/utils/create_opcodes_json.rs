@@ -34,15 +34,15 @@ pub struct FibArgs {
 #[derive(Debug, Args)]
 pub struct AssertEqOpcodeArgs {
     #[clap(long)]
-    is_double_deref: bool,
+    double_deref: bool,
     #[clap(long)]
-    is_imm: bool,
+    imm: bool,
 }
 
 #[derive(Debug, Args)]
 pub struct CallOpcodeArgs {
     #[clap(long)]
-    is_rel: bool,
+    rel: bool,
     #[clap(long)]
     flag_op1_base_fp: bool,
 }
@@ -50,30 +50,30 @@ pub struct CallOpcodeArgs {
 #[derive(Debug, Args)]
 pub struct JumpOpcodeArgs {
     #[clap(long)]
-    is_rel: bool,
+    rel: bool,
     #[clap(long)]
-    is_imm: bool,
+    imm: bool,
     #[clap(long)]
-    is_double_deref: bool,
+    double_deref: bool,
 }
 
 pub fn create_air_fn_registry(arguments: AirFnArgs) -> AirFnRegistry {
     let mut registry = AirFnRegistry::new_empty();
     match arguments {
         AirFnArgs::AssertEq(arguments) => registry.add_entry(&AssertEqOpcode {
-            is_imm: arguments.is_imm,
-            is_double_deref: arguments.is_double_deref,
+            imm: arguments.imm,
+            double_deref: arguments.double_deref,
             memory: Felt252IdMemory::default(),
         }),
         AirFnArgs::Call(arguments) => registry.add_entry(&CallOpcode {
-            is_rel: arguments.is_rel,
+            rel: arguments.rel,
             op1_base_fp: arguments.flag_op1_base_fp,
             memory: Felt252IdMemory::default(),
         }),
         AirFnArgs::Jump(arguments) => registry.add_entry(&JumpOpcode {
-            is_rel: arguments.is_rel,
-            is_imm: arguments.is_imm,
-            is_double_deref: arguments.is_double_deref,
+            rel: arguments.rel,
+            imm: arguments.imm,
+            double_deref: arguments.double_deref,
             memory: Felt252IdMemory::default(),
         }),
         AirFnArgs::Fib(arguments) => registry.add_entry(&Fib {

@@ -17,12 +17,12 @@ use crate::core::felt252_id_memory::read_small::*;
 /// - [ap/fp + offset0] = [ap/fp + offset1] + [ap/fp + offset2]
 /// - [ap/fp + offset0] = [ap/fp + offset1] + Imm
 ///
-/// is_small = true : all three values are in the range [-2**27, 2**27 - 1].
-/// is_small = false : all three values are in the range [0, 2**252 - 1].
+/// small = true : all three values are in the range [-2**27, 2**27 - 1].
+/// small = false : all three values are in the range [0, 2**252 - 1].
 #[derive(Clone, Debug, InstDef)]
 pub struct AddOpcode {
-    pub is_small: bool,
-    pub is_imm: bool,
+    pub small: bool,
+    pub imm: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
@@ -32,9 +32,9 @@ impl AddOpcode {
         Flags {
             dst_base_fp: None,
             op0_base_fp: None,
-            op1_imm: Some(self.is_imm),
-            op1_base_fp: if !self.is_imm { None } else { Some(false) },
-            op1_base_ap: if !self.is_imm { None } else { Some(false) },
+            op1_imm: Some(self.imm),
+            op1_base_fp: if !self.imm { None } else { Some(false) },
+            op1_base_ap: if !self.imm { None } else { Some(false) },
             res_add: Some(true),
             res_mul: Some(false),
             pc_update_jump: Some(false),
@@ -55,7 +55,7 @@ impl AirFn for AddOpcode {
     type Out = CasmStateVar;
 
     fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
-        let const_offsets = if self.is_imm {
+        let const_offsets = if self.imm {
             [None, None, Some(1)]
         } else {
             [None, None, None]
@@ -87,7 +87,7 @@ impl AirFn for AddOpcode {
                 + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap().var),
             "mem0_base",
         );
-        let mem1_base = if self.is_imm {
+        let mem1_base = if self.imm {
             casm_state.pc().var
         } else {
             ab.constrain(
@@ -102,7 +102,7 @@ impl AirFn for AddOpcode {
         };
 
         // Add Small
-        if self.is_small {
+        if self.small {
             let (dst, _) = ab.call(
                 &ReadSmall {
                     memory: self.memory.clone(),
@@ -153,7 +153,7 @@ impl AirFn for AddOpcode {
         let next_ap = casm_state.ap().var + flag_ap_update_add_1;
 
         // Calculate the next pc
-        let next_pc = if self.is_imm {
+        let next_pc = if self.imm {
             casm_state.pc().var + const_expr!(2)
         } else {
             casm_state.pc().var + const_expr!(1)

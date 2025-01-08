@@ -59,138 +59,138 @@ fn test_casm_registry() {
     reg.add_entry(&GenericOpcode::default());
     // AddAp opcode
     reg.add_entry(&AddApOpcode {
-        is_imm: false,
+        imm: false,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&AddApOpcode {
-        is_imm: true,
+        imm: true,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&AddApOpcode {
-        is_imm: false,
+        imm: false,
         op1_base_fp: true,
         memory: Felt252IdMemory::default(),
     });
     // Add opcode
     reg.add_entry(&AddOpcode {
-        is_small: true,
-        is_imm: true,
+        small: true,
+        imm: true,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&AddOpcode {
-        is_small: false,
-        is_imm: false,
+        small: false,
+        imm: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&AddOpcode {
-        is_small: true,
-        is_imm: false,
+        small: true,
+        imm: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&AddOpcode {
-        is_small: false,
-        is_imm: true,
+        small: false,
+        imm: true,
         memory: Felt252IdMemory::default(),
     });
     // AssertEq opcode
     reg.add_entry(&AssertEqOpcode {
-        is_double_deref: false,
-        is_imm: false,
+        double_deref: false,
+        imm: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&AssertEqOpcode {
-        is_double_deref: true,
-        is_imm: false,
+        double_deref: true,
+        imm: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&AssertEqOpcode {
-        is_double_deref: false,
-        is_imm: true,
+        double_deref: false,
+        imm: true,
         memory: Felt252IdMemory::default(),
     });
     //  Call opcode
     reg.add_entry(&CallOpcode {
-        is_rel: false,
+        rel: false,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&CallOpcode {
-        is_rel: true,
+        rel: true,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&CallOpcode {
-        is_rel: false,
+        rel: false,
         op1_base_fp: true,
         memory: Felt252IdMemory::default(),
     });
     // Jnz opcode
     reg.add_entry(&JnzOpcode {
-        is_taken: true,
+        taken: true,
         dst_base_fp: true,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&JnzOpcode {
-        is_taken: false,
+        taken: false,
         dst_base_fp: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&JnzOpcode {
-        is_taken: true,
+        taken: true,
         dst_base_fp: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&JnzOpcode {
-        is_taken: false,
+        taken: false,
         dst_base_fp: true,
         memory: Felt252IdMemory::default(),
     });
     // Jump opcode
     reg.add_entry(&JumpOpcode {
-        is_rel: true,
-        is_imm: true,
-        is_double_deref: false,
+        rel: true,
+        imm: true,
+        double_deref: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&JumpOpcode {
-        is_rel: true,
-        is_imm: false,
-        is_double_deref: false,
+        rel: true,
+        imm: false,
+        double_deref: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&JumpOpcode {
-        is_rel: false,
-        is_imm: false,
-        is_double_deref: true,
+        rel: false,
+        imm: false,
+        double_deref: true,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&JumpOpcode {
-        is_rel: false,
-        is_imm: false,
-        is_double_deref: false,
+        rel: false,
+        imm: false,
+        double_deref: false,
         memory: Felt252IdMemory::default(),
     });
     // Mul opcode
     reg.add_entry(&MulOpcode {
-        is_small: true,
-        is_imm: true,
+        small: true,
+        imm: true,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&MulOpcode {
-        is_small: true,
-        is_imm: false,
+        small: true,
+        imm: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&MulOpcode {
-        is_small: false,
-        is_imm: false,
+        small: false,
+        imm: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&MulOpcode {
-        is_small: false,
-        is_imm: true,
+        small: false,
+        imm: true,
         memory: Felt252IdMemory::default(),
     });
     // Ret opcode

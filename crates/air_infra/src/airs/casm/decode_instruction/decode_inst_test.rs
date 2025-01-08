@@ -16,15 +16,15 @@ use crate::utils::test_utils::*;
 
 fn test_with_matching_memory(
     flags: [bool; 15],
-    is_flag_const: [bool; 15],
+    flag_const: [bool; 15],
     offsets: [i16; 3],
-    is_offset_const: [bool; 3],
+    offset_const: [bool; 3],
     expected_state: State,
 ) {
     let const_offsets = offsets
         .iter()
         .enumerate()
-        .map(|(i, &off)| if is_offset_const[i] { Some(off) } else { None })
+        .map(|(i, &off)| if offset_const[i] { Some(off) } else { None })
         .collect::<Vec<Option<i16>>>()
         .try_into()
         .unwrap();
@@ -32,7 +32,7 @@ fn test_with_matching_memory(
         flags
             .iter()
             .enumerate()
-            .map(|(i, &flag)| if is_flag_const[i] { Some(flag) } else { None })
+            .map(|(i, &flag)| if flag_const[i] { Some(flag) } else { None })
             .collect::<Vec<_>>()
             .try_into()
             .unwrap(),
@@ -103,14 +103,14 @@ fn init_flags_and_offsets() -> ([bool; 15], [i16; 3]) {
 #[test]
 fn test_no_consts() {
     let (flags, offsets) = init_flags_and_offsets();
-    let is_offset_const = [false; 3];
-    let is_flag_const = [false; 15];
+    let offset_const = [false; 3];
+    let flag_const = [false; 15];
 
     test_with_matching_memory(
         flags,
-        is_flag_const,
+        flag_const,
         offsets,
-        is_offset_const,
+        offset_const,
         vec![
             (49953, "offset0"),
             (30875, "offset1"),
@@ -138,31 +138,25 @@ fn test_no_consts() {
 #[test]
 fn test_all_consts() {
     let (flags, offsets) = init_flags_and_offsets();
-    let is_offset_const = [true; 3];
-    let is_flag_const = [true; 15];
+    let offset_const = [true; 3];
+    let flag_const = [true; 15];
 
-    test_with_matching_memory(
-        flags,
-        is_flag_const,
-        offsets,
-        is_offset_const,
-        vec![].into(),
-    );
+    test_with_matching_memory(flags, flag_const, offsets, offset_const, vec![].into());
 }
 
 #[test]
 fn test_some_consts() {
     let (flags, offsets) = init_flags_and_offsets();
-    let is_offset_const = [true, false, true];
-    let mut is_flag_const = [true; 15];
-    is_flag_const[0] = false;
-    is_flag_const[2] = false;
+    let offset_const = [true, false, true];
+    let mut flag_const = [true; 15];
+    flag_const[0] = false;
+    flag_const[2] = false;
 
     test_with_matching_memory(
         flags,
-        is_flag_const,
+        flag_const,
         offsets,
-        is_offset_const,
+        offset_const,
         vec![(30875, "offset1"), (0, "dst_base_fp"), (0, "op1_imm")].into(),
     );
 }

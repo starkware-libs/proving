@@ -25,7 +25,7 @@ fn test_assert_not_eq_deref() {
     );
 }
 
-// [ap + offset] == is_imm
+// [ap + offset] == imm
 #[test]
 #[should_panic(expected = "given value != value in memory")]
 fn test_assert_not_eq_imm() {
@@ -118,7 +118,7 @@ fn test_assert_eq_deref() {
     );
 }
 
-// [fp + offset] == is_imm
+// [fp + offset] == imm
 #[test]
 fn test_assert_eq_imm() {
     test_assert_equal(
@@ -182,15 +182,15 @@ fn test_assert_equal(
         non_consts_flags;
 
     // Create the air function
-    let is_double_deref = !flag_op1_imm && !flag_op1_base_fp && !flag_op1_base_ap;
+    let double_deref = !flag_op1_imm && !flag_op1_base_fp && !flag_op1_base_ap;
     let mut assert_equal_opcode = AssertEqOpcode {
-        is_double_deref,
-        is_imm: flag_op1_imm,
+        double_deref,
+        imm: flag_op1_imm,
         memory: Felt252IdMemory::default(),
     };
 
     let offset0_value = 3;
-    let offset1_value = if is_double_deref { 7 } else { -1 };
+    let offset1_value = if double_deref { 7 } else { -1 };
     let offset2_value = if flag_op1_imm { 1 } else { 2 };
 
     // Register values at opcode start
@@ -204,7 +204,7 @@ fn test_assert_equal(
     // Create the non-constant flags
     let non_consts_flags = if flag_op1_imm {
         vec![flag_dst_base_fp, flag_ap_update_add_1]
-    } else if is_double_deref {
+    } else if double_deref {
         vec![flag_dst_base_fp, flag_op0_base_fp, flag_ap_update_add_1]
     } else {
         vec![
@@ -243,7 +243,7 @@ fn test_assert_equal(
     };
     if flag_op1_imm {
         memory_values.push((const_expr!(pc_value + 1), const_felt252_expr!(op1, 0)));
-    } else if is_double_deref {
+    } else if double_deref {
         memory_values.push((
             const_expr!((op0 as i32 + offset2_value as i32) as u32),
             const_felt252_expr!(op1, 0),

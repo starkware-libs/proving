@@ -164,23 +164,23 @@ fn write_trace_simd(
         .zip(sub_components_inputs.par_iter_mut().chunks(N_LANES))
         .for_each(
             |(
-                (((row_index, row), add_ap_opcode_is_imm_t_op_1_base_fp_f_input), lookup_data),
+                (((row_index, row), add_ap_opcode_imm_t_op_1_base_fp_f_input), lookup_data),
                 mut sub_components_inputs,
             )| {
-                let input_tmp_38a0f_0 = add_ap_opcode_is_imm_t_op_1_base_fp_f_input;
-                let input_pc_col0 = input_tmp_38a0f_0.pc;
+                let input_tmp_1006a_0 = add_ap_opcode_imm_t_op_1_base_fp_f_input;
+                let input_pc_col0 = input_tmp_1006a_0.pc;
                 *row[0] = input_pc_col0;
-                let input_ap_col1 = input_tmp_38a0f_0.ap;
+                let input_ap_col1 = input_tmp_1006a_0.ap;
                 *row[1] = input_ap_col1;
-                let input_fp_col2 = input_tmp_38a0f_0.fp;
+                let input_fp_col2 = input_tmp_1006a_0.fp;
                 *row[2] = input_fp_col2;
 
                 // Decode Instruction.
 
-                let memory_address_to_id_value_tmp_38a0f_1 =
+                let memory_address_to_id_value_tmp_1006a_1 =
                     memory_address_to_id_state.deduce_output(input_pc_col0);
-                let memory_id_to_big_value_tmp_38a0f_2 =
-                    memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_38a0f_1);
+                let memory_id_to_big_value_tmp_1006a_2 =
+                    memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_1006a_1);
                 for (i, &input) in (
                     input_pc_col0,
                     [M31_32767, M31_32767, M31_32769],
@@ -219,11 +219,11 @@ fn write_trace_simd(
 
                 // Read Small.
 
-                let memory_address_to_id_value_tmp_38a0f_3 =
+                let memory_address_to_id_value_tmp_1006a_3 =
                     memory_address_to_id_state.deduce_output(((input_pc_col0) + (M31_1)));
-                let memory_id_to_big_value_tmp_38a0f_4 =
-                    memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_38a0f_3);
-                let op1_id_col3 = memory_address_to_id_value_tmp_38a0f_3;
+                let memory_id_to_big_value_tmp_1006a_4 =
+                    memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_1006a_3);
+                let op1_id_col3 = memory_address_to_id_value_tmp_1006a_3;
                 *row[3] = op1_id_col3;
                 for (i, &input) in ((input_pc_col0) + (M31_1)).unpack().iter().enumerate() {
                     *sub_components_inputs[i].memory_address_to_id_inputs[0] = input;
@@ -232,19 +232,19 @@ fn write_trace_simd(
 
                 // Cond Decode Small Sign.
 
-                let msb_tmp_38a0f_5 = memory_id_to_big_value_tmp_38a0f_4.get_m31(27).eq(M31_256);
-                let msb_col4 = msb_tmp_38a0f_5.as_m31();
+                let msb_tmp_1006a_5 = memory_id_to_big_value_tmp_1006a_4.get_m31(27).eq(M31_256);
+                let msb_col4 = msb_tmp_1006a_5.as_m31();
                 *row[4] = msb_col4;
-                let mid_limbs_set_tmp_38a0f_6 =
-                    memory_id_to_big_value_tmp_38a0f_4.get_m31(20).eq(M31_511);
-                let mid_limbs_set_col5 = mid_limbs_set_tmp_38a0f_6.as_m31();
+                let mid_limbs_set_tmp_1006a_6 =
+                    memory_id_to_big_value_tmp_1006a_4.get_m31(20).eq(M31_511);
+                let mid_limbs_set_col5 = mid_limbs_set_tmp_1006a_6.as_m31();
                 *row[5] = mid_limbs_set_col5;
 
-                let op1_limb_0_col6 = memory_id_to_big_value_tmp_38a0f_4.get_m31(0);
+                let op1_limb_0_col6 = memory_id_to_big_value_tmp_1006a_4.get_m31(0);
                 *row[6] = op1_limb_0_col6;
-                let op1_limb_1_col7 = memory_id_to_big_value_tmp_38a0f_4.get_m31(1);
+                let op1_limb_1_col7 = memory_id_to_big_value_tmp_1006a_4.get_m31(1);
                 *row[7] = op1_limb_1_col7;
-                let op1_limb_2_col8 = memory_id_to_big_value_tmp_38a0f_4.get_m31(2);
+                let op1_limb_2_col8 = memory_id_to_big_value_tmp_1006a_4.get_m31(2);
                 *row[8] = op1_limb_2_col8;
                 for (i, &input) in op1_id_col3.unpack().iter().enumerate() {
                     *sub_components_inputs[i].memory_id_to_big_inputs[0] = input;

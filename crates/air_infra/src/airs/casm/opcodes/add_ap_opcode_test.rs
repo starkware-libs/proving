@@ -15,7 +15,7 @@ use crate::utils::test_utils::*;
 fn test_add_ap_negative_imm() {
     // build the air function
     let mut add_ap_opcode = AddApOpcode {
-        is_imm: true,
+        imm: true,
         op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
@@ -71,7 +71,7 @@ fn test_add_ap_negative_imm() {
 fn test_add_ap_deref_base_fp() {
     // build the air function
     let mut add_ap_opcode = AddApOpcode {
-        is_imm: false,
+        imm: false,
         op1_base_fp: true,
         memory: Felt252IdMemory::default(),
     };
@@ -134,7 +134,7 @@ fn test_add_ap_deref_base_fp() {
 fn test_failed_op1_src() {
     // build the air function
     let mut add_ap_opcode = AddApOpcode {
-        is_imm: true,
+        imm: true,
         op1_base_fp: true,
         memory: Felt252IdMemory::default(),
     };

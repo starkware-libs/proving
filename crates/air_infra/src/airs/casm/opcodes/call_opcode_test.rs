@@ -23,11 +23,11 @@ fn build_and_test(
         const_expr!(fp_value),
     ];
 
-    let is_rel = offset2_option.is_none();
+    let rel = offset2_option.is_none();
     let offset2 = offset2_option.unwrap_or(1);
 
     let mut call_opcode = CallOpcode {
-        is_rel,
+        rel,
         op1_base_fp,
         memory: Felt252IdMemory::default(),
     };
@@ -44,12 +44,12 @@ fn build_and_test(
         ),
         (
             const_expr!(ap_value + 1),
-            const_felt252_expr!((pc_value + (if is_rel { 2 } else { 1 })) as u128, 0),
+            const_felt252_expr!((pc_value + (if rel { 2 } else { 1 })) as u128, 0),
         ),
     ];
 
     let op1_value_252 = const_felt252_expr!(op1_value);
-    if is_rel {
+    if rel {
         memory_values.push((const_expr!(pc_value + 1), op1_value_252));
     } else if op1_base_fp {
         memory_values.push((
@@ -74,7 +74,7 @@ fn build_and_test(
     );
 
     // Check output
-    if is_rel {
+    if rel {
         assert_eq!(
             next_state.pc().calc(),
             (pc_value as i128 + op1_value as i128).to_string()

@@ -18,8 +18,8 @@ use crate::core::felt252_id_memory::verify_equal::*;
 
 #[derive(Clone, Debug, InstDef)]
 pub struct AssertEqOpcode {
-    pub is_double_deref: bool,
-    pub is_imm: bool,
+    pub double_deref: bool,
+    pub imm: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
@@ -28,18 +28,18 @@ impl AssertEqOpcode {
     pub fn get_flags(&self) -> Flags {
         Flags {
             dst_base_fp: None,
-            op0_base_fp: if self.is_double_deref {
+            op0_base_fp: if self.double_deref {
                 None
             } else {
                 Some(true) // Default is fp based
             },
-            op1_imm: Some(self.is_imm),
-            op1_base_fp: if !self.is_double_deref && !self.is_imm {
+            op1_imm: Some(self.imm),
+            op1_base_fp: if !self.double_deref && !self.imm {
                 None
             } else {
                 Some(false)
             },
-            op1_base_ap: if !self.is_double_deref && !self.is_imm {
+            op1_base_ap: if !self.double_deref && !self.imm {
                 None
             } else {
                 Some(false)
@@ -65,14 +65,14 @@ impl AirFn for AssertEqOpcode {
 
     fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         assert!(
-            !(self.is_imm && self.is_double_deref),
+            !(self.imm && self.double_deref),
             "Double deref and immediate can't be set together"
         );
 
         // Create the constant offsets.
-        let offsets = if self.is_imm {
+        let offsets = if self.imm {
             [None, Some(-1), Some(1)]
-        } else if self.is_double_deref {
+        } else if self.double_deref {
             [None, None, None]
         } else {
             [None, Some(-1), None]
@@ -103,7 +103,7 @@ impl AirFn for AssertEqOpcode {
         );
 
         // Find mem1_base
-        let mem1_base = if self.is_double_deref {
+        let mem1_base = if self.double_deref {
             let mem0_base = ab.assign(
                 &mut (flag_op0_base_fp.clone() * casm_state.fp().var
                     + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap().var),
@@ -112,7 +112,7 @@ impl AirFn for AssertEqOpcode {
             self.memory
                 .read_address(ab, CasmAddress::new(mem0_base + offset1, "mem1_base"))
                 .var
-        } else if self.is_imm {
+        } else if self.imm {
             casm_state.pc().var
         } else {
             ab.constrain(
@@ -141,7 +141,7 @@ impl AirFn for AssertEqOpcode {
         let next_ap = casm_state.ap().var + flag_ap_update_add_1;
 
         // Calculate the next pc
-        let next_pc = if self.is_imm {
+        let next_pc = if self.imm {
             casm_state.pc().var + const_expr!(2)
         } else {
             casm_state.pc().var + const_expr!(1)

@@ -53,7 +53,7 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
 pub fn print_fn_sizes() {
     let mut registry = AirFnRegistry::new_empty();
     let func = CallOpcode {
-        is_rel: false,
+        rel: false,
         op1_base_fp: false,
         memory: Default::default(),
     };
@@ -61,7 +61,7 @@ pub fn print_fn_sizes() {
     print_statistics("call abs [ap]", compiled);
 
     let func = CallOpcode {
-        is_rel: true,
+        rel: true,
         op1_base_fp: false,
         memory: Default::default(),
     };
@@ -69,18 +69,18 @@ pub fn print_fn_sizes() {
     print_statistics("call rel [ap]", compiled);
 
     let func = JumpOpcode {
-        is_rel: false,
-        is_imm: false,
-        is_double_deref: false,
+        rel: false,
+        imm: false,
+        double_deref: false,
         memory: Default::default(),
     };
     let compiled = registry.add_entry(&func).compile();
     print_statistics("jump abs [ap/fp]", compiled);
 
     let func = JumpOpcode {
-        is_rel: true,
-        is_imm: true,
-        is_double_deref: false,
+        rel: true,
+        imm: true,
+        double_deref: false,
         memory: Default::default(),
     };
     let compiled = registry.add_entry(&func).compile();

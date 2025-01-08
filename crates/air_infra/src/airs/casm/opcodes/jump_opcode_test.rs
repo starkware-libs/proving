@@ -19,13 +19,12 @@ fn test_jump_opcode(
     offsets_value: [Option<i16>; 2],
     expected_state: State,
 ) {
-    let [is_rel, is_imm, is_double_deref, op0_base_fp, op1_base_fp, ap_update_add_1] =
-        non_consts_flags;
+    let [rel, imm, double_deref, op0_base_fp, op1_base_fp, ap_update_add_1] = non_consts_flags;
     // Create the air function
     let mut jump_opcode = JumpOpcode {
-        is_rel,
-        is_imm,
-        is_double_deref,
+        rel,
+        imm,
+        double_deref,
         memory: Felt252IdMemory::default(),
     };
 
@@ -34,10 +33,10 @@ fn test_jump_opcode(
     let ap = 11;
     let fp = 6;
 
-    // Create the non-constant is_imm_jump
-    let non_consts_flags = if is_imm {
+    // Create the non-constant imm_jump
+    let non_consts_flags = if imm {
         vec![ap_update_add_1]
-    } else if is_double_deref {
+    } else if double_deref {
         vec![op0_base_fp, ap_update_add_1]
     } else {
         vec![op1_base_fp, !op1_base_fp, ap_update_add_1]
@@ -57,9 +56,9 @@ fn test_jump_opcode(
             0
         ),
     )];
-    if is_imm {
+    if imm {
         memory_values.push((const_expr!(pc + 1), const_felt252_expr!(op1)));
-    } else if is_double_deref {
+    } else if double_deref {
         memory_values.push((
             const_expr!((op0 as i32 + offsets_value[1].unwrap() as i32) as u32),
             const_felt252_expr!(op1),
@@ -97,7 +96,7 @@ fn test_jump_opcode(
     );
 
     // Check output
-    if is_rel {
+    if rel {
         assert_eq!(next_state.pc().calc(), (pc as i64 + op1).to_string());
     } else {
         assert_eq!(next_state.pc().calc(), op1.to_string());

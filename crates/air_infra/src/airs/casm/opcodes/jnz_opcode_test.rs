@@ -11,7 +11,7 @@ use crate::utils::test_utils::*;
 use crate::{const_expr, const_felt252_expr};
 
 fn build_and_test(
-    [is_taken, dst_base_fp, ap_update_add_1]: [bool; 3],
+    [taken, dst_base_fp, ap_update_add_1]: [bool; 3],
     offset_dst: i16,
     dst_value: Felt252Expr,
     op1_value: i64,
@@ -25,7 +25,7 @@ fn build_and_test(
     ];
 
     let mut jnz_opcode = JnzOpcode {
-        is_taken,
+        taken,
         dst_base_fp,
         memory: Felt252IdMemory::default(),
     };
@@ -71,7 +71,7 @@ fn build_and_test(
     );
 
     // Check output
-    if is_taken {
+    if taken {
         assert_eq!(
             next_state.pc().calc(),
             (pc_value as i128 + op1_value as i128).to_string()

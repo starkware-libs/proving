@@ -31,8 +31,8 @@ fn test_add_opcode(
 
     // Create the air function
     let mut add_small_opcode = AddOpcode {
-        is_small: add_small,
-        is_imm: flag_op1_imm,
+        small: add_small,
+        imm: flag_op1_imm,
         memory: Felt252IdMemory::default(),
     };
 
