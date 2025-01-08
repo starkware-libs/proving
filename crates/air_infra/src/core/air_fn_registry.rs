@@ -252,12 +252,11 @@ impl AirFnRegistry {
             | TraceType::Opcode
             | TraceType::Memory => {
                 let output = air_fn.lookup_call(&mut air_builder, ext_input.clone(), input.clone());
-                // Make sure that the output has no intermediate variables that are not in both
-                // constraints and deductions, since the output goes into lookup data (used in
-                // trace generation and in constraints evaluation).
+                // Make sure that all intermediate variables in the output are visible in the
+                // trace generation code, since this code returns the output.
                 assert!(
-                    output.visibility().in_constraints && output.visibility().in_deductions,
-                    "Output must have no intermediate variables that are not in both constraints and deductions",
+                    output.visibility().in_deductions,
+                    "Output must have no intermediate variables that are not in deductions",
                 );
                 output
             }

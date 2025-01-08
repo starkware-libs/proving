@@ -62,8 +62,9 @@ pub enum TraceType {
     // Generates accumulated sum column where the input
     // is used and the output is yielded (chain lookup constraint).
     // Can be called only with chain_lookup_call.
-    // Important: A ChainRound can be called only once from a single caller, as we use the caller
-    // Seq column to identify the chain (see chain_lookup_call).
+    // Important: A ChainRound can be called from a single caller, and that caller can only call
+    // it once in each row. This is because we use the caller Seq column to identify the chain
+    // (see chain_lookup_call).
     ChainRound,
 }
 
@@ -167,7 +168,9 @@ pub trait AirFn: Debug + InstDefTrait {
 
         Self::ExtIn::to_state(&mut ext_input);
 
+        // Handle input
         if self.trace_type() == TraceType::Memory {
+            // Memory - Assume input & output are already in state (filled by Stwo)
             for felt in input.as_felts_mut() {
                 air_builder.state.add(felt, "input");
             }
@@ -179,6 +182,7 @@ pub trait AirFn: Debug + InstDefTrait {
                     .add(felt, &format!("{}_output", self.name()));
             }
         } else if !Self::In::is_empty() {
+            // Anything else - deduce input
             input = air_builder.let_for_deduction(input, "input");
             if let Some(descs) = input.get_felt_descriptions() {
                 for (felt, desc) in input.as_felts_mut().into_iter().zip(descs) {
@@ -191,9 +195,12 @@ pub trait AirFn: Debug + InstDefTrait {
             }
         }
 
+        // Perform AirFn logic
         let output = self.call(air_builder, ext_input.clone(), input.clone());
 
+        // Add lookup terms
         if self.trace_type() == TraceType::Opcode || self.trace_type() == TraceType::ChainRound {
+            // Chain components - use the input and yield the output
             air_builder.air_body.0.push(AirBodyComponent::LookupTerm {
                 relation_name: self.relation_name().expect("Relation name not set"),
                 felts: ext_input
@@ -210,6 +217,7 @@ pub trait AirFn: Debug + InstDefTrait {
                 use_or_yield: UseOrYield::Yield,
             });
         } else {
+            // Other components - just yield the output
             air_builder.air_body.0.push(AirBodyComponent::LookupTerm {
                 relation_name: self.relation_name().expect("Relation name not set"),
                 felts: ext_input
