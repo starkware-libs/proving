@@ -1,19 +1,15 @@
 use std::fmt::Debug;
 use std::marker::PhantomData;
 
-use compiled_casm_air::const_tables::{
-    STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_12, STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4,
-    STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_7, STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_8,
-    STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9,
-};
 use inst_def::InstDef;
 
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
+use crate::new_verify_bitwise_xor;
 
-pub trait VerifyBitwiseXorSize {
-    fn bits() -> &'static u16;
+pub trait VerifyBitwiseXorSize: ExtTable + Debug + Default {
+    fn bits() -> u16;
 }
 
 pub fn verify_bitwise_xor(ab: &mut AirBuilder, bits: u16, input: [FeltExpr; 3]) {
@@ -31,73 +27,21 @@ pub fn verify_bitwise_xor(ab: &mut AirBuilder, bits: u16, input: [FeltExpr; 3]) 
     }
 }
 
-#[derive(Debug, Default)]
-pub struct VerifyBitwiseXor4 {}
-#[derive(Debug, Default)]
-pub struct VerifyBitwiseXor7 {}
-#[derive(Debug, Default)]
-pub struct VerifyBitwiseXor8 {}
-#[derive(Debug, Default)]
-pub struct VerifyBitwiseXor9 {}
-#[derive(Debug, Default)]
-pub struct VerifyBitwiseXor12 {}
-
-impl VerifyBitwiseXorSize for VerifyBitwiseXor4 {
-    fn bits() -> &'static u16 {
-        &4
-    }
-}
-impl VerifyBitwiseXorSize for VerifyBitwiseXor7 {
-    fn bits() -> &'static u16 {
-        &7
-    }
-}
-impl VerifyBitwiseXorSize for VerifyBitwiseXor8 {
-    fn bits() -> &'static u16 {
-        &8
-    }
-}
-impl VerifyBitwiseXorSize for VerifyBitwiseXor9 {
-    fn bits() -> &'static u16 {
-        &9
-    }
-}
-impl VerifyBitwiseXorSize for VerifyBitwiseXor12 {
-    fn bits() -> &'static u16 {
-        &12
-    }
-}
-
-impl ExtTable for VerifyBitwiseXor4 {
-    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_4;
-    type T = [FeltExpr; 3];
-}
-impl ExtTable for VerifyBitwiseXor7 {
-    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_7;
-    type T = [FeltExpr; 3];
-}
-impl ExtTable for VerifyBitwiseXor8 {
-    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_8;
-    type T = [FeltExpr; 3];
-}
-impl ExtTable for VerifyBitwiseXor9 {
-    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_9;
-    type T = [FeltExpr; 3];
-}
-impl ExtTable for VerifyBitwiseXor12 {
-    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_VERIFY_BITWISE_XOR_12;
-    type T = [FeltExpr; 3];
-}
+new_verify_bitwise_xor!(4, VerifyBitwiseXor4);
+new_verify_bitwise_xor!(7, VerifyBitwiseXor7);
+new_verify_bitwise_xor!(8, VerifyBitwiseXor8);
+new_verify_bitwise_xor!(9, VerifyBitwiseXor9);
+new_verify_bitwise_xor!(12, VerifyBitwiseXor12);
 
 #[derive(Debug, InstDef, Default)]
-pub struct VerifyBitwiseXor<V: VerifyBitwiseXorSize + ExtTable + Debug> {
+pub struct VerifyBitwiseXor<V: VerifyBitwiseXorSize> {
     #[instdef(skip)]
     _phantom: PhantomData<V>,
 }
 
 // Asserts that the three felt expressions are in the correct range,
 // and that their bitwise XOR is 0.
-impl<V: VerifyBitwiseXorSize + ExtTable + Debug> AirFn for VerifyBitwiseXor<V> {
+impl<V: VerifyBitwiseXorSize> AirFn for VerifyBitwiseXor<V> {
     type ExtIn = V;
     type In = ();
     type Out = ();
@@ -154,4 +98,24 @@ impl<V: VerifyBitwiseXorSize + ExtTable + Debug> AirFn for VerifyBitwiseXor<V> {
             }
         }
     }
+}
+
+#[macro_export]
+macro_rules! new_verify_bitwise_xor {
+    ( $b:literal, $name:ident ) => {
+        #[derive(Debug, Default, Clone)]
+        #[allow(non_camel_case_types)]
+        pub struct $name {}
+
+        impl VerifyBitwiseXorSize for $name {
+            fn bits() -> u16 {
+                $b
+            }
+        }
+
+        impl ExtTable for $name {
+            const CONST_TRACE_ID: &'static str = stringify!($name);
+            type T = [FeltExpr; 3];
+        }
+    };
 }
