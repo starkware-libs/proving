@@ -27,7 +27,7 @@
       "type": "M31"
     },
     {
-      "name": "(col1 * col1)",
+      "name": "(col0 + (col1 * col1))",
       "type": "M31"
     }
   ],
@@ -82,7 +82,7 @@
         "felts": [
           "(Seq_col0 + 1)",
           "(col0 + 1)",
-          "(col1 * col1)"
+          "(col0 + (col1 * col1))"
         ],
         "use_or_yield": "Yield"
       }

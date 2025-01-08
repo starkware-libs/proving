@@ -118,7 +118,7 @@ impl AirFn for TestChainRound {
         // TODO: Write an AirFn that constrains the ChainRoundVar and call it here (and from every
         // chain round).
 
-        let new_state = state.clone() * state;
+        let new_state = rnd.clone() + state.clone() * state;
         (inst + const_expr!(1), rnd + const_expr!(1), new_state)
     }
 
@@ -134,8 +134,8 @@ impl AirFn for TestChainLookupCall {
     type In = TestState;
     type Out = TestState;
 
-    fn call(&self, air_builder: &mut AirBuilder, _: (), input: Self::In) -> Self::Out {
-        air_builder.chain_lookup_call(&TestChainRound {}, input, 3)
+    fn call(&self, air_builder: &mut AirBuilder, _: (), state: Self::In) -> Self::Out {
+        air_builder.chain_lookup_call(&TestChainRound {}, (const_expr!(5), state), 3)
     }
 }
 
@@ -148,7 +148,7 @@ fn test_chain_lookup_call() {
         &format!("{}{}.json", TEST_JSONS_CORE_DIR, entry.name),
     );
     let (_, out) = registry.run_air(&func, (), const_expr!(2));
-    assert!(out.calc() == "256");
+    assert!(out.calc() == "7576");
 
     entry = registry.add_entry(&TestChainRound {});
     compare_json(
