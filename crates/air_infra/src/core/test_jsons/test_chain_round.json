@@ -1,0 +1,103 @@
+{
+  "name": "test_chain_round",
+  "relation_name": "TestChainRound",
+  "description": "Test Chain Round",
+  "inst_def": {},
+  "ext_input": {
+    "name": "Seq_col0",
+    "type": "M31"
+  },
+  "input": [
+    {
+      "name": "test_chain_round_input.0",
+      "type": "M31"
+    },
+    {
+      "name": "test_chain_round_input.1",
+      "type": "M31"
+    }
+  ],
+  "output": [
+    {
+      "name": "(Seq_col0 + 1)",
+      "type": "M31"
+    },
+    {
+      "name": "(col0 + 1)",
+      "type": "M31"
+    },
+    {
+      "name": "(col1 * col1)",
+      "type": "M31"
+    }
+  ],
+  "trace_type": "ChainRound",
+  "air_body": [
+    {
+      "Intermediate": [
+        "input_tmp_d3037_0",
+        "(M31, M31)",
+        [
+          {
+            "name": "test_chain_round_input.0",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_round_input.1",
+            "type": "M31"
+          }
+        ],
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "input_tmp_d3037_0.0",
+        "input"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_tmp_d3037_0.1",
+        "input"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "TestChainRound",
+        "felts": [
+          "Seq_col0",
+          "col0",
+          "col1"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "TestChainRound",
+        "felts": [
+          "(Seq_col0 + 1)",
+          "(col0 + 1)",
+          "(col1 * col1)"
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "state": {
+    "row": [
+      [
+        "col0",
+        "input"
+      ],
+      [
+        "col1",
+        "input"
+      ]
+    ]
+  }
+}

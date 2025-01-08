@@ -122,16 +122,8 @@ impl AirFnRegistry {
         self.air_fn_ids.borrow_mut().insert(air_fn_id.clone());
 
         let (air_body, state, ext_input, input, output) = self.build_air(air_fn, air_fn_id);
-        let ext_input_option = if E::T::is_empty() {
-            None
-        } else {
-            Some(ext_input.clone().into())
-        };
-        let input_option = if I::is_empty() {
-            None
-        } else {
-            Some(input.clone().into())
-        };
+        let ext_input_option = (!E::T::is_empty()).then(|| ext_input.clone().into());
+        let input_option = (!I::is_empty()).then(|| input.clone().into());
 
         let entry = AirFnEntry {
             name: air_fn.name(),
@@ -195,8 +187,13 @@ impl AirFnRegistry {
             intermediate_id: Rc::new(RefCell::new(("".to_string(), 0))),
         };
         let output = match air_fn.trace_type() {
-            TraceType::Inline => air_fn.call(&mut air_builder, ext_input, input),
-            TraceType::Component => air_fn.lookup_call(&mut air_builder, ext_input, input),
+            TraceType::Inline | TraceType::Builtin => {
+                air_fn.call(&mut air_builder, ext_input, input)
+            }
+            TraceType::Component
+            | TraceType::ChainRound
+            | TraceType::Memory
+            | TraceType::Opcode => air_fn.lookup_call(&mut air_builder, ext_input, input),
             // For constant AirFns there are no constraints or deductions, so we just return the
             // output.
             TraceType::Const => {
@@ -204,9 +201,6 @@ impl AirFnRegistry {
                 assert!(output.is_const(), "Output must be a constant");
                 output
             }
-            TraceType::Builtin => air_fn.call(&mut air_builder, ext_input, input),
-            TraceType::Opcode => air_fn.lookup_call(&mut air_builder, ext_input, input),
-            TraceType::Memory => air_fn.lookup_call(&mut air_builder, ext_input, input),
         };
 
         (air_builder.state, output)
@@ -248,8 +242,15 @@ impl AirFnRegistry {
         };
 
         let output = match air_fn.trace_type() {
-            TraceType::Inline => air_fn.call(&mut air_builder, ext_input.clone(), input.clone()),
-            TraceType::Component | TraceType::Opcode => {
+            // For constant AirFns the value of <output> is meaningless, as we don't
+            // output any constraints or deductions. It just has to be of the correct type.
+            TraceType::Inline | TraceType::Builtin | TraceType::Const => {
+                air_fn.call(&mut air_builder, ext_input.clone(), input.clone())
+            }
+            TraceType::Component
+            | TraceType::ChainRound
+            | TraceType::Opcode
+            | TraceType::Memory => {
                 let output = air_fn.lookup_call(&mut air_builder, ext_input.clone(), input.clone());
                 // Make sure that the output has no intermediate variables that are not in both
                 // constraints and deductions, since the output goes into lookup data (used in
@@ -259,13 +260,6 @@ impl AirFnRegistry {
                     "Output must have no intermediate variables that are not in both constraints and deductions",
                 );
                 output
-            }
-            // For constant AirFns the value of <output> is meaningless, as we don't
-            // output any constraints or deductions. It just has to be of the correct type.
-            TraceType::Const => air_fn.call(&mut air_builder, ext_input.clone(), input.clone()),
-            TraceType::Builtin => air_fn.call(&mut air_builder, ext_input.clone(), input.clone()),
-            TraceType::Memory => {
-                air_fn.lookup_call(&mut air_builder, ext_input.clone(), input.clone())
             }
         };
 

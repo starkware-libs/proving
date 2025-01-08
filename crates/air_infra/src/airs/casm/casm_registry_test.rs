@@ -212,7 +212,7 @@ fn test_casm_registry() {
     for (name, (trace_type, compiled_entry)) in compiled_reg.iter() {
         let dir = match trace_type {
             TraceType::Opcode => JSONS_OPCODES_DIR,
-            TraceType::Component | TraceType::Memory => JSONS_LOOKUPS_DIR,
+            TraceType::Component | TraceType::Memory | TraceType::ChainRound => JSONS_LOOKUPS_DIR,
             TraceType::Builtin => JSONS_BUILTINS_DIR,
             TraceType::Const | TraceType::Inline => "",
         };

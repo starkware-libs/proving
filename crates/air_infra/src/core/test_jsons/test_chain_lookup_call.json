@@ -1,0 +1,190 @@
+{
+  "name": "test_chain_lookup_call",
+  "relation_name": null,
+  "description": "Test Chain Lookup Call",
+  "inst_def": {},
+  "input": {
+    "name": "test_chain_lookup_call_input",
+    "type": "M31"
+  },
+  "output": {
+    "name": "col2",
+    "type": "M31"
+  },
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "LookupTerm": {
+        "relation_name": "TestChainRound",
+        "felts": [
+          "(Seq_col0 * 3)",
+          "0",
+          "test_chain_lookup_call_input"
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "test_chain_round",
+        "ext_input": {
+          "name": "((Seq_col0 * 3) + 0)",
+          "type": "M31"
+        },
+        "input": [
+          {
+            "name": "0",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_lookup_call_input",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "test_chain_round",
+        "ext_input": {
+          "name": "((Seq_col0 * 3) + 0)",
+          "type": "M31"
+        },
+        "input": [
+          {
+            "name": "0",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_lookup_call_input",
+            "type": "M31"
+          }
+        ],
+        "output_name": "test_chain_round_output_round_0_tmp_b7061_0"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "test_chain_round",
+        "ext_input": {
+          "name": "((Seq_col0 * 3) + 1)",
+          "type": "M31"
+        },
+        "input": [
+          {
+            "name": "1",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_round_output_round_0_tmp_b7061_0.2",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "test_chain_round",
+        "ext_input": {
+          "name": "((Seq_col0 * 3) + 1)",
+          "type": "M31"
+        },
+        "input": [
+          {
+            "name": "1",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_round_output_round_0_tmp_b7061_0.2",
+            "type": "M31"
+          }
+        ],
+        "output_name": "test_chain_round_output_round_1_tmp_b7061_1"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "test_chain_round",
+        "ext_input": {
+          "name": "((Seq_col0 * 3) + 2)",
+          "type": "M31"
+        },
+        "input": [
+          {
+            "name": "2",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_round_output_round_1_tmp_b7061_1.2",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "test_chain_round",
+        "ext_input": {
+          "name": "((Seq_col0 * 3) + 2)",
+          "type": "M31"
+        },
+        "input": [
+          {
+            "name": "2",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_round_output_round_1_tmp_b7061_1.2",
+            "type": "M31"
+          }
+        ],
+        "output_name": "test_chain_round_output_round_2_tmp_b7061_2"
+      }
+    },
+    {
+      "Deduction": [
+        "test_chain_round_output_round_2_tmp_b7061_2.0",
+        "test_chain_round_output"
+      ]
+    },
+    {
+      "Deduction": [
+        "test_chain_round_output_round_2_tmp_b7061_2.1",
+        "test_chain_round_output"
+      ]
+    },
+    {
+      "Deduction": [
+        "test_chain_round_output_round_2_tmp_b7061_2.2",
+        "test_chain_round_output"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "TestChainRound",
+        "felts": [
+          "col0",
+          "col1",
+          "col2"
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ],
+  "state": {
+    "row": [
+      [
+        "col0",
+        "test_chain_round_output"
+      ],
+      [
+        "col1",
+        "test_chain_round_output"
+      ],
+      [
+        "col2",
+        "test_chain_round_output"
+      ]
+    ]
+  }
+}

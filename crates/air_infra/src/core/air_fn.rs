@@ -19,6 +19,8 @@ use super::expressions::felt_expr::*;
 use super::memory::*;
 use super::state::*;
 use super::variables::*;
+use crate::airs::casm::const_tables::seq::*;
+use crate::const_expr;
 use crate::core::Felt;
 
 pub const MAX_NAME_LEN: usize = 50;
@@ -54,6 +56,15 @@ pub enum TraceType {
     // only output columns, if the input is const. They don't generate deductions. They can
     // generate constraints, and they yield lookup data. They implement the IsMemory trait.
     Memory,
+
+    // Has its own component in the trace. Its input and output are of the same type ([FeltExpr;
+    // 2], S), where S is some AirVar. Doesn't yield multiplicity column.
+    // Generates accumulated sum column where the input
+    // is used and the output is yielded (chain lookup constraint).
+    // Can be called only with chain_lookup_call.
+    // Important: A ChainRound can be called only once from a single caller, as we use the caller
+    // Seq column to identify the chain (see chain_lookup_call).
+    ChainRound,
 }
 
 // An air function should define a struct that implements the AirFn trait.
@@ -101,7 +112,7 @@ pub trait AirFn: Debug + InstDefTrait {
 
     fn relation_name(&self) -> Option<String> {
         match self.trace_type() {
-            TraceType::Component => Some(self.name().to_case(Case::Pascal)),
+            TraceType::Component | TraceType::ChainRound => Some(self.name().to_case(Case::Pascal)),
             TraceType::Const => None,
             TraceType::Builtin => None,
             TraceType::Opcode => Some(OPCODES_RELATION_NAME.to_string()),
@@ -148,9 +159,10 @@ pub trait AirFn: Debug + InstDefTrait {
     ) -> Self::Out {
         assert!(
             self.trace_type() == TraceType::Component
+                || self.trace_type() == TraceType::ChainRound
                 || self.trace_type() == TraceType::Opcode
                 || self.trace_type() == TraceType::Memory,
-            "AirFn must be a component, opcode or memory"
+            "AirFn must be a component, chain round, opcode or memory"
         );
 
         Self::ExtIn::to_state(&mut ext_input);
@@ -181,20 +193,19 @@ pub trait AirFn: Debug + InstDefTrait {
 
         let output = self.call(air_builder, ext_input.clone(), input.clone());
 
-        if self.trace_type() == TraceType::Opcode {
-            assert!(
-                <<Self as AirFn>::ExtIn as ExtTable>::T::is_empty(),
-                "Opcodes don't have external input"
-            );
-
+        if self.trace_type() == TraceType::Opcode || self.trace_type() == TraceType::ChainRound {
             air_builder.air_body.0.push(AirBodyComponent::LookupTerm {
-                relation_name: OPCODES_RELATION_NAME.to_string(),
-                felts: input.as_felts(),
+                relation_name: self.relation_name().expect("Relation name not set"),
+                felts: ext_input
+                    .as_felts()
+                    .into_iter()
+                    .chain(input.as_felts())
+                    .collect(),
                 use_or_yield: UseOrYield::Use,
             });
 
             air_builder.air_body.0.push(AirBodyComponent::LookupTerm {
-                relation_name: OPCODES_RELATION_NAME.to_string(),
+                relation_name: self.relation_name().expect("Relation name not set"),
                 felts: output.as_felts(),
                 use_or_yield: UseOrYield::Yield,
             });
@@ -467,9 +478,165 @@ impl AirBuilder {
 
         let output_name = (!O::is_empty())
             .then(|| self.get_intermediate_name(Some(format!("{}_output", air_fn.name()))));
+        let mut output = self.lookup_add_input_and_compute(
+            air_fn,
+            ext_input.clone(),
+            input.clone(),
+            output_name.clone(),
+        );
+
+        // Deduce the output if it is not empty.
+        if !O::is_empty() {
+            output = output.let_(
+                output_name.expect("Output name not set"),
+                Visibility {
+                    in_constraints: false,
+                    in_deductions: true,
+                },
+            );
+
+            if let Some(descs) = output.get_felt_descriptions() {
+                for (felt, desc) in output.as_felts_mut().into_iter().zip(descs) {
+                    self.deduce(felt, &format!("{}_output_{}", air_fn.name(), desc));
+                }
+            } else {
+                for felt in output.as_felts_mut() {
+                    self.deduce(felt, &format!("{}_output", air_fn.name()));
+                }
+            }
+        }
+
+        self.air_body.0.push(AirBodyComponent::LookupTerm {
+            relation_name: air_fn.relation_name().expect("Relation name not set"),
+            felts: ext_input
+                .as_felts()
+                .into_iter()
+                .chain(input.as_felts())
+                .chain(output.as_felts())
+                .collect(),
+            use_or_yield: UseOrYield::Use,
+        });
+
+        output
+    }
+
+    pub fn chain_lookup_call<S>(
+        &mut self,
+        air_fn: &dyn AirFn<
+            ExtIn = Seq,
+            In = (ChainRoundVar, S),
+            Out = (<Seq as ExtTable>::T, ChainRoundVar, S),
+        >,
+        state: S,
+        num_iterations: usize,
+    ) -> S
+    where
+        S: AirVar,
+        (ChainRoundVar, S): AirVar,
+        (<Seq as ExtTable>::T, ChainRoundVar, S): AirVar,
+    {
+        assert!(
+            air_fn.trace_type() == TraceType::ChainRound,
+            "AirFn must be a chain round"
+        );
+
+        assert!(
+            state.in_state(),
+            "The mask of the input to a chain lookup call must be in the trace."
+        );
+
+        assert!(
+            !S::is_empty(),
+            "The input to a chain lookup call must not be empty."
+        );
+
+        // Make sure the callee is in the registry
+        self.registry.add_entry(air_fn);
+
+        let mut output_name = "".to_string();
+        let mut output = <(<Seq as ExtTable>::T, ChainRoundVar, S)>::new("".to_string(), false);
+        let first_row = self.call_external_column(&Seq {}) * const_expr!(num_iterations as u32);
+        let mut ext_input = first_row.clone();
+        let mut input = (const_expr!(0), state);
+
+        // Yield the input to the first round.
+        self.air_body.0.push(AirBodyComponent::LookupTerm {
+            relation_name: air_fn.relation_name().expect("Relation name not set"),
+            felts: ext_input
+                .as_felts()
+                .into_iter()
+                .chain(input.as_felts())
+                .collect(),
+            use_or_yield: UseOrYield::Yield,
+        });
+
+        // TODO(AnatG): Add all inputs to the lookup component together in one LookupAddInput.
+        for i in 0..num_iterations {
+            output_name =
+                self.get_intermediate_name(Some(format!("{}_output_round_{}", air_fn.name(), i)));
+            ext_input = first_row.clone() + const_expr!(i as u32);
+            output = self.lookup_add_input_and_compute(
+                air_fn,
+                ext_input.clone(),
+                input.clone(),
+                Some(output_name.clone()),
+            );
+
+            // Prepare the input for the next round.
+            input = (const_expr!(i as u32 + 1), output.2.clone());
+        }
+
+        // Deduce the output of the last round.
+        output = output.let_(
+            output_name,
+            Visibility {
+                in_constraints: false,
+                in_deductions: true,
+            },
+        );
+
+        if let Some(descs) = output.get_felt_descriptions() {
+            for (felt, desc) in output.as_felts_mut().into_iter().zip(descs) {
+                self.deduce(felt, &format!("{}_output_{}", air_fn.name(), desc));
+            }
+        } else {
+            for felt in output.as_felts_mut() {
+                self.deduce(felt, &format!("{}_output", air_fn.name()));
+            }
+        }
+
+        // Use the output of the last round.
+        self.air_body.0.push(AirBodyComponent::LookupTerm {
+            relation_name: air_fn.relation_name().expect("Relation name not set"),
+            felts: output.as_felts(),
+            use_or_yield: UseOrYield::Use,
+        });
+
+        output.2
+    }
+
+    fn lookup_add_input_and_compute<E, I, O>(
+        &mut self,
+        air_fn: &dyn AirFn<ExtIn = E, In = I, Out = O>,
+        ext_input: E::T,
+        input: I,
+        output_name: Option<String>,
+    ) -> O
+    where
+        E: ExtTable,
+        I: AirVar,
+        O: AirVar,
+    {
+        #[allow(unused_mut)]
         let mut output = O::new(output_name.clone().unwrap_or_default(), false);
         let ext_input_option = (!E::T::is_empty()).then(|| ext_input.clone().into());
         let input_option = (!I::is_empty()).then(|| input.clone().into());
+
+        self.air_body.0.push(AirBodyComponent::LookupAddInput {
+            air_fn_name: air_fn.name(),
+            ext_input: ext_input_option.clone(),
+            input: input_option.clone(),
+        });
 
         #[cfg(test)]
         if self.run {
@@ -493,46 +660,11 @@ impl AirBuilder {
                 .0
                 .push(AirBodyComponent::LookupCall(LookupCall {
                     air_fn_name: air_fn.name(),
-                    ext_input: ext_input_option.clone(),
-                    input: input_option.clone(),
-                    output_name: output_name.clone(),
+                    ext_input: ext_input_option,
+                    input: input_option,
+                    output_name,
                 }));
-
-            output = output.let_(
-                output_name.unwrap_or_default(),
-                Visibility {
-                    in_constraints: false,
-                    in_deductions: true,
-                },
-            );
-
-            if let Some(descs) = output.get_felt_descriptions() {
-                for (felt, desc) in output.as_felts_mut().into_iter().zip(descs) {
-                    self.deduce(felt, &format!("{}_output_{}", air_fn.name(), desc));
-                }
-            } else {
-                for felt in output.as_felts_mut() {
-                    self.deduce(felt, &format!("{}_output", air_fn.name()));
-                }
-            }
         }
-
-        self.air_body.0.push(AirBodyComponent::LookupAddInput {
-            air_fn_name: air_fn.name(),
-            ext_input: ext_input_option,
-            input: input_option,
-        });
-
-        self.air_body.0.push(AirBodyComponent::LookupTerm {
-            relation_name: air_fn.relation_name().expect("Relation name not set"),
-            felts: ext_input
-                .as_felts()
-                .into_iter()
-                .chain(input.as_felts())
-                .chain(output.as_felts())
-                .collect(),
-            use_or_yield: UseOrYield::Use,
-        });
 
         output
     }

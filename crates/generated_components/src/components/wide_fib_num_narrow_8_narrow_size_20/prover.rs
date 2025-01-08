@@ -137,6 +137,9 @@ fn write_trace_simd(
             )| {
                 let col0 = wide_fib_num_narrow_8_narrow_size_20_input;
                 *row[0] = col0;
+                for (i, &input) in [M31_1, col0].unpack().iter().enumerate() {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[0] = input;
+                }
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_0 =
                     narrow_fib_num_steps_20::deduce_output([M31_1, col0]);
                 let narrow_fib_num_steps_20_output_col1 =
@@ -145,15 +148,22 @@ fn write_trace_simd(
                 let narrow_fib_num_steps_20_output_col2 =
                     narrow_fib_num_steps_20_output_tmp_d7cf2_0[1];
                 *row[2] = narrow_fib_num_steps_20_output_col2;
-                for (i, &input) in [M31_1, col0].unpack().iter().enumerate() {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[0] = input;
-                }
                 *lookup_data.narrow_fib_num_steps_20_0 = [
                     M31_1,
                     col0,
                     narrow_fib_num_steps_20_output_col1,
                     narrow_fib_num_steps_20_output_col2,
                 ];
+                for (i, &input) in [
+                    narrow_fib_num_steps_20_output_col1,
+                    narrow_fib_num_steps_20_output_col2,
+                ]
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[1] = input;
+                }
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_1 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_col1,
@@ -165,22 +175,22 @@ fn write_trace_simd(
                 let narrow_fib_num_steps_20_output_col4 =
                     narrow_fib_num_steps_20_output_tmp_d7cf2_1[1];
                 *row[4] = narrow_fib_num_steps_20_output_col4;
-                for (i, &input) in [
-                    narrow_fib_num_steps_20_output_col1,
-                    narrow_fib_num_steps_20_output_col2,
-                ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[1] = input;
-                }
                 *lookup_data.narrow_fib_num_steps_20_1 = [
                     narrow_fib_num_steps_20_output_col1,
                     narrow_fib_num_steps_20_output_col2,
                     narrow_fib_num_steps_20_output_col3,
                     narrow_fib_num_steps_20_output_col4,
                 ];
+                for (i, &input) in [
+                    narrow_fib_num_steps_20_output_col3,
+                    narrow_fib_num_steps_20_output_col4,
+                ]
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[2] = input;
+                }
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_2 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_col3,
@@ -192,22 +202,22 @@ fn write_trace_simd(
                 let narrow_fib_num_steps_20_output_col6 =
                     narrow_fib_num_steps_20_output_tmp_d7cf2_2[1];
                 *row[6] = narrow_fib_num_steps_20_output_col6;
-                for (i, &input) in [
-                    narrow_fib_num_steps_20_output_col3,
-                    narrow_fib_num_steps_20_output_col4,
-                ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[2] = input;
-                }
                 *lookup_data.narrow_fib_num_steps_20_2 = [
                     narrow_fib_num_steps_20_output_col3,
                     narrow_fib_num_steps_20_output_col4,
                     narrow_fib_num_steps_20_output_col5,
                     narrow_fib_num_steps_20_output_col6,
                 ];
+                for (i, &input) in [
+                    narrow_fib_num_steps_20_output_col5,
+                    narrow_fib_num_steps_20_output_col6,
+                ]
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[3] = input;
+                }
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_3 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_col5,
@@ -219,22 +229,22 @@ fn write_trace_simd(
                 let narrow_fib_num_steps_20_output_col8 =
                     narrow_fib_num_steps_20_output_tmp_d7cf2_3[1];
                 *row[8] = narrow_fib_num_steps_20_output_col8;
-                for (i, &input) in [
-                    narrow_fib_num_steps_20_output_col5,
-                    narrow_fib_num_steps_20_output_col6,
-                ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[3] = input;
-                }
                 *lookup_data.narrow_fib_num_steps_20_3 = [
                     narrow_fib_num_steps_20_output_col5,
                     narrow_fib_num_steps_20_output_col6,
                     narrow_fib_num_steps_20_output_col7,
                     narrow_fib_num_steps_20_output_col8,
                 ];
+                for (i, &input) in [
+                    narrow_fib_num_steps_20_output_col7,
+                    narrow_fib_num_steps_20_output_col8,
+                ]
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[4] = input;
+                }
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_4 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_col7,
@@ -246,22 +256,22 @@ fn write_trace_simd(
                 let narrow_fib_num_steps_20_output_col10 =
                     narrow_fib_num_steps_20_output_tmp_d7cf2_4[1];
                 *row[10] = narrow_fib_num_steps_20_output_col10;
-                for (i, &input) in [
-                    narrow_fib_num_steps_20_output_col7,
-                    narrow_fib_num_steps_20_output_col8,
-                ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[4] = input;
-                }
                 *lookup_data.narrow_fib_num_steps_20_4 = [
                     narrow_fib_num_steps_20_output_col7,
                     narrow_fib_num_steps_20_output_col8,
                     narrow_fib_num_steps_20_output_col9,
                     narrow_fib_num_steps_20_output_col10,
                 ];
+                for (i, &input) in [
+                    narrow_fib_num_steps_20_output_col9,
+                    narrow_fib_num_steps_20_output_col10,
+                ]
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[5] = input;
+                }
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_5 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_col9,
@@ -273,22 +283,22 @@ fn write_trace_simd(
                 let narrow_fib_num_steps_20_output_col12 =
                     narrow_fib_num_steps_20_output_tmp_d7cf2_5[1];
                 *row[12] = narrow_fib_num_steps_20_output_col12;
-                for (i, &input) in [
-                    narrow_fib_num_steps_20_output_col9,
-                    narrow_fib_num_steps_20_output_col10,
-                ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[5] = input;
-                }
                 *lookup_data.narrow_fib_num_steps_20_5 = [
                     narrow_fib_num_steps_20_output_col9,
                     narrow_fib_num_steps_20_output_col10,
                     narrow_fib_num_steps_20_output_col11,
                     narrow_fib_num_steps_20_output_col12,
                 ];
+                for (i, &input) in [
+                    narrow_fib_num_steps_20_output_col11,
+                    narrow_fib_num_steps_20_output_col12,
+                ]
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[6] = input;
+                }
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_6 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_col11,
@@ -300,22 +310,22 @@ fn write_trace_simd(
                 let narrow_fib_num_steps_20_output_col14 =
                     narrow_fib_num_steps_20_output_tmp_d7cf2_6[1];
                 *row[14] = narrow_fib_num_steps_20_output_col14;
-                for (i, &input) in [
-                    narrow_fib_num_steps_20_output_col11,
-                    narrow_fib_num_steps_20_output_col12,
-                ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[6] = input;
-                }
                 *lookup_data.narrow_fib_num_steps_20_6 = [
                     narrow_fib_num_steps_20_output_col11,
                     narrow_fib_num_steps_20_output_col12,
                     narrow_fib_num_steps_20_output_col13,
                     narrow_fib_num_steps_20_output_col14,
                 ];
+                for (i, &input) in [
+                    narrow_fib_num_steps_20_output_col13,
+                    narrow_fib_num_steps_20_output_col14,
+                ]
+                .unpack()
+                .iter()
+                .enumerate()
+                {
+                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[7] = input;
+                }
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_7 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_col13,
@@ -327,16 +337,6 @@ fn write_trace_simd(
                 let narrow_fib_num_steps_20_output_col16 =
                     narrow_fib_num_steps_20_output_tmp_d7cf2_7[1];
                 *row[16] = narrow_fib_num_steps_20_output_col16;
-                for (i, &input) in [
-                    narrow_fib_num_steps_20_output_col13,
-                    narrow_fib_num_steps_20_output_col14,
-                ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[7] = input;
-                }
                 *lookup_data.narrow_fib_num_steps_20_7 = [
                     narrow_fib_num_steps_20_output_col13,
                     narrow_fib_num_steps_20_output_col14,

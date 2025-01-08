@@ -1,11 +1,13 @@
 use inst_def::InstDef;
 
+use super::super::utils::test_utils::*;
 use super::air_fn::*;
 use super::air_fn_registry::*;
 use super::expressions::felt252_expr::*;
 use super::expressions::felt_expr::*;
 use super::expressions::uint32_expr::*;
 use super::variables::*;
+use crate::airs::casm::const_tables::seq::*;
 use crate::{const_expr, const_felt252_expr, const_u32_expr};
 
 #[derive(Debug, InstDef)]
@@ -96,4 +98,61 @@ fn test_felt252_deduce() {
     let (_, out) = registry.run_air(&func, (), const_felt252_expr!(5, 0));
     assert!(out.in_state());
     assert!(out.calc() == "5");
+}
+
+type TestState = FeltExpr;
+
+#[derive(Debug, InstDef, Default)]
+struct TestChainRound {}
+impl AirFn for TestChainRound {
+    type ExtIn = Seq;
+    type In = (ChainRoundVar, TestState);
+    type Out = (<Seq as ExtTable>::T, ChainRoundVar, TestState);
+
+    fn call(
+        &self,
+        _air_builder: &mut AirBuilder,
+        inst: <Self::ExtIn as ExtTable>::T,
+        (rnd, state): Self::In,
+    ) -> Self::Out {
+        // TODO: Write an AirFn that constrains the ChainRoundVar and call it here (and from every
+        // chain round).
+
+        let new_state = state.clone() * state;
+        (inst + const_expr!(1), rnd + const_expr!(1), new_state)
+    }
+
+    fn trace_type(&self) -> TraceType {
+        TraceType::ChainRound
+    }
+}
+
+#[derive(Debug, InstDef, Default)]
+struct TestChainLookupCall {}
+impl AirFn for TestChainLookupCall {
+    type ExtIn = ();
+    type In = TestState;
+    type Out = TestState;
+
+    fn call(&self, air_builder: &mut AirBuilder, _: (), input: Self::In) -> Self::Out {
+        air_builder.chain_lookup_call(&TestChainRound {}, input, 3)
+    }
+}
+
+#[test]
+fn test_chain_lookup_call() {
+    let func = TestChainLookupCall {};
+    let (mut registry, mut entry) = AirFnRegistry::new(&func);
+    compare_json(
+        &entry,
+        &format!("{}{}.json", TEST_JSONS_CORE_DIR, entry.name),
+    );
+    let (_, out) = registry.run_air(&func, (), const_expr!(2));
+    assert!(out.calc() == "256");
+
+    entry = registry.add_entry(&TestChainRound {});
+    compare_json(
+        &entry,
+        &format!("{}{}.json", TEST_JSONS_CORE_DIR, entry.name),
+    );
 }
