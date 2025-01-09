@@ -29,8 +29,8 @@
     ]
   },
   "state_names": [
-    "input_col0",
-    "input_col1",
+    "input_limb_0_col0",
+    "input_limb_1_col1",
     "col2",
     "col3",
     "col4",
@@ -70,11 +70,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "input_col0"
+                      "State": "input_limb_0_col0"
                     },
                     "*",
                     {
-                      "State": "input_col0"
+                      "State": "input_limb_0_col0"
                     }
                   ]
                 },
@@ -82,11 +82,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "input_col1"
+                      "State": "input_limb_1_col1"
                     },
                     "*",
                     {
-                      "State": "input_col1"
+                      "State": "input_limb_1_col1"
                     }
                   ]
                 }
@@ -114,11 +114,11 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "input_col1"
+                      "State": "input_limb_1_col1"
                     },
                     "*",
                     {
-                      "State": "input_col1"
+                      "State": "input_limb_1_col1"
                     }
                   ]
                 },
@@ -939,10 +939,10 @@
         "relation_name": "NarrowFibNumSteps20",
         "felts": [
           {
-            "State": "input_col0"
+            "State": "input_limb_0_col0"
           },
           {
-            "State": "input_col1"
+            "State": "input_limb_1_col1"
           },
           {
             "State": "col20"
@@ -1003,11 +1003,11 @@
           {
             "BinaryOp": [
               {
-                "State": "input_col0"
+                "State": "input_limb_0_col0"
               },
               "*",
               {
-                "State": "input_col0"
+                "State": "input_limb_0_col0"
               }
             ]
           },
@@ -1015,11 +1015,11 @@
           {
             "BinaryOp": [
               {
-                "State": "input_col1"
+                "State": "input_limb_1_col1"
               },
               "*",
               {
-                "State": "input_col1"
+                "State": "input_limb_1_col1"
               }
             ]
           }
@@ -1036,11 +1036,11 @@
           {
             "BinaryOp": [
               {
-                "State": "input_col1"
+                "State": "input_limb_1_col1"
               },
               "*",
               {
-                "State": "input_col1"
+                "State": "input_limb_1_col1"
               }
             ]
           },
@@ -1659,10 +1659,10 @@
         "relation_name": "NarrowFibNumSteps20",
         "felts": [
           {
-            "State": "input_col0"
+            "State": "input_limb_0_col0"
           },
           {
-            "State": "input_col1"
+            "State": "input_limb_1_col1"
           },
           {
             "State": "col20"

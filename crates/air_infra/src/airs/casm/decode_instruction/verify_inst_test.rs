@@ -31,25 +31,25 @@ fn test_verify_inst() {
         (CasmAddress::new(const_expr!(0), ""), offsets, flags),
     );
     let expected_state = vec![
-        (0, "input"),     // pc
-        (32769, "input"), // offset_0
-        (32767, "input"), // offset_1
-        (32770, "input"), // offset_2
-        (0, "input"),     // dst_base_fp
-        (1, "input"),     // op0_base_fp
-        (0, "input"),     // op1_imm
-        (1, "input"),     // op1_base_fp
-        (0, "input"),     // op1_base_ap
-        (0, "input"),     // res_add
-        (0, "input"),     // res_mul
-        (1, "input"),     // pc_update_jump
-        (0, "input"),     // pc_update_jump_rel
-        (1, "input"),     // pc_update_jnz
-        (1, "input"),     // ap_update_add
-        (0, "input"),     // ap_update_add_1
-        (0, "input"),     // opcode_call
-        (0, "input"),     // opcode_ret
-        (1, "input"),     // opcode_assert_eq
+        (0, "input_limb_0"),     // pc
+        (32769, "input_limb_1"), // offset_0
+        (32767, "input_limb_2"), // offset_1
+        (32770, "input_limb_3"), // offset_2
+        (0, "input_limb_4"),     // dst_base_fp
+        (1, "input_limb_5"),     // op0_base_fp
+        (0, "input_limb_6"),     // op1_imm
+        (1, "input_limb_7"),     // op1_base_fp
+        (0, "input_limb_8"),     // op1_base_ap
+        (0, "input_limb_9"),     // res_add
+        (0, "input_limb_10"),    // res_mul
+        (1, "input_limb_11"),    // pc_update_jump
+        (0, "input_limb_12"),    // pc_update_jump_rel
+        (1, "input_limb_13"),    // pc_update_jnz
+        (1, "input_limb_14"),    // ap_update_add
+        (0, "input_limb_15"),    // ap_update_add_1
+        (0, "input_limb_16"),    // opcode_call
+        (0, "input_limb_17"),    // opcode_ret
+        (1, "input_limb_18"),    // opcode_assert_eq
         (1, "offset0_low"),
         (64, "offset0_mid"),
         (3, "offset1_low"),

@@ -4,7 +4,6 @@ use super::verify_mul252::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::felt252_id_memory::id_to_big::*;
-use crate::core::variables::*;
 
 /// Division of two 252-bit felts.
 /// The function assumes the inputs have range-checked limbs, and range-checks the result.
@@ -20,10 +19,8 @@ impl AirFn for Div252 {
     type Out = Felt252Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [c, a]: Self::In) -> Self::Out {
-        let mut b = air_builder.let_for_deduction(c.clone() / a.clone(), "div_res");
-        for (i, b_limb) in b.as_felts_mut().into_iter().enumerate() {
-            air_builder.deduce(b_limb, &format!("div_res_limb_{}", i));
-        }
+        let b = air_builder.deduce_air_var(c.clone() / a.clone(), "div_res");
+
         air_builder.call(&RangeCheckBigValue {}, b.clone());
 
         air_builder.call(&VerifyMul252 {}, [a, b.clone(), c]);

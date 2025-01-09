@@ -181,18 +181,9 @@ pub trait AirFn: Debug + InstDefTrait {
                     .state
                     .add(felt, &format!("{}_output", self.name()));
             }
-        } else if !Self::In::is_empty() {
+        } else {
             // Anything else - deduce input
-            input = air_builder.let_for_deduction(input, "input");
-            if let Some(descs) = input.get_felt_descriptions() {
-                for (felt, desc) in input.as_felts_mut().into_iter().zip(descs) {
-                    air_builder.deduce(felt, &format!("input_{}", desc));
-                }
-            } else {
-                for felt in input.as_felts_mut() {
-                    air_builder.deduce(felt, "input");
-                }
-            }
+            input = air_builder.deduce_air_var(input, "input");
         }
 
         // Perform AirFn logic
@@ -341,6 +332,36 @@ impl AirBuilder {
             desc: (!desc.is_empty()).then(|| desc.to_string()),
         });
         expr.clone()
+    }
+
+    pub fn deduce_air_var<V>(&mut self, mut var: V, desc: &str) -> V
+    where
+        V: AirVar,
+    {
+        if V::is_empty() {
+            return var;
+        }
+
+        var = self.let_for_deduction(var, desc);
+        self.deduce_intermediate_var(&mut var, desc);
+        var
+    }
+
+    fn deduce_intermediate_var<V>(&mut self, var: &mut V, desc: &str)
+    where
+        V: AirVar,
+    {
+        if let Some(descs) = var.get_felt_descriptions() {
+            for (felt, felt_desc) in var.as_felts_mut().into_iter().zip(descs) {
+                self.deduce(felt, &format!("{}_{}", desc, felt_desc));
+            }
+        } else {
+            // TODO: When there's a better way to refer to the items of arrays and tuples, use it
+            // here instead of 'limbs'.
+            for (i, felt) in var.as_felts_mut().into_iter().enumerate() {
+                self.deduce(felt, &format!("{}_limb_{}", desc, i));
+            }
+        }
     }
 
     pub fn let_for_deduction<V>(&mut self, var: V, desc: &str) -> V
@@ -502,16 +523,7 @@ impl AirBuilder {
                     in_deductions: true,
                 },
             );
-
-            if let Some(descs) = output.get_felt_descriptions() {
-                for (felt, desc) in output.as_felts_mut().into_iter().zip(descs) {
-                    self.deduce(felt, &format!("{}_output_{}", air_fn.name(), desc));
-                }
-            } else {
-                for felt in output.as_felts_mut() {
-                    self.deduce(felt, &format!("{}_output", air_fn.name()));
-                }
-            }
+            self.deduce_intermediate_var(&mut output, &format!("{}_output", air_fn.name()));
         }
 
         self.air_body.0.push(AirBodyComponent::LookupTerm {
@@ -602,16 +614,7 @@ impl AirBuilder {
                 in_deductions: true,
             },
         );
-
-        if let Some(descs) = output.get_felt_descriptions() {
-            for (felt, desc) in output.as_felts_mut().into_iter().zip(descs) {
-                self.deduce(felt, &format!("{}_output_{}", air_fn.name(), desc));
-            }
-        } else {
-            for felt in output.as_felts_mut() {
-                self.deduce(felt, &format!("{}_output", air_fn.name()));
-            }
-        }
+        self.deduce_intermediate_var(&mut output, &format!("{}_output", air_fn.name()));
 
         // Use the output of the last round.
         self.air_body.0.push(AirBodyComponent::LookupTerm {

@@ -204,73 +204,77 @@ fn write_trace_simd(
                         verify_instruction_input.2[14],
                     ],
                 );
-                let input_col0 = input_tmp_16a4f_0.0;
-                *row[0] = input_col0;
-                let input_col1 = input_tmp_16a4f_0.1[0];
-                *row[1] = input_col1;
-                let input_col2 = input_tmp_16a4f_0.1[1];
-                *row[2] = input_col2;
-                let input_col3 = input_tmp_16a4f_0.1[2];
-                *row[3] = input_col3;
-                let input_col4 = input_tmp_16a4f_0.2[0];
-                *row[4] = input_col4;
-                let input_col5 = input_tmp_16a4f_0.2[1];
-                *row[5] = input_col5;
-                let input_col6 = input_tmp_16a4f_0.2[2];
-                *row[6] = input_col6;
-                let input_col7 = input_tmp_16a4f_0.2[3];
-                *row[7] = input_col7;
-                let input_col8 = input_tmp_16a4f_0.2[4];
-                *row[8] = input_col8;
-                let input_col9 = input_tmp_16a4f_0.2[5];
-                *row[9] = input_col9;
-                let input_col10 = input_tmp_16a4f_0.2[6];
-                *row[10] = input_col10;
-                let input_col11 = input_tmp_16a4f_0.2[7];
-                *row[11] = input_col11;
-                let input_col12 = input_tmp_16a4f_0.2[8];
-                *row[12] = input_col12;
-                let input_col13 = input_tmp_16a4f_0.2[9];
-                *row[13] = input_col13;
-                let input_col14 = input_tmp_16a4f_0.2[10];
-                *row[14] = input_col14;
-                let input_col15 = input_tmp_16a4f_0.2[11];
-                *row[15] = input_col15;
-                let input_col16 = input_tmp_16a4f_0.2[12];
-                *row[16] = input_col16;
-                let input_col17 = input_tmp_16a4f_0.2[13];
-                *row[17] = input_col17;
-                let input_col18 = input_tmp_16a4f_0.2[14];
-                *row[18] = input_col18;
+                let input_limb_0_col0 = input_tmp_16a4f_0.0;
+                *row[0] = input_limb_0_col0;
+                let input_limb_1_col1 = input_tmp_16a4f_0.1[0];
+                *row[1] = input_limb_1_col1;
+                let input_limb_2_col2 = input_tmp_16a4f_0.1[1];
+                *row[2] = input_limb_2_col2;
+                let input_limb_3_col3 = input_tmp_16a4f_0.1[2];
+                *row[3] = input_limb_3_col3;
+                let input_limb_4_col4 = input_tmp_16a4f_0.2[0];
+                *row[4] = input_limb_4_col4;
+                let input_limb_5_col5 = input_tmp_16a4f_0.2[1];
+                *row[5] = input_limb_5_col5;
+                let input_limb_6_col6 = input_tmp_16a4f_0.2[2];
+                *row[6] = input_limb_6_col6;
+                let input_limb_7_col7 = input_tmp_16a4f_0.2[3];
+                *row[7] = input_limb_7_col7;
+                let input_limb_8_col8 = input_tmp_16a4f_0.2[4];
+                *row[8] = input_limb_8_col8;
+                let input_limb_9_col9 = input_tmp_16a4f_0.2[5];
+                *row[9] = input_limb_9_col9;
+                let input_limb_10_col10 = input_tmp_16a4f_0.2[6];
+                *row[10] = input_limb_10_col10;
+                let input_limb_11_col11 = input_tmp_16a4f_0.2[7];
+                *row[11] = input_limb_11_col11;
+                let input_limb_12_col12 = input_tmp_16a4f_0.2[8];
+                *row[12] = input_limb_12_col12;
+                let input_limb_13_col13 = input_tmp_16a4f_0.2[9];
+                *row[13] = input_limb_13_col13;
+                let input_limb_14_col14 = input_tmp_16a4f_0.2[10];
+                *row[14] = input_limb_14_col14;
+                let input_limb_15_col15 = input_tmp_16a4f_0.2[11];
+                *row[15] = input_limb_15_col15;
+                let input_limb_16_col16 = input_tmp_16a4f_0.2[12];
+                *row[16] = input_limb_16_col16;
+                let input_limb_17_col17 = input_tmp_16a4f_0.2[13];
+                *row[17] = input_limb_17_col17;
+                let input_limb_18_col18 = input_tmp_16a4f_0.2[14];
+                *row[18] = input_limb_18_col18;
 
                 // Encode Offsets.
 
-                let offset0_low_tmp_16a4f_1 = ((PackedUInt16::from_m31(input_col1)) & (UInt16_511));
+                let offset0_low_tmp_16a4f_1 =
+                    ((PackedUInt16::from_m31(input_limb_1_col1)) & (UInt16_511));
                 let offset0_low_col19 = offset0_low_tmp_16a4f_1.as_m31();
                 *row[19] = offset0_low_col19;
-                let offset0_mid_tmp_16a4f_2 = ((PackedUInt16::from_m31(input_col1)) >> (UInt16_9));
+                let offset0_mid_tmp_16a4f_2 =
+                    ((PackedUInt16::from_m31(input_limb_1_col1)) >> (UInt16_9));
                 let offset0_mid_col20 = offset0_mid_tmp_16a4f_2.as_m31();
                 *row[20] = offset0_mid_col20;
-                let offset1_low_tmp_16a4f_3 = ((PackedUInt16::from_m31(input_col2)) & (UInt16_3));
+                let offset1_low_tmp_16a4f_3 =
+                    ((PackedUInt16::from_m31(input_limb_2_col2)) & (UInt16_3));
                 let offset1_low_col21 = offset1_low_tmp_16a4f_3.as_m31();
                 *row[21] = offset1_low_col21;
                 let offset1_mid_tmp_16a4f_4 =
-                    (((PackedUInt16::from_m31(input_col2)) >> (UInt16_2)) & (UInt16_511));
+                    (((PackedUInt16::from_m31(input_limb_2_col2)) >> (UInt16_2)) & (UInt16_511));
                 let offset1_mid_col22 = offset1_mid_tmp_16a4f_4.as_m31();
                 *row[22] = offset1_mid_col22;
                 let offset1_high_tmp_16a4f_5 =
-                    ((PackedUInt16::from_m31(input_col2)) >> (UInt16_11));
+                    ((PackedUInt16::from_m31(input_limb_2_col2)) >> (UInt16_11));
                 let offset1_high_col23 = offset1_high_tmp_16a4f_5.as_m31();
                 *row[23] = offset1_high_col23;
-                let offset2_low_tmp_16a4f_6 = ((PackedUInt16::from_m31(input_col3)) & (UInt16_15));
+                let offset2_low_tmp_16a4f_6 =
+                    ((PackedUInt16::from_m31(input_limb_3_col3)) & (UInt16_15));
                 let offset2_low_col24 = offset2_low_tmp_16a4f_6.as_m31();
                 *row[24] = offset2_low_col24;
                 let offset2_mid_tmp_16a4f_7 =
-                    (((PackedUInt16::from_m31(input_col3)) >> (UInt16_4)) & (UInt16_511));
+                    (((PackedUInt16::from_m31(input_limb_3_col3)) >> (UInt16_4)) & (UInt16_511));
                 let offset2_mid_col25 = offset2_mid_tmp_16a4f_7.as_m31();
                 *row[25] = offset2_mid_col25;
                 let offset2_high_tmp_16a4f_8 =
-                    ((PackedUInt16::from_m31(input_col3)) >> (UInt16_13));
+                    ((PackedUInt16::from_m31(input_limb_3_col3)) >> (UInt16_13));
                 let offset2_high_col26 = offset2_high_tmp_16a4f_8.as_m31();
                 *row[26] = offset2_high_col26;
                 for (i, &input) in [offset0_mid_col20, offset1_low_col21, offset1_high_col23]
@@ -294,13 +298,13 @@ fn write_trace_simd(
                 // Mem Verify.
 
                 let memory_address_to_id_value_tmp_16a4f_9 =
-                    memory_address_to_id_state.deduce_output(input_col0);
+                    memory_address_to_id_state.deduce_output(input_limb_0_col0);
                 let instruction_id_col27 = memory_address_to_id_value_tmp_16a4f_9;
                 *row[27] = instruction_id_col27;
-                for (i, &input) in input_col0.unpack().iter().enumerate() {
+                for (i, &input) in input_limb_0_col0.unpack().iter().enumerate() {
                     *sub_components_inputs[i].memory_address_to_id_inputs[0] = input;
                 }
-                *lookup_data.memory_address_to_id_0 = [input_col0, instruction_id_col27];
+                *lookup_data.memory_address_to_id_0 = [input_limb_0_col0, instruction_id_col27];
                 for (i, &input) in instruction_id_col27.unpack().iter().enumerate() {
                     *sub_components_inputs[i].memory_id_to_big_inputs[0] = input;
                 }
@@ -312,21 +316,21 @@ fn write_trace_simd(
                     ((offset1_high_col23) + ((offset2_low_col24) * (M31_32))),
                     offset2_mid_col25,
                     ((offset2_high_col26)
-                        + (((((((M31_0) + ((input_col4) * (M31_8)))
-                            + ((input_col5) * (M31_16)))
-                            + ((input_col6) * (M31_32)))
-                            + ((input_col7) * (M31_64)))
-                            + ((input_col8) * (M31_128)))
-                            + ((input_col9) * (M31_256)))),
-                    ((((((((((M31_0) + ((input_col10) * (M31_1)))
-                        + ((input_col11) * (M31_2)))
-                        + ((input_col12) * (M31_4)))
-                        + ((input_col13) * (M31_8)))
-                        + ((input_col14) * (M31_16)))
-                        + ((input_col15) * (M31_32)))
-                        + ((input_col16) * (M31_64)))
-                        + ((input_col17) * (M31_128)))
-                        + ((input_col18) * (M31_256))),
+                        + (((((((M31_0) + ((input_limb_4_col4) * (M31_8)))
+                            + ((input_limb_5_col5) * (M31_16)))
+                            + ((input_limb_6_col6) * (M31_32)))
+                            + ((input_limb_7_col7) * (M31_64)))
+                            + ((input_limb_8_col8) * (M31_128)))
+                            + ((input_limb_9_col9) * (M31_256)))),
+                    ((((((((((M31_0) + ((input_limb_10_col10) * (M31_1)))
+                        + ((input_limb_11_col11) * (M31_2)))
+                        + ((input_limb_12_col12) * (M31_4)))
+                        + ((input_limb_13_col13) * (M31_8)))
+                        + ((input_limb_14_col14) * (M31_16)))
+                        + ((input_limb_15_col15) * (M31_32)))
+                        + ((input_limb_16_col16) * (M31_64)))
+                        + ((input_limb_17_col17) * (M31_128)))
+                        + ((input_limb_18_col18) * (M31_256))),
                     M31_0,
                     M31_0,
                     M31_0,
@@ -351,25 +355,25 @@ fn write_trace_simd(
                 ];
 
                 *lookup_data.verify_instruction_0 = [
-                    input_col0,
-                    input_col1,
-                    input_col2,
-                    input_col3,
-                    input_col4,
-                    input_col5,
-                    input_col6,
-                    input_col7,
-                    input_col8,
-                    input_col9,
-                    input_col10,
-                    input_col11,
-                    input_col12,
-                    input_col13,
-                    input_col14,
-                    input_col15,
-                    input_col16,
-                    input_col17,
-                    input_col18,
+                    input_limb_0_col0,
+                    input_limb_1_col1,
+                    input_limb_2_col2,
+                    input_limb_3_col3,
+                    input_limb_4_col4,
+                    input_limb_5_col5,
+                    input_limb_6_col6,
+                    input_limb_7_col7,
+                    input_limb_8_col8,
+                    input_limb_9_col9,
+                    input_limb_10_col10,
+                    input_limb_11_col11,
+                    input_limb_12_col12,
+                    input_limb_13_col13,
+                    input_limb_14_col14,
+                    input_limb_15_col15,
+                    input_limb_16_col16,
+                    input_limb_17_col17,
+                    input_limb_18_col18,
                 ];
             },
         );

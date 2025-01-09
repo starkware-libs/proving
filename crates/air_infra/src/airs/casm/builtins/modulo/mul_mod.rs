@@ -63,11 +63,9 @@ impl AirFn for MulModBuiltin {
         k_768 = (k_768 - c_384.into()) / p_768;
         let mut k_384 = BigUInt384Expr::from(k_768);
 
-        k_384 = ab.let_for_deduction(k_384, "ab_minus_c_div_p");
-
-        for k_limb in k_384.as_felts_mut() {
-            ab.deduce(k_limb, "limb_of_ab_minus_c_div_p");
-            range_check(ab, &[MUL_MOD_LIMB_SIZE as u16], &[k_limb.clone()]);
+        k_384 = ab.deduce_air_var(k_384, "ab_minus_c_div_p");
+        for k_limb in k_384.as_felts() {
+            range_check(ab, &[MUL_MOD_LIMB_SIZE as u16], &[k_limb]);
         }
 
         let [p_12bits, a_12bits, b_12bits, c_12bits] =
