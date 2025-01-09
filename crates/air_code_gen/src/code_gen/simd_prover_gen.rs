@@ -338,7 +338,7 @@ fn generate_claim_generator_impl(lists: &CompiledAirFn, public_params: &[String]
             (
                 quote! { inputs, },
                 quote! { inputs: Vec<InputType>, },
-                quote! { pub fn add_inputs(&mut self, inputs: &[InputType],) {
+                quote! { pub fn add_inputs(&self, _inputs: &[InputType],) {
                     $(add_inputs_simd_body())
                 }},
                 quote! {mut self, },
@@ -421,7 +421,7 @@ fn generate_sub_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut params = rust::Tokens::new();
     for fn_name in context {
         params.extend(quote! {
-            $(&fn_name)$STATE_SUFFIX: &mut $(fn_name)::ClaimGenerator,
+            $(&fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,
         });
     }
     params
@@ -443,7 +443,7 @@ fn generate_stateful_component_params(lists: &CompiledAirFn) -> rust::Tokens {
         // TODO(Ohad): get information about which function is stateful.
         if is_stateful(&fn_name) {
             params.extend(quote! {
-                $(&fn_name)$STATE_SUFFIX: &mut $(fn_name)::ClaimGenerator,
+                $(&fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,
             });
         }
     }
@@ -540,7 +540,7 @@ fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rus
 // TODO(Ohad): add logic.
 fn add_inputs_simd_body() -> rust::Tokens {
     quote! {
-        self.inputs.extend(inputs);
+        unimplemented!("Implement manually");
     }
 }
 

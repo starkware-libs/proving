@@ -50,7 +50,7 @@ impl ClaimGenerator {
     pub fn write_trace<MC: MerkleChannel>(
         mut self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
-        narrow_fib_num_steps_20_state: &mut narrow_fib_num_steps_20::ClaimGenerator,
+        narrow_fib_num_steps_20_state: &narrow_fib_num_steps_20::ClaimGenerator,
     ) -> (Claim, InteractionClaimGenerator)
     where
         SimdBackend: BackendForChannel<MC>,
@@ -90,8 +90,8 @@ impl ClaimGenerator {
         )
     }
 
-    pub fn add_inputs(&mut self, inputs: &[InputType]) {
-        self.inputs.extend(inputs);
+    pub fn add_inputs(&self, _inputs: &[InputType]) {
+        unimplemented!("Implement manually");
     }
 }
 

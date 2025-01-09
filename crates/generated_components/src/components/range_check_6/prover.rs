@@ -81,8 +81,8 @@ impl ClaimGenerator {
         )
     }
 
-    pub fn add_inputs(&mut self, inputs: &[InputType]) {
-        self.inputs.extend(inputs);
+    pub fn add_inputs(&self, _inputs: &[InputType]) {
+        todo!()
     }
 }
 

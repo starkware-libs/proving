@@ -17,7 +17,7 @@ impl ClaimGenerator {
         todo!()
     }
 
-    pub fn add_inputs(&mut self, addresses: &[InputType]) {
+    pub fn add_inputs(&self, addresses: &[InputType]) {
         todo!()
     }
 
