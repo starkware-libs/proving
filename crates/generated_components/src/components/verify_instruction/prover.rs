@@ -71,8 +71,14 @@ impl ClaimGenerator {
         }
 
         let packed_inputs = pack_values(&self.inputs);
-        let (trace, mut sub_components_inputs, lookup_data) =
-            write_trace_simd(n_rows, packed_inputs, memory_address_to_id_state);
+        let (trace, mut sub_components_inputs, lookup_data) = write_trace_simd(
+            n_rows,
+            packed_inputs,
+            memory_address_to_id_state,
+            memory_id_to_big_state,
+            range_check_4_3_state,
+            range_check_7_2_5_state,
+        );
 
         if need_padding {
             sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
@@ -134,6 +140,9 @@ fn write_trace_simd(
     n_rows: usize,
     inputs: Vec<PackedInputType>,
     memory_address_to_id_state: &memory_address_to_id::ClaimGenerator,
+    memory_id_to_big_state: &memory_id_to_big::ClaimGenerator,
+    range_check_4_3_state: &range_check_4_3::ClaimGenerator,
+    range_check_7_2_5_state: &range_check_7_2_5::ClaimGenerator,
 ) -> (
     ComponentTrace<N_TRACE_COLUMNS>,
     SubComponentInputs,

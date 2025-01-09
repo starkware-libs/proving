@@ -220,7 +220,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         #[allow(clippy::double_parens)]
         #[allow(non_snake_case)]
         fn write_trace_simd(
-            $(generate_stateful_component_params(lists))
+            $(generate_write_trace_simd_params(lists))
         ) -> (ComponentTrace<N_TRACE_COLUMNS>,
             SubComponentInputs,
             LookupData) {
@@ -364,7 +364,7 @@ fn generate_claim_generator_impl(lists: &CompiledAirFn, public_params: &[String]
             pub fn write_trace<MC: MerkleChannel>(
                 $(self_param)
                 tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
-                $(generate_sub_component_params(&lists.deductions))
+                $(generate_sub_component_params_and_args(&lists.deductions).0)
             ) -> (Claim, InteractionClaimGenerator)
             where
                 SimdBackend: BackendForChannel<MC>
@@ -407,8 +407,11 @@ fn unique_function_calls(deductions: &[TraceGenStep]) -> Vec<String> {
         .collect()
 }
 
-fn generate_sub_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
-    // write_trace is responsible for generating the trace calling `add_inputs` on sub_components.
+fn generate_sub_component_params_and_args(
+    deductions: &[TraceGenStep],
+) -> (rust::Tokens, rust::Tokens) {
+    // write_trace_simd is responsible for generating the trace and calling `add_inputs` on
+    // sub_components.
     // Collect all the unique function and add_input calls.
     let mut context = chain![
         unique_function_calls(deductions),
@@ -419,12 +422,16 @@ fn generate_sub_component_params(deductions: &[TraceGenStep]) -> rust::Tokens {
     context.dedup();
 
     let mut params = rust::Tokens::new();
-    for fn_name in context {
+    let mut args = rust::Tokens::new();
+    for fn_name in &context {
         params.extend(quote! {
-            $(&fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,
+            $(fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,
+        });
+        args.extend(quote! {
+            $(fn_name)$STATE_SUFFIX,
         });
     }
-    params
+    (params, args)
 }
 
 // TODO(Ohad): get that information from the air infra.
@@ -433,20 +440,12 @@ fn is_stateful(fn_name: &str) -> bool {
 }
 
 // Generates the parameters for `write_trace_simd` function.
-fn generate_stateful_component_params(lists: &CompiledAirFn) -> rust::Tokens {
+fn generate_write_trace_simd_params(lists: &CompiledAirFn) -> rust::Tokens {
     let mut params = quote! { n_rows: usize, };
     if contains_inputs(lists) {
         params.extend(quote! { inputs: $(vec_of_type("PackedInputType")), });
     }
-    // Does not need call add_inputs.
-    for fn_name in unique_function_calls(&lists.deductions) {
-        // TODO(Ohad): get information about which function is stateful.
-        if is_stateful(&fn_name) {
-            params.extend(quote! {
-                $(&fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,
-            });
-        }
-    }
+    params.extend(generate_sub_component_params_and_args(&lists.deductions).0);
     for public_param in get_public_params_from_lookup_terms(&lists.constraints) {
         params.extend(quote! { $(public_param): u32, });
     }
@@ -454,19 +453,12 @@ fn generate_stateful_component_params(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 // Generates the arguments for `write_trace_simd` function.
-fn generate_stateful_component_args(lists: &CompiledAirFn) -> rust::Tokens {
+fn generate_write_trace_simd_args(lists: &CompiledAirFn) -> rust::Tokens {
     let mut args = quote! { n_rows, };
     if contains_inputs(lists) {
         args.extend(quote! { packed_inputs, });
     }
-    for fn_name in unique_function_calls(&lists.deductions) {
-        // TODO(Ohad): get information about which function is stateful.
-        if is_stateful(&fn_name) {
-            args.extend(quote! {
-                $(fn_name)$STATE_SUFFIX,
-            });
-        }
-    }
+    args.extend(generate_sub_component_params_and_args(&lists.deductions).1);
     for public_param in get_public_params_from_lookup_terms(&lists.constraints) {
         args.extend(quote! { self.$(public_param), });
     }
@@ -516,7 +508,7 @@ fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rus
 
         $(inputs_code)
         let (trace, mut sub_components_inputs, lookup_data) =
-                write_trace_simd($(generate_stateful_component_args(lists)));
+                write_trace_simd($(generate_write_trace_simd_args(lists)));
 
         if need_padding {
             sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
