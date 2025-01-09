@@ -28,7 +28,9 @@ use stwo_prover::core::fields::FieldExpOps;
 use stwo_prover::core::pcs::TreeBuilder;
 use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
-use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
+use stwo_prover::core::utils::{
+    bit_reverse_coset_to_circle_domain_order, bit_reverse_index, coset_index_to_circle_domain_index,
+};
 
 use super::component::{Claim, InteractionClaim};
 use crate::components::{memory_address_to_id, memory_id_to_big, pack_values, verify_instruction};
@@ -75,28 +77,6 @@ impl ClaimGenerator {
             memory_id_to_big_state,
             verify_instruction_state,
         );
-
-        if need_padding {
-            sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
-        }
-        sub_components_inputs
-            .memory_address_to_id_inputs
-            .iter()
-            .for_each(|inputs| {
-                memory_address_to_id_state.add_inputs(&inputs[..n_rows]);
-            });
-        sub_components_inputs
-            .memory_id_to_big_inputs
-            .iter()
-            .for_each(|inputs| {
-                memory_id_to_big_state.add_inputs(&inputs[..n_rows]);
-            });
-        sub_components_inputs
-            .verify_instruction_inputs
-            .iter()
-            .for_each(|inputs| {
-                verify_instruction_state.add_inputs(&inputs[..n_rows]);
-            });
 
         tree_builder.extend_evals(trace.to_evals());
 
@@ -189,7 +169,7 @@ fn write_trace_simd(
                     memory_address_to_id_state.deduce_output(input_pc_col0);
                 let memory_id_to_big_value_tmp_f4f1f_2 =
                     memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_f4f1f_1);
-                for (i, &input) in (
+                let verify_instruction_inputs_0 = (
                     input_pc_col0,
                     [M31_32767, M31_32767, M31_32769],
                     [
@@ -197,12 +177,7 @@ fn write_trace_simd(
                         M31_1, M31_0, M31_0, M31_0, M31_0,
                     ],
                 )
-                    .unpack()
-                    .iter()
-                    .enumerate()
-                {
-                    *sub_components_inputs[i].verify_instruction_inputs[0] = input;
-                }
+                    .unpack();
                 *lookup_data.verify_instruction_0 = [
                     input_pc_col0,
                     M31_32767,
@@ -233,9 +208,7 @@ fn write_trace_simd(
                     memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_f4f1f_3);
                 let op1_id_col3 = memory_address_to_id_value_tmp_f4f1f_3;
                 *row[3] = op1_id_col3;
-                for (i, &input) in ((input_pc_col0) + (M31_1)).unpack().iter().enumerate() {
-                    *sub_components_inputs[i].memory_address_to_id_inputs[0] = input;
-                }
+                let memory_address_to_id_inputs_0 = ((input_pc_col0) + (M31_1)).unpack();
                 *lookup_data.memory_address_to_id_0 = [((input_pc_col0) + (M31_1)), op1_id_col3];
 
                 // Cond Decode Small Sign.
@@ -254,9 +227,7 @@ fn write_trace_simd(
                 *row[7] = op1_limb_1_col7;
                 let op1_limb_2_col8 = memory_id_to_big_value_tmp_f4f1f_4.get_m31(2);
                 *row[8] = op1_limb_2_col8;
-                for (i, &input) in op1_id_col3.unpack().iter().enumerate() {
-                    *sub_components_inputs[i].memory_id_to_big_inputs[0] = input;
-                }
+                let memory_id_to_big_inputs_0 = op1_id_col3.unpack();
                 *lookup_data.memory_id_to_big_0 = [
                     op1_id_col3,
                     op1_limb_0_col6,
@@ -299,6 +270,20 @@ fn write_trace_simd(
                             - ((M31_134217728) * (mid_limbs_set_col5)))),
                     input_fp_col2,
                 ];
+
+                // Add sub-components inputs.
+                #[allow(clippy::needless_range_loop)]
+                for i in 0..N_LANES {
+                    if bit_reverse_index(
+                        coset_index_to_circle_domain_index(row_index * N_LANES + i, log_size),
+                        log_size,
+                    ) < n_rows
+                    {
+                        verify_instruction_state.add_input(&verify_instruction_inputs_0[i]);
+                        memory_address_to_id_state.add_input(&memory_address_to_id_inputs_0[i]);
+                        memory_id_to_big_state.add_input(&memory_id_to_big_inputs_0[i]);
+                    }
+                }
             },
         );
 

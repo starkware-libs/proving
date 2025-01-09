@@ -28,7 +28,9 @@ use stwo_prover::core::fields::FieldExpOps;
 use stwo_prover::core::pcs::TreeBuilder;
 use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
-use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
+use stwo_prover::core::utils::{
+    bit_reverse_coset_to_circle_domain_order, bit_reverse_index, coset_index_to_circle_domain_index,
+};
 
 use super::component::{Claim, InteractionClaim};
 use crate::components::{
@@ -79,34 +81,6 @@ impl ClaimGenerator {
             range_check_4_3_state,
             range_check_7_2_5_state,
         );
-
-        if need_padding {
-            sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
-        }
-        sub_components_inputs
-            .memory_address_to_id_inputs
-            .iter()
-            .for_each(|inputs| {
-                memory_address_to_id_state.add_inputs(&inputs[..n_rows]);
-            });
-        sub_components_inputs
-            .memory_id_to_big_inputs
-            .iter()
-            .for_each(|inputs| {
-                memory_id_to_big_state.add_inputs(&inputs[..n_rows]);
-            });
-        sub_components_inputs
-            .range_check_4_3_inputs
-            .iter()
-            .for_each(|inputs| {
-                range_check_4_3_state.add_inputs(&inputs[..n_rows]);
-            });
-        sub_components_inputs
-            .range_check_7_2_5_inputs
-            .iter()
-            .for_each(|inputs| {
-                range_check_7_2_5_state.add_inputs(&inputs[..n_rows]);
-            });
 
         tree_builder.extend_evals(trace.to_evals());
 
@@ -292,22 +266,11 @@ fn write_trace_simd(
                     ((PackedUInt16::from_m31(input_limb_3_col3)) >> (UInt16_13));
                 let offset2_high_col26 = offset2_high_tmp_16a4f_8.as_m31();
                 *row[26] = offset2_high_col26;
-                for (i, &input) in [offset0_mid_col20, offset1_low_col21, offset1_high_col23]
-                    .unpack()
-                    .iter()
-                    .enumerate()
-                {
-                    *sub_components_inputs[i].range_check_7_2_5_inputs[0] = input;
-                }
+                let range_check_7_2_5_inputs_0 =
+                    [offset0_mid_col20, offset1_low_col21, offset1_high_col23].unpack();
                 *lookup_data.range_check_7_2_5_0 =
                     [offset0_mid_col20, offset1_low_col21, offset1_high_col23];
-                for (i, &input) in [offset2_low_col24, offset2_high_col26]
-                    .unpack()
-                    .iter()
-                    .enumerate()
-                {
-                    *sub_components_inputs[i].range_check_4_3_inputs[0] = input;
-                }
+                let range_check_4_3_inputs_0 = [offset2_low_col24, offset2_high_col26].unpack();
                 *lookup_data.range_check_4_3_0 = [offset2_low_col24, offset2_high_col26];
 
                 // Mem Verify.
@@ -316,13 +279,9 @@ fn write_trace_simd(
                     memory_address_to_id_state.deduce_output(input_limb_0_col0);
                 let instruction_id_col27 = memory_address_to_id_value_tmp_16a4f_9;
                 *row[27] = instruction_id_col27;
-                for (i, &input) in input_limb_0_col0.unpack().iter().enumerate() {
-                    *sub_components_inputs[i].memory_address_to_id_inputs[0] = input;
-                }
+                let memory_address_to_id_inputs_0 = input_limb_0_col0.unpack();
                 *lookup_data.memory_address_to_id_0 = [input_limb_0_col0, instruction_id_col27];
-                for (i, &input) in instruction_id_col27.unpack().iter().enumerate() {
-                    *sub_components_inputs[i].memory_id_to_big_inputs[0] = input;
-                }
+                let memory_id_to_big_inputs_0 = instruction_id_col27.unpack();
                 *lookup_data.memory_id_to_big_0 = [
                     instruction_id_col27,
                     offset0_low_col19,
@@ -390,6 +349,21 @@ fn write_trace_simd(
                     input_limb_17_col17,
                     input_limb_18_col18,
                 ];
+
+                // Add sub-components inputs.
+                #[allow(clippy::needless_range_loop)]
+                for i in 0..N_LANES {
+                    if bit_reverse_index(
+                        coset_index_to_circle_domain_index(row_index * N_LANES + i, log_size),
+                        log_size,
+                    ) < n_rows
+                    {
+                        range_check_7_2_5_state.add_input(&range_check_7_2_5_inputs_0[i]);
+                        range_check_4_3_state.add_input(&range_check_4_3_inputs_0[i]);
+                        memory_address_to_id_state.add_input(&memory_address_to_id_inputs_0[i]);
+                        memory_id_to_big_state.add_input(&memory_id_to_big_inputs_0[i]);
+                    }
+                }
             },
         );
 

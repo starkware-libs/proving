@@ -28,7 +28,9 @@ use stwo_prover::core::fields::FieldExpOps;
 use stwo_prover::core::pcs::TreeBuilder;
 use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
-use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
+use stwo_prover::core::utils::{
+    bit_reverse_coset_to_circle_domain_order, bit_reverse_index, coset_index_to_circle_domain_index,
+};
 
 use super::component::{Claim, InteractionClaim};
 use crate::components::{narrow_fib_num_steps_20, pack_values};
@@ -68,16 +70,6 @@ impl ClaimGenerator {
         let packed_inputs = pack_values(&self.inputs);
         let (trace, mut sub_components_inputs, lookup_data) =
             write_trace_simd(n_rows, packed_inputs, narrow_fib_num_steps_20_state);
-
-        if need_padding {
-            sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
-        }
-        sub_components_inputs
-            .narrow_fib_num_steps_20_inputs
-            .iter()
-            .for_each(|inputs| {
-                narrow_fib_num_steps_20_state.add_inputs(&inputs[..n_rows]);
-            });
 
         tree_builder.extend_evals(trace.to_evals());
 
@@ -144,9 +136,7 @@ fn write_trace_simd(
             )| {
                 let col0 = wide_fib_num_narrow_8_narrow_size_20_input;
                 *row[0] = col0;
-                for (i, &input) in [M31_1, col0].unpack().iter().enumerate() {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[0] = input;
-                }
+                let narrow_fib_num_steps_20_inputs_0 = [M31_1, col0].unpack();
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_0 =
                     narrow_fib_num_steps_20::deduce_output([M31_1, col0]);
                 let narrow_fib_num_steps_20_output_limb_0_col1 =
@@ -161,16 +151,11 @@ fn write_trace_simd(
                     narrow_fib_num_steps_20_output_limb_0_col1,
                     narrow_fib_num_steps_20_output_limb_1_col2,
                 ];
-                for (i, &input) in [
+                let narrow_fib_num_steps_20_inputs_1 = [
                     narrow_fib_num_steps_20_output_limb_0_col1,
                     narrow_fib_num_steps_20_output_limb_1_col2,
                 ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[1] = input;
-                }
+                .unpack();
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_1 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_limb_0_col1,
@@ -188,16 +173,11 @@ fn write_trace_simd(
                     narrow_fib_num_steps_20_output_limb_0_col3,
                     narrow_fib_num_steps_20_output_limb_1_col4,
                 ];
-                for (i, &input) in [
+                let narrow_fib_num_steps_20_inputs_2 = [
                     narrow_fib_num_steps_20_output_limb_0_col3,
                     narrow_fib_num_steps_20_output_limb_1_col4,
                 ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[2] = input;
-                }
+                .unpack();
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_2 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_limb_0_col3,
@@ -215,16 +195,11 @@ fn write_trace_simd(
                     narrow_fib_num_steps_20_output_limb_0_col5,
                     narrow_fib_num_steps_20_output_limb_1_col6,
                 ];
-                for (i, &input) in [
+                let narrow_fib_num_steps_20_inputs_3 = [
                     narrow_fib_num_steps_20_output_limb_0_col5,
                     narrow_fib_num_steps_20_output_limb_1_col6,
                 ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[3] = input;
-                }
+                .unpack();
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_3 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_limb_0_col5,
@@ -242,16 +217,11 @@ fn write_trace_simd(
                     narrow_fib_num_steps_20_output_limb_0_col7,
                     narrow_fib_num_steps_20_output_limb_1_col8,
                 ];
-                for (i, &input) in [
+                let narrow_fib_num_steps_20_inputs_4 = [
                     narrow_fib_num_steps_20_output_limb_0_col7,
                     narrow_fib_num_steps_20_output_limb_1_col8,
                 ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[4] = input;
-                }
+                .unpack();
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_4 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_limb_0_col7,
@@ -269,16 +239,11 @@ fn write_trace_simd(
                     narrow_fib_num_steps_20_output_limb_0_col9,
                     narrow_fib_num_steps_20_output_limb_1_col10,
                 ];
-                for (i, &input) in [
+                let narrow_fib_num_steps_20_inputs_5 = [
                     narrow_fib_num_steps_20_output_limb_0_col9,
                     narrow_fib_num_steps_20_output_limb_1_col10,
                 ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[5] = input;
-                }
+                .unpack();
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_5 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_limb_0_col9,
@@ -296,16 +261,11 @@ fn write_trace_simd(
                     narrow_fib_num_steps_20_output_limb_0_col11,
                     narrow_fib_num_steps_20_output_limb_1_col12,
                 ];
-                for (i, &input) in [
+                let narrow_fib_num_steps_20_inputs_6 = [
                     narrow_fib_num_steps_20_output_limb_0_col11,
                     narrow_fib_num_steps_20_output_limb_1_col12,
                 ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[6] = input;
-                }
+                .unpack();
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_6 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_limb_0_col11,
@@ -323,16 +283,11 @@ fn write_trace_simd(
                     narrow_fib_num_steps_20_output_limb_0_col13,
                     narrow_fib_num_steps_20_output_limb_1_col14,
                 ];
-                for (i, &input) in [
+                let narrow_fib_num_steps_20_inputs_7 = [
                     narrow_fib_num_steps_20_output_limb_0_col13,
                     narrow_fib_num_steps_20_output_limb_1_col14,
                 ]
-                .unpack()
-                .iter()
-                .enumerate()
-                {
-                    *sub_components_inputs[i].narrow_fib_num_steps_20_inputs[7] = input;
-                }
+                .unpack();
                 let narrow_fib_num_steps_20_output_tmp_d7cf2_7 =
                     narrow_fib_num_steps_20::deduce_output([
                         narrow_fib_num_steps_20_output_limb_0_col13,
@@ -350,6 +305,33 @@ fn write_trace_simd(
                     narrow_fib_num_steps_20_output_limb_0_col15,
                     narrow_fib_num_steps_20_output_limb_1_col16,
                 ];
+
+                // Add sub-components inputs.
+                #[allow(clippy::needless_range_loop)]
+                for i in 0..N_LANES {
+                    if bit_reverse_index(
+                        coset_index_to_circle_domain_index(row_index * N_LANES + i, log_size),
+                        log_size,
+                    ) < n_rows
+                    {
+                        narrow_fib_num_steps_20_state
+                            .add_input(&narrow_fib_num_steps_20_inputs_0[i]);
+                        narrow_fib_num_steps_20_state
+                            .add_input(&narrow_fib_num_steps_20_inputs_1[i]);
+                        narrow_fib_num_steps_20_state
+                            .add_input(&narrow_fib_num_steps_20_inputs_2[i]);
+                        narrow_fib_num_steps_20_state
+                            .add_input(&narrow_fib_num_steps_20_inputs_3[i]);
+                        narrow_fib_num_steps_20_state
+                            .add_input(&narrow_fib_num_steps_20_inputs_4[i]);
+                        narrow_fib_num_steps_20_state
+                            .add_input(&narrow_fib_num_steps_20_inputs_5[i]);
+                        narrow_fib_num_steps_20_state
+                            .add_input(&narrow_fib_num_steps_20_inputs_6[i]);
+                        narrow_fib_num_steps_20_state
+                            .add_input(&narrow_fib_num_steps_20_inputs_7[i]);
+                    }
+                }
             },
         );
 

@@ -28,7 +28,9 @@ use stwo_prover::core::fields::FieldExpOps;
 use stwo_prover::core::pcs::TreeBuilder;
 use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
 use stwo_prover::core::poly::BitReversedOrder;
-use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
+use stwo_prover::core::utils::{
+    bit_reverse_coset_to_circle_domain_order, bit_reverse_index, coset_index_to_circle_domain_index,
+};
 
 use super::component::{Claim, InteractionClaim};
 use crate::components::{memory_address_to_id, memory_id_to_big, pack_values};
@@ -69,22 +71,6 @@ impl ClaimGenerator {
             memory_id_to_big_state,
             self.range_check_builtin_segment_start,
         );
-
-        if need_padding {
-            sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
-        }
-        sub_components_inputs
-            .memory_address_to_id_inputs
-            .iter()
-            .for_each(|inputs| {
-                memory_address_to_id_state.add_inputs(&inputs[..n_rows]);
-            });
-        sub_components_inputs
-            .memory_id_to_big_inputs
-            .iter()
-            .for_each(|inputs| {
-                memory_id_to_big_state.add_inputs(&inputs[..n_rows]);
-            });
 
         tree_builder.extend_evals(trace.to_evals());
 
@@ -155,14 +141,9 @@ fn write_trace_simd(
                     memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_c9e8f_0);
                 let value_id_col0 = memory_address_to_id_value_tmp_c9e8f_0;
                 *row[0] = value_id_col0;
-                for (i, &input) in
+                let memory_address_to_id_inputs_0 =
                     ((PackedM31::broadcast(M31::from(range_check_builtin_segment_start))) + (seq))
-                        .unpack()
-                        .iter()
-                        .enumerate()
-                {
-                    *sub_components_inputs[i].memory_address_to_id_inputs[0] = input;
-                }
+                        .unpack();
                 *lookup_data.memory_address_to_id_0 = [
                     ((PackedM31::broadcast(M31::from(range_check_builtin_segment_start))) + (seq)),
                     value_id_col0,
@@ -205,9 +186,7 @@ fn write_trace_simd(
                 let msb_col16 = msb_tmp_c9e8f_2.as_m31();
                 *row[16] = msb_col16;
 
-                for (i, &input) in value_id_col0.unpack().iter().enumerate() {
-                    *sub_components_inputs[i].memory_id_to_big_inputs[0] = input;
-                }
+                let memory_id_to_big_inputs_0 = value_id_col0.unpack();
                 *lookup_data.memory_id_to_big_0 = [
                     value_id_col0,
                     value_limb_0_col1,
@@ -239,6 +218,19 @@ fn write_trace_simd(
                     M31_0,
                     M31_0,
                 ];
+
+                // Add sub-components inputs.
+                #[allow(clippy::needless_range_loop)]
+                for i in 0..N_LANES {
+                    if bit_reverse_index(
+                        coset_index_to_circle_domain_index(row_index * N_LANES + i, log_size),
+                        log_size,
+                    ) < n_rows
+                    {
+                        memory_address_to_id_state.add_input(&memory_address_to_id_inputs_0[i]);
+                        memory_id_to_big_state.add_input(&memory_id_to_big_inputs_0[i]);
+                    }
+                }
             },
         );
 

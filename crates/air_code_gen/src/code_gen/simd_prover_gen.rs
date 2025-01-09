@@ -88,6 +88,7 @@ fn generate_simd_write_trace_body_code(
         relation_data_offsets.insert(relation, 0);
     }
 
+    let mut add_inputs_lambda = rust::Tokens::new();
     for deduction in &lists.deductions {
         match deduction {
             TraceGenStep::Deduction(expr) => {
@@ -156,19 +157,37 @@ fn generate_simd_write_trace_body_code(
                 let offset = add_inputs_offsets.get_mut(fn_name).unwrap();
                 if input != &CompiledAirVar::Tuple(vec![]) {
                     write_trace_body.extend(quote! {
-                    for (i, &input) in $(simd_parse_air_var(input, const_names)).unpack().iter().enumerate() {
-                        *sub_components$INPUTS_SUFFIX[i]
-                            .$(fn_name)$INPUTS_SUFFIX[$(offset.to_string())] = input;
-                    }
+                        let $(fn_name)$(INPUTS_SUFFIX)_$(offset.to_string()) =
+                            $(simd_parse_air_var(input, const_names)).unpack();
+
+                    });
+                    add_inputs_lambda.extend(quote! {
+                        $(fn_name)_state.add_input(
+                            &$(fn_name)$(INPUTS_SUFFIX)_$(offset.to_string())[i]
+                        );
                     });
                 }
                 *offset += 1;
             }
         }
-        write_trace_body.extend(quote!(
-            $("\n")
-        ));
     }
+    write_trace_body.extend(quote!(
+        $['\n']$("// Add sub-components inputs.\n")
+    ));
+    write_trace_body.extend(quote! {
+        #[allow(clippy::needless_range_loop)]
+            for i in 0..N_LANES {
+                if bit_reverse_index(
+                    coset_index_to_circle_domain_index(row_index * N_LANES + i, log_size),
+                    log_size,
+                ) < n_rows
+                {
+                    $(add_inputs_lambda)
+                }
+            }
+
+    });
+
     write_trace_body
 }
 
@@ -474,18 +493,6 @@ fn generate_write_trace_simd_args(lists: &CompiledAirFn) -> rust::Tokens {
     args
 }
 
-fn generate_sub_component_add_inputs(deductions: &[TraceGenStep]) -> rust::Tokens {
-    let mut statement = rust::Tokens::new();
-    for fn_name in unique_add_input_calls(deductions).iter() {
-        statement.extend(quote! {
-            sub_components$INPUTS_SUFFIX.$(fn_name)$INPUTS_SUFFIX.iter().for_each(|inputs| {
-                $(fn_name)$STATE_SUFFIX.add_inputs(&inputs[..n_rows]);
-            });
-        })
-    }
-    statement
-}
-
 fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rust::Tokens {
     let mut claim_fields = quote! {n_rows,};
     for public_param in public_params {
@@ -519,10 +526,6 @@ fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rus
         let (trace, mut sub_components_inputs, lookup_data) =
                 write_trace_simd($(generate_write_trace_simd_args(lists)));
 
-        if need_padding {
-            sub_components_inputs.bit_reverse_coset_to_circle_domain_order();
-        }
-        $(generate_sub_component_add_inputs(&lists.deductions))
 
         tree_builder.extend_evals(trace.to_evals());
 
@@ -822,6 +825,8 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_prover::core::pcs::TreeBuilder;
         use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
         use stwo_prover::core::poly::BitReversedOrder;
+        use stwo_prover::core::utils::bit_reverse_index;
+        use stwo_prover::core::utils::coset_index_to_circle_domain_index;
         use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
         use super::component::{Claim, InteractionClaim};
         use crate::components::pack_values;
