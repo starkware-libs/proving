@@ -4,9 +4,12 @@ mod g_test;
 pub mod read_blake_word;
 #[cfg(test)]
 mod read_blake_word_test;
+pub mod round;
 pub mod round_sigma;
 #[cfg(test)]
 pub mod round_sigma_test;
+#[cfg(test)]
+mod round_test;
 pub mod sigma;
 pub mod triple_sum32;
 #[cfg(test)]
