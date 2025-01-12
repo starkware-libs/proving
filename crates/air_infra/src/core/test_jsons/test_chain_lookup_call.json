@@ -18,7 +18,7 @@
         "relation_name": "TestChainRound",
         "felts": [
           "(Seq_col0 * 3)",
-          "0",
+          "5",
           "test_chain_lookup_call_input"
         ],
         "use_or_yield": "Yield"
@@ -33,7 +33,7 @@
         },
         "input": [
           {
-            "name": "0",
+            "name": "5",
             "type": "M31"
           },
           {
@@ -52,7 +52,7 @@
         },
         "input": [
           {
-            "name": "0",
+            "name": "5",
             "type": "M31"
           },
           {
@@ -60,7 +60,7 @@
             "type": "M31"
           }
         ],
-        "output_name": "test_chain_round_output_round_0_tmp_b7061_0"
+        "output_name": "test_chain_round_output_round_5_tmp_b7061_0"
       }
     },
     {
@@ -72,11 +72,11 @@
         },
         "input": [
           {
-            "name": "1",
+            "name": "6",
             "type": "M31"
           },
           {
-            "name": "test_chain_round_output_round_0_tmp_b7061_0.2",
+            "name": "test_chain_round_output_round_5_tmp_b7061_0.2",
             "type": "M31"
           }
         ]
@@ -91,15 +91,15 @@
         },
         "input": [
           {
-            "name": "1",
+            "name": "6",
             "type": "M31"
           },
           {
-            "name": "test_chain_round_output_round_0_tmp_b7061_0.2",
+            "name": "test_chain_round_output_round_5_tmp_b7061_0.2",
             "type": "M31"
           }
         ],
-        "output_name": "test_chain_round_output_round_1_tmp_b7061_1"
+        "output_name": "test_chain_round_output_round_6_tmp_b7061_1"
       }
     },
     {
@@ -111,11 +111,11 @@
         },
         "input": [
           {
-            "name": "2",
+            "name": "7",
             "type": "M31"
           },
           {
-            "name": "test_chain_round_output_round_1_tmp_b7061_1.2",
+            "name": "test_chain_round_output_round_6_tmp_b7061_1.2",
             "type": "M31"
           }
         ]
@@ -130,32 +130,32 @@
         },
         "input": [
           {
-            "name": "2",
+            "name": "7",
             "type": "M31"
           },
           {
-            "name": "test_chain_round_output_round_1_tmp_b7061_1.2",
+            "name": "test_chain_round_output_round_6_tmp_b7061_1.2",
             "type": "M31"
           }
         ],
-        "output_name": "test_chain_round_output_round_2_tmp_b7061_2"
+        "output_name": "test_chain_round_output_round_7_tmp_b7061_2"
       }
     },
     {
       "Deduction": [
-        "test_chain_round_output_round_2_tmp_b7061_2.0",
+        "test_chain_round_output_round_7_tmp_b7061_2.0",
         "test_chain_round_output_limb_0"
       ]
     },
     {
       "Deduction": [
-        "test_chain_round_output_round_2_tmp_b7061_2.1",
+        "test_chain_round_output_round_7_tmp_b7061_2.1",
         "test_chain_round_output_limb_1"
       ]
     },
     {
       "Deduction": [
-        "test_chain_round_output_round_2_tmp_b7061_2.2",
+        "test_chain_round_output_round_7_tmp_b7061_2.2",
         "test_chain_round_output_limb_2"
       ]
     },

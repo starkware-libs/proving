@@ -543,6 +543,13 @@ impl AirBuilder {
         output
     }
 
+    // Create <num_iterations> rows in <air_fn> with consecutive round numbers.
+    //
+    // air_fn: an AirFn with ChainRound trace type.
+    // input: The round number and input state for the first row.
+    // num_iterations: number of rows to generate.
+    //
+    // Returns the output of the last row.
     pub fn chain_lookup_call<S>(
         &mut self,
         air_fn: &dyn AirFn<
@@ -550,7 +557,7 @@ impl AirBuilder {
             In = (ChainRoundVar, S),
             Out = (<Seq as ExtTable>::T, ChainRoundVar, S),
         >,
-        state: S,
+        mut input: (ChainRoundVar, S),
         num_iterations: usize,
     ) -> S
     where
@@ -564,7 +571,7 @@ impl AirBuilder {
         );
 
         assert!(
-            state.clone().into().in_state(),
+            input.1.clone().into().in_state(),
             "The mask of the input to a chain lookup call must be in the trace."
         );
 
@@ -580,7 +587,6 @@ impl AirBuilder {
         let mut output = <(<Seq as ExtTable>::T, ChainRoundVar, S)>::new("".to_string(), false);
         let first_row = self.call_external_table(&Seq {}) * const_expr!(num_iterations as u32);
         let mut ext_input = first_row.clone();
-        let mut input = (const_expr!(0), state);
 
         // Yield the input to the first round.
         self.air_body.0.push(AirBodyComponent::LookupTerm {
@@ -595,8 +601,11 @@ impl AirBuilder {
 
         // TODO(AnatG): Add all inputs to the lookup component together in one LookupAddInput.
         for i in 0..num_iterations {
-            output_name =
-                self.get_intermediate_name(Some(format!("{}_output_round_{}", air_fn.name(), i)));
+            output_name = self.get_intermediate_name(Some(format!(
+                "{}_output_round_{}",
+                air_fn.name(),
+                input.0.value().expect("The round number is always known")
+            )));
             ext_input = first_row.clone() + const_expr!(i as u32);
             output = self.lookup_add_input_and_compute(
                 air_fn,
@@ -606,7 +615,7 @@ impl AirBuilder {
             );
 
             // Prepare the input for the next round.
-            input = (const_expr!(i as u32 + 1), output.2.clone());
+            input = (const_expr!(1) + input.0.clone(), output.2.clone());
         }
 
         // Deduce the output of the last round.
