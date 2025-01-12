@@ -338,9 +338,18 @@ fn generate_claim_generator_impl(lists: &CompiledAirFn, public_params: &[String]
             (
                 quote! { inputs, },
                 quote! { inputs: Vec<InputType>, },
-                quote! { pub fn add_inputs(&self, _inputs: &[InputType],) {
-                    $(add_inputs_simd_body())
-                }},
+                quote! {
+                    pub fn add_input(&self, input: &InputType,) {
+                        $(add_input_simd_body())
+                    }
+
+                    // TODO(Ohad): consider removing this.
+                    pub fn add_inputs (&self, inputs: &[InputType]) {
+                        for input in inputs {
+                            self.add_input(input);
+                        }
+                    }
+                },
                 quote! {mut self, },
             )
         } else {
@@ -530,7 +539,7 @@ fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rus
 }
 
 // TODO(Ohad): add logic.
-fn add_inputs_simd_body() -> rust::Tokens {
+fn add_input_simd_body() -> rust::Tokens {
     quote! {
         unimplemented!("Implement manually");
     }

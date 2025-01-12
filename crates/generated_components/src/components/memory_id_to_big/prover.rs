@@ -23,6 +23,10 @@ impl ClaimGenerator {
         todo!()
     }
 
+    pub fn add_input(&self, input: &InputType) {
+        todo!()
+    }
+
     pub fn write_trace(
         &mut self,
         tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, Blake2sMerkleChannel>,

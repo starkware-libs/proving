@@ -76,6 +76,10 @@ impl ClaimGenerator {
         )
     }
 
+    pub fn add_input(&self, input: &InputType) {
+        todo!()
+    }
+
     pub fn add_inputs(&self, _inputs: &[InputType]) {
         todo!()
     }
