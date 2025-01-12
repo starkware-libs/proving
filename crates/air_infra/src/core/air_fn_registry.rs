@@ -192,7 +192,7 @@ impl AirFnRegistry {
 
         let mut air_builder = AirBuilder {
             state: State::default(),
-            air_body: AirBody(vec![]),
+            air_body: AirBody::default(),
             row_number: Some(row_number),
             run: true,
             registry: self.clone(),
@@ -245,7 +245,7 @@ impl AirFnRegistry {
 
         let mut air_builder = AirBuilder {
             state: State::default(),
-            air_body: AirBody(vec![]),
+            air_body: AirBody::default(),
 
             // The row number doesn't influence the generated air_body.
             #[cfg(test)]

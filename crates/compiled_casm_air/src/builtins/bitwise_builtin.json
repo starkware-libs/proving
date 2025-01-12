@@ -4600,6 +4600,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_5",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_0_col1"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_0_col30"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col58"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -4683,6 +4719,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_7",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_1_col2"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_1_col31"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col59"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -4768,6 +4840,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_9",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_2_col3"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_2_col32"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col60"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -4851,6 +4959,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_11",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_3_col4"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_3_col33"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col61"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -4936,6 +5080,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_13",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_4_col5"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_4_col34"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col62"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -5019,6 +5199,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_15",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_5_col6"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_5_col35"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col63"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -5104,6 +5320,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_17",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_6_col7"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_6_col36"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col64"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -5187,6 +5439,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_19",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_7_col8"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_7_col37"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col65"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -5272,6 +5560,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_21",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_8_col9"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_8_col38"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col66"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -5355,6 +5679,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_23",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_9_col10"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_9_col39"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col67"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -5440,6 +5800,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_25",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_10_col11"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_10_col40"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col68"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -5523,6 +5919,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_27",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_11_col12"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_11_col41"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col69"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -5608,6 +6040,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_29",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_12_col13"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_12_col42"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col70"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -5691,6 +6159,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_31",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_13_col14"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_13_col43"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col71"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -5776,6 +6280,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_33",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_14_col15"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_14_col44"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col72"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -5859,6 +6399,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_35",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_15_col16"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_15_col45"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col73"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -5944,6 +6520,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_37",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_16_col17"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_16_col46"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col74"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -6027,6 +6639,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_39",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_17_col18"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_17_col47"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col75"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -6112,6 +6760,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_41",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_18_col19"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_18_col48"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col76"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -6195,6 +6879,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_43",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_19_col20"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_19_col49"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col77"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -6280,6 +7000,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_45",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_20_col21"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_20_col50"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col78"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -6363,6 +7119,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_47",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_21_col22"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_21_col51"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col79"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -6448,6 +7240,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_49",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_22_col23"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_22_col52"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col80"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -6531,6 +7359,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_51",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_23_col24"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_23_col53"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col81"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -6616,6 +7480,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_53",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_24_col25"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_24_col54"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col82"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -6699,6 +7599,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_55",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_25_col26"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_25_col55"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col83"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
@@ -6784,6 +7720,42 @@
     },
     "EndBlock",
     {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_57",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_26_col27"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_26_col56"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col84"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Bitwise Xor Num Bits 9"
     },
     {
@@ -6867,6 +7839,42 @@
       }
     },
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "and_tmp_efb2a_59",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "1073741824"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "op0_limb_27_col28"
+                    },
+                    "+",
+                    {
+                      "State": "op1_limb_27_col57"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "xor_col85"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     {
       "StartBlock": "Mem Verify"
     },

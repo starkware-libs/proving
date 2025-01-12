@@ -192,7 +192,7 @@ pub trait AirFn: Debug + InstDefTrait {
         // Add lookup terms
         if self.trace_type() == TraceType::Opcode || self.trace_type() == TraceType::ChainRound {
             // Chain components - use the input and yield the output
-            air_builder.air_body.0.push(AirBodyComponent::LookupTerm {
+            air_builder.air_body.push(AirBodyComponent::LookupTerm {
                 relation_name: self.relation_name().expect("Relation name not set"),
                 felts: ext_input
                     .as_felts()
@@ -202,14 +202,14 @@ pub trait AirFn: Debug + InstDefTrait {
                 use_or_yield: UseOrYield::Use,
             });
 
-            air_builder.air_body.0.push(AirBodyComponent::LookupTerm {
+            air_builder.air_body.push(AirBodyComponent::LookupTerm {
                 relation_name: self.relation_name().expect("Relation name not set"),
                 felts: output.as_felts(),
                 use_or_yield: UseOrYield::Yield,
             });
         } else {
             // Other components - just yield the output
-            air_builder.air_body.0.push(AirBodyComponent::LookupTerm {
+            air_builder.air_body.push(AirBodyComponent::LookupTerm {
                 relation_name: self.relation_name().expect("Relation name not set"),
                 felts: ext_input
                     .as_felts()
@@ -260,11 +260,6 @@ impl AirBuilder {
     }
 
     pub fn constrain(&mut self, expr: FeltExpr, desc: &str) {
-        assert!(
-            expr.in_state(),
-            "The mask of the constraint must be in the trace."
-        );
-
         #[cfg(test)]
         if self.run {
             assert!(
@@ -273,12 +268,7 @@ impl AirBuilder {
             )
         }
 
-        assert!(
-            expr.visibility().in_constraints,
-            "Constraint contains an intermediate variable that is not in constraints"
-        );
-
-        self.air_body.0.push(AirBodyComponent::Constraint(
+        self.air_body.push(AirBodyComponent::Constraint(
             expr,
             (!desc.is_empty()).then(|| desc.to_string()),
         ));
@@ -291,12 +281,7 @@ impl AirBuilder {
             assert!(!expr.is_const(), "Cannot deduce a constant");
         }
 
-        assert!(
-            expr.visibility().in_deductions,
-            "Deduction contains an intermediate variable that is not in deductions"
-        );
-
-        self.air_body.0.push(AirBodyComponent::Deduction(
+        self.air_body.push(AirBodyComponent::Deduction(
             expr.clone(),
             (!desc.is_empty()).then(|| desc.to_string()),
         ));
@@ -311,22 +296,11 @@ impl AirBuilder {
             assert!(!expr.is_const(), "Cannot assign a constant");
         }
 
-        assert!(
-            expr.in_state(),
-            "The mask of the constraint must be in the trace."
-        );
-
-        let visibility = expr.visibility();
-        assert!(
-            visibility.in_deductions && visibility.in_constraints,
-            "Assignment contains an intermediate variable that is not in both constraints and deductions"
-        );
-
         let before = expr.clone();
         self.state.add(expr, desc);
 
         let constraint = expr.clone() - before.clone();
-        self.air_body.0.push(AirBodyComponent::Assignment {
+        self.air_body.push(AirBodyComponent::Assignment {
             constraint: constraint.clone(),
             deduction: before,
             desc: (!desc.is_empty()).then(|| desc.to_string()),
@@ -373,7 +347,7 @@ impl AirBuilder {
             in_constraints: false,
             in_deductions: true,
         };
-        self.air_body.0.push(AirBodyComponent::Intermediate(
+        self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
             var.clone().into().prover_type(),
             var.clone().into(),
@@ -383,17 +357,12 @@ impl AirBuilder {
     }
 
     pub fn let_for_constraint(&mut self, expr: FeltExpr, desc: &str) -> FeltExpr {
-        assert!(
-            expr.in_state(),
-            "The mask of the intermediate variable for constraints must be in the trace."
-        );
-
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
         let visibility = Visibility {
             in_constraints: true,
             in_deductions: false,
         };
-        self.air_body.0.push(AirBodyComponent::Intermediate(
+        self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
             Felt::r#type(),
             expr.clone().into(),
@@ -406,17 +375,12 @@ impl AirBuilder {
     where
         O: AirVar,
     {
-        assert!(
-            expr.clone().into().in_state(),
-            "The mask of the intermediate variable for constraints must be in the trace."
-        );
-
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
         let visibility = Visibility {
             in_constraints: true,
             in_deductions: true,
         };
-        self.air_body.0.push(AirBodyComponent::Intermediate(
+        self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
             expr.clone().into().prover_type(),
             expr.clone().into(),
@@ -465,7 +429,7 @@ impl AirBuilder {
 
         let mut air_builder = Self {
             state: self.state.clone(),
-            air_body: AirBody(vec![]),
+            air_body: AirBody::default(),
             #[cfg(test)]
             row_number: self.row_number,
             #[cfg(test)]
@@ -474,7 +438,7 @@ impl AirBuilder {
             intermediate_id: self.intermediate_id.clone(),
         };
         let output = air_fn.call(&mut air_builder, (), input.clone());
-        self.air_body.0.push(AirBodyComponent::Call(Call {
+        self.air_body.push(AirBodyComponent::Call(Call {
             air_fn_name: air_fn.name(),
             air_fn_description: air_fn.description(),
             input: input.into(),
@@ -498,11 +462,6 @@ impl AirBuilder {
         assert!(
             air_fn.trace_type() == TraceType::Component,
             "AirFn must be a component"
-        );
-
-        assert!(
-            input.clone().into().in_state() && ext_input.clone().into().in_state(),
-            "The mask of the input to a lookup call must be in the trace."
         );
 
         // Make sure the callee is in the registry
@@ -529,7 +488,7 @@ impl AirBuilder {
             self.deduce_intermediate_var(&mut output, &format!("{}_output", air_fn.name()));
         }
 
-        self.air_body.0.push(AirBodyComponent::LookupTerm {
+        self.air_body.push(AirBodyComponent::LookupTerm {
             relation_name: air_fn.relation_name().expect("Relation name not set"),
             felts: ext_input
                 .as_felts()
@@ -571,11 +530,6 @@ impl AirBuilder {
         );
 
         assert!(
-            input.1.clone().into().in_state(),
-            "The mask of the input to a chain lookup call must be in the trace."
-        );
-
-        assert!(
             !S::is_empty(),
             "The input to a chain lookup call must not be empty."
         );
@@ -589,7 +543,7 @@ impl AirBuilder {
         let mut ext_input = first_row.clone();
 
         // Yield the input to the first round.
-        self.air_body.0.push(AirBodyComponent::LookupTerm {
+        self.air_body.push(AirBodyComponent::LookupTerm {
             relation_name: air_fn.relation_name().expect("Relation name not set"),
             felts: ext_input
                 .as_felts()
@@ -629,7 +583,7 @@ impl AirBuilder {
         self.deduce_intermediate_var(&mut output, &format!("{}_output", air_fn.name()));
 
         // Use the output of the last round.
-        self.air_body.0.push(AirBodyComponent::LookupTerm {
+        self.air_body.push(AirBodyComponent::LookupTerm {
             relation_name: air_fn.relation_name().expect("Relation name not set"),
             felts: output.as_felts(),
             use_or_yield: UseOrYield::Use,
@@ -655,7 +609,7 @@ impl AirBuilder {
         let ext_input_option = (!E::T::is_empty()).then(|| ext_input.clone().into());
         let input_option = (!I::is_empty()).then(|| input.clone().into());
 
-        self.air_body.0.push(AirBodyComponent::LookupAddInput {
+        self.air_body.push(AirBodyComponent::LookupAddInput {
             air_fn_name: air_fn.name(),
             ext_input: ext_input_option.clone(),
             input: input_option.clone(),
@@ -665,7 +619,7 @@ impl AirBuilder {
         if self.run {
             let mut air_builder = Self {
                 state: State::default(),
-                air_body: AirBody(vec![]),
+                air_body: AirBody::default(),
                 // When we call a separate component using lookup, we access an arbitrary row in
                 // that component (depending on how its rows are sorted). That is, the row number
                 // in the callee is not related to the row number in the caller.
@@ -679,14 +633,12 @@ impl AirBuilder {
         }
 
         if !O::is_empty() {
-            self.air_body
-                .0
-                .push(AirBodyComponent::LookupCall(LookupCall {
-                    air_fn_name: air_fn.name(),
-                    ext_input: ext_input_option,
-                    input: input_option,
-                    output_name,
-                }));
+            self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
+                air_fn_name: air_fn.name(),
+                ext_input: ext_input_option,
+                input: input_option,
+                output_name,
+            }));
         }
 
         output
@@ -704,14 +656,12 @@ impl AirBuilder {
 
         let value_name = self.get_intermediate_name(Some(format!("{}_value", memory.name())));
 
-        self.air_body
-            .0
-            .push(AirBodyComponent::LookupCall(LookupCall {
-                air_fn_name: memory.name(),
-                ext_input: Some(key.clone().into()),
-                input: None,
-                output_name: Some(value_name.clone()),
-            }));
+        self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
+            air_fn_name: memory.name(),
+            ext_input: Some(key.clone().into()),
+            input: None,
+            output_name: Some(value_name.clone()),
+        }));
 
         #[allow(unused_mut)]
         let mut value = V::new(value_name.clone(), false);
@@ -720,7 +670,7 @@ impl AirBuilder {
         if self.run {
             let mut air_builder = Self {
                 state: State::default(),
-                air_body: AirBody(vec![]),
+                air_body: AirBody::default(),
                 // This is None for the same reason as in lookup_call.
                 row_number: None,
                 run: self.run,
@@ -750,15 +700,6 @@ impl AirBuilder {
         // Make sure the memory is in the registry
         self.registry.add_entry(memory);
 
-        assert!(
-            key.clone().into().in_state(),
-            "The key must be in the trace."
-        );
-        assert!(
-            value.clone().into().in_state(),
-            "The value must be in the trace."
-        );
-
         #[cfg(test)]
         if self.run {
             assert_eq!(
@@ -772,12 +713,12 @@ impl AirBuilder {
             );
         }
 
-        self.air_body.0.push(AirBodyComponent::LookupAddInput {
+        self.air_body.push(AirBodyComponent::LookupAddInput {
             air_fn_name: memory.name(),
             ext_input: Some(key.clone().into()),
             input: None,
         });
-        self.air_body.0.push(AirBodyComponent::LookupTerm {
+        self.air_body.push(AirBodyComponent::LookupTerm {
             relation_name: memory.relation_name().expect("Relation name not set"),
             felts: key.as_felts().into_iter().chain(value.as_felts()).collect(),
             use_or_yield: UseOrYield::Use,
@@ -800,7 +741,7 @@ impl AirBuilder {
         if self.run {
             let mut air_builder = Self {
                 state: State::default(),
-                air_body: AirBody(vec![]),
+                air_body: AirBody::default(),
                 #[cfg(test)]
                 row_number: self.row_number,
                 #[cfg(test)]

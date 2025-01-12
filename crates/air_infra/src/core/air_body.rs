@@ -81,10 +81,101 @@ pub enum AirBodyComponent {
 }
 
 // A structure for the air_body of an air_fn.
-#[derive(Debug, Clone, Serialize)]
-pub struct AirBody(pub Vec<AirBodyComponent>);
+#[derive(Debug, Clone, Serialize, Default)]
+pub struct AirBody(Vec<AirBodyComponent>);
 
 impl AirBody {
+    // Checks visibility and in_state status of the variables in the new component and adds it.
+    pub fn push(&mut self, component: AirBodyComponent) {
+        match &component {
+            AirBodyComponent::Constraint(expr, _) => {
+                assert!(
+                    expr.visibility().in_constraints && expr.in_state(),
+                    "constraint must be in state and have only intermediate variables known in constraints"
+                );
+            }
+            AirBodyComponent::Deduction(expr, _) => {
+                assert!(
+                    expr.visibility().in_deductions,
+                    "deduction must have only intermediate variables known in deductions"
+                );
+            }
+            AirBodyComponent::Assignment {
+                constraint,
+                deduction,
+                desc: _,
+            } => {
+                assert!(
+                    constraint.visibility().in_constraints && constraint.in_state(),
+                    "constraint must be in state and have only intermediate variables known in constraints"
+                );
+                assert!(
+                    deduction.visibility().in_deductions,
+                    "deduction must have only intermediate variables known in deductions"
+                );
+            }
+            AirBodyComponent::Intermediate(_, _, var, visibility) => {
+                if visibility.in_constraints {
+                    // We check that the variable is in_state since we don't want to create
+                    // variables for constraints before deduction.
+                    assert!(
+                        var.in_state() && var.visibility().in_constraints,
+                        "intermediate variable must be in state and have only intermediate variables known in constraints"
+                    );
+                }
+                if visibility.in_deductions {
+                    assert!(
+                        var.visibility().in_deductions,
+                        "intermediate variable must have only intermediate variables known in deductions"
+                    );
+                }
+            }
+            AirBodyComponent::Call(_) => {}
+            AirBodyComponent::LookupCall(LookupCall {
+                ext_input, input, ..
+            }) => {
+                if let Some(ext_input) = ext_input {
+                    assert!(
+                        ext_input.visibility().in_deductions,
+                        "lookup call must have only intermediate variables known in deductions"
+                    );
+                }
+                if let Some(input) = input {
+                    assert!(
+                        input.visibility().in_deductions,
+                        "lookup call must have only intermediate variables known in deductions"
+                    );
+                }
+            }
+            AirBodyComponent::LookupAddInput {
+                ext_input, input, ..
+            } => {
+                if let Some(ext_input) = ext_input {
+                    assert!(
+                        ext_input.visibility().in_deductions,
+                        "lookup add input must have only intermediate variables known in deductions"
+                    );
+                }
+                if let Some(input) = input {
+                    assert!(
+                        input.visibility().in_deductions,
+                        "lookup add input must have only intermediate variables known in deductions"
+                    );
+                }
+            }
+            AirBodyComponent::LookupTerm { felts, .. } => {
+                for f in felts {
+                    assert!(
+                        f.visibility().in_deductions && f.visibility().in_constraints && f.in_state(),
+                        "lookup term must be in state and have only intermediate variables known in deductions and constraints"
+                    );
+                }
+            }
+        };
+
+        self.0.push(component);
+    }
+
     // Transforms the air body of an air function into the compiled air fn format.
     pub fn compile(
         &self,

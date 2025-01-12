@@ -70,7 +70,7 @@ impl AirFn for BitwiseBuiltin {
                 },
                 [a.clone(), b.clone()],
             );
-            let a_and_b = air_builder.let_for_constraint(
+            let a_and_b = air_builder.let_(
                 (const_expr!(2).inverse()) * (a + b - a_xor_b.clone()),
                 "and",
             );
