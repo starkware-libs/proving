@@ -64,7 +64,7 @@ where
     #[cfg(test)]
     pub fn set(&mut self, key: K, value: V) {
         let actual_key = key.to_values().expect("key has no values");
-        assert!(value.is_const());
+        assert!(value.clone().into().is_const());
 
         if !self.data.borrow().contains_key(&actual_key) {
             self.data.borrow_mut().insert(actual_key.clone(), value);

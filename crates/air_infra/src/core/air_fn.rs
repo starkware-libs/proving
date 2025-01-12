@@ -375,7 +375,7 @@ impl AirBuilder {
         };
         self.air_body.0.push(AirBodyComponent::Intermediate(
             name.clone(),
-            var.prover_type(),
+            var.clone().into().prover_type(),
             var.clone().into(),
             visibility.clone(),
         ));
@@ -407,7 +407,7 @@ impl AirBuilder {
         O: AirVar,
     {
         assert!(
-            expr.in_state(),
+            expr.clone().into().in_state(),
             "The mask of the intermediate variable for constraints must be in the trace."
         );
 
@@ -418,7 +418,7 @@ impl AirBuilder {
         };
         self.air_body.0.push(AirBodyComponent::Intermediate(
             name.clone(),
-            expr.prover_type(),
+            expr.clone().into().prover_type(),
             expr.clone().into(),
             visibility.clone(),
         ));
@@ -453,7 +453,10 @@ impl AirBuilder {
 
         if let Some(input_in_trace) = air_fn.input_in_trace() {
             if input_in_trace {
-                assert!(input.in_state(), "Input should be in the trace.");
+                assert!(
+                    input.clone().into().in_state(),
+                    "Input should be in the trace."
+                );
             }
         }
 
@@ -498,7 +501,7 @@ impl AirBuilder {
         );
 
         assert!(
-            input.in_state() && ext_input.in_state(),
+            input.clone().into().in_state() && ext_input.clone().into().in_state(),
             "The mask of the input to a lookup call must be in the trace."
         );
 
@@ -561,7 +564,7 @@ impl AirBuilder {
         );
 
         assert!(
-            state.in_state(),
+            state.clone().into().in_state(),
             "The mask of the input to a chain lookup call must be in the trace."
         );
 
@@ -738,8 +741,14 @@ impl AirBuilder {
         // Make sure the memory is in the registry
         self.registry.add_entry(memory);
 
-        assert!(key.in_state(), "The key must be in the trace.");
-        assert!(value.in_state(), "The value must be in the trace.");
+        assert!(
+            key.clone().into().in_state(),
+            "The key must be in the trace."
+        );
+        assert!(
+            value.clone().into().in_state(),
+            "The value must be in the trace."
+        );
 
         #[cfg(test)]
         if self.run {

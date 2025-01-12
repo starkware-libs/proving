@@ -210,7 +210,10 @@ impl AirFnRegistry {
             // output.
             TraceType::Const => {
                 let output = air_fn.call(&mut air_builder, ext_input, input);
-                assert!(output.is_const(), "Output must be a constant");
+                assert!(
+                    output.clone().into().is_const(),
+                    "Output must be a constant"
+                );
                 output
             }
         };
@@ -267,7 +270,7 @@ impl AirFnRegistry {
                 // Make sure that all intermediate variables in the output are visible in the
                 // trace generation code, since this code returns the output.
                 assert!(
-                    output.visibility().in_deductions,
+                    output.clone().into().visibility().in_deductions,
                     "Output must have no intermediate variables that are not in deductions",
                 );
                 output
@@ -277,7 +280,10 @@ impl AirFnRegistry {
         // Make sure that the output is a variable or a felt expression.
         let _output_felts = output.as_felts();
         // Make sure that the output is in the state.
-        assert!(output.in_state(), "Output must be in the trace");
+        assert!(
+            output.clone().into().in_state(),
+            "Output must be in the trace"
+        );
 
         (
             air_builder.air_body,

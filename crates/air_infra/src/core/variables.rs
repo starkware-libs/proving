@@ -32,7 +32,7 @@ pub type ChainRoundVar = FeltExpr;
 
 #[allow(private_bounds)]
 /// Every input and output of an air function is an AirVar.
-pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
+pub trait AirVar: InternalAirVarActions + Debug {
     fn get_felt_descriptions(&self) -> Option<Vec<String>> {
         None
     }
@@ -62,7 +62,7 @@ pub trait AirVar: InternalAirVarInfo + InternalAirVarActions {
 
 // Information about air variables used by the air builder.
 #[enum_dispatch]
-pub trait InternalAirVarInfo: Debug {
+pub trait InternalAirVarInfo {
     fn get_info(&self) -> HashSet<AirVarInfo>;
 
     fn prover_type(&self) -> String;
@@ -322,22 +322,6 @@ impl AirVar for () {
     }
 }
 
-impl InternalAirVarInfo for () {
-    fn get_info(&self) -> HashSet<AirVarInfo> {
-        let info = AirVarInfo {
-            in_state: true,
-            is_const: true,
-            visibility: Visibility::default(),
-            public_param: None,
-        };
-        HashSet::from([info])
-    }
-
-    fn prover_type(&self) -> String {
-        "()".to_string()
-    }
-}
-
 impl InternalAirVarActions for () {
     fn new(_name: String, _in_state: bool) -> Self {}
     fn let_(&self, _name: String, _intermediate_type: Visibility) -> Self {}
@@ -416,15 +400,6 @@ macro_rules! impl_air_var {
             }
         }
 
-        impl<const N:usize> InternalAirVarInfo for [$s;N] where $s: InternalAirVarInfo {
-            fn get_info(&self) -> HashSet<AirVarInfo> {
-                self.iter().flat_map(|s| s.get_info()).collect()
-            }
-            fn prover_type(&self) -> String {
-                format!("[{}]", self.iter().map(|s| s.prover_type()).collect::<Vec<_>>().join(", "))
-            }
-        }
-
         impl<const N:usize> InternalAirVarActions for [$s;N] where $s: InternalAirVarActions {
             fn let_(&self, name: String, visibility: Visibility) -> Self {
                 let mut res = self.clone();
@@ -455,23 +430,6 @@ macro_rules! impl_air_var {
                 let ($($s),+) = self;
                 $(res.extend($s.as_felts_mut());)+
                 res
-            }
-        }
-
-        impl $($(<$(const $lt$(: $clt )?),+>)?)+ InternalAirVarInfo for ($($s$(< $( $lt ),+ >)?),+)
-            where $($s$(< $( $lt ),+ >)?: InternalAirVarInfo),+
-        {
-            fn get_info(&self) -> HashSet<AirVarInfo> {
-                #[allow(non_snake_case)]
-                let ($($s),+) = self;
-                let mut res = HashSet::new();
-                $(res.extend($s.get_info());)+
-                res
-            }
-            fn prover_type(&self) -> String {
-                #[allow(non_snake_case)]
-                let ($($s),+) = self;
-                format!("({})", vec![$($s.prover_type()),+].join(", "))
             }
         }
 

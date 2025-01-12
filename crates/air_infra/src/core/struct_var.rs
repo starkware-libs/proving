@@ -1,4 +1,3 @@
-use std::collections::HashSet;
 use std::fmt::Debug;
 use std::marker::PhantomData;
 
@@ -30,19 +29,6 @@ impl<F: AirVar, T: ProverType> From<StructVar<F, T>> for AirVarImpl {
             r#type: T::r#type(),
             fields: v.fields.into_iter().map(|(n, f)| (n, f.into())).collect(),
         }
-    }
-}
-
-impl<F: AirVar, T: ProverType> InternalAirVarInfo for StructVar<F, T>
-where
-    Self: StructVarTrait,
-{
-    fn get_info(&self) -> HashSet<AirVarInfo> {
-        self.fields.iter().flat_map(|(_, f)| f.get_info()).collect()
-    }
-
-    fn prover_type(&self) -> String {
-        <Self as StructVarTrait>::prover_type()
     }
 }
 
@@ -129,16 +115,6 @@ where
 impl<V: AirVar> From<VarWrapper<V>> for AirVarImpl {
     fn from(v: VarWrapper<V>) -> AirVarImpl {
         v.var.into()
-    }
-}
-
-impl<V: AirVar> InternalAirVarInfo for VarWrapper<V> {
-    fn get_info(&self) -> HashSet<AirVarInfo> {
-        self.var.get_info()
-    }
-
-    fn prover_type(&self) -> String {
-        self.var.prover_type()
     }
 }
 
