@@ -108,6 +108,13 @@ pub trait InternalAirVarInfo {
             .filter_map(|i| i.public_param.clone())
             .collect()
     }
+
+    fn external_states(&self) -> HashSet<String> {
+        self.get_info()
+            .iter()
+            .filter_map(|i| i.external_state.clone())
+            .collect()
+    }
 }
 
 // Actions on air variables used by the air builder.
@@ -122,6 +129,7 @@ pub struct AirVarInfo {
     pub is_const: bool,
     pub visibility: Visibility,
     pub public_param: Option<PublicParam>,
+    pub external_state: Option<String>,
 }
 
 #[derive(Clone, Debug, Serialize, PartialEq, Eq, Hash)]

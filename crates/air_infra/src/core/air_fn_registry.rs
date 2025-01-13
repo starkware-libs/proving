@@ -33,7 +33,7 @@ pub struct AirFnEntry {
 impl AirFnEntry {
     // Compiles the air function entry into a compiled air function.
     pub(crate) fn compile(self) -> CompiledAirFn {
-        let (deductions, constraints, public_params) = self.air_body.compile();
+        let (deductions, constraints, public_params, external_states) = self.air_body.compile();
         let multiplicity_col_index = match self.trace_type {
             TraceType::Component | TraceType::Memory => Some(self.state.get_state_names().len()),
             _ => None,
@@ -52,6 +52,7 @@ impl AirFnEntry {
             multiplicity_col_index,
             n_lookup_terms: self.air_body.get_n_lookup_terms(),
             public_params,
+            external_states,
         }
     }
 

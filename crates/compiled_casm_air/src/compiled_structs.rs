@@ -30,6 +30,9 @@ pub struct CompiledAirFn {
 
     // The set of public parameters used in the air function.
     pub public_params: HashSet<PublicParam>,
+
+    // The set of external states used in the air function.
+    pub external_states: HashSet<String>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]

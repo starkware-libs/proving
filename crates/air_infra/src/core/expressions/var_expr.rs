@@ -119,6 +119,15 @@ where
             } else {
                 None
             },
+            external_state: if let ComplexOrFelt::Felt(StateInfo::ExternalColumnStateIndex(
+                ref name,
+                _,
+            )) = self.complex_or_felt
+            {
+                Some(name.clone())
+            } else {
+                None
+            },
         };
         HashSet::from([info])
     }
