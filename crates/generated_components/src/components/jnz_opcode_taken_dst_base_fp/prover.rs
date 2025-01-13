@@ -2,7 +2,6 @@
 #![allow(unused_imports)]
 use std::iter::zip;
 
-use air_structs_derive::SubComponentInputs;
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
 use prover_types::cpu::*;
@@ -70,7 +69,7 @@ impl ClaimGenerator {
         }
 
         let packed_inputs = pack_values(&self.inputs);
-        let (trace, mut sub_components_inputs, lookup_data) = write_trace_simd(
+        let (trace, lookup_data) = write_trace_simd(
             n_rows,
             packed_inputs,
             memory_address_to_id_state,
@@ -100,13 +99,6 @@ impl ClaimGenerator {
     }
 }
 
-#[derive(SubComponentInputs, Uninitialized, IterMut, ParIterMut)]
-pub struct SubComponentInputs {
-    pub memory_address_to_id_inputs: [Vec<memory_address_to_id::InputType>; 2],
-    pub memory_id_to_big_inputs: [Vec<memory_id_to_big::InputType>; 2],
-    pub verify_instruction_inputs: [Vec<verify_instruction::InputType>; 1],
-}
-
 #[allow(clippy::useless_conversion)]
 #[allow(unused_variables)]
 #[allow(clippy::double_parens)]
@@ -117,18 +109,13 @@ fn write_trace_simd(
     memory_address_to_id_state: &memory_address_to_id::ClaimGenerator,
     memory_id_to_big_state: &memory_id_to_big::ClaimGenerator,
     verify_instruction_state: &verify_instruction::ClaimGenerator,
-) -> (
-    ComponentTrace<N_TRACE_COLUMNS>,
-    SubComponentInputs,
-    LookupData,
-) {
+) -> (ComponentTrace<N_TRACE_COLUMNS>, LookupData) {
     let log_n_packed_rows = inputs.len().ilog2();
     let log_size = log_n_packed_rows + LOG_N_LANES;
-    let (mut trace, mut lookup_data, mut sub_components_inputs) = unsafe {
+    let (mut trace, mut lookup_data) = unsafe {
         (
             ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
             LookupData::uninitialized(log_n_packed_rows),
-            SubComponentInputs::uninitialized(log_size),
         )
     };
 
@@ -155,12 +142,8 @@ fn write_trace_simd(
         .enumerate()
         .zip(inputs.into_par_iter())
         .zip(lookup_data.par_iter_mut())
-        .zip(sub_components_inputs.par_iter_mut().chunks(N_LANES))
         .for_each(
-            |(
-                (((row_index, row), jnz_opcode_taken_dst_base_fp_input), lookup_data),
-                mut sub_components_inputs,
-            )| {
+            |(((row_index, row), jnz_opcode_taken_dst_base_fp_input), lookup_data)| {
                 let input_tmp_8b848_0 = jnz_opcode_taken_dst_base_fp_input;
                 let input_pc_col0 = input_tmp_8b848_0.pc;
                 *row[0] = input_pc_col0;
@@ -497,7 +480,7 @@ fn write_trace_simd(
             },
         );
 
-    (trace, sub_components_inputs, lookup_data)
+    (trace, lookup_data)
 }
 
 #[derive(Uninitialized, IterMut, ParIterMut)]

@@ -27,7 +27,6 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     };
     let n_trace_cols = generate_n_trace_columns(lists);
     let lookup_data_code = generate_lookup_data_struct(&lists.deductions);
-    let sub_components_inputs = generate_sub_components_inputs_struct(&lists.deductions);
     let claim_generator_code = generate_claim_generator_struct(&public_params, contains_inputs);
     let claim_generator_impl_code = generate_claim_generator_impl(lists, &public_params);
     let claim_prover_code = generate_claim_prover_struct();
@@ -42,8 +41,6 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
         $['\n']
         $(claim_generator_code)
         $(claim_generator_impl_code)
-        $['\n']
-        $(sub_components_inputs)
         $['\n']
         $(write_trace_code)
         $['\n']
@@ -241,14 +238,12 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         fn write_trace_simd(
             $(generate_write_trace_simd_params(lists))
         ) -> (ComponentTrace<N_TRACE_COLUMNS>,
-            SubComponentInputs,
             LookupData) {
             $(log_size_code)
-            let (mut trace, mut lookup_data, mut sub_components_inputs) = unsafe {
+            let (mut trace, mut lookup_data) = unsafe {
                 (
                     ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
                     LookupData::uninitialized(log_n_packed_rows),
-                    SubComponentInputs::uninitialized(log_size),
                 )
             };
 
@@ -259,13 +254,12 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
             .enumerate()
             $(zip_inputs)
             .zip(lookup_data.par_iter_mut())
-            .zip(sub_components_inputs.par_iter_mut().chunks(N_LANES))
             .for_each(
-                |(($(for_each_variables), lookup_data), mut sub_components_inputs)| {
+                |($(for_each_variables), lookup_data)| {
                     $(generate_simd_write_trace_body_code(lists,&const_names))
                 });
 
-            (trace, sub_components_inputs, lookup_data)
+            (trace, lookup_data)
         }
         $['\n']
     });
@@ -523,9 +517,8 @@ fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rus
         let need_padding = n_rows != size;
 
         $(inputs_code)
-        let (trace, mut sub_components_inputs, lookup_data) =
+        let (trace, lookup_data) =
                 write_trace_simd($(generate_write_trace_simd_args(lists)));
-
 
         tree_builder.extend_evals(trace.to_evals());
 
@@ -545,30 +538,6 @@ fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rus
 fn add_input_simd_body() -> rust::Tokens {
     quote! {
         unimplemented!("Implement manually");
-    }
-}
-
-pub fn generate_sub_components_inputs_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
-    let mut members_code = quote! {};
-
-    let mut add_inputs_offsets = HashMap::new();
-    for deduction in deductions {
-        if let TraceGenStep::LookupAddInput { fn_name, .. } = deduction {
-            let offset = add_inputs_offsets.entry(fn_name).or_insert(0);
-            *offset += 1;
-        }
-    }
-
-    for (&fn_name, &offset) in add_inputs_offsets.iter().sorted_by(|a, b| a.0.cmp(b.0)) {
-        members_code.extend(quote! {
-            pub $(fn_name.clone())$INPUTS_SUFFIX: [Vec<$(fn_name.clone())::InputType>; $(offset)],
-        });
-    }
-
-    quote! {
-        #[derive(SubComponentInputs,Uninitialized,IterMut, ParIterMut)]
-        pub struct SubComponentInputs
-        {$(members_code)}
     }
 }
 
@@ -799,7 +768,6 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         #![allow(unused_imports)]
         use std::iter::zip;
 
-        use air_structs_derive::SubComponentInputs;
         use itertools::{chain, zip_eq, Itertools};
         use num_traits::{One, Zero};
         use prover_types::cpu::*;
