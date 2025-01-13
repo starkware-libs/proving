@@ -5,16 +5,18 @@
   "input": {
     "Array": [
       {
-        "ExternalState": [
-          "RangeCheck_9_9_Const",
-          0
-        ]
+        "ExternalState": {
+          "name": "RangeCheck_9_9_Const",
+          "col_index": 0,
+          "log_n_rows": null
+        }
       },
       {
-        "ExternalState": [
-          "RangeCheck_9_9_Const",
-          1
-        ]
+        "ExternalState": {
+          "name": "RangeCheck_9_9_Const",
+          "col_index": 1,
+          "log_n_rows": null
+        }
       }
     ]
   },
@@ -29,16 +31,18 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "ExternalState": [
-              "RangeCheck_9_9_Const",
-              0
-            ]
+            "ExternalState": {
+              "name": "RangeCheck_9_9_Const",
+              "col_index": 0,
+              "log_n_rows": null
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck_9_9_Const",
-              1
-            ]
+            "ExternalState": {
+              "name": "RangeCheck_9_9_Const",
+              "col_index": 1,
+              "log_n_rows": null
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -51,16 +55,18 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "ExternalState": [
-              "RangeCheck_9_9_Const",
-              0
-            ]
+            "ExternalState": {
+              "name": "RangeCheck_9_9_Const",
+              "col_index": 0,
+              "log_n_rows": null
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck_9_9_Const",
-              1
-            ]
+            "ExternalState": {
+              "name": "RangeCheck_9_9_Const",
+              "col_index": 1,
+              "log_n_rows": null
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -71,6 +77,9 @@
   "n_lookup_terms": 1,
   "public_params": [],
   "external_states": [
-    "RangeCheck_9_9_Const"
+    [
+      "RangeCheck_9_9_Const",
+      null
+    ]
   ]
 }

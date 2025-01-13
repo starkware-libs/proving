@@ -924,7 +924,7 @@ fn simd_parse_air_var(
             };
             quote.to_string().unwrap()
         }
-        CompiledAirVar::ExternalState(name, _) => name.to_lowercase(),
+        CompiledAirVar::ExternalState { name, .. } => name.to_lowercase(),
         CompiledAirVar::PublicParam(public_param) => {
             format!("PackedM31::broadcast(M31::from({public_param}))")
         }
@@ -968,7 +968,7 @@ where
                 }
             }
         }
-        CompiledAirVar::ExternalState(..) => append_type_prefix("M31"),
+        CompiledAirVar::ExternalState { .. } => append_type_prefix("M31"),
         _ => unimplemented!(),
     }
 }

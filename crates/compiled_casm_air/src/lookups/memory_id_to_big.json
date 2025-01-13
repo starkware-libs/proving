@@ -3,10 +3,11 @@
   "relation_name": "MemoryIdToBig",
   "description": "Memory Id To Big",
   "input": {
-    "ExternalState": [
-      "MemoryIdForBig",
-      0
-    ]
+    "ExternalState": {
+      "name": "MemoryIdForBig",
+      "col_index": 0,
+      "log_n_rows": null
+    }
   },
   "output": {
     "StaticCall": [
@@ -342,10 +343,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "ExternalState": [
-              "MemoryIdForBig",
-              0
-            ]
+            "ExternalState": {
+              "name": "MemoryIdForBig",
+              "col_index": 0,
+              "log_n_rows": null
+            }
           },
           {
             "State": "memory_id_to_big_output_col0"
@@ -852,10 +854,11 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "ExternalState": [
-              "MemoryIdForBig",
-              0
-            ]
+            "ExternalState": {
+              "name": "MemoryIdForBig",
+              "col_index": 0,
+              "log_n_rows": null
+            }
           },
           {
             "State": "memory_id_to_big_output_col0"
@@ -950,6 +953,9 @@
   "n_lookup_terms": 15,
   "public_params": [],
   "external_states": [
-    "MemoryIdForBig"
+    [
+      "MemoryIdForBig",
+      null
+    ]
   ]
 }

@@ -55,7 +55,7 @@ where
         CompiledAirVar::Const(..) => f(expr),
         CompiledAirVar::Var(..) => f(expr),
         CompiledAirVar::State(..) => f(expr),
-        CompiledAirVar::ExternalState(..) => f(expr),
+        CompiledAirVar::ExternalState { .. } => f(expr),
         CompiledAirVar::StaticCall(_, vars) => iter_many(vars),
         CompiledAirVar::MethodCall(_, _, vars) => iter_many(vars),
         CompiledAirVar::BinaryOp(lhs, _, rhs) => iter_many(&[*lhs.clone(), *rhs.clone()]),
@@ -141,8 +141,13 @@ pub fn get_external_states_from_lookup_terms(
 fn seek_external_states(expr: &CompiledAirVar) -> HashSet<(String, usize)> {
     let mut external_states = HashSet::new();
     let mut insert = |expr: &CompiledAirVar| {
-        if let CompiledAirVar::ExternalState(name, address) = expr {
-            external_states.insert((name.to_string(), *address));
+        if let CompiledAirVar::ExternalState {
+            name,
+            col_index,
+            log_n_rows: _,
+        } = expr
+        {
+            external_states.insert((name.to_string(), *col_index));
         }
     };
     expr_iterator(expr, &mut insert);
@@ -203,7 +208,7 @@ pub fn parse_eval_constraint(
         CompiledAirVar::Struct { .. } => {
             todo!()
         }
-        CompiledAirVar::ExternalState(name, _) => name.to_lowercase(),
+        CompiledAirVar::ExternalState { name, .. } => name.to_lowercase(),
         CompiledAirVar::PublicParam(public_param) => {
             format!("E::F::from(M31::from(self.claim.{public_param}))")
         }

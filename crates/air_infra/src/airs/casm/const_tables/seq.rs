@@ -1,3 +1,4 @@
+use super::range_check::*;
 use crate::airs::casm::casm_state::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
@@ -35,7 +36,31 @@ impl ExtTable for Seq {
 }
 
 #[derive(Debug, Default, Clone)]
+pub struct SeqConstLen<const L: usize> {}
+
+impl<const L: usize> ExtTable for SeqConstLen<L> {
+    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_SEQ;
+    type T = [FeltExpr; 1];
+
+    fn to_state(v: &mut Self::T) {
+        let f = &mut v[0];
+        f.to_state(StateInfo::ExtTableState {
+            name: Self::CONST_TRACE_ID.to_string(),
+            col_index: 0,
+            log_n_rows: Some(L),
+        });
+    }
+}
+
+impl<const L: usize> RangeCheckSize for SeqConstLen<L> {
+    fn bits() -> &'static [u16] {
+        &[L as u16]
+    }
+}
+
+#[derive(Debug, Default, Clone)]
 pub struct SeqAddr {}
+
 impl ExtTable for SeqAddr {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_SEQ;
     type T = CasmAddress;

@@ -70,8 +70,12 @@ impl Display for CompiledAirVar {
                     .join(", ");
                 write!(f, "{{{}}}", strs)
             }
-            CompiledAirVar::ExternalState(name, i) => {
-                write!(f, "{}_col{}", name, i)
+            CompiledAirVar::ExternalState {
+                name,
+                col_index,
+                log_n_rows: _,
+            } => {
+                write!(f, "{}_col{}", name, col_index)
             }
             CompiledAirVar::PublicParam(name) => {
                 write!(f, "public_params.{}", name)

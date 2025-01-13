@@ -109,7 +109,7 @@ pub trait InternalAirVarInfo {
             .collect()
     }
 
-    fn external_states(&self) -> HashSet<String> {
+    fn external_states(&self) -> HashSet<(String, Option<usize>)> {
         self.get_info()
             .iter()
             .filter_map(|i| i.external_state.clone())
@@ -129,7 +129,7 @@ pub struct AirVarInfo {
     pub is_const: bool,
     pub visibility: Visibility,
     pub public_param: Option<PublicParam>,
-    pub external_state: Option<String>,
+    pub external_state: Option<(String, Option<usize>)>,
 }
 
 #[derive(Clone, Debug, Serialize, PartialEq, Eq, Hash)]
@@ -163,10 +163,11 @@ pub trait ExtTable: Default + Debug + Clone {
 
     fn to_state(v: &mut Self::T) {
         for (i, f) in v.as_felts_mut().into_iter().enumerate() {
-            f.to_state(StateInfo::ExternalColumnStateIndex(
-                Self::CONST_TRACE_ID.to_string(),
-                i,
-            ));
+            f.to_state(StateInfo::ExtTableState {
+                name: Self::CONST_TRACE_ID.to_string(),
+                col_index: i,
+                log_n_rows: None,
+            });
         }
     }
 

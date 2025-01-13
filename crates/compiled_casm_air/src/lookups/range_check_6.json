@@ -5,10 +5,11 @@
   "input": {
     "Array": [
       {
-        "ExternalState": [
-          "RangeCheck_6_Const",
-          0
-        ]
+        "ExternalState": {
+          "name": "Seq",
+          "col_index": 0,
+          "log_n_rows": 6
+        }
       }
     ]
   },
@@ -23,10 +24,11 @@
         "relation_name": "RangeCheck_6",
         "felts": [
           {
-            "ExternalState": [
-              "RangeCheck_6_Const",
-              0
-            ]
+            "ExternalState": {
+              "name": "Seq",
+              "col_index": 0,
+              "log_n_rows": 6
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -39,10 +41,11 @@
         "relation_name": "RangeCheck_6",
         "felts": [
           {
-            "ExternalState": [
-              "RangeCheck_6_Const",
-              0
-            ]
+            "ExternalState": {
+              "name": "Seq",
+              "col_index": 0,
+              "log_n_rows": 6
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -53,6 +56,9 @@
   "n_lookup_terms": 1,
   "public_params": [],
   "external_states": [
-    "RangeCheck_6_Const"
+    [
+      "Seq",
+      6
+    ]
   ]
 }

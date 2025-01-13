@@ -46,10 +46,11 @@
               },
               "+",
               {
-                "ExternalState": [
-                  "Seq",
-                  0
-                ]
+                "ExternalState": {
+                  "name": "Seq",
+                  "col_index": 0,
+                  "log_n_rows": null
+                }
               }
             ]
           },
@@ -302,10 +303,11 @@
             },
             "+",
             {
-              "ExternalState": [
-                "Seq",
-                0
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "col_index": 0,
+                "log_n_rows": null
+              }
             }
           ]
         },
@@ -342,10 +344,11 @@
             },
             "+",
             {
-              "ExternalState": [
-                "Seq",
-                0
-              ]
+              "ExternalState": {
+                "name": "Seq",
+                "col_index": 0,
+                "log_n_rows": null
+              }
             }
           ]
         }
@@ -362,10 +365,11 @@
               },
               "+",
               {
-                "ExternalState": [
-                  "Seq",
-                  0
-                ]
+                "ExternalState": {
+                  "name": "Seq",
+                  "col_index": 0,
+                  "log_n_rows": null
+                }
               }
             ]
           },
@@ -897,6 +901,9 @@
     "RangeCheckBuiltinSegmentStart"
   ],
   "external_states": [
-    "Seq"
+    [
+      "Seq",
+      null
+    ]
   ]
 }

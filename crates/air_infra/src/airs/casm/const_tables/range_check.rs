@@ -3,6 +3,7 @@ use std::marker::PhantomData;
 
 use inst_def::InstDef;
 
+use super::seq::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
@@ -14,12 +15,12 @@ pub trait RangeCheckSize: ExtTable + Debug + Default {
 
 pub fn range_check(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]) {
     match bits {
-        [6] => call_rc::<RangeCheck_6_Const>(ab, input),
-        [9] => call_rc::<RangeCheck_9_Const>(ab, input),
-        [11] => call_rc::<RangeCheck_11_Const>(ab, input),
-        [12] => call_rc::<RangeCheck_12_Const>(ab, input),
-        [18] => call_rc::<RangeCheck_18_Const>(ab, input),
-        [19] => call_rc::<RangeCheck_19_Const>(ab, input),
+        [6] => call_rc::<SeqConstLen<6>>(ab, input),
+        [9] => call_rc::<SeqConstLen<9>>(ab, input),
+        [11] => call_rc::<SeqConstLen<11>>(ab, input),
+        [12] => call_rc::<SeqConstLen<12>>(ab, input),
+        [18] => call_rc::<SeqConstLen<18>>(ab, input),
+        [19] => call_rc::<SeqConstLen<19>>(ab, input),
         [3, 6] => call_rc::<RangeCheck_3_6_Const>(ab, input),
         [4, 3] => call_rc::<RangeCheck_4_3_Const>(ab, input),
         [9, 9] => call_rc::<RangeCheck_9_9_Const>(ab, input),
@@ -42,12 +43,6 @@ where
     ab.lookup_call(&RangeCheck::<R>::default(), input, ())
 }
 
-new_range_check!([6], RangeCheck_6_Const);
-new_range_check!([9], RangeCheck_9_Const);
-new_range_check!([11], RangeCheck_11_Const);
-new_range_check!([12], RangeCheck_12_Const);
-new_range_check!([18], RangeCheck_18_Const);
-new_range_check!([19], RangeCheck_19_Const);
 new_range_check!([3, 6], RangeCheck_3_6_Const);
 new_range_check!([4, 3], RangeCheck_4_3_Const);
 new_range_check!([9, 9], RangeCheck_9_9_Const);
@@ -116,20 +111,20 @@ impl<R: RangeCheckSize> AirFn for RangeCheck<R> {
 
 #[macro_export]
 macro_rules! new_range_check {
-    ( [$($b:literal),+], $name:ident ) => {
+    ( [$b0:literal,$($b:literal),+], $name:ident ) => {
         #[derive(Debug, Default, Clone)]
         #[allow(non_camel_case_types)]
         pub struct $name {}
 
         impl RangeCheckSize for $name {
             fn bits() -> &'static [u16] {
-                &[$($b),+]
+                &[$b0,$($b),+]
             }
         }
 
         impl ExtTable for $name {
             const CONST_TRACE_ID: &'static str = stringify!($name);
-            type T = [FeltExpr; [$($b),+].len()];
+            type T = [FeltExpr; [$b0,$($b),+].len()];
         }
     };
 }

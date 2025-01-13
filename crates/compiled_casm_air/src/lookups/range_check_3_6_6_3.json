@@ -5,28 +5,32 @@
   "input": {
     "Array": [
       {
-        "ExternalState": [
-          "RangeCheck_3_6_6_3_Const",
-          0
-        ]
+        "ExternalState": {
+          "name": "RangeCheck_3_6_6_3_Const",
+          "col_index": 0,
+          "log_n_rows": null
+        }
       },
       {
-        "ExternalState": [
-          "RangeCheck_3_6_6_3_Const",
-          1
-        ]
+        "ExternalState": {
+          "name": "RangeCheck_3_6_6_3_Const",
+          "col_index": 1,
+          "log_n_rows": null
+        }
       },
       {
-        "ExternalState": [
-          "RangeCheck_3_6_6_3_Const",
-          2
-        ]
+        "ExternalState": {
+          "name": "RangeCheck_3_6_6_3_Const",
+          "col_index": 2,
+          "log_n_rows": null
+        }
       },
       {
-        "ExternalState": [
-          "RangeCheck_3_6_6_3_Const",
-          3
-        ]
+        "ExternalState": {
+          "name": "RangeCheck_3_6_6_3_Const",
+          "col_index": 3,
+          "log_n_rows": null
+        }
       }
     ]
   },
@@ -41,28 +45,32 @@
         "relation_name": "RangeCheck_3_6_6_3",
         "felts": [
           {
-            "ExternalState": [
-              "RangeCheck_3_6_6_3_Const",
-              0
-            ]
+            "ExternalState": {
+              "name": "RangeCheck_3_6_6_3_Const",
+              "col_index": 0,
+              "log_n_rows": null
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck_3_6_6_3_Const",
-              1
-            ]
+            "ExternalState": {
+              "name": "RangeCheck_3_6_6_3_Const",
+              "col_index": 1,
+              "log_n_rows": null
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck_3_6_6_3_Const",
-              2
-            ]
+            "ExternalState": {
+              "name": "RangeCheck_3_6_6_3_Const",
+              "col_index": 2,
+              "log_n_rows": null
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck_3_6_6_3_Const",
-              3
-            ]
+            "ExternalState": {
+              "name": "RangeCheck_3_6_6_3_Const",
+              "col_index": 3,
+              "log_n_rows": null
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -75,28 +83,32 @@
         "relation_name": "RangeCheck_3_6_6_3",
         "felts": [
           {
-            "ExternalState": [
-              "RangeCheck_3_6_6_3_Const",
-              0
-            ]
+            "ExternalState": {
+              "name": "RangeCheck_3_6_6_3_Const",
+              "col_index": 0,
+              "log_n_rows": null
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck_3_6_6_3_Const",
-              1
-            ]
+            "ExternalState": {
+              "name": "RangeCheck_3_6_6_3_Const",
+              "col_index": 1,
+              "log_n_rows": null
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck_3_6_6_3_Const",
-              2
-            ]
+            "ExternalState": {
+              "name": "RangeCheck_3_6_6_3_Const",
+              "col_index": 2,
+              "log_n_rows": null
+            }
           },
           {
-            "ExternalState": [
-              "RangeCheck_3_6_6_3_Const",
-              3
-            ]
+            "ExternalState": {
+              "name": "RangeCheck_3_6_6_3_Const",
+              "col_index": 3,
+              "log_n_rows": null
+            }
           }
         ],
         "use_or_yield": "Yield"
@@ -107,6 +119,9 @@
   "n_lookup_terms": 1,
   "public_params": [],
   "external_states": [
-    "RangeCheck_3_6_6_3_Const"
+    [
+      "RangeCheck_3_6_6_3_Const",
+      null
+    ]
   ]
 }

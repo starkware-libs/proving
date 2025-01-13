@@ -32,7 +32,7 @@ pub struct CompiledAirFn {
     pub public_params: HashSet<PublicParam>,
 
     // The set of external states used in the air function.
-    pub external_states: HashSet<String>,
+    pub external_states: HashSet<(String, Option<usize>)>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
@@ -110,8 +110,13 @@ pub enum CompiledAirVar {
         r#type: String,
         fields: Vec<(String, CompiledAirVar)>,
     },
-    // A variable written to the trace of a const table at the given index.
-    ExternalState(String, usize),
+    // A variable written to the trace of a const table at the given (column) index.
+    // If the table is Seq of constant length, the log length is also provided.
+    ExternalState {
+        name: String,
+        col_index: usize,
+        log_n_rows: Option<usize>,
+    },
     // A value passed to the verifier outside the trace. Can influence the constraints
     // that the verifier checks.
     PublicParam(String),
