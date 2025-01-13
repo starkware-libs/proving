@@ -40,17 +40,21 @@ pub struct LookupCall {
 }
 
 // Each air function has an air_body, which is a vector of AirBodyComponent.
-// These are the components of the air function.
+// These describe the steps to execute the function.
 #[derive(Clone, Debug, Serialize)]
 pub enum AirBodyComponent {
+    // Add a constraint that the given expression equals zero.
     Constraint(
         FeltExpr,
         #[serde(skip_serializing_if = "Option::is_none")] Option<String>,
     ),
+
+    // Write the value of the given expression to the next cell in the state.
     Deduction(
         FeltExpr,
         #[serde(skip_serializing_if = "Option::is_none")] Option<String>,
     ),
+
     // An assignment is a constraint and a deduction referring to the same trace cell.
     // For example, when copying a value from one trace cell to another.
     Assignment {
@@ -59,9 +63,18 @@ pub enum AirBodyComponent {
         #[serde(skip_serializing_if = "Option::is_none")]
         desc: Option<String>,
     },
+
+    // Create a new local variable in the generated code. The visibility controls whether
+    // to create the variable in the trace generation code, constraint evaluation code
+    // or both.
     Intermediate(String, String, AirVarImpl, Visibility),
+
+    // Call an inline air function. This component will be replaced by the air_body of
+    // the callee during the compilation process.
     Call(Call),
+
     LookupCall(LookupCall),
+
     // Adds the input to the lookup table or updates multiplicity.
     LookupAddInput {
         air_fn_name: String,
@@ -70,6 +83,7 @@ pub enum AirBodyComponent {
         #[serde(skip_serializing_if = "Option::is_none")]
         input: Option<AirVarImpl>,
     },
+
     // Saves the information from the trace needed for the generation of the interaction trace,
     // and creates the constraints between the trace and the interaction trace, and the
     // constraints on the accumulated sum (the logup).
