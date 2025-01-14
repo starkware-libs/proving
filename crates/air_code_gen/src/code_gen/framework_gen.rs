@@ -9,8 +9,8 @@ use genco::quote;
 use itertools::chain;
 
 use crate::code_gen::parse::{
-    constraint_consts, get_external_states_from_lookup_terms, get_public_params_from_lookup_terms,
-    parse_eval_constraint, parse_lookup_constraint,
+    constraint_consts, get_public_params_from_lookup_terms, parse_eval_constraint,
+    parse_lookup_constraint,
 };
 use crate::code_gen::utils::{block_doc, unique_constraint_relations};
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
@@ -203,9 +203,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         }
     }
 
-    // TODO(Gali): Get the variables of the external states from air_infra.
-    let external_states = get_external_states_from_lookup_terms(&lists.constraints);
-    for (name, _) in external_states {
+    for (name, _) in &lists.external_states {
         assert!(
             SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
             "unsupported {name}"

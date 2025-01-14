@@ -115,45 +115,6 @@ fn seek_public_params(expr: &CompiledAirVar) -> HashSet<String> {
     public_params
 }
 
-// TODO(Gali): discard this function and get the list from air_infra.
-pub fn get_external_states_from_lookup_terms(
-    constraints: &[ConstraintEvalStep],
-) -> Vec<(String, usize)> {
-    constraints
-        .iter()
-        .fold(HashSet::new(), |mut external_states, constraint| {
-            if let ConstraintEvalStep::LookupTerm(LookupTerm {
-                relation_name: _,
-                felts,
-                ..
-            }) = constraint
-            {
-                external_states.extend(felts.iter().flat_map(seek_external_states))
-            };
-            external_states
-        })
-        .into_iter()
-        .sorted()
-        .collect()
-}
-
-// TODO(Gali): discard this function and get the list from air_infra.
-fn seek_external_states(expr: &CompiledAirVar) -> HashSet<(String, usize)> {
-    let mut external_states = HashSet::new();
-    let mut insert = |expr: &CompiledAirVar| {
-        if let CompiledAirVar::ExternalState {
-            name,
-            col_index,
-            log_n_rows: _,
-        } = expr
-        {
-            external_states.insert((name.to_string(), *col_index));
-        }
-    };
-    expr_iterator(expr, &mut insert);
-    external_states
-}
-
 pub fn parse_eval_constraint(
     expr: &CompiledAirVar,
     constant_names: &HashMap<(String, String), String>,

@@ -8,9 +8,7 @@ use genco::lang::{rust, Rust};
 use genco::quote;
 use itertools::{chain, Itertools};
 
-use super::parse::{
-    get_external_states_from_lookup_terms, get_public_params_from_lookup_terms, seek_consts,
-};
+use super::parse::{get_public_params_from_lookup_terms, seek_consts};
 use super::utils::{block_doc, contains_inputs, unique_relation_calls};
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
@@ -70,9 +68,7 @@ fn generate_simd_write_trace_body_code(
             add_inputs_offsets.insert(fn_name, 0);
         }
     }
-    // TODO(Gali): Get the variables of the PreprocessedColumn from air_infra.
-    let external_states = get_external_states_from_lookup_terms(&lists.constraints);
-    for (name, _) in external_states {
+    for (name, _) in &lists.external_states {
         assert!(
             SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
             "unsupported {name}"
