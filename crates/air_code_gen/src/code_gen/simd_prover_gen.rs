@@ -3,19 +3,20 @@ use std::collections::{HashMap, HashSet};
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, Intermediate, LookupTerm, TraceGenStep, UseOrYield,
 };
+use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
 use genco::lang::{rust, Rust};
 use genco::quote;
 use itertools::{chain, Itertools};
 
-use super::parse::{get_public_params_from_lookup_terms, seek_consts};
+use super::parse::seek_consts;
 use super::utils::{block_doc, contains_inputs, unique_relation_calls};
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
 pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     let contains_inputs = contains_inputs(lists);
-    let public_params = get_public_params_from_lookup_terms(&lists.constraints);
+    let public_params_vec: Vec<PublicParam> = lists.public_params.iter().cloned().collect_vec();
     let configs = generate_configs(lists);
     let allows = generate_allows(lists);
     let imports_code = generate_imports_code(&lists.deductions);
@@ -26,8 +27,8 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     };
     let n_trace_cols = generate_n_trace_columns(lists);
     let lookup_data_code = generate_lookup_data_struct(&lists.deductions);
-    let claim_generator_code = generate_claim_generator_struct(&public_params, contains_inputs);
-    let claim_generator_impl_code = generate_claim_generator_impl(lists, &public_params);
+    let claim_generator_code = generate_claim_generator_struct(&public_params_vec, contains_inputs);
+    let claim_generator_impl_code = generate_claim_generator_impl(lists);
     let claim_prover_code = generate_claim_prover_struct();
     let claim_prover_impl = generate_claim_prover_impl(&lists.deductions);
     let write_trace_code = generate_simd_write_trace_code(lists);
@@ -316,7 +317,7 @@ fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 fn generate_claim_generator_struct(
-    public_params: &[String],
+    public_params: &[PublicParam],
     contains_inputs: bool,
 ) -> rust::Tokens {
     let mut claim_generator_fields = if contains_inputs {
@@ -326,7 +327,7 @@ fn generate_claim_generator_struct(
     };
     // TODO(Gali): Get the types of the public params from air_infra.
     for public_param in public_params {
-        claim_generator_fields.extend(quote! { pub $(public_param): u32, });
+        claim_generator_fields.extend(quote! { pub $(public_param.name()): u32, });
     }
     quote! {
         #[derive(Default)]
@@ -346,7 +347,7 @@ fn generate_claim_prover_struct() -> rust::Tokens {
     }
 }
 
-fn generate_claim_generator_impl(lists: &CompiledAirFn, public_params: &[String]) -> rust::Tokens {
+fn generate_claim_generator_impl(lists: &CompiledAirFn) -> rust::Tokens {
     let (mut claim_generator_fields, mut claim_generator_parameters, add_inputs_code, self_param) =
         if contains_inputs(lists) {
             (
@@ -374,9 +375,9 @@ fn generate_claim_generator_impl(lists: &CompiledAirFn, public_params: &[String]
                 quote! {self, },
             )
         };
-    for public_param in public_params {
-        claim_generator_fields.extend(quote! { $(public_param), });
-        claim_generator_parameters.extend(quote! { $(public_param): u32, });
+    for public_param in &lists.public_params {
+        claim_generator_fields.extend(quote! { $(public_param.name()), });
+        claim_generator_parameters.extend(quote! { $(public_param.name()): u32, });
     }
     quote! {
         impl ClaimGenerator {
@@ -392,7 +393,7 @@ fn generate_claim_generator_impl(lists: &CompiledAirFn, public_params: &[String]
             where
                 SimdBackend: BackendForChannel<MC>
             {
-                $(write_trace_body_simd(lists, public_params))
+                $(write_trace_body_simd(lists))
             }
 
             $(add_inputs_code)
@@ -469,8 +470,8 @@ fn generate_write_trace_simd_params(lists: &CompiledAirFn) -> rust::Tokens {
         params.extend(quote! { inputs: $(vec_of_type("PackedInputType")), });
     }
     params.extend(generate_sub_component_params_and_args(&lists.deductions).0);
-    for public_param in get_public_params_from_lookup_terms(&lists.constraints) {
-        params.extend(quote! { $(public_param): u32, });
+    for public_param in &lists.public_params {
+        params.extend(quote! { $(public_param.name()): u32, });
     }
     params
 }
@@ -482,17 +483,17 @@ fn generate_write_trace_simd_args(lists: &CompiledAirFn) -> rust::Tokens {
         args.extend(quote! { packed_inputs, });
     }
     args.extend(generate_sub_component_params_and_args(&lists.deductions).1);
-    for public_param in get_public_params_from_lookup_terms(&lists.constraints) {
-        args.extend(quote! { self.$(public_param), });
+    for public_param in &lists.public_params {
+        args.extend(quote! { self.$(public_param.name()), });
     }
     args
 }
 
-fn write_trace_body_simd(lists: &CompiledAirFn, public_params: &[String]) -> rust::Tokens {
+fn write_trace_body_simd(lists: &CompiledAirFn) -> rust::Tokens {
     let mut claim_fields = quote! {n_rows,};
-    for public_param in public_params {
+    for public_param in &lists.public_params {
         claim_fields.extend(quote! {
-            $(public_param): self.$(public_param),
+            $(public_param.name()): self.$(public_param.name()),
         });
     }
 

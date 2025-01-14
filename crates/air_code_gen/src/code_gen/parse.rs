@@ -83,38 +83,6 @@ pub fn seek_consts(expr: &CompiledAirVar) -> HashSet<(String, String)> {
     hashset
 }
 
-// TODO(Gali): discard this function and get the list from air_infra.
-pub fn get_public_params_from_lookup_terms(constraints: &[ConstraintEvalStep]) -> Vec<String> {
-    constraints
-        .iter()
-        .fold(HashSet::new(), |mut public_params, constraint| {
-            if let ConstraintEvalStep::LookupTerm(LookupTerm {
-                relation_name: _,
-                felts,
-                ..
-            }) = constraint
-            {
-                public_params.extend(felts.iter().flat_map(seek_public_params))
-            };
-            public_params
-        })
-        .into_iter()
-        .sorted()
-        .collect()
-}
-
-// TODO(Gali): discard this function and get the list from air_infra.
-fn seek_public_params(expr: &CompiledAirVar) -> HashSet<String> {
-    let mut public_params = HashSet::new();
-    let mut insert = |expr: &CompiledAirVar| {
-        if let CompiledAirVar::PublicParam(public_param) = expr {
-            public_params.insert(public_param.to_string());
-        }
-    };
-    expr_iterator(expr, &mut insert);
-    public_params
-}
-
 pub fn parse_eval_constraint(
     expr: &CompiledAirVar,
     constant_names: &HashMap<(String, String), String>,

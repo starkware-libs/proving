@@ -8,10 +8,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::chain;
 
-use crate::code_gen::parse::{
-    constraint_consts, get_public_params_from_lookup_terms, parse_eval_constraint,
-    parse_lookup_constraint,
-};
+use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
 use crate::code_gen::utils::{block_doc, unique_constraint_relations};
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
@@ -80,14 +77,13 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
     let mut members = quote! {
         pub n_rows: usize,
     };
-    let public_params = get_public_params_from_lookup_terms(&lists.constraints);
-    for public_param in &public_params {
+    for public_param in &lists.public_params {
         // TODO(Gali): Get the types of the public params from air_infra.
         members.append(quote! {
-            pub $public_param: u32,
+            pub $(public_param.name()): u32,
         });
         channel_mix_code.append(quote! {
-            channel.mix_u64(self.$public_param as u64);
+            channel.mix_u64(self.$(public_param.name()) as u64);
         });
     }
 
