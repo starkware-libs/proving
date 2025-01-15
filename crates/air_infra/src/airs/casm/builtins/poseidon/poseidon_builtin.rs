@@ -1,7 +1,7 @@
 use compiled_casm_air::public_params::PublicParam;
 use inst_def::InstDef;
 
-use super::poseidon_permutation::PoseidonHadesPermutation;
+use super::poseidon_permutation::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::seq::*;
 use crate::airs::felt252_utils::felt252_packing27::*;
