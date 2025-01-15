@@ -22,3 +22,7 @@ fix_code = []
 
 [dev-dependencies]
 rand = { version = "0.8.5" }
+
+# used by the macro CairoSerialize yet flagged by machete as unused
+[package.metadata.cargo-machete]
+ignored = ["starknet-ff"]

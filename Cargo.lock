@@ -46,7 +46,6 @@ dependencies = [
  "enum_dispatch",
  "indexmap",
  "inst_def",
- "num-integer",
  "prover_types 0.1.0 (git+https://github.com/starkware-libs/stwo-cairo.git?rev=4f0cbe9)",
  "serde",
  "serde_json",
@@ -912,7 +911,6 @@ dependencies = [
 name = "inst_def"
 version = "0.1.0"
 dependencies = [
- "proc-macro2",
  "quote",
  "syn 2.0.94",
 ]
