@@ -5,6 +5,9 @@ pub mod cond_as_small;
 pub mod div252;
 #[cfg(test)]
 mod div252_test;
+pub mod felt252_packing27;
+#[cfg(test)]
+mod felt252_packing27_test;
 pub mod mul252;
 #[cfg(test)]
 mod mul252_test;

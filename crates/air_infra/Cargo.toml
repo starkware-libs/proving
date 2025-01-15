@@ -6,7 +6,7 @@ edition.workspace = true
 [dependencies]
 compiled_casm_air = { path = "../compiled_casm_air" }
 serde = { workspace = true, features = ["derive", "rc"] }
-prover_types = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "4f0cbe9" }
+prover_types = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "a27287" }
 serde_json.workspace = true
 enum_dispatch = "0.3.13"
 clap = { version = "4.5.9", features = ["derive"] }

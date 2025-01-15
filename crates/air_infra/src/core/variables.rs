@@ -14,6 +14,7 @@ use super::expressions::biguint_expr::*;
 use super::expressions::bool_expr::*;
 use super::expressions::expr::*;
 use super::expressions::felt252_expr::*;
+use super::expressions::felt252packed27_expr::*;
 use super::expressions::felt_expr::*;
 use super::expressions::op_expr::*;
 use super::expressions::uint16_expr::*;
@@ -391,6 +392,8 @@ impl_air_var!((CasmAddress, FeltExpr));
 type Addresses<const N: usize> = [CasmAddress; N];
 // MemVerifyAll
 impl_air_var!((Addresses<const N: usize>, Felt252Expr));
+// Felt252UnpackFrom27, Felt252PackInto27
+impl_air_var!([Felt252Packed27Expr]);
 
 // Components
 
