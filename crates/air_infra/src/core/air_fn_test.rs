@@ -7,7 +7,6 @@ use super::expressions::felt252_expr::*;
 use super::expressions::felt_expr::*;
 use super::expressions::uint32_expr::*;
 use super::variables::*;
-use crate::airs::casm::const_tables::seq::*;
 use crate::{const_expr, const_felt252_expr, const_u32_expr};
 
 #[derive(Debug, InstDef)]
@@ -105,25 +104,28 @@ type TestState = FeltExpr;
 #[derive(Debug, InstDef, Default)]
 struct TestChainRound {}
 impl AirFn for TestChainRound {
-    type ExtIn = Seq;
-    type In = (ChainRoundVar, TestState);
-    type Out = (<Seq as ExtTable>::T, ChainRoundVar, TestState);
+    type ExtIn = ();
+    type In = (ChainIndexVar, RoundIndexVar, TestState);
+    type Out = (ChainIndexVar, RoundIndexVar, TestState);
 
     fn call(
         &self,
         _air_builder: &mut AirBuilder,
-        inst: <Self::ExtIn as ExtTable>::T,
-        (rnd, state): Self::In,
+        _: (),
+        (chain, rnd, state): Self::In,
     ) -> Self::Out {
-        // TODO: Write an AirFn that constrains the ChainRoundVar and call it here (and from every
-        // chain round).
-
-        let new_state = rnd.clone() + state.clone() * state;
-        (inst + const_expr!(1), rnd + const_expr!(1), new_state)
+        let new_state = rnd.clone() + state.clone();
+        (chain, rnd + const_expr!(1), new_state)
     }
 
     fn trace_type(&self) -> TraceType {
         TraceType::ChainRound
+    }
+}
+
+impl ChainRoundAirFn<TestState> for TestChainRound {
+    fn number_of_chains(&self) -> usize {
+        2
     }
 }
 
@@ -135,7 +137,17 @@ impl AirFn for TestChainLookupCall {
     type Out = TestState;
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), state: Self::In) -> Self::Out {
-        air_builder.chain_lookup_call(&TestChainRound {}, (const_expr!(5), state), 3)
+        let new_state = air_builder.chain_lookup_call(
+            &TestChainRound {},
+            (const_expr!(0), const_expr!(0), state),
+            3,
+        );
+
+        air_builder.chain_lookup_call(
+            &TestChainRound {},
+            (const_expr!(1), const_expr!(5), new_state),
+            2,
+        )
     }
 }
 
@@ -148,7 +160,7 @@ fn test_chain_lookup_call() {
         &format!("{}{}.json", TEST_JSONS_CORE_DIR, entry.name),
     );
     let (_, out) = registry.run_air(&func, (), const_expr!(2));
-    assert!(out.calc() == "7576");
+    assert_eq!(out.calc(), "16");
 
     entry = registry.add_entry(&TestChainRound {});
     compare_json(

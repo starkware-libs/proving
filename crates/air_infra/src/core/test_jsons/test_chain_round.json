@@ -3,10 +3,6 @@
   "relation_name": "TestChainRound",
   "description": "Test Chain Round",
   "inst_def": {},
-  "ext_input": {
-    "name": "Seq_col0",
-    "type": "M31"
-  },
   "input": [
     {
       "name": "test_chain_round_input.0",
@@ -15,19 +11,23 @@
     {
       "name": "test_chain_round_input.1",
       "type": "M31"
+    },
+    {
+      "name": "test_chain_round_input.2",
+      "type": "M31"
     }
   ],
   "output": [
     {
-      "name": "(Seq_col0 + 1)",
+      "name": "col0",
       "type": "M31"
     },
     {
-      "name": "(col0 + 1)",
+      "name": "(col1 + 1)",
       "type": "M31"
     },
     {
-      "name": "(col0 + (col1 * col1))",
+      "name": "(col1 + col2)",
       "type": "M31"
     }
   ],
@@ -36,7 +36,7 @@
     {
       "Intermediate": [
         "input_tmp_d3037_0",
-        "(M31, M31)",
+        "(M31, M31, M31)",
         [
           {
             "name": "test_chain_round_input.0",
@@ -44,6 +44,10 @@
           },
           {
             "name": "test_chain_round_input.1",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_round_input.2",
             "type": "M31"
           }
         ],
@@ -66,12 +70,18 @@
       ]
     },
     {
+      "Deduction": [
+        "input_tmp_d3037_0.2",
+        "input_limb_2"
+      ]
+    },
+    {
       "LookupTerm": {
         "relation_name": "TestChainRound",
         "felts": [
-          "Seq_col0",
           "col0",
-          "col1"
+          "col1",
+          "col2"
         ],
         "use_or_yield": "Use"
       }
@@ -80,9 +90,9 @@
       "LookupTerm": {
         "relation_name": "TestChainRound",
         "felts": [
-          "(Seq_col0 + 1)",
-          "(col0 + 1)",
-          "(col0 + (col1 * col1))"
+          "col0",
+          "(col1 + 1)",
+          "(col1 + col2)"
         ],
         "use_or_yield": "Yield"
       }
@@ -97,6 +107,10 @@
       [
         "col1",
         "input_limb_1"
+      ],
+      [
+        "col2",
+        "input_limb_2"
       ]
     ]
   }

@@ -61,10 +61,14 @@ pub enum TraceType {
     // 2], S), where S is some AirVar. Doesn't yield multiplicity column.
     // Generates accumulated sum column where the input
     // is used and the output is yielded (chain lookup constraint).
-    // Can be called only with chain_lookup_call.
-    // Important: A ChainRound can be called from a single caller, and that caller can only call
-    // it once in each row. This is because we use the caller Seq column to identify the chain
-    // (see chain_lookup_call).
+    //
+    // Important:
+    // - A ChainRound can be called from a single caller. This is because we use the caller Seq
+    //   column to identify the chain (see chain_lookup_call).
+    // - A ChainRound must have consts per round that are returned from a lookup component with a
+    //   const round number column in its external input. Without this the chain lookup is not
+    //   sound (for example, a malicious prover can run for more rounds than intended by
+    //   overflowing the round number).
     ChainRound,
 }
 
@@ -223,6 +227,16 @@ pub trait AirFn: Debug + InstDefTrait {
 
         output
     }
+}
+
+pub trait ChainRoundAirFn<S>:
+    AirFn<ExtIn = (), In = (ChainIndexVar, RoundIndexVar, S), Out = (ChainIndexVar, RoundIndexVar, S)>
+where
+    S: AirVar,
+    (ChainIndexVar, RoundIndexVar, S): AirVar,
+{
+    // The number of calls to chain_lookup_call with this air_fn
+    fn number_of_chains(&self) -> usize;
 }
 
 // Seperated from the air fn trait to support automated implementation
@@ -510,27 +524,23 @@ impl AirBuilder {
         output
     }
 
-    // Create <num_iterations> rows in <air_fn> with consecutive round numbers.
+    // Creates <num_of_rounds> rows in <air_fn> with consecutive round numbers.
     //
-    // air_fn: an AirFn with ChainRound trace type.
-    // input: The round number and input state for the first row.
-    // num_iterations: number of rows to generate.
+    // air_fn: a ChainRoundAirFn with ChainRound trace type.
+    // input: The chain index (between 0 and NC - 1), first round number in this chain, and the
+    // initial state for the first round.
+    // num_of_rounds: The number of rows to create.
     //
-    // Returns the output of the last row.
+    // Returns the output state of the last row.
     pub fn chain_lookup_call<S>(
         &mut self,
-        air_fn: &dyn AirFn<
-            ExtIn = Seq,
-            In = (ChainRoundVar, S),
-            Out = (<Seq as ExtTable>::T, ChainRoundVar, S),
-        >,
-        mut input: (ChainRoundVar, S),
-        num_iterations: usize,
+        air_fn: &dyn ChainRoundAirFn<S>,
+        mut input: (ChainIndexVar, RoundIndexVar, S),
+        num_of_rounds: usize,
     ) -> S
     where
         S: AirVar,
-        (ChainRoundVar, S): AirVar,
-        (<Seq as ExtTable>::T, ChainRoundVar, S): AirVar,
+        (ChainIndexVar, RoundIndexVar, S): AirVar,
     {
         assert!(
             air_fn.trace_type() == TraceType::ChainRound,
@@ -542,44 +552,50 @@ impl AirBuilder {
             "The input to a chain lookup call must not be empty."
         );
 
+        // TODO(AnatG): Create the chain indices in the infra.
+        assert!(input.0.is_const(), "The chain index must be a constant.");
+        assert!(input.1.is_const(), "The round number must be a constant.");
+
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);
 
         let mut output_name = "".to_string();
-        let mut output = <(<Seq as ExtTable>::T, ChainRoundVar, S)>::new("".to_string(), false);
-        let first_row = self.call_external_table(&Seq {}) * const_expr!(num_iterations as u32);
-        let mut ext_input = first_row.clone();
+        let mut output = <(ChainIndexVar, RoundIndexVar, S)>::new("".to_string(), false);
+        let chain_id = (self.call_external_table(&Seq {})
+            * const_expr!(air_fn.number_of_chains() as u32))
+            + input.0.clone();
+        input.0 = chain_id;
 
         // Yield the input to the first round.
         self.air_body.push(AirBodyComponent::LookupTerm {
             relation_name: air_fn.relation_name().expect("Relation name not set"),
-            felts: ext_input
-                .as_felts()
-                .into_iter()
-                .chain(input.as_felts())
-                .collect(),
+            felts: input.as_felts(),
             use_or_yield: UseOrYield::Yield,
         });
 
         // TODO(AnatG): Add all inputs to the lookup component together in one LookupAddInput.
-        for i in 0..num_iterations {
+        for _ in 0..num_of_rounds {
             output_name = self.get_intermediate_name(Some(format!(
                 "{}_output_round_{}",
                 air_fn.name(),
-                input.0.value().expect("The round number is always known")
+                input.1.value().expect("The round number is always known")
             )));
-            ext_input = first_row.clone() + const_expr!(i as u32);
             output = self.lookup_add_input_and_compute(
                 air_fn,
-                ext_input.clone(),
+                (),
                 input.clone(),
                 Some(output_name.clone()),
             );
 
             // Prepare the input for the next round.
-            input = (const_expr!(1) + input.0.clone(), output.2.clone());
+            input = (
+                input.0.clone(),
+                input.1.clone() + const_expr!(1),
+                output.2.clone(),
+            );
         }
 
+        // TODO(AnatG): Consider not deducing the const parts of the output.
         // Deduce the output of the last round.
         output = output.let_(
             output_name,

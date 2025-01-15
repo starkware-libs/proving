@@ -28,7 +28,8 @@ use crate::core::Felt;
 // Macros
 use crate::impl_air_var;
 
-pub type ChainRoundVar = FeltExpr;
+pub type RoundIndexVar = FeltExpr;
+pub type ChainIndexVar = FeltExpr;
 
 #[allow(private_bounds)]
 /// Every input and output of an air function is an AirVar.
@@ -350,7 +351,7 @@ impl_air_var!((BoolExpr, FeltExpr));
 impl_air_var!([UInt32Expr]);
 impl_air_var!([BoolExpr]);
 type TestState = FeltExpr;
-impl_air_var!((FeltExpr, ChainRoundVar, TestState));
+impl_air_var!((FeltExpr, RoundIndexVar, TestState));
 
 // Inline airs
 

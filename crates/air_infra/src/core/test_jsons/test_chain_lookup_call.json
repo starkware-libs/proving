@@ -8,7 +8,7 @@
     "type": "M31"
   },
   "output": {
-    "name": "col2",
+    "name": "col5",
     "type": "M31"
   },
   "trace_type": "Inline",
@@ -17,8 +17,8 @@
       "LookupTerm": {
         "relation_name": "TestChainRound",
         "felts": [
-          "(Seq_col0 * 3)",
-          "5",
+          "((Seq_col0 * 2) + 0)",
+          "0",
           "test_chain_lookup_call_input"
         ],
         "use_or_yield": "Yield"
@@ -27,13 +27,13 @@
     {
       "LookupAddInput": {
         "air_fn_name": "test_chain_round",
-        "ext_input": {
-          "name": "((Seq_col0 * 3) + 0)",
-          "type": "M31"
-        },
         "input": [
           {
-            "name": "5",
+            "name": "((Seq_col0 * 2) + 0)",
+            "type": "M31"
+          },
+          {
+            "name": "0",
             "type": "M31"
           },
           {
@@ -46,13 +46,13 @@
     {
       "LookupCall": {
         "air_fn_name": "test_chain_round",
-        "ext_input": {
-          "name": "((Seq_col0 * 3) + 0)",
-          "type": "M31"
-        },
         "input": [
           {
-            "name": "5",
+            "name": "((Seq_col0 * 2) + 0)",
+            "type": "M31"
+          },
+          {
+            "name": "0",
             "type": "M31"
           },
           {
@@ -60,23 +60,23 @@
             "type": "M31"
           }
         ],
-        "output_name": "test_chain_round_output_round_5_tmp_b7061_0"
+        "output_name": "test_chain_round_output_round_0_tmp_b7061_0"
       }
     },
     {
       "LookupAddInput": {
         "air_fn_name": "test_chain_round",
-        "ext_input": {
-          "name": "((Seq_col0 * 3) + 1)",
-          "type": "M31"
-        },
         "input": [
           {
-            "name": "6",
+            "name": "((Seq_col0 * 2) + 0)",
             "type": "M31"
           },
           {
-            "name": "test_chain_round_output_round_5_tmp_b7061_0.2",
+            "name": "1",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_round_output_round_0_tmp_b7061_0.2",
             "type": "M31"
           }
         ]
@@ -85,37 +85,37 @@
     {
       "LookupCall": {
         "air_fn_name": "test_chain_round",
-        "ext_input": {
-          "name": "((Seq_col0 * 3) + 1)",
-          "type": "M31"
-        },
         "input": [
           {
-            "name": "6",
+            "name": "((Seq_col0 * 2) + 0)",
             "type": "M31"
           },
           {
-            "name": "test_chain_round_output_round_5_tmp_b7061_0.2",
+            "name": "1",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_round_output_round_0_tmp_b7061_0.2",
             "type": "M31"
           }
         ],
-        "output_name": "test_chain_round_output_round_6_tmp_b7061_1"
+        "output_name": "test_chain_round_output_round_1_tmp_b7061_1"
       }
     },
     {
       "LookupAddInput": {
         "air_fn_name": "test_chain_round",
-        "ext_input": {
-          "name": "((Seq_col0 * 3) + 2)",
-          "type": "M31"
-        },
         "input": [
           {
-            "name": "7",
+            "name": "((Seq_col0 * 2) + 0)",
             "type": "M31"
           },
           {
-            "name": "test_chain_round_output_round_6_tmp_b7061_1.2",
+            "name": "2",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_round_output_round_1_tmp_b7061_1.2",
             "type": "M31"
           }
         ]
@@ -124,38 +124,38 @@
     {
       "LookupCall": {
         "air_fn_name": "test_chain_round",
-        "ext_input": {
-          "name": "((Seq_col0 * 3) + 2)",
-          "type": "M31"
-        },
         "input": [
           {
-            "name": "7",
+            "name": "((Seq_col0 * 2) + 0)",
             "type": "M31"
           },
           {
-            "name": "test_chain_round_output_round_6_tmp_b7061_1.2",
+            "name": "2",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_round_output_round_1_tmp_b7061_1.2",
             "type": "M31"
           }
         ],
-        "output_name": "test_chain_round_output_round_7_tmp_b7061_2"
+        "output_name": "test_chain_round_output_round_2_tmp_b7061_2"
       }
     },
     {
       "Deduction": [
-        "test_chain_round_output_round_7_tmp_b7061_2.0",
+        "test_chain_round_output_round_2_tmp_b7061_2.0",
         "test_chain_round_output_limb_0"
       ]
     },
     {
       "Deduction": [
-        "test_chain_round_output_round_7_tmp_b7061_2.1",
+        "test_chain_round_output_round_2_tmp_b7061_2.1",
         "test_chain_round_output_limb_1"
       ]
     },
     {
       "Deduction": [
-        "test_chain_round_output_round_7_tmp_b7061_2.2",
+        "test_chain_round_output_round_2_tmp_b7061_2.2",
         "test_chain_round_output_limb_2"
       ]
     },
@@ -166,6 +166,124 @@
           "col0",
           "col1",
           "col2"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "TestChainRound",
+        "felts": [
+          "((Seq_col0 * 2) + 1)",
+          "5",
+          "col2"
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "test_chain_round",
+        "input": [
+          {
+            "name": "((Seq_col0 * 2) + 1)",
+            "type": "M31"
+          },
+          {
+            "name": "5",
+            "type": "M31"
+          },
+          {
+            "name": "col2",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "test_chain_round",
+        "input": [
+          {
+            "name": "((Seq_col0 * 2) + 1)",
+            "type": "M31"
+          },
+          {
+            "name": "5",
+            "type": "M31"
+          },
+          {
+            "name": "col2",
+            "type": "M31"
+          }
+        ],
+        "output_name": "test_chain_round_output_round_5_tmp_b7061_3"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "test_chain_round",
+        "input": [
+          {
+            "name": "((Seq_col0 * 2) + 1)",
+            "type": "M31"
+          },
+          {
+            "name": "6",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_round_output_round_5_tmp_b7061_3.2",
+            "type": "M31"
+          }
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "test_chain_round",
+        "input": [
+          {
+            "name": "((Seq_col0 * 2) + 1)",
+            "type": "M31"
+          },
+          {
+            "name": "6",
+            "type": "M31"
+          },
+          {
+            "name": "test_chain_round_output_round_5_tmp_b7061_3.2",
+            "type": "M31"
+          }
+        ],
+        "output_name": "test_chain_round_output_round_6_tmp_b7061_4"
+      }
+    },
+    {
+      "Deduction": [
+        "test_chain_round_output_round_6_tmp_b7061_4.0",
+        "test_chain_round_output_limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        "test_chain_round_output_round_6_tmp_b7061_4.1",
+        "test_chain_round_output_limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        "test_chain_round_output_round_6_tmp_b7061_4.2",
+        "test_chain_round_output_limb_2"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "TestChainRound",
+        "felts": [
+          "col3",
+          "col4",
+          "col5"
         ],
         "use_or_yield": "Use"
       }
@@ -183,6 +301,18 @@
       ],
       [
         "col2",
+        "test_chain_round_output_limb_2"
+      ],
+      [
+        "col3",
+        "test_chain_round_output_limb_0"
+      ],
+      [
+        "col4",
+        "test_chain_round_output_limb_1"
+      ],
+      [
+        "col5",
         "test_chain_round_output_limb_2"
       ]
     ]
