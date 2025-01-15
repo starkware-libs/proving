@@ -255,6 +255,14 @@ impl AirBuilder {
         self.row_number
     }
 
+    // TODO(Anat): Remove once we have row_index.
+    // Should be used only within a lookup component, prior to calling
+    // a constant table (with call_external_column).
+    #[cfg(test)]
+    pub fn set_row_number(&mut self, row_number: Option<usize>) {
+        self.row_number = row_number;
+    }
+
     pub fn state(&self) -> &State {
         &self.state
     }
