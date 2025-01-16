@@ -113,6 +113,18 @@ pub fn contains_inputs(lists: &CompiledAirFn) -> bool {
     }
 }
 
+pub fn preprocessed_columns_imports(
+    external_states: &HashSet<(String, Option<usize>)>,
+) -> rust::Tokens {
+    let mut external_states_imports =
+        quote! {use stwo_cairo_prover::cairo_air::preprocessed::PreProcessedColumn; };
+    for external_state in external_states {
+        external_states_imports.append(quote! {
+        use stwo_cairo_prover::cairo_air::preprocessed::$(external_state.0.clone());});
+    }
+    external_states_imports
+}
+
 // Removes trailing zeroes from a comma-separated sequence of M31 elements.
 // Used to reduce 0 multiplications in the extension field.
 pub fn remove_trailing_zeroes(felts: &[CompiledAirVar]) -> Vec<CompiledAirVar> {

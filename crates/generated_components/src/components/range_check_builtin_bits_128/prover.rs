@@ -11,8 +11,8 @@ use rayon::iter::{
 };
 use stwo_air_utils::trace::component_trace::ComponentTrace;
 use stwo_air_utils_derive::{IterMut, ParIterMut, Uninitialized};
+use stwo_cairo_prover::cairo_air::preprocessed::{PreProcessedColumn, Seq};
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
-use stwo_prover::constraint_framework::preprocessed_columns::PreprocessedColumn;
 use stwo_prover::constraint_framework::Relation;
 use stwo_prover::core::air::Component;
 use stwo_prover::core::backend::simd::column::BaseColumn;
@@ -114,7 +114,7 @@ fn write_trace_simd(
         .enumerate()
         .zip(lookup_data.par_iter_mut())
         .for_each(|((row_index, row), lookup_data)| {
-            let seq = PreprocessedColumn::Seq(log_size).packed_at(row_index);
+            let seq = PreProcessedColumn::Seq(Seq::new(log_size)).packed_at(row_index);
 
             // Read Positive Num Bits 128.
 

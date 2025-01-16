@@ -1,4 +1,4 @@
-use std::collections::HashMap;
+use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, ConstraintEvalStep, Intermediate, LookupTerm,
@@ -9,12 +9,14 @@ use genco::quote;
 use itertools::chain;
 
 use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
-use crate::code_gen::utils::{block_doc, unique_constraint_relations};
+use crate::code_gen::utils::{
+    block_doc, preprocessed_columns_imports, unique_constraint_relations,
+};
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
 pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
-        $(imports())
+        $(imports(&lists.external_states))
         $['\n']
         $(generate_component_structs(&lists.constraints))
         $['\n']
@@ -28,7 +30,7 @@ pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn imports() -> rust::Tokens {
+fn imports(external_states: &HashSet<(String, Option<usize>)>) -> rust::Tokens {
     quote! {
         #![allow(non_camel_case_types)]
         #![allow(unused_imports)]
@@ -36,7 +38,8 @@ fn imports() -> rust::Tokens {
         use serde::{Deserialize, Serialize};
         use stwo_cairo_serialize::CairoSerialize;
         use stwo_prover::constraint_framework::logup::{LogupAtRow, LogupSums, LookupElements};
-        use stwo_prover::constraint_framework::preprocessed_columns::PreprocessedColumn;
+        use stwo_cairo_prover::cairo_air::preprocessed::PreProcessedColumn;
+        $(preprocessed_columns_imports(external_states))
         use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval, RelationEntry};
         use stwo_prover::core::backend::simd::m31::LOG_N_LANES;
         use stwo_prover::core::channel::Channel;
@@ -205,7 +208,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             "unsupported {name}"
         );
         code.append(quote! {
-            let $(&name.to_lowercase()) = eval.get_preprocessed_column(PreprocessedColumn::$name(self.log_size()));
+            let $(&name.to_lowercase()) = eval.get_preprocessed_column(PreProcessedColumn::$(name)($name::new(self.log_size())).id());
         });
     }
 

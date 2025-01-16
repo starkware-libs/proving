@@ -2,9 +2,9 @@
 #![allow(unused_imports)]
 use num_traits::{One, Zero};
 use serde::{Deserialize, Serialize};
+use stwo_cairo_prover::cairo_air::preprocessed::{PreProcessedColumn, Seq};
 use stwo_cairo_serialize::CairoSerialize;
 use stwo_prover::constraint_framework::logup::{LogupAtRow, LogupSums, LookupElements};
-use stwo_prover::constraint_framework::preprocessed_columns::PreprocessedColumn;
 use stwo_prover::constraint_framework::{
     EvalAtRow, FrameworkComponent, FrameworkEval, RelationEntry,
 };
@@ -79,7 +79,8 @@ impl FrameworkEval for Eval {
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let M31_1 = E::F::from(M31::from(1));
         let M31_2 = E::F::from(M31::from(2));
-        let seq = eval.get_preprocessed_column(PreprocessedColumn::Seq(self.log_size()));
+        let seq =
+            eval.get_preprocessed_column(PreProcessedColumn::Seq(Seq::new(self.log_size())).id());
         let value_id_col0 = eval.next_trace_mask();
         let value_limb_0_col1 = eval.next_trace_mask();
         let value_limb_1_col2 = eval.next_trace_mask();

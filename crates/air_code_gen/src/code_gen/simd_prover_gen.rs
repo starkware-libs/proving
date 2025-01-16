@@ -11,6 +11,7 @@ use itertools::{chain, Itertools};
 
 use super::parse::seek_consts;
 use super::utils::{block_doc, contains_inputs, unique_relation_calls};
+use crate::code_gen::utils::preprocessed_columns_imports;
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
 // TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
@@ -19,7 +20,7 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     let public_params_vec: Vec<PublicParam> = lists.public_params.iter().cloned().collect_vec();
     let configs = generate_configs(lists);
     let allows = generate_allows(lists);
-    let imports_code = generate_imports_code(&lists.deductions);
+    let imports_code = generate_imports_code(&lists.deductions, &lists.external_states);
     let typedefs = if contains_inputs {
         generate_input_output_typedefs(lists)
     } else {
@@ -75,7 +76,7 @@ fn generate_simd_write_trace_body_code(
             "unsupported {name}"
         );
         write_trace_body.append(quote! {
-            let $(&name.to_lowercase()) = PreprocessedColumn::$name(log_size).packed_at(row_index);
+            let $(&name.to_lowercase()) = PreProcessedColumn::$(name)($name::new(log_size)).packed_at(row_index);
         });
     }
 
@@ -777,7 +778,10 @@ fn generate_allows(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
+fn generate_imports_code(
+    deductions: &[TraceGenStep],
+    external_states: &HashSet<(String, Option<usize>)>,
+) -> rust::Tokens {
     quote! {
         use std::iter::zip;
 
@@ -791,7 +795,7 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
         use stwo_air_utils::trace::component_trace::ComponentTrace;
         use stwo_air_utils_derive::{IterMut, ParIterMut, Uninitialized};
         use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
-        use stwo_prover::constraint_framework::preprocessed_columns::PreprocessedColumn;
+        $(preprocessed_columns_imports(external_states))
         use stwo_prover::constraint_framework::Relation;
         use stwo_prover::core::air::Component;
         use stwo_prover::core::backend::simd::column::BaseColumn;
