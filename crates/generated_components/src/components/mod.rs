@@ -6,6 +6,7 @@ pub mod memory_address_to_id;
 pub mod memory_id_to_big;
 pub mod narrow_fib_num_steps_20;
 pub mod range_check_4_3;
+pub mod range_check_6;
 pub mod range_check_7_2_5;
 pub mod range_check_builtin_bits_128;
 pub mod verify_instruction;

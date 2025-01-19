@@ -19,6 +19,7 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     let contains_inputs = contains_inputs(lists);
     let public_params = get_public_params_from_lookup_terms(&lists.constraints);
     let configs = generate_configs(lists);
+    let allows = generate_allows(lists);
     let imports_code = generate_imports_code(&lists.deductions);
     let typedefs = if contains_inputs {
         generate_input_output_typedefs(lists)
@@ -34,6 +35,7 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     let write_trace_code = generate_simd_write_trace_code(lists);
     quote! {
         $(configs)
+        $(allows)
         $(imports_code)
         $['\n']
         $(typedefs)
@@ -190,10 +192,13 @@ fn generate_simd_write_trace_body_code(
 
 #[allow(dead_code)]
 fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
-    let contains_deductions = !lists.state_names.is_empty();
-    if !contains_deductions {
+    let contains_state_names = !lists.state_names.is_empty();
+    if !contains_state_names {
         return quote! {
-        pub fn write_trace_simd() {
+            fn write_trace_simd(
+                $(generate_write_trace_simd_params(lists))
+            ) -> (ComponentTrace<N_TRACE_COLUMNS>,
+                LookupData) {
             unimplemented!()
         }};
     }
@@ -762,10 +767,21 @@ fn generate_configs(lists: &CompiledAirFn) -> rust::Tokens {
     configs.append(quote!(#![allow(unused_parens)]));
     configs
 }
+fn generate_allows(lists: &CompiledAirFn) -> rust::Tokens {
+    // TODO(Gali): Remove allow dead code.
+    let allow_dead_code_header = if lists.state_names.is_empty() {
+        quote! { #![allow(dead_code)] }
+    } else {
+        quote! {}
+    };
+    quote! {
+        $allow_dead_code_header
+        #![allow(unused_imports)]
+    }
+}
 
 fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
-        #![allow(unused_imports)]
         use std::iter::zip;
 
         use itertools::{chain, zip_eq, Itertools};

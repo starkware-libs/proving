@@ -56,8 +56,6 @@ mod tests {
         generate_component_code(air_fn);
     }
 
-    // TODO(Gali): unignore when we have RangeCheck6 preprocessed column.
-    #[ignore]
     #[test]
     fn range_check_code_gen() {
         let serialized_air_fn = read_json("../compiled_casm_air/src/lookups/range_check_6.json");
