@@ -1,0 +1,496 @@
+{
+  "name": "linear_combination_n_1_coefs_1",
+  "relation_name": null,
+  "description": "Linear Combination N 1 Coefs 1",
+  "inst_def": {
+    "N": "1",
+    "coefs": "[-1]"
+  },
+  "input": [
+    {
+      "name": "linear_combination_n_1_coefs_1_input[0]",
+      "type": "Felt252Packed27"
+    }
+  ],
+  "output": {
+    "name": "combination_result_tmp_d2b51_0",
+    "type": "Felt252Packed27"
+  },
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "Intermediate": [
+        "combination_result_tmp_d2b51_0",
+        "Felt252Packed27",
+        {
+          "name": "Felt252Packed27::from_felt252(([0, 0, 0, 0] - ([1, 0, 0, 0] * Felt252::from_felt252packed27(linear_combination_n_1_coefs_1_input[0]))))",
+          "type": "Felt252Packed27"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "combination_result_tmp_d2b51_0.get_m31(0)",
+        "combination_limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        "combination_result_tmp_d2b51_0.get_m31(1)",
+        "combination_limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        "combination_result_tmp_d2b51_0.get_m31(2)",
+        "combination_limb_2"
+      ]
+    },
+    {
+      "Deduction": [
+        "combination_result_tmp_d2b51_0.get_m31(3)",
+        "combination_limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        "combination_result_tmp_d2b51_0.get_m31(4)",
+        "combination_limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        "combination_result_tmp_d2b51_0.get_m31(5)",
+        "combination_limb_5"
+      ]
+    },
+    {
+      "Deduction": [
+        "combination_result_tmp_d2b51_0.get_m31(6)",
+        "combination_limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        "combination_result_tmp_d2b51_0.get_m31(7)",
+        "combination_limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        "combination_result_tmp_d2b51_0.get_m31(8)",
+        "combination_limb_8"
+      ]
+    },
+    {
+      "Deduction": [
+        "combination_result_tmp_d2b51_0.get_m31(9)",
+        "combination_limb_9"
+      ]
+    },
+    {
+      "Intermediate": [
+        "biased_limb_accumulator_u32_tmp_d2b51_1",
+        "UInt32",
+        {
+          "name": "UInt32::from_m31((((0 - col0) - (1 * linear_combination_n_1_coefs_1_input[0].get_m31(0))) + 134217729))",
+          "type": "UInt32"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "(biased_limb_accumulator_u32_tmp_d2b51_1.low().as_m31() - 1)",
+        "p_coef"
+      ]
+    },
+    {
+      "Intermediate": [
+        "carry_0_tmp_d2b51_2",
+        "M31",
+        {
+          "name": "((((0 - col0) - (1 * linear_combination_n_1_coefs_1_input[0].get_m31(0))) - (col10 * 1)) * 16)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Intermediate": [
+        "carry_1_tmp_d2b51_3",
+        "M31",
+        {
+          "name": "((((carry_0_tmp_d2b51_2 - col1) - (1 * linear_combination_n_1_coefs_1_input[0].get_m31(1))) - (col10 * 0)) * 16)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Intermediate": [
+        "carry_2_tmp_d2b51_4",
+        "M31",
+        {
+          "name": "((((carry_1_tmp_d2b51_3 - col2) - (1 * linear_combination_n_1_coefs_1_input[0].get_m31(2))) - (col10 * 0)) * 16)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Intermediate": [
+        "carry_3_tmp_d2b51_5",
+        "M31",
+        {
+          "name": "((((carry_2_tmp_d2b51_4 - col3) - (1 * linear_combination_n_1_coefs_1_input[0].get_m31(3))) - (col10 * 0)) * 16)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Intermediate": [
+        "carry_4_tmp_d2b51_6",
+        "M31",
+        {
+          "name": "((((carry_3_tmp_d2b51_5 - col4) - (1 * linear_combination_n_1_coefs_1_input[0].get_m31(4))) - (col10 * 0)) * 16)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Intermediate": [
+        "carry_5_tmp_d2b51_7",
+        "M31",
+        {
+          "name": "((((carry_4_tmp_d2b51_6 - col5) - (1 * linear_combination_n_1_coefs_1_input[0].get_m31(5))) - (col10 * 0)) * 16)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Intermediate": [
+        "carry_6_tmp_d2b51_8",
+        "M31",
+        {
+          "name": "((((carry_5_tmp_d2b51_7 - col6) - (1 * linear_combination_n_1_coefs_1_input[0].get_m31(6))) - (col10 * 0)) * 16)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Intermediate": [
+        "carry_7_tmp_d2b51_9",
+        "M31",
+        {
+          "name": "((((carry_6_tmp_d2b51_8 - col7) - (1 * linear_combination_n_1_coefs_1_input[0].get_m31(7))) - (col10 * 136)) * 16)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Intermediate": [
+        "carry_8_tmp_d2b51_10",
+        "M31",
+        {
+          "name": "((((carry_7_tmp_d2b51_9 - col8) - (1 * linear_combination_n_1_coefs_1_input[0].get_m31(8))) - (col10 * 0)) * 16)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Constraint": [
+        "(((carry_8_tmp_d2b51_10 - col9) - (1 * linear_combination_n_1_coefs_1_input[0].get_m31(9))) - (col10 * 256))",
+        "final limb constraint"
+      ]
+    },
+    {
+      "Intermediate": [
+        "biased_carry_0_tmp_d2b51_11",
+        "M31",
+        {
+          "name": "(col10 + 1)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Constraint": [
+        "((biased_carry_0_tmp_d2b51_11 * biased_carry_0_tmp_d2b51_11) - biased_carry_0_tmp_d2b51_11)",
+        "carry constraint 0"
+      ]
+    },
+    {
+      "Intermediate": [
+        "biased_carry_1_tmp_d2b51_12",
+        "M31",
+        {
+          "name": "(carry_0_tmp_d2b51_2 + 1)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Constraint": [
+        "((biased_carry_1_tmp_d2b51_12 * biased_carry_1_tmp_d2b51_12) - biased_carry_1_tmp_d2b51_12)",
+        "carry constraint 1"
+      ]
+    },
+    {
+      "Intermediate": [
+        "biased_carry_2_tmp_d2b51_13",
+        "M31",
+        {
+          "name": "(carry_1_tmp_d2b51_3 + 1)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Constraint": [
+        "((biased_carry_2_tmp_d2b51_13 * biased_carry_2_tmp_d2b51_13) - biased_carry_2_tmp_d2b51_13)",
+        "carry constraint 2"
+      ]
+    },
+    {
+      "Intermediate": [
+        "biased_carry_3_tmp_d2b51_14",
+        "M31",
+        {
+          "name": "(carry_2_tmp_d2b51_4 + 1)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Constraint": [
+        "((biased_carry_3_tmp_d2b51_14 * biased_carry_3_tmp_d2b51_14) - biased_carry_3_tmp_d2b51_14)",
+        "carry constraint 3"
+      ]
+    },
+    {
+      "Intermediate": [
+        "biased_carry_4_tmp_d2b51_15",
+        "M31",
+        {
+          "name": "(carry_3_tmp_d2b51_5 + 1)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Constraint": [
+        "((biased_carry_4_tmp_d2b51_15 * biased_carry_4_tmp_d2b51_15) - biased_carry_4_tmp_d2b51_15)",
+        "carry constraint 4"
+      ]
+    },
+    {
+      "Intermediate": [
+        "biased_carry_5_tmp_d2b51_16",
+        "M31",
+        {
+          "name": "(carry_4_tmp_d2b51_6 + 1)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Constraint": [
+        "((biased_carry_5_tmp_d2b51_16 * biased_carry_5_tmp_d2b51_16) - biased_carry_5_tmp_d2b51_16)",
+        "carry constraint 5"
+      ]
+    },
+    {
+      "Intermediate": [
+        "biased_carry_6_tmp_d2b51_17",
+        "M31",
+        {
+          "name": "(carry_5_tmp_d2b51_7 + 1)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Constraint": [
+        "((biased_carry_6_tmp_d2b51_17 * biased_carry_6_tmp_d2b51_17) - biased_carry_6_tmp_d2b51_17)",
+        "carry constraint 6"
+      ]
+    },
+    {
+      "Intermediate": [
+        "biased_carry_7_tmp_d2b51_18",
+        "M31",
+        {
+          "name": "(carry_6_tmp_d2b51_8 + 1)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Constraint": [
+        "((biased_carry_7_tmp_d2b51_18 * biased_carry_7_tmp_d2b51_18) - biased_carry_7_tmp_d2b51_18)",
+        "carry constraint 7"
+      ]
+    },
+    {
+      "Intermediate": [
+        "biased_carry_8_tmp_d2b51_19",
+        "M31",
+        {
+          "name": "(carry_7_tmp_d2b51_9 + 1)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Constraint": [
+        "((biased_carry_8_tmp_d2b51_19 * biased_carry_8_tmp_d2b51_19) - biased_carry_8_tmp_d2b51_19)",
+        "carry constraint 8"
+      ]
+    },
+    {
+      "Intermediate": [
+        "biased_carry_9_tmp_d2b51_20",
+        "M31",
+        {
+          "name": "(carry_8_tmp_d2b51_10 + 1)",
+          "type": "M31"
+        },
+        {
+          "in_constraints": true,
+          "in_deductions": false
+        }
+      ]
+    },
+    {
+      "Constraint": [
+        "((biased_carry_9_tmp_d2b51_20 * biased_carry_9_tmp_d2b51_20) - biased_carry_9_tmp_d2b51_20)",
+        "carry constraint 9"
+      ]
+    }
+  ],
+  "state": {
+    "row": [
+      [
+        "col0",
+        "combination_limb_0"
+      ],
+      [
+        "col1",
+        "combination_limb_1"
+      ],
+      [
+        "col2",
+        "combination_limb_2"
+      ],
+      [
+        "col3",
+        "combination_limb_3"
+      ],
+      [
+        "col4",
+        "combination_limb_4"
+      ],
+      [
+        "col5",
+        "combination_limb_5"
+      ],
+      [
+        "col6",
+        "combination_limb_6"
+      ],
+      [
+        "col7",
+        "combination_limb_7"
+      ],
+      [
+        "col8",
+        "combination_limb_8"
+      ],
+      [
+        "col9",
+        "combination_limb_9"
+      ],
+      [
+        "col10",
+        "p_coef"
+      ]
+    ]
+  }
+}

@@ -26,6 +26,10 @@ pub fn range_check(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]) {
         [9, 9] => call_rc::<RangeCheck_9_9_Const>(ab, input),
         [7, 2, 5] => call_rc::<RangeCheck_7_2_5_Const>(ab, input),
         [3, 6, 6, 3] => call_rc::<RangeCheck_3_6_6_3_Const>(ab, input),
+        [4, 4, 4, 4] => call_rc::<RangeCheck_4_4_4_4_Const>(ab, input),
+        [4, 4] => call_rc::<RangeCheck_4_4_Const>(ab, input),
+        [3, 3, 3, 3, 3] => call_rc::<RangeCheck_3_3_3_3_3_Const>(ab, input),
+        [2, 2, 2, 2, 2] => call_rc::<RangeCheck_2_2_2_2_2_Const>(ab, input),
         _ => panic!("Unsupported range check bits: {:?}", bits),
     }
 }
@@ -48,6 +52,10 @@ new_range_check!([4, 3], RangeCheck_4_3_Const);
 new_range_check!([9, 9], RangeCheck_9_9_Const);
 new_range_check!([7, 2, 5], RangeCheck_7_2_5_Const);
 new_range_check!([3, 6, 6, 3], RangeCheck_3_6_6_3_Const);
+new_range_check!([4, 4, 4, 4], RangeCheck_4_4_4_4_Const);
+new_range_check!([4, 4], RangeCheck_4_4_Const);
+new_range_check!([3, 3, 3, 3, 3], RangeCheck_3_3_3_3_3_Const);
+new_range_check!([2, 2, 2, 2, 2], RangeCheck_2_2_2_2_2_Const);
 
 #[derive(Debug, InstDef, Default)]
 pub struct RangeCheck<R: RangeCheckSize> {

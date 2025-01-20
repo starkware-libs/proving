@@ -1,0 +1,237 @@
+use super::linear_combination::*;
+// Macros
+use crate::const_felt252_expr;
+use crate::core::air_fn_registry::*;
+use crate::core::expressions::felt252_expr::*;
+use crate::core::variables::*;
+use crate::utils::test_utils::*;
+
+#[test]
+fn test_entry_json_large() {
+    let (_, entry) = AirFnRegistry::new(&LinearCombination {
+        coefs: [2, 1, 4, 3, -1, 1],
+    });
+    compare_json(
+        &entry,
+        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
+    );
+}
+
+#[test]
+fn test_entry_json_mid() {
+    let (_, entry) = AirFnRegistry::new(&LinearCombination {
+        coefs: [3, 1, 1, 1],
+    });
+    compare_json(
+        &entry,
+        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
+    );
+}
+
+#[test]
+fn test_entry_json_small() {
+    let (_, entry) = AirFnRegistry::new(&LinearCombination { coefs: [2, 1] });
+    compare_json(
+        &entry,
+        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
+    );
+}
+
+#[test]
+fn test_entry_json_add() {
+    let (_, entry) = AirFnRegistry::new(&LinearCombination { coefs: [1, 1] });
+    compare_json(
+        &entry,
+        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
+    );
+}
+
+#[test]
+fn test_entry_json_neg() {
+    let (_, entry) = AirFnRegistry::new(&LinearCombination { coefs: [-1] });
+    compare_json(
+        &entry,
+        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
+    );
+}
+
+#[test]
+fn test_linear_combination_for_x() {
+    let air_fn = LinearCombination {
+        coefs: [-3, 1, 1, 1],
+    };
+    let (registry, _) = AirFnRegistry::new(&air_fn);
+
+    let (state, output) = registry.run_air(
+        &air_fn,
+        (),
+        [
+            const_felt252_expr!(
+                0xffffffffffffffffffffffffffffffffu128,
+                0x6ffffffffffffffffffffffffffffffu128
+            )
+            .into(),
+            const_felt252_expr!(1u128, 0u128).into(),
+            const_felt252_expr!(2u128, 0u128).into(),
+            const_felt252_expr!(3u128, 0u128).into(),
+        ],
+    );
+    assert_eq!(
+        output.calc(),
+        const_felt252_expr!(0xcu128, 0x3000000000000330000000000000000u128).calc()
+    );
+    let expected_state = vec![
+        (12, "combination_limb_0"),
+        (0, "combination_limb_1"),
+        (0, "combination_limb_2"),
+        (0, "combination_limb_3"),
+        (0, "combination_limb_4"),
+        (0, "combination_limb_5"),
+        (0, "combination_limb_6"),
+        (408, "combination_limb_7"),
+        (0, "combination_limb_8"),
+        (96, "combination_limb_9"),
+        (2147483644, "p_coef"),
+    ]
+    .into();
+    assert_expected_state(&state, &expected_state);
+
+    let (state, output) = registry.run_air(
+        &air_fn,
+        (),
+        [
+            const_felt252_expr!(1u128, 0u128).into(),
+            const_felt252_expr!(
+                0xffffffffffffffffffffffffffffffffu128,
+                0x6ffffffffffffffffffffffffffffffu128
+            )
+            .into(),
+            const_felt252_expr!(
+                0xffffffffffffffffffffffffffffffffu128,
+                0x6ffffffffffffffffffffffffffffffu128
+            )
+            .into(),
+            const_felt252_expr!(
+                0xffffffffffffffffffffffffffffffffu128,
+                0x6ffffffffffffffffffffffffffffffu128
+            )
+            .into(),
+        ],
+    );
+    assert_eq!(
+        output.calc(),
+        const_felt252_expr!(
+            0xfffffffffffffffffffffffffffffff8u128,
+            0x4ffffffffffffddffffffffffffffffu128
+        )
+        .calc()
+    );
+    let expected_state = vec![
+        (134217720, "combination_limb_0"),
+        (134217727, "combination_limb_1"),
+        (134217727, "combination_limb_2"),
+        (134217727, "combination_limb_3"),
+        (134217727, "combination_limb_4"),
+        (134217727, "combination_limb_5"),
+        (134217727, "combination_limb_6"),
+        (134217455, "combination_limb_7"),
+        (134217727, "combination_limb_8"),
+        (159, "combination_limb_9"),
+        (2, "p_coef"),
+    ]
+    .into();
+    assert_expected_state(&state, &expected_state);
+}
+
+#[test]
+fn test_linear_combination_for_part_round() {
+    let air_fn = LinearCombination {
+        coefs: [2, 1, 4, 3, -1],
+    };
+    let (registry, _) = AirFnRegistry::new(&air_fn);
+
+    let (state, output) = registry.run_air(
+        &air_fn,
+        (),
+        [
+            const_felt252_expr!(2u128, 0u128).into(),
+            const_felt252_expr!(1u128, 0u128).into(),
+            const_felt252_expr!(4u128, 0u128).into(),
+            const_felt252_expr!(3u128, 0u128).into(),
+            const_felt252_expr!(
+                0xffffffffffffffffffffffffffffffffu128,
+                0x6ffffffffffffffffffffffffffffffu128
+            )
+            .into(),
+        ],
+    );
+    assert_eq!(
+        output.calc(),
+        const_felt252_expr!(0x20u128, 0x1000000000000110000000000000000u128).calc()
+    );
+    let expected_state = vec![
+        (32, "combination_limb_0"),
+        (0, "combination_limb_1"),
+        (0, "combination_limb_2"),
+        (0, "combination_limb_3"),
+        (0, "combination_limb_4"),
+        (0, "combination_limb_5"),
+        (0, "combination_limb_6"),
+        (136, "combination_limb_7"),
+        (0, "combination_limb_8"),
+        (32, "combination_limb_9"),
+        (2147483646, "p_coef"),
+    ]
+    .into();
+    assert_expected_state(&state, &expected_state);
+    let (state, output) = registry.run_air(
+        &air_fn,
+        (),
+        [
+            const_felt252_expr!(
+                0xffffffffffffffffffffffffffffffffu128,
+                0x6ffffffffffffffffffffffffffffffu128
+            )
+            .into(),
+            const_felt252_expr!(
+                0xffffffffffffffffffffffffffffffffu128,
+                0x6ffffffffffffffffffffffffffffffu128
+            )
+            .into(),
+            const_felt252_expr!(
+                0xffffffffffffffffffffffffffffffffu128,
+                0x6ffffffffffffffffffffffffffffffu128
+            )
+            .into(),
+            const_felt252_expr!(
+                0xffffffffffffffffffffffffffffffffu128,
+                0x6ffffffffffffffffffffffffffffffu128
+            )
+            .into(),
+            const_felt252_expr!(1u128, 0u128).into(),
+        ],
+    );
+    assert_eq!(
+        output.calc(),
+        const_felt252_expr!(
+            0xffffffffffffffffffffffffffffffedu128,
+            0x5ffffffffffff77ffffffffffffffffu128
+        )
+        .calc()
+    );
+    let expected_state = vec![
+        (134217709, "combination_limb_0"),
+        (134217727, "combination_limb_1"),
+        (134217727, "combination_limb_2"),
+        (134217727, "combination_limb_3"),
+        (134217727, "combination_limb_4"),
+        (134217727, "combination_limb_5"),
+        (134217727, "combination_limb_6"),
+        (134216639, "combination_limb_7"),
+        (134217727, "combination_limb_8"),
+        (191, "combination_limb_9"),
+        (8, "p_coef"),
+    ]
+    .into();
+    assert_expected_state(&state, &expected_state);
+}
