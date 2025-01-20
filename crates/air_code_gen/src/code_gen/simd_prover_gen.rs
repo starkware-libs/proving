@@ -234,6 +234,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
     code.extend(quote! {
         // TODO(Ohad): attempt to remove this.
+        #[allow(clippy::clone_on_copy)]
         #[allow(clippy::useless_conversion)]
         #[allow(unused_variables)]
         #[allow(clippy::double_parens)]
@@ -909,7 +910,7 @@ fn simd_parse_air_var(
             };
             quote.to_string().unwrap()
         }
-        CompiledAirVar::ExternalState { name, .. } => name.to_lowercase(),
+        CompiledAirVar::ExternalState { name, .. } => name.to_lowercase() + ".clone()",
         CompiledAirVar::PublicParam(public_param) => {
             format!("PackedM31::broadcast(M31::from({public_param}))")
         }

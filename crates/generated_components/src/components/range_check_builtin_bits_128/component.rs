@@ -105,7 +105,7 @@ impl FrameworkEval for Eval {
             &self.memory_address_to_id_lookup_elements,
             E::EF::one(),
             &[
-                (E::F::from(M31::from(self.claim.range_check_builtin_segment_start)) + seq),
+                (E::F::from(M31::from(self.claim.range_check_builtin_segment_start)) + seq.clone()),
                 value_id_col0.clone(),
             ],
         ));

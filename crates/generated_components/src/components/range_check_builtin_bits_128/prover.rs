@@ -83,6 +83,7 @@ impl ClaimGenerator {
     }
 }
 
+#[allow(clippy::clone_on_copy)]
 #[allow(clippy::useless_conversion)]
 #[allow(unused_variables)]
 #[allow(clippy::double_parens)]
@@ -116,17 +117,20 @@ fn write_trace_simd(
             // Read Positive Num Bits 128.
 
             let memory_address_to_id_value_tmp_c9e8f_0 = memory_address_to_id_state.deduce_output(
-                ((PackedM31::broadcast(M31::from(range_check_builtin_segment_start))) + (seq)),
+                ((PackedM31::broadcast(M31::from(range_check_builtin_segment_start)))
+                    + (seq.clone())),
             );
             let memory_id_to_big_value_tmp_c9e8f_1 =
                 memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_c9e8f_0);
             let value_id_col0 = memory_address_to_id_value_tmp_c9e8f_0;
             *row[0] = value_id_col0;
             let memory_address_to_id_inputs_0 =
-                ((PackedM31::broadcast(M31::from(range_check_builtin_segment_start))) + (seq))
-                    .unpack();
+                ((PackedM31::broadcast(M31::from(range_check_builtin_segment_start)))
+                    + (seq.clone()))
+                .unpack();
             *lookup_data.memory_address_to_id_0 = [
-                ((PackedM31::broadcast(M31::from(range_check_builtin_segment_start))) + (seq)),
+                ((PackedM31::broadcast(M31::from(range_check_builtin_segment_start)))
+                    + (seq.clone())),
                 value_id_col0,
             ];
             let value_limb_0_col1 = memory_id_to_big_value_tmp_c9e8f_1.get_m31(0);

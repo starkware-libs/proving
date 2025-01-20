@@ -79,7 +79,7 @@ impl FrameworkEval for Eval {
         eval.add_to_relation(RelationEntry::new(
             &self.range_check_6_lookup_elements,
             -E::EF::one(),
-            &[seq],
+            &[seq.clone()],
         ));
 
         eval.finalize_logup_in_pairs();
