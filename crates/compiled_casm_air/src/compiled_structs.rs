@@ -155,6 +155,8 @@ pub struct CompiledAirFnStat {
     // To this we should add the number of trace cells in:
     // - Const tables and their corresponding lookup components (multiplicity and logup columns)
     // - The two memory tables (and their corresponding multiplicity and logup columns)
+    // - The table of verify instruction (with number of rows equals the number of different pc
+    //   values)
     pub trace_cells_upper_bound: usize,
 }
 

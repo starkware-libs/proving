@@ -290,7 +290,7 @@ fn add_entry_statistics(
         // range check) and memory tables. If we had a component with Seq of unfixed length
         // in its external input that we would like to include in the tighter upper bound, we would
         // need to update this condition.
-        if called_entry.ext_input.is_none() {
+        if called_entry.ext_input.is_none() && name != "verify_instruction" {
             trace_cells_upper_bound += cnt * entry_stats.trace_cells_upper_bound;
         }
     }
