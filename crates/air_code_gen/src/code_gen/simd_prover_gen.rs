@@ -498,28 +498,28 @@ fn write_trace_body_simd(lists: &CompiledAirFn) -> rust::Tokens {
         });
     }
 
-    let (n_rows_init_code, inputs_code) = if contains_inputs(lists) {
-        (
-            quote! { let n_rows = self.inputs.len(); },
-            quote! {
-                if need_padding {
-                    self.inputs.resize(size, *self.inputs.first().unwrap());
-                    bit_reverse_coset_to_circle_domain_order(&mut self.inputs);
-                }
+    let n_rows_init_code = if contains_inputs(lists) {
+        quote! {
+            let n_rows = self.inputs.len();
+            assert_ne!(n_rows, 0);
+            let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
+            let need_padding = n_rows != size;
 
-                let packed_inputs = pack_values(&self.inputs);
-            },
-        )
+            if need_padding {
+                self.inputs.resize(size, *self.inputs.first().unwrap());
+                bit_reverse_coset_to_circle_domain_order(&mut self.inputs);
+            }
+
+            let packed_inputs = pack_values(&self.inputs);
+        }
     } else {
-        (quote! { let n_rows = self.n_rows; }, quote! {})
+        quote! {
+           let n_rows = self.n_rows;
+           assert_ne!(n_rows, 0);
+        }
     };
     quote! {
         $(n_rows_init_code)
-        assert_ne!(n_rows, 0);
-        let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
-        let need_padding = n_rows != size;
-
-        $(inputs_code)
         let (trace, lookup_data) =
                 write_trace_simd($(generate_write_trace_simd_args(lists)));
 

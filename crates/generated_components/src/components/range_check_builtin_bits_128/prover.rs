@@ -61,9 +61,6 @@ impl ClaimGenerator {
     {
         let n_rows = self.n_rows;
         assert_ne!(n_rows, 0);
-        let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
-        let need_padding = n_rows != size;
-
         let (trace, lookup_data) = write_trace_simd(
             n_rows,
             memory_address_to_id_state,
