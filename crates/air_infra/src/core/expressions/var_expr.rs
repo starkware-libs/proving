@@ -223,3 +223,19 @@ pub(super) enum ComplexOrFelt {
     Complex(Vec<ExprImpl>),
     Felt(StateInfo),
 }
+
+impl ComplexOrFelt {
+    pub(super) fn as_complex_mut(&mut self) -> &mut [ExprImpl] {
+        if let ComplexOrFelt::Complex(children) = self {
+            return children;
+        }
+        panic!("Expected complex expression");
+    }
+
+    pub(super) fn as_complex(&self) -> &[ExprImpl] {
+        if let ComplexOrFelt::Complex(children) = self {
+            return children;
+        }
+        panic!("Expected complex expression");
+    }
+}

@@ -35,7 +35,14 @@ impl<T> Expr<T>
 where
     T: ProverType,
 {
-    pub(super) fn get_var(&mut self) -> &mut VarExpr<T> {
+    pub(super) fn as_var_mut(&mut self) -> &mut VarExpr<T> {
+        match self {
+            Expr::Var(v) => v,
+            _ => panic!("Cannot convert non-variable to Var"),
+        }
+    }
+
+    pub(super) fn as_var(&self) -> &VarExpr<T> {
         match self {
             Expr::Var(v) => v,
             _ => panic!("Cannot convert non-variable to Var"),
@@ -104,6 +111,24 @@ impl ExprImpl {
             ExprImpl::Felt252Packed27(_) => Felt252Packed27::r#type(),
             ExprImpl::BigUInt384(_) => BigUInt::<384, 6, 32>::r#type(),
             ExprImpl::BigUInt768(_) => BigUInt::<768, 12, 64>::r#type(),
+        }
+    }
+
+    pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
+        match self {
+            ExprImpl::Felt(f) => f,
+            ExprImpl::Bool(b) => b.as_felt_mut(),
+            ExprImpl::UInt16(u) => u.as_felt_mut(),
+            _ => panic!("Cannot convert to Felt"),
+        }
+    }
+
+    pub fn as_felt(&self) -> FeltExpr {
+        match self {
+            ExprImpl::Felt(f) => f.clone(),
+            ExprImpl::Bool(b) => b.as_felt(),
+            ExprImpl::UInt16(u) => u.as_felt(),
+            _ => panic!("Cannot convert to Felt"),
         }
     }
 }

@@ -13,24 +13,41 @@ const LOW_NAME: &str = "low";
 const HIGH_NAME: &str = "high";
 
 impl VarExpr<UInt64> {
-    // Converts children to low and high.
     fn get_children(&mut self) -> [&mut UInt32Expr; 2] {
-        let err_msg = "UInt64 var must have a low and high children.";
-        if let ComplexOrFelt::Complex(children) = &mut self.complex_or_felt {
-            return children
-                .iter_mut()
-                .map(|c| {
-                    if let ExprImpl::UInt32(expr) = c {
-                        expr
-                    } else {
-                        panic!("{}", err_msg);
-                    }
-                })
-                .collect::<Vec<_>>()
-                .try_into()
-                .expect(err_msg);
+        self.complex_or_felt
+            .as_complex_mut()
+            .iter_mut()
+            .map(|c| match c {
+                ExprImpl::UInt32(e) => e,
+                _ => panic!("Invalid child type"),
+            })
+            .collect::<Vec<_>>()
+            .try_into()
+            .expect("UInt64 var must have 2 uint32 children.")
+    }
+
+    fn get_child_mut(&mut self, index: usize) -> &mut UInt32Expr {
+        match self
+            .complex_or_felt
+            .as_complex_mut()
+            .get_mut(index)
+            .expect("Invalid index")
+        {
+            ExprImpl::UInt32(e) => e,
+            _ => panic!("Invalid child type"),
         }
-        panic!("{}", err_msg);
+    }
+
+    fn get_child(&self, index: usize) -> UInt32Expr {
+        match self
+            .complex_or_felt
+            .as_complex()
+            .get(index)
+            .expect("Invalid index")
+        {
+            ExprImpl::UInt32(e) => e.clone(),
+            _ => panic!("Invalid child type"),
+        }
     }
 }
 
@@ -58,33 +75,36 @@ impl VarExprUpdate for VarExpr<UInt64> {
 
     fn update_children(&mut self) {
         let parent_var = &self.clone();
-        let [low, high] = self.get_children();
-        low.get_var().set_parent(parent_var, None);
-        high.get_var().set_parent(parent_var, None);
+        self.get_child_mut(0)
+            .as_var_mut()
+            .set_parent(parent_var, None);
+        self.get_child_mut(1)
+            .as_var_mut()
+            .set_parent(parent_var, None);
     }
 }
 
 impl UInt64Expr {
     pub fn low_mut(&mut self) -> &mut UInt32Expr {
-        self.get_var().get_children()[0]
+        self.as_var_mut().get_child_mut(0)
     }
 
     pub fn high_mut(&mut self) -> &mut UInt32Expr {
-        self.get_var().get_children()[1]
+        self.as_var_mut().get_child_mut(1)
     }
 
     pub fn low(&self) -> UInt32Expr {
-        self.clone().low_mut().clone()
+        self.as_var().get_child(0)
     }
 
     pub fn high(&self) -> UInt32Expr {
-        self.clone().high_mut().clone()
+        self.as_var().get_child(1)
     }
 }
 
 impl AirVar for UInt64Expr {
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        self.get_var()
+        self.as_var_mut()
             .get_children()
             .into_iter()
             .flat_map(|e| e.as_felts_mut())

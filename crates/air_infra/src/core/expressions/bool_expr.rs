@@ -11,16 +11,20 @@ pub type BoolExpr = Expr<Bool>;
 const CHILD_NAME: &str = "as_m31";
 
 impl VarExpr<Bool> {
-    // Converts children to FeltExpr.
-    fn get_child(&mut self) -> &mut FeltExpr {
-        let err_msg = "Bool var must have a felt child.";
-        if let ComplexOrFelt::Complex(children) = &mut self.complex_or_felt {
-            let child = children.get_mut(0).expect(err_msg);
-            if let ExprImpl::Felt(felt_expr) = child {
-                return felt_expr;
-            }
-        }
-        panic!("{}", err_msg);
+    fn get_child_mut(&mut self) -> &mut FeltExpr {
+        self.complex_or_felt
+            .as_complex_mut()
+            .get_mut(0)
+            .expect("Bool var must have a felt child.")
+            .as_felt_mut()
+    }
+
+    fn get_child(&self) -> FeltExpr {
+        self.complex_or_felt
+            .as_complex()
+            .first()
+            .expect("Bool var must have a felt child.")
+            .as_felt()
     }
 }
 
@@ -38,27 +42,31 @@ impl VarExprUpdate for VarExpr<Bool> {
 
     fn update_children(&mut self) {
         let parent_var = &self.clone();
-        self.get_child().get_var().set_parent(parent_var, None);
+        self.get_child_mut()
+            .as_var_mut()
+            .set_parent(parent_var, None);
     }
 }
 
 impl BoolExpr {
     pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
         match self {
-            BoolExpr::Var(v) => v.get_child(),
-            BoolExpr::Op(u) => {
-                if u.op == Operation::BoolFromFelt {
-                    if let AirVarImpl::Expr(ExprImpl::Felt(felt_expr)) = &mut u.children[0] {
-                        return felt_expr;
-                    }
-                }
-                panic!("Cannot convert to a Felt");
-            }
+            BoolExpr::Var(v) => v.get_child_mut(),
+            BoolExpr::Op(op) => match op.op {
+                Operation::BoolFromFelt => op.children[0].as_felt_mut(),
+                _ => panic!("Cannot convert to a Felt"),
+            },
         }
     }
 
     pub fn as_felt(&self) -> FeltExpr {
-        self.clone().as_felt_mut().clone()
+        match self {
+            BoolExpr::Var(v) => v.get_child(),
+            BoolExpr::Op(op) => match op.op {
+                Operation::BoolFromFelt => op.children[0].as_felt(),
+                _ => panic!("Cannot convert to a Felt"),
+            },
+        }
     }
 }
 

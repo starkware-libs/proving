@@ -13,24 +13,30 @@ pub type Felt252Expr = Expr<Felt252>;
 const CHILD_NAME: &str = "get_m31";
 
 impl VarExpr<Felt252> {
-    // Converts children to felts.
     fn get_children(&mut self) -> [&mut FeltExpr; FELT252_N_WORDS] {
-        let err_msg = &format!("Felt252 var must have {FELT252_N_WORDS} felt children.");
-        if let ComplexOrFelt::Complex(children) = &mut self.complex_or_felt {
-            return children
-                .iter_mut()
-                .map(|c| {
-                    if let ExprImpl::Felt(felt_expr) = c {
-                        felt_expr
-                    } else {
-                        panic!("{}", err_msg);
-                    }
-                })
-                .collect::<Vec<_>>()
-                .try_into()
-                .expect(err_msg);
-        }
-        panic!("{}", err_msg);
+        self.complex_or_felt
+            .as_complex_mut()
+            .iter_mut()
+            .map(|c| c.as_felt_mut())
+            .collect::<Vec<_>>()
+            .try_into()
+            .unwrap_or_else(|_| panic!("Felt252 var must have {FELT252_N_WORDS} felt children."))
+    }
+
+    fn get_child_mut(&mut self, index: usize) -> &mut FeltExpr {
+        self.complex_or_felt
+            .as_complex_mut()
+            .get_mut(index)
+            .expect("Invalid index")
+            .as_felt_mut()
+    }
+
+    fn get_child(&self, index: usize) -> FeltExpr {
+        self.complex_or_felt
+            .as_complex()
+            .get(index)
+            .expect("Invalid index")
+            .as_felt()
     }
 }
 
@@ -54,7 +60,7 @@ impl VarExprUpdate for VarExpr<Felt252> {
     fn update_children(&mut self) {
         let parent_var = &self.clone();
         for (index, felt) in self.get_children().into_iter().enumerate() {
-            felt.get_var().set_parent(parent_var, Some(index));
+            felt.as_var_mut().set_parent(parent_var, Some(index));
         }
     }
 }
@@ -62,24 +68,22 @@ impl VarExprUpdate for VarExpr<Felt252> {
 impl Felt252Expr {
     pub fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
         match self {
-            Felt252Expr::Var(v) => v.get_children()[index],
-            Felt252Expr::Op(op) => {
-                if op.op == Operation::Felt252FromFeltsArray {
-                    if let AirVarImpl::Array(arr) = &mut op.children[0] {
-                        if let AirVarImpl::Expr(ExprImpl::Felt(felt_expr)) =
-                            arr.get_mut(index).expect("index out of bounds")
-                        {
-                            return felt_expr;
-                        }
-                    }
-                }
-                panic!("Cannot convert to felts");
-            }
+            Felt252Expr::Var(v) => v.get_child_mut(index),
+            Felt252Expr::Op(op) => match op.op {
+                Operation::Felt252FromFeltsArray => op.children[0].get_felt_mut(index),
+                _ => panic!("Cannot convert to felts"),
+            },
         }
     }
 
     pub fn get_felt(&self, index: usize) -> FeltExpr {
-        self.clone().get_felt_mut(index).clone()
+        match self {
+            Felt252Expr::Var(v) => v.get_child(index),
+            Felt252Expr::Op(op) => match op.op {
+                Operation::Felt252FromFeltsArray => op.children[0].get_felt(index),
+                _ => panic!("Cannot convert to felts"),
+            },
+        }
     }
 }
 
@@ -87,23 +91,10 @@ impl AirVar for Felt252Expr {
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         match self {
             Felt252Expr::Var(v) => v.get_children().into_iter().collect(),
-            Felt252Expr::Op(op) => {
-                if op.op == Operation::Felt252FromFeltsArray {
-                    if let AirVarImpl::Array(arr) = &mut op.children[0] {
-                        let len = arr.len();
-                        let mut felts = vec![];
-                        for g in arr {
-                            if let AirVarImpl::Expr(ExprImpl::Felt(felt_expr)) = g {
-                                felts.push(felt_expr);
-                            }
-                        }
-                        if felts.len() == len {
-                            return felts;
-                        }
-                    }
-                }
-                panic!("Cannot convert to felts");
-            }
+            Felt252Expr::Op(op) => match op.op {
+                Operation::Felt252FromFeltsArray => op.children[0].get_felts_mut(),
+                _ => panic!("Cannot convert to felts"),
+            },
         }
     }
 }

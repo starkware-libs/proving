@@ -19,22 +19,29 @@ const CHILD_NAME: &str = "get_m31";
 
 impl<const B: usize, const L: usize, const F: usize> VarExpr<BigUInt<B, L, F>> {
     fn get_children(&mut self) -> [&mut FeltExpr; F] {
-        let err_msg = &format!("BigUint var must have {F} felt children.");
-        if let ComplexOrFelt::Complex(children) = &mut self.complex_or_felt {
-            return children
-                .iter_mut()
-                .map(|c| {
-                    if let ExprImpl::Felt(expr) = c {
-                        expr
-                    } else {
-                        panic!("{}", err_msg);
-                    }
-                })
-                .collect::<Vec<_>>()
-                .try_into()
-                .expect(err_msg);
-        }
-        panic!("{}", err_msg);
+        self.complex_or_felt
+            .as_complex_mut()
+            .iter_mut()
+            .map(|c| c.as_felt_mut())
+            .collect::<Vec<_>>()
+            .try_into()
+            .unwrap_or_else(|_| panic!("BigUint var must have {F} felt children."))
+    }
+
+    fn get_child_mut(&mut self, index: usize) -> &mut FeltExpr {
+        self.complex_or_felt
+            .as_complex_mut()
+            .get_mut(index)
+            .expect("Invalid index")
+            .as_felt_mut()
+    }
+
+    fn get_child(&self, index: usize) -> FeltExpr {
+        self.complex_or_felt
+            .as_complex()
+            .get(index)
+            .expect("Invalid index")
+            .as_felt()
     }
 }
 
@@ -58,18 +65,18 @@ impl<const B: usize, const L: usize, const F: usize> VarExprUpdate for VarExpr<B
     fn update_children(&mut self) {
         let parent_var = &self.clone();
         for (index, felt) in self.get_children().into_iter().enumerate() {
-            felt.get_var().set_parent(parent_var, Some(index));
+            felt.as_var_mut().set_parent(parent_var, Some(index));
         }
     }
 }
 
 impl<const B: usize, const L: usize, const F: usize> BigUIntExpr<B, L, F> {
     pub fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
-        self.get_var().get_children()[index]
+        self.as_var_mut().get_child_mut(index)
     }
 
     pub fn get_felt(&self, index: usize) -> FeltExpr {
-        self.clone().get_felt_mut(index).clone()
+        self.as_var().get_child(index)
     }
 }
 
@@ -78,7 +85,7 @@ where
     Self: Into<ExprImpl>,
 {
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        self.get_var().get_children().into_iter().collect()
+        self.as_var_mut().get_children().into_iter().collect()
     }
 }
 

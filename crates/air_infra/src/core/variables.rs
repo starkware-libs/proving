@@ -241,6 +241,44 @@ pub enum AirVarImpl {
     },
 }
 
+impl AirVarImpl {
+    pub fn as_felt(&self) -> FeltExpr {
+        match self {
+            AirVarImpl::Expr(expr) => expr.as_felt(),
+            _ => panic!("Cannot convert to a Felt"),
+        }
+    }
+
+    pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
+        match self {
+            AirVarImpl::Expr(expr) => expr.as_felt_mut(),
+            _ => panic!("Cannot convert to a Felt"),
+        }
+    }
+
+    pub fn get_felt(&self, index: usize) -> FeltExpr {
+        match self {
+            AirVarImpl::Array(arr) => arr.get(index).expect("Invalid index").as_felt(),
+            _ => panic!("Cannot convert to a Felt"),
+        }
+    }
+
+    pub fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
+        match self {
+            AirVarImpl::Array(arr) => arr.get_mut(index).expect("Invalid index").as_felt_mut(),
+            _ => panic!("Cannot convert to a Felt"),
+        }
+    }
+
+    pub fn get_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        match self {
+            AirVarImpl::Array(arr) => arr.iter_mut().map(|v| v.as_felt_mut()).collect(),
+            AirVarImpl::Tuple(vars) => vars.iter_mut().map(|v| v.as_felt_mut()).collect(),
+            _ => panic!("Cannot convert to felts"),
+        }
+    }
+}
+
 impl InternalAirVarInfo for AirVarImpl {
     fn get_info(&self) -> HashSet<AirVarInfo> {
         match self {
