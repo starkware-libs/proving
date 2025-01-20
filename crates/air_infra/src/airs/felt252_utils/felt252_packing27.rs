@@ -1,6 +1,7 @@
 use inst_def::InstDef;
 use prover_types::cpu::{FELT252PACKED27_N_WORDS, FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
+use crate::airs::casm::const_tables::range_check::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn::*;
@@ -84,4 +85,49 @@ pub fn felt252_pack_into27(unpacked: Felt252Expr) -> Felt252Packed27Expr {
     }
 
     v.into()
+}
+
+/// Rangechecks a Felt252Packed27Expr by partial unpacking.
+#[derive(Clone, Debug, InstDef)]
+pub struct RangeCheckFelt252Packed27 {}
+
+impl AirFn for RangeCheckFelt252Packed27 {
+    type ExtIn = ();
+    type In = Felt252Packed27Expr;
+    type Out = ();
+
+    fn trace_type(&self) -> TraceType {
+        TraceType::Component
+    }
+
+    fn call(&self, air_builder: &mut AirBuilder, _: (), packed: Self::In) -> Self::Out {
+        let mut a: Felt252Expr = packed.clone().into();
+        a = air_builder.let_for_deduction(a, "input_as_felt252");
+        for i in (0..(FELT252PACKED27_N_WORDS)).step_by(2) {
+            let low_high =
+                air_builder.deduce(a.get_felt_mut(3 * i + 2), &format!("limb_{}_high_part", i));
+            let high_low = if i < FELT252PACKED27_N_WORDS - 2 {
+                air_builder.deduce(
+                    a.get_felt_mut(3 * i + 3),
+                    &format!("limb_{}_low_part", i + 1),
+                )
+            } else {
+                packed.get_felt(i + 1)
+            };
+            range_check(air_builder, &[9, 9], &[low_high.clone(), high_low.clone()]);
+            range_check(
+                air_builder,
+                &[18],
+                &[packed.get_felt(i) - low_high * const_expr!(1 << (2 * FELT252_BITS_PER_WORD))],
+            );
+            if i < FELT252PACKED27_N_WORDS - 2 {
+                range_check(
+                    air_builder,
+                    &[18],
+                    &[(packed.get_felt(i + 1) - high_low)
+                        / const_expr!(1 << FELT252_BITS_PER_WORD)],
+                );
+            }
+        }
+    }
 }
