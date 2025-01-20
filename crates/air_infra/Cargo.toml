@@ -13,3 +13,4 @@ clap = { version = "4.5.9", features = ["derive"] }
 indexmap = { workspace = true, features = ["serde"] }
 inst_def = { path = "../derive_macros/inst_def" }
 convert_case.workspace = true
+regex = "1.11.1"

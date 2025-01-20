@@ -11,6 +11,7 @@ use compiled_casm_air::utils::INTERMEDIATE_VAR_SUFFIX;
 use convert_case::{Case, Casing};
 use indexmap::IndexMap;
 use prover_types::cpu::ProverType;
+use regex::Regex;
 use serde::{Deserialize, Serialize};
 
 use super::air_body::*;
@@ -108,8 +109,12 @@ pub trait AirFn: Debug + InstDefTrait {
         if res.ends_with('_') {
             res.pop();
         }
+        let pattern = Regex::new(r"_-([0-9]+)").unwrap();
+        res = pattern.replace_all(&res, "_tmpminus_$1").to_string();
+        res = res.to_case(Case::Snake);
+        res = res.replace("_tmpminus_", "_m");
         if res.len() < MAX_NAME_LEN {
-            res.to_case(Case::Snake)
+            res
         } else {
             format!("{}_{:x}", name.to_case(Case::Snake), self.hash())
         }
