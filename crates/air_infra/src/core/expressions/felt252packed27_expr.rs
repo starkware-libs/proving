@@ -98,3 +98,12 @@ impl AirVar for Felt252Packed27Expr {
         }
     }
 }
+
+// Default is implemented for Felt252Packed27Expr because it is returned from an external table.
+impl Default for Felt252Packed27Expr {
+    fn default() -> Self {
+        Felt252Packed27Expr::Var(VarExpr::new_const(Felt252Packed27 {
+            limbs: [0, 0, 0, 0],
+        }))
+    }
+}

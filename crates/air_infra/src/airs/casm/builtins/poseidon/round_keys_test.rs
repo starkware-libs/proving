@@ -1,0 +1,47 @@
+use super::round_keys::*;
+use crate::const_expr;
+// Macros
+use crate::const_felt252_expr;
+use crate::core::air_fn_registry::*;
+use crate::core::expressions::felt252_expr::*;
+use crate::core::expressions::felt_expr::*;
+use crate::core::variables::*;
+use crate::utils::test_utils::*;
+
+// TODO(DanC): Remove component json tests after the full Poseidon air is added to the registry.
+#[test]
+fn test_entry_json() {
+    let (_, entry) = AirFnRegistry::new(&PoseidonRoundKeys {});
+    compare_json(
+        &entry,
+        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
+    );
+}
+
+#[test]
+fn test_round_keys() {
+    let air_fn = PoseidonRoundKeys {};
+    let (registry, _) = AirFnRegistry::new(&air_fn);
+
+    let (state, output) = registry.run_air(&air_fn, const_expr!(7), ());
+    let expected_output = [
+        const_felt252_expr!(
+            256874565931396631624738152782893432232,
+            4352086033451412036946223669213047930
+        ),
+        const_felt252_expr!(
+            163793251516503563982125799053952319746,
+            6212478756318084830005273194119433888
+        ),
+        const_felt252_expr!(
+            110539381072939588940455818857317321380,
+            1145475375772662886444657706229960339
+        ),
+    ];
+    for (out, exp_out) in output.into_iter().zip(expected_output) {
+        assert_eq!(out.calc(), exp_out.calc());
+    }
+
+    let expected_state = vec![].into();
+    assert_expected_state(&state, &expected_state);
+}
