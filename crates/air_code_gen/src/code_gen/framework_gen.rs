@@ -8,6 +8,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::chain;
 
+use super::utils::get_const_name;
 use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
 use crate::code_gen::utils::{
     block_doc, preprocessed_columns_imports, unique_constraint_relations,
@@ -189,7 +190,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     let constants = constraint_consts(&lists.constraints);
     let mut const_names = HashMap::new();
     for (ty, val) in constants.into_iter() {
-        let name = format!("{ty}_{val}");
+        let name = get_const_name(&ty, &val);
         const_names.insert((ty.clone(), val.clone()), name.clone());
         if ty == "M31" {
             code.append(quote! {

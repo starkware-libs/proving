@@ -171,6 +171,14 @@ pub fn unique_relation_calls(deductions: &[TraceGenStep]) -> Vec<String> {
     seen_relations.into_iter().sorted().collect()
 }
 
+pub fn get_const_name(ty: &str, val: &str) -> String {
+    format!("{ty}_{val}")
+        .replace([',', '<', '['], "_")
+        .replace("::", "_")
+        .replace(['>', ']', ' ', ':'], "")
+        .replace("__", "_")
+}
+
 pub fn block_doc(msg: &str) -> rust::Tokens {
     quote! {
         $['\n']$("//")$msg.$['\n']
