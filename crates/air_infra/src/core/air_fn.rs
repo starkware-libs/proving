@@ -230,10 +230,10 @@ pub trait AirFn: Debug + InstDefTrait {
 }
 
 pub trait ChainRoundAirFn<S>:
-    AirFn<ExtIn = (), In = (ChainIndexVar, RoundIndexVar, S), Out = (ChainIndexVar, RoundIndexVar, S)>
+    AirFn<ExtIn = (), In = (ChainIdVar, RoundNumVar, S), Out = (ChainIdVar, RoundNumVar, S)>
 where
     S: AirVar,
-    (ChainIndexVar, RoundIndexVar, S): AirVar,
+    (ChainIdVar, RoundNumVar, S): AirVar,
 {
     // The number of calls to chain_lookup_call with this air_fn
     fn number_of_chains(&self) -> usize;
@@ -535,12 +535,13 @@ impl AirBuilder {
     pub fn chain_lookup_call<S>(
         &mut self,
         air_fn: &dyn ChainRoundAirFn<S>,
-        mut input: (ChainIndexVar, RoundIndexVar, S),
+        state: S,
+        first_round: usize,
         num_of_rounds: usize,
     ) -> S
     where
         S: AirVar,
-        (ChainIndexVar, RoundIndexVar, S): AirVar,
+        (ChainIdVar, RoundNumVar, S): AirVar,
     {
         assert!(
             air_fn.trace_type() == TraceType::ChainRound,
@@ -552,19 +553,17 @@ impl AirBuilder {
             "The input to a chain lookup call must not be empty."
         );
 
-        // TODO(AnatG): Create the chain indices in the infra.
-        assert!(input.0.is_const(), "The chain index must be a constant.");
-        assert!(input.1.is_const(), "The round number must be a constant.");
-
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);
 
         let mut output_name = "".to_string();
-        let mut output = <(ChainIndexVar, RoundIndexVar, S)>::new("".to_string(), false);
-        let chain_id = (self.call_external_table(&Seq {})
-            * const_expr!(air_fn.number_of_chains() as u32))
-            + input.0.clone();
-        input.0 = chain_id;
+        let mut output = <(ChainIdVar, RoundNumVar, S)>::new("".to_string(), false);
+
+        let chain_id = self.air_body.get_prev_chain_id(&air_fn.name()).map_or(
+            self.call_external_table(&Seq {}) * const_expr!(air_fn.number_of_chains() as u32),
+            |prev_chain_id| prev_chain_id + const_expr!(1),
+        );
+        let mut input = (chain_id, const_expr!(first_round as u32), state);
 
         // Yield the input to the first round.
         self.air_body.push(AirBodyComponent::LookupTerm {

@@ -105,8 +105,8 @@ type TestState = FeltExpr;
 struct TestChainRound {}
 impl AirFn for TestChainRound {
     type ExtIn = ();
-    type In = (ChainIndexVar, RoundIndexVar, TestState);
-    type Out = (ChainIndexVar, RoundIndexVar, TestState);
+    type In = (ChainIdVar, RoundNumVar, TestState);
+    type Out = (ChainIdVar, RoundNumVar, TestState);
 
     fn call(
         &self,
@@ -137,17 +137,9 @@ impl AirFn for TestChainLookupCall {
     type Out = TestState;
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), state: Self::In) -> Self::Out {
-        let new_state = air_builder.chain_lookup_call(
-            &TestChainRound {},
-            (const_expr!(0), const_expr!(0), state),
-            3,
-        );
+        let new_state = air_builder.chain_lookup_call(&TestChainRound {}, state, 0, 3);
 
-        air_builder.chain_lookup_call(
-            &TestChainRound {},
-            (const_expr!(1), const_expr!(5), new_state),
-            2,
-        )
+        air_builder.chain_lookup_call(&TestChainRound {}, new_state, 5, 2)
     }
 }
 
