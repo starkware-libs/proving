@@ -296,16 +296,11 @@ impl AirFnRegistry {
     }
 
     #[cfg(test)]
-    pub fn compile(self) -> IndexMap<String, (TraceType, CompiledAirFn)> {
+    pub fn compile(&self) -> IndexMap<String, CompiledAirFn> {
         self.air_fns
             .borrow()
             .iter()
-            .map(|(name, entry)| {
-                (
-                    name.clone(),
-                    (entry.trace_type.clone(), entry.clone().compile()),
-                )
-            })
+            .map(|(name, entry)| (name.clone(), entry.clone().compile()))
             .collect()
     }
 }

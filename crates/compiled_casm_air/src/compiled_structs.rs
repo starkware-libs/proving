@@ -147,12 +147,15 @@ pub enum UseOrYield {
 pub struct CompiledAirFnStat {
     pub trace_type: String,
     pub num_state_cols: usize,
-    pub lookup_uses: IndexMap<String, usize>,
+    pub lookup_use_cols: IndexMap<String, usize>,
+    pub lookup_rows: IndexMap<String, usize>,
     pub lookup_yield: bool,
     pub lookup_multiplicity: bool,
     pub total_num_trace_cols: usize,
+    // To this we should add the number of trace cells in:
+    // - Const tables and their corresponding lookup components (multiplicity and logup columns)
+    // - The two memory tables (and their corresponding multiplicity and logup columns)
     pub trace_cells_upper_bound: usize,
-    pub lookup_uses_upper_bound: usize,
 }
 
 /// See `constraints.json`.

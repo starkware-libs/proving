@@ -7,6 +7,7 @@ use compiled_casm_air::compiled_structs::{
 };
 use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
+use indexmap::IndexMap;
 use serde::Serialize;
 
 use super::air_fn_registry::*;
@@ -353,12 +354,51 @@ impl AirBody {
     pub fn get_n_lookup_terms(&self) -> usize {
         self.0
             .iter()
-            .map(|component| match component {
+            .map(|comp| match comp {
                 AirBodyComponent::Call(f) => f.air_body.get_n_lookup_terms(),
                 AirBodyComponent::LookupTerm { .. } => 1,
                 _ => 0,
             })
             .sum()
+    }
+
+    // Counts the inputs added per lookup. This is an upper bound on the number of rows.
+    pub fn get_lookup_n_rows(&self) -> IndexMap<String, usize> {
+        let mut lookup_rows = IndexMap::new();
+        self.0.iter().for_each(|comp| {
+            if let AirBodyComponent::LookupAddInput { air_fn_name, .. } = comp {
+                *lookup_rows.entry(air_fn_name.clone()).or_insert(0) += 1;
+            }
+            if let AirBodyComponent::Call(f) = comp {
+                for (name, cnt) in f.air_body.get_lookup_n_rows() {
+                    *lookup_rows.entry(name).or_insert(0) += cnt;
+                }
+            }
+        });
+        lookup_rows
+    }
+
+    // Counts the number of uses per lookup.
+    pub fn get_lookup_n_use_cols(&self) -> IndexMap<String, usize> {
+        let mut lookup_uses = IndexMap::new();
+        self.0.iter().for_each(|comp| {
+            if let AirBodyComponent::LookupTerm {
+                relation_name,
+                use_or_yield,
+                ..
+            } = comp
+            {
+                if *use_or_yield == UseOrYield::Use {
+                    *lookup_uses.entry(relation_name.clone()).or_insert(0) += 1;
+                }
+            }
+            if let AirBodyComponent::Call(f) = comp {
+                for (name, cnt) in f.air_body.get_lookup_n_use_cols() {
+                    *lookup_uses.entry(name).or_insert(0) += cnt;
+                }
+            }
+        });
+        lookup_uses
     }
 
     pub fn get_constraints(&self) -> Vec<ConstraintLeanCompare> {

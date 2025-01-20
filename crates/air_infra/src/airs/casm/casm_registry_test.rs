@@ -1,8 +1,7 @@
-use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirFnStat, LookupTerm, TraceGenStep, UseOrYield,
-};
+use std::cell::Ref;
+
+use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat};
 use compiled_casm_air::public_params::PublicParam;
-use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use compiled_casm_air::utils::{JSONS_BUILTINS_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR};
 use indexmap::IndexMap;
 
@@ -210,30 +209,33 @@ fn test_casm_registry() {
     let compiled_reg = reg.compile();
     let mut stat = IndexMap::<String, CompiledAirFnStat>::new();
     let mut const_tables = vec![];
-    for (name, (trace_type, compiled_entry)) in compiled_reg.iter() {
-        let dir = match trace_type {
+
+    for (name, compiled_entry) in compiled_reg.iter() {
+        let fns = reg.air_fns.borrow();
+        let entry = fns.get(name).unwrap();
+        let dir = match entry.trace_type {
             TraceType::Opcode => JSONS_OPCODES_DIR,
             TraceType::Component | TraceType::Memory | TraceType::ChainRound => JSONS_LOOKUPS_DIR,
             TraceType::Builtin => JSONS_BUILTINS_DIR,
             TraceType::Const | TraceType::Inline => "",
         };
 
-        match trace_type {
+        // Inline and const functions are not compiled.
+        match entry.trace_type {
             TraceType::Const => {
                 const_tables.push(name.clone());
+                continue;
             }
             TraceType::Inline => {
-                // Inline functions are not compiled.
                 continue;
             }
             _ => {
                 // Check the compiled entry json.
-                compare_json(&compiled_entry, &format!("{}{}.json", dir, name));
+                compare_json(compiled_entry, &format!("{}{}.json", dir, name));
+                // Collect statistics.
+                add_entry_statistics(&fns, compiled_entry, &mut stat);
             }
         }
-
-        // Collect statistics.
-        get_compiled_entry_statistics(compiled_entry, trace_type, &mut stat);
     }
 
     compare_json(
@@ -246,78 +248,64 @@ fn test_casm_registry() {
     );
 }
 
-// Collects statistics on a compiled entry.
-fn get_compiled_entry_statistics(
+// Collects statistics on a component.
+fn add_entry_statistics(
+    reg: &Ref<'_, IndexMap<String, AirFnEntry>>,
     compiled_entry: &CompiledAirFn,
-    trace_type: &TraceType,
     stat: &mut IndexMap<String, CompiledAirFnStat>,
 ) {
-    // Opcodes, components and memory have a lookup yield column, bulitins do not.
-    let lookup_yield = trace_type != &TraceType::Builtin
-        && trace_type != &TraceType::Const
-        && trace_type != &TraceType::Inline;
+    let entry = reg.get(&compiled_entry.name).unwrap();
+    assert!(entry.trace_type != TraceType::Const && entry.trace_type != TraceType::Inline);
+
+    // Bulitins don't have yield columns.
+    let lookup_yield = entry.trace_type != TraceType::Builtin;
     let lookup_multiplicity = compiled_entry.multiplicity_col_index.is_some();
     let num_state_cols = compiled_entry.state_names.len();
-    let lookup_uses = get_lookup_uses_count(compiled_entry.deductions.clone());
-    let num_lookup_uses = lookup_uses.iter().map(|(_, count)| count).sum();
+    let lookup_use_cols = entry.air_body.get_lookup_n_use_cols();
+    let num_lookup_cols: usize = lookup_use_cols.iter().map(|(_, count)| count).sum();
 
     let total_num_trace_cols = num_state_cols
-        + (TRACE_COLUMNS_PER_LOGUP * num_lookup_uses)
+        + (TRACE_COLUMNS_PER_LOGUP * num_lookup_cols)
         + (lookup_multiplicity as usize)
         + (TRACE_COLUMNS_PER_LOGUP * (lookup_yield as usize));
+
+    // An upper bound on the number of cells added to the trace for each `AddInput`
+    // to this component. Includes rows added to other lookup components called by
+    // this component. Doesn't include cells from components that are always filled
+    // by the prover, regardless of whether they're called or not (e.g. const tables,
+    // the memory).
+    // This is still an upper bound and not an exact number because some components
+    // may or may not have rows added to them when called (for example VerifyInstruction,
+    // where the same instruction might be verified multiple times in a single proof,
+    // reusing the same row). This statistic pessimistically assumes that calls to
+    // such components always add new rows.
     let mut trace_cells_upper_bound = total_num_trace_cols;
-    let mut lookup_uses_upper_bound = num_lookup_uses;
-    for (used_entry, num_uses) in lookup_uses.iter() {
-        if stat.contains_key(used_entry) {
-            trace_cells_upper_bound +=
-                *num_uses * stat.get(used_entry).unwrap().trace_cells_upper_bound;
-            lookup_uses_upper_bound +=
-                *num_uses * stat.get(used_entry).unwrap().lookup_uses_upper_bound;
-        } else {
-            // For now, the only lookup relation which is not a component is "Opcodes".
-            assert_eq!(used_entry, OPCODES_RELATION_NAME);
-            assert_eq!(num_uses, &1);
+
+    let lookup_rows = entry.air_body.get_lookup_n_rows();
+    for (name, cnt) in lookup_rows.iter() {
+        let called_entry = reg.get(name).unwrap();
+        let entry_stats = stat.get(name).unwrap();
+
+        // For now, the only components with external inputs are lookups into const tables (like
+        // range check) and memory tables. If we had a component with Seq of unfixed length
+        // in its external input that we would like to include in the tighter upper bound, we would
+        // need to update this condition.
+        if called_entry.ext_input.is_none() {
+            trace_cells_upper_bound += cnt * entry_stats.trace_cells_upper_bound;
         }
     }
 
-    let key = if let Some(OPCODES_RELATION_NAME) = compiled_entry.relation_name.as_deref() {
-        compiled_entry.name.clone()
-    } else {
-        compiled_entry
-            .relation_name
-            .clone()
-            .unwrap_or(compiled_entry.name.clone())
-    };
-
     stat.insert(
-        key,
+        compiled_entry.name.clone(),
         CompiledAirFnStat {
-            trace_type: format!("{:?}", trace_type),
+            trace_type: format!("{:?}", entry.trace_type),
             num_state_cols,
-            lookup_uses,
+            lookup_use_cols,
+            lookup_rows,
             lookup_yield,
             lookup_multiplicity,
             total_num_trace_cols,
             trace_cells_upper_bound,
-            lookup_uses_upper_bound,
         },
     );
-}
-
-// Returns the number of times a lookup relation is used by the air function.
-fn get_lookup_uses_count(deductions: Vec<TraceGenStep>) -> IndexMap<String, usize> {
-    let mut lookup_uses = IndexMap::new();
-    for deduction in deductions {
-        if let TraceGenStep::LookupTerm(LookupTerm {
-            relation_name,
-            use_or_yield,
-            ..
-        }) = deduction
-        {
-            if use_or_yield == UseOrYield::Use {
-                *lookup_uses.entry(relation_name).or_insert(0) += 1;
-            }
-        }
-    }
-    lookup_uses
 }
