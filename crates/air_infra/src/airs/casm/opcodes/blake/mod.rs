@@ -1,6 +1,9 @@
 pub mod g;
 #[cfg(test)]
 mod g_test;
+pub mod read_blake_word;
+#[cfg(test)]
+mod read_blake_word_test;
 pub mod round_sigma;
 #[cfg(test)]
 pub mod round_sigma_test;
