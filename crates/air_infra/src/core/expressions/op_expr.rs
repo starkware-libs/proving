@@ -197,6 +197,7 @@ impl From<Operation> for OpType {
             Operation::BigUInt384FromBigUInt764 => OpType::Static(op.to_string()),
             Operation::BigUInt384FromFelt252 => OpType::Static(op.to_string()),
             Operation::BigUInt768FromFelt252 => OpType::Static(op.to_string()),
+            Operation::BigUInt384FromFelt252Array => OpType::Static(op.to_string()),
             Operation::Inverse => OpType::Method(op.to_string()),
             // Currently, the rest of the operations are represented as operators.
             _ => OpType::Op(op.to_string()),

@@ -25860,1786 +25860,1792 @@
             {
               "BinaryOp": [
                 {
-                  "UnaryOp": [
+                  "StaticCall": [
                     "BigUInt::<384, 6>::from_felt252_array",
-                    {
-                      "Array": [
-                        {
-                          "StaticCall": [
-                            "Felt252::from_limbs",
-                            [
-                              {
-                                "Array": [
-                                  {
-                                    "State": "a0_limb_0_col93"
-                                  },
-                                  {
-                                    "State": "a0_limb_1_col94"
-                                  },
-                                  {
-                                    "State": "a0_limb_2_col95"
-                                  },
-                                  {
-                                    "State": "a0_limb_3_col96"
-                                  },
-                                  {
-                                    "State": "a0_limb_4_col97"
-                                  },
-                                  {
-                                    "State": "a0_limb_5_col98"
-                                  },
-                                  {
-                                    "State": "a0_limb_6_col99"
-                                  },
-                                  {
-                                    "State": "a0_limb_7_col100"
-                                  },
-                                  {
-                                    "State": "a0_limb_8_col101"
-                                  },
-                                  {
-                                    "State": "a0_limb_9_col102"
-                                  },
-                                  {
-                                    "State": "a0_limb_10_col103"
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  }
-                                ]
-                              }
+                    [
+                      {
+                        "Array": [
+                          {
+                            "StaticCall": [
+                              "Felt252::from_limbs",
+                              [
+                                {
+                                  "Array": [
+                                    {
+                                      "State": "a0_limb_0_col93"
+                                    },
+                                    {
+                                      "State": "a0_limb_1_col94"
+                                    },
+                                    {
+                                      "State": "a0_limb_2_col95"
+                                    },
+                                    {
+                                      "State": "a0_limb_3_col96"
+                                    },
+                                    {
+                                      "State": "a0_limb_4_col97"
+                                    },
+                                    {
+                                      "State": "a0_limb_5_col98"
+                                    },
+                                    {
+                                      "State": "a0_limb_6_col99"
+                                    },
+                                    {
+                                      "State": "a0_limb_7_col100"
+                                    },
+                                    {
+                                      "State": "a0_limb_8_col101"
+                                    },
+                                    {
+                                      "State": "a0_limb_9_col102"
+                                    },
+                                    {
+                                      "State": "a0_limb_10_col103"
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             ]
-                          ]
-                        },
-                        {
-                          "StaticCall": [
-                            "Felt252::from_limbs",
-                            [
-                              {
-                                "Array": [
-                                  {
-                                    "State": "a1_limb_0_col105"
-                                  },
-                                  {
-                                    "State": "a1_limb_1_col106"
-                                  },
-                                  {
-                                    "State": "a1_limb_2_col107"
-                                  },
-                                  {
-                                    "State": "a1_limb_3_col108"
-                                  },
-                                  {
-                                    "State": "a1_limb_4_col109"
-                                  },
-                                  {
-                                    "State": "a1_limb_5_col110"
-                                  },
-                                  {
-                                    "State": "a1_limb_6_col111"
-                                  },
-                                  {
-                                    "State": "a1_limb_7_col112"
-                                  },
-                                  {
-                                    "State": "a1_limb_8_col113"
-                                  },
-                                  {
-                                    "State": "a1_limb_9_col114"
-                                  },
-                                  {
-                                    "State": "a1_limb_10_col115"
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  }
-                                ]
-                              }
+                          },
+                          {
+                            "StaticCall": [
+                              "Felt252::from_limbs",
+                              [
+                                {
+                                  "Array": [
+                                    {
+                                      "State": "a1_limb_0_col105"
+                                    },
+                                    {
+                                      "State": "a1_limb_1_col106"
+                                    },
+                                    {
+                                      "State": "a1_limb_2_col107"
+                                    },
+                                    {
+                                      "State": "a1_limb_3_col108"
+                                    },
+                                    {
+                                      "State": "a1_limb_4_col109"
+                                    },
+                                    {
+                                      "State": "a1_limb_5_col110"
+                                    },
+                                    {
+                                      "State": "a1_limb_6_col111"
+                                    },
+                                    {
+                                      "State": "a1_limb_7_col112"
+                                    },
+                                    {
+                                      "State": "a1_limb_8_col113"
+                                    },
+                                    {
+                                      "State": "a1_limb_9_col114"
+                                    },
+                                    {
+                                      "State": "a1_limb_10_col115"
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             ]
-                          ]
-                        },
-                        {
-                          "StaticCall": [
-                            "Felt252::from_limbs",
-                            [
-                              {
-                                "Array": [
-                                  {
-                                    "State": "a2_limb_0_col117"
-                                  },
-                                  {
-                                    "State": "a2_limb_1_col118"
-                                  },
-                                  {
-                                    "State": "a2_limb_2_col119"
-                                  },
-                                  {
-                                    "State": "a2_limb_3_col120"
-                                  },
-                                  {
-                                    "State": "a2_limb_4_col121"
-                                  },
-                                  {
-                                    "State": "a2_limb_5_col122"
-                                  },
-                                  {
-                                    "State": "a2_limb_6_col123"
-                                  },
-                                  {
-                                    "State": "a2_limb_7_col124"
-                                  },
-                                  {
-                                    "State": "a2_limb_8_col125"
-                                  },
-                                  {
-                                    "State": "a2_limb_9_col126"
-                                  },
-                                  {
-                                    "State": "a2_limb_10_col127"
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  }
-                                ]
-                              }
+                          },
+                          {
+                            "StaticCall": [
+                              "Felt252::from_limbs",
+                              [
+                                {
+                                  "Array": [
+                                    {
+                                      "State": "a2_limb_0_col117"
+                                    },
+                                    {
+                                      "State": "a2_limb_1_col118"
+                                    },
+                                    {
+                                      "State": "a2_limb_2_col119"
+                                    },
+                                    {
+                                      "State": "a2_limb_3_col120"
+                                    },
+                                    {
+                                      "State": "a2_limb_4_col121"
+                                    },
+                                    {
+                                      "State": "a2_limb_5_col122"
+                                    },
+                                    {
+                                      "State": "a2_limb_6_col123"
+                                    },
+                                    {
+                                      "State": "a2_limb_7_col124"
+                                    },
+                                    {
+                                      "State": "a2_limb_8_col125"
+                                    },
+                                    {
+                                      "State": "a2_limb_9_col126"
+                                    },
+                                    {
+                                      "State": "a2_limb_10_col127"
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             ]
-                          ]
-                        },
-                        {
-                          "StaticCall": [
-                            "Felt252::from_limbs",
-                            [
-                              {
-                                "Array": [
-                                  {
-                                    "State": "a3_limb_0_col129"
-                                  },
-                                  {
-                                    "State": "a3_limb_1_col130"
-                                  },
-                                  {
-                                    "State": "a3_limb_2_col131"
-                                  },
-                                  {
-                                    "State": "a3_limb_3_col132"
-                                  },
-                                  {
-                                    "State": "a3_limb_4_col133"
-                                  },
-                                  {
-                                    "State": "a3_limb_5_col134"
-                                  },
-                                  {
-                                    "State": "a3_limb_6_col135"
-                                  },
-                                  {
-                                    "State": "a3_limb_7_col136"
-                                  },
-                                  {
-                                    "State": "a3_limb_8_col137"
-                                  },
-                                  {
-                                    "State": "a3_limb_9_col138"
-                                  },
-                                  {
-                                    "State": "a3_limb_10_col139"
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  }
-                                ]
-                              }
+                          },
+                          {
+                            "StaticCall": [
+                              "Felt252::from_limbs",
+                              [
+                                {
+                                  "Array": [
+                                    {
+                                      "State": "a3_limb_0_col129"
+                                    },
+                                    {
+                                      "State": "a3_limb_1_col130"
+                                    },
+                                    {
+                                      "State": "a3_limb_2_col131"
+                                    },
+                                    {
+                                      "State": "a3_limb_3_col132"
+                                    },
+                                    {
+                                      "State": "a3_limb_4_col133"
+                                    },
+                                    {
+                                      "State": "a3_limb_5_col134"
+                                    },
+                                    {
+                                      "State": "a3_limb_6_col135"
+                                    },
+                                    {
+                                      "State": "a3_limb_7_col136"
+                                    },
+                                    {
+                                      "State": "a3_limb_8_col137"
+                                    },
+                                    {
+                                      "State": "a3_limb_9_col138"
+                                    },
+                                    {
+                                      "State": "a3_limb_10_col139"
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             ]
-                          ]
-                        }
-                      ]
-                    }
+                          }
+                        ]
+                      }
+                    ]
                   ]
                 },
                 "+",
                 {
-                  "UnaryOp": [
+                  "StaticCall": [
                     "BigUInt::<384, 6>::from_felt252_array",
-                    {
-                      "Array": [
-                        {
-                          "StaticCall": [
-                            "Felt252::from_limbs",
-                            [
-                              {
-                                "Array": [
-                                  {
-                                    "State": "b0_limb_0_col141"
-                                  },
-                                  {
-                                    "State": "b0_limb_1_col142"
-                                  },
-                                  {
-                                    "State": "b0_limb_2_col143"
-                                  },
-                                  {
-                                    "State": "b0_limb_3_col144"
-                                  },
-                                  {
-                                    "State": "b0_limb_4_col145"
-                                  },
-                                  {
-                                    "State": "b0_limb_5_col146"
-                                  },
-                                  {
-                                    "State": "b0_limb_6_col147"
-                                  },
-                                  {
-                                    "State": "b0_limb_7_col148"
-                                  },
-                                  {
-                                    "State": "b0_limb_8_col149"
-                                  },
-                                  {
-                                    "State": "b0_limb_9_col150"
-                                  },
-                                  {
-                                    "State": "b0_limb_10_col151"
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  }
-                                ]
-                              }
+                    [
+                      {
+                        "Array": [
+                          {
+                            "StaticCall": [
+                              "Felt252::from_limbs",
+                              [
+                                {
+                                  "Array": [
+                                    {
+                                      "State": "b0_limb_0_col141"
+                                    },
+                                    {
+                                      "State": "b0_limb_1_col142"
+                                    },
+                                    {
+                                      "State": "b0_limb_2_col143"
+                                    },
+                                    {
+                                      "State": "b0_limb_3_col144"
+                                    },
+                                    {
+                                      "State": "b0_limb_4_col145"
+                                    },
+                                    {
+                                      "State": "b0_limb_5_col146"
+                                    },
+                                    {
+                                      "State": "b0_limb_6_col147"
+                                    },
+                                    {
+                                      "State": "b0_limb_7_col148"
+                                    },
+                                    {
+                                      "State": "b0_limb_8_col149"
+                                    },
+                                    {
+                                      "State": "b0_limb_9_col150"
+                                    },
+                                    {
+                                      "State": "b0_limb_10_col151"
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             ]
-                          ]
-                        },
-                        {
-                          "StaticCall": [
-                            "Felt252::from_limbs",
-                            [
-                              {
-                                "Array": [
-                                  {
-                                    "State": "b1_limb_0_col153"
-                                  },
-                                  {
-                                    "State": "b1_limb_1_col154"
-                                  },
-                                  {
-                                    "State": "b1_limb_2_col155"
-                                  },
-                                  {
-                                    "State": "b1_limb_3_col156"
-                                  },
-                                  {
-                                    "State": "b1_limb_4_col157"
-                                  },
-                                  {
-                                    "State": "b1_limb_5_col158"
-                                  },
-                                  {
-                                    "State": "b1_limb_6_col159"
-                                  },
-                                  {
-                                    "State": "b1_limb_7_col160"
-                                  },
-                                  {
-                                    "State": "b1_limb_8_col161"
-                                  },
-                                  {
-                                    "State": "b1_limb_9_col162"
-                                  },
-                                  {
-                                    "State": "b1_limb_10_col163"
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  }
-                                ]
-                              }
+                          },
+                          {
+                            "StaticCall": [
+                              "Felt252::from_limbs",
+                              [
+                                {
+                                  "Array": [
+                                    {
+                                      "State": "b1_limb_0_col153"
+                                    },
+                                    {
+                                      "State": "b1_limb_1_col154"
+                                    },
+                                    {
+                                      "State": "b1_limb_2_col155"
+                                    },
+                                    {
+                                      "State": "b1_limb_3_col156"
+                                    },
+                                    {
+                                      "State": "b1_limb_4_col157"
+                                    },
+                                    {
+                                      "State": "b1_limb_5_col158"
+                                    },
+                                    {
+                                      "State": "b1_limb_6_col159"
+                                    },
+                                    {
+                                      "State": "b1_limb_7_col160"
+                                    },
+                                    {
+                                      "State": "b1_limb_8_col161"
+                                    },
+                                    {
+                                      "State": "b1_limb_9_col162"
+                                    },
+                                    {
+                                      "State": "b1_limb_10_col163"
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             ]
-                          ]
-                        },
-                        {
-                          "StaticCall": [
-                            "Felt252::from_limbs",
-                            [
-                              {
-                                "Array": [
-                                  {
-                                    "State": "b2_limb_0_col165"
-                                  },
-                                  {
-                                    "State": "b2_limb_1_col166"
-                                  },
-                                  {
-                                    "State": "b2_limb_2_col167"
-                                  },
-                                  {
-                                    "State": "b2_limb_3_col168"
-                                  },
-                                  {
-                                    "State": "b2_limb_4_col169"
-                                  },
-                                  {
-                                    "State": "b2_limb_5_col170"
-                                  },
-                                  {
-                                    "State": "b2_limb_6_col171"
-                                  },
-                                  {
-                                    "State": "b2_limb_7_col172"
-                                  },
-                                  {
-                                    "State": "b2_limb_8_col173"
-                                  },
-                                  {
-                                    "State": "b2_limb_9_col174"
-                                  },
-                                  {
-                                    "State": "b2_limb_10_col175"
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  }
-                                ]
-                              }
+                          },
+                          {
+                            "StaticCall": [
+                              "Felt252::from_limbs",
+                              [
+                                {
+                                  "Array": [
+                                    {
+                                      "State": "b2_limb_0_col165"
+                                    },
+                                    {
+                                      "State": "b2_limb_1_col166"
+                                    },
+                                    {
+                                      "State": "b2_limb_2_col167"
+                                    },
+                                    {
+                                      "State": "b2_limb_3_col168"
+                                    },
+                                    {
+                                      "State": "b2_limb_4_col169"
+                                    },
+                                    {
+                                      "State": "b2_limb_5_col170"
+                                    },
+                                    {
+                                      "State": "b2_limb_6_col171"
+                                    },
+                                    {
+                                      "State": "b2_limb_7_col172"
+                                    },
+                                    {
+                                      "State": "b2_limb_8_col173"
+                                    },
+                                    {
+                                      "State": "b2_limb_9_col174"
+                                    },
+                                    {
+                                      "State": "b2_limb_10_col175"
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             ]
-                          ]
-                        },
-                        {
-                          "StaticCall": [
-                            "Felt252::from_limbs",
-                            [
-                              {
-                                "Array": [
-                                  {
-                                    "State": "b3_limb_0_col177"
-                                  },
-                                  {
-                                    "State": "b3_limb_1_col178"
-                                  },
-                                  {
-                                    "State": "b3_limb_2_col179"
-                                  },
-                                  {
-                                    "State": "b3_limb_3_col180"
-                                  },
-                                  {
-                                    "State": "b3_limb_4_col181"
-                                  },
-                                  {
-                                    "State": "b3_limb_5_col182"
-                                  },
-                                  {
-                                    "State": "b3_limb_6_col183"
-                                  },
-                                  {
-                                    "State": "b3_limb_7_col184"
-                                  },
-                                  {
-                                    "State": "b3_limb_8_col185"
-                                  },
-                                  {
-                                    "State": "b3_limb_9_col186"
-                                  },
-                                  {
-                                    "State": "b3_limb_10_col187"
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  }
-                                ]
-                              }
+                          },
+                          {
+                            "StaticCall": [
+                              "Felt252::from_limbs",
+                              [
+                                {
+                                  "Array": [
+                                    {
+                                      "State": "b3_limb_0_col177"
+                                    },
+                                    {
+                                      "State": "b3_limb_1_col178"
+                                    },
+                                    {
+                                      "State": "b3_limb_2_col179"
+                                    },
+                                    {
+                                      "State": "b3_limb_3_col180"
+                                    },
+                                    {
+                                      "State": "b3_limb_4_col181"
+                                    },
+                                    {
+                                      "State": "b3_limb_5_col182"
+                                    },
+                                    {
+                                      "State": "b3_limb_6_col183"
+                                    },
+                                    {
+                                      "State": "b3_limb_7_col184"
+                                    },
+                                    {
+                                      "State": "b3_limb_8_col185"
+                                    },
+                                    {
+                                      "State": "b3_limb_9_col186"
+                                    },
+                                    {
+                                      "State": "b3_limb_10_col187"
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    },
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "0"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
                             ]
-                          ]
-                        }
-                      ]
-                    }
+                          }
+                        ]
+                      }
+                    ]
                   ]
                 }
               ]
             },
             "-",
             {
-              "UnaryOp": [
+              "StaticCall": [
                 "BigUInt::<384, 6>::from_felt252_array",
-                {
-                  "Array": [
-                    {
-                      "StaticCall": [
-                        "Felt252::from_limbs",
-                        [
-                          {
-                            "Array": [
-                              {
-                                "State": "c0_limb_0_col189"
-                              },
-                              {
-                                "State": "c0_limb_1_col190"
-                              },
-                              {
-                                "State": "c0_limb_2_col191"
-                              },
-                              {
-                                "State": "c0_limb_3_col192"
-                              },
-                              {
-                                "State": "c0_limb_4_col193"
-                              },
-                              {
-                                "State": "c0_limb_5_col194"
-                              },
-                              {
-                                "State": "c0_limb_6_col195"
-                              },
-                              {
-                                "State": "c0_limb_7_col196"
-                              },
-                              {
-                                "State": "c0_limb_8_col197"
-                              },
-                              {
-                                "State": "c0_limb_9_col198"
-                              },
-                              {
-                                "State": "c0_limb_10_col199"
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              }
-                            ]
-                          }
+                [
+                  {
+                    "Array": [
+                      {
+                        "StaticCall": [
+                          "Felt252::from_limbs",
+                          [
+                            {
+                              "Array": [
+                                {
+                                  "State": "c0_limb_0_col189"
+                                },
+                                {
+                                  "State": "c0_limb_1_col190"
+                                },
+                                {
+                                  "State": "c0_limb_2_col191"
+                                },
+                                {
+                                  "State": "c0_limb_3_col192"
+                                },
+                                {
+                                  "State": "c0_limb_4_col193"
+                                },
+                                {
+                                  "State": "c0_limb_5_col194"
+                                },
+                                {
+                                  "State": "c0_limb_6_col195"
+                                },
+                                {
+                                  "State": "c0_limb_7_col196"
+                                },
+                                {
+                                  "State": "c0_limb_8_col197"
+                                },
+                                {
+                                  "State": "c0_limb_9_col198"
+                                },
+                                {
+                                  "State": "c0_limb_10_col199"
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
                         ]
-                      ]
-                    },
-                    {
-                      "StaticCall": [
-                        "Felt252::from_limbs",
-                        [
-                          {
-                            "Array": [
-                              {
-                                "State": "c1_limb_0_col201"
-                              },
-                              {
-                                "State": "c1_limb_1_col202"
-                              },
-                              {
-                                "State": "c1_limb_2_col203"
-                              },
-                              {
-                                "State": "c1_limb_3_col204"
-                              },
-                              {
-                                "State": "c1_limb_4_col205"
-                              },
-                              {
-                                "State": "c1_limb_5_col206"
-                              },
-                              {
-                                "State": "c1_limb_6_col207"
-                              },
-                              {
-                                "State": "c1_limb_7_col208"
-                              },
-                              {
-                                "State": "c1_limb_8_col209"
-                              },
-                              {
-                                "State": "c1_limb_9_col210"
-                              },
-                              {
-                                "State": "c1_limb_10_col211"
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              }
-                            ]
-                          }
+                      },
+                      {
+                        "StaticCall": [
+                          "Felt252::from_limbs",
+                          [
+                            {
+                              "Array": [
+                                {
+                                  "State": "c1_limb_0_col201"
+                                },
+                                {
+                                  "State": "c1_limb_1_col202"
+                                },
+                                {
+                                  "State": "c1_limb_2_col203"
+                                },
+                                {
+                                  "State": "c1_limb_3_col204"
+                                },
+                                {
+                                  "State": "c1_limb_4_col205"
+                                },
+                                {
+                                  "State": "c1_limb_5_col206"
+                                },
+                                {
+                                  "State": "c1_limb_6_col207"
+                                },
+                                {
+                                  "State": "c1_limb_7_col208"
+                                },
+                                {
+                                  "State": "c1_limb_8_col209"
+                                },
+                                {
+                                  "State": "c1_limb_9_col210"
+                                },
+                                {
+                                  "State": "c1_limb_10_col211"
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
                         ]
-                      ]
-                    },
-                    {
-                      "StaticCall": [
-                        "Felt252::from_limbs",
-                        [
-                          {
-                            "Array": [
-                              {
-                                "State": "c2_limb_0_col213"
-                              },
-                              {
-                                "State": "c2_limb_1_col214"
-                              },
-                              {
-                                "State": "c2_limb_2_col215"
-                              },
-                              {
-                                "State": "c2_limb_3_col216"
-                              },
-                              {
-                                "State": "c2_limb_4_col217"
-                              },
-                              {
-                                "State": "c2_limb_5_col218"
-                              },
-                              {
-                                "State": "c2_limb_6_col219"
-                              },
-                              {
-                                "State": "c2_limb_7_col220"
-                              },
-                              {
-                                "State": "c2_limb_8_col221"
-                              },
-                              {
-                                "State": "c2_limb_9_col222"
-                              },
-                              {
-                                "State": "c2_limb_10_col223"
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              }
-                            ]
-                          }
+                      },
+                      {
+                        "StaticCall": [
+                          "Felt252::from_limbs",
+                          [
+                            {
+                              "Array": [
+                                {
+                                  "State": "c2_limb_0_col213"
+                                },
+                                {
+                                  "State": "c2_limb_1_col214"
+                                },
+                                {
+                                  "State": "c2_limb_2_col215"
+                                },
+                                {
+                                  "State": "c2_limb_3_col216"
+                                },
+                                {
+                                  "State": "c2_limb_4_col217"
+                                },
+                                {
+                                  "State": "c2_limb_5_col218"
+                                },
+                                {
+                                  "State": "c2_limb_6_col219"
+                                },
+                                {
+                                  "State": "c2_limb_7_col220"
+                                },
+                                {
+                                  "State": "c2_limb_8_col221"
+                                },
+                                {
+                                  "State": "c2_limb_9_col222"
+                                },
+                                {
+                                  "State": "c2_limb_10_col223"
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
                         ]
-                      ]
-                    },
-                    {
-                      "StaticCall": [
-                        "Felt252::from_limbs",
-                        [
-                          {
-                            "Array": [
-                              {
-                                "State": "c3_limb_0_col225"
-                              },
-                              {
-                                "State": "c3_limb_1_col226"
-                              },
-                              {
-                                "State": "c3_limb_2_col227"
-                              },
-                              {
-                                "State": "c3_limb_3_col228"
-                              },
-                              {
-                                "State": "c3_limb_4_col229"
-                              },
-                              {
-                                "State": "c3_limb_5_col230"
-                              },
-                              {
-                                "State": "c3_limb_6_col231"
-                              },
-                              {
-                                "State": "c3_limb_7_col232"
-                              },
-                              {
-                                "State": "c3_limb_8_col233"
-                              },
-                              {
-                                "State": "c3_limb_9_col234"
-                              },
-                              {
-                                "State": "c3_limb_10_col235"
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              }
-                            ]
-                          }
+                      },
+                      {
+                        "StaticCall": [
+                          "Felt252::from_limbs",
+                          [
+                            {
+                              "Array": [
+                                {
+                                  "State": "c3_limb_0_col225"
+                                },
+                                {
+                                  "State": "c3_limb_1_col226"
+                                },
+                                {
+                                  "State": "c3_limb_2_col227"
+                                },
+                                {
+                                  "State": "c3_limb_3_col228"
+                                },
+                                {
+                                  "State": "c3_limb_4_col229"
+                                },
+                                {
+                                  "State": "c3_limb_5_col230"
+                                },
+                                {
+                                  "State": "c3_limb_6_col231"
+                                },
+                                {
+                                  "State": "c3_limb_7_col232"
+                                },
+                                {
+                                  "State": "c3_limb_8_col233"
+                                },
+                                {
+                                  "State": "c3_limb_9_col234"
+                                },
+                                {
+                                  "State": "c3_limb_10_col235"
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                },
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "0"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
                         ]
-                      ]
-                    }
-                  ]
-                }
+                      }
+                    ]
+                  }
+                ]
               ]
             }
           ]
