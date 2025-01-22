@@ -32,30 +32,23 @@ impl AirFn for Felt252UnpackFrom27 {
             .enumerate()
             .take(FELT252_N_WORDS - 1)
         {
-            air_builder.deduce(a_limb, &format!("unpacked_limb_{}", i));
-            v.push(a_limb.clone());
+            if i % 3 != 2 {
+                air_builder.deduce(a_limb, &format!("unpacked_limb_{}", i));
+                v.push(a_limb.clone());
+            }
+            // Every third limb doesn't have to be deduced, as it is a linear combination of
+            // previously deduced limbs and a limb of the packed form.
+            else {
+                let limb = packed.get_felt((i - 2) / 3)
+                    - v[i - 2].clone()
+                    - v[i - 1].clone() * const_expr!(1 << FELT252_BITS_PER_WORD);
+                v.push(limb / const_expr!(1 << (2 * FELT252_BITS_PER_WORD)));
+            }
         }
-        // The final limb is the same between the two forms, so does not need to be deduced or
-        // constrained.
+        // The final limb is the same between the two forms, so does not need to be deduced again.
         v.push(packed.get_felt(FELT252PACKED27_N_WORDS - 1));
         let unpacked: Felt252Expr = v.into();
 
-        // The packing constraints between the two forms.
-        let mut limb_constraint = const_expr!(0);
-        for i in 0..(FELT252_N_WORDS - 1) {
-            let offset = i % 3;
-            if offset == 0 {
-                limb_constraint = packed.get_felt(i / 3);
-            }
-            limb_constraint = limb_constraint
-                - unpacked.get_felt(i) * const_expr!(1 << (offset * FELT252_BITS_PER_WORD));
-            if offset == 2 {
-                air_builder.constrain(
-                    limb_constraint.clone(),
-                    &format!("limb packing {}:{}", i - 2, i + 1),
-                );
-            }
-        }
         // Range check the unpacked form.
         air_builder.call(&RangeCheckBigValue {}, unpacked.clone());
 
