@@ -1,0 +1,369 @@
+{
+  "name": "poseidon_partial_round",
+  "relation_name": null,
+  "description": "Poseidon Partial Round",
+  "inst_def": {},
+  "input": [
+    [
+      {
+        "name": "poseidon_partial_round_input.0[0]",
+        "type": "Felt252Packed27"
+      },
+      {
+        "name": "poseidon_partial_round_input.0[1]",
+        "type": "Felt252Packed27"
+      },
+      {
+        "name": "poseidon_partial_round_input.0[2]",
+        "type": "Felt252Packed27"
+      },
+      {
+        "name": "poseidon_partial_round_input.0[3]",
+        "type": "Felt252Packed27"
+      }
+    ],
+    {
+      "name": "poseidon_partial_round_input.1",
+      "type": "Felt252Packed27"
+    }
+  ],
+  "output": [
+    {
+      "name": "poseidon_partial_round_input.0[2]",
+      "type": "Felt252Packed27"
+    },
+    {
+      "name": "poseidon_partial_round_input.0[3]",
+      "type": "Felt252Packed27"
+    },
+    {
+      "name": "cube_252_output_tmp_1c8d0_0",
+      "type": "Felt252Packed27"
+    },
+    {
+      "name": "combination_result_tmp_1c8d0_12",
+      "type": "Felt252Packed27"
+    }
+  ],
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "LookupAddInput": {
+        "air_fn_name": "cube_252",
+        "input": {
+          "name": "poseidon_partial_round_input.0[3]",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "cube_252",
+        "input": {
+          "name": "poseidon_partial_round_input.0[3]",
+          "type": "Felt252Packed27"
+        },
+        "output_name": "cube_252_output_tmp_1c8d0_0"
+      }
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_1c8d0_0.get_m31(0)",
+        "cube_252_output_limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_1c8d0_0.get_m31(1)",
+        "cube_252_output_limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_1c8d0_0.get_m31(2)",
+        "cube_252_output_limb_2"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_1c8d0_0.get_m31(3)",
+        "cube_252_output_limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_1c8d0_0.get_m31(4)",
+        "cube_252_output_limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_1c8d0_0.get_m31(5)",
+        "cube_252_output_limb_5"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_1c8d0_0.get_m31(6)",
+        "cube_252_output_limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_1c8d0_0.get_m31(7)",
+        "cube_252_output_limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_1c8d0_0.get_m31(8)",
+        "cube_252_output_limb_8"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_1c8d0_0.get_m31(9)",
+        "cube_252_output_limb_9"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Cube252",
+        "felts": [
+          "poseidon_partial_round_input.0[3].get_m31(0)",
+          "poseidon_partial_round_input.0[3].get_m31(1)",
+          "poseidon_partial_round_input.0[3].get_m31(2)",
+          "poseidon_partial_round_input.0[3].get_m31(3)",
+          "poseidon_partial_round_input.0[3].get_m31(4)",
+          "poseidon_partial_round_input.0[3].get_m31(5)",
+          "poseidon_partial_round_input.0[3].get_m31(6)",
+          "poseidon_partial_round_input.0[3].get_m31(7)",
+          "poseidon_partial_round_input.0[3].get_m31(8)",
+          "poseidon_partial_round_input.0[3].get_m31(9)",
+          "col0",
+          "col1",
+          "col2",
+          "col3",
+          "col4",
+          "col5",
+          "col6",
+          "col7",
+          "col8",
+          "col9"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "linear_combination_n_6_coefs_4_2_3_1_m1_1",
+        "air_fn_description": "Linear Combination N 6 Coefs 4 2 3 1 M 1 1",
+        "input": [
+          {
+            "name": "poseidon_partial_round_input.0[0]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "poseidon_partial_round_input.0[1]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "poseidon_partial_round_input.0[2]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "poseidon_partial_round_input.0[3]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "cube_252_output_tmp_1c8d0_0",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "poseidon_partial_round_input.1",
+            "type": "Felt252Packed27"
+          }
+        ],
+        "output": {
+          "name": "combination_result_tmp_1c8d0_1",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "range_check_felt_252_packed_27",
+        "input": {
+          "name": "combination_result_tmp_1c8d0_1",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheckFelt252Packed27",
+        "felts": [
+          "col10",
+          "col11",
+          "col12",
+          "col13",
+          "col14",
+          "col15",
+          "col16",
+          "col17",
+          "col18",
+          "col19"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "linear_combination_n_1_coefs_2",
+        "air_fn_description": "Linear Combination N 1 Coefs 2",
+        "input": [
+          {
+            "name": "combination_result_tmp_1c8d0_1",
+            "type": "Felt252Packed27"
+          }
+        ],
+        "output": {
+          "name": "combination_result_tmp_1c8d0_12",
+          "type": "Felt252Packed27"
+        }
+      }
+    }
+  ],
+  "state": {
+    "row": [
+      [
+        "col0",
+        "cube_252_output_limb_0"
+      ],
+      [
+        "col1",
+        "cube_252_output_limb_1"
+      ],
+      [
+        "col2",
+        "cube_252_output_limb_2"
+      ],
+      [
+        "col3",
+        "cube_252_output_limb_3"
+      ],
+      [
+        "col4",
+        "cube_252_output_limb_4"
+      ],
+      [
+        "col5",
+        "cube_252_output_limb_5"
+      ],
+      [
+        "col6",
+        "cube_252_output_limb_6"
+      ],
+      [
+        "col7",
+        "cube_252_output_limb_7"
+      ],
+      [
+        "col8",
+        "cube_252_output_limb_8"
+      ],
+      [
+        "col9",
+        "cube_252_output_limb_9"
+      ],
+      [
+        "col10",
+        "combination_limb_0"
+      ],
+      [
+        "col11",
+        "combination_limb_1"
+      ],
+      [
+        "col12",
+        "combination_limb_2"
+      ],
+      [
+        "col13",
+        "combination_limb_3"
+      ],
+      [
+        "col14",
+        "combination_limb_4"
+      ],
+      [
+        "col15",
+        "combination_limb_5"
+      ],
+      [
+        "col16",
+        "combination_limb_6"
+      ],
+      [
+        "col17",
+        "combination_limb_7"
+      ],
+      [
+        "col18",
+        "combination_limb_8"
+      ],
+      [
+        "col19",
+        "combination_limb_9"
+      ],
+      [
+        "col20",
+        "p_coef"
+      ],
+      [
+        "col21",
+        "combination_limb_0"
+      ],
+      [
+        "col22",
+        "combination_limb_1"
+      ],
+      [
+        "col23",
+        "combination_limb_2"
+      ],
+      [
+        "col24",
+        "combination_limb_3"
+      ],
+      [
+        "col25",
+        "combination_limb_4"
+      ],
+      [
+        "col26",
+        "combination_limb_5"
+      ],
+      [
+        "col27",
+        "combination_limb_6"
+      ],
+      [
+        "col28",
+        "combination_limb_7"
+      ],
+      [
+        "col29",
+        "combination_limb_8"
+      ],
+      [
+        "col30",
+        "combination_limb_9"
+      ],
+      [
+        "col31",
+        "p_coef"
+      ]
+    ]
+  }
+}

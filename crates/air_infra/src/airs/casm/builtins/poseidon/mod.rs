@@ -8,6 +8,9 @@ mod keys;
 pub mod linear_combination;
 #[cfg(test)]
 mod linear_combination_test;
+pub mod partial_round;
+#[cfg(test)]
+mod partial_round_test;
 pub mod round_keys;
 #[cfg(test)]
 pub mod round_keys_test;

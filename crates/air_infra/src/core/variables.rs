@@ -435,6 +435,10 @@ impl_air_var!([Felt252Packed27Expr]);
 // PoseidonFullRound
 type PoseidonFullRoundState = [Felt252Packed27Expr; 3];
 impl_air_var!((ChainIdVar, RoundNumVar, PoseidonFullRoundState));
+// PoseidonPartialRound
+type PoseidonPartialRoundState = [Felt252Packed27Expr; 4];
+impl_air_var!((PoseidonPartialRoundState, Felt252Packed27Expr));
+impl_air_var!((ChainIdVar, RoundNumVar, PoseidonPartialRoundState));
 
 // Components
 
