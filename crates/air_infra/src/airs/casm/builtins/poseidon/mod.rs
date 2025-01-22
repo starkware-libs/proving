@@ -1,6 +1,9 @@
 pub mod cube252;
 #[cfg(test)]
 mod cube252_test;
+pub mod full_round;
+#[cfg(test)]
+mod full_round_test;
 mod keys;
 pub mod linear_combination;
 #[cfg(test)]

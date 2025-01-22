@@ -430,8 +430,11 @@ impl_air_var!((CasmAddress, FeltExpr));
 type Addresses<const N: usize> = [CasmAddress; N];
 // MemVerifyAll
 impl_air_var!((Addresses<const N: usize>, Felt252Expr));
-// Felt252UnpackFrom27, Felt252PackInto27
+// Felt252UnpackFrom27 + RangeCheckFelt252Packed27 + Cube252 + LinearCombination
 impl_air_var!([Felt252Packed27Expr]);
+// PoseidonFullRound
+type PoseidonFullRoundState = [Felt252Packed27Expr; 3];
+impl_air_var!((ChainIdVar, RoundNumVar, PoseidonFullRoundState));
 
 // Components
 
