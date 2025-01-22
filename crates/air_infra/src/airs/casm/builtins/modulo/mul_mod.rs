@@ -17,7 +17,7 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint16_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::variables::AirVar;
+use crate::core::variables::*;
 
 pub const MUL_MOD_LIMB_SIZE: usize = 12;
 pub const MUL_MOD_NUM_LIMBS: usize =
