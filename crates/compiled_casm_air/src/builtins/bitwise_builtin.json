@@ -5,9 +5,6 @@
   "input": {
     "Tuple": []
   },
-  "output": {
-    "Tuple": []
-  },
   "state_names": [
     "op0_id_col0",
     "op0_limb_0_col1",
@@ -99,10 +96,21 @@
     "xor_id_col87",
     "or_id_col88"
   ],
+  "multiplicity_col_index": null,
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",
     "verify_bitwise_xor_9"
+  ],
+  "n_lookup_terms": 38,
+  "public_params": [
+    "BitwiseBuiltinSegmentStart"
+  ],
+  "external_states": [
+    [
+      "Seq",
+      null
+    ]
   ],
   "constraints": [
     {
@@ -9022,16 +9030,5 @@
       }
     },
     "EndBlock"
-  ],
-  "multiplicity_col_index": null,
-  "n_lookup_terms": 38,
-  "public_params": [
-    "BitwiseBuiltinSegmentStart"
-  ],
-  "external_states": [
-    [
-      "Seq",
-      null
-    ]
   ]
 }

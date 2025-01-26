@@ -44,7 +44,6 @@ impl AirFnEntry {
             relation_name: self.relation_name,
             description: self.description,
             input: Self::generate_input(self.ext_input, self.input),
-            output: self.output.into(),
             state_names: self.state.get_state_names(),
             lookup_names: self.air_body.get_lookup_names(),
             constraints: compiled_air_body.constraints,

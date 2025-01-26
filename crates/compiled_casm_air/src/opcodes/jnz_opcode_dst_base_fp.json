@@ -8,50 +8,6 @@
       "jnz_opcode_dst_base_fp_input"
     ]
   },
-  "output": {
-    "Struct": {
-      "type": "CasmState",
-      "fields": [
-        [
-          "pc",
-          {
-            "BinaryOp": [
-              {
-                "State": "input_pc_col0"
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          }
-        ],
-        [
-          "ap",
-          {
-            "BinaryOp": [
-              {
-                "State": "input_ap_col1"
-              },
-              "+",
-              {
-                "State": "ap_update_add_1_col4"
-              }
-            ]
-          }
-        ],
-        [
-          "fp",
-          {
-            "State": "input_fp_col2"
-          }
-        ]
-      ]
-    }
-  },
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",
@@ -88,12 +44,16 @@
     "dst_limb_26_col32",
     "dst_limb_27_col33"
   ],
+  "multiplicity_col_index": null,
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",
     "opcodes",
     "verify_instruction"
   ],
+  "n_lookup_terms": 5,
+  "public_params": [],
+  "external_states": [],
   "constraints": [
     {
       "StartBlock": "Decode Instruction"
@@ -2006,9 +1966,5 @@
         "use_or_yield": "Yield"
       }
     }
-  ],
-  "multiplicity_col_index": null,
-  "n_lookup_terms": 5,
-  "public_params": [],
-  "external_states": []
+  ]
 }

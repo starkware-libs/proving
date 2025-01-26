@@ -8,50 +8,6 @@
       "mul_opcode_input"
     ]
   },
-  "output": {
-    "Struct": {
-      "type": "CasmState",
-      "fields": [
-        [
-          "pc",
-          {
-            "BinaryOp": [
-              {
-                "State": "input_pc_col0"
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ],
-        [
-          "ap",
-          {
-            "BinaryOp": [
-              {
-                "State": "input_ap_col1"
-              },
-              "+",
-              {
-                "State": "ap_update_add_1_col10"
-              }
-            ]
-          }
-        ],
-        [
-          "fp",
-          {
-            "State": "input_fp_col2"
-          }
-        ]
-      ]
-    }
-  },
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",
@@ -183,6 +139,7 @@
     "carry_25_col127",
     "carry_26_col128"
   ],
+  "multiplicity_col_index": null,
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",
@@ -190,6 +147,9 @@
     "range_check_19",
     "verify_instruction"
   ],
+  "n_lookup_terms": 37,
+  "public_params": [],
+  "external_states": [],
   "constraints": [
     {
       "StartBlock": "Decode Instruction"
@@ -41000,9 +40960,5 @@
         "use_or_yield": "Yield"
       }
     }
-  ],
-  "multiplicity_col_index": null,
-  "n_lookup_terms": 37,
-  "public_params": [],
-  "external_states": []
+  ]
 }

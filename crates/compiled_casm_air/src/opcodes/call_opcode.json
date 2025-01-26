@@ -8,91 +8,6 @@
       "call_opcode_input"
     ]
   },
-  "output": {
-    "Struct": {
-      "type": "CasmState",
-      "fields": [
-        [
-          "pc",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": "next_pc_limb_0_col13"
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "next_pc_limb_1_col14"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "next_pc_limb_2_col15"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "262144"
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        [
-          "ap",
-          {
-            "BinaryOp": [
-              {
-                "State": "input_ap_col1"
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          }
-        ],
-        [
-          "fp",
-          {
-            "BinaryOp": [
-              {
-                "State": "input_ap_col1"
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          }
-        ]
-      ]
-    }
-  },
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",
@@ -111,12 +26,16 @@
     "next_pc_limb_1_col14",
     "next_pc_limb_2_col15"
   ],
+  "multiplicity_col_index": null,
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",
     "opcodes",
     "verify_instruction"
   ],
+  "n_lookup_terms": 9,
+  "public_params": [],
+  "external_states": [],
   "constraints": [
     {
       "StartBlock": "Decode Instruction"
@@ -2573,9 +2492,5 @@
         "use_or_yield": "Yield"
       }
     }
-  ],
-  "multiplicity_col_index": null,
-  "n_lookup_terms": 9,
-  "public_params": [],
-  "external_states": []
+  ]
 }

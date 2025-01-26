@@ -8,50 +8,6 @@
       "assert_eq_opcode_imm_input"
     ]
   },
-  "output": {
-    "Struct": {
-      "type": "CasmState",
-      "fields": [
-        [
-          "pc",
-          {
-            "BinaryOp": [
-              {
-                "State": "input_pc_col0"
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          }
-        ],
-        [
-          "ap",
-          {
-            "BinaryOp": [
-              {
-                "State": "input_ap_col1"
-              },
-              "+",
-              {
-                "State": "ap_update_add_1_col5"
-              }
-            ]
-          }
-        ],
-        [
-          "fp",
-          {
-            "State": "input_fp_col2"
-          }
-        ]
-      ]
-    }
-  },
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",
@@ -62,12 +18,16 @@
     "mem_dst_base_col6",
     "dst_id_col7"
   ],
+  "multiplicity_col_index": null,
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",
     "opcodes",
     "verify_instruction"
   ],
+  "n_lookup_terms": 5,
+  "public_params": [],
+  "external_states": [],
   "constraints": [
     {
       "StartBlock": "Decode Instruction"
@@ -1219,9 +1179,5 @@
         "use_or_yield": "Yield"
       }
     }
-  ],
-  "multiplicity_col_index": null,
-  "n_lookup_terms": 5,
-  "public_params": [],
-  "external_states": []
+  ]
 }

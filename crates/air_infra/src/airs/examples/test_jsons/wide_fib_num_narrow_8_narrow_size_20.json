@@ -8,9 +8,6 @@
       "wide_fib_num_narrow_8_narrow_size_20_input"
     ]
   },
-  "output": {
-    "State": "narrow_fib_num_steps_20_output_limb_1_col16"
-  },
   "state_names": [
     "col0",
     "narrow_fib_num_steps_20_output_limb_0_col1",
@@ -30,9 +27,13 @@
     "narrow_fib_num_steps_20_output_limb_0_col15",
     "narrow_fib_num_steps_20_output_limb_1_col16"
   ],
+  "multiplicity_col_index": null,
   "lookup_names": [
     "narrow_fib_num_steps_20"
   ],
+  "n_lookup_terms": 8,
+  "public_params": [],
+  "external_states": [],
   "constraints": [
     {
       "LookupTerm": {
@@ -752,9 +753,5 @@
         "use_or_yield": "Use"
       }
     }
-  ],
-  "multiplicity_col_index": null,
-  "n_lookup_terms": 8,
-  "public_params": [],
-  "external_states": []
+  ]
 }

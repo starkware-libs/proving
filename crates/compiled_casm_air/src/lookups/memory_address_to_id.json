@@ -9,13 +9,19 @@
       "log_n_rows": null
     }
   },
-  "output": {
-    "State": "memory_address_to_id_output_col0"
-  },
   "state_names": [
     "memory_address_to_id_output_col0"
   ],
+  "multiplicity_col_index": 1,
   "lookup_names": [],
+  "n_lookup_terms": 1,
+  "public_params": [],
+  "external_states": [
+    [
+      "Seq",
+      null
+    ]
+  ],
   "constraints": [
     {
       "LookupTerm": {
@@ -55,14 +61,5 @@
         "use_or_yield": "Yield"
       }
     }
-  ],
-  "multiplicity_col_index": 1,
-  "n_lookup_terms": 1,
-  "public_params": [],
-  "external_states": [
-    [
-      "Seq",
-      null
-    ]
   ]
 }

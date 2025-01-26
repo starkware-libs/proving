@@ -8,115 +8,6 @@
       "add_ap_opcode_imm_input"
     ]
   },
-  "output": {
-    "Struct": {
-      "type": "CasmState",
-      "fields": [
-        [
-          "pc",
-          {
-            "BinaryOp": [
-              {
-                "State": "input_pc_col0"
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          }
-        ],
-        [
-          "ap",
-          {
-            "BinaryOp": [
-              {
-                "State": "input_ap_col1"
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": "op1_limb_0_col6"
-                              },
-                              "+",
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "State": "op1_limb_1_col7"
-                                  },
-                                  "*",
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "512"
-                                    ]
-                                  }
-                                ]
-                              }
-                            ]
-                          },
-                          "+",
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": "op1_limb_2_col8"
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "262144"
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "msb_col4"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "Const": [
-                          "M31",
-                          "134217728"
-                        ]
-                      },
-                      "*",
-                      {
-                        "State": "mid_limbs_set_col5"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        [
-          "fp",
-          {
-            "State": "input_fp_col2"
-          }
-        ]
-      ]
-    }
-  },
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",
@@ -128,12 +19,16 @@
     "op1_limb_1_col7",
     "op1_limb_2_col8"
   ],
+  "multiplicity_col_index": null,
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",
     "opcodes",
     "verify_instruction"
   ],
+  "n_lookup_terms": 5,
+  "public_params": [],
+  "external_states": [],
   "constraints": [
     {
       "StartBlock": "Decode Instruction"
@@ -1872,9 +1767,5 @@
         "use_or_yield": "Yield"
       }
     }
-  ],
-  "multiplicity_col_index": null,
-  "n_lookup_terms": 5,
-  "public_params": [],
-  "external_states": []
+  ]
 }

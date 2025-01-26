@@ -5,9 +5,6 @@
   "input": {
     "Tuple": []
   },
-  "output": {
-    "Tuple": []
-  },
   "state_names": [
     "value_id_col0",
     "value_limb_0_col1",
@@ -27,9 +24,20 @@
     "value_limb_14_col15",
     "msb_col16"
   ],
+  "multiplicity_col_index": null,
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big"
+  ],
+  "n_lookup_terms": 2,
+  "public_params": [
+    "RangeCheckBuiltinSegmentStart"
+  ],
+  "external_states": [
+    [
+      "Seq",
+      null
+    ]
   ],
   "constraints": [
     {
@@ -894,16 +902,5 @@
       }
     },
     "EndBlock"
-  ],
-  "multiplicity_col_index": null,
-  "n_lookup_terms": 2,
-  "public_params": [
-    "RangeCheckBuiltinSegmentStart"
-  ],
-  "external_states": [
-    [
-      "Seq",
-      null
-    ]
   ]
 }

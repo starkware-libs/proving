@@ -8,107 +8,6 @@
       "ret_opcode_input"
     ]
   },
-  "output": {
-    "Struct": {
-      "type": "CasmState",
-      "fields": [
-        [
-          "pc",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": "next_pc_limb_0_col4"
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "next_pc_limb_1_col5"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "next_pc_limb_2_col6"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "262144"
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ],
-        [
-          "ap",
-          {
-            "State": "input_ap_col1"
-          }
-        ],
-        [
-          "fp",
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": "next_fp_limb_0_col8"
-                  },
-                  "+",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "next_fp_limb_1_col9"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "next_fp_limb_2_col10"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "262144"
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      ]
-    }
-  },
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",
@@ -122,12 +21,16 @@
     "next_fp_limb_1_col9",
     "next_fp_limb_2_col10"
   ],
+  "multiplicity_col_index": null,
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",
     "opcodes",
     "verify_instruction"
   ],
+  "n_lookup_terms": 7,
+  "public_params": [],
+  "external_states": [],
   "constraints": [
     {
       "StartBlock": "Decode Instruction"
@@ -1838,9 +1741,5 @@
         "use_or_yield": "Yield"
       }
     }
-  ],
-  "multiplicity_col_index": null,
-  "n_lookup_terms": 7,
-  "public_params": [],
-  "external_states": []
+  ]
 }

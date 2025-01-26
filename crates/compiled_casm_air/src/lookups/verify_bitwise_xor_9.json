@@ -27,11 +27,17 @@
       }
     ]
   },
-  "output": {
-    "Tuple": []
-  },
   "state_names": [],
+  "multiplicity_col_index": 0,
   "lookup_names": [],
+  "n_lookup_terms": 1,
+  "public_params": [],
+  "external_states": [
+    [
+      "VerifyBitwiseXor_9_Const",
+      null
+    ]
+  ],
   "constraints": [
     {
       "LookupTerm": {
@@ -93,14 +99,5 @@
         "use_or_yield": "Yield"
       }
     }
-  ],
-  "multiplicity_col_index": 0,
-  "n_lookup_terms": 1,
-  "public_params": [],
-  "external_states": [
-    [
-      "VerifyBitwiseXor_9_Const",
-      null
-    ]
   ]
 }

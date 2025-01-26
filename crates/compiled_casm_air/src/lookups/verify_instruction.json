@@ -128,9 +128,6 @@
       }
     ]
   },
-  "output": {
-    "Tuple": []
-  },
   "state_names": [
     "input_limb_0_col0",
     "input_limb_1_col1",
@@ -161,12 +158,16 @@
     "offset2_high_col26",
     "instruction_id_col27"
   ],
+  "multiplicity_col_index": 28,
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",
     "range_check_4_3",
     "range_check_7_2_5"
   ],
+  "n_lookup_terms": 5,
+  "public_params": [],
+  "external_states": [],
   "constraints": [
     {
       "StartBlock": "Encode Offsets"
@@ -2648,9 +2649,5 @@
         "use_or_yield": "Yield"
       }
     }
-  ],
-  "multiplicity_col_index": 28,
-  "n_lookup_terms": 5,
-  "public_params": [],
-  "external_states": []
+  ]
 }

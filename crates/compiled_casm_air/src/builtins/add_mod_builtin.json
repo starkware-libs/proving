@@ -5,9 +5,6 @@
   "input": {
     "Tuple": []
   },
-  "output": {
-    "Tuple": []
-  },
   "state_names": [
     "is_instance_0_col0",
     "p0_id_col1",
@@ -261,9 +258,20 @@
     "carry_12_col249",
     "carry_13_col250"
   ],
+  "multiplicity_col_index": null,
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big"
+  ],
+  "n_lookup_terms": 53,
+  "public_params": [
+    "AddModBuiltinSegmentStart"
+  ],
+  "external_states": [
+    [
+      "Seq",
+      null
+    ]
   ],
   "constraints": [
     {
@@ -30071,16 +30079,5 @@
         ]
       }
     }
-  ],
-  "multiplicity_col_index": null,
-  "n_lookup_terms": 53,
-  "public_params": [
-    "AddModBuiltinSegmentStart"
-  ],
-  "external_states": [
-    [
-      "Seq",
-      null
-    ]
   ]
 }

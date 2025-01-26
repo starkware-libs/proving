@@ -11,19 +11,15 @@ pub struct CompiledAirFn {
     pub relation_name: Option<String>,
     pub description: String,
     pub input: CompiledAirVar,
-    // TODO: delete after update callee_lookup_length function.
-    pub output: CompiledAirVar,
 
     pub state_names: Vec<String>,
-    // The names of the lookup relations used and lookup components called.
-    pub lookup_names: BTreeSet<String>,
-
-    pub constraints: Vec<ConstraintEvalStep>,
-    pub deductions: Vec<TraceGenStep>,
 
     // The index of the multiplicity column in the lookup table that is used / yielded.
     // None for chain lookup relations, such as "Opcodes".
     pub multiplicity_col_index: Option<usize>,
+
+    // The names of the lookup relations used and lookup components called.
+    pub lookup_names: BTreeSet<String>,
 
     // The number of lookup terms (use or yield) in the air function.
     pub n_lookup_terms: usize,
@@ -33,6 +29,9 @@ pub struct CompiledAirFn {
 
     // The set of external states used in the air function.
     pub external_states: HashSet<(String, Option<usize>)>,
+
+    pub constraints: Vec<ConstraintEvalStep>,
+    pub deductions: Vec<TraceGenStep>,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
