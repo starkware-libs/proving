@@ -11,6 +11,9 @@ mod linear_combination_test;
 pub mod partial_round;
 #[cfg(test)]
 mod partial_round_test;
+pub mod poseidon_permutation;
+#[cfg(test)]
+mod poseidon_permutation_test;
 pub mod round_keys;
 #[cfg(test)]
 pub mod round_keys_test;

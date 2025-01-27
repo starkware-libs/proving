@@ -10,7 +10,7 @@ use crate::core::variables::*;
 const STWO_COMPONENT_TYPE_POSEIDON_ROUND_KEYS: &str = "PoseidonRoundKeys";
 
 #[cfg(test)]
-pub const ROUND_KEYS: [[[u128; 2]; 3]; 35] = [
+const ROUND_KEYS: [[[u128; 2]; 3]; 35] = [
     [
         [
             54646185768142697207773701339464266957,

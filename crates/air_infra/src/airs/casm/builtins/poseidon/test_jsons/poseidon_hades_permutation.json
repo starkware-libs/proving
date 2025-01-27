@@ -1,0 +1,4470 @@
+{
+  "name": "poseidon_hades_permutation",
+  "relation_name": null,
+  "description": "Poseidon Hades Permutation",
+  "inst_def": {},
+  "input": [
+    {
+      "name": "poseidon_hades_permutation_input[0]",
+      "type": "Felt252Packed27"
+    },
+    {
+      "name": "poseidon_hades_permutation_input[1]",
+      "type": "Felt252Packed27"
+    },
+    {
+      "name": "poseidon_hades_permutation_input[2]",
+      "type": "Felt252Packed27"
+    }
+  ],
+  "output": [
+    {
+      "name": "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[0]",
+      "type": "Felt252Packed27"
+    },
+    {
+      "name": "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[1]",
+      "type": "Felt252Packed27"
+    },
+    {
+      "name": "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[2]",
+      "type": "Felt252Packed27"
+    }
+  ],
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "Call": {
+        "air_fn_name": "linear_combination_n_2_coefs_1_1",
+        "air_fn_description": "Linear Combination N 2 Coefs 1 1",
+        "input": [
+          {
+            "name": "poseidon_hades_permutation_input[0]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "[9275160746813554287, 16541205595039575623, 4169650429605064889, 470088886057789987]",
+            "type": "Felt252Packed27"
+          }
+        ],
+        "output": {
+          "name": "combination_result_tmp_7d028_0",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "linear_combination_n_2_coefs_1_1",
+        "air_fn_description": "Linear Combination N 2 Coefs 1 1",
+        "input": [
+          {
+            "name": "poseidon_hades_permutation_input[1]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "[16477292399064058052, 4441744911417641572, 18431044672185975386, 252894828082060025]",
+            "type": "Felt252Packed27"
+          }
+        ],
+        "output": {
+          "name": "combination_result_tmp_7d028_21",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "linear_combination_n_2_coefs_1_1",
+        "air_fn_description": "Linear Combination N 2 Coefs 1 1",
+        "input": [
+          {
+            "name": "poseidon_hades_permutation_input[2]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "[8794894655201903369, 3219077422080798056, 16714934791572408267, 262217499501479120]",
+            "type": "Felt252Packed27"
+          }
+        ],
+        "output": {
+          "name": "combination_result_tmp_7d028_42",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "PoseidonFullRoundChain",
+        "felts": [
+          "(Seq_col0 * 2)",
+          "0",
+          "col0",
+          "col1",
+          "col2",
+          "col3",
+          "col4",
+          "col5",
+          "col6",
+          "col7",
+          "col8",
+          "col9",
+          "col11",
+          "col12",
+          "col13",
+          "col14",
+          "col15",
+          "col16",
+          "col17",
+          "col18",
+          "col19",
+          "col20",
+          "col22",
+          "col23",
+          "col24",
+          "col25",
+          "col26",
+          "col27",
+          "col28",
+          "col29",
+          "col30",
+          "col31"
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 2)",
+            "type": "M31"
+          },
+          {
+            "name": "0",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "combination_result_tmp_7d028_0",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "combination_result_tmp_7d028_21",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "combination_result_tmp_7d028_42",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 2)",
+            "type": "M31"
+          },
+          {
+            "name": "0",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "combination_result_tmp_7d028_0",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "combination_result_tmp_7d028_21",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "combination_result_tmp_7d028_42",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 2)",
+            "type": "M31"
+          },
+          {
+            "name": "1",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63.2[2]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 2)",
+            "type": "M31"
+          },
+          {
+            "name": "1",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63.2[2]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 2)",
+            "type": "M31"
+          },
+          {
+            "name": "2",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64.2[2]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 2)",
+            "type": "M31"
+          },
+          {
+            "name": "2",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64.2[2]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 2)",
+            "type": "M31"
+          },
+          {
+            "name": "3",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65.2[2]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 2)",
+            "type": "M31"
+          },
+          {
+            "name": "3",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65.2[2]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66"
+      }
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.0",
+        "poseidon_full_round_chain_output_limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.1",
+        "poseidon_full_round_chain_output_limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0].get_m31(0)",
+        "poseidon_full_round_chain_output_limb_2"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0].get_m31(1)",
+        "poseidon_full_round_chain_output_limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0].get_m31(2)",
+        "poseidon_full_round_chain_output_limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0].get_m31(3)",
+        "poseidon_full_round_chain_output_limb_5"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0].get_m31(4)",
+        "poseidon_full_round_chain_output_limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0].get_m31(5)",
+        "poseidon_full_round_chain_output_limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0].get_m31(6)",
+        "poseidon_full_round_chain_output_limb_8"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0].get_m31(7)",
+        "poseidon_full_round_chain_output_limb_9"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0].get_m31(8)",
+        "poseidon_full_round_chain_output_limb_10"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0].get_m31(9)",
+        "poseidon_full_round_chain_output_limb_11"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1].get_m31(0)",
+        "poseidon_full_round_chain_output_limb_12"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1].get_m31(1)",
+        "poseidon_full_round_chain_output_limb_13"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1].get_m31(2)",
+        "poseidon_full_round_chain_output_limb_14"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1].get_m31(3)",
+        "poseidon_full_round_chain_output_limb_15"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1].get_m31(4)",
+        "poseidon_full_round_chain_output_limb_16"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1].get_m31(5)",
+        "poseidon_full_round_chain_output_limb_17"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1].get_m31(6)",
+        "poseidon_full_round_chain_output_limb_18"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1].get_m31(7)",
+        "poseidon_full_round_chain_output_limb_19"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1].get_m31(8)",
+        "poseidon_full_round_chain_output_limb_20"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1].get_m31(9)",
+        "poseidon_full_round_chain_output_limb_21"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2].get_m31(0)",
+        "poseidon_full_round_chain_output_limb_22"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2].get_m31(1)",
+        "poseidon_full_round_chain_output_limb_23"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2].get_m31(2)",
+        "poseidon_full_round_chain_output_limb_24"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2].get_m31(3)",
+        "poseidon_full_round_chain_output_limb_25"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2].get_m31(4)",
+        "poseidon_full_round_chain_output_limb_26"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2].get_m31(5)",
+        "poseidon_full_round_chain_output_limb_27"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2].get_m31(6)",
+        "poseidon_full_round_chain_output_limb_28"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2].get_m31(7)",
+        "poseidon_full_round_chain_output_limb_29"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2].get_m31(8)",
+        "poseidon_full_round_chain_output_limb_30"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2].get_m31(9)",
+        "poseidon_full_round_chain_output_limb_31"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "PoseidonFullRoundChain",
+        "felts": [
+          "col33",
+          "col34",
+          "col35",
+          "col36",
+          "col37",
+          "col38",
+          "col39",
+          "col40",
+          "col41",
+          "col42",
+          "col43",
+          "col44",
+          "col45",
+          "col46",
+          "col47",
+          "col48",
+          "col49",
+          "col50",
+          "col51",
+          "col52",
+          "col53",
+          "col54",
+          "col55",
+          "col56",
+          "col57",
+          "col58",
+          "col59",
+          "col60",
+          "col61",
+          "col62",
+          "col63",
+          "col64"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "range_check_felt_252_packed_27",
+        "input": {
+          "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0]",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheckFelt252Packed27",
+        "felts": [
+          "col35",
+          "col36",
+          "col37",
+          "col38",
+          "col39",
+          "col40",
+          "col41",
+          "col42",
+          "col43",
+          "col44"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "range_check_felt_252_packed_27",
+        "input": {
+          "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1]",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheckFelt252Packed27",
+        "felts": [
+          "col45",
+          "col46",
+          "col47",
+          "col48",
+          "col49",
+          "col50",
+          "col51",
+          "col52",
+          "col53",
+          "col54"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "cube_252",
+        "input": {
+          "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2]",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "cube_252",
+        "input": {
+          "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2]",
+          "type": "Felt252Packed27"
+        },
+        "output_name": "cube_252_output_tmp_7d028_67"
+      }
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_67.get_m31(0)",
+        "cube_252_output_limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_67.get_m31(1)",
+        "cube_252_output_limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_67.get_m31(2)",
+        "cube_252_output_limb_2"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_67.get_m31(3)",
+        "cube_252_output_limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_67.get_m31(4)",
+        "cube_252_output_limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_67.get_m31(5)",
+        "cube_252_output_limb_5"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_67.get_m31(6)",
+        "cube_252_output_limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_67.get_m31(7)",
+        "cube_252_output_limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_67.get_m31(8)",
+        "cube_252_output_limb_8"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_67.get_m31(9)",
+        "cube_252_output_limb_9"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Cube252",
+        "felts": [
+          "col55",
+          "col56",
+          "col57",
+          "col58",
+          "col59",
+          "col60",
+          "col61",
+          "col62",
+          "col63",
+          "col64",
+          "col65",
+          "col66",
+          "col67",
+          "col68",
+          "col69",
+          "col70",
+          "col71",
+          "col72",
+          "col73",
+          "col74"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "linear_combination_n_4_coefs_1_1_m2_1",
+        "air_fn_description": "Linear Combination N 4 Coefs 1 1 M 2 1",
+        "input": [
+          {
+            "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "cube_252_output_tmp_7d028_67",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "[11041071929982523380, 7503192613203831446, 4943121247101232560, 560497091765764140]",
+            "type": "Felt252Packed27"
+          }
+        ],
+        "output": {
+          "name": "combination_result_tmp_7d028_68",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "cube_252",
+        "input": {
+          "name": "combination_result_tmp_7d028_68",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "cube_252",
+        "input": {
+          "name": "combination_result_tmp_7d028_68",
+          "type": "Felt252Packed27"
+        },
+        "output_name": "cube_252_output_tmp_7d028_79"
+      }
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_79.get_m31(0)",
+        "cube_252_output_limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_79.get_m31(1)",
+        "cube_252_output_limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_79.get_m31(2)",
+        "cube_252_output_limb_2"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_79.get_m31(3)",
+        "cube_252_output_limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_79.get_m31(4)",
+        "cube_252_output_limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_79.get_m31(5)",
+        "cube_252_output_limb_5"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_79.get_m31(6)",
+        "cube_252_output_limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_79.get_m31(7)",
+        "cube_252_output_limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_79.get_m31(8)",
+        "cube_252_output_limb_8"
+      ]
+    },
+    {
+      "Deduction": [
+        "cube_252_output_tmp_7d028_79.get_m31(9)",
+        "cube_252_output_limb_9"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Cube252",
+        "felts": [
+          "col75",
+          "col76",
+          "col77",
+          "col78",
+          "col79",
+          "col80",
+          "col81",
+          "col82",
+          "col83",
+          "col84",
+          "col86",
+          "col87",
+          "col88",
+          "col89",
+          "col90",
+          "col91",
+          "col92",
+          "col93",
+          "col94",
+          "col95"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "linear_combination_n_4_coefs_4_2_m2_1",
+        "air_fn_description": "Linear Combination N 4 Coefs 4 2 M 2 1",
+        "input": [
+          {
+            "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "cube_252_output_tmp_7d028_67",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "cube_252_output_tmp_7d028_79",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "[10931822301410252833, 1475756362763989377, 3378552166684303673, 348229636055909092]",
+            "type": "Felt252Packed27"
+          }
+        ],
+        "output": {
+          "name": "combination_result_tmp_7d028_80",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Poseidon3PartialRoundsChain",
+        "felts": [
+          "(Seq_col0 * 1)",
+          "4",
+          "col65",
+          "col66",
+          "col67",
+          "col68",
+          "col69",
+          "col70",
+          "col71",
+          "col72",
+          "col73",
+          "col74",
+          "col75",
+          "col76",
+          "col77",
+          "col78",
+          "col79",
+          "col80",
+          "col81",
+          "col82",
+          "col83",
+          "col84",
+          "col86",
+          "col87",
+          "col88",
+          "col89",
+          "col90",
+          "col91",
+          "col92",
+          "col93",
+          "col94",
+          "col95",
+          "col96",
+          "col97",
+          "col98",
+          "col99",
+          "col100",
+          "col101",
+          "col102",
+          "col103",
+          "col104",
+          "col105"
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "4",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "cube_252_output_tmp_7d028_67",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "combination_result_tmp_7d028_68",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "cube_252_output_tmp_7d028_79",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "combination_result_tmp_7d028_80",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "4",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "cube_252_output_tmp_7d028_67",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "combination_result_tmp_7d028_68",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "cube_252_output_tmp_7d028_79",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "combination_result_tmp_7d028_80",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "5",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "5",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "6",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "6",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "7",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "7",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "8",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "8",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "9",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "9",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "10",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "10",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "11",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "11",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "12",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "12",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "13",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "13",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "14",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "14",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "15",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "15",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "16",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "16",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "17",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "17",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "18",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "18",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "19",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "19",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "20",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "20",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "21",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "21",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "22",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "22",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "23",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "23",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "24",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "24",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "25",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "25",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "26",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "26",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "27",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "27",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "28",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "28",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "29",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "29",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "30",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_3_partial_rounds_chain",
+        "input": [
+          {
+            "name": "(Seq_col0 * 1)",
+            "type": "M31"
+          },
+          {
+            "name": "30",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[2]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117"
+      }
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.0",
+        "poseidon_3_partial_rounds_chain_output_limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.1",
+        "poseidon_3_partial_rounds_chain_output_limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[0].get_m31(0)",
+        "poseidon_3_partial_rounds_chain_output_limb_2"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[0].get_m31(1)",
+        "poseidon_3_partial_rounds_chain_output_limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[0].get_m31(2)",
+        "poseidon_3_partial_rounds_chain_output_limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[0].get_m31(3)",
+        "poseidon_3_partial_rounds_chain_output_limb_5"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[0].get_m31(4)",
+        "poseidon_3_partial_rounds_chain_output_limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[0].get_m31(5)",
+        "poseidon_3_partial_rounds_chain_output_limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[0].get_m31(6)",
+        "poseidon_3_partial_rounds_chain_output_limb_8"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[0].get_m31(7)",
+        "poseidon_3_partial_rounds_chain_output_limb_9"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[0].get_m31(8)",
+        "poseidon_3_partial_rounds_chain_output_limb_10"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[0].get_m31(9)",
+        "poseidon_3_partial_rounds_chain_output_limb_11"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[1].get_m31(0)",
+        "poseidon_3_partial_rounds_chain_output_limb_12"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[1].get_m31(1)",
+        "poseidon_3_partial_rounds_chain_output_limb_13"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[1].get_m31(2)",
+        "poseidon_3_partial_rounds_chain_output_limb_14"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[1].get_m31(3)",
+        "poseidon_3_partial_rounds_chain_output_limb_15"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[1].get_m31(4)",
+        "poseidon_3_partial_rounds_chain_output_limb_16"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[1].get_m31(5)",
+        "poseidon_3_partial_rounds_chain_output_limb_17"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[1].get_m31(6)",
+        "poseidon_3_partial_rounds_chain_output_limb_18"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[1].get_m31(7)",
+        "poseidon_3_partial_rounds_chain_output_limb_19"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[1].get_m31(8)",
+        "poseidon_3_partial_rounds_chain_output_limb_20"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[1].get_m31(9)",
+        "poseidon_3_partial_rounds_chain_output_limb_21"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2].get_m31(0)",
+        "poseidon_3_partial_rounds_chain_output_limb_22"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2].get_m31(1)",
+        "poseidon_3_partial_rounds_chain_output_limb_23"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2].get_m31(2)",
+        "poseidon_3_partial_rounds_chain_output_limb_24"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2].get_m31(3)",
+        "poseidon_3_partial_rounds_chain_output_limb_25"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2].get_m31(4)",
+        "poseidon_3_partial_rounds_chain_output_limb_26"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2].get_m31(5)",
+        "poseidon_3_partial_rounds_chain_output_limb_27"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2].get_m31(6)",
+        "poseidon_3_partial_rounds_chain_output_limb_28"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2].get_m31(7)",
+        "poseidon_3_partial_rounds_chain_output_limb_29"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2].get_m31(8)",
+        "poseidon_3_partial_rounds_chain_output_limb_30"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2].get_m31(9)",
+        "poseidon_3_partial_rounds_chain_output_limb_31"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3].get_m31(0)",
+        "poseidon_3_partial_rounds_chain_output_limb_32"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3].get_m31(1)",
+        "poseidon_3_partial_rounds_chain_output_limb_33"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3].get_m31(2)",
+        "poseidon_3_partial_rounds_chain_output_limb_34"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3].get_m31(3)",
+        "poseidon_3_partial_rounds_chain_output_limb_35"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3].get_m31(4)",
+        "poseidon_3_partial_rounds_chain_output_limb_36"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3].get_m31(5)",
+        "poseidon_3_partial_rounds_chain_output_limb_37"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3].get_m31(6)",
+        "poseidon_3_partial_rounds_chain_output_limb_38"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3].get_m31(7)",
+        "poseidon_3_partial_rounds_chain_output_limb_39"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3].get_m31(8)",
+        "poseidon_3_partial_rounds_chain_output_limb_40"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3].get_m31(9)",
+        "poseidon_3_partial_rounds_chain_output_limb_41"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "Poseidon3PartialRoundsChain",
+        "felts": [
+          "col107",
+          "col108",
+          "col109",
+          "col110",
+          "col111",
+          "col112",
+          "col113",
+          "col114",
+          "col115",
+          "col116",
+          "col117",
+          "col118",
+          "col119",
+          "col120",
+          "col121",
+          "col122",
+          "col123",
+          "col124",
+          "col125",
+          "col126",
+          "col127",
+          "col128",
+          "col129",
+          "col130",
+          "col131",
+          "col132",
+          "col133",
+          "col134",
+          "col135",
+          "col136",
+          "col137",
+          "col138",
+          "col139",
+          "col140",
+          "col141",
+          "col142",
+          "col143",
+          "col144",
+          "col145",
+          "col146",
+          "col147",
+          "col148"
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "linear_combination_n_4_coefs_4_2_1_1",
+        "air_fn_description": "Linear Combination N 4 Coefs 4 2 1 1",
+        "input": [
+          {
+            "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[0]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[1]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "[3969818800901670911, 10562874008078701503, 14906396266795319764, 223312371439046257]",
+            "type": "Felt252Packed27"
+          }
+        ],
+        "output": {
+          "name": "combination_result_tmp_7d028_118",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "Call": {
+        "air_fn_name": "linear_combination_n_4_coefs_4_2_1_1",
+        "air_fn_description": "Linear Combination N 4 Coefs 4 2 1 1",
+        "input": [
+          {
+            "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3]",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "combination_result_tmp_7d028_118",
+            "type": "Felt252Packed27"
+          },
+          {
+            "name": "[10310704347937391837, 5874215448258336115, 2880320859071049537, 45350836576946303]",
+            "type": "Felt252Packed27"
+          }
+        ],
+        "output": {
+          "name": "combination_result_tmp_7d028_129",
+          "type": "Felt252Packed27"
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "PoseidonFullRoundChain",
+        "felts": [
+          "((Seq_col0 * 2) + 1)",
+          "31",
+          "col160",
+          "col161",
+          "col162",
+          "col163",
+          "col164",
+          "col165",
+          "col166",
+          "col167",
+          "col168",
+          "col169",
+          "col149",
+          "col150",
+          "col151",
+          "col152",
+          "col153",
+          "col154",
+          "col155",
+          "col156",
+          "col157",
+          "col158",
+          "col139",
+          "col140",
+          "col141",
+          "col142",
+          "col143",
+          "col144",
+          "col145",
+          "col146",
+          "col147",
+          "col148"
+        ],
+        "use_or_yield": "Yield"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "((Seq_col0 * 2) + 1)",
+            "type": "M31"
+          },
+          {
+            "name": "31",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "combination_result_tmp_7d028_129",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "combination_result_tmp_7d028_118",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "((Seq_col0 * 2) + 1)",
+            "type": "M31"
+          },
+          {
+            "name": "31",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "combination_result_tmp_7d028_129",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "combination_result_tmp_7d028_118",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "((Seq_col0 * 2) + 1)",
+            "type": "M31"
+          },
+          {
+            "name": "32",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140.2[2]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "((Seq_col0 * 2) + 1)",
+            "type": "M31"
+          },
+          {
+            "name": "32",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140.2[2]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "((Seq_col0 * 2) + 1)",
+            "type": "M31"
+          },
+          {
+            "name": "33",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141.2[2]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "((Seq_col0 * 2) + 1)",
+            "type": "M31"
+          },
+          {
+            "name": "33",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141.2[2]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "((Seq_col0 * 2) + 1)",
+            "type": "M31"
+          },
+          {
+            "name": "34",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142.2[2]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ]
+      }
+    },
+    {
+      "LookupCall": {
+        "air_fn_name": "poseidon_full_round_chain",
+        "input": [
+          {
+            "name": "((Seq_col0 * 2) + 1)",
+            "type": "M31"
+          },
+          {
+            "name": "34",
+            "type": "M31"
+          },
+          [
+            {
+              "name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142.2[0]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142.2[1]",
+              "type": "Felt252Packed27"
+            },
+            {
+              "name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142.2[2]",
+              "type": "Felt252Packed27"
+            }
+          ]
+        ],
+        "output_name": "poseidon_full_round_chain_output_round_34_tmp_7d028_143"
+      }
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.0",
+        "poseidon_full_round_chain_output_limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.1",
+        "poseidon_full_round_chain_output_limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[0].get_m31(0)",
+        "poseidon_full_round_chain_output_limb_2"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[0].get_m31(1)",
+        "poseidon_full_round_chain_output_limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[0].get_m31(2)",
+        "poseidon_full_round_chain_output_limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[0].get_m31(3)",
+        "poseidon_full_round_chain_output_limb_5"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[0].get_m31(4)",
+        "poseidon_full_round_chain_output_limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[0].get_m31(5)",
+        "poseidon_full_round_chain_output_limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[0].get_m31(6)",
+        "poseidon_full_round_chain_output_limb_8"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[0].get_m31(7)",
+        "poseidon_full_round_chain_output_limb_9"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[0].get_m31(8)",
+        "poseidon_full_round_chain_output_limb_10"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[0].get_m31(9)",
+        "poseidon_full_round_chain_output_limb_11"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[1].get_m31(0)",
+        "poseidon_full_round_chain_output_limb_12"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[1].get_m31(1)",
+        "poseidon_full_round_chain_output_limb_13"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[1].get_m31(2)",
+        "poseidon_full_round_chain_output_limb_14"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[1].get_m31(3)",
+        "poseidon_full_round_chain_output_limb_15"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[1].get_m31(4)",
+        "poseidon_full_round_chain_output_limb_16"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[1].get_m31(5)",
+        "poseidon_full_round_chain_output_limb_17"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[1].get_m31(6)",
+        "poseidon_full_round_chain_output_limb_18"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[1].get_m31(7)",
+        "poseidon_full_round_chain_output_limb_19"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[1].get_m31(8)",
+        "poseidon_full_round_chain_output_limb_20"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[1].get_m31(9)",
+        "poseidon_full_round_chain_output_limb_21"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[2].get_m31(0)",
+        "poseidon_full_round_chain_output_limb_22"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[2].get_m31(1)",
+        "poseidon_full_round_chain_output_limb_23"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[2].get_m31(2)",
+        "poseidon_full_round_chain_output_limb_24"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[2].get_m31(3)",
+        "poseidon_full_round_chain_output_limb_25"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[2].get_m31(4)",
+        "poseidon_full_round_chain_output_limb_26"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[2].get_m31(5)",
+        "poseidon_full_round_chain_output_limb_27"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[2].get_m31(6)",
+        "poseidon_full_round_chain_output_limb_28"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[2].get_m31(7)",
+        "poseidon_full_round_chain_output_limb_29"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[2].get_m31(8)",
+        "poseidon_full_round_chain_output_limb_30"
+      ]
+    },
+    {
+      "Deduction": [
+        "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[2].get_m31(9)",
+        "poseidon_full_round_chain_output_limb_31"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "PoseidonFullRoundChain",
+        "felts": [
+          "col171",
+          "col172",
+          "col173",
+          "col174",
+          "col175",
+          "col176",
+          "col177",
+          "col178",
+          "col179",
+          "col180",
+          "col181",
+          "col182",
+          "col183",
+          "col184",
+          "col185",
+          "col186",
+          "col187",
+          "col188",
+          "col189",
+          "col190",
+          "col191",
+          "col192",
+          "col193",
+          "col194",
+          "col195",
+          "col196",
+          "col197",
+          "col198",
+          "col199",
+          "col200",
+          "col201",
+          "col202"
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ],
+  "state": {
+    "row": [
+      [
+        "col0",
+        "combination_limb_0"
+      ],
+      [
+        "col1",
+        "combination_limb_1"
+      ],
+      [
+        "col2",
+        "combination_limb_2"
+      ],
+      [
+        "col3",
+        "combination_limb_3"
+      ],
+      [
+        "col4",
+        "combination_limb_4"
+      ],
+      [
+        "col5",
+        "combination_limb_5"
+      ],
+      [
+        "col6",
+        "combination_limb_6"
+      ],
+      [
+        "col7",
+        "combination_limb_7"
+      ],
+      [
+        "col8",
+        "combination_limb_8"
+      ],
+      [
+        "col9",
+        "combination_limb_9"
+      ],
+      [
+        "col10",
+        "p_coef"
+      ],
+      [
+        "col11",
+        "combination_limb_0"
+      ],
+      [
+        "col12",
+        "combination_limb_1"
+      ],
+      [
+        "col13",
+        "combination_limb_2"
+      ],
+      [
+        "col14",
+        "combination_limb_3"
+      ],
+      [
+        "col15",
+        "combination_limb_4"
+      ],
+      [
+        "col16",
+        "combination_limb_5"
+      ],
+      [
+        "col17",
+        "combination_limb_6"
+      ],
+      [
+        "col18",
+        "combination_limb_7"
+      ],
+      [
+        "col19",
+        "combination_limb_8"
+      ],
+      [
+        "col20",
+        "combination_limb_9"
+      ],
+      [
+        "col21",
+        "p_coef"
+      ],
+      [
+        "col22",
+        "combination_limb_0"
+      ],
+      [
+        "col23",
+        "combination_limb_1"
+      ],
+      [
+        "col24",
+        "combination_limb_2"
+      ],
+      [
+        "col25",
+        "combination_limb_3"
+      ],
+      [
+        "col26",
+        "combination_limb_4"
+      ],
+      [
+        "col27",
+        "combination_limb_5"
+      ],
+      [
+        "col28",
+        "combination_limb_6"
+      ],
+      [
+        "col29",
+        "combination_limb_7"
+      ],
+      [
+        "col30",
+        "combination_limb_8"
+      ],
+      [
+        "col31",
+        "combination_limb_9"
+      ],
+      [
+        "col32",
+        "p_coef"
+      ],
+      [
+        "col33",
+        "poseidon_full_round_chain_output_limb_0"
+      ],
+      [
+        "col34",
+        "poseidon_full_round_chain_output_limb_1"
+      ],
+      [
+        "col35",
+        "poseidon_full_round_chain_output_limb_2"
+      ],
+      [
+        "col36",
+        "poseidon_full_round_chain_output_limb_3"
+      ],
+      [
+        "col37",
+        "poseidon_full_round_chain_output_limb_4"
+      ],
+      [
+        "col38",
+        "poseidon_full_round_chain_output_limb_5"
+      ],
+      [
+        "col39",
+        "poseidon_full_round_chain_output_limb_6"
+      ],
+      [
+        "col40",
+        "poseidon_full_round_chain_output_limb_7"
+      ],
+      [
+        "col41",
+        "poseidon_full_round_chain_output_limb_8"
+      ],
+      [
+        "col42",
+        "poseidon_full_round_chain_output_limb_9"
+      ],
+      [
+        "col43",
+        "poseidon_full_round_chain_output_limb_10"
+      ],
+      [
+        "col44",
+        "poseidon_full_round_chain_output_limb_11"
+      ],
+      [
+        "col45",
+        "poseidon_full_round_chain_output_limb_12"
+      ],
+      [
+        "col46",
+        "poseidon_full_round_chain_output_limb_13"
+      ],
+      [
+        "col47",
+        "poseidon_full_round_chain_output_limb_14"
+      ],
+      [
+        "col48",
+        "poseidon_full_round_chain_output_limb_15"
+      ],
+      [
+        "col49",
+        "poseidon_full_round_chain_output_limb_16"
+      ],
+      [
+        "col50",
+        "poseidon_full_round_chain_output_limb_17"
+      ],
+      [
+        "col51",
+        "poseidon_full_round_chain_output_limb_18"
+      ],
+      [
+        "col52",
+        "poseidon_full_round_chain_output_limb_19"
+      ],
+      [
+        "col53",
+        "poseidon_full_round_chain_output_limb_20"
+      ],
+      [
+        "col54",
+        "poseidon_full_round_chain_output_limb_21"
+      ],
+      [
+        "col55",
+        "poseidon_full_round_chain_output_limb_22"
+      ],
+      [
+        "col56",
+        "poseidon_full_round_chain_output_limb_23"
+      ],
+      [
+        "col57",
+        "poseidon_full_round_chain_output_limb_24"
+      ],
+      [
+        "col58",
+        "poseidon_full_round_chain_output_limb_25"
+      ],
+      [
+        "col59",
+        "poseidon_full_round_chain_output_limb_26"
+      ],
+      [
+        "col60",
+        "poseidon_full_round_chain_output_limb_27"
+      ],
+      [
+        "col61",
+        "poseidon_full_round_chain_output_limb_28"
+      ],
+      [
+        "col62",
+        "poseidon_full_round_chain_output_limb_29"
+      ],
+      [
+        "col63",
+        "poseidon_full_round_chain_output_limb_30"
+      ],
+      [
+        "col64",
+        "poseidon_full_round_chain_output_limb_31"
+      ],
+      [
+        "col65",
+        "cube_252_output_limb_0"
+      ],
+      [
+        "col66",
+        "cube_252_output_limb_1"
+      ],
+      [
+        "col67",
+        "cube_252_output_limb_2"
+      ],
+      [
+        "col68",
+        "cube_252_output_limb_3"
+      ],
+      [
+        "col69",
+        "cube_252_output_limb_4"
+      ],
+      [
+        "col70",
+        "cube_252_output_limb_5"
+      ],
+      [
+        "col71",
+        "cube_252_output_limb_6"
+      ],
+      [
+        "col72",
+        "cube_252_output_limb_7"
+      ],
+      [
+        "col73",
+        "cube_252_output_limb_8"
+      ],
+      [
+        "col74",
+        "cube_252_output_limb_9"
+      ],
+      [
+        "col75",
+        "combination_limb_0"
+      ],
+      [
+        "col76",
+        "combination_limb_1"
+      ],
+      [
+        "col77",
+        "combination_limb_2"
+      ],
+      [
+        "col78",
+        "combination_limb_3"
+      ],
+      [
+        "col79",
+        "combination_limb_4"
+      ],
+      [
+        "col80",
+        "combination_limb_5"
+      ],
+      [
+        "col81",
+        "combination_limb_6"
+      ],
+      [
+        "col82",
+        "combination_limb_7"
+      ],
+      [
+        "col83",
+        "combination_limb_8"
+      ],
+      [
+        "col84",
+        "combination_limb_9"
+      ],
+      [
+        "col85",
+        "p_coef"
+      ],
+      [
+        "col86",
+        "cube_252_output_limb_0"
+      ],
+      [
+        "col87",
+        "cube_252_output_limb_1"
+      ],
+      [
+        "col88",
+        "cube_252_output_limb_2"
+      ],
+      [
+        "col89",
+        "cube_252_output_limb_3"
+      ],
+      [
+        "col90",
+        "cube_252_output_limb_4"
+      ],
+      [
+        "col91",
+        "cube_252_output_limb_5"
+      ],
+      [
+        "col92",
+        "cube_252_output_limb_6"
+      ],
+      [
+        "col93",
+        "cube_252_output_limb_7"
+      ],
+      [
+        "col94",
+        "cube_252_output_limb_8"
+      ],
+      [
+        "col95",
+        "cube_252_output_limb_9"
+      ],
+      [
+        "col96",
+        "combination_limb_0"
+      ],
+      [
+        "col97",
+        "combination_limb_1"
+      ],
+      [
+        "col98",
+        "combination_limb_2"
+      ],
+      [
+        "col99",
+        "combination_limb_3"
+      ],
+      [
+        "col100",
+        "combination_limb_4"
+      ],
+      [
+        "col101",
+        "combination_limb_5"
+      ],
+      [
+        "col102",
+        "combination_limb_6"
+      ],
+      [
+        "col103",
+        "combination_limb_7"
+      ],
+      [
+        "col104",
+        "combination_limb_8"
+      ],
+      [
+        "col105",
+        "combination_limb_9"
+      ],
+      [
+        "col106",
+        "p_coef"
+      ],
+      [
+        "col107",
+        "poseidon_3_partial_rounds_chain_output_limb_0"
+      ],
+      [
+        "col108",
+        "poseidon_3_partial_rounds_chain_output_limb_1"
+      ],
+      [
+        "col109",
+        "poseidon_3_partial_rounds_chain_output_limb_2"
+      ],
+      [
+        "col110",
+        "poseidon_3_partial_rounds_chain_output_limb_3"
+      ],
+      [
+        "col111",
+        "poseidon_3_partial_rounds_chain_output_limb_4"
+      ],
+      [
+        "col112",
+        "poseidon_3_partial_rounds_chain_output_limb_5"
+      ],
+      [
+        "col113",
+        "poseidon_3_partial_rounds_chain_output_limb_6"
+      ],
+      [
+        "col114",
+        "poseidon_3_partial_rounds_chain_output_limb_7"
+      ],
+      [
+        "col115",
+        "poseidon_3_partial_rounds_chain_output_limb_8"
+      ],
+      [
+        "col116",
+        "poseidon_3_partial_rounds_chain_output_limb_9"
+      ],
+      [
+        "col117",
+        "poseidon_3_partial_rounds_chain_output_limb_10"
+      ],
+      [
+        "col118",
+        "poseidon_3_partial_rounds_chain_output_limb_11"
+      ],
+      [
+        "col119",
+        "poseidon_3_partial_rounds_chain_output_limb_12"
+      ],
+      [
+        "col120",
+        "poseidon_3_partial_rounds_chain_output_limb_13"
+      ],
+      [
+        "col121",
+        "poseidon_3_partial_rounds_chain_output_limb_14"
+      ],
+      [
+        "col122",
+        "poseidon_3_partial_rounds_chain_output_limb_15"
+      ],
+      [
+        "col123",
+        "poseidon_3_partial_rounds_chain_output_limb_16"
+      ],
+      [
+        "col124",
+        "poseidon_3_partial_rounds_chain_output_limb_17"
+      ],
+      [
+        "col125",
+        "poseidon_3_partial_rounds_chain_output_limb_18"
+      ],
+      [
+        "col126",
+        "poseidon_3_partial_rounds_chain_output_limb_19"
+      ],
+      [
+        "col127",
+        "poseidon_3_partial_rounds_chain_output_limb_20"
+      ],
+      [
+        "col128",
+        "poseidon_3_partial_rounds_chain_output_limb_21"
+      ],
+      [
+        "col129",
+        "poseidon_3_partial_rounds_chain_output_limb_22"
+      ],
+      [
+        "col130",
+        "poseidon_3_partial_rounds_chain_output_limb_23"
+      ],
+      [
+        "col131",
+        "poseidon_3_partial_rounds_chain_output_limb_24"
+      ],
+      [
+        "col132",
+        "poseidon_3_partial_rounds_chain_output_limb_25"
+      ],
+      [
+        "col133",
+        "poseidon_3_partial_rounds_chain_output_limb_26"
+      ],
+      [
+        "col134",
+        "poseidon_3_partial_rounds_chain_output_limb_27"
+      ],
+      [
+        "col135",
+        "poseidon_3_partial_rounds_chain_output_limb_28"
+      ],
+      [
+        "col136",
+        "poseidon_3_partial_rounds_chain_output_limb_29"
+      ],
+      [
+        "col137",
+        "poseidon_3_partial_rounds_chain_output_limb_30"
+      ],
+      [
+        "col138",
+        "poseidon_3_partial_rounds_chain_output_limb_31"
+      ],
+      [
+        "col139",
+        "poseidon_3_partial_rounds_chain_output_limb_32"
+      ],
+      [
+        "col140",
+        "poseidon_3_partial_rounds_chain_output_limb_33"
+      ],
+      [
+        "col141",
+        "poseidon_3_partial_rounds_chain_output_limb_34"
+      ],
+      [
+        "col142",
+        "poseidon_3_partial_rounds_chain_output_limb_35"
+      ],
+      [
+        "col143",
+        "poseidon_3_partial_rounds_chain_output_limb_36"
+      ],
+      [
+        "col144",
+        "poseidon_3_partial_rounds_chain_output_limb_37"
+      ],
+      [
+        "col145",
+        "poseidon_3_partial_rounds_chain_output_limb_38"
+      ],
+      [
+        "col146",
+        "poseidon_3_partial_rounds_chain_output_limb_39"
+      ],
+      [
+        "col147",
+        "poseidon_3_partial_rounds_chain_output_limb_40"
+      ],
+      [
+        "col148",
+        "poseidon_3_partial_rounds_chain_output_limb_41"
+      ],
+      [
+        "col149",
+        "combination_limb_0"
+      ],
+      [
+        "col150",
+        "combination_limb_1"
+      ],
+      [
+        "col151",
+        "combination_limb_2"
+      ],
+      [
+        "col152",
+        "combination_limb_3"
+      ],
+      [
+        "col153",
+        "combination_limb_4"
+      ],
+      [
+        "col154",
+        "combination_limb_5"
+      ],
+      [
+        "col155",
+        "combination_limb_6"
+      ],
+      [
+        "col156",
+        "combination_limb_7"
+      ],
+      [
+        "col157",
+        "combination_limb_8"
+      ],
+      [
+        "col158",
+        "combination_limb_9"
+      ],
+      [
+        "col159",
+        "p_coef"
+      ],
+      [
+        "col160",
+        "combination_limb_0"
+      ],
+      [
+        "col161",
+        "combination_limb_1"
+      ],
+      [
+        "col162",
+        "combination_limb_2"
+      ],
+      [
+        "col163",
+        "combination_limb_3"
+      ],
+      [
+        "col164",
+        "combination_limb_4"
+      ],
+      [
+        "col165",
+        "combination_limb_5"
+      ],
+      [
+        "col166",
+        "combination_limb_6"
+      ],
+      [
+        "col167",
+        "combination_limb_7"
+      ],
+      [
+        "col168",
+        "combination_limb_8"
+      ],
+      [
+        "col169",
+        "combination_limb_9"
+      ],
+      [
+        "col170",
+        "p_coef"
+      ],
+      [
+        "col171",
+        "poseidon_full_round_chain_output_limb_0"
+      ],
+      [
+        "col172",
+        "poseidon_full_round_chain_output_limb_1"
+      ],
+      [
+        "col173",
+        "poseidon_full_round_chain_output_limb_2"
+      ],
+      [
+        "col174",
+        "poseidon_full_round_chain_output_limb_3"
+      ],
+      [
+        "col175",
+        "poseidon_full_round_chain_output_limb_4"
+      ],
+      [
+        "col176",
+        "poseidon_full_round_chain_output_limb_5"
+      ],
+      [
+        "col177",
+        "poseidon_full_round_chain_output_limb_6"
+      ],
+      [
+        "col178",
+        "poseidon_full_round_chain_output_limb_7"
+      ],
+      [
+        "col179",
+        "poseidon_full_round_chain_output_limb_8"
+      ],
+      [
+        "col180",
+        "poseidon_full_round_chain_output_limb_9"
+      ],
+      [
+        "col181",
+        "poseidon_full_round_chain_output_limb_10"
+      ],
+      [
+        "col182",
+        "poseidon_full_round_chain_output_limb_11"
+      ],
+      [
+        "col183",
+        "poseidon_full_round_chain_output_limb_12"
+      ],
+      [
+        "col184",
+        "poseidon_full_round_chain_output_limb_13"
+      ],
+      [
+        "col185",
+        "poseidon_full_round_chain_output_limb_14"
+      ],
+      [
+        "col186",
+        "poseidon_full_round_chain_output_limb_15"
+      ],
+      [
+        "col187",
+        "poseidon_full_round_chain_output_limb_16"
+      ],
+      [
+        "col188",
+        "poseidon_full_round_chain_output_limb_17"
+      ],
+      [
+        "col189",
+        "poseidon_full_round_chain_output_limb_18"
+      ],
+      [
+        "col190",
+        "poseidon_full_round_chain_output_limb_19"
+      ],
+      [
+        "col191",
+        "poseidon_full_round_chain_output_limb_20"
+      ],
+      [
+        "col192",
+        "poseidon_full_round_chain_output_limb_21"
+      ],
+      [
+        "col193",
+        "poseidon_full_round_chain_output_limb_22"
+      ],
+      [
+        "col194",
+        "poseidon_full_round_chain_output_limb_23"
+      ],
+      [
+        "col195",
+        "poseidon_full_round_chain_output_limb_24"
+      ],
+      [
+        "col196",
+        "poseidon_full_round_chain_output_limb_25"
+      ],
+      [
+        "col197",
+        "poseidon_full_round_chain_output_limb_26"
+      ],
+      [
+        "col198",
+        "poseidon_full_round_chain_output_limb_27"
+      ],
+      [
+        "col199",
+        "poseidon_full_round_chain_output_limb_28"
+      ],
+      [
+        "col200",
+        "poseidon_full_round_chain_output_limb_29"
+      ],
+      [
+        "col201",
+        "poseidon_full_round_chain_output_limb_30"
+      ],
+      [
+        "col202",
+        "poseidon_full_round_chain_output_limb_31"
+      ]
+    ]
+  }
+}

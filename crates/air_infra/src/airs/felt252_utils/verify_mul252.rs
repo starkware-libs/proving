@@ -40,6 +40,7 @@ impl AirFn for VerifyMul252 {
         // TODO: Optimize the arithmetic in the convolution: M31 muls and adds are slower than u32s,
         // because of the modulo operations, which are not necessary since the limbs are small.
         let mut conv_tmps: [BoundedFeltExpr; CONV_LEN] = from_fn(|_| BoundedFeltExpr::default());
+
         #[allow(clippy::needless_range_loop)]
         for i in 0..CONV_LEN {
             let mut conv = BoundedFeltExpr::default();
