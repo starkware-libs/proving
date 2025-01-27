@@ -8,7 +8,9 @@ use crate::utils::test_utils::*;
 
 #[test]
 fn test_entry_json_unpack() {
-    let (_, entry) = AirFnRegistry::new(&Felt252UnpackFrom27 {});
+    let (_, entry) = AirFnRegistry::new(&Felt252UnpackFrom27 {
+        range_check_output: true,
+    });
     compare_json(
         &entry,
         &format!("{}{}.json", TEST_JSONS_FELT252_DIR, entry.name),
@@ -44,7 +46,9 @@ fn test_verify_felt252pack_into27() {
 
 #[test]
 fn test_verify_felt252unpack_from27() {
-    let air_fn = Felt252UnpackFrom27 {};
+    let air_fn = Felt252UnpackFrom27 {
+        range_check_output: true,
+    };
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (state, output) = registry.run_air(
         &air_fn,

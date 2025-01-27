@@ -11,9 +11,12 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::id_to_big::*;
 use crate::core::variables::*;
 
-/// Unpacks a Felt252Packed27Expr into a Felt252Expr and range checks the unpacked limbs.
+/// Unpacks a Felt252Packed27Expr into a Felt252Expr.
+/// If the range_check_output flag is set, also range checks the unpacked limbs.
 #[derive(Clone, Debug, InstDef)]
-pub struct Felt252UnpackFrom27 {}
+pub struct Felt252UnpackFrom27 {
+    pub range_check_output: bool,
+}
 
 impl AirFn for Felt252UnpackFrom27 {
     type ExtIn = ();
@@ -49,8 +52,10 @@ impl AirFn for Felt252UnpackFrom27 {
         v.push(packed.get_felt(FELT252PACKED27_N_WORDS - 1));
         let unpacked: Felt252Expr = v.into();
 
-        // Range check the unpacked form.
-        air_builder.call(&RangeCheckBigValue {}, unpacked.clone());
+        if self.range_check_output {
+            // Range check the unpacked form.
+            air_builder.call(&RangeCheckBigValue {}, unpacked.clone());
+        }
 
         unpacked
     }

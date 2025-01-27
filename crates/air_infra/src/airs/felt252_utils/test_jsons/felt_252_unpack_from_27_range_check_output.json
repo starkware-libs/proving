@@ -1,0 +1,228 @@
+{
+  "name": "felt_252_unpack_from_27_range_check_output",
+  "relation_name": null,
+  "description": "Felt 252 Unpack From 27 Range Check Output",
+  "inst_def": {
+    "range_check_output": ""
+  },
+  "input": {
+    "name": "felt_252_unpack_from_27_range_check_output_input",
+    "type": "Felt252Packed27"
+  },
+  "output": {
+    "name": "Felt252::from_limbs([col0, col1, (((felt_252_unpack_from_27_range_check_output_input.get_m31(0) - col0) - (col1 * 512)) / 262144), col2, col3, (((felt_252_unpack_from_27_range_check_output_input.get_m31(1) - col2) - (col3 * 512)) / 262144), col4, col5, (((felt_252_unpack_from_27_range_check_output_input.get_m31(2) - col4) - (col5 * 512)) / 262144), col6, col7, (((felt_252_unpack_from_27_range_check_output_input.get_m31(3) - col6) - (col7 * 512)) / 262144), col8, col9, (((felt_252_unpack_from_27_range_check_output_input.get_m31(4) - col8) - (col9 * 512)) / 262144), col10, col11, (((felt_252_unpack_from_27_range_check_output_input.get_m31(5) - col10) - (col11 * 512)) / 262144), col12, col13, (((felt_252_unpack_from_27_range_check_output_input.get_m31(6) - col12) - (col13 * 512)) / 262144), col14, col15, (((felt_252_unpack_from_27_range_check_output_input.get_m31(7) - col14) - (col15 * 512)) / 262144), col16, col17, (((felt_252_unpack_from_27_range_check_output_input.get_m31(8) - col16) - (col17 * 512)) / 262144), felt_252_unpack_from_27_range_check_output_input.get_m31(9)])",
+    "type": "Felt252"
+  },
+  "trace_type": "Inline",
+  "air_body": [
+    {
+      "Intermediate": [
+        "input_as_felt252_tmp_da0b0_0",
+        "Felt252",
+        {
+          "name": "Felt252::from_felt252packed27(felt_252_unpack_from_27_range_check_output_input)",
+          "type": "Felt252"
+        },
+        {
+          "in_constraints": false,
+          "in_deductions": true
+        }
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(0)",
+        "unpacked_limb_0"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(1)",
+        "unpacked_limb_1"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(3)",
+        "unpacked_limb_3"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(4)",
+        "unpacked_limb_4"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(6)",
+        "unpacked_limb_6"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(7)",
+        "unpacked_limb_7"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(9)",
+        "unpacked_limb_9"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(10)",
+        "unpacked_limb_10"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(12)",
+        "unpacked_limb_12"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(13)",
+        "unpacked_limb_13"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(15)",
+        "unpacked_limb_15"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(16)",
+        "unpacked_limb_16"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(18)",
+        "unpacked_limb_18"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(19)",
+        "unpacked_limb_19"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(21)",
+        "unpacked_limb_21"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(22)",
+        "unpacked_limb_22"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(24)",
+        "unpacked_limb_24"
+      ]
+    },
+    {
+      "Deduction": [
+        "input_as_felt252_tmp_da0b0_0.get_m31(25)",
+        "unpacked_limb_25"
+      ]
+    },
+    {
+      "Call": {
+        "air_fn_name": "range_check_big_value",
+        "air_fn_description": "Range Check Big Value",
+        "input": {
+          "name": "Felt252::from_limbs([col0, col1, (((felt_252_unpack_from_27_range_check_output_input.get_m31(0) - col0) - (col1 * 512)) / 262144), col2, col3, (((felt_252_unpack_from_27_range_check_output_input.get_m31(1) - col2) - (col3 * 512)) / 262144), col4, col5, (((felt_252_unpack_from_27_range_check_output_input.get_m31(2) - col4) - (col5 * 512)) / 262144), col6, col7, (((felt_252_unpack_from_27_range_check_output_input.get_m31(3) - col6) - (col7 * 512)) / 262144), col8, col9, (((felt_252_unpack_from_27_range_check_output_input.get_m31(4) - col8) - (col9 * 512)) / 262144), col10, col11, (((felt_252_unpack_from_27_range_check_output_input.get_m31(5) - col10) - (col11 * 512)) / 262144), col12, col13, (((felt_252_unpack_from_27_range_check_output_input.get_m31(6) - col12) - (col13 * 512)) / 262144), col14, col15, (((felt_252_unpack_from_27_range_check_output_input.get_m31(7) - col14) - (col15 * 512)) / 262144), col16, col17, (((felt_252_unpack_from_27_range_check_output_input.get_m31(8) - col16) - (col17 * 512)) / 262144), felt_252_unpack_from_27_range_check_output_input.get_m31(9)])",
+          "type": "Felt252"
+        },
+        "output": []
+      }
+    }
+  ],
+  "state": {
+    "row": [
+      [
+        "col0",
+        "unpacked_limb_0"
+      ],
+      [
+        "col1",
+        "unpacked_limb_1"
+      ],
+      [
+        "col2",
+        "unpacked_limb_3"
+      ],
+      [
+        "col3",
+        "unpacked_limb_4"
+      ],
+      [
+        "col4",
+        "unpacked_limb_6"
+      ],
+      [
+        "col5",
+        "unpacked_limb_7"
+      ],
+      [
+        "col6",
+        "unpacked_limb_9"
+      ],
+      [
+        "col7",
+        "unpacked_limb_10"
+      ],
+      [
+        "col8",
+        "unpacked_limb_12"
+      ],
+      [
+        "col9",
+        "unpacked_limb_13"
+      ],
+      [
+        "col10",
+        "unpacked_limb_15"
+      ],
+      [
+        "col11",
+        "unpacked_limb_16"
+      ],
+      [
+        "col12",
+        "unpacked_limb_18"
+      ],
+      [
+        "col13",
+        "unpacked_limb_19"
+      ],
+      [
+        "col14",
+        "unpacked_limb_21"
+      ],
+      [
+        "col15",
+        "unpacked_limb_22"
+      ],
+      [
+        "col16",
+        "unpacked_limb_24"
+      ],
+      [
+        "col17",
+        "unpacked_limb_25"
+      ]
+    ]
+  }
+}
