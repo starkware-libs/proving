@@ -2,10 +2,11 @@ use std::collections::{BTreeSet, HashSet};
 use std::fmt::Debug;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirVar, ConstraintEvalStep, ConstraintLeanCompare, Intermediate, LookupTerm,
-    TraceGenStep, UseOrYield,
+    CompiledAirVar, ConstraintEvalStep, Intermediate, LeanCompare, LookupTerm, TraceGenStep,
+    UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
+use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use convert_case::{Case, Casing};
 use indexmap::IndexMap;
 use serde::Serialize;
@@ -418,73 +419,58 @@ impl AirBody {
         lookup_uses
     }
 
-    pub fn get_constraints(&self) -> Vec<ConstraintLeanCompare> {
-        let mut res = vec![];
+    pub fn get_constraints(&self) -> LeanCompare {
+        let mut intermediates = vec![];
+        let mut constraints = vec![];
+        let mut lookups = vec![];
 
         for comp in self.0.clone().into_iter() {
             match comp {
                 AirBodyComponent::Constraint(expr, _) => {
-                    res.push(ConstraintLeanCompare::Constraint(
-                        CompiledAirVar::from(expr).to_string(),
-                    ));
+                    constraints.push(CompiledAirVar::from(expr).to_string())
                 }
-                AirBodyComponent::Assignment {
-                    constraint,
-                    deduction: _,
-                    desc: _,
-                } => {
-                    res.push(ConstraintLeanCompare::Constraint(
-                        CompiledAirVar::from(constraint).to_string(),
-                    ));
+                AirBodyComponent::Assignment { constraint, .. } => {
+                    constraints.push(CompiledAirVar::from(constraint).to_string())
                 }
                 AirBodyComponent::Intermediate(
                     name,
-                    ty,
+                    _,
                     expr,
                     Visibility {
                         in_constraints: true,
                         in_deductions: _,
                     },
-                ) => {
-                    res.push(ConstraintLeanCompare::Intermediate {
-                        name: name.clone(),
-                        r#type: ty,
-                        var: CompiledAirVar::from(expr).to_string(),
-                    });
-                }
-                AirBodyComponent::Call(Call {
-                    air_fn_name,
-                    air_fn_description: _,
-                    input,
-                    output,
-                    air_body: _,
-                }) => {
-                    res.push(ConstraintLeanCompare::Call {
-                        fn_name: air_fn_name,
-                        input: CompiledAirVar::from(input).to_string(),
-                        output: CompiledAirVar::from(output).to_string(),
-                    });
+                ) => intermediates.push((name, CompiledAirVar::from(expr).to_string())),
+                AirBodyComponent::Call(Call { air_body, .. }) => {
+                    let call = air_body.get_constraints();
+                    constraints.extend(call.constraints);
+                    intermediates.extend(call.intermediates);
+                    lookups.extend(call.lookups);
                 }
                 AirBodyComponent::LookupTerm {
                     relation_name,
                     felts,
                     use_or_yield: UseOrYield::Use,
                 } => {
+                    if relation_name == OPCODES_RELATION_NAME {
+                        continue;
+                    }
                     let felts = felts
                         .into_iter()
                         .map(|f| CompiledAirVar::from(f).to_string())
-                        .collect::<Vec<_>>();
-                    res.push(ConstraintLeanCompare::LookupUse {
-                        relation_name,
-                        felts,
-                    });
+                        .collect::<Vec<_>>()
+                        .join(", ");
+                    lookups.push((relation_name, felts));
                 }
                 _ => {}
             }
         }
 
-        res.sort();
-        res
+        LeanCompare {
+            intermediates,
+            constraints,
+            lookups,
+        }
     }
 }
 

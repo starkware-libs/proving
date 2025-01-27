@@ -161,20 +161,8 @@ pub struct CompiledAirFnStat {
 
 /// See `constraints.json`.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash, PartialOrd, Ord)]
-pub enum ConstraintLeanCompare {
-    Intermediate {
-        name: String,
-        r#type: String,
-        var: String,
-    },
-    Constraint(String),
-    Call {
-        fn_name: String,
-        input: String,
-        output: String,
-    },
-    LookupUse {
-        relation_name: String,
-        felts: Vec<String>,
-    },
+pub struct LeanCompare {
+    pub intermediates: Vec<(String, String)>,
+    pub constraints: Vec<String>,
+    pub lookups: Vec<(String, String)>,
 }
