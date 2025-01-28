@@ -37,7 +37,13 @@ fn test_generic_consistency_rel_call() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(0, 1, 1, call_opcode.get_flags().into()) as u128,
+                assemble_instruction(
+                    0,
+                    1,
+                    1,
+                    call_opcode.get_flags().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -326,7 +332,7 @@ fn test_generic_call_abs_imm() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(0, 1, 1, flags.clone().into()) as u128,
+                assemble_instruction(0, 1, 1, flags.clone().into(), OpcodeExtension::Stone),
                 0
             ),
         ),
@@ -376,7 +382,7 @@ fn test_generic_call_rel_deref() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(0, 1, offset2, flags.clone().into()) as u128,
+                assemble_instruction(0, 1, offset2, flags.clone().into(), OpcodeExtension::Stone),
                 0
             ),
         ),
@@ -420,10 +426,7 @@ fn test_generic_consistency_ret() {
 
     // Fill memory
     let memory_values = vec![
-        (
-            const_expr!(pc),
-            const_felt252_expr!(assemble_ret() as u128, 0),
-        ),
+        (const_expr!(pc), const_felt252_expr!(assemble_ret(), 0)),
         (const_expr!(fp - 1), const_felt252_expr!(saved_pc)),
         (const_expr!(fp - 2), const_felt252_expr!(saved_fp)),
     ];
@@ -710,7 +713,8 @@ fn test_generic_consistency_assert_equal() {
                     assert_equal_opcode
                         .get_flags()
                         .non_constants_to_arr(&[false, true, false, false]),
-                ) as u128,
+                    OpcodeExtension::Stone,
+                ),
                 0
             ),
         ),
@@ -1012,7 +1016,7 @@ fn test_generic_consistency_jump() {
                     jump_opcode
                         .get_flags()
                         .non_constants_to_arr(&[true, false, false]),
-                ) as u128,
+                ),
                 0
             ),
         ),
@@ -1307,7 +1311,7 @@ fn test_generic_jump_abs_imm() {
     let memory_values = vec![
         (
             const_expr!(pc),
-            const_felt252_expr!(assemble_jump(None, None, flags.clone().into(),) as u128, 0),
+            const_felt252_expr!(assemble_jump(None, None, flags.clone().into(),), 0),
         ),
         (const_expr!(pc + 1), const_felt252_expr!(imm as i128)),
         // Not in use
@@ -1362,7 +1366,7 @@ fn test_generic_jump_rel_double_deref() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_jump(Some(offset1), Some(offset2), flags.clone().into(),) as u128,
+                assemble_jump(Some(offset1), Some(offset2), flags.clone().into()),
                 0
             ),
         ),
@@ -1419,8 +1423,9 @@ fn test_generic_consistency_jnz_taken() {
                     offset_dst,
                     -1,
                     1,
-                    jnz_opcode.get_flags().non_constants_to_arr(&[false])
-                ) as u128,
+                    jnz_opcode.get_flags().non_constants_to_arr(&[false]),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -1712,8 +1717,9 @@ fn test_generic_consistency_jnz_not_taken() {
                     offset_dst,
                     -1,
                     1,
-                    jnz_opcode.get_flags().non_constants_to_arr(&[false])
-                ) as u128,
+                    jnz_opcode.get_flags().non_constants_to_arr(&[false]),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -2008,7 +2014,13 @@ fn test_generic_jnz_deref_taken() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(offset_dst, -1, offset2, flags.clone().into(),) as u128,
+                assemble_instruction(
+                    offset_dst,
+                    -1,
+                    offset2,
+                    flags.clone().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -2069,7 +2081,13 @@ fn test_generic_jnz_deref_not_taken() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(offset_dst, -1, offset2, flags.clone().into(),) as u128,
+                assemble_instruction(
+                    offset_dst,
+                    -1,
+                    offset2,
+                    flags.clone().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -2126,7 +2144,13 @@ fn test_generic_add_ap_double_deref() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(-1, offset1, offset2, flags.clone().into(),) as u128,
+                assemble_instruction(
+                    -1,
+                    offset1,
+                    offset2,
+                    flags.clone().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -2184,7 +2208,13 @@ fn test_generic_add_ap_res_mul() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(-1, offset1, offset2, flags.clone().into(),) as u128,
+                assemble_instruction(
+                    -1,
+                    offset1,
+                    offset2,
+                    flags.clone().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -2242,7 +2272,13 @@ fn test_generic_add_ap_res_add() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(-1, offset1, offset2, flags.clone().into(),) as u128,
+                assemble_instruction(
+                    -1,
+                    offset1,
+                    offset2,
+                    flags.clone().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -2294,7 +2330,13 @@ fn test_generic_soundness_call_wrong_offset() {
             const_expr!(pc),
             const_felt252_expr!(
                 // Use invalid value for offset dst
-                assemble_instruction(1, 1, 1, call_opcode.get_flags().into()) as u128,
+                assemble_instruction(
+                    1,
+                    1,
+                    1,
+                    call_opcode.get_flags().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -2334,7 +2376,13 @@ fn test_generic_soundness_call_fp_not_pushed() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(0, 1, 1, call_opcode.get_flags().into()) as u128,
+                assemble_instruction(
+                    0,
+                    1,
+                    1,
+                    call_opcode.get_flags().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -2376,7 +2424,13 @@ fn test_generic_soundness_call_wrong_next_pc() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(0, 1, offset2, call_opcode.get_flags().into()) as u128,
+                assemble_instruction(
+                    0,
+                    1,
+                    offset2,
+                    call_opcode.get_flags().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -2424,8 +2478,9 @@ fn test_generic_soundness_jnz_dst_p() {
                     offset_dst,
                     -1,
                     1,
-                    jnz_opcode.get_flags().non_constants_to_arr(&[false])
-                ) as u128,
+                    jnz_opcode.get_flags().non_constants_to_arr(&[false]),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -2482,7 +2537,13 @@ fn test_generic_soundness_assert_eq() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(offset_dst, offset1, offset2, flags.clone().into()) as u128,
+                assemble_instruction(
+                    offset_dst,
+                    offset1,
+                    offset2,
+                    flags.clone().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),

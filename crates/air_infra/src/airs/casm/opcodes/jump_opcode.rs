@@ -67,10 +67,11 @@ impl AirFn for JumpOpcode {
         let offset2 = if self.imm { Some(1) } else { None };
 
         // Check the instruction.
-        let ([_, offset1, offset2], flags) = ab.call(
+        let ([_, offset1, offset2], flags, _) = ab.call(
             &DecodeInstruction {
                 const_offsets: [Some(-1), offset1, offset2],
                 const_flags: self.get_flags(),
+                const_opcode_extension: Some(OpcodeExtension::Stone),
                 memory: self.memory.clone(),
             },
             casm_state.pc().clone(),

@@ -54,10 +54,11 @@ impl AirFn for JnzOpcode {
 
     fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Check the instruction.
-        let ([offset_dst, _, _], flags) = ab.call(
+        let ([offset_dst, _, _], flags, _) = ab.call(
             &DecodeInstruction {
                 const_offsets: [None, Some(-1), Some(1)],
                 const_flags: self.get_flags(),
+                const_opcode_extension: Some(OpcodeExtension::Stone),
                 memory: self.memory.clone(),
             },
             casm_state.pc().clone(),

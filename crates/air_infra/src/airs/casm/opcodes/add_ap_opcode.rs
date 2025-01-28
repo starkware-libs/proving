@@ -59,10 +59,11 @@ impl AirFn for AddApOpcode {
     fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Decode the instruction.
         let offset2 = if self.imm { Some(1) } else { None };
-        let ([_, _, offset2], _) = ab.call(
+        let ([_, _, offset2], ..) = ab.call(
             &DecodeInstruction {
                 const_offsets: [Some(-1), Some(-1), offset2],
                 const_flags: self.get_flags(),
+                const_opcode_extension: Some(OpcodeExtension::Stone),
                 memory: self.memory.clone(),
             },
             casm_state.pc().clone(),

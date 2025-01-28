@@ -24,10 +24,11 @@ impl AirFn for DecodeGenericInstruction {
     type Out = ([FeltExpr; GENERIC_FLAGS_SIZE], [FeltExpr; 3]);
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), pc: Self::In) -> Self::Out {
-        let (offsets, flags) = air_builder.call(
+        let (offsets, flags, _) = air_builder.call(
             &DecodeInstruction {
                 const_offsets: [None, None, None],
                 const_flags: Default::default(),
+                const_opcode_extension: Some(OpcodeExtension::Stone),
                 memory: self.memory.clone(),
             },
             pc.clone(),

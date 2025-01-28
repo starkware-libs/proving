@@ -1,13 +1,14 @@
 {
-  "name": "decode_instruction_337193008ebaa578",
+  "name": "decode_instruction_594a11e8463530cc",
   "relation_name": null,
   "description": "Decode Instruction",
   "inst_def": {
     "const_offsets": "[None, None, None]",
-    "const_flags": "Flags { dst_base_fp: None, op0_base_fp: None, op1_imm: None, op1_base_fp: None, op1_base_ap: None, res_add: None, res_mul: None, pc_update_jump: None, pc_update_jump_rel: None, pc_update_jnz: None, ap_update_add: None, ap_update_add_1: None, opcode_call: None, opcode_ret: None, opcode_assert_eq: None }"
+    "const_flags": "Flags { dst_base_fp: None, op0_base_fp: None, op1_imm: None, op1_base_fp: None, op1_base_ap: None, res_add: None, res_mul: None, pc_update_jump: None, pc_update_jump_rel: None, pc_update_jnz: None, ap_update_add: None, ap_update_add_1: None, opcode_call: None, opcode_ret: None, opcode_assert_eq: None }",
+    "const_opcode_extension": "Some(Stone)"
   },
   "input": {
-    "name": "decode_instruction_337193008ebaa578_input",
+    "name": "decode_instruction_594a11e8463530cc_input",
     "type": "M31"
   },
   "output": [
@@ -86,7 +87,11 @@
         "name": "col17",
         "type": "M31"
       }
-    ]
+    ],
+    {
+      "name": "0",
+      "type": "M31"
+    }
   ],
   "trace_type": "Inline",
   "air_body": [
@@ -94,28 +99,28 @@
       "LookupCall": {
         "air_fn_name": "memory_address_to_id",
         "ext_input": {
-          "name": "decode_instruction_337193008ebaa578_input",
+          "name": "decode_instruction_594a11e8463530cc_input",
           "type": "M31"
         },
-        "output_name": "memory_address_to_id_value_tmp_33719_0"
+        "output_name": "memory_address_to_id_value_tmp_594a1_0"
       }
     },
     {
       "LookupCall": {
         "air_fn_name": "memory_id_to_big",
         "ext_input": {
-          "name": "memory_address_to_id_value_tmp_33719_0",
+          "name": "memory_address_to_id_value_tmp_594a1_0",
           "type": "M31"
         },
-        "output_name": "memory_id_to_big_value_tmp_33719_1"
+        "output_name": "memory_id_to_big_value_tmp_594a1_1"
       }
     },
     {
       "Intermediate": [
-        "offset0_tmp_33719_2",
+        "offset0_tmp_594a1_2",
         "UInt16",
         {
-          "name": "(UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(0)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(1)) & 127) << 9))",
+          "name": "(UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(0)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(1)) & 127) << 9))",
           "type": "UInt16"
         },
         {
@@ -126,16 +131,16 @@
     },
     {
       "Deduction": [
-        "offset0_tmp_33719_2.as_m31()",
+        "offset0_tmp_594a1_2.as_m31()",
         "offset0"
       ]
     },
     {
       "Intermediate": [
-        "offset1_tmp_33719_3",
+        "offset1_tmp_594a1_3",
         "UInt16",
         {
-          "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(1)) >> 7) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(2)) << 2)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(3)) & 31) << 11))",
+          "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(1)) >> 7) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(2)) << 2)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(3)) & 31) << 11))",
           "type": "UInt16"
         },
         {
@@ -146,16 +151,16 @@
     },
     {
       "Deduction": [
-        "offset1_tmp_33719_3.as_m31()",
+        "offset1_tmp_594a1_3.as_m31()",
         "offset1"
       ]
     },
     {
       "Intermediate": [
-        "offset2_tmp_33719_4",
+        "offset2_tmp_594a1_4",
         "UInt16",
         {
-          "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(3)) >> 5) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(4)) << 4)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) & 7) << 13))",
+          "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(3)) >> 5) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(4)) << 4)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) & 7) << 13))",
           "type": "UInt16"
         },
         {
@@ -166,16 +171,16 @@
     },
     {
       "Deduction": [
-        "offset2_tmp_33719_4.as_m31()",
+        "offset2_tmp_594a1_4.as_m31()",
         "offset2"
       ]
     },
     {
       "Intermediate": [
-        "dst_base_fp_tmp_33719_5",
+        "dst_base_fp_tmp_594a1_5",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 0) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 0) & 1)",
           "type": "UInt16"
         },
         {
@@ -186,16 +191,16 @@
     },
     {
       "Deduction": [
-        "dst_base_fp_tmp_33719_5.as_m31()",
+        "dst_base_fp_tmp_594a1_5.as_m31()",
         "dst_base_fp"
       ]
     },
     {
       "Intermediate": [
-        "op0_base_fp_tmp_33719_6",
+        "op0_base_fp_tmp_594a1_6",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 1) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 1) & 1)",
           "type": "UInt16"
         },
         {
@@ -206,16 +211,16 @@
     },
     {
       "Deduction": [
-        "op0_base_fp_tmp_33719_6.as_m31()",
+        "op0_base_fp_tmp_594a1_6.as_m31()",
         "op0_base_fp"
       ]
     },
     {
       "Intermediate": [
-        "op1_imm_tmp_33719_7",
+        "op1_imm_tmp_594a1_7",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 2) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 2) & 1)",
           "type": "UInt16"
         },
         {
@@ -226,16 +231,16 @@
     },
     {
       "Deduction": [
-        "op1_imm_tmp_33719_7.as_m31()",
+        "op1_imm_tmp_594a1_7.as_m31()",
         "op1_imm"
       ]
     },
     {
       "Intermediate": [
-        "op1_base_fp_tmp_33719_8",
+        "op1_base_fp_tmp_594a1_8",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 3) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 3) & 1)",
           "type": "UInt16"
         },
         {
@@ -246,16 +251,16 @@
     },
     {
       "Deduction": [
-        "op1_base_fp_tmp_33719_8.as_m31()",
+        "op1_base_fp_tmp_594a1_8.as_m31()",
         "op1_base_fp"
       ]
     },
     {
       "Intermediate": [
-        "op1_base_ap_tmp_33719_9",
+        "op1_base_ap_tmp_594a1_9",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 4) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 4) & 1)",
           "type": "UInt16"
         },
         {
@@ -266,16 +271,16 @@
     },
     {
       "Deduction": [
-        "op1_base_ap_tmp_33719_9.as_m31()",
+        "op1_base_ap_tmp_594a1_9.as_m31()",
         "op1_base_ap"
       ]
     },
     {
       "Intermediate": [
-        "res_add_tmp_33719_10",
+        "res_add_tmp_594a1_10",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 5) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 5) & 1)",
           "type": "UInt16"
         },
         {
@@ -286,16 +291,16 @@
     },
     {
       "Deduction": [
-        "res_add_tmp_33719_10.as_m31()",
+        "res_add_tmp_594a1_10.as_m31()",
         "res_add"
       ]
     },
     {
       "Intermediate": [
-        "res_mul_tmp_33719_11",
+        "res_mul_tmp_594a1_11",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 6) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 6) & 1)",
           "type": "UInt16"
         },
         {
@@ -306,16 +311,16 @@
     },
     {
       "Deduction": [
-        "res_mul_tmp_33719_11.as_m31()",
+        "res_mul_tmp_594a1_11.as_m31()",
         "res_mul"
       ]
     },
     {
       "Intermediate": [
-        "pc_update_jump_tmp_33719_12",
+        "pc_update_jump_tmp_594a1_12",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 7) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 7) & 1)",
           "type": "UInt16"
         },
         {
@@ -326,16 +331,16 @@
     },
     {
       "Deduction": [
-        "pc_update_jump_tmp_33719_12.as_m31()",
+        "pc_update_jump_tmp_594a1_12.as_m31()",
         "pc_update_jump"
       ]
     },
     {
       "Intermediate": [
-        "pc_update_jump_rel_tmp_33719_13",
+        "pc_update_jump_rel_tmp_594a1_13",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 8) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 8) & 1)",
           "type": "UInt16"
         },
         {
@@ -346,16 +351,16 @@
     },
     {
       "Deduction": [
-        "pc_update_jump_rel_tmp_33719_13.as_m31()",
+        "pc_update_jump_rel_tmp_594a1_13.as_m31()",
         "pc_update_jump_rel"
       ]
     },
     {
       "Intermediate": [
-        "pc_update_jnz_tmp_33719_14",
+        "pc_update_jnz_tmp_594a1_14",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 9) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 9) & 1)",
           "type": "UInt16"
         },
         {
@@ -366,16 +371,16 @@
     },
     {
       "Deduction": [
-        "pc_update_jnz_tmp_33719_14.as_m31()",
+        "pc_update_jnz_tmp_594a1_14.as_m31()",
         "pc_update_jnz"
       ]
     },
     {
       "Intermediate": [
-        "ap_update_add_tmp_33719_15",
+        "ap_update_add_tmp_594a1_15",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 10) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 10) & 1)",
           "type": "UInt16"
         },
         {
@@ -386,16 +391,16 @@
     },
     {
       "Deduction": [
-        "ap_update_add_tmp_33719_15.as_m31()",
+        "ap_update_add_tmp_594a1_15.as_m31()",
         "ap_update_add"
       ]
     },
     {
       "Intermediate": [
-        "ap_update_add_1_tmp_33719_16",
+        "ap_update_add_1_tmp_594a1_16",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 11) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 11) & 1)",
           "type": "UInt16"
         },
         {
@@ -406,16 +411,16 @@
     },
     {
       "Deduction": [
-        "ap_update_add_1_tmp_33719_16.as_m31()",
+        "ap_update_add_1_tmp_594a1_16.as_m31()",
         "ap_update_add_1"
       ]
     },
     {
       "Intermediate": [
-        "opcode_call_tmp_33719_17",
+        "opcode_call_tmp_594a1_17",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 12) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 12) & 1)",
           "type": "UInt16"
         },
         {
@@ -426,16 +431,16 @@
     },
     {
       "Deduction": [
-        "opcode_call_tmp_33719_17.as_m31()",
+        "opcode_call_tmp_594a1_17.as_m31()",
         "opcode_call"
       ]
     },
     {
       "Intermediate": [
-        "opcode_ret_tmp_33719_18",
+        "opcode_ret_tmp_594a1_18",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 13) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 13) & 1)",
           "type": "UInt16"
         },
         {
@@ -446,16 +451,16 @@
     },
     {
       "Deduction": [
-        "opcode_ret_tmp_33719_18.as_m31()",
+        "opcode_ret_tmp_594a1_18.as_m31()",
         "opcode_ret"
       ]
     },
     {
       "Intermediate": [
-        "opcode_assert_eq_tmp_33719_19",
+        "opcode_assert_eq_tmp_594a1_19",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_33719_1.get_m31(6)) << 6)) >> 14) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_594a1_1.get_m31(6)) << 6)) >> 14) & 1)",
           "type": "UInt16"
         },
         {
@@ -466,7 +471,7 @@
     },
     {
       "Deduction": [
-        "opcode_assert_eq_tmp_33719_19.as_m31()",
+        "opcode_assert_eq_tmp_594a1_19.as_m31()",
         "opcode_assert_eq"
       ]
     },
@@ -475,7 +480,7 @@
         "air_fn_name": "verify_instruction",
         "input": [
           {
-            "name": "decode_instruction_337193008ebaa578_input",
+            "name": "decode_instruction_594a11e8463530cc_input",
             "type": "M31"
           },
           [
@@ -565,7 +570,7 @@
       "LookupTerm": {
         "relation_name": "VerifyInstruction",
         "felts": [
-          "decode_instruction_337193008ebaa578_input",
+          "decode_instruction_594a11e8463530cc_input",
           "col0",
           "col1",
           "col2",

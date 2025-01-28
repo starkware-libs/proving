@@ -64,10 +64,11 @@ impl AirFn for CallOpcode {
         let offset2 = if self.rel { Some(1) } else { None };
 
         // Check the instruction.
-        let ([_, _, offset2], _) = ab.call(
+        let ([_, _, offset2], ..) = ab.call(
             &DecodeInstruction {
                 const_offsets: [Some(0), Some(1), offset2],
                 const_flags: self.get_flags(),
+                const_opcode_extension: Some(OpcodeExtension::Stone),
                 memory: self.memory.clone(),
             },
             casm_state.pc().clone(),

@@ -16,12 +16,13 @@ use crate::core::felt252_id_memory::memory::*;
 pub struct DecodeInstruction {
     pub const_offsets: [Option<i16>; 3], // off_0, off_1, off_2
     pub const_flags: Flags,
+    pub const_opcode_extension: Option<OpcodeExtension>,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
 impl DecodeInstruction {
-    fn decode_instruction(inst: Felt252Expr) -> [UInt16Expr; 4] {
+    fn decode_instruction(inst: Felt252Expr) -> ([UInt16Expr; 4], FeltExpr) {
         let off0 = UInt16Expr::from(inst.get_felt(0))
             + ((UInt16Expr::from(inst.get_felt(1)) & const_u16_expr!(127)) << const_u16_expr!(9));
 
@@ -36,7 +37,9 @@ impl DecodeInstruction {
         let flags = (UInt16Expr::from(inst.get_felt(5)) >> const_u16_expr!(3))
             + (UInt16Expr::from(inst.get_felt(6)) << const_u16_expr!(6));
 
-        [off0, off1, off2, flags]
+        let opcode_extension = inst.get_felt(7);
+
+        ([off0, off1, off2, flags], opcode_extension)
     }
 }
 
@@ -45,12 +48,13 @@ impl DecodeInstruction {
 impl AirFn for DecodeInstruction {
     type ExtIn = ();
     type In = CasmAddress;
-    type Out = ([FeltExpr; 3], [FeltExpr; 15]);
+    type Out = ([FeltExpr; 3], [FeltExpr; 15], FeltExpr);
 
     fn call(&self, ab: &mut AirBuilder, _: (), pc: Self::In) -> Self::Out {
         // Decode the instruction without verification
         let (instruction, _) = self.memory.read_unverified(ab, &pc);
-        let [mut off0, mut off1, mut off2, flags] = Self::decode_instruction(instruction);
+        let ([mut off0, mut off1, mut off2, flags], mut opcode_extnesion) =
+            Self::decode_instruction(instruction);
 
         // Deduce the non-constant offsets
         let off0_f = if let Some(off) = self.const_offsets[0] {
@@ -95,6 +99,13 @@ impl AirFn for DecodeInstruction {
             .try_into()
             .expect("Expected 15 flags");
 
+        // Deduce opcode extension if is not a constant
+        if let Some(constant) = self.const_opcode_extension {
+            opcode_extnesion = constant.into();
+        } else {
+            ab.deduce(&mut opcode_extnesion, "opcode_extension");
+        };
+
         // Verify the instruction
         ab.lookup_call(
             &VerifyInstruction {
@@ -105,7 +116,7 @@ impl AirFn for DecodeInstruction {
                 pc.clone(),
                 [off0_f.clone(), off1_f.clone(), off2_f.clone()],
                 flags_vec.clone(),
-                OpcodeExtension::Stone.into(),
+                opcode_extnesion.clone(),
             ),
         );
 
@@ -116,6 +127,7 @@ impl AirFn for DecodeInstruction {
                 offset_as_signed(off2_f),
             ],
             flags_vec,
+            opcode_extnesion,
         )
     }
 

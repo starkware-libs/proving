@@ -52,7 +52,7 @@ fn test_jump_opcode(
                 jump_opcode
                     .get_flags()
                     .non_constants_to_arr(&non_consts_flags),
-            ) as u128,
+            ),
             0
         ),
     )];
@@ -461,8 +461,8 @@ fn test_rel_double_deref() {
     );
 }
 
-pub fn assemble_jump(op0_off: Option<i16>, op1_off: Option<i16>, flags: [bool; 15]) -> u64 {
+pub fn assemble_jump(op0_off: Option<i16>, op1_off: Option<i16>, flags: [bool; 15]) -> u128 {
     let off0 = op0_off.map_or(-1, |v| v);
     let off1 = op1_off.map_or(1, |v| v);
-    assemble_instruction(-1, off0, off1, flags)
+    assemble_instruction(-1, off0, off1, flags, OpcodeExtension::Stone)
 }

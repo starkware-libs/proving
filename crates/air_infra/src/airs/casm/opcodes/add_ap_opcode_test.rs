@@ -30,7 +30,13 @@ fn test_add_ap_negative_imm() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(-1, -1, 1, add_ap_opcode.get_flags().into()) as u128,
+                assemble_instruction(
+                    -1,
+                    -1,
+                    1,
+                    add_ap_opcode.get_flags().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -88,7 +94,13 @@ fn test_add_ap_deref_base_fp() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(-1, -1, offset2, add_ap_opcode.get_flags().into()) as u128,
+                assemble_instruction(
+                    -1,
+                    -1,
+                    offset2,
+                    add_ap_opcode.get_flags().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),
@@ -151,7 +163,13 @@ fn test_failed_op1_src() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(-1, -1, offset2, add_ap_opcode.get_flags().into()) as u128,
+                assemble_instruction(
+                    -1,
+                    -1,
+                    offset2,
+                    add_ap_opcode.get_flags().into(),
+                    OpcodeExtension::Stone
+                ),
                 0
             ),
         ),

@@ -226,7 +226,8 @@ fn test_assert_equal(
                 assert_equal_opcode
                     .get_flags()
                     .non_constants_to_arr(&non_consts_flags),
-            ) as u128,
+                OpcodeExtension::Stone
+            ),
             0
         ),
     )];

@@ -16,7 +16,13 @@ fn test_verify_inst() {
     let memory = Felt252IdMemory::new_with_data(vec![(
         const_expr!(0),
         const_felt252_expr!(
-            assemble_instruction(offsets_i16[0], offsets_i16[1], offsets_i16[2], flags_b) as u128,
+            assemble_instruction(
+                offsets_i16[0],
+                offsets_i16[1],
+                offsets_i16[2],
+                flags_b,
+                OpcodeExtension::Stone
+            ),
             0
         ),
     )]);

@@ -406,7 +406,7 @@ impl_air_var!([CasmAddress]);
 type Flags = [FeltExpr; 15];
 type Offsets = [FeltExpr; 3];
 // DecodeInstruction
-impl_air_var!((Offsets, Flags));
+impl_air_var!((Offsets, Flags, FeltExpr));
 type Cond = FeltExpr;
 // MemCondVerifyEqualKnownId
 impl_air_var!((CasmAddress, FeltExpr, Cond));

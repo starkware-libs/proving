@@ -43,7 +43,13 @@ fn test_with_matching_memory(
     let memory = Felt252IdMemory::new_with_data(vec![(
         pc.clone(),
         const_felt252_expr!(
-            assemble_instruction(offsets[0], offsets[1], offsets[2], flags) as u128,
+            assemble_instruction(
+                offsets[0],
+                offsets[1],
+                offsets[2],
+                flags,
+                OpcodeExtension::Stone
+            ),
             0
         ),
     )]);
@@ -52,11 +58,12 @@ fn test_with_matching_memory(
     let air_fn = DecodeInstruction {
         const_offsets,
         const_flags,
+        const_opcode_extension: Some(OpcodeExtension::Stone),
         memory,
     };
 
     let (registry, entry) = AirFnRegistry::new(&air_fn);
-    let (state, (offsets_output, flags_output)) =
+    let (state, (offsets_output, flags_output, _)) =
         registry.run_air(&air_fn, (), CasmAddress::new(pc, "pc"));
 
     // Check entry
@@ -159,4 +166,116 @@ fn test_some_consts() {
         offset_const,
         vec![(30875, "offset1"), (0, "dst_base_fp"), (0, "op1_imm")].into(),
     );
+}
+
+#[test]
+fn test_opcode_extension_const() {
+    let const_offsets = [0x4321, -0x0765, 0xcba];
+
+    // Define and fill memory
+    let pc = const_expr!(0);
+    let memory = Felt252IdMemory::new_with_data(vec![(
+        pc.clone(),
+        const_felt252_expr!(
+            assemble_instruction(
+                const_offsets[0],
+                const_offsets[1],
+                const_offsets[2],
+                [true; 15],
+                OpcodeExtension::Blake
+            ),
+            0
+        ),
+    )]);
+
+    // Run and check output
+    let air_fn = DecodeInstruction {
+        const_offsets: [
+            Some(const_offsets[0]),
+            Some(const_offsets[1]),
+            Some(const_offsets[2]),
+        ],
+        const_flags: Flags::from_arr([Some(true); 15]),
+        const_opcode_extension: Some(OpcodeExtension::Blake),
+        memory,
+    };
+
+    let (registry, _) = AirFnRegistry::new(&air_fn);
+    let (_, (_, _, opcode_extension)) = registry.run_air(&air_fn, (), CasmAddress::new(pc, "pc"));
+    assert_eq!(opcode_extension.calc(), "1");
+}
+
+#[test]
+#[should_panic(expected = "given value != value in memory")]
+fn test_fail_opcode_extension_const() {
+    let const_offsets = [0x4321, -0x0765, 0xcba];
+
+    // Define and fill memory
+    let pc = const_expr!(0);
+    let memory = Felt252IdMemory::new_with_data(vec![(
+        pc.clone(),
+        const_felt252_expr!(
+            assemble_instruction(
+                const_offsets[0],
+                const_offsets[1],
+                const_offsets[2],
+                [true; 15],
+                OpcodeExtension::BlakeFinalize
+            ),
+            0
+        ),
+    )]);
+
+    // Run and check output
+    let air_fn = DecodeInstruction {
+        const_offsets: [
+            Some(const_offsets[0]),
+            Some(const_offsets[1]),
+            Some(const_offsets[2]),
+        ],
+        const_flags: Flags::from_arr([Some(true); 15]),
+        const_opcode_extension: Some(OpcodeExtension::Blake),
+        memory,
+    };
+
+    let (registry, _) = AirFnRegistry::new(&air_fn);
+    let (_, (_, _, opcode_extension)) = registry.run_air(&air_fn, (), CasmAddress::new(pc, "pc"));
+    assert_eq!(opcode_extension.calc(), "1");
+}
+
+#[test]
+fn test_opcode_extension() {
+    let const_offsets = [0x4321, -0x0765, 0xcba];
+
+    // Define and fill memory
+    let pc = const_expr!(0);
+    let memory = Felt252IdMemory::new_with_data(vec![(
+        pc.clone(),
+        const_felt252_expr!(
+            assemble_instruction(
+                const_offsets[0],
+                const_offsets[1],
+                const_offsets[2],
+                [true; 15],
+                OpcodeExtension::BlakeFinalize
+            ),
+            0
+        ),
+    )]);
+
+    // Run and check output
+    let air_fn = DecodeInstruction {
+        const_offsets: [
+            Some(const_offsets[0]),
+            Some(const_offsets[1]),
+            Some(const_offsets[2]),
+        ],
+        const_flags: Flags::from_arr([Some(true); 15]),
+        const_opcode_extension: None,
+        memory,
+    };
+
+    let (registry, _) = AirFnRegistry::new(&air_fn);
+    let (_, (_, _, opcode_extension)) = registry.run_air(&air_fn, (), CasmAddress::new(pc, "pc"));
+    assert_eq!(opcode_extension.calc(), "2");
 }

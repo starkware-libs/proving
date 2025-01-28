@@ -36,7 +36,7 @@ fn build_and_test(
     let mut memory_values = vec![
         (
             pc.clone(),
-            const_felt252_expr!(assemble_call(offset2, &call_opcode.get_flags()) as u128, 0),
+            const_felt252_expr!(assemble_call(offset2, &call_opcode.get_flags()), 0),
         ),
         (
             const_expr!(ap_value),
@@ -265,10 +265,16 @@ fn test_call_base_ap_negative_offset2() {
     );
 }
 
-pub fn assemble_call(offset2: i16, flags: &Flags) -> u64 {
+pub fn assemble_call(offset2: i16, flags: &Flags) -> u128 {
     let call_op1_off = flags
         .pc_update_jump_rel
         .map(|b| if b { 1 } else { offset2 })
         .unwrap();
-    assemble_instruction(0, 1, call_op1_off, flags.clone().into())
+    assemble_instruction(
+        0,
+        1,
+        call_op1_off,
+        flags.clone().into(),
+        OpcodeExtension::Stone,
+    )
 }

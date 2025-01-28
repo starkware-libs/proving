@@ -9,11 +9,17 @@ use crate::core::variables::*;
 use crate::utils::test_utils::*;
 use crate::{const_expr, const_felt252_expr};
 
-pub fn assemble_ret() -> u64 {
+pub fn assemble_ret() -> u128 {
     let ret_off_0 = -2;
     let ret_off_1 = -1;
     let ret_off_2 = -1;
-    assemble_instruction(ret_off_0, ret_off_1, ret_off_2, RET_FLAGS.into())
+    assemble_instruction(
+        ret_off_0,
+        ret_off_1,
+        ret_off_2,
+        RET_FLAGS.into(),
+        OpcodeExtension::Stone,
+    )
 }
 
 #[test]
@@ -33,7 +39,7 @@ fn test_ret_opcode() {
 
     // Fill memory
     let memory = Felt252IdMemory::new_with_data(vec![
-        (pc.clone(), const_felt252_expr!(assemble_ret() as u128, 0)),
+        (pc.clone(), const_felt252_expr!(assemble_ret(), 0)),
         (const_expr!(fp_value - 1), const_felt252_expr!(saved_pc, 0)),
         (const_expr!(fp_value - 2), const_felt252_expr!(saved_fp, 0)),
     ]);

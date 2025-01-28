@@ -40,8 +40,9 @@ fn build_and_test(
                 1,
                 jnz_opcode
                     .get_flags()
-                    .non_constants_to_arr(&[ap_update_add_1])
-            ) as u128,
+                    .non_constants_to_arr(&[ap_update_add_1]),
+                OpcodeExtension::Stone
+            ),
             0
         ),
     )];

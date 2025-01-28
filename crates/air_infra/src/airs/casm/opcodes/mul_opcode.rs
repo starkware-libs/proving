@@ -61,10 +61,11 @@ impl AirFn for MulOpcode {
             [None, None, None]
         };
         // Check the instruction.
-        let ([offset0, offset1, offset2], flags) = ab.call(
+        let ([offset0, offset1, offset2], flags, _) = ab.call(
             &DecodeInstruction {
                 const_offsets,
                 const_flags: self.get_flags(),
+                const_opcode_extension: Some(OpcodeExtension::Stone),
                 memory: self.memory.clone(),
             },
             casm_state.pc().clone(),

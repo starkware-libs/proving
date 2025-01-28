@@ -42,6 +42,7 @@ impl AirFn for RetOpcode {
         let decode_instruction = DecodeInstruction {
             const_offsets: [Some(-2), Some(-1), Some(-1)],
             const_flags: RET_FLAGS,
+            const_opcode_extension: Some(OpcodeExtension::Stone),
             memory: self.memory.clone(),
         };
 

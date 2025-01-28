@@ -42,7 +42,7 @@ pub const FLAG_NAMES: [&str; 15] = [
     "opcode_assert_eq",
 ];
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Debug, Copy)]
 pub enum OpcodeExtension {
     Stone,
     Blake,
@@ -148,15 +148,25 @@ pub fn offset_as_signed(offset: FeltExpr) -> FeltExpr {
 }
 
 #[cfg(test)]
-pub fn assemble_instruction(off_0: i16, off_1: i16, off_2: i16, flags: [bool; 15]) -> u64 {
-    let mut flags_int: u64 = 0;
+pub fn assemble_instruction(
+    off_0: i16,
+    off_1: i16,
+    off_2: i16,
+    flags: [bool; 15],
+    opcode_extension: OpcodeExtension,
+) -> u128 {
+    let mut flags_int: u128 = 0;
     for (idx, flag) in flags.iter().enumerate() {
-        flags_int += (*flag as u64) << idx;
+        flags_int += (*flag as u128) << idx;
     }
-    let biased_off_0: u64 = offset_as_u16(off_0) as u64;
-    let biased_off_1: u64 = offset_as_u16(off_1) as u64;
-    let biased_off_2: u64 = offset_as_u16(off_2) as u64;
-    (flags_int << 48) + (biased_off_2 << 32) + (biased_off_1 << 16) + biased_off_0
+    let biased_off_0: u128 = offset_as_u16(off_0) as u128;
+    let biased_off_1: u128 = offset_as_u16(off_1) as u128;
+    let biased_off_2: u128 = offset_as_u16(off_2) as u128;
+    ((opcode_extension as u128) << 63)
+        + (flags_int << 48)
+        + (biased_off_2 << 32)
+        + (biased_off_1 << 16)
+        + biased_off_0
 }
 
 pub fn felt252_to_m31(value: Felt252Expr, num_bits: usize) -> FeltExpr {
