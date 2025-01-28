@@ -159,6 +159,7 @@ fn write_trace_simd(
                         M31_1, M31_1, M31_1, M31_0, M31_0, M31_0, M31_0, M31_0, M31_0, M31_0,
                         M31_1, M31_0, M31_0, M31_0, M31_0,
                     ],
+                    M31_0,
                 )
                     .unpack();
                 *lookup_data.verify_instruction_0 = [
@@ -177,6 +178,7 @@ fn write_trace_simd(
                     M31_0,
                     M31_0,
                     M31_1,
+                    M31_0,
                     M31_0,
                     M31_0,
                     M31_0,
@@ -279,7 +281,7 @@ struct LookupData {
     memory_id_to_big_0: Vec<[PackedM31; 29]>,
     opcodes_0: Vec<[PackedM31; 3]>,
     opcodes_1: Vec<[PackedM31; 3]>,
-    verify_instruction_0: Vec<[PackedM31; 19]>,
+    verify_instruction_0: Vec<[PackedM31; 20]>,
 }
 
 pub struct InteractionClaimGenerator {

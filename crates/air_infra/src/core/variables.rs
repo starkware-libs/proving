@@ -442,7 +442,7 @@ impl_air_var!((CasmAddress, UInt32Expr));
 // RangeCheck + VerifyBitwiseXor (+ BitwiseXor + EncodeFlags + EncodeOffsets)
 impl_air_var!([FeltExpr]);
 // VerifyInstruction
-impl_air_var!((CasmAddress, Offsets, Flags));
+impl_air_var!((CasmAddress, Offsets, Flags, FeltExpr));
 
 // ChainRound
 

@@ -105,6 +105,7 @@ impl AirFn for DecodeInstruction {
                 pc.clone(),
                 [off0_f.clone(), off1_f.clone(), off2_f.clone()],
                 flags_vec.clone(),
+                OpcodeExtension::Stone.into(),
             ),
         );
 

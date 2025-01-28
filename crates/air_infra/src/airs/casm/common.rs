@@ -42,6 +42,23 @@ pub const FLAG_NAMES: [&str; 15] = [
     "opcode_assert_eq",
 ];
 
+#[derive(Clone, Debug)]
+pub enum OpcodeExtension {
+    Stone,
+    Blake,
+    BlakeFinalize,
+}
+
+impl From<OpcodeExtension> for FeltExpr {
+    fn from(op: OpcodeExtension) -> Self {
+        match op {
+            OpcodeExtension::Stone => const_expr!(0),
+            OpcodeExtension::Blake => const_expr!(1),
+            OpcodeExtension::BlakeFinalize => const_expr!(2),
+        }
+    }
+}
+
 #[derive(Clone, Debug, Default)]
 pub struct Flags {
     pub dst_base_fp: Option<bool>,

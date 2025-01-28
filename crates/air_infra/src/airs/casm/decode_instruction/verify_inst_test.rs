@@ -28,7 +28,12 @@ fn test_verify_inst() {
     let (state, _) = registry.run_air(
         &air_fn,
         (),
-        (CasmAddress::new(const_expr!(0), ""), offsets, flags),
+        (
+            CasmAddress::new(const_expr!(0), ""),
+            offsets,
+            flags,
+            OpcodeExtension::Stone.into(),
+        ),
     );
     let expected_state = vec![
         (0, "input_limb_0"),     // pc
@@ -50,6 +55,7 @@ fn test_verify_inst() {
         (0, "input_limb_16"),    // opcode_call
         (0, "input_limb_17"),    // opcode_ret
         (1, "input_limb_18"),    // opcode_assert_eq
+        (0, "input_limb_19"),    // opcode_extension
         (1, "offset0_low"),
         (64, "offset0_mid"),
         (3, "offset1_low"),

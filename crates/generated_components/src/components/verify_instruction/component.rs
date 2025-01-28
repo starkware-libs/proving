@@ -33,7 +33,7 @@ pub struct Claim {
 impl Claim {
     pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
         let log_size = std::cmp::max(self.n_rows.next_power_of_two().ilog2(), LOG_N_LANES);
-        let trace_log_sizes = vec![log_size; 28];
+        let trace_log_sizes = vec![log_size; 29];
         let interaction_log_sizes = vec![log_size; SECURE_EXTENSION_DEGREE * 3];
         let preprocessed_log_sizes = vec![log_size];
         TreeVec::new(vec![
@@ -110,49 +110,50 @@ impl FrameworkEval for Eval {
         let input_limb_16_col16 = eval.next_trace_mask();
         let input_limb_17_col17 = eval.next_trace_mask();
         let input_limb_18_col18 = eval.next_trace_mask();
-        let offset0_low_col19 = eval.next_trace_mask();
-        let offset0_mid_col20 = eval.next_trace_mask();
-        let offset1_low_col21 = eval.next_trace_mask();
-        let offset1_mid_col22 = eval.next_trace_mask();
-        let offset1_high_col23 = eval.next_trace_mask();
-        let offset2_low_col24 = eval.next_trace_mask();
-        let offset2_mid_col25 = eval.next_trace_mask();
-        let offset2_high_col26 = eval.next_trace_mask();
-        let instruction_id_col27 = eval.next_trace_mask();
+        let input_limb_19_col19 = eval.next_trace_mask();
+        let offset0_low_col20 = eval.next_trace_mask();
+        let offset0_mid_col21 = eval.next_trace_mask();
+        let offset1_low_col22 = eval.next_trace_mask();
+        let offset1_mid_col23 = eval.next_trace_mask();
+        let offset1_high_col24 = eval.next_trace_mask();
+        let offset2_low_col25 = eval.next_trace_mask();
+        let offset2_mid_col26 = eval.next_trace_mask();
+        let offset2_high_col27 = eval.next_trace_mask();
+        let instruction_id_col28 = eval.next_trace_mask();
 
         // Encode Offsets.
 
         // Reconstructed offset0 is correct.
         eval.add_constraint(
-            ((offset0_low_col19.clone() + (offset0_mid_col20.clone() * M31_512.clone()))
+            ((offset0_low_col20.clone() + (offset0_mid_col21.clone() * M31_512.clone()))
                 - input_limb_1_col1.clone()),
         );
         // Reconstructed offset1 is correct.
         eval.add_constraint(
-            (((offset1_low_col21.clone() + (offset1_mid_col22.clone() * M31_4.clone()))
-                + (offset1_high_col23.clone() * M31_2048.clone()))
+            (((offset1_low_col22.clone() + (offset1_mid_col23.clone() * M31_4.clone()))
+                + (offset1_high_col24.clone() * M31_2048.clone()))
                 - input_limb_2_col2.clone()),
         );
         // Reconstructed offset2 is correct.
         eval.add_constraint(
-            (((offset2_low_col24.clone() + (offset2_mid_col25.clone() * M31_16.clone()))
-                + (offset2_high_col26.clone() * M31_8192.clone()))
+            (((offset2_low_col25.clone() + (offset2_mid_col26.clone() * M31_16.clone()))
+                + (offset2_high_col27.clone() * M31_8192.clone()))
                 - input_limb_3_col3.clone()),
         );
         eval.add_to_relation(RelationEntry::new(
             &self.range_check_7_2_5_lookup_elements,
             E::EF::one(),
             &[
-                offset0_mid_col20.clone(),
-                offset1_low_col21.clone(),
-                offset1_high_col23.clone(),
+                offset0_mid_col21.clone(),
+                offset1_low_col22.clone(),
+                offset1_high_col24.clone(),
             ],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.range_check_4_3_lookup_elements,
             E::EF::one(),
-            &[offset2_low_col24.clone(), offset2_high_col26.clone()],
+            &[offset2_low_col25.clone(), offset2_high_col27.clone()],
         ));
 
         // Encode Flags.
@@ -218,25 +219,32 @@ impl FrameworkEval for Eval {
             (input_limb_18_col18.clone() * (M31_1.clone() - input_limb_18_col18.clone())),
         );
 
+        // OpcodeExtension enum has a valid value.
+        eval.add_constraint(
+            (((input_limb_19_col19.clone() - M31_0.clone())
+                * (input_limb_19_col19.clone() - M31_1.clone()))
+                * (input_limb_19_col19.clone() - M31_2.clone())),
+        );
+
         // Mem Verify.
 
         eval.add_to_relation(RelationEntry::new(
             &self.memory_address_to_id_lookup_elements,
             E::EF::one(),
-            &[input_limb_0_col0.clone(), instruction_id_col27.clone()],
+            &[input_limb_0_col0.clone(), instruction_id_col28.clone()],
         ));
 
         eval.add_to_relation(RelationEntry::new(
             &self.memory_id_to_big_lookup_elements,
             E::EF::one(),
             &[
-                instruction_id_col27.clone(),
-                offset0_low_col19.clone(),
-                (offset0_mid_col20.clone() + (offset1_low_col21.clone() * M31_128.clone())),
-                offset1_mid_col22.clone(),
-                (offset1_high_col23.clone() + (offset2_low_col24.clone() * M31_32.clone())),
-                offset2_mid_col25.clone(),
-                (offset2_high_col26.clone()
+                instruction_id_col28.clone(),
+                offset0_low_col20.clone(),
+                (offset0_mid_col21.clone() + (offset1_low_col22.clone() * M31_128.clone())),
+                offset1_mid_col23.clone(),
+                (offset1_high_col24.clone() + (offset2_low_col25.clone() * M31_32.clone())),
+                offset2_mid_col26.clone(),
+                (offset2_high_col27.clone()
                     + ((((((M31_0.clone() + (input_limb_4_col4.clone() * M31_8.clone()))
                         + (input_limb_5_col5.clone() * M31_16.clone()))
                         + (input_limb_6_col6.clone() * M31_32.clone()))
@@ -252,6 +260,7 @@ impl FrameworkEval for Eval {
                     + (input_limb_16_col16.clone() * M31_64.clone()))
                     + (input_limb_17_col17.clone() * M31_128.clone()))
                     + (input_limb_18_col18.clone() * M31_256.clone())),
+                input_limb_19_col19.clone(),
             ],
         ));
 
@@ -278,6 +287,7 @@ impl FrameworkEval for Eval {
                 input_limb_16_col16.clone(),
                 input_limb_17_col17.clone(),
                 input_limb_18_col18.clone(),
+                input_limb_19_col19.clone(),
             ],
         ));
 
