@@ -1371,7 +1371,7 @@ fn test_generic_jump_rel_double_deref() {
             const_felt252_expr!(op1 as i128),
         ),
         (
-            const_expr!((fp as i32 + offset1 as i32) as u32),
+            const_expr!((fp + offset1 as i32) as u32),
             const_felt252_expr!(op0 as i128),
         ),
         // Not in use
@@ -2135,7 +2135,7 @@ fn test_generic_add_ap_double_deref() {
             const_felt252_expr!(op1 as i128),
         ),
         (
-            const_expr!((fp as i32 + offset1 as i32) as u32),
+            const_expr!((fp + offset1 as i32) as u32),
             const_felt252_expr!(op0 as i128),
         ),
         // Not in use

@@ -63,7 +63,7 @@ fn test_blake_round() {
     ];
 
     for (output, expected_output) in output.2 .0.into_iter().zip(expected_output) {
-        assert_eq!(output.calc(), const_expr!(expected_output).calc());
+        assert_eq!(output.calc(), const_u32_expr!(expected_output).calc());
     }
 
     // Check state.
@@ -335,6 +335,6 @@ fn test_blake_round2() {
     ];
 
     for (output, expected_output) in output.2 .0.into_iter().zip(expected_output) {
-        assert_eq!(output.calc(), const_expr!(expected_output).calc());
+        assert_eq!(output.calc(), const_u32_expr!(expected_output).calc());
     }
 }

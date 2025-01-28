@@ -112,7 +112,7 @@ impl Serialize for FeltExpr {
 macro_rules! const_expr {
     ($val:expr) => {
         FeltExpr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
-            $crate::core::Felt::from_u32_unchecked($val),
+            $crate::core::Felt::from($val),
         ))
     };
 }
