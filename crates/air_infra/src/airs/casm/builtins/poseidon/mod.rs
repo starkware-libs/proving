@@ -11,6 +11,9 @@ mod linear_combination_test;
 pub mod partial_round;
 #[cfg(test)]
 mod partial_round_test;
+pub mod poseidon_builtin;
+#[cfg(test)]
+mod poseidon_builtin_test;
 pub mod poseidon_permutation;
 #[cfg(test)]
 mod poseidon_permutation_test;
