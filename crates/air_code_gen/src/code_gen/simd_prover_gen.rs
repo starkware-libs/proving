@@ -10,7 +10,10 @@ use genco::quote;
 use itertools::{chain, Itertools};
 
 use super::parse::seek_consts;
-use super::utils::{block_doc, contains_inputs, get_const_name, unique_relation_calls};
+use super::utils::{
+    block_doc, contains_inputs, get_const_name, replace_generics_with_turbofish,
+    unique_relation_calls,
+};
 use crate::code_gen::utils::preprocessed_columns_imports;
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
@@ -209,7 +212,7 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
         let name = get_const_name(&ty, &val);
         const_names.insert((ty.clone(), val.clone()), name.clone());
         constants_def_code.extend(quote! {
-            let $(name) = $(packed_name(&ty))::broadcast($(ty)::from($(val)));
+            let $(name) = $(replace_generics_with_turbofish(&packed_name(&ty)))::broadcast($(replace_generics_with_turbofish(&ty))::from($(val)));
         });
     }
     let (log_size_code, zip_inputs, for_each_variables) = if contains_inputs(lists) {

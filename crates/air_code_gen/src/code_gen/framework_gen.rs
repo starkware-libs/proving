@@ -8,7 +8,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::chain;
 
-use super::utils::get_const_name;
+use super::utils::{get_const_name, replace_generics_with_turbofish};
 use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
 use crate::code_gen::utils::{
     block_doc, preprocessed_columns_imports, unique_constraint_relations,
@@ -194,11 +194,11 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         const_names.insert((ty.clone(), val.clone()), name.clone());
         if ty == "M31" {
             code.append(quote! {
-                let $(name) = E::F::from($(ty)::from($(val)));
+                let $(name) = E::F::from($(replace_generics_with_turbofish(&ty))::from($(val)));
             });
         } else {
             code.append(quote! {
-                let $(name) = $(ty)::from($(val));
+                let $(name) = $(replace_generics_with_turbofish(&ty))::from($(val));
             });
         }
     }

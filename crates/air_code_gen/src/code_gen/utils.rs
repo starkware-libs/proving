@@ -179,6 +179,13 @@ pub fn get_const_name(ty: &str, val: &str) -> String {
         .replace("__", "_")
 }
 
+/// Replaces plain generics `<...>` with Turobofish `::<...>`.
+/// Used where a function call is needed.
+/// E.g. "BigUint<x, y, z>" -> "BigUint::<x, y, z>".
+pub fn replace_generics_with_turbofish(ty: &str) -> String {
+    ty.replace('<', "::<")
+}
+
 pub fn block_doc(msg: &str) -> rust::Tokens {
     quote! {
         $['\n']$("//")$msg.$['\n']
