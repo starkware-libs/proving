@@ -404,6 +404,7 @@ impl_air_var!([Felt252Expr]);
 // MemVerifyEqual
 impl_air_var!([CasmAddress]);
 type Flags = [FeltExpr; 15];
+type FlagsFelts = [FeltExpr; 2];
 type Offsets = [FeltExpr; 3];
 // DecodeInstruction
 impl_air_var!((Offsets, Flags, FeltExpr));
@@ -442,7 +443,7 @@ impl_air_var!((CasmAddress, UInt32Expr));
 // RangeCheck + VerifyBitwiseXor (+ BitwiseXor + EncodeFlags + EncodeOffsets)
 impl_air_var!([FeltExpr]);
 // VerifyInstruction
-impl_air_var!((CasmAddress, Offsets, Flags, FeltExpr));
+impl_air_var!((CasmAddress, Offsets, FlagsFelts, FeltExpr));
 
 // ChainRound
 

@@ -2101,33 +2101,37 @@
       ]
     ]
   },
-  "encode_flags": {
-    "intermediates": [],
-    "constraints": [
-      "(encode_flags_input[0] * (1 - encode_flags_input[0]))",
-      "(encode_flags_input[1] * (1 - encode_flags_input[1]))",
-      "(encode_flags_input[2] * (1 - encode_flags_input[2]))",
-      "(encode_flags_input[3] * (1 - encode_flags_input[3]))",
-      "(encode_flags_input[4] * (1 - encode_flags_input[4]))",
-      "(encode_flags_input[5] * (1 - encode_flags_input[5]))",
-      "(encode_flags_input[6] * (1 - encode_flags_input[6]))",
-      "(encode_flags_input[7] * (1 - encode_flags_input[7]))",
-      "(encode_flags_input[8] * (1 - encode_flags_input[8]))",
-      "(encode_flags_input[9] * (1 - encode_flags_input[9]))",
-      "(encode_flags_input[10] * (1 - encode_flags_input[10]))",
-      "(encode_flags_input[11] * (1 - encode_flags_input[11]))",
-      "(encode_flags_input[12] * (1 - encode_flags_input[12]))",
-      "(encode_flags_input[13] * (1 - encode_flags_input[13]))",
-      "(encode_flags_input[14] * (1 - encode_flags_input[14]))"
-    ],
-    "lookups": []
-  },
   "verify_instruction": {
     "intermediates": [],
     "constraints": [
-      "((col20 + (col21 * 512)) - col1)",
-      "(((col22 + (col23 * 4)) + (col24 * 2048)) - col2)",
-      "(((col25 + (col26 * 16)) + (col27 * 8192)) - col3)",
+      "((col7 + (col8 * 512)) - col1)",
+      "(((col9 + (col10 * 4)) + (col11 * 2048)) - col2)",
+      "(((col12 + (col13 * 16)) + (col14 * 8192)) - col3)",
+      "(((col6 - 0) * (col6 - 1)) * (col6 - 2))"
+    ],
+    "lookups": [
+      [
+        "RangeCheck_7_2_5",
+        "col8, col9, col11"
+      ],
+      [
+        "RangeCheck_4_3",
+        "col12, col14"
+      ],
+      [
+        "MemoryAddressToId",
+        "col0, col15"
+      ],
+      [
+        "MemoryIdToBig",
+        "col15, col7, (col8 + (col9 * 128)), col10, (col11 + (col12 * 32)), col13, (col14 + col4), col5, col6, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+      ]
+    ]
+  },
+  "decode_instruction_594a11e8463530cc": {
+    "intermediates": [],
+    "constraints": [
+      "(col3 * (1 - col3))",
       "(col4 * (1 - col4))",
       "(col5 * (1 - col5))",
       "(col6 * (1 - col6))",
@@ -2141,36 +2145,12 @@
       "(col14 * (1 - col14))",
       "(col15 * (1 - col15))",
       "(col16 * (1 - col16))",
-      "(col17 * (1 - col17))",
-      "(col18 * (1 - col18))",
-      "(((col19 - 0) * (col19 - 1)) * (col19 - 2))"
+      "(col17 * (1 - col17))"
     ],
     "lookups": [
       [
-        "RangeCheck_7_2_5",
-        "col21, col22, col24"
-      ],
-      [
-        "RangeCheck_4_3",
-        "col25, col27"
-      ],
-      [
-        "MemoryAddressToId",
-        "col0, col28"
-      ],
-      [
-        "MemoryIdToBig",
-        "col28, col20, (col21 + (col22 * 128)), col23, (col24 + (col25 * 32)), col26, (col27 + ((((((0 + (col4 * 8)) + (col5 * 16)) + (col6 * 32)) + (col7 * 64)) + (col8 * 128)) + (col9 * 256))), (((((((((0 + (col10 * 1)) + (col11 * 2)) + (col12 * 4)) + (col13 * 8)) + (col14 * 16)) + (col15 * 32)) + (col16 * 64)) + (col17 * 128)) + (col18 * 256)), col19, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
-      ]
-    ]
-  },
-  "decode_instruction_594a11e8463530cc": {
-    "intermediates": [],
-    "constraints": [],
-    "lookups": [
-      [
         "VerifyInstruction",
-        "decode_instruction_594a11e8463530cc_input, col0, col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, 0"
+        "decode_instruction_594a11e8463530cc_input, col0, col1, col2, ((((((0 + (col3 * 8)) + (col4 * 16)) + (col5 * 32)) + (col6 * 64)) + (col7 * 128)) + (col8 * 256)), (((((((((0 + (col9 * 1)) + (col10 * 2)) + (col11 * 4)) + (col12 * 8)) + (col13 * 16)) + (col14 * 32)) + (col15 * 64)) + (col16 * 128)) + (col17 * 256)), 0"
       ]
     ]
   },
@@ -2198,6 +2178,21 @@
       ]
     ],
     "constraints": [
+      "(col3 * (1 - col3))",
+      "(col4 * (1 - col4))",
+      "(col5 * (1 - col5))",
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))",
+      "(col8 * (1 - col8))",
+      "(col9 * (1 - col9))",
+      "(col10 * (1 - col10))",
+      "(col11 * (1 - col11))",
+      "(col12 * (1 - col12))",
+      "(col13 * (1 - col13))",
+      "(col14 * (1 - col14))",
+      "(col15 * (1 - col15))",
+      "(col16 * (1 - col16))",
+      "(col17 * (1 - col17))",
       "(op1_base_op0_tmp_62f3c_20 * (1 - op1_base_op0_tmp_62f3c_20))",
       "(res_op1_tmp_62f3c_21 * (1 - res_op1_tmp_62f3c_21))",
       "(pc_update_regular_tmp_62f3c_22 * (1 - pc_update_regular_tmp_62f3c_22))",
@@ -2207,7 +2202,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_generic_instruction_input, col0, col1, col2, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, 0"
+        "decode_generic_instruction_input, col0, col1, col2, ((((((0 + (col3 * 8)) + (col4 * 16)) + (col5 * 32)) + (col6 * 64)) + (col7 * 128)) + (col8 * 256)), (((((((((0 + (col9 * 1)) + (col10 * 2)) + (col11 * 4)) + (col12 * 8)) + (col13 * 16)) + (col14 * 32)) + (col15 * 64)) + (col16 * 128)) + (col17 * 256)), 0"
       ]
     ]
   },
@@ -5153,6 +5148,21 @@
       ]
     ],
     "constraints": [
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))",
+      "(col8 * (1 - col8))",
+      "(col9 * (1 - col9))",
+      "(col10 * (1 - col10))",
+      "(col11 * (1 - col11))",
+      "(col12 * (1 - col12))",
+      "(col13 * (1 - col13))",
+      "(col14 * (1 - col14))",
+      "(col15 * (1 - col15))",
+      "(col16 * (1 - col16))",
+      "(col17 * (1 - col17))",
+      "(col18 * (1 - col18))",
+      "(col19 * (1 - col19))",
+      "(col20 * (1 - col20))",
       "(op1_base_op0_tmp_57455_21 * (1 - op1_base_op0_tmp_57455_21))",
       "(res_op1_tmp_57455_22 * (1 - res_op1_tmp_57455_22))",
       "(pc_update_regular_tmp_57455_23 * (1 - pc_update_regular_tmp_57455_23))",
@@ -5468,7 +5478,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, col4, col5, col6, col7, col8, col9, col10, col11, col12, col13, col14, col15, col16, col17, col18, col19, col20, 0"
+        "col0, col3, col4, col5, ((((((0 + (col6 * 8)) + (col7 * 16)) + (col8 * 32)) + (col9 * 64)) + (col10 * 128)) + (col11 * 256)), (((((((((0 + (col12 * 1)) + (col13 * 2)) + (col14 * 4)) + (col15 * 8)) + (col16 * 16)) + (col17 * 32)) + (col18 * 64)) + (col19 * 128)) + (col20 * 256)), 0"
       ],
       [
         "MemoryAddressToId",
@@ -5726,7 +5736,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_f85697767ebf17f3_input, 32767, 32767, col0, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0"
+        "decode_instruction_f85697767ebf17f3_input, 32767, 32767, col0, 152, 16, 0"
       ]
     ]
   },
@@ -5740,7 +5750,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, 32767, 32767, col3, 1, 1, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0"
+        "col0, 32767, 32767, col3, 152, 16, 0"
       ],
       [
         "MemoryAddressToId",
@@ -5758,7 +5768,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_f130eb37fcd422ab_input, 32767, 32767, 32769, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0"
+        "decode_instruction_f130eb37fcd422ab_input, 32767, 32767, 32769, 56, 16, 0"
       ]
     ]
   },
@@ -5772,7 +5782,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, 32767, 32767, 32769, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0"
+        "col0, 32767, 32767, 32769, 56, 16, 0"
       ],
       [
         "MemoryAddressToId",
@@ -5790,7 +5800,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_81baff2a35b85071_input, 32767, 32767, col0, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0"
+        "decode_instruction_81baff2a35b85071_input, 32767, 32767, col0, 88, 16, 0"
       ]
     ]
   },
@@ -5804,7 +5814,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, 32767, 32767, col3, 1, 1, 0, 1, 0, 0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0"
+        "col0, 32767, 32767, col3, 88, 16, 0"
       ],
       [
         "MemoryAddressToId",
@@ -5818,17 +5828,24 @@
   },
   "decode_instruction_12c27d621019b47d": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col2 * (1 - col2))",
+      "(col3 * (1 - col3))",
+      "(col4 * (1 - col4))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_12c27d621019b47d_input, col0, col1, 32769, col2, col3, 1, 0, 0, 1, 0, 0, 0, 0, 0, col4, 0, 0, 1, 0"
+        "decode_instruction_12c27d621019b47d_input, col0, col1, 32769, ((((((0 + (col2 * 8)) + (col3 * 16)) + 32) + 0) + 0) + 256), ((((0 + (col4 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
   "add_opcode_small_imm": {
     "intermediates": [],
     "constraints": [
+      "(col5 * (1 - col5))",
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))",
       "(col8 - ((col5 * col2) + ((1 - col5) * col1)))",
       "(col9 - ((col6 * col2) + ((1 - col6) * col1)))",
       "(col11 * (col11 - 1))",
@@ -5845,7 +5862,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, col4, 32769, col5, col6, 1, 0, 0, 1, 0, 0, 0, 0, 0, col7, 0, 0, 1, 0"
+        "col0, col3, col4, 32769, ((((((0 + (col5 * 8)) + (col6 * 16)) + 32) + 0) + 0) + 256), ((((0 + (col7 * 32)) + 0) + 0) + 256), 0"
       ],
       [
         "MemoryAddressToId",
@@ -5875,11 +5892,17 @@
   },
   "decode_instruction_359f8b649823f840": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col3 * (1 - col3))",
+      "(col4 * (1 - col4))",
+      "(col5 * (1 - col5))",
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_359f8b649823f840_input, col0, col1, col2, col3, col4, 0, col5, col6, 1, 0, 0, 0, 0, 0, col7, 0, 0, 1, 0"
+        "decode_instruction_359f8b649823f840_input, col0, col1, col2, ((((((0 + (col3 * 8)) + (col4 * 16)) + 0) + (col5 * 64)) + (col6 * 128)) + 256), ((((0 + (col7 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
@@ -5995,6 +6018,11 @@
       ]
     ],
     "constraints": [
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))",
+      "(col8 * (1 - col8))",
+      "(col9 * (1 - col9))",
+      "(col10 * (1 - col10))",
       "(col11 - ((col6 * col2) + ((1 - col6) * col1)))",
       "(col12 - ((col7 * col2) + ((1 - col7) * col1)))",
       "((col8 + col9) - 1)",
@@ -6032,7 +6060,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, col4, col5, col6, col7, 0, col8, col9, 1, 0, 0, 0, 0, 0, col10, 0, 0, 1, 0"
+        "col0, col3, col4, col5, ((((((0 + (col6 * 8)) + (col7 * 16)) + 0) + (col8 * 64)) + (col9 * 128)) + 256), ((((0 + (col10 * 32)) + 0) + 0) + 256), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6063,6 +6091,11 @@
   "add_opcode_small": {
     "intermediates": [],
     "constraints": [
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))",
+      "(col8 * (1 - col8))",
+      "(col9 * (1 - col9))",
+      "(col10 * (1 - col10))",
       "(col11 - ((col6 * col2) + ((1 - col6) * col1)))",
       "(col12 - ((col7 * col2) + ((1 - col7) * col1)))",
       "((col8 + col9) - 1)",
@@ -6081,7 +6114,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, col4, col5, col6, col7, 0, col8, col9, 1, 0, 0, 0, 0, 0, col10, 0, 0, 1, 0"
+        "col0, col3, col4, col5, ((((((0 + (col6 * 8)) + (col7 * 16)) + 0) + (col8 * 64)) + (col9 * 128)) + 256), ((((0 + (col10 * 32)) + 0) + 0) + 256), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6221,6 +6254,9 @@
       ]
     ],
     "constraints": [
+      "(col5 * (1 - col5))",
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))",
       "(col8 - ((col5 * col2) + ((1 - col5) * col1)))",
       "(col9 - ((col6 * col2) + ((1 - col6) * col1)))",
       "(col97 * (col97 - 1))",
@@ -6256,7 +6292,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, col4, 32769, col5, col6, 1, 0, 0, 1, 0, 0, 0, 0, 0, col7, 0, 0, 1, 0"
+        "col0, col3, col4, 32769, ((((((0 + (col5 * 8)) + (col6 * 16)) + 32) + 0) + 0) + 256), ((((0 + (col7 * 32)) + 0) + 0) + 256), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6286,11 +6322,16 @@
   },
   "decode_instruction_be6c76c1b16b846e": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col2 * (1 - col2))",
+      "(col3 * (1 - col3))",
+      "(col4 * (1 - col4))",
+      "(col5 * (1 - col5))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_be6c76c1b16b846e_input, col0, 32767, col1, col2, 1, 0, col3, col4, 0, 0, 0, 0, 0, 0, col5, 0, 0, 1, 0"
+        "decode_instruction_be6c76c1b16b846e_input, col0, 32767, col1, ((((((0 + (col2 * 8)) + 16) + 0) + (col3 * 64)) + (col4 * 128)) + 0), ((((0 + (col5 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
@@ -6311,6 +6352,10 @@
   "assert_eq_opcode": {
     "intermediates": [],
     "constraints": [
+      "(col5 * (1 - col5))",
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))",
+      "(col8 * (1 - col8))",
       "(col9 - ((col5 * col2) + ((1 - col5) * col1)))",
       "((col6 + col7) - 1)",
       "(col10 - ((col6 * col2) + (col7 * col1)))"
@@ -6318,7 +6363,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, 32767, col4, col5, 1, 0, col6, col7, 0, 0, 0, 0, 0, 0, col8, 0, 0, 1, 0"
+        "col0, col3, 32767, col4, ((((((0 + (col5 * 8)) + 16) + 0) + (col6 * 64)) + (col7 * 128)) + 0), ((((0 + (col8 * 32)) + 0) + 0) + 256), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6332,24 +6377,31 @@
   },
   "decode_instruction_c11100cfecd79b46": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col3 * (1 - col3))",
+      "(col4 * (1 - col4))",
+      "(col5 * (1 - col5))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_c11100cfecd79b46_input, col0, col1, col2, col3, col4, 0, 0, 0, 0, 0, 0, 0, 0, 0, col5, 0, 0, 1, 0"
+        "decode_instruction_c11100cfecd79b46_input, col0, col1, col2, ((((((0 + (col3 * 8)) + (col4 * 16)) + 0) + 0) + 0) + 0), ((((0 + (col5 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
   "assert_eq_opcode_double_deref": {
     "intermediates": [],
     "constraints": [
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))",
+      "(col8 * (1 - col8))",
       "(col9 - ((col6 * col2) + ((1 - col6) * col1)))",
       "(col10 - ((col7 * col2) + ((1 - col7) * col1)))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, col4, col5, col6, col7, 0, 0, 0, 0, 0, 0, 0, 0, 0, col8, 0, 0, 1, 0"
+        "col0, col3, col4, col5, ((((((0 + (col6 * 8)) + (col7 * 16)) + 0) + 0) + 0) + 0), ((((0 + (col8 * 32)) + 0) + 0) + 256), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6371,23 +6423,28 @@
   },
   "decode_instruction_7985eaace4050b58": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col1 * (1 - col1))",
+      "(col2 * (1 - col2))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_7985eaace4050b58_input, col0, 32767, 32769, col1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, col2, 0, 0, 1, 0"
+        "decode_instruction_7985eaace4050b58_input, col0, 32767, 32769, ((((((0 + (col1 * 8)) + 16) + 32) + 0) + 0) + 0), ((((0 + (col2 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
   "assert_eq_opcode_imm": {
     "intermediates": [],
     "constraints": [
+      "(col4 * (1 - col4))",
+      "(col5 * (1 - col5))",
       "(col6 - ((col4 * col2) + ((1 - col4) * col1)))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, 32767, 32769, col4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, col5, 0, 0, 1, 0"
+        "col0, col3, 32767, 32769, ((((((0 + (col4 * 8)) + 16) + 32) + 0) + 0) + 0), ((((0 + (col5 * 32)) + 0) + 0) + 256), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6405,7 +6462,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_d0717f888a2a03cc_input, 32768, 32769, col0, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0"
+        "decode_instruction_d0717f888a2a03cc_input, 32768, 32769, col0, 128, 66, 0"
       ]
     ]
   },
@@ -6418,7 +6475,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, 32768, 32769, col3, 0, 0, 0, 0, 1, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0"
+        "col0, 32768, 32769, col3, 128, 66, 0"
       ],
       [
         "MemoryAddressToId",
@@ -6452,7 +6509,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_fc2ea4a5b3c0f1cc_input, 32768, 32769, 32769, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0"
+        "decode_instruction_fc2ea4a5b3c0f1cc_input, 32768, 32769, 32769, 32, 68, 0"
       ]
     ]
   },
@@ -6468,7 +6525,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, 32768, 32769, 32769, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0"
+        "col0, 32768, 32769, 32769, 32, 68, 0"
       ],
       [
         "MemoryAddressToId",
@@ -6502,7 +6559,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_87985324afece88b_input, 32768, 32769, col0, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0"
+        "decode_instruction_87985324afece88b_input, 32768, 32769, col0, 64, 66, 0"
       ]
     ]
   },
@@ -6515,7 +6572,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, 32768, 32769, col3, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0"
+        "col0, 32768, 32769, col3, 64, 66, 0"
       ],
       [
         "MemoryAddressToId",
@@ -6545,11 +6602,13 @@
   },
   "decode_instruction_6a6cb0e5ac20d817": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col1 * (1 - col1))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_6a6cb0e5ac20d817_input, col0, 32767, 32769, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, col1, 0, 0, 0, 0"
+        "decode_instruction_6a6cb0e5ac20d817_input, col0, 32767, 32769, 56, ((((8 + (col1 * 32)) + 0) + 0) + 0), 0"
       ]
     ]
   },
@@ -6569,6 +6628,7 @@
       ]
     ],
     "constraints": [
+      "(col4 * (1 - col4))",
       "((((((((((((((((((((((((((((((0 + col6) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + col27) + col28) + col29) + col30) + col31) + col32) + col33) * col34) - 1)",
       "((((((((((((((((((((((((((((((0 + (diff_from_p_tmp_8b848_7 * diff_from_p_tmp_8b848_7)) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + (diff_from_p_tmp_8b848_8 * diff_from_p_tmp_8b848_8)) + col28) + col29) + col30) + col31) + col32) + (diff_from_p_tmp_8b848_9 * diff_from_p_tmp_8b848_9)) * col35) - 1)",
       "(col37 * (col37 - 1))",
@@ -6578,7 +6638,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, 32767, 32769, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, col4, 0, 0, 0, 0"
+        "col0, col3, 32767, 32769, 56, ((((8 + (col4 * 32)) + 0) + 0) + 0), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6600,23 +6660,26 @@
   },
   "decode_instruction_a57713d4bbf175f3": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col1 * (1 - col1))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_a57713d4bbf175f3_input, col0, 32767, 32769, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, col1, 0, 0, 0, 0"
+        "decode_instruction_a57713d4bbf175f3_input, col0, 32767, 32769, 48, ((((8 + (col1 * 32)) + 0) + 0) + 0), 0"
       ]
     ]
   },
   "jnz_opcode": {
     "intermediates": [],
     "constraints": [
+      "(col4 * (1 - col4))",
       "((((((((((((((((((((((((((((0 + col6) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + col27) + col28) + col29) + col30) + col31) + col32) + col33)"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, 32767, 32769, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, col4, 0, 0, 0, 0"
+        "col0, col3, 32767, 32769, 48, ((((8 + (col4 * 32)) + 0) + 0) + 0), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6644,6 +6707,7 @@
       ]
     ],
     "constraints": [
+      "(col4 * (1 - col4))",
       "((((((((((((((((((((((((((((((0 + col6) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + col27) + col28) + col29) + col30) + col31) + col32) + col33) * col34) - 1)",
       "((((((((((((((((((((((((((((((0 + (diff_from_p_tmp_65b05_7 * diff_from_p_tmp_65b05_7)) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + (diff_from_p_tmp_65b05_8 * diff_from_p_tmp_65b05_8)) + col28) + col29) + col30) + col31) + col32) + (diff_from_p_tmp_65b05_9 * diff_from_p_tmp_65b05_9)) * col35) - 1)",
       "(col37 * (col37 - 1))",
@@ -6653,7 +6717,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, 32767, 32769, 0, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, col4, 0, 0, 0, 0"
+        "col0, col3, 32767, 32769, 48, ((((8 + (col4 * 32)) + 0) + 0) + 0), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6676,12 +6740,13 @@
   "jnz_opcode_dst_base_fp": {
     "intermediates": [],
     "constraints": [
+      "(col4 * (1 - col4))",
       "((((((((((((((((((((((((((((0 + col6) + col7) + col8) + col9) + col10) + col11) + col12) + col13) + col14) + col15) + col16) + col17) + col18) + col19) + col20) + col21) + col22) + col23) + col24) + col25) + col26) + col27) + col28) + col29) + col30) + col31) + col32) + col33)"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, 32767, 32769, 1, 1, 1, 0, 0, 0, 0, 0, 0, 1, 0, col4, 0, 0, 0, 0"
+        "col0, col3, 32767, 32769, 56, ((((8 + (col4 * 32)) + 0) + 0) + 0), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6695,17 +6760,20 @@
   },
   "decode_instruction_869f42eba8c577c": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col0 * (1 - col0))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_869f42eba8c577c_input, 32767, 32767, 32769, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, col0, 0, 0, 0, 0"
+        "decode_instruction_869f42eba8c577c_input, 32767, 32767, 32769, 56, ((((4 + (col0 * 32)) + 0) + 0) + 0), 0"
       ]
     ]
   },
   "jump_opcode_rel_imm": {
     "intermediates": [],
     "constraints": [
+      "(col3 * (1 - col3))",
       "(col5 * (col5 - 1))",
       "(col6 * (col6 - 1))",
       "((1 * col6) * (col5 - 1))"
@@ -6713,7 +6781,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, 32767, 32767, 32769, 1, 1, 1, 0, 0, 0, 0, 0, 1, 0, 0, col3, 0, 0, 0, 0"
+        "col0, 32767, 32767, 32769, 56, ((((4 + (col3 * 32)) + 0) + 0) + 0), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6727,17 +6795,24 @@
   },
   "decode_instruction_7b96854a051db69e": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col1 * (1 - col1))",
+      "(col2 * (1 - col2))",
+      "(col3 * (1 - col3))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_7b96854a051db69e_input, 32767, 32767, col0, 1, 1, 0, col1, col2, 0, 0, 0, 1, 0, 0, col3, 0, 0, 0, 0"
+        "decode_instruction_7b96854a051db69e_input, 32767, 32767, col0, (((24 + (col1 * 64)) + (col2 * 128)) + 0), ((((4 + (col3 * 32)) + 0) + 0) + 0), 0"
       ]
     ]
   },
   "jump_opcode_rel": {
     "intermediates": [],
     "constraints": [
+      "(col4 * (1 - col4))",
+      "(col5 * (1 - col5))",
+      "(col6 * (1 - col6))",
       "((col4 + col5) - 1)",
       "(col7 - ((col4 * col2) + (col5 * col1)))",
       "(col9 * (col9 - 1))",
@@ -6747,7 +6822,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, 32767, 32767, col3, 1, 1, 0, col4, col5, 0, 0, 0, 1, 0, 0, col6, 0, 0, 0, 0"
+        "col0, 32767, 32767, col3, (((24 + (col4 * 64)) + (col5 * 128)) + 0), ((((4 + (col6 * 32)) + 0) + 0) + 0), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6761,23 +6836,28 @@
   },
   "decode_instruction_2440097bb4894ad6": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col2 * (1 - col2))",
+      "(col3 * (1 - col3))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_2440097bb4894ad6_input, 32767, col0, col1, 1, col2, 0, 0, 0, 0, 0, 1, 0, 0, 0, col3, 0, 0, 0, 0"
+        "decode_instruction_2440097bb4894ad6_input, 32767, col0, col1, (((((8 + (col2 * 16)) + 0) + 0) + 0) + 0), ((((2 + (col3 * 32)) + 0) + 0) + 0), 0"
       ]
     ]
   },
   "jump_opcode_double_deref": {
     "intermediates": [],
     "constraints": [
+      "(col5 * (1 - col5))",
+      "(col6 * (1 - col6))",
       "(col7 - ((col5 * col2) + ((1 - col5) * col1)))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, 32767, col3, col4, 1, col5, 0, 0, 0, 0, 0, 1, 0, 0, 0, col6, 0, 0, 0, 0"
+        "col0, 32767, col3, col4, (((((8 + (col5 * 16)) + 0) + 0) + 0) + 0), ((((2 + (col6 * 32)) + 0) + 0) + 0), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6799,24 +6879,31 @@
   },
   "decode_instruction_47897a19c97b4b42": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col1 * (1 - col1))",
+      "(col2 * (1 - col2))",
+      "(col3 * (1 - col3))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_47897a19c97b4b42_input, 32767, 32767, col0, 1, 1, 0, col1, col2, 0, 0, 1, 0, 0, 0, col3, 0, 0, 0, 0"
+        "decode_instruction_47897a19c97b4b42_input, 32767, 32767, col0, (((24 + (col1 * 64)) + (col2 * 128)) + 0), ((((2 + (col3 * 32)) + 0) + 0) + 0), 0"
       ]
     ]
   },
   "jump_opcode": {
     "intermediates": [],
     "constraints": [
+      "(col4 * (1 - col4))",
+      "(col5 * (1 - col5))",
+      "(col6 * (1 - col6))",
       "((col4 + col5) - 1)",
       "(col7 - ((col4 * col2) + (col5 * col1)))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, 32767, 32767, col3, 1, 1, 0, col4, col5, 0, 0, 1, 0, 0, 0, col6, 0, 0, 0, 0"
+        "col0, 32767, 32767, col3, (((24 + (col4 * 64)) + (col5 * 128)) + 0), ((((2 + (col6 * 32)) + 0) + 0) + 0), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6830,11 +6917,15 @@
   },
   "decode_instruction_f5954980e64d9160": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col2 * (1 - col2))",
+      "(col3 * (1 - col3))",
+      "(col4 * (1 - col4))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_f5954980e64d9160_input, col0, col1, 32769, col2, col3, 1, 0, 0, 0, 1, 0, 0, 0, 0, col4, 0, 0, 1, 0"
+        "decode_instruction_f5954980e64d9160_input, col0, col1, 32769, ((((((0 + (col2 * 8)) + (col3 * 16)) + 32) + 0) + 0) + 0), ((((1 + (col4 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
@@ -6897,6 +6988,9 @@
   "mul_opcode_small_imm": {
     "intermediates": [],
     "constraints": [
+      "(col5 * (1 - col5))",
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))",
       "(col8 - ((col5 * col2) + ((1 - col5) * col1)))",
       "(col9 - ((col6 * col2) + ((1 - col6) * col1)))",
       "((col29 * 262144) - (((((0 + ((col20 * col25) * 1)) - (col11 * 1)) + ((col20 * col26) * 512)) + ((col21 * col25) * 512)) - (col12 * 512)))",
@@ -6907,7 +7001,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, col4, 32769, col5, col6, 1, 0, 0, 0, 1, 0, 0, 0, 0, col7, 0, 0, 1, 0"
+        "col0, col3, col4, 32769, ((((((0 + (col5 * 8)) + (col6 * 16)) + 32) + 0) + 0) + 0), ((((1 + (col7 * 32)) + 0) + 0) + 256), 0"
       ],
       [
         "MemoryAddressToId",
@@ -6949,17 +7043,28 @@
   },
   "decode_instruction_d4d6333f80df3738": {
     "intermediates": [],
-    "constraints": [],
+    "constraints": [
+      "(col3 * (1 - col3))",
+      "(col4 * (1 - col4))",
+      "(col5 * (1 - col5))",
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))"
+    ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_d4d6333f80df3738_input, col0, col1, col2, col3, col4, 0, col5, col6, 0, 1, 0, 0, 0, 0, col7, 0, 0, 1, 0"
+        "decode_instruction_d4d6333f80df3738_input, col0, col1, col2, ((((((0 + (col3 * 8)) + (col4 * 16)) + 0) + (col5 * 64)) + (col6 * 128)) + 0), ((((1 + (col7 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
   "mul_opcode_small": {
     "intermediates": [],
     "constraints": [
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))",
+      "(col8 * (1 - col8))",
+      "(col9 * (1 - col9))",
+      "(col10 * (1 - col10))",
       "(col11 - ((col6 * col2) + ((1 - col6) * col1)))",
       "(col12 - ((col7 * col2) + ((1 - col7) * col1)))",
       "((col8 + col9) - 1)",
@@ -6972,7 +7077,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, col4, col5, col6, col7, 0, col8, col9, 0, 1, 0, 0, 0, 0, col10, 0, 0, 1, 0"
+        "col0, col3, col4, col5, ((((((0 + (col6 * 8)) + (col7 * 16)) + 0) + (col8 * 64)) + (col9 * 128)) + 0), ((((1 + (col10 * 32)) + 0) + 0) + 256), 0"
       ],
       [
         "MemoryAddressToId",
@@ -7348,6 +7453,11 @@
       ]
     ],
     "constraints": [
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))",
+      "(col8 * (1 - col8))",
+      "(col9 * (1 - col9))",
+      "(col10 * (1 - col10))",
       "(col11 - ((col6 * col2) + ((1 - col6) * col1)))",
       "(col12 - ((col7 * col2) + ((1 - col7) * col1)))",
       "((col8 + col9) - 1)",
@@ -7384,7 +7494,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, col4, col5, col6, col7, 0, col8, col9, 0, 1, 0, 0, 0, 0, col10, 0, 0, 1, 0"
+        "col0, col3, col4, col5, ((((((0 + (col6 * 8)) + (col7 * 16)) + 0) + (col8 * 64)) + (col9 * 128)) + 0), ((((1 + (col10 * 32)) + 0) + 0) + 256), 0"
       ],
       [
         "MemoryAddressToId",
@@ -7860,6 +7970,9 @@
       ]
     ],
     "constraints": [
+      "(col5 * (1 - col5))",
+      "(col6 * (1 - col6))",
+      "(col7 * (1 - col7))",
       "(col8 - ((col5 * col2) + ((1 - col5) * col1)))",
       "(col9 - ((col6 * col2) + ((1 - col6) * col1)))",
       "((col98 * 512) - ((conv_mod_tmp_48d52_69 - (1 * col97)) + 0))",
@@ -7894,7 +8007,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, col3, col4, 32769, col5, col6, 1, 0, 0, 0, 1, 0, 0, 0, 0, col7, 0, 0, 1, 0"
+        "col0, col3, col4, 32769, ((((((0 + (col5 * 8)) + (col6 * 16)) + 32) + 0) + 0) + 0), ((((1 + (col7 * 32)) + 0) + 0) + 256), 0"
       ],
       [
         "MemoryAddressToId",
@@ -8040,7 +8153,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_54922ceb260e8c0e_input, 32766, 32767, 32767, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0"
+        "decode_instruction_54922ceb260e8c0e_input, 32766, 32767, 32767, 88, 130, 0"
       ]
     ]
   },
@@ -8050,7 +8163,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "col0, 32766, 32767, 32767, 1, 1, 0, 1, 0, 0, 0, 1, 0, 0, 0, 0, 0, 1, 0, 0"
+        "col0, 32766, 32767, 32767, 88, 130, 0"
       ],
       [
         "MemoryAddressToId",

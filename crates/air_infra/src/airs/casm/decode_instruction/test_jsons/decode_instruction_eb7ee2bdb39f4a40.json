@@ -156,6 +156,12 @@
       ]
     },
     {
+      "Constraint": [
+        "(col1 * (1 - col1))",
+        "Flag dst_base_fp is a bit"
+      ]
+    },
+    {
       "Intermediate": [
         "op1_imm_tmp_eb7ee_4",
         "UInt16",
@@ -173,6 +179,12 @@
       "Deduction": [
         "op1_imm_tmp_eb7ee_4.as_m31()",
         "op1_imm"
+      ]
+    },
+    {
+      "Constraint": [
+        "(col2 * (1 - col2))",
+        "Flag op1_imm is a bit"
       ]
     },
     {
@@ -199,63 +211,11 @@
           ],
           [
             {
-              "name": "col1",
+              "name": "((((((0 + (col1 * 8)) + 16) + (col2 * 32)) + 64) + 0) + 0)",
               "type": "M31"
             },
             {
-              "name": "1",
-              "type": "M31"
-            },
-            {
-              "name": "col2",
-              "type": "M31"
-            },
-            {
-              "name": "1",
-              "type": "M31"
-            },
-            {
-              "name": "0",
-              "type": "M31"
-            },
-            {
-              "name": "0",
-              "type": "M31"
-            },
-            {
-              "name": "0",
-              "type": "M31"
-            },
-            {
-              "name": "1",
-              "type": "M31"
-            },
-            {
-              "name": "0",
-              "type": "M31"
-            },
-            {
-              "name": "1",
-              "type": "M31"
-            },
-            {
-              "name": "1",
-              "type": "M31"
-            },
-            {
-              "name": "0",
-              "type": "M31"
-            },
-            {
-              "name": "0",
-              "type": "M31"
-            },
-            {
-              "name": "0",
-              "type": "M31"
-            },
-            {
-              "name": "1",
+              "name": "282",
               "type": "M31"
             }
           ],
@@ -274,21 +234,8 @@
           "49953",
           "col0",
           "36026",
-          "col1",
-          "1",
-          "col2",
-          "1",
-          "0",
-          "0",
-          "0",
-          "1",
-          "0",
-          "1",
-          "1",
-          "0",
-          "0",
-          "0",
-          "1",
+          "((((((0 + (col1 * 8)) + 16) + (col2 * 32)) + 64) + 0) + 0)",
+          "282",
           "0"
         ],
         "use_or_yield": "Use"

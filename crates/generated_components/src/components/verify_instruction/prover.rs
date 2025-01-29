@@ -37,9 +37,9 @@ use crate::components::{
 };
 use crate::relations;
 
-pub type InputType = (M31, [M31; 3], [M31; 15], M31);
-pub type PackedInputType = (PackedM31, [PackedM31; 3], [PackedM31; 15], PackedM31);
-const N_TRACE_COLUMNS: usize = 29;
+pub type InputType = (M31, [M31; 3], [M31; 2], M31);
+pub type PackedInputType = (PackedM31, [PackedM31; 3], [PackedM31; 2], PackedM31);
+const N_TRACE_COLUMNS: usize = 16;
 
 #[derive(Default)]
 pub struct ClaimGenerator {
@@ -126,15 +126,8 @@ fn write_trace_simd(
     };
 
     let M31_0 = PackedM31::broadcast(M31::from(0));
-    let M31_1 = PackedM31::broadcast(M31::from(1));
     let M31_128 = PackedM31::broadcast(M31::from(128));
-    let M31_16 = PackedM31::broadcast(M31::from(16));
-    let M31_2 = PackedM31::broadcast(M31::from(2));
-    let M31_256 = PackedM31::broadcast(M31::from(256));
     let M31_32 = PackedM31::broadcast(M31::from(32));
-    let M31_4 = PackedM31::broadcast(M31::from(4));
-    let M31_64 = PackedM31::broadcast(M31::from(64));
-    let M31_8 = PackedM31::broadcast(M31::from(8));
     let UInt16_11 = PackedUInt16::broadcast(UInt16::from(11));
     let UInt16_13 = PackedUInt16::broadcast(UInt16::from(13));
     let UInt16_15 = PackedUInt16::broadcast(UInt16::from(15));
@@ -158,23 +151,7 @@ fn write_trace_simd(
                         verify_instruction_input.1[1],
                         verify_instruction_input.1[2],
                     ],
-                    [
-                        verify_instruction_input.2[0],
-                        verify_instruction_input.2[1],
-                        verify_instruction_input.2[2],
-                        verify_instruction_input.2[3],
-                        verify_instruction_input.2[4],
-                        verify_instruction_input.2[5],
-                        verify_instruction_input.2[6],
-                        verify_instruction_input.2[7],
-                        verify_instruction_input.2[8],
-                        verify_instruction_input.2[9],
-                        verify_instruction_input.2[10],
-                        verify_instruction_input.2[11],
-                        verify_instruction_input.2[12],
-                        verify_instruction_input.2[13],
-                        verify_instruction_input.2[14],
-                    ],
+                    [verify_instruction_input.2[0], verify_instruction_input.2[1]],
                     verify_instruction_input.3,
                 );
                 let input_limb_0_col0 = input_tmp_16a4f_0.0;
@@ -189,109 +166,69 @@ fn write_trace_simd(
                 *row[4] = input_limb_4_col4;
                 let input_limb_5_col5 = input_tmp_16a4f_0.2[1];
                 *row[5] = input_limb_5_col5;
-                let input_limb_6_col6 = input_tmp_16a4f_0.2[2];
+                let input_limb_6_col6 = input_tmp_16a4f_0.3;
                 *row[6] = input_limb_6_col6;
-                let input_limb_7_col7 = input_tmp_16a4f_0.2[3];
-                *row[7] = input_limb_7_col7;
-                let input_limb_8_col8 = input_tmp_16a4f_0.2[4];
-                *row[8] = input_limb_8_col8;
-                let input_limb_9_col9 = input_tmp_16a4f_0.2[5];
-                *row[9] = input_limb_9_col9;
-                let input_limb_10_col10 = input_tmp_16a4f_0.2[6];
-                *row[10] = input_limb_10_col10;
-                let input_limb_11_col11 = input_tmp_16a4f_0.2[7];
-                *row[11] = input_limb_11_col11;
-                let input_limb_12_col12 = input_tmp_16a4f_0.2[8];
-                *row[12] = input_limb_12_col12;
-                let input_limb_13_col13 = input_tmp_16a4f_0.2[9];
-                *row[13] = input_limb_13_col13;
-                let input_limb_14_col14 = input_tmp_16a4f_0.2[10];
-                *row[14] = input_limb_14_col14;
-                let input_limb_15_col15 = input_tmp_16a4f_0.2[11];
-                *row[15] = input_limb_15_col15;
-                let input_limb_16_col16 = input_tmp_16a4f_0.2[12];
-                *row[16] = input_limb_16_col16;
-                let input_limb_17_col17 = input_tmp_16a4f_0.2[13];
-                *row[17] = input_limb_17_col17;
-                let input_limb_18_col18 = input_tmp_16a4f_0.2[14];
-                *row[18] = input_limb_18_col18;
-                let input_limb_19_col19 = input_tmp_16a4f_0.3;
-                *row[19] = input_limb_19_col19;
 
                 // Encode Offsets.
 
                 let offset0_low_tmp_16a4f_1 =
                     ((PackedUInt16::from_m31(input_limb_1_col1)) & (UInt16_511));
-                let offset0_low_col20 = offset0_low_tmp_16a4f_1.as_m31();
-                *row[20] = offset0_low_col20;
+                let offset0_low_col7 = offset0_low_tmp_16a4f_1.as_m31();
+                *row[7] = offset0_low_col7;
                 let offset0_mid_tmp_16a4f_2 =
                     ((PackedUInt16::from_m31(input_limb_1_col1)) >> (UInt16_9));
-                let offset0_mid_col21 = offset0_mid_tmp_16a4f_2.as_m31();
-                *row[21] = offset0_mid_col21;
+                let offset0_mid_col8 = offset0_mid_tmp_16a4f_2.as_m31();
+                *row[8] = offset0_mid_col8;
                 let offset1_low_tmp_16a4f_3 =
                     ((PackedUInt16::from_m31(input_limb_2_col2)) & (UInt16_3));
-                let offset1_low_col22 = offset1_low_tmp_16a4f_3.as_m31();
-                *row[22] = offset1_low_col22;
+                let offset1_low_col9 = offset1_low_tmp_16a4f_3.as_m31();
+                *row[9] = offset1_low_col9;
                 let offset1_mid_tmp_16a4f_4 =
                     (((PackedUInt16::from_m31(input_limb_2_col2)) >> (UInt16_2)) & (UInt16_511));
-                let offset1_mid_col23 = offset1_mid_tmp_16a4f_4.as_m31();
-                *row[23] = offset1_mid_col23;
+                let offset1_mid_col10 = offset1_mid_tmp_16a4f_4.as_m31();
+                *row[10] = offset1_mid_col10;
                 let offset1_high_tmp_16a4f_5 =
                     ((PackedUInt16::from_m31(input_limb_2_col2)) >> (UInt16_11));
-                let offset1_high_col24 = offset1_high_tmp_16a4f_5.as_m31();
-                *row[24] = offset1_high_col24;
+                let offset1_high_col11 = offset1_high_tmp_16a4f_5.as_m31();
+                *row[11] = offset1_high_col11;
                 let offset2_low_tmp_16a4f_6 =
                     ((PackedUInt16::from_m31(input_limb_3_col3)) & (UInt16_15));
-                let offset2_low_col25 = offset2_low_tmp_16a4f_6.as_m31();
-                *row[25] = offset2_low_col25;
+                let offset2_low_col12 = offset2_low_tmp_16a4f_6.as_m31();
+                *row[12] = offset2_low_col12;
                 let offset2_mid_tmp_16a4f_7 =
                     (((PackedUInt16::from_m31(input_limb_3_col3)) >> (UInt16_4)) & (UInt16_511));
-                let offset2_mid_col26 = offset2_mid_tmp_16a4f_7.as_m31();
-                *row[26] = offset2_mid_col26;
+                let offset2_mid_col13 = offset2_mid_tmp_16a4f_7.as_m31();
+                *row[13] = offset2_mid_col13;
                 let offset2_high_tmp_16a4f_8 =
                     ((PackedUInt16::from_m31(input_limb_3_col3)) >> (UInt16_13));
-                let offset2_high_col27 = offset2_high_tmp_16a4f_8.as_m31();
-                *row[27] = offset2_high_col27;
+                let offset2_high_col14 = offset2_high_tmp_16a4f_8.as_m31();
+                *row[14] = offset2_high_col14;
                 let range_check_7_2_5_inputs_0 =
-                    [offset0_mid_col21, offset1_low_col22, offset1_high_col24].unpack();
+                    [offset0_mid_col8, offset1_low_col9, offset1_high_col11].unpack();
                 *lookup_data.range_check_7_2_5_0 =
-                    [offset0_mid_col21, offset1_low_col22, offset1_high_col24];
-                let range_check_4_3_inputs_0 = [offset2_low_col25, offset2_high_col27].unpack();
-                *lookup_data.range_check_4_3_0 = [offset2_low_col25, offset2_high_col27];
+                    [offset0_mid_col8, offset1_low_col9, offset1_high_col11];
+                let range_check_4_3_inputs_0 = [offset2_low_col12, offset2_high_col14].unpack();
+                *lookup_data.range_check_4_3_0 = [offset2_low_col12, offset2_high_col14];
 
                 // Mem Verify.
 
                 let memory_address_to_id_value_tmp_16a4f_9 =
                     memory_address_to_id_state.deduce_output(input_limb_0_col0);
-                let instruction_id_col28 = memory_address_to_id_value_tmp_16a4f_9;
-                *row[28] = instruction_id_col28;
+                let instruction_id_col15 = memory_address_to_id_value_tmp_16a4f_9;
+                *row[15] = instruction_id_col15;
                 let memory_address_to_id_inputs_0 = input_limb_0_col0.unpack();
-                *lookup_data.memory_address_to_id_0 = [input_limb_0_col0, instruction_id_col28];
-                let memory_id_to_big_inputs_0 = instruction_id_col28.unpack();
+                *lookup_data.memory_address_to_id_0 = [input_limb_0_col0, instruction_id_col15];
+                let memory_id_to_big_inputs_0 = instruction_id_col15.unpack();
                 *lookup_data.memory_id_to_big_0 = [
-                    instruction_id_col28,
-                    offset0_low_col20,
-                    ((offset0_mid_col21) + ((offset1_low_col22) * (M31_128))),
-                    offset1_mid_col23,
-                    ((offset1_high_col24) + ((offset2_low_col25) * (M31_32))),
-                    offset2_mid_col26,
-                    ((offset2_high_col27)
-                        + (((((((M31_0) + ((input_limb_4_col4) * (M31_8)))
-                            + ((input_limb_5_col5) * (M31_16)))
-                            + ((input_limb_6_col6) * (M31_32)))
-                            + ((input_limb_7_col7) * (M31_64)))
-                            + ((input_limb_8_col8) * (M31_128)))
-                            + ((input_limb_9_col9) * (M31_256)))),
-                    ((((((((((M31_0) + ((input_limb_10_col10) * (M31_1)))
-                        + ((input_limb_11_col11) * (M31_2)))
-                        + ((input_limb_12_col12) * (M31_4)))
-                        + ((input_limb_13_col13) * (M31_8)))
-                        + ((input_limb_14_col14) * (M31_16)))
-                        + ((input_limb_15_col15) * (M31_32)))
-                        + ((input_limb_16_col16) * (M31_64)))
-                        + ((input_limb_17_col17) * (M31_128)))
-                        + ((input_limb_18_col18) * (M31_256))),
-                    input_limb_19_col19,
+                    instruction_id_col15,
+                    offset0_low_col7,
+                    ((offset0_mid_col8) + ((offset1_low_col9) * (M31_128))),
+                    offset1_mid_col10,
+                    ((offset1_high_col11) + ((offset2_low_col12) * (M31_32))),
+                    offset2_mid_col13,
+                    ((offset2_high_col14) + (input_limb_4_col4)),
+                    input_limb_5_col5,
+                    input_limb_6_col6,
                     M31_0,
                     M31_0,
                     M31_0,
@@ -322,19 +259,6 @@ fn write_trace_simd(
                     input_limb_4_col4,
                     input_limb_5_col5,
                     input_limb_6_col6,
-                    input_limb_7_col7,
-                    input_limb_8_col8,
-                    input_limb_9_col9,
-                    input_limb_10_col10,
-                    input_limb_11_col11,
-                    input_limb_12_col12,
-                    input_limb_13_col13,
-                    input_limb_14_col14,
-                    input_limb_15_col15,
-                    input_limb_16_col16,
-                    input_limb_17_col17,
-                    input_limb_18_col18,
-                    input_limb_19_col19,
                 ];
 
                 // Add sub-components inputs.
@@ -363,7 +287,7 @@ struct LookupData {
     memory_id_to_big_0: Vec<[PackedM31; 29]>,
     range_check_4_3_0: Vec<[PackedM31; 2]>,
     range_check_7_2_5_0: Vec<[PackedM31; 3]>,
-    verify_instruction_0: Vec<[PackedM31; 20]>,
+    verify_instruction_0: Vec<[PackedM31; 7]>,
 }
 
 pub struct InteractionClaimGenerator {

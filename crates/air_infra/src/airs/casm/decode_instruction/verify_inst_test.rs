@@ -1,5 +1,6 @@
 use super::super::casm_state::*;
 use super::super::common::*;
+use super::decode_inst::*;
 use super::verify_inst::*;
 // Macro
 use crate::const_expr;
@@ -12,7 +13,7 @@ use crate::utils::test_utils::*;
 
 #[test]
 fn test_verify_inst() {
-    let (flags_b, flags, offsets_i16, offsets) = init_flags_and_offsets();
+    let (flags_b, [felt5_high, felt6], offsets_i16, offsets) = init_flags_and_offsets();
     let memory = Felt252IdMemory::new_with_data(vec![(
         const_expr!(0),
         const_felt252_expr!(
@@ -37,36 +38,23 @@ fn test_verify_inst() {
         (
             CasmAddress::new(const_expr!(0), ""),
             offsets,
-            flags,
+            [felt5_high, felt6],
             OpcodeExtension::Stone.into(),
         ),
     );
     let expected_state = vec![
-        (0, "input_limb_0"),     // pc
-        (32769, "input_limb_1"), // offset_0
-        (32767, "input_limb_2"), // offset_1
-        (32770, "input_limb_3"), // offset_2
-        (0, "input_limb_4"),     // dst_base_fp
-        (1, "input_limb_5"),     // op0_base_fp
-        (0, "input_limb_6"),     // op1_imm
-        (1, "input_limb_7"),     // op1_base_fp
-        (0, "input_limb_8"),     // op1_base_ap
-        (0, "input_limb_9"),     // res_add
-        (0, "input_limb_10"),    // res_mul
-        (1, "input_limb_11"),    // pc_update_jump
-        (0, "input_limb_12"),    // pc_update_jump_rel
-        (1, "input_limb_13"),    // pc_update_jnz
-        (1, "input_limb_14"),    // ap_update_add
-        (0, "input_limb_15"),    // ap_update_add_1
-        (0, "input_limb_16"),    // opcode_call
-        (0, "input_limb_17"),    // opcode_ret
-        (1, "input_limb_18"),    // opcode_assert_eq
-        (0, "input_limb_19"),    // opcode_extension
+        (0, "input_limb_0"),      // pc
+        (0x8001, "input_limb_1"), // offset_0
+        (0x7fff, "input_limb_2"), // offset_1
+        (0x8002, "input_limb_3"), // offset_2
+        (0x50, "input_limb_4"),   // felt5_high
+        (0x11a, "input_limb_5"),  // felt6
+        (0, "input_limb_6"),      // opcode_extension
         (1, "offset0_low"),
-        (64, "offset0_mid"),
+        (0x40, "offset0_mid"),
         (3, "offset1_low"),
-        (511, "offset1_mid"),
-        (15, "offset1_high"),
+        (0x1ff, "offset1_mid"),
+        (0xf, "offset1_high"),
         (2, "offset2_low"),
         (0, "offset2_mid"),
         (4, "offset2_high"),
@@ -76,7 +64,7 @@ fn test_verify_inst() {
     assert_expected_state(&state, &expected_state);
 }
 
-fn init_flags_and_offsets() -> ([bool; 15], [FeltExpr; 15], [i16; 3], [FeltExpr; 3]) {
+fn init_flags_and_offsets() -> ([bool; 15], [FeltExpr; 2], [i16; 3], [FeltExpr; 3]) {
     let named_flags = Flags {
         dst_base_fp: Some(false),
         op0_base_fp: Some(true),
@@ -101,6 +89,7 @@ fn init_flags_and_offsets() -> ([bool; 15], [FeltExpr; 15], [i16; 3], [FeltExpr;
         .collect::<Vec<_>>()
         .try_into()
         .unwrap();
+    let [felt5_high, felt6] = DecodeInstruction::flags_to_felts(flags);
     let flags_b = named_flags
         .to_arr()
         .iter()
@@ -116,5 +105,5 @@ fn init_flags_and_offsets() -> ([bool; 15], [FeltExpr; 15], [i16; 3], [FeltExpr;
         const_expr!(offset_as_u16(offsets_i16[2]) as u32),
     ];
 
-    (flags_b, flags, offsets_i16, offsets)
+    (flags_b, [felt5_high, felt6], offsets_i16, offsets)
 }

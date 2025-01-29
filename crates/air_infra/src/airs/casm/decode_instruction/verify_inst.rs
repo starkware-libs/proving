@@ -2,7 +2,6 @@ use inst_def::InstDef;
 use prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::super::casm_state::*;
-use super::encode_flags::*;
 use super::encode_offsets::*;
 use crate::airs::casm::common::*;
 use crate::core::air_fn::*;
@@ -25,14 +24,14 @@ pub struct VerifyInstruction {
 // Reconstructs the instruction and verifies it against the memory.
 impl AirFn for VerifyInstruction {
     type ExtIn = ();
-    type In = (CasmAddress, [FeltExpr; 3], [FeltExpr; 15], FeltExpr);
+    type In = (CasmAddress, [FeltExpr; 3], [FeltExpr; 2], FeltExpr);
     type Out = ();
 
     fn call(
         &self,
         ab: &mut AirBuilder,
         _: (),
-        (pc, offsets, flags, opcode_extension): Self::In,
+        (pc, offsets, [felt5_high, felt6], opcode_extension): Self::In,
     ) -> Self::Out {
         assert_eq!(
             FELT252_BITS_PER_WORD, 9,
@@ -40,8 +39,6 @@ impl AirFn for VerifyInstruction {
         );
 
         let [felt0, felt1, felt2, felt3, felt4, felt5_low] = ab.call(&EncodeOffsets {}, offsets);
-
-        let [felt5_high, felt6] = ab.call(&EncodeFlags {}, flags);
 
         let felt5 = felt5_low + felt5_high;
 

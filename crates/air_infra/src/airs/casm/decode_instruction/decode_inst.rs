@@ -41,6 +41,20 @@ impl DecodeInstruction {
 
         ([off0, off1, off2, flags], opcode_extension)
     }
+
+    pub fn flags_to_felts(flags: [FeltExpr; 15]) -> [FeltExpr; 2] {
+        let mut felt5_high = const_expr!(0);
+        for (i, flag) in flags.iter().enumerate().take(6) {
+            felt5_high = felt5_high.clone() + (flag.clone() * const_expr!(1 << (i + 3)));
+        }
+
+        let mut felt6 = const_expr!(0);
+        for (i, flag) in flags.into_iter().enumerate().skip(6) {
+            felt6 = felt6.clone() + (flag * const_expr!(1 << (i - 6)));
+        }
+
+        [felt5_high, felt6]
+    }
 }
 
 // Given the address of the instructions, reads the instruction and deduces the non-constant
@@ -92,7 +106,12 @@ impl AirFn for DecodeInstruction {
                         (flags.clone() >> const_u16_expr!(i as u16)) & const_u16_expr!(1),
                         FLAG_NAMES[i],
                     );
-                    ab.deduce(flag.as_felt_mut(), FLAG_NAMES[i])
+                    let flag_deduced = ab.deduce(flag.as_felt_mut(), FLAG_NAMES[i]);
+                    ab.constrain(
+                        flag_deduced.clone() * (const_expr!(1) - flag_deduced.clone()),
+                        &format!("Flag {} is a bit", FLAG_NAMES[i]),
+                    );
+                    flag_deduced
                 }
             })
             .collect::<Vec<_>>()
@@ -105,6 +124,8 @@ impl AirFn for DecodeInstruction {
         } else {
             ab.deduce(&mut opcode_extnesion, "opcode_extension");
         };
+        // Construct the felts holding the flags
+        let [felt5_high, felt6] = Self::flags_to_felts(flags_vec.clone());
 
         // Verify the instruction
         ab.lookup_call(
@@ -115,7 +136,7 @@ impl AirFn for DecodeInstruction {
             (
                 pc.clone(),
                 [off0_f.clone(), off1_f.clone(), off2_f.clone()],
-                flags_vec.clone(),
+                [felt5_high, felt6],
                 opcode_extnesion.clone(),
             ),
         );
