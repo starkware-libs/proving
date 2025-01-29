@@ -1,3 +1,5 @@
+use std::process::Command;
+
 use super::round_keys::*;
 use crate::const_expr;
 // Macros
@@ -44,4 +46,14 @@ fn test_round_keys() {
 
     let expected_state = vec![].into();
     assert_expected_state(&state, &expected_state);
+}
+
+#[test]
+fn test_key_generation_python_utils() {
+    let py_test_filename = "src/airs/casm/builtins/poseidon/poseidon_simulator.py";
+    let status = Command::new("python3")
+        .arg(py_test_filename)
+        .status()
+        .unwrap();
+    assert_eq!(status.code(), Some(0));
 }
