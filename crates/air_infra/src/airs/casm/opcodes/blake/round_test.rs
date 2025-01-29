@@ -57,9 +57,9 @@ fn test_blake_round() {
 
     // Check output.
     let expected_output = [
-        3963716202, 4206293977, 412788584, 1881793115, 1886140120, 51970688, 3922737378, 844204754,
-        4073846804, 4289399476, 2793963234, 3884584562, 1260145169, 2821845203, 2951876740,
-        745869788,
+        1367297060, 2926508617, 107924025, 162546146, 2936957071, 4075222909, 2433518464,
+        3059149654, 2047295278, 3825369540, 4231837284, 4024902448, 1952998180, 1326427959,
+        3193012524, 1657286418,
     ];
 
     for (output, expected_output) in output.2 .0.into_iter().zip(expected_output) {
@@ -231,14 +231,14 @@ fn test_blake_round() {
         (52607, "g_output_limb_5"),
         (60571, "g_output_limb_6"),
         (43297, "g_output_limb_7"),
-        (52940, "g_output_limb_0"), // g3
-        (35912, "g_output_limb_1"),
-        (42136, "g_output_limb_2"),
-        (64413, "g_output_limb_3"),
-        (3776, "g_output_limb_4"),
-        (57539, "g_output_limb_5"),
-        (5797, "g_output_limb_6"),
-        (7878, "g_output_limb_7"),
+        (60981, "g_output_limb_0"), // g3
+        (702, "g_output_limb_1"),
+        (18070, "g_output_limb_2"),
+        (21833, "g_output_limb_3"),
+        (10508, "g_output_limb_4"),
+        (36, "g_output_limb_5"),
+        (59482, "g_output_limb_6"),
+        (23598, "g_output_limb_7"),
         (34433, "g_output_limb_0"), // g4
         (50343, "g_output_limb_1"),
         (56032, "g_output_limb_2"),
@@ -247,40 +247,41 @@ fn test_blake_round() {
         (46448, "g_output_limb_5"),
         (12355, "g_output_limb_6"),
         (5432, "g_output_limb_7"),
-        (33386, "g_output_limb_0"), // g5
-        (60481, "g_output_limb_1"),
-        (640, "g_output_limb_2"),
-        (793, "g_output_limb_3"),
-        (32482, "g_output_limb_4"),
-        (42632, "g_output_limb_5"),
-        (4572, "g_output_limb_6"),
-        (11381, "g_output_limb_7"),
-        (62425, "g_output_limb_0"), // g6
-        (64182, "g_output_limb_1"),
-        (14562, "g_output_limb_2"),
-        (59856, "g_output_limb_3"),
-        (3698, "g_output_limb_4"),
-        (59274, "g_output_limb_5"),
-        (18961, "g_output_limb_6"),
-        (19228, "g_output_limb_7"),
-        (42856, "g_output_limb_0"), // g7
-        (6298, "g_output_limb_1"),
-        (35538, "g_output_limb_2"),
-        (12881, "g_output_limb_3"),
-        (63508, "g_output_limb_4"),
-        (62161, "g_output_limb_5"),
-        (61651, "g_output_limb_6"),
-        (43057, "g_output_limb_7"),
-        (57947, "g_output_limb_0"), // g8
-        (28713, "g_output_limb_1"),
-        (14040, "g_output_limb_2"),
-        (28780, "g_output_limb_3"),
-        (2740, "g_output_limb_4"),
-        (65451, "g_output_limb_5"),
-        (4228, "g_output_limb_6"),
-        (45042, "g_output_limb_7"),
+        (19492, "g_output_limb_0"), // g5
+        (20863, "g_output_limb_1"),
+        (63357, "g_output_limb_2"),
+        (62182, "g_output_limb_3"),
+        (46692, "g_output_limb_4"),
+        (64572, "g_output_limb_5"),
+        (12050, "g_output_limb_6"),
+        (25288, "g_output_limb_7"),
+        (64073, "g_output_limb_0"), // g6
+        (44654, "g_output_limb_1"),
+        (35712, "g_output_limb_2"),
+        (37132, "g_output_limb_3"),
+        (9008, "g_output_limb_4"),
+        (61415, "g_output_limb_5"),
+        (25380, "g_output_limb_6"),
+        (29800, "g_output_limb_7"),
+        (51769, "g_output_limb_0"), // g7
+        (1646, "g_output_limb_1"),
+        (60246, "g_output_limb_2"),
+        (46678, "g_output_limb_3"),
+        (16174, "g_output_limb_4"),
+        (31239, "g_output_limb_5"),
+        (44855, "g_output_limb_6"),
+        (20239, "g_output_limb_7"),
+        (16866, "g_output_limb_0"), // g8
+        (2480, "g_output_limb_1"),
+        (26767, "g_output_limb_2"),
+        (44814, "g_output_limb_3"),
+        (33220, "g_output_limb_4"),
+        (58370, "g_output_limb_5"),
+        (33068, "g_output_limb_6"),
+        (48721, "g_output_limb_7"),
     ]
     .into();
+
     assert_expected_state(&state, &expected_state);
 }
 
@@ -329,9 +330,9 @@ fn test_blake_round2() {
 
     // Check output.
     let expected_output = [
-        1595516873, 1627571169, 282182205, 109799459, 202420134, 3760382394, 2206057594,
-        2642183819, 2101613650, 1423565011, 3526873510, 3385908489, 3382355132, 1220181296,
-        2178320081, 284142126,
+        538881188, 2460695046, 2867837425, 2135058897, 890208416, 953468451, 1371496227,
+        2159536600, 3054417061, 1384474009, 3996057645, 3268429468, 2110965500, 3522211544,
+        4011799291, 2106633509,
     ];
 
     for (output, expected_output) in output.2 .0.into_iter().zip(expected_output) {

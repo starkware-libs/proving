@@ -20,7 +20,7 @@ pub type BlakeRoundInput = (BlakeState, CasmAddress);
 pub const G_STATE_INDICES: [[usize; 4]; 8] = [
     [0, 4, 8, 12],
     [1, 5, 9, 13],
-    [2, 6, 10, 12],
+    [2, 6, 10, 14],
     [3, 7, 11, 15],
     [0, 5, 10, 15],
     [1, 6, 11, 12],
