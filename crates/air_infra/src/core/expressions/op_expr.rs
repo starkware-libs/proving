@@ -220,7 +220,6 @@ impl_unary_op!(Inverse, inverse, inverse, FeltExpr, FeltExpr);
 impl_binary_op!(ops Add, add, FeltExpr, FeltOperation);
 impl_binary_op!(ops Sub, sub, FeltExpr, FeltOperation);
 impl_binary_op!(ops Mul, mul, FeltExpr, FeltOperation);
-impl_binary_op!(ops Div, div, FeltExpr, FeltOperation);
 impl_binary_op!(Eq, eq, FeltExpr, BoolExpr, BoolOperation);
 impl_unary_op!(from BoolFromFelt, from_m31, FeltExpr, BoolExpr, Bool);
 impl_unary_op!(from UInt16FromFelt, from_m31, FeltExpr, UInt16Expr, UInt16);
@@ -405,6 +404,43 @@ impl From<Vec<FeltExpr>> for Felt252Packed27Expr {
         Felt252Packed27Expr::Op(OpExpr::new(
             Operation::Felt252Packed27FromFeltsArray,
             vec![AirVarImpl::Array(arr)],
+            value,
+        ))
+    }
+}
+
+impl Div for FeltExpr {
+    type Output = FeltExpr;
+
+    fn div(self, other: FeltExpr) -> FeltExpr {
+        let value = self.value().zip(other.value()).map(|(l, r)| l.div(r));
+
+        if self.is_const() && other.is_const() {
+            return FeltExpr::Var(VarExpr::new_const(
+                value.expect("Div operands are consts yet one is missing a value"),
+            ));
+        }
+
+        if other.is_const() {
+            return FeltExpr::Op(FeltOperation::new(
+                Operation::Mul,
+                vec![
+                    self.into(),
+                    FeltExpr::Var(VarExpr::new_const(
+                        other
+                            .value()
+                            .expect("Divisor is const yet its value is missing")
+                            .inverse(),
+                    ))
+                    .into(),
+                ],
+                value,
+            ));
+        }
+
+        FeltExpr::Op(FeltOperation::new(
+            Operation::Div,
+            vec![self.into(), other.into()],
             value,
         ))
     }

@@ -160,7 +160,7 @@
         "air_fn_name": "range_check_18",
         "ext_input": [
           {
-            "name": "((col1 - col11) / 512)",
+            "name": "((col1 - col11) * 4194304)",
             "type": "M31"
           }
         ]
@@ -170,7 +170,7 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_18",
         "felts": [
-          "((col1 - col11) / 512)"
+          "((col1 - col11) * 4194304)"
         ],
         "use_or_yield": "Use"
       }
@@ -237,7 +237,7 @@
         "air_fn_name": "range_check_18",
         "ext_input": [
           {
-            "name": "((col3 - col13) / 512)",
+            "name": "((col3 - col13) * 4194304)",
             "type": "M31"
           }
         ]
@@ -247,7 +247,7 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_18",
         "felts": [
-          "((col3 - col13) / 512)"
+          "((col3 - col13) * 4194304)"
         ],
         "use_or_yield": "Use"
       }
@@ -314,7 +314,7 @@
         "air_fn_name": "range_check_18",
         "ext_input": [
           {
-            "name": "((col5 - col15) / 512)",
+            "name": "((col5 - col15) * 4194304)",
             "type": "M31"
           }
         ]
@@ -324,7 +324,7 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_18",
         "felts": [
-          "((col5 - col15) / 512)"
+          "((col5 - col15) * 4194304)"
         ],
         "use_or_yield": "Use"
       }
@@ -391,7 +391,7 @@
         "air_fn_name": "range_check_18",
         "ext_input": [
           {
-            "name": "((col7 - col17) / 512)",
+            "name": "((col7 - col17) * 4194304)",
             "type": "M31"
           }
         ]
@@ -401,7 +401,7 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_18",
         "felts": [
-          "((col7 - col17) / 512)"
+          "((col7 - col17) * 4194304)"
         ],
         "use_or_yield": "Use"
       }
