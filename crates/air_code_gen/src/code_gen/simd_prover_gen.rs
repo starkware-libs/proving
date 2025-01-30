@@ -474,10 +474,10 @@ fn generate_write_trace_simd_params(lists: &CompiledAirFn) -> rust::Tokens {
     if contains_inputs(lists) {
         params.extend(quote! { inputs: $(vec_of_type("PackedInputType")), });
     }
-    params.extend(generate_sub_component_params_and_args(&lists.deductions).0);
     for public_param in &lists.public_params {
         params.extend(quote! { $(public_param.name()): u32, });
     }
+    params.extend(generate_sub_component_params_and_args(&lists.deductions).0);
     params
 }
 
@@ -487,10 +487,10 @@ fn generate_write_trace_simd_args(lists: &CompiledAirFn) -> rust::Tokens {
     if contains_inputs(lists) {
         args.extend(quote! { packed_inputs, });
     }
-    args.extend(generate_sub_component_params_and_args(&lists.deductions).1);
     for public_param in &lists.public_params {
         args.extend(quote! { self.$(public_param.name()), });
     }
+    args.extend(generate_sub_component_params_and_args(&lists.deductions).1);
     args
 }
 

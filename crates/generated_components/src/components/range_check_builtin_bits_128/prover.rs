@@ -63,9 +63,9 @@ impl ClaimGenerator {
         assert_ne!(n_rows, 0);
         let (trace, lookup_data) = write_trace_simd(
             n_rows,
+            self.range_check_builtin_segment_start,
             memory_address_to_id_state,
             memory_id_to_big_state,
-            self.range_check_builtin_segment_start,
         );
 
         tree_builder.extend_evals(trace.to_evals());
@@ -90,9 +90,9 @@ impl ClaimGenerator {
 #[allow(non_snake_case)]
 fn write_trace_simd(
     n_rows: usize,
+    range_check_builtin_segment_start: u32,
     memory_address_to_id_state: &memory_address_to_id::ClaimGenerator,
     memory_id_to_big_state: &memory_id_to_big::ClaimGenerator,
-    range_check_builtin_segment_start: u32,
 ) -> (ComponentTrace<N_TRACE_COLUMNS>, LookupData) {
     let log_size = n_rows.next_power_of_two().ilog2();
     let log_n_packed_rows = log_size - LOG_N_LANES;
