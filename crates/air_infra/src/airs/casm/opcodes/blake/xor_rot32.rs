@@ -1,12 +1,12 @@
 use inst_def::InstDef;
 
 use crate::airs::casm::bitwise_xor::*;
+use crate::airs::casm::opcodes::blake::split16::*;
+// Macros
+use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
-use crate::core::expressions::uint16_expr::*;
 use crate::core::expressions::uint32_expr::*;
-// Macros
-use crate::{const_expr, const_u16_expr};
 
 const BLAKE_NUM_BITS_PER_FELT: usize = 16;
 
@@ -38,36 +38,12 @@ impl AirFn for XorRot32 {
         } else {
             self.r
         };
-        let r_expr = const_u16_expr!(r as u16);
-
-        // Calculate and deduce the high 16-r bits for each felt.
-        let mut alh = air_builder.let_for_deduction(
-            a.low() >> r_expr.clone(),
-            &format!("a_low_{}_ms_bits", 16 - r),
-        );
-        let mut ahh = air_builder.let_for_deduction(
-            a.high() >> r_expr.clone(),
-            &format!("a_high_{}_ms_bits", 16 - r),
-        );
-        let mut blh = air_builder.let_for_deduction(
-            b.low() >> r_expr.clone(),
-            &format!("b_low_{}_ms_bits", 16 - r),
-        );
-        let mut bhh = air_builder.let_for_deduction(
-            b.high() >> r_expr.clone(),
-            &format!("b_high_{}_ms_bits", 16 - r),
-        );
-
-        air_builder.deduce(alh.as_felt_mut(), &format!("a_low_{}_ms_bits", 16 - r));
-        air_builder.deduce(ahh.as_felt_mut(), &format!("a_high_{}_ms_bits", 16 - r));
-        air_builder.deduce(blh.as_felt_mut(), &format!("b_low_{}_ms_bits", 16 - r));
-        air_builder.deduce(bhh.as_felt_mut(), &format!("b_high_{}_ms_bits", 16 - r));
-
-        // Caclulate the low r bits for each felt.
-        let all = a.low().as_felt() - alh.as_felt() * const_expr!(1 << r);
-        let bll = b.low().as_felt() - blh.as_felt() * const_expr!(1 << r);
-        let ahl = a.high().as_felt() - ahh.as_felt() * const_expr!(1 << r);
-        let bhl = b.high().as_felt() - bhh.as_felt() * const_expr!(1 << r);
+        // Split into 4 parts of sizes [r, 16-r, r, 16-r].
+        let split = Split16 { low_part_size: r };
+        let [all, alh] = air_builder.call(&split, a.low());
+        let [ahl, ahh] = air_builder.call(&split, a.high());
+        let [bll, blh] = air_builder.call(&split, b.low());
+        let [bhl, bhh] = air_builder.call(&split, b.high());
 
         // Calculate and deduce the bitwise xor of the parts.
         let cll = air_builder.call(&BitwiseXor { num_bits: r }, [all, bll]);
@@ -75,14 +51,14 @@ impl AirFn for XorRot32 {
             &BitwiseXor {
                 num_bits: BLAKE_NUM_BITS_PER_FELT - r,
             },
-            [alh.as_felt(), blh.as_felt()],
+            [alh, blh],
         );
         let chl = air_builder.call(&BitwiseXor { num_bits: r }, [ahl, bhl]);
         let chh = air_builder.call(
             &BitwiseXor {
                 num_bits: BLAKE_NUM_BITS_PER_FELT - r,
             },
-            [ahh.as_felt(), bhh.as_felt()],
+            [ahh, bhh],
         );
 
         let output = if self.r == BLAKE_NUM_BITS_PER_FELT {

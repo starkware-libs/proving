@@ -18,10 +18,10 @@ fn test_xor_rot7() {
 
     // Check state
     let expected_state = vec![
-        (324, "a_low_9_ms_bits"),
-        (11, "a_high_9_ms_bits"),
-        (113, "b_low_9_ms_bits"),
-        (207, "b_high_9_ms_bits"),
+        (324, "ms_9_bits"),
+        (11, "ms_9_bits"),
+        (113, "ms_9_bits"),
+        (207, "ms_9_bits"),
         (46, "xor"),
         (309, "xor"),
         (124, "xor"),
@@ -44,10 +44,10 @@ fn test_xor_rot12() {
 
     // Check state
     let expected_state = vec![
-        (1, "a_low_4_ms_bits"),
-        (0, "a_high_4_ms_bits"),
-        (0, "b_low_4_ms_bits"),
-        (0, "b_high_4_ms_bits"),
+        (1, "ms_4_bits"),
+        (0, "ms_4_bits"),
+        (0, "ms_4_bits"),
+        (0, "ms_4_bits"),
         (1715, "xor"),
         (1, "xor"),
         (234, "xor"),
@@ -70,10 +70,10 @@ fn test_xor_rot8() {
 
     // Check state
     let expected_state = vec![
-        (128, "a_low_8_ms_bits"),
-        (128, "a_high_8_ms_bits"),
-        (16, "b_low_8_ms_bits"),
-        (2, "b_high_8_ms_bits"),
+        (128, "ms_8_bits"),
+        (128, "ms_8_bits"),
+        (16, "ms_8_bits"),
+        (2, "ms_8_bits"),
         (0, "xor"),
         (144, "xor"),
         (0, "xor"),
@@ -96,10 +96,10 @@ fn test_xor_rot16() {
 
     // Check state
     let expected_state = vec![
-        (60, "a_low_8_ms_bits"),
-        (190, "a_high_8_ms_bits"),
-        (0, "b_low_8_ms_bits"),
-        (25, "b_high_8_ms_bits"),
+        (60, "ms_8_bits"),
+        (190, "ms_8_bits"),
+        (0, "ms_8_bits"),
+        (25, "ms_8_bits"),
         (236, "xor"),
         (60, "xor"),
         (219, "xor"),
