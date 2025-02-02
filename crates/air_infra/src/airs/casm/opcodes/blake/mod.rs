@@ -1,3 +1,4 @@
+pub mod create_blake_output;
 mod create_round_input;
 pub mod g;
 #[cfg(test)]

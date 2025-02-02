@@ -23,6 +23,7 @@ use super::expressions::uint64_expr::*;
 use super::expressions::var_expr::*;
 use crate::airs::casm::builtins::modulo::mod_utils::*;
 use crate::airs::casm::casm_state::*;
+use crate::airs::casm::opcodes::blake::create_blake_output::*;
 use crate::airs::casm::opcodes::blake::round::*;
 use crate::airs::casm::opcodes::generic_opcode::generic_opcode::*;
 #[cfg(test)]
@@ -439,6 +440,8 @@ impl_air_var!([Felt252Packed27Expr]);
 impl_air_var!((CasmAddress, UInt32Expr));
 // CreateRoundInput
 impl_air_var!((CasmAddress, UInt32Expr, BoolExpr));
+// CreateBlakeOutput
+impl_air_var!((H, BlakeState));
 
 // Components
 

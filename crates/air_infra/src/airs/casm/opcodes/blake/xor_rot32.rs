@@ -28,12 +28,12 @@ impl AirFn for XorRot32 {
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b]: Self::In) -> Self::Out {
         assert!(
-            self.r == 7 || self.r == 8 || self.r == 12 || self.r == 16,
+            self.r == 0 || self.r == 7 || self.r == 8 || self.r == 12 || self.r == 16,
             "Invalid r value"
         );
 
-        // For the case r=16, we will perform lookups into a table of size 8.
-        let r = if self.r == BLAKE_NUM_BITS_PER_FELT {
+        // In the case where self.r is 0 or 16, we will perform lookups into a table of size 8.
+        let r = if self.r == BLAKE_NUM_BITS_PER_FELT || self.r == 0 {
             8
         } else {
             self.r
@@ -62,10 +62,17 @@ impl AirFn for XorRot32 {
         );
 
         let output = if self.r == BLAKE_NUM_BITS_PER_FELT {
-            // For the case r=16, we will build the new pair as [chl, chh, cll, clh]
+            // For the case self.r=16, we will build the new pair as [chl, chh, cll, clh]
             vec![
                 chl + chh * const_expr!(1 << r),
                 cll + clh * const_expr!(1 << r),
+            ]
+        } else if self.r == 0 {
+            // For the case self.r=0, we will build the new pair without rotation [cll, clh, chl,
+            // chh]
+            vec![
+                cll + clh * const_expr!(1 << r),
+                chl + chh * const_expr!(1 << r),
             ]
         } else {
             // For the other cases, we will build the new pair as [clh, chl, chh, cll]
