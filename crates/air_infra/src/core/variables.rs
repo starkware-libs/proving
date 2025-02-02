@@ -437,6 +437,8 @@ impl_air_var!((Addresses<const N: usize>, Felt252Expr));
 impl_air_var!([Felt252Packed27Expr]);
 // VerifyBlakeWord
 impl_air_var!((CasmAddress, UInt32Expr));
+// CreateRoundInput
+impl_air_var!((CasmAddress, UInt32Expr, BoolExpr));
 
 // Components
 
