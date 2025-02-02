@@ -876,24 +876,38 @@
       "StartBlock": "Decode Instruction"
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_address_to_id",
-        "input": {
-          "State": "input_pc_col0"
-        },
-        "output_name": "memory_address_to_id_value_tmp_2757b_1"
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_2757b_1",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "State": "input_pc_col0"
+              }
+            ]
+          ]
+        }
       }
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_id_to_big",
-        "input": {
-          "Var": [
-            "M31",
-            "memory_address_to_id_value_tmp_2757b_1"
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_2757b_2",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "memory_address_to_id_value_tmp_2757b_1"
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_id_to_big_value_tmp_2757b_2"
+        }
       }
     },
     {
@@ -1808,43 +1822,57 @@
       "StartBlock": "Read Positive Num Bits 27"
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_address_to_id",
-        "input": {
-          "BinaryOp": [
-            {
-              "State": "mem0_base_col7"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "offset1_col3"
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "32768"
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_2757b_7",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "State": "mem0_base_col7"
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "offset1_col3"
+                      },
+                      "-",
+                      {
+                        "Const": [
+                          "M31",
+                          "32768"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_address_to_id_value_tmp_2757b_7"
+        }
       }
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_id_to_big",
-        "input": {
-          "Var": [
-            "M31",
-            "memory_address_to_id_value_tmp_2757b_7"
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_2757b_8",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "memory_address_to_id_value_tmp_2757b_7"
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_id_to_big_value_tmp_2757b_8"
+        }
       }
     },
     {
@@ -2161,81 +2189,95 @@
       "StartBlock": "Read Positive Num Bits 27"
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_address_to_id",
-        "input": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "mem1_base_limb_0_col9"
-                    },
-                    "+",
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "mem1_base_limb_1_col10"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "512"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "mem1_base_limb_2_col11"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "262144"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "offset2_col4"
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "32768"
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_2757b_9",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "mem1_base_limb_0_col9"
+                          },
+                          "+",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "mem1_base_limb_1_col10"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "512"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "mem1_base_limb_2_col11"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "262144"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "offset2_col4"
+                      },
+                      "-",
+                      {
+                        "Const": [
+                          "M31",
+                          "32768"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_address_to_id_value_tmp_2757b_9"
+        }
       }
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_id_to_big",
-        "input": {
-          "Var": [
-            "M31",
-            "memory_address_to_id_value_tmp_2757b_9"
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_2757b_10",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "memory_address_to_id_value_tmp_2757b_9"
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_id_to_big_value_tmp_2757b_10"
+        }
       }
     },
     {

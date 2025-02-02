@@ -7,7 +7,7 @@ use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
 use genco::lang::{rust, Rust};
 use genco::quote;
-use itertools::{chain, Itertools};
+use itertools::Itertools;
 
 use super::parse::seek_consts;
 use super::utils::{
@@ -107,25 +107,6 @@ fn generate_simd_write_trace_body_code(
                 write_trace_body.extend(quote! {
                     let $(name) = $(simd_parse_air_var(var,const_names));
                 });
-            }
-            TraceGenStep::LookupCall {
-                fn_name,
-                input,
-                output_name,
-            } => {
-                let input = simd_parse_air_var(input, const_names);
-                if let Some(output_name) = output_name {
-                    let delimiter = if is_stateful(fn_name) {
-                        STATE_SUFFIX.to_owned() + "."
-                    } else {
-                        "::".to_owned()
-                    };
-                    write_trace_body.extend(quote! {
-                            let $(output_name) = $(fn_name)$(delimiter)deduce_output(
-                                $(input)
-                            );
-                    });
-                }
             }
             TraceGenStep::StartBlock(msg) => {
                 write_trace_body.extend(block_doc(msg));
@@ -293,11 +274,6 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
                     felts,
                     ..
                 }) => const_defs.extend(felts.iter().flat_map(seek_consts)),
-                TraceGenStep::LookupCall {
-                    fn_name: _, input, ..
-                } => {
-                    const_defs.extend(seek_consts(input));
-                }
                 TraceGenStep::StartBlock(_) => {}
                 TraceGenStep::EndBlock => {}
                 // TODO
@@ -421,32 +397,13 @@ fn unique_add_input_calls(deductions: &[TraceGenStep]) -> Vec<String> {
         .collect()
 }
 
-fn unique_function_calls(deductions: &[TraceGenStep]) -> Vec<String> {
-    deductions
-        .iter()
-        .filter_map(|d| {
-            if let TraceGenStep::LookupCall { fn_name, .. } = d {
-                Some(fn_name.to_string())
-            } else {
-                None
-            }
-        })
-        .sorted()
-        .dedup()
-        .collect()
-}
-
 fn generate_sub_component_params_and_args(
     deductions: &[TraceGenStep],
 ) -> (rust::Tokens, rust::Tokens) {
     // write_trace_simd is responsible for generating the trace and calling `add_inputs` on
     // sub_components.
     // Collect all the unique function and add_input calls.
-    let mut context = chain![
-        unique_function_calls(deductions),
-        unique_add_input_calls(deductions)
-    ]
-    .collect_vec();
+    let mut context = unique_add_input_calls(deductions);
     context.sort_by_key(|a| a.clone());
     context.dedup();
 
@@ -461,11 +418,6 @@ fn generate_sub_component_params_and_args(
         });
     }
     (params, args)
-}
-
-// TODO(Ohad): get that information from the air infra.
-fn is_stateful(fn_name: &str) -> bool {
-    fn_name.contains("mem")
 }
 
 // Generates the parameters for `write_trace_simd` function.
@@ -735,13 +687,6 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
     for deduction in deductions {
         match deduction {
             TraceGenStep::LookupTerm(..) => {}
-            TraceGenStep::LookupCall { fn_name, .. } => {
-                if seen_functions.insert(fn_name) {
-                    code.extend(quote! {
-                        use crate::components::$(fn_name);
-                    });
-                }
-            }
             TraceGenStep::StartBlock(_) => {}
             TraceGenStep::EndBlock => {}
             TraceGenStep::Deduction(..) => {}
@@ -839,6 +784,14 @@ fn simd_parse_air_var(
         CompiledAirVar::Var(_, id) => id.clone(),
         CompiledAirVar::State(name) => name.clone(),
         CompiledAirVar::StaticCall(id, args) => {
+            // TODO(Ohad): get that information from the air infra.
+            if id.starts_with("Memory") {
+                let mut id = id.to_case(Case::Snake);
+                id = id.replace("::", &format!("{STATE_SUFFIX}."));
+                let input = simd_parse_air_var(&args[0], constant_names);
+                return format!("{}({})", id, input);
+            }
+
             let mut arg_str = String::new();
             for (i, arg) in args.iter().enumerate() {
                 if i > 0 {

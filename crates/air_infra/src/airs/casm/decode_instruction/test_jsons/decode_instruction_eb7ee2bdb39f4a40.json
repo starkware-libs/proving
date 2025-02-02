@@ -98,21 +98,25 @@
     {
       "LookupCall": {
         "air_fn_name": "memory_address_to_id",
+        "method_name": "MemoryAddressToId::deduce_output",
         "ext_input": {
           "name": "decode_instruction_eb7ee2bdb39f4a40_input",
           "type": "M31"
         },
-        "output_name": "memory_address_to_id_value_tmp_eb7ee_0"
+        "output_name": "memory_address_to_id_value_tmp_eb7ee_0",
+        "output_type": "M31"
       }
     },
     {
       "LookupCall": {
         "air_fn_name": "memory_id_to_big",
+        "method_name": "MemoryIdToBig::deduce_output",
         "ext_input": {
           "name": "memory_address_to_id_value_tmp_eb7ee_0",
           "type": "M31"
         },
-        "output_name": "memory_id_to_big_value_tmp_eb7ee_1"
+        "output_name": "memory_id_to_big_value_tmp_eb7ee_1",
+        "output_type": "Felt252"
       }
     },
     {

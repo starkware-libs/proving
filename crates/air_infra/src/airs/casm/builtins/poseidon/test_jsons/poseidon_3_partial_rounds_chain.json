@@ -363,11 +363,13 @@
     {
       "LookupCall": {
         "air_fn_name": "poseidon_round_keys",
+        "method_name": "PoseidonRoundKeys::deduce_output",
         "ext_input": {
           "name": "col1",
           "type": "M31"
         },
-        "output_name": "poseidon_round_keys_output_tmp_44f04_1"
+        "output_name": "poseidon_round_keys_output_tmp_44f04_1",
+        "output_type": "[Felt252Packed27, Felt252Packed27, Felt252Packed27]"
       }
     },
     {

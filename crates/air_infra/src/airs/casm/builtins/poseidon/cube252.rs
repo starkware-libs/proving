@@ -34,4 +34,12 @@ impl AirFn for Cube252 {
 
         felt252_pack_into27(a_cubed)
     }
+
+    fn deduce_output(&self) -> Option<String> {
+        // TODO(DanC): Implement this in stwo-cairo
+        Some(format!(
+            "{}::deduce_output",
+            self.relation_name().expect("Relation name not found")
+        ))
+    }
 }

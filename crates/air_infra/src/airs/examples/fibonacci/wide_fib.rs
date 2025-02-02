@@ -17,12 +17,7 @@ impl AirFn for WideFib {
     type In = FeltExpr;
     type Out = FeltExpr;
 
-    fn call(
-        &self,
-        air_builder: &mut crate::core::air_fn::AirBuilder,
-        _: (),
-        mut input: Self::In,
-    ) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), mut input: Self::In) -> Self::Out {
         let narrow_fn = NarrowFib {
             num_steps: self.narrow_size,
         };

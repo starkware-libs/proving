@@ -121,6 +121,13 @@ impl AirFn for TestChainRound {
     fn trace_type(&self) -> TraceType {
         TraceType::ChainRound
     }
+
+    fn deduce_output(&self) -> Option<String> {
+        Some(format!(
+            "{}::deduce_output",
+            self.relation_name().expect("Relation name not found")
+        ))
+    }
 }
 
 impl ChainRoundAirFn<TestState> for TestChainRound {

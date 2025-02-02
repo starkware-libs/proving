@@ -28,17 +28,17 @@ pub struct Call {
     pub air_body: AirBody,
 }
 
-// Deduces the output and updates inputs / multiplicity of the relation.
+// Computes the output of the component into an intermediate variable named <output_name>.
 #[derive(Clone, Debug, Serialize)]
 pub struct LookupCall {
     pub air_fn_name: String,
+    pub method_name: String,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub ext_input: Option<AirVarImpl>,
     #[serde(skip_serializing_if = "Option::is_none")]
     pub input: Option<AirVarImpl>,
-    // None if there is no output
-    #[serde(skip_serializing_if = "Option::is_none")]
-    pub output_name: Option<String>,
+    pub output_name: String,
+    pub output_type: String,
 }
 
 // Each air function has an air_body, which is a vector of AirBodyComponent.
@@ -292,11 +292,16 @@ impl AirBody {
                     compiled.external_states.extend(f_air_body.external_states);
                 }
                 AirBodyComponent::LookupCall(call) => {
-                    compiled.deductions.push(TraceGenStep::LookupCall {
-                        fn_name: call.air_fn_name,
-                        input: AirFnEntry::generate_input(call.ext_input, call.input),
-                        output_name: call.output_name,
-                    });
+                    compiled
+                        .deductions
+                        .push(TraceGenStep::Intermediate(Intermediate {
+                            name: call.output_name,
+                            r#type: call.output_type,
+                            var: CompiledAirVar::StaticCall(
+                                call.method_name,
+                                vec![AirFnEntry::generate_input(call.ext_input, call.input)],
+                            ),
+                        }));
                 }
                 AirBodyComponent::LookupAddInput {
                     air_fn_name,

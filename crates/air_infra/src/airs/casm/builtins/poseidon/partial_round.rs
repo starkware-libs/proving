@@ -80,6 +80,14 @@ impl AirFn for Poseidon3PartialRoundsChain {
 
         (chain, round + const_expr!(1), state)
     }
+
+    fn deduce_output(&self) -> Option<String> {
+        // TODO(DanC): Implement this in stwo-cairo
+        Some(format!(
+            "{}::deduce_output",
+            self.relation_name().expect("Relation name not found")
+        ))
+    }
 }
 
 impl ChainRoundAirFn<[Felt252Packed27Expr; 4]> for Poseidon3PartialRoundsChain {

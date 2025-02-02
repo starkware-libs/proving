@@ -232,6 +232,15 @@ pub trait AirFn: Debug + InstDefTrait {
 
         output
     }
+
+    fn deduce_output(&self) -> Option<String> {
+        if (self.trace_type() != TraceType::ChainRound && self.trace_type() != TraceType::Component)
+            || Self::Out::is_empty()
+        {
+            return None;
+        }
+        panic!("deduce_output not implemented for this AirFn");
+    }
 }
 
 pub trait ChainRoundAirFn<S>:
@@ -663,9 +672,13 @@ impl AirBuilder {
         if !O::is_empty() {
             self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
                 air_fn_name: air_fn.name(),
+                method_name: air_fn
+                    .deduce_output()
+                    .expect("No deduce_output method name"),
                 ext_input: ext_input_option,
                 input: input_option,
-                output_name,
+                output_name: output_name.expect("Output name not set"),
+                output_type: <O as Into<AirVarImpl>>::into(output.clone()).prover_type(),
             }));
         }
 
@@ -683,16 +696,20 @@ impl AirBuilder {
         self.registry.add_entry(memory);
 
         let value_name = self.get_intermediate_name(Some(format!("{}_value", memory.name())));
+        #[allow(unused_mut)]
+        let mut value = V::new(value_name.clone(), false);
 
         self.air_body.push(AirBodyComponent::LookupCall(LookupCall {
             air_fn_name: memory.name(),
+            method_name: format!(
+                "{}::deduce_output",
+                memory.relation_name().expect("Relation name not found")
+            ),
             ext_input: Some(key.clone().into()),
             input: None,
-            output_name: Some(value_name.clone()),
+            output_name: value_name.clone(),
+            output_type: <V as Into<AirVarImpl>>::into(value.clone()).prover_type(),
         }));
-
-        #[allow(unused_mut)]
-        let mut value = V::new(value_name.clone(), false);
 
         #[cfg(test)]
         if self.run {

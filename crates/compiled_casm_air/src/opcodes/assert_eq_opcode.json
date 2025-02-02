@@ -611,24 +611,38 @@
       "StartBlock": "Decode Instruction"
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_address_to_id",
-        "input": {
-          "State": "input_pc_col0"
-        },
-        "output_name": "memory_address_to_id_value_tmp_d6f03_1"
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_d6f03_1",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "State": "input_pc_col0"
+              }
+            ]
+          ]
+        }
       }
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_id_to_big",
-        "input": {
-          "Var": [
-            "M31",
-            "memory_address_to_id_value_tmp_d6f03_1"
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_d6f03_2",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "memory_address_to_id_value_tmp_d6f03_1"
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_id_to_big_value_tmp_d6f03_2"
+        }
       }
     },
     {
@@ -1815,31 +1829,38 @@
       "StartBlock": "Mem Verify Equal"
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_address_to_id",
-        "input": {
-          "BinaryOp": [
-            {
-              "State": "mem_dst_base_col9"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "offset0_col3"
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "32768"
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_d6f03_9",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "State": "mem_dst_base_col9"
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "offset0_col3"
+                      },
+                      "-",
+                      {
+                        "Const": [
+                          "M31",
+                          "32768"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_address_to_id_value_tmp_d6f03_9"
+        }
       }
     },
     {

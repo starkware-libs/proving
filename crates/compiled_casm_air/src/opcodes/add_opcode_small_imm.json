@@ -2130,24 +2130,38 @@
       "StartBlock": "Decode Instruction"
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_address_to_id",
-        "input": {
-          "State": "input_pc_col0"
-        },
-        "output_name": "memory_address_to_id_value_tmp_49e92_1"
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_49e92_1",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "State": "input_pc_col0"
+              }
+            ]
+          ]
+        }
       }
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_id_to_big",
-        "input": {
-          "Var": [
-            "M31",
-            "memory_address_to_id_value_tmp_49e92_1"
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_49e92_2",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "memory_address_to_id_value_tmp_49e92_1"
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_id_to_big_value_tmp_49e92_2"
+        }
       }
     },
     {
@@ -3208,43 +3222,57 @@
       "StartBlock": "Read Small"
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_address_to_id",
-        "input": {
-          "BinaryOp": [
-            {
-              "State": "mem_dst_base_col8"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "offset0_col3"
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "32768"
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_49e92_8",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "State": "mem_dst_base_col8"
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "offset0_col3"
+                      },
+                      "-",
+                      {
+                        "Const": [
+                          "M31",
+                          "32768"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_address_to_id_value_tmp_49e92_8"
+        }
       }
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_id_to_big",
-        "input": {
-          "Var": [
-            "M31",
-            "memory_address_to_id_value_tmp_49e92_8"
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_49e92_9",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "memory_address_to_id_value_tmp_49e92_8"
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_id_to_big_value_tmp_49e92_9"
+        }
       }
     },
     {
@@ -3837,43 +3865,57 @@
       "StartBlock": "Read Small"
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_address_to_id",
-        "input": {
-          "BinaryOp": [
-            {
-              "State": "mem0_base_col9"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "offset1_col4"
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "32768"
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_49e92_12",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "State": "mem0_base_col9"
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "offset1_col4"
+                      },
+                      "-",
+                      {
+                        "Const": [
+                          "M31",
+                          "32768"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_address_to_id_value_tmp_49e92_12"
+        }
       }
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_id_to_big",
-        "input": {
-          "Var": [
-            "M31",
-            "memory_address_to_id_value_tmp_49e92_12"
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_49e92_13",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "memory_address_to_id_value_tmp_49e92_12"
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_id_to_big_value_tmp_49e92_13"
+        }
       }
     },
     {
@@ -4466,35 +4508,49 @@
       "StartBlock": "Read Small"
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_address_to_id",
-        "input": {
-          "BinaryOp": [
-            {
-              "State": "input_pc_col0"
-            },
-            "+",
-            {
-              "Const": [
-                "M31",
-                "1"
-              ]
-            }
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_49e92_16",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "State": "input_pc_col0"
+                  },
+                  "+",
+                  {
+                    "Const": [
+                      "M31",
+                      "1"
+                    ]
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_address_to_id_value_tmp_49e92_16"
+        }
       }
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_id_to_big",
-        "input": {
-          "Var": [
-            "M31",
-            "memory_address_to_id_value_tmp_49e92_16"
+      "Intermediate": {
+        "name": "memory_id_to_big_value_tmp_49e92_17",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "MemoryIdToBig::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "memory_address_to_id_value_tmp_49e92_16"
+                ]
+              }
+            ]
           ]
-        },
-        "output_name": "memory_id_to_big_value_tmp_49e92_17"
+        }
       }
     },
     {

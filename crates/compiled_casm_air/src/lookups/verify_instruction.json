@@ -1108,12 +1108,19 @@
       "StartBlock": "Mem Verify"
     },
     {
-      "LookupCall": {
-        "fn_name": "memory_address_to_id",
-        "input": {
-          "State": "input_limb_0_col0"
-        },
-        "output_name": "memory_address_to_id_value_tmp_16a4f_9"
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_16a4f_9",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "State": "input_limb_0_col0"
+              }
+            ]
+          ]
+        }
       }
     },
     {

@@ -46,6 +46,7 @@
     {
       "LookupCall": {
         "air_fn_name": "test_chain_round",
+        "method_name": "TestChainRound::deduce_output",
         "input": [
           {
             "name": "(Seq_col0 * 2)",
@@ -60,7 +61,8 @@
             "type": "M31"
           }
         ],
-        "output_name": "test_chain_round_output_round_0_tmp_b7061_0"
+        "output_name": "test_chain_round_output_round_0_tmp_b7061_0",
+        "output_type": "(M31, M31, M31)"
       }
     },
     {
@@ -85,6 +87,7 @@
     {
       "LookupCall": {
         "air_fn_name": "test_chain_round",
+        "method_name": "TestChainRound::deduce_output",
         "input": [
           {
             "name": "(Seq_col0 * 2)",
@@ -99,7 +102,8 @@
             "type": "M31"
           }
         ],
-        "output_name": "test_chain_round_output_round_1_tmp_b7061_1"
+        "output_name": "test_chain_round_output_round_1_tmp_b7061_1",
+        "output_type": "(M31, M31, M31)"
       }
     },
     {
@@ -124,6 +128,7 @@
     {
       "LookupCall": {
         "air_fn_name": "test_chain_round",
+        "method_name": "TestChainRound::deduce_output",
         "input": [
           {
             "name": "(Seq_col0 * 2)",
@@ -138,7 +143,8 @@
             "type": "M31"
           }
         ],
-        "output_name": "test_chain_round_output_round_2_tmp_b7061_2"
+        "output_name": "test_chain_round_output_round_2_tmp_b7061_2",
+        "output_type": "(M31, M31, M31)"
       }
     },
     {
@@ -203,6 +209,7 @@
     {
       "LookupCall": {
         "air_fn_name": "test_chain_round",
+        "method_name": "TestChainRound::deduce_output",
         "input": [
           {
             "name": "((Seq_col0 * 2) + 1)",
@@ -217,7 +224,8 @@
             "type": "M31"
           }
         ],
-        "output_name": "test_chain_round_output_round_5_tmp_b7061_3"
+        "output_name": "test_chain_round_output_round_5_tmp_b7061_3",
+        "output_type": "(M31, M31, M31)"
       }
     },
     {
@@ -242,6 +250,7 @@
     {
       "LookupCall": {
         "air_fn_name": "test_chain_round",
+        "method_name": "TestChainRound::deduce_output",
         "input": [
           {
             "name": "((Seq_col0 * 2) + 1)",
@@ -256,7 +265,8 @@
             "type": "M31"
           }
         ],
-        "output_name": "test_chain_round_output_round_6_tmp_b7061_4"
+        "output_name": "test_chain_round_output_round_6_tmp_b7061_4",
+        "output_type": "(M31, M31, M31)"
       }
     },
     {

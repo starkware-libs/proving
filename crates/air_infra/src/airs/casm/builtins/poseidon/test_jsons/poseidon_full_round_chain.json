@@ -291,11 +291,13 @@
     {
       "LookupCall": {
         "air_fn_name": "cube_252",
+        "method_name": "Cube252::deduce_output",
         "input": {
           "name": "input_tmp_f9fbc_0.2[0]",
           "type": "Felt252Packed27"
         },
-        "output_name": "cube_252_output_tmp_f9fbc_1"
+        "output_name": "cube_252_output_tmp_f9fbc_1",
+        "output_type": "Felt252Packed27"
       }
     },
     {
@@ -398,11 +400,13 @@
     {
       "LookupCall": {
         "air_fn_name": "cube_252",
+        "method_name": "Cube252::deduce_output",
         "input": {
           "name": "input_tmp_f9fbc_0.2[1]",
           "type": "Felt252Packed27"
         },
-        "output_name": "cube_252_output_tmp_f9fbc_2"
+        "output_name": "cube_252_output_tmp_f9fbc_2",
+        "output_type": "Felt252Packed27"
       }
     },
     {
@@ -505,11 +509,13 @@
     {
       "LookupCall": {
         "air_fn_name": "cube_252",
+        "method_name": "Cube252::deduce_output",
         "input": {
           "name": "input_tmp_f9fbc_0.2[2]",
           "type": "Felt252Packed27"
         },
-        "output_name": "cube_252_output_tmp_f9fbc_3"
+        "output_name": "cube_252_output_tmp_f9fbc_3",
+        "output_type": "Felt252Packed27"
       }
     },
     {
@@ -612,11 +618,13 @@
     {
       "LookupCall": {
         "air_fn_name": "poseidon_round_keys",
+        "method_name": "PoseidonRoundKeys::deduce_output",
         "ext_input": {
           "name": "col1",
           "type": "M31"
         },
-        "output_name": "poseidon_round_keys_output_tmp_f9fbc_4"
+        "output_name": "poseidon_round_keys_output_tmp_f9fbc_4",
+        "output_type": "[Felt252Packed27, Felt252Packed27, Felt252Packed27]"
       }
     },
     {
