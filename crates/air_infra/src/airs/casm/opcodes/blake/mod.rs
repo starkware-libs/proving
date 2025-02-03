@@ -1,5 +1,6 @@
 pub mod create_blake_output;
 mod create_round_input;
+pub mod decode_blake_opcode;
 pub mod g;
 #[cfg(test)]
 mod g_test;
