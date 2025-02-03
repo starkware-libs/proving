@@ -9,6 +9,7 @@ use indexmap::IndexMap;
 use super::builtins::bitwise::*;
 use super::builtins::modulo::add_mod::*;
 use super::builtins::modulo::mul_mod::*;
+use super::builtins::poseidon::poseidon_builtin::*;
 use super::builtins::range_check::*;
 // Opcodes
 use super::opcodes::add_ap_opcode::*;
@@ -51,6 +52,7 @@ fn test_casm_registry() {
     });
     reg.add_entry(&AddModBuiltin::default());
     reg.add_entry(&MulModBuiltin::default());
+    reg.add_entry(&PoseidonBuiltin::default());
 
     // Add opcodes
 

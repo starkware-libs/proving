@@ -9,15 +9,6 @@ use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
 #[test]
-fn test_entry_json_chain() {
-    let (_, entry) = AirFnRegistry::new(&PoseidonFullRoundChain {});
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
-    );
-}
-
-#[test]
 fn test_poseidon_full_round() {
     let air_fn = PoseidonFullRoundChain {};
     let (registry, _) = AirFnRegistry::new(&air_fn);

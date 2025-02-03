@@ -18,15 +18,6 @@ fn test_entry_json_one_round() {
 }
 
 #[test]
-fn test_entry_json_3_rounds() {
-    let (_, entry) = AirFnRegistry::new(&Poseidon3PartialRoundsChain {});
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
-    );
-}
-
-#[test]
 fn test_poseidon_partial_round() {
     let air_fn = Poseidon3PartialRoundsChain {};
     let (registry, _) = AirFnRegistry::new(&air_fn);

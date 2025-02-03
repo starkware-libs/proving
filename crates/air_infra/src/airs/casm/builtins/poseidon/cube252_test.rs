@@ -6,16 +6,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
-// TODO(DanC): Remove component json tests after the full Poseidon air is added to the registry.
-#[test]
-fn test_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&Cube252 {});
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
-    );
-}
-
 #[test]
 fn test_cube252_no_overflow() {
     let air_fn = Cube252 {};

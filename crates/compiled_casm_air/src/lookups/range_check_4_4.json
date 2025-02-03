@@ -1,0 +1,82 @@
+{
+  "name": "range_check_4_4",
+  "relation_name": "RangeCheck_4_4",
+  "description": "Range Check 4 4",
+  "input": {
+    "Array": [
+      {
+        "ExternalState": {
+          "name": "RangeCheck_4_4_Const",
+          "col_index": 0,
+          "log_n_rows": null
+        }
+      },
+      {
+        "ExternalState": {
+          "name": "RangeCheck_4_4_Const",
+          "col_index": 1,
+          "log_n_rows": null
+        }
+      }
+    ]
+  },
+  "state_names": [],
+  "multiplicity_col_index": 0,
+  "lookup_names": [],
+  "n_lookup_terms": 1,
+  "public_params": [],
+  "external_states": [
+    [
+      "RangeCheck_4_4_Const",
+      null
+    ]
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_4_4",
+        "felts": [
+          {
+            "ExternalState": {
+              "name": "RangeCheck_4_4_Const",
+              "col_index": 0,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "RangeCheck_4_4_Const",
+              "col_index": 1,
+              "log_n_rows": null
+            }
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_4_4",
+        "felts": [
+          {
+            "ExternalState": {
+              "name": "RangeCheck_4_4_Const",
+              "col_index": 0,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "RangeCheck_4_4_Const",
+              "col_index": 1,
+              "log_n_rows": null
+            }
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}

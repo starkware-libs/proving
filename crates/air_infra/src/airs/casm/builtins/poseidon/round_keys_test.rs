@@ -10,16 +10,6 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
-// TODO(DanC): Remove component json tests after the full Poseidon air is added to the registry.
-#[test]
-fn test_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&PoseidonRoundKeys {});
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
-    );
-}
-
 #[test]
 fn test_round_keys() {
     let air_fn = PoseidonRoundKeys {};

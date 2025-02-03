@@ -185,6 +185,160 @@
     "total_num_trace_cols": 800,
     "trace_cells_upper_bound": 800
   },
+  "range_check_19": {
+    "trace_type": "Component",
+    "num_state_cols": 0,
+    "lookup_use_cols": {},
+    "lookup_rows": {},
+    "lookup_yield": true,
+    "lookup_multiplicity": true,
+    "total_num_trace_cols": 3,
+    "trace_cells_upper_bound": 3
+  },
+  "cube_252": {
+    "trace_type": "Component",
+    "num_state_cols": 140,
+    "lookup_use_cols": {
+      "RangeCheck_9_9": 42,
+      "RangeCheck_19": 56
+    },
+    "lookup_rows": {
+      "range_check_9_9": 42,
+      "range_check_19": 56
+    },
+    "lookup_yield": true,
+    "lookup_multiplicity": true,
+    "total_num_trace_cols": 339,
+    "trace_cells_upper_bound": 339
+  },
+  "poseidon_round_keys": {
+    "trace_type": "Component",
+    "num_state_cols": 0,
+    "lookup_use_cols": {},
+    "lookup_rows": {},
+    "lookup_yield": true,
+    "lookup_multiplicity": true,
+    "total_num_trace_cols": 3,
+    "trace_cells_upper_bound": 3
+  },
+  "range_check_3_3_3_3_3": {
+    "trace_type": "Component",
+    "num_state_cols": 0,
+    "lookup_use_cols": {},
+    "lookup_rows": {},
+    "lookup_yield": true,
+    "lookup_multiplicity": true,
+    "total_num_trace_cols": 3,
+    "trace_cells_upper_bound": 3
+  },
+  "poseidon_full_round_chain": {
+    "trace_type": "ChainRound",
+    "num_state_cols": 125,
+    "lookup_use_cols": {
+      "Cube252": 3,
+      "PoseidonRoundKeys": 1,
+      "RangeCheck_3_3_3_3_3": 6,
+      "PoseidonFullRoundChain": 1
+    },
+    "lookup_rows": {
+      "cube_252": 3,
+      "poseidon_round_keys": 1,
+      "range_check_3_3_3_3_3": 6
+    },
+    "lookup_yield": true,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 149,
+    "trace_cells_upper_bound": 1166
+  },
+  "range_check_felt_252_packed_27": {
+    "trace_type": "Component",
+    "num_state_cols": 19,
+    "lookup_use_cols": {
+      "RangeCheck_9_9": 5,
+      "RangeCheck_18": 9
+    },
+    "lookup_rows": {
+      "range_check_9_9": 5,
+      "range_check_18": 9
+    },
+    "lookup_yield": true,
+    "lookup_multiplicity": true,
+    "total_num_trace_cols": 50,
+    "trace_cells_upper_bound": 50
+  },
+  "range_check_4_4_4_4": {
+    "trace_type": "Component",
+    "num_state_cols": 0,
+    "lookup_use_cols": {},
+    "lookup_rows": {},
+    "lookup_yield": true,
+    "lookup_multiplicity": true,
+    "total_num_trace_cols": 3,
+    "trace_cells_upper_bound": 3
+  },
+  "range_check_4_4": {
+    "trace_type": "Component",
+    "num_state_cols": 0,
+    "lookup_use_cols": {},
+    "lookup_rows": {},
+    "lookup_yield": true,
+    "lookup_multiplicity": true,
+    "total_num_trace_cols": 3,
+    "trace_cells_upper_bound": 3
+  },
+  "poseidon_3_partial_rounds_chain": {
+    "trace_type": "ChainRound",
+    "num_state_cols": 168,
+    "lookup_use_cols": {
+      "PoseidonRoundKeys": 1,
+      "Cube252": 3,
+      "RangeCheck_4_4_4_4": 6,
+      "RangeCheck_4_4": 3,
+      "RangeCheckFelt252Packed27": 3,
+      "Poseidon3PartialRoundsChain": 1
+    },
+    "lookup_rows": {
+      "poseidon_round_keys": 1,
+      "cube_252": 3,
+      "range_check_4_4_4_4": 6,
+      "range_check_4_4": 3,
+      "range_check_felt_252_packed_27": 3
+    },
+    "lookup_yield": true,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 204,
+    "trace_cells_upper_bound": 1371
+  },
+  "poseidon_builtin": {
+    "trace_type": "Builtin",
+    "num_state_cols": 347,
+    "lookup_use_cols": {
+      "MemoryAddressToId": 6,
+      "MemoryIdToBig": 6,
+      "PoseidonFullRoundChain": 2,
+      "RangeCheckFelt252Packed27": 2,
+      "Cube252": 2,
+      "RangeCheck_3_3_3_3_3": 2,
+      "RangeCheck_4_4_4_4": 6,
+      "RangeCheck_4_4": 3,
+      "Poseidon3PartialRoundsChain": 1
+    },
+    "lookup_rows": {
+      "memory_address_to_id": 6,
+      "memory_id_to_big": 6,
+      "poseidon_full_round_chain": 8,
+      "range_check_felt_252_packed_27": 2,
+      "cube_252": 2,
+      "range_check_3_3_3_3_3": 2,
+      "range_check_4_4_4_4": 6,
+      "range_check_4_4": 3,
+      "poseidon_3_partial_rounds_chain": 27
+    },
+    "lookup_yield": false,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 407,
+    "trace_cells_upper_bound": 47530
+  },
   "range_check_7_2_5": {
     "trace_type": "Component",
     "num_state_cols": 0,
@@ -224,16 +378,6 @@
     "lookup_multiplicity": true,
     "total_num_trace_cols": 27,
     "trace_cells_upper_bound": 27
-  },
-  "range_check_19": {
-    "trace_type": "Component",
-    "num_state_cols": 0,
-    "lookup_use_cols": {},
-    "lookup_rows": {},
-    "lookup_yield": true,
-    "lookup_multiplicity": true,
-    "total_num_trace_cols": 3,
-    "trace_cells_upper_bound": 3
   },
   "generic_opcode": {
     "trace_type": "Opcode",

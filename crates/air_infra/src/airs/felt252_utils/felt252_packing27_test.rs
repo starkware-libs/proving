@@ -17,16 +17,6 @@ fn test_entry_json_unpack() {
     );
 }
 
-// TODO(DanC): Remove component json tests after the full Poseidon air is added to the registry.
-#[test]
-fn test_entry_json_rangecheck() {
-    let (_, entry) = AirFnRegistry::new(&RangeCheckFelt252Packed27 {});
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_FELT252_DIR, entry.name),
-    );
-}
-
 #[test]
 fn test_verify_felt252pack_into27() {
     let unpacked = const_felt252_expr!(
