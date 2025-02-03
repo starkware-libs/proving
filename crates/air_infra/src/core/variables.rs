@@ -1,5 +1,5 @@
 use std::array::from_fn;
-use std::collections::HashSet;
+use std::collections::{BTreeSet, HashSet};
 use std::fmt::Debug;
 
 use compiled_casm_air::compiled_structs::CompiledAirVar;
@@ -107,14 +107,14 @@ pub trait InternalAirVarInfo {
         }
     }
 
-    fn public_params(&self) -> HashSet<PublicParam> {
+    fn public_params(&self) -> BTreeSet<PublicParam> {
         self.get_info()
             .iter()
             .filter_map(|i| i.public_param.clone())
             .collect()
     }
 
-    fn external_states(&self) -> HashSet<(String, Option<usize>)> {
+    fn external_states(&self) -> BTreeSet<(String, Option<usize>)> {
         self.get_info()
             .iter()
             .filter_map(|i| i.external_state.clone())

@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeSet, HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, Intermediate, LookupTerm, TraceGenStep, UseOrYield,
@@ -729,7 +729,7 @@ fn generate_allows(lists: &CompiledAirFn) -> rust::Tokens {
 
 fn generate_imports_code(
     deductions: &[TraceGenStep],
-    external_states: &HashSet<(String, Option<usize>)>,
+    external_states: &BTreeSet<(String, Option<usize>)>,
 ) -> rust::Tokens {
     quote! {
         use std::iter::zip;

@@ -1,4 +1,4 @@
-use std::collections::{BTreeSet, HashSet};
+use std::collections::BTreeSet;
 use std::fmt::Debug;
 
 use compiled_casm_air::compiled_structs::{
@@ -483,6 +483,6 @@ impl AirBody {
 pub struct CompiledAirBody {
     pub deductions: Vec<TraceGenStep>,
     pub constraints: Vec<ConstraintEvalStep>,
-    pub public_params: HashSet<PublicParam>,
-    pub external_states: HashSet<(String, Option<usize>)>,
+    pub public_params: BTreeSet<PublicParam>,
+    pub external_states: BTreeSet<(String, Option<usize>)>,
 }

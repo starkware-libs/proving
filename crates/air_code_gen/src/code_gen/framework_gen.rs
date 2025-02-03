@@ -1,4 +1,4 @@
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeSet, HashMap};
 
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, ConstraintEvalStep, Intermediate, LookupTerm,
@@ -31,7 +31,7 @@ pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn imports(external_states: &HashSet<(String, Option<usize>)>) -> rust::Tokens {
+fn imports(external_states: &BTreeSet<(String, Option<usize>)>) -> rust::Tokens {
     quote! {
         #![allow(non_camel_case_types)]
         #![allow(unused_imports)]

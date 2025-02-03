@@ -1,4 +1,4 @@
-use std::collections::{BTreeSet, HashSet};
+use std::collections::BTreeSet;
 
 use indexmap::IndexMap;
 use serde::{Deserialize, Serialize};
@@ -25,10 +25,10 @@ pub struct CompiledAirFn {
     pub n_lookup_terms: usize,
 
     // The set of public parameters used in the air function.
-    pub public_params: HashSet<PublicParam>,
+    pub public_params: BTreeSet<PublicParam>,
 
     // The set of external states used in the air function.
-    pub external_states: HashSet<(String, Option<usize>)>,
+    pub external_states: BTreeSet<(String, Option<usize>)>,
 
     pub constraints: Vec<ConstraintEvalStep>,
     pub deductions: Vec<TraceGenStep>,
