@@ -1,3 +1,6 @@
+pub mod blake_compress;
+#[cfg(test)]
+mod blake_test;
 pub mod create_blake_output;
 mod create_round_input;
 pub mod decode_blake_opcode;
