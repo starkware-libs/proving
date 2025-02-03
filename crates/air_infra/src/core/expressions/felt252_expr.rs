@@ -133,6 +133,15 @@ macro_rules! const_felt252_expr {
     };
 }
 
+#[macro_export]
+macro_rules! const_felt252_expr_from_felt252 {
+    ($felt252:expr) => {
+        Felt252Expr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
+            $felt252,
+        ))
+    };
+}
+
 #[cfg(test)]
 macro_rules! felt252_expr {
     ($name:expr, $low:expr, $high:expr) => {
