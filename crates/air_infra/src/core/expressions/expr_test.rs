@@ -397,10 +397,16 @@ fn test_biguint384() {
 
     let f = felt252_expr!("x", 1, 1);
     compiled = BigUInt384Expr::from(f).into();
-    assert_eq!(&compiled.to_string(), "BigUInt::<384, 6>::from_felt252(x)");
+    assert_eq!(
+        &compiled.to_string(),
+        "BigUInt::<384, 6, 32>::from_felt252(x)"
+    );
 
     compiled = bigu384_expr!("v".to_string(), 1, 0, 1, 0, 0, 0).into();
-    assert_eq!(format!("{:?}", compiled), "Var(\"BigUInt<384, 6>\", \"v\")");
+    assert_eq!(
+        format!("{:?}", compiled),
+        "Var(\"BigUInt<384, 6, 32>\", \"v\")"
+    );
 
     let h = const_felt252_expr!(1, 1);
     let g = BigUInt384Expr::from(h.clone());

@@ -164,15 +164,15 @@ impl Display for Operation {
             Operation::UInt32FromFelt => write!(f, "UInt32::from_m31"),
             Operation::UInt32FromFeltsPair => write!(f, "UInt32::from_limbs"),
             Operation::BigUInt768FromBigUInt384 => {
-                write!(f, "BigUInt::<768, 12>::from_biguint::<384, 6>")
+                write!(f, "BigUInt::<768, 12, 64>::from_biguint::<384, 6, 32>")
             }
             Operation::BigUInt384FromBigUInt764 => {
-                write!(f, "BigUInt::<384, 6>::from_biguint::<768, 12>")
+                write!(f, "BigUInt::<384, 6, 32>::from_biguint::<768, 12, 64>")
             }
-            Operation::BigUInt384FromFelt252 => write!(f, "BigUInt::<384, 6>::from_felt252"),
-            Operation::BigUInt768FromFelt252 => write!(f, "BigUInt::<768, 12>::from_felt252"),
+            Operation::BigUInt384FromFelt252 => write!(f, "BigUInt::<384, 6, 32>::from_felt252"),
+            Operation::BigUInt768FromFelt252 => write!(f, "BigUInt::<768, 12, 64>::from_felt252"),
             Operation::BigUInt384FromFelt252Array => {
-                write!(f, "BigUInt::<384, 6>::from_felt252_array")
+                write!(f, "BigUInt::<384, 6, 32>::from_felt252_array")
             }
             Operation::Inverse => write!(f, "inverse"),
         }

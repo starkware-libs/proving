@@ -26233,14 +26233,14 @@
     {
       "Intermediate": {
         "name": "diff_tmp_c1b19_61",
-        "type": "BigUInt<384, 6>",
+        "type": "BigUInt<384, 6, 32>",
         "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
                 {
                   "StaticCall": [
-                    "BigUInt::<384, 6>::from_felt252_array",
+                    "BigUInt::<384, 6, 32>::from_felt252_array",
                     [
                       {
                         "Array": [
@@ -26836,7 +26836,7 @@
                 "+",
                 {
                   "StaticCall": [
-                    "BigUInt::<384, 6>::from_felt252_array",
+                    "BigUInt::<384, 6, 32>::from_felt252_array",
                     [
                       {
                         "Array": [
@@ -27434,7 +27434,7 @@
             "-",
             {
               "StaticCall": [
-                "BigUInt::<384, 6>::from_felt252_array",
+                "BigUInt::<384, 6, 32>::from_felt252_array",
                 [
                   {
                     "Array": [
@@ -28039,7 +28039,7 @@
           "MethodCall": [
             {
               "Var": [
-                "BigUInt<384, 6>",
+                "BigUInt<384, 6, 32>",
                 "diff_tmp_c1b19_61"
               ]
             },
@@ -28047,7 +28047,7 @@
             [
               {
                 "Const": [
-                  "BigUInt<384, 6>",
+                  "BigUInt<384, 6, 32>",
                   "[0, 0, 0, 0, 0, 0]"
                 ]
               }
