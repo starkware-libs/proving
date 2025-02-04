@@ -14,3 +14,4 @@ indexmap = { workspace = true, features = ["serde"] }
 inst_def = { path = "../derive_macros/inst_def" }
 convert_case.workspace = true
 regex = "1.11.1"
+blake2 = "0.10.6"

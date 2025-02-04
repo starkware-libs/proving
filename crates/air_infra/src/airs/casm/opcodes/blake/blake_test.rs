@@ -13,16 +13,15 @@ use crate::core::state::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
-// TODO(Stav): Add a test that compares to a rust implementation of Blake.
 #[allow(clippy::too_many_arguments)]
 fn test_blake(
     offsets: [i16; 3],
-    casm_state: [i32; 3],
-    pointers: [i32; 3],
-    state: [i64; 8],
-    t: i32,
-    new_state: [i64; 8],
-    message: [i64; 16],
+    casm_state: [u32; 3],
+    pointers: [u32; 3],
+    state: [u32; 8],
+    t: u32,
+    new_state: [u32; 8],
+    message: [u32; 16],
     flags: ([bool; 5], OpcodeExtension),
 ) -> (State, CasmStateVar) {
     let [pc_value, ap_value, fp_value] = casm_state;
@@ -57,14 +56,14 @@ fn test_blake(
     let dst_base = if dst_base_fp { fp_value } else { ap_value };
     memory_values.push((
         const_expr!((dst_base as i16 + offsets[0]) as u32),
-        const_felt252_expr!(t),
+        const_felt252_expr!(t as i64),
     ));
 
     // op0
     let op0_base = if op0_base_fp { fp_value } else { ap_value };
     memory_values.push((
         const_expr!((op0_base as i16 + offsets[1]) as u32),
-        const_felt252_expr!(state_pointer),
+        const_felt252_expr!(state_pointer as i64),
     ));
 
     // op1
@@ -77,33 +76,33 @@ fn test_blake(
     };
     memory_values.push((
         const_expr!((op1_base as i16 + offsets[2]) as u32),
-        const_felt252_expr!(messgae_pointer),
+        const_felt252_expr!(messgae_pointer as i64),
     ));
 
     for i in 0..8 {
         // new_state
         memory_values.push((
-            const_expr!(new_state_pointer as u32 + i),
-            const_felt252_expr!(new_state[i as usize]),
+            const_expr!(new_state_pointer + i),
+            const_felt252_expr!(new_state[i as usize] as i64),
         ));
         // state
         memory_values.push((
-            const_expr!(state_pointer as u32 + i),
-            const_felt252_expr!(state[i as usize]),
+            const_expr!(state_pointer + i),
+            const_felt252_expr!(state[i as usize] as i64),
         ));
     }
     for i in 0..16 {
         // message
         memory_values.push((
-            const_expr!(messgae_pointer as u32 + i),
-            const_felt252_expr!(message[i as usize]),
+            const_expr!(messgae_pointer + i),
+            const_felt252_expr!(message[i as usize] as i64),
         ));
     }
 
     // new state pointer
     memory_values.push((
         const_expr!(ap_value),
-        const_felt252_expr!(new_state_pointer),
+        const_felt252_expr!(new_state_pointer as i64),
     ));
     blake_opcode.memory = Felt252IdMemory::new_with_data(memory_values);
 
@@ -493,4 +492,130 @@ fn test_blake_opcode_fail() {
         messgae,
         ([false, true, true, false, true], OpcodeExtension::Blake),
     );
+}
+
+mod blake_rust_tests {
+    use blake2::*;
+
+    use super::*;
+    use crate::airs::casm::opcodes::blake::create_round_input::*;
+
+    // Convert array of bytes to array of u32
+    #[cfg(test)]
+    fn u8_to_u32_array(bytes: &[u8]) -> Vec<u32> {
+        let mut u32_array = vec![];
+        for chunk in bytes.chunks(4) {
+            let mut padded_chunk = [0u8; 4];
+
+            for (i, &b) in chunk.iter().enumerate() {
+                padded_chunk[i] = b;
+            }
+
+            u32_array.push(u32::from_le_bytes(padded_chunk));
+        }
+        u32_array
+    }
+
+    #[test]
+    fn test_empty_string_hash() {
+        let mut hasher = Blake2s256::new();
+        hasher.update(b"");
+        let hash: [u8; 32] = hasher.finalize().into();
+
+        let state = [
+            // key_size = 0x00, output_size = 0x20
+            IV[0] ^ 0x01010020,
+            IV[1],
+            IV[2],
+            IV[3],
+            IV[4],
+            IV[5],
+            IV[6],
+            IV[7],
+        ];
+        let new_state = u8_to_u32_array(&hash);
+        let messgae = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+
+        test_blake(
+            [45, 83, 112],
+            [3, 11, 6],
+            [456, 1465, 432453],
+            state,
+            0,
+            new_state
+                .try_into()
+                .expect("Expected hash size of 8 u32 elements"),
+            messgae,
+            (
+                [false, true, true, false, true],
+                OpcodeExtension::BlakeFinalize,
+            ),
+        );
+    }
+
+    #[test]
+    fn test_big_string_hash() {
+        let input = b"25844d502c329223298318e937d334dd3ed7dd273b71432bb157f742f33b03a55bc82437b9477cd70e08e088fc2999eabb7225";
+        let input_as_u32 = u8_to_u32_array(input);
+        let num_bytes = input.len();
+
+        let mut hasher = Blake2s256::new();
+        hasher.update(input);
+        let hash: [u8; 32] = hasher.finalize().into();
+
+        // First chunk
+        let mut state = [
+            // key_size = 0x00, output_size = 0x20
+            IV[0] ^ 0x01010020,
+            IV[1],
+            IV[2],
+            IV[3],
+            IV[4],
+            IV[5],
+            IV[6],
+            IV[7],
+        ];
+
+        let new_state = [
+            1393684787, 2988713546, 1902042253, 224103376, 992369913, 3965699322, 2296366438,
+            863347823,
+        ];
+        let messgae0 = input_as_u32[0..16]
+            .try_into()
+            .expect("Expected at least 16 u32 elements in input");
+
+        let (..) = test_blake(
+            [45, 83, 112],
+            [3, 11, 6],
+            [456, 1465, 432453],
+            state,
+            64,
+            new_state,
+            messgae0,
+            ([false, true, true, false, true], OpcodeExtension::Blake),
+        );
+
+        // Second chunk
+        state = new_state;
+        // Pad with zeros the end of message.
+        let mut message1 = [0u32; 16];
+        message1[..10].copy_from_slice(&input_as_u32[16..26]);
+        let new_state = u8_to_u32_array(&hash);
+
+        let (..) = test_blake(
+            [45, 83, 112],
+            [3, 11, 6],
+            [456, 1465, 432453],
+            state,
+            num_bytes as u32,
+            new_state
+                .try_into()
+                .expect("Expected hash size of 8 u32 elements"),
+            message1,
+            (
+                [false, true, true, false, true],
+                OpcodeExtension::BlakeFinalize,
+            ),
+        );
+    }
 }
