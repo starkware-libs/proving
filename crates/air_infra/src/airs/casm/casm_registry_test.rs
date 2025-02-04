@@ -268,6 +268,7 @@ fn add_entry_statistics(
 
     let total_num_trace_cols = num_state_cols
         + (TRACE_COLUMNS_PER_LOGUP * num_lookup_cols)
+        + ((num_lookup_cols % 2) * TRACE_COLUMNS_PER_LOGUP)
         + (lookup_multiplicity as usize)
         + (TRACE_COLUMNS_PER_LOGUP * (lookup_yield as usize));
 
