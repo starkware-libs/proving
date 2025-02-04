@@ -39,13 +39,13 @@ const N_TRACE_COLUMNS: usize = 17;
 
 #[derive(Default)]
 pub struct ClaimGenerator {
-    pub n_rows: usize,
+    pub log_size: u32,
     pub range_check_builtin_segment_start: u32,
 }
 impl ClaimGenerator {
-    pub fn new(n_rows: usize, range_check_builtin_segment_start: u32) -> Self {
+    pub fn new(log_size: u32, range_check_builtin_segment_start: u32) -> Self {
         Self {
-            n_rows,
+            log_size,
             range_check_builtin_segment_start,
         }
     }
@@ -59,10 +59,10 @@ impl ClaimGenerator {
     where
         SimdBackend: BackendForChannel<MC>,
     {
-        let n_rows = self.n_rows;
-        assert_ne!(n_rows, 0);
+        let log_size = self.log_size;
+
         let (trace, lookup_data) = write_trace_simd(
-            n_rows,
+            log_size,
             self.range_check_builtin_segment_start,
             memory_address_to_id_state,
             memory_id_to_big_state,
@@ -72,11 +72,11 @@ impl ClaimGenerator {
 
         (
             Claim {
-                n_rows,
+                log_size,
                 range_check_builtin_segment_start: self.range_check_builtin_segment_start,
             },
             InteractionClaimGenerator {
-                n_rows,
+                log_size,
                 lookup_data,
             },
         )
@@ -89,12 +89,11 @@ impl ClaimGenerator {
 #[allow(clippy::double_parens)]
 #[allow(non_snake_case)]
 fn write_trace_simd(
-    n_rows: usize,
+    log_size: u32,
     range_check_builtin_segment_start: u32,
     memory_address_to_id_state: &memory_address_to_id::ClaimGenerator,
     memory_id_to_big_state: &memory_id_to_big::ClaimGenerator,
 ) -> (ComponentTrace<N_TRACE_COLUMNS>, LookupData) {
-    let log_size = n_rows.next_power_of_two().ilog2();
     let log_n_packed_rows = log_size - LOG_N_LANES;
     let (mut trace, mut lookup_data) = unsafe {
         (
@@ -207,14 +206,8 @@ fn write_trace_simd(
             // Add sub-components inputs.
             #[allow(clippy::needless_range_loop)]
             for i in 0..N_LANES {
-                if bit_reverse_index(
-                    coset_index_to_circle_domain_index(row_index * N_LANES + i, log_size),
-                    log_size,
-                ) < n_rows
-                {
-                    memory_address_to_id_state.add_input(&memory_address_to_id_inputs_0[i]);
-                    memory_id_to_big_state.add_input(&memory_id_to_big_inputs_0[i]);
-                }
+                memory_address_to_id_state.add_input(&memory_address_to_id_inputs_0[i]);
+                memory_id_to_big_state.add_input(&memory_id_to_big_inputs_0[i]);
             }
         });
 
@@ -228,7 +221,7 @@ struct LookupData {
 }
 
 pub struct InteractionClaimGenerator {
-    n_rows: usize,
+    log_size: u32,
     lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
@@ -241,8 +234,7 @@ impl InteractionClaimGenerator {
     where
         SimdBackend: BackendForChannel<MC>,
     {
-        let log_size = std::cmp::max(self.n_rows.next_power_of_two().ilog2(), LOG_N_LANES);
-        let mut logup_gen = LogupTraceGenerator::new(log_size);
+        let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
         // Sum logup terms in pairs.
         let mut col_gen = logup_gen.new_col();
@@ -258,18 +250,11 @@ impl InteractionClaimGenerator {
         }
         col_gen.finalize_col();
 
-        let (trace, total_sum, claimed_sum) = if self.n_rows == 1 << log_size {
-            let (trace, claimed_sum) = logup_gen.finalize_last();
-            (trace, claimed_sum, None)
-        } else {
-            let (trace, [total_sum, claimed_sum]) =
-                logup_gen.finalize_at([(1 << log_size) - 1, self.n_rows - 1]);
-            (trace, total_sum, Some((claimed_sum, self.n_rows - 1)))
-        };
+        let (trace, claimed_sum) = logup_gen.finalize_last();
         tree_builder.extend_evals(trace);
 
         InteractionClaim {
-            logup_sums: (total_sum, claimed_sum),
+            logup_sums: (claimed_sum, None),
         }
     }
 }

@@ -60,6 +60,7 @@ impl ClaimGenerator {
         assert_ne!(n_rows, 0);
         let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
         let need_padding = n_rows != size;
+        let log_size = size.ilog2();
 
         if need_padding {
             self.inputs.resize(size, *self.inputs.first().unwrap());
@@ -67,14 +68,15 @@ impl ClaimGenerator {
         }
 
         let packed_inputs = pack_values(&self.inputs);
+
         let (trace, lookup_data) = write_trace_simd(n_rows, packed_inputs);
 
         tree_builder.extend_evals(trace.to_evals());
 
         (
-            Claim { n_rows },
+            Claim { log_size },
             InteractionClaimGenerator {
-                n_rows,
+                log_size,
                 lookup_data,
             },
         )
@@ -104,7 +106,7 @@ struct LookupData {
 }
 
 pub struct InteractionClaimGenerator {
-    n_rows: usize,
+    log_size: u32,
     lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
@@ -116,8 +118,7 @@ impl InteractionClaimGenerator {
     where
         SimdBackend: BackendForChannel<MC>,
     {
-        let log_size = std::cmp::max(self.n_rows.next_power_of_two().ilog2(), LOG_N_LANES);
-        let mut logup_gen = LogupTraceGenerator::new(log_size);
+        let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
         // Sum last logup term.
         let mut col_gen = logup_gen.new_col();
@@ -127,18 +128,11 @@ impl InteractionClaimGenerator {
         }
         col_gen.finalize_col();
 
-        let (trace, total_sum, claimed_sum) = if self.n_rows == 1 << log_size {
-            let (trace, claimed_sum) = logup_gen.finalize_last();
-            (trace, claimed_sum, None)
-        } else {
-            let (trace, [total_sum, claimed_sum]) =
-                logup_gen.finalize_at([(1 << log_size) - 1, self.n_rows - 1]);
-            (trace, total_sum, Some((claimed_sum, self.n_rows - 1)))
-        };
+        let (trace, claimed_sum) = logup_gen.finalize_last();
         tree_builder.extend_evals(trace);
 
         InteractionClaim {
-            logup_sums: (total_sum, claimed_sum),
+            logup_sums: (claimed_sum, None),
         }
     }
 }

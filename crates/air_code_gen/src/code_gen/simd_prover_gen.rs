@@ -152,19 +152,24 @@ fn generate_simd_write_trace_body_code(
             }
         }
     }
+    if contains_inputs(lists) {
+        add_inputs_lambda = quote! {
+            if bit_reverse_index(
+                coset_index_to_circle_domain_index(row_index * N_LANES + i, log_size),
+                log_size,
+            ) < n_rows
+            {
+                $(add_inputs_lambda)
+            }
+        };
+    };
     write_trace_body.extend(quote!(
         $['\n']$("// Add sub-components inputs.\n")
     ));
     write_trace_body.extend(quote! {
         #[allow(clippy::needless_range_loop)]
             for i in 0..N_LANES {
-                if bit_reverse_index(
-                    coset_index_to_circle_domain_index(row_index * N_LANES + i, log_size),
-                    log_size,
-                ) < n_rows
-                {
-                    $(add_inputs_lambda)
-                }
+                $(add_inputs_lambda)
             }
 
     });
@@ -208,7 +213,6 @@ fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
     } else {
         (
             quote! {
-                let log_size = n_rows.next_power_of_two().ilog2();
                 let log_n_packed_rows = log_size - LOG_N_LANES;
             },
             quote! {},
@@ -304,7 +308,7 @@ fn generate_claim_generator_struct(
     let mut claim_generator_fields = if contains_inputs {
         quote! { pub inputs: $(vec_of_type("InputType")), }
     } else {
-        quote! { pub n_rows: usize, }
+        quote! { pub log_size: u32, }
     };
     // TODO(Gali): Get the types of the public params from air_infra.
     for public_param in public_params {
@@ -322,7 +326,7 @@ fn generate_claim_prover_struct() -> rust::Tokens {
     quote! {
 
         pub struct InteractionClaimGenerator {
-            n_rows: usize,
+            log_size: u32,
             lookup_data: LookupData,
         }
     }
@@ -350,8 +354,8 @@ fn generate_claim_generator_impl(lists: &CompiledAirFn) -> rust::Tokens {
             )
         } else {
             (
-                quote! { n_rows, },
-                quote! { n_rows: usize, },
+                quote! { log_size, },
+                quote! { log_size: u32, },
                 quote! {},
                 quote! {self, },
             )
@@ -422,10 +426,11 @@ fn generate_sub_component_params_and_args(
 
 // Generates the parameters for `write_trace_simd` function.
 fn generate_write_trace_simd_params(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut params = quote! { n_rows: usize, };
-    if contains_inputs(lists) {
-        params.extend(quote! { inputs: $(vec_of_type("PackedInputType")), });
-    }
+    let mut params = if contains_inputs(lists) {
+        quote! { n_rows: usize, inputs: $(vec_of_type("PackedInputType")), }
+    } else {
+        quote! { log_size: u32, }
+    };
     for public_param in &lists.public_params {
         params.extend(quote! { $(public_param.name()): u32, });
     }
@@ -435,10 +440,11 @@ fn generate_write_trace_simd_params(lists: &CompiledAirFn) -> rust::Tokens {
 
 // Generates the arguments for `write_trace_simd` function.
 fn generate_write_trace_simd_args(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut args = quote! { n_rows, };
-    if contains_inputs(lists) {
-        args.extend(quote! { packed_inputs, });
-    }
+    let mut args = if contains_inputs(lists) {
+        quote! { n_rows, packed_inputs, }
+    } else {
+        quote! { log_size, }
+    };
     for public_param in &lists.public_params {
         args.extend(quote! { self.$(public_param.name()), });
     }
@@ -447,19 +453,20 @@ fn generate_write_trace_simd_args(lists: &CompiledAirFn) -> rust::Tokens {
 }
 
 fn write_trace_body_simd(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut claim_fields = quote! {n_rows,};
+    let mut claim_fields = quote! {log_size,};
     for public_param in &lists.public_params {
         claim_fields.extend(quote! {
             $(public_param.name()): self.$(public_param.name()),
         });
     }
 
-    let n_rows_init_code = if contains_inputs(lists) {
+    let init_code = if contains_inputs(lists) {
         quote! {
             let n_rows = self.inputs.len();
             assert_ne!(n_rows, 0);
             let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
             let need_padding = n_rows != size;
+            let log_size = size.ilog2();
 
             if need_padding {
                 self.inputs.resize(size, *self.inputs.first().unwrap());
@@ -470,12 +477,12 @@ fn write_trace_body_simd(lists: &CompiledAirFn) -> rust::Tokens {
         }
     } else {
         quote! {
-           let n_rows = self.n_rows;
-           assert_ne!(n_rows, 0);
+           let log_size = self.log_size;
         }
     };
     quote! {
-        $(n_rows_init_code)
+        $(init_code)
+
         let (trace, lookup_data) =
                 write_trace_simd($(generate_write_trace_simd_args(lists)));
 
@@ -486,7 +493,7 @@ fn write_trace_body_simd(lists: &CompiledAirFn) -> rust::Tokens {
             $(claim_fields)
         },
         InteractionClaimGenerator {
-            n_rows,
+            log_size,
             lookup_data,
         },
         )
@@ -556,23 +563,14 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
             where
                 SimdBackend: BackendForChannel<MC>
             {
-                let log_size = std::cmp::max(self.n_rows.next_power_of_two().ilog2(), LOG_N_LANES);
-                let mut logup_gen = LogupTraceGenerator::new(log_size);
+                let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
                 $(generate_write_interaction_trace_body(deductions))
-
-                let (trace, total_sum, claimed_sum) = if self.n_rows == 1 << log_size {
-                    let (trace, claimed_sum) = logup_gen.finalize_last();
-                    (trace, claimed_sum, None)
-                } else {
-                    let (trace, [total_sum, claimed_sum]) =
-                        logup_gen.finalize_at([(1 << log_size) - 1, self.n_rows - 1]);
-                    (trace, total_sum, Some((claimed_sum, self.n_rows - 1)))
-                };
+                let (trace, claimed_sum) = logup_gen.finalize_last();
                 tree_builder.extend_evals(trace);
 
                 InteractionClaim {
-                    logup_sums: (total_sum,claimed_sum)
+                    logup_sums: (claimed_sum, None)
                 }
             }
         }
