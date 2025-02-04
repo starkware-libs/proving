@@ -8,13 +8,13 @@ itertools.workspace = true
 num-traits.workspace = true
 serde.workspace = true
 starknet-ff.workspace = true
-stwo-prover = { git = "https://github.com/starkware-libs/stwo", rev = "90b3e55" }
-stwo-air-utils = { git = "https://github.com/starkware-libs/stwo", rev = "90b3e55" }
-stwo-air-utils-derive = { git = "https://github.com/starkware-libs/stwo", rev = "90b3e55" }
-stwo-cairo-serialize = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "535753b" }
-prover_types = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "9ed0d6c" }
-air_structs_derive = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "9ed0d6c" }
-stwo_cairo_prover = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "9ed0d6c" }
+stwo-prover = { git = "https://github.com/starkware-libs/stwo", rev = "438c107" }
+stwo-air-utils = { git = "https://github.com/starkware-libs/stwo", rev = "438c107" }
+stwo-air-utils-derive = { git = "https://github.com/starkware-libs/stwo", rev = "438c107" }
+stwo-cairo-serialize = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "538afee" }
+prover_types = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "538afee" }
+air_structs_derive = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "538afee" }
+stwo_cairo_prover = { git = "https://github.com/starkware-libs/stwo-cairo.git", rev = "538afee" }
 rayon = "1.10.0"
 
 [features]

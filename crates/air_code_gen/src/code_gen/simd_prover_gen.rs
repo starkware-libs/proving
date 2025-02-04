@@ -79,7 +79,7 @@ fn generate_simd_write_trace_body_code(
             "unsupported {name}"
         );
         write_trace_body.append(quote! {
-            let $(&name.to_lowercase()) = PreProcessedColumn::$(name)($name::new(log_size)).packed_at(row_index);
+            let $(&name.to_lowercase()) = $name::new(log_size).packed_at(row_index);
         });
     }
 
@@ -570,7 +570,7 @@ fn generate_claim_prover_impl(deductions: &[TraceGenStep]) -> rust::Tokens {
                 tree_builder.extend_evals(trace);
 
                 InteractionClaim {
-                    logup_sums: (claimed_sum, None)
+                    claimed_sum,
                 }
             }
         }
