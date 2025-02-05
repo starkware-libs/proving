@@ -23,3 +23,6 @@ mod verify_mul252_test;
 pub mod verify_mul_small;
 #[cfg(test)]
 pub mod verify_mul_small_test;
+pub mod verify_reduced252;
+#[cfg(test)]
+mod verify_reduced252_test;
