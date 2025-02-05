@@ -2,7 +2,7 @@ use inst_def::InstDef;
 
 use super::read_blake_word::*;
 use super::round::*;
-use crate::airs::casm::bitwise_xor::BitwiseXor;
+use crate::airs::casm::bitwise_xor::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::opcodes::blake::split16::*;
 // Macros

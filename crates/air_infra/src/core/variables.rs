@@ -22,6 +22,7 @@ use super::expressions::uint32_expr::*;
 use super::expressions::uint64_expr::*;
 use super::expressions::var_expr::*;
 use crate::airs::casm::builtins::modulo::mod_utils::*;
+use crate::airs::casm::builtins::pedersen::partial_ec_mul::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::opcodes::blake::create_blake_output::*;
 use crate::airs::casm::opcodes::blake::decode_blake_opcode::*;
@@ -445,6 +446,9 @@ impl_air_var!((CasmAddress, UInt32Expr, BoolExpr));
 impl_air_var!((H, BlakeState));
 // DecodeBlakeOpcode
 impl_air_var!((BlakePointers, UInt32Expr, BlakeFlags));
+// PartialECMul
+impl_air_var!((FeltExpr, PackedECMultiplier, ECPoint));
+impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulState));
 
 // Components
 

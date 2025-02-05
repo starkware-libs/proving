@@ -1,6 +1,6 @@
 use inst_def::InstDef;
 
-use super::verify_blake_word::VerifyBlakeWord;
+use super::verify_blake_word::*;
 use crate::airs::casm::casm_state::*;
 // Macros
 use crate::const_expr;
