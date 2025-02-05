@@ -101,7 +101,6 @@ impl ClaimGenerator {
     }
 }
 
-#[allow(clippy::clone_on_copy)]
 #[allow(clippy::useless_conversion)]
 #[allow(unused_variables)]
 #[allow(clippy::double_parens)]
