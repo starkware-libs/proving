@@ -81,4 +81,8 @@ impl AirFn for BlakeCompressOpcode {
 
         CasmStateVar::new(next_pc, next_ap, casm_state.fp().var)
     }
+
+    fn trace_type(&self) -> TraceType {
+        TraceType::Opcode
+    }
 }

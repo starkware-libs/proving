@@ -148,6 +148,9 @@ fn test_blake_opcode() {
     // Check state
     // Total of 278 deductions.
     let expected_state = vec![
+        (3, "input_pc"),
+        (11, "input_ap"),
+        (6, "input_fp"),
         (32813, "offset0"),
         (32851, "offset1"),
         (32880, "offset2"),
