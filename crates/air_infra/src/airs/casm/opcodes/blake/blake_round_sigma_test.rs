@@ -1,4 +1,4 @@
-use super::round_sigma::*;
+use super::blake_round_sigma::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn_registry::*;
@@ -7,7 +7,7 @@ use crate::core::variables::*;
 
 #[test]
 fn test_sigma() {
-    let air_fn = RoundSigma {};
+    let air_fn = BlakeRoundSigma {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (_, output) = registry.run_air(&air_fn, const_expr!(7), ());
     assert_eq!(output[0].calc(), "13");

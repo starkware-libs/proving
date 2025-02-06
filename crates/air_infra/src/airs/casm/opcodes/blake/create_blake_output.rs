@@ -1,6 +1,6 @@
 use inst_def::InstDef;
 
-use super::round::*;
+use super::blake_round::*;
 use crate::airs::casm::opcodes::blake::xor_rot32::*;
 // Macros
 use crate::core::air_fn::*;

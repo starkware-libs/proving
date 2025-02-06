@@ -24,8 +24,8 @@ pub const SIGMA: [[u32; 16]; 10] = [
 /// There are 10 rows, where each row `i` contains the permutation of the message for round `i`.
 /// Accessed by the RoundSigma component through an external column call.
 #[derive(Debug, Default, Clone)]
-pub struct Sigma {}
-impl ExtTable for Sigma {
+pub struct BlakeSigma {}
+impl ExtTable for BlakeSigma {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_BLAKE_SIGMA;
     type T = [FeltExpr; 16];
 

@@ -1,7 +1,7 @@
 use inst_def::InstDef;
 
+use super::blake_round::*;
 use super::read_blake_word::*;
-use super::round::*;
 use crate::airs::casm::bitwise_xor::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::opcodes::blake::split16::*;
@@ -31,12 +31,12 @@ pub const STATE14_LAST_BLOCK: [u32; 2] = [0x2654, 0xE07C];
 /// Creates a BlakeState from the BlakeCompress input, i.e, `h` (an array of 8 `u32` elements), `t`
 /// (the count of bytes that have been compressed), and `IsLastBlock`.
 #[derive(Debug, InstDef)]
-pub struct CreateRoundInput {
+pub struct CreateBlakeRoundInput {
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
-impl AirFn for CreateRoundInput {
+impl AirFn for CreateBlakeRoundInput {
     type ExtIn = ();
     type In = (CasmAddress, UInt32Expr, BoolExpr);
     type Out = BlakeState;

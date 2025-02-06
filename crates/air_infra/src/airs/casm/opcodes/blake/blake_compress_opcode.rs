@@ -1,11 +1,11 @@
 use inst_def::InstDef;
 
+use super::blake_round::*;
 use super::create_blake_output::*;
 use super::decode_blake_opcode::*;
-use super::round::*;
 use super::verify_blake_word::*;
 use crate::airs::casm::casm_state::*;
-use crate::airs::casm::opcodes::blake::create_round_input::*;
+use crate::airs::casm::opcodes::blake::create_blake_round_input::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn::*;
@@ -35,7 +35,7 @@ impl AirFn for BlakeCompressOpcode {
 
         // Create round_input.
         let input = ab.call(
-            &CreateRoundInput {
+            &CreateBlakeRoundInput {
                 memory: self.memory.clone(),
             },
             (h_pointer, t.clone(), is_last_block.clone()),
@@ -43,7 +43,7 @@ impl AirFn for BlakeCompressOpcode {
 
         // Run 10 blake rounds.
         let (new_state, _) = ab.chain_lookup_call(
-            &Round {
+            &BlakeRound {
                 memory: self.memory.clone(),
             },
             (input.clone(), message_pointer),

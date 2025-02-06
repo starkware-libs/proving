@@ -1,0 +1,103 @@
+{
+  "name": "verify_bitwise_xor_12",
+  "relation_name": "VerifyBitwiseXor_12",
+  "description": "Verify Bitwise Xor 12",
+  "input": {
+    "Array": [
+      {
+        "ExternalState": {
+          "name": "VerifyBitwiseXor_12_Const",
+          "col_index": 0,
+          "log_n_rows": null
+        }
+      },
+      {
+        "ExternalState": {
+          "name": "VerifyBitwiseXor_12_Const",
+          "col_index": 1,
+          "log_n_rows": null
+        }
+      },
+      {
+        "ExternalState": {
+          "name": "VerifyBitwiseXor_12_Const",
+          "col_index": 2,
+          "log_n_rows": null
+        }
+      }
+    ]
+  },
+  "state_names": [],
+  "multiplicity_col_index": 0,
+  "lookup_names": [],
+  "n_lookup_terms": 1,
+  "public_params": [],
+  "external_states": [
+    [
+      "VerifyBitwiseXor_12_Const",
+      null
+    ]
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_12",
+        "felts": [
+          {
+            "ExternalState": {
+              "name": "VerifyBitwiseXor_12_Const",
+              "col_index": 0,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "VerifyBitwiseXor_12_Const",
+              "col_index": 1,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "VerifyBitwiseXor_12_Const",
+              "col_index": 2,
+              "log_n_rows": null
+            }
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_12",
+        "felts": [
+          {
+            "ExternalState": {
+              "name": "VerifyBitwiseXor_12_Const",
+              "col_index": 0,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "VerifyBitwiseXor_12_Const",
+              "col_index": 1,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "VerifyBitwiseXor_12_Const",
+              "col_index": 2,
+              "log_n_rows": null
+            }
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}

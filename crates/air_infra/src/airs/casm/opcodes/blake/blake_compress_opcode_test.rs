@@ -1,7 +1,7 @@
 use super::decode_blake_opcode::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;
-use crate::airs::casm::opcodes::blake::blake_compress::*;
+use crate::airs::casm::opcodes::blake::blake_compress_opcode::*;
 use crate::const_expr;
 // Macros
 use crate::const_felt252_expr;
@@ -235,41 +235,41 @@ fn test_blake_opcode() {
         (82, "xor"),
         (14, "xor"),
         (81, "xor"),
-        (0, "round_output_limb_0"),
-        (10, "round_output_limb_1"),
-        (10782, "round_output_limb_2"),
-        (35146, "round_output_limb_3"),
-        (65004, "round_output_limb_4"),
-        (40254, "round_output_limb_5"),
-        (55015, "round_output_limb_6"),
-        (8313, "round_output_limb_7"),
-        (28405, "round_output_limb_8"),
-        (15416, "round_output_limb_9"),
-        (45496, "round_output_limb_10"),
-        (7596, "round_output_limb_11"),
-        (11636, "round_output_limb_12"),
-        (18997, "round_output_limb_13"),
-        (64553, "round_output_limb_14"),
-        (43880, "round_output_limb_15"),
-        (13407, "round_output_limb_16"),
-        (27756, "round_output_limb_17"),
-        (61181, "round_output_limb_18"),
-        (46896, "round_output_limb_19"),
-        (17650, "round_output_limb_20"),
-        (29432, "round_output_limb_21"),
-        (38042, "round_output_limb_22"),
-        (23906, "round_output_limb_23"),
-        (12806, "round_output_limb_24"),
-        (30525, "round_output_limb_25"),
-        (61761, "round_output_limb_26"),
-        (29549, "round_output_limb_27"),
-        (36086, "round_output_limb_28"),
-        (10822, "round_output_limb_29"),
-        (13462, "round_output_limb_30"),
-        (42217, "round_output_limb_31"),
-        (46937, "round_output_limb_32"),
-        (40801, "round_output_limb_33"),
-        (432453, "round_output_limb_34"),
+        (0, "blake_round_output_limb_0"),
+        (10, "blake_round_output_limb_1"),
+        (10782, "blake_round_output_limb_2"),
+        (35146, "blake_round_output_limb_3"),
+        (65004, "blake_round_output_limb_4"),
+        (40254, "blake_round_output_limb_5"),
+        (55015, "blake_round_output_limb_6"),
+        (8313, "blake_round_output_limb_7"),
+        (28405, "blake_round_output_limb_8"),
+        (15416, "blake_round_output_limb_9"),
+        (45496, "blake_round_output_limb_10"),
+        (7596, "blake_round_output_limb_11"),
+        (11636, "blake_round_output_limb_12"),
+        (18997, "blake_round_output_limb_13"),
+        (64553, "blake_round_output_limb_14"),
+        (43880, "blake_round_output_limb_15"),
+        (13407, "blake_round_output_limb_16"),
+        (27756, "blake_round_output_limb_17"),
+        (61181, "blake_round_output_limb_18"),
+        (46896, "blake_round_output_limb_19"),
+        (17650, "blake_round_output_limb_20"),
+        (29432, "blake_round_output_limb_21"),
+        (38042, "blake_round_output_limb_22"),
+        (23906, "blake_round_output_limb_23"),
+        (12806, "blake_round_output_limb_24"),
+        (30525, "blake_round_output_limb_25"),
+        (61761, "blake_round_output_limb_26"),
+        (29549, "blake_round_output_limb_27"),
+        (36086, "blake_round_output_limb_28"),
+        (10822, "blake_round_output_limb_29"),
+        (13462, "blake_round_output_limb_30"),
+        (42217, "blake_round_output_limb_31"),
+        (46937, "blake_round_output_limb_32"),
+        (40801, "blake_round_output_limb_33"),
+        (432453, "blake_round_output_limb_34"),
         (42, "ms_8_bits"),
         (137, "ms_8_bits"),
         (238, "ms_8_bits"),
@@ -501,7 +501,7 @@ mod blake_rust_tests {
     use blake2::*;
 
     use super::*;
-    use crate::airs::casm::opcodes::blake::create_round_input::*;
+    use crate::airs::casm::opcodes::blake::create_blake_round_input::*;
 
     // Convert array of bytes to array of u32
     #[cfg(test)]

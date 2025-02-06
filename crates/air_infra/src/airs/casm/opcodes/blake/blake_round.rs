@@ -1,8 +1,8 @@
 use inst_def::InstDef;
 
-use super::g::*;
+use super::blake_g::*;
+use super::blake_round_sigma::*;
 use super::read_blake_word::*;
-use super::round_sigma::*;
 use crate::airs::casm::casm_state::*;
 // Macros
 use crate::const_expr;
@@ -29,12 +29,12 @@ pub const G_STATE_INDICES: [[usize; 4]; 8] = [
 ];
 
 #[derive(Debug, InstDef, Default)]
-pub struct Round {
+pub struct BlakeRound {
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
-impl AirFn for Round {
+impl AirFn for BlakeRound {
     type ExtIn = ();
     type In = (ChainIdVar, RoundNumVar, BlakeRoundInput);
     type Out = (ChainIdVar, RoundNumVar, BlakeRoundInput);
@@ -46,7 +46,7 @@ impl AirFn for Round {
         (chain, rnd, (mut state, massage_pointer)): Self::In,
     ) -> Self::Out {
         // Read current message permutation (sigma) according to the round.
-        let curr_sigma = air_builder.lookup_call(&RoundSigma {}, rnd.clone(), ());
+        let curr_sigma = air_builder.lookup_call(&BlakeRoundSigma {}, rnd.clone(), ());
 
         // Read the current messgae according to the permutation.
         let read_blake_word = ReadBlakeWord {
@@ -63,7 +63,7 @@ impl AirFn for Round {
         }
 
         // Apply the G function to the state.
-        let g = G {};
+        let g = BlakeG {};
         for (row_index, &[i0, i1, i2, i3]) in G_STATE_INDICES.iter().enumerate() {
             [state[i0], state[i1], state[i2], state[i3]] = air_builder.lookup_call(
                 &g,
@@ -94,7 +94,7 @@ impl AirFn for Round {
     }
 }
 
-impl ChainRoundAirFn<BlakeRoundInput> for Round {
+impl ChainRoundAirFn<BlakeRoundInput> for BlakeRound {
     fn number_of_chains(&self) -> usize {
         1
     }

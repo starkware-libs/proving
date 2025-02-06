@@ -1,22 +1,22 @@
-pub mod blake_compress;
+pub mod blake_compress_opcode;
 #[cfg(test)]
-mod blake_test;
+mod blake_compress_opcode_test;
+pub mod blake_g;
+#[cfg(test)]
+mod blake_g_test;
+pub mod blake_round;
+pub mod blake_round_sigma;
+#[cfg(test)]
+pub mod blake_round_sigma_test;
+#[cfg(test)]
+mod blake_round_test;
+pub mod blake_sigma;
 pub mod create_blake_output;
-mod create_round_input;
+mod create_blake_round_input;
 pub mod decode_blake_opcode;
-pub mod g;
-#[cfg(test)]
-mod g_test;
 pub mod read_blake_word;
 #[cfg(test)]
 mod read_blake_word_test;
-pub mod round;
-pub mod round_sigma;
-#[cfg(test)]
-pub mod round_sigma_test;
-#[cfg(test)]
-mod round_test;
-pub mod sigma;
 mod split16;
 pub mod triple_sum32;
 #[cfg(test)]

@@ -1,6 +1,6 @@
 use std::array::from_fn;
 
-use super::round::*;
+use super::blake_round::*;
 use crate::airs::casm::casm_state::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
@@ -14,7 +14,7 @@ use crate::{const_expr, const_felt252_expr, const_u32_expr};
 
 #[test]
 fn test_blake_round() {
-    let mut air_fn = Round::default();
+    let mut air_fn = BlakeRound::default();
 
     // Create input.
     let state = [
@@ -103,22 +103,22 @@ fn test_blake_round() {
         (48850, "input_limb_32"),
         (4965, "input_limb_33"),
         (7687346, "input_limb_34"),
-        (2, "round_sigma_output_limb_0"), // sigma
-        (12, "round_sigma_output_limb_1"),
-        (6, "round_sigma_output_limb_2"),
-        (10, "round_sigma_output_limb_3"),
-        (0, "round_sigma_output_limb_4"),
-        (11, "round_sigma_output_limb_5"),
-        (8, "round_sigma_output_limb_6"),
-        (3, "round_sigma_output_limb_7"),
-        (4, "round_sigma_output_limb_8"),
-        (13, "round_sigma_output_limb_9"),
-        (7, "round_sigma_output_limb_10"),
-        (5, "round_sigma_output_limb_11"),
-        (15, "round_sigma_output_limb_12"),
-        (14, "round_sigma_output_limb_13"),
-        (1, "round_sigma_output_limb_14"),
-        (9, "round_sigma_output_limb_15"),
+        (2, "blake_round_sigma_output_limb_0"), // sigma
+        (12, "blake_round_sigma_output_limb_1"),
+        (6, "blake_round_sigma_output_limb_2"),
+        (10, "blake_round_sigma_output_limb_3"),
+        (0, "blake_round_sigma_output_limb_4"),
+        (11, "blake_round_sigma_output_limb_5"),
+        (8, "blake_round_sigma_output_limb_6"),
+        (3, "blake_round_sigma_output_limb_7"),
+        (4, "blake_round_sigma_output_limb_8"),
+        (13, "blake_round_sigma_output_limb_9"),
+        (7, "blake_round_sigma_output_limb_10"),
+        (5, "blake_round_sigma_output_limb_11"),
+        (15, "blake_round_sigma_output_limb_12"),
+        (14, "blake_round_sigma_output_limb_13"),
+        (1, "blake_round_sigma_output_limb_14"),
+        (9, "blake_round_sigma_output_limb_15"),
         (38270, "low_16_bits"), // blake message
         (50755, "high_16_bits"),
         (74, "low_7_ms_bits"),
@@ -215,70 +215,70 @@ fn test_blake_round() {
         (7489, "high_14_ms_bits"),
         (14, "high_5_ms_bits"),
         (9, "message_word_15_id"),
-        (20854, "g_output_limb_0"), // g1
-        (57359, "g_output_limb_1"),
-        (13995, "g_output_limb_2"),
-        (18896, "g_output_limb_3"),
-        (37505, "g_output_limb_4"),
-        (8501, "g_output_limb_5"),
-        (21594, "g_output_limb_6"),
-        (34877, "g_output_limb_7"),
-        (26397, "g_output_limb_0"), // g2
-        (5687, "g_output_limb_1"),
-        (24486, "g_output_limb_2"),
-        (59901, "g_output_limb_3"),
-        (37692, "g_output_limb_4"),
-        (52607, "g_output_limb_5"),
-        (60571, "g_output_limb_6"),
-        (43297, "g_output_limb_7"),
-        (60981, "g_output_limb_0"), // g3
-        (702, "g_output_limb_1"),
-        (18070, "g_output_limb_2"),
-        (21833, "g_output_limb_3"),
-        (10508, "g_output_limb_4"),
-        (36, "g_output_limb_5"),
-        (59482, "g_output_limb_6"),
-        (23598, "g_output_limb_7"),
-        (34433, "g_output_limb_0"), // g4
-        (50343, "g_output_limb_1"),
-        (56032, "g_output_limb_2"),
-        (944, "g_output_limb_3"),
-        (57807, "g_output_limb_4"),
-        (46448, "g_output_limb_5"),
-        (12355, "g_output_limb_6"),
-        (5432, "g_output_limb_7"),
-        (19492, "g_output_limb_0"), // g5
-        (20863, "g_output_limb_1"),
-        (63357, "g_output_limb_2"),
-        (62182, "g_output_limb_3"),
-        (46692, "g_output_limb_4"),
-        (64572, "g_output_limb_5"),
-        (12050, "g_output_limb_6"),
-        (25288, "g_output_limb_7"),
-        (64073, "g_output_limb_0"), // g6
-        (44654, "g_output_limb_1"),
-        (35712, "g_output_limb_2"),
-        (37132, "g_output_limb_3"),
-        (9008, "g_output_limb_4"),
-        (61415, "g_output_limb_5"),
-        (25380, "g_output_limb_6"),
-        (29800, "g_output_limb_7"),
-        (51769, "g_output_limb_0"), // g7
-        (1646, "g_output_limb_1"),
-        (60246, "g_output_limb_2"),
-        (46678, "g_output_limb_3"),
-        (16174, "g_output_limb_4"),
-        (31239, "g_output_limb_5"),
-        (44855, "g_output_limb_6"),
-        (20239, "g_output_limb_7"),
-        (16866, "g_output_limb_0"), // g8
-        (2480, "g_output_limb_1"),
-        (26767, "g_output_limb_2"),
-        (44814, "g_output_limb_3"),
-        (33220, "g_output_limb_4"),
-        (58370, "g_output_limb_5"),
-        (33068, "g_output_limb_6"),
-        (48721, "g_output_limb_7"),
+        (20854, "blake_g_output_limb_0"), // g1
+        (57359, "blake_g_output_limb_1"),
+        (13995, "blake_g_output_limb_2"),
+        (18896, "blake_g_output_limb_3"),
+        (37505, "blake_g_output_limb_4"),
+        (8501, "blake_g_output_limb_5"),
+        (21594, "blake_g_output_limb_6"),
+        (34877, "blake_g_output_limb_7"),
+        (26397, "blake_g_output_limb_0"), // g2
+        (5687, "blake_g_output_limb_1"),
+        (24486, "blake_g_output_limb_2"),
+        (59901, "blake_g_output_limb_3"),
+        (37692, "blake_g_output_limb_4"),
+        (52607, "blake_g_output_limb_5"),
+        (60571, "blake_g_output_limb_6"),
+        (43297, "blake_g_output_limb_7"),
+        (60981, "blake_g_output_limb_0"), // g3
+        (702, "blake_g_output_limb_1"),
+        (18070, "blake_g_output_limb_2"),
+        (21833, "blake_g_output_limb_3"),
+        (10508, "blake_g_output_limb_4"),
+        (36, "blake_g_output_limb_5"),
+        (59482, "blake_g_output_limb_6"),
+        (23598, "blake_g_output_limb_7"),
+        (34433, "blake_g_output_limb_0"), // g4
+        (50343, "blake_g_output_limb_1"),
+        (56032, "blake_g_output_limb_2"),
+        (944, "blake_g_output_limb_3"),
+        (57807, "blake_g_output_limb_4"),
+        (46448, "blake_g_output_limb_5"),
+        (12355, "blake_g_output_limb_6"),
+        (5432, "blake_g_output_limb_7"),
+        (19492, "blake_g_output_limb_0"), // g5
+        (20863, "blake_g_output_limb_1"),
+        (63357, "blake_g_output_limb_2"),
+        (62182, "blake_g_output_limb_3"),
+        (46692, "blake_g_output_limb_4"),
+        (64572, "blake_g_output_limb_5"),
+        (12050, "blake_g_output_limb_6"),
+        (25288, "blake_g_output_limb_7"),
+        (64073, "blake_g_output_limb_0"), // g6
+        (44654, "blake_g_output_limb_1"),
+        (35712, "blake_g_output_limb_2"),
+        (37132, "blake_g_output_limb_3"),
+        (9008, "blake_g_output_limb_4"),
+        (61415, "blake_g_output_limb_5"),
+        (25380, "blake_g_output_limb_6"),
+        (29800, "blake_g_output_limb_7"),
+        (51769, "blake_g_output_limb_0"), // g7
+        (1646, "blake_g_output_limb_1"),
+        (60246, "blake_g_output_limb_2"),
+        (46678, "blake_g_output_limb_3"),
+        (16174, "blake_g_output_limb_4"),
+        (31239, "blake_g_output_limb_5"),
+        (44855, "blake_g_output_limb_6"),
+        (20239, "blake_g_output_limb_7"),
+        (16866, "blake_g_output_limb_0"), // g8
+        (2480, "blake_g_output_limb_1"),
+        (26767, "blake_g_output_limb_2"),
+        (44814, "blake_g_output_limb_3"),
+        (33220, "blake_g_output_limb_4"),
+        (58370, "blake_g_output_limb_5"),
+        (33068, "blake_g_output_limb_6"),
+        (48721, "blake_g_output_limb_7"),
     ]
     .into();
 
@@ -287,7 +287,7 @@ fn test_blake_round() {
 
 #[test]
 fn test_blake_round2() {
-    let mut air_fn = Round::default();
+    let mut air_fn = BlakeRound::default();
 
     // Create input.
     let state = [

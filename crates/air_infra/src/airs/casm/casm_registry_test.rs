@@ -15,6 +15,7 @@ use super::builtins::range_check::*;
 use super::opcodes::add_ap_opcode::*;
 use super::opcodes::add_opcode::*;
 use super::opcodes::assert_eq_opcode::*;
+use super::opcodes::blake::blake_compress_opcode::*;
 use super::opcodes::call_opcode::*;
 use super::opcodes::generic_opcode::generic_opcode::*;
 use super::opcodes::jnz_opcode::*;
@@ -196,6 +197,9 @@ fn test_casm_registry() {
     });
     // Ret opcode
     reg.add_entry(&RetOpcode::default());
+
+    // Blake opcode
+    reg.add_entry(&BlakeCompressOpcode::default());
 
     //
     let mut constraints = IndexMap::new();

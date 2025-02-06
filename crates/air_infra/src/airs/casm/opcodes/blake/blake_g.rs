@@ -12,9 +12,9 @@ const NUM_OUTPUT_WORDS_G: usize = 4;
 use crate::const_u32_expr;
 
 #[derive(Debug, InstDef)]
-pub struct G {}
+pub struct BlakeG {}
 
-impl AirFn for G {
+impl AirFn for BlakeG {
     type ExtIn = ();
     type In = [UInt32Expr; NUM_INPUT_WORDS_G];
     type Out = [UInt32Expr; NUM_OUTPUT_WORDS_G];

@@ -1,4 +1,4 @@
-use super::g::*;
+use super::blake_g::*;
 // Macros
 use crate::const_u32_expr;
 use crate::core::air_fn_registry::*;
@@ -8,7 +8,7 @@ use crate::utils::test_utils::*;
 
 #[test]
 fn test_g1() {
-    let air_fn = G {};
+    let air_fn = BlakeG {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
     let (state, output) = registry.run_air(
@@ -89,7 +89,7 @@ fn test_g1() {
 
 #[test]
 fn test_g2() {
-    let air_fn = G {};
+    let air_fn = BlakeG {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
     let (state, output) = registry.run_air(

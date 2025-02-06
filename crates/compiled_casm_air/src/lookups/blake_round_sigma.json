@@ -1,0 +1,285 @@
+{
+  "name": "blake_round_sigma",
+  "relation_name": "BlakeRoundSigma",
+  "description": "Blake Round Sigma",
+  "input": {
+    "ExternalState": {
+      "name": "BlakeRoundNumber",
+      "col_index": 0,
+      "log_n_rows": null
+    }
+  },
+  "state_names": [],
+  "multiplicity_col_index": 0,
+  "lookup_names": [],
+  "n_lookup_terms": 1,
+  "public_params": [],
+  "external_states": [
+    [
+      "BlakeRoundNumber",
+      null
+    ],
+    [
+      "BlakeSigma",
+      null
+    ]
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "BlakeRoundSigma",
+        "felts": [
+          {
+            "ExternalState": {
+              "name": "BlakeRoundNumber",
+              "col_index": 0,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 0,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 1,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 2,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 3,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 4,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 5,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 6,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 7,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 8,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 9,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 10,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 11,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 12,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 13,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 14,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 15,
+              "log_n_rows": null
+            }
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupTerm": {
+        "relation_name": "BlakeRoundSigma",
+        "felts": [
+          {
+            "ExternalState": {
+              "name": "BlakeRoundNumber",
+              "col_index": 0,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 0,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 1,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 2,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 3,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 4,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 5,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 6,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 7,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 8,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 9,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 10,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 11,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 12,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 13,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 14,
+              "log_n_rows": null
+            }
+          },
+          {
+            "ExternalState": {
+              "name": "BlakeSigma",
+              "col_index": 15,
+              "log_n_rows": null
+            }
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}
