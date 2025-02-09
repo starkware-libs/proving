@@ -9,7 +9,7 @@ use crate::core::variables::*;
 fn test_sigma() {
     let air_fn = BlakeRoundSigma {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
-    let (_, output) = registry.run_air(&air_fn, const_expr!(7), ());
+    let (_, output) = registry.run_air(&air_fn, [const_expr!(7)], ());
     assert_eq!(output[0].calc(), "13");
     assert_eq!(output[1].calc(), "11");
     assert_eq!(output[2].calc(), "7");

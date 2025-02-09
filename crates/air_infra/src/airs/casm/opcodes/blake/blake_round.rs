@@ -46,7 +46,7 @@ impl AirFn for BlakeRound {
         (chain, rnd, (mut state, massage_pointer)): Self::In,
     ) -> Self::Out {
         // Read current message permutation (sigma) according to the round.
-        let curr_sigma = air_builder.lookup_call(&BlakeRoundSigma {}, rnd.clone(), ());
+        let curr_sigma = air_builder.lookup_call(&BlakeRoundSigma {}, [rnd.clone()], ());
 
         // Read the current messgae according to the permutation.
         let read_blake_word = ReadBlakeWord {

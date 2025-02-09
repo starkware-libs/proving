@@ -15,7 +15,7 @@ fn test_round_keys() {
     let air_fn = PoseidonRoundKeys {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
 
-    let (state, output) = registry.run_air(&air_fn, const_expr!(7), ());
+    let (state, output) = registry.run_air(&air_fn, [const_expr!(7)], ());
     let expected_output = [
         const_felt252_expr!(
             256874565931396631624738152782893432232,

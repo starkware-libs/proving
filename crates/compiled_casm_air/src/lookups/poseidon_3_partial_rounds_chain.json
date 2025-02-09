@@ -11697,7 +11697,11 @@
       "LookupAddInput": {
         "fn_name": "poseidon_round_keys",
         "input": {
-          "State": "input_limb_1_col1"
+          "Array": [
+            {
+              "State": "input_limb_1_col1"
+            }
+          ]
         }
       }
     },
@@ -11710,7 +11714,11 @@
             "PoseidonRoundKeys::deduce_output",
             [
               {
-                "State": "input_limb_1_col1"
+                "Array": [
+                  {
+                    "State": "input_limb_1_col1"
+                  }
+                ]
               }
             ]
           ]

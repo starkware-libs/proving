@@ -73,7 +73,7 @@ impl AirFn for Poseidon3PartialRoundsChain {
         _: (),
         (chain, round, mut state): Self::In,
     ) -> Self::Out {
-        let keys = air_builder.lookup_call(&PoseidonRoundKeys {}, round.clone(), ());
+        let keys = air_builder.lookup_call(&PoseidonRoundKeys {}, [round.clone()], ());
         for k in keys {
             state = air_builder.call(&PoseidonPartialRound {}, (state, k));
         }

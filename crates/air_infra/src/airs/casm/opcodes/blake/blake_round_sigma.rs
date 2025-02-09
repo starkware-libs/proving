@@ -1,33 +1,27 @@
 use inst_def::InstDef;
 
 use super::blake_sigma::*;
+use crate::airs::casm::const_tables::seq::*;
 // Macros
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
+#[cfg(test)]
 use crate::core::variables::*;
 
-const STWO_COMPONENT_TYPE_BLAKE_ROUND_NUMBER: &str = "BlakeRoundNumber";
-
-#[derive(Debug, Default, Clone)]
-pub struct BlakeRoundNumber {}
-impl ExtTable for BlakeRoundNumber {
-    const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_BLAKE_ROUND_NUMBER;
-    type T = FeltExpr;
-}
-
 /// Lookup component into the constant table Sigma.
-/// The input is a constant column with values from 0 to 9, representing the round number of Blake.
+/// The input is the const column seq of size 2**4, representing the round number of Blake 0-9 with
+/// extra padding.
 /// The output consists of constant columns with a width of 16, containing the message permutation
 /// for the corresponding round.
 #[derive(Debug, InstDef)]
 pub struct BlakeRoundSigma {}
 
 impl AirFn for BlakeRoundSigma {
-    type ExtIn = BlakeRoundNumber;
+    type ExtIn = SeqConstLen<4>;
     type In = ();
     type Out = [FeltExpr; 16];
 
-    fn call(&self, air_builder: &mut AirBuilder, _round: FeltExpr, _: ()) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, [_round]: [FeltExpr; 1], _: ()) -> Self::Out {
         #[cfg(test)]
         air_builder.set_row_number(_round.value().map(|v| v.0 as usize));
         air_builder.call_external_table(&BlakeSigma {})

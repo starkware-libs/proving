@@ -3,11 +3,15 @@
   "relation_name": "PoseidonRoundKeys",
   "description": "Poseidon Round Keys",
   "input": {
-    "ExternalState": {
-      "name": "PoseidonRoundNumber",
-      "col_index": 0,
-      "log_n_rows": null
-    }
+    "Array": [
+      {
+        "ExternalState": {
+          "name": "Seq",
+          "col_index": 0,
+          "log_n_rows": 6
+        }
+      }
+    ]
   },
   "state_names": [],
   "multiplicity_col_index": 0,
@@ -20,8 +24,8 @@
       null
     ],
     [
-      "PoseidonRoundNumber",
-      null
+      "Seq",
+      6
     ]
   ],
   "constraints": [
@@ -31,9 +35,9 @@
         "felts": [
           {
             "ExternalState": {
-              "name": "PoseidonRoundNumber",
+              "name": "Seq",
               "col_index": 0,
-              "log_n_rows": null
+              "log_n_rows": 6
             }
           },
           {
@@ -258,9 +262,9 @@
         "felts": [
           {
             "ExternalState": {
-              "name": "PoseidonRoundNumber",
+              "name": "Seq",
               "col_index": 0,
-              "log_n_rows": null
+              "log_n_rows": 6
             }
           },
           {

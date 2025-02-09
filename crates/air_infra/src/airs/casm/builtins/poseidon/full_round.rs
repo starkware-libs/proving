@@ -33,7 +33,7 @@ impl AirFn for PoseidonFullRoundChain {
     ) -> Self::Out {
         let [x, y, z] = state.map(|a| air_builder.lookup_call(&Cube252 {}, (), a));
         let [key_x, key_y, key_z] =
-            air_builder.lookup_call(&PoseidonRoundKeys {}, round.clone(), ());
+            air_builder.lookup_call(&PoseidonRoundKeys {}, [round.clone()], ());
         let x_new = air_builder.call(
             &LinearCombination {
                 coefs: [3, 1, 1, 1],
