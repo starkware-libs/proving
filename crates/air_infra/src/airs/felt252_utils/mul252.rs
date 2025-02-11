@@ -1,9 +1,11 @@
 use inst_def::InstDef;
+use stwo_cairo_common::prover_types::cpu::FELT252_N_WORDS;
 
 use super::verify_mul252::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::felt252_id_memory::id_to_big::*;
+use crate::core::variables::*;
 
 /// Multiplication of two 252-bit felts.
 /// The function assumes the inputs have range-checked limbs, and range-checks the result.
@@ -20,7 +22,12 @@ impl AirFn for Mul252 {
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b]: Self::In) -> Self::Out {
         let c = air_builder.deduce_air_var(a.clone() * b.clone(), "mul_res");
 
-        air_builder.call(&RangeCheckBigValue {}, c.clone());
+        air_builder.call(
+            &RangeCheckMemValue::<FELT252_N_WORDS> {},
+            c.as_felts()
+                .try_into()
+                .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
+        );
 
         air_builder.call(&VerifyMul252 {}, [a, b, c.clone()]);
 

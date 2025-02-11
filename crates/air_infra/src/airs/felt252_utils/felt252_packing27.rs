@@ -56,7 +56,13 @@ impl AirFn for Felt252UnpackFrom27 {
 
         if self.range_check_output {
             // Range check the unpacked form.
-            air_builder.call(&RangeCheckBigValue {}, unpacked.clone());
+            air_builder.call(
+                &RangeCheckMemValue::<FELT252_N_WORDS> {},
+                unpacked
+                    .as_felts()
+                    .try_into()
+                    .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
+            );
         }
 
         unpacked

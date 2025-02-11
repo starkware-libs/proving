@@ -139,12 +139,122 @@
     },
     {
       "Call": {
-        "air_fn_name": "range_check_big_value",
-        "air_fn_description": "Range Check Big Value",
-        "input": {
-          "name": "Felt252::from_limbs([unpacked_limb_0_col0, unpacked_limb_1_col1, (((felt_252_unpack_from_27_range_check_output_input.get_m31(0) - unpacked_limb_0_col0) - (unpacked_limb_1_col1 * 512)) * 8192), unpacked_limb_3_col2, unpacked_limb_4_col3, (((felt_252_unpack_from_27_range_check_output_input.get_m31(1) - unpacked_limb_3_col2) - (unpacked_limb_4_col3 * 512)) * 8192), unpacked_limb_6_col4, unpacked_limb_7_col5, (((felt_252_unpack_from_27_range_check_output_input.get_m31(2) - unpacked_limb_6_col4) - (unpacked_limb_7_col5 * 512)) * 8192), unpacked_limb_9_col6, unpacked_limb_10_col7, (((felt_252_unpack_from_27_range_check_output_input.get_m31(3) - unpacked_limb_9_col6) - (unpacked_limb_10_col7 * 512)) * 8192), unpacked_limb_12_col8, unpacked_limb_13_col9, (((felt_252_unpack_from_27_range_check_output_input.get_m31(4) - unpacked_limb_12_col8) - (unpacked_limb_13_col9 * 512)) * 8192), unpacked_limb_15_col10, unpacked_limb_16_col11, (((felt_252_unpack_from_27_range_check_output_input.get_m31(5) - unpacked_limb_15_col10) - (unpacked_limb_16_col11 * 512)) * 8192), unpacked_limb_18_col12, unpacked_limb_19_col13, (((felt_252_unpack_from_27_range_check_output_input.get_m31(6) - unpacked_limb_18_col12) - (unpacked_limb_19_col13 * 512)) * 8192), unpacked_limb_21_col14, unpacked_limb_22_col15, (((felt_252_unpack_from_27_range_check_output_input.get_m31(7) - unpacked_limb_21_col14) - (unpacked_limb_22_col15 * 512)) * 8192), unpacked_limb_24_col16, unpacked_limb_25_col17, (((felt_252_unpack_from_27_range_check_output_input.get_m31(8) - unpacked_limb_24_col16) - (unpacked_limb_25_col17 * 512)) * 8192), felt_252_unpack_from_27_range_check_output_input.get_m31(9)])",
-          "type": "Felt252"
-        },
+        "air_fn_name": "range_check_mem_value_n_28",
+        "air_fn_description": "Range Check Mem Value N 28",
+        "input": [
+          {
+            "name": "unpacked_limb_0_col0",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_1_col1",
+            "type": "M31"
+          },
+          {
+            "name": "(((felt_252_unpack_from_27_range_check_output_input.get_m31(0) - unpacked_limb_0_col0) - (unpacked_limb_1_col1 * 512)) * 8192)",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_3_col2",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_4_col3",
+            "type": "M31"
+          },
+          {
+            "name": "(((felt_252_unpack_from_27_range_check_output_input.get_m31(1) - unpacked_limb_3_col2) - (unpacked_limb_4_col3 * 512)) * 8192)",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_6_col4",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_7_col5",
+            "type": "M31"
+          },
+          {
+            "name": "(((felt_252_unpack_from_27_range_check_output_input.get_m31(2) - unpacked_limb_6_col4) - (unpacked_limb_7_col5 * 512)) * 8192)",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_9_col6",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_10_col7",
+            "type": "M31"
+          },
+          {
+            "name": "(((felt_252_unpack_from_27_range_check_output_input.get_m31(3) - unpacked_limb_9_col6) - (unpacked_limb_10_col7 * 512)) * 8192)",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_12_col8",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_13_col9",
+            "type": "M31"
+          },
+          {
+            "name": "(((felt_252_unpack_from_27_range_check_output_input.get_m31(4) - unpacked_limb_12_col8) - (unpacked_limb_13_col9 * 512)) * 8192)",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_15_col10",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_16_col11",
+            "type": "M31"
+          },
+          {
+            "name": "(((felt_252_unpack_from_27_range_check_output_input.get_m31(5) - unpacked_limb_15_col10) - (unpacked_limb_16_col11 * 512)) * 8192)",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_18_col12",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_19_col13",
+            "type": "M31"
+          },
+          {
+            "name": "(((felt_252_unpack_from_27_range_check_output_input.get_m31(6) - unpacked_limb_18_col12) - (unpacked_limb_19_col13 * 512)) * 8192)",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_21_col14",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_22_col15",
+            "type": "M31"
+          },
+          {
+            "name": "(((felt_252_unpack_from_27_range_check_output_input.get_m31(7) - unpacked_limb_21_col14) - (unpacked_limb_22_col15 * 512)) * 8192)",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_24_col16",
+            "type": "M31"
+          },
+          {
+            "name": "unpacked_limb_25_col17",
+            "type": "M31"
+          },
+          {
+            "name": "(((felt_252_unpack_from_27_range_check_output_input.get_m31(8) - unpacked_limb_24_col16) - (unpacked_limb_25_col17 * 512)) * 8192)",
+            "type": "M31"
+          },
+          {
+            "name": "felt_252_unpack_from_27_range_check_output_input.get_m31(9)",
+            "type": "M31"
+          }
+        ],
         "output": []
       }
     }
