@@ -4,6 +4,7 @@ use inst_def::InstDef;
 use prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use crate::airs::casm::casm_state::*;
+use crate::airs::casm::common::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn::*;
@@ -97,25 +98,30 @@ impl AirFn for ModUtils {
             .unzip();
 
         // Read inputs from memory.
-        let [(values_ptr_val, values_ptr_id), (offsets_ptr_val, _), (offsets_ptr_val_prev, _), (n_val, _), (n_val_prev_nominal, _)] =
-            [
-                (values_ptr_addr, "values_ptr"),
-                (offsets_ptr_addr, "offsets_ptr"),
-                (offsets_ptr_addr_prev, "offsets_ptr_prev"),
-                // n is not an address, but it should be no greater than the maximal address.
-                (n_addr, "n"),
-                (n_addr_prev, "n_prev"),
-            ]
-            .into_iter()
-            .map(|(addr, name)| {
-                let (x, y) = self
-                    .memory
-                    .read_address_and_id(ab, CasmAddress::new(addr, name));
-                (x.var, y)
-            })
-            .collect::<Vec<_>>()
-            .try_into()
-            .expect("Conversion to array failed.");
+        let (values_ptr_val_felt252, values_ptr_id) = ab.call(
+            &ReadPositive {
+                memory: self.memory.clone(),
+                num_bits: ADDRESS_BITS,
+            },
+            CasmAddress::new(values_ptr_addr, "values_ptr"),
+        );
+        let values_ptr_val = felt252_to_m31(values_ptr_val_felt252, ADDRESS_BITS);
+        let [offsets_ptr_val, offsets_ptr_val_prev, n_val, n_val_prev_nominal] = [
+            (offsets_ptr_addr, "offsets_ptr"),
+            (offsets_ptr_addr_prev, "offsets_ptr_prev"),
+            // n is not an address, but it should be no greater than the maximal address.
+            (n_addr, "n"),
+            (n_addr_prev, "n_prev"),
+        ]
+        .into_iter()
+        .map(|(addr, name)| {
+            self.memory
+                .read_address(ab, CasmAddress::new(addr, name))
+                .var
+        })
+        .collect::<Vec<_>>()
+        .try_into()
+        .expect("Conversion to array failed.");
 
         // If instance 0, then n_val_prev = 1, else n_val_prev = n_val_prev_nominal
         let n_val_prev = ab.let_for_constraint(
