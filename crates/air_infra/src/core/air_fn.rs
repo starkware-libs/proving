@@ -448,7 +448,8 @@ impl AirBuilder {
         // doing a lookup. Therefore we only allow calling AirFns with TraceType::Inline
         assert!(
             air_fn.trace_type() == TraceType::Inline,
-            "AirFn must be inline"
+            "Cannot call AirFn {} - it is not an inline AirFn",
+            air_fn.name()
         );
 
         if let Some(input_in_trace) = air_fn.input_in_trace() {
@@ -497,7 +498,8 @@ impl AirBuilder {
     {
         assert!(
             air_fn.trace_type() == TraceType::Component,
-            "AirFn must be a component"
+            "Cannot lookup call AirFn {} - it is not a component",
+            air_fn.name()
         );
 
         // Make sure the callee is in the registry
@@ -559,7 +561,8 @@ impl AirBuilder {
     {
         assert!(
             air_fn.trace_type() == TraceType::ChainRound,
-            "AirFn must be a chain round"
+            "Cannot chain call AirFn {} - it is not a chain round",
+            air_fn.name()
         );
 
         assert!(
