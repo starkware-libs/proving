@@ -2,8 +2,7 @@ use std::collections::BTreeSet;
 use std::fmt::Debug;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirVar, ConstraintEvalStep, Intermediate, LeanCompare, LookupTerm, TraceGenStep,
-    UseOrYield,
+    CompiledAirVar, ConstraintEvalStep, Intermediate, LookupTerm, TraceGenStep, UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
@@ -424,7 +423,7 @@ impl AirBody {
         lookup_uses
     }
 
-    pub fn get_constraints(&self) -> LeanCompare {
+    pub fn get_constraints(&self) -> Constraints {
         let mut intermediates = vec![];
         let mut constraints = vec![];
         let mut lookups = vec![];
@@ -471,12 +470,19 @@ impl AirBody {
             }
         }
 
-        LeanCompare {
+        Constraints {
             intermediates,
             constraints,
             lookups,
         }
     }
+}
+
+#[derive(Debug, Clone, Serialize, Default)]
+pub struct Constraints {
+    pub intermediates: Vec<(String, String)>,
+    pub constraints: Vec<String>,
+    pub lookups: Vec<(String, String)>,
 }
 
 #[derive(Debug, Clone, Serialize, Default)]

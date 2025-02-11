@@ -14,77 +14,77 @@
   "output": [
     [
       {
-        "name": "(col0 - 32768)",
+        "name": "(offset0_col0 - 32768)",
         "type": "M31"
       },
       {
-        "name": "(col1 - 32768)",
+        "name": "(offset1_col1 - 32768)",
         "type": "M31"
       },
       {
-        "name": "(col2 - 32768)",
+        "name": "(offset2_col2 - 32768)",
         "type": "M31"
       }
     ],
     [
       {
-        "name": "col3",
+        "name": "dst_base_fp_col3",
         "type": "M31"
       },
       {
-        "name": "col4",
+        "name": "op0_base_fp_col4",
         "type": "M31"
       },
       {
-        "name": "col5",
+        "name": "op1_imm_col5",
         "type": "M31"
       },
       {
-        "name": "col6",
+        "name": "op1_base_fp_col6",
         "type": "M31"
       },
       {
-        "name": "col7",
+        "name": "op1_base_ap_col7",
         "type": "M31"
       },
       {
-        "name": "col8",
+        "name": "res_add_col8",
         "type": "M31"
       },
       {
-        "name": "col9",
+        "name": "res_mul_col9",
         "type": "M31"
       },
       {
-        "name": "col10",
+        "name": "pc_update_jump_col10",
         "type": "M31"
       },
       {
-        "name": "col11",
+        "name": "pc_update_jump_rel_col11",
         "type": "M31"
       },
       {
-        "name": "col12",
+        "name": "pc_update_jnz_col12",
         "type": "M31"
       },
       {
-        "name": "col13",
+        "name": "ap_update_add_col13",
         "type": "M31"
       },
       {
-        "name": "col14",
+        "name": "ap_update_add_1_col14",
         "type": "M31"
       },
       {
-        "name": "col15",
+        "name": "opcode_call_col15",
         "type": "M31"
       },
       {
-        "name": "col16",
+        "name": "opcode_ret_col16",
         "type": "M31"
       },
       {
-        "name": "col17",
+        "name": "opcode_assert_eq_col17",
         "type": "M31"
       }
     ],
@@ -201,7 +201,7 @@
     },
     {
       "Constraint": [
-        "(col3 * (1 - col3))",
+        "(dst_base_fp_col3 * (1 - dst_base_fp_col3))",
         "Flag dst_base_fp is a bit"
       ]
     },
@@ -227,7 +227,7 @@
     },
     {
       "Constraint": [
-        "(col4 * (1 - col4))",
+        "(op0_base_fp_col4 * (1 - op0_base_fp_col4))",
         "Flag op0_base_fp is a bit"
       ]
     },
@@ -253,7 +253,7 @@
     },
     {
       "Constraint": [
-        "(col5 * (1 - col5))",
+        "(op1_imm_col5 * (1 - op1_imm_col5))",
         "Flag op1_imm is a bit"
       ]
     },
@@ -279,7 +279,7 @@
     },
     {
       "Constraint": [
-        "(col6 * (1 - col6))",
+        "(op1_base_fp_col6 * (1 - op1_base_fp_col6))",
         "Flag op1_base_fp is a bit"
       ]
     },
@@ -305,7 +305,7 @@
     },
     {
       "Constraint": [
-        "(col7 * (1 - col7))",
+        "(op1_base_ap_col7 * (1 - op1_base_ap_col7))",
         "Flag op1_base_ap is a bit"
       ]
     },
@@ -331,7 +331,7 @@
     },
     {
       "Constraint": [
-        "(col8 * (1 - col8))",
+        "(res_add_col8 * (1 - res_add_col8))",
         "Flag res_add is a bit"
       ]
     },
@@ -357,7 +357,7 @@
     },
     {
       "Constraint": [
-        "(col9 * (1 - col9))",
+        "(res_mul_col9 * (1 - res_mul_col9))",
         "Flag res_mul is a bit"
       ]
     },
@@ -383,7 +383,7 @@
     },
     {
       "Constraint": [
-        "(col10 * (1 - col10))",
+        "(pc_update_jump_col10 * (1 - pc_update_jump_col10))",
         "Flag pc_update_jump is a bit"
       ]
     },
@@ -409,7 +409,7 @@
     },
     {
       "Constraint": [
-        "(col11 * (1 - col11))",
+        "(pc_update_jump_rel_col11 * (1 - pc_update_jump_rel_col11))",
         "Flag pc_update_jump_rel is a bit"
       ]
     },
@@ -435,7 +435,7 @@
     },
     {
       "Constraint": [
-        "(col12 * (1 - col12))",
+        "(pc_update_jnz_col12 * (1 - pc_update_jnz_col12))",
         "Flag pc_update_jnz is a bit"
       ]
     },
@@ -461,7 +461,7 @@
     },
     {
       "Constraint": [
-        "(col13 * (1 - col13))",
+        "(ap_update_add_col13 * (1 - ap_update_add_col13))",
         "Flag ap_update_add is a bit"
       ]
     },
@@ -487,7 +487,7 @@
     },
     {
       "Constraint": [
-        "(col14 * (1 - col14))",
+        "(ap_update_add_1_col14 * (1 - ap_update_add_1_col14))",
         "Flag ap_update_add_1 is a bit"
       ]
     },
@@ -513,7 +513,7 @@
     },
     {
       "Constraint": [
-        "(col15 * (1 - col15))",
+        "(opcode_call_col15 * (1 - opcode_call_col15))",
         "Flag opcode_call is a bit"
       ]
     },
@@ -539,7 +539,7 @@
     },
     {
       "Constraint": [
-        "(col16 * (1 - col16))",
+        "(opcode_ret_col16 * (1 - opcode_ret_col16))",
         "Flag opcode_ret is a bit"
       ]
     },
@@ -565,7 +565,7 @@
     },
     {
       "Constraint": [
-        "(col17 * (1 - col17))",
+        "(opcode_assert_eq_col17 * (1 - opcode_assert_eq_col17))",
         "Flag opcode_assert_eq is a bit"
       ]
     },
@@ -579,25 +579,25 @@
           },
           [
             {
-              "name": "col0",
+              "name": "offset0_col0",
               "type": "M31"
             },
             {
-              "name": "col1",
+              "name": "offset1_col1",
               "type": "M31"
             },
             {
-              "name": "col2",
+              "name": "offset2_col2",
               "type": "M31"
             }
           ],
           [
             {
-              "name": "((((((0 + (col3 * 8)) + (col4 * 16)) + (col5 * 32)) + (col6 * 64)) + (col7 * 128)) + (col8 * 256))",
+              "name": "((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + (op1_imm_col5 * 32)) + (op1_base_fp_col6 * 64)) + (op1_base_ap_col7 * 128)) + (res_add_col8 * 256))",
               "type": "M31"
             },
             {
-              "name": "(((((((((0 + (col9 * 1)) + (col10 * 2)) + (col11 * 4)) + (col12 * 8)) + (col13 * 16)) + (col14 * 32)) + (col15 * 64)) + (col16 * 128)) + (col17 * 256))",
+              "name": "(((((((((0 + (res_mul_col9 * 1)) + (pc_update_jump_col10 * 2)) + (pc_update_jump_rel_col11 * 4)) + (pc_update_jnz_col12 * 8)) + (ap_update_add_col13 * 16)) + (ap_update_add_1_col14 * 32)) + (opcode_call_col15 * 64)) + (opcode_ret_col16 * 128)) + (opcode_assert_eq_col17 * 256))",
               "type": "M31"
             }
           ],
@@ -613,11 +613,11 @@
         "relation_name": "VerifyInstruction",
         "felts": [
           "decode_instruction_594a11e8463530cc_input",
-          "col0",
-          "col1",
-          "col2",
-          "((((((0 + (col3 * 8)) + (col4 * 16)) + (col5 * 32)) + (col6 * 64)) + (col7 * 128)) + (col8 * 256))",
-          "(((((((((0 + (col9 * 1)) + (col10 * 2)) + (col11 * 4)) + (col12 * 8)) + (col13 * 16)) + (col14 * 32)) + (col15 * 64)) + (col16 * 128)) + (col17 * 256))",
+          "offset0_col0",
+          "offset1_col1",
+          "offset2_col2",
+          "((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + (op1_imm_col5 * 32)) + (op1_base_fp_col6 * 64)) + (op1_base_ap_col7 * 128)) + (res_add_col8 * 256))",
+          "(((((((((0 + (res_mul_col9 * 1)) + (pc_update_jump_col10 * 2)) + (pc_update_jump_rel_col11 * 4)) + (pc_update_jnz_col12 * 8)) + (ap_update_add_col13 * 16)) + (ap_update_add_1_col14 * 32)) + (opcode_call_col15 * 64)) + (opcode_ret_col16 * 128)) + (opcode_assert_eq_col17 * 256))",
           "0"
         ],
         "use_or_yield": "Use"
@@ -627,75 +627,75 @@
   "state": {
     "row": [
       [
-        "col0",
+        "offset0_col0",
         "offset0"
       ],
       [
-        "col1",
+        "offset1_col1",
         "offset1"
       ],
       [
-        "col2",
+        "offset2_col2",
         "offset2"
       ],
       [
-        "col3",
+        "dst_base_fp_col3",
         "dst_base_fp"
       ],
       [
-        "col4",
+        "op0_base_fp_col4",
         "op0_base_fp"
       ],
       [
-        "col5",
+        "op1_imm_col5",
         "op1_imm"
       ],
       [
-        "col6",
+        "op1_base_fp_col6",
         "op1_base_fp"
       ],
       [
-        "col7",
+        "op1_base_ap_col7",
         "op1_base_ap"
       ],
       [
-        "col8",
+        "res_add_col8",
         "res_add"
       ],
       [
-        "col9",
+        "res_mul_col9",
         "res_mul"
       ],
       [
-        "col10",
+        "pc_update_jump_col10",
         "pc_update_jump"
       ],
       [
-        "col11",
+        "pc_update_jump_rel_col11",
         "pc_update_jump_rel"
       ],
       [
-        "col12",
+        "pc_update_jnz_col12",
         "pc_update_jnz"
       ],
       [
-        "col13",
+        "ap_update_add_col13",
         "ap_update_add"
       ],
       [
-        "col14",
+        "ap_update_add_1_col14",
         "ap_update_add_1"
       ],
       [
-        "col15",
+        "opcode_call_col15",
         "opcode_call"
       ],
       [
-        "col16",
+        "opcode_ret_col16",
         "opcode_ret"
       ],
       [
-        "col17",
+        "opcode_assert_eq_col17",
         "opcode_assert_eq"
       ]
     ]

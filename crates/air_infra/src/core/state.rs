@@ -55,7 +55,7 @@ impl State {
         }
     }
 
-    pub(super) fn get_state_names(&self) -> Vec<String> {
+    pub fn get_state_names(&self) -> Vec<String> {
         self.row
             .borrow()
             .iter()

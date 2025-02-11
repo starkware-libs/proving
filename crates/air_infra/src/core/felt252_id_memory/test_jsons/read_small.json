@@ -9,11 +9,11 @@
   },
   "output": [
     {
-      "name": "((((col3 + (col4 * 512)) + (col5 * 262144)) - col1) - (134217728 * col2))",
+      "name": "((((read_small_input_limb_0_col3 + (read_small_input_limb_1_col4 * 512)) + (read_small_input_limb_2_col5 * 262144)) - msb_col1) - (134217728 * mid_limbs_set_col2))",
       "type": "M31"
     },
     {
-      "name": "col0",
+      "name": "read_small_input_id_col0",
       "type": "M31"
     }
   ],
@@ -63,7 +63,7 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           "read_small_input",
-          "col0"
+          "read_small_input_id_col0"
         ],
         "use_or_yield": "Use"
       }
@@ -84,11 +84,11 @@
         ],
         "output": [
           {
-            "name": "col1",
+            "name": "msb_col1",
             "type": "M31"
           },
           {
-            "name": "col2",
+            "name": "mid_limbs_set_col2",
             "type": "M31"
           }
         ]
@@ -116,7 +116,7 @@
       "LookupAddInput": {
         "air_fn_name": "memory_id_to_big",
         "ext_input": {
-          "name": "col0",
+          "name": "read_small_input_id_col0",
           "type": "M31"
         }
       }
@@ -125,35 +125,35 @@
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
-          "col0",
-          "col3",
-          "col4",
-          "col5",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "(col2 * 511)",
-          "((136 * col1) - col2)",
+          "read_small_input_id_col0",
+          "read_small_input_limb_0_col3",
+          "read_small_input_limb_1_col4",
+          "read_small_input_limb_2_col5",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "(mid_limbs_set_col2 * 511)",
+          "((136 * msb_col1) - mid_limbs_set_col2)",
           "0",
           "0",
           "0",
           "0",
           "0",
-          "(col1 * 256)"
+          "(msb_col1 * 256)"
         ],
         "use_or_yield": "Use"
       }
@@ -162,27 +162,27 @@
   "state": {
     "row": [
       [
-        "col0",
+        "read_small_input_id_col0",
         "read_small_input_id"
       ],
       [
-        "col1",
+        "msb_col1",
         "msb"
       ],
       [
-        "col2",
+        "mid_limbs_set_col2",
         "mid_limbs_set"
       ],
       [
-        "col3",
+        "read_small_input_limb_0_col3",
         "read_small_input_limb_0"
       ],
       [
-        "col4",
+        "read_small_input_limb_1_col4",
         "read_small_input_limb_1"
       ],
       [
-        "col5",
+        "read_small_input_limb_2_col5",
         "read_small_input_limb_2"
       ]
     ]

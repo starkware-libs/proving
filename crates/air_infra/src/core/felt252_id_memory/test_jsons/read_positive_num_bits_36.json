@@ -11,11 +11,11 @@
   },
   "output": [
     {
-      "name": "Felt252::from_limbs(zero_extend([col1, col2, col3, col4]))",
+      "name": "Felt252::from_limbs(zero_extend([read_positive_num_bits_36_input_limb_0_col1, read_positive_num_bits_36_input_limb_1_col2, read_positive_num_bits_36_input_limb_2_col3, read_positive_num_bits_36_input_limb_3_col4]))",
       "type": "Felt252"
     },
     {
-      "name": "col0",
+      "name": "read_positive_num_bits_36_input_id_col0",
       "type": "M31"
     }
   ],
@@ -65,7 +65,7 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           "read_positive_num_bits_36_input",
-          "col0"
+          "read_positive_num_bits_36_input_id_col0"
         ],
         "use_or_yield": "Use"
       }
@@ -98,7 +98,7 @@
       "LookupAddInput": {
         "air_fn_name": "memory_id_to_big",
         "ext_input": {
-          "name": "col0",
+          "name": "read_positive_num_bits_36_input_id_col0",
           "type": "M31"
         }
       }
@@ -107,11 +107,11 @@
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
-          "col0",
-          "col1",
-          "col2",
-          "col3",
-          "col4",
+          "read_positive_num_bits_36_input_id_col0",
+          "read_positive_num_bits_36_input_limb_0_col1",
+          "read_positive_num_bits_36_input_limb_1_col2",
+          "read_positive_num_bits_36_input_limb_2_col3",
+          "read_positive_num_bits_36_input_limb_3_col4",
           "0",
           "0",
           "0",
@@ -144,23 +144,23 @@
   "state": {
     "row": [
       [
-        "col0",
+        "read_positive_num_bits_36_input_id_col0",
         "read_positive_num_bits_36_input_id"
       ],
       [
-        "col1",
+        "read_positive_num_bits_36_input_limb_0_col1",
         "read_positive_num_bits_36_input_limb_0"
       ],
       [
-        "col2",
+        "read_positive_num_bits_36_input_limb_1_col2",
         "read_positive_num_bits_36_input_limb_1"
       ],
       [
-        "col3",
+        "read_positive_num_bits_36_input_limb_2_col3",
         "read_positive_num_bits_36_input_limb_2"
       ],
       [
-        "col4",
+        "read_positive_num_bits_36_input_limb_3_col4",
         "read_positive_num_bits_36_input_limb_3"
       ]
     ]

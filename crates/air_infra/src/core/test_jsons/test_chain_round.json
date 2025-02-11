@@ -19,15 +19,15 @@
   ],
   "output": [
     {
-      "name": "col0",
+      "name": "input_limb_0_col0",
       "type": "M31"
     },
     {
-      "name": "(col1 + 1)",
+      "name": "(input_limb_1_col1 + 1)",
       "type": "M31"
     },
     {
-      "name": "(col1 + col2)",
+      "name": "(input_limb_1_col1 + input_limb_2_col2)",
       "type": "M31"
     }
   ],
@@ -79,9 +79,9 @@
       "LookupTerm": {
         "relation_name": "TestChainRound",
         "felts": [
-          "col0",
-          "col1",
-          "col2"
+          "input_limb_0_col0",
+          "input_limb_1_col1",
+          "input_limb_2_col2"
         ],
         "use_or_yield": "Use"
       }
@@ -90,9 +90,9 @@
       "LookupTerm": {
         "relation_name": "TestChainRound",
         "felts": [
-          "col0",
-          "(col1 + 1)",
-          "(col1 + col2)"
+          "input_limb_0_col0",
+          "(input_limb_1_col1 + 1)",
+          "(input_limb_1_col1 + input_limb_2_col2)"
         ],
         "use_or_yield": "Yield"
       }
@@ -101,15 +101,15 @@
   "state": {
     "row": [
       [
-        "col0",
+        "input_limb_0_col0",
         "input_limb_0"
       ],
       [
-        "col1",
+        "input_limb_1_col1",
         "input_limb_1"
       ],
       [
-        "col2",
+        "input_limb_2_col2",
         "input_limb_2"
       ]
     ]

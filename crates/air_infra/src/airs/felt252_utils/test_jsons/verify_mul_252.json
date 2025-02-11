@@ -1207,7 +1207,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col0 + 262144)",
+            "name": "(k_col0 + 262144)",
             "type": "M31"
           }
         ]
@@ -1217,20 +1217,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col0 + 262144)"
+          "(k_col0 + 262144)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "(((conv_mod_tmp_9a554_55 - (1 * col0)) + 0) * 4194304)",
+        "(((conv_mod_tmp_9a554_55 - (1 * k_col0)) + 0) * 4194304)",
         "carry_0"
       ]
     },
     {
       "Constraint": [
-        "((col1 * 512) - ((conv_mod_tmp_9a554_55 - (1 * col0)) + 0))"
+        "((carry_0_col1 * 512) - ((conv_mod_tmp_9a554_55 - (1 * k_col0)) + 0))"
       ]
     },
     {
@@ -1238,7 +1238,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col1 + 131072)",
+            "name": "(carry_0_col1 + 131072)",
             "type": "M31"
           }
         ]
@@ -1248,20 +1248,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col1 + 131072)"
+          "(carry_0_col1 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_56 + col1) * 4194304)",
+        "((conv_mod_tmp_9a554_56 + carry_0_col1) * 4194304)",
         "carry_1"
       ]
     },
     {
       "Constraint": [
-        "((col2 * 512) - (conv_mod_tmp_9a554_56 + col1))"
+        "((carry_1_col2 * 512) - (conv_mod_tmp_9a554_56 + carry_0_col1))"
       ]
     },
     {
@@ -1269,7 +1269,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col2 + 131072)",
+            "name": "(carry_1_col2 + 131072)",
             "type": "M31"
           }
         ]
@@ -1279,20 +1279,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col2 + 131072)"
+          "(carry_1_col2 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_57 + col2) * 4194304)",
+        "((conv_mod_tmp_9a554_57 + carry_1_col2) * 4194304)",
         "carry_2"
       ]
     },
     {
       "Constraint": [
-        "((col3 * 512) - (conv_mod_tmp_9a554_57 + col2))"
+        "((carry_2_col3 * 512) - (conv_mod_tmp_9a554_57 + carry_1_col2))"
       ]
     },
     {
@@ -1300,7 +1300,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col3 + 131072)",
+            "name": "(carry_2_col3 + 131072)",
             "type": "M31"
           }
         ]
@@ -1310,20 +1310,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col3 + 131072)"
+          "(carry_2_col3 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_58 + col3) * 4194304)",
+        "((conv_mod_tmp_9a554_58 + carry_2_col3) * 4194304)",
         "carry_3"
       ]
     },
     {
       "Constraint": [
-        "((col4 * 512) - (conv_mod_tmp_9a554_58 + col3))"
+        "((carry_3_col4 * 512) - (conv_mod_tmp_9a554_58 + carry_2_col3))"
       ]
     },
     {
@@ -1331,7 +1331,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col4 + 131072)",
+            "name": "(carry_3_col4 + 131072)",
             "type": "M31"
           }
         ]
@@ -1341,20 +1341,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col4 + 131072)"
+          "(carry_3_col4 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_59 + col4) * 4194304)",
+        "((conv_mod_tmp_9a554_59 + carry_3_col4) * 4194304)",
         "carry_4"
       ]
     },
     {
       "Constraint": [
-        "((col5 * 512) - (conv_mod_tmp_9a554_59 + col4))"
+        "((carry_4_col5 * 512) - (conv_mod_tmp_9a554_59 + carry_3_col4))"
       ]
     },
     {
@@ -1362,7 +1362,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col5 + 131072)",
+            "name": "(carry_4_col5 + 131072)",
             "type": "M31"
           }
         ]
@@ -1372,20 +1372,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col5 + 131072)"
+          "(carry_4_col5 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_60 + col5) * 4194304)",
+        "((conv_mod_tmp_9a554_60 + carry_4_col5) * 4194304)",
         "carry_5"
       ]
     },
     {
       "Constraint": [
-        "((col6 * 512) - (conv_mod_tmp_9a554_60 + col5))"
+        "((carry_5_col6 * 512) - (conv_mod_tmp_9a554_60 + carry_4_col5))"
       ]
     },
     {
@@ -1393,7 +1393,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col6 + 131072)",
+            "name": "(carry_5_col6 + 131072)",
             "type": "M31"
           }
         ]
@@ -1403,20 +1403,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col6 + 131072)"
+          "(carry_5_col6 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_61 + col6) * 4194304)",
+        "((conv_mod_tmp_9a554_61 + carry_5_col6) * 4194304)",
         "carry_6"
       ]
     },
     {
       "Constraint": [
-        "((col7 * 512) - (conv_mod_tmp_9a554_61 + col6))"
+        "((carry_6_col7 * 512) - (conv_mod_tmp_9a554_61 + carry_5_col6))"
       ]
     },
     {
@@ -1424,7 +1424,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col7 + 131072)",
+            "name": "(carry_6_col7 + 131072)",
             "type": "M31"
           }
         ]
@@ -1434,20 +1434,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col7 + 131072)"
+          "(carry_6_col7 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_62 + col7) * 4194304)",
+        "((conv_mod_tmp_9a554_62 + carry_6_col7) * 4194304)",
         "carry_7"
       ]
     },
     {
       "Constraint": [
-        "((col8 * 512) - (conv_mod_tmp_9a554_62 + col7))"
+        "((carry_7_col8 * 512) - (conv_mod_tmp_9a554_62 + carry_6_col7))"
       ]
     },
     {
@@ -1455,7 +1455,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col8 + 131072)",
+            "name": "(carry_7_col8 + 131072)",
             "type": "M31"
           }
         ]
@@ -1465,20 +1465,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col8 + 131072)"
+          "(carry_7_col8 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_63 + col8) * 4194304)",
+        "((conv_mod_tmp_9a554_63 + carry_7_col8) * 4194304)",
         "carry_8"
       ]
     },
     {
       "Constraint": [
-        "((col9 * 512) - (conv_mod_tmp_9a554_63 + col8))"
+        "((carry_8_col9 * 512) - (conv_mod_tmp_9a554_63 + carry_7_col8))"
       ]
     },
     {
@@ -1486,7 +1486,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col9 + 131072)",
+            "name": "(carry_8_col9 + 131072)",
             "type": "M31"
           }
         ]
@@ -1496,20 +1496,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col9 + 131072)"
+          "(carry_8_col9 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_64 + col9) * 4194304)",
+        "((conv_mod_tmp_9a554_64 + carry_8_col9) * 4194304)",
         "carry_9"
       ]
     },
     {
       "Constraint": [
-        "((col10 * 512) - (conv_mod_tmp_9a554_64 + col9))"
+        "((carry_9_col10 * 512) - (conv_mod_tmp_9a554_64 + carry_8_col9))"
       ]
     },
     {
@@ -1517,7 +1517,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col10 + 131072)",
+            "name": "(carry_9_col10 + 131072)",
             "type": "M31"
           }
         ]
@@ -1527,20 +1527,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col10 + 131072)"
+          "(carry_9_col10 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_65 + col10) * 4194304)",
+        "((conv_mod_tmp_9a554_65 + carry_9_col10) * 4194304)",
         "carry_10"
       ]
     },
     {
       "Constraint": [
-        "((col11 * 512) - (conv_mod_tmp_9a554_65 + col10))"
+        "((carry_10_col11 * 512) - (conv_mod_tmp_9a554_65 + carry_9_col10))"
       ]
     },
     {
@@ -1548,7 +1548,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col11 + 131072)",
+            "name": "(carry_10_col11 + 131072)",
             "type": "M31"
           }
         ]
@@ -1558,20 +1558,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col11 + 131072)"
+          "(carry_10_col11 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_66 + col11) * 4194304)",
+        "((conv_mod_tmp_9a554_66 + carry_10_col11) * 4194304)",
         "carry_11"
       ]
     },
     {
       "Constraint": [
-        "((col12 * 512) - (conv_mod_tmp_9a554_66 + col11))"
+        "((carry_11_col12 * 512) - (conv_mod_tmp_9a554_66 + carry_10_col11))"
       ]
     },
     {
@@ -1579,7 +1579,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col12 + 131072)",
+            "name": "(carry_11_col12 + 131072)",
             "type": "M31"
           }
         ]
@@ -1589,20 +1589,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col12 + 131072)"
+          "(carry_11_col12 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_67 + col12) * 4194304)",
+        "((conv_mod_tmp_9a554_67 + carry_11_col12) * 4194304)",
         "carry_12"
       ]
     },
     {
       "Constraint": [
-        "((col13 * 512) - (conv_mod_tmp_9a554_67 + col12))"
+        "((carry_12_col13 * 512) - (conv_mod_tmp_9a554_67 + carry_11_col12))"
       ]
     },
     {
@@ -1610,7 +1610,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col13 + 131072)",
+            "name": "(carry_12_col13 + 131072)",
             "type": "M31"
           }
         ]
@@ -1620,20 +1620,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col13 + 131072)"
+          "(carry_12_col13 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_68 + col13) * 4194304)",
+        "((conv_mod_tmp_9a554_68 + carry_12_col13) * 4194304)",
         "carry_13"
       ]
     },
     {
       "Constraint": [
-        "((col14 * 512) - (conv_mod_tmp_9a554_68 + col13))"
+        "((carry_13_col14 * 512) - (conv_mod_tmp_9a554_68 + carry_12_col13))"
       ]
     },
     {
@@ -1641,7 +1641,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col14 + 131072)",
+            "name": "(carry_13_col14 + 131072)",
             "type": "M31"
           }
         ]
@@ -1651,20 +1651,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col14 + 131072)"
+          "(carry_13_col14 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_69 + col14) * 4194304)",
+        "((conv_mod_tmp_9a554_69 + carry_13_col14) * 4194304)",
         "carry_14"
       ]
     },
     {
       "Constraint": [
-        "((col15 * 512) - (conv_mod_tmp_9a554_69 + col14))"
+        "((carry_14_col15 * 512) - (conv_mod_tmp_9a554_69 + carry_13_col14))"
       ]
     },
     {
@@ -1672,7 +1672,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col15 + 131072)",
+            "name": "(carry_14_col15 + 131072)",
             "type": "M31"
           }
         ]
@@ -1682,20 +1682,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col15 + 131072)"
+          "(carry_14_col15 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_70 + col15) * 4194304)",
+        "((conv_mod_tmp_9a554_70 + carry_14_col15) * 4194304)",
         "carry_15"
       ]
     },
     {
       "Constraint": [
-        "((col16 * 512) - (conv_mod_tmp_9a554_70 + col15))"
+        "((carry_15_col16 * 512) - (conv_mod_tmp_9a554_70 + carry_14_col15))"
       ]
     },
     {
@@ -1703,7 +1703,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col16 + 131072)",
+            "name": "(carry_15_col16 + 131072)",
             "type": "M31"
           }
         ]
@@ -1713,20 +1713,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col16 + 131072)"
+          "(carry_15_col16 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_71 + col16) * 4194304)",
+        "((conv_mod_tmp_9a554_71 + carry_15_col16) * 4194304)",
         "carry_16"
       ]
     },
     {
       "Constraint": [
-        "((col17 * 512) - (conv_mod_tmp_9a554_71 + col16))"
+        "((carry_16_col17 * 512) - (conv_mod_tmp_9a554_71 + carry_15_col16))"
       ]
     },
     {
@@ -1734,7 +1734,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col17 + 131072)",
+            "name": "(carry_16_col17 + 131072)",
             "type": "M31"
           }
         ]
@@ -1744,20 +1744,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col17 + 131072)"
+          "(carry_16_col17 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_72 + col17) * 4194304)",
+        "((conv_mod_tmp_9a554_72 + carry_16_col17) * 4194304)",
         "carry_17"
       ]
     },
     {
       "Constraint": [
-        "((col18 * 512) - (conv_mod_tmp_9a554_72 + col17))"
+        "((carry_17_col18 * 512) - (conv_mod_tmp_9a554_72 + carry_16_col17))"
       ]
     },
     {
@@ -1765,7 +1765,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col18 + 131072)",
+            "name": "(carry_17_col18 + 131072)",
             "type": "M31"
           }
         ]
@@ -1775,20 +1775,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col18 + 131072)"
+          "(carry_17_col18 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_73 + col18) * 4194304)",
+        "((conv_mod_tmp_9a554_73 + carry_17_col18) * 4194304)",
         "carry_18"
       ]
     },
     {
       "Constraint": [
-        "((col19 * 512) - (conv_mod_tmp_9a554_73 + col18))"
+        "((carry_18_col19 * 512) - (conv_mod_tmp_9a554_73 + carry_17_col18))"
       ]
     },
     {
@@ -1796,7 +1796,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col19 + 131072)",
+            "name": "(carry_18_col19 + 131072)",
             "type": "M31"
           }
         ]
@@ -1806,20 +1806,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col19 + 131072)"
+          "(carry_18_col19 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_74 + col19) * 4194304)",
+        "((conv_mod_tmp_9a554_74 + carry_18_col19) * 4194304)",
         "carry_19"
       ]
     },
     {
       "Constraint": [
-        "((col20 * 512) - (conv_mod_tmp_9a554_74 + col19))"
+        "((carry_19_col20 * 512) - (conv_mod_tmp_9a554_74 + carry_18_col19))"
       ]
     },
     {
@@ -1827,7 +1827,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col20 + 131072)",
+            "name": "(carry_19_col20 + 131072)",
             "type": "M31"
           }
         ]
@@ -1837,20 +1837,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col20 + 131072)"
+          "(carry_19_col20 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_75 + col20) * 4194304)",
+        "((conv_mod_tmp_9a554_75 + carry_19_col20) * 4194304)",
         "carry_20"
       ]
     },
     {
       "Constraint": [
-        "((col21 * 512) - (conv_mod_tmp_9a554_75 + col20))"
+        "((carry_20_col21 * 512) - (conv_mod_tmp_9a554_75 + carry_19_col20))"
       ]
     },
     {
@@ -1858,7 +1858,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col21 + 131072)",
+            "name": "(carry_20_col21 + 131072)",
             "type": "M31"
           }
         ]
@@ -1868,20 +1868,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col21 + 131072)"
+          "(carry_20_col21 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "(((conv_mod_tmp_9a554_76 - (136 * col0)) + col21) * 4194304)",
+        "(((conv_mod_tmp_9a554_76 - (136 * k_col0)) + carry_20_col21) * 4194304)",
         "carry_21"
       ]
     },
     {
       "Constraint": [
-        "((col22 * 512) - ((conv_mod_tmp_9a554_76 - (136 * col0)) + col21))"
+        "((carry_21_col22 * 512) - ((conv_mod_tmp_9a554_76 - (136 * k_col0)) + carry_20_col21))"
       ]
     },
     {
@@ -1889,7 +1889,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col22 + 131072)",
+            "name": "(carry_21_col22 + 131072)",
             "type": "M31"
           }
         ]
@@ -1899,20 +1899,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col22 + 131072)"
+          "(carry_21_col22 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_77 + col22) * 4194304)",
+        "((conv_mod_tmp_9a554_77 + carry_21_col22) * 4194304)",
         "carry_22"
       ]
     },
     {
       "Constraint": [
-        "((col23 * 512) - (conv_mod_tmp_9a554_77 + col22))"
+        "((carry_22_col23 * 512) - (conv_mod_tmp_9a554_77 + carry_21_col22))"
       ]
     },
     {
@@ -1920,7 +1920,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col23 + 131072)",
+            "name": "(carry_22_col23 + 131072)",
             "type": "M31"
           }
         ]
@@ -1930,20 +1930,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col23 + 131072)"
+          "(carry_22_col23 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_78 + col23) * 4194304)",
+        "((conv_mod_tmp_9a554_78 + carry_22_col23) * 4194304)",
         "carry_23"
       ]
     },
     {
       "Constraint": [
-        "((col24 * 512) - (conv_mod_tmp_9a554_78 + col23))"
+        "((carry_23_col24 * 512) - (conv_mod_tmp_9a554_78 + carry_22_col23))"
       ]
     },
     {
@@ -1951,7 +1951,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col24 + 131072)",
+            "name": "(carry_23_col24 + 131072)",
             "type": "M31"
           }
         ]
@@ -1961,20 +1961,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col24 + 131072)"
+          "(carry_23_col24 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_79 + col24) * 4194304)",
+        "((conv_mod_tmp_9a554_79 + carry_23_col24) * 4194304)",
         "carry_24"
       ]
     },
     {
       "Constraint": [
-        "((col25 * 512) - (conv_mod_tmp_9a554_79 + col24))"
+        "((carry_24_col25 * 512) - (conv_mod_tmp_9a554_79 + carry_23_col24))"
       ]
     },
     {
@@ -1982,7 +1982,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col25 + 131072)",
+            "name": "(carry_24_col25 + 131072)",
             "type": "M31"
           }
         ]
@@ -1992,20 +1992,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col25 + 131072)"
+          "(carry_24_col25 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_80 + col25) * 4194304)",
+        "((conv_mod_tmp_9a554_80 + carry_24_col25) * 4194304)",
         "carry_25"
       ]
     },
     {
       "Constraint": [
-        "((col26 * 512) - (conv_mod_tmp_9a554_80 + col25))"
+        "((carry_25_col26 * 512) - (conv_mod_tmp_9a554_80 + carry_24_col25))"
       ]
     },
     {
@@ -2013,7 +2013,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col26 + 131072)",
+            "name": "(carry_25_col26 + 131072)",
             "type": "M31"
           }
         ]
@@ -2023,20 +2023,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col26 + 131072)"
+          "(carry_25_col26 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Deduction": [
-        "((conv_mod_tmp_9a554_81 + col26) * 4194304)",
+        "((conv_mod_tmp_9a554_81 + carry_25_col26) * 4194304)",
         "carry_26"
       ]
     },
     {
       "Constraint": [
-        "((col27 * 512) - (conv_mod_tmp_9a554_81 + col26))"
+        "((carry_26_col27 * 512) - (conv_mod_tmp_9a554_81 + carry_25_col26))"
       ]
     },
     {
@@ -2044,7 +2044,7 @@
         "air_fn_name": "range_check_19",
         "ext_input": [
           {
-            "name": "(col27 + 131072)",
+            "name": "(carry_26_col27 + 131072)",
             "type": "M31"
           }
         ]
@@ -2054,129 +2054,129 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_19",
         "felts": [
-          "(col27 + 131072)"
+          "(carry_26_col27 + 131072)"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Constraint": [
-        "((conv_mod_tmp_9a554_82 - (256 * col0)) + col27)"
+        "((conv_mod_tmp_9a554_82 - (256 * k_col0)) + carry_26_col27)"
       ]
     }
   ],
   "state": {
     "row": [
       [
-        "col0",
+        "k_col0",
         "k"
       ],
       [
-        "col1",
+        "carry_0_col1",
         "carry_0"
       ],
       [
-        "col2",
+        "carry_1_col2",
         "carry_1"
       ],
       [
-        "col3",
+        "carry_2_col3",
         "carry_2"
       ],
       [
-        "col4",
+        "carry_3_col4",
         "carry_3"
       ],
       [
-        "col5",
+        "carry_4_col5",
         "carry_4"
       ],
       [
-        "col6",
+        "carry_5_col6",
         "carry_5"
       ],
       [
-        "col7",
+        "carry_6_col7",
         "carry_6"
       ],
       [
-        "col8",
+        "carry_7_col8",
         "carry_7"
       ],
       [
-        "col9",
+        "carry_8_col9",
         "carry_8"
       ],
       [
-        "col10",
+        "carry_9_col10",
         "carry_9"
       ],
       [
-        "col11",
+        "carry_10_col11",
         "carry_10"
       ],
       [
-        "col12",
+        "carry_11_col12",
         "carry_11"
       ],
       [
-        "col13",
+        "carry_12_col13",
         "carry_12"
       ],
       [
-        "col14",
+        "carry_13_col14",
         "carry_13"
       ],
       [
-        "col15",
+        "carry_14_col15",
         "carry_14"
       ],
       [
-        "col16",
+        "carry_15_col16",
         "carry_15"
       ],
       [
-        "col17",
+        "carry_16_col17",
         "carry_16"
       ],
       [
-        "col18",
+        "carry_17_col18",
         "carry_17"
       ],
       [
-        "col19",
+        "carry_18_col19",
         "carry_18"
       ],
       [
-        "col20",
+        "carry_19_col20",
         "carry_19"
       ],
       [
-        "col21",
+        "carry_20_col21",
         "carry_20"
       ],
       [
-        "col22",
+        "carry_21_col22",
         "carry_21"
       ],
       [
-        "col23",
+        "carry_22_col23",
         "carry_22"
       ],
       [
-        "col24",
+        "carry_23_col24",
         "carry_23"
       ],
       [
-        "col25",
+        "carry_24_col25",
         "carry_24"
       ],
       [
-        "col26",
+        "carry_25_col26",
         "carry_25"
       ],
       [
-        "col27",
+        "carry_26_col27",
         "carry_26"
       ]
     ]

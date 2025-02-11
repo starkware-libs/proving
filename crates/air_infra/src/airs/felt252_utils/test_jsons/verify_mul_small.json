@@ -31,7 +31,7 @@
         "air_fn_name": "range_check_11",
         "ext_input": [
           {
-            "name": "col0",
+            "name": "carry_1_col0",
             "type": "M31"
           }
         ]
@@ -41,20 +41,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_11",
         "felts": [
-          "col0"
+          "carry_1_col0"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Constraint": [
-        "((col0 * 262144) - (((((0 + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(0)) * 1)) - (verify_mul_small_input[2].get_m31(0) * 1)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(1) * 512)))",
+        "((carry_1_col0 * 262144) - (((((0 + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(0)) * 1)) - (verify_mul_small_input[2].get_m31(0) * 1)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(1) * 512)))",
         "carry 1 definition"
       ]
     },
     {
       "Deduction": [
-        "((((((((((col0 + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(2)) * 1)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(1)) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(0)) * 1)) - (verify_mul_small_input[2].get_m31(2) * 1)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(2)) * 512)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(3) * 512)) * 8192)",
+        "((((((((((carry_1_col0 + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(2)) * 1)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(1)) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(0)) * 1)) - (verify_mul_small_input[2].get_m31(2) * 1)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(2)) * 512)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(3) * 512)) * 8192)",
         "carry_3"
       ]
     },
@@ -63,7 +63,7 @@
         "air_fn_name": "range_check_11",
         "ext_input": [
           {
-            "name": "col1",
+            "name": "carry_3_col1",
             "type": "M31"
           }
         ]
@@ -73,20 +73,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_11",
         "felts": [
-          "col1"
+          "carry_3_col1"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Constraint": [
-        "((col1 * 262144) - (((((((((col0 + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(2)) * 1)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(1)) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(0)) * 1)) - (verify_mul_small_input[2].get_m31(2) * 1)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(2)) * 512)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(3) * 512)))",
+        "((carry_3_col1 * 262144) - (((((((((carry_1_col0 + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(2)) * 1)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(1)) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(0)) * 1)) - (verify_mul_small_input[2].get_m31(2) * 1)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(2)) * 512)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(3) * 512)))",
         "carry 3 definition"
       ]
     },
     {
       "Deduction": [
-        "((((((((col1 + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(3)) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(2)) * 1)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(1)) * 1)) - (verify_mul_small_input[2].get_m31(4) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(2)) * 512)) - (verify_mul_small_input[2].get_m31(5) * 512)) * 8192)",
+        "((((((((carry_3_col1 + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(3)) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(2)) * 1)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(1)) * 1)) - (verify_mul_small_input[2].get_m31(4) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(2)) * 512)) - (verify_mul_small_input[2].get_m31(5) * 512)) * 8192)",
         "carry_5"
       ]
     },
@@ -95,7 +95,7 @@
         "air_fn_name": "range_check_11",
         "ext_input": [
           {
-            "name": "col2",
+            "name": "carry_5_col2",
             "type": "M31"
           }
         ]
@@ -105,20 +105,20 @@
       "LookupTerm": {
         "relation_name": "RangeCheck_11",
         "felts": [
-          "col2"
+          "carry_5_col2"
         ],
         "use_or_yield": "Use"
       }
     },
     {
       "Constraint": [
-        "((col2 * 262144) - (((((((col1 + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(3)) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(2)) * 1)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(1)) * 1)) - (verify_mul_small_input[2].get_m31(4) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(2)) * 512)) - (verify_mul_small_input[2].get_m31(5) * 512)))",
+        "((carry_5_col2 * 262144) - (((((((carry_3_col1 + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(3)) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(2)) * 1)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(1)) * 1)) - (verify_mul_small_input[2].get_m31(4) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(2)) * 512)) - (verify_mul_small_input[2].get_m31(5) * 512)))",
         "carry 5 definition"
       ]
     },
     {
       "Constraint": [
-        "(((col2 + (verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(3))) - (verify_mul_small_input[2].get_m31(7) * 512)) - verify_mul_small_input[2].get_m31(6))",
+        "(((carry_5_col2 + (verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(3))) - (verify_mul_small_input[2].get_m31(7) * 512)) - verify_mul_small_input[2].get_m31(6))",
         "final limb constraint"
       ]
     }
@@ -126,15 +126,15 @@
   "state": {
     "row": [
       [
-        "col0",
+        "carry_1_col0",
         "carry_1"
       ],
       [
-        "col1",
+        "carry_3_col1",
         "carry_3"
       ],
       [
-        "col2",
+        "carry_5_col2",
         "carry_5"
       ]
     ]

@@ -1,6 +1,6 @@
 use std::cell::Ref;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat};
+use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat, LeanCompare};
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::utils::{JSONS_BUILTINS_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR};
 use indexmap::IndexMap;
@@ -204,7 +204,16 @@ fn test_casm_registry() {
     //
     let mut constraints = IndexMap::new();
     for (name, entry) in reg.air_fns.borrow().iter() {
-        constraints.insert(name.clone(), entry.air_body.get_constraints());
+        let air_body_constraints = entry.air_body.get_constraints();
+        constraints.insert(
+            name.clone(),
+            LeanCompare {
+                state_names: entry.state.get_state_names(),
+                intermediates: air_body_constraints.intermediates,
+                constraints: air_body_constraints.constraints,
+                lookups: air_body_constraints.lookups,
+            },
+        );
     }
     compare_json(
         &constraints,

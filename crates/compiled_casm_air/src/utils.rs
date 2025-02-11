@@ -45,8 +45,6 @@ impl Display for CompiledAirVar {
                 write!(f, "{}", id)
             }
             CompiledAirVar::State(name) => {
-                // State variables must end with "colX", where X is an index.
-                let name = name.rfind(STATE_VAR_SUFFIX).map(|i| &name[i..]).unwrap();
                 write!(f, "{}", name)
             }
             CompiledAirVar::BinaryOp(lhs, op, rhs) => {

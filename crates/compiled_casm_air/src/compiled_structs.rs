@@ -153,6 +153,7 @@ pub struct CompiledAirFnStat {
 /// See `constraints.json`.
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash, PartialOrd, Ord)]
 pub struct LeanCompare {
+    pub state_names: Vec<String>,
     pub intermediates: Vec<(String, String)>,
     pub constraints: Vec<String>,
     pub lookups: Vec<(String, String)>,

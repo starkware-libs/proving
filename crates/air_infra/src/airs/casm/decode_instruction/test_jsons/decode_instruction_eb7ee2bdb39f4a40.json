@@ -18,7 +18,7 @@
         "type": "M31"
       },
       {
-        "name": "(col0 - 32768)",
+        "name": "(offset1_col0 - 32768)",
         "type": "M31"
       },
       {
@@ -28,7 +28,7 @@
     ],
     [
       {
-        "name": "col1",
+        "name": "dst_base_fp_col1",
         "type": "M31"
       },
       {
@@ -36,7 +36,7 @@
         "type": "M31"
       },
       {
-        "name": "col2",
+        "name": "op1_imm_col2",
         "type": "M31"
       },
       {
@@ -161,7 +161,7 @@
     },
     {
       "Constraint": [
-        "(col1 * (1 - col1))",
+        "(dst_base_fp_col1 * (1 - dst_base_fp_col1))",
         "Flag dst_base_fp is a bit"
       ]
     },
@@ -187,7 +187,7 @@
     },
     {
       "Constraint": [
-        "(col2 * (1 - col2))",
+        "(op1_imm_col2 * (1 - op1_imm_col2))",
         "Flag op1_imm is a bit"
       ]
     },
@@ -205,7 +205,7 @@
               "type": "M31"
             },
             {
-              "name": "col0",
+              "name": "offset1_col0",
               "type": "M31"
             },
             {
@@ -215,7 +215,7 @@
           ],
           [
             {
-              "name": "((((((0 + (col1 * 8)) + 16) + (col2 * 32)) + 64) + 0) + 0)",
+              "name": "((((((0 + (dst_base_fp_col1 * 8)) + 16) + (op1_imm_col2 * 32)) + 64) + 0) + 0)",
               "type": "M31"
             },
             {
@@ -236,9 +236,9 @@
         "felts": [
           "decode_instruction_eb7ee2bdb39f4a40_input",
           "49953",
-          "col0",
+          "offset1_col0",
           "36026",
-          "((((((0 + (col1 * 8)) + 16) + (col2 * 32)) + 64) + 0) + 0)",
+          "((((((0 + (dst_base_fp_col1 * 8)) + 16) + (op1_imm_col2 * 32)) + 64) + 0) + 0)",
           "282",
           "0"
         ],
@@ -249,15 +249,15 @@
   "state": {
     "row": [
       [
-        "col0",
+        "offset1_col0",
         "offset1"
       ],
       [
-        "col1",
+        "dst_base_fp_col1",
         "dst_base_fp"
       ],
       [
-        "col2",
+        "op1_imm_col2",
         "op1_imm"
       ]
     ]
