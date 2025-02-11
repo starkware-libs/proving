@@ -9,7 +9,6 @@ use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::felt252_id_memory::read_positive::*;
 use crate::core::felt252_id_memory::read_small::*;
 
 /// The add opcode.
@@ -126,27 +125,15 @@ impl AirFn for AddOpcode {
             ab.constrain(dst - (op0 + op1), "dst equals op0 + op1");
         } else {
             // Add big
-            let (dst, _) = ab.call(
-                &ReadPositive {
-                    num_bits: 252,
-                    memory: self.memory.clone(),
-                },
-                CasmAddress::new(mem_dst_base + offset0, "dst"),
-            );
-            let (op0, _) = ab.call(
-                &ReadPositive {
-                    num_bits: 252,
-                    memory: self.memory.clone(),
-                },
-                CasmAddress::new(mem0_base + offset1, "op0"),
-            );
-            let (op1, _) = ab.call(
-                &ReadPositive {
-                    num_bits: 252,
-                    memory: self.memory.clone(),
-                },
-                CasmAddress::new(mem1_base + offset2, "op1"),
-            );
+            let dst = self
+                .memory
+                .read_felt252(ab, CasmAddress::new(mem_dst_base + offset0, "dst"));
+            let op0 = self
+                .memory
+                .read_felt252(ab, CasmAddress::new(mem0_base + offset1, "op0"));
+            let op1 = self
+                .memory
+                .read_felt252(ab, CasmAddress::new(mem1_base + offset2, "op1"));
             ab.call(&VerifyAdd252 {}, [op0, op1, dst]);
         }
 

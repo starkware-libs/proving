@@ -10,7 +10,6 @@ use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::felt252_id_memory::read_positive::*;
 use crate::core::felt252_id_memory::verify::*;
 use crate::core::variables::*;
 
@@ -39,22 +38,18 @@ impl AirFn for BitwiseBuiltin {
         let instance_num = air_builder.call_external_table(&Seq {});
         let segment_start = air_builder.get_public_param(PublicParam::BitwiseBuiltinSegmentStart);
 
-        let read_felt252 = ReadPositive {
-            num_bits: 252,
-            memory: self.memory.clone(),
-        };
         let verify_felt252 = MemVerify {
             memory: self.memory.clone(),
         };
-        let (a, _) = air_builder.call(
-            &read_felt252,
+        let a = self.memory.read_felt252(
+            air_builder,
             CasmAddress::new(
                 get_addr(segment_start.clone(), instance_num.clone(), 0),
                 "op0",
             ),
         );
-        let (b, _) = air_builder.call(
-            &read_felt252,
+        let b = self.memory.read_felt252(
+            air_builder,
             CasmAddress::new(
                 get_addr(segment_start.clone(), instance_num.clone(), 1),
                 "op1",

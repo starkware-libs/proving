@@ -9,7 +9,6 @@ use crate::const_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::felt252_id_memory::read_positive::*;
 use crate::core::variables::*;
 
 /// The jnz opcode.
@@ -74,15 +73,9 @@ impl AirFn for JnzOpcode {
             casm_state.ap().var
         };
 
-        let dst = ab
-            .call(
-                &ReadPositive {
-                    num_bits: 252,
-                    memory: self.memory.clone(),
-                },
-                CasmAddress::new(mem_dst_base + offset_dst, "dst"),
-            )
-            .0
+        let dst = self
+            .memory
+            .read_felt252(ab, CasmAddress::new(mem_dst_base + offset_dst, "dst"))
             .as_felts();
 
         // Calculate the next pc

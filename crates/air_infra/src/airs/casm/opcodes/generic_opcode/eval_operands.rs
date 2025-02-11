@@ -12,7 +12,6 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::felt252_id_memory::read_positive::*;
 use crate::core::variables::*;
 
 // Reads and verifies op0, op1 and dst from the memory.
@@ -35,20 +34,19 @@ impl AirFn for EvalOperands {
         (casm_state, flags, [offset0, offset1, offset2]): Self::In,
     ) -> Self::Out {
         // Read 252 bits since we don't know for what purpose is the reading
-        let read_felt_252 = ReadPositive {
-            num_bits: 252,
-            memory: self.memory.clone(),
-        };
-
         // Read dst
         let dst_src = flags[FLAG_DST_BASE_FP_INDEX].clone() * casm_state.fp().var
             + (const_expr!(1) - flags[FLAG_DST_BASE_FP_INDEX].clone()) * casm_state.ap().var;
-        let (dst, _) = air_builder.call(&read_felt_252, CasmAddress::new(dst_src + offset0, "dst"));
+        let dst = self
+            .memory
+            .read_felt252(air_builder, CasmAddress::new(dst_src + offset0, "dst"));
 
         // Read op0
         let op0_src = flags[FLAG_OP0_BASE_FP_INDEX].clone() * casm_state.fp().var
             + (const_expr!(1) - flags[FLAG_OP0_BASE_FP_INDEX].clone()) * casm_state.ap().var;
-        let (op0, _) = air_builder.call(&read_felt_252, CasmAddress::new(op0_src + offset1, "op0"));
+        let op0 = self
+            .memory
+            .read_felt252(air_builder, CasmAddress::new(op0_src + offset1, "op0"));
 
         // Read op1
         let op0_as_addr = air_builder.call(
@@ -60,7 +58,9 @@ impl AirFn for EvalOperands {
             + flags[FLAG_OP1_BASE_AP_INDEX].clone() * casm_state.ap().var
             + flags[FLAG_OP1_IMM_INDEX].clone() * casm_state.pc().var
             + flags[FLAG_OP1_BASE_OP0_INDEX].clone() * op0_as_addr.var;
-        let (op1, _) = air_builder.call(&read_felt_252, CasmAddress::new(op1_src + offset2, "op1"));
+        let op1 = self
+            .memory
+            .read_felt252(air_builder, CasmAddress::new(op1_src + offset2, "op1"));
 
         let sum = air_builder.call(&Add252 {}, [op0.clone(), op1.clone()]);
         let prod = air_builder.call(&Mul252 {}, [op0.clone(), op1.clone()]);

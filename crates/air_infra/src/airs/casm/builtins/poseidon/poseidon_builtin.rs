@@ -11,7 +11,6 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt252packed27_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
-use crate::core::felt252_id_memory::read_positive::*;
 use crate::core::felt252_id_memory::verify::*;
 
 // Each Poseidon operation consists of 6 cells (3 inputs and 3 outputs, each being a single state).
@@ -36,26 +35,18 @@ impl AirFn for PoseidonBuiltin {
         let segment_start = air_builder.get_public_param(PublicParam::PoseidonBuiltinSegmentStart);
 
         // TODO(DanC): Allow and use direct access to memory in packed form, to save trace columns.
-        let read_felt252 = ReadPositive {
-            num_bits: 252,
-            memory: self.memory.clone(),
-        };
         let verify_felt252 = MemVerify {
             memory: self.memory.clone(),
         };
 
         let input_state: [Felt252Packed27Expr; 3] = std::array::from_fn(|i| {
-            felt252_pack_into27(
-                air_builder
-                    .call(
-                        &read_felt252,
-                        CasmAddress::new(
-                            get_addr(segment_start.clone(), instance_num.clone(), i as u32),
-                            &format!("input_state_{}", i),
-                        ),
-                    )
-                    .0,
-            )
+            felt252_pack_into27(self.memory.read_felt252(
+                air_builder,
+                CasmAddress::new(
+                    get_addr(segment_start.clone(), instance_num.clone(), i as u32),
+                    &format!("input_state_{}", i),
+                ),
+            ))
         });
 
         let output_state = air_builder.call(&PoseidonHadesPermutation {}, input_state);

@@ -92,4 +92,16 @@ impl Felt252IdMemory {
 
         CasmAddress::new(felt252_to_m31(address_f252, ADDRESS_BITS), "")
     }
+
+    pub fn read_felt252(&self, air_builder: &mut AirBuilder, address: CasmAddress) -> Felt252Expr {
+        air_builder
+            .call(
+                &ReadPositive {
+                    num_bits: 252,
+                    memory: self.clone(),
+                },
+                address,
+            )
+            .0
+    }
 }
