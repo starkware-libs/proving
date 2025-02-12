@@ -24,9 +24,9 @@ use super::expressions::var_expr::*;
 use crate::airs::casm::builtins::modulo::mod_utils::*;
 use crate::airs::casm::builtins::pedersen::partial_ec_mul::*;
 use crate::airs::casm::casm_state::*;
-use crate::airs::casm::opcodes::blake::blake_round::*;
 use crate::airs::casm::opcodes::blake::create_blake_output::*;
 use crate::airs::casm::opcodes::blake::decode_blake_opcode::*;
+use crate::airs::casm::opcodes::blake::round::*;
 use crate::airs::casm::opcodes::generic_opcode::generic_opcode::*;
 #[cfg(test)]
 use crate::core::Felt;

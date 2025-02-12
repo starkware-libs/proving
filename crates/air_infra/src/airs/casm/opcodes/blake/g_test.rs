@@ -1,4 +1,4 @@
-use super::blake_g::*;
+use super::g::*;
 // Macros
 use crate::const_u32_expr;
 use crate::core::air_fn_registry::*;

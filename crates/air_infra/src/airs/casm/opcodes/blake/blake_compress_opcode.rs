@@ -1,8 +1,8 @@
 use inst_def::InstDef;
 
-use super::blake_round::*;
 use super::create_blake_output::*;
 use super::decode_blake_opcode::*;
+use super::round::*;
 use super::verify_blake_word::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::opcodes::blake::create_blake_round_input::*;

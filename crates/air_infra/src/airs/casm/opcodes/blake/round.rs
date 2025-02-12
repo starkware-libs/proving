@@ -1,8 +1,8 @@
 use inst_def::InstDef;
 
-use super::blake_g::*;
-use super::blake_round_sigma::*;
+use super::g::*;
 use super::read_blake_word::*;
+use super::round_sigma::*;
 use crate::airs::casm::casm_state::*;
 // Macros
 use crate::const_expr;

@@ -1,6 +1,6 @@
 use std::array::from_fn;
 
-use super::blake_round::*;
+use super::round::*;
 use crate::airs::casm::casm_state::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;

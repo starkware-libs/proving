@@ -1,4 +1,4 @@
-use super::blake_round_sigma::*;
+use super::round_sigma::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn_registry::*;

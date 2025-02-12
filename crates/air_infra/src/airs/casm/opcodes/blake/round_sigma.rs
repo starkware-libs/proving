@@ -1,6 +1,6 @@
 use inst_def::InstDef;
 
-use super::blake_sigma::*;
+use super::sigma::*;
 use crate::airs::casm::const_tables::seq::*;
 // Macros
 use crate::core::air_fn::*;
