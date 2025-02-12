@@ -213,6 +213,8 @@ pub enum OpType {
 }
 
 impl_binary_op!(Eq, eq, BoolExpr, BoolExpr, BoolOperation);
+impl_binary_op!(ops BitAnd, bitand, BoolExpr, BoolOperation);
+impl_binary_op!(ops BitOr, bitor, BoolExpr, BoolOperation);
 impl_unary_op!(from UInt16FromBool, from_bool, BoolExpr, UInt16Expr, UInt16);
 impl_unary_op!(ops Not, not, BoolExpr);
 impl_unary_op!(Inverse, inverse, inverse, FeltExpr, FeltExpr);
@@ -282,7 +284,7 @@ impl From<Vec<Felt252Expr>> for BigUIntExpr<384, 6, 32> {
         let needed_bits = mod_words.len() * MOD_BUILTIN_WORD_BIT_LEN;
         assert!(
             needed_bits <= 384,
-            "BigUIntExpr<384,6> can have at most 384 bits"
+            "BigUIntExpr<384,6,32> can have at most 384 bits"
         );
 
         let values = mod_words
