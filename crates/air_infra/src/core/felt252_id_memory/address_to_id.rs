@@ -36,6 +36,7 @@ impl AirFn for MemoryAddressToId {
         // The output is a single-column filled by Stwo that contains, in the k'th
         // row, the ID of the felt252 value in memory address k.
         air_builder
+            .component_context
             .state()
             .get_felts()
             .last()

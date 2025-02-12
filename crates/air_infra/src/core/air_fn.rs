@@ -181,13 +181,14 @@ pub trait AirFn: Debug + InstDefTrait {
         if self.trace_type() == TraceType::Memory {
             // Memory - Assume input & output are already in state (filled by Stwo)
             for felt in input.as_felts_mut() {
-                air_builder.state.add(felt, "input");
+                air_builder.component_context.state_mut().add(felt, "input");
             }
 
             let mut output = Self::Out::new("".to_string(), false);
             for felt in output.as_felts_mut() {
                 air_builder
-                    .state
+                    .component_context
+                    .state_mut()
                     .add(felt, &format!("{}_output", self.name()));
             }
         } else {
@@ -263,7 +264,7 @@ pub trait InstDefTrait {
 // assignments and intermediate variables to the air function.
 #[derive(Debug)]
 pub struct AirBuilder {
-    pub(super) state: State,
+    pub(super) component_context: ComponentContext,
     pub(super) air_body: AirBody,
     #[cfg(test)]
     pub(super) row_number: Option<usize>,
@@ -272,6 +273,7 @@ pub struct AirBuilder {
     pub(super) registry: AirFnRegistry,
     pub(super) intermediate_id: Rc<RefCell<(String, usize)>>,
 }
+
 impl AirBuilder {
     #[cfg(test)]
     pub fn is_run_mode(&self) -> bool {
@@ -289,10 +291,6 @@ impl AirBuilder {
     #[cfg(test)]
     pub fn set_row_number(&mut self, row_number: Option<usize>) {
         self.row_number = row_number;
-    }
-
-    pub fn state(&self) -> &State {
-        &self.state
     }
 
     pub fn constrain(&mut self, expr: FeltExpr, desc: &str) {
@@ -321,7 +319,7 @@ impl AirBuilder {
             expr.clone(),
             (!desc.is_empty()).then(|| desc.to_string()),
         ));
-        self.state.add(expr, desc);
+        self.component_context.state_mut().add(expr, desc);
         expr.clone()
     }
 
@@ -333,7 +331,7 @@ impl AirBuilder {
         }
 
         let before = expr.clone();
-        self.state.add(expr, desc);
+        self.component_context.state_mut().add(expr, desc);
 
         let constraint = expr.clone() - before.clone();
         self.air_body.push(AirBodyComponent::Assignment {
@@ -496,7 +494,7 @@ impl AirBuilder {
         self.registry.add_entry(air_fn);
 
         let mut air_builder = Self {
-            state: self.state.clone(),
+            component_context: self.component_context.clone(),
             air_body: AirBody::default(),
             #[cfg(test)]
             row_number: self.row_number,
@@ -601,10 +599,10 @@ impl AirBuilder {
         let mut output_name = "".to_string();
         let mut output = <(ChainIdVar, RoundNumVar, S)>::new("".to_string(), false);
 
-        let chain_id = self.air_body.get_prev_chain_id(&air_fn.name()).map_or(
-            self.call_external_table(&Seq {}) * const_expr!(air_fn.number_of_chains() as u32),
-            |prev_chain_id| prev_chain_id + const_expr!(1),
-        );
+        let call_index = self.component_context.get_chain_call_index(air_fn);
+        let chain_id = self.call_external_table(&Seq {})
+            * const_expr!(air_fn.number_of_chains() as u32)
+            + const_expr!(call_index);
         let mut input = (chain_id, const_expr!(first_round as u32), state);
 
         // Yield the input to the first round.
@@ -677,7 +675,7 @@ impl AirBuilder {
         #[cfg(test)]
         if self.run {
             let mut air_builder = Self {
-                state: State::default(),
+                component_context: Default::default(),
                 air_body: AirBody::default(),
                 // When we call a separate component using lookup, we access an arbitrary row in
                 // that component (depending on how its rows are sorted). That is, the row number
@@ -736,7 +734,7 @@ impl AirBuilder {
         #[cfg(test)]
         if self.run {
             let mut air_builder = Self {
-                state: State::default(),
+                component_context: Default::default(),
                 air_body: AirBody::default(),
                 // This is None for the same reason as in lookup_call.
                 row_number: None,
@@ -801,7 +799,7 @@ impl AirBuilder {
         #[cfg(test)]
         if self.run {
             let mut air_builder = Self {
-                state: State::default(),
+                component_context: Default::default(),
                 air_body: AirBody::default(),
                 #[cfg(test)]
                 row_number: self.row_number,

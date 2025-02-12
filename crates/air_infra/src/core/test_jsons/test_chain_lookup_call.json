@@ -17,7 +17,7 @@
       "LookupTerm": {
         "relation_name": "TestChainRound",
         "felts": [
-          "(seq() * 2)",
+          "((seq() * 2) + 0)",
           "0",
           "test_chain_lookup_call_input"
         ],
@@ -29,7 +29,7 @@
         "air_fn_name": "test_chain_round",
         "input": [
           {
-            "name": "(seq() * 2)",
+            "name": "((seq() * 2) + 0)",
             "type": "M31"
           },
           {
@@ -49,7 +49,7 @@
         "method_name": "TestChainRound::deduce_output",
         "input": [
           {
-            "name": "(seq() * 2)",
+            "name": "((seq() * 2) + 0)",
             "type": "M31"
           },
           {
@@ -70,7 +70,7 @@
         "air_fn_name": "test_chain_round",
         "input": [
           {
-            "name": "(seq() * 2)",
+            "name": "((seq() * 2) + 0)",
             "type": "M31"
           },
           {
@@ -90,7 +90,7 @@
         "method_name": "TestChainRound::deduce_output",
         "input": [
           {
-            "name": "(seq() * 2)",
+            "name": "((seq() * 2) + 0)",
             "type": "M31"
           },
           {
@@ -111,7 +111,7 @@
         "air_fn_name": "test_chain_round",
         "input": [
           {
-            "name": "(seq() * 2)",
+            "name": "((seq() * 2) + 0)",
             "type": "M31"
           },
           {
@@ -131,7 +131,7 @@
         "method_name": "TestChainRound::deduce_output",
         "input": [
           {
-            "name": "(seq() * 2)",
+            "name": "((seq() * 2) + 0)",
             "type": "M31"
           },
           {

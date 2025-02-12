@@ -1,6 +1,7 @@
-use std::cell::RefCell;
+use std::cell::{Ref, RefCell, RefMut};
 #[cfg(test)]
 use std::cmp::{Eq, PartialEq};
+use std::collections::HashMap;
 use std::fmt::Debug;
 #[cfg(test)]
 use std::fmt::Display;
@@ -9,43 +10,74 @@ use std::rc::Rc;
 use compiled_casm_air::utils::STATE_VAR_SUFFIX;
 use serde::Serialize;
 
+use super::air_fn::*;
 use super::expressions::felt_expr::*;
-#[cfg(test)]
 use super::variables::*;
 // Macros
 #[cfg(test)]
 use crate::const_expr;
 
+/// The "context" that we carry while running / building a component
+/// This is passed to, and updated by, all inline AirFns called by the component
+#[derive(Clone, Debug, Default)]
+pub struct ComponentContext {
+    // The state of the component. Contains all the values deduced so far.
+    state: Rc<RefCell<State>>,
+    // For each chain round component, how many times this component called it so far. Used
+    // to assign each call a unique ID in chain_lookup_call.
+    chain_call_counts: Rc<RefCell<HashMap<String, usize>>>,
+}
+
+impl ComponentContext {
+    pub fn state(&self) -> Ref<'_, State> {
+        self.state.borrow()
+    }
+
+    pub fn state_mut(&self) -> RefMut<'_, State> {
+        self.state.borrow_mut()
+    }
+
+    // Returns a unique index for a call to the given chain round component.
+    //
+    // Each call returns a new index. For each chain round, the indices are sequencial
+    // and start from 0.
+    pub fn get_chain_call_index<S>(&mut self, called_round: &dyn ChainRoundAirFn<S>) -> usize
+    where
+        S: AirVar,
+        (ChainIdVar, RoundNumVar, S): AirVar,
+    {
+        let mut chain_call_counts = self.chain_call_counts.borrow_mut();
+        let value_in_map = chain_call_counts.entry(called_round.name()).or_insert(0);
+        let current_count = *value_in_map;
+        assert!(
+            current_count < called_round.number_of_chains(),
+            "Chain round {} called more than its delcared number_of_chains ({})",
+            called_round.name(),
+            called_round.number_of_chains()
+        );
+        *value_in_map = current_count + 1;
+        current_count
+    }
+}
+
 #[derive(Clone, Debug, Serialize)]
 pub struct StateCell(FeltExpr, Option<String>);
 
-#[derive(Clone, Debug, Serialize)]
+#[derive(Clone, Debug, Default, Serialize)]
 pub struct State {
-    row: Rc<RefCell<Vec<StateCell>>>,
-}
-
-impl Default for State {
-    fn default() -> Self {
-        Self {
-            row: Rc::new(RefCell::new(vec![])),
-        }
-    }
+    row: Vec<StateCell>,
 }
 
 impl State {
     pub(super) fn add(&mut self, expr: &mut FeltExpr, desc: &str) {
-        let len = self.row.borrow().len();
+        let len = self.row.len();
         let desc = (!desc.is_empty()).then(|| desc.to_string());
         expr.to_state(StateInfo::StateIndex(len, desc.clone()));
-        self.row.borrow_mut().push(StateCell(expr.clone(), desc));
+        self.row.push(StateCell(expr.clone(), desc));
     }
 
     pub fn get_felts(&self) -> Vec<FeltExpr> {
-        self.row
-            .borrow()
-            .iter()
-            .map(|cell| cell.0.clone())
-            .collect()
+        self.row.iter().map(|cell| cell.0.clone()).collect()
     }
 
     pub(super) fn get_cell_name(index: usize, desc: &Option<String>) -> String {
@@ -57,7 +89,6 @@ impl State {
 
     pub fn get_state_names(&self) -> Vec<String> {
         self.row
-            .borrow()
             .iter()
             .enumerate()
             .map(|(i, cell)| Self::get_cell_name(i, &cell.1))
@@ -69,16 +100,15 @@ impl State {
 impl From<Vec<(u32, &str)>> for State {
     fn from(row: Vec<(u32, &str)>) -> Self {
         Self {
-            row: Rc::new(RefCell::new(
-                row.iter()
-                    .map(|(x, desc)| {
-                        StateCell(
-                            const_expr!(*x),
-                            (!desc.is_empty()).then(|| desc.to_string()),
-                        )
-                    })
-                    .collect(),
-            )),
+            row: row
+                .iter()
+                .map(|(x, desc)| {
+                    StateCell(
+                        const_expr!(*x),
+                        (!desc.is_empty()).then(|| desc.to_string()),
+                    )
+                })
+                .collect(),
         }
     }
 }
@@ -86,13 +116,12 @@ impl From<Vec<(u32, &str)>> for State {
 #[cfg(test)]
 impl PartialEq for State {
     fn eq(&self, other: &Self) -> bool {
-        if self.row.borrow().len() != other.row.borrow().len() {
+        if self.row.len() != other.row.len() {
             return false;
         }
         self.row
-            .borrow()
             .iter()
-            .zip(other.row.borrow().iter())
+            .zip(other.row.iter())
             .all(|(a, b)| a.0.calc() == b.0.calc() && a.1 == b.1)
     }
 }
@@ -101,7 +130,7 @@ impl PartialEq for State {
 impl Display for State {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         let mut s = "\n".to_string();
-        for cell in self.row.borrow().iter() {
+        for cell in self.row.iter() {
             s.push_str(&format!(
                 "({}, \"{}\"),\n",
                 cell.0.calc(),
