@@ -237,9 +237,7 @@ fn test_qm31_add() {
             (0, "op0_base_fp"),
             (0, "op1_imm"),
             (0, "op1_base_fp"),
-            (1, "op1_base_ap"),
             (1, "res_add"),
-            (0, "res_mul"),
             (0, "ap_update_add_1"),
             (100, "mem_dst_base"),
             (50, "mem0_base"),
@@ -307,10 +305,14 @@ fn test_qm31_add() {
 }
 
 #[test]
-#[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
+#[should_panic(
+    expected = "assertion `left == right` failed: given value != value in memory
+  left: Some([M31(3), M31(192), M31(1), M31(240), M31(0), M31(76), M31(256), M31(3), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0)])
+ right: Some([M31(3), M31(192), M31(1), M31(240), M31(0), M31(76), M31(257), M31(3), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0), M31(0)])"
+)]
 fn test_qm31_neither_add_res_nor_mul_res() {
     test_qm31_add_mul_opcode(
-        [false, true, false, false, true, false, false, true],
+        [true, false, false, true, false, false, false, false],
         [3, 5, 7],
         coordinates_to_packed([
             (1414213562 + 1234567890) % PRIME128,
@@ -346,7 +348,7 @@ fn test_qm31_add_both_op1_base_fp_and_op1_imm() {
 #[should_panic(expected = "Added incorrect constraint (does not evalutate to 0)")]
 fn test_qm31_add_not_equal() {
     test_qm31_add_mul_opcode(
-        [false, true, false, false, false, true, false, true],
+        [true, false, false, false, true, true, false, false],
         [3, 5, 7],
         coordinates_to_packed([
             (1414213562 + 1234567890) % PRIME128,
@@ -384,9 +386,7 @@ fn test_qm31_mul() {
             (0, "op0_base_fp"),
             (0, "op1_imm"),
             (1, "op1_base_fp"),
-            (0, "op1_base_ap"),
             (0, "res_add"),
-            (1, "res_mul"),
             (0, "ap_update_add_1"),
             (100, "mem_dst_base"),
             (50, "mem0_base"),
@@ -500,9 +500,7 @@ fn test_qm31_mul_imm() {
             (0, "op0_base_fp"),
             (1, "op1_imm"),
             (0, "op1_base_fp"),
-            (0, "op1_base_ap"),
             (0, "res_add"),
-            (1, "res_mul"),
             (0, "ap_update_add_1"),
             (100, "mem_dst_base"),
             (50, "mem0_base"),

@@ -1,3 +1,5 @@
+use std::collections::BTreeSet;
+
 use inst_def::InstDef;
 
 use super::super::casm_state::*;
@@ -66,6 +68,7 @@ impl AirFn for MulOpcode {
                 const_offsets,
                 const_flags: self.get_flags(),
                 const_opcode_extension: Some(OpcodeExtension::Stone),
+                flag_sets_of_sum_1: BTreeSet::new(),
                 memory: self.memory.clone(),
             },
             casm_state.pc().clone(),

@@ -608,7 +608,7 @@
   },
   "assert_eq_opcode": {
     "trace_type": "Opcode",
-    "num_state_cols": 12,
+    "num_state_cols": 11,
     "lookup_use_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 2,
@@ -620,8 +620,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 22,
-    "trace_cells_upper_bound": 22
+    "total_num_trace_cols": 21,
+    "trace_cells_upper_bound": 21
   },
   "assert_eq_opcode_double_deref": {
     "trace_type": "Opcode",
@@ -983,7 +983,7 @@
   },
   "qm_31_add_mul_opcode": {
     "trace_type": "Opcode",
-    "num_state_cols": 74,
+    "num_state_cols": 72,
     "lookup_use_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -999,8 +999,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 100,
-    "trace_cells_upper_bound": 100
+    "total_num_trace_cols": 98,
+    "trace_cells_upper_bound": 98
   },
   "verify_bitwise_xor_8": {
     "trace_type": "Component",

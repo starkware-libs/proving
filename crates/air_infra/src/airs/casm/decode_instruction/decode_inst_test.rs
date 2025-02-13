@@ -1,3 +1,5 @@
+use std::collections::BTreeSet;
+
 use stwo_cairo_common::prover_types::cpu::PRIME;
 
 use super::super::common::*;
@@ -19,6 +21,7 @@ fn test_with_matching_memory(
     flag_const: [bool; 15],
     offsets: [i16; 3],
     offset_const: [bool; 3],
+    flag_sets_of_sum_1: BTreeSet<BTreeSet<usize>>,
     expected_state: State,
 ) {
     let const_offsets = offsets
@@ -59,6 +62,7 @@ fn test_with_matching_memory(
         const_offsets,
         const_flags,
         const_opcode_extension: Some(OpcodeExtension::Stone),
+        flag_sets_of_sum_1,
         memory,
     };
 
@@ -118,6 +122,7 @@ fn test_no_consts() {
         flag_const,
         offsets,
         offset_const,
+        BTreeSet::new(),
         vec![
             (49953, "offset0"),
             (30875, "offset1"),
@@ -148,7 +153,14 @@ fn test_all_consts() {
     let offset_const = [true; 3];
     let flag_const = [true; 15];
 
-    test_with_matching_memory(flags, flag_const, offsets, offset_const, vec![].into());
+    test_with_matching_memory(
+        flags,
+        flag_const,
+        offsets,
+        offset_const,
+        BTreeSet::new(),
+        vec![].into(),
+    );
 }
 
 #[test]
@@ -164,7 +176,52 @@ fn test_some_consts() {
         flag_const,
         offsets,
         offset_const,
+        BTreeSet::new(),
         vec![(30875, "offset1"), (0, "dst_base_fp"), (0, "op1_imm")].into(),
+    );
+}
+
+#[test]
+fn test_flag_sets_of_sum_1() {
+    let (flags, offsets) = init_flags_and_offsets();
+    let offset_const = [true, false, true];
+    let mut flag_const = [true; 15];
+    flag_const[0] = false;
+    flag_const[FLAG_OP1_IMM_INDEX] = false;
+    flag_const[FLAG_OP1_BASE_FP_INDEX] = false;
+    flag_const[FLAG_OP1_BASE_AP_INDEX] = false;
+    flag_const[FLAG_PC_UPDATE_JUMP_INDEX] = false;
+    flag_const[FLAG_OPCODE_CALL_INDEX] = false;
+    flag_const[FLAG_OPCODE_RET_INDEX] = false;
+    flag_const[FLAG_OPCODE_ASSERT_EQ_INDEX] = false;
+
+    test_with_matching_memory(
+        flags,
+        flag_const,
+        offsets,
+        offset_const,
+        BTreeSet::from([
+            BTreeSet::from([
+                FLAG_OP1_IMM_INDEX,
+                FLAG_OP1_BASE_FP_INDEX,
+                FLAG_OP1_BASE_AP_INDEX,
+            ]),
+            BTreeSet::from([
+                FLAG_OPCODE_CALL_INDEX,
+                FLAG_OPCODE_RET_INDEX,
+                FLAG_OPCODE_ASSERT_EQ_INDEX,
+            ]),
+        ]),
+        vec![
+            (30875, "offset1"),
+            (0, "dst_base_fp"),
+            (0, "op1_imm"),
+            (1, "op1_base_fp"),
+            (1, "pc_update_jump"),
+            (0, "opcode_call"),
+            (0, "opcode_ret"),
+        ]
+        .into(),
     );
 }
 
@@ -197,6 +254,7 @@ fn test_opcode_extension_const() {
         ],
         const_flags: Flags::from_arr([Some(true); 15]),
         const_opcode_extension: Some(OpcodeExtension::Blake),
+        flag_sets_of_sum_1: BTreeSet::new(),
         memory,
     };
 
@@ -235,6 +293,7 @@ fn test_fail_opcode_extension_const() {
         ],
         const_flags: Flags::from_arr([Some(true); 15]),
         const_opcode_extension: Some(OpcodeExtension::Blake),
+        flag_sets_of_sum_1: BTreeSet::new(),
         memory,
     };
 
@@ -272,6 +331,7 @@ fn test_opcode_extension() {
         ],
         const_flags: Flags::from_arr([Some(true); 15]),
         const_opcode_extension: None,
+        flag_sets_of_sum_1: BTreeSet::new(),
         memory,
     };
 

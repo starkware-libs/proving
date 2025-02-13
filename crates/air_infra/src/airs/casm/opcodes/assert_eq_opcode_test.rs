@@ -108,7 +108,6 @@ fn test_assert_eq_deref() {
             (32770, "offset2"),
             (0, "dst_base_fp"),
             (1, "op1_base_fp"),
-            (0, "op1_base_ap"),
             (0, "ap_update_add_1"),
             (11, "mem_dst_base"),
             (6, "mem1_base"),
