@@ -89,16 +89,6 @@ impl ClaimGenerator {
             },
         )
     }
-
-    pub fn add_input(&self, input: &InputType) {
-        unimplemented!("Implement manually");
-    }
-
-    pub fn add_inputs(&self, inputs: &[InputType]) {
-        for input in inputs {
-            self.add_input(input);
-        }
-    }
 }
 
 #[allow(clippy::useless_conversion)]
