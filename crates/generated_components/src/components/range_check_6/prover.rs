@@ -1,6 +1,6 @@
 #![allow(unused_parens)]
-#![allow(dead_code)]
 #![allow(unused_imports)]
+#![allow(dead_code)]
 use std::iter::zip;
 
 use itertools::{chain, zip_eq, Itertools};

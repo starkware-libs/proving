@@ -49,8 +49,7 @@ impl RustProverGen {
     pub fn generate_simd_claim_prover(&self) -> rust::Tokens {
         let public_params_vec: Vec<PublicParam> =
             self.lists.public_params.iter().cloned().collect_vec();
-        let configs = generate_configs(&self.lists);
-        let allows = generate_allows(&self.lists);
+        let attributes = self.attributes();
         let imports_code = generate_imports_code(&self.lists.deductions);
         let typedefs = self.generate_input_output_typedefs();
         let n_trace_cols = generate_n_trace_columns(&self.lists);
@@ -62,8 +61,7 @@ impl RustProverGen {
         let claim_prover_impl = generate_claim_prover_impl(&self.lists.deductions);
         let write_trace_code = generate_simd_write_trace_code(&self.lists);
         quote! {
-            $(configs)
-            $(allows)
+            $(attributes)
             $(imports_code)
             $['\n']
             $(typedefs)
@@ -94,6 +92,23 @@ impl RustProverGen {
                 }
             }
         }
+    }
+
+    fn attributes(&self) -> rust::Tokens {
+        let mut attributes = quote! {};
+        attributes.append(quote!(#![allow(unused_parens)]));
+        attributes.append(quote! { #![allow(unused_imports)] });
+        if self.lists.name.contains("generic_opcode") {
+            attributes.extend(quote! {
+                #![cfg_attr(rustfmt, rustfmt_skip)]
+            });
+        };
+        // TODO(Gali): Remove allow dead code.
+        if self.lists.state_names.is_empty() {
+            attributes.append(quote! { #![allow(dead_code)] });
+        };
+
+        attributes
     }
 }
 
@@ -740,29 +755,6 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
         }
     }
     code
-}
-
-fn generate_configs(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut configs = quote! {};
-    if lists.name.contains("generic_opcode") {
-        configs.extend(quote! {
-            #![cfg_attr(rustfmt, rustfmt_skip)]
-        });
-    };
-    configs.append(quote!(#![allow(unused_parens)]));
-    configs
-}
-fn generate_allows(lists: &CompiledAirFn) -> rust::Tokens {
-    // TODO(Gali): Remove allow dead code.
-    let allow_dead_code_header = if lists.state_names.is_empty() {
-        quote! { #![allow(dead_code)] }
-    } else {
-        quote! {}
-    };
-    quote! {
-        $allow_dead_code_header
-        #![allow(unused_imports)]
-    }
 }
 
 fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
