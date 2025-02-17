@@ -170,7 +170,7 @@ impl AirFn for ReadSmall {
 
         // Verify that the value in memory is the one we expect
         air_builder.mem_verify(
-            &self.memory.id_to_value,
+            &self.memory.id_to_big,
             &id,
             small_to_felt252(low_limbs_arr.clone(), msb.clone(), mid_limbs_set.clone()),
         );

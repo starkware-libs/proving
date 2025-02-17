@@ -79,7 +79,7 @@ impl AirFn for ReadPositive {
         // Verify that the value in memory is the nonzero limbs we deduced, padded on
         // the left with zeros.
         air_builder.mem_verify(
-            &self.memory.id_to_value,
+            &self.memory.id_to_big,
             &id,
             expected_value_in_memory.clone(),
         );
