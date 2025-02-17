@@ -21,6 +21,7 @@ pub mod jump_opcode_test;
 pub mod mul_opcode;
 #[cfg(test)]
 pub mod mul_opcode_test;
+pub mod qm31;
 pub mod ret_opcode;
 #[cfg(test)]
 pub mod ret_opcode_test;

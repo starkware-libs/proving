@@ -449,6 +449,9 @@ impl_air_var!((BlakePointers, UInt32Expr, BlakeFlags));
 // PartialECMul
 impl_air_var!((FeltExpr, PackedECMultiplier, ECPoint));
 impl_air_var!((ChainIdVar, RoundNumVar, PartialECMulState));
+// QM31ReadReduced
+type QM31Coordinates = [FeltExpr; 4];
+impl_air_var!((QM31Coordinates, FeltExpr));
 
 // Components
 
