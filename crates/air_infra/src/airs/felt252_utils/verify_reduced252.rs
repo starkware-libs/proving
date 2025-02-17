@@ -31,8 +31,8 @@ impl AirFn for VerifyReduced252 {
         let ms_max = ms_limb.clone().eq(const_expr!(256));
         let both_max = ms_max.clone() & input.get_felt(21).eq(const_expr!(17 << 3));
 
-        let ms_max = air_builder.deduce_air_var(ms_max, "MS limb is max");
-        let both_max = air_builder.deduce_air_var(both_max, "MS and mid limb are max");
+        let ms_max = air_builder.deduce_air_var(ms_max, "ms_limb_is_max");
+        let both_max = air_builder.deduce_air_var(both_max, "ms_and_mid_limbs_are_max");
 
         let ms_max = ms_max.as_felt();
         let both_max = both_max.as_felt();

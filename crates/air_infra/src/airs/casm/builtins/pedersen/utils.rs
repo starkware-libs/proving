@@ -12,6 +12,7 @@ const THREE: Felt252 = Felt252 {
 const TWO: Felt252 = Felt252 {
     limbs: [2, 0, 0, 0],
 };
+#[cfg(test)]
 const ZERO: Felt252 = Felt252 {
     limbs: [0, 0, 0, 0],
 };
@@ -40,6 +41,7 @@ pub const P_SHIFT: CurvePoint = CurvePoint {
     },
 };
 
+#[cfg(test)]
 pub const P_0: CurvePoint = CurvePoint {
     x: Felt252 {
         limbs: [
@@ -59,6 +61,7 @@ pub const P_0: CurvePoint = CurvePoint {
     },
 };
 
+#[cfg(test)]
 pub const P_1: CurvePoint = CurvePoint {
     x: Felt252 {
         limbs: [
@@ -78,6 +81,7 @@ pub const P_1: CurvePoint = CurvePoint {
     },
 };
 
+#[cfg(test)]
 pub const P_2: CurvePoint = CurvePoint {
     x: Felt252 {
         limbs: [
@@ -97,6 +101,7 @@ pub const P_2: CurvePoint = CurvePoint {
     },
 };
 
+#[cfg(test)]
 pub const P_3: CurvePoint = CurvePoint {
     x: Felt252 {
         limbs: [
@@ -116,6 +121,7 @@ pub const P_3: CurvePoint = CurvePoint {
     },
 };
 
+#[cfg(test)]
 pub fn ec_neg(p: &CurvePoint) -> CurvePoint {
     CurvePoint {
         x: p.x,
@@ -162,6 +168,7 @@ pub fn ec_mul(p: &CurvePoint, mut k: usize) -> CurvePoint {
 }
 
 /// Compute `p` * (2 ** `amount`)
+#[cfg(test)]
 pub fn ec_shift(p: &CurvePoint, amount: usize) -> CurvePoint {
     let mut result = p.clone();
     for _ in 0..amount {

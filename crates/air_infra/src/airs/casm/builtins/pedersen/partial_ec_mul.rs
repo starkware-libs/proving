@@ -109,6 +109,14 @@ impl AirFn for PartialECMul {
             (table_offset, new_m_shifted, new_accumulator),
         )
     }
+
+    fn deduce_output(&self) -> Option<String> {
+        // TODO(adar): Implement this in stwo-cairo
+        Some(format!(
+            "{}::deduce_output",
+            self.relation_name().expect("Relation name not found")
+        ))
+    }
 }
 
 impl ChainRoundAirFn<PartialECMulState> for PartialECMul {

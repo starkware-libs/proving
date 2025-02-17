@@ -1,0 +1,1298 @@
+{
+  "name": "pedersen_points_table",
+  "relation_name": "PedersenPointsTable",
+  "description": "Pedersen Points Table",
+  "input": {
+    "Array": [
+      {
+        "ExternalState": [
+          "Seq",
+          [
+            "23"
+          ]
+        ]
+      }
+    ]
+  },
+  "state_names": [],
+  "multiplicity_col_index": 0,
+  "lookup_names": [],
+  "n_lookup_terms": 1,
+  "public_params": [],
+  "external_states": [
+    [
+      "PedersenPoints",
+      [
+        "0"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "1"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "10"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "11"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "12"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "13"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "14"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "15"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "16"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "17"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "18"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "19"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "2"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "20"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "21"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "22"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "23"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "24"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "25"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "26"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "27"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "28"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "29"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "3"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "30"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "31"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "32"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "33"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "34"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "35"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "36"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "37"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "38"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "39"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "4"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "40"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "41"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "42"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "43"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "44"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "45"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "46"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "47"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "48"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "49"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "5"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "50"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "51"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "52"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "53"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "54"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "55"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "6"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "7"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "8"
+      ]
+    ],
+    [
+      "PedersenPoints",
+      [
+        "9"
+      ]
+    ],
+    [
+      "Seq",
+      [
+        "23"
+      ]
+    ]
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "PedersenPointsTable",
+        "felts": [
+          {
+            "ExternalState": [
+              "Seq",
+              [
+                "23"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "0"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "1"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "2"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "3"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "4"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "5"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "6"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "7"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "8"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "9"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "10"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "11"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "12"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "13"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "14"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "15"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "16"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "17"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "18"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "19"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "20"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "21"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "22"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "23"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "24"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "25"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "26"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "27"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "28"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "29"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "30"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "31"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "32"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "33"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "34"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "35"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "36"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "37"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "38"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "39"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "40"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "41"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "42"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "43"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "44"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "45"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "46"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "47"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "48"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "49"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "50"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "51"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "52"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "53"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "54"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "55"
+              ]
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupTerm": {
+        "relation_name": "PedersenPointsTable",
+        "felts": [
+          {
+            "ExternalState": [
+              "Seq",
+              [
+                "23"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "0"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "1"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "2"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "3"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "4"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "5"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "6"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "7"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "8"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "9"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "10"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "11"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "12"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "13"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "14"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "15"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "16"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "17"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "18"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "19"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "20"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "21"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "22"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "23"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "24"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "25"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "26"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "27"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "28"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "29"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "30"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "31"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "32"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "33"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "34"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "35"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "36"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "37"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "38"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "39"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "40"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "41"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "42"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "43"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "44"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "45"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "46"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "47"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "48"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "49"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "50"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "51"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "52"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "53"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "54"
+              ]
+            ]
+          },
+          {
+            "ExternalState": [
+              "PedersenPoints",
+              [
+                "55"
+              ]
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}

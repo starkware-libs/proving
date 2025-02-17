@@ -8,6 +8,7 @@ pub enum PublicParam {
     PoseidonBuiltinSegmentStart,
     RangeCheckBuiltinSegmentStart,
     RangeCheck96BuiltinSegmentStart,
+    PedersenBuiltinSegmentStart,
 }
 
 impl PublicParam {
@@ -24,6 +25,9 @@ impl PublicParam {
             }
             PublicParam::RangeCheck96BuiltinSegmentStart => {
                 "range_check96_builtin_segment_start".to_string()
+            }
+            PublicParam::PedersenBuiltinSegmentStart => {
+                "pedersen_builtin_segment_start".to_string()
             }
         }
     }

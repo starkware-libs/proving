@@ -1,0 +1,66 @@
+{
+  "name": "range_check_8",
+  "relation_name": "RangeCheck_8",
+  "description": "Range Check 8",
+  "input": {
+    "Array": [
+      {
+        "ExternalState": [
+          "Seq",
+          [
+            "8"
+          ]
+        ]
+      }
+    ]
+  },
+  "state_names": [],
+  "multiplicity_col_index": 0,
+  "lookup_names": [],
+  "n_lookup_terms": 1,
+  "public_params": [],
+  "external_states": [
+    [
+      "Seq",
+      [
+        "8"
+      ]
+    ]
+  ],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_8",
+        "felts": [
+          {
+            "ExternalState": [
+              "Seq",
+              [
+                "8"
+              ]
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_8",
+        "felts": [
+          {
+            "ExternalState": [
+              "Seq",
+              [
+                "8"
+              ]
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}
