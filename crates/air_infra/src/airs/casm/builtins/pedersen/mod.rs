@@ -1,6 +1,7 @@
 pub mod ec_add;
 pub mod partial_ec_mul;
 pub mod points_table;
+pub mod read_split;
 #[cfg(test)]
 mod utils;
 
