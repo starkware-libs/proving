@@ -4,4 +4,5 @@
 // TODO(Ohad): remove this after deprecating SubComponentInputs.
 #![allow(unused_mut)]
 pub mod components;
+pub mod preprocessed;
 pub mod relations;
