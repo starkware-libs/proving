@@ -8,7 +8,7 @@ use crate::airs::felt252_utils::felt252_packing27::*;
 use crate::const_felt252_expr;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
-use crate::core::expressions::felt252packed27_expr::*;
+use crate::core::expressions::felt252width27_expr::*;
 
 const INITIAL_ROUND_KEYS: [[u128; 2]; 3] = [
     [
@@ -53,8 +53,8 @@ pub struct PoseidonHadesPermutation {}
 
 impl AirFn for PoseidonHadesPermutation {
     type ExtIn = ();
-    type In = [Felt252Packed27Expr; 3];
-    type Out = [Felt252Packed27Expr; 3];
+    type In = [Felt252Width27Expr; 3];
+    type Out = [Felt252Width27Expr; 3];
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), state: Self::In) -> Self::Out {
         // Initial add round.
@@ -69,8 +69,8 @@ impl AirFn for PoseidonHadesPermutation {
         // First four full rounds.
         let [x4, y4, z4] = air_builder.chain_lookup_call(&PoseidonFullRoundChain {}, state, 0, 4);
         // x4 and y4 are not cubed but do enter linear combinations, so must be range checked.
-        air_builder.lookup_call(&RangeCheckFelt252Packed27 {}, (), x4.clone());
-        air_builder.lookup_call(&RangeCheckFelt252Packed27 {}, (), y4.clone());
+        air_builder.lookup_call(&RangeCheckFelt252Width27 {}, (), x4.clone());
+        air_builder.lookup_call(&RangeCheckFelt252Width27 {}, (), y4.clone());
         // Transition from full round state to partial round state (manually computing the first two
         // partial rounds' z-s).
         let [key_z5, key_z6] = FULL_TO_PARTIAL_KEYS.map(|[x, y]| const_felt252_expr!(x, y).into());

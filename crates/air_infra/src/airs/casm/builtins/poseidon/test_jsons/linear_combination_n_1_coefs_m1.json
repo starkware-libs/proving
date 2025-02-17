@@ -9,22 +9,22 @@
   "input": [
     {
       "name": "linear_combination_n_1_coefs_m1_input[0]",
-      "type": "Felt252Packed27"
+      "type": "Felt252Width27"
     }
   ],
   "output": {
     "name": "combination_result_tmp_d2b51_0",
-    "type": "Felt252Packed27"
+    "type": "Felt252Width27"
   },
   "trace_type": "Inline",
   "air_body": [
     {
       "Intermediate": [
         "combination_result_tmp_d2b51_0",
-        "Felt252Packed27",
+        "Felt252Width27",
         {
-          "name": "Felt252Packed27::from_felt252(([0, 0, 0, 0] - ([1, 0, 0, 0] * Felt252::from_felt252packed27(linear_combination_n_1_coefs_m1_input[0]))))",
-          "type": "Felt252Packed27"
+          "name": "Felt252Width27::from_felt252(([0, 0, 0, 0] - ([1, 0, 0, 0] * Felt252::from_felt252width27(linear_combination_n_1_coefs_m1_input[0]))))",
+          "type": "Felt252Width27"
         },
         {
           "in_constraints": false,

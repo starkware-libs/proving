@@ -9,7 +9,7 @@ pub mod state;
 pub mod struct_var;
 pub mod variables;
 
-pub type Felt = prover_types::cpu::M31;
+pub type Felt = stwo_cairo_common::prover_types::cpu::M31;
 
 #[cfg(test)]
 mod air_fn_test;

@@ -1,16 +1,16 @@
 use compiled_casm_air::compiled_structs::CompiledAirVar;
 use enum_dispatch::enum_dispatch;
-use prover_types::cpu::{
-    BigUInt, Bool, Felt252, Felt252Packed27, ProverType, UInt16, UInt32, UInt64,
-};
 use serde::ser::SerializeStruct;
 use serde::{Serialize, Serializer};
+use stwo_cairo_common::prover_types::cpu::{
+    BigUInt, Bool, Felt252, Felt252Width27, ProverType, UInt16, UInt32, UInt64,
+};
 
 use super::super::variables::*;
 use super::biguint_expr::*;
 use super::bool_expr::*;
 use super::felt252_expr::*;
-use super::felt252packed27_expr::*;
+use super::felt252width27_expr::*;
 use super::felt_expr::*;
 use super::op_expr::*;
 use super::uint16_expr::*;
@@ -94,7 +94,7 @@ pub enum ExprImpl {
     UInt32(UInt32Expr),
     UInt64(UInt64Expr),
     Felt252(Felt252Expr),
-    Felt252Packed27(Felt252Packed27Expr),
+    Felt252Width27(Felt252Width27Expr),
     BigUInt384(BigUIntExpr<384, 6, 32>),
     BigUInt768(BigUIntExpr<768, 12, 64>),
 }
@@ -108,7 +108,7 @@ impl ExprImpl {
             ExprImpl::UInt32(_) => UInt32::r#type(),
             ExprImpl::UInt64(_) => UInt64::r#type(),
             ExprImpl::Felt252(_) => Felt252::r#type(),
-            ExprImpl::Felt252Packed27(_) => Felt252Packed27::r#type(),
+            ExprImpl::Felt252Width27(_) => Felt252Width27::r#type(),
             ExprImpl::BigUInt384(_) => BigUInt::<384, 6, 32>::r#type(),
             ExprImpl::BigUInt768(_) => BigUInt::<768, 12, 64>::r#type(),
         }
@@ -163,7 +163,7 @@ impl From<ExprImpl> for CompiledAirVar {
             ExprImpl::UInt32(u) => u.into(),
             ExprImpl::UInt64(u) => u.into(),
             ExprImpl::Felt252(f) => f.into(),
-            ExprImpl::Felt252Packed27(f) => f.into(),
+            ExprImpl::Felt252Width27(f) => f.into(),
             ExprImpl::BigUInt384(b) => b.into(),
             ExprImpl::BigUInt768(b) => b.into(),
         }

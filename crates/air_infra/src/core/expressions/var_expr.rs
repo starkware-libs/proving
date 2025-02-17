@@ -1,7 +1,7 @@
 use std::collections::HashSet;
 
 use compiled_casm_air::compiled_structs::CompiledAirVar;
-use prover_types::cpu::ProverType;
+use stwo_cairo_common::prover_types::cpu::ProverType;
 
 use super::super::state::*;
 use super::super::variables::*;

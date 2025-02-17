@@ -3,7 +3,7 @@ use inst_def::InstDef;
 use crate::airs::felt252_utils::felt252_packing27::*;
 use crate::airs::felt252_utils::mul252::*;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252packed27_expr::*;
+use crate::core::expressions::felt252width27_expr::*;
 
 /// Cubing of a 252-bit felt, as a lookup function.
 /// The input and output are given in packed form. The function expands them to Felt252 and
@@ -15,8 +15,8 @@ pub struct Cube252 {}
 
 impl AirFn for Cube252 {
     type ExtIn = ();
-    type In = Felt252Packed27Expr;
-    type Out = Felt252Packed27Expr;
+    type In = Felt252Width27Expr;
+    type Out = Felt252Width27Expr;
 
     fn trace_type(&self) -> TraceType {
         TraceType::Component

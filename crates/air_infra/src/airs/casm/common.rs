@@ -1,4 +1,4 @@
-use prover_types::cpu::FELT252_BITS_PER_WORD;
+use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 // Macros
 use crate::const_expr;

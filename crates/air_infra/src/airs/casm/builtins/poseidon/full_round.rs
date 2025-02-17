@@ -5,7 +5,7 @@ use super::linear_combination::*;
 use super::round_keys::*;
 use crate::const_expr;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252packed27_expr::*;
+use crate::core::expressions::felt252width27_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 
@@ -18,8 +18,8 @@ pub struct PoseidonFullRoundChain {}
 
 impl AirFn for PoseidonFullRoundChain {
     type ExtIn = ();
-    type In = (ChainIdVar, RoundNumVar, [Felt252Packed27Expr; 3]);
-    type Out = (ChainIdVar, RoundNumVar, [Felt252Packed27Expr; 3]);
+    type In = (ChainIdVar, RoundNumVar, [Felt252Width27Expr; 3]);
+    type Out = (ChainIdVar, RoundNumVar, [Felt252Width27Expr; 3]);
 
     fn trace_type(&self) -> TraceType {
         TraceType::ChainRound
@@ -66,7 +66,7 @@ impl AirFn for PoseidonFullRoundChain {
     }
 }
 
-impl ChainRoundAirFn<[Felt252Packed27Expr; 3]> for PoseidonFullRoundChain {
+impl ChainRoundAirFn<[Felt252Width27Expr; 3]> for PoseidonFullRoundChain {
     fn number_of_chains(&self) -> usize {
         2
     }

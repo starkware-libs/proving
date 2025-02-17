@@ -6,29 +6,29 @@
   "input": [
     {
       "name": "poseidon_hades_permutation_input[0]",
-      "type": "Felt252Packed27"
+      "type": "Felt252Width27"
     },
     {
       "name": "poseidon_hades_permutation_input[1]",
-      "type": "Felt252Packed27"
+      "type": "Felt252Width27"
     },
     {
       "name": "poseidon_hades_permutation_input[2]",
-      "type": "Felt252Packed27"
+      "type": "Felt252Width27"
     }
   ],
   "output": [
     {
       "name": "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[0]",
-      "type": "Felt252Packed27"
+      "type": "Felt252Width27"
     },
     {
       "name": "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[1]",
-      "type": "Felt252Packed27"
+      "type": "Felt252Width27"
     },
     {
       "name": "poseidon_full_round_chain_output_round_34_tmp_7d028_143.2[2]",
-      "type": "Felt252Packed27"
+      "type": "Felt252Width27"
     }
   ],
   "trace_type": "Inline",
@@ -40,16 +40,16 @@
         "input": [
           {
             "name": "poseidon_hades_permutation_input[0]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "[9275160746813554287, 16541205595039575623, 4169650429605064889, 470088886057789987]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           }
         ],
         "output": {
           "name": "combination_result_tmp_7d028_0",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
@@ -60,16 +60,16 @@
         "input": [
           {
             "name": "poseidon_hades_permutation_input[1]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "[16477292399064058052, 4441744911417641572, 18431044672185975386, 252894828082060025]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           }
         ],
         "output": {
           "name": "combination_result_tmp_7d028_21",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
@@ -80,16 +80,16 @@
         "input": [
           {
             "name": "poseidon_hades_permutation_input[2]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "[8794894655201903369, 3219077422080798056, 16714934791572408267, 262217499501479120]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           }
         ],
         "output": {
           "name": "combination_result_tmp_7d028_42",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
@@ -148,15 +148,15 @@
           [
             {
               "name": "combination_result_tmp_7d028_0",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "combination_result_tmp_7d028_21",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "combination_result_tmp_7d028_42",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -178,20 +178,20 @@
           [
             {
               "name": "combination_result_tmp_7d028_0",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "combination_result_tmp_7d028_21",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "combination_result_tmp_7d028_42",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -209,15 +209,15 @@
           [
             {
               "name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -239,20 +239,20 @@
           [
             {
               "name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_0_tmp_7d028_63.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -270,15 +270,15 @@
           [
             {
               "name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -300,20 +300,20 @@
           [
             {
               "name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_1_tmp_7d028_64.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -331,15 +331,15 @@
           [
             {
               "name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -361,20 +361,20 @@
           [
             {
               "name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_2_tmp_7d028_65.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -611,16 +611,16 @@
     },
     {
       "LookupAddInput": {
-        "air_fn_name": "range_check_felt_252_packed_27",
+        "air_fn_name": "range_check_felt_252_width_27",
         "input": {
           "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0]",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           "poseidon_full_round_chain_output_limb_2_col35",
           "poseidon_full_round_chain_output_limb_3_col36",
@@ -638,16 +638,16 @@
     },
     {
       "LookupAddInput": {
-        "air_fn_name": "range_check_felt_252_packed_27",
+        "air_fn_name": "range_check_felt_252_width_27",
         "input": {
           "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1]",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           "poseidon_full_round_chain_output_limb_12_col45",
           "poseidon_full_round_chain_output_limb_13_col46",
@@ -668,7 +668,7 @@
         "air_fn_name": "cube_252",
         "input": {
           "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2]",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
@@ -678,10 +678,10 @@
         "method_name": "Cube252::deduce_output",
         "input": {
           "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[2]",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         },
         "output_name": "cube_252_output_tmp_7d028_67",
-        "output_type": "Felt252Packed27"
+        "output_type": "Felt252Width27"
       }
     },
     {
@@ -779,24 +779,24 @@
         "input": [
           {
             "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[1]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "cube_252_output_tmp_7d028_67",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "[11041071929982523380, 7503192613203831446, 4943121247101232560, 560497091765764140]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           }
         ],
         "output": {
           "name": "combination_result_tmp_7d028_68",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
@@ -805,7 +805,7 @@
         "air_fn_name": "cube_252",
         "input": {
           "name": "combination_result_tmp_7d028_68",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
@@ -815,10 +815,10 @@
         "method_name": "Cube252::deduce_output",
         "input": {
           "name": "combination_result_tmp_7d028_68",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         },
         "output_name": "cube_252_output_tmp_7d028_79",
-        "output_type": "Felt252Packed27"
+        "output_type": "Felt252Width27"
       }
     },
     {
@@ -916,24 +916,24 @@
         "input": [
           {
             "name": "poseidon_full_round_chain_output_round_3_tmp_7d028_66.2[0]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "cube_252_output_tmp_7d028_67",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "cube_252_output_tmp_7d028_79",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "[10931822301410252833, 1475756362763989377, 3378552166684303673, 348229636055909092]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           }
         ],
         "output": {
           "name": "combination_result_tmp_7d028_80",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
@@ -1002,19 +1002,19 @@
           [
             {
               "name": "cube_252_output_tmp_7d028_67",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "combination_result_tmp_7d028_68",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "cube_252_output_tmp_7d028_79",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "combination_result_tmp_7d028_80",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1036,24 +1036,24 @@
           [
             {
               "name": "cube_252_output_tmp_7d028_67",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "combination_result_tmp_7d028_68",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "cube_252_output_tmp_7d028_79",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "combination_result_tmp_7d028_80",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1071,19 +1071,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1105,24 +1105,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_7d028_91.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1140,19 +1140,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1174,24 +1174,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_7d028_92.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1209,19 +1209,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1243,24 +1243,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_7d028_93.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1278,19 +1278,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1312,24 +1312,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_7d028_94.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1347,19 +1347,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1381,24 +1381,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_7d028_95.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1416,19 +1416,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1450,24 +1450,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_7d028_96.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1485,19 +1485,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1519,24 +1519,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_7d028_97.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1554,19 +1554,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1588,24 +1588,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_7d028_98.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1623,19 +1623,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1657,24 +1657,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_7d028_99.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1692,19 +1692,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1726,24 +1726,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_7d028_100.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1761,19 +1761,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1795,24 +1795,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_7d028_101.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1830,19 +1830,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1864,24 +1864,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_7d028_102.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1899,19 +1899,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -1933,24 +1933,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_7d028_103.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -1968,19 +1968,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2002,24 +2002,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_7d028_104.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -2037,19 +2037,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2071,24 +2071,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_7d028_105.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -2106,19 +2106,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2140,24 +2140,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_7d028_106.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -2175,19 +2175,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2209,24 +2209,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_7d028_107.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -2244,19 +2244,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2278,24 +2278,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_7d028_108.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -2313,19 +2313,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2347,24 +2347,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_7d028_109.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -2382,19 +2382,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2416,24 +2416,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_7d028_110.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -2451,19 +2451,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2485,24 +2485,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_7d028_111.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -2520,19 +2520,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2554,24 +2554,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_7d028_112.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -2589,19 +2589,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2623,24 +2623,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_7d028_113.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -2658,19 +2658,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2692,24 +2692,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_7d028_114.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -2727,19 +2727,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2761,24 +2761,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_7d028_115.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -2796,19 +2796,19 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -2830,24 +2830,24 @@
           [
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_7d028_116.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -3159,24 +3159,24 @@
         "input": [
           {
             "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[0]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[1]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "[3969818800901670911, 10562874008078701503, 14906396266795319764, 223312371439046257]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           }
         ],
         "output": {
           "name": "combination_result_tmp_7d028_118",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
@@ -3187,24 +3187,24 @@
         "input": [
           {
             "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[2]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "combination_result_tmp_7d028_118",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "[10310704347937391837, 5874215448258336115, 2880320859071049537, 45350836576946303]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           }
         ],
         "output": {
           "name": "combination_result_tmp_7d028_129",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
@@ -3263,15 +3263,15 @@
           [
             {
               "name": "combination_result_tmp_7d028_129",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "combination_result_tmp_7d028_118",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -3293,20 +3293,20 @@
           [
             {
               "name": "combination_result_tmp_7d028_129",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "combination_result_tmp_7d028_118",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_7d028_117.2[3]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -3324,15 +3324,15 @@
           [
             {
               "name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -3354,20 +3354,20 @@
           [
             {
               "name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_31_tmp_7d028_140.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -3385,15 +3385,15 @@
           [
             {
               "name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -3415,20 +3415,20 @@
           [
             {
               "name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_32_tmp_7d028_141.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {
@@ -3446,15 +3446,15 @@
           [
             {
               "name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ]
@@ -3476,20 +3476,20 @@
           [
             {
               "name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142.2[0]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142.2[1]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             },
             {
               "name": "poseidon_full_round_chain_output_round_33_tmp_7d028_142.2[2]",
-              "type": "Felt252Packed27"
+              "type": "Felt252Width27"
             }
           ]
         ],
         "output_name": "poseidon_full_round_chain_output_round_34_tmp_7d028_143",
-        "output_type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])"
+        "output_type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])"
       }
     },
     {

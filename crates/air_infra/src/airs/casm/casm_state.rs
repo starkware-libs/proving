@@ -1,7 +1,7 @@
 use std::marker::PhantomData;
 
 use indexmap::IndexMap;
-use prover_types::cpu::{CasmState, ProverType};
+use stwo_cairo_common::prover_types::cpu::{CasmState, ProverType};
 
 use crate::core::expressions::felt_expr::*;
 use crate::core::struct_var::*;

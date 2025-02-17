@@ -1,4 +1,4 @@
-use prover_types::cpu::PRIME;
+use stwo_cairo_common::prover_types::cpu::PRIME;
 
 use super::super::common::*;
 use super::decode_inst::*;

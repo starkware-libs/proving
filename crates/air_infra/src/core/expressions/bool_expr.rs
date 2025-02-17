@@ -1,4 +1,4 @@
-use prover_types::cpu::{Bool, SingleFeltType};
+use stwo_cairo_common::prover_types::cpu::{Bool, SingleFeltType};
 
 use super::super::variables::*;
 use super::expr::*;

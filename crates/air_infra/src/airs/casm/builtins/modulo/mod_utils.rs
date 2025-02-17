@@ -1,7 +1,7 @@
 use std::array::from_fn;
 
 use inst_def::InstDef;
-use prover_types::cpu::FELT252_BITS_PER_WORD;
+use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::common::*;

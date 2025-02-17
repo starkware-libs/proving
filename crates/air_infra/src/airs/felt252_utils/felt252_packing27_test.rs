@@ -82,8 +82,8 @@ fn test_verify_felt252unpack_from27() {
 }
 
 #[test]
-fn test_verify_felt252packed27_rangecheck() {
-    let air_fn = RangeCheckFelt252Packed27 {};
+fn test_verify_felt252width27_rangecheck() {
+    let air_fn = RangeCheckFelt252Width27 {};
     let (registry, _) = AirFnRegistry::new(&air_fn);
     let (state, _) = registry.run_air(
         &air_fn,

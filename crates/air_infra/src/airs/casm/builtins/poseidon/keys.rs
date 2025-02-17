@@ -4,7 +4,7 @@ use crate::const_felt252_expr;
 use crate::core::air_fn::*;
 #[cfg(test)]
 use crate::core::expressions::felt252_expr::*;
-use crate::core::expressions::felt252packed27_expr::*;
+use crate::core::expressions::felt252width27_expr::*;
 use crate::core::variables::*;
 
 const STWO_COMPONENT_TYPE_POSEIDON_ROUND_KEYS: &str = "PoseidonRoundKeys";
@@ -492,7 +492,7 @@ const ROUND_KEYS: [[[u128; 2]; 3]; 35] = [
 
 /// A constant table for the round keys of poseidon.
 /// Accessed by the PoseidonRoundKeys component through an external column call.
-/// There are 35 rows, where `i` contains 3 keys (Felt252) in Packed27 form.
+/// There are 35 rows, where `i` contains 3 keys (Felt252) in Width27 form.
 /// The first 4 and last 4 rows represent triplets of keys corresponding to full rounds 1..5 and
 /// 88..92 (in particular, the very last key is 0s, as it is a "fake" add key round).
 /// Rows 4..31 correspond to "keys" belonging to three consecutive partial rounds, that are added
@@ -501,7 +501,7 @@ const ROUND_KEYS: [[[u128; 2]; 3]; 35] = [
 pub struct Keys {}
 impl ExtTable for Keys {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_POSEIDON_ROUND_KEYS;
-    type T = [Felt252Packed27Expr; 3];
+    type T = [Felt252Width27Expr; 3];
 
     fn call_impl(&self, _air_builder: &mut AirBuilder) -> Self::T {
         #[cfg(test)]

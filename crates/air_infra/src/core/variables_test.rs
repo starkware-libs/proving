@@ -1,6 +1,6 @@
 use compiled_casm_air::compiled_structs::CompiledAirVar;
 use compiled_casm_air::utils::INTERMEDIATE_VAR_SUFFIX;
-use prover_types::cpu::Bool;
+use stwo_cairo_common::prover_types::cpu::Bool;
 
 use super::expressions::bool_expr::*;
 use super::expressions::felt_expr::*;

@@ -1,5 +1,5 @@
 use inst_def::InstDef;
-use prover_types::cpu::FELT252_BITS_PER_WORD;
+use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::memory::*;
 use crate::airs::casm::casm_state::*;

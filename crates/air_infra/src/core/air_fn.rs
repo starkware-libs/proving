@@ -10,9 +10,9 @@ use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use compiled_casm_air::utils::INTERMEDIATE_VAR_SUFFIX;
 use convert_case::{Case, Casing};
 use indexmap::IndexMap;
-use prover_types::cpu::ProverType;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
+use stwo_cairo_common::prover_types::cpu::ProverType;
 
 use super::air_body::*;
 use super::air_fn_registry::*;

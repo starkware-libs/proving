@@ -20,25 +20,25 @@
         "Array": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_input.2[0]"
             ]
           },
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_input.2[1]"
             ]
           },
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_input.2[2]"
             ]
           },
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_input.2[3]"
             ]
           }
@@ -223,7 +223,7 @@
     "poseidon_round_keys",
     "range_check_4_4",
     "range_check_4_4_4_4",
-    "range_check_felt_252_packed_27"
+    "range_check_felt_252_width_27"
   ],
   "n_lookup_terms": 18,
   "public_params": [],
@@ -2226,7 +2226,7 @@
     "EndBlock",
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           {
             "State": "combination_limb_0_col82"
@@ -5618,7 +5618,7 @@
     "EndBlock",
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           {
             "State": "combination_limb_0_col114"
@@ -9010,7 +9010,7 @@
     "EndBlock",
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           {
             "State": "combination_limb_0_col146"
@@ -10790,7 +10790,7 @@
     {
       "Intermediate": {
         "name": "input_tmp_44f04_0",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "Tuple": [
             {
@@ -10809,25 +10809,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_input.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_input.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_input.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_input.2[3]"
                   ]
                 }
@@ -10858,7 +10858,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[0]"
             ]
           },
@@ -10879,7 +10879,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[0]"
             ]
           },
@@ -10900,7 +10900,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[0]"
             ]
           },
@@ -10921,7 +10921,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[0]"
             ]
           },
@@ -10942,7 +10942,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[0]"
             ]
           },
@@ -10963,7 +10963,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[0]"
             ]
           },
@@ -10984,7 +10984,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[0]"
             ]
           },
@@ -11005,7 +11005,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[0]"
             ]
           },
@@ -11026,7 +11026,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[0]"
             ]
           },
@@ -11047,7 +11047,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[0]"
             ]
           },
@@ -11068,7 +11068,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[1]"
             ]
           },
@@ -11089,7 +11089,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[1]"
             ]
           },
@@ -11110,7 +11110,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[1]"
             ]
           },
@@ -11131,7 +11131,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[1]"
             ]
           },
@@ -11152,7 +11152,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[1]"
             ]
           },
@@ -11173,7 +11173,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[1]"
             ]
           },
@@ -11194,7 +11194,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[1]"
             ]
           },
@@ -11215,7 +11215,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[1]"
             ]
           },
@@ -11236,7 +11236,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[1]"
             ]
           },
@@ -11257,7 +11257,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[1]"
             ]
           },
@@ -11278,7 +11278,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[2]"
             ]
           },
@@ -11299,7 +11299,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[2]"
             ]
           },
@@ -11320,7 +11320,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[2]"
             ]
           },
@@ -11341,7 +11341,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[2]"
             ]
           },
@@ -11362,7 +11362,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[2]"
             ]
           },
@@ -11383,7 +11383,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[2]"
             ]
           },
@@ -11404,7 +11404,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[2]"
             ]
           },
@@ -11425,7 +11425,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[2]"
             ]
           },
@@ -11446,7 +11446,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[2]"
             ]
           },
@@ -11467,7 +11467,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[2]"
             ]
           },
@@ -11488,7 +11488,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[3]"
             ]
           },
@@ -11509,7 +11509,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[3]"
             ]
           },
@@ -11530,7 +11530,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[3]"
             ]
           },
@@ -11551,7 +11551,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[3]"
             ]
           },
@@ -11572,7 +11572,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[3]"
             ]
           },
@@ -11593,7 +11593,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[3]"
             ]
           },
@@ -11614,7 +11614,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[3]"
             ]
           },
@@ -11635,7 +11635,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[3]"
             ]
           },
@@ -11656,7 +11656,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[3]"
             ]
           },
@@ -11677,7 +11677,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "input_tmp_44f04_0.2[3]"
             ]
           },
@@ -11708,7 +11708,7 @@
     {
       "Intermediate": {
         "name": "poseidon_round_keys_output_tmp_44f04_1",
-        "type": "[Felt252Packed27, Felt252Packed27, Felt252Packed27]",
+        "type": "[Felt252Width27, Felt252Width27, Felt252Width27]",
         "var": {
           "StaticCall": [
             "PoseidonRoundKeys::deduce_output",
@@ -11730,7 +11730,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[0]"
             ]
           },
@@ -11751,7 +11751,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[0]"
             ]
           },
@@ -11772,7 +11772,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[0]"
             ]
           },
@@ -11793,7 +11793,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[0]"
             ]
           },
@@ -11814,7 +11814,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[0]"
             ]
           },
@@ -11835,7 +11835,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[0]"
             ]
           },
@@ -11856,7 +11856,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[0]"
             ]
           },
@@ -11877,7 +11877,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[0]"
             ]
           },
@@ -11898,7 +11898,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[0]"
             ]
           },
@@ -11919,7 +11919,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[0]"
             ]
           },
@@ -11940,7 +11940,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[1]"
             ]
           },
@@ -11961,7 +11961,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[1]"
             ]
           },
@@ -11982,7 +11982,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[1]"
             ]
           },
@@ -12003,7 +12003,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[1]"
             ]
           },
@@ -12024,7 +12024,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[1]"
             ]
           },
@@ -12045,7 +12045,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[1]"
             ]
           },
@@ -12066,7 +12066,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[1]"
             ]
           },
@@ -12087,7 +12087,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[1]"
             ]
           },
@@ -12108,7 +12108,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[1]"
             ]
           },
@@ -12129,7 +12129,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[1]"
             ]
           },
@@ -12150,7 +12150,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[2]"
             ]
           },
@@ -12171,7 +12171,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[2]"
             ]
           },
@@ -12192,7 +12192,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[2]"
             ]
           },
@@ -12213,7 +12213,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[2]"
             ]
           },
@@ -12234,7 +12234,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[2]"
             ]
           },
@@ -12255,7 +12255,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[2]"
             ]
           },
@@ -12276,7 +12276,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[2]"
             ]
           },
@@ -12297,7 +12297,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[2]"
             ]
           },
@@ -12318,7 +12318,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[2]"
             ]
           },
@@ -12339,7 +12339,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_round_keys_output_tmp_44f04_1[2]"
             ]
           },
@@ -12464,7 +12464,7 @@
         "fn_name": "cube_252",
         "input": {
           "Var": [
-            "Felt252Packed27",
+            "Felt252Width27",
             "input_tmp_44f04_0.2[3]"
           ]
         }
@@ -12473,14 +12473,14 @@
     {
       "Intermediate": {
         "name": "cube_252_output_tmp_44f04_2",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
             "Cube252::deduce_output",
             [
               {
                 "Var": [
-                  "Felt252Packed27",
+                  "Felt252Width27",
                   "input_tmp_44f04_0.2[3]"
                 ]
               }
@@ -12494,7 +12494,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_2"
             ]
           },
@@ -12515,7 +12515,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_2"
             ]
           },
@@ -12536,7 +12536,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_2"
             ]
           },
@@ -12557,7 +12557,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_2"
             ]
           },
@@ -12578,7 +12578,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_2"
             ]
           },
@@ -12599,7 +12599,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_2"
             ]
           },
@@ -12620,7 +12620,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_2"
             ]
           },
@@ -12641,7 +12641,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_2"
             ]
           },
@@ -12662,7 +12662,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_2"
             ]
           },
@@ -12683,7 +12683,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_2"
             ]
           },
@@ -12773,10 +12773,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_44f04_3",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -12808,11 +12808,11 @@
                                           "*",
                                           {
                                             "StaticCall": [
-                                              "Felt252::from_felt252packed27",
+                                              "Felt252::from_felt252width27",
                                               [
                                                 {
                                                   "Var": [
-                                                    "Felt252Packed27",
+                                                    "Felt252Width27",
                                                     "input_tmp_44f04_0.2[0]"
                                                   ]
                                                 }
@@ -12835,11 +12835,11 @@
                                       "*",
                                       {
                                         "StaticCall": [
-                                          "Felt252::from_felt252packed27",
+                                          "Felt252::from_felt252width27",
                                           [
                                             {
                                               "Var": [
-                                                "Felt252Packed27",
+                                                "Felt252Width27",
                                                 "input_tmp_44f04_0.2[1]"
                                               ]
                                             }
@@ -12862,11 +12862,11 @@
                                   "*",
                                   {
                                     "StaticCall": [
-                                      "Felt252::from_felt252packed27",
+                                      "Felt252::from_felt252width27",
                                       [
                                         {
                                           "Var": [
-                                            "Felt252Packed27",
+                                            "Felt252Width27",
                                             "input_tmp_44f04_0.2[2]"
                                           ]
                                         }
@@ -12889,11 +12889,11 @@
                               "*",
                               {
                                 "StaticCall": [
-                                  "Felt252::from_felt252packed27",
+                                  "Felt252::from_felt252width27",
                                   [
                                     {
                                       "Var": [
-                                        "Felt252Packed27",
+                                        "Felt252Width27",
                                         "input_tmp_44f04_0.2[3]"
                                       ]
                                     }
@@ -12916,11 +12916,11 @@
                           "*",
                           {
                             "StaticCall": [
-                              "Felt252::from_felt252packed27",
+                              "Felt252::from_felt252width27",
                               [
                                 {
                                   "Var": [
-                                    "Felt252Packed27",
+                                    "Felt252Width27",
                                     "cube_252_output_tmp_44f04_2"
                                   ]
                                 }
@@ -12943,11 +12943,11 @@
                       "*",
                       {
                         "StaticCall": [
-                          "Felt252::from_felt252packed27",
+                          "Felt252::from_felt252width27",
                           [
                             {
                               "Var": [
-                                "Felt252Packed27",
+                                "Felt252Width27",
                                 "poseidon_round_keys_output_tmp_44f04_1[0]"
                               ]
                             }
@@ -12968,7 +12968,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_3"
             ]
           },
@@ -12989,7 +12989,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_3"
             ]
           },
@@ -13010,7 +13010,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_3"
             ]
           },
@@ -13031,7 +13031,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_3"
             ]
           },
@@ -13052,7 +13052,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_3"
             ]
           },
@@ -13073,7 +13073,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_3"
             ]
           },
@@ -13094,7 +13094,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_3"
             ]
           },
@@ -13115,7 +13115,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_3"
             ]
           },
@@ -13136,7 +13136,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_3"
             ]
           },
@@ -13157,7 +13157,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_3"
             ]
           },
@@ -15220,10 +15220,10 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "range_check_felt_252_packed_27",
+        "fn_name": "range_check_felt_252_width_27",
         "input": {
           "Var": [
-            "Felt252Packed27",
+            "Felt252Width27",
             "combination_result_tmp_44f04_3"
           ]
         }
@@ -15231,7 +15231,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           {
             "State": "combination_limb_0_col82"
@@ -15273,10 +15273,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_44f04_14",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -15298,11 +15298,11 @@
                       "*",
                       {
                         "StaticCall": [
-                          "Felt252::from_felt252packed27",
+                          "Felt252::from_felt252width27",
                           [
                             {
                               "Var": [
-                                "Felt252Packed27",
+                                "Felt252Width27",
                                 "combination_result_tmp_44f04_3"
                               ]
                             }
@@ -15323,7 +15323,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_14"
             ]
           },
@@ -15344,7 +15344,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_14"
             ]
           },
@@ -15365,7 +15365,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_14"
             ]
           },
@@ -15386,7 +15386,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_14"
             ]
           },
@@ -15407,7 +15407,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_14"
             ]
           },
@@ -15428,7 +15428,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_14"
             ]
           },
@@ -15449,7 +15449,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_14"
             ]
           },
@@ -15470,7 +15470,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_14"
             ]
           },
@@ -15491,7 +15491,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_14"
             ]
           },
@@ -15512,7 +15512,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_14"
             ]
           },
@@ -16247,7 +16247,7 @@
         "fn_name": "cube_252",
         "input": {
           "Var": [
-            "Felt252Packed27",
+            "Felt252Width27",
             "combination_result_tmp_44f04_14"
           ]
         }
@@ -16256,14 +16256,14 @@
     {
       "Intermediate": {
         "name": "cube_252_output_tmp_44f04_35",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
             "Cube252::deduce_output",
             [
               {
                 "Var": [
-                  "Felt252Packed27",
+                  "Felt252Width27",
                   "combination_result_tmp_44f04_14"
                 ]
               }
@@ -16277,7 +16277,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_35"
             ]
           },
@@ -16298,7 +16298,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_35"
             ]
           },
@@ -16319,7 +16319,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_35"
             ]
           },
@@ -16340,7 +16340,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_35"
             ]
           },
@@ -16361,7 +16361,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_35"
             ]
           },
@@ -16382,7 +16382,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_35"
             ]
           },
@@ -16403,7 +16403,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_35"
             ]
           },
@@ -16424,7 +16424,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_35"
             ]
           },
@@ -16445,7 +16445,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_35"
             ]
           },
@@ -16466,7 +16466,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_35"
             ]
           },
@@ -16556,10 +16556,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_44f04_36",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -16591,11 +16591,11 @@
                                           "*",
                                           {
                                             "StaticCall": [
-                                              "Felt252::from_felt252packed27",
+                                              "Felt252::from_felt252width27",
                                               [
                                                 {
                                                   "Var": [
-                                                    "Felt252Packed27",
+                                                    "Felt252Width27",
                                                     "input_tmp_44f04_0.2[2]"
                                                   ]
                                                 }
@@ -16618,11 +16618,11 @@
                                       "*",
                                       {
                                         "StaticCall": [
-                                          "Felt252::from_felt252packed27",
+                                          "Felt252::from_felt252width27",
                                           [
                                             {
                                               "Var": [
-                                                "Felt252Packed27",
+                                                "Felt252Width27",
                                                 "input_tmp_44f04_0.2[3]"
                                               ]
                                             }
@@ -16645,11 +16645,11 @@
                                   "*",
                                   {
                                     "StaticCall": [
-                                      "Felt252::from_felt252packed27",
+                                      "Felt252::from_felt252width27",
                                       [
                                         {
                                           "Var": [
-                                            "Felt252Packed27",
+                                            "Felt252Width27",
                                             "cube_252_output_tmp_44f04_2"
                                           ]
                                         }
@@ -16672,11 +16672,11 @@
                               "*",
                               {
                                 "StaticCall": [
-                                  "Felt252::from_felt252packed27",
+                                  "Felt252::from_felt252width27",
                                   [
                                     {
                                       "Var": [
-                                        "Felt252Packed27",
+                                        "Felt252Width27",
                                         "combination_result_tmp_44f04_14"
                                       ]
                                     }
@@ -16699,11 +16699,11 @@
                           "*",
                           {
                             "StaticCall": [
-                              "Felt252::from_felt252packed27",
+                              "Felt252::from_felt252width27",
                               [
                                 {
                                   "Var": [
-                                    "Felt252Packed27",
+                                    "Felt252Width27",
                                     "cube_252_output_tmp_44f04_35"
                                   ]
                                 }
@@ -16726,11 +16726,11 @@
                       "*",
                       {
                         "StaticCall": [
-                          "Felt252::from_felt252packed27",
+                          "Felt252::from_felt252width27",
                           [
                             {
                               "Var": [
-                                "Felt252Packed27",
+                                "Felt252Width27",
                                 "poseidon_round_keys_output_tmp_44f04_1[1]"
                               ]
                             }
@@ -16751,7 +16751,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_36"
             ]
           },
@@ -16772,7 +16772,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_36"
             ]
           },
@@ -16793,7 +16793,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_36"
             ]
           },
@@ -16814,7 +16814,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_36"
             ]
           },
@@ -16835,7 +16835,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_36"
             ]
           },
@@ -16856,7 +16856,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_36"
             ]
           },
@@ -16877,7 +16877,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_36"
             ]
           },
@@ -16898,7 +16898,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_36"
             ]
           },
@@ -16919,7 +16919,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_36"
             ]
           },
@@ -16940,7 +16940,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_36"
             ]
           },
@@ -19003,10 +19003,10 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "range_check_felt_252_packed_27",
+        "fn_name": "range_check_felt_252_width_27",
         "input": {
           "Var": [
-            "Felt252Packed27",
+            "Felt252Width27",
             "combination_result_tmp_44f04_36"
           ]
         }
@@ -19014,7 +19014,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           {
             "State": "combination_limb_0_col114"
@@ -19056,10 +19056,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_44f04_47",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -19081,11 +19081,11 @@
                       "*",
                       {
                         "StaticCall": [
-                          "Felt252::from_felt252packed27",
+                          "Felt252::from_felt252width27",
                           [
                             {
                               "Var": [
-                                "Felt252Packed27",
+                                "Felt252Width27",
                                 "combination_result_tmp_44f04_36"
                               ]
                             }
@@ -19106,7 +19106,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_47"
             ]
           },
@@ -19127,7 +19127,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_47"
             ]
           },
@@ -19148,7 +19148,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_47"
             ]
           },
@@ -19169,7 +19169,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_47"
             ]
           },
@@ -19190,7 +19190,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_47"
             ]
           },
@@ -19211,7 +19211,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_47"
             ]
           },
@@ -19232,7 +19232,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_47"
             ]
           },
@@ -19253,7 +19253,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_47"
             ]
           },
@@ -19274,7 +19274,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_47"
             ]
           },
@@ -19295,7 +19295,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_47"
             ]
           },
@@ -20030,7 +20030,7 @@
         "fn_name": "cube_252",
         "input": {
           "Var": [
-            "Felt252Packed27",
+            "Felt252Width27",
             "combination_result_tmp_44f04_47"
           ]
         }
@@ -20039,14 +20039,14 @@
     {
       "Intermediate": {
         "name": "cube_252_output_tmp_44f04_68",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
             "Cube252::deduce_output",
             [
               {
                 "Var": [
-                  "Felt252Packed27",
+                  "Felt252Width27",
                   "combination_result_tmp_44f04_47"
                 ]
               }
@@ -20060,7 +20060,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_68"
             ]
           },
@@ -20081,7 +20081,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_68"
             ]
           },
@@ -20102,7 +20102,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_68"
             ]
           },
@@ -20123,7 +20123,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_68"
             ]
           },
@@ -20144,7 +20144,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_68"
             ]
           },
@@ -20165,7 +20165,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_68"
             ]
           },
@@ -20186,7 +20186,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_68"
             ]
           },
@@ -20207,7 +20207,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_68"
             ]
           },
@@ -20228,7 +20228,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_68"
             ]
           },
@@ -20249,7 +20249,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_44f04_68"
             ]
           },
@@ -20339,10 +20339,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_44f04_69",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -20374,11 +20374,11 @@
                                           "*",
                                           {
                                             "StaticCall": [
-                                              "Felt252::from_felt252packed27",
+                                              "Felt252::from_felt252width27",
                                               [
                                                 {
                                                   "Var": [
-                                                    "Felt252Packed27",
+                                                    "Felt252Width27",
                                                     "cube_252_output_tmp_44f04_2"
                                                   ]
                                                 }
@@ -20401,11 +20401,11 @@
                                       "*",
                                       {
                                         "StaticCall": [
-                                          "Felt252::from_felt252packed27",
+                                          "Felt252::from_felt252width27",
                                           [
                                             {
                                               "Var": [
-                                                "Felt252Packed27",
+                                                "Felt252Width27",
                                                 "combination_result_tmp_44f04_14"
                                               ]
                                             }
@@ -20428,11 +20428,11 @@
                                   "*",
                                   {
                                     "StaticCall": [
-                                      "Felt252::from_felt252packed27",
+                                      "Felt252::from_felt252width27",
                                       [
                                         {
                                           "Var": [
-                                            "Felt252Packed27",
+                                            "Felt252Width27",
                                             "cube_252_output_tmp_44f04_35"
                                           ]
                                         }
@@ -20455,11 +20455,11 @@
                               "*",
                               {
                                 "StaticCall": [
-                                  "Felt252::from_felt252packed27",
+                                  "Felt252::from_felt252width27",
                                   [
                                     {
                                       "Var": [
-                                        "Felt252Packed27",
+                                        "Felt252Width27",
                                         "combination_result_tmp_44f04_47"
                                       ]
                                     }
@@ -20482,11 +20482,11 @@
                           "*",
                           {
                             "StaticCall": [
-                              "Felt252::from_felt252packed27",
+                              "Felt252::from_felt252width27",
                               [
                                 {
                                   "Var": [
-                                    "Felt252Packed27",
+                                    "Felt252Width27",
                                     "cube_252_output_tmp_44f04_68"
                                   ]
                                 }
@@ -20509,11 +20509,11 @@
                       "*",
                       {
                         "StaticCall": [
-                          "Felt252::from_felt252packed27",
+                          "Felt252::from_felt252width27",
                           [
                             {
                               "Var": [
-                                "Felt252Packed27",
+                                "Felt252Width27",
                                 "poseidon_round_keys_output_tmp_44f04_1[2]"
                               ]
                             }
@@ -20534,7 +20534,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_69"
             ]
           },
@@ -20555,7 +20555,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_69"
             ]
           },
@@ -20576,7 +20576,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_69"
             ]
           },
@@ -20597,7 +20597,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_69"
             ]
           },
@@ -20618,7 +20618,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_69"
             ]
           },
@@ -20639,7 +20639,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_69"
             ]
           },
@@ -20660,7 +20660,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_69"
             ]
           },
@@ -20681,7 +20681,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_69"
             ]
           },
@@ -20702,7 +20702,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_69"
             ]
           },
@@ -20723,7 +20723,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_69"
             ]
           },
@@ -22786,10 +22786,10 @@
     "EndBlock",
     {
       "LookupAddInput": {
-        "fn_name": "range_check_felt_252_packed_27",
+        "fn_name": "range_check_felt_252_width_27",
         "input": {
           "Var": [
-            "Felt252Packed27",
+            "Felt252Width27",
             "combination_result_tmp_44f04_69"
           ]
         }
@@ -22797,7 +22797,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           {
             "State": "combination_limb_0_col146"
@@ -22839,10 +22839,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_44f04_80",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -22864,11 +22864,11 @@
                       "*",
                       {
                         "StaticCall": [
-                          "Felt252::from_felt252packed27",
+                          "Felt252::from_felt252width27",
                           [
                             {
                               "Var": [
-                                "Felt252Packed27",
+                                "Felt252Width27",
                                 "combination_result_tmp_44f04_69"
                               ]
                             }
@@ -22889,7 +22889,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_80"
             ]
           },
@@ -22910,7 +22910,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_80"
             ]
           },
@@ -22931,7 +22931,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_80"
             ]
           },
@@ -22952,7 +22952,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_80"
             ]
           },
@@ -22973,7 +22973,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_80"
             ]
           },
@@ -22994,7 +22994,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_80"
             ]
           },
@@ -23015,7 +23015,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_80"
             ]
           },
@@ -23036,7 +23036,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_80"
             ]
           },
@@ -23057,7 +23057,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_80"
             ]
           },
@@ -23078,7 +23078,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_44f04_80"
             ]
           },

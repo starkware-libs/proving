@@ -6,15 +6,15 @@ use compiled_casm_air::compiled_structs::CompiledAirVar;
 use compiled_casm_air::public_params::PublicParam;
 use enum_dispatch::enum_dispatch;
 use inst_def::InstDef;
-use prover_types::cpu::ProverType;
 use serde::Serialize;
+use stwo_cairo_common::prover_types::cpu::ProverType;
 
 use super::air_fn::*;
 use super::expressions::biguint_expr::*;
 use super::expressions::bool_expr::*;
 use super::expressions::expr::*;
 use super::expressions::felt252_expr::*;
-use super::expressions::felt252packed27_expr::*;
+use super::expressions::felt252width27_expr::*;
 use super::expressions::felt_expr::*;
 use super::expressions::op_expr::*;
 use super::expressions::uint16_expr::*;
@@ -435,9 +435,9 @@ impl_air_var!((CasmAddress, FeltExpr));
 type Addresses<const N: usize> = [CasmAddress; N];
 // MemVerifyAll
 impl_air_var!((Addresses<const N: usize>, Felt252Expr));
-// Felt252UnpackFrom27 + RangeCheckFelt252Packed27 + Cube252 + LinearCombination +
+// Felt252UnpackFrom27 + RangeCheckFelt252Width27 + Cube252 + LinearCombination +
 // PoseidonHadesPermutation
-impl_air_var!([Felt252Packed27Expr]);
+impl_air_var!([Felt252Width27Expr]);
 // VerifyBlakeWord
 impl_air_var!((CasmAddress, UInt32Expr));
 // CreateBlakeRoundInput
@@ -466,11 +466,11 @@ impl_air_var!((CasmAddress, Offsets, FlagsFelts, FeltExpr));
 impl_air_var!((BlakeState, CasmAddress));
 impl_air_var!((ChainIdVar, RoundNumVar, BlakeRoundInput));
 // PoseidonFullRound
-type PoseidonFullRoundState = [Felt252Packed27Expr; 3];
+type PoseidonFullRoundState = [Felt252Width27Expr; 3];
 impl_air_var!((ChainIdVar, RoundNumVar, PoseidonFullRoundState));
 // PoseidonPartialRound
-type PoseidonPartialRoundState = [Felt252Packed27Expr; 4];
-impl_air_var!((PoseidonPartialRoundState, Felt252Packed27Expr));
+type PoseidonPartialRoundState = [Felt252Width27Expr; 4];
+impl_air_var!((PoseidonPartialRoundState, Felt252Width27Expr));
 impl_air_var!((ChainIdVar, RoundNumVar, PoseidonPartialRoundState));
 
 // Implements AirVar for arrays and tuples of air vars.

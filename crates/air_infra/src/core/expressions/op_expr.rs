@@ -3,17 +3,17 @@ use std::fmt::Display;
 use std::ops::{Add, BitAnd, BitOr, BitXor, Div, Mul, Not, Rem, Shl, Shr, Sub};
 
 use compiled_casm_air::compiled_structs::CompiledAirVar;
-use prover_types::cpu::{
-    BigUInt, Bool, Felt252, Felt252Packed27, ProverType, UInt16, UInt32, FELT252PACKED27_N_WORDS,
+use serde::{Deserialize, Serialize};
+use stwo_cairo_common::prover_types::cpu::{
+    BigUInt, Bool, Felt252, Felt252Width27, ProverType, UInt16, UInt32, FELT252WIDTH27_N_WORDS,
     FELT252_N_WORDS, MOD_BUILTIN_WORD_BIT_LEN,
 };
-use serde::{Deserialize, Serialize};
 
 use super::super::variables::*;
 use super::biguint_expr::*;
 use super::bool_expr::*;
 use super::felt252_expr::*;
-use super::felt252packed27_expr::*;
+use super::felt252width27_expr::*;
 use super::felt_expr::*;
 use super::uint16_expr::*;
 use super::uint32_expr::*;
@@ -121,10 +121,10 @@ pub enum Operation {
     UInt16FromBool,
     UInt16FromFelt,
     Felt252FromFeltsArray,
-    Felt252Packed27FromFeltsArray,
+    Felt252Width27FromFeltsArray,
     Felt252FromFelt,
-    Felt252Packed27FromFelt252,
-    Felt252FromFelt252Packed27,
+    Felt252Width27FromFelt252,
+    Felt252FromFelt252Width27,
     UInt32FromFelt,
     UInt32FromFeltsPair,
     BigUInt768FromBigUInt384,
@@ -157,10 +157,10 @@ impl Display for Operation {
             Operation::UInt16FromBool => write!(f, "UInt16::from_bool"),
             Operation::UInt16FromFelt => write!(f, "UInt16::from_m31"),
             Operation::Felt252FromFeltsArray => write!(f, "Felt252::from_limbs"),
-            Operation::Felt252Packed27FromFeltsArray => write!(f, "Felt252Packed27::from_limbs"),
+            Operation::Felt252Width27FromFeltsArray => write!(f, "Felt252Width27::from_limbs"),
             Operation::Felt252FromFelt => write!(f, "Felt252::from_m31"),
-            Operation::Felt252Packed27FromFelt252 => write!(f, "Felt252Packed27::from_felt252"),
-            Operation::Felt252FromFelt252Packed27 => write!(f, "Felt252::from_felt252packed27"),
+            Operation::Felt252Width27FromFelt252 => write!(f, "Felt252Width27::from_felt252"),
+            Operation::Felt252FromFelt252Width27 => write!(f, "Felt252::from_felt252width27"),
             Operation::UInt32FromFelt => write!(f, "UInt32::from_m31"),
             Operation::UInt32FromFeltsPair => write!(f, "UInt32::from_limbs"),
             Operation::BigUInt768FromBigUInt384 => {
@@ -187,10 +187,10 @@ impl From<Operation> for OpType {
             Operation::UInt16FromBool => OpType::Static(op.to_string()),
             Operation::UInt16FromFelt => OpType::Static(op.to_string()),
             Operation::Felt252FromFeltsArray => OpType::Static(op.to_string()),
-            Operation::Felt252Packed27FromFeltsArray => OpType::Static(op.to_string()),
+            Operation::Felt252Width27FromFeltsArray => OpType::Static(op.to_string()),
             Operation::Felt252FromFelt => OpType::Static(op.to_string()),
-            Operation::Felt252Packed27FromFelt252 => OpType::Static(op.to_string()),
-            Operation::Felt252FromFelt252Packed27 => OpType::Static(op.to_string()),
+            Operation::Felt252Width27FromFelt252 => OpType::Static(op.to_string()),
+            Operation::Felt252FromFelt252Width27 => OpType::Static(op.to_string()),
             Operation::UInt32FromFelt => OpType::Static(op.to_string()),
             Operation::UInt32FromFeltsPair => OpType::Static(op.to_string()),
             Operation::BigUInt768FromBigUInt384 => OpType::Static(op.to_string()),
@@ -227,8 +227,8 @@ impl_unary_op!(from BoolFromFelt, from_m31, FeltExpr, BoolExpr, Bool);
 impl_unary_op!(from UInt16FromFelt, from_m31, FeltExpr, UInt16Expr, UInt16);
 impl_unary_op!(from UInt32FromFelt, from_m31, FeltExpr, UInt32Expr, UInt32);
 impl_unary_op!(from Felt252FromFelt, from_m31, FeltExpr, Felt252Expr, Felt252);
-impl_unary_op!(from Felt252Packed27FromFelt252, from, Felt252Expr, Felt252Packed27Expr, Felt252Packed27);
-impl_unary_op!(from Felt252FromFelt252Packed27, from, Felt252Packed27Expr, Felt252Expr, Felt252);
+impl_unary_op!(from Felt252Width27FromFelt252, from, Felt252Expr, Felt252Width27Expr, Felt252Width27);
+impl_unary_op!(from Felt252FromFelt252Width27, from, Felt252Width27Expr, Felt252Expr, Felt252);
 
 impl_binary_op!(ops Add, add, Felt252Expr, Felt252Operation);
 impl_binary_op!(ops Sub, sub, Felt252Expr, Felt252Operation);
@@ -378,11 +378,11 @@ impl From<Vec<FeltExpr>> for Felt252Expr {
     }
 }
 
-impl From<Vec<FeltExpr>> for Felt252Packed27Expr {
-    fn from(mut felts: Vec<FeltExpr>) -> Felt252Packed27Expr {
+impl From<Vec<FeltExpr>> for Felt252Width27Expr {
+    fn from(mut felts: Vec<FeltExpr>) -> Felt252Width27Expr {
         assert!(
-            felts.len() <= FELT252PACKED27_N_WORDS,
-            "Felt252Packed27Expr can have at most {FELT252PACKED27_N_WORDS} felts"
+            felts.len() <= FELT252WIDTH27_N_WORDS,
+            "Felt252Width27Expr can have at most {FELT252WIDTH27_N_WORDS} felts"
         );
 
         let values = felts
@@ -390,21 +390,21 @@ impl From<Vec<FeltExpr>> for Felt252Packed27Expr {
             .filter_map(|f| f.value())
             .collect::<Vec<Felt>>();
         let value = if values.len() == felts.len() {
-            Some(Felt252Packed27::from_limbs(&values))
+            Some(Felt252Width27::from_limbs(&values))
         } else {
             None
         };
 
         felts.resize(
-            FELT252PACKED27_N_WORDS,
+            FELT252WIDTH27_N_WORDS,
             FeltExpr::Var(VarExpr::new_const(Felt::from(0))),
         );
         let arr = felts
             .into_iter()
             .map(|f| f.into())
             .collect::<Vec<AirVarImpl>>();
-        Felt252Packed27Expr::Op(OpExpr::new(
-            Operation::Felt252Packed27FromFeltsArray,
+        Felt252Width27Expr::Op(OpExpr::new(
+            Operation::Felt252Width27FromFeltsArray,
             vec![AirVarImpl::Array(arr)],
             value,
         ))

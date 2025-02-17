@@ -1,11 +1,13 @@
 // use core::range::Range;
 use inst_def::InstDef;
-use prover_types::cpu::{FELT252PACKED27_BITS_PER_WORD, FELT252PACKED27_N_WORDS, P_PACKED27_FELTS};
+use stwo_cairo_common::prover_types::cpu::{
+    FELT252WIDTH27_BITS_PER_WORD, FELT252WIDTH27_N_WORDS, P_PACKED27_FELTS,
+};
 
 use crate::airs::casm::const_tables::range_check::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
-use crate::core::expressions::felt252packed27_expr::*;
+use crate::core::expressions::felt252width27_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
 use crate::core::variables::*;
@@ -29,8 +31,8 @@ pub struct LinearCombination<const N: usize> {
 
 impl<const N: usize> AirFn for LinearCombination<N> {
     type ExtIn = ();
-    type In = [Felt252Packed27Expr; N];
-    type Out = Felt252Packed27Expr;
+    type In = [Felt252Width27Expr; N];
+    type Out = Felt252Width27Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), inputs: Self::In) -> Self::Out {
         // Comnpute and deduce the result of the combination.
@@ -107,13 +109,13 @@ impl<const N: usize> AirFn for LinearCombination<N> {
         };
 
         // Deduce the linear combination result in packed form.
-        let mut res: Felt252Packed27Expr = res.into();
+        let mut res: Felt252Width27Expr = res.into();
         res = air_builder.let_for_deduction(res, "combination_result");
         for (i, limb) in res.as_felts_mut().into_iter().enumerate() {
             air_builder.deduce(limb, &format!("combination_limb_{}", i));
         }
 
-        let shift = const_expr!(1 << FELT252PACKED27_BITS_PER_WORD);
+        let shift = const_expr!(1 << FELT252WIDTH27_BITS_PER_WORD);
         let shift_inverse = const_expr!(1) / shift.clone();
 
         let mut limb_accumulator = const_expr!(0);
@@ -151,7 +153,7 @@ impl<const N: usize> AirFn for LinearCombination<N> {
                 carry_vec.push(p_coef.clone());
             }
             limb_accumulator = limb_accumulator - p_coef.clone() * const_expr!(p_felt);
-            if i < FELT252PACKED27_N_WORDS - 1 {
+            if i < FELT252WIDTH27_N_WORDS - 1 {
                 limb_accumulator = air_builder.let_(
                     limb_accumulator * shift_inverse.clone(),
                     &format!("carry_{}", i),
@@ -162,7 +164,7 @@ impl<const N: usize> AirFn for LinearCombination<N> {
         air_builder.constrain(limb_accumulator, "final limb constraint");
 
         // Range checking p_coef and the carries.
-        assert_eq!(carry_vec.len(), FELT252PACKED27_N_WORDS);
+        assert_eq!(carry_vec.len(), FELT252WIDTH27_N_WORDS);
         match upper_bound + minus_lower_bound {
             3..16 => {
                 let (range_bit_size, max_range_check_len) = match upper_bound + minus_lower_bound {
@@ -178,9 +180,9 @@ impl<const N: usize> AirFn for LinearCombination<N> {
                     3 => (2, 5),
                     _ => panic!("Unreachable code"),
                 };
-                for start in (0..FELT252PACKED27_N_WORDS).step_by(max_range_check_len) {
+                for start in (0..FELT252WIDTH27_N_WORDS).step_by(max_range_check_len) {
                     let range =
-                        start..std::cmp::min(start + max_range_check_len, FELT252PACKED27_N_WORDS);
+                        start..std::cmp::min(start + max_range_check_len, FELT252WIDTH27_N_WORDS);
                     let bits = range.clone().map(|_| range_bit_size).collect::<Vec<u16>>();
                     let input = range
                         .map(|i| carry_vec[i].clone() + const_expr!(minus_lower_bound))

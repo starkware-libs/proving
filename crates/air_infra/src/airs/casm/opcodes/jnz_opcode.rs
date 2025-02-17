@@ -1,5 +1,5 @@
 use inst_def::InstDef;
-use prover_types::cpu::P_FELTS;
+use stwo_cairo_common::prover_types::cpu::P_FELTS;
 
 use super::super::casm_state::*;
 use super::super::common::*;

@@ -1,4 +1,4 @@
-use prover_types::cpu::Felt252;
+use stwo_cairo_common::prover_types::cpu::Felt252;
 
 #[derive(Clone)]
 pub struct CurvePoint {

@@ -1,7 +1,7 @@
 use std::array::from_fn;
 
 use inst_def::InstDef;
-use prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
+use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::builtins::pedersen::ec_add::*;
 use crate::airs::casm::builtins::pedersen::points_table::*;

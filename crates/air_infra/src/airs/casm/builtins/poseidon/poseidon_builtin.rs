@@ -8,7 +8,7 @@ use crate::airs::felt252_utils::felt252_packing27::*;
 // Macros
 use crate::const_expr;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252packed27_expr::*;
+use crate::core::expressions::felt252width27_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::core::felt252_id_memory::verify::*;
@@ -39,7 +39,7 @@ impl AirFn for PoseidonBuiltin {
             memory: self.memory.clone(),
         };
 
-        let input_state: [Felt252Packed27Expr; 3] = std::array::from_fn(|i| {
+        let input_state: [Felt252Width27Expr; 3] = std::array::from_fn(|i| {
             felt252_pack_into27(self.memory.read_felt252(
                 air_builder,
                 CasmAddress::new(

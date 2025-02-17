@@ -2,7 +2,7 @@ use std::fmt::Debug;
 use std::marker::PhantomData;
 
 use indexmap::IndexMap;
-use prover_types::cpu::ProverType;
+use stwo_cairo_common::prover_types::cpu::ProverType;
 
 use super::expressions::felt_expr::*;
 use super::variables::*;

@@ -7,42 +7,42 @@
     [
       {
         "name": "poseidon_partial_round_input.0[0]",
-        "type": "Felt252Packed27"
+        "type": "Felt252Width27"
       },
       {
         "name": "poseidon_partial_round_input.0[1]",
-        "type": "Felt252Packed27"
+        "type": "Felt252Width27"
       },
       {
         "name": "poseidon_partial_round_input.0[2]",
-        "type": "Felt252Packed27"
+        "type": "Felt252Width27"
       },
       {
         "name": "poseidon_partial_round_input.0[3]",
-        "type": "Felt252Packed27"
+        "type": "Felt252Width27"
       }
     ],
     {
       "name": "poseidon_partial_round_input.1",
-      "type": "Felt252Packed27"
+      "type": "Felt252Width27"
     }
   ],
   "output": [
     {
       "name": "poseidon_partial_round_input.0[2]",
-      "type": "Felt252Packed27"
+      "type": "Felt252Width27"
     },
     {
       "name": "poseidon_partial_round_input.0[3]",
-      "type": "Felt252Packed27"
+      "type": "Felt252Width27"
     },
     {
       "name": "cube_252_output_tmp_1c8d0_0",
-      "type": "Felt252Packed27"
+      "type": "Felt252Width27"
     },
     {
       "name": "combination_result_tmp_1c8d0_12",
-      "type": "Felt252Packed27"
+      "type": "Felt252Width27"
     }
   ],
   "trace_type": "Inline",
@@ -52,7 +52,7 @@
         "air_fn_name": "cube_252",
         "input": {
           "name": "poseidon_partial_round_input.0[3]",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
@@ -62,10 +62,10 @@
         "method_name": "Cube252::deduce_output",
         "input": {
           "name": "poseidon_partial_round_input.0[3]",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         },
         "output_name": "cube_252_output_tmp_1c8d0_0",
-        "output_type": "Felt252Packed27"
+        "output_type": "Felt252Width27"
       }
     },
     {
@@ -163,47 +163,47 @@
         "input": [
           {
             "name": "poseidon_partial_round_input.0[0]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "poseidon_partial_round_input.0[1]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "poseidon_partial_round_input.0[2]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "poseidon_partial_round_input.0[3]",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "cube_252_output_tmp_1c8d0_0",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           },
           {
             "name": "poseidon_partial_round_input.1",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           }
         ],
         "output": {
           "name": "combination_result_tmp_1c8d0_1",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
     {
       "LookupAddInput": {
-        "air_fn_name": "range_check_felt_252_packed_27",
+        "air_fn_name": "range_check_felt_252_width_27",
         "input": {
           "name": "combination_result_tmp_1c8d0_1",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           "combination_limb_0_col10",
           "combination_limb_1_col11",
@@ -226,12 +226,12 @@
         "input": [
           {
             "name": "combination_result_tmp_1c8d0_1",
-            "type": "Felt252Packed27"
+            "type": "Felt252Width27"
           }
         ],
         "output": {
           "name": "combination_result_tmp_1c8d0_12",
-          "type": "Felt252Packed27"
+          "type": "Felt252Width27"
         }
       }
     }

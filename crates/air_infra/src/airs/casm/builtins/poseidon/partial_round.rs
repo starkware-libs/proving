@@ -6,7 +6,7 @@ use super::round_keys::*;
 use crate::airs::felt252_utils::felt252_packing27::*;
 use crate::const_expr;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252packed27_expr::*;
+use crate::core::expressions::felt252width27_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 
@@ -22,8 +22,8 @@ pub struct PoseidonPartialRound {}
 
 impl AirFn for PoseidonPartialRound {
     type ExtIn = ();
-    type In = ([Felt252Packed27Expr; 4], Felt252Packed27Expr);
-    type Out = [Felt252Packed27Expr; 4];
+    type In = ([Felt252Width27Expr; 4], Felt252Width27Expr);
+    type Out = [Felt252Width27Expr; 4];
 
     fn call(
         &self,
@@ -47,7 +47,7 @@ impl AirFn for PoseidonPartialRound {
         );
         // The intermediary value half_z3, unlike the partial round state elements, is not the input
         // or output of any Cube252, and thus needs to be directly range checked.
-        air_builder.lookup_call(&RangeCheckFelt252Packed27 {}, (), half_z3.clone());
+        air_builder.lookup_call(&RangeCheckFelt252Width27 {}, (), half_z3.clone());
         let z3 = air_builder.call(&LinearCombination { coefs: [2] }, [half_z3]);
 
         [z1_3, z2, z2_3, z3]
@@ -60,8 +60,8 @@ pub struct Poseidon3PartialRoundsChain {}
 
 impl AirFn for Poseidon3PartialRoundsChain {
     type ExtIn = ();
-    type In = (ChainIdVar, RoundNumVar, [Felt252Packed27Expr; 4]);
-    type Out = (ChainIdVar, RoundNumVar, [Felt252Packed27Expr; 4]);
+    type In = (ChainIdVar, RoundNumVar, [Felt252Width27Expr; 4]);
+    type Out = (ChainIdVar, RoundNumVar, [Felt252Width27Expr; 4]);
 
     fn trace_type(&self) -> TraceType {
         TraceType::ChainRound
@@ -90,7 +90,7 @@ impl AirFn for Poseidon3PartialRoundsChain {
     }
 }
 
-impl ChainRoundAirFn<[Felt252Packed27Expr; 4]> for Poseidon3PartialRoundsChain {
+impl ChainRoundAirFn<[Felt252Width27Expr; 4]> for Poseidon3PartialRoundsChain {
     fn number_of_chains(&self) -> usize {
         1
     }

@@ -3,7 +3,7 @@ use inst_def::InstDef;
 use super::keys::*;
 use crate::airs::casm::const_tables::seq::*;
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252packed27_expr::*;
+use crate::core::expressions::felt252width27_expr::*;
 use crate::core::expressions::felt_expr::*;
 #[cfg(test)]
 use crate::core::variables::*;
@@ -13,14 +13,14 @@ use crate::core::variables::*;
 ///    0..4 correspond to the first 4 full rounds;
 ///    4..31 correspond to 27 triplets of partial rounds (6-87);
 ///    31..35 correspond to the last 4 full rounds;
-/// The output consists of 30 constant columns, representing 3 Felt252s in Packed27 form.
+/// The output consists of 30 constant columns, representing 3 Felt252s in Width27 form.
 #[derive(Debug, InstDef)]
 pub struct PoseidonRoundKeys {}
 
 impl AirFn for PoseidonRoundKeys {
     type ExtIn = SeqConstLen<6>;
     type In = ();
-    type Out = [Felt252Packed27Expr; 3];
+    type Out = [Felt252Width27Expr; 3];
 
     fn call(
         &self,

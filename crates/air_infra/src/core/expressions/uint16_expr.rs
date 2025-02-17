@@ -1,4 +1,4 @@
-use prover_types::cpu::{SingleFeltType, UInt16};
+use stwo_cairo_common::prover_types::cpu::{SingleFeltType, UInt16};
 
 use super::super::variables::*;
 use super::expr::*;

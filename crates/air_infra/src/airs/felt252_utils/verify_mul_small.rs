@@ -1,7 +1,7 @@
 use std::cmp::{max, min};
 
 use inst_def::InstDef;
-use prover_types::cpu::FELT252_BITS_PER_WORD;
+use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use crate::airs::casm::const_tables::range_check::*;
 // Macros

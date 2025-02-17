@@ -1,6 +1,6 @@
 use std::array::from_fn;
 
-use prover_types::cpu::FELT252_BITS_PER_WORD;
+use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::ec_add::*;
 use crate::airs::casm::builtins::pedersen::partial_ec_mul::*;

@@ -364,7 +364,7 @@
     "range_check_3_3_3_3_3",
     "range_check_4_4",
     "range_check_4_4_4_4",
-    "range_check_felt_252_packed_27"
+    "range_check_felt_252_width_27"
   ],
   "n_lookup_terms": 33,
   "public_params": [
@@ -6782,7 +6782,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           {
             "State": "poseidon_full_round_chain_output_limb_2_col122"
@@ -6820,7 +6820,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           {
             "State": "poseidon_full_round_chain_output_limb_12_col132"
@@ -17024,10 +17024,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_51986_6",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -17051,11 +17051,11 @@
                           "*",
                           {
                             "StaticCall": [
-                              "Felt252::from_felt252packed27",
+                              "Felt252::from_felt252width27",
                               [
                                 {
                                   "StaticCall": [
-                                    "Felt252Packed27::from_limbs",
+                                    "Felt252Width27::from_limbs",
                                     [
                                       {
                                         "Array": [
@@ -17462,7 +17462,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_6"
             ]
           },
@@ -17483,7 +17483,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_6"
             ]
           },
@@ -17504,7 +17504,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_6"
             ]
           },
@@ -17525,7 +17525,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_6"
             ]
           },
@@ -17546,7 +17546,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_6"
             ]
           },
@@ -17567,7 +17567,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_6"
             ]
           },
@@ -17588,7 +17588,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_6"
             ]
           },
@@ -17609,7 +17609,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_6"
             ]
           },
@@ -17630,7 +17630,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_6"
             ]
           },
@@ -17651,7 +17651,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_6"
             ]
           },
@@ -18873,10 +18873,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_51986_27",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -18900,11 +18900,11 @@
                           "*",
                           {
                             "StaticCall": [
-                              "Felt252::from_felt252packed27",
+                              "Felt252::from_felt252width27",
                               [
                                 {
                                   "StaticCall": [
-                                    "Felt252Packed27::from_limbs",
+                                    "Felt252Width27::from_limbs",
                                     [
                                       {
                                         "Array": [
@@ -19311,7 +19311,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_27"
             ]
           },
@@ -19332,7 +19332,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_27"
             ]
           },
@@ -19353,7 +19353,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_27"
             ]
           },
@@ -19374,7 +19374,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_27"
             ]
           },
@@ -19395,7 +19395,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_27"
             ]
           },
@@ -19416,7 +19416,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_27"
             ]
           },
@@ -19437,7 +19437,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_27"
             ]
           },
@@ -19458,7 +19458,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_27"
             ]
           },
@@ -19479,7 +19479,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_27"
             ]
           },
@@ -19500,7 +19500,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_27"
             ]
           },
@@ -20722,10 +20722,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_51986_48",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -20749,11 +20749,11 @@
                           "*",
                           {
                             "StaticCall": [
-                              "Felt252::from_felt252packed27",
+                              "Felt252::from_felt252width27",
                               [
                                 {
                                   "StaticCall": [
-                                    "Felt252Packed27::from_limbs",
+                                    "Felt252Width27::from_limbs",
                                     [
                                       {
                                         "Array": [
@@ -21160,7 +21160,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_48"
             ]
           },
@@ -21181,7 +21181,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_48"
             ]
           },
@@ -21202,7 +21202,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_48"
             ]
           },
@@ -21223,7 +21223,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_48"
             ]
           },
@@ -21244,7 +21244,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_48"
             ]
           },
@@ -21265,7 +21265,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_48"
             ]
           },
@@ -21286,7 +21286,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_48"
             ]
           },
@@ -21307,7 +21307,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_48"
             ]
           },
@@ -21328,7 +21328,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_48"
             ]
           },
@@ -21349,7 +21349,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_48"
             ]
           },
@@ -22720,19 +22720,19 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "combination_result_tmp_51986_6"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "combination_result_tmp_51986_27"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "combination_result_tmp_51986_48"
                   ]
                 }
@@ -22745,7 +22745,7 @@
     {
       "Intermediate": {
         "name": "poseidon_full_round_chain_output_round_0_tmp_51986_69",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "PoseidonFullRoundChain::deduce_output",
@@ -22780,19 +22780,19 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "combination_result_tmp_51986_6"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "combination_result_tmp_51986_27"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "combination_result_tmp_51986_48"
                         ]
                       }
@@ -22838,19 +22838,19 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_0_tmp_51986_69.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_0_tmp_51986_69.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_0_tmp_51986_69.2[2]"
                   ]
                 }
@@ -22863,7 +22863,7 @@
     {
       "Intermediate": {
         "name": "poseidon_full_round_chain_output_round_1_tmp_51986_70",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "PoseidonFullRoundChain::deduce_output",
@@ -22898,19 +22898,19 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_0_tmp_51986_69.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_0_tmp_51986_69.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_0_tmp_51986_69.2[2]"
                         ]
                       }
@@ -22956,19 +22956,19 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_1_tmp_51986_70.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_1_tmp_51986_70.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_1_tmp_51986_70.2[2]"
                   ]
                 }
@@ -22981,7 +22981,7 @@
     {
       "Intermediate": {
         "name": "poseidon_full_round_chain_output_round_2_tmp_51986_71",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "PoseidonFullRoundChain::deduce_output",
@@ -23016,19 +23016,19 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_1_tmp_51986_70.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_1_tmp_51986_70.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_1_tmp_51986_70.2[2]"
                         ]
                       }
@@ -23074,19 +23074,19 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_2_tmp_51986_71.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_2_tmp_51986_71.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_2_tmp_51986_71.2[2]"
                   ]
                 }
@@ -23099,7 +23099,7 @@
     {
       "Intermediate": {
         "name": "poseidon_full_round_chain_output_round_3_tmp_51986_72",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "PoseidonFullRoundChain::deduce_output",
@@ -23134,19 +23134,19 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_2_tmp_51986_71.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_2_tmp_51986_71.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_2_tmp_51986_71.2[2]"
                         ]
                       }
@@ -23180,7 +23180,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
             ]
           },
@@ -23201,7 +23201,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
             ]
           },
@@ -23222,7 +23222,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
             ]
           },
@@ -23243,7 +23243,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
             ]
           },
@@ -23264,7 +23264,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
             ]
           },
@@ -23285,7 +23285,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
             ]
           },
@@ -23306,7 +23306,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
             ]
           },
@@ -23327,7 +23327,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
             ]
           },
@@ -23348,7 +23348,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
             ]
           },
@@ -23369,7 +23369,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
             ]
           },
@@ -23390,7 +23390,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[1]"
             ]
           },
@@ -23411,7 +23411,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[1]"
             ]
           },
@@ -23432,7 +23432,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[1]"
             ]
           },
@@ -23453,7 +23453,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[1]"
             ]
           },
@@ -23474,7 +23474,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[1]"
             ]
           },
@@ -23495,7 +23495,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[1]"
             ]
           },
@@ -23516,7 +23516,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[1]"
             ]
           },
@@ -23537,7 +23537,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[1]"
             ]
           },
@@ -23558,7 +23558,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[1]"
             ]
           },
@@ -23579,7 +23579,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[1]"
             ]
           },
@@ -23600,7 +23600,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[2]"
             ]
           },
@@ -23621,7 +23621,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[2]"
             ]
           },
@@ -23642,7 +23642,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[2]"
             ]
           },
@@ -23663,7 +23663,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[2]"
             ]
           },
@@ -23684,7 +23684,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[2]"
             ]
           },
@@ -23705,7 +23705,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[2]"
             ]
           },
@@ -23726,7 +23726,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[2]"
             ]
           },
@@ -23747,7 +23747,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[2]"
             ]
           },
@@ -23768,7 +23768,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[2]"
             ]
           },
@@ -23789,7 +23789,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[2]"
             ]
           },
@@ -23911,10 +23911,10 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_felt_252_packed_27",
+        "fn_name": "range_check_felt_252_width_27",
         "input": {
           "Var": [
-            "Felt252Packed27",
+            "Felt252Width27",
             "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
           ]
         }
@@ -23922,7 +23922,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           {
             "State": "poseidon_full_round_chain_output_limb_2_col122"
@@ -23960,10 +23960,10 @@
     },
     {
       "LookupAddInput": {
-        "fn_name": "range_check_felt_252_packed_27",
+        "fn_name": "range_check_felt_252_width_27",
         "input": {
           "Var": [
-            "Felt252Packed27",
+            "Felt252Width27",
             "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[1]"
           ]
         }
@@ -23971,7 +23971,7 @@
     },
     {
       "LookupTerm": {
-        "relation_name": "RangeCheckFelt252Packed27",
+        "relation_name": "RangeCheckFelt252Width27",
         "felts": [
           {
             "State": "poseidon_full_round_chain_output_limb_12_col132"
@@ -24012,7 +24012,7 @@
         "fn_name": "cube_252",
         "input": {
           "Var": [
-            "Felt252Packed27",
+            "Felt252Width27",
             "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[2]"
           ]
         }
@@ -24021,14 +24021,14 @@
     {
       "Intermediate": {
         "name": "cube_252_output_tmp_51986_73",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
             "Cube252::deduce_output",
             [
               {
                 "Var": [
-                  "Felt252Packed27",
+                  "Felt252Width27",
                   "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[2]"
                 ]
               }
@@ -24042,7 +24042,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_73"
             ]
           },
@@ -24063,7 +24063,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_73"
             ]
           },
@@ -24084,7 +24084,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_73"
             ]
           },
@@ -24105,7 +24105,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_73"
             ]
           },
@@ -24126,7 +24126,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_73"
             ]
           },
@@ -24147,7 +24147,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_73"
             ]
           },
@@ -24168,7 +24168,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_73"
             ]
           },
@@ -24189,7 +24189,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_73"
             ]
           },
@@ -24210,7 +24210,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_73"
             ]
           },
@@ -24231,7 +24231,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_73"
             ]
           },
@@ -24321,10 +24321,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_51986_74",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -24352,11 +24352,11 @@
                                   "*",
                                   {
                                     "StaticCall": [
-                                      "Felt252::from_felt252packed27",
+                                      "Felt252::from_felt252width27",
                                       [
                                         {
                                           "Var": [
-                                            "Felt252Packed27",
+                                            "Felt252Width27",
                                             "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
                                           ]
                                         }
@@ -24379,11 +24379,11 @@
                               "*",
                               {
                                 "StaticCall": [
-                                  "Felt252::from_felt252packed27",
+                                  "Felt252::from_felt252width27",
                                   [
                                     {
                                       "Var": [
-                                        "Felt252Packed27",
+                                        "Felt252Width27",
                                         "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[1]"
                                       ]
                                     }
@@ -24406,11 +24406,11 @@
                           "*",
                           {
                             "StaticCall": [
-                              "Felt252::from_felt252packed27",
+                              "Felt252::from_felt252width27",
                               [
                                 {
                                   "Var": [
-                                    "Felt252Packed27",
+                                    "Felt252Width27",
                                     "cube_252_output_tmp_51986_73"
                                   ]
                                 }
@@ -24440,7 +24440,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_74"
             ]
           },
@@ -24461,7 +24461,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_74"
             ]
           },
@@ -24482,7 +24482,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_74"
             ]
           },
@@ -24503,7 +24503,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_74"
             ]
           },
@@ -24524,7 +24524,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_74"
             ]
           },
@@ -24545,7 +24545,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_74"
             ]
           },
@@ -24566,7 +24566,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_74"
             ]
           },
@@ -24587,7 +24587,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_74"
             ]
           },
@@ -24608,7 +24608,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_74"
             ]
           },
@@ -24629,7 +24629,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_74"
             ]
           },
@@ -26218,7 +26218,7 @@
         "fn_name": "cube_252",
         "input": {
           "Var": [
-            "Felt252Packed27",
+            "Felt252Width27",
             "combination_result_tmp_51986_74"
           ]
         }
@@ -26227,14 +26227,14 @@
     {
       "Intermediate": {
         "name": "cube_252_output_tmp_51986_85",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
             "Cube252::deduce_output",
             [
               {
                 "Var": [
-                  "Felt252Packed27",
+                  "Felt252Width27",
                   "combination_result_tmp_51986_74"
                 ]
               }
@@ -26248,7 +26248,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_85"
             ]
           },
@@ -26269,7 +26269,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_85"
             ]
           },
@@ -26290,7 +26290,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_85"
             ]
           },
@@ -26311,7 +26311,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_85"
             ]
           },
@@ -26332,7 +26332,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_85"
             ]
           },
@@ -26353,7 +26353,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_85"
             ]
           },
@@ -26374,7 +26374,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_85"
             ]
           },
@@ -26395,7 +26395,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_85"
             ]
           },
@@ -26416,7 +26416,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_85"
             ]
           },
@@ -26437,7 +26437,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "cube_252_output_tmp_51986_85"
             ]
           },
@@ -26527,10 +26527,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_51986_86",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -26558,11 +26558,11 @@
                                   "*",
                                   {
                                     "StaticCall": [
-                                      "Felt252::from_felt252packed27",
+                                      "Felt252::from_felt252width27",
                                       [
                                         {
                                           "Var": [
-                                            "Felt252Packed27",
+                                            "Felt252Width27",
                                             "poseidon_full_round_chain_output_round_3_tmp_51986_72.2[0]"
                                           ]
                                         }
@@ -26585,11 +26585,11 @@
                               "*",
                               {
                                 "StaticCall": [
-                                  "Felt252::from_felt252packed27",
+                                  "Felt252::from_felt252width27",
                                   [
                                     {
                                       "Var": [
-                                        "Felt252Packed27",
+                                        "Felt252Width27",
                                         "cube_252_output_tmp_51986_73"
                                       ]
                                     }
@@ -26612,11 +26612,11 @@
                           "*",
                           {
                             "StaticCall": [
-                              "Felt252::from_felt252packed27",
+                              "Felt252::from_felt252width27",
                               [
                                 {
                                   "Var": [
-                                    "Felt252Packed27",
+                                    "Felt252Width27",
                                     "cube_252_output_tmp_51986_85"
                                   ]
                                 }
@@ -26646,7 +26646,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_86"
             ]
           },
@@ -26667,7 +26667,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_86"
             ]
           },
@@ -26688,7 +26688,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_86"
             ]
           },
@@ -26709,7 +26709,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_86"
             ]
           },
@@ -26730,7 +26730,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_86"
             ]
           },
@@ -26751,7 +26751,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_86"
             ]
           },
@@ -26772,7 +26772,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_86"
             ]
           },
@@ -26793,7 +26793,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_86"
             ]
           },
@@ -26814,7 +26814,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_86"
             ]
           },
@@ -26835,7 +26835,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_86"
             ]
           },
@@ -28621,25 +28621,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "cube_252_output_tmp_51986_73"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "combination_result_tmp_51986_74"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "cube_252_output_tmp_51986_85"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "combination_result_tmp_51986_86"
                   ]
                 }
@@ -28652,7 +28652,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_4_tmp_51986_97",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -28687,25 +28687,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "cube_252_output_tmp_51986_73"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "combination_result_tmp_51986_74"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "cube_252_output_tmp_51986_85"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "combination_result_tmp_51986_86"
                         ]
                       }
@@ -28751,25 +28751,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_4_tmp_51986_97.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_4_tmp_51986_97.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_4_tmp_51986_97.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_4_tmp_51986_97.2[3]"
                   ]
                 }
@@ -28782,7 +28782,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_5_tmp_51986_98",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -28817,25 +28817,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_4_tmp_51986_97.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_4_tmp_51986_97.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_4_tmp_51986_97.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_4_tmp_51986_97.2[3]"
                         ]
                       }
@@ -28881,25 +28881,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_5_tmp_51986_98.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_5_tmp_51986_98.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_5_tmp_51986_98.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_5_tmp_51986_98.2[3]"
                   ]
                 }
@@ -28912,7 +28912,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_6_tmp_51986_99",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -28947,25 +28947,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_5_tmp_51986_98.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_5_tmp_51986_98.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_5_tmp_51986_98.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_5_tmp_51986_98.2[3]"
                         ]
                       }
@@ -29011,25 +29011,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_6_tmp_51986_99.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_6_tmp_51986_99.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_6_tmp_51986_99.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_6_tmp_51986_99.2[3]"
                   ]
                 }
@@ -29042,7 +29042,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_7_tmp_51986_100",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -29077,25 +29077,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_6_tmp_51986_99.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_6_tmp_51986_99.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_6_tmp_51986_99.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_6_tmp_51986_99.2[3]"
                         ]
                       }
@@ -29141,25 +29141,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_7_tmp_51986_100.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_7_tmp_51986_100.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_7_tmp_51986_100.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_7_tmp_51986_100.2[3]"
                   ]
                 }
@@ -29172,7 +29172,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_8_tmp_51986_101",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -29207,25 +29207,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_7_tmp_51986_100.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_7_tmp_51986_100.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_7_tmp_51986_100.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_7_tmp_51986_100.2[3]"
                         ]
                       }
@@ -29271,25 +29271,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_8_tmp_51986_101.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_8_tmp_51986_101.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_8_tmp_51986_101.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_8_tmp_51986_101.2[3]"
                   ]
                 }
@@ -29302,7 +29302,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_9_tmp_51986_102",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -29337,25 +29337,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_8_tmp_51986_101.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_8_tmp_51986_101.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_8_tmp_51986_101.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_8_tmp_51986_101.2[3]"
                         ]
                       }
@@ -29401,25 +29401,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_9_tmp_51986_102.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_9_tmp_51986_102.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_9_tmp_51986_102.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_9_tmp_51986_102.2[3]"
                   ]
                 }
@@ -29432,7 +29432,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_10_tmp_51986_103",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -29467,25 +29467,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_9_tmp_51986_102.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_9_tmp_51986_102.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_9_tmp_51986_102.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_9_tmp_51986_102.2[3]"
                         ]
                       }
@@ -29531,25 +29531,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_10_tmp_51986_103.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_10_tmp_51986_103.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_10_tmp_51986_103.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_10_tmp_51986_103.2[3]"
                   ]
                 }
@@ -29562,7 +29562,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_11_tmp_51986_104",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -29597,25 +29597,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_10_tmp_51986_103.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_10_tmp_51986_103.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_10_tmp_51986_103.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_10_tmp_51986_103.2[3]"
                         ]
                       }
@@ -29661,25 +29661,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_11_tmp_51986_104.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_11_tmp_51986_104.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_11_tmp_51986_104.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_11_tmp_51986_104.2[3]"
                   ]
                 }
@@ -29692,7 +29692,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_12_tmp_51986_105",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -29727,25 +29727,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_11_tmp_51986_104.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_11_tmp_51986_104.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_11_tmp_51986_104.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_11_tmp_51986_104.2[3]"
                         ]
                       }
@@ -29791,25 +29791,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_12_tmp_51986_105.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_12_tmp_51986_105.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_12_tmp_51986_105.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_12_tmp_51986_105.2[3]"
                   ]
                 }
@@ -29822,7 +29822,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_13_tmp_51986_106",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -29857,25 +29857,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_12_tmp_51986_105.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_12_tmp_51986_105.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_12_tmp_51986_105.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_12_tmp_51986_105.2[3]"
                         ]
                       }
@@ -29921,25 +29921,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_13_tmp_51986_106.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_13_tmp_51986_106.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_13_tmp_51986_106.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_13_tmp_51986_106.2[3]"
                   ]
                 }
@@ -29952,7 +29952,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_14_tmp_51986_107",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -29987,25 +29987,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_13_tmp_51986_106.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_13_tmp_51986_106.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_13_tmp_51986_106.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_13_tmp_51986_106.2[3]"
                         ]
                       }
@@ -30051,25 +30051,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_14_tmp_51986_107.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_14_tmp_51986_107.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_14_tmp_51986_107.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_14_tmp_51986_107.2[3]"
                   ]
                 }
@@ -30082,7 +30082,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_15_tmp_51986_108",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -30117,25 +30117,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_14_tmp_51986_107.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_14_tmp_51986_107.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_14_tmp_51986_107.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_14_tmp_51986_107.2[3]"
                         ]
                       }
@@ -30181,25 +30181,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_15_tmp_51986_108.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_15_tmp_51986_108.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_15_tmp_51986_108.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_15_tmp_51986_108.2[3]"
                   ]
                 }
@@ -30212,7 +30212,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_16_tmp_51986_109",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -30247,25 +30247,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_15_tmp_51986_108.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_15_tmp_51986_108.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_15_tmp_51986_108.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_15_tmp_51986_108.2[3]"
                         ]
                       }
@@ -30311,25 +30311,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_16_tmp_51986_109.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_16_tmp_51986_109.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_16_tmp_51986_109.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_16_tmp_51986_109.2[3]"
                   ]
                 }
@@ -30342,7 +30342,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_17_tmp_51986_110",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -30377,25 +30377,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_16_tmp_51986_109.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_16_tmp_51986_109.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_16_tmp_51986_109.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_16_tmp_51986_109.2[3]"
                         ]
                       }
@@ -30441,25 +30441,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_17_tmp_51986_110.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_17_tmp_51986_110.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_17_tmp_51986_110.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_17_tmp_51986_110.2[3]"
                   ]
                 }
@@ -30472,7 +30472,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_18_tmp_51986_111",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -30507,25 +30507,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_17_tmp_51986_110.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_17_tmp_51986_110.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_17_tmp_51986_110.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_17_tmp_51986_110.2[3]"
                         ]
                       }
@@ -30571,25 +30571,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_18_tmp_51986_111.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_18_tmp_51986_111.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_18_tmp_51986_111.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_18_tmp_51986_111.2[3]"
                   ]
                 }
@@ -30602,7 +30602,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_19_tmp_51986_112",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -30637,25 +30637,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_18_tmp_51986_111.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_18_tmp_51986_111.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_18_tmp_51986_111.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_18_tmp_51986_111.2[3]"
                         ]
                       }
@@ -30701,25 +30701,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_19_tmp_51986_112.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_19_tmp_51986_112.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_19_tmp_51986_112.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_19_tmp_51986_112.2[3]"
                   ]
                 }
@@ -30732,7 +30732,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_20_tmp_51986_113",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -30767,25 +30767,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_19_tmp_51986_112.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_19_tmp_51986_112.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_19_tmp_51986_112.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_19_tmp_51986_112.2[3]"
                         ]
                       }
@@ -30831,25 +30831,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_20_tmp_51986_113.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_20_tmp_51986_113.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_20_tmp_51986_113.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_20_tmp_51986_113.2[3]"
                   ]
                 }
@@ -30862,7 +30862,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_21_tmp_51986_114",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -30897,25 +30897,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_20_tmp_51986_113.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_20_tmp_51986_113.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_20_tmp_51986_113.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_20_tmp_51986_113.2[3]"
                         ]
                       }
@@ -30961,25 +30961,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_21_tmp_51986_114.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_21_tmp_51986_114.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_21_tmp_51986_114.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_21_tmp_51986_114.2[3]"
                   ]
                 }
@@ -30992,7 +30992,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_22_tmp_51986_115",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -31027,25 +31027,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_21_tmp_51986_114.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_21_tmp_51986_114.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_21_tmp_51986_114.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_21_tmp_51986_114.2[3]"
                         ]
                       }
@@ -31091,25 +31091,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_22_tmp_51986_115.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_22_tmp_51986_115.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_22_tmp_51986_115.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_22_tmp_51986_115.2[3]"
                   ]
                 }
@@ -31122,7 +31122,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_23_tmp_51986_116",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -31157,25 +31157,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_22_tmp_51986_115.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_22_tmp_51986_115.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_22_tmp_51986_115.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_22_tmp_51986_115.2[3]"
                         ]
                       }
@@ -31221,25 +31221,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_23_tmp_51986_116.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_23_tmp_51986_116.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_23_tmp_51986_116.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_23_tmp_51986_116.2[3]"
                   ]
                 }
@@ -31252,7 +31252,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_24_tmp_51986_117",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -31287,25 +31287,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_23_tmp_51986_116.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_23_tmp_51986_116.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_23_tmp_51986_116.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_23_tmp_51986_116.2[3]"
                         ]
                       }
@@ -31351,25 +31351,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_24_tmp_51986_117.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_24_tmp_51986_117.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_24_tmp_51986_117.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_24_tmp_51986_117.2[3]"
                   ]
                 }
@@ -31382,7 +31382,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_25_tmp_51986_118",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -31417,25 +31417,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_24_tmp_51986_117.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_24_tmp_51986_117.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_24_tmp_51986_117.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_24_tmp_51986_117.2[3]"
                         ]
                       }
@@ -31481,25 +31481,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_25_tmp_51986_118.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_25_tmp_51986_118.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_25_tmp_51986_118.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_25_tmp_51986_118.2[3]"
                   ]
                 }
@@ -31512,7 +31512,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_26_tmp_51986_119",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -31547,25 +31547,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_25_tmp_51986_118.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_25_tmp_51986_118.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_25_tmp_51986_118.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_25_tmp_51986_118.2[3]"
                         ]
                       }
@@ -31611,25 +31611,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_26_tmp_51986_119.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_26_tmp_51986_119.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_26_tmp_51986_119.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_26_tmp_51986_119.2[3]"
                   ]
                 }
@@ -31642,7 +31642,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_27_tmp_51986_120",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -31677,25 +31677,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_26_tmp_51986_119.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_26_tmp_51986_119.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_26_tmp_51986_119.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_26_tmp_51986_119.2[3]"
                         ]
                       }
@@ -31741,25 +31741,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_27_tmp_51986_120.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_27_tmp_51986_120.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_27_tmp_51986_120.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_27_tmp_51986_120.2[3]"
                   ]
                 }
@@ -31772,7 +31772,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_28_tmp_51986_121",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -31807,25 +31807,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_27_tmp_51986_120.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_27_tmp_51986_120.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_27_tmp_51986_120.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_27_tmp_51986_120.2[3]"
                         ]
                       }
@@ -31871,25 +31871,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_28_tmp_51986_121.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_28_tmp_51986_121.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_28_tmp_51986_121.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_28_tmp_51986_121.2[3]"
                   ]
                 }
@@ -31902,7 +31902,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_29_tmp_51986_122",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -31937,25 +31937,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_28_tmp_51986_121.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_28_tmp_51986_121.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_28_tmp_51986_121.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_28_tmp_51986_121.2[3]"
                         ]
                       }
@@ -32001,25 +32001,25 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_29_tmp_51986_122.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_29_tmp_51986_122.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_29_tmp_51986_122.2[2]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_29_tmp_51986_122.2[3]"
                   ]
                 }
@@ -32032,7 +32032,7 @@
     {
       "Intermediate": {
         "name": "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "Poseidon3PartialRoundsChain::deduce_output",
@@ -32067,25 +32067,25 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_29_tmp_51986_122.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_29_tmp_51986_122.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_29_tmp_51986_122.2[2]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_29_tmp_51986_122.2[3]"
                         ]
                       }
@@ -32119,7 +32119,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[0]"
             ]
           },
@@ -32140,7 +32140,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[0]"
             ]
           },
@@ -32161,7 +32161,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[0]"
             ]
           },
@@ -32182,7 +32182,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[0]"
             ]
           },
@@ -32203,7 +32203,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[0]"
             ]
           },
@@ -32224,7 +32224,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[0]"
             ]
           },
@@ -32245,7 +32245,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[0]"
             ]
           },
@@ -32266,7 +32266,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[0]"
             ]
           },
@@ -32287,7 +32287,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[0]"
             ]
           },
@@ -32308,7 +32308,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[0]"
             ]
           },
@@ -32329,7 +32329,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[1]"
             ]
           },
@@ -32350,7 +32350,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[1]"
             ]
           },
@@ -32371,7 +32371,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[1]"
             ]
           },
@@ -32392,7 +32392,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[1]"
             ]
           },
@@ -32413,7 +32413,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[1]"
             ]
           },
@@ -32434,7 +32434,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[1]"
             ]
           },
@@ -32455,7 +32455,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[1]"
             ]
           },
@@ -32476,7 +32476,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[1]"
             ]
           },
@@ -32497,7 +32497,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[1]"
             ]
           },
@@ -32518,7 +32518,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[1]"
             ]
           },
@@ -32539,7 +32539,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[2]"
             ]
           },
@@ -32560,7 +32560,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[2]"
             ]
           },
@@ -32581,7 +32581,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[2]"
             ]
           },
@@ -32602,7 +32602,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[2]"
             ]
           },
@@ -32623,7 +32623,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[2]"
             ]
           },
@@ -32644,7 +32644,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[2]"
             ]
           },
@@ -32665,7 +32665,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[2]"
             ]
           },
@@ -32686,7 +32686,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[2]"
             ]
           },
@@ -32707,7 +32707,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[2]"
             ]
           },
@@ -32728,7 +32728,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[2]"
             ]
           },
@@ -32749,7 +32749,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
             ]
           },
@@ -32770,7 +32770,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
             ]
           },
@@ -32791,7 +32791,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
             ]
           },
@@ -32812,7 +32812,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
             ]
           },
@@ -32833,7 +32833,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
             ]
           },
@@ -32854,7 +32854,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
             ]
           },
@@ -32875,7 +32875,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
             ]
           },
@@ -32896,7 +32896,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
             ]
           },
@@ -32917,7 +32917,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
             ]
           },
@@ -32938,7 +32938,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
             ]
           },
@@ -33094,10 +33094,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_51986_124",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -33125,11 +33125,11 @@
                                   "*",
                                   {
                                     "StaticCall": [
-                                      "Felt252::from_felt252packed27",
+                                      "Felt252::from_felt252width27",
                                       [
                                         {
                                           "Var": [
-                                            "Felt252Packed27",
+                                            "Felt252Width27",
                                             "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[0]"
                                           ]
                                         }
@@ -33152,11 +33152,11 @@
                               "*",
                               {
                                 "StaticCall": [
-                                  "Felt252::from_felt252packed27",
+                                  "Felt252::from_felt252width27",
                                   [
                                     {
                                       "Var": [
-                                        "Felt252Packed27",
+                                        "Felt252Width27",
                                         "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[1]"
                                       ]
                                     }
@@ -33179,11 +33179,11 @@
                           "*",
                           {
                             "StaticCall": [
-                              "Felt252::from_felt252packed27",
+                              "Felt252::from_felt252width27",
                               [
                                 {
                                   "Var": [
-                                    "Felt252Packed27",
+                                    "Felt252Width27",
                                     "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[2]"
                                   ]
                                 }
@@ -33213,7 +33213,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_124"
             ]
           },
@@ -33234,7 +33234,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_124"
             ]
           },
@@ -33255,7 +33255,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_124"
             ]
           },
@@ -33276,7 +33276,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_124"
             ]
           },
@@ -33297,7 +33297,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_124"
             ]
           },
@@ -33318,7 +33318,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_124"
             ]
           },
@@ -33339,7 +33339,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_124"
             ]
           },
@@ -33360,7 +33360,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_124"
             ]
           },
@@ -33381,7 +33381,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_124"
             ]
           },
@@ -33402,7 +33402,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_124"
             ]
           },
@@ -35009,10 +35009,10 @@
     {
       "Intermediate": {
         "name": "combination_result_tmp_51986_135",
-        "type": "Felt252Packed27",
+        "type": "Felt252Width27",
         "var": {
           "StaticCall": [
-            "Felt252Packed27::from_felt252",
+            "Felt252Width27::from_felt252",
             [
               {
                 "BinaryOp": [
@@ -35040,11 +35040,11 @@
                                   "*",
                                   {
                                     "StaticCall": [
-                                      "Felt252::from_felt252packed27",
+                                      "Felt252::from_felt252width27",
                                       [
                                         {
                                           "Var": [
-                                            "Felt252Packed27",
+                                            "Felt252Width27",
                                             "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[2]"
                                           ]
                                         }
@@ -35067,11 +35067,11 @@
                               "*",
                               {
                                 "StaticCall": [
-                                  "Felt252::from_felt252packed27",
+                                  "Felt252::from_felt252width27",
                                   [
                                     {
                                       "Var": [
-                                        "Felt252Packed27",
+                                        "Felt252Width27",
                                         "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
                                       ]
                                     }
@@ -35094,11 +35094,11 @@
                           "*",
                           {
                             "StaticCall": [
-                              "Felt252::from_felt252packed27",
+                              "Felt252::from_felt252width27",
                               [
                                 {
                                   "Var": [
-                                    "Felt252Packed27",
+                                    "Felt252Width27",
                                     "combination_result_tmp_51986_124"
                                   ]
                                 }
@@ -35128,7 +35128,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_135"
             ]
           },
@@ -35149,7 +35149,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_135"
             ]
           },
@@ -35170,7 +35170,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_135"
             ]
           },
@@ -35191,7 +35191,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_135"
             ]
           },
@@ -35212,7 +35212,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_135"
             ]
           },
@@ -35233,7 +35233,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_135"
             ]
           },
@@ -35254,7 +35254,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_135"
             ]
           },
@@ -35275,7 +35275,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_135"
             ]
           },
@@ -35296,7 +35296,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_135"
             ]
           },
@@ -35317,7 +35317,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "combination_result_tmp_51986_135"
             ]
           },
@@ -37095,19 +37095,19 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "combination_result_tmp_51986_135"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "combination_result_tmp_51986_124"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
                   ]
                 }
@@ -37120,7 +37120,7 @@
     {
       "Intermediate": {
         "name": "poseidon_full_round_chain_output_round_31_tmp_51986_146",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "PoseidonFullRoundChain::deduce_output",
@@ -37166,19 +37166,19 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "combination_result_tmp_51986_135"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "combination_result_tmp_51986_124"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_3_partial_rounds_chain_output_round_30_tmp_51986_123.2[3]"
                         ]
                       }
@@ -37235,19 +37235,19 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_31_tmp_51986_146.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_31_tmp_51986_146.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_31_tmp_51986_146.2[2]"
                   ]
                 }
@@ -37260,7 +37260,7 @@
     {
       "Intermediate": {
         "name": "poseidon_full_round_chain_output_round_32_tmp_51986_147",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "PoseidonFullRoundChain::deduce_output",
@@ -37306,19 +37306,19 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_31_tmp_51986_146.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_31_tmp_51986_146.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_31_tmp_51986_146.2[2]"
                         ]
                       }
@@ -37375,19 +37375,19 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_32_tmp_51986_147.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_32_tmp_51986_147.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_32_tmp_51986_147.2[2]"
                   ]
                 }
@@ -37400,7 +37400,7 @@
     {
       "Intermediate": {
         "name": "poseidon_full_round_chain_output_round_33_tmp_51986_148",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "PoseidonFullRoundChain::deduce_output",
@@ -37446,19 +37446,19 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_32_tmp_51986_147.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_32_tmp_51986_147.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_32_tmp_51986_147.2[2]"
                         ]
                       }
@@ -37515,19 +37515,19 @@
               "Array": [
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_33_tmp_51986_148.2[0]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_33_tmp_51986_148.2[1]"
                   ]
                 },
                 {
                   "Var": [
-                    "Felt252Packed27",
+                    "Felt252Width27",
                     "poseidon_full_round_chain_output_round_33_tmp_51986_148.2[2]"
                   ]
                 }
@@ -37540,7 +37540,7 @@
     {
       "Intermediate": {
         "name": "poseidon_full_round_chain_output_round_34_tmp_51986_149",
-        "type": "(M31, M31, [Felt252Packed27, Felt252Packed27, Felt252Packed27])",
+        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27])",
         "var": {
           "StaticCall": [
             "PoseidonFullRoundChain::deduce_output",
@@ -37586,19 +37586,19 @@
                     "Array": [
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_33_tmp_51986_148.2[0]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_33_tmp_51986_148.2[1]"
                         ]
                       },
                       {
                         "Var": [
-                          "Felt252Packed27",
+                          "Felt252Width27",
                           "poseidon_full_round_chain_output_round_33_tmp_51986_148.2[2]"
                         ]
                       }
@@ -37632,7 +37632,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[0]"
             ]
           },
@@ -37653,7 +37653,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[0]"
             ]
           },
@@ -37674,7 +37674,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[0]"
             ]
           },
@@ -37695,7 +37695,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[0]"
             ]
           },
@@ -37716,7 +37716,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[0]"
             ]
           },
@@ -37737,7 +37737,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[0]"
             ]
           },
@@ -37758,7 +37758,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[0]"
             ]
           },
@@ -37779,7 +37779,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[0]"
             ]
           },
@@ -37800,7 +37800,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[0]"
             ]
           },
@@ -37821,7 +37821,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[0]"
             ]
           },
@@ -37842,7 +37842,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[1]"
             ]
           },
@@ -37863,7 +37863,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[1]"
             ]
           },
@@ -37884,7 +37884,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[1]"
             ]
           },
@@ -37905,7 +37905,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[1]"
             ]
           },
@@ -37926,7 +37926,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[1]"
             ]
           },
@@ -37947,7 +37947,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[1]"
             ]
           },
@@ -37968,7 +37968,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[1]"
             ]
           },
@@ -37989,7 +37989,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[1]"
             ]
           },
@@ -38010,7 +38010,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[1]"
             ]
           },
@@ -38031,7 +38031,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[1]"
             ]
           },
@@ -38052,7 +38052,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[2]"
             ]
           },
@@ -38073,7 +38073,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[2]"
             ]
           },
@@ -38094,7 +38094,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[2]"
             ]
           },
@@ -38115,7 +38115,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[2]"
             ]
           },
@@ -38136,7 +38136,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[2]"
             ]
           },
@@ -38157,7 +38157,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[2]"
             ]
           },
@@ -38178,7 +38178,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[2]"
             ]
           },
@@ -38199,7 +38199,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[2]"
             ]
           },
@@ -38220,7 +38220,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[2]"
             ]
           },
@@ -38241,7 +38241,7 @@
         "MethodCall": [
           {
             "Var": [
-              "Felt252Packed27",
+              "Felt252Width27",
               "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[2]"
             ]
           },
@@ -38371,11 +38371,11 @@
         "type": "Felt252",
         "var": {
           "StaticCall": [
-            "Felt252::from_felt252packed27",
+            "Felt252::from_felt252width27",
             [
               {
                 "Var": [
-                  "Felt252Packed27",
+                  "Felt252Width27",
                   "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[0]"
                 ]
               }
@@ -39369,11 +39369,11 @@
         "type": "Felt252",
         "var": {
           "StaticCall": [
-            "Felt252::from_felt252packed27",
+            "Felt252::from_felt252width27",
             [
               {
                 "Var": [
-                  "Felt252Packed27",
+                  "Felt252Width27",
                   "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[1]"
                 ]
               }
@@ -40367,11 +40367,11 @@
         "type": "Felt252",
         "var": {
           "StaticCall": [
-            "Felt252::from_felt252packed27",
+            "Felt252::from_felt252width27",
             [
               {
                 "Var": [
-                  "Felt252Packed27",
+                  "Felt252Width27",
                   "poseidon_full_round_chain_output_round_34_tmp_51986_149.2[2]"
                 ]
               }

@@ -2,7 +2,7 @@ use std::array::from_fn;
 
 use compiled_casm_air::public_params::PublicParam;
 use inst_def::InstDef;
-use prover_types::cpu::FELT252_BITS_PER_WORD;
+use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::mod_utils::*;
 use crate::airs::casm::casm_state::*;

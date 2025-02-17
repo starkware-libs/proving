@@ -1,4 +1,4 @@
-use prover_types::cpu::{Felt252Packed27, FELT252PACKED27_N_WORDS};
+use stwo_cairo_common::prover_types::cpu::{Felt252Width27, FELT252WIDTH27_N_WORDS};
 
 use super::super::variables::*;
 use super::expr::*;
@@ -6,12 +6,12 @@ use super::felt_expr::*;
 use super::op_expr::*;
 use super::var_expr::*;
 
-pub type Felt252Packed27Operation = OpExpr<Felt252Packed27>;
-pub type Felt252Packed27Expr = Expr<Felt252Packed27>;
+pub type Felt252Width27Operation = OpExpr<Felt252Width27>;
+pub type Felt252Width27Expr = Expr<Felt252Width27>;
 const CHILD_NAME: &str = "get_m31";
 
-impl VarExpr<Felt252Packed27> {
-    fn get_children(&mut self) -> [&mut FeltExpr; FELT252PACKED27_N_WORDS] {
+impl VarExpr<Felt252Width27> {
+    fn get_children(&mut self) -> [&mut FeltExpr; FELT252WIDTH27_N_WORDS] {
         self.complex_or_felt
             .as_complex_mut()
             .iter_mut()
@@ -19,7 +19,7 @@ impl VarExpr<Felt252Packed27> {
             .collect::<Vec<_>>()
             .try_into()
             .unwrap_or_else(|_| {
-                panic!("Felt252Packed27 var must have {FELT252PACKED27_N_WORDS} felt children.")
+                panic!("Felt252Width27 var must have {FELT252WIDTH27_N_WORDS} felt children.")
             })
     }
 
@@ -40,9 +40,9 @@ impl VarExpr<Felt252Packed27> {
     }
 }
 
-impl VarExprUpdate for VarExpr<Felt252Packed27> {
+impl VarExprUpdate for VarExpr<Felt252Width27> {
     fn create_children(&mut self) {
-        let children = (0..FELT252PACKED27_N_WORDS)
+        let children = (0..FELT252WIDTH27_N_WORDS)
             .map(|i| {
                 FeltExpr::Var(VarExpr::new(
                     CHILD_NAME.to_string(),
@@ -65,12 +65,12 @@ impl VarExprUpdate for VarExpr<Felt252Packed27> {
     }
 }
 
-impl Felt252Packed27Expr {
+impl Felt252Width27Expr {
     pub fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
         match self {
-            Felt252Packed27Expr::Var(v) => v.get_child_mut(index),
-            Felt252Packed27Expr::Op(op) => match op.op {
-                Operation::Felt252Packed27FromFeltsArray => op.children[0].get_felt_mut(index),
+            Felt252Width27Expr::Var(v) => v.get_child_mut(index),
+            Felt252Width27Expr::Op(op) => match op.op {
+                Operation::Felt252Width27FromFeltsArray => op.children[0].get_felt_mut(index),
                 _ => panic!("Cannot convert to felts"),
             },
         }
@@ -78,31 +78,31 @@ impl Felt252Packed27Expr {
 
     pub fn get_felt(&self, index: usize) -> FeltExpr {
         match self {
-            Felt252Packed27Expr::Var(v) => v.get_child(index),
-            Felt252Packed27Expr::Op(op) => match op.op {
-                Operation::Felt252Packed27FromFeltsArray => op.children[0].get_felt(index),
+            Felt252Width27Expr::Var(v) => v.get_child(index),
+            Felt252Width27Expr::Op(op) => match op.op {
+                Operation::Felt252Width27FromFeltsArray => op.children[0].get_felt(index),
                 _ => panic!("Cannot convert to felts"),
             },
         }
     }
 }
 
-impl AirVar for Felt252Packed27Expr {
+impl AirVar for Felt252Width27Expr {
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         match self {
-            Felt252Packed27Expr::Var(v) => v.get_children().into_iter().collect(),
-            Felt252Packed27Expr::Op(op) => match op.op {
-                Operation::Felt252Packed27FromFeltsArray => op.children[0].get_felts_mut(),
+            Felt252Width27Expr::Var(v) => v.get_children().into_iter().collect(),
+            Felt252Width27Expr::Op(op) => match op.op {
+                Operation::Felt252Width27FromFeltsArray => op.children[0].get_felts_mut(),
                 _ => panic!("Cannot convert to felts"),
             },
         }
     }
 }
 
-// Default is implemented for Felt252Packed27Expr because it is returned from an external table.
-impl Default for Felt252Packed27Expr {
+// Default is implemented for Felt252Width27Expr because it is returned from an external table.
+impl Default for Felt252Width27Expr {
     fn default() -> Self {
-        Felt252Packed27Expr::Var(VarExpr::new_const(Felt252Packed27 {
+        Felt252Width27Expr::Var(VarExpr::new_const(Felt252Width27 {
             limbs: [0, 0, 0, 0],
         }))
     }
