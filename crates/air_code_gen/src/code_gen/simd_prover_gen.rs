@@ -66,7 +66,7 @@ impl RustProverGen {
         let imports_code = generate_imports_code(&self.lists.deductions);
         let typedefs = self.generate_input_output_typedefs();
         let n_trace_cols = generate_n_trace_columns(&self.lists);
-        let lookup_data_code = generate_lookup_data_struct(&self.lists.deductions);
+        let lookup_data_code = self.generate_lookup_data_struct();
         let claim_generator_code = self.generate_claim_generator_struct();
         let claim_generator_impl_code = self.generate_claim_generator_impl();
         let interaction_struct = interaction_prover_struct();
@@ -200,6 +200,41 @@ impl RustProverGen {
 
                 $(add_inputs_code)
             }
+        }
+    }
+
+    fn generate_lookup_data_struct(&self) -> rust::Tokens {
+        let mut members_code = quote! {};
+
+        let mut relation_offsets = HashMap::new();
+        for LookupTerm {
+            relation_name,
+            felts,
+            ..
+        } in &self.lookup_terms
+        {
+            let offset = relation_offsets
+                .entry((relation_name, felts.len()))
+                .or_insert(0);
+            *offset += 1;
+        }
+
+        for ((relation_name, width), &n_relation_terms) in
+            relation_offsets.iter().sorted_by(|a, b| a.0 .0.cmp(b.0 .0))
+        {
+            let relation_name = relation_name.to_case(Case::Snake);
+            for offset in 0..n_relation_terms {
+                let member_name = format!("{relation_name}_{offset}");
+                members_code.extend(quote! {
+                    $(&member_name): Vec<[PackedM31; $(*width)]>,
+                });
+            }
+        }
+
+        quote! {
+            #[derive(Uninitialized,IterMut, ParIterMut)]
+            struct LookupData
+            {$(members_code)}
         }
     }
 
@@ -684,43 +719,6 @@ fn write_trace_body_simd(lists: &CompiledAirFn) -> rust::Tokens {
 fn add_input_simd_body() -> rust::Tokens {
     quote! {
         unimplemented!("Implement manually");
-    }
-}
-
-fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
-    let mut members_code = quote! {};
-
-    let mut relation_offsets = HashMap::new();
-    for deduction in deductions {
-        if let TraceGenStep::LookupTerm(LookupTerm {
-            relation_name,
-            felts,
-            ..
-        }) = deduction
-        {
-            let offset = relation_offsets
-                .entry((relation_name, felts.len()))
-                .or_insert(0);
-            *offset += 1;
-        }
-    }
-
-    for (&(relation_name, width), &n_relation_terms) in
-        relation_offsets.iter().sorted_by(|a, b| a.0 .0.cmp(b.0 .0))
-    {
-        let relation_name = relation_name.to_case(Case::Snake);
-        for offset in 0..n_relation_terms {
-            let member_name = format!("{relation_name}_{offset}");
-            members_code.extend(quote! {
-                $(&member_name): Vec<[PackedM31; $width]>,
-            });
-        }
-    }
-
-    quote! {
-        #[derive(Uninitialized,IterMut, ParIterMut)]
-        struct LookupData
-        {$(members_code)}
     }
 }
 
