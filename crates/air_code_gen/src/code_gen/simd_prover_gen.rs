@@ -1,4 +1,3 @@
-use core::panic;
 use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
@@ -14,7 +13,6 @@ use super::parse::seek_consts;
 use super::utils::{
     block_doc, get_const_name, replace_generics_with_turbofish, unique_relation_calls,
 };
-use crate::code_gen::utils::preprocessed_columns_imports;
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
 pub enum Mode {
@@ -751,39 +749,8 @@ pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Toke
 
 fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
-        use std::iter::zip;
-
-        use itertools::{chain, zip_eq, Itertools};
-        use num_traits::{One, Zero};
-        use prover_types::cpu::*;
-        use prover_types::simd::*;
-        use rayon::iter::{
-            IndexedParallelIterator, IntoParallelIterator, IntoParallelRefIterator, ParallelIterator,
-        };
-        use stwo_air_utils::trace::component_trace::ComponentTrace;
-        use stwo_air_utils_derive::{IterMut, ParIterMut, Uninitialized};
-        use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
-        $(preprocessed_columns_imports())
-        use stwo_prover::constraint_framework::Relation;
-        use stwo_prover::core::air::Component;
-        use stwo_prover::core::backend::simd::column::BaseColumn;
-        use stwo_prover::core::backend::simd::conversion::Unpack;
-        use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
-        use stwo_prover::core::backend::simd::qm31::PackedQM31;
-        use stwo_prover::core::backend::simd::SimdBackend;
-        use stwo_prover::core::backend::{BackendForChannel, Col, Column};
-        use stwo_prover::core::channel::{Channel, MerkleChannel};
-        use stwo_prover::core::fields::m31::M31;
-        use stwo_prover::core::fields::FieldExpOps;
-        use stwo_prover::core::pcs::TreeBuilder;
-        use stwo_prover::core::poly::circle::{CanonicCoset, CircleEvaluation};
-        use stwo_prover::core::poly::BitReversedOrder;
-        use stwo_prover::core::utils::bit_reverse_index;
-        use stwo_prover::core::utils::coset_index_to_circle_domain_index;
-        use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
+        use crate::components::prelude::proving::*;
         use super::component::{Claim, InteractionClaim};
-        use crate::components::pack_values;
-        use crate::relations;
         $(generate_sub_component_imports(deductions))
     }
 }
