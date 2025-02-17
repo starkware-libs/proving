@@ -16,6 +16,7 @@ pub trait RangeCheckSize: ExtTable + Debug + Default {
 pub fn range_check(ab: &mut AirBuilder, bits: &[u16], input: &[FeltExpr]) {
     match bits {
         [6] => call_rc::<SeqConstLen<6>>(ab, input),
+        [8] => call_rc::<SeqConstLen<8>>(ab, input),
         [9] => call_rc::<SeqConstLen<9>>(ab, input),
         [11] => call_rc::<SeqConstLen<11>>(ab, input),
         [12] => call_rc::<SeqConstLen<12>>(ab, input),
