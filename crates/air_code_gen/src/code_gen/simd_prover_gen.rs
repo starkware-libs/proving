@@ -10,9 +10,7 @@ use genco::quote;
 use itertools::Itertools;
 
 use super::parse::seek_consts;
-use super::utils::{
-    block_doc, get_const_name, replace_generics_with_turbofish, unique_relation_calls,
-};
+use super::utils::{block_doc, get_const_name, replace_generics_with_turbofish};
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
 pub enum Mode {
@@ -50,8 +48,8 @@ impl RustProverGen {
         let public_params = lists.public_params.iter().cloned().collect_vec();
         let write_trace_context = unique_add_input_calls(&lists.deductions);
         let constants = deduction_consts(&lists.deductions);
-        let relation_calls = unique_relation_calls(&lists.deductions);
         let lookup_terms = filter_lookup_terms(&lists.deductions);
+        let relation_calls = unique_relation_calls(&lookup_terms);
 
         Self {
             lists,
@@ -422,7 +420,7 @@ impl RustProverGen {
         }
 
         let mut relation_data_offsets = HashMap::new();
-        for relation in unique_relation_calls(&self.lists.deductions) {
+        for relation in &self.relation_calls {
             relation_data_offsets.insert(relation, 0);
         }
 
@@ -926,6 +924,15 @@ fn unique_add_input_calls(deductions: &[TraceGenStep]) -> Vec<String> {
                 None
             }
         })
+        .sorted()
+        .dedup()
+        .collect()
+}
+
+fn unique_relation_calls(lookup_terms: &[LookupTerm]) -> Vec<String> {
+    lookup_terms
+        .iter()
+        .map(|lookup_term| lookup_term.relation_name.clone())
         .sorted()
         .dedup()
         .collect()

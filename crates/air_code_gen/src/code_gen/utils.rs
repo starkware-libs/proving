@@ -3,7 +3,7 @@ use std::fs;
 use std::path::{Path, PathBuf};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm, TraceGenStep,
+    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm,
 };
 use genco::lang::rust;
 use genco::quote;
@@ -102,14 +102,6 @@ pub fn assert_generated_code_unchanged(air_fn: CompiledAirFn, folder_path: &Path
     }
 }
 
-pub fn preprocessed_columns_imports() -> rust::Tokens {
-    let external_states_imports = quote! {
-        use stwo_cairo_prover::cairo_air::preprocessed::PreProcessedColumn;
-        use stwo_cairo_prover::cairo_air::preprocessed::Seq;
-    };
-    external_states_imports
-}
-
 // Removes trailing zeroes from a comma-separated sequence of M31 elements.
 // Used to reduce 0 multiplications in the extension field.
 pub fn remove_trailing_zeroes(felts: &[CompiledAirVar]) -> Vec<CompiledAirVar> {
@@ -144,16 +136,6 @@ pub fn unique_constraint_relations(constraints: &[ConstraintEvalStep]) -> Vec<St
         .filter(|relation| seen_relation.insert(relation.clone()))
         .sorted()
         .collect()
-}
-
-pub fn unique_relation_calls(deductions: &[TraceGenStep]) -> Vec<String> {
-    let mut seen_relations = HashSet::new();
-    deductions.iter().for_each(|d| {
-        if let TraceGenStep::LookupTerm(LookupTerm { relation_name, .. }) = d {
-            seen_relations.insert(relation_name.to_string());
-        }
-    });
-    seen_relations.into_iter().sorted().collect()
 }
 
 pub fn get_const_name(ty: &str, val: &str) -> String {

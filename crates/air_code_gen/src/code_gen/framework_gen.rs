@@ -190,14 +190,22 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         }
     }
 
-    for (name, _args) in &lists.external_states {
+    for (name, args) in &lists.external_states {
         assert!(
             SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
             "unsupported {name}",
         );
-        code.append(quote! {
-            let $(&name.to_lowercase()) = eval.get_preprocessed_column($name::new(self.log_size()).id());
-        });
+        // Seq is the only preprocessed column that is of unfixed size.
+        if name == "Seq" {
+            code.append(quote! {
+                let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
+            });
+        } else {
+            let args = args.join(", ");
+            code.append(quote! {
+                let $(&name.to_lowercase()) = eval.get_preprocessed_column(($name::new($args)).id());
+            });
+        }
     }
 
     // TODO(Ohad): handle next_trace_mask for external states.
