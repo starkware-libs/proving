@@ -10,9 +10,7 @@ use itertools::chain;
 
 use super::utils::{get_const_name, replace_generics_with_turbofish};
 use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
-use crate::code_gen::utils::{
-    block_doc, preprocessed_columns_imports, unique_constraint_relations,
-};
+use crate::code_gen::utils::{block_doc, unique_constraint_relations};
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
 pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
@@ -39,7 +37,6 @@ fn imports() -> rust::Tokens {
         use serde::{Deserialize, Serialize};
         use stwo_cairo_serialize::CairoSerialize;
         use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
-        $(preprocessed_columns_imports())
         use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval, RelationEntry};
         use stwo_prover::core::backend::simd::m31::LOG_N_LANES;
         use stwo_prover::core::channel::Channel;
@@ -47,6 +44,7 @@ fn imports() -> rust::Tokens {
         use stwo_prover::core::fields::qm31::SecureField;
         use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
         use stwo_prover::core::pcs::TreeVec;
+        use crate::preprocessed::*;
         use crate::relations;
     }
 }
@@ -192,22 +190,14 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         }
     }
 
-    for (name, args) in &lists.external_states {
+    for (name, _args) in &lists.external_states {
         assert!(
             SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
             "unsupported {name}",
         );
-        // Seq is the only preprocessed column that is of unfixed size.
-        if name == "Seq" {
-            code.append(quote! {
-                let seq = eval.get_preprocessed_column(PreProcessedColumn::Seq(Seq::new(self.log_size())).id());
-            });
-        } else {
-            let args = args.join(", ");
-            code.append(quote! {
-                let $(&name.to_lowercase()) = eval.get_preprocessed_column(($name::new($args)).id());
-            });
-        }
+        code.append(quote! {
+            let $(&name.to_lowercase()) = eval.get_preprocessed_column($name::new(self.log_size()).id());
+        });
     }
 
     // TODO(Ohad): handle next_trace_mask for external states.

@@ -2,7 +2,6 @@
 #![allow(unused_imports)]
 use num_traits::{One, Zero};
 use serde::{Deserialize, Serialize};
-use stwo_cairo_prover::cairo_air::preprocessed::{PreProcessedColumn, Seq};
 use stwo_cairo_serialize::CairoSerialize;
 use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
 use stwo_prover::constraint_framework::{
@@ -15,6 +14,7 @@ use stwo_prover::core::fields::qm31::SecureField;
 use stwo_prover::core::fields::secure_column::SECURE_EXTENSION_DEGREE;
 use stwo_prover::core::pcs::TreeVec;
 
+use crate::preprocessed::*;
 use crate::relations;
 
 pub struct Eval {
