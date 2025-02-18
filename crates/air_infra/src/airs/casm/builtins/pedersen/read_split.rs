@@ -1,5 +1,5 @@
 use inst_def::InstDef;
-use prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
+use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::range_check::*;
