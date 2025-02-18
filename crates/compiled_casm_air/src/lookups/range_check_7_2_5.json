@@ -5,25 +5,31 @@
   "input": {
     "Array": [
       {
-        "ExternalState": {
-          "name": "RangeCheck_7_2_5_Const",
-          "col_index": 0,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "RangeCheck",
+          [
+            "[7,2,5]",
+            "0"
+          ]
+        ]
       },
       {
-        "ExternalState": {
-          "name": "RangeCheck_7_2_5_Const",
-          "col_index": 1,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "RangeCheck",
+          [
+            "[7,2,5]",
+            "1"
+          ]
+        ]
       },
       {
-        "ExternalState": {
-          "name": "RangeCheck_7_2_5_Const",
-          "col_index": 2,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "RangeCheck",
+          [
+            "[7,2,5]",
+            "2"
+          ]
+        ]
       }
     ]
   },
@@ -34,8 +40,25 @@
   "public_params": [],
   "external_states": [
     [
-      "RangeCheck_7_2_5_Const",
-      null
+      "RangeCheck",
+      [
+        "[7,2,5]",
+        "0"
+      ]
+    ],
+    [
+      "RangeCheck",
+      [
+        "[7,2,5]",
+        "1"
+      ]
+    ],
+    [
+      "RangeCheck",
+      [
+        "[7,2,5]",
+        "2"
+      ]
     ]
   ],
   "constraints": [
@@ -44,25 +67,31 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "ExternalState": {
-              "name": "RangeCheck_7_2_5_Const",
-              "col_index": 0,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[7,2,5]",
+                "0"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_7_2_5_Const",
-              "col_index": 1,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[7,2,5]",
+                "1"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_7_2_5_Const",
-              "col_index": 2,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[7,2,5]",
+                "2"
+              ]
+            ]
           }
         ],
         "use_or_yield": "Yield"
@@ -75,25 +104,31 @@
         "relation_name": "RangeCheck_7_2_5",
         "felts": [
           {
-            "ExternalState": {
-              "name": "RangeCheck_7_2_5_Const",
-              "col_index": 0,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[7,2,5]",
+                "0"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_7_2_5_Const",
-              "col_index": 1,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[7,2,5]",
+                "1"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_7_2_5_Const",
-              "col_index": 2,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[7,2,5]",
+                "2"
+              ]
+            ]
           }
         ],
         "use_or_yield": "Yield"

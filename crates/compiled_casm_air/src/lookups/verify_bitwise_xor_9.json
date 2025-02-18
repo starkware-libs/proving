@@ -5,25 +5,31 @@
   "input": {
     "Array": [
       {
-        "ExternalState": {
-          "name": "VerifyBitwiseXor_9_Const",
-          "col_index": 0,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "BitwiseXor",
+          [
+            "9",
+            "0"
+          ]
+        ]
       },
       {
-        "ExternalState": {
-          "name": "VerifyBitwiseXor_9_Const",
-          "col_index": 1,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "BitwiseXor",
+          [
+            "9",
+            "1"
+          ]
+        ]
       },
       {
-        "ExternalState": {
-          "name": "VerifyBitwiseXor_9_Const",
-          "col_index": 2,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "BitwiseXor",
+          [
+            "9",
+            "2"
+          ]
+        ]
       }
     ]
   },
@@ -34,8 +40,25 @@
   "public_params": [],
   "external_states": [
     [
-      "VerifyBitwiseXor_9_Const",
-      null
+      "BitwiseXor",
+      [
+        "9",
+        "0"
+      ]
+    ],
+    [
+      "BitwiseXor",
+      [
+        "9",
+        "1"
+      ]
+    ],
+    [
+      "BitwiseXor",
+      [
+        "9",
+        "2"
+      ]
     ]
   ],
   "constraints": [
@@ -44,25 +67,31 @@
         "relation_name": "VerifyBitwiseXor_9",
         "felts": [
           {
-            "ExternalState": {
-              "name": "VerifyBitwiseXor_9_Const",
-              "col_index": 0,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "BitwiseXor",
+              [
+                "9",
+                "0"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "VerifyBitwiseXor_9_Const",
-              "col_index": 1,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "BitwiseXor",
+              [
+                "9",
+                "1"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "VerifyBitwiseXor_9_Const",
-              "col_index": 2,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "BitwiseXor",
+              [
+                "9",
+                "2"
+              ]
+            ]
           }
         ],
         "use_or_yield": "Yield"
@@ -75,25 +104,31 @@
         "relation_name": "VerifyBitwiseXor_9",
         "felts": [
           {
-            "ExternalState": {
-              "name": "VerifyBitwiseXor_9_Const",
-              "col_index": 0,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "BitwiseXor",
+              [
+                "9",
+                "0"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "VerifyBitwiseXor_9_Const",
-              "col_index": 1,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "BitwiseXor",
+              [
+                "9",
+                "1"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "VerifyBitwiseXor_9_Const",
-              "col_index": 2,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "BitwiseXor",
+              [
+                "9",
+                "2"
+              ]
+            ]
           }
         ],
         "use_or_yield": "Yield"

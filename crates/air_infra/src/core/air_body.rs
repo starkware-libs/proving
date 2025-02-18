@@ -490,5 +490,5 @@ pub struct CompiledAirBody {
     pub deductions: Vec<TraceGenStep>,
     pub constraints: Vec<ConstraintEvalStep>,
     pub public_params: BTreeSet<PublicParam>,
-    pub external_states: BTreeSet<(String, Option<usize>)>,
+    pub external_states: BTreeSet<(String, Vec<String>)>,
 }

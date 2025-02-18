@@ -8,6 +8,8 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 use crate::new_verify_bitwise_xor;
 
+const STWO_COMPONENT_TYPE_BITWISE_XOR: &str = "BitwiseXor";
+
 pub trait VerifyBitwiseXorSize: ExtTable + Debug + Default {
     fn bits() -> u16;
 }
@@ -130,8 +132,12 @@ macro_rules! new_verify_bitwise_xor {
         }
 
         impl ExtTable for $name {
-            const CONST_TRACE_ID: &'static str = stringify!($name);
+            const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_BITWISE_XOR;
             type T = [FeltExpr; 3];
+
+            fn args() -> Vec<String> {
+                vec![$b.to_string()]
+            }
         }
     };
 }

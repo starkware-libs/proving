@@ -28,7 +28,7 @@ pub struct CompiledAirFn {
     pub public_params: BTreeSet<PublicParam>,
 
     // The set of external states used in the air function.
-    pub external_states: BTreeSet<(String, Option<usize>)>,
+    pub external_states: BTreeSet<(String, Vec<String>)>,
 
     pub constraints: Vec<ConstraintEvalStep>,
     pub deductions: Vec<TraceGenStep>,
@@ -100,13 +100,11 @@ pub enum CompiledAirVar {
         r#type: String,
         fields: Vec<(String, CompiledAirVar)>,
     },
-    // A variable written to the trace of a const table at the given (column) index.
-    // If the table is Seq of constant length, the log length is also provided.
-    ExternalState {
-        name: String,
-        col_index: usize,
-        log_n_rows: Option<usize>,
-    },
+    // A variable written to a preprocessed column.
+    // The first string is the name of the preprocessed column class, and the rest are the
+    // arguments to its constructor. unless it's a Seq column of unknown length, in which case
+    // we don't pass its arguments.
+    ExternalState(String, Vec<String>),
     // A value passed to the verifier outside the trace. Can influence the constraints
     // that the verifier checks.
     PublicParam(String),

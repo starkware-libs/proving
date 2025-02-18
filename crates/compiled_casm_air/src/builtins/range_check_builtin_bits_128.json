@@ -36,7 +36,7 @@
   "external_states": [
     [
       "Seq",
-      null
+      []
     ]
   ],
   "constraints": [
@@ -54,11 +54,10 @@
               },
               "+",
               {
-                "ExternalState": {
-                  "name": "Seq",
-                  "col_index": 0,
-                  "log_n_rows": null
-                }
+                "ExternalState": [
+                  "Seq",
+                  []
+                ]
               }
             ]
           },
@@ -316,11 +315,10 @@
                   },
                   "+",
                   {
-                    "ExternalState": {
-                      "name": "Seq",
-                      "col_index": 0,
-                      "log_n_rows": null
-                    }
+                    "ExternalState": [
+                      "Seq",
+                      []
+                    ]
                   }
                 ]
               }
@@ -366,11 +364,10 @@
             },
             "+",
             {
-              "ExternalState": {
-                "name": "Seq",
-                "col_index": 0,
-                "log_n_rows": null
-              }
+              "ExternalState": [
+                "Seq",
+                []
+              ]
             }
           ]
         }
@@ -387,11 +384,10 @@
               },
               "+",
               {
-                "ExternalState": {
-                  "name": "Seq",
-                  "col_index": 0,
-                  "log_n_rows": null
-                }
+                "ExternalState": [
+                  "Seq",
+                  []
+                ]
               }
             ]
           },

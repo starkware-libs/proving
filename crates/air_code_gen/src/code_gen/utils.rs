@@ -1,4 +1,4 @@
-use std::collections::{BTreeSet, HashSet};
+use std::collections::HashSet;
 use std::fs;
 use std::path::{Path, PathBuf};
 
@@ -113,15 +113,11 @@ pub fn contains_inputs(lists: &CompiledAirFn) -> bool {
     }
 }
 
-pub fn preprocessed_columns_imports(
-    external_states: &BTreeSet<(String, Option<usize>)>,
-) -> rust::Tokens {
-    let mut external_states_imports =
-        quote! {use stwo_cairo_prover::cairo_air::preprocessed::PreProcessedColumn; };
-    for external_state in external_states {
-        external_states_imports.append(quote! {
-        use stwo_cairo_prover::cairo_air::preprocessed::$(external_state.0.clone());});
-    }
+pub fn preprocessed_columns_imports() -> rust::Tokens {
+    let external_states_imports = quote! {
+        use stwo_cairo_prover::cairo_air::preprocessed::PreProcessedColumn;
+        use stwo_cairo_prover::cairo_air::preprocessed::Seq;
+    };
     external_states_imports
 }
 

@@ -115,7 +115,7 @@ pub trait InternalAirVarInfo {
             .collect()
     }
 
-    fn external_states(&self) -> BTreeSet<(String, Option<usize>)> {
+    fn external_states(&self) -> BTreeSet<(String, Vec<String>)> {
         self.get_info()
             .iter()
             .filter_map(|i| i.external_state.clone())
@@ -135,7 +135,7 @@ pub struct AirVarInfo {
     pub is_const: bool,
     pub visibility: Visibility,
     pub public_param: Option<PublicParam>,
-    pub external_state: Option<(String, Option<usize>)>,
+    pub external_state: Option<(String, Vec<String>)>,
 }
 
 #[derive(Clone, Debug, Serialize, PartialEq, Eq, Hash)]
@@ -167,13 +167,26 @@ pub trait ExtTable: Default + Debug + Clone {
         res
     }
 
+    // The arguments to the constructor of the preprocessed column object in stwo-cairo, except for
+    // the column index.
+    fn args() -> Vec<String> {
+        vec![]
+    }
+
     fn to_state(v: &mut Self::T) {
-        for (i, f) in v.as_felts_mut().into_iter().enumerate() {
-            f.to_state(StateInfo::ExtTableState {
-                name: Self::CONST_TRACE_ID.to_string(),
-                col_index: i,
-                log_n_rows: None,
-            });
+        let felts = v.as_felts_mut();
+        let n = felts.len();
+
+        for (i, f) in felts.into_iter().enumerate() {
+            let mut args = Self::args();
+            if n > 1 {
+                args.extend_from_slice(&[i.to_string()]);
+            };
+
+            f.to_state(StateInfo::ExtTableState(
+                Self::CONST_TRACE_ID.to_string(),
+                args,
+            ));
         }
     }
 
@@ -203,10 +216,6 @@ where
 
     fn call(&self, _air_builder: &mut AirBuilder, _: (), _: ()) -> Self::Out {
         self.ext_table.call_impl(_air_builder)
-    }
-
-    fn name(&self) -> String {
-        E::CONST_TRACE_ID.to_string()
     }
 
     fn trace_type(&self) -> TraceType {
@@ -383,8 +392,6 @@ impl InternalAirVarActions for () {
 impl ExtTable for () {
     const CONST_TRACE_ID: &'static str = "";
     type T = ();
-
-    fn to_state(_: &mut Self::T) {}
 }
 
 // Examples + tests

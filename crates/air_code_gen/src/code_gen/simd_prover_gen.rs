@@ -1,4 +1,4 @@
-use std::collections::{BTreeSet, HashMap, HashSet};
+use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, CompiledAirVar, Intermediate, LookupTerm, TraceGenStep, UseOrYield,
@@ -23,7 +23,7 @@ pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
     let public_params_vec: Vec<PublicParam> = lists.public_params.iter().cloned().collect_vec();
     let configs = generate_configs(lists);
     let allows = generate_allows(lists);
-    let imports_code = generate_imports_code(&lists.deductions, &lists.external_states);
+    let imports_code = generate_imports_code(&lists.deductions);
     let typedefs = if contains_inputs {
         generate_input_output_typedefs(lists)
     } else {
@@ -73,14 +73,22 @@ fn generate_simd_write_trace_body_code(
             add_inputs_offsets.insert(fn_name, 0);
         }
     }
-    for (name, _) in &lists.external_states {
+    for (name, args) in &lists.external_states {
         assert!(
             SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
-            "unsupported {name}"
+            "unsupported {name}",
         );
-        write_trace_body.append(quote! {
-            let $(&name.to_lowercase()) = $name::new(log_size).packed_at(row_index);
-        });
+
+        if name == "Seq" {
+            write_trace_body.append(quote! {
+                let $(&name.to_lowercase()) = $name::new(log_size).packed_at(row_index);
+            });
+        } else {
+            let args = args.join(", ");
+            write_trace_body.append(quote! {
+                let $(&name.to_lowercase()) = $name::new($args).packed_at(row_index);
+            });
+        }
     }
 
     let mut relation_data_offsets = HashMap::new();
@@ -724,10 +732,7 @@ fn generate_allows(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn generate_imports_code(
-    deductions: &[TraceGenStep],
-    external_states: &BTreeSet<(String, Option<usize>)>,
-) -> rust::Tokens {
+fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
     quote! {
         use std::iter::zip;
 
@@ -741,7 +746,7 @@ fn generate_imports_code(
         use stwo_air_utils::trace::component_trace::ComponentTrace;
         use stwo_air_utils_derive::{IterMut, ParIterMut, Uninitialized};
         use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
-        $(preprocessed_columns_imports(external_states))
+        $(preprocessed_columns_imports())
         use stwo_prover::constraint_framework::Relation;
         use stwo_prover::core::air::Component;
         use stwo_prover::core::backend::simd::column::BaseColumn;
@@ -863,7 +868,7 @@ fn simd_parse_air_var(
             };
             quote.to_string().unwrap()
         }
-        CompiledAirVar::ExternalState { name, .. } => name.to_lowercase(),
+        CompiledAirVar::ExternalState(name, ..) => name.to_lowercase(),
         CompiledAirVar::PublicParam(public_param) => {
             format!("PackedM31::broadcast(M31::from({public_param}))")
         }

@@ -5,18 +5,22 @@
   "input": {
     "Array": [
       {
-        "ExternalState": {
-          "name": "RangeCheck_4_3_Const",
-          "col_index": 0,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "RangeCheck",
+          [
+            "[4,3]",
+            "0"
+          ]
+        ]
       },
       {
-        "ExternalState": {
-          "name": "RangeCheck_4_3_Const",
-          "col_index": 1,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "RangeCheck",
+          [
+            "[4,3]",
+            "1"
+          ]
+        ]
       }
     ]
   },
@@ -27,8 +31,18 @@
   "public_params": [],
   "external_states": [
     [
-      "RangeCheck_4_3_Const",
-      null
+      "RangeCheck",
+      [
+        "[4,3]",
+        "0"
+      ]
+    ],
+    [
+      "RangeCheck",
+      [
+        "[4,3]",
+        "1"
+      ]
     ]
   ],
   "constraints": [
@@ -37,18 +51,22 @@
         "relation_name": "RangeCheck_4_3",
         "felts": [
           {
-            "ExternalState": {
-              "name": "RangeCheck_4_3_Const",
-              "col_index": 0,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[4,3]",
+                "0"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_4_3_Const",
-              "col_index": 1,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[4,3]",
+                "1"
+              ]
+            ]
           }
         ],
         "use_or_yield": "Yield"
@@ -61,18 +79,22 @@
         "relation_name": "RangeCheck_4_3",
         "felts": [
           {
-            "ExternalState": {
-              "name": "RangeCheck_4_3_Const",
-              "col_index": 0,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[4,3]",
+                "0"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_4_3_Const",
-              "col_index": 1,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[4,3]",
+                "1"
+              ]
+            ]
           }
         ],
         "use_or_yield": "Yield"

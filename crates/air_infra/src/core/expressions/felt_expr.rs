@@ -1,5 +1,6 @@
 use compiled_casm_air::compiled_structs::CompiledAirVar;
 use compiled_casm_air::public_params::PublicParam;
+use convert_case::{Case, Casing};
 use serde::{Serialize, Serializer};
 
 use super::super::state::*;
@@ -26,14 +27,9 @@ pub enum StateInfo {
     // polynomial expression in the state (for example, a value read from the memory and not
     // written to the state yet).
     IsPolyOfState(bool),
-    // The felt is in the state of another component. The arguments are the component name, the
-    // column index inside that component, and the log length of that column if it's Seq of
-    // constant length.
-    ExtTableState {
-        name: String,
-        col_index: usize,
-        log_n_rows: Option<usize>,
-    },
+    // The felt is in  an external state (a preprocessed column). The arguments are the name of
+    // the preprocessed column class, and the arguments its constructor.
+    ExtTableState(String, Vec<String>),
     // The felt is one of the public parameters.
     PublicParam(PublicParam),
 }
@@ -56,12 +52,8 @@ impl FeltExpr {
             StateInfo::IsPolyOfState(_) => {
                 panic!("to_state shouldn't be used to make a FeltExpr an IsPolyOfState")
             }
-            StateInfo::ExtTableState {
-                name,
-                col_index,
-                log_n_rows: _,
-            } => {
-                format!("{}_state[{}]", name, col_index)
+            StateInfo::ExtTableState(name, args) => {
+                format!("{}({})", name.to_case(Case::Snake), args.join(", "))
             }
             StateInfo::PublicParam(public_param) => public_param.name(),
         };

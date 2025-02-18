@@ -11,7 +11,7 @@ use rayon::iter::{
 };
 use stwo_air_utils::trace::component_trace::ComponentTrace;
 use stwo_air_utils_derive::{IterMut, ParIterMut, Uninitialized};
-use stwo_cairo_prover::cairo_air::preprocessed::PreProcessedColumn;
+use stwo_cairo_prover::cairo_air::preprocessed::{PreProcessedColumn, Seq};
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::constraint_framework::Relation;
 use stwo_prover::core::air::Component;

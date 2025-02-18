@@ -42,13 +42,8 @@ impl<const L: usize> ExtTable for SeqConstLen<L> {
     const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_SEQ;
     type T = [FeltExpr; 1];
 
-    fn to_state(v: &mut Self::T) {
-        let f = &mut v[0];
-        f.to_state(StateInfo::ExtTableState {
-            name: Self::CONST_TRACE_ID.to_string(),
-            col_index: 0,
-            log_n_rows: Some(L),
-        });
+    fn args() -> Vec<String> {
+        vec![L.to_string()]
     }
 }
 

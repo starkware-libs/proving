@@ -197,11 +197,9 @@ fn test_casm_registry() {
     });
     // Ret opcode
     reg.add_entry(&RetOpcode::default());
-
     // Blake opcode
     reg.add_entry(&BlakeCompressOpcode::default());
 
-    //
     let mut constraints = IndexMap::new();
     for (name, entry) in reg.air_fns.borrow().iter() {
         let air_body_constraints = entry.air_body.get_constraints();
@@ -223,7 +221,7 @@ fn test_casm_registry() {
     // Compile the registry, check the compiled entries jsons and collect the statistics.
     let compiled_reg = reg.compile();
     let mut stat = IndexMap::<String, CompiledAirFnStat>::new();
-    let mut const_tables = vec![];
+    let mut const_tables = IndexMap::new();
 
     for (name, compiled_entry) in compiled_reg.iter() {
         let fns = reg.air_fns.borrow();
@@ -235,22 +233,20 @@ fn test_casm_registry() {
             TraceType::Const | TraceType::Inline => "",
         };
 
-        // Inline and const functions are not compiled.
-        match entry.trace_type {
-            TraceType::Const => {
-                const_tables.push(name.clone());
-                continue;
-            }
-            TraceType::Inline => {
-                continue;
-            }
-            _ => {
-                // Check the compiled entry json.
-                compare_json(compiled_entry, &format!("{}{}.json", dir, name));
-                // Collect statistics.
-                add_entry_statistics(&fns, compiled_entry, &mut stat);
-            }
+        // Collect preprocessed columns.
+        if !compiled_entry.external_states.is_empty() {
+            const_tables.insert(name, compiled_entry.external_states.clone());
         }
+
+        // Inline and const functions are not compiled.
+        if entry.trace_type == TraceType::Const || entry.trace_type == TraceType::Inline {
+            continue;
+        }
+
+        // Check the compiled entry json.
+        compare_json(compiled_entry, &format!("{}{}.json", dir, name));
+        // Collect statistics.
+        add_entry_statistics(&fns, compiled_entry, &mut stat);
     }
 
     compare_json(

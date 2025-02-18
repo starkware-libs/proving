@@ -3,11 +3,10 @@
   "relation_name": "MemoryAddressToId",
   "description": "Memory Address To Id",
   "input": {
-    "ExternalState": {
-      "name": "Seq",
-      "col_index": 0,
-      "log_n_rows": null
-    }
+    "ExternalState": [
+      "Seq",
+      []
+    ]
   },
   "state_names": [
     "memory_address_to_id_output_col0"
@@ -19,7 +18,7 @@
   "external_states": [
     [
       "Seq",
-      null
+      []
     ]
   ],
   "constraints": [
@@ -28,11 +27,10 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "ExternalState": {
-              "name": "Seq",
-              "col_index": 0,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "Seq",
+              []
+            ]
           },
           {
             "State": "memory_address_to_id_output_col0"
@@ -48,11 +46,10 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           {
-            "ExternalState": {
-              "name": "Seq",
-              "col_index": 0,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "Seq",
+              []
+            ]
           },
           {
             "State": "memory_address_to_id_output_col0"

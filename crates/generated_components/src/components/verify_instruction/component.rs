@@ -2,7 +2,7 @@
 #![allow(unused_imports)]
 use num_traits::{One, Zero};
 use serde::{Deserialize, Serialize};
-use stwo_cairo_prover::cairo_air::preprocessed::PreProcessedColumn;
+use stwo_cairo_prover::cairo_air::preprocessed::{PreProcessedColumn, Seq};
 use stwo_cairo_serialize::CairoSerialize;
 use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
 use stwo_prover::constraint_framework::{

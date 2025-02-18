@@ -5,11 +5,12 @@
   "input": {
     "Array": [
       {
-        "ExternalState": {
-          "name": "Seq",
-          "col_index": 0,
-          "log_n_rows": 18
-        }
+        "ExternalState": [
+          "Seq",
+          [
+            "18"
+          ]
+        ]
       }
     ]
   },
@@ -21,7 +22,9 @@
   "external_states": [
     [
       "Seq",
-      18
+      [
+        "18"
+      ]
     ]
   ],
   "constraints": [
@@ -30,11 +33,12 @@
         "relation_name": "RangeCheck_18",
         "felts": [
           {
-            "ExternalState": {
-              "name": "Seq",
-              "col_index": 0,
-              "log_n_rows": 18
-            }
+            "ExternalState": [
+              "Seq",
+              [
+                "18"
+              ]
+            ]
           }
         ],
         "use_or_yield": "Yield"
@@ -47,11 +51,12 @@
         "relation_name": "RangeCheck_18",
         "felts": [
           {
-            "ExternalState": {
-              "name": "Seq",
-              "col_index": 0,
-              "log_n_rows": 18
-            }
+            "ExternalState": [
+              "Seq",
+              [
+                "18"
+              ]
+            ]
           }
         ],
         "use_or_yield": "Yield"

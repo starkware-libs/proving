@@ -119,13 +119,10 @@ where
             } else {
                 None
             },
-            external_state: if let ComplexOrFelt::Felt(StateInfo::ExtTableState {
-                ref name,
-                col_index: _,
-                log_n_rows,
-            }) = self.complex_or_felt
+            external_state: if let ComplexOrFelt::Felt(StateInfo::ExtTableState(name, args)) =
+                self.complex_or_felt.clone()
             {
-                Some((name.clone(), log_n_rows))
+                Some((name, args))
             } else {
                 None
             },
@@ -157,17 +154,8 @@ where
         }
 
         // v was written to the trace of an external const table
-        if let ComplexOrFelt::Felt(StateInfo::ExtTableState {
-            name,
-            col_index,
-            log_n_rows,
-        }) = v.complex_or_felt
-        {
-            return CompiledAirVar::ExternalState {
-                name,
-                col_index,
-                log_n_rows,
-            };
+        if let ComplexOrFelt::Felt(StateInfo::ExtTableState(name, args)) = v.complex_or_felt {
+            return CompiledAirVar::ExternalState(name, args);
         }
 
         // v is a public param

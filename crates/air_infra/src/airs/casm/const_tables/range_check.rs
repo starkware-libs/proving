@@ -9,6 +9,8 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 use crate::new_range_check;
 
+const STWO_COMPONENT_TYPE_RANGE_CHECK: &str = "RangeCheck";
+
 pub trait RangeCheckSize: ExtTable + Debug + Default {
     fn bits() -> &'static [u16];
 }
@@ -134,8 +136,12 @@ macro_rules! new_range_check {
         }
 
         impl ExtTable for $name {
-            const CONST_TRACE_ID: &'static str = stringify!($name);
+            const CONST_TRACE_ID: &'static str = STWO_COMPONENT_TYPE_RANGE_CHECK;
             type T = [FeltExpr; [$b0,$($b),+].len()];
+
+            fn args() -> Vec<String> {
+                vec![format!("[{}]", [$b0.to_string(), $($b.to_string()),+].join(","))]
+            }
         }
     };
 }

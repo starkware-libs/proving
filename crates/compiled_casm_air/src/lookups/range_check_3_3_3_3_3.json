@@ -5,39 +5,49 @@
   "input": {
     "Array": [
       {
-        "ExternalState": {
-          "name": "RangeCheck_3_3_3_3_3_Const",
-          "col_index": 0,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "RangeCheck",
+          [
+            "[3,3,3,3,3]",
+            "0"
+          ]
+        ]
       },
       {
-        "ExternalState": {
-          "name": "RangeCheck_3_3_3_3_3_Const",
-          "col_index": 1,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "RangeCheck",
+          [
+            "[3,3,3,3,3]",
+            "1"
+          ]
+        ]
       },
       {
-        "ExternalState": {
-          "name": "RangeCheck_3_3_3_3_3_Const",
-          "col_index": 2,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "RangeCheck",
+          [
+            "[3,3,3,3,3]",
+            "2"
+          ]
+        ]
       },
       {
-        "ExternalState": {
-          "name": "RangeCheck_3_3_3_3_3_Const",
-          "col_index": 3,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "RangeCheck",
+          [
+            "[3,3,3,3,3]",
+            "3"
+          ]
+        ]
       },
       {
-        "ExternalState": {
-          "name": "RangeCheck_3_3_3_3_3_Const",
-          "col_index": 4,
-          "log_n_rows": null
-        }
+        "ExternalState": [
+          "RangeCheck",
+          [
+            "[3,3,3,3,3]",
+            "4"
+          ]
+        ]
       }
     ]
   },
@@ -48,8 +58,39 @@
   "public_params": [],
   "external_states": [
     [
-      "RangeCheck_3_3_3_3_3_Const",
-      null
+      "RangeCheck",
+      [
+        "[3,3,3,3,3]",
+        "0"
+      ]
+    ],
+    [
+      "RangeCheck",
+      [
+        "[3,3,3,3,3]",
+        "1"
+      ]
+    ],
+    [
+      "RangeCheck",
+      [
+        "[3,3,3,3,3]",
+        "2"
+      ]
+    ],
+    [
+      "RangeCheck",
+      [
+        "[3,3,3,3,3]",
+        "3"
+      ]
+    ],
+    [
+      "RangeCheck",
+      [
+        "[3,3,3,3,3]",
+        "4"
+      ]
     ]
   ],
   "constraints": [
@@ -58,39 +99,49 @@
         "relation_name": "RangeCheck_3_3_3_3_3",
         "felts": [
           {
-            "ExternalState": {
-              "name": "RangeCheck_3_3_3_3_3_Const",
-              "col_index": 0,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[3,3,3,3,3]",
+                "0"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_3_3_3_3_3_Const",
-              "col_index": 1,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[3,3,3,3,3]",
+                "1"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_3_3_3_3_3_Const",
-              "col_index": 2,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[3,3,3,3,3]",
+                "2"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_3_3_3_3_3_Const",
-              "col_index": 3,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[3,3,3,3,3]",
+                "3"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_3_3_3_3_3_Const",
-              "col_index": 4,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[3,3,3,3,3]",
+                "4"
+              ]
+            ]
           }
         ],
         "use_or_yield": "Yield"
@@ -103,39 +154,49 @@
         "relation_name": "RangeCheck_3_3_3_3_3",
         "felts": [
           {
-            "ExternalState": {
-              "name": "RangeCheck_3_3_3_3_3_Const",
-              "col_index": 0,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[3,3,3,3,3]",
+                "0"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_3_3_3_3_3_Const",
-              "col_index": 1,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[3,3,3,3,3]",
+                "1"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_3_3_3_3_3_Const",
-              "col_index": 2,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[3,3,3,3,3]",
+                "2"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_3_3_3_3_3_Const",
-              "col_index": 3,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[3,3,3,3,3]",
+                "3"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "RangeCheck_3_3_3_3_3_Const",
-              "col_index": 4,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "RangeCheck",
+              [
+                "[3,3,3,3,3]",
+                "4"
+              ]
+            ]
           }
         ],
         "use_or_yield": "Yield"

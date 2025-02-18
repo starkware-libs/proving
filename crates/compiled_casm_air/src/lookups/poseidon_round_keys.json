@@ -5,11 +5,12 @@
   "input": {
     "Array": [
       {
-        "ExternalState": {
-          "name": "Seq",
-          "col_index": 0,
-          "log_n_rows": 6
-        }
+        "ExternalState": [
+          "Seq",
+          [
+            "6"
+          ]
+        ]
       }
     ]
   },
@@ -21,11 +22,189 @@
   "external_states": [
     [
       "PoseidonRoundKeys",
-      null
+      [
+        "0"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "1"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "10"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "11"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "12"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "13"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "14"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "15"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "16"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "17"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "18"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "19"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "2"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "20"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "21"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "22"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "23"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "24"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "25"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "26"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "27"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "28"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "29"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "3"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "4"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "5"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "6"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "7"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "8"
+      ]
+    ],
+    [
+      "PoseidonRoundKeys",
+      [
+        "9"
+      ]
     ],
     [
       "Seq",
-      6
+      [
+        "6"
+      ]
     ]
   ],
   "constraints": [
@@ -34,221 +213,252 @@
         "relation_name": "PoseidonRoundKeys",
         "felts": [
           {
-            "ExternalState": {
-              "name": "Seq",
-              "col_index": 0,
-              "log_n_rows": 6
-            }
+            "ExternalState": [
+              "Seq",
+              [
+                "6"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 0,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "0"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 1,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "1"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 2,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "2"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 3,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "3"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 4,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "4"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 5,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "5"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 6,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "6"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 7,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "7"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 8,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "8"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 9,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "9"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 10,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "10"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 11,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "11"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 12,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "12"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 13,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "13"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 14,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "14"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 15,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "15"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 16,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "16"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 17,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "17"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 18,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "18"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 19,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "19"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 20,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "20"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 21,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "21"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 22,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "22"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 23,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "23"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 24,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "24"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 25,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "25"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 26,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "26"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 27,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "27"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 28,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "28"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 29,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "29"
+              ]
+            ]
           }
         ],
         "use_or_yield": "Yield"
@@ -261,221 +471,252 @@
         "relation_name": "PoseidonRoundKeys",
         "felts": [
           {
-            "ExternalState": {
-              "name": "Seq",
-              "col_index": 0,
-              "log_n_rows": 6
-            }
+            "ExternalState": [
+              "Seq",
+              [
+                "6"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 0,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "0"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 1,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "1"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 2,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "2"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 3,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "3"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 4,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "4"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 5,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "5"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 6,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "6"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 7,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "7"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 8,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "8"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 9,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "9"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 10,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "10"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 11,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "11"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 12,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "12"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 13,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "13"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 14,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "14"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 15,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "15"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 16,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "16"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 17,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "17"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 18,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "18"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 19,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "19"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 20,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "20"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 21,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "21"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 22,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "22"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 23,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "23"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 24,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "24"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 25,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "25"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 26,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "26"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 27,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "27"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 28,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "28"
+              ]
+            ]
           },
           {
-            "ExternalState": {
-              "name": "PoseidonRoundKeys",
-              "col_index": 29,
-              "log_n_rows": null
-            }
+            "ExternalState": [
+              "PoseidonRoundKeys",
+              [
+                "29"
+              ]
+            ]
           }
         ],
         "use_or_yield": "Yield"

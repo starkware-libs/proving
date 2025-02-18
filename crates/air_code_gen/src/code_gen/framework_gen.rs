@@ -1,4 +1,4 @@
-use std::collections::{BTreeSet, HashMap};
+use std::collections::HashMap;
 
 use compiled_casm_air::compiled_structs::{
     CompiledAirFn, ConstraintEvalStep, Intermediate, LookupTerm,
@@ -17,7 +17,7 @@ use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
 pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
-        $(imports(&lists.external_states))
+        $(imports())
         $['\n']
         $(generate_component_structs(&lists.constraints))
         $['\n']
@@ -31,7 +31,7 @@ pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn imports(external_states: &BTreeSet<(String, Option<usize>)>) -> rust::Tokens {
+fn imports() -> rust::Tokens {
     quote! {
         #![allow(non_camel_case_types)]
         #![allow(unused_imports)]
@@ -39,8 +39,7 @@ fn imports(external_states: &BTreeSet<(String, Option<usize>)>) -> rust::Tokens 
         use serde::{Deserialize, Serialize};
         use stwo_cairo_serialize::CairoSerialize;
         use stwo_prover::constraint_framework::logup::{LogupAtRow, LookupElements};
-        use stwo_cairo_prover::cairo_air::preprocessed::PreProcessedColumn;
-        $(preprocessed_columns_imports(external_states))
+        $(preprocessed_columns_imports())
         use stwo_prover::constraint_framework::{EvalAtRow, FrameworkComponent, FrameworkEval, RelationEntry};
         use stwo_prover::core::backend::simd::m31::LOG_N_LANES;
         use stwo_prover::core::channel::Channel;
@@ -193,14 +192,22 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         }
     }
 
-    for (name, _) in &lists.external_states {
+    for (name, args) in &lists.external_states {
         assert!(
             SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
-            "unsupported {name}"
+            "unsupported {name}",
         );
-        code.append(quote! {
-            let $(&name.to_lowercase()) = eval.get_preprocessed_column(PreProcessedColumn::$(name)($name::new(self.log_size())).id());
-        });
+        // Seq is the only preprocessed column that is of unfixed size.
+        if name == "Seq" {
+            code.append(quote! {
+                let seq = eval.get_preprocessed_column(PreProcessedColumn::Seq(Seq::new(self.log_size())).id());
+            });
+        } else {
+            let args = args.join(", ");
+            code.append(quote! {
+                let $(&name.to_lowercase()) = eval.get_preprocessed_column(($name::new($args)).id());
+            });
+        }
     }
 
     // TODO(Ohad): handle next_trace_mask for external states.

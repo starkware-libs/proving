@@ -1,5 +1,11 @@
 {
-  "Seq": {
+  "ext_table_air_fn_seq": {
+    "state_names": [],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": []
+  },
+  "ext_table_air_fn_seq_addr": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -13,13 +19,13 @@
     "constraints": [],
     "lookups": []
   },
-  "MemoryIdForBig": {
+  "ext_table_air_fn_mem_id_for_big": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
     "lookups": []
   },
-  "RangeCheck_9_9_Const": {
+  "ext_table_air_fn_range_check_9_9_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -231,7 +237,7 @@
       ]
     ]
   },
-  "VerifyBitwiseXor_9_Const": {
+  "ext_table_air_fn_verify_bitwise_xor_9_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -483,7 +489,7 @@
     "lookups": [
       [
         "MemoryAddressToId",
-        "((public_params.bitwise_builtin_segment_start + (Seq_col0 * 5)) + 0), op0_id_col0"
+        "((public_params.bitwise_builtin_segment_start + (seq() * 5)) + 0), op0_id_col0"
       ],
       [
         "MemoryIdToBig",
@@ -491,7 +497,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.bitwise_builtin_segment_start + (Seq_col0 * 5)) + 1), op1_id_col29"
+        "((public_params.bitwise_builtin_segment_start + (seq() * 5)) + 1), op1_id_col29"
       ],
       [
         "MemoryIdToBig",
@@ -611,7 +617,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.bitwise_builtin_segment_start + (Seq_col0 * 5)) + 2), and_id_col86"
+        "((public_params.bitwise_builtin_segment_start + (seq() * 5)) + 2), and_id_col86"
       ],
       [
         "MemoryIdToBig",
@@ -619,7 +625,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.bitwise_builtin_segment_start + (Seq_col0 * 5)) + 3), xor_id_col87"
+        "((public_params.bitwise_builtin_segment_start + (seq() * 5)) + 3), xor_id_col87"
       ],
       [
         "MemoryIdToBig",
@@ -627,7 +633,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.bitwise_builtin_segment_start + (Seq_col0 * 5)) + 4), or_id_col88"
+        "((public_params.bitwise_builtin_segment_start + (seq() * 5)) + 4), or_id_col88"
       ],
       [
         "MemoryIdToBig",
@@ -725,13 +731,19 @@
     "lookups": [
       [
         "MemoryAddressToId",
-        "(public_params.range_check_builtin_segment_start + Seq_col0), value_id_col0"
+        "(public_params.range_check_builtin_segment_start + seq()), value_id_col0"
       ],
       [
         "MemoryIdToBig",
         "value_id_col0, value_limb_0_col1, value_limb_1_col2, value_limb_2_col3, value_limb_3_col4, value_limb_4_col5, value_limb_5_col6, value_limb_6_col7, value_limb_7_col8, value_limb_8_col9, value_limb_9_col10, value_limb_10_col11, value_limb_11_col12, value_limb_12_col13, value_limb_13_col14, value_limb_14_col15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
+  },
+  "ext_table_air_fn_seq_const_len_6": {
+    "state_names": [],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": []
   },
   "range_check_6": {
     "state_names": [],
@@ -802,7 +814,7 @@
     "lookups": [
       [
         "MemoryAddressToId",
-        "(public_params.range_check96_builtin_segment_start + Seq_col0), value_id_col0"
+        "(public_params.range_check96_builtin_segment_start + seq()), value_id_col0"
       ],
       [
         "RangeCheck_6",
@@ -1658,7 +1670,7 @@
     ],
     "constraints": [
       "(is_instance_0_col0 * (is_instance_0_col0 - 1))",
-      "(is_instance_0_col0 * Seq_col0)",
+      "(is_instance_0_col0 * seq())",
       "((n_val_prev_tmp_c1b19_19 - 1) * ((n_val_prev_tmp_c1b19_19 - 1) - ((n_limb_0_col62 + (n_limb_1_col63 * 512)) + (n_limb_2_col64 * 262144))))",
       "((n_val_prev_tmp_c1b19_19 - 1) * ((((offsets_ptr_limb_0_col54 + (offsets_ptr_limb_1_col55 * 512)) + (offsets_ptr_limb_2_col56 * 262144)) - 3) - ((offsets_ptr_prev_limb_0_col58 + (offsets_ptr_prev_limb_1_col59 * 512)) + (offsets_ptr_prev_limb_2_col60 * 262144))))",
       "((values_ptr_prev_id_col69 - values_ptr_id_col49) * (n_val_prev_tmp_c1b19_19 - 1))",
@@ -1695,7 +1707,7 @@
     "lookups": [
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * Seq_col0)) + 0), p0_id_col1"
+        "((public_params.add_mod_builtin_segment_start + (7 * seq())) + 0), p0_id_col1"
       ],
       [
         "MemoryIdToBig",
@@ -1703,7 +1715,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * Seq_col0)) + 1), p1_id_col13"
+        "((public_params.add_mod_builtin_segment_start + (7 * seq())) + 1), p1_id_col13"
       ],
       [
         "MemoryIdToBig",
@@ -1711,7 +1723,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * Seq_col0)) + 2), p2_id_col25"
+        "((public_params.add_mod_builtin_segment_start + (7 * seq())) + 2), p2_id_col25"
       ],
       [
         "MemoryIdToBig",
@@ -1719,7 +1731,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * Seq_col0)) + 3), p3_id_col37"
+        "((public_params.add_mod_builtin_segment_start + (7 * seq())) + 3), p3_id_col37"
       ],
       [
         "MemoryIdToBig",
@@ -1727,7 +1739,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * Seq_col0)) + 4), values_ptr_id_col49"
+        "((public_params.add_mod_builtin_segment_start + (7 * seq())) + 4), values_ptr_id_col49"
       ],
       [
         "MemoryIdToBig",
@@ -1735,7 +1747,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * Seq_col0)) + 5), offsets_ptr_id_col53"
+        "((public_params.add_mod_builtin_segment_start + (7 * seq())) + 5), offsets_ptr_id_col53"
       ],
       [
         "MemoryIdToBig",
@@ -1743,7 +1755,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 5), offsets_ptr_prev_id_col57"
+        "((public_params.add_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 5), offsets_ptr_prev_id_col57"
       ],
       [
         "MemoryIdToBig",
@@ -1751,7 +1763,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * Seq_col0)) + 6), n_id_col61"
+        "((public_params.add_mod_builtin_segment_start + (7 * seq())) + 6), n_id_col61"
       ],
       [
         "MemoryIdToBig",
@@ -1759,7 +1771,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 6), n_prev_id_col65"
+        "((public_params.add_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 6), n_prev_id_col65"
       ],
       [
         "MemoryIdToBig",
@@ -1767,23 +1779,23 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 4), values_ptr_prev_id_col69"
+        "((public_params.add_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 4), values_ptr_prev_id_col69"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 0), p_prev0_id_col70"
+        "((public_params.add_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 0), p_prev0_id_col70"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 1), p_prev1_id_col71"
+        "((public_params.add_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 1), p_prev1_id_col71"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 2), p_prev2_id_col72"
+        "((public_params.add_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 2), p_prev2_id_col72"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.add_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 3), p_prev3_id_col73"
+        "((public_params.add_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 3), p_prev3_id_col73"
       ],
       [
         "MemoryAddressToId",
@@ -1907,13 +1919,19 @@
       ]
     ]
   },
+  "ext_table_air_fn_seq_const_len_12": {
+    "state_names": [],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": []
+  },
   "range_check_12": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
     "lookups": []
   },
-  "RangeCheck_3_6_6_3_Const": {
+  "ext_table_air_fn_range_check_3_6_6_3_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -1925,7 +1943,7 @@
     "constraints": [],
     "lookups": []
   },
-  "RangeCheck_3_6_Const": {
+  "ext_table_air_fn_range_check_3_6_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -1961,6 +1979,12 @@
         "(mod_word_to_12_bit_array_input.get_m31(9) - (limb9b_col4 * 8)), limb9b_col4"
       ]
     ]
+  },
+  "ext_table_air_fn_seq_const_len_18": {
+    "state_names": [],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": []
   },
   "range_check_18": {
     "state_names": [],
@@ -2389,7 +2413,7 @@
     ],
     "constraints": [
       "(is_instance_0_col0 * (is_instance_0_col0 - 1))",
-      "(is_instance_0_col0 * Seq_col0)",
+      "(is_instance_0_col0 * seq())",
       "((n_val_prev_tmp_cf8b4_19 - 1) * ((n_val_prev_tmp_cf8b4_19 - 1) - ((n_limb_0_col62 + (n_limb_1_col63 * 512)) + (n_limb_2_col64 * 262144))))",
       "((n_val_prev_tmp_cf8b4_19 - 1) * ((((offsets_ptr_limb_0_col54 + (offsets_ptr_limb_1_col55 * 512)) + (offsets_ptr_limb_2_col56 * 262144)) - 3) - ((offsets_ptr_prev_limb_0_col58 + (offsets_ptr_prev_limb_1_col59 * 512)) + (offsets_ptr_prev_limb_2_col60 * 262144))))",
       "((values_ptr_prev_id_col69 - values_ptr_id_col49) * (n_val_prev_tmp_cf8b4_19 - 1))",
@@ -2473,7 +2497,7 @@
     "lookups": [
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * Seq_col0)) + 0), p0_id_col1"
+        "((public_params.mul_mod_builtin_segment_start + (7 * seq())) + 0), p0_id_col1"
       ],
       [
         "MemoryIdToBig",
@@ -2481,7 +2505,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * Seq_col0)) + 1), p1_id_col13"
+        "((public_params.mul_mod_builtin_segment_start + (7 * seq())) + 1), p1_id_col13"
       ],
       [
         "MemoryIdToBig",
@@ -2489,7 +2513,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * Seq_col0)) + 2), p2_id_col25"
+        "((public_params.mul_mod_builtin_segment_start + (7 * seq())) + 2), p2_id_col25"
       ],
       [
         "MemoryIdToBig",
@@ -2497,7 +2521,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * Seq_col0)) + 3), p3_id_col37"
+        "((public_params.mul_mod_builtin_segment_start + (7 * seq())) + 3), p3_id_col37"
       ],
       [
         "MemoryIdToBig",
@@ -2505,7 +2529,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * Seq_col0)) + 4), values_ptr_id_col49"
+        "((public_params.mul_mod_builtin_segment_start + (7 * seq())) + 4), values_ptr_id_col49"
       ],
       [
         "MemoryIdToBig",
@@ -2513,7 +2537,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * Seq_col0)) + 5), offsets_ptr_id_col53"
+        "((public_params.mul_mod_builtin_segment_start + (7 * seq())) + 5), offsets_ptr_id_col53"
       ],
       [
         "MemoryIdToBig",
@@ -2521,7 +2545,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 5), offsets_ptr_prev_id_col57"
+        "((public_params.mul_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 5), offsets_ptr_prev_id_col57"
       ],
       [
         "MemoryIdToBig",
@@ -2529,7 +2553,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * Seq_col0)) + 6), n_id_col61"
+        "((public_params.mul_mod_builtin_segment_start + (7 * seq())) + 6), n_id_col61"
       ],
       [
         "MemoryIdToBig",
@@ -2537,7 +2561,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 6), n_prev_id_col65"
+        "((public_params.mul_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 6), n_prev_id_col65"
       ],
       [
         "MemoryIdToBig",
@@ -2545,23 +2569,23 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 4), values_ptr_prev_id_col69"
+        "((public_params.mul_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 4), values_ptr_prev_id_col69"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 0), p_prev0_id_col70"
+        "((public_params.mul_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 0), p_prev0_id_col70"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 1), p_prev1_id_col71"
+        "((public_params.mul_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 1), p_prev1_id_col71"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 2), p_prev2_id_col72"
+        "((public_params.mul_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 2), p_prev2_id_col72"
       ],
       [
         "MemoryAddressToId",
-        "((public_params.mul_mod_builtin_segment_start + (7 * ((Seq_col0 - 1) + is_instance_0_col0))) + 3), p_prev3_id_col73"
+        "((public_params.mul_mod_builtin_segment_start + (7 * ((seq() - 1) + is_instance_0_col0))) + 3), p_prev3_id_col73"
       ],
       [
         "MemoryAddressToId",
@@ -3441,6 +3465,12 @@
         "(((felt_252_unpack_from_27_range_check_output_input.get_m31(8) - unpacked_limb_24_col16) - (unpacked_limb_25_col17 * 512)) * 8192), felt_252_unpack_from_27_range_check_output_input.get_m31(9)"
       ]
     ]
+  },
+  "ext_table_air_fn_seq_const_len_19": {
+    "state_names": [],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": []
   },
   "range_check_19": {
     "state_names": [],
@@ -5814,7 +5844,7 @@
       ]
     ]
   },
-  "PoseidonRoundKeys": {
+  "ext_table_air_fn_keys": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -5826,7 +5856,7 @@
     "constraints": [],
     "lookups": []
   },
-  "RangeCheck_3_3_3_3_3_Const": {
+  "ext_table_air_fn_range_check_3_3_3_3_3_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -6409,7 +6439,7 @@
       ]
     ]
   },
-  "RangeCheck_4_4_4_4_Const": {
+  "ext_table_air_fn_range_check_4_4_4_4_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -6421,7 +6451,7 @@
     "constraints": [],
     "lookups": []
   },
-  "RangeCheck_4_4_Const": {
+  "ext_table_air_fn_range_check_4_4_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -9039,7 +9069,7 @@
     "lookups": [
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (Seq_col0 * 6)) + 0), input_state_0_id_col0"
+        "((public_params.poseidon_builtin_segment_start + (seq() * 6)) + 0), input_state_0_id_col0"
       ],
       [
         "MemoryIdToBig",
@@ -9047,7 +9077,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (Seq_col0 * 6)) + 1), input_state_1_id_col29"
+        "((public_params.poseidon_builtin_segment_start + (seq() * 6)) + 1), input_state_1_id_col29"
       ],
       [
         "MemoryIdToBig",
@@ -9055,7 +9085,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (Seq_col0 * 6)) + 2), input_state_2_id_col58"
+        "((public_params.poseidon_builtin_segment_start + (seq() * 6)) + 2), input_state_2_id_col58"
       ],
       [
         "MemoryIdToBig",
@@ -9135,7 +9165,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (Seq_col0 * 6)) + 3), output_state_0_id_col308"
+        "((public_params.poseidon_builtin_segment_start + (seq() * 6)) + 3), output_state_0_id_col308"
       ],
       [
         "MemoryIdToBig",
@@ -9143,7 +9173,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (Seq_col0 * 6)) + 4), output_state_1_id_col327"
+        "((public_params.poseidon_builtin_segment_start + (seq() * 6)) + 4), output_state_1_id_col327"
       ],
       [
         "MemoryIdToBig",
@@ -9151,7 +9181,7 @@
       ],
       [
         "MemoryAddressToId",
-        "((public_params.poseidon_builtin_segment_start + (Seq_col0 * 6)) + 5), output_state_2_id_col346"
+        "((public_params.poseidon_builtin_segment_start + (seq() * 6)) + 5), output_state_2_id_col346"
       ],
       [
         "MemoryIdToBig",
@@ -9159,7 +9189,7 @@
       ]
     ]
   },
-  "RangeCheck_7_2_5_Const": {
+  "ext_table_air_fn_range_check_7_2_5_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -9171,7 +9201,7 @@
     "constraints": [],
     "lookups": []
   },
-  "RangeCheck_4_3_Const": {
+  "ext_table_air_fn_range_check_4_3_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -14316,6 +14346,12 @@
       ]
     ]
   },
+  "ext_table_air_fn_seq_const_len_11": {
+    "state_names": [],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": []
+  },
   "range_check_11": {
     "state_names": [],
     "intermediates": [],
@@ -16086,7 +16122,7 @@
     "constraints": [],
     "lookups": []
   },
-  "VerifyBitwiseXor_8_Const": {
+  "ext_table_air_fn_verify_bitwise_xor_8_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -16318,7 +16354,13 @@
       ]
     ]
   },
-  "BlakeSigma": {
+  "ext_table_air_fn_seq_const_len_4": {
+    "state_names": [],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": []
+  },
+  "ext_table_air_fn_blake_sigma": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -16400,7 +16442,7 @@
     "constraints": [],
     "lookups": []
   },
-  "VerifyBitwiseXor_12_Const": {
+  "ext_table_air_fn_verify_bitwise_xor_12_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -16425,7 +16467,7 @@
       ]
     ]
   },
-  "VerifyBitwiseXor_4_Const": {
+  "ext_table_air_fn_verify_bitwise_xor_4_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
@@ -16532,7 +16574,7 @@
     "constraints": [],
     "lookups": []
   },
-  "VerifyBitwiseXor_7_Const": {
+  "ext_table_air_fn_verify_bitwise_xor_7_const": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
