@@ -3,7 +3,6 @@ use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::super::casm_state::*;
 use super::encode_offsets::*;
-use crate::airs::casm::common::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
@@ -41,13 +40,6 @@ impl AirFn for VerifyInstruction {
         let [felt0, felt1, felt2, felt3, felt4, felt5_low] = ab.call(&EncodeOffsets {}, offsets);
 
         let felt5 = felt5_low + felt5_high;
-
-        ab.constrain(
-            (opcode_extension.clone() - OpcodeExtension::Stone.into())
-                * (opcode_extension.clone() - OpcodeExtension::Blake.into())
-                * (opcode_extension.clone() - OpcodeExtension::BlakeFinalize.into()),
-            "OpcodeExtension enum has a valid value",
-        );
 
         let expected_instruction = Felt252Expr::from(vec![
             felt0,

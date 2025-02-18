@@ -47,6 +47,7 @@ pub enum OpcodeExtension {
     Stone,
     Blake,
     BlakeFinalize,
+    QM31Operation,
 }
 
 impl From<OpcodeExtension> for FeltExpr {
@@ -55,6 +56,7 @@ impl From<OpcodeExtension> for FeltExpr {
             OpcodeExtension::Stone => const_expr!(0),
             OpcodeExtension::Blake => const_expr!(1),
             OpcodeExtension::BlakeFinalize => const_expr!(2),
+            OpcodeExtension::QM31Operation => const_expr!(3),
         }
     }
 }

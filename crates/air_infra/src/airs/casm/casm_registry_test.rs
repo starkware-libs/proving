@@ -22,6 +22,7 @@ use super::opcodes::generic_opcode::generic_opcode::*;
 use super::opcodes::jnz_opcode::*;
 use super::opcodes::jump_opcode::*;
 use super::opcodes::mul_opcode::*;
+use super::opcodes::qm31::qm31_add_mul_opcode::*;
 use super::opcodes::ret_opcode::*;
 use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
@@ -199,6 +200,12 @@ fn test_casm_registry() {
     });
     // Ret opcode
     reg.add_entry(&RetOpcode::default());
+
+    // QM31AddMul opcode
+    reg.add_entry(&QM31AddMulOpcode {
+        memory: Felt252IdMemory::default(),
+    });
+
     // Blake opcode
     reg.add_entry(&BlakeCompressOpcode::default());
 

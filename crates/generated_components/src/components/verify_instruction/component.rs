@@ -72,11 +72,8 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_0 = E::F::from(M31::from(0));
-        let M31_1 = E::F::from(M31::from(1));
         let M31_128 = E::F::from(M31::from(128));
         let M31_16 = E::F::from(M31::from(16));
-        let M31_2 = E::F::from(M31::from(2));
         let M31_2048 = E::F::from(M31::from(2048));
         let M31_32 = E::F::from(M31::from(32));
         let M31_4 = E::F::from(M31::from(4));
@@ -133,13 +130,6 @@ impl FrameworkEval for Eval {
             E::EF::one(),
             &[offset2_low_col12.clone(), offset2_high_col14.clone()],
         ));
-
-        // OpcodeExtension enum has a valid value.
-        eval.add_constraint(
-            (((input_limb_6_col6.clone() - M31_0.clone())
-                * (input_limb_6_col6.clone() - M31_1.clone()))
-                * (input_limb_6_col6.clone() - M31_2.clone())),
-        );
 
         // Mem Verify.
 

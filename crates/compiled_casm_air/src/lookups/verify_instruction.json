@@ -264,63 +264,6 @@
     },
     "EndBlock",
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "input_limb_6_col6"
-                    },
-                    "-",
-                    {
-                      "Const": [
-                        "M31",
-                        "0"
-                      ]
-                    }
-                  ]
-                },
-                "*",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "input_limb_6_col6"
-                    },
-                    "-",
-                    {
-                      "Const": [
-                        "M31",
-                        "1"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "State": "input_limb_6_col6"
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "2"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "OpcodeExtension enum has a valid value"
-      ]
-    },
-    {
       "StartBlock": "Mem Verify"
     },
     {
