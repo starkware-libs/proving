@@ -1,14 +1,19 @@
 use std::array::from_fn;
 
+use compiled_casm_air::public_params::PublicParam;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
 
 use super::ec_add::*;
+use super::pedersen_builtin::*;
+use super::utils::*;
 use crate::airs::casm::builtins::pedersen::partial_ec_mul::*;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
+use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
-use crate::{const_expr, const_felt252_expr};
+use crate::core::*;
+use crate::{const_expr, const_felt252_expr, const_felt252_expr_from_felt252};
 
 #[test]
 fn test_ec_add() {
@@ -46,7 +51,8 @@ fn test_ec_add() {
 fn pack_to_double_limbs(mut value: u64) -> PackedECMultiplier {
     const MASK: u64 = (1 << (2 * FELT252_BITS_PER_WORD)) - 1;
     from_fn(|_| {
-        let double_limb = const_expr!(TryInto::<u32>::try_into(value & MASK).unwrap());
+        let double_limb = const_expr!(TryInto::<u32>::try_into(value & MASK)
+            .expect("After masking the value should be small"));
         value >>= FELT252_BITS_PER_WORD * 2;
         double_limb
     })
@@ -108,4 +114,135 @@ fn test_partial_mul() {
     assert_eq!(output.2 .2[0].calc(), result_x.calc());
     assert_eq!(output.2 .2[1].calc(), result_y.calc());
     assert_eq!(state.get_felts().len(), 471);
+}
+
+#[test]
+fn test_pedersen_0() {
+    let segment_start = 500;
+
+    let memory = Felt252IdMemory::new_with_data(vec![
+        (const_expr!(segment_start), const_felt252_expr!(0, 0)),
+        (const_expr!(segment_start + 1), const_felt252_expr!(0, 0)),
+        (
+            const_expr!(segment_start + 2),
+            const_felt252_expr_from_felt252!(P_SHIFT.x),
+        ),
+    ]);
+
+    let pedersen = PedersenBuiltin { memory };
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::PedersenBuiltinSegmentStart,
+        Felt::from(segment_start),
+    );
+    registry.add_entry(&pedersen);
+
+    let (state, _) = registry.run_air_with_row_number(&pedersen, (), (), 0);
+    assert_eq!(state.get_felts().len(), 359);
+}
+
+#[test]
+fn test_pedersen_random() {
+    let segment_start = 500;
+
+    let memory = Felt252IdMemory::new_with_data(vec![
+        (
+            const_expr!(segment_start),
+            const_felt252_expr!(
+                0x7e3dcae2971a7b5e7c51bb79d6e1ef97,
+                0x2b4ad973e17143178840b3ddac9c771
+            ),
+        ),
+        (
+            const_expr!(segment_start + 1),
+            const_felt252_expr!(
+                0xcb577c90056935d2608096e848573e39,
+                0x4678487e5de069f1b159422e625fb6b
+            ),
+        ),
+        (
+            const_expr!(segment_start + 2),
+            const_felt252_expr!(
+                0xf03ff7ee2bec85660ef9431bb21b0dfd,
+                0x3b68ae30d53cd5d25410b744c249e4f
+            ),
+        ),
+    ]);
+
+    let pedersen = PedersenBuiltin { memory };
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::PedersenBuiltinSegmentStart,
+        Felt::from(segment_start),
+    );
+    registry.add_entry(&pedersen);
+
+    registry.run_air_with_row_number(&pedersen, (), (), 0);
+}
+
+#[test]
+#[should_panic(expected = "Added incorrect constraint")]
+fn test_pedersen_unreduced() {
+    let segment_start = 500;
+
+    // Make sure the Pedersen builtin doesn't reduce inputs modulo P252
+    let memory = Felt252IdMemory::new_with_data(vec![
+        // a = P
+        (
+            const_expr!(segment_start),
+            const_felt252_expr!(0x1, 0x8000000000000110000000000000000),
+        ),
+        // b = 0
+        (const_expr!(segment_start + 1), const_felt252_expr!(0, 0)),
+        // result = Pedersen(0,0)
+        (
+            const_expr!(segment_start + 2),
+            const_felt252_expr_from_felt252!(P_SHIFT.x),
+        ),
+    ]);
+
+    let pedersen = PedersenBuiltin { memory };
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::PedersenBuiltinSegmentStart,
+        Felt::from(segment_start),
+    );
+    registry.add_entry(&pedersen);
+
+    registry.run_air_with_row_number(&pedersen, (), (), 0);
+}
+
+#[test]
+#[should_panic(expected = "Added incorrect constraint")]
+fn test_pedersen_unreduced2() {
+    let segment_start = 500;
+
+    // Make sure the Pedersen builtin doesn't process >P252 inputs as-is.
+    let memory = Felt252IdMemory::new_with_data(vec![
+        // a = P
+        (
+            const_expr!(segment_start),
+            const_felt252_expr!(0x1, 0x8000000000000110000000000000000),
+        ),
+        // b = 0
+        (const_expr!(segment_start + 1), const_felt252_expr!(0, 0)),
+        // result = Pedersen(P,0)
+        (
+            const_expr!(segment_start + 2),
+            const_felt252_expr!(
+                0x70f3d27254d3082c700711659b6e7081,
+                0x2703e5efb0ce387bc1ea350e6abcb36
+            ),
+        ),
+    ]);
+
+    let pedersen = PedersenBuiltin { memory };
+    let mut registry = AirFnRegistry::new_empty();
+    registry.public_params.set(
+        PublicParam::PedersenBuiltinSegmentStart,
+        Felt::from(segment_start),
+    );
+    registry.add_entry(&pedersen);
+
+    registry.run_air_with_row_number(&pedersen, (), (), 0);
 }

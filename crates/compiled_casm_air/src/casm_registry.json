@@ -339,6 +339,77 @@
     "total_num_trace_cols": 407,
     "trace_cells_upper_bound": 47600
   },
+  "range_check_5_4": {
+    "trace_type": "Component",
+    "num_state_cols": 0,
+    "lookup_use_cols": {},
+    "lookup_rows": {},
+    "lookup_yield": true,
+    "lookup_multiplicity": true,
+    "total_num_trace_cols": 3,
+    "trace_cells_upper_bound": 3
+  },
+  "range_check_8": {
+    "trace_type": "Component",
+    "num_state_cols": 0,
+    "lookup_use_cols": {},
+    "lookup_rows": {},
+    "lookup_yield": true,
+    "lookup_multiplicity": true,
+    "total_num_trace_cols": 3,
+    "trace_cells_upper_bound": 3
+  },
+  "pedersen_points_table": {
+    "trace_type": "Component",
+    "num_state_cols": 0,
+    "lookup_use_cols": {},
+    "lookup_rows": {},
+    "lookup_yield": true,
+    "lookup_multiplicity": true,
+    "total_num_trace_cols": 3,
+    "trace_cells_upper_bound": 3
+  },
+  "partial_ec_mul": {
+    "trace_type": "ChainRound",
+    "num_state_cols": 471,
+    "lookup_use_cols": {
+      "PedersenPointsTable": 1,
+      "RangeCheck_9_9": 126,
+      "RangeCheck_19": 84,
+      "PartialEcMul": 1
+    },
+    "lookup_rows": {
+      "pedersen_points_table": 1,
+      "range_check_9_9": 126,
+      "range_check_19": 84
+    },
+    "lookup_yield": true,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 897,
+    "trace_cells_upper_bound": 897
+  },
+  "pedersen_builtin": {
+    "trace_type": "Builtin",
+    "num_state_cols": 359,
+    "lookup_use_cols": {
+      "RangeCheck_5_4": 2,
+      "MemoryAddressToId": 3,
+      "MemoryIdToBig": 3,
+      "RangeCheck_8": 4,
+      "PartialEcMul": 4
+    },
+    "lookup_rows": {
+      "range_check_5_4": 2,
+      "memory_address_to_id": 3,
+      "memory_id_to_big": 3,
+      "range_check_8": 4,
+      "partial_ec_mul": 30
+    },
+    "lookup_yield": false,
+    "lookup_multiplicity": false,
+    "total_num_trace_cols": 391,
+    "trace_cells_upper_bound": 27301
+  },
   "range_check_7_2_5": {
     "trace_type": "Component",
     "num_state_cols": 0,

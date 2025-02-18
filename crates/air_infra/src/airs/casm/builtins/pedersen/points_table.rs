@@ -20,8 +20,8 @@ const STWO_COMPONENT_TYPE_PEDERSEN_POINTS: &str = "PedersenPoints";
 #[derive(Clone, Debug, Default)]
 pub struct PedersenPoints {}
 
-pub const NUM_WINDOWS: usize = 14;
 pub const BITS_PER_WINDOW: usize = 18;
+pub const NUM_WINDOWS: usize = 252usize.div_ceil(BITS_PER_WINDOW);
 pub const ROWS_PER_WINDOW: usize = 1 << BITS_PER_WINDOW;
 pub const P_0_SECTION_START: usize = 0;
 pub const P_1_SECTION_START: usize = P_0_SECTION_START + NUM_WINDOWS * ROWS_PER_WINDOW;
