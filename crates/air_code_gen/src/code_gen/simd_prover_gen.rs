@@ -61,7 +61,7 @@ impl RustProverGen {
         let n_trace_cols = generate_n_trace_columns(&self.lists);
         let lookup_data_code = generate_lookup_data_struct(&self.lists.deductions);
         let claim_generator_code = self.generate_claim_generator_struct();
-        let claim_generator_impl_code = generate_claim_generator_impl(&self.lists);
+        let claim_generator_impl_code = self.generate_claim_generator_impl();
         let claim_prover_code = generate_claim_prover_struct();
         let claim_prover_impl = generate_claim_prover_impl(&self.lists.deductions);
         let write_trace_code = generate_simd_write_trace_code(&self.lists);
@@ -129,6 +129,69 @@ impl RustProverGen {
             #[derive(Default)]
             pub struct ClaimGenerator {
                 $(claim_generator_fields)
+            }
+        }
+    }
+
+    fn generate_claim_generator_impl(&self) -> rust::Tokens {
+        let (
+            mut claim_generator_fields,
+            mut claim_generator_parameters,
+            add_inputs_code,
+            self_param,
+        ) = match self.mode {
+            Mode::View => (
+                quote! { inputs, },
+                quote! { inputs: Vec<InputType>, },
+                quote! {
+                    pub fn add_input(&self, input: &InputType,) {
+                        $(add_input_simd_body())
+                    }
+
+                    // TODO(Ohad): consider removing this.
+                    pub fn add_inputs (&self, inputs: &[InputType]) {
+                        for input in inputs {
+                            self.add_input(input);
+                        }
+                    }
+                },
+                quote! {mut self, },
+            ),
+            Mode::Builtin => (
+                quote! { log_size, },
+                quote! { log_size: u32, },
+                quote! {},
+                quote! {self, },
+            ),
+            Mode::Opcode => (
+                quote! { inputs, },
+                quote! { inputs: Vec<InputType>, },
+                quote! {},
+                quote! {mut self, },
+            ),
+        };
+        for public_param in &self.public_params {
+            claim_generator_fields.extend(quote! { $(public_param.name()), });
+            claim_generator_parameters.extend(quote! { $(public_param.name()): u32, });
+        }
+        quote! {
+            impl ClaimGenerator {
+                pub fn new($(claim_generator_parameters)) -> Self {
+                    Self { $(claim_generator_fields) }
+                }
+
+                pub fn write_trace<MC: MerkleChannel>(
+                    $(self_param)
+                    tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
+                    $(generate_sub_component_params_and_args(&self.lists.deductions).0)
+                ) -> (Claim, InteractionClaimGenerator)
+                where
+                    SimdBackend: BackendForChannel<MC>
+                {
+                    $(write_trace_body_simd(&self.lists))
+                }
+
+                $(add_inputs_code)
             }
         }
     }
@@ -384,60 +447,6 @@ fn generate_claim_prover_struct() -> rust::Tokens {
         pub struct InteractionClaimGenerator {
             log_size: u32,
             lookup_data: LookupData,
-        }
-    }
-}
-
-fn generate_claim_generator_impl(lists: &CompiledAirFn) -> rust::Tokens {
-    let (mut claim_generator_fields, mut claim_generator_parameters, add_inputs_code, self_param) =
-        if contains_inputs(lists) {
-            (
-                quote! { inputs, },
-                quote! { inputs: Vec<InputType>, },
-                quote! {
-                    pub fn add_input(&self, input: &InputType,) {
-                        $(add_input_simd_body())
-                    }
-
-                    // TODO(Ohad): consider removing this.
-                    pub fn add_inputs (&self, inputs: &[InputType]) {
-                        for input in inputs {
-                            self.add_input(input);
-                        }
-                    }
-                },
-                quote! {mut self, },
-            )
-        } else {
-            (
-                quote! { log_size, },
-                quote! { log_size: u32, },
-                quote! {},
-                quote! {self, },
-            )
-        };
-    for public_param in &lists.public_params {
-        claim_generator_fields.extend(quote! { $(public_param.name()), });
-        claim_generator_parameters.extend(quote! { $(public_param.name()): u32, });
-    }
-    quote! {
-        impl ClaimGenerator {
-            pub fn new($(claim_generator_parameters)) -> Self {
-                Self { $(claim_generator_fields) }
-            }
-
-            pub fn write_trace<MC: MerkleChannel>(
-                $(self_param)
-                tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
-                $(generate_sub_component_params_and_args(&lists.deductions).0)
-            ) -> (Claim, InteractionClaimGenerator)
-            where
-                SimdBackend: BackendForChannel<MC>
-            {
-                $(write_trace_body_simd(lists))
-            }
-
-            $(add_inputs_code)
         }
     }
 }
