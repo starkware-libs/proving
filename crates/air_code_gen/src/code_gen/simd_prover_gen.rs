@@ -1,3 +1,4 @@
+use core::panic;
 use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
@@ -11,49 +12,88 @@ use itertools::Itertools;
 
 use super::parse::seek_consts;
 use super::utils::{
-    block_doc, contains_inputs, get_const_name, replace_generics_with_turbofish,
-    unique_relation_calls,
+    block_doc, get_const_name, replace_generics_with_turbofish, unique_relation_calls,
 };
 use crate::code_gen::utils::preprocessed_columns_imports;
 use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
-// TODO(Ohad): Refactor. build a 'auto-gen' struct from the lists, and have it generate the code.
-pub fn generate_simd_claim_provers(lists: &CompiledAirFn) -> rust::Tokens {
-    let contains_inputs = contains_inputs(lists);
-    let public_params_vec: Vec<PublicParam> = lists.public_params.iter().cloned().collect_vec();
-    let configs = generate_configs(lists);
-    let allows = generate_allows(lists);
-    let imports_code = generate_imports_code(&lists.deductions);
-    let typedefs = if contains_inputs {
-        generate_input_output_typedefs(lists)
-    } else {
-        quote! {}
-    };
-    let n_trace_cols = generate_n_trace_columns(lists);
-    let lookup_data_code = generate_lookup_data_struct(&lists.deductions);
-    let claim_generator_code = generate_claim_generator_struct(&public_params_vec, contains_inputs);
-    let claim_generator_impl_code = generate_claim_generator_impl(lists);
-    let claim_prover_code = generate_claim_prover_struct();
-    let claim_prover_impl = generate_claim_prover_impl(&lists.deductions);
-    let write_trace_code = generate_simd_write_trace_code(lists);
-    quote! {
-        $(configs)
-        $(allows)
-        $(imports_code)
-        $['\n']
-        $(typedefs)
-        $(n_trace_cols)
-        $['\n']
-        $(claim_generator_code)
-        $(claim_generator_impl_code)
-        $['\n']
-        $(write_trace_code)
-        $['\n']
-        $(lookup_data_code)
-        $['\n']
-        $(claim_prover_code)
-        $(claim_prover_impl)
-        $['\n']
+pub enum Mode {
+    Opcode,
+    Builtin,
+    View,
+}
+
+pub struct RustProverGen {
+    lists: CompiledAirFn,
+    mode: Mode,
+}
+impl RustProverGen {
+    pub fn new(lists: CompiledAirFn) -> Self {
+        // TODO(Ohad): replace this predicate.
+        let is_builtin = lists.name.contains("builtin");
+        let is_opcode = lists.name.contains("opcode");
+
+        // TODO(Gali): handle mults column.
+        let mode = match (is_builtin, is_opcode) {
+            (true, false) => Mode::Builtin,
+            (false, true) => Mode::Opcode,
+            (false, false) => {
+                assert!(contains_inputs(&lists));
+                Mode::View
+            }
+            (true, true) => panic!("unsupported mode"),
+        };
+        Self { lists, mode }
+    }
+
+    pub fn generate_simd_claim_prover(&self) -> rust::Tokens {
+        let public_params_vec: Vec<PublicParam> =
+            self.lists.public_params.iter().cloned().collect_vec();
+        let configs = generate_configs(&self.lists);
+        let allows = generate_allows(&self.lists);
+        let imports_code = generate_imports_code(&self.lists.deductions);
+        let typedefs = self.generate_input_output_typedefs();
+        let n_trace_cols = generate_n_trace_columns(&self.lists);
+        let lookup_data_code = generate_lookup_data_struct(&self.lists.deductions);
+        let claim_generator_code =
+            generate_claim_generator_struct(&public_params_vec, contains_inputs(&self.lists));
+        let claim_generator_impl_code = generate_claim_generator_impl(&self.lists);
+        let claim_prover_code = generate_claim_prover_struct();
+        let claim_prover_impl = generate_claim_prover_impl(&self.lists.deductions);
+        let write_trace_code = generate_simd_write_trace_code(&self.lists);
+        quote! {
+            $(configs)
+            $(allows)
+            $(imports_code)
+            $['\n']
+            $(typedefs)
+            $(n_trace_cols)
+            $['\n']
+            $(claim_generator_code)
+            $(claim_generator_impl_code)
+            $['\n']
+            $(write_trace_code)
+            $['\n']
+            $(lookup_data_code)
+            $['\n']
+            $(claim_prover_code)
+            $(claim_prover_impl)
+            $['\n']
+        }
+    }
+
+    fn generate_input_output_typedefs(&self) -> rust::Tokens {
+        match self.mode {
+            // Builtins have no inputs.
+            Mode::Builtin => quote!(),
+            Mode::Opcode | Mode::View => {
+                let input = &self.lists.input;
+                quote! {
+                    pub type InputType = $(air_var_type(input, &mut |ty| quote!($ty)));
+                    pub type PackedInputType = $(air_var_type(input, &mut |ty| quote!(Packed$ty)));
+                }
+            }
+        }
     }
 }
 
@@ -295,13 +335,6 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
         .into_iter()
         .sorted()
         .collect()
-}
-
-fn generate_input_output_typedefs(lists: &CompiledAirFn) -> rust::Tokens {
-    quote! {
-        pub type InputType = $(air_var_type(&lists.input, &mut |ty| quote!($ty)));
-        pub type PackedInputType = $(air_var_type(&lists.input, &mut |ty| quote!(Packed$ty)));
-    }
 }
 
 fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
@@ -923,4 +956,13 @@ fn packed_name(ty: &str) -> String {
 
 fn vec_of_type(ty: &str) -> String {
     format!("Vec<{}>", ty)
+}
+
+fn contains_inputs(lists: &CompiledAirFn) -> bool {
+    // No inputs is defined by an empty tuple.
+    if let CompiledAirVar::Tuple(inputs) = &lists.input {
+        !inputs.is_empty()
+    } else {
+        true
+    }
 }

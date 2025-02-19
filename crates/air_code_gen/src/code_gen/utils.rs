@@ -12,7 +12,7 @@ use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
 use super::framework_gen::generate_component_code;
-use crate::code_gen::simd_prover_gen::generate_simd_claim_provers;
+use super::simd_prover_gen::RustProverGen;
 
 pub fn project_root() -> PathBuf {
     std::path::PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap())
@@ -39,7 +39,8 @@ pub fn reformat_rust_code_inner(code_text: String) -> String {
 
 // Generates the prover & verifier code.
 pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
-    let claim_provers = generate_simd_claim_provers(&air_fn);
+    let rust_codegen = RustProverGen::new(air_fn.clone());
+    let claim_provers = rust_codegen.generate_simd_claim_prover();
     let eval_tokens = generate_component_code(&air_fn);
 
     // Write the generated code to files.
@@ -51,16 +52,13 @@ pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
     // Generate mod.rs, if it does not exist.
     let mod_rs_path = folder_path.join("mod.rs");
     if !std::path::Path::new(&mod_rs_path).exists() {
-        let mut mod_rs_code: rust::Tokens = quote! {
+        let mod_rs_code: rust::Tokens = quote! {
             pub mod component;
             pub mod prover;
 
             pub use component::{Claim, InteractionClaim, Component, Eval};
             pub use prover::{ClaimGenerator, InteractionClaimGenerator};
         };
-        if contains_inputs(&air_fn) {
-            mod_rs_code.extend(quote! {pub use prover::InputType;});
-        }
         let text = reformat_rust_code(mod_rs_code.to_string().unwrap());
         fs::write(mod_rs_path, text).unwrap();
     }
@@ -101,15 +99,6 @@ pub fn assert_generated_code_unchanged(air_fn: CompiledAirFn, folder_path: &Path
             path.display(),
             exisitng_file_path.display()
         );
-    }
-}
-
-pub fn contains_inputs(lists: &CompiledAirFn) -> bool {
-    // No inputs is defined by an empty tuple.
-    if let CompiledAirVar::Tuple(inputs) = &lists.input {
-        !inputs.is_empty()
-    } else {
-        true
     }
 }
 
