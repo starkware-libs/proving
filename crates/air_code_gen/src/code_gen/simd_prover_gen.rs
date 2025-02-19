@@ -25,6 +25,7 @@ pub enum Mode {
 
 pub struct RustProverGen {
     lists: CompiledAirFn,
+    public_params: Vec<PublicParam>,
     mode: Mode,
 }
 impl RustProverGen {
@@ -43,19 +44,23 @@ impl RustProverGen {
             }
             (true, true) => panic!("unsupported mode"),
         };
-        Self { lists, mode }
+
+        let public_params = lists.public_params.iter().cloned().collect_vec();
+
+        Self {
+            lists,
+            mode,
+            public_params,
+        }
     }
 
     pub fn generate_simd_claim_prover(&self) -> rust::Tokens {
-        let public_params_vec: Vec<PublicParam> =
-            self.lists.public_params.iter().cloned().collect_vec();
         let attributes = self.attributes();
         let imports_code = generate_imports_code(&self.lists.deductions);
         let typedefs = self.generate_input_output_typedefs();
         let n_trace_cols = generate_n_trace_columns(&self.lists);
         let lookup_data_code = generate_lookup_data_struct(&self.lists.deductions);
-        let claim_generator_code =
-            generate_claim_generator_struct(&public_params_vec, contains_inputs(&self.lists));
+        let claim_generator_code = self.generate_claim_generator_struct();
         let claim_generator_impl_code = generate_claim_generator_impl(&self.lists);
         let claim_prover_code = generate_claim_prover_struct();
         let claim_prover_impl = generate_claim_prover_impl(&self.lists.deductions);
@@ -109,6 +114,23 @@ impl RustProverGen {
         };
 
         attributes
+    }
+
+    fn generate_claim_generator_struct(&self) -> rust::Tokens {
+        let mut claim_generator_fields = match self.mode {
+            Mode::View | Mode::Opcode => quote! { pub inputs: $(vec_of_type("InputType")), },
+            _ => quote! { pub log_size: u32, },
+        };
+        // TODO(Gali): Get the types of the public params from air_infra.
+        for public_param in &self.public_params {
+            claim_generator_fields.extend(quote! { pub $(public_param.name()): u32, });
+        }
+        quote! {
+            #[derive(Default)]
+            pub struct ClaimGenerator {
+                $(claim_generator_fields)
+            }
+        }
     }
 }
 
@@ -356,27 +378,6 @@ fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
     quote!(const N_TRACE_COLUMNS: usize = $(lists.state_names.len());)
 }
 
-fn generate_claim_generator_struct(
-    public_params: &[PublicParam],
-    contains_inputs: bool,
-) -> rust::Tokens {
-    let mut claim_generator_fields = if contains_inputs {
-        quote! { pub inputs: $(vec_of_type("InputType")), }
-    } else {
-        quote! { pub log_size: u32, }
-    };
-    // TODO(Gali): Get the types of the public params from air_infra.
-    for public_param in public_params {
-        claim_generator_fields.extend(quote! { pub $(public_param.name()): u32, });
-    }
-    quote! {
-        #[derive(Default)]
-        pub struct ClaimGenerator {
-            $(claim_generator_fields)
-        }
-    }
-}
-
 fn generate_claim_prover_struct() -> rust::Tokens {
     quote! {
 
@@ -562,7 +563,7 @@ fn add_input_simd_body() -> rust::Tokens {
     }
 }
 
-pub fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
+fn generate_lookup_data_struct(deductions: &[TraceGenStep]) -> rust::Tokens {
     let mut members_code = quote! {};
 
     let mut relation_offsets = HashMap::new();
