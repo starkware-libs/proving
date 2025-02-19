@@ -200,11 +200,8 @@ fn write_trace_simd(
             ];
 
             // Add sub-components inputs.
-            #[allow(clippy::needless_range_loop)]
-            for i in 0..N_LANES {
-                memory_address_to_id_state.add_input(&memory_address_to_id_inputs_0[i]);
-                memory_id_to_big_state.add_input(&memory_id_to_big_inputs_0[i]);
-            }
+            memory_address_to_id_state.add_inputs(&memory_address_to_id_inputs_0);
+            memory_id_to_big_state.add_inputs(&memory_id_to_big_inputs_0);
         });
 
     (trace, lookup_data)

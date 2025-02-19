@@ -263,19 +263,10 @@ fn write_trace_simd(
                 ];
 
                 // Add sub-components inputs.
-                #[allow(clippy::needless_range_loop)]
-                for i in 0..N_LANES {
-                    if bit_reverse_index(
-                        coset_index_to_circle_domain_index(row_index * N_LANES + i, log_size),
-                        log_size,
-                    ) < n_rows
-                    {
-                        range_check_7_2_5_state.add_input(&range_check_7_2_5_inputs_0[i]);
-                        range_check_4_3_state.add_input(&range_check_4_3_inputs_0[i]);
-                        memory_address_to_id_state.add_input(&memory_address_to_id_inputs_0[i]);
-                        memory_id_to_big_state.add_input(&memory_id_to_big_inputs_0[i]);
-                    }
-                }
+                range_check_7_2_5_state.add_inputs(&range_check_7_2_5_inputs_0);
+                range_check_4_3_state.add_inputs(&range_check_4_3_inputs_0);
+                memory_address_to_id_state.add_inputs(&memory_address_to_id_inputs_0);
+                memory_id_to_big_state.add_inputs(&memory_id_to_big_inputs_0);
             },
         );
 

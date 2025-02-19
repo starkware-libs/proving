@@ -26,6 +26,7 @@ pub enum Mode {
 pub struct RustProverGen {
     lists: CompiledAirFn,
     public_params: Vec<PublicParam>,
+    constants: Vec<(String, String)>,
     mode: Mode,
 }
 impl RustProverGen {
@@ -46,11 +47,13 @@ impl RustProverGen {
         };
 
         let public_params = lists.public_params.iter().cloned().collect_vec();
+        let constants = deduction_consts(&lists.deductions);
 
         Self {
             lists,
             mode,
             public_params,
+            constants,
         }
     }
 
@@ -64,7 +67,7 @@ impl RustProverGen {
         let claim_generator_impl_code = self.generate_claim_generator_impl();
         let claim_prover_code = generate_claim_prover_struct();
         let claim_prover_impl = generate_claim_prover_impl(&self.lists.deductions);
-        let write_trace_code = generate_simd_write_trace_code(&self.lists);
+        let write_trace_code = self.generate_simd_write_trace_code();
         quote! {
             $(attributes)
             $(imports_code)
@@ -195,215 +198,192 @@ impl RustProverGen {
             }
         }
     }
+
+    fn generate_simd_write_trace_code(&self) -> rust::Tokens {
+        let contains_state_names = !self.lists.state_names.is_empty();
+        if !contains_state_names {
+            return quote! {
+                fn write_trace_simd(
+                    $(generate_write_trace_simd_params(&self.lists))
+                ) -> (ComponentTrace<N_TRACE_COLUMNS>,
+                    LookupData) {
+                unimplemented!()
+            }};
+        }
+
+        // declare constants.
+        let mut constants_def_code = quote! {};
+        let constants = deduction_consts(&self.lists.deductions);
+        for (ty, val) in constants.into_iter() {
+            let name = get_const_name(&ty, &val);
+            constants_def_code.extend(quote! {
+                let $(name) = $(replace_generics_with_turbofish(&packed_name(&ty)))::broadcast(
+                    $(replace_generics_with_turbofish(&ty))::from($(val))
+                );
+            });
+        }
+
+        let (log_size_code, zip_inputs, for_each_variables) = match self.mode {
+            Mode::Builtin => (
+                quote! {
+                    let log_n_packed_rows = log_size - LOG_N_LANES;
+                },
+                quote! {},
+                quote! { (row_index, row) },
+            ),
+            _ => (
+                quote! {
+                    let log_n_packed_rows = inputs.len().ilog2();
+                    let log_size = log_n_packed_rows + LOG_N_LANES;
+                },
+                quote! { .zip(inputs.into_par_iter()) },
+                quote! { ((row_index, row), $(&self.lists.name)_input) },
+            ),
+        };
+
+        let mut code = rust::Tokens::new();
+        code.extend(quote! {
+            // TODO(Ohad): attempt to remove this.
+            #[allow(clippy::useless_conversion)]
+            #[allow(unused_variables)]
+            #[allow(clippy::double_parens)]
+            #[allow(non_snake_case)]
+            fn write_trace_simd(
+                $(generate_write_trace_simd_params(&self.lists))
+            ) -> (ComponentTrace<N_TRACE_COLUMNS>,
+                LookupData) {
+                $(log_size_code)
+                let (mut trace, mut lookup_data) = unsafe {
+                    (
+                        ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
+                        LookupData::uninitialized(log_n_packed_rows),
+                    )
+                };
+
+                $(constants_def_code)
+
+                trace
+                .par_iter_mut()
+                .enumerate()
+                $(zip_inputs)
+                .zip(lookup_data.par_iter_mut())
+                .for_each(
+                    |($(for_each_variables), lookup_data)| {
+                        $(self.write_trace_lambda())
+                    });
+
+                (trace, lookup_data)
+            }
+            $['\n']
+        });
+        code
+    }
+
+    // Generates the body of the write_trace function.
+    fn write_trace_lambda(&self) -> rust::Tokens {
+        let const_names = &self
+            .constants
+            .iter()
+            .map(|(ty, value)| ((ty.clone(), value.clone()), get_const_name(ty, value)))
+            .collect_vec();
+        let mut write_trace_body = rust::Tokens::new();
+        let mut offset = 0;
+        let mut add_inputs_offsets = HashMap::new();
+        for deduction in &self.lists.deductions {
+            if let TraceGenStep::LookupAddInput { fn_name, .. } = deduction {
+                add_inputs_offsets.insert(fn_name, 0);
+            }
+        }
+        for (name, _) in &self.lists.external_states {
+            assert!(
+                SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
+                "unsupported {name}"
+            );
+            write_trace_body.append(quote! {
+                let $(&name.to_lowercase()) = $name::new(log_size).packed_at(row_index);
+            });
+        }
+
+        let mut relation_data_offsets = HashMap::new();
+        for relation in unique_relation_calls(&self.lists.deductions) {
+            relation_data_offsets.insert(relation, 0);
+        }
+
+        let mut add_inputs_lambda = rust::Tokens::new();
+        for deduction in &self.lists.deductions {
+            match deduction {
+                TraceGenStep::Deduction(expr) => {
+                    let name = self.lists.state_names[offset].clone();
+                    write_trace_body.append(quote! {
+                        let $(name.clone()) = $(simd_parse_air_var(expr,const_names));
+                        *row[$(offset)] = $(name);
+                    });
+                    offset += 1;
+                }
+                TraceGenStep::Intermediate(Intermediate {
+                    name,
+                    r#type: _,
+                    var,
+                }) => {
+                    write_trace_body.extend(quote! {
+                        let $(name) = $(simd_parse_air_var(var,const_names));
+                    });
+                }
+                TraceGenStep::StartBlock(msg) => {
+                    write_trace_body.extend(block_doc(msg));
+                }
+                TraceGenStep::EndBlock => {
+                    write_trace_body.extend(quote!(
+                        $['\n']
+                    ));
+                }
+                TraceGenStep::LookupTerm(LookupTerm {
+                    relation_name,
+                    felts,
+                    ..
+                }) => {
+                    let offset = relation_data_offsets.get_mut(relation_name).unwrap();
+                    let felts = felts
+                        .iter()
+                        .map(|felt| simd_parse_air_var(felt, const_names))
+                        .join(", ");
+                    let felts = &felts;
+                    let collect_felts = quote! {
+                        // TODO(Ohad): change this to not vec.
+                        *lookup_data.$(relation_name.to_case(Case::Snake))_$(*offset) = [$(felts)];
+                    };
+                    write_trace_body.extend(collect_felts);
+                    *offset += 1;
+                }
+                TraceGenStep::LookupAddInput { fn_name, input } => {
+                    let offset = add_inputs_offsets.get_mut(fn_name).unwrap();
+                    if input != &CompiledAirVar::Tuple(vec![]) {
+                        write_trace_body.extend(quote! {
+                            let $(fn_name)$(INPUTS_SUFFIX)_$(offset.to_string()) =
+                                $(simd_parse_air_var(input, const_names)).unpack();
+
+                        });
+                        add_inputs_lambda.extend(quote! {
+                            $(fn_name)_state.add_inputs(
+                                &$(fn_name)$(INPUTS_SUFFIX)_$(offset.to_string())
+                            );
+                        });
+                    }
+                    *offset += 1;
+                }
+            }
+        }
+        write_trace_body.extend(quote!(
+            $['\n']$("// Add sub-components inputs.\n")
+        ));
+        write_trace_body.extend(add_inputs_lambda);
+
+        write_trace_body
+    }
 }
 
 const INPUTS_SUFFIX: &str = "_inputs";
 const STATE_SUFFIX: &str = "_state";
-
-// Generates the body of the write_trace function.
-fn generate_simd_write_trace_body_code(
-    lists: &CompiledAirFn,
-    const_names: &HashMap<(String, String), String>,
-) -> rust::Tokens {
-    let mut write_trace_body = rust::Tokens::new();
-    let mut offset = 0;
-    let mut add_inputs_offsets = HashMap::new();
-    for deduction in &lists.deductions {
-        if let TraceGenStep::LookupAddInput { fn_name, .. } = deduction {
-            add_inputs_offsets.insert(fn_name, 0);
-        }
-    }
-    for (name, args) in &lists.external_states {
-        assert!(
-            SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
-            "unsupported {name}",
-        );
-
-        if name == "Seq" {
-            write_trace_body.append(quote! {
-                let $(&name.to_lowercase()) = $name::new(log_size).packed_at(row_index);
-            });
-        } else {
-            let args = args.join(", ");
-            write_trace_body.append(quote! {
-                let $(&name.to_lowercase()) = $name::new($args).packed_at(row_index);
-            });
-        }
-    }
-
-    let mut relation_data_offsets = HashMap::new();
-    for relation in unique_relation_calls(&lists.deductions) {
-        relation_data_offsets.insert(relation, 0);
-    }
-
-    let mut add_inputs_lambda = rust::Tokens::new();
-    for deduction in &lists.deductions {
-        match deduction {
-            TraceGenStep::Deduction(expr) => {
-                let name = lists.state_names[offset].clone();
-                write_trace_body.append(quote! {
-                    let $(name.clone()) = $(simd_parse_air_var(expr,const_names));
-                    *row[$(offset)] = $(name);
-                });
-                offset += 1;
-            }
-            TraceGenStep::Intermediate(Intermediate {
-                name,
-                r#type: _,
-                var,
-            }) => {
-                write_trace_body.extend(quote! {
-                    let $(name) = $(simd_parse_air_var(var,const_names));
-                });
-            }
-            TraceGenStep::StartBlock(msg) => {
-                write_trace_body.extend(block_doc(msg));
-            }
-            TraceGenStep::EndBlock => {
-                write_trace_body.extend(quote!(
-                    $['\n']
-                ));
-            }
-            TraceGenStep::LookupTerm(LookupTerm {
-                relation_name,
-                felts,
-                ..
-            }) => {
-                let offset = relation_data_offsets.get_mut(relation_name).unwrap();
-                let felts = felts
-                    .iter()
-                    .map(|felt| simd_parse_air_var(felt, const_names))
-                    .join(", ");
-                let felts = &felts;
-                let collect_felts = quote! {
-                    // TODO(Ohad): change this to not vec.
-                    *lookup_data.$(relation_name.to_case(Case::Snake))_$(*offset) = [$(felts)];
-                };
-                write_trace_body.extend(collect_felts);
-                *offset += 1;
-            }
-            TraceGenStep::LookupAddInput { fn_name, input } => {
-                let offset = add_inputs_offsets.get_mut(fn_name).unwrap();
-                if input != &CompiledAirVar::Tuple(vec![]) {
-                    write_trace_body.extend(quote! {
-                        let $(fn_name)$(INPUTS_SUFFIX)_$(offset.to_string()) =
-                            $(simd_parse_air_var(input, const_names)).unpack();
-
-                    });
-                    add_inputs_lambda.extend(quote! {
-                        $(fn_name)_state.add_input(
-                            &$(fn_name)$(INPUTS_SUFFIX)_$(offset.to_string())[i]
-                        );
-                    });
-                }
-                *offset += 1;
-            }
-        }
-    }
-    if contains_inputs(lists) {
-        add_inputs_lambda = quote! {
-            if bit_reverse_index(
-                coset_index_to_circle_domain_index(row_index * N_LANES + i, log_size),
-                log_size,
-            ) < n_rows
-            {
-                $(add_inputs_lambda)
-            }
-        };
-    };
-    write_trace_body.extend(quote!(
-        $['\n']$("// Add sub-components inputs.\n")
-    ));
-    write_trace_body.extend(quote! {
-        #[allow(clippy::needless_range_loop)]
-            for i in 0..N_LANES {
-                $(add_inputs_lambda)
-            }
-
-    });
-
-    write_trace_body
-}
-
-#[allow(dead_code)]
-fn generate_simd_write_trace_code(lists: &CompiledAirFn) -> rust::Tokens {
-    let contains_state_names = !lists.state_names.is_empty();
-    if !contains_state_names {
-        return quote! {
-            fn write_trace_simd(
-                $(generate_write_trace_simd_params(lists))
-            ) -> (ComponentTrace<N_TRACE_COLUMNS>,
-                LookupData) {
-            unimplemented!()
-        }};
-    }
-
-    // Declare constants.
-    let mut constants_def_code = quote! {};
-    let constants = deduction_consts(&lists.deductions);
-    let mut const_names = HashMap::new();
-    for (ty, val) in constants.into_iter() {
-        let name = get_const_name(&ty, &val);
-        const_names.insert((ty.clone(), val.clone()), name.clone());
-        constants_def_code.extend(quote! {
-            let $(name) = $(replace_generics_with_turbofish(&packed_name(&ty)))::broadcast($(replace_generics_with_turbofish(&ty))::from($(val)));
-        });
-    }
-    let (log_size_code, zip_inputs, for_each_variables) = if contains_inputs(lists) {
-        (
-            quote! {
-                let log_n_packed_rows = inputs.len().ilog2();
-                let log_size = log_n_packed_rows + LOG_N_LANES;
-            },
-            quote! { .zip(inputs.into_par_iter()) },
-            quote! { ((row_index, row), $(&lists.name)_input) },
-        )
-    } else {
-        (
-            quote! {
-                let log_n_packed_rows = log_size - LOG_N_LANES;
-            },
-            quote! {},
-            quote! { (row_index, row) },
-        )
-    };
-    let mut code = rust::Tokens::new();
-    code.extend(quote! {
-        // TODO(Ohad): attempt to remove this.
-        #[allow(clippy::useless_conversion)]
-        #[allow(unused_variables)]
-        #[allow(clippy::double_parens)]
-        #[allow(non_snake_case)]
-        fn write_trace_simd(
-            $(generate_write_trace_simd_params(lists))
-        ) -> (ComponentTrace<N_TRACE_COLUMNS>,
-            LookupData) {
-            $(log_size_code)
-            let (mut trace, mut lookup_data) = unsafe {
-                (
-                    ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
-                    LookupData::uninitialized(log_n_packed_rows),
-                )
-            };
-
-            $(constants_def_code)
-
-            trace
-            .par_iter_mut()
-            .enumerate()
-            $(zip_inputs)
-            .zip(lookup_data.par_iter_mut())
-            .for_each(
-                |($(for_each_variables), lookup_data)| {
-                    $(generate_simd_write_trace_body_code(lists,&const_names))
-                });
-
-            (trace, lookup_data)
-        }
-        $['\n']
-    });
-    code
-}
 
 fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
     deductions
@@ -809,14 +789,18 @@ fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
 /// Parses a `CompiledAirVar` into a string for the write_trace function.
 fn simd_parse_air_var(
     expr: &CompiledAirVar,
-    constant_names: &HashMap<(String, String), String>,
+    constant_names: &[((String, String), String)],
 ) -> String {
     match expr {
         CompiledAirVar::Const(ty, val) => match ty.as_str() {
             // "usize" is used as index.
             // TODO(Ohad): ask anatg about this.
             "usize" => val.to_string(),
-            _ => constant_names[&(ty.clone(), val.clone())].clone(),
+            _ => constant_names
+                .iter()
+                .find(|((t, v), _)| t == ty && v == val)
+                .map(|(_, name)| name.clone())
+                .unwrap(),
         },
         CompiledAirVar::Var(_, id) => id.clone(),
         CompiledAirVar::State(name) => name.clone(),
