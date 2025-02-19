@@ -25826,57 +25826,16 @@
       ]
     ]
   },
-  "xor_rot_32_r_0": {
+  "triple_xor_32": {
     "state_names": [
-      "ms_8_bits_col0",
-      "ms_8_bits_col1",
-      "ms_8_bits_col2",
-      "ms_8_bits_col3",
-      "xor_col4",
-      "xor_col5",
-      "xor_col6",
-      "xor_col7"
-    ],
-    "intermediates": [
-      [
-        "xor_rot_0_output_tmp_a1198_8_limb_0",
-        "(xor_col4 + (xor_col5 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_a1198_8_limb_1",
-        "(xor_col6 + (xor_col7 * 256))"
-      ]
-    ],
-    "constraints": [],
-    "lookups": [
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_32_r_0_input[0].low().as_m31() - (ms_8_bits_col0 * 256)), (xor_rot_32_r_0_input[1].low().as_m31() - (ms_8_bits_col2 * 256)), xor_col4"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col0, ms_8_bits_col2, xor_col5"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_32_r_0_input[0].high().as_m31() - (ms_8_bits_col1 * 256)), (xor_rot_32_r_0_input[1].high().as_m31() - (ms_8_bits_col3 * 256)), xor_col6"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col1, ms_8_bits_col3, xor_col7"
-      ]
-    ]
-  },
-  "create_blake_output": {
-    "state_names": [
-      "ms_8_bits_col0",
-      "ms_8_bits_col1",
-      "ms_8_bits_col2",
-      "ms_8_bits_col3",
-      "xor_col4",
-      "xor_col5",
-      "xor_col6",
-      "xor_col7",
+      "input_limb_0_col0",
+      "input_limb_1_col1",
+      "input_limb_2_col2",
+      "input_limb_3_col3",
+      "input_limb_4_col4",
+      "input_limb_5_col5",
+      "ms_8_bits_col6",
+      "ms_8_bits_col7",
       "ms_8_bits_col8",
       "ms_8_bits_col9",
       "ms_8_bits_col10",
@@ -25885,506 +25844,110 @@
       "xor_col13",
       "xor_col14",
       "xor_col15",
-      "ms_8_bits_col16",
-      "ms_8_bits_col17",
-      "ms_8_bits_col18",
-      "ms_8_bits_col19",
-      "xor_col20",
-      "xor_col21",
-      "xor_col22",
-      "xor_col23",
-      "ms_8_bits_col24",
-      "ms_8_bits_col25",
-      "ms_8_bits_col26",
-      "ms_8_bits_col27",
-      "xor_col28",
-      "xor_col29",
-      "xor_col30",
-      "xor_col31",
-      "ms_8_bits_col32",
-      "ms_8_bits_col33",
-      "ms_8_bits_col34",
-      "ms_8_bits_col35",
-      "xor_col36",
-      "xor_col37",
-      "xor_col38",
-      "xor_col39",
-      "ms_8_bits_col40",
-      "ms_8_bits_col41",
-      "ms_8_bits_col42",
-      "ms_8_bits_col43",
-      "xor_col44",
-      "xor_col45",
-      "xor_col46",
-      "xor_col47",
-      "ms_8_bits_col48",
-      "ms_8_bits_col49",
-      "ms_8_bits_col50",
-      "ms_8_bits_col51",
-      "xor_col52",
-      "xor_col53",
-      "xor_col54",
-      "xor_col55",
-      "ms_8_bits_col56",
-      "ms_8_bits_col57",
-      "ms_8_bits_col58",
-      "ms_8_bits_col59",
-      "xor_col60",
-      "xor_col61",
-      "xor_col62",
-      "xor_col63",
-      "ms_8_bits_col64",
-      "ms_8_bits_col65",
-      "ms_8_bits_col66",
-      "ms_8_bits_col67",
-      "xor_col68",
-      "xor_col69",
-      "xor_col70",
-      "xor_col71",
-      "ms_8_bits_col72",
-      "ms_8_bits_col73",
-      "ms_8_bits_col74",
-      "ms_8_bits_col75",
-      "xor_col76",
-      "xor_col77",
-      "xor_col78",
-      "xor_col79",
-      "ms_8_bits_col80",
-      "ms_8_bits_col81",
-      "ms_8_bits_col82",
-      "ms_8_bits_col83",
-      "xor_col84",
-      "xor_col85",
-      "xor_col86",
-      "xor_col87",
-      "ms_8_bits_col88",
-      "ms_8_bits_col89",
-      "ms_8_bits_col90",
-      "ms_8_bits_col91",
-      "xor_col92",
-      "xor_col93",
-      "xor_col94",
-      "xor_col95",
-      "ms_8_bits_col96",
-      "ms_8_bits_col97",
-      "ms_8_bits_col98",
-      "ms_8_bits_col99",
-      "xor_col100",
-      "xor_col101",
-      "xor_col102",
-      "xor_col103",
-      "ms_8_bits_col104",
-      "ms_8_bits_col105",
-      "ms_8_bits_col106",
-      "ms_8_bits_col107",
-      "xor_col108",
-      "xor_col109",
-      "xor_col110",
-      "xor_col111",
-      "ms_8_bits_col112",
-      "ms_8_bits_col113",
-      "ms_8_bits_col114",
-      "ms_8_bits_col115",
-      "xor_col116",
-      "xor_col117",
-      "xor_col118",
-      "xor_col119",
-      "ms_8_bits_col120",
-      "ms_8_bits_col121",
-      "ms_8_bits_col122",
-      "ms_8_bits_col123",
-      "xor_col124",
-      "xor_col125",
-      "xor_col126",
-      "xor_col127"
+      "xor_col16",
+      "xor_col17",
+      "xor_col18",
+      "xor_col19"
     ],
     "intermediates": [
       [
-        "xor_rot_0_output_tmp_c84e6_8_limb_0",
-        "(xor_col4 + (xor_col5 * 256))"
+        "triple_xor32_output_tmp_298db_15_limb_0",
+        "(xor_col13 + (xor_col15 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_8_limb_1",
-        "(xor_col6 + (xor_col7 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_17_limb_0",
-        "(xor_col12 + (xor_col13 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_17_limb_1",
-        "(xor_col14 + (xor_col15 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_26_limb_0",
-        "(xor_col20 + (xor_col21 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_26_limb_1",
-        "(xor_col22 + (xor_col23 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_35_limb_0",
-        "(xor_col28 + (xor_col29 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_35_limb_1",
-        "(xor_col30 + (xor_col31 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_44_limb_0",
-        "(xor_col36 + (xor_col37 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_44_limb_1",
-        "(xor_col38 + (xor_col39 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_53_limb_0",
-        "(xor_col44 + (xor_col45 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_53_limb_1",
-        "(xor_col46 + (xor_col47 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_62_limb_0",
-        "(xor_col52 + (xor_col53 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_62_limb_1",
-        "(xor_col54 + (xor_col55 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_71_limb_0",
-        "(xor_col60 + (xor_col61 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_71_limb_1",
-        "(xor_col62 + (xor_col63 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_80_limb_0",
-        "(xor_col68 + (xor_col69 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_80_limb_1",
-        "(xor_col70 + (xor_col71 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_89_limb_0",
-        "(xor_col76 + (xor_col77 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_89_limb_1",
-        "(xor_col78 + (xor_col79 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_98_limb_0",
-        "(xor_col84 + (xor_col85 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_98_limb_1",
-        "(xor_col86 + (xor_col87 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_107_limb_0",
-        "(xor_col92 + (xor_col93 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_107_limb_1",
-        "(xor_col94 + (xor_col95 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_116_limb_0",
-        "(xor_col100 + (xor_col101 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_116_limb_1",
-        "(xor_col102 + (xor_col103 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_125_limb_0",
-        "(xor_col108 + (xor_col109 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_125_limb_1",
-        "(xor_col110 + (xor_col111 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_134_limb_0",
-        "(xor_col116 + (xor_col117 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_134_limb_1",
-        "(xor_col118 + (xor_col119 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_143_limb_0",
-        "(xor_col124 + (xor_col125 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_c84e6_143_limb_1",
-        "(xor_col126 + (xor_col127 * 256))"
+        "triple_xor32_output_tmp_298db_15_limb_1",
+        "(xor_col17 + (xor_col19 * 256))"
       ]
     ],
     "constraints": [],
     "lookups": [
       [
         "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[0].low().as_m31() - (ms_8_bits_col0 * 256)), (create_blake_output_input.1[8].low().as_m31() - (ms_8_bits_col2 * 256)), xor_col4"
+        "(input_limb_0_col0 - (ms_8_bits_col6 * 256)), (input_limb_2_col2 - (ms_8_bits_col8 * 256)), xor_col12"
       ],
       [
         "VerifyBitwiseXor_8",
-        "ms_8_bits_col0, ms_8_bits_col2, xor_col5"
+        "xor_col12, (input_limb_4_col4 - (ms_8_bits_col10 * 256)), xor_col13"
       ],
       [
         "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[0].high().as_m31() - (ms_8_bits_col1 * 256)), (create_blake_output_input.1[8].high().as_m31() - (ms_8_bits_col3 * 256)), xor_col6"
+        "ms_8_bits_col6, ms_8_bits_col8, xor_col14"
       ],
       [
         "VerifyBitwiseXor_8",
-        "ms_8_bits_col1, ms_8_bits_col3, xor_col7"
+        "xor_col14, ms_8_bits_col10, xor_col15"
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_8_limb_0 - (ms_8_bits_col8 * 256)), (create_blake_output_input.0[0].low().as_m31() - (ms_8_bits_col10 * 256)), xor_col12"
+        "(input_limb_1_col1 - (ms_8_bits_col7 * 256)), (input_limb_3_col3 - (ms_8_bits_col9 * 256)), xor_col16"
       ],
       [
         "VerifyBitwiseXor_8",
-        "ms_8_bits_col8, ms_8_bits_col10, xor_col13"
+        "xor_col16, (input_limb_5_col5 - (ms_8_bits_col11 * 256)), xor_col17"
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_8_limb_1 - (ms_8_bits_col9 * 256)), (create_blake_output_input.0[0].high().as_m31() - (ms_8_bits_col11 * 256)), xor_col14"
+        "ms_8_bits_col7, ms_8_bits_col9, xor_col18"
       ],
       [
         "VerifyBitwiseXor_8",
-        "ms_8_bits_col9, ms_8_bits_col11, xor_col15"
+        "xor_col18, ms_8_bits_col11, xor_col19"
+      ]
+    ]
+  },
+  "create_blake_output": {
+    "state_names": [
+      "triple_xor_32_output_limb_0_col0",
+      "triple_xor_32_output_limb_1_col1",
+      "triple_xor_32_output_limb_0_col2",
+      "triple_xor_32_output_limb_1_col3",
+      "triple_xor_32_output_limb_0_col4",
+      "triple_xor_32_output_limb_1_col5",
+      "triple_xor_32_output_limb_0_col6",
+      "triple_xor_32_output_limb_1_col7",
+      "triple_xor_32_output_limb_0_col8",
+      "triple_xor_32_output_limb_1_col9",
+      "triple_xor_32_output_limb_0_col10",
+      "triple_xor_32_output_limb_1_col11",
+      "triple_xor_32_output_limb_0_col12",
+      "triple_xor_32_output_limb_1_col13",
+      "triple_xor_32_output_limb_0_col14",
+      "triple_xor_32_output_limb_1_col15"
+    ],
+    "intermediates": [],
+    "constraints": [],
+    "lookups": [
+      [
+        "TripleXor32",
+        "create_blake_output_input.1[0].low().as_m31(), create_blake_output_input.1[0].high().as_m31(), create_blake_output_input.1[8].low().as_m31(), create_blake_output_input.1[8].high().as_m31(), create_blake_output_input.0[0].low().as_m31(), create_blake_output_input.0[0].high().as_m31(), triple_xor_32_output_limb_0_col0, triple_xor_32_output_limb_1_col1"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[1].low().as_m31() - (ms_8_bits_col16 * 256)), (create_blake_output_input.1[9].low().as_m31() - (ms_8_bits_col18 * 256)), xor_col20"
+        "TripleXor32",
+        "create_blake_output_input.1[1].low().as_m31(), create_blake_output_input.1[1].high().as_m31(), create_blake_output_input.1[9].low().as_m31(), create_blake_output_input.1[9].high().as_m31(), create_blake_output_input.0[1].low().as_m31(), create_blake_output_input.0[1].high().as_m31(), triple_xor_32_output_limb_0_col2, triple_xor_32_output_limb_1_col3"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col16, ms_8_bits_col18, xor_col21"
+        "TripleXor32",
+        "create_blake_output_input.1[2].low().as_m31(), create_blake_output_input.1[2].high().as_m31(), create_blake_output_input.1[10].low().as_m31(), create_blake_output_input.1[10].high().as_m31(), create_blake_output_input.0[2].low().as_m31(), create_blake_output_input.0[2].high().as_m31(), triple_xor_32_output_limb_0_col4, triple_xor_32_output_limb_1_col5"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[1].high().as_m31() - (ms_8_bits_col17 * 256)), (create_blake_output_input.1[9].high().as_m31() - (ms_8_bits_col19 * 256)), xor_col22"
+        "TripleXor32",
+        "create_blake_output_input.1[3].low().as_m31(), create_blake_output_input.1[3].high().as_m31(), create_blake_output_input.1[11].low().as_m31(), create_blake_output_input.1[11].high().as_m31(), create_blake_output_input.0[3].low().as_m31(), create_blake_output_input.0[3].high().as_m31(), triple_xor_32_output_limb_0_col6, triple_xor_32_output_limb_1_col7"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col17, ms_8_bits_col19, xor_col23"
+        "TripleXor32",
+        "create_blake_output_input.1[4].low().as_m31(), create_blake_output_input.1[4].high().as_m31(), create_blake_output_input.1[12].low().as_m31(), create_blake_output_input.1[12].high().as_m31(), create_blake_output_input.0[4].low().as_m31(), create_blake_output_input.0[4].high().as_m31(), triple_xor_32_output_limb_0_col8, triple_xor_32_output_limb_1_col9"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_26_limb_0 - (ms_8_bits_col24 * 256)), (create_blake_output_input.0[1].low().as_m31() - (ms_8_bits_col26 * 256)), xor_col28"
+        "TripleXor32",
+        "create_blake_output_input.1[5].low().as_m31(), create_blake_output_input.1[5].high().as_m31(), create_blake_output_input.1[13].low().as_m31(), create_blake_output_input.1[13].high().as_m31(), create_blake_output_input.0[5].low().as_m31(), create_blake_output_input.0[5].high().as_m31(), triple_xor_32_output_limb_0_col10, triple_xor_32_output_limb_1_col11"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col24, ms_8_bits_col26, xor_col29"
+        "TripleXor32",
+        "create_blake_output_input.1[6].low().as_m31(), create_blake_output_input.1[6].high().as_m31(), create_blake_output_input.1[14].low().as_m31(), create_blake_output_input.1[14].high().as_m31(), create_blake_output_input.0[6].low().as_m31(), create_blake_output_input.0[6].high().as_m31(), triple_xor_32_output_limb_0_col12, triple_xor_32_output_limb_1_col13"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_26_limb_1 - (ms_8_bits_col25 * 256)), (create_blake_output_input.0[1].high().as_m31() - (ms_8_bits_col27 * 256)), xor_col30"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col25, ms_8_bits_col27, xor_col31"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[2].low().as_m31() - (ms_8_bits_col32 * 256)), (create_blake_output_input.1[10].low().as_m31() - (ms_8_bits_col34 * 256)), xor_col36"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col32, ms_8_bits_col34, xor_col37"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[2].high().as_m31() - (ms_8_bits_col33 * 256)), (create_blake_output_input.1[10].high().as_m31() - (ms_8_bits_col35 * 256)), xor_col38"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col33, ms_8_bits_col35, xor_col39"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_44_limb_0 - (ms_8_bits_col40 * 256)), (create_blake_output_input.0[2].low().as_m31() - (ms_8_bits_col42 * 256)), xor_col44"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col40, ms_8_bits_col42, xor_col45"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_44_limb_1 - (ms_8_bits_col41 * 256)), (create_blake_output_input.0[2].high().as_m31() - (ms_8_bits_col43 * 256)), xor_col46"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col41, ms_8_bits_col43, xor_col47"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[3].low().as_m31() - (ms_8_bits_col48 * 256)), (create_blake_output_input.1[11].low().as_m31() - (ms_8_bits_col50 * 256)), xor_col52"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col48, ms_8_bits_col50, xor_col53"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[3].high().as_m31() - (ms_8_bits_col49 * 256)), (create_blake_output_input.1[11].high().as_m31() - (ms_8_bits_col51 * 256)), xor_col54"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col49, ms_8_bits_col51, xor_col55"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_62_limb_0 - (ms_8_bits_col56 * 256)), (create_blake_output_input.0[3].low().as_m31() - (ms_8_bits_col58 * 256)), xor_col60"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col56, ms_8_bits_col58, xor_col61"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_62_limb_1 - (ms_8_bits_col57 * 256)), (create_blake_output_input.0[3].high().as_m31() - (ms_8_bits_col59 * 256)), xor_col62"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col57, ms_8_bits_col59, xor_col63"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[4].low().as_m31() - (ms_8_bits_col64 * 256)), (create_blake_output_input.1[12].low().as_m31() - (ms_8_bits_col66 * 256)), xor_col68"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col64, ms_8_bits_col66, xor_col69"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[4].high().as_m31() - (ms_8_bits_col65 * 256)), (create_blake_output_input.1[12].high().as_m31() - (ms_8_bits_col67 * 256)), xor_col70"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col65, ms_8_bits_col67, xor_col71"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_80_limb_0 - (ms_8_bits_col72 * 256)), (create_blake_output_input.0[4].low().as_m31() - (ms_8_bits_col74 * 256)), xor_col76"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col72, ms_8_bits_col74, xor_col77"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_80_limb_1 - (ms_8_bits_col73 * 256)), (create_blake_output_input.0[4].high().as_m31() - (ms_8_bits_col75 * 256)), xor_col78"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col73, ms_8_bits_col75, xor_col79"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[5].low().as_m31() - (ms_8_bits_col80 * 256)), (create_blake_output_input.1[13].low().as_m31() - (ms_8_bits_col82 * 256)), xor_col84"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col80, ms_8_bits_col82, xor_col85"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[5].high().as_m31() - (ms_8_bits_col81 * 256)), (create_blake_output_input.1[13].high().as_m31() - (ms_8_bits_col83 * 256)), xor_col86"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col81, ms_8_bits_col83, xor_col87"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_98_limb_0 - (ms_8_bits_col88 * 256)), (create_blake_output_input.0[5].low().as_m31() - (ms_8_bits_col90 * 256)), xor_col92"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col88, ms_8_bits_col90, xor_col93"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_98_limb_1 - (ms_8_bits_col89 * 256)), (create_blake_output_input.0[5].high().as_m31() - (ms_8_bits_col91 * 256)), xor_col94"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col89, ms_8_bits_col91, xor_col95"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[6].low().as_m31() - (ms_8_bits_col96 * 256)), (create_blake_output_input.1[14].low().as_m31() - (ms_8_bits_col98 * 256)), xor_col100"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col96, ms_8_bits_col98, xor_col101"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[6].high().as_m31() - (ms_8_bits_col97 * 256)), (create_blake_output_input.1[14].high().as_m31() - (ms_8_bits_col99 * 256)), xor_col102"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col97, ms_8_bits_col99, xor_col103"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_116_limb_0 - (ms_8_bits_col104 * 256)), (create_blake_output_input.0[6].low().as_m31() - (ms_8_bits_col106 * 256)), xor_col108"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col104, ms_8_bits_col106, xor_col109"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_116_limb_1 - (ms_8_bits_col105 * 256)), (create_blake_output_input.0[6].high().as_m31() - (ms_8_bits_col107 * 256)), xor_col110"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col105, ms_8_bits_col107, xor_col111"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[7].low().as_m31() - (ms_8_bits_col112 * 256)), (create_blake_output_input.1[15].low().as_m31() - (ms_8_bits_col114 * 256)), xor_col116"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col112, ms_8_bits_col114, xor_col117"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(create_blake_output_input.1[7].high().as_m31() - (ms_8_bits_col113 * 256)), (create_blake_output_input.1[15].high().as_m31() - (ms_8_bits_col115 * 256)), xor_col118"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col113, ms_8_bits_col115, xor_col119"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_134_limb_0 - (ms_8_bits_col120 * 256)), (create_blake_output_input.0[7].low().as_m31() - (ms_8_bits_col122 * 256)), xor_col124"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col120, ms_8_bits_col122, xor_col125"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_134_limb_1 - (ms_8_bits_col121 * 256)), (create_blake_output_input.0[7].high().as_m31() - (ms_8_bits_col123 * 256)), xor_col126"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col121, ms_8_bits_col123, xor_col127"
+        "TripleXor32",
+        "create_blake_output_input.1[7].low().as_m31(), create_blake_output_input.1[7].high().as_m31(), create_blake_output_input.1[15].low().as_m31(), create_blake_output_input.1[15].high().as_m31(), create_blake_output_input.0[7].low().as_m31(), create_blake_output_input.0[7].high().as_m31(), triple_xor_32_output_limb_0_col14, triple_xor_32_output_limb_1_col15"
       ]
     ]
   },
@@ -26512,297 +26075,56 @@
       "blake_round_output_limb_32_col119",
       "blake_round_output_limb_33_col120",
       "blake_round_output_limb_34_col121",
-      "ms_8_bits_col122",
-      "ms_8_bits_col123",
-      "ms_8_bits_col124",
-      "ms_8_bits_col125",
-      "xor_col126",
-      "xor_col127",
-      "xor_col128",
-      "xor_col129",
-      "ms_8_bits_col130",
-      "ms_8_bits_col131",
-      "ms_8_bits_col132",
-      "ms_8_bits_col133",
-      "xor_col134",
-      "xor_col135",
-      "xor_col136",
-      "xor_col137",
-      "ms_8_bits_col138",
-      "ms_8_bits_col139",
-      "ms_8_bits_col140",
-      "ms_8_bits_col141",
-      "xor_col142",
-      "xor_col143",
-      "xor_col144",
-      "xor_col145",
-      "ms_8_bits_col146",
-      "ms_8_bits_col147",
-      "ms_8_bits_col148",
-      "ms_8_bits_col149",
-      "xor_col150",
-      "xor_col151",
-      "xor_col152",
-      "xor_col153",
-      "ms_8_bits_col154",
-      "ms_8_bits_col155",
-      "ms_8_bits_col156",
-      "ms_8_bits_col157",
-      "xor_col158",
-      "xor_col159",
-      "xor_col160",
-      "xor_col161",
-      "ms_8_bits_col162",
-      "ms_8_bits_col163",
-      "ms_8_bits_col164",
-      "ms_8_bits_col165",
-      "xor_col166",
-      "xor_col167",
-      "xor_col168",
-      "xor_col169",
-      "ms_8_bits_col170",
-      "ms_8_bits_col171",
-      "ms_8_bits_col172",
-      "ms_8_bits_col173",
-      "xor_col174",
-      "xor_col175",
-      "xor_col176",
-      "xor_col177",
-      "ms_8_bits_col178",
-      "ms_8_bits_col179",
-      "ms_8_bits_col180",
-      "ms_8_bits_col181",
-      "xor_col182",
-      "xor_col183",
-      "xor_col184",
-      "xor_col185",
-      "ms_8_bits_col186",
-      "ms_8_bits_col187",
-      "ms_8_bits_col188",
-      "ms_8_bits_col189",
-      "xor_col190",
-      "xor_col191",
-      "xor_col192",
-      "xor_col193",
-      "ms_8_bits_col194",
-      "ms_8_bits_col195",
-      "ms_8_bits_col196",
-      "ms_8_bits_col197",
-      "xor_col198",
-      "xor_col199",
-      "xor_col200",
-      "xor_col201",
-      "ms_8_bits_col202",
-      "ms_8_bits_col203",
-      "ms_8_bits_col204",
-      "ms_8_bits_col205",
-      "xor_col206",
-      "xor_col207",
-      "xor_col208",
-      "xor_col209",
-      "ms_8_bits_col210",
-      "ms_8_bits_col211",
-      "ms_8_bits_col212",
-      "ms_8_bits_col213",
-      "xor_col214",
-      "xor_col215",
-      "xor_col216",
-      "xor_col217",
-      "ms_8_bits_col218",
-      "ms_8_bits_col219",
-      "ms_8_bits_col220",
-      "ms_8_bits_col221",
-      "xor_col222",
-      "xor_col223",
-      "xor_col224",
-      "xor_col225",
-      "ms_8_bits_col226",
-      "ms_8_bits_col227",
-      "ms_8_bits_col228",
-      "ms_8_bits_col229",
-      "xor_col230",
-      "xor_col231",
-      "xor_col232",
-      "xor_col233",
-      "ms_8_bits_col234",
-      "ms_8_bits_col235",
-      "ms_8_bits_col236",
-      "ms_8_bits_col237",
-      "xor_col238",
-      "xor_col239",
-      "xor_col240",
-      "xor_col241",
-      "ms_8_bits_col242",
-      "ms_8_bits_col243",
-      "ms_8_bits_col244",
-      "ms_8_bits_col245",
-      "xor_col246",
-      "xor_col247",
-      "xor_col248",
-      "xor_col249",
-      "low_7_ms_bits_col250",
-      "high_14_ms_bits_col251",
-      "high_5_ms_bits_col252",
-      "new_state_0_id_col253",
-      "low_7_ms_bits_col254",
-      "high_14_ms_bits_col255",
-      "high_5_ms_bits_col256",
-      "new_state_1_id_col257",
-      "low_7_ms_bits_col258",
-      "high_14_ms_bits_col259",
-      "high_5_ms_bits_col260",
-      "new_state_2_id_col261",
-      "low_7_ms_bits_col262",
-      "high_14_ms_bits_col263",
-      "high_5_ms_bits_col264",
-      "new_state_3_id_col265",
-      "low_7_ms_bits_col266",
-      "high_14_ms_bits_col267",
-      "high_5_ms_bits_col268",
-      "new_state_4_id_col269",
-      "low_7_ms_bits_col270",
-      "high_14_ms_bits_col271",
-      "high_5_ms_bits_col272",
-      "new_state_5_id_col273",
-      "low_7_ms_bits_col274",
-      "high_14_ms_bits_col275",
-      "high_5_ms_bits_col276",
-      "new_state_6_id_col277",
-      "low_7_ms_bits_col278",
-      "high_14_ms_bits_col279",
-      "high_5_ms_bits_col280",
-      "new_state_7_id_col281"
+      "triple_xor_32_output_limb_0_col122",
+      "triple_xor_32_output_limb_1_col123",
+      "triple_xor_32_output_limb_0_col124",
+      "triple_xor_32_output_limb_1_col125",
+      "triple_xor_32_output_limb_0_col126",
+      "triple_xor_32_output_limb_1_col127",
+      "triple_xor_32_output_limb_0_col128",
+      "triple_xor_32_output_limb_1_col129",
+      "triple_xor_32_output_limb_0_col130",
+      "triple_xor_32_output_limb_1_col131",
+      "triple_xor_32_output_limb_0_col132",
+      "triple_xor_32_output_limb_1_col133",
+      "triple_xor_32_output_limb_0_col134",
+      "triple_xor_32_output_limb_1_col135",
+      "triple_xor_32_output_limb_0_col136",
+      "triple_xor_32_output_limb_1_col137",
+      "low_7_ms_bits_col138",
+      "high_14_ms_bits_col139",
+      "high_5_ms_bits_col140",
+      "new_state_0_id_col141",
+      "low_7_ms_bits_col142",
+      "high_14_ms_bits_col143",
+      "high_5_ms_bits_col144",
+      "new_state_1_id_col145",
+      "low_7_ms_bits_col146",
+      "high_14_ms_bits_col147",
+      "high_5_ms_bits_col148",
+      "new_state_2_id_col149",
+      "low_7_ms_bits_col150",
+      "high_14_ms_bits_col151",
+      "high_5_ms_bits_col152",
+      "new_state_3_id_col153",
+      "low_7_ms_bits_col154",
+      "high_14_ms_bits_col155",
+      "high_5_ms_bits_col156",
+      "new_state_4_id_col157",
+      "low_7_ms_bits_col158",
+      "high_14_ms_bits_col159",
+      "high_5_ms_bits_col160",
+      "new_state_5_id_col161",
+      "low_7_ms_bits_col162",
+      "high_14_ms_bits_col163",
+      "high_5_ms_bits_col164",
+      "new_state_6_id_col165",
+      "low_7_ms_bits_col166",
+      "high_14_ms_bits_col167",
+      "high_5_ms_bits_col168",
+      "new_state_7_id_col169"
     ],
-    "intermediates": [
-      [
-        "xor_rot_0_output_tmp_53f39_113_limb_0",
-        "(xor_col126 + (xor_col127 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_113_limb_1",
-        "(xor_col128 + (xor_col129 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_122_limb_0",
-        "(xor_col134 + (xor_col135 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_122_limb_1",
-        "(xor_col136 + (xor_col137 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_131_limb_0",
-        "(xor_col142 + (xor_col143 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_131_limb_1",
-        "(xor_col144 + (xor_col145 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_140_limb_0",
-        "(xor_col150 + (xor_col151 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_140_limb_1",
-        "(xor_col152 + (xor_col153 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_149_limb_0",
-        "(xor_col158 + (xor_col159 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_149_limb_1",
-        "(xor_col160 + (xor_col161 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_158_limb_0",
-        "(xor_col166 + (xor_col167 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_158_limb_1",
-        "(xor_col168 + (xor_col169 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_167_limb_0",
-        "(xor_col174 + (xor_col175 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_167_limb_1",
-        "(xor_col176 + (xor_col177 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_176_limb_0",
-        "(xor_col182 + (xor_col183 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_176_limb_1",
-        "(xor_col184 + (xor_col185 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_185_limb_0",
-        "(xor_col190 + (xor_col191 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_185_limb_1",
-        "(xor_col192 + (xor_col193 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_194_limb_0",
-        "(xor_col198 + (xor_col199 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_194_limb_1",
-        "(xor_col200 + (xor_col201 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_203_limb_0",
-        "(xor_col206 + (xor_col207 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_203_limb_1",
-        "(xor_col208 + (xor_col209 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_212_limb_0",
-        "(xor_col214 + (xor_col215 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_212_limb_1",
-        "(xor_col216 + (xor_col217 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_221_limb_0",
-        "(xor_col222 + (xor_col223 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_221_limb_1",
-        "(xor_col224 + (xor_col225 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_230_limb_0",
-        "(xor_col230 + (xor_col231 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_230_limb_1",
-        "(xor_col232 + (xor_col233 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_239_limb_0",
-        "(xor_col238 + (xor_col239 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_239_limb_1",
-        "(xor_col240 + (xor_col241 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_248_limb_0",
-        "(xor_col246 + (xor_col247 * 256))"
-      ],
-      [
-        "xor_rot_0_output_tmp_53f39_248_limb_1",
-        "(xor_col248 + (xor_col249 * 256))"
-      ]
-    ],
+    "intermediates": [],
     "constraints": [
       "(dst_base_fp_col6 * (1 - dst_base_fp_col6))",
       "(op0_base_fp_col7 * (1 - op0_base_fp_col7))",
@@ -26973,356 +26295,132 @@
         "blake_round_output_limb_0_col87, blake_round_output_limb_1_col88, blake_round_output_limb_2_col89, blake_round_output_limb_3_col90, blake_round_output_limb_4_col91, blake_round_output_limb_5_col92, blake_round_output_limb_6_col93, blake_round_output_limb_7_col94, blake_round_output_limb_8_col95, blake_round_output_limb_9_col96, blake_round_output_limb_10_col97, blake_round_output_limb_11_col98, blake_round_output_limb_12_col99, blake_round_output_limb_13_col100, blake_round_output_limb_14_col101, blake_round_output_limb_15_col102, blake_round_output_limb_16_col103, blake_round_output_limb_17_col104, blake_round_output_limb_18_col105, blake_round_output_limb_19_col106, blake_round_output_limb_20_col107, blake_round_output_limb_21_col108, blake_round_output_limb_22_col109, blake_round_output_limb_23_col110, blake_round_output_limb_24_col111, blake_round_output_limb_25_col112, blake_round_output_limb_26_col113, blake_round_output_limb_27_col114, blake_round_output_limb_28_col115, blake_round_output_limb_29_col116, blake_round_output_limb_30_col117, blake_round_output_limb_31_col118, blake_round_output_limb_32_col119, blake_round_output_limb_33_col120, blake_round_output_limb_34_col121"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_2_col89 - (ms_8_bits_col122 * 256)), (blake_round_output_limb_18_col105 - (ms_8_bits_col124 * 256)), xor_col126"
+        "TripleXor32",
+        "blake_round_output_limb_2_col89, blake_round_output_limb_3_col90, blake_round_output_limb_18_col105, blake_round_output_limb_19_col106, low_16_bits_col33, high_16_bits_col34, triple_xor_32_output_limb_0_col122, triple_xor_32_output_limb_1_col123"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col122, ms_8_bits_col124, xor_col127"
+        "TripleXor32",
+        "blake_round_output_limb_4_col91, blake_round_output_limb_5_col92, blake_round_output_limb_20_col107, blake_round_output_limb_21_col108, low_16_bits_col39, high_16_bits_col40, triple_xor_32_output_limb_0_col124, triple_xor_32_output_limb_1_col125"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_3_col90 - (ms_8_bits_col123 * 256)), (blake_round_output_limb_19_col106 - (ms_8_bits_col125 * 256)), xor_col128"
+        "TripleXor32",
+        "blake_round_output_limb_6_col93, blake_round_output_limb_7_col94, blake_round_output_limb_22_col109, blake_round_output_limb_23_col110, low_16_bits_col45, high_16_bits_col46, triple_xor_32_output_limb_0_col126, triple_xor_32_output_limb_1_col127"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col123, ms_8_bits_col125, xor_col129"
+        "TripleXor32",
+        "blake_round_output_limb_8_col95, blake_round_output_limb_9_col96, blake_round_output_limb_24_col111, blake_round_output_limb_25_col112, low_16_bits_col51, high_16_bits_col52, triple_xor_32_output_limb_0_col128, triple_xor_32_output_limb_1_col129"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_113_limb_0 - (ms_8_bits_col130 * 256)), (low_16_bits_col33 - (ms_8_bits_col132 * 256)), xor_col134"
+        "TripleXor32",
+        "blake_round_output_limb_10_col97, blake_round_output_limb_11_col98, blake_round_output_limb_26_col113, blake_round_output_limb_27_col114, low_16_bits_col57, high_16_bits_col58, triple_xor_32_output_limb_0_col130, triple_xor_32_output_limb_1_col131"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col130, ms_8_bits_col132, xor_col135"
+        "TripleXor32",
+        "blake_round_output_limb_12_col99, blake_round_output_limb_13_col100, blake_round_output_limb_28_col115, blake_round_output_limb_29_col116, low_16_bits_col63, high_16_bits_col64, triple_xor_32_output_limb_0_col132, triple_xor_32_output_limb_1_col133"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_113_limb_1 - (ms_8_bits_col131 * 256)), (high_16_bits_col34 - (ms_8_bits_col133 * 256)), xor_col136"
+        "TripleXor32",
+        "blake_round_output_limb_14_col101, blake_round_output_limb_15_col102, blake_round_output_limb_30_col117, blake_round_output_limb_31_col118, low_16_bits_col69, high_16_bits_col70, triple_xor_32_output_limb_0_col134, triple_xor_32_output_limb_1_col135"
       ],
       [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col131, ms_8_bits_col133, xor_col137"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_4_col91 - (ms_8_bits_col138 * 256)), (blake_round_output_limb_20_col107 - (ms_8_bits_col140 * 256)), xor_col142"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col138, ms_8_bits_col140, xor_col143"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_5_col92 - (ms_8_bits_col139 * 256)), (blake_round_output_limb_21_col108 - (ms_8_bits_col141 * 256)), xor_col144"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col139, ms_8_bits_col141, xor_col145"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_131_limb_0 - (ms_8_bits_col146 * 256)), (low_16_bits_col39 - (ms_8_bits_col148 * 256)), xor_col150"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col146, ms_8_bits_col148, xor_col151"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_131_limb_1 - (ms_8_bits_col147 * 256)), (high_16_bits_col40 - (ms_8_bits_col149 * 256)), xor_col152"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col147, ms_8_bits_col149, xor_col153"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_6_col93 - (ms_8_bits_col154 * 256)), (blake_round_output_limb_22_col109 - (ms_8_bits_col156 * 256)), xor_col158"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col154, ms_8_bits_col156, xor_col159"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_7_col94 - (ms_8_bits_col155 * 256)), (blake_round_output_limb_23_col110 - (ms_8_bits_col157 * 256)), xor_col160"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col155, ms_8_bits_col157, xor_col161"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_149_limb_0 - (ms_8_bits_col162 * 256)), (low_16_bits_col45 - (ms_8_bits_col164 * 256)), xor_col166"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col162, ms_8_bits_col164, xor_col167"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_149_limb_1 - (ms_8_bits_col163 * 256)), (high_16_bits_col46 - (ms_8_bits_col165 * 256)), xor_col168"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col163, ms_8_bits_col165, xor_col169"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_8_col95 - (ms_8_bits_col170 * 256)), (blake_round_output_limb_24_col111 - (ms_8_bits_col172 * 256)), xor_col174"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col170, ms_8_bits_col172, xor_col175"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_9_col96 - (ms_8_bits_col171 * 256)), (blake_round_output_limb_25_col112 - (ms_8_bits_col173 * 256)), xor_col176"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col171, ms_8_bits_col173, xor_col177"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_167_limb_0 - (ms_8_bits_col178 * 256)), (low_16_bits_col51 - (ms_8_bits_col180 * 256)), xor_col182"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col178, ms_8_bits_col180, xor_col183"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_167_limb_1 - (ms_8_bits_col179 * 256)), (high_16_bits_col52 - (ms_8_bits_col181 * 256)), xor_col184"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col179, ms_8_bits_col181, xor_col185"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_10_col97 - (ms_8_bits_col186 * 256)), (blake_round_output_limb_26_col113 - (ms_8_bits_col188 * 256)), xor_col190"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col186, ms_8_bits_col188, xor_col191"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_11_col98 - (ms_8_bits_col187 * 256)), (blake_round_output_limb_27_col114 - (ms_8_bits_col189 * 256)), xor_col192"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col187, ms_8_bits_col189, xor_col193"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_185_limb_0 - (ms_8_bits_col194 * 256)), (low_16_bits_col57 - (ms_8_bits_col196 * 256)), xor_col198"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col194, ms_8_bits_col196, xor_col199"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_185_limb_1 - (ms_8_bits_col195 * 256)), (high_16_bits_col58 - (ms_8_bits_col197 * 256)), xor_col200"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col195, ms_8_bits_col197, xor_col201"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_12_col99 - (ms_8_bits_col202 * 256)), (blake_round_output_limb_28_col115 - (ms_8_bits_col204 * 256)), xor_col206"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col202, ms_8_bits_col204, xor_col207"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_13_col100 - (ms_8_bits_col203 * 256)), (blake_round_output_limb_29_col116 - (ms_8_bits_col205 * 256)), xor_col208"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col203, ms_8_bits_col205, xor_col209"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_203_limb_0 - (ms_8_bits_col210 * 256)), (low_16_bits_col63 - (ms_8_bits_col212 * 256)), xor_col214"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col210, ms_8_bits_col212, xor_col215"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_203_limb_1 - (ms_8_bits_col211 * 256)), (high_16_bits_col64 - (ms_8_bits_col213 * 256)), xor_col216"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col211, ms_8_bits_col213, xor_col217"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_14_col101 - (ms_8_bits_col218 * 256)), (blake_round_output_limb_30_col117 - (ms_8_bits_col220 * 256)), xor_col222"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col218, ms_8_bits_col220, xor_col223"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_15_col102 - (ms_8_bits_col219 * 256)), (blake_round_output_limb_31_col118 - (ms_8_bits_col221 * 256)), xor_col224"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col219, ms_8_bits_col221, xor_col225"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_221_limb_0 - (ms_8_bits_col226 * 256)), (low_16_bits_col69 - (ms_8_bits_col228 * 256)), xor_col230"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col226, ms_8_bits_col228, xor_col231"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_221_limb_1 - (ms_8_bits_col227 * 256)), (high_16_bits_col70 - (ms_8_bits_col229 * 256)), xor_col232"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col227, ms_8_bits_col229, xor_col233"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_16_col103 - (ms_8_bits_col234 * 256)), (blake_round_output_limb_32_col119 - (ms_8_bits_col236 * 256)), xor_col238"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col234, ms_8_bits_col236, xor_col239"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(blake_round_output_limb_17_col104 - (ms_8_bits_col235 * 256)), (blake_round_output_limb_33_col120 - (ms_8_bits_col237 * 256)), xor_col240"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col235, ms_8_bits_col237, xor_col241"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_239_limb_0 - (ms_8_bits_col242 * 256)), (low_16_bits_col75 - (ms_8_bits_col244 * 256)), xor_col246"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col242, ms_8_bits_col244, xor_col247"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_239_limb_1 - (ms_8_bits_col243 * 256)), (high_16_bits_col76 - (ms_8_bits_col245 * 256)), xor_col248"
-      ],
-      [
-        "VerifyBitwiseXor_8",
-        "ms_8_bits_col243, ms_8_bits_col245, xor_col249"
+        "TripleXor32",
+        "blake_round_output_limb_16_col103, blake_round_output_limb_17_col104, blake_round_output_limb_32_col119, blake_round_output_limb_33_col120, low_16_bits_col75, high_16_bits_col76, triple_xor_32_output_limb_0_col136, triple_xor_32_output_limb_1_col137"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col250, (xor_rot_0_output_tmp_53f39_122_limb_1 - (high_14_ms_bits_col251 * 4)), high_5_ms_bits_col252"
+        "low_7_ms_bits_col138, (triple_xor_32_output_limb_1_col123 - (high_14_ms_bits_col139 * 4)), high_5_ms_bits_col140"
       ],
       [
         "MemoryAddressToId",
-        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 0), new_state_0_id_col253"
+        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 0), new_state_0_id_col141"
       ],
       [
         "MemoryIdToBig",
-        "new_state_0_id_col253, (xor_rot_0_output_tmp_53f39_122_limb_0 - (low_7_ms_bits_col250 * 512)), (low_7_ms_bits_col250 + ((xor_rot_0_output_tmp_53f39_122_limb_1 - (high_14_ms_bits_col251 * 4)) * 128)), (high_14_ms_bits_col251 - (high_5_ms_bits_col252 * 512)), high_5_ms_bits_col252, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_0_id_col141, (triple_xor_32_output_limb_0_col122 - (low_7_ms_bits_col138 * 512)), (low_7_ms_bits_col138 + ((triple_xor_32_output_limb_1_col123 - (high_14_ms_bits_col139 * 4)) * 128)), (high_14_ms_bits_col139 - (high_5_ms_bits_col140 * 512)), high_5_ms_bits_col140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col254, (xor_rot_0_output_tmp_53f39_140_limb_1 - (high_14_ms_bits_col255 * 4)), high_5_ms_bits_col256"
+        "low_7_ms_bits_col142, (triple_xor_32_output_limb_1_col125 - (high_14_ms_bits_col143 * 4)), high_5_ms_bits_col144"
       ],
       [
         "MemoryAddressToId",
-        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 1), new_state_1_id_col257"
+        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 1), new_state_1_id_col145"
       ],
       [
         "MemoryIdToBig",
-        "new_state_1_id_col257, (xor_rot_0_output_tmp_53f39_140_limb_0 - (low_7_ms_bits_col254 * 512)), (low_7_ms_bits_col254 + ((xor_rot_0_output_tmp_53f39_140_limb_1 - (high_14_ms_bits_col255 * 4)) * 128)), (high_14_ms_bits_col255 - (high_5_ms_bits_col256 * 512)), high_5_ms_bits_col256, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_1_id_col145, (triple_xor_32_output_limb_0_col124 - (low_7_ms_bits_col142 * 512)), (low_7_ms_bits_col142 + ((triple_xor_32_output_limb_1_col125 - (high_14_ms_bits_col143 * 4)) * 128)), (high_14_ms_bits_col143 - (high_5_ms_bits_col144 * 512)), high_5_ms_bits_col144, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col258, (xor_rot_0_output_tmp_53f39_158_limb_1 - (high_14_ms_bits_col259 * 4)), high_5_ms_bits_col260"
+        "low_7_ms_bits_col146, (triple_xor_32_output_limb_1_col127 - (high_14_ms_bits_col147 * 4)), high_5_ms_bits_col148"
       ],
       [
         "MemoryAddressToId",
-        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 2), new_state_2_id_col261"
+        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 2), new_state_2_id_col149"
       ],
       [
         "MemoryIdToBig",
-        "new_state_2_id_col261, (xor_rot_0_output_tmp_53f39_158_limb_0 - (low_7_ms_bits_col258 * 512)), (low_7_ms_bits_col258 + ((xor_rot_0_output_tmp_53f39_158_limb_1 - (high_14_ms_bits_col259 * 4)) * 128)), (high_14_ms_bits_col259 - (high_5_ms_bits_col260 * 512)), high_5_ms_bits_col260, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_2_id_col149, (triple_xor_32_output_limb_0_col126 - (low_7_ms_bits_col146 * 512)), (low_7_ms_bits_col146 + ((triple_xor_32_output_limb_1_col127 - (high_14_ms_bits_col147 * 4)) * 128)), (high_14_ms_bits_col147 - (high_5_ms_bits_col148 * 512)), high_5_ms_bits_col148, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col262, (xor_rot_0_output_tmp_53f39_176_limb_1 - (high_14_ms_bits_col263 * 4)), high_5_ms_bits_col264"
+        "low_7_ms_bits_col150, (triple_xor_32_output_limb_1_col129 - (high_14_ms_bits_col151 * 4)), high_5_ms_bits_col152"
       ],
       [
         "MemoryAddressToId",
-        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 3), new_state_3_id_col265"
+        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 3), new_state_3_id_col153"
       ],
       [
         "MemoryIdToBig",
-        "new_state_3_id_col265, (xor_rot_0_output_tmp_53f39_176_limb_0 - (low_7_ms_bits_col262 * 512)), (low_7_ms_bits_col262 + ((xor_rot_0_output_tmp_53f39_176_limb_1 - (high_14_ms_bits_col263 * 4)) * 128)), (high_14_ms_bits_col263 - (high_5_ms_bits_col264 * 512)), high_5_ms_bits_col264, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_3_id_col153, (triple_xor_32_output_limb_0_col128 - (low_7_ms_bits_col150 * 512)), (low_7_ms_bits_col150 + ((triple_xor_32_output_limb_1_col129 - (high_14_ms_bits_col151 * 4)) * 128)), (high_14_ms_bits_col151 - (high_5_ms_bits_col152 * 512)), high_5_ms_bits_col152, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col266, (xor_rot_0_output_tmp_53f39_194_limb_1 - (high_14_ms_bits_col267 * 4)), high_5_ms_bits_col268"
+        "low_7_ms_bits_col154, (triple_xor_32_output_limb_1_col131 - (high_14_ms_bits_col155 * 4)), high_5_ms_bits_col156"
       ],
       [
         "MemoryAddressToId",
-        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 4), new_state_4_id_col269"
+        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 4), new_state_4_id_col157"
       ],
       [
         "MemoryIdToBig",
-        "new_state_4_id_col269, (xor_rot_0_output_tmp_53f39_194_limb_0 - (low_7_ms_bits_col266 * 512)), (low_7_ms_bits_col266 + ((xor_rot_0_output_tmp_53f39_194_limb_1 - (high_14_ms_bits_col267 * 4)) * 128)), (high_14_ms_bits_col267 - (high_5_ms_bits_col268 * 512)), high_5_ms_bits_col268, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_4_id_col157, (triple_xor_32_output_limb_0_col130 - (low_7_ms_bits_col154 * 512)), (low_7_ms_bits_col154 + ((triple_xor_32_output_limb_1_col131 - (high_14_ms_bits_col155 * 4)) * 128)), (high_14_ms_bits_col155 - (high_5_ms_bits_col156 * 512)), high_5_ms_bits_col156, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col270, (xor_rot_0_output_tmp_53f39_212_limb_1 - (high_14_ms_bits_col271 * 4)), high_5_ms_bits_col272"
+        "low_7_ms_bits_col158, (triple_xor_32_output_limb_1_col133 - (high_14_ms_bits_col159 * 4)), high_5_ms_bits_col160"
       ],
       [
         "MemoryAddressToId",
-        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 5), new_state_5_id_col273"
+        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 5), new_state_5_id_col161"
       ],
       [
         "MemoryIdToBig",
-        "new_state_5_id_col273, (xor_rot_0_output_tmp_53f39_212_limb_0 - (low_7_ms_bits_col270 * 512)), (low_7_ms_bits_col270 + ((xor_rot_0_output_tmp_53f39_212_limb_1 - (high_14_ms_bits_col271 * 4)) * 128)), (high_14_ms_bits_col271 - (high_5_ms_bits_col272 * 512)), high_5_ms_bits_col272, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_5_id_col161, (triple_xor_32_output_limb_0_col132 - (low_7_ms_bits_col158 * 512)), (low_7_ms_bits_col158 + ((triple_xor_32_output_limb_1_col133 - (high_14_ms_bits_col159 * 4)) * 128)), (high_14_ms_bits_col159 - (high_5_ms_bits_col160 * 512)), high_5_ms_bits_col160, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col274, (xor_rot_0_output_tmp_53f39_230_limb_1 - (high_14_ms_bits_col275 * 4)), high_5_ms_bits_col276"
+        "low_7_ms_bits_col162, (triple_xor_32_output_limb_1_col135 - (high_14_ms_bits_col163 * 4)), high_5_ms_bits_col164"
       ],
       [
         "MemoryAddressToId",
-        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 6), new_state_6_id_col277"
+        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 6), new_state_6_id_col165"
       ],
       [
         "MemoryIdToBig",
-        "new_state_6_id_col277, (xor_rot_0_output_tmp_53f39_230_limb_0 - (low_7_ms_bits_col274 * 512)), (low_7_ms_bits_col274 + ((xor_rot_0_output_tmp_53f39_230_limb_1 - (high_14_ms_bits_col275 * 4)) * 128)), (high_14_ms_bits_col275 - (high_5_ms_bits_col276 * 512)), high_5_ms_bits_col276, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_6_id_col165, (triple_xor_32_output_limb_0_col134 - (low_7_ms_bits_col162 * 512)), (low_7_ms_bits_col162 + ((triple_xor_32_output_limb_1_col135 - (high_14_ms_bits_col163 * 4)) * 128)), (high_14_ms_bits_col163 - (high_5_ms_bits_col164 * 512)), high_5_ms_bits_col164, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col278, (xor_rot_0_output_tmp_53f39_248_limb_1 - (high_14_ms_bits_col279 * 4)), high_5_ms_bits_col280"
+        "low_7_ms_bits_col166, (triple_xor_32_output_limb_1_col137 - (high_14_ms_bits_col167 * 4)), high_5_ms_bits_col168"
       ],
       [
         "MemoryAddressToId",
-        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 7), new_state_7_id_col281"
+        "(((ap_limb_0_col23 + (ap_limb_1_col24 * 512)) + (ap_limb_2_col25 * 262144)) + 7), new_state_7_id_col169"
       ],
       [
         "MemoryIdToBig",
-        "new_state_7_id_col281, (xor_rot_0_output_tmp_53f39_248_limb_0 - (low_7_ms_bits_col278 * 512)), (low_7_ms_bits_col278 + ((xor_rot_0_output_tmp_53f39_248_limb_1 - (high_14_ms_bits_col279 * 4)) * 128)), (high_14_ms_bits_col279 - (high_5_ms_bits_col280 * 512)), high_5_ms_bits_col280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_7_id_col169, (triple_xor_32_output_limb_0_col136 - (low_7_ms_bits_col166 * 512)), (low_7_ms_bits_col166 + ((triple_xor_32_output_limb_1_col137 - (high_14_ms_bits_col167 * 4)) * 128)), (high_14_ms_bits_col167 - (high_5_ms_bits_col168 * 512)), high_5_ms_bits_col168, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   }

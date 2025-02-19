@@ -108,29 +108,3 @@ fn test_xor_rot16() {
     .into();
     assert_expected_state(&state, &expected_state);
 }
-
-#[test]
-fn test_xor() {
-    let xor_rot = XorRot32 { r: 0 };
-    let (registry, _) = AirFnRegistry::new(&xor_rot);
-    let (state, new_state) = registry.run_air(
-        &xor_rot,
-        (),
-        [const_u32_expr!(145646949), const_u32_expr!(52416546)],
-    );
-    assert_eq!(new_state.calc(), "196195655");
-
-    // Check state
-    let expected_state = vec![
-        (101, "ms_8_bits"),
-        (8, "ms_8_bits"),
-        (208, "ms_8_bits"),
-        (3, "ms_8_bits"),
-        (71, "xor"),
-        (181, "xor"),
-        (177, "xor"),
-        (11, "xor"),
-    ]
-    .into();
-    assert_expected_state(&state, &expected_state);
-}
