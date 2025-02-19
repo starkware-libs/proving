@@ -13,7 +13,7 @@ use crate::utils::test_utils::*;
 
 #[test]
 fn test_add_ap_negative_imm() {
-    // build the air function
+    // Build the air function
     let mut add_ap_opcode = AddApOpcode {
         imm: true,
         op1_base_fp: false,
@@ -75,7 +75,7 @@ fn test_add_ap_negative_imm() {
 
 #[test]
 fn test_add_ap_deref_base_fp() {
-    // build the air function
+    // Build the air function
     let mut add_ap_opcode = AddApOpcode {
         imm: false,
         op1_base_fp: true,
@@ -144,7 +144,7 @@ fn test_add_ap_deref_base_fp() {
 #[test]
 #[should_panic(expected = "FLAG_OP1_IMM and FLAG_OP1_BASE_FP cannot be set at the same time.")]
 fn test_failed_op1_src() {
-    // build the air function
+    // Build the air function
     let mut add_ap_opcode = AddApOpcode {
         imm: true,
         op1_base_fp: true,
