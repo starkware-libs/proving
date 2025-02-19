@@ -24,6 +24,7 @@ pub enum Mode {
 pub struct RustProverGen {
     lists: CompiledAirFn,
     public_params: Vec<PublicParam>,
+    write_trace_context: Vec<String>,
     constants: Vec<(String, String)>,
     relation_calls: Vec<String>,
     lookup_terms: Vec<LookupTerm>,
@@ -47,6 +48,7 @@ impl RustProverGen {
         };
 
         let public_params = lists.public_params.iter().cloned().collect_vec();
+        let write_trace_context = unique_add_input_calls(&lists.deductions);
         let constants = deduction_consts(&lists.deductions);
         let relation_calls = unique_relation_calls(&lists.deductions);
         let lookup_terms = filter_lookup_terms(&lists.deductions);
@@ -55,6 +57,7 @@ impl RustProverGen {
             lists,
             mode,
             public_params,
+            write_trace_context,
             constants,
             relation_calls,
             lookup_terms,
@@ -190,17 +193,92 @@ impl RustProverGen {
                 pub fn write_trace<MC: MerkleChannel>(
                     $(self_param)
                     tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
-                    $(generate_sub_component_params_and_args(&self.lists.deductions).0)
+                    $(write_trace_params(&self.write_trace_context))
                 ) -> (Claim, InteractionClaimGenerator)
                 where
                     SimdBackend: BackendForChannel<MC>
                 {
-                    $(write_trace_body_simd(&self.lists))
+                    $(self.write_trace_body_simd())
                 }
 
                 $(add_inputs_code)
             }
         }
+    }
+
+    fn write_trace_body_simd(&self) -> rust::Tokens {
+        let mut claim_fields = quote! {log_size,};
+        for public_param in &self.public_params {
+            claim_fields.extend(quote! {
+                $(public_param.name()): self.$(public_param.name()),
+            });
+        }
+
+        let init_code = match self.mode {
+            Mode::Opcode | Mode::View => quote! {
+                let n_rows = self.inputs.len();
+                assert_ne!(n_rows, 0);
+                let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
+                let need_padding = n_rows != size;
+                let log_size = size.ilog2();
+
+                if need_padding {
+                    self.inputs.resize(size, *self.inputs.first().unwrap());
+                    bit_reverse_coset_to_circle_domain_order(&mut self.inputs);
+                }
+
+                let packed_inputs = pack_values(&self.inputs);
+            },
+            _ => quote! {
+               let log_size = self.log_size;
+            },
+        };
+        quote! {
+            $(init_code)
+
+            let (trace, lookup_data) =
+                    write_trace_simd($(self.generate_write_trace_simd_args()));
+
+            tree_builder.extend_evals(trace.to_evals());
+
+            (
+            Claim {
+                $(claim_fields)
+            },
+            InteractionClaimGenerator {
+                log_size,
+                lookup_data,
+            },
+            )
+        }
+    }
+
+    // Generates the parameters for `write_trace_simd` function.
+    fn generate_write_trace_simd_params(&self) -> rust::Tokens {
+        let mut params = match self.mode {
+            Mode::Opcode | Mode::View => {
+                quote! { n_rows: usize, inputs: $(vec_of_type("PackedInputType")), }
+            }
+            _ => quote! { log_size: u32, },
+        };
+        for public_param in &self.public_params {
+            params.extend(quote! { $(public_param.name()): u32, });
+        }
+        params.extend(write_trace_params(&self.write_trace_context));
+        params
+    }
+
+    // Generates the arguments for `write_trace_simd` function.
+    fn generate_write_trace_simd_args(&self) -> rust::Tokens {
+        let mut args = match self.mode {
+            Mode::Opcode | Mode::View => quote! { n_rows, packed_inputs, },
+            _ => quote! { log_size, },
+        };
+        for public_param in &self.public_params {
+            args.extend(quote! { self.$(public_param.name()), });
+        }
+        args.extend(write_trace_args(&self.write_trace_context));
+        args
     }
 
     fn generate_lookup_data_struct(&self) -> rust::Tokens {
@@ -243,7 +321,7 @@ impl RustProverGen {
         if !contains_state_names {
             return quote! {
                 fn write_trace_simd(
-                    $(generate_write_trace_simd_params(&self.lists))
+                    $(self.generate_write_trace_simd_params())
                 ) -> (ComponentTrace<N_TRACE_COLUMNS>,
                     LookupData) {
                 unimplemented!()
@@ -288,7 +366,7 @@ impl RustProverGen {
             #[allow(clippy::double_parens)]
             #[allow(non_snake_case)]
             fn write_trace_simd(
-                $(generate_write_trace_simd_params(&self.lists))
+                $(self.generate_write_trace_simd_params())
             ) -> (ComponentTrace<N_TRACE_COLUMNS>,
                 LookupData) {
                 $(log_size_code)
@@ -552,9 +630,6 @@ impl RustProverGen {
     }
 }
 
-const INPUTS_SUFFIX: &str = "_inputs";
-const STATE_SUFFIX: &str = "_state";
-
 fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
     deductions
         .iter()
@@ -601,118 +676,26 @@ fn interaction_prover_struct() -> rust::Tokens {
     }
 }
 
-fn unique_add_input_calls(deductions: &[TraceGenStep]) -> Vec<String> {
-    deductions
-        .iter()
-        .filter_map(|d| {
-            if let TraceGenStep::LookupAddInput { fn_name, .. } = d {
-                Some(fn_name.to_string())
-            } else {
-                None
-            }
-        })
-        .sorted()
-        .dedup()
-        .collect()
-}
-
-fn generate_sub_component_params_and_args(
-    deductions: &[TraceGenStep],
-) -> (rust::Tokens, rust::Tokens) {
-    // write_trace_simd is responsible for generating the trace and calling `add_inputs` on
-    // sub_components.
-    // Collect all the unique function and add_input calls.
-    let mut context = unique_add_input_calls(deductions);
-    context.sort_by_key(|a| a.clone());
-    context.dedup();
-
+const INPUTS_SUFFIX: &str = "_inputs";
+const STATE_SUFFIX: &str = "_state";
+fn write_trace_params(context: &[String]) -> rust::Tokens {
     let mut params = rust::Tokens::new();
-    let mut args = rust::Tokens::new();
-    for fn_name in &context {
+    for fn_name in context {
         params.extend(quote! {
             $(fn_name)$STATE_SUFFIX: &$(fn_name)::ClaimGenerator,
         });
+    }
+    params
+}
+
+fn write_trace_args(context: &[String]) -> rust::Tokens {
+    let mut args = rust::Tokens::new();
+    for fn_name in context {
         args.extend(quote! {
             $(fn_name)$STATE_SUFFIX,
         });
     }
-    (params, args)
-}
-
-// Generates the parameters for `write_trace_simd` function.
-fn generate_write_trace_simd_params(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut params = if contains_inputs(lists) {
-        quote! { n_rows: usize, inputs: $(vec_of_type("PackedInputType")), }
-    } else {
-        quote! { log_size: u32, }
-    };
-    for public_param in &lists.public_params {
-        params.extend(quote! { $(public_param.name()): u32, });
-    }
-    params.extend(generate_sub_component_params_and_args(&lists.deductions).0);
-    params
-}
-
-// Generates the arguments for `write_trace_simd` function.
-fn generate_write_trace_simd_args(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut args = if contains_inputs(lists) {
-        quote! { n_rows, packed_inputs, }
-    } else {
-        quote! { log_size, }
-    };
-    for public_param in &lists.public_params {
-        args.extend(quote! { self.$(public_param.name()), });
-    }
-    args.extend(generate_sub_component_params_and_args(&lists.deductions).1);
     args
-}
-
-fn write_trace_body_simd(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut claim_fields = quote! {log_size,};
-    for public_param in &lists.public_params {
-        claim_fields.extend(quote! {
-            $(public_param.name()): self.$(public_param.name()),
-        });
-    }
-
-    let init_code = if contains_inputs(lists) {
-        quote! {
-            let n_rows = self.inputs.len();
-            assert_ne!(n_rows, 0);
-            let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
-            let need_padding = n_rows != size;
-            let log_size = size.ilog2();
-
-            if need_padding {
-                self.inputs.resize(size, *self.inputs.first().unwrap());
-                bit_reverse_coset_to_circle_domain_order(&mut self.inputs);
-            }
-
-            let packed_inputs = pack_values(&self.inputs);
-        }
-    } else {
-        quote! {
-           let log_size = self.log_size;
-        }
-    };
-    quote! {
-        $(init_code)
-
-        let (trace, lookup_data) =
-                write_trace_simd($(generate_write_trace_simd_args(lists)));
-
-        tree_builder.extend_evals(trace.to_evals());
-
-        (
-        Claim {
-            $(claim_fields)
-        },
-        InteractionClaimGenerator {
-            log_size,
-            lookup_data,
-        },
-        )
-    }
 }
 
 // TODO(Ohad): add logic.
@@ -930,5 +913,20 @@ fn filter_lookup_terms(deductions: &[TraceGenStep]) -> Vec<LookupTerm> {
                 None
             }
         })
+        .collect()
+}
+
+fn unique_add_input_calls(deductions: &[TraceGenStep]) -> Vec<String> {
+    deductions
+        .iter()
+        .filter_map(|d| {
+            if let TraceGenStep::LookupAddInput { fn_name, .. } = d {
+                Some(fn_name.to_string())
+            } else {
+                None
+            }
+        })
+        .sorted()
+        .dedup()
         .collect()
 }
