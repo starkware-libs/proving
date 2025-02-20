@@ -45,7 +45,7 @@ fn test_read_blake_word() {
 }
 
 #[test]
-#[should_panic(expected = "given value != value in memory")]
+#[should_panic(expected = "RangeCheck failed on element 1: RangeCheck2 on input 65538")]
 fn test_fail_read_blake_word() {
     let mut air_fn = ReadBlakeWord::default();
     let (registry, _) = AirFnRegistry::new(&air_fn);

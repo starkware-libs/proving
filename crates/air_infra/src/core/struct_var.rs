@@ -36,7 +36,7 @@ impl<F: AirVar, T: ProverType> InternalAirVarActions for StructVar<F, T>
 where
     Self: StructVarTrait,
 {
-    fn let_(&self, name: String, visibility: Visibility) -> Self {
+    fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self {
         Self {
             name: Some(name.clone()),
             fields: self
@@ -45,7 +45,11 @@ where
                 .map(|(n, f)| {
                     (
                         n.clone(),
-                        f.let_(format!("{}.{}", name, n), visibility.clone()),
+                        f.let_(
+                            format!("{}.{}", name, n),
+                            in_deductions,
+                            felts_in_constraints,
+                        ),
                     )
                 })
                 .collect(),
@@ -119,9 +123,9 @@ impl<V: AirVar> From<VarWrapper<V>> for AirVarImpl {
 }
 
 impl<V: AirVar> InternalAirVarActions for VarWrapper<V> {
-    fn let_(&self, name: String, visibility: Visibility) -> Self {
+    fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self {
         Self {
-            var: self.var.let_(name, visibility),
+            var: self.var.let_(name, in_deductions, felts_in_constraints),
             desc: self.desc.clone(),
         }
     }

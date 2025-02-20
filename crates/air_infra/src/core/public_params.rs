@@ -6,7 +6,6 @@ use compiled_casm_air::public_params::PublicParam;
 use stwo_cairo_common::prover_types::cpu::M31;
 
 use super::expressions::felt_expr::*;
-use super::variables::*;
 use crate::core::expressions::var_expr::*;
 
 #[derive(Debug, Clone, Default)]
@@ -17,7 +16,7 @@ pub struct PublicParams {
 impl PublicParams {
     fn create_public_param_expr(param: PublicParam, value: Option<M31>) -> FeltExpr {
         let mut result: FeltExpr =
-            VarExpr::new("".to_string(), value, false, false, Visibility::default()).into();
+            VarExpr::new("".to_string(), value, false, false, true, true).into();
         result.to_state(StateInfo::PublicParam(param));
         result
     }

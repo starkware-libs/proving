@@ -379,62 +379,86 @@ impl AirBuilder {
         V: AirVar,
     {
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
-        let visibility = Visibility {
-            in_constraints: false,
-            in_deductions: true,
-        };
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
             var.clone().into().prover_type(),
             var.clone().into(),
-            visibility.clone(),
+            Visibility {
+                in_deductions: true,
+                in_constraints: false,
+            },
         ));
-        var.let_(name, visibility)
+        var.let_(name, true, false)
     }
 
     pub fn let_for_constraint(&mut self, expr: FeltExpr, desc: &str) -> FeltExpr {
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
-        let visibility = Visibility {
-            in_constraints: true,
-            in_deductions: false,
-        };
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
             Felt::r#type(),
             expr.clone().into(),
-            visibility.clone(),
+            Visibility {
+                in_deductions: false,
+                in_constraints: true,
+            },
         ));
-        expr.let_(name, visibility)
+        expr.let_(name, false, true)
     }
 
-    fn let_for_deduction_and_constraint<O>(&mut self, expr: O, desc: &str) -> O
+    // For complex expressions, creates intermediate variables visible in constraints and deductions
+    // for every felt of the expression, and an intermediate variable for the expression itself,
+    // known only in deductions.
+    // For a felt expression, creates a single intermediate variable visible in constraints and
+    // deductions.
+    pub fn let_<O>(&mut self, mut expr: O, desc: &str) -> O
     where
         O: AirVar,
     {
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
-        let visibility = Visibility {
-            in_constraints: true,
-            in_deductions: true,
-        };
-        self.air_body.push(AirBodyComponent::Intermediate(
-            name.clone(),
-            expr.clone().into().prover_type(),
-            expr.clone().into(),
-            visibility.clone(),
-        ));
-        expr.let_(name, visibility)
-    }
 
-    pub fn let_(&mut self, expr: FeltExpr, desc: &str) -> FeltExpr {
-        self.let_for_deduction_and_constraint(expr, desc)
-    }
+        if expr.clone().into().prover_type() != Felt::r#type() {
+            // We have to create the variable for <expr> before its felts, because <let_> creates
+            // the felts as well. Then, we recreate the felts from their original expressions
+            // (<felts_before>) and update <expr>.
+            self.air_body.push(AirBodyComponent::Intermediate(
+                name.clone(),
+                expr.clone().into().prover_type(),
+                expr.clone().into(),
+                Visibility {
+                    in_deductions: true,
+                    in_constraints: false,
+                },
+            ));
+            let felts_before = expr.as_felts();
+            expr = expr.let_(name.clone(), true, true);
 
-    pub fn let_vec<O>(&mut self, vec: Vec<FeltExpr>, desc: &str) -> O
-    where
-        O: AirVar + From<Vec<FeltExpr>>,
-    {
-        let output = O::from(vec);
-        self.let_for_deduction_and_constraint(output, desc)
+            for (i, (felt_before, felt)) in felts_before.iter().zip(expr.as_felts_mut()).enumerate()
+            {
+                if felt_before.is_const() || felt_before.is_directly_in_state() {
+                    *felt = felt_before.clone();
+                    continue;
+                }
+
+                let felt_name = format!("{}_limb_{}", name, i);
+                self.air_body.push(AirBodyComponent::Intermediate(
+                    felt_name.clone(),
+                    Felt::r#type(),
+                    felt_before.clone().into(),
+                    Visibility::default(),
+                ));
+                *felt = felt_before.let_(felt_name, true, true);
+            }
+        } else {
+            self.air_body.push(AirBodyComponent::Intermediate(
+                name.clone(),
+                Felt::r#type(),
+                expr.clone().into(),
+                Visibility::default(),
+            ));
+            expr = expr.let_(name, true, true);
+        }
+
+        expr
     }
 
     pub fn call<I, O>(&mut self, air_fn: &dyn AirFn<ExtIn = (), In = I, Out = O>, input: I) -> O
@@ -516,13 +540,7 @@ impl AirBuilder {
 
         // Deduce the output if it is not empty.
         if !O::is_empty() {
-            output = output.let_(
-                output_name.expect("Output name not set"),
-                Visibility {
-                    in_constraints: false,
-                    in_deductions: true,
-                },
-            );
+            output = output.let_(output_name.expect("Output name not set"), true, false);
             self.deduce_intermediate_var(&mut output, &format!("{}_output", air_fn.name()));
         }
 
@@ -613,13 +631,7 @@ impl AirBuilder {
 
         // TODO(AnatG): Consider not deducing the const parts of the output.
         // Deduce the output of the last round.
-        output = output.let_(
-            output_name,
-            Visibility {
-                in_constraints: false,
-                in_deductions: true,
-            },
-        );
+        output = output.let_(output_name, true, false);
         self.deduce_intermediate_var(&mut output, &format!("{}_output", air_fn.name()));
 
         // Use the output of the last round.
@@ -729,13 +741,7 @@ impl AirBuilder {
             value = memory.lookup_call(&mut air_builder, key.clone(), ());
         }
 
-        value.let_(
-            value_name,
-            Visibility {
-                in_constraints: false,
-                in_deductions: true,
-            },
-        )
+        value.let_(value_name, true, false)
     }
 
     // Assumes the key and value are in the state (of the caller). Adds a lookup constraint

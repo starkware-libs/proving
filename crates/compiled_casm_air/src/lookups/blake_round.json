@@ -417,25 +417,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_5",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col51"
-              },
-              {
-                "State": "high_16_bits_col52"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -448,22 +429,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_5"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col52"
               },
               "-",
               {
@@ -524,22 +490,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_5"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col51"
               },
               "-",
               {
@@ -569,22 +520,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_5"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col52"
                       },
                       "-",
                       {
@@ -794,25 +730,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_13",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col57"
-              },
-              {
-                "State": "high_16_bits_col58"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -825,22 +742,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_13"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col58"
               },
               "-",
               {
@@ -901,22 +803,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_13"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col57"
               },
               "-",
               {
@@ -946,22 +833,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_13"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col58"
                       },
                       "-",
                       {
@@ -1171,25 +1043,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_21",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col63"
-              },
-              {
-                "State": "high_16_bits_col64"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -1202,22 +1055,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_21"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col64"
               },
               "-",
               {
@@ -1278,22 +1116,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_21"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col63"
               },
               "-",
               {
@@ -1323,22 +1146,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_21"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col64"
                       },
                       "-",
                       {
@@ -1548,25 +1356,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_29",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col69"
-              },
-              {
-                "State": "high_16_bits_col70"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -1579,22 +1368,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_29"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col70"
               },
               "-",
               {
@@ -1655,22 +1429,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_29"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col69"
               },
               "-",
               {
@@ -1700,22 +1459,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_29"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col70"
                       },
                       "-",
                       {
@@ -1925,25 +1669,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_37",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col75"
-              },
-              {
-                "State": "high_16_bits_col76"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -1956,22 +1681,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_37"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col76"
               },
               "-",
               {
@@ -2032,22 +1742,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_37"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col75"
               },
               "-",
               {
@@ -2077,22 +1772,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_37"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col76"
                       },
                       "-",
                       {
@@ -2302,25 +1982,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_45",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col81"
-              },
-              {
-                "State": "high_16_bits_col82"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -2333,22 +1994,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_45"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col82"
               },
               "-",
               {
@@ -2409,22 +2055,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_45"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col81"
               },
               "-",
               {
@@ -2454,22 +2085,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_45"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col82"
                       },
                       "-",
                       {
@@ -2679,25 +2295,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_53",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col87"
-              },
-              {
-                "State": "high_16_bits_col88"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -2710,22 +2307,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_53"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col88"
               },
               "-",
               {
@@ -2786,22 +2368,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_53"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col87"
               },
               "-",
               {
@@ -2831,22 +2398,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_53"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col88"
                       },
                       "-",
                       {
@@ -3056,25 +2608,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_61",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col93"
-              },
-              {
-                "State": "high_16_bits_col94"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -3087,22 +2620,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_61"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col94"
               },
               "-",
               {
@@ -3163,22 +2681,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_61"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col93"
               },
               "-",
               {
@@ -3208,22 +2711,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_61"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col94"
                       },
                       "-",
                       {
@@ -3433,25 +2921,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_69",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col99"
-              },
-              {
-                "State": "high_16_bits_col100"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -3464,22 +2933,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_69"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col100"
               },
               "-",
               {
@@ -3540,22 +2994,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_69"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col99"
               },
               "-",
               {
@@ -3585,22 +3024,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_69"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col100"
                       },
                       "-",
                       {
@@ -3810,25 +3234,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_77",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col105"
-              },
-              {
-                "State": "high_16_bits_col106"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -3841,22 +3246,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_77"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col106"
               },
               "-",
               {
@@ -3917,22 +3307,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_77"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col105"
               },
               "-",
               {
@@ -3962,22 +3337,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_77"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col106"
                       },
                       "-",
                       {
@@ -4187,25 +3547,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_85",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col111"
-              },
-              {
-                "State": "high_16_bits_col112"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -4218,22 +3559,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_85"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col112"
               },
               "-",
               {
@@ -4294,22 +3620,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_85"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col111"
               },
               "-",
               {
@@ -4339,22 +3650,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_85"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col112"
                       },
                       "-",
                       {
@@ -4564,25 +3860,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_93",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col117"
-              },
-              {
-                "State": "high_16_bits_col118"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -4595,22 +3872,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_93"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col118"
               },
               "-",
               {
@@ -4671,22 +3933,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_93"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col117"
               },
               "-",
               {
@@ -4716,22 +3963,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_93"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col118"
                       },
                       "-",
                       {
@@ -4941,25 +4173,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_101",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col123"
-              },
-              {
-                "State": "high_16_bits_col124"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -4972,22 +4185,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_101"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col124"
               },
               "-",
               {
@@ -5048,22 +4246,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_101"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col123"
               },
               "-",
               {
@@ -5093,22 +4276,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_101"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col124"
                       },
                       "-",
                       {
@@ -5318,25 +4486,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_109",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col129"
-              },
-              {
-                "State": "high_16_bits_col130"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -5349,22 +4498,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_109"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col130"
               },
               "-",
               {
@@ -5425,22 +4559,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_109"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col129"
               },
               "-",
               {
@@ -5470,22 +4589,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_109"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col130"
                       },
                       "-",
                       {
@@ -5695,25 +4799,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_117",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col135"
-              },
-              {
-                "State": "high_16_bits_col136"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -5726,22 +4811,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_117"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col136"
               },
               "-",
               {
@@ -5802,22 +4872,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_117"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col135"
               },
               "-",
               {
@@ -5847,22 +4902,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_117"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col136"
                       },
                       "-",
                       {
@@ -6072,25 +5112,6 @@
       "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "expected_word_tmp_92ff8_125",
-        "type": "UInt32",
-        "var": {
-          "StaticCall": [
-            "UInt32::from_limbs",
-            [
-              {
-                "State": "low_16_bits_col141"
-              },
-              {
-                "State": "high_16_bits_col142"
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
       "StartBlock": "Verify Blake Word"
     },
     {
@@ -6103,22 +5124,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_125"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col142"
               },
               "-",
               {
@@ -6179,22 +5185,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_125"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col141"
               },
               "-",
               {
@@ -6224,22 +5215,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_125"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col142"
                       },
                       "-",
                       {
@@ -6474,76 +5450,16 @@
             "State": "input_limb_27_col27"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_5"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col51"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_5"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col52"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_13"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col57"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_13"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col58"
           },
           {
             "State": "blake_g_output_limb_0_col147"
@@ -6602,76 +5518,16 @@
             "State": "input_limb_29_col29"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_21"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col63"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_21"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col64"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_29"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col69"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_29"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col70"
           },
           {
             "State": "blake_g_output_limb_0_col155"
@@ -6730,76 +5586,16 @@
             "State": "input_limb_31_col31"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_37"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col75"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_37"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col76"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_45"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col81"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_45"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col82"
           },
           {
             "State": "blake_g_output_limb_0_col163"
@@ -6858,76 +5654,16 @@
             "State": "input_limb_33_col33"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_53"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col87"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_53"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col88"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_61"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col93"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_61"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col94"
           },
           {
             "State": "blake_g_output_limb_0_col171"
@@ -6986,76 +5722,16 @@
             "State": "blake_g_output_limb_7_col178"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_69"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col99"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_69"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col100"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_77"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col105"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_77"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col106"
           },
           {
             "State": "blake_g_output_limb_0_col179"
@@ -7114,76 +5790,16 @@
             "State": "blake_g_output_limb_7_col154"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_85"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col111"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_85"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col112"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_93"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col117"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_93"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col118"
           },
           {
             "State": "blake_g_output_limb_0_col187"
@@ -7242,76 +5858,16 @@
             "State": "blake_g_output_limb_7_col162"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_101"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col123"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_101"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col124"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_109"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col129"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_109"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col130"
           },
           {
             "State": "blake_g_output_limb_0_col195"
@@ -7370,76 +5926,16 @@
             "State": "blake_g_output_limb_7_col170"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_117"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col135"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_117"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col136"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_125"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col141"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_125"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col142"
           },
           {
             "State": "blake_g_output_limb_0_col203"
@@ -9136,22 +7632,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_5"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col52"
                 },
                 "-",
                 {
@@ -9187,22 +7668,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_5"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col52"
               },
               "-",
               {
@@ -9319,22 +7785,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_5"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col51"
               },
               "-",
               {
@@ -9364,22 +7815,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_5"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col52"
                       },
                       "-",
                       {
@@ -9998,22 +8434,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_13"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col58"
                 },
                 "-",
                 {
@@ -10049,22 +8470,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_13"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col58"
               },
               "-",
               {
@@ -10181,22 +8587,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_13"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col57"
               },
               "-",
               {
@@ -10226,22 +8617,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_13"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col58"
                       },
                       "-",
                       {
@@ -10860,22 +9236,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_21"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col64"
                 },
                 "-",
                 {
@@ -10911,22 +9272,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_21"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col64"
               },
               "-",
               {
@@ -11043,22 +9389,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_21"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col63"
               },
               "-",
               {
@@ -11088,22 +9419,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_21"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col64"
                       },
                       "-",
                       {
@@ -11722,22 +10038,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_29"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col70"
                 },
                 "-",
                 {
@@ -11773,22 +10074,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_29"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col70"
               },
               "-",
               {
@@ -11905,22 +10191,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_29"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col69"
               },
               "-",
               {
@@ -11950,22 +10221,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_29"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col70"
                       },
                       "-",
                       {
@@ -12584,22 +10840,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_37"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col76"
                 },
                 "-",
                 {
@@ -12635,22 +10876,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_37"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col76"
               },
               "-",
               {
@@ -12767,22 +10993,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_37"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col75"
               },
               "-",
               {
@@ -12812,22 +11023,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_37"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col76"
                       },
                       "-",
                       {
@@ -13446,22 +11642,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_45"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col82"
                 },
                 "-",
                 {
@@ -13497,22 +11678,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_45"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col82"
               },
               "-",
               {
@@ -13629,22 +11795,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_45"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col81"
               },
               "-",
               {
@@ -13674,22 +11825,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_45"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col82"
                       },
                       "-",
                       {
@@ -14308,22 +12444,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_53"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col88"
                 },
                 "-",
                 {
@@ -14359,22 +12480,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_53"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col88"
               },
               "-",
               {
@@ -14491,22 +12597,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_53"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col87"
               },
               "-",
               {
@@ -14536,22 +12627,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_53"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col88"
                       },
                       "-",
                       {
@@ -15170,22 +13246,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_61"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col94"
                 },
                 "-",
                 {
@@ -15221,22 +13282,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_61"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col94"
               },
               "-",
               {
@@ -15353,22 +13399,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_61"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col93"
               },
               "-",
               {
@@ -15398,22 +13429,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_61"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col94"
                       },
                       "-",
                       {
@@ -16032,22 +14048,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_69"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col100"
                 },
                 "-",
                 {
@@ -16083,22 +14084,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_69"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col100"
               },
               "-",
               {
@@ -16215,22 +14201,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_69"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col99"
               },
               "-",
               {
@@ -16260,22 +14231,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_69"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col100"
                       },
                       "-",
                       {
@@ -16894,22 +14850,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_77"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col106"
                 },
                 "-",
                 {
@@ -16945,22 +14886,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_77"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col106"
               },
               "-",
               {
@@ -17077,22 +15003,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_77"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col105"
               },
               "-",
               {
@@ -17122,22 +15033,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_77"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col106"
                       },
                       "-",
                       {
@@ -17756,22 +15652,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_85"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col112"
                 },
                 "-",
                 {
@@ -17807,22 +15688,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_85"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col112"
               },
               "-",
               {
@@ -17939,22 +15805,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_85"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col111"
               },
               "-",
               {
@@ -17984,22 +15835,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_85"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col112"
                       },
                       "-",
                       {
@@ -18618,22 +16454,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_93"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col118"
                 },
                 "-",
                 {
@@ -18669,22 +16490,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_93"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col118"
               },
               "-",
               {
@@ -18801,22 +16607,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_93"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col117"
               },
               "-",
               {
@@ -18846,22 +16637,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_93"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col118"
                       },
                       "-",
                       {
@@ -19480,22 +17256,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_101"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col124"
                 },
                 "-",
                 {
@@ -19531,22 +17292,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_101"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col124"
               },
               "-",
               {
@@ -19663,22 +17409,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_101"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col123"
               },
               "-",
               {
@@ -19708,22 +17439,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_101"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col124"
                       },
                       "-",
                       {
@@ -20342,22 +18058,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_109"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col130"
                 },
                 "-",
                 {
@@ -20393,22 +18094,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_109"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col130"
               },
               "-",
               {
@@ -20525,22 +18211,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_109"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col129"
               },
               "-",
               {
@@ -20570,22 +18241,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_109"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col130"
                       },
                       "-",
                       {
@@ -21204,22 +18860,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_117"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col136"
                 },
                 "-",
                 {
@@ -21255,22 +18896,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_117"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col136"
               },
               "-",
               {
@@ -21387,22 +19013,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_117"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col135"
               },
               "-",
               {
@@ -21432,22 +19043,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_117"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col136"
                       },
                       "-",
                       {
@@ -22066,22 +19662,7 @@
             {
               "BinaryOp": [
                 {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "expected_word_tmp_92ff8_125"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
+                  "State": "high_16_bits_col142"
                 },
                 "-",
                 {
@@ -22117,22 +19698,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_125"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "high_16_bits_col142"
               },
               "-",
               {
@@ -22249,22 +19815,7 @@
           {
             "BinaryOp": [
               {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "expected_word_tmp_92ff8_125"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
+                "State": "low_16_bits_col141"
               },
               "-",
               {
@@ -22294,22 +19845,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "expected_word_tmp_92ff8_125"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
+                        "State": "high_16_bits_col142"
                       },
                       "-",
                       {
@@ -22802,76 +20338,16 @@
             "State": "input_limb_27_col27"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_5"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col51"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_5"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col52"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_13"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col57"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_13"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col58"
           },
           {
             "State": "blake_g_output_limb_0_col147"
@@ -23188,76 +20664,16 @@
             "State": "input_limb_29_col29"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_21"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col63"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_21"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col64"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_29"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col69"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_29"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col70"
           },
           {
             "State": "blake_g_output_limb_0_col155"
@@ -23574,76 +20990,16 @@
             "State": "input_limb_31_col31"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_37"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col75"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_37"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col76"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_45"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col81"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_45"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col82"
           },
           {
             "State": "blake_g_output_limb_0_col163"
@@ -23960,76 +21316,16 @@
             "State": "input_limb_33_col33"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_53"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col87"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_53"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col88"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_61"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col93"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_61"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col94"
           },
           {
             "State": "blake_g_output_limb_0_col171"
@@ -24346,76 +21642,16 @@
             "State": "blake_g_output_limb_7_col178"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_69"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col99"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_69"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col100"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_77"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col105"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_77"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col106"
           },
           {
             "State": "blake_g_output_limb_0_col179"
@@ -24732,76 +21968,16 @@
             "State": "blake_g_output_limb_7_col154"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_85"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col111"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_85"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col112"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_93"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col117"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_93"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col118"
           },
           {
             "State": "blake_g_output_limb_0_col187"
@@ -25118,76 +22294,16 @@
             "State": "blake_g_output_limb_7_col162"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_101"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col123"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_101"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col124"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_109"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col129"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_109"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col130"
           },
           {
             "State": "blake_g_output_limb_0_col195"
@@ -25504,76 +22620,16 @@
             "State": "blake_g_output_limb_7_col170"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_117"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col135"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_117"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col136"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_125"
-                    ]
-                  },
-                  "low",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "low_16_bits_col141"
           },
           {
-            "MethodCall": [
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "UInt32",
-                      "expected_word_tmp_92ff8_125"
-                    ]
-                  },
-                  "high",
-                  []
-                ]
-              },
-              "as_m31",
-              []
-            ]
+            "State": "high_16_bits_col142"
           },
           {
             "State": "blake_g_output_limb_0_col203"

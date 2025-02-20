@@ -57,16 +57,17 @@ where
     VarExpr<T>: VarExprUpdate,
 {
     fn new(name: String, in_state: bool) -> Self {
-        VarExpr::new(name, None, false, in_state, Visibility::default()).into()
+        VarExpr::new(name, None, false, in_state, true, in_state).into()
     }
 
-    fn let_(&self, name: String, visibility: Visibility) -> Self {
+    fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self {
         VarExpr::new(
             name,
             self.value(),
             self.is_const(),
             self.in_state(),
-            visibility,
+            in_deductions,
+            felts_in_constraints,
         )
         .into()
     }

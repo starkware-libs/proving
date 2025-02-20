@@ -100,7 +100,7 @@ pub trait InternalAirVarInfo {
         let visibilities = self
             .get_info()
             .iter()
-            .map(|i| i.visibility.clone())
+            .map(|i| i.visibility)
             .collect::<HashSet<_>>();
         Visibility {
             in_constraints: visibilities.iter().all(|t| t.in_constraints),
@@ -126,10 +126,10 @@ pub trait InternalAirVarInfo {
 // Actions on air variables used by the air builder.
 pub(crate) trait InternalAirVarActions: Clone + Into<AirVarImpl> {
     fn new(name: String, in_state: bool) -> Self;
-    fn let_(&self, name: String, visibility: Visibility) -> Self;
+    fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self;
 }
 
-#[derive(Clone, Debug, Default, PartialEq, Eq, Hash)]
+#[derive(Clone, Debug, PartialEq, Eq, Hash)]
 pub struct AirVarInfo {
     pub in_state: bool,
     pub is_const: bool,
@@ -138,7 +138,7 @@ pub struct AirVarInfo {
     pub external_state: Option<(String, Vec<String>)>,
 }
 
-#[derive(Clone, Debug, Serialize, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, Debug, Serialize, PartialEq, Eq, Hash)]
 pub struct Visibility {
     pub in_constraints: bool,
     pub in_deductions: bool,
@@ -386,7 +386,7 @@ impl AirVar for () {
 
 impl InternalAirVarActions for () {
     fn new(_name: String, _in_state: bool) -> Self {}
-    fn let_(&self, _name: String, _intermediate_type: Visibility) -> Self {}
+    fn let_(&self, _name: String, _in_deductions: bool, _felts_in_constraints: bool) -> Self {}
 }
 
 impl ExtTable for () {
@@ -492,10 +492,10 @@ macro_rules! impl_air_var {
         }
 
         impl<const N:usize> InternalAirVarActions for [$s;N] where $s: InternalAirVarActions {
-            fn let_(&self, name: String, visibility: Visibility) -> Self {
+            fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self {
                 let mut res = self.clone();
                 for (i, s) in res.iter_mut().enumerate() {
-                    *s = s.let_(format!("{}[{}]", name, i), visibility.clone());
+                    *s = s.let_(format!("{}[{}]", name, i), in_deductions, felts_in_constraints);
                 }
                 res
             }
@@ -527,11 +527,11 @@ macro_rules! impl_air_var {
         impl $($(<$(const $lt$(: $clt )?),+>)?)+ InternalAirVarActions for ($($s$(< $( $lt ),+ >)?),+)
             where $($s$(< $( $lt ),+ >)?: InternalAirVarActions),+
         {
-            fn let_(&self, name: String, visibility: Visibility) -> Self {
+            fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
                 let mut i = 0;
-                ($($s.let_(format!("{}.{}", name, { i += 1; i - 1 }), visibility.clone()),)+)
+                ($($s.let_(format!("{}.{}", name, { i += 1; i - 1 }), in_deductions, felts_in_constraints),)+)
             }
             fn new(name: String, in_state: bool) -> Self {
                 let mut i = 0;
