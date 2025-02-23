@@ -8,6 +8,8 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 use crate::core::variables::*;
 
+pub const SMALL_MEM_VALUE_N_FELTS: usize = 8;
+
 const STWO_COMPONENT_TYPE_MEM_ID_FOR_BIG: &str = "MemoryIdForBig";
 
 #[derive(Debug, Clone, Default)]
@@ -48,7 +50,13 @@ impl AirFn for MemoryIdToBig {
             value_in_state = self.memory.get(&_id).expect("ID not in memory");
         }
 
-        air_builder.call(&RangeCheckBigValue {}, value_in_state.clone());
+        air_builder.call(
+            &RangeCheckMemValue::<FELT252_N_WORDS> {},
+            value_in_state
+                .as_felts()
+                .try_into()
+                .expect("Expected 'FELT252_N_WORDS' limbs in felt252"),
+        );
 
         value_in_state
     }
@@ -59,35 +67,22 @@ impl AirFn for MemoryIdToBig {
 }
 
 #[derive(Debug, Clone, Default, InstDef)]
-pub struct RangeCheckBigValue {}
+pub struct RangeCheckMemValue<const N: usize> {}
 
-// RangeCheckBigValue assumes there are 9 bits per felt in a felt252 (FELT252_BITS_PER_WORD)
-impl AirFn for RangeCheckBigValue {
+// RangeCheckMemValue assumes there are 9 bits per felt in a felt252 (FELT252_BITS_PER_WORD).
+impl<const N: usize> AirFn for RangeCheckMemValue<N> {
     type ExtIn = ();
-    type In = Felt252Expr;
+    type In = [FeltExpr; N];
     type Out = ();
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), value: Self::In) -> Self::Out {
-        let mut i = 0;
-        while i < FELT252_N_WORDS {
-            let limbs_left = FELT252_N_WORDS - i;
-
-            if limbs_left >= 2 {
-                range_check(
-                    air_builder,
-                    &[FELT252_BITS_PER_WORD as u16, FELT252_BITS_PER_WORD as u16],
-                    &[value.get_felt(i), value.get_felt(i + 1)],
-                );
-                i += 2;
-            } else {
-                assert!(limbs_left == 1);
-                range_check(
-                    air_builder,
-                    &[FELT252_BITS_PER_WORD as u16],
-                    &[value.get_felt(i)],
-                );
-                i += 1;
-            }
+        assert!(N % 2 == 0, "Expected even number N",);
+        for pair in value.chunks(2) {
+            range_check(
+                air_builder,
+                &[FELT252_BITS_PER_WORD as u16, FELT252_BITS_PER_WORD as u16],
+                pair,
+            );
         }
     }
 }
