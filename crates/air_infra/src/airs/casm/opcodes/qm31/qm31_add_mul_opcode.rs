@@ -1,3 +1,5 @@
+use std::collections::BTreeSet;
+
 use inst_def::InstDef;
 
 use super::qm31_read_reduced::*;
@@ -63,6 +65,14 @@ impl AirFn for QM31AddMulOpcode {
                 const_offsets,
                 const_flags: self.get_flags(),
                 const_opcode_extension: Some(OpcodeExtension::QM31Operation),
+                flag_sets_of_sum_1: BTreeSet::from([
+                    BTreeSet::from([
+                        FLAG_OP1_IMM_INDEX,
+                        FLAG_OP1_BASE_FP_INDEX,
+                        FLAG_OP1_BASE_AP_INDEX,
+                    ]),
+                    BTreeSet::from([FLAG_RES_ADD_INDEX, FLAG_RES_MUL_INDEX]),
+                ]),
                 memory: self.memory.clone(),
             },
             casm_state.pc().clone(),
@@ -78,15 +88,6 @@ impl AirFn for QM31AddMulOpcode {
         let flag_res_mul = flags[FLAG_RES_MUL_INDEX].clone();
         let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
-        ab.constrain(
-            flag_res_add.clone() + flag_res_mul.clone() - const_expr!(1),
-            "Either flag res_add is on or flag res_mul is on",
-        );
-        ab.constrain(
-            flag_op1_imm.clone() + flag_op1_base_fp.clone() + flag_op1_base_ap.clone()
-                - const_expr!(1),
-            "Either flag op1_imm is on or flag op1_base_fp is on or flag op1_base_ap is on",
-        );
         ab.constrain(
             flag_op1_imm.clone() * (offset2.clone() - const_expr!(1)),
             "Either flag op1_imm is off or offset2 is equal to 1",

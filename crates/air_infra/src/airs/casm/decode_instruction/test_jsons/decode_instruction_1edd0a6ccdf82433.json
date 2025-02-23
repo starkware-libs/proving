@@ -1,14 +1,15 @@
 {
-  "name": "decode_instruction_eb7ee2bdb39f4a40",
+  "name": "decode_instruction_1edd0a6ccdf82433",
   "relation_name": null,
   "description": "Decode Instruction",
   "inst_def": {
     "const_offsets": "[Some(17185), None, Some(3258)]",
     "const_flags": "Flags { dst_base_fp: None, op0_base_fp: Some(true), op1_imm: None, op1_base_fp: Some(true), op1_base_ap: Some(false), res_add: Some(false), res_mul: Some(false), pc_update_jump: Some(true), pc_update_jump_rel: Some(false), pc_update_jnz: Some(true), ap_update_add: Some(true), ap_update_add_1: Some(false), opcode_call: Some(false), opcode_ret: Some(false), opcode_assert_eq: Some(true) }",
-    "const_opcode_extension": "Some(Stone)"
+    "const_opcode_extension": "Some(Stone)",
+    "flag_sets_of_sum_1": "{}"
   },
   "input": {
-    "name": "decode_instruction_eb7ee2bdb39f4a40_input",
+    "name": "decode_instruction_1edd0a6ccdf82433_input",
     "type": "M31"
   },
   "output": [
@@ -100,10 +101,10 @@
         "air_fn_name": "memory_address_to_id",
         "method_name": "MemoryAddressToId::deduce_output",
         "ext_input": {
-          "name": "decode_instruction_eb7ee2bdb39f4a40_input",
+          "name": "decode_instruction_1edd0a6ccdf82433_input",
           "type": "M31"
         },
-        "output_name": "memory_address_to_id_value_tmp_eb7ee_0",
+        "output_name": "memory_address_to_id_value_tmp_1edd0_0",
         "output_type": "M31"
       }
     },
@@ -112,19 +113,19 @@
         "air_fn_name": "memory_id_to_big",
         "method_name": "MemoryIdToBig::deduce_output",
         "ext_input": {
-          "name": "memory_address_to_id_value_tmp_eb7ee_0",
+          "name": "memory_address_to_id_value_tmp_1edd0_0",
           "type": "M31"
         },
-        "output_name": "memory_id_to_big_value_tmp_eb7ee_1",
+        "output_name": "memory_id_to_big_value_tmp_1edd0_1",
         "output_type": "Felt252"
       }
     },
     {
       "Intermediate": [
-        "offset1_tmp_eb7ee_2",
+        "offset1_tmp_1edd0_2",
         "UInt16",
         {
-          "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_eb7ee_1.get_m31(1)) >> 7) + (UInt16::from_m31(memory_id_to_big_value_tmp_eb7ee_1.get_m31(2)) << 2)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_eb7ee_1.get_m31(3)) & 31) << 11))",
+          "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(1)) >> 7) + (UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(2)) << 2)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(3)) & 31) << 11))",
           "type": "UInt16"
         },
         {
@@ -135,16 +136,16 @@
     },
     {
       "Deduction": [
-        "offset1_tmp_eb7ee_2.as_m31()",
+        "offset1_tmp_1edd0_2.as_m31()",
         "offset1"
       ]
     },
     {
       "Intermediate": [
-        "dst_base_fp_tmp_eb7ee_3",
+        "dst_base_fp_tmp_1edd0_3",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_eb7ee_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_eb7ee_1.get_m31(6)) << 6)) >> 0) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(6)) << 6)) >> 0) & 1)",
           "type": "UInt16"
         },
         {
@@ -155,7 +156,7 @@
     },
     {
       "Deduction": [
-        "dst_base_fp_tmp_eb7ee_3.as_m31()",
+        "dst_base_fp_tmp_1edd0_3.as_m31()",
         "dst_base_fp"
       ]
     },
@@ -167,10 +168,10 @@
     },
     {
       "Intermediate": [
-        "op1_imm_tmp_eb7ee_4",
+        "op1_imm_tmp_1edd0_4",
         "UInt16",
         {
-          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_eb7ee_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_eb7ee_1.get_m31(6)) << 6)) >> 2) & 1)",
+          "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(6)) << 6)) >> 2) & 1)",
           "type": "UInt16"
         },
         {
@@ -181,7 +182,7 @@
     },
     {
       "Deduction": [
-        "op1_imm_tmp_eb7ee_4.as_m31()",
+        "op1_imm_tmp_1edd0_4.as_m31()",
         "op1_imm"
       ]
     },
@@ -196,7 +197,7 @@
         "air_fn_name": "verify_instruction",
         "input": [
           {
-            "name": "decode_instruction_eb7ee2bdb39f4a40_input",
+            "name": "decode_instruction_1edd0a6ccdf82433_input",
             "type": "M31"
           },
           [
@@ -234,7 +235,7 @@
       "LookupTerm": {
         "relation_name": "VerifyInstruction",
         "felts": [
-          "decode_instruction_eb7ee2bdb39f4a40_input",
+          "decode_instruction_1edd0a6ccdf82433_input",
           "49953",
           "offset1_col0",
           "36026",

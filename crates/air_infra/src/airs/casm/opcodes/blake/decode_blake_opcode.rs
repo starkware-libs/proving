@@ -1,3 +1,5 @@
+use std::collections::BTreeSet;
+
 use inst_def::InstDef;
 
 use super::read_blake_word::*;
@@ -65,6 +67,7 @@ impl AirFn for DecodeBlakeOpcode {
                 const_offsets: [None, None, None],
                 const_flags: self.get_flags(),
                 const_opcode_extension: None,
+                flag_sets_of_sum_1: BTreeSet::new(),
                 memory: self.memory.clone(),
             },
             casm_state.pc(),

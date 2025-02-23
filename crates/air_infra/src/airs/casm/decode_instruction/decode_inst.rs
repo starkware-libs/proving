@@ -1,3 +1,5 @@
+use std::collections::{BTreeMap, BTreeSet};
+
 use inst_def::InstDef;
 
 use super::super::casm_state::*;
@@ -17,6 +19,7 @@ pub struct DecodeInstruction {
     pub const_offsets: [Option<i16>; 3], // off_0, off_1, off_2
     pub const_flags: Flags,
     pub const_opcode_extension: Option<OpcodeExtension>,
+    pub flag_sets_of_sum_1: BTreeSet<BTreeSet<usize>>,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
@@ -59,6 +62,10 @@ impl DecodeInstruction {
 
 // Given the address of the instructions, reads the instruction and deduces the non-constant
 // offsets and flags. Returns all offsets and flags (constants and deduced).
+// The field flag_sets_of_sum_1 is a set of sets of indexes of flags that should sum to 1. Each such
+// set is expected to be non-empty. The last flag of each set is not deduced and is set to 1 minus
+// the sum of the other flags in the set. If there are more than 2 flags in the set, the last flag
+// is constrained to be a bit.
 impl AirFn for DecodeInstruction {
     type ExtIn = ();
     type In = CasmAddress;
@@ -92,31 +99,60 @@ impl AirFn for DecodeInstruction {
             ab.deduce(off2.as_felt_mut(), "offset2")
         };
 
-        // Deduce the non-constant flags
-        let flags_vec: [FeltExpr; 15] = self
-            .const_flags
-            .to_arr()
+        // Build a map that maps the last flag of each set in flag_sets_of_sum_1 to the rest of that
+        // set. We will build the flags vector in ascending order of indexes, which is the same
+        // order as each BTreeSet. Thus, when we reach an index which is a key of this map,
+        // it will map to a set of smaller indexes, which are already in the flag vector. We can
+        // then infer it to be 1 minus the sum of the flags in the set it maps to.
+        let err_msg = "Expected sets in flag_sets_of_sum_1 to be non-empty";
+        let last_to_rest = self
+            .flag_sets_of_sum_1
             .iter()
-            .enumerate()
-            .map(|(i, flag)| {
-                if let Some(flag) = flag {
-                    const_expr!(*flag as u32)
-                } else {
-                    let mut flag = ab.let_for_deduction(
-                        (flags.clone() >> const_u16_expr!(i as u16)) & const_u16_expr!(1),
-                        FLAG_NAMES[i],
-                    );
-                    let flag_deduced = ab.deduce(flag.as_felt_mut(), FLAG_NAMES[i]);
+            .map(|set| {
+                let mut rest = set.clone();
+                let last = rest.take(set.iter().last().expect(err_msg)).expect(err_msg);
+                (last, rest)
+            })
+            .collect::<BTreeMap<_, _>>();
+
+        // Deduce the non-constant flags and infer the last flag of each set.
+        let mut flags_vec: Vec<FeltExpr> = vec![];
+        for (i, flag) in self.const_flags.to_arr().iter().enumerate() {
+            let flag_to_push = if last_to_rest.contains_key(&i) {
+                // Infered flag - the last flag of each set is given the value of 1 minus the sum of
+                // the other flags. If there are more than 2 flags in the set, it needs to be
+                // constrained to be a bit.
+                let infered_flag = last_to_rest[&i]
+                    .iter()
+                    .map(|&j| flags_vec[j].clone())
+                    .fold(const_expr!(1), |acc, flag| acc - flag);
+                if last_to_rest[&i].len() > 1 {
                     ab.constrain(
-                        flag_deduced.clone() * (const_expr!(1) - flag_deduced.clone()),
+                        infered_flag.clone() * (const_expr!(1) - infered_flag.clone()),
                         &format!("Flag {} is a bit", FLAG_NAMES[i]),
                     );
-                    flag_deduced
                 }
-            })
-            .collect::<Vec<_>>()
-            .try_into()
-            .expect("Expected 15 flags");
+                infered_flag
+            } else if let Some(flag) = flag {
+                // Const flag - doesn't need to be constrained to be a bit.
+                const_expr!(*flag as u32)
+            } else {
+                // Deduced flag - read from the instruction and deduced.
+                // Needs to be constrained to be a bit.
+                let mut flag = ab.let_for_deduction(
+                    (flags.clone() >> const_u16_expr!(i as u16)) & const_u16_expr!(1),
+                    FLAG_NAMES[i],
+                );
+                let flag_deduced = ab.deduce(flag.as_felt_mut(), FLAG_NAMES[i]);
+                ab.constrain(
+                    flag_deduced.clone() * (const_expr!(1) - flag_deduced.clone()),
+                    &format!("Flag {} is a bit", FLAG_NAMES[i]),
+                );
+                flag_deduced
+            };
+            flags_vec.push(flag_to_push);
+        }
+        let flags_array: [FeltExpr; 15] = flags_vec.try_into().expect("Expected 15 flags");
 
         // Deduce opcode extension if is not a constant
         if let Some(constant) = self.const_opcode_extension {
@@ -125,7 +161,7 @@ impl AirFn for DecodeInstruction {
             ab.deduce(&mut opcode_extnesion, "opcode_extension");
         };
         // Construct the felts holding the flags
-        let [felt5_high, felt6] = Self::flags_to_felts(flags_vec.clone());
+        let [felt5_high, felt6] = Self::flags_to_felts(flags_array.clone());
 
         // Verify the instruction
         ab.lookup_call(
@@ -147,7 +183,7 @@ impl AirFn for DecodeInstruction {
                 offset_as_signed(off1_f),
                 offset_as_signed(off2_f),
             ],
-            flags_vec,
+            flags_array,
             opcode_extnesion,
         )
     }

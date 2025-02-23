@@ -17996,7 +17996,7 @@
       ]
     ]
   },
-  "decode_instruction_594a11e8463530cc": {
+  "decode_instruction_e0ab3b76b5a0014a": {
     "state_names": [
       "offset0_col0",
       "offset1_col1",
@@ -18038,7 +18038,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_594a11e8463530cc_input, offset0_col0, offset1_col1, offset2_col2, ((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + (op1_imm_col5 * 32)) + (op1_base_fp_col6 * 64)) + (op1_base_ap_col7 * 128)) + (res_add_col8 * 256)), (((((((((0 + (res_mul_col9 * 1)) + (pc_update_jump_col10 * 2)) + (pc_update_jump_rel_col11 * 4)) + (pc_update_jnz_col12 * 8)) + (ap_update_add_col13 * 16)) + (ap_update_add_1_col14 * 32)) + (opcode_call_col15 * 64)) + (opcode_ret_col16 * 128)) + (opcode_assert_eq_col17 * 256)), 0"
+        "decode_instruction_e0ab3b76b5a0014a_input, offset0_col0, offset1_col1, offset2_col2, ((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + (op1_imm_col5 * 32)) + (op1_base_fp_col6 * 64)) + (op1_base_ap_col7 * 128)) + (res_add_col8 * 256)), (((((((((0 + (res_mul_col9 * 1)) + (pc_update_jump_col10 * 2)) + (pc_update_jump_rel_col11 * 4)) + (pc_update_jnz_col12 * 8)) + (ap_update_add_col13 * 16)) + (ap_update_add_1_col14 * 32)) + (opcode_call_col15 * 64)) + (opcode_ret_col16 * 128)) + (opcode_assert_eq_col17 * 256)), 0"
       ]
     ]
   },
@@ -20721,7 +20721,7 @@
       ]
     ]
   },
-  "decode_instruction_f85697767ebf17f3": {
+  "decode_instruction_2db6d2e4eea8f0a9": {
     "state_names": [
       "offset2_col0"
     ],
@@ -20730,7 +20730,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_f85697767ebf17f3_input, 32767, 32767, offset2_col0, 152, 16, 0"
+        "decode_instruction_2db6d2e4eea8f0a9_input, 32767, 32767, offset2_col0, 152, 16, 0"
       ]
     ]
   },
@@ -20768,14 +20768,14 @@
       ]
     ]
   },
-  "decode_instruction_f130eb37fcd422ab": {
+  "decode_instruction_8ad7e540e219b042": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_f130eb37fcd422ab_input, 32767, 32767, 32769, 56, 16, 0"
+        "decode_instruction_8ad7e540e219b042_input, 32767, 32767, 32769, 56, 16, 0"
       ]
     ]
   },
@@ -20812,7 +20812,7 @@
       ]
     ]
   },
-  "decode_instruction_81baff2a35b85071": {
+  "decode_instruction_d1afe48f914fc585": {
     "state_names": [
       "offset2_col0"
     ],
@@ -20821,7 +20821,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_81baff2a35b85071_input, 32767, 32767, offset2_col0, 88, 16, 0"
+        "decode_instruction_d1afe48f914fc585_input, 32767, 32767, offset2_col0, 88, 16, 0"
       ]
     ]
   },
@@ -20859,7 +20859,7 @@
       ]
     ]
   },
-  "decode_instruction_12c27d621019b47d": {
+  "decode_instruction_ceccedab6d42d5b5": {
     "state_names": [
       "offset0_col0",
       "offset1_col1",
@@ -20876,7 +20876,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_12c27d621019b47d_input, offset0_col0, offset1_col1, 32769, ((((((0 + (dst_base_fp_col2 * 8)) + (op0_base_fp_col3 * 16)) + 32) + 0) + 0) + 256), ((((0 + (ap_update_add_1_col4 * 32)) + 0) + 0) + 256), 0"
+        "decode_instruction_ceccedab6d42d5b5_input, offset0_col0, offset1_col1, 32769, ((((((0 + (dst_base_fp_col2 * 8)) + (op0_base_fp_col3 * 16)) + 32) + 0) + 0) + 256), ((((0 + (ap_update_add_1_col4 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
@@ -20960,7 +20960,7 @@
       ]
     ]
   },
-  "decode_instruction_359f8b649823f840": {
+  "decode_instruction_6e00786d37157b18": {
     "state_names": [
       "offset0_col0",
       "offset1_col1",
@@ -20982,7 +20982,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_359f8b649823f840_input, offset0_col0, offset1_col1, offset2_col2, ((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + 0) + (op1_base_fp_col5 * 64)) + (op1_base_ap_col6 * 128)) + 256), ((((0 + (ap_update_add_1_col7 * 32)) + 0) + 0) + 256), 0"
+        "decode_instruction_6e00786d37157b18_input, offset0_col0, offset1_col1, offset2_col2, ((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + 0) + (op1_base_fp_col5 * 64)) + (op1_base_ap_col6 * 128)) + 256), ((((0 + (ap_update_add_1_col7 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
@@ -21638,26 +21638,24 @@
       ]
     ]
   },
-  "decode_instruction_be6c76c1b16b846e": {
+  "decode_instruction_8779984a10576d8": {
     "state_names": [
       "offset0_col0",
       "offset2_col1",
       "dst_base_fp_col2",
       "op1_base_fp_col3",
-      "op1_base_ap_col4",
-      "ap_update_add_1_col5"
+      "ap_update_add_1_col4"
     ],
     "intermediates": [],
     "constraints": [
       "(dst_base_fp_col2 * (1 - dst_base_fp_col2))",
       "(op1_base_fp_col3 * (1 - op1_base_fp_col3))",
-      "(op1_base_ap_col4 * (1 - op1_base_ap_col4))",
-      "(ap_update_add_1_col5 * (1 - ap_update_add_1_col5))"
+      "(ap_update_add_1_col4 * (1 - ap_update_add_1_col4))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_be6c76c1b16b846e_input, offset0_col0, 32767, offset2_col1, ((((((0 + (dst_base_fp_col2 * 8)) + 16) + 0) + (op1_base_fp_col3 * 64)) + (op1_base_ap_col4 * 128)) + 0), ((((0 + (ap_update_add_1_col5 * 32)) + 0) + 0) + 256), 0"
+        "decode_instruction_8779984a10576d8_input, offset0_col0, 32767, offset2_col1, ((((((0 + (dst_base_fp_col2 * 8)) + 16) + 0) + (op1_base_fp_col3 * 64)) + ((1 - op1_base_fp_col3) * 128)) + 0), ((((0 + (ap_update_add_1_col4 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
@@ -21687,38 +21685,35 @@
       "offset2_col4",
       "dst_base_fp_col5",
       "op1_base_fp_col6",
-      "op1_base_ap_col7",
-      "ap_update_add_1_col8",
-      "mem_dst_base_col9",
-      "mem1_base_col10",
-      "dst_id_col11"
+      "ap_update_add_1_col7",
+      "mem_dst_base_col8",
+      "mem1_base_col9",
+      "dst_id_col10"
     ],
     "intermediates": [],
     "constraints": [
       "(dst_base_fp_col5 * (1 - dst_base_fp_col5))",
       "(op1_base_fp_col6 * (1 - op1_base_fp_col6))",
-      "(op1_base_ap_col7 * (1 - op1_base_ap_col7))",
-      "(ap_update_add_1_col8 * (1 - ap_update_add_1_col8))",
-      "(mem_dst_base_col9 - ((dst_base_fp_col5 * input_fp_col2) + ((1 - dst_base_fp_col5) * input_ap_col1)))",
-      "((op1_base_fp_col6 + op1_base_ap_col7) - 1)",
-      "(mem1_base_col10 - ((op1_base_fp_col6 * input_fp_col2) + (op1_base_ap_col7 * input_ap_col1)))"
+      "(ap_update_add_1_col7 * (1 - ap_update_add_1_col7))",
+      "(mem_dst_base_col8 - ((dst_base_fp_col5 * input_fp_col2) + ((1 - dst_base_fp_col5) * input_ap_col1)))",
+      "(mem1_base_col9 - ((op1_base_fp_col6 * input_fp_col2) + ((1 - op1_base_fp_col6) * input_ap_col1)))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "input_pc_col0, offset0_col3, 32767, offset2_col4, ((((((0 + (dst_base_fp_col5 * 8)) + 16) + 0) + (op1_base_fp_col6 * 64)) + (op1_base_ap_col7 * 128)) + 0), ((((0 + (ap_update_add_1_col8 * 32)) + 0) + 0) + 256), 0"
+        "input_pc_col0, offset0_col3, 32767, offset2_col4, ((((((0 + (dst_base_fp_col5 * 8)) + 16) + 0) + (op1_base_fp_col6 * 64)) + ((1 - op1_base_fp_col6) * 128)) + 0), ((((0 + (ap_update_add_1_col7 * 32)) + 0) + 0) + 256), 0"
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col9 + (offset0_col3 - 32768)), dst_id_col11"
+        "(mem_dst_base_col8 + (offset0_col3 - 32768)), dst_id_col10"
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col10 + (offset2_col4 - 32768)), dst_id_col11"
+        "(mem1_base_col9 + (offset2_col4 - 32768)), dst_id_col10"
       ]
     ]
   },
-  "decode_instruction_c11100cfecd79b46": {
+  "decode_instruction_13e4f04f153b7d8c": {
     "state_names": [
       "offset0_col0",
       "offset1_col1",
@@ -21736,7 +21731,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_c11100cfecd79b46_input, offset0_col0, offset1_col1, offset2_col2, ((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + 0) + 0) + 0) + 0), ((((0 + (ap_update_add_1_col5 * 32)) + 0) + 0) + 256), 0"
+        "decode_instruction_13e4f04f153b7d8c_input, offset0_col0, offset1_col1, offset2_col2, ((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + 0) + 0) + 0) + 0), ((((0 + (ap_update_add_1_col5 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
@@ -21790,7 +21785,7 @@
       ]
     ]
   },
-  "decode_instruction_7985eaace4050b58": {
+  "decode_instruction_7eff8da090b7d32b": {
     "state_names": [
       "offset0_col0",
       "dst_base_fp_col1",
@@ -21804,7 +21799,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_7985eaace4050b58_input, offset0_col0, 32767, 32769, ((((((0 + (dst_base_fp_col1 * 8)) + 16) + 32) + 0) + 0) + 0), ((((0 + (ap_update_add_1_col2 * 32)) + 0) + 0) + 256), 0"
+        "decode_instruction_7eff8da090b7d32b_input, offset0_col0, 32767, 32769, ((((((0 + (dst_base_fp_col1 * 8)) + 16) + 32) + 0) + 0) + 0), ((((0 + (ap_update_add_1_col2 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
@@ -21840,7 +21835,7 @@
       ]
     ]
   },
-  "decode_instruction_d0717f888a2a03cc": {
+  "decode_instruction_239663529d81de18": {
     "state_names": [
       "offset2_col0"
     ],
@@ -21849,7 +21844,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_d0717f888a2a03cc_input, 32768, 32769, offset2_col0, 128, 66, 0"
+        "decode_instruction_239663529d81de18_input, 32768, 32769, offset2_col0, 128, 66, 0"
       ]
     ]
   },
@@ -21908,14 +21903,14 @@
       ]
     ]
   },
-  "decode_instruction_fc2ea4a5b3c0f1cc": {
+  "decode_instruction_cf6b21f82dbfb23d": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_fc2ea4a5b3c0f1cc_input, 32768, 32769, 32769, 32, 68, 0"
+        "decode_instruction_cf6b21f82dbfb23d_input, 32768, 32769, 32769, 32, 68, 0"
       ]
     ]
   },
@@ -21978,7 +21973,7 @@
       ]
     ]
   },
-  "decode_instruction_87985324afece88b": {
+  "decode_instruction_6e0d65e5157a9970": {
     "state_names": [
       "offset2_col0"
     ],
@@ -21987,7 +21982,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_87985324afece88b_input, 32768, 32769, offset2_col0, 64, 66, 0"
+        "decode_instruction_6e0d65e5157a9970_input, 32768, 32769, offset2_col0, 64, 66, 0"
       ]
     ]
   },
@@ -22046,7 +22041,7 @@
       ]
     ]
   },
-  "decode_instruction_6a6cb0e5ac20d817": {
+  "decode_instruction_e03055818c3f043": {
     "state_names": [
       "offset0_col0",
       "ap_update_add_1_col1"
@@ -22058,7 +22053,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_6a6cb0e5ac20d817_input, offset0_col0, 32767, 32769, 56, ((((8 + (ap_update_add_1_col1 * 32)) + 0) + 0) + 0), 0"
+        "decode_instruction_e03055818c3f043_input, offset0_col0, 32767, 32769, 56, ((((8 + (ap_update_add_1_col1 * 32)) + 0) + 0) + 0), 0"
       ]
     ]
   },
@@ -22152,7 +22147,7 @@
       ]
     ]
   },
-  "decode_instruction_a57713d4bbf175f3": {
+  "decode_instruction_d0bdb4b05b77c536": {
     "state_names": [
       "offset0_col0",
       "ap_update_add_1_col1"
@@ -22164,7 +22159,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_a57713d4bbf175f3_input, offset0_col0, 32767, 32769, 48, ((((8 + (ap_update_add_1_col1 * 32)) + 0) + 0) + 0), 0"
+        "decode_instruction_d0bdb4b05b77c536_input, offset0_col0, 32767, 32769, 48, ((((8 + (ap_update_add_1_col1 * 32)) + 0) + 0) + 0), 0"
       ]
     ]
   },
@@ -22372,7 +22367,7 @@
       ]
     ]
   },
-  "decode_instruction_869f42eba8c577c": {
+  "decode_instruction_f8415e85910400c0": {
     "state_names": [
       "ap_update_add_1_col0"
     ],
@@ -22383,7 +22378,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_869f42eba8c577c_input, 32767, 32767, 32769, 56, ((((4 + (ap_update_add_1_col0 * 32)) + 0) + 0) + 0), 0"
+        "decode_instruction_f8415e85910400c0_input, 32767, 32767, 32769, 56, ((((4 + (ap_update_add_1_col0 * 32)) + 0) + 0) + 0), 0"
       ]
     ]
   },
@@ -22422,7 +22417,7 @@
       ]
     ]
   },
-  "decode_instruction_7b96854a051db69e": {
+  "decode_instruction_633e16e9eb708235": {
     "state_names": [
       "offset2_col0",
       "op1_base_fp_col1",
@@ -22438,7 +22433,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_7b96854a051db69e_input, 32767, 32767, offset2_col0, (((24 + (op1_base_fp_col1 * 64)) + (op1_base_ap_col2 * 128)) + 0), ((((4 + (ap_update_add_1_col3 * 32)) + 0) + 0) + 0), 0"
+        "decode_instruction_633e16e9eb708235_input, 32767, 32767, offset2_col0, (((24 + (op1_base_fp_col1 * 64)) + (op1_base_ap_col2 * 128)) + 0), ((((4 + (ap_update_add_1_col3 * 32)) + 0) + 0) + 0), 0"
       ]
     ]
   },
@@ -22485,7 +22480,7 @@
       ]
     ]
   },
-  "decode_instruction_2440097bb4894ad6": {
+  "decode_instruction_f67489ac525d7245": {
     "state_names": [
       "offset1_col0",
       "offset2_col1",
@@ -22500,7 +22495,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_2440097bb4894ad6_input, 32767, offset1_col0, offset2_col1, (((((8 + (op0_base_fp_col2 * 16)) + 0) + 0) + 0) + 0), ((((2 + (ap_update_add_1_col3 * 32)) + 0) + 0) + 0), 0"
+        "decode_instruction_f67489ac525d7245_input, 32767, offset1_col0, offset2_col1, (((((8 + (op0_base_fp_col2 * 16)) + 0) + 0) + 0) + 0), ((((2 + (ap_update_add_1_col3 * 32)) + 0) + 0) + 0), 0"
       ]
     ]
   },
@@ -22552,7 +22547,7 @@
       ]
     ]
   },
-  "decode_instruction_47897a19c97b4b42": {
+  "decode_instruction_c20090ead04cf422": {
     "state_names": [
       "offset2_col0",
       "op1_base_fp_col1",
@@ -22568,7 +22563,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_47897a19c97b4b42_input, 32767, 32767, offset2_col0, (((24 + (op1_base_fp_col1 * 64)) + (op1_base_ap_col2 * 128)) + 0), ((((2 + (ap_update_add_1_col3 * 32)) + 0) + 0) + 0), 0"
+        "decode_instruction_c20090ead04cf422_input, 32767, 32767, offset2_col0, (((24 + (op1_base_fp_col1 * 64)) + (op1_base_ap_col2 * 128)) + 0), ((((2 + (ap_update_add_1_col3 * 32)) + 0) + 0) + 0), 0"
       ]
     ]
   },
@@ -22610,7 +22605,7 @@
       ]
     ]
   },
-  "decode_instruction_f5954980e64d9160": {
+  "decode_instruction_db26c85482ebf3d9": {
     "state_names": [
       "offset0_col0",
       "offset1_col1",
@@ -22627,7 +22622,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_f5954980e64d9160_input, offset0_col0, offset1_col1, 32769, ((((((0 + (dst_base_fp_col2 * 8)) + (op0_base_fp_col3 * 16)) + 32) + 0) + 0) + 0), ((((1 + (ap_update_add_1_col4 * 32)) + 0) + 0) + 256), 0"
+        "decode_instruction_db26c85482ebf3d9_input, offset0_col0, offset1_col1, 32769, ((((((0 + (dst_base_fp_col2 * 8)) + (op0_base_fp_col3 * 16)) + 32) + 0) + 0) + 0), ((((1 + (ap_update_add_1_col4 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
@@ -22807,7 +22802,7 @@
       ]
     ]
   },
-  "decode_instruction_d4d6333f80df3738": {
+  "decode_instruction_b769a410ebe69374": {
     "state_names": [
       "offset0_col0",
       "offset1_col1",
@@ -22829,7 +22824,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_d4d6333f80df3738_input, offset0_col0, offset1_col1, offset2_col2, ((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + 0) + (op1_base_fp_col5 * 64)) + (op1_base_ap_col6 * 128)) + 0), ((((1 + (ap_update_add_1_col7 * 32)) + 0) + 0) + 256), 0"
+        "decode_instruction_b769a410ebe69374_input, offset0_col0, offset1_col1, offset2_col2, ((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + 0) + (op1_base_fp_col5 * 64)) + (op1_base_ap_col6 * 128)) + 0), ((((1 + (ap_update_add_1_col7 * 32)) + 0) + 0) + 256), 0"
       ]
     ]
   },
@@ -24219,14 +24214,14 @@
       ]
     ]
   },
-  "decode_instruction_54922ceb260e8c0e": {
+  "decode_instruction_e46923e076e93350": {
     "state_names": [],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_54922ceb260e8c0e_input, 32766, 32767, 32767, 88, 130, 0"
+        "decode_instruction_e46923e076e93350_input, 32766, 32767, 32767, 88, 130, 0"
       ]
     ]
   },
@@ -24269,7 +24264,7 @@
       ]
     ]
   },
-  "decode_instruction_6e1da8249588ecd2": {
+  "decode_instruction_2109970de23754c4": {
     "state_names": [
       "offset0_col0",
       "offset1_col1",
@@ -24278,10 +24273,8 @@
       "op0_base_fp_col4",
       "op1_imm_col5",
       "op1_base_fp_col6",
-      "op1_base_ap_col7",
-      "res_add_col8",
-      "res_mul_col9",
-      "ap_update_add_1_col10"
+      "res_add_col7",
+      "ap_update_add_1_col8"
     ],
     "intermediates": [],
     "constraints": [
@@ -24289,15 +24282,14 @@
       "(op0_base_fp_col4 * (1 - op0_base_fp_col4))",
       "(op1_imm_col5 * (1 - op1_imm_col5))",
       "(op1_base_fp_col6 * (1 - op1_base_fp_col6))",
-      "(op1_base_ap_col7 * (1 - op1_base_ap_col7))",
-      "(res_add_col8 * (1 - res_add_col8))",
-      "(res_mul_col9 * (1 - res_mul_col9))",
-      "(ap_update_add_1_col10 * (1 - ap_update_add_1_col10))"
+      "(((1 - op1_imm_col5) - op1_base_fp_col6) * (1 - ((1 - op1_imm_col5) - op1_base_fp_col6)))",
+      "(res_add_col7 * (1 - res_add_col7))",
+      "(ap_update_add_1_col8 * (1 - ap_update_add_1_col8))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_6e1da8249588ecd2_input, offset0_col0, offset1_col1, offset2_col2, ((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + (op1_imm_col5 * 32)) + (op1_base_fp_col6 * 64)) + (op1_base_ap_col7 * 128)) + (res_add_col8 * 256)), (((((((((0 + (res_mul_col9 * 1)) + 0) + 0) + 0) + 0) + (ap_update_add_1_col10 * 32)) + 0) + 0) + 256), 3"
+        "decode_instruction_2109970de23754c4_input, offset0_col0, offset1_col1, offset2_col2, ((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + (op1_imm_col5 * 32)) + (op1_base_fp_col6 * 64)) + (((1 - op1_imm_col5) - op1_base_fp_col6) * 128)) + (res_add_col7 * 256)), (((((((((0 + ((1 - res_add_col7) * 1)) + 0) + 0) + 0) + 0) + (ap_update_add_1_col8 * 32)) + 0) + 0) + 256), 3"
       ]
     ]
   },
@@ -24388,70 +24380,68 @@
       "op0_base_fp_col7",
       "op1_imm_col8",
       "op1_base_fp_col9",
-      "op1_base_ap_col10",
-      "res_add_col11",
-      "res_mul_col12",
-      "ap_update_add_1_col13",
-      "mem_dst_base_col14",
-      "mem0_base_col15",
-      "mem1_base_col16",
-      "dst_id_col17",
-      "dst_limb_0_col18",
-      "dst_limb_1_col19",
-      "dst_limb_2_col20",
-      "dst_limb_3_col21",
-      "dst_limb_4_col22",
-      "dst_limb_5_col23",
-      "dst_limb_6_col24",
-      "dst_limb_7_col25",
-      "dst_limb_8_col26",
-      "dst_limb_9_col27",
-      "dst_limb_10_col28",
-      "dst_limb_11_col29",
-      "dst_limb_12_col30",
-      "dst_limb_13_col31",
-      "dst_limb_14_col32",
-      "dst_limb_15_col33",
-      "dst_delta_ab_inv_col34",
-      "dst_delta_cd_inv_col35",
-      "op0_id_col36",
-      "op0_limb_0_col37",
-      "op0_limb_1_col38",
-      "op0_limb_2_col39",
-      "op0_limb_3_col40",
-      "op0_limb_4_col41",
-      "op0_limb_5_col42",
-      "op0_limb_6_col43",
-      "op0_limb_7_col44",
-      "op0_limb_8_col45",
-      "op0_limb_9_col46",
-      "op0_limb_10_col47",
-      "op0_limb_11_col48",
-      "op0_limb_12_col49",
-      "op0_limb_13_col50",
-      "op0_limb_14_col51",
-      "op0_limb_15_col52",
-      "op0_delta_ab_inv_col53",
-      "op0_delta_cd_inv_col54",
-      "op1_id_col55",
-      "op1_limb_0_col56",
-      "op1_limb_1_col57",
-      "op1_limb_2_col58",
-      "op1_limb_3_col59",
-      "op1_limb_4_col60",
-      "op1_limb_5_col61",
-      "op1_limb_6_col62",
-      "op1_limb_7_col63",
-      "op1_limb_8_col64",
-      "op1_limb_9_col65",
-      "op1_limb_10_col66",
-      "op1_limb_11_col67",
-      "op1_limb_12_col68",
-      "op1_limb_13_col69",
-      "op1_limb_14_col70",
-      "op1_limb_15_col71",
-      "op1_delta_ab_inv_col72",
-      "op1_delta_cd_inv_col73"
+      "res_add_col10",
+      "ap_update_add_1_col11",
+      "mem_dst_base_col12",
+      "mem0_base_col13",
+      "mem1_base_col14",
+      "dst_id_col15",
+      "dst_limb_0_col16",
+      "dst_limb_1_col17",
+      "dst_limb_2_col18",
+      "dst_limb_3_col19",
+      "dst_limb_4_col20",
+      "dst_limb_5_col21",
+      "dst_limb_6_col22",
+      "dst_limb_7_col23",
+      "dst_limb_8_col24",
+      "dst_limb_9_col25",
+      "dst_limb_10_col26",
+      "dst_limb_11_col27",
+      "dst_limb_12_col28",
+      "dst_limb_13_col29",
+      "dst_limb_14_col30",
+      "dst_limb_15_col31",
+      "dst_delta_ab_inv_col32",
+      "dst_delta_cd_inv_col33",
+      "op0_id_col34",
+      "op0_limb_0_col35",
+      "op0_limb_1_col36",
+      "op0_limb_2_col37",
+      "op0_limb_3_col38",
+      "op0_limb_4_col39",
+      "op0_limb_5_col40",
+      "op0_limb_6_col41",
+      "op0_limb_7_col42",
+      "op0_limb_8_col43",
+      "op0_limb_9_col44",
+      "op0_limb_10_col45",
+      "op0_limb_11_col46",
+      "op0_limb_12_col47",
+      "op0_limb_13_col48",
+      "op0_limb_14_col49",
+      "op0_limb_15_col50",
+      "op0_delta_ab_inv_col51",
+      "op0_delta_cd_inv_col52",
+      "op1_id_col53",
+      "op1_limb_0_col54",
+      "op1_limb_1_col55",
+      "op1_limb_2_col56",
+      "op1_limb_3_col57",
+      "op1_limb_4_col58",
+      "op1_limb_5_col59",
+      "op1_limb_6_col60",
+      "op1_limb_7_col61",
+      "op1_limb_8_col62",
+      "op1_limb_9_col63",
+      "op1_limb_10_col64",
+      "op1_limb_11_col65",
+      "op1_limb_12_col66",
+      "op1_limb_13_col67",
+      "op1_limb_14_col68",
+      "op1_limb_15_col69",
+      "op1_delta_ab_inv_col70",
+      "op1_delta_cd_inv_col71"
     ],
     "intermediates": [],
     "constraints": [
@@ -24459,71 +24449,68 @@
       "(op0_base_fp_col7 * (1 - op0_base_fp_col7))",
       "(op1_imm_col8 * (1 - op1_imm_col8))",
       "(op1_base_fp_col9 * (1 - op1_base_fp_col9))",
-      "(op1_base_ap_col10 * (1 - op1_base_ap_col10))",
-      "(res_add_col11 * (1 - res_add_col11))",
-      "(res_mul_col12 * (1 - res_mul_col12))",
-      "(ap_update_add_1_col13 * (1 - ap_update_add_1_col13))",
-      "((res_add_col11 + res_mul_col12) - 1)",
-      "(((op1_imm_col8 + op1_base_fp_col9) + op1_base_ap_col10) - 1)",
+      "(((1 - op1_imm_col8) - op1_base_fp_col9) * (1 - ((1 - op1_imm_col8) - op1_base_fp_col9)))",
+      "(res_add_col10 * (1 - res_add_col10))",
+      "(ap_update_add_1_col11 * (1 - ap_update_add_1_col11))",
       "(op1_imm_col8 * ((offset2_col5 - 32768) - 1))",
-      "(mem_dst_base_col14 - ((dst_base_fp_col6 * input_fp_col2) + ((1 - dst_base_fp_col6) * input_ap_col1)))",
-      "(mem0_base_col15 - ((op0_base_fp_col7 * input_fp_col2) + ((1 - op0_base_fp_col7) * input_ap_col1)))",
-      "(mem1_base_col16 - (((op1_base_fp_col9 * input_fp_col2) + (op1_base_ap_col10 * input_ap_col1)) + (op1_imm_col8 * input_pc_col0)))",
-      "(((((((dst_limb_0_col18 + dst_limb_1_col19) + dst_limb_2_col20) + dst_limb_3_col21) - 1548) * ((((dst_limb_4_col22 + dst_limb_5_col23) + dst_limb_6_col24) + dst_limb_7_col25) - 1548)) * dst_delta_ab_inv_col34) - 1)",
-      "(((((((dst_limb_8_col26 + dst_limb_9_col27) + dst_limb_10_col28) + dst_limb_11_col29) - 1548) * ((((dst_limb_12_col30 + dst_limb_13_col31) + dst_limb_14_col32) + dst_limb_15_col33) - 1548)) * dst_delta_cd_inv_col35) - 1)",
-      "(((((((op0_limb_0_col37 + op0_limb_1_col38) + op0_limb_2_col39) + op0_limb_3_col40) - 1548) * ((((op0_limb_4_col41 + op0_limb_5_col42) + op0_limb_6_col43) + op0_limb_7_col44) - 1548)) * op0_delta_ab_inv_col53) - 1)",
-      "(((((((op0_limb_8_col45 + op0_limb_9_col46) + op0_limb_10_col47) + op0_limb_11_col48) - 1548) * ((((op0_limb_12_col49 + op0_limb_13_col50) + op0_limb_14_col51) + op0_limb_15_col52) - 1548)) * op0_delta_cd_inv_col54) - 1)",
-      "(((((((op1_limb_0_col56 + op1_limb_1_col57) + op1_limb_2_col58) + op1_limb_3_col59) - 1548) * ((((op1_limb_4_col60 + op1_limb_5_col61) + op1_limb_6_col62) + op1_limb_7_col63) - 1548)) * op1_delta_ab_inv_col72) - 1)",
-      "(((((((op1_limb_8_col64 + op1_limb_9_col65) + op1_limb_10_col66) + op1_limb_11_col67) - 1548) * ((((op1_limb_12_col68 + op1_limb_13_col69) + op1_limb_14_col70) + op1_limb_15_col71) - 1548)) * op1_delta_cd_inv_col73) - 1)",
-      "(((((dst_limb_0_col18 + (dst_limb_1_col19 * 512)) + (dst_limb_2_col20 * 262144)) + (dst_limb_3_col21 * 134217728)) - (((((((((op0_limb_0_col37 + (op0_limb_1_col38 * 512)) + (op0_limb_2_col39 * 262144)) + (op0_limb_3_col40 * 134217728)) * (((op1_limb_0_col56 + (op1_limb_1_col57 * 512)) + (op1_limb_2_col58 * 262144)) + (op1_limb_3_col59 * 134217728))) - ((((op0_limb_4_col41 + (op0_limb_5_col42 * 512)) + (op0_limb_6_col43 * 262144)) + (op0_limb_7_col44 * 134217728)) * (((op1_limb_4_col60 + (op1_limb_5_col61 * 512)) + (op1_limb_6_col62 * 262144)) + (op1_limb_7_col63 * 134217728)))) + (2 * (((((op0_limb_8_col45 + (op0_limb_9_col46 * 512)) + (op0_limb_10_col47 * 262144)) + (op0_limb_11_col48 * 134217728)) * (((op1_limb_8_col64 + (op1_limb_9_col65 * 512)) + (op1_limb_10_col66 * 262144)) + (op1_limb_11_col67 * 134217728))) - ((((op0_limb_12_col49 + (op0_limb_13_col50 * 512)) + (op0_limb_14_col51 * 262144)) + (op0_limb_15_col52 * 134217728)) * (((op1_limb_12_col68 + (op1_limb_13_col69 * 512)) + (op1_limb_14_col70 * 262144)) + (op1_limb_15_col71 * 134217728)))))) - ((((op0_limb_8_col45 + (op0_limb_9_col46 * 512)) + (op0_limb_10_col47 * 262144)) + (op0_limb_11_col48 * 134217728)) * (((op1_limb_12_col68 + (op1_limb_13_col69 * 512)) + (op1_limb_14_col70 * 262144)) + (op1_limb_15_col71 * 134217728)))) - ((((op0_limb_12_col49 + (op0_limb_13_col50 * 512)) + (op0_limb_14_col51 * 262144)) + (op0_limb_15_col52 * 134217728)) * (((op1_limb_8_col64 + (op1_limb_9_col65 * 512)) + (op1_limb_10_col66 * 262144)) + (op1_limb_11_col67 * 134217728)))) * res_mul_col12)) - (((((op0_limb_0_col37 + (op0_limb_1_col38 * 512)) + (op0_limb_2_col39 * 262144)) + (op0_limb_3_col40 * 134217728)) + (((op1_limb_0_col56 + (op1_limb_1_col57 * 512)) + (op1_limb_2_col58 * 262144)) + (op1_limb_3_col59 * 134217728))) * res_add_col11))",
-      "(((((dst_limb_4_col22 + (dst_limb_5_col23 * 512)) + (dst_limb_6_col24 * 262144)) + (dst_limb_7_col25 * 134217728)) - (((((((((op0_limb_0_col37 + (op0_limb_1_col38 * 512)) + (op0_limb_2_col39 * 262144)) + (op0_limb_3_col40 * 134217728)) * (((op1_limb_4_col60 + (op1_limb_5_col61 * 512)) + (op1_limb_6_col62 * 262144)) + (op1_limb_7_col63 * 134217728))) + ((((op0_limb_4_col41 + (op0_limb_5_col42 * 512)) + (op0_limb_6_col43 * 262144)) + (op0_limb_7_col44 * 134217728)) * (((op1_limb_0_col56 + (op1_limb_1_col57 * 512)) + (op1_limb_2_col58 * 262144)) + (op1_limb_3_col59 * 134217728)))) + (2 * (((((op0_limb_8_col45 + (op0_limb_9_col46 * 512)) + (op0_limb_10_col47 * 262144)) + (op0_limb_11_col48 * 134217728)) * (((op1_limb_12_col68 + (op1_limb_13_col69 * 512)) + (op1_limb_14_col70 * 262144)) + (op1_limb_15_col71 * 134217728))) + ((((op0_limb_12_col49 + (op0_limb_13_col50 * 512)) + (op0_limb_14_col51 * 262144)) + (op0_limb_15_col52 * 134217728)) * (((op1_limb_8_col64 + (op1_limb_9_col65 * 512)) + (op1_limb_10_col66 * 262144)) + (op1_limb_11_col67 * 134217728)))))) + ((((op0_limb_8_col45 + (op0_limb_9_col46 * 512)) + (op0_limb_10_col47 * 262144)) + (op0_limb_11_col48 * 134217728)) * (((op1_limb_8_col64 + (op1_limb_9_col65 * 512)) + (op1_limb_10_col66 * 262144)) + (op1_limb_11_col67 * 134217728)))) - ((((op0_limb_12_col49 + (op0_limb_13_col50 * 512)) + (op0_limb_14_col51 * 262144)) + (op0_limb_15_col52 * 134217728)) * (((op1_limb_12_col68 + (op1_limb_13_col69 * 512)) + (op1_limb_14_col70 * 262144)) + (op1_limb_15_col71 * 134217728)))) * res_mul_col12)) - (((((op0_limb_4_col41 + (op0_limb_5_col42 * 512)) + (op0_limb_6_col43 * 262144)) + (op0_limb_7_col44 * 134217728)) + (((op1_limb_4_col60 + (op1_limb_5_col61 * 512)) + (op1_limb_6_col62 * 262144)) + (op1_limb_7_col63 * 134217728))) * res_add_col11))",
-      "(((((dst_limb_8_col26 + (dst_limb_9_col27 * 512)) + (dst_limb_10_col28 * 262144)) + (dst_limb_11_col29 * 134217728)) - ((((((((op0_limb_0_col37 + (op0_limb_1_col38 * 512)) + (op0_limb_2_col39 * 262144)) + (op0_limb_3_col40 * 134217728)) * (((op1_limb_8_col64 + (op1_limb_9_col65 * 512)) + (op1_limb_10_col66 * 262144)) + (op1_limb_11_col67 * 134217728))) - ((((op0_limb_4_col41 + (op0_limb_5_col42 * 512)) + (op0_limb_6_col43 * 262144)) + (op0_limb_7_col44 * 134217728)) * (((op1_limb_12_col68 + (op1_limb_13_col69 * 512)) + (op1_limb_14_col70 * 262144)) + (op1_limb_15_col71 * 134217728)))) + ((((op0_limb_8_col45 + (op0_limb_9_col46 * 512)) + (op0_limb_10_col47 * 262144)) + (op0_limb_11_col48 * 134217728)) * (((op1_limb_0_col56 + (op1_limb_1_col57 * 512)) + (op1_limb_2_col58 * 262144)) + (op1_limb_3_col59 * 134217728)))) - ((((op0_limb_12_col49 + (op0_limb_13_col50 * 512)) + (op0_limb_14_col51 * 262144)) + (op0_limb_15_col52 * 134217728)) * (((op1_limb_4_col60 + (op1_limb_5_col61 * 512)) + (op1_limb_6_col62 * 262144)) + (op1_limb_7_col63 * 134217728)))) * res_mul_col12)) - (((((op0_limb_8_col45 + (op0_limb_9_col46 * 512)) + (op0_limb_10_col47 * 262144)) + (op0_limb_11_col48 * 134217728)) + (((op1_limb_8_col64 + (op1_limb_9_col65 * 512)) + (op1_limb_10_col66 * 262144)) + (op1_limb_11_col67 * 134217728))) * res_add_col11))",
-      "(((((dst_limb_12_col30 + (dst_limb_13_col31 * 512)) + (dst_limb_14_col32 * 262144)) + (dst_limb_15_col33 * 134217728)) - ((((((((op0_limb_0_col37 + (op0_limb_1_col38 * 512)) + (op0_limb_2_col39 * 262144)) + (op0_limb_3_col40 * 134217728)) * (((op1_limb_12_col68 + (op1_limb_13_col69 * 512)) + (op1_limb_14_col70 * 262144)) + (op1_limb_15_col71 * 134217728))) + ((((op0_limb_4_col41 + (op0_limb_5_col42 * 512)) + (op0_limb_6_col43 * 262144)) + (op0_limb_7_col44 * 134217728)) * (((op1_limb_8_col64 + (op1_limb_9_col65 * 512)) + (op1_limb_10_col66 * 262144)) + (op1_limb_11_col67 * 134217728)))) + ((((op0_limb_8_col45 + (op0_limb_9_col46 * 512)) + (op0_limb_10_col47 * 262144)) + (op0_limb_11_col48 * 134217728)) * (((op1_limb_4_col60 + (op1_limb_5_col61 * 512)) + (op1_limb_6_col62 * 262144)) + (op1_limb_7_col63 * 134217728)))) + ((((op0_limb_12_col49 + (op0_limb_13_col50 * 512)) + (op0_limb_14_col51 * 262144)) + (op0_limb_15_col52 * 134217728)) * (((op1_limb_0_col56 + (op1_limb_1_col57 * 512)) + (op1_limb_2_col58 * 262144)) + (op1_limb_3_col59 * 134217728)))) * res_mul_col12)) - (((((op0_limb_12_col49 + (op0_limb_13_col50 * 512)) + (op0_limb_14_col51 * 262144)) + (op0_limb_15_col52 * 134217728)) + (((op1_limb_12_col68 + (op1_limb_13_col69 * 512)) + (op1_limb_14_col70 * 262144)) + (op1_limb_15_col71 * 134217728))) * res_add_col11))"
+      "(mem_dst_base_col12 - ((dst_base_fp_col6 * input_fp_col2) + ((1 - dst_base_fp_col6) * input_ap_col1)))",
+      "(mem0_base_col13 - ((op0_base_fp_col7 * input_fp_col2) + ((1 - op0_base_fp_col7) * input_ap_col1)))",
+      "(mem1_base_col14 - (((op1_base_fp_col9 * input_fp_col2) + (((1 - op1_imm_col8) - op1_base_fp_col9) * input_ap_col1)) + (op1_imm_col8 * input_pc_col0)))",
+      "(((((((dst_limb_0_col16 + dst_limb_1_col17) + dst_limb_2_col18) + dst_limb_3_col19) - 1548) * ((((dst_limb_4_col20 + dst_limb_5_col21) + dst_limb_6_col22) + dst_limb_7_col23) - 1548)) * dst_delta_ab_inv_col32) - 1)",
+      "(((((((dst_limb_8_col24 + dst_limb_9_col25) + dst_limb_10_col26) + dst_limb_11_col27) - 1548) * ((((dst_limb_12_col28 + dst_limb_13_col29) + dst_limb_14_col30) + dst_limb_15_col31) - 1548)) * dst_delta_cd_inv_col33) - 1)",
+      "(((((((op0_limb_0_col35 + op0_limb_1_col36) + op0_limb_2_col37) + op0_limb_3_col38) - 1548) * ((((op0_limb_4_col39 + op0_limb_5_col40) + op0_limb_6_col41) + op0_limb_7_col42) - 1548)) * op0_delta_ab_inv_col51) - 1)",
+      "(((((((op0_limb_8_col43 + op0_limb_9_col44) + op0_limb_10_col45) + op0_limb_11_col46) - 1548) * ((((op0_limb_12_col47 + op0_limb_13_col48) + op0_limb_14_col49) + op0_limb_15_col50) - 1548)) * op0_delta_cd_inv_col52) - 1)",
+      "(((((((op1_limb_0_col54 + op1_limb_1_col55) + op1_limb_2_col56) + op1_limb_3_col57) - 1548) * ((((op1_limb_4_col58 + op1_limb_5_col59) + op1_limb_6_col60) + op1_limb_7_col61) - 1548)) * op1_delta_ab_inv_col70) - 1)",
+      "(((((((op1_limb_8_col62 + op1_limb_9_col63) + op1_limb_10_col64) + op1_limb_11_col65) - 1548) * ((((op1_limb_12_col66 + op1_limb_13_col67) + op1_limb_14_col68) + op1_limb_15_col69) - 1548)) * op1_delta_cd_inv_col71) - 1)",
+      "(((((dst_limb_0_col16 + (dst_limb_1_col17 * 512)) + (dst_limb_2_col18 * 262144)) + (dst_limb_3_col19 * 134217728)) - (((((((((op0_limb_0_col35 + (op0_limb_1_col36 * 512)) + (op0_limb_2_col37 * 262144)) + (op0_limb_3_col38 * 134217728)) * (((op1_limb_0_col54 + (op1_limb_1_col55 * 512)) + (op1_limb_2_col56 * 262144)) + (op1_limb_3_col57 * 134217728))) - ((((op0_limb_4_col39 + (op0_limb_5_col40 * 512)) + (op0_limb_6_col41 * 262144)) + (op0_limb_7_col42 * 134217728)) * (((op1_limb_4_col58 + (op1_limb_5_col59 * 512)) + (op1_limb_6_col60 * 262144)) + (op1_limb_7_col61 * 134217728)))) + (2 * (((((op0_limb_8_col43 + (op0_limb_9_col44 * 512)) + (op0_limb_10_col45 * 262144)) + (op0_limb_11_col46 * 134217728)) * (((op1_limb_8_col62 + (op1_limb_9_col63 * 512)) + (op1_limb_10_col64 * 262144)) + (op1_limb_11_col65 * 134217728))) - ((((op0_limb_12_col47 + (op0_limb_13_col48 * 512)) + (op0_limb_14_col49 * 262144)) + (op0_limb_15_col50 * 134217728)) * (((op1_limb_12_col66 + (op1_limb_13_col67 * 512)) + (op1_limb_14_col68 * 262144)) + (op1_limb_15_col69 * 134217728)))))) - ((((op0_limb_8_col43 + (op0_limb_9_col44 * 512)) + (op0_limb_10_col45 * 262144)) + (op0_limb_11_col46 * 134217728)) * (((op1_limb_12_col66 + (op1_limb_13_col67 * 512)) + (op1_limb_14_col68 * 262144)) + (op1_limb_15_col69 * 134217728)))) - ((((op0_limb_12_col47 + (op0_limb_13_col48 * 512)) + (op0_limb_14_col49 * 262144)) + (op0_limb_15_col50 * 134217728)) * (((op1_limb_8_col62 + (op1_limb_9_col63 * 512)) + (op1_limb_10_col64 * 262144)) + (op1_limb_11_col65 * 134217728)))) * (1 - res_add_col10))) - (((((op0_limb_0_col35 + (op0_limb_1_col36 * 512)) + (op0_limb_2_col37 * 262144)) + (op0_limb_3_col38 * 134217728)) + (((op1_limb_0_col54 + (op1_limb_1_col55 * 512)) + (op1_limb_2_col56 * 262144)) + (op1_limb_3_col57 * 134217728))) * res_add_col10))",
+      "(((((dst_limb_4_col20 + (dst_limb_5_col21 * 512)) + (dst_limb_6_col22 * 262144)) + (dst_limb_7_col23 * 134217728)) - (((((((((op0_limb_0_col35 + (op0_limb_1_col36 * 512)) + (op0_limb_2_col37 * 262144)) + (op0_limb_3_col38 * 134217728)) * (((op1_limb_4_col58 + (op1_limb_5_col59 * 512)) + (op1_limb_6_col60 * 262144)) + (op1_limb_7_col61 * 134217728))) + ((((op0_limb_4_col39 + (op0_limb_5_col40 * 512)) + (op0_limb_6_col41 * 262144)) + (op0_limb_7_col42 * 134217728)) * (((op1_limb_0_col54 + (op1_limb_1_col55 * 512)) + (op1_limb_2_col56 * 262144)) + (op1_limb_3_col57 * 134217728)))) + (2 * (((((op0_limb_8_col43 + (op0_limb_9_col44 * 512)) + (op0_limb_10_col45 * 262144)) + (op0_limb_11_col46 * 134217728)) * (((op1_limb_12_col66 + (op1_limb_13_col67 * 512)) + (op1_limb_14_col68 * 262144)) + (op1_limb_15_col69 * 134217728))) + ((((op0_limb_12_col47 + (op0_limb_13_col48 * 512)) + (op0_limb_14_col49 * 262144)) + (op0_limb_15_col50 * 134217728)) * (((op1_limb_8_col62 + (op1_limb_9_col63 * 512)) + (op1_limb_10_col64 * 262144)) + (op1_limb_11_col65 * 134217728)))))) + ((((op0_limb_8_col43 + (op0_limb_9_col44 * 512)) + (op0_limb_10_col45 * 262144)) + (op0_limb_11_col46 * 134217728)) * (((op1_limb_8_col62 + (op1_limb_9_col63 * 512)) + (op1_limb_10_col64 * 262144)) + (op1_limb_11_col65 * 134217728)))) - ((((op0_limb_12_col47 + (op0_limb_13_col48 * 512)) + (op0_limb_14_col49 * 262144)) + (op0_limb_15_col50 * 134217728)) * (((op1_limb_12_col66 + (op1_limb_13_col67 * 512)) + (op1_limb_14_col68 * 262144)) + (op1_limb_15_col69 * 134217728)))) * (1 - res_add_col10))) - (((((op0_limb_4_col39 + (op0_limb_5_col40 * 512)) + (op0_limb_6_col41 * 262144)) + (op0_limb_7_col42 * 134217728)) + (((op1_limb_4_col58 + (op1_limb_5_col59 * 512)) + (op1_limb_6_col60 * 262144)) + (op1_limb_7_col61 * 134217728))) * res_add_col10))",
+      "(((((dst_limb_8_col24 + (dst_limb_9_col25 * 512)) + (dst_limb_10_col26 * 262144)) + (dst_limb_11_col27 * 134217728)) - ((((((((op0_limb_0_col35 + (op0_limb_1_col36 * 512)) + (op0_limb_2_col37 * 262144)) + (op0_limb_3_col38 * 134217728)) * (((op1_limb_8_col62 + (op1_limb_9_col63 * 512)) + (op1_limb_10_col64 * 262144)) + (op1_limb_11_col65 * 134217728))) - ((((op0_limb_4_col39 + (op0_limb_5_col40 * 512)) + (op0_limb_6_col41 * 262144)) + (op0_limb_7_col42 * 134217728)) * (((op1_limb_12_col66 + (op1_limb_13_col67 * 512)) + (op1_limb_14_col68 * 262144)) + (op1_limb_15_col69 * 134217728)))) + ((((op0_limb_8_col43 + (op0_limb_9_col44 * 512)) + (op0_limb_10_col45 * 262144)) + (op0_limb_11_col46 * 134217728)) * (((op1_limb_0_col54 + (op1_limb_1_col55 * 512)) + (op1_limb_2_col56 * 262144)) + (op1_limb_3_col57 * 134217728)))) - ((((op0_limb_12_col47 + (op0_limb_13_col48 * 512)) + (op0_limb_14_col49 * 262144)) + (op0_limb_15_col50 * 134217728)) * (((op1_limb_4_col58 + (op1_limb_5_col59 * 512)) + (op1_limb_6_col60 * 262144)) + (op1_limb_7_col61 * 134217728)))) * (1 - res_add_col10))) - (((((op0_limb_8_col43 + (op0_limb_9_col44 * 512)) + (op0_limb_10_col45 * 262144)) + (op0_limb_11_col46 * 134217728)) + (((op1_limb_8_col62 + (op1_limb_9_col63 * 512)) + (op1_limb_10_col64 * 262144)) + (op1_limb_11_col65 * 134217728))) * res_add_col10))",
+      "(((((dst_limb_12_col28 + (dst_limb_13_col29 * 512)) + (dst_limb_14_col30 * 262144)) + (dst_limb_15_col31 * 134217728)) - ((((((((op0_limb_0_col35 + (op0_limb_1_col36 * 512)) + (op0_limb_2_col37 * 262144)) + (op0_limb_3_col38 * 134217728)) * (((op1_limb_12_col66 + (op1_limb_13_col67 * 512)) + (op1_limb_14_col68 * 262144)) + (op1_limb_15_col69 * 134217728))) + ((((op0_limb_4_col39 + (op0_limb_5_col40 * 512)) + (op0_limb_6_col41 * 262144)) + (op0_limb_7_col42 * 134217728)) * (((op1_limb_8_col62 + (op1_limb_9_col63 * 512)) + (op1_limb_10_col64 * 262144)) + (op1_limb_11_col65 * 134217728)))) + ((((op0_limb_8_col43 + (op0_limb_9_col44 * 512)) + (op0_limb_10_col45 * 262144)) + (op0_limb_11_col46 * 134217728)) * (((op1_limb_4_col58 + (op1_limb_5_col59 * 512)) + (op1_limb_6_col60 * 262144)) + (op1_limb_7_col61 * 134217728)))) + ((((op0_limb_12_col47 + (op0_limb_13_col48 * 512)) + (op0_limb_14_col49 * 262144)) + (op0_limb_15_col50 * 134217728)) * (((op1_limb_0_col54 + (op1_limb_1_col55 * 512)) + (op1_limb_2_col56 * 262144)) + (op1_limb_3_col57 * 134217728)))) * (1 - res_add_col10))) - (((((op0_limb_12_col47 + (op0_limb_13_col48 * 512)) + (op0_limb_14_col49 * 262144)) + (op0_limb_15_col50 * 134217728)) + (((op1_limb_12_col66 + (op1_limb_13_col67 * 512)) + (op1_limb_14_col68 * 262144)) + (op1_limb_15_col69 * 134217728))) * res_add_col10))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "input_pc_col0, offset0_col3, offset1_col4, offset2_col5, ((((((0 + (dst_base_fp_col6 * 8)) + (op0_base_fp_col7 * 16)) + (op1_imm_col8 * 32)) + (op1_base_fp_col9 * 64)) + (op1_base_ap_col10 * 128)) + (res_add_col11 * 256)), (((((((((0 + (res_mul_col12 * 1)) + 0) + 0) + 0) + 0) + (ap_update_add_1_col13 * 32)) + 0) + 0) + 256), 3"
+        "input_pc_col0, offset0_col3, offset1_col4, offset2_col5, ((((((0 + (dst_base_fp_col6 * 8)) + (op0_base_fp_col7 * 16)) + (op1_imm_col8 * 32)) + (op1_base_fp_col9 * 64)) + (((1 - op1_imm_col8) - op1_base_fp_col9) * 128)) + (res_add_col10 * 256)), (((((((((0 + ((1 - res_add_col10) * 1)) + 0) + 0) + 0) + 0) + (ap_update_add_1_col11 * 32)) + 0) + 0) + 256), 3"
       ],
       [
         "MemoryAddressToId",
-        "(mem_dst_base_col14 + (offset0_col3 - 32768)), dst_id_col17"
+        "(mem_dst_base_col12 + (offset0_col3 - 32768)), dst_id_col15"
       ],
       [
         "MemoryIdToBig",
-        "dst_id_col17, dst_limb_0_col18, dst_limb_1_col19, dst_limb_2_col20, dst_limb_3_col21, dst_limb_4_col22, dst_limb_5_col23, dst_limb_6_col24, dst_limb_7_col25, dst_limb_8_col26, dst_limb_9_col27, dst_limb_10_col28, dst_limb_11_col29, dst_limb_12_col30, dst_limb_13_col31, dst_limb_14_col32, dst_limb_15_col33, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "dst_id_col15, dst_limb_0_col16, dst_limb_1_col17, dst_limb_2_col18, dst_limb_3_col19, dst_limb_4_col20, dst_limb_5_col21, dst_limb_6_col22, dst_limb_7_col23, dst_limb_8_col24, dst_limb_9_col25, dst_limb_10_col26, dst_limb_11_col27, dst_limb_12_col28, dst_limb_13_col29, dst_limb_14_col30, dst_limb_15_col31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "dst_limb_3_col21, dst_limb_7_col25, dst_limb_11_col29, dst_limb_15_col33"
+        "dst_limb_3_col19, dst_limb_7_col23, dst_limb_11_col27, dst_limb_15_col31"
       ],
       [
         "MemoryAddressToId",
-        "(mem0_base_col15 + (offset1_col4 - 32768)), op0_id_col36"
+        "(mem0_base_col13 + (offset1_col4 - 32768)), op0_id_col34"
       ],
       [
         "MemoryIdToBig",
-        "op0_id_col36, op0_limb_0_col37, op0_limb_1_col38, op0_limb_2_col39, op0_limb_3_col40, op0_limb_4_col41, op0_limb_5_col42, op0_limb_6_col43, op0_limb_7_col44, op0_limb_8_col45, op0_limb_9_col46, op0_limb_10_col47, op0_limb_11_col48, op0_limb_12_col49, op0_limb_13_col50, op0_limb_14_col51, op0_limb_15_col52, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "op0_id_col34, op0_limb_0_col35, op0_limb_1_col36, op0_limb_2_col37, op0_limb_3_col38, op0_limb_4_col39, op0_limb_5_col40, op0_limb_6_col41, op0_limb_7_col42, op0_limb_8_col43, op0_limb_9_col44, op0_limb_10_col45, op0_limb_11_col46, op0_limb_12_col47, op0_limb_13_col48, op0_limb_14_col49, op0_limb_15_col50, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "op0_limb_3_col40, op0_limb_7_col44, op0_limb_11_col48, op0_limb_15_col52"
+        "op0_limb_3_col38, op0_limb_7_col42, op0_limb_11_col46, op0_limb_15_col50"
       ],
       [
         "MemoryAddressToId",
-        "(mem1_base_col16 + (offset2_col5 - 32768)), op1_id_col55"
+        "(mem1_base_col14 + (offset2_col5 - 32768)), op1_id_col53"
       ],
       [
         "MemoryIdToBig",
-        "op1_id_col55, op1_limb_0_col56, op1_limb_1_col57, op1_limb_2_col58, op1_limb_3_col59, op1_limb_4_col60, op1_limb_5_col61, op1_limb_6_col62, op1_limb_7_col63, op1_limb_8_col64, op1_limb_9_col65, op1_limb_10_col66, op1_limb_11_col67, op1_limb_12_col68, op1_limb_13_col69, op1_limb_14_col70, op1_limb_15_col71, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "op1_id_col53, op1_limb_0_col54, op1_limb_1_col55, op1_limb_2_col56, op1_limb_3_col57, op1_limb_4_col58, op1_limb_5_col59, op1_limb_6_col60, op1_limb_7_col61, op1_limb_8_col62, op1_limb_9_col63, op1_limb_10_col64, op1_limb_11_col65, op1_limb_12_col66, op1_limb_13_col67, op1_limb_14_col68, op1_limb_15_col69, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "op1_limb_3_col59, op1_limb_7_col63, op1_limb_11_col67, op1_limb_15_col71"
+        "op1_limb_3_col57, op1_limb_7_col61, op1_limb_11_col65, op1_limb_15_col69"
       ]
     ]
   },
-  "decode_instruction_ad7803a95421a061": {
+  "decode_instruction_275ccfe81e8aa6ca": {
     "state_names": [
       "offset0_col0",
       "offset1_col1",
@@ -24546,7 +24533,7 @@
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_ad7803a95421a061_input, offset0_col0, offset1_col1, offset2_col2, ((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + 0) + (op1_base_fp_col5 * 64)) + (op1_base_ap_col6 * 128)) + 0), ((((0 + (ap_update_add_1_col7 * 32)) + 0) + 0) + 0), opcode_extension_col8"
+        "decode_instruction_275ccfe81e8aa6ca_input, offset0_col0, offset1_col1, offset2_col2, ((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + 0) + (op1_base_fp_col5 * 64)) + (op1_base_ap_col6 * 128)) + 0), ((((0 + (ap_update_add_1_col7 * 32)) + 0) + 0) + 0), opcode_extension_col8"
       ]
     ]
   },

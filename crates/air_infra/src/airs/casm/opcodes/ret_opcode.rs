@@ -1,3 +1,5 @@
+use std::collections::BTreeSet;
+
 use inst_def::InstDef;
 
 use super::super::casm_state::*;
@@ -43,6 +45,7 @@ impl AirFn for RetOpcode {
             const_offsets: [Some(-2), Some(-1), Some(-1)],
             const_flags: RET_FLAGS,
             const_opcode_extension: Some(OpcodeExtension::Stone),
+            flag_sets_of_sum_1: BTreeSet::new(),
             memory: self.memory.clone(),
         };
 

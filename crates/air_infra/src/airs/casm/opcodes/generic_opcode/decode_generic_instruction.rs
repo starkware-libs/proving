@@ -1,3 +1,5 @@
+use std::collections::BTreeSet;
+
 use inst_def::InstDef;
 
 use super::generic_opcode::*;
@@ -29,6 +31,7 @@ impl AirFn for DecodeGenericInstruction {
                 const_offsets: [None, None, None],
                 const_flags: Default::default(),
                 const_opcode_extension: Some(OpcodeExtension::Stone),
+                flag_sets_of_sum_1: BTreeSet::new(),
                 memory: self.memory.clone(),
             },
             pc.clone(),
