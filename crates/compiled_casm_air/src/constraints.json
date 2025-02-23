@@ -24570,17 +24570,12 @@
       "high_5_ms_bits_col4",
       "read_blake_word_input_id_col5"
     ],
-    "intermediates": [
-      [
-        "expected_word_tmp_d7e7d_3",
-        "UInt32::from_limbs(low_16_bits_col0, high_16_bits_col1)"
-      ]
-    ],
+    "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col2, (expected_word_tmp_d7e7d_3.high().as_m31() - (high_14_ms_bits_col3 * 4)), high_5_ms_bits_col4"
+        "low_7_ms_bits_col2, (high_16_bits_col1 - (high_14_ms_bits_col3 * 4)), high_5_ms_bits_col4"
       ],
       [
         "MemoryAddressToId",
@@ -24588,7 +24583,7 @@
       ],
       [
         "MemoryIdToBig",
-        "read_blake_word_input_id_col5, (expected_word_tmp_d7e7d_3.low().as_m31() - (low_7_ms_bits_col2 * 512)), (low_7_ms_bits_col2 + ((expected_word_tmp_d7e7d_3.high().as_m31() - (high_14_ms_bits_col3 * 4)) * 128)), (high_14_ms_bits_col3 - (high_5_ms_bits_col4 * 512)), high_5_ms_bits_col4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "read_blake_word_input_id_col5, (low_16_bits_col0 - (low_7_ms_bits_col2 * 512)), (low_7_ms_bits_col2 + ((high_16_bits_col1 - (high_14_ms_bits_col3 * 4)) * 128)), (high_14_ms_bits_col3 - (high_5_ms_bits_col4 * 512)), high_5_ms_bits_col4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
@@ -24625,12 +24620,7 @@
       "high_5_ms_bits_col28",
       "dst_id_col29"
     ],
-    "intermediates": [
-      [
-        "expected_word_tmp_47e62_19",
-        "UInt32::from_limbs(low_16_bits_col24, high_16_bits_col25)"
-      ]
-    ],
+    "intermediates": [],
     "constraints": [
       "(dst_base_fp_col3 * (1 - dst_base_fp_col3))",
       "(op0_base_fp_col4 * (1 - op0_base_fp_col4))",
@@ -24674,7 +24664,7 @@
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col26, (expected_word_tmp_47e62_19.high().as_m31() - (high_14_ms_bits_col27 * 4)), high_5_ms_bits_col28"
+        "low_7_ms_bits_col26, (high_16_bits_col25 - (high_14_ms_bits_col27 * 4)), high_5_ms_bits_col28"
       ],
       [
         "MemoryAddressToId",
@@ -24682,7 +24672,7 @@
       ],
       [
         "MemoryIdToBig",
-        "dst_id_col29, (expected_word_tmp_47e62_19.low().as_m31() - (low_7_ms_bits_col26 * 512)), (low_7_ms_bits_col26 + ((expected_word_tmp_47e62_19.high().as_m31() - (high_14_ms_bits_col27 * 4)) * 128)), (high_14_ms_bits_col27 - (high_5_ms_bits_col28 * 512)), high_5_ms_bits_col28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "dst_id_col29, (low_16_bits_col24 - (low_7_ms_bits_col26 * 512)), (low_7_ms_bits_col26 + ((high_16_bits_col25 - (high_14_ms_bits_col27 * 4)) * 128)), (high_14_ms_bits_col27 - (high_5_ms_bits_col28 * 512)), high_5_ms_bits_col28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
@@ -24776,45 +24766,12 @@
       "xor_col52",
       "xor_col53"
     ],
-    "intermediates": [
-      [
-        "expected_word_tmp_f95c3_3",
-        "UInt32::from_limbs(low_16_bits_col0, high_16_bits_col1)"
-      ],
-      [
-        "expected_word_tmp_f95c3_11",
-        "UInt32::from_limbs(low_16_bits_col6, high_16_bits_col7)"
-      ],
-      [
-        "expected_word_tmp_f95c3_19",
-        "UInt32::from_limbs(low_16_bits_col12, high_16_bits_col13)"
-      ],
-      [
-        "expected_word_tmp_f95c3_27",
-        "UInt32::from_limbs(low_16_bits_col18, high_16_bits_col19)"
-      ],
-      [
-        "expected_word_tmp_f95c3_35",
-        "UInt32::from_limbs(low_16_bits_col24, high_16_bits_col25)"
-      ],
-      [
-        "expected_word_tmp_f95c3_43",
-        "UInt32::from_limbs(low_16_bits_col30, high_16_bits_col31)"
-      ],
-      [
-        "expected_word_tmp_f95c3_51",
-        "UInt32::from_limbs(low_16_bits_col36, high_16_bits_col37)"
-      ],
-      [
-        "expected_word_tmp_f95c3_59",
-        "UInt32::from_limbs(low_16_bits_col42, high_16_bits_col43)"
-      ]
-    ],
+    "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col2, (expected_word_tmp_f95c3_3.high().as_m31() - (high_14_ms_bits_col3 * 4)), high_5_ms_bits_col4"
+        "low_7_ms_bits_col2, (high_16_bits_col1 - (high_14_ms_bits_col3 * 4)), high_5_ms_bits_col4"
       ],
       [
         "MemoryAddressToId",
@@ -24822,11 +24779,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_0_id_col5, (expected_word_tmp_f95c3_3.low().as_m31() - (low_7_ms_bits_col2 * 512)), (low_7_ms_bits_col2 + ((expected_word_tmp_f95c3_3.high().as_m31() - (high_14_ms_bits_col3 * 4)) * 128)), (high_14_ms_bits_col3 - (high_5_ms_bits_col4 * 512)), high_5_ms_bits_col4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_0_id_col5, (low_16_bits_col0 - (low_7_ms_bits_col2 * 512)), (low_7_ms_bits_col2 + ((high_16_bits_col1 - (high_14_ms_bits_col3 * 4)) * 128)), (high_14_ms_bits_col3 - (high_5_ms_bits_col4 * 512)), high_5_ms_bits_col4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col8, (expected_word_tmp_f95c3_11.high().as_m31() - (high_14_ms_bits_col9 * 4)), high_5_ms_bits_col10"
+        "low_7_ms_bits_col8, (high_16_bits_col7 - (high_14_ms_bits_col9 * 4)), high_5_ms_bits_col10"
       ],
       [
         "MemoryAddressToId",
@@ -24834,11 +24791,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_1_id_col11, (expected_word_tmp_f95c3_11.low().as_m31() - (low_7_ms_bits_col8 * 512)), (low_7_ms_bits_col8 + ((expected_word_tmp_f95c3_11.high().as_m31() - (high_14_ms_bits_col9 * 4)) * 128)), (high_14_ms_bits_col9 - (high_5_ms_bits_col10 * 512)), high_5_ms_bits_col10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_1_id_col11, (low_16_bits_col6 - (low_7_ms_bits_col8 * 512)), (low_7_ms_bits_col8 + ((high_16_bits_col7 - (high_14_ms_bits_col9 * 4)) * 128)), (high_14_ms_bits_col9 - (high_5_ms_bits_col10 * 512)), high_5_ms_bits_col10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col14, (expected_word_tmp_f95c3_19.high().as_m31() - (high_14_ms_bits_col15 * 4)), high_5_ms_bits_col16"
+        "low_7_ms_bits_col14, (high_16_bits_col13 - (high_14_ms_bits_col15 * 4)), high_5_ms_bits_col16"
       ],
       [
         "MemoryAddressToId",
@@ -24846,11 +24803,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_2_id_col17, (expected_word_tmp_f95c3_19.low().as_m31() - (low_7_ms_bits_col14 * 512)), (low_7_ms_bits_col14 + ((expected_word_tmp_f95c3_19.high().as_m31() - (high_14_ms_bits_col15 * 4)) * 128)), (high_14_ms_bits_col15 - (high_5_ms_bits_col16 * 512)), high_5_ms_bits_col16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_2_id_col17, (low_16_bits_col12 - (low_7_ms_bits_col14 * 512)), (low_7_ms_bits_col14 + ((high_16_bits_col13 - (high_14_ms_bits_col15 * 4)) * 128)), (high_14_ms_bits_col15 - (high_5_ms_bits_col16 * 512)), high_5_ms_bits_col16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col20, (expected_word_tmp_f95c3_27.high().as_m31() - (high_14_ms_bits_col21 * 4)), high_5_ms_bits_col22"
+        "low_7_ms_bits_col20, (high_16_bits_col19 - (high_14_ms_bits_col21 * 4)), high_5_ms_bits_col22"
       ],
       [
         "MemoryAddressToId",
@@ -24858,11 +24815,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_3_id_col23, (expected_word_tmp_f95c3_27.low().as_m31() - (low_7_ms_bits_col20 * 512)), (low_7_ms_bits_col20 + ((expected_word_tmp_f95c3_27.high().as_m31() - (high_14_ms_bits_col21 * 4)) * 128)), (high_14_ms_bits_col21 - (high_5_ms_bits_col22 * 512)), high_5_ms_bits_col22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_3_id_col23, (low_16_bits_col18 - (low_7_ms_bits_col20 * 512)), (low_7_ms_bits_col20 + ((high_16_bits_col19 - (high_14_ms_bits_col21 * 4)) * 128)), (high_14_ms_bits_col21 - (high_5_ms_bits_col22 * 512)), high_5_ms_bits_col22, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col26, (expected_word_tmp_f95c3_35.high().as_m31() - (high_14_ms_bits_col27 * 4)), high_5_ms_bits_col28"
+        "low_7_ms_bits_col26, (high_16_bits_col25 - (high_14_ms_bits_col27 * 4)), high_5_ms_bits_col28"
       ],
       [
         "MemoryAddressToId",
@@ -24870,11 +24827,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_4_id_col29, (expected_word_tmp_f95c3_35.low().as_m31() - (low_7_ms_bits_col26 * 512)), (low_7_ms_bits_col26 + ((expected_word_tmp_f95c3_35.high().as_m31() - (high_14_ms_bits_col27 * 4)) * 128)), (high_14_ms_bits_col27 - (high_5_ms_bits_col28 * 512)), high_5_ms_bits_col28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_4_id_col29, (low_16_bits_col24 - (low_7_ms_bits_col26 * 512)), (low_7_ms_bits_col26 + ((high_16_bits_col25 - (high_14_ms_bits_col27 * 4)) * 128)), (high_14_ms_bits_col27 - (high_5_ms_bits_col28 * 512)), high_5_ms_bits_col28, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col32, (expected_word_tmp_f95c3_43.high().as_m31() - (high_14_ms_bits_col33 * 4)), high_5_ms_bits_col34"
+        "low_7_ms_bits_col32, (high_16_bits_col31 - (high_14_ms_bits_col33 * 4)), high_5_ms_bits_col34"
       ],
       [
         "MemoryAddressToId",
@@ -24882,11 +24839,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_5_id_col35, (expected_word_tmp_f95c3_43.low().as_m31() - (low_7_ms_bits_col32 * 512)), (low_7_ms_bits_col32 + ((expected_word_tmp_f95c3_43.high().as_m31() - (high_14_ms_bits_col33 * 4)) * 128)), (high_14_ms_bits_col33 - (high_5_ms_bits_col34 * 512)), high_5_ms_bits_col34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_5_id_col35, (low_16_bits_col30 - (low_7_ms_bits_col32 * 512)), (low_7_ms_bits_col32 + ((high_16_bits_col31 - (high_14_ms_bits_col33 * 4)) * 128)), (high_14_ms_bits_col33 - (high_5_ms_bits_col34 * 512)), high_5_ms_bits_col34, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col38, (expected_word_tmp_f95c3_51.high().as_m31() - (high_14_ms_bits_col39 * 4)), high_5_ms_bits_col40"
+        "low_7_ms_bits_col38, (high_16_bits_col37 - (high_14_ms_bits_col39 * 4)), high_5_ms_bits_col40"
       ],
       [
         "MemoryAddressToId",
@@ -24894,11 +24851,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_6_id_col41, (expected_word_tmp_f95c3_51.low().as_m31() - (low_7_ms_bits_col38 * 512)), (low_7_ms_bits_col38 + ((expected_word_tmp_f95c3_51.high().as_m31() - (high_14_ms_bits_col39 * 4)) * 128)), (high_14_ms_bits_col39 - (high_5_ms_bits_col40 * 512)), high_5_ms_bits_col40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_6_id_col41, (low_16_bits_col36 - (low_7_ms_bits_col38 * 512)), (low_7_ms_bits_col38 + ((high_16_bits_col37 - (high_14_ms_bits_col39 * 4)) * 128)), (high_14_ms_bits_col39 - (high_5_ms_bits_col40 * 512)), high_5_ms_bits_col40, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col44, (expected_word_tmp_f95c3_59.high().as_m31() - (high_14_ms_bits_col45 * 4)), high_5_ms_bits_col46"
+        "low_7_ms_bits_col44, (high_16_bits_col43 - (high_14_ms_bits_col45 * 4)), high_5_ms_bits_col46"
       ],
       [
         "MemoryAddressToId",
@@ -24906,7 +24863,7 @@
       ],
       [
         "MemoryIdToBig",
-        "state_7_id_col47, (expected_word_tmp_f95c3_59.low().as_m31() - (low_7_ms_bits_col44 * 512)), (low_7_ms_bits_col44 + ((expected_word_tmp_f95c3_59.high().as_m31() - (high_14_ms_bits_col45 * 4)) * 128)), (high_14_ms_bits_col45 - (high_5_ms_bits_col46 * 512)), high_5_ms_bits_col46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_7_id_col47, (low_16_bits_col42 - (low_7_ms_bits_col44 * 512)), (low_7_ms_bits_col44 + ((high_16_bits_col43 - (high_14_ms_bits_col45 * 4)) * 128)), (high_14_ms_bits_col45 - (high_5_ms_bits_col46 * 512)), high_5_ms_bits_col46, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -24957,10 +24914,6 @@
       [
         "carry_high_tmp_541fa_2",
         "(((((triple_sum_32_input[0].high().as_m31() + triple_sum_32_input[1].high().as_m31()) + triple_sum_32_input[2].high().as_m31()) + carry_low_tmp_541fa_1) - triple_sum32_res_high_col1) * 32768)"
-      ],
-      [
-        "triple_sum32_res_tmp_541fa_3",
-        "UInt32::from_limbs(triple_sum32_res_low_col0, triple_sum32_res_high_col1)"
       ]
     ],
     "constraints": [
@@ -24982,8 +24935,12 @@
     ],
     "intermediates": [
       [
-        "xor_rot_16_output_tmp_fca3d_8",
-        "UInt32::from_limbs((xor_col6 + (xor_col7 * 256)), (xor_col4 + (xor_col5 * 256)))"
+        "xor_rot_16_output_tmp_fca3d_8_limb_0",
+        "(xor_col6 + (xor_col7 * 256))"
+      ],
+      [
+        "xor_rot_16_output_tmp_fca3d_8_limb_1",
+        "(xor_col4 + (xor_col5 * 256))"
       ]
     ],
     "constraints": [],
@@ -25077,8 +25034,12 @@
     ],
     "intermediates": [
       [
-        "xor_rot_12_output_tmp_6ef33_8",
-        "UInt32::from_limbs((xor_col5 + (xor_col6 * 16)), (xor_col7 + (xor_col4 * 16)))"
+        "xor_rot_12_output_tmp_6ef33_8_limb_0",
+        "(xor_col5 + (xor_col6 * 16))"
+      ],
+      [
+        "xor_rot_12_output_tmp_6ef33_8_limb_1",
+        "(xor_col7 + (xor_col4 * 16))"
       ]
     ],
     "constraints": [],
@@ -25114,8 +25075,12 @@
     ],
     "intermediates": [
       [
-        "xor_rot_8_output_tmp_fa087_8",
-        "UInt32::from_limbs((xor_col5 + (xor_col6 * 256)), (xor_col7 + (xor_col4 * 256)))"
+        "xor_rot_8_output_tmp_fa087_8_limb_0",
+        "(xor_col5 + (xor_col6 * 256))"
+      ],
+      [
+        "xor_rot_8_output_tmp_fa087_8_limb_1",
+        "(xor_col7 + (xor_col4 * 256))"
       ]
     ],
     "constraints": [],
@@ -25184,8 +25149,12 @@
     ],
     "intermediates": [
       [
-        "xor_rot_7_output_tmp_edf16_8",
-        "UInt32::from_limbs((xor_col5 + (xor_col6 * 512)), (xor_col7 + (xor_col4 * 512)))"
+        "xor_rot_7_output_tmp_edf16_8_limb_0",
+        "(xor_col5 + (xor_col6 * 512))"
+      ],
+      [
+        "xor_rot_7_output_tmp_edf16_8_limb_1",
+        "(xor_col7 + (xor_col4 * 512))"
       ]
     ],
     "constraints": [],
@@ -25273,60 +25242,60 @@
         "(((((input_limb_1_col1 + input_limb_3_col3) + input_limb_9_col9) + carry_low_tmp_f72c8_2) - triple_sum32_res_high_col13) * 32768)"
       ],
       [
-        "triple_sum32_res_tmp_f72c8_4",
-        "UInt32::from_limbs(triple_sum32_res_low_col12, triple_sum32_res_high_col13)"
+        "xor_rot_16_output_tmp_f72c8_13_limb_0",
+        "(xor_col20 + (xor_col21 * 256))"
       ],
       [
-        "xor_rot_16_output_tmp_f72c8_13",
-        "UInt32::from_limbs((xor_col20 + (xor_col21 * 256)), (xor_col18 + (xor_col19 * 256)))"
+        "xor_rot_16_output_tmp_f72c8_13_limb_1",
+        "(xor_col18 + (xor_col19 * 256))"
       ],
       [
         "carry_low_tmp_f72c8_15",
-        "((((input_limb_4_col4 + xor_rot_16_output_tmp_f72c8_13.low().as_m31()) + 0) - triple_sum32_res_low_col22) * 32768)"
+        "((((input_limb_4_col4 + xor_rot_16_output_tmp_f72c8_13_limb_0) + 0) - triple_sum32_res_low_col22) * 32768)"
       ],
       [
         "carry_high_tmp_f72c8_16",
-        "(((((input_limb_5_col5 + xor_rot_16_output_tmp_f72c8_13.high().as_m31()) + 0) + carry_low_tmp_f72c8_15) - triple_sum32_res_high_col23) * 32768)"
+        "(((((input_limb_5_col5 + xor_rot_16_output_tmp_f72c8_13_limb_1) + 0) + carry_low_tmp_f72c8_15) - triple_sum32_res_high_col23) * 32768)"
       ],
       [
-        "triple_sum32_res_tmp_f72c8_17",
-        "UInt32::from_limbs(triple_sum32_res_low_col22, triple_sum32_res_high_col23)"
+        "xor_rot_12_output_tmp_f72c8_26_limb_0",
+        "(xor_col29 + (xor_col30 * 16))"
       ],
       [
-        "xor_rot_12_output_tmp_f72c8_26",
-        "UInt32::from_limbs((xor_col29 + (xor_col30 * 16)), (xor_col31 + (xor_col28 * 16)))"
+        "xor_rot_12_output_tmp_f72c8_26_limb_1",
+        "(xor_col31 + (xor_col28 * 16))"
       ],
       [
         "carry_low_tmp_f72c8_28",
-        "((((triple_sum32_res_tmp_f72c8_4.low().as_m31() + xor_rot_12_output_tmp_f72c8_26.low().as_m31()) + input_limb_10_col10) - triple_sum32_res_low_col32) * 32768)"
+        "((((triple_sum32_res_low_col12 + xor_rot_12_output_tmp_f72c8_26_limb_0) + input_limb_10_col10) - triple_sum32_res_low_col32) * 32768)"
       ],
       [
         "carry_high_tmp_f72c8_29",
-        "(((((triple_sum32_res_tmp_f72c8_4.high().as_m31() + xor_rot_12_output_tmp_f72c8_26.high().as_m31()) + input_limb_11_col11) + carry_low_tmp_f72c8_28) - triple_sum32_res_high_col33) * 32768)"
+        "(((((triple_sum32_res_high_col13 + xor_rot_12_output_tmp_f72c8_26_limb_1) + input_limb_11_col11) + carry_low_tmp_f72c8_28) - triple_sum32_res_high_col33) * 32768)"
       ],
       [
-        "triple_sum32_res_tmp_f72c8_30",
-        "UInt32::from_limbs(triple_sum32_res_low_col32, triple_sum32_res_high_col33)"
+        "xor_rot_8_output_tmp_f72c8_39_limb_0",
+        "(xor_col39 + (xor_col40 * 256))"
       ],
       [
-        "xor_rot_8_output_tmp_f72c8_39",
-        "UInt32::from_limbs((xor_col39 + (xor_col40 * 256)), (xor_col41 + (xor_col38 * 256)))"
+        "xor_rot_8_output_tmp_f72c8_39_limb_1",
+        "(xor_col41 + (xor_col38 * 256))"
       ],
       [
         "carry_low_tmp_f72c8_41",
-        "((((triple_sum32_res_tmp_f72c8_17.low().as_m31() + xor_rot_8_output_tmp_f72c8_39.low().as_m31()) + 0) - triple_sum32_res_low_col42) * 32768)"
+        "((((triple_sum32_res_low_col22 + xor_rot_8_output_tmp_f72c8_39_limb_0) + 0) - triple_sum32_res_low_col42) * 32768)"
       ],
       [
         "carry_high_tmp_f72c8_42",
-        "(((((triple_sum32_res_tmp_f72c8_17.high().as_m31() + xor_rot_8_output_tmp_f72c8_39.high().as_m31()) + 0) + carry_low_tmp_f72c8_41) - triple_sum32_res_high_col43) * 32768)"
+        "(((((triple_sum32_res_high_col23 + xor_rot_8_output_tmp_f72c8_39_limb_1) + 0) + carry_low_tmp_f72c8_41) - triple_sum32_res_high_col43) * 32768)"
       ],
       [
-        "triple_sum32_res_tmp_f72c8_43",
-        "UInt32::from_limbs(triple_sum32_res_low_col42, triple_sum32_res_high_col43)"
+        "xor_rot_7_output_tmp_f72c8_52_limb_0",
+        "(xor_col49 + (xor_col50 * 512))"
       ],
       [
-        "xor_rot_7_output_tmp_f72c8_52",
-        "UInt32::from_limbs((xor_col49 + (xor_col50 * 512)), (xor_col51 + (xor_col48 * 512)))"
+        "xor_rot_7_output_tmp_f72c8_52_limb_1",
+        "(xor_col51 + (xor_col48 * 512))"
       ]
     ],
     "constraints": [
@@ -25342,7 +25311,7 @@
     "lookups": [
       [
         "VerifyBitwiseXor_8",
-        "(triple_sum32_res_tmp_f72c8_4.low().as_m31() - (ms_8_bits_col14 * 256)), (input_limb_6_col6 - (ms_8_bits_col16 * 256)), xor_col18"
+        "(triple_sum32_res_low_col12 - (ms_8_bits_col14 * 256)), (input_limb_6_col6 - (ms_8_bits_col16 * 256)), xor_col18"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -25350,7 +25319,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(triple_sum32_res_tmp_f72c8_4.high().as_m31() - (ms_8_bits_col15 * 256)), (input_limb_7_col7 - (ms_8_bits_col17 * 256)), xor_col20"
+        "(triple_sum32_res_high_col13 - (ms_8_bits_col15 * 256)), (input_limb_7_col7 - (ms_8_bits_col17 * 256)), xor_col20"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -25358,7 +25327,7 @@
       ],
       [
         "VerifyBitwiseXor_12",
-        "(input_limb_2_col2 - (ms_4_bits_col24 * 4096)), (triple_sum32_res_tmp_f72c8_17.low().as_m31() - (ms_4_bits_col26 * 4096)), xor_col28"
+        "(input_limb_2_col2 - (ms_4_bits_col24 * 4096)), (triple_sum32_res_low_col22 - (ms_4_bits_col26 * 4096)), xor_col28"
       ],
       [
         "VerifyBitwiseXor_4",
@@ -25366,7 +25335,7 @@
       ],
       [
         "VerifyBitwiseXor_12",
-        "(input_limb_3_col3 - (ms_4_bits_col25 * 4096)), (triple_sum32_res_tmp_f72c8_17.high().as_m31() - (ms_4_bits_col27 * 4096)), xor_col30"
+        "(input_limb_3_col3 - (ms_4_bits_col25 * 4096)), (triple_sum32_res_high_col23 - (ms_4_bits_col27 * 4096)), xor_col30"
       ],
       [
         "VerifyBitwiseXor_4",
@@ -25374,7 +25343,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(triple_sum32_res_tmp_f72c8_30.low().as_m31() - (ms_8_bits_col34 * 256)), (xor_rot_16_output_tmp_f72c8_13.low().as_m31() - (ms_8_bits_col36 * 256)), xor_col38"
+        "(triple_sum32_res_low_col32 - (ms_8_bits_col34 * 256)), (xor_rot_16_output_tmp_f72c8_13_limb_0 - (ms_8_bits_col36 * 256)), xor_col38"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -25382,7 +25351,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(triple_sum32_res_tmp_f72c8_30.high().as_m31() - (ms_8_bits_col35 * 256)), (xor_rot_16_output_tmp_f72c8_13.high().as_m31() - (ms_8_bits_col37 * 256)), xor_col40"
+        "(triple_sum32_res_high_col33 - (ms_8_bits_col35 * 256)), (xor_rot_16_output_tmp_f72c8_13_limb_1 - (ms_8_bits_col37 * 256)), xor_col40"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -25390,7 +25359,7 @@
       ],
       [
         "VerifyBitwiseXor_7",
-        "(xor_rot_12_output_tmp_f72c8_26.low().as_m31() - (ms_9_bits_col44 * 128)), (triple_sum32_res_tmp_f72c8_43.low().as_m31() - (ms_9_bits_col46 * 128)), xor_col48"
+        "(xor_rot_12_output_tmp_f72c8_26_limb_0 - (ms_9_bits_col44 * 128)), (triple_sum32_res_low_col42 - (ms_9_bits_col46 * 128)), xor_col48"
       ],
       [
         "VerifyBitwiseXor_9",
@@ -25398,7 +25367,7 @@
       ],
       [
         "VerifyBitwiseXor_7",
-        "(xor_rot_12_output_tmp_f72c8_26.high().as_m31() - (ms_9_bits_col45 * 128)), (triple_sum32_res_tmp_f72c8_43.high().as_m31() - (ms_9_bits_col47 * 128)), xor_col50"
+        "(xor_rot_12_output_tmp_f72c8_26_limb_1 - (ms_9_bits_col45 * 128)), (triple_sum32_res_high_col43 - (ms_9_bits_col47 * 128)), xor_col50"
       ],
       [
         "VerifyBitwiseXor_9",
@@ -25620,72 +25589,7 @@
       "blake_g_output_limb_6_col209",
       "blake_g_output_limb_7_col210"
     ],
-    "intermediates": [
-      [
-        "expected_word_tmp_92ff8_5",
-        "UInt32::from_limbs(low_16_bits_col51, high_16_bits_col52)"
-      ],
-      [
-        "expected_word_tmp_92ff8_13",
-        "UInt32::from_limbs(low_16_bits_col57, high_16_bits_col58)"
-      ],
-      [
-        "expected_word_tmp_92ff8_21",
-        "UInt32::from_limbs(low_16_bits_col63, high_16_bits_col64)"
-      ],
-      [
-        "expected_word_tmp_92ff8_29",
-        "UInt32::from_limbs(low_16_bits_col69, high_16_bits_col70)"
-      ],
-      [
-        "expected_word_tmp_92ff8_37",
-        "UInt32::from_limbs(low_16_bits_col75, high_16_bits_col76)"
-      ],
-      [
-        "expected_word_tmp_92ff8_45",
-        "UInt32::from_limbs(low_16_bits_col81, high_16_bits_col82)"
-      ],
-      [
-        "expected_word_tmp_92ff8_53",
-        "UInt32::from_limbs(low_16_bits_col87, high_16_bits_col88)"
-      ],
-      [
-        "expected_word_tmp_92ff8_61",
-        "UInt32::from_limbs(low_16_bits_col93, high_16_bits_col94)"
-      ],
-      [
-        "expected_word_tmp_92ff8_69",
-        "UInt32::from_limbs(low_16_bits_col99, high_16_bits_col100)"
-      ],
-      [
-        "expected_word_tmp_92ff8_77",
-        "UInt32::from_limbs(low_16_bits_col105, high_16_bits_col106)"
-      ],
-      [
-        "expected_word_tmp_92ff8_85",
-        "UInt32::from_limbs(low_16_bits_col111, high_16_bits_col112)"
-      ],
-      [
-        "expected_word_tmp_92ff8_93",
-        "UInt32::from_limbs(low_16_bits_col117, high_16_bits_col118)"
-      ],
-      [
-        "expected_word_tmp_92ff8_101",
-        "UInt32::from_limbs(low_16_bits_col123, high_16_bits_col124)"
-      ],
-      [
-        "expected_word_tmp_92ff8_109",
-        "UInt32::from_limbs(low_16_bits_col129, high_16_bits_col130)"
-      ],
-      [
-        "expected_word_tmp_92ff8_117",
-        "UInt32::from_limbs(low_16_bits_col135, high_16_bits_col136)"
-      ],
-      [
-        "expected_word_tmp_92ff8_125",
-        "UInt32::from_limbs(low_16_bits_col141, high_16_bits_col142)"
-      ]
-    ],
+    "intermediates": [],
     "constraints": [],
     "lookups": [
       [
@@ -25694,7 +25598,7 @@
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col53, (expected_word_tmp_92ff8_5.high().as_m31() - (high_14_ms_bits_col54 * 4)), high_5_ms_bits_col55"
+        "low_7_ms_bits_col53, (high_16_bits_col52 - (high_14_ms_bits_col54 * 4)), high_5_ms_bits_col55"
       ],
       [
         "MemoryAddressToId",
@@ -25702,11 +25606,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_0_id_col56, (expected_word_tmp_92ff8_5.low().as_m31() - (low_7_ms_bits_col53 * 512)), (low_7_ms_bits_col53 + ((expected_word_tmp_92ff8_5.high().as_m31() - (high_14_ms_bits_col54 * 4)) * 128)), (high_14_ms_bits_col54 - (high_5_ms_bits_col55 * 512)), high_5_ms_bits_col55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_0_id_col56, (low_16_bits_col51 - (low_7_ms_bits_col53 * 512)), (low_7_ms_bits_col53 + ((high_16_bits_col52 - (high_14_ms_bits_col54 * 4)) * 128)), (high_14_ms_bits_col54 - (high_5_ms_bits_col55 * 512)), high_5_ms_bits_col55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col59, (expected_word_tmp_92ff8_13.high().as_m31() - (high_14_ms_bits_col60 * 4)), high_5_ms_bits_col61"
+        "low_7_ms_bits_col59, (high_16_bits_col58 - (high_14_ms_bits_col60 * 4)), high_5_ms_bits_col61"
       ],
       [
         "MemoryAddressToId",
@@ -25714,11 +25618,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_1_id_col62, (expected_word_tmp_92ff8_13.low().as_m31() - (low_7_ms_bits_col59 * 512)), (low_7_ms_bits_col59 + ((expected_word_tmp_92ff8_13.high().as_m31() - (high_14_ms_bits_col60 * 4)) * 128)), (high_14_ms_bits_col60 - (high_5_ms_bits_col61 * 512)), high_5_ms_bits_col61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_1_id_col62, (low_16_bits_col57 - (low_7_ms_bits_col59 * 512)), (low_7_ms_bits_col59 + ((high_16_bits_col58 - (high_14_ms_bits_col60 * 4)) * 128)), (high_14_ms_bits_col60 - (high_5_ms_bits_col61 * 512)), high_5_ms_bits_col61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col65, (expected_word_tmp_92ff8_21.high().as_m31() - (high_14_ms_bits_col66 * 4)), high_5_ms_bits_col67"
+        "low_7_ms_bits_col65, (high_16_bits_col64 - (high_14_ms_bits_col66 * 4)), high_5_ms_bits_col67"
       ],
       [
         "MemoryAddressToId",
@@ -25726,11 +25630,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_2_id_col68, (expected_word_tmp_92ff8_21.low().as_m31() - (low_7_ms_bits_col65 * 512)), (low_7_ms_bits_col65 + ((expected_word_tmp_92ff8_21.high().as_m31() - (high_14_ms_bits_col66 * 4)) * 128)), (high_14_ms_bits_col66 - (high_5_ms_bits_col67 * 512)), high_5_ms_bits_col67, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_2_id_col68, (low_16_bits_col63 - (low_7_ms_bits_col65 * 512)), (low_7_ms_bits_col65 + ((high_16_bits_col64 - (high_14_ms_bits_col66 * 4)) * 128)), (high_14_ms_bits_col66 - (high_5_ms_bits_col67 * 512)), high_5_ms_bits_col67, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col71, (expected_word_tmp_92ff8_29.high().as_m31() - (high_14_ms_bits_col72 * 4)), high_5_ms_bits_col73"
+        "low_7_ms_bits_col71, (high_16_bits_col70 - (high_14_ms_bits_col72 * 4)), high_5_ms_bits_col73"
       ],
       [
         "MemoryAddressToId",
@@ -25738,11 +25642,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_3_id_col74, (expected_word_tmp_92ff8_29.low().as_m31() - (low_7_ms_bits_col71 * 512)), (low_7_ms_bits_col71 + ((expected_word_tmp_92ff8_29.high().as_m31() - (high_14_ms_bits_col72 * 4)) * 128)), (high_14_ms_bits_col72 - (high_5_ms_bits_col73 * 512)), high_5_ms_bits_col73, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_3_id_col74, (low_16_bits_col69 - (low_7_ms_bits_col71 * 512)), (low_7_ms_bits_col71 + ((high_16_bits_col70 - (high_14_ms_bits_col72 * 4)) * 128)), (high_14_ms_bits_col72 - (high_5_ms_bits_col73 * 512)), high_5_ms_bits_col73, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col77, (expected_word_tmp_92ff8_37.high().as_m31() - (high_14_ms_bits_col78 * 4)), high_5_ms_bits_col79"
+        "low_7_ms_bits_col77, (high_16_bits_col76 - (high_14_ms_bits_col78 * 4)), high_5_ms_bits_col79"
       ],
       [
         "MemoryAddressToId",
@@ -25750,11 +25654,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_4_id_col80, (expected_word_tmp_92ff8_37.low().as_m31() - (low_7_ms_bits_col77 * 512)), (low_7_ms_bits_col77 + ((expected_word_tmp_92ff8_37.high().as_m31() - (high_14_ms_bits_col78 * 4)) * 128)), (high_14_ms_bits_col78 - (high_5_ms_bits_col79 * 512)), high_5_ms_bits_col79, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_4_id_col80, (low_16_bits_col75 - (low_7_ms_bits_col77 * 512)), (low_7_ms_bits_col77 + ((high_16_bits_col76 - (high_14_ms_bits_col78 * 4)) * 128)), (high_14_ms_bits_col78 - (high_5_ms_bits_col79 * 512)), high_5_ms_bits_col79, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col83, (expected_word_tmp_92ff8_45.high().as_m31() - (high_14_ms_bits_col84 * 4)), high_5_ms_bits_col85"
+        "low_7_ms_bits_col83, (high_16_bits_col82 - (high_14_ms_bits_col84 * 4)), high_5_ms_bits_col85"
       ],
       [
         "MemoryAddressToId",
@@ -25762,11 +25666,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_5_id_col86, (expected_word_tmp_92ff8_45.low().as_m31() - (low_7_ms_bits_col83 * 512)), (low_7_ms_bits_col83 + ((expected_word_tmp_92ff8_45.high().as_m31() - (high_14_ms_bits_col84 * 4)) * 128)), (high_14_ms_bits_col84 - (high_5_ms_bits_col85 * 512)), high_5_ms_bits_col85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_5_id_col86, (low_16_bits_col81 - (low_7_ms_bits_col83 * 512)), (low_7_ms_bits_col83 + ((high_16_bits_col82 - (high_14_ms_bits_col84 * 4)) * 128)), (high_14_ms_bits_col84 - (high_5_ms_bits_col85 * 512)), high_5_ms_bits_col85, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col89, (expected_word_tmp_92ff8_53.high().as_m31() - (high_14_ms_bits_col90 * 4)), high_5_ms_bits_col91"
+        "low_7_ms_bits_col89, (high_16_bits_col88 - (high_14_ms_bits_col90 * 4)), high_5_ms_bits_col91"
       ],
       [
         "MemoryAddressToId",
@@ -25774,11 +25678,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_6_id_col92, (expected_word_tmp_92ff8_53.low().as_m31() - (low_7_ms_bits_col89 * 512)), (low_7_ms_bits_col89 + ((expected_word_tmp_92ff8_53.high().as_m31() - (high_14_ms_bits_col90 * 4)) * 128)), (high_14_ms_bits_col90 - (high_5_ms_bits_col91 * 512)), high_5_ms_bits_col91, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_6_id_col92, (low_16_bits_col87 - (low_7_ms_bits_col89 * 512)), (low_7_ms_bits_col89 + ((high_16_bits_col88 - (high_14_ms_bits_col90 * 4)) * 128)), (high_14_ms_bits_col90 - (high_5_ms_bits_col91 * 512)), high_5_ms_bits_col91, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col95, (expected_word_tmp_92ff8_61.high().as_m31() - (high_14_ms_bits_col96 * 4)), high_5_ms_bits_col97"
+        "low_7_ms_bits_col95, (high_16_bits_col94 - (high_14_ms_bits_col96 * 4)), high_5_ms_bits_col97"
       ],
       [
         "MemoryAddressToId",
@@ -25786,11 +25690,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_7_id_col98, (expected_word_tmp_92ff8_61.low().as_m31() - (low_7_ms_bits_col95 * 512)), (low_7_ms_bits_col95 + ((expected_word_tmp_92ff8_61.high().as_m31() - (high_14_ms_bits_col96 * 4)) * 128)), (high_14_ms_bits_col96 - (high_5_ms_bits_col97 * 512)), high_5_ms_bits_col97, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_7_id_col98, (low_16_bits_col93 - (low_7_ms_bits_col95 * 512)), (low_7_ms_bits_col95 + ((high_16_bits_col94 - (high_14_ms_bits_col96 * 4)) * 128)), (high_14_ms_bits_col96 - (high_5_ms_bits_col97 * 512)), high_5_ms_bits_col97, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col101, (expected_word_tmp_92ff8_69.high().as_m31() - (high_14_ms_bits_col102 * 4)), high_5_ms_bits_col103"
+        "low_7_ms_bits_col101, (high_16_bits_col100 - (high_14_ms_bits_col102 * 4)), high_5_ms_bits_col103"
       ],
       [
         "MemoryAddressToId",
@@ -25798,11 +25702,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_8_id_col104, (expected_word_tmp_92ff8_69.low().as_m31() - (low_7_ms_bits_col101 * 512)), (low_7_ms_bits_col101 + ((expected_word_tmp_92ff8_69.high().as_m31() - (high_14_ms_bits_col102 * 4)) * 128)), (high_14_ms_bits_col102 - (high_5_ms_bits_col103 * 512)), high_5_ms_bits_col103, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_8_id_col104, (low_16_bits_col99 - (low_7_ms_bits_col101 * 512)), (low_7_ms_bits_col101 + ((high_16_bits_col100 - (high_14_ms_bits_col102 * 4)) * 128)), (high_14_ms_bits_col102 - (high_5_ms_bits_col103 * 512)), high_5_ms_bits_col103, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col107, (expected_word_tmp_92ff8_77.high().as_m31() - (high_14_ms_bits_col108 * 4)), high_5_ms_bits_col109"
+        "low_7_ms_bits_col107, (high_16_bits_col106 - (high_14_ms_bits_col108 * 4)), high_5_ms_bits_col109"
       ],
       [
         "MemoryAddressToId",
@@ -25810,11 +25714,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_9_id_col110, (expected_word_tmp_92ff8_77.low().as_m31() - (low_7_ms_bits_col107 * 512)), (low_7_ms_bits_col107 + ((expected_word_tmp_92ff8_77.high().as_m31() - (high_14_ms_bits_col108 * 4)) * 128)), (high_14_ms_bits_col108 - (high_5_ms_bits_col109 * 512)), high_5_ms_bits_col109, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_9_id_col110, (low_16_bits_col105 - (low_7_ms_bits_col107 * 512)), (low_7_ms_bits_col107 + ((high_16_bits_col106 - (high_14_ms_bits_col108 * 4)) * 128)), (high_14_ms_bits_col108 - (high_5_ms_bits_col109 * 512)), high_5_ms_bits_col109, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col113, (expected_word_tmp_92ff8_85.high().as_m31() - (high_14_ms_bits_col114 * 4)), high_5_ms_bits_col115"
+        "low_7_ms_bits_col113, (high_16_bits_col112 - (high_14_ms_bits_col114 * 4)), high_5_ms_bits_col115"
       ],
       [
         "MemoryAddressToId",
@@ -25822,11 +25726,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_10_id_col116, (expected_word_tmp_92ff8_85.low().as_m31() - (low_7_ms_bits_col113 * 512)), (low_7_ms_bits_col113 + ((expected_word_tmp_92ff8_85.high().as_m31() - (high_14_ms_bits_col114 * 4)) * 128)), (high_14_ms_bits_col114 - (high_5_ms_bits_col115 * 512)), high_5_ms_bits_col115, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_10_id_col116, (low_16_bits_col111 - (low_7_ms_bits_col113 * 512)), (low_7_ms_bits_col113 + ((high_16_bits_col112 - (high_14_ms_bits_col114 * 4)) * 128)), (high_14_ms_bits_col114 - (high_5_ms_bits_col115 * 512)), high_5_ms_bits_col115, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col119, (expected_word_tmp_92ff8_93.high().as_m31() - (high_14_ms_bits_col120 * 4)), high_5_ms_bits_col121"
+        "low_7_ms_bits_col119, (high_16_bits_col118 - (high_14_ms_bits_col120 * 4)), high_5_ms_bits_col121"
       ],
       [
         "MemoryAddressToId",
@@ -25834,11 +25738,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_11_id_col122, (expected_word_tmp_92ff8_93.low().as_m31() - (low_7_ms_bits_col119 * 512)), (low_7_ms_bits_col119 + ((expected_word_tmp_92ff8_93.high().as_m31() - (high_14_ms_bits_col120 * 4)) * 128)), (high_14_ms_bits_col120 - (high_5_ms_bits_col121 * 512)), high_5_ms_bits_col121, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_11_id_col122, (low_16_bits_col117 - (low_7_ms_bits_col119 * 512)), (low_7_ms_bits_col119 + ((high_16_bits_col118 - (high_14_ms_bits_col120 * 4)) * 128)), (high_14_ms_bits_col120 - (high_5_ms_bits_col121 * 512)), high_5_ms_bits_col121, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col125, (expected_word_tmp_92ff8_101.high().as_m31() - (high_14_ms_bits_col126 * 4)), high_5_ms_bits_col127"
+        "low_7_ms_bits_col125, (high_16_bits_col124 - (high_14_ms_bits_col126 * 4)), high_5_ms_bits_col127"
       ],
       [
         "MemoryAddressToId",
@@ -25846,11 +25750,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_12_id_col128, (expected_word_tmp_92ff8_101.low().as_m31() - (low_7_ms_bits_col125 * 512)), (low_7_ms_bits_col125 + ((expected_word_tmp_92ff8_101.high().as_m31() - (high_14_ms_bits_col126 * 4)) * 128)), (high_14_ms_bits_col126 - (high_5_ms_bits_col127 * 512)), high_5_ms_bits_col127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_12_id_col128, (low_16_bits_col123 - (low_7_ms_bits_col125 * 512)), (low_7_ms_bits_col125 + ((high_16_bits_col124 - (high_14_ms_bits_col126 * 4)) * 128)), (high_14_ms_bits_col126 - (high_5_ms_bits_col127 * 512)), high_5_ms_bits_col127, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col131, (expected_word_tmp_92ff8_109.high().as_m31() - (high_14_ms_bits_col132 * 4)), high_5_ms_bits_col133"
+        "low_7_ms_bits_col131, (high_16_bits_col130 - (high_14_ms_bits_col132 * 4)), high_5_ms_bits_col133"
       ],
       [
         "MemoryAddressToId",
@@ -25858,11 +25762,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_13_id_col134, (expected_word_tmp_92ff8_109.low().as_m31() - (low_7_ms_bits_col131 * 512)), (low_7_ms_bits_col131 + ((expected_word_tmp_92ff8_109.high().as_m31() - (high_14_ms_bits_col132 * 4)) * 128)), (high_14_ms_bits_col132 - (high_5_ms_bits_col133 * 512)), high_5_ms_bits_col133, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_13_id_col134, (low_16_bits_col129 - (low_7_ms_bits_col131 * 512)), (low_7_ms_bits_col131 + ((high_16_bits_col130 - (high_14_ms_bits_col132 * 4)) * 128)), (high_14_ms_bits_col132 - (high_5_ms_bits_col133 * 512)), high_5_ms_bits_col133, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col137, (expected_word_tmp_92ff8_117.high().as_m31() - (high_14_ms_bits_col138 * 4)), high_5_ms_bits_col139"
+        "low_7_ms_bits_col137, (high_16_bits_col136 - (high_14_ms_bits_col138 * 4)), high_5_ms_bits_col139"
       ],
       [
         "MemoryAddressToId",
@@ -25870,11 +25774,11 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_14_id_col140, (expected_word_tmp_92ff8_117.low().as_m31() - (low_7_ms_bits_col137 * 512)), (low_7_ms_bits_col137 + ((expected_word_tmp_92ff8_117.high().as_m31() - (high_14_ms_bits_col138 * 4)) * 128)), (high_14_ms_bits_col138 - (high_5_ms_bits_col139 * 512)), high_5_ms_bits_col139, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_14_id_col140, (low_16_bits_col135 - (low_7_ms_bits_col137 * 512)), (low_7_ms_bits_col137 + ((high_16_bits_col136 - (high_14_ms_bits_col138 * 4)) * 128)), (high_14_ms_bits_col138 - (high_5_ms_bits_col139 * 512)), high_5_ms_bits_col139, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col143, (expected_word_tmp_92ff8_125.high().as_m31() - (high_14_ms_bits_col144 * 4)), high_5_ms_bits_col145"
+        "low_7_ms_bits_col143, (high_16_bits_col142 - (high_14_ms_bits_col144 * 4)), high_5_ms_bits_col145"
       ],
       [
         "MemoryAddressToId",
@@ -25882,39 +25786,39 @@
       ],
       [
         "MemoryIdToBig",
-        "message_word_15_id_col146, (expected_word_tmp_92ff8_125.low().as_m31() - (low_7_ms_bits_col143 * 512)), (low_7_ms_bits_col143 + ((expected_word_tmp_92ff8_125.high().as_m31() - (high_14_ms_bits_col144 * 4)) * 128)), (high_14_ms_bits_col144 - (high_5_ms_bits_col145 * 512)), high_5_ms_bits_col145, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "message_word_15_id_col146, (low_16_bits_col141 - (low_7_ms_bits_col143 * 512)), (low_7_ms_bits_col143 + ((high_16_bits_col142 - (high_14_ms_bits_col144 * 4)) * 128)), (high_14_ms_bits_col144 - (high_5_ms_bits_col145 * 512)), high_5_ms_bits_col145, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "BlakeG",
-        "input_limb_2_col2, input_limb_3_col3, input_limb_10_col10, input_limb_11_col11, input_limb_18_col18, input_limb_19_col19, input_limb_26_col26, input_limb_27_col27, expected_word_tmp_92ff8_5.low().as_m31(), expected_word_tmp_92ff8_5.high().as_m31(), expected_word_tmp_92ff8_13.low().as_m31(), expected_word_tmp_92ff8_13.high().as_m31(), blake_g_output_limb_0_col147, blake_g_output_limb_1_col148, blake_g_output_limb_2_col149, blake_g_output_limb_3_col150, blake_g_output_limb_4_col151, blake_g_output_limb_5_col152, blake_g_output_limb_6_col153, blake_g_output_limb_7_col154"
+        "input_limb_2_col2, input_limb_3_col3, input_limb_10_col10, input_limb_11_col11, input_limb_18_col18, input_limb_19_col19, input_limb_26_col26, input_limb_27_col27, low_16_bits_col51, high_16_bits_col52, low_16_bits_col57, high_16_bits_col58, blake_g_output_limb_0_col147, blake_g_output_limb_1_col148, blake_g_output_limb_2_col149, blake_g_output_limb_3_col150, blake_g_output_limb_4_col151, blake_g_output_limb_5_col152, blake_g_output_limb_6_col153, blake_g_output_limb_7_col154"
       ],
       [
         "BlakeG",
-        "input_limb_4_col4, input_limb_5_col5, input_limb_12_col12, input_limb_13_col13, input_limb_20_col20, input_limb_21_col21, input_limb_28_col28, input_limb_29_col29, expected_word_tmp_92ff8_21.low().as_m31(), expected_word_tmp_92ff8_21.high().as_m31(), expected_word_tmp_92ff8_29.low().as_m31(), expected_word_tmp_92ff8_29.high().as_m31(), blake_g_output_limb_0_col155, blake_g_output_limb_1_col156, blake_g_output_limb_2_col157, blake_g_output_limb_3_col158, blake_g_output_limb_4_col159, blake_g_output_limb_5_col160, blake_g_output_limb_6_col161, blake_g_output_limb_7_col162"
+        "input_limb_4_col4, input_limb_5_col5, input_limb_12_col12, input_limb_13_col13, input_limb_20_col20, input_limb_21_col21, input_limb_28_col28, input_limb_29_col29, low_16_bits_col63, high_16_bits_col64, low_16_bits_col69, high_16_bits_col70, blake_g_output_limb_0_col155, blake_g_output_limb_1_col156, blake_g_output_limb_2_col157, blake_g_output_limb_3_col158, blake_g_output_limb_4_col159, blake_g_output_limb_5_col160, blake_g_output_limb_6_col161, blake_g_output_limb_7_col162"
       ],
       [
         "BlakeG",
-        "input_limb_6_col6, input_limb_7_col7, input_limb_14_col14, input_limb_15_col15, input_limb_22_col22, input_limb_23_col23, input_limb_30_col30, input_limb_31_col31, expected_word_tmp_92ff8_37.low().as_m31(), expected_word_tmp_92ff8_37.high().as_m31(), expected_word_tmp_92ff8_45.low().as_m31(), expected_word_tmp_92ff8_45.high().as_m31(), blake_g_output_limb_0_col163, blake_g_output_limb_1_col164, blake_g_output_limb_2_col165, blake_g_output_limb_3_col166, blake_g_output_limb_4_col167, blake_g_output_limb_5_col168, blake_g_output_limb_6_col169, blake_g_output_limb_7_col170"
+        "input_limb_6_col6, input_limb_7_col7, input_limb_14_col14, input_limb_15_col15, input_limb_22_col22, input_limb_23_col23, input_limb_30_col30, input_limb_31_col31, low_16_bits_col75, high_16_bits_col76, low_16_bits_col81, high_16_bits_col82, blake_g_output_limb_0_col163, blake_g_output_limb_1_col164, blake_g_output_limb_2_col165, blake_g_output_limb_3_col166, blake_g_output_limb_4_col167, blake_g_output_limb_5_col168, blake_g_output_limb_6_col169, blake_g_output_limb_7_col170"
       ],
       [
         "BlakeG",
-        "input_limb_8_col8, input_limb_9_col9, input_limb_16_col16, input_limb_17_col17, input_limb_24_col24, input_limb_25_col25, input_limb_32_col32, input_limb_33_col33, expected_word_tmp_92ff8_53.low().as_m31(), expected_word_tmp_92ff8_53.high().as_m31(), expected_word_tmp_92ff8_61.low().as_m31(), expected_word_tmp_92ff8_61.high().as_m31(), blake_g_output_limb_0_col171, blake_g_output_limb_1_col172, blake_g_output_limb_2_col173, blake_g_output_limb_3_col174, blake_g_output_limb_4_col175, blake_g_output_limb_5_col176, blake_g_output_limb_6_col177, blake_g_output_limb_7_col178"
+        "input_limb_8_col8, input_limb_9_col9, input_limb_16_col16, input_limb_17_col17, input_limb_24_col24, input_limb_25_col25, input_limb_32_col32, input_limb_33_col33, low_16_bits_col87, high_16_bits_col88, low_16_bits_col93, high_16_bits_col94, blake_g_output_limb_0_col171, blake_g_output_limb_1_col172, blake_g_output_limb_2_col173, blake_g_output_limb_3_col174, blake_g_output_limb_4_col175, blake_g_output_limb_5_col176, blake_g_output_limb_6_col177, blake_g_output_limb_7_col178"
       ],
       [
         "BlakeG",
-        "blake_g_output_limb_0_col147, blake_g_output_limb_1_col148, blake_g_output_limb_2_col157, blake_g_output_limb_3_col158, blake_g_output_limb_4_col167, blake_g_output_limb_5_col168, blake_g_output_limb_6_col177, blake_g_output_limb_7_col178, expected_word_tmp_92ff8_69.low().as_m31(), expected_word_tmp_92ff8_69.high().as_m31(), expected_word_tmp_92ff8_77.low().as_m31(), expected_word_tmp_92ff8_77.high().as_m31(), blake_g_output_limb_0_col179, blake_g_output_limb_1_col180, blake_g_output_limb_2_col181, blake_g_output_limb_3_col182, blake_g_output_limb_4_col183, blake_g_output_limb_5_col184, blake_g_output_limb_6_col185, blake_g_output_limb_7_col186"
+        "blake_g_output_limb_0_col147, blake_g_output_limb_1_col148, blake_g_output_limb_2_col157, blake_g_output_limb_3_col158, blake_g_output_limb_4_col167, blake_g_output_limb_5_col168, blake_g_output_limb_6_col177, blake_g_output_limb_7_col178, low_16_bits_col99, high_16_bits_col100, low_16_bits_col105, high_16_bits_col106, blake_g_output_limb_0_col179, blake_g_output_limb_1_col180, blake_g_output_limb_2_col181, blake_g_output_limb_3_col182, blake_g_output_limb_4_col183, blake_g_output_limb_5_col184, blake_g_output_limb_6_col185, blake_g_output_limb_7_col186"
       ],
       [
         "BlakeG",
-        "blake_g_output_limb_0_col155, blake_g_output_limb_1_col156, blake_g_output_limb_2_col165, blake_g_output_limb_3_col166, blake_g_output_limb_4_col175, blake_g_output_limb_5_col176, blake_g_output_limb_6_col153, blake_g_output_limb_7_col154, expected_word_tmp_92ff8_85.low().as_m31(), expected_word_tmp_92ff8_85.high().as_m31(), expected_word_tmp_92ff8_93.low().as_m31(), expected_word_tmp_92ff8_93.high().as_m31(), blake_g_output_limb_0_col187, blake_g_output_limb_1_col188, blake_g_output_limb_2_col189, blake_g_output_limb_3_col190, blake_g_output_limb_4_col191, blake_g_output_limb_5_col192, blake_g_output_limb_6_col193, blake_g_output_limb_7_col194"
+        "blake_g_output_limb_0_col155, blake_g_output_limb_1_col156, blake_g_output_limb_2_col165, blake_g_output_limb_3_col166, blake_g_output_limb_4_col175, blake_g_output_limb_5_col176, blake_g_output_limb_6_col153, blake_g_output_limb_7_col154, low_16_bits_col111, high_16_bits_col112, low_16_bits_col117, high_16_bits_col118, blake_g_output_limb_0_col187, blake_g_output_limb_1_col188, blake_g_output_limb_2_col189, blake_g_output_limb_3_col190, blake_g_output_limb_4_col191, blake_g_output_limb_5_col192, blake_g_output_limb_6_col193, blake_g_output_limb_7_col194"
       ],
       [
         "BlakeG",
-        "blake_g_output_limb_0_col163, blake_g_output_limb_1_col164, blake_g_output_limb_2_col173, blake_g_output_limb_3_col174, blake_g_output_limb_4_col151, blake_g_output_limb_5_col152, blake_g_output_limb_6_col161, blake_g_output_limb_7_col162, expected_word_tmp_92ff8_101.low().as_m31(), expected_word_tmp_92ff8_101.high().as_m31(), expected_word_tmp_92ff8_109.low().as_m31(), expected_word_tmp_92ff8_109.high().as_m31(), blake_g_output_limb_0_col195, blake_g_output_limb_1_col196, blake_g_output_limb_2_col197, blake_g_output_limb_3_col198, blake_g_output_limb_4_col199, blake_g_output_limb_5_col200, blake_g_output_limb_6_col201, blake_g_output_limb_7_col202"
+        "blake_g_output_limb_0_col163, blake_g_output_limb_1_col164, blake_g_output_limb_2_col173, blake_g_output_limb_3_col174, blake_g_output_limb_4_col151, blake_g_output_limb_5_col152, blake_g_output_limb_6_col161, blake_g_output_limb_7_col162, low_16_bits_col123, high_16_bits_col124, low_16_bits_col129, high_16_bits_col130, blake_g_output_limb_0_col195, blake_g_output_limb_1_col196, blake_g_output_limb_2_col197, blake_g_output_limb_3_col198, blake_g_output_limb_4_col199, blake_g_output_limb_5_col200, blake_g_output_limb_6_col201, blake_g_output_limb_7_col202"
       ],
       [
         "BlakeG",
-        "blake_g_output_limb_0_col171, blake_g_output_limb_1_col172, blake_g_output_limb_2_col149, blake_g_output_limb_3_col150, blake_g_output_limb_4_col159, blake_g_output_limb_5_col160, blake_g_output_limb_6_col169, blake_g_output_limb_7_col170, expected_word_tmp_92ff8_117.low().as_m31(), expected_word_tmp_92ff8_117.high().as_m31(), expected_word_tmp_92ff8_125.low().as_m31(), expected_word_tmp_92ff8_125.high().as_m31(), blake_g_output_limb_0_col203, blake_g_output_limb_1_col204, blake_g_output_limb_2_col205, blake_g_output_limb_3_col206, blake_g_output_limb_4_col207, blake_g_output_limb_5_col208, blake_g_output_limb_6_col209, blake_g_output_limb_7_col210"
+        "blake_g_output_limb_0_col171, blake_g_output_limb_1_col172, blake_g_output_limb_2_col149, blake_g_output_limb_3_col150, blake_g_output_limb_4_col159, blake_g_output_limb_5_col160, blake_g_output_limb_6_col169, blake_g_output_limb_7_col170, low_16_bits_col135, high_16_bits_col136, low_16_bits_col141, high_16_bits_col142, blake_g_output_limb_0_col203, blake_g_output_limb_1_col204, blake_g_output_limb_2_col205, blake_g_output_limb_3_col206, blake_g_output_limb_4_col207, blake_g_output_limb_5_col208, blake_g_output_limb_6_col209, blake_g_output_limb_7_col210"
       ],
       [
         "BlakeRound",
@@ -25935,8 +25839,12 @@
     ],
     "intermediates": [
       [
-        "xor_rot_0_output_tmp_a1198_8",
-        "UInt32::from_limbs((xor_col4 + (xor_col5 * 256)), (xor_col6 + (xor_col7 * 256)))"
+        "xor_rot_0_output_tmp_a1198_8_limb_0",
+        "(xor_col4 + (xor_col5 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_a1198_8_limb_1",
+        "(xor_col6 + (xor_col7 * 256))"
       ]
     ],
     "constraints": [],
@@ -26092,68 +26000,132 @@
     ],
     "intermediates": [
       [
-        "xor_rot_0_output_tmp_c84e6_8",
-        "UInt32::from_limbs((xor_col4 + (xor_col5 * 256)), (xor_col6 + (xor_col7 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_8_limb_0",
+        "(xor_col4 + (xor_col5 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_17",
-        "UInt32::from_limbs((xor_col12 + (xor_col13 * 256)), (xor_col14 + (xor_col15 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_8_limb_1",
+        "(xor_col6 + (xor_col7 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_26",
-        "UInt32::from_limbs((xor_col20 + (xor_col21 * 256)), (xor_col22 + (xor_col23 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_17_limb_0",
+        "(xor_col12 + (xor_col13 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_35",
-        "UInt32::from_limbs((xor_col28 + (xor_col29 * 256)), (xor_col30 + (xor_col31 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_17_limb_1",
+        "(xor_col14 + (xor_col15 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_44",
-        "UInt32::from_limbs((xor_col36 + (xor_col37 * 256)), (xor_col38 + (xor_col39 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_26_limb_0",
+        "(xor_col20 + (xor_col21 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_53",
-        "UInt32::from_limbs((xor_col44 + (xor_col45 * 256)), (xor_col46 + (xor_col47 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_26_limb_1",
+        "(xor_col22 + (xor_col23 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_62",
-        "UInt32::from_limbs((xor_col52 + (xor_col53 * 256)), (xor_col54 + (xor_col55 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_35_limb_0",
+        "(xor_col28 + (xor_col29 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_71",
-        "UInt32::from_limbs((xor_col60 + (xor_col61 * 256)), (xor_col62 + (xor_col63 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_35_limb_1",
+        "(xor_col30 + (xor_col31 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_80",
-        "UInt32::from_limbs((xor_col68 + (xor_col69 * 256)), (xor_col70 + (xor_col71 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_44_limb_0",
+        "(xor_col36 + (xor_col37 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_89",
-        "UInt32::from_limbs((xor_col76 + (xor_col77 * 256)), (xor_col78 + (xor_col79 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_44_limb_1",
+        "(xor_col38 + (xor_col39 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_98",
-        "UInt32::from_limbs((xor_col84 + (xor_col85 * 256)), (xor_col86 + (xor_col87 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_53_limb_0",
+        "(xor_col44 + (xor_col45 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_107",
-        "UInt32::from_limbs((xor_col92 + (xor_col93 * 256)), (xor_col94 + (xor_col95 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_53_limb_1",
+        "(xor_col46 + (xor_col47 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_116",
-        "UInt32::from_limbs((xor_col100 + (xor_col101 * 256)), (xor_col102 + (xor_col103 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_62_limb_0",
+        "(xor_col52 + (xor_col53 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_125",
-        "UInt32::from_limbs((xor_col108 + (xor_col109 * 256)), (xor_col110 + (xor_col111 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_62_limb_1",
+        "(xor_col54 + (xor_col55 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_134",
-        "UInt32::from_limbs((xor_col116 + (xor_col117 * 256)), (xor_col118 + (xor_col119 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_71_limb_0",
+        "(xor_col60 + (xor_col61 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_c84e6_143",
-        "UInt32::from_limbs((xor_col124 + (xor_col125 * 256)), (xor_col126 + (xor_col127 * 256)))"
+        "xor_rot_0_output_tmp_c84e6_71_limb_1",
+        "(xor_col62 + (xor_col63 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_80_limb_0",
+        "(xor_col68 + (xor_col69 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_80_limb_1",
+        "(xor_col70 + (xor_col71 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_89_limb_0",
+        "(xor_col76 + (xor_col77 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_89_limb_1",
+        "(xor_col78 + (xor_col79 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_98_limb_0",
+        "(xor_col84 + (xor_col85 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_98_limb_1",
+        "(xor_col86 + (xor_col87 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_107_limb_0",
+        "(xor_col92 + (xor_col93 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_107_limb_1",
+        "(xor_col94 + (xor_col95 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_116_limb_0",
+        "(xor_col100 + (xor_col101 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_116_limb_1",
+        "(xor_col102 + (xor_col103 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_125_limb_0",
+        "(xor_col108 + (xor_col109 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_125_limb_1",
+        "(xor_col110 + (xor_col111 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_134_limb_0",
+        "(xor_col116 + (xor_col117 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_134_limb_1",
+        "(xor_col118 + (xor_col119 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_143_limb_0",
+        "(xor_col124 + (xor_col125 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_c84e6_143_limb_1",
+        "(xor_col126 + (xor_col127 * 256))"
       ]
     ],
     "constraints": [],
@@ -26176,7 +26148,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_8.low().as_m31() - (ms_8_bits_col8 * 256)), (create_blake_output_input.0[0].low().as_m31() - (ms_8_bits_col10 * 256)), xor_col12"
+        "(xor_rot_0_output_tmp_c84e6_8_limb_0 - (ms_8_bits_col8 * 256)), (create_blake_output_input.0[0].low().as_m31() - (ms_8_bits_col10 * 256)), xor_col12"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26184,7 +26156,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_8.high().as_m31() - (ms_8_bits_col9 * 256)), (create_blake_output_input.0[0].high().as_m31() - (ms_8_bits_col11 * 256)), xor_col14"
+        "(xor_rot_0_output_tmp_c84e6_8_limb_1 - (ms_8_bits_col9 * 256)), (create_blake_output_input.0[0].high().as_m31() - (ms_8_bits_col11 * 256)), xor_col14"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26208,7 +26180,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_26.low().as_m31() - (ms_8_bits_col24 * 256)), (create_blake_output_input.0[1].low().as_m31() - (ms_8_bits_col26 * 256)), xor_col28"
+        "(xor_rot_0_output_tmp_c84e6_26_limb_0 - (ms_8_bits_col24 * 256)), (create_blake_output_input.0[1].low().as_m31() - (ms_8_bits_col26 * 256)), xor_col28"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26216,7 +26188,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_26.high().as_m31() - (ms_8_bits_col25 * 256)), (create_blake_output_input.0[1].high().as_m31() - (ms_8_bits_col27 * 256)), xor_col30"
+        "(xor_rot_0_output_tmp_c84e6_26_limb_1 - (ms_8_bits_col25 * 256)), (create_blake_output_input.0[1].high().as_m31() - (ms_8_bits_col27 * 256)), xor_col30"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26240,7 +26212,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_44.low().as_m31() - (ms_8_bits_col40 * 256)), (create_blake_output_input.0[2].low().as_m31() - (ms_8_bits_col42 * 256)), xor_col44"
+        "(xor_rot_0_output_tmp_c84e6_44_limb_0 - (ms_8_bits_col40 * 256)), (create_blake_output_input.0[2].low().as_m31() - (ms_8_bits_col42 * 256)), xor_col44"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26248,7 +26220,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_44.high().as_m31() - (ms_8_bits_col41 * 256)), (create_blake_output_input.0[2].high().as_m31() - (ms_8_bits_col43 * 256)), xor_col46"
+        "(xor_rot_0_output_tmp_c84e6_44_limb_1 - (ms_8_bits_col41 * 256)), (create_blake_output_input.0[2].high().as_m31() - (ms_8_bits_col43 * 256)), xor_col46"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26272,7 +26244,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_62.low().as_m31() - (ms_8_bits_col56 * 256)), (create_blake_output_input.0[3].low().as_m31() - (ms_8_bits_col58 * 256)), xor_col60"
+        "(xor_rot_0_output_tmp_c84e6_62_limb_0 - (ms_8_bits_col56 * 256)), (create_blake_output_input.0[3].low().as_m31() - (ms_8_bits_col58 * 256)), xor_col60"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26280,7 +26252,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_62.high().as_m31() - (ms_8_bits_col57 * 256)), (create_blake_output_input.0[3].high().as_m31() - (ms_8_bits_col59 * 256)), xor_col62"
+        "(xor_rot_0_output_tmp_c84e6_62_limb_1 - (ms_8_bits_col57 * 256)), (create_blake_output_input.0[3].high().as_m31() - (ms_8_bits_col59 * 256)), xor_col62"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26304,7 +26276,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_80.low().as_m31() - (ms_8_bits_col72 * 256)), (create_blake_output_input.0[4].low().as_m31() - (ms_8_bits_col74 * 256)), xor_col76"
+        "(xor_rot_0_output_tmp_c84e6_80_limb_0 - (ms_8_bits_col72 * 256)), (create_blake_output_input.0[4].low().as_m31() - (ms_8_bits_col74 * 256)), xor_col76"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26312,7 +26284,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_80.high().as_m31() - (ms_8_bits_col73 * 256)), (create_blake_output_input.0[4].high().as_m31() - (ms_8_bits_col75 * 256)), xor_col78"
+        "(xor_rot_0_output_tmp_c84e6_80_limb_1 - (ms_8_bits_col73 * 256)), (create_blake_output_input.0[4].high().as_m31() - (ms_8_bits_col75 * 256)), xor_col78"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26336,7 +26308,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_98.low().as_m31() - (ms_8_bits_col88 * 256)), (create_blake_output_input.0[5].low().as_m31() - (ms_8_bits_col90 * 256)), xor_col92"
+        "(xor_rot_0_output_tmp_c84e6_98_limb_0 - (ms_8_bits_col88 * 256)), (create_blake_output_input.0[5].low().as_m31() - (ms_8_bits_col90 * 256)), xor_col92"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26344,7 +26316,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_98.high().as_m31() - (ms_8_bits_col89 * 256)), (create_blake_output_input.0[5].high().as_m31() - (ms_8_bits_col91 * 256)), xor_col94"
+        "(xor_rot_0_output_tmp_c84e6_98_limb_1 - (ms_8_bits_col89 * 256)), (create_blake_output_input.0[5].high().as_m31() - (ms_8_bits_col91 * 256)), xor_col94"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26368,7 +26340,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_116.low().as_m31() - (ms_8_bits_col104 * 256)), (create_blake_output_input.0[6].low().as_m31() - (ms_8_bits_col106 * 256)), xor_col108"
+        "(xor_rot_0_output_tmp_c84e6_116_limb_0 - (ms_8_bits_col104 * 256)), (create_blake_output_input.0[6].low().as_m31() - (ms_8_bits_col106 * 256)), xor_col108"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26376,7 +26348,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_116.high().as_m31() - (ms_8_bits_col105 * 256)), (create_blake_output_input.0[6].high().as_m31() - (ms_8_bits_col107 * 256)), xor_col110"
+        "(xor_rot_0_output_tmp_c84e6_116_limb_1 - (ms_8_bits_col105 * 256)), (create_blake_output_input.0[6].high().as_m31() - (ms_8_bits_col107 * 256)), xor_col110"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26400,7 +26372,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_134.low().as_m31() - (ms_8_bits_col120 * 256)), (create_blake_output_input.0[7].low().as_m31() - (ms_8_bits_col122 * 256)), xor_col124"
+        "(xor_rot_0_output_tmp_c84e6_134_limb_0 - (ms_8_bits_col120 * 256)), (create_blake_output_input.0[7].low().as_m31() - (ms_8_bits_col122 * 256)), xor_col124"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26408,7 +26380,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_c84e6_134.high().as_m31() - (ms_8_bits_col121 * 256)), (create_blake_output_input.0[7].high().as_m31() - (ms_8_bits_col123 * 256)), xor_col126"
+        "(xor_rot_0_output_tmp_c84e6_134_limb_1 - (ms_8_bits_col121 * 256)), (create_blake_output_input.0[7].high().as_m31() - (ms_8_bits_col123 * 256)), xor_col126"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26703,104 +26675,132 @@
     ],
     "intermediates": [
       [
-        "expected_word_tmp_53f39_20",
-        "UInt32::from_limbs(low_16_bits_col27, high_16_bits_col28)"
+        "xor_rot_0_output_tmp_53f39_113_limb_0",
+        "(xor_col126 + (xor_col127 * 256))"
       ],
       [
-        "expected_word_tmp_53f39_28",
-        "UInt32::from_limbs(low_16_bits_col33, high_16_bits_col34)"
+        "xor_rot_0_output_tmp_53f39_113_limb_1",
+        "(xor_col128 + (xor_col129 * 256))"
       ],
       [
-        "expected_word_tmp_53f39_36",
-        "UInt32::from_limbs(low_16_bits_col39, high_16_bits_col40)"
+        "xor_rot_0_output_tmp_53f39_122_limb_0",
+        "(xor_col134 + (xor_col135 * 256))"
       ],
       [
-        "expected_word_tmp_53f39_44",
-        "UInt32::from_limbs(low_16_bits_col45, high_16_bits_col46)"
+        "xor_rot_0_output_tmp_53f39_122_limb_1",
+        "(xor_col136 + (xor_col137 * 256))"
       ],
       [
-        "expected_word_tmp_53f39_52",
-        "UInt32::from_limbs(low_16_bits_col51, high_16_bits_col52)"
+        "xor_rot_0_output_tmp_53f39_131_limb_0",
+        "(xor_col142 + (xor_col143 * 256))"
       ],
       [
-        "expected_word_tmp_53f39_60",
-        "UInt32::from_limbs(low_16_bits_col57, high_16_bits_col58)"
+        "xor_rot_0_output_tmp_53f39_131_limb_1",
+        "(xor_col144 + (xor_col145 * 256))"
       ],
       [
-        "expected_word_tmp_53f39_68",
-        "UInt32::from_limbs(low_16_bits_col63, high_16_bits_col64)"
+        "xor_rot_0_output_tmp_53f39_140_limb_0",
+        "(xor_col150 + (xor_col151 * 256))"
       ],
       [
-        "expected_word_tmp_53f39_76",
-        "UInt32::from_limbs(low_16_bits_col69, high_16_bits_col70)"
+        "xor_rot_0_output_tmp_53f39_140_limb_1",
+        "(xor_col152 + (xor_col153 * 256))"
       ],
       [
-        "expected_word_tmp_53f39_84",
-        "UInt32::from_limbs(low_16_bits_col75, high_16_bits_col76)"
+        "xor_rot_0_output_tmp_53f39_149_limb_0",
+        "(xor_col158 + (xor_col159 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_113",
-        "UInt32::from_limbs((xor_col126 + (xor_col127 * 256)), (xor_col128 + (xor_col129 * 256)))"
+        "xor_rot_0_output_tmp_53f39_149_limb_1",
+        "(xor_col160 + (xor_col161 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_122",
-        "UInt32::from_limbs((xor_col134 + (xor_col135 * 256)), (xor_col136 + (xor_col137 * 256)))"
+        "xor_rot_0_output_tmp_53f39_158_limb_0",
+        "(xor_col166 + (xor_col167 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_131",
-        "UInt32::from_limbs((xor_col142 + (xor_col143 * 256)), (xor_col144 + (xor_col145 * 256)))"
+        "xor_rot_0_output_tmp_53f39_158_limb_1",
+        "(xor_col168 + (xor_col169 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_140",
-        "UInt32::from_limbs((xor_col150 + (xor_col151 * 256)), (xor_col152 + (xor_col153 * 256)))"
+        "xor_rot_0_output_tmp_53f39_167_limb_0",
+        "(xor_col174 + (xor_col175 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_149",
-        "UInt32::from_limbs((xor_col158 + (xor_col159 * 256)), (xor_col160 + (xor_col161 * 256)))"
+        "xor_rot_0_output_tmp_53f39_167_limb_1",
+        "(xor_col176 + (xor_col177 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_158",
-        "UInt32::from_limbs((xor_col166 + (xor_col167 * 256)), (xor_col168 + (xor_col169 * 256)))"
+        "xor_rot_0_output_tmp_53f39_176_limb_0",
+        "(xor_col182 + (xor_col183 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_167",
-        "UInt32::from_limbs((xor_col174 + (xor_col175 * 256)), (xor_col176 + (xor_col177 * 256)))"
+        "xor_rot_0_output_tmp_53f39_176_limb_1",
+        "(xor_col184 + (xor_col185 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_176",
-        "UInt32::from_limbs((xor_col182 + (xor_col183 * 256)), (xor_col184 + (xor_col185 * 256)))"
+        "xor_rot_0_output_tmp_53f39_185_limb_0",
+        "(xor_col190 + (xor_col191 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_185",
-        "UInt32::from_limbs((xor_col190 + (xor_col191 * 256)), (xor_col192 + (xor_col193 * 256)))"
+        "xor_rot_0_output_tmp_53f39_185_limb_1",
+        "(xor_col192 + (xor_col193 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_194",
-        "UInt32::from_limbs((xor_col198 + (xor_col199 * 256)), (xor_col200 + (xor_col201 * 256)))"
+        "xor_rot_0_output_tmp_53f39_194_limb_0",
+        "(xor_col198 + (xor_col199 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_203",
-        "UInt32::from_limbs((xor_col206 + (xor_col207 * 256)), (xor_col208 + (xor_col209 * 256)))"
+        "xor_rot_0_output_tmp_53f39_194_limb_1",
+        "(xor_col200 + (xor_col201 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_212",
-        "UInt32::from_limbs((xor_col214 + (xor_col215 * 256)), (xor_col216 + (xor_col217 * 256)))"
+        "xor_rot_0_output_tmp_53f39_203_limb_0",
+        "(xor_col206 + (xor_col207 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_221",
-        "UInt32::from_limbs((xor_col222 + (xor_col223 * 256)), (xor_col224 + (xor_col225 * 256)))"
+        "xor_rot_0_output_tmp_53f39_203_limb_1",
+        "(xor_col208 + (xor_col209 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_230",
-        "UInt32::from_limbs((xor_col230 + (xor_col231 * 256)), (xor_col232 + (xor_col233 * 256)))"
+        "xor_rot_0_output_tmp_53f39_212_limb_0",
+        "(xor_col214 + (xor_col215 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_239",
-        "UInt32::from_limbs((xor_col238 + (xor_col239 * 256)), (xor_col240 + (xor_col241 * 256)))"
+        "xor_rot_0_output_tmp_53f39_212_limb_1",
+        "(xor_col216 + (xor_col217 * 256))"
       ],
       [
-        "xor_rot_0_output_tmp_53f39_248",
-        "UInt32::from_limbs((xor_col246 + (xor_col247 * 256)), (xor_col248 + (xor_col249 * 256)))"
+        "xor_rot_0_output_tmp_53f39_221_limb_0",
+        "(xor_col222 + (xor_col223 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_53f39_221_limb_1",
+        "(xor_col224 + (xor_col225 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_53f39_230_limb_0",
+        "(xor_col230 + (xor_col231 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_53f39_230_limb_1",
+        "(xor_col232 + (xor_col233 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_53f39_239_limb_0",
+        "(xor_col238 + (xor_col239 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_53f39_239_limb_1",
+        "(xor_col240 + (xor_col241 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_53f39_248_limb_0",
+        "(xor_col246 + (xor_col247 * 256))"
+      ],
+      [
+        "xor_rot_0_output_tmp_53f39_248_limb_1",
+        "(xor_col248 + (xor_col249 * 256))"
       ]
     ],
     "constraints": [
@@ -26846,7 +26846,7 @@
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col29, (expected_word_tmp_53f39_20.high().as_m31() - (high_14_ms_bits_col30 * 4)), high_5_ms_bits_col31"
+        "low_7_ms_bits_col29, (high_16_bits_col28 - (high_14_ms_bits_col30 * 4)), high_5_ms_bits_col31"
       ],
       [
         "MemoryAddressToId",
@@ -26854,11 +26854,11 @@
       ],
       [
         "MemoryIdToBig",
-        "dst_id_col32, (expected_word_tmp_53f39_20.low().as_m31() - (low_7_ms_bits_col29 * 512)), (low_7_ms_bits_col29 + ((expected_word_tmp_53f39_20.high().as_m31() - (high_14_ms_bits_col30 * 4)) * 128)), (high_14_ms_bits_col30 - (high_5_ms_bits_col31 * 512)), high_5_ms_bits_col31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "dst_id_col32, (low_16_bits_col27 - (low_7_ms_bits_col29 * 512)), (low_7_ms_bits_col29 + ((high_16_bits_col28 - (high_14_ms_bits_col30 * 4)) * 128)), (high_14_ms_bits_col30 - (high_5_ms_bits_col31 * 512)), high_5_ms_bits_col31, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col35, (expected_word_tmp_53f39_28.high().as_m31() - (high_14_ms_bits_col36 * 4)), high_5_ms_bits_col37"
+        "low_7_ms_bits_col35, (high_16_bits_col34 - (high_14_ms_bits_col36 * 4)), high_5_ms_bits_col37"
       ],
       [
         "MemoryAddressToId",
@@ -26866,11 +26866,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_0_id_col38, (expected_word_tmp_53f39_28.low().as_m31() - (low_7_ms_bits_col35 * 512)), (low_7_ms_bits_col35 + ((expected_word_tmp_53f39_28.high().as_m31() - (high_14_ms_bits_col36 * 4)) * 128)), (high_14_ms_bits_col36 - (high_5_ms_bits_col37 * 512)), high_5_ms_bits_col37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_0_id_col38, (low_16_bits_col33 - (low_7_ms_bits_col35 * 512)), (low_7_ms_bits_col35 + ((high_16_bits_col34 - (high_14_ms_bits_col36 * 4)) * 128)), (high_14_ms_bits_col36 - (high_5_ms_bits_col37 * 512)), high_5_ms_bits_col37, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col41, (expected_word_tmp_53f39_36.high().as_m31() - (high_14_ms_bits_col42 * 4)), high_5_ms_bits_col43"
+        "low_7_ms_bits_col41, (high_16_bits_col40 - (high_14_ms_bits_col42 * 4)), high_5_ms_bits_col43"
       ],
       [
         "MemoryAddressToId",
@@ -26878,11 +26878,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_1_id_col44, (expected_word_tmp_53f39_36.low().as_m31() - (low_7_ms_bits_col41 * 512)), (low_7_ms_bits_col41 + ((expected_word_tmp_53f39_36.high().as_m31() - (high_14_ms_bits_col42 * 4)) * 128)), (high_14_ms_bits_col42 - (high_5_ms_bits_col43 * 512)), high_5_ms_bits_col43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_1_id_col44, (low_16_bits_col39 - (low_7_ms_bits_col41 * 512)), (low_7_ms_bits_col41 + ((high_16_bits_col40 - (high_14_ms_bits_col42 * 4)) * 128)), (high_14_ms_bits_col42 - (high_5_ms_bits_col43 * 512)), high_5_ms_bits_col43, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col47, (expected_word_tmp_53f39_44.high().as_m31() - (high_14_ms_bits_col48 * 4)), high_5_ms_bits_col49"
+        "low_7_ms_bits_col47, (high_16_bits_col46 - (high_14_ms_bits_col48 * 4)), high_5_ms_bits_col49"
       ],
       [
         "MemoryAddressToId",
@@ -26890,11 +26890,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_2_id_col50, (expected_word_tmp_53f39_44.low().as_m31() - (low_7_ms_bits_col47 * 512)), (low_7_ms_bits_col47 + ((expected_word_tmp_53f39_44.high().as_m31() - (high_14_ms_bits_col48 * 4)) * 128)), (high_14_ms_bits_col48 - (high_5_ms_bits_col49 * 512)), high_5_ms_bits_col49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_2_id_col50, (low_16_bits_col45 - (low_7_ms_bits_col47 * 512)), (low_7_ms_bits_col47 + ((high_16_bits_col46 - (high_14_ms_bits_col48 * 4)) * 128)), (high_14_ms_bits_col48 - (high_5_ms_bits_col49 * 512)), high_5_ms_bits_col49, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col53, (expected_word_tmp_53f39_52.high().as_m31() - (high_14_ms_bits_col54 * 4)), high_5_ms_bits_col55"
+        "low_7_ms_bits_col53, (high_16_bits_col52 - (high_14_ms_bits_col54 * 4)), high_5_ms_bits_col55"
       ],
       [
         "MemoryAddressToId",
@@ -26902,11 +26902,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_3_id_col56, (expected_word_tmp_53f39_52.low().as_m31() - (low_7_ms_bits_col53 * 512)), (low_7_ms_bits_col53 + ((expected_word_tmp_53f39_52.high().as_m31() - (high_14_ms_bits_col54 * 4)) * 128)), (high_14_ms_bits_col54 - (high_5_ms_bits_col55 * 512)), high_5_ms_bits_col55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_3_id_col56, (low_16_bits_col51 - (low_7_ms_bits_col53 * 512)), (low_7_ms_bits_col53 + ((high_16_bits_col52 - (high_14_ms_bits_col54 * 4)) * 128)), (high_14_ms_bits_col54 - (high_5_ms_bits_col55 * 512)), high_5_ms_bits_col55, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col59, (expected_word_tmp_53f39_60.high().as_m31() - (high_14_ms_bits_col60 * 4)), high_5_ms_bits_col61"
+        "low_7_ms_bits_col59, (high_16_bits_col58 - (high_14_ms_bits_col60 * 4)), high_5_ms_bits_col61"
       ],
       [
         "MemoryAddressToId",
@@ -26914,11 +26914,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_4_id_col62, (expected_word_tmp_53f39_60.low().as_m31() - (low_7_ms_bits_col59 * 512)), (low_7_ms_bits_col59 + ((expected_word_tmp_53f39_60.high().as_m31() - (high_14_ms_bits_col60 * 4)) * 128)), (high_14_ms_bits_col60 - (high_5_ms_bits_col61 * 512)), high_5_ms_bits_col61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_4_id_col62, (low_16_bits_col57 - (low_7_ms_bits_col59 * 512)), (low_7_ms_bits_col59 + ((high_16_bits_col58 - (high_14_ms_bits_col60 * 4)) * 128)), (high_14_ms_bits_col60 - (high_5_ms_bits_col61 * 512)), high_5_ms_bits_col61, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col65, (expected_word_tmp_53f39_68.high().as_m31() - (high_14_ms_bits_col66 * 4)), high_5_ms_bits_col67"
+        "low_7_ms_bits_col65, (high_16_bits_col64 - (high_14_ms_bits_col66 * 4)), high_5_ms_bits_col67"
       ],
       [
         "MemoryAddressToId",
@@ -26926,11 +26926,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_5_id_col68, (expected_word_tmp_53f39_68.low().as_m31() - (low_7_ms_bits_col65 * 512)), (low_7_ms_bits_col65 + ((expected_word_tmp_53f39_68.high().as_m31() - (high_14_ms_bits_col66 * 4)) * 128)), (high_14_ms_bits_col66 - (high_5_ms_bits_col67 * 512)), high_5_ms_bits_col67, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_5_id_col68, (low_16_bits_col63 - (low_7_ms_bits_col65 * 512)), (low_7_ms_bits_col65 + ((high_16_bits_col64 - (high_14_ms_bits_col66 * 4)) * 128)), (high_14_ms_bits_col66 - (high_5_ms_bits_col67 * 512)), high_5_ms_bits_col67, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col71, (expected_word_tmp_53f39_76.high().as_m31() - (high_14_ms_bits_col72 * 4)), high_5_ms_bits_col73"
+        "low_7_ms_bits_col71, (high_16_bits_col70 - (high_14_ms_bits_col72 * 4)), high_5_ms_bits_col73"
       ],
       [
         "MemoryAddressToId",
@@ -26938,11 +26938,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_6_id_col74, (expected_word_tmp_53f39_76.low().as_m31() - (low_7_ms_bits_col71 * 512)), (low_7_ms_bits_col71 + ((expected_word_tmp_53f39_76.high().as_m31() - (high_14_ms_bits_col72 * 4)) * 128)), (high_14_ms_bits_col72 - (high_5_ms_bits_col73 * 512)), high_5_ms_bits_col73, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_6_id_col74, (low_16_bits_col69 - (low_7_ms_bits_col71 * 512)), (low_7_ms_bits_col71 + ((high_16_bits_col70 - (high_14_ms_bits_col72 * 4)) * 128)), (high_14_ms_bits_col72 - (high_5_ms_bits_col73 * 512)), high_5_ms_bits_col73, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col77, (expected_word_tmp_53f39_84.high().as_m31() - (high_14_ms_bits_col78 * 4)), high_5_ms_bits_col79"
+        "low_7_ms_bits_col77, (high_16_bits_col76 - (high_14_ms_bits_col78 * 4)), high_5_ms_bits_col79"
       ],
       [
         "MemoryAddressToId",
@@ -26950,11 +26950,11 @@
       ],
       [
         "MemoryIdToBig",
-        "state_7_id_col80, (expected_word_tmp_53f39_84.low().as_m31() - (low_7_ms_bits_col77 * 512)), (low_7_ms_bits_col77 + ((expected_word_tmp_53f39_84.high().as_m31() - (high_14_ms_bits_col78 * 4)) * 128)), (high_14_ms_bits_col78 - (high_5_ms_bits_col79 * 512)), high_5_ms_bits_col79, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "state_7_id_col80, (low_16_bits_col75 - (low_7_ms_bits_col77 * 512)), (low_7_ms_bits_col77 + ((high_16_bits_col76 - (high_14_ms_bits_col78 * 4)) * 128)), (high_14_ms_bits_col78 - (high_5_ms_bits_col79 * 512)), high_5_ms_bits_col79, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "VerifyBitwiseXor_8",
-        "(expected_word_tmp_53f39_20.low().as_m31() - (ms_8_bits_col81 * 256)), 127, xor_col83"
+        "(low_16_bits_col27 - (ms_8_bits_col81 * 256)), 127, xor_col83"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26962,7 +26962,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(expected_word_tmp_53f39_20.high().as_m31() - (ms_8_bits_col82 * 256)), 14, xor_col85"
+        "(high_16_bits_col28 - (ms_8_bits_col82 * 256)), 14, xor_col85"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26990,7 +26990,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_113.low().as_m31() - (ms_8_bits_col130 * 256)), (expected_word_tmp_53f39_28.low().as_m31() - (ms_8_bits_col132 * 256)), xor_col134"
+        "(xor_rot_0_output_tmp_53f39_113_limb_0 - (ms_8_bits_col130 * 256)), (low_16_bits_col33 - (ms_8_bits_col132 * 256)), xor_col134"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -26998,7 +26998,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_113.high().as_m31() - (ms_8_bits_col131 * 256)), (expected_word_tmp_53f39_28.high().as_m31() - (ms_8_bits_col133 * 256)), xor_col136"
+        "(xor_rot_0_output_tmp_53f39_113_limb_1 - (ms_8_bits_col131 * 256)), (high_16_bits_col34 - (ms_8_bits_col133 * 256)), xor_col136"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27022,7 +27022,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_131.low().as_m31() - (ms_8_bits_col146 * 256)), (expected_word_tmp_53f39_36.low().as_m31() - (ms_8_bits_col148 * 256)), xor_col150"
+        "(xor_rot_0_output_tmp_53f39_131_limb_0 - (ms_8_bits_col146 * 256)), (low_16_bits_col39 - (ms_8_bits_col148 * 256)), xor_col150"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27030,7 +27030,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_131.high().as_m31() - (ms_8_bits_col147 * 256)), (expected_word_tmp_53f39_36.high().as_m31() - (ms_8_bits_col149 * 256)), xor_col152"
+        "(xor_rot_0_output_tmp_53f39_131_limb_1 - (ms_8_bits_col147 * 256)), (high_16_bits_col40 - (ms_8_bits_col149 * 256)), xor_col152"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27054,7 +27054,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_149.low().as_m31() - (ms_8_bits_col162 * 256)), (expected_word_tmp_53f39_44.low().as_m31() - (ms_8_bits_col164 * 256)), xor_col166"
+        "(xor_rot_0_output_tmp_53f39_149_limb_0 - (ms_8_bits_col162 * 256)), (low_16_bits_col45 - (ms_8_bits_col164 * 256)), xor_col166"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27062,7 +27062,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_149.high().as_m31() - (ms_8_bits_col163 * 256)), (expected_word_tmp_53f39_44.high().as_m31() - (ms_8_bits_col165 * 256)), xor_col168"
+        "(xor_rot_0_output_tmp_53f39_149_limb_1 - (ms_8_bits_col163 * 256)), (high_16_bits_col46 - (ms_8_bits_col165 * 256)), xor_col168"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27086,7 +27086,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_167.low().as_m31() - (ms_8_bits_col178 * 256)), (expected_word_tmp_53f39_52.low().as_m31() - (ms_8_bits_col180 * 256)), xor_col182"
+        "(xor_rot_0_output_tmp_53f39_167_limb_0 - (ms_8_bits_col178 * 256)), (low_16_bits_col51 - (ms_8_bits_col180 * 256)), xor_col182"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27094,7 +27094,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_167.high().as_m31() - (ms_8_bits_col179 * 256)), (expected_word_tmp_53f39_52.high().as_m31() - (ms_8_bits_col181 * 256)), xor_col184"
+        "(xor_rot_0_output_tmp_53f39_167_limb_1 - (ms_8_bits_col179 * 256)), (high_16_bits_col52 - (ms_8_bits_col181 * 256)), xor_col184"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27118,7 +27118,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_185.low().as_m31() - (ms_8_bits_col194 * 256)), (expected_word_tmp_53f39_60.low().as_m31() - (ms_8_bits_col196 * 256)), xor_col198"
+        "(xor_rot_0_output_tmp_53f39_185_limb_0 - (ms_8_bits_col194 * 256)), (low_16_bits_col57 - (ms_8_bits_col196 * 256)), xor_col198"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27126,7 +27126,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_185.high().as_m31() - (ms_8_bits_col195 * 256)), (expected_word_tmp_53f39_60.high().as_m31() - (ms_8_bits_col197 * 256)), xor_col200"
+        "(xor_rot_0_output_tmp_53f39_185_limb_1 - (ms_8_bits_col195 * 256)), (high_16_bits_col58 - (ms_8_bits_col197 * 256)), xor_col200"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27150,7 +27150,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_203.low().as_m31() - (ms_8_bits_col210 * 256)), (expected_word_tmp_53f39_68.low().as_m31() - (ms_8_bits_col212 * 256)), xor_col214"
+        "(xor_rot_0_output_tmp_53f39_203_limb_0 - (ms_8_bits_col210 * 256)), (low_16_bits_col63 - (ms_8_bits_col212 * 256)), xor_col214"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27158,7 +27158,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_203.high().as_m31() - (ms_8_bits_col211 * 256)), (expected_word_tmp_53f39_68.high().as_m31() - (ms_8_bits_col213 * 256)), xor_col216"
+        "(xor_rot_0_output_tmp_53f39_203_limb_1 - (ms_8_bits_col211 * 256)), (high_16_bits_col64 - (ms_8_bits_col213 * 256)), xor_col216"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27182,7 +27182,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_221.low().as_m31() - (ms_8_bits_col226 * 256)), (expected_word_tmp_53f39_76.low().as_m31() - (ms_8_bits_col228 * 256)), xor_col230"
+        "(xor_rot_0_output_tmp_53f39_221_limb_0 - (ms_8_bits_col226 * 256)), (low_16_bits_col69 - (ms_8_bits_col228 * 256)), xor_col230"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27190,7 +27190,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_221.high().as_m31() - (ms_8_bits_col227 * 256)), (expected_word_tmp_53f39_76.high().as_m31() - (ms_8_bits_col229 * 256)), xor_col232"
+        "(xor_rot_0_output_tmp_53f39_221_limb_1 - (ms_8_bits_col227 * 256)), (high_16_bits_col70 - (ms_8_bits_col229 * 256)), xor_col232"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27214,7 +27214,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_239.low().as_m31() - (ms_8_bits_col242 * 256)), (expected_word_tmp_53f39_84.low().as_m31() - (ms_8_bits_col244 * 256)), xor_col246"
+        "(xor_rot_0_output_tmp_53f39_239_limb_0 - (ms_8_bits_col242 * 256)), (low_16_bits_col75 - (ms_8_bits_col244 * 256)), xor_col246"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27222,7 +27222,7 @@
       ],
       [
         "VerifyBitwiseXor_8",
-        "(xor_rot_0_output_tmp_53f39_239.high().as_m31() - (ms_8_bits_col243 * 256)), (expected_word_tmp_53f39_84.high().as_m31() - (ms_8_bits_col245 * 256)), xor_col248"
+        "(xor_rot_0_output_tmp_53f39_239_limb_1 - (ms_8_bits_col243 * 256)), (high_16_bits_col76 - (ms_8_bits_col245 * 256)), xor_col248"
       ],
       [
         "VerifyBitwiseXor_8",
@@ -27230,7 +27230,7 @@
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col250, (xor_rot_0_output_tmp_53f39_122.high().as_m31() - (high_14_ms_bits_col251 * 4)), high_5_ms_bits_col252"
+        "low_7_ms_bits_col250, (xor_rot_0_output_tmp_53f39_122_limb_1 - (high_14_ms_bits_col251 * 4)), high_5_ms_bits_col252"
       ],
       [
         "MemoryAddressToId",
@@ -27238,11 +27238,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_0_id_col253, (xor_rot_0_output_tmp_53f39_122.low().as_m31() - (low_7_ms_bits_col250 * 512)), (low_7_ms_bits_col250 + ((xor_rot_0_output_tmp_53f39_122.high().as_m31() - (high_14_ms_bits_col251 * 4)) * 128)), (high_14_ms_bits_col251 - (high_5_ms_bits_col252 * 512)), high_5_ms_bits_col252, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_0_id_col253, (xor_rot_0_output_tmp_53f39_122_limb_0 - (low_7_ms_bits_col250 * 512)), (low_7_ms_bits_col250 + ((xor_rot_0_output_tmp_53f39_122_limb_1 - (high_14_ms_bits_col251 * 4)) * 128)), (high_14_ms_bits_col251 - (high_5_ms_bits_col252 * 512)), high_5_ms_bits_col252, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col254, (xor_rot_0_output_tmp_53f39_140.high().as_m31() - (high_14_ms_bits_col255 * 4)), high_5_ms_bits_col256"
+        "low_7_ms_bits_col254, (xor_rot_0_output_tmp_53f39_140_limb_1 - (high_14_ms_bits_col255 * 4)), high_5_ms_bits_col256"
       ],
       [
         "MemoryAddressToId",
@@ -27250,11 +27250,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_1_id_col257, (xor_rot_0_output_tmp_53f39_140.low().as_m31() - (low_7_ms_bits_col254 * 512)), (low_7_ms_bits_col254 + ((xor_rot_0_output_tmp_53f39_140.high().as_m31() - (high_14_ms_bits_col255 * 4)) * 128)), (high_14_ms_bits_col255 - (high_5_ms_bits_col256 * 512)), high_5_ms_bits_col256, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_1_id_col257, (xor_rot_0_output_tmp_53f39_140_limb_0 - (low_7_ms_bits_col254 * 512)), (low_7_ms_bits_col254 + ((xor_rot_0_output_tmp_53f39_140_limb_1 - (high_14_ms_bits_col255 * 4)) * 128)), (high_14_ms_bits_col255 - (high_5_ms_bits_col256 * 512)), high_5_ms_bits_col256, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col258, (xor_rot_0_output_tmp_53f39_158.high().as_m31() - (high_14_ms_bits_col259 * 4)), high_5_ms_bits_col260"
+        "low_7_ms_bits_col258, (xor_rot_0_output_tmp_53f39_158_limb_1 - (high_14_ms_bits_col259 * 4)), high_5_ms_bits_col260"
       ],
       [
         "MemoryAddressToId",
@@ -27262,11 +27262,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_2_id_col261, (xor_rot_0_output_tmp_53f39_158.low().as_m31() - (low_7_ms_bits_col258 * 512)), (low_7_ms_bits_col258 + ((xor_rot_0_output_tmp_53f39_158.high().as_m31() - (high_14_ms_bits_col259 * 4)) * 128)), (high_14_ms_bits_col259 - (high_5_ms_bits_col260 * 512)), high_5_ms_bits_col260, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_2_id_col261, (xor_rot_0_output_tmp_53f39_158_limb_0 - (low_7_ms_bits_col258 * 512)), (low_7_ms_bits_col258 + ((xor_rot_0_output_tmp_53f39_158_limb_1 - (high_14_ms_bits_col259 * 4)) * 128)), (high_14_ms_bits_col259 - (high_5_ms_bits_col260 * 512)), high_5_ms_bits_col260, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col262, (xor_rot_0_output_tmp_53f39_176.high().as_m31() - (high_14_ms_bits_col263 * 4)), high_5_ms_bits_col264"
+        "low_7_ms_bits_col262, (xor_rot_0_output_tmp_53f39_176_limb_1 - (high_14_ms_bits_col263 * 4)), high_5_ms_bits_col264"
       ],
       [
         "MemoryAddressToId",
@@ -27274,11 +27274,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_3_id_col265, (xor_rot_0_output_tmp_53f39_176.low().as_m31() - (low_7_ms_bits_col262 * 512)), (low_7_ms_bits_col262 + ((xor_rot_0_output_tmp_53f39_176.high().as_m31() - (high_14_ms_bits_col263 * 4)) * 128)), (high_14_ms_bits_col263 - (high_5_ms_bits_col264 * 512)), high_5_ms_bits_col264, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_3_id_col265, (xor_rot_0_output_tmp_53f39_176_limb_0 - (low_7_ms_bits_col262 * 512)), (low_7_ms_bits_col262 + ((xor_rot_0_output_tmp_53f39_176_limb_1 - (high_14_ms_bits_col263 * 4)) * 128)), (high_14_ms_bits_col263 - (high_5_ms_bits_col264 * 512)), high_5_ms_bits_col264, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col266, (xor_rot_0_output_tmp_53f39_194.high().as_m31() - (high_14_ms_bits_col267 * 4)), high_5_ms_bits_col268"
+        "low_7_ms_bits_col266, (xor_rot_0_output_tmp_53f39_194_limb_1 - (high_14_ms_bits_col267 * 4)), high_5_ms_bits_col268"
       ],
       [
         "MemoryAddressToId",
@@ -27286,11 +27286,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_4_id_col269, (xor_rot_0_output_tmp_53f39_194.low().as_m31() - (low_7_ms_bits_col266 * 512)), (low_7_ms_bits_col266 + ((xor_rot_0_output_tmp_53f39_194.high().as_m31() - (high_14_ms_bits_col267 * 4)) * 128)), (high_14_ms_bits_col267 - (high_5_ms_bits_col268 * 512)), high_5_ms_bits_col268, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_4_id_col269, (xor_rot_0_output_tmp_53f39_194_limb_0 - (low_7_ms_bits_col266 * 512)), (low_7_ms_bits_col266 + ((xor_rot_0_output_tmp_53f39_194_limb_1 - (high_14_ms_bits_col267 * 4)) * 128)), (high_14_ms_bits_col267 - (high_5_ms_bits_col268 * 512)), high_5_ms_bits_col268, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col270, (xor_rot_0_output_tmp_53f39_212.high().as_m31() - (high_14_ms_bits_col271 * 4)), high_5_ms_bits_col272"
+        "low_7_ms_bits_col270, (xor_rot_0_output_tmp_53f39_212_limb_1 - (high_14_ms_bits_col271 * 4)), high_5_ms_bits_col272"
       ],
       [
         "MemoryAddressToId",
@@ -27298,11 +27298,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_5_id_col273, (xor_rot_0_output_tmp_53f39_212.low().as_m31() - (low_7_ms_bits_col270 * 512)), (low_7_ms_bits_col270 + ((xor_rot_0_output_tmp_53f39_212.high().as_m31() - (high_14_ms_bits_col271 * 4)) * 128)), (high_14_ms_bits_col271 - (high_5_ms_bits_col272 * 512)), high_5_ms_bits_col272, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_5_id_col273, (xor_rot_0_output_tmp_53f39_212_limb_0 - (low_7_ms_bits_col270 * 512)), (low_7_ms_bits_col270 + ((xor_rot_0_output_tmp_53f39_212_limb_1 - (high_14_ms_bits_col271 * 4)) * 128)), (high_14_ms_bits_col271 - (high_5_ms_bits_col272 * 512)), high_5_ms_bits_col272, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col274, (xor_rot_0_output_tmp_53f39_230.high().as_m31() - (high_14_ms_bits_col275 * 4)), high_5_ms_bits_col276"
+        "low_7_ms_bits_col274, (xor_rot_0_output_tmp_53f39_230_limb_1 - (high_14_ms_bits_col275 * 4)), high_5_ms_bits_col276"
       ],
       [
         "MemoryAddressToId",
@@ -27310,11 +27310,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_6_id_col277, (xor_rot_0_output_tmp_53f39_230.low().as_m31() - (low_7_ms_bits_col274 * 512)), (low_7_ms_bits_col274 + ((xor_rot_0_output_tmp_53f39_230.high().as_m31() - (high_14_ms_bits_col275 * 4)) * 128)), (high_14_ms_bits_col275 - (high_5_ms_bits_col276 * 512)), high_5_ms_bits_col276, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_6_id_col277, (xor_rot_0_output_tmp_53f39_230_limb_0 - (low_7_ms_bits_col274 * 512)), (low_7_ms_bits_col274 + ((xor_rot_0_output_tmp_53f39_230_limb_1 - (high_14_ms_bits_col275 * 4)) * 128)), (high_14_ms_bits_col275 - (high_5_ms_bits_col276 * 512)), high_5_ms_bits_col276, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col278, (xor_rot_0_output_tmp_53f39_248.high().as_m31() - (high_14_ms_bits_col279 * 4)), high_5_ms_bits_col280"
+        "low_7_ms_bits_col278, (xor_rot_0_output_tmp_53f39_248_limb_1 - (high_14_ms_bits_col279 * 4)), high_5_ms_bits_col280"
       ],
       [
         "MemoryAddressToId",
@@ -27322,7 +27322,7 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_7_id_col281, (xor_rot_0_output_tmp_53f39_248.low().as_m31() - (low_7_ms_bits_col278 * 512)), (low_7_ms_bits_col278 + ((xor_rot_0_output_tmp_53f39_248.high().as_m31() - (high_14_ms_bits_col279 * 4)) * 128)), (high_14_ms_bits_col279 - (high_5_ms_bits_col280 * 512)), high_5_ms_bits_col280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_7_id_col281, (xor_rot_0_output_tmp_53f39_248_limb_0 - (low_7_ms_bits_col278 * 512)), (low_7_ms_bits_col278 + ((xor_rot_0_output_tmp_53f39_248_limb_1 - (high_14_ms_bits_col279 * 4)) * 128)), (high_14_ms_bits_col279 - (high_5_ms_bits_col280 * 512)), high_5_ms_bits_col280, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   }

@@ -47,7 +47,7 @@ impl AirFn for ReadBlakeWord {
         air_builder.deduce(&mut high_16_bits, "high_16_bits");
 
         let expected_blake_word: UInt32Expr =
-            air_builder.let_vec(vec![low_16_bits, high_16_bits], "expected_word");
+            air_builder.let_(vec![low_16_bits, high_16_bits].into(), "expected_word");
 
         air_builder.call(
             &VerifyBlakeWord {

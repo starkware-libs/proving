@@ -46,7 +46,7 @@ impl<const B: usize, const L: usize, const F: usize> VarExpr<BigUInt<B, L, F>> {
 }
 
 impl<const B: usize, const L: usize, const F: usize> VarExprUpdate for VarExpr<BigUInt<B, L, F>> {
-    fn create_children(&mut self) {
+    fn create_children(&mut self, in_deductions: bool, felts_in_constraints: bool) {
         let children = (0..F)
             .map(|i| {
                 FeltExpr::Var(VarExpr::new(
@@ -54,7 +54,8 @@ impl<const B: usize, const L: usize, const F: usize> VarExprUpdate for VarExpr<B
                     self.value.map(|v| v.get_m31(i)),
                     self.is_const,
                     self.in_state(),
-                    self.visibility.clone(),
+                    in_deductions,
+                    felts_in_constraints,
                 ))
                 .into()
             })
@@ -121,7 +122,8 @@ macro_rules! bigu384_expr {
             ])),
             false,
             false,
-            Visibility::default(),
+            true,
+            true,
         ))
     };
 }

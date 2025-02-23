@@ -208,10 +208,7 @@ fn test_conversion_felt_to_bool() {
     let compiled_bool: CompiledAirVar = b.into();
     assert_eq!(&compiled_bool.to_string(), "Bool::from_m31(x)");
 
-    let f = f.let_(
-        format!("{}0", INTERMEDIATE_VAR_SUFFIX),
-        Visibility::default(),
-    );
+    let f = f.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX), true, true);
     let b: BoolExpr = f.into();
     assert_eq!(b.calc(), "true");
     let compiled_felt: CompiledAirVar = b.as_felt().into();
@@ -230,10 +227,7 @@ fn test_bad_felt_to_bool() {
 #[test]
 fn test_conversion_bool_to_uint16() {
     let mut b: BoolExpr = bool_expr!("x", true);
-    b = b.let_(
-        format!("{}0", INTERMEDIATE_VAR_SUFFIX),
-        Visibility::default(),
-    );
+    b = b.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX), true, true);
     let i: UInt16Expr = b.clone().into();
     assert_eq!(i.calc(), "1");
     let compiled_felt: CompiledAirVar = i.as_felt().into();
@@ -247,10 +241,9 @@ fn test_conversion_bool_to_uint16() {
     let compiled_i: CompiledAirVar = i.into();
     assert_eq!(&compiled_i.to_string(), "UInt16::from_bool(tmp0)");
 
-    let f = b.as_felt().let_(
-        format!("{}0", INTERMEDIATE_VAR_SUFFIX),
-        Visibility::default(),
-    );
+    let f = b
+        .as_felt()
+        .let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX), true, true);
     i = Into::<BoolExpr>::into(f).into();
     let compiled_felt: CompiledAirVar = i.as_felt().into();
     assert_eq!(&compiled_felt.to_string(), "tmp0");
@@ -259,10 +252,7 @@ fn test_conversion_bool_to_uint16() {
 #[test]
 fn test_conversion_felt_to_uint16() {
     let mut f = expr!("x", 0xFF);
-    f = f.let_(
-        format!("{}0", INTERMEDIATE_VAR_SUFFIX),
-        Visibility::default(),
-    );
+    f = f.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX), true, true);
     let i: UInt16Expr = f.clone().into();
     assert_eq!(i.calc(), "255");
     let compiled_felt: CompiledAirVar = i.as_felt().clone().into();
@@ -276,10 +266,7 @@ fn test_conversion_felt_to_uint16() {
     let compiled_i: CompiledAirVar = i.into();
     assert_eq!(&compiled_i.to_string(), "UInt16::from_m31(col0)");
 
-    let f = f.let_(
-        format!("{}0", INTERMEDIATE_VAR_SUFFIX),
-        Visibility::default(),
-    );
+    let f = f.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX), true, true);
     i = f.into();
     let compiled_felt: CompiledAirVar = i.as_felt().into();
     assert_eq!(&compiled_felt.to_string(), "tmp0");
@@ -320,10 +307,7 @@ fn test_conversion_felts_to_felt252() {
         "Felt252::from_limbs(zero_extend([1, x2]))"
     );
 
-    f2 = f2.let_(
-        format!("{}0", INTERMEDIATE_VAR_SUFFIX),
-        Visibility::default(),
-    );
+    f2 = f2.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX), true, true);
     let mut e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
     let compiled_felt1: CompiledAirVar = e.as_felts_mut()[0].clone().into();
     assert_eq!(&compiled_felt1.to_string(), "1");

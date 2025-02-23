@@ -35,7 +35,7 @@ pub enum StateInfo {
 }
 
 impl VarExprUpdate for VarExpr<Felt> {
-    fn create_children(&mut self) {
+    fn create_children(&mut self, _in_deductions: bool, _felts_in_constraints: bool) {
         // Felt does not have children.
     }
     fn update_children(&mut self) {
@@ -44,8 +44,8 @@ impl VarExprUpdate for VarExpr<Felt> {
 }
 
 impl FeltExpr {
-    // When an expression is written to the trace, this function is called to change the expression
-    // into a variable that has a state index.
+    // When an expression is written to the trace, this function is called to change its felts
+    // into variables that have state information.
     pub fn to_state(&mut self, new_state_info: StateInfo) {
         let name = match &new_state_info {
             StateInfo::StateIndex(index, desc) => State::get_cell_name(*index, desc),
@@ -68,10 +68,22 @@ impl FeltExpr {
                 v.visibility = Visibility::default();
             }
             _ => {
-                let mut v = VarExpr::new(name, value, false, true, Visibility::default());
+                let mut v = VarExpr::new(name, value, false, true, true, true);
                 v.complex_or_felt = ComplexOrFelt::Felt(new_state_info);
                 *self = Self::Var(v);
             }
+        }
+    }
+
+    // Felt is directly in state if it's written to the state (has a state index), in an external
+    // state (a preprocessed column), or a public param.
+    pub fn is_directly_in_state(&self) -> bool {
+        match self {
+            FeltExpr::Var(v) => !matches!(
+                v.complex_or_felt,
+                ComplexOrFelt::Felt(StateInfo::IsPolyOfState(_))
+            ),
+            _ => false,
         }
     }
 }
@@ -117,7 +129,8 @@ macro_rules! expr {
             Some($crate::core::Felt::from($val)),
             false,
             false,
-            Visibility::default(),
+            true,
+            true,
         ))
     };
 }

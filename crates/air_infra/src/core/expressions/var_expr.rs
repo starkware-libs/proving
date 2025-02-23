@@ -7,9 +7,10 @@ use super::super::state::*;
 use super::super::variables::*;
 use super::expr::*;
 use super::felt_expr::*;
+use crate::core::Felt;
 
 pub trait VarExprUpdate {
-    fn create_children(&mut self);
+    fn create_children(&mut self, in_deductions: bool, felts_in_constraints: bool);
     fn update_children(&mut self);
 }
 
@@ -23,6 +24,7 @@ where
     pub(super) is_const: bool,
     pub(super) parent: Option<ParentExpr>,
     pub(super) complex_or_felt: ComplexOrFelt,
+    // Every variable can be <in_deductions>, but only felts can be <in_constraints>.
     pub(super) visibility: Visibility,
 }
 
@@ -36,7 +38,8 @@ where
         value: Option<T>,
         is_const: bool,
         in_state: bool,
-        visibility: Visibility,
+        in_deductions: bool,
+        felts_in_constraints: bool,
     ) -> Self {
         if is_const {
             assert!(value.is_some());
@@ -48,21 +51,19 @@ where
             is_const,
             parent: None,
             complex_or_felt: ComplexOrFelt::Felt(StateInfo::IsPolyOfState(in_state)),
-            visibility,
+            // Only felts can have visibility in constraints.
+            visibility: Visibility {
+                in_deductions,
+                in_constraints: felts_in_constraints && (T::r#type() == Felt::r#type()),
+            },
         };
-        var.create_children();
+        var.create_children(in_deductions, felts_in_constraints);
         var.update_children();
         var
     }
 
     pub fn new_const(value: T) -> Self {
-        Self::new(
-            value.calc(),
-            Some(value),
-            true,
-            false,
-            Visibility::default(),
-        )
+        Self::new(value.calc(), Some(value), true, false, true, true)
     }
 
     pub(super) fn set_parent<P>(&mut self, parent_var: &VarExpr<P>, index: Option<usize>)
@@ -111,7 +112,7 @@ where
         let info = AirVarInfo {
             in_state,
             is_const: self.is_const,
-            visibility: self.visibility.clone(),
+            visibility: self.visibility,
             public_param: if let ComplexOrFelt::Felt(StateInfo::PublicParam(ref p)) =
                 self.complex_or_felt
             {

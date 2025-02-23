@@ -82,6 +82,6 @@ impl AirFn for XorRot32 {
             ]
         };
 
-        air_builder.let_vec(output, &format!("xor_rot_{}_output", self.r))
+        air_builder.let_(output.into(), &format!("xor_rot_{}_output", self.r))
     }
 }

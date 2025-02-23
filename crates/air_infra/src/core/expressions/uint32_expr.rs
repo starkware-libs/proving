@@ -52,20 +52,22 @@ impl VarExpr<UInt32> {
 }
 
 impl VarExprUpdate for VarExpr<UInt32> {
-    fn create_children(&mut self) {
+    fn create_children(&mut self, in_deductions: bool, felts_in_constraints: bool) {
         let low = VarExpr::new(
             LOW_NAME.to_string(),
             self.value.map(|v| v.low()),
             self.is_const,
             self.in_state(),
-            self.visibility.clone(),
+            in_deductions,
+            felts_in_constraints,
         );
         let high = VarExpr::new(
             HIGH_NAME.to_string(),
             self.value.map(|v| v.high()),
             self.is_const,
             self.in_state(),
-            self.visibility.clone(),
+            in_deductions,
+            felts_in_constraints,
         );
         self.complex_or_felt = ComplexOrFelt::Complex(vec![
             UInt16Expr::Var(low).into(),
@@ -141,7 +143,8 @@ macro_rules! u32_expr {
             Some(UInt32::from($val)),
             false,
             false,
-            Visibility::default(),
+            true,
+            true,
         ))
     };
 }
