@@ -158,9 +158,14 @@ pub fn parse_lookup_constraint(
         UseOrYield::Use => "",
         UseOrYield::Yield => "-",
     };
+    let numerator = if relation_name.eq("Opcodes") {
+        quote! {E::EF::from(padding.clone())}
+    } else {
+        quote! {E::EF::one()}
+    };
     quote! {
         eval.add_to_relation(RelationEntry::new(&self.
             $(relation_name.to_case(Case::Snake))_lookup_elements,
-            $(sign)E::EF::one(), &[$(lookup_values.join(","))]));
+            $(sign)$numerator, &[$(lookup_values.join(","))]));
     }
 }

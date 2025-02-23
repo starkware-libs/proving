@@ -1,4 +1,4 @@
-use crate::components::prelude::constraints_eval::*;
+use crate::components::prelude::constraint_eval::*;
 
 pub struct Eval {
     pub claim: Claim,
@@ -13,12 +13,7 @@ impl Claim {
     pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
         let trace_log_sizes = vec![self.log_size; 0];
         let interaction_log_sizes = vec![self.log_size; SECURE_EXTENSION_DEGREE];
-        let preprocessed_log_sizes = vec![self.log_size];
-        TreeVec::new(vec![
-            preprocessed_log_sizes,
-            trace_log_sizes,
-            interaction_log_sizes,
-        ])
+        TreeVec::new(vec![vec![], trace_log_sizes, interaction_log_sizes])
     }
 
     pub fn mix_into(&self, channel: &mut impl Channel) {
