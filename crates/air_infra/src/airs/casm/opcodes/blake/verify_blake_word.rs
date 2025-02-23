@@ -30,22 +30,19 @@ impl AirFn for VerifyBlakeWord {
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), (addr, word): Self::In) -> Self::Out {
         // Split felt low into low chunk of 9 bits and high chunk of 7 bits.
-        let mut low_7_ms_bits =
-            air_builder.let_for_deduction(word.low() >> const_u16_expr!(9), "low_7_ms_bits");
-        air_builder.deduce(low_7_ms_bits.as_felt_mut(), "low_7_ms_bits");
+        let low_7_ms_bits =
+            air_builder.deduce_air_var(word.low() >> const_u16_expr!(9), "low_7_ms_bits");
         let low_9_ls_bits = word.low().as_felt() - low_7_ms_bits.as_felt() * const_expr!(1 << 9);
 
         // Split felt high into chunks of (2, 9, 5) from low to high.
-        let mut high_14_ms_bits =
-            air_builder.let_for_deduction(word.high() >> const_u16_expr!(2), "high_14_ms_bits");
-        air_builder.deduce(high_14_ms_bits.as_felt_mut(), "high_14_ms_bits");
+        let high_14_ms_bits =
+            air_builder.deduce_air_var(word.high() >> const_u16_expr!(2), "high_14_ms_bits");
         let high_2_ls_bits =
             word.high().as_felt() - high_14_ms_bits.as_felt() * const_expr!(1 << 2);
-        let mut high_5_ms_bits = air_builder.let_for_deduction(
+        let high_5_ms_bits = air_builder.deduce_air_var(
             high_14_ms_bits.clone() >> const_u16_expr!(9),
             "high_5_ms_bits",
         );
-        air_builder.deduce(high_5_ms_bits.as_felt_mut(), "high_5_ms_bits");
         let high_9_mid_bits =
             high_14_ms_bits.as_felt() - high_5_ms_bits.as_felt() * const_expr!(1 << 9);
 

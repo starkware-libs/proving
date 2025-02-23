@@ -50,21 +50,20 @@ impl AirFn for ModUtils {
         };
 
         // Instance 0 is a special case because it doesn't have a previous instance to compare to.
-        let mut is_instance_0 =
-            ab.let_for_deduction(instance_num.clone().eq(const_expr!(0)), "is_instance_0");
-        let is_instance_0 = ab.deduce(is_instance_0.as_felt_mut(), "is_instance_0");
+        let is_instance_0 =
+            ab.deduce_air_var(instance_num.clone().eq(const_expr!(0)), "is_instance_0");
         ab.constrain(
-            is_instance_0.clone() * (is_instance_0.clone() - const_expr!(1)),
+            is_instance_0.as_felt() * (is_instance_0.as_felt() - const_expr!(1)),
             "is_instance_0 is 0 or 1.",
         );
         ab.constrain(
-            is_instance_0.clone() * instance_num.clone(),
+            is_instance_0.as_felt() * instance_num.clone(),
             "is_instance_0 is 0 when instance_num is not 0.",
         );
         // Calculate the starting address of the previous instance and the current one.
         let input_var_addr_start_prev = first_addr.var.clone()
             + const_expr!(N_VAR_INPUTS as u32)
-                * (instance_num.clone() - const_expr!(1) + is_instance_0.clone());
+                * (instance_num.clone() - const_expr!(1) + is_instance_0.as_felt());
         let input_var_addr_start =
             first_addr.var + const_expr!(N_VAR_INPUTS as u32) * instance_num.clone();
 
@@ -125,7 +124,8 @@ impl AirFn for ModUtils {
 
         // If instance 0, then n_val_prev = 1, else n_val_prev = n_val_prev_nominal
         let n_val_prev = ab.let_for_constraint(
-            n_val_prev_nominal * (const_expr!(1) - is_instance_0.clone()) + is_instance_0.clone(),
+            n_val_prev_nominal * (const_expr!(1) - is_instance_0.as_felt())
+                + is_instance_0.as_felt(),
             "n_val_prev",
         );
         // Condition for block reset, i.e. when the input variables can progress arbitrarily.

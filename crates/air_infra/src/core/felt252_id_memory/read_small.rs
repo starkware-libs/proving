@@ -39,27 +39,27 @@ impl AirFn for CondDecodeSmallSign {
     type Out = [FeltExpr; 2];
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), (value, condition): Self::In) -> Self::Out {
-        let mut msb_bool =
-            air_builder.let_for_deduction(value.get_felt(27).eq(const_expr!(0x100)), "msb");
-        let msb = air_builder.deduce(msb_bool.as_felt_mut(), "msb");
-        let mut mid_limbs_set_bool = air_builder
-            .let_for_deduction(value.get_felt(20).eq(const_expr!(0x1ff)), "mid_limbs_set");
-        let mid_limbs_set = air_builder.deduce(mid_limbs_set_bool.as_felt_mut(), "mid_limbs_set");
+        let msb = air_builder.deduce_air_var(value.get_felt(27).eq(const_expr!(0x100)), "msb");
+        let mid_limbs_set =
+            air_builder.deduce_air_var(value.get_felt(20).eq(const_expr!(0x1ff)), "mid_limbs_set");
 
         // Require case bits to be bits
-        air_builder.constrain(msb.clone() * (msb.clone() - const_expr!(1)), "msb is a bit");
         air_builder.constrain(
-            mid_limbs_set.clone() * (mid_limbs_set.clone() - const_expr!(1)),
+            msb.as_felt() * (msb.as_felt() - const_expr!(1)),
+            "msb is a bit",
+        );
+        air_builder.constrain(
+            mid_limbs_set.as_felt() * (mid_limbs_set.as_felt() - const_expr!(1)),
             "mid_limbs_set is a bit",
         );
 
         // Forbid the case msb = 0, mid_limbs_set = 1
         air_builder.constrain(
-            condition * mid_limbs_set.clone() * (msb.clone() - const_expr!(1)),
+            condition * mid_limbs_set.as_felt() * (msb.as_felt() - const_expr!(1)),
             "Cannot have msb equals 0 and mid_limbs_set equals 1",
         );
 
-        [msb, mid_limbs_set]
+        [msb.as_felt(), mid_limbs_set.as_felt()]
     }
 
     fn input_in_trace(&self) -> Option<bool> {

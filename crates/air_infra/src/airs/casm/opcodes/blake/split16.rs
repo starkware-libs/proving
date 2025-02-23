@@ -23,13 +23,8 @@ impl AirFn for Split16 {
         let low_size = const_u16_expr!(self.low_part_size as u16);
 
         // Calculate and deduce the high 16-'low_part_size' bits.
-        let mut ah = air_builder.let_for_deduction(
+        let ah = air_builder.deduce_air_var(
             a.clone() >> low_size.clone(),
-            &format!("ms_{}_bits", 16 - self.low_part_size),
-        );
-
-        air_builder.deduce(
-            ah.as_felt_mut(),
             &format!("ms_{}_bits", 16 - self.low_part_size),
         );
 

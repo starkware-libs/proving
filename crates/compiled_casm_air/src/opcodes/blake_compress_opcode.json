@@ -131,22 +131,22 @@
     "blake_round_output_limb_32_col119",
     "blake_round_output_limb_33_col120",
     "blake_round_output_limb_34_col121",
-    "triple_xor_32_output_limb_0_col122",
-    "triple_xor_32_output_limb_1_col123",
-    "triple_xor_32_output_limb_0_col124",
-    "triple_xor_32_output_limb_1_col125",
-    "triple_xor_32_output_limb_0_col126",
-    "triple_xor_32_output_limb_1_col127",
-    "triple_xor_32_output_limb_0_col128",
-    "triple_xor_32_output_limb_1_col129",
-    "triple_xor_32_output_limb_0_col130",
-    "triple_xor_32_output_limb_1_col131",
-    "triple_xor_32_output_limb_0_col132",
-    "triple_xor_32_output_limb_1_col133",
-    "triple_xor_32_output_limb_0_col134",
-    "triple_xor_32_output_limb_1_col135",
-    "triple_xor_32_output_limb_0_col136",
-    "triple_xor_32_output_limb_1_col137",
+    "triple_xor_32_output_low_col122",
+    "triple_xor_32_output_high_col123",
+    "triple_xor_32_output_low_col124",
+    "triple_xor_32_output_high_col125",
+    "triple_xor_32_output_low_col126",
+    "triple_xor_32_output_high_col127",
+    "triple_xor_32_output_low_col128",
+    "triple_xor_32_output_high_col129",
+    "triple_xor_32_output_low_col130",
+    "triple_xor_32_output_high_col131",
+    "triple_xor_32_output_low_col132",
+    "triple_xor_32_output_high_col133",
+    "triple_xor_32_output_low_col134",
+    "triple_xor_32_output_high_col135",
+    "triple_xor_32_output_low_col136",
+    "triple_xor_32_output_high_col137",
     "low_7_ms_bits_col138",
     "high_14_ms_bits_col139",
     "high_5_ms_bits_col140",
@@ -5138,10 +5138,10 @@
             "State": "high_16_bits_col34"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col122"
+            "State": "triple_xor_32_output_low_col122"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col123"
+            "State": "triple_xor_32_output_high_col123"
           }
         ],
         "use_or_yield": "Use"
@@ -5170,10 +5170,10 @@
             "State": "high_16_bits_col40"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col124"
+            "State": "triple_xor_32_output_low_col124"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col125"
+            "State": "triple_xor_32_output_high_col125"
           }
         ],
         "use_or_yield": "Use"
@@ -5202,10 +5202,10 @@
             "State": "high_16_bits_col46"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col126"
+            "State": "triple_xor_32_output_low_col126"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col127"
+            "State": "triple_xor_32_output_high_col127"
           }
         ],
         "use_or_yield": "Use"
@@ -5234,10 +5234,10 @@
             "State": "high_16_bits_col52"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col128"
+            "State": "triple_xor_32_output_low_col128"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col129"
+            "State": "triple_xor_32_output_high_col129"
           }
         ],
         "use_or_yield": "Use"
@@ -5266,10 +5266,10 @@
             "State": "high_16_bits_col58"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col130"
+            "State": "triple_xor_32_output_low_col130"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col131"
+            "State": "triple_xor_32_output_high_col131"
           }
         ],
         "use_or_yield": "Use"
@@ -5298,10 +5298,10 @@
             "State": "high_16_bits_col64"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col132"
+            "State": "triple_xor_32_output_low_col132"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col133"
+            "State": "triple_xor_32_output_high_col133"
           }
         ],
         "use_or_yield": "Use"
@@ -5330,10 +5330,10 @@
             "State": "high_16_bits_col70"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col134"
+            "State": "triple_xor_32_output_low_col134"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col135"
+            "State": "triple_xor_32_output_high_col135"
           }
         ],
         "use_or_yield": "Use"
@@ -5362,10 +5362,10 @@
             "State": "high_16_bits_col76"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col136"
+            "State": "triple_xor_32_output_low_col136"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col137"
+            "State": "triple_xor_32_output_high_col137"
           }
         ],
         "use_or_yield": "Use"
@@ -5385,7 +5385,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col123"
+                "State": "triple_xor_32_output_high_col123"
               },
               "-",
               {
@@ -5487,7 +5487,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col122"
+                "State": "triple_xor_32_output_low_col122"
               },
               "-",
               {
@@ -5517,7 +5517,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col123"
+                        "State": "triple_xor_32_output_high_col123"
                       },
                       "-",
                       {
@@ -5735,7 +5735,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col125"
+                "State": "triple_xor_32_output_high_col125"
               },
               "-",
               {
@@ -5837,7 +5837,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col124"
+                "State": "triple_xor_32_output_low_col124"
               },
               "-",
               {
@@ -5867,7 +5867,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col125"
+                        "State": "triple_xor_32_output_high_col125"
                       },
                       "-",
                       {
@@ -6085,7 +6085,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col127"
+                "State": "triple_xor_32_output_high_col127"
               },
               "-",
               {
@@ -6187,7 +6187,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col126"
+                "State": "triple_xor_32_output_low_col126"
               },
               "-",
               {
@@ -6217,7 +6217,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col127"
+                        "State": "triple_xor_32_output_high_col127"
                       },
                       "-",
                       {
@@ -6435,7 +6435,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col129"
+                "State": "triple_xor_32_output_high_col129"
               },
               "-",
               {
@@ -6537,7 +6537,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col128"
+                "State": "triple_xor_32_output_low_col128"
               },
               "-",
               {
@@ -6567,7 +6567,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col129"
+                        "State": "triple_xor_32_output_high_col129"
                       },
                       "-",
                       {
@@ -6785,7 +6785,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col131"
+                "State": "triple_xor_32_output_high_col131"
               },
               "-",
               {
@@ -6887,7 +6887,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col130"
+                "State": "triple_xor_32_output_low_col130"
               },
               "-",
               {
@@ -6917,7 +6917,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col131"
+                        "State": "triple_xor_32_output_high_col131"
                       },
                       "-",
                       {
@@ -7135,7 +7135,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col133"
+                "State": "triple_xor_32_output_high_col133"
               },
               "-",
               {
@@ -7237,7 +7237,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col132"
+                "State": "triple_xor_32_output_low_col132"
               },
               "-",
               {
@@ -7267,7 +7267,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col133"
+                        "State": "triple_xor_32_output_high_col133"
                       },
                       "-",
                       {
@@ -7485,7 +7485,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col135"
+                "State": "triple_xor_32_output_high_col135"
               },
               "-",
               {
@@ -7587,7 +7587,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col134"
+                "State": "triple_xor_32_output_low_col134"
               },
               "-",
               {
@@ -7617,7 +7617,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col135"
+                        "State": "triple_xor_32_output_high_col135"
                       },
                       "-",
                       {
@@ -7835,7 +7835,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col137"
+                "State": "triple_xor_32_output_high_col137"
               },
               "-",
               {
@@ -7937,7 +7937,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col136"
+                "State": "triple_xor_32_output_low_col136"
               },
               "-",
               {
@@ -7967,7 +7967,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col137"
+                        "State": "triple_xor_32_output_high_col137"
                       },
                       "-",
                       {
@@ -24616,10 +24616,10 @@
             "State": "high_16_bits_col34"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col122"
+            "State": "triple_xor_32_output_low_col122"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col123"
+            "State": "triple_xor_32_output_high_col123"
           }
         ],
         "use_or_yield": "Use"
@@ -24750,10 +24750,10 @@
             "State": "high_16_bits_col40"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col124"
+            "State": "triple_xor_32_output_low_col124"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col125"
+            "State": "triple_xor_32_output_high_col125"
           }
         ],
         "use_or_yield": "Use"
@@ -24884,10 +24884,10 @@
             "State": "high_16_bits_col46"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col126"
+            "State": "triple_xor_32_output_low_col126"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col127"
+            "State": "triple_xor_32_output_high_col127"
           }
         ],
         "use_or_yield": "Use"
@@ -25018,10 +25018,10 @@
             "State": "high_16_bits_col52"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col128"
+            "State": "triple_xor_32_output_low_col128"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col129"
+            "State": "triple_xor_32_output_high_col129"
           }
         ],
         "use_or_yield": "Use"
@@ -25152,10 +25152,10 @@
             "State": "high_16_bits_col58"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col130"
+            "State": "triple_xor_32_output_low_col130"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col131"
+            "State": "triple_xor_32_output_high_col131"
           }
         ],
         "use_or_yield": "Use"
@@ -25286,10 +25286,10 @@
             "State": "high_16_bits_col64"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col132"
+            "State": "triple_xor_32_output_low_col132"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col133"
+            "State": "triple_xor_32_output_high_col133"
           }
         ],
         "use_or_yield": "Use"
@@ -25420,10 +25420,10 @@
             "State": "high_16_bits_col70"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col134"
+            "State": "triple_xor_32_output_low_col134"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col135"
+            "State": "triple_xor_32_output_high_col135"
           }
         ],
         "use_or_yield": "Use"
@@ -25554,10 +25554,10 @@
             "State": "high_16_bits_col76"
           },
           {
-            "State": "triple_xor_32_output_limb_0_col136"
+            "State": "triple_xor_32_output_low_col136"
           },
           {
-            "State": "triple_xor_32_output_limb_1_col137"
+            "State": "triple_xor_32_output_high_col137"
           }
         ],
         "use_or_yield": "Use"
@@ -25701,7 +25701,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_xor_32_output_limb_1_col123"
+                  "State": "triple_xor_32_output_high_col123"
                 },
                 "-",
                 {
@@ -25737,7 +25737,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col123"
+                "State": "triple_xor_32_output_high_col123"
               },
               "-",
               {
@@ -25977,7 +25977,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col122"
+                "State": "triple_xor_32_output_low_col122"
               },
               "-",
               {
@@ -26007,7 +26007,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col123"
+                        "State": "triple_xor_32_output_high_col123"
                       },
                       "-",
                       {
@@ -26349,7 +26349,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_xor_32_output_limb_1_col125"
+                  "State": "triple_xor_32_output_high_col125"
                 },
                 "-",
                 {
@@ -26385,7 +26385,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col125"
+                "State": "triple_xor_32_output_high_col125"
               },
               "-",
               {
@@ -26625,7 +26625,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col124"
+                "State": "triple_xor_32_output_low_col124"
               },
               "-",
               {
@@ -26655,7 +26655,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col125"
+                        "State": "triple_xor_32_output_high_col125"
                       },
                       "-",
                       {
@@ -26997,7 +26997,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_xor_32_output_limb_1_col127"
+                  "State": "triple_xor_32_output_high_col127"
                 },
                 "-",
                 {
@@ -27033,7 +27033,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col127"
+                "State": "triple_xor_32_output_high_col127"
               },
               "-",
               {
@@ -27273,7 +27273,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col126"
+                "State": "triple_xor_32_output_low_col126"
               },
               "-",
               {
@@ -27303,7 +27303,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col127"
+                        "State": "triple_xor_32_output_high_col127"
                       },
                       "-",
                       {
@@ -27645,7 +27645,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_xor_32_output_limb_1_col129"
+                  "State": "triple_xor_32_output_high_col129"
                 },
                 "-",
                 {
@@ -27681,7 +27681,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col129"
+                "State": "triple_xor_32_output_high_col129"
               },
               "-",
               {
@@ -27921,7 +27921,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col128"
+                "State": "triple_xor_32_output_low_col128"
               },
               "-",
               {
@@ -27951,7 +27951,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col129"
+                        "State": "triple_xor_32_output_high_col129"
                       },
                       "-",
                       {
@@ -28293,7 +28293,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_xor_32_output_limb_1_col131"
+                  "State": "triple_xor_32_output_high_col131"
                 },
                 "-",
                 {
@@ -28329,7 +28329,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col131"
+                "State": "triple_xor_32_output_high_col131"
               },
               "-",
               {
@@ -28569,7 +28569,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col130"
+                "State": "triple_xor_32_output_low_col130"
               },
               "-",
               {
@@ -28599,7 +28599,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col131"
+                        "State": "triple_xor_32_output_high_col131"
                       },
                       "-",
                       {
@@ -28941,7 +28941,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_xor_32_output_limb_1_col133"
+                  "State": "triple_xor_32_output_high_col133"
                 },
                 "-",
                 {
@@ -28977,7 +28977,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col133"
+                "State": "triple_xor_32_output_high_col133"
               },
               "-",
               {
@@ -29217,7 +29217,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col132"
+                "State": "triple_xor_32_output_low_col132"
               },
               "-",
               {
@@ -29247,7 +29247,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col133"
+                        "State": "triple_xor_32_output_high_col133"
                       },
                       "-",
                       {
@@ -29589,7 +29589,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_xor_32_output_limb_1_col135"
+                  "State": "triple_xor_32_output_high_col135"
                 },
                 "-",
                 {
@@ -29625,7 +29625,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col135"
+                "State": "triple_xor_32_output_high_col135"
               },
               "-",
               {
@@ -29865,7 +29865,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col134"
+                "State": "triple_xor_32_output_low_col134"
               },
               "-",
               {
@@ -29895,7 +29895,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col135"
+                        "State": "triple_xor_32_output_high_col135"
                       },
                       "-",
                       {
@@ -30237,7 +30237,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_xor_32_output_limb_1_col137"
+                  "State": "triple_xor_32_output_high_col137"
                 },
                 "-",
                 {
@@ -30273,7 +30273,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_1_col137"
+                "State": "triple_xor_32_output_high_col137"
               },
               "-",
               {
@@ -30513,7 +30513,7 @@
           {
             "BinaryOp": [
               {
-                "State": "triple_xor_32_output_limb_0_col136"
+                "State": "triple_xor_32_output_low_col136"
               },
               "-",
               {
@@ -30543,7 +30543,7 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "triple_xor_32_output_limb_1_col137"
+                        "State": "triple_xor_32_output_high_col137"
                       },
                       "-",
                       {

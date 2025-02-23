@@ -132,7 +132,7 @@ pub fn mod_value_to_12bit_array(
     ab: &mut AirBuilder,
     mod_val: [Felt252Expr; MOD_BUILTIN_N_WORDS],
 ) -> [FeltExpr; MUL_MOD_NUM_LIMBS] {
-    let mut result: [FeltExpr; MUL_MOD_NUM_LIMBS] = from_fn(|_| FeltExpr::default());
+    let mut result: [FeltExpr; MUL_MOD_NUM_LIMBS] = Default::default();
     for i in 0..MOD_BUILTIN_N_WORDS {
         result[NUM_12BIT_LIMBS_PER_WORD * i..NUM_12BIT_LIMBS_PER_WORD * (i + 1)]
             .clone_from_slice(&ab.call(&ModWordTo12BitArray {}, mod_val[i].clone()));
@@ -149,35 +149,33 @@ impl AirFn for ModWordTo12BitArray {
     type Out = [FeltExpr; NUM_12BIT_LIMBS_PER_WORD];
 
     fn call(&self, ab: &mut AirBuilder, _: (), mod_word: Self::In) -> Self::Out {
-        let mut result: [FeltExpr; NUM_12BIT_LIMBS_PER_WORD] = from_fn(|_| FeltExpr::default());
+        let mut result: [FeltExpr; NUM_12BIT_LIMBS_PER_WORD] = Default::default();
         let mod_word_u16_arr: [UInt16Expr; N_SUBWORDS_IN_WORD] =
             from_fn(|i| UInt16Expr::from(mod_word.get_felt(i)));
 
         // TODO(ohadn): Consider using a loop here.
-        let mut limb1b_u16 = ab.let_for_deduction(
+        let limb1b = ab.deduce_air_var(
             mod_word_u16_arr[1].clone() >> const_u16_expr!(3),
             "limb1b_u16",
         );
-        let limb1b = ab.deduce(limb1b_u16.as_felt_mut(), "limb1b");
-        let limb1a = mod_word.get_felt(1) - (limb1b.clone() * const_expr!(1 << 3));
+        let limb1a = mod_word.get_felt(1) - (limb1b.as_felt() * const_expr!(1 << 3));
 
         result[0] = ab.let_(
             mod_word.get_felt(0) + const_expr!(1 << 9) * limb1a.clone(),
             "res0",
         );
 
-        let mut limb2b_u16 = ab.let_for_deduction(
+        let limb2b = ab.deduce_air_var(
             mod_word_u16_arr[2].clone() >> const_u16_expr!(6),
             "limb2b_u16",
         );
-        let limb2b = ab.deduce(limb2b_u16.as_felt_mut(), "limb2b");
-        let limb2a = mod_word.get_felt(2) - (limb2b.clone() * const_expr!(1 << 6));
+        let limb2a = mod_word.get_felt(2) - (limb2b.as_felt() * const_expr!(1 << 6));
         result[1] = ab.let_(
-            limb1b.clone() + const_expr!(1 << 6) * limb2a.clone(),
+            limb1b.as_felt() + const_expr!(1 << 6) * limb2a.clone(),
             "res1",
         );
         result[2] = ab.let_(
-            limb2b.clone() + const_expr!(1 << 3) * mod_word.get_felt(3),
+            limb2b.as_felt() + const_expr!(1 << 3) * mod_word.get_felt(3),
             "res2",
         );
 
@@ -186,35 +184,33 @@ impl AirFn for ModWordTo12BitArray {
             &[3, 6, 6, 3],
             &[
                 limb1a.clone(),
-                limb1b.clone(),
+                limb1b.as_felt(),
                 limb2a.clone(),
-                limb2b.clone(),
+                limb2b.as_felt(),
             ],
         );
 
-        let mut limb5b_u16 = ab.let_for_deduction(
+        let limb5b = ab.deduce_air_var(
             mod_word_u16_arr[5].clone() >> const_u16_expr!(3),
             "limb5b_u16",
         );
-        let limb5b = ab.deduce(limb5b_u16.as_felt_mut(), "limb5b");
-        let limb5a = mod_word.get_felt(5) - (limb5b.clone() * const_expr!(1 << 3));
+        let limb5a = mod_word.get_felt(5) - (limb5b.as_felt() * const_expr!(1 << 3));
         result[3] = ab.let_(
             mod_word.get_felt(4) + const_expr!(1 << 9) * limb5a.clone(),
             "res3",
         );
 
-        let mut limb6b_u16 = ab.let_for_deduction(
+        let limb6b = ab.deduce_air_var(
             mod_word_u16_arr[6].clone() >> const_u16_expr!(6),
             "limb6b_u16",
         );
-        let limb6b = ab.deduce(limb6b_u16.as_felt_mut(), "limb6b");
-        let limb6a = mod_word.get_felt(6) - (limb6b.clone() * const_expr!(1 << 6));
+        let limb6a = mod_word.get_felt(6) - (limb6b.as_felt() * const_expr!(1 << 6));
         result[4] = ab.let_(
-            limb5b.clone() + const_expr!(1 << 6) * limb6a.clone(),
+            limb5b.as_felt() + const_expr!(1 << 6) * limb6a.clone(),
             "res4",
         );
         result[5] = ab.let_(
-            limb6b.clone() + const_expr!(1 << 3) * mod_word.get_felt(7),
+            limb6b.as_felt() + const_expr!(1 << 3) * mod_word.get_felt(7),
             "res5",
         );
 
@@ -223,30 +219,29 @@ impl AirFn for ModWordTo12BitArray {
             &[3, 6, 6, 3],
             &[
                 limb5a.clone(),
-                limb5b.clone(),
+                limb5b.as_felt(),
                 limb6a.clone(),
-                limb6b.clone(),
+                limb6b.as_felt(),
             ],
         );
 
-        let mut limb9b_u16 = ab.let_for_deduction(
+        let limb9b = ab.deduce_air_var(
             mod_word_u16_arr[9].clone() >> const_u16_expr!(3),
             "limb9b_u16",
         );
-        let limb9b = ab.deduce(limb9b_u16.as_felt_mut(), "limb9b");
-        let limb9a = mod_word.get_felt(9) - (limb9b.clone() * const_expr!(1 << 3));
+        let limb9a = mod_word.get_felt(9) - (limb9b.as_felt() * const_expr!(1 << 3));
 
         result[6] = ab.let_(
             mod_word.get_felt(8) + const_expr!(1 << 9) * limb9a.clone(),
             "res6",
         );
         result[7] = ab.let_(
-            limb9b.clone() + const_expr!(1 << 6) * mod_word.get_felt(10),
+            limb9b.as_felt() + const_expr!(1 << 6) * mod_word.get_felt(10),
             "res7",
         );
 
         // TODO(OhadN): Consider batching these into [3, 6, 6, 3] range checks.
-        range_check(ab, &[3, 6], &[limb9a.clone(), limb9b.clone()]);
+        range_check(ab, &[3, 6], &[limb9a.clone(), limb9b.as_felt()]);
 
         result
     }

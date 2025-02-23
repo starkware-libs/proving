@@ -106,17 +106,16 @@ impl AirFn for RangeCheckLastLimb {
                 "most significant limb is a bit",
             ),
             2 => {
-                let mut mslh = air_builder.let_for_deduction(
+                let mslh = air_builder.deduce_air_var(
                     (UInt16Expr::from(msl.clone()) & const_u16_expr!(0b10)) >> const_u16_expr!(1),
                     "msb",
                 );
-                let mslh = air_builder.deduce(mslh.as_felt_mut(), "msb");
                 air_builder.constrain(
-                    mslh.clone() * (const_expr!(1) - mslh.clone()),
+                    mslh.as_felt() * (const_expr!(1) - mslh.as_felt()),
                     "msb is a bit",
                 );
-                let msll =
-                    air_builder.let_for_constraint(msl - (mslh * const_expr!(2)), "bit_before_msb");
+                let msll = air_builder
+                    .let_for_constraint(msl - (mslh.as_felt() * const_expr!(2)), "bit_before_msb");
                 air_builder.constrain(
                     msll.clone() * (const_expr!(1) - msll.clone()),
                     "bit before msb is a bit",

@@ -83,7 +83,7 @@ impl AirFn for AddModBuiltin {
         let a_384: BigUInt384Expr = a.to_vec().into();
         let b_384: BigUInt384Expr = b.to_vec().into();
         let c_384: BigUInt384Expr = c.to_vec().into();
-        let diff_384 = ab.let_for_deduction(a_384.clone() + b_384.clone() - c_384.clone(), "diff");
+        let diff_384 = ab.let_for_deduction(a_384 + b_384 - c_384, "diff");
         let is_diff_0 = ab.let_for_deduction(
             diff_384.eq(const_bigu384_expr!(0, 0, 0, 0, 0, 0)),
             "is_diff_0",
