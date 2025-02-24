@@ -21,6 +21,9 @@ mod split16;
 pub mod triple_sum32;
 #[cfg(test)]
 pub mod triple_sum32_test;
+pub mod triple_xor32;
+#[cfg(test)]
+mod triple_xor_test;
 mod verify_blake_word;
 #[cfg(test)]
 mod verify_blake_word_test;

@@ -1,0 +1,2031 @@
+{
+  "name": "triple_xor_32",
+  "relation_name": "TripleXor32",
+  "description": "Triple Xor 32",
+  "input": {
+    "Array": [
+      {
+        "Var": [
+          "UInt32",
+          "triple_xor_32_input[0]"
+        ]
+      },
+      {
+        "Var": [
+          "UInt32",
+          "triple_xor_32_input[1]"
+        ]
+      },
+      {
+        "Var": [
+          "UInt32",
+          "triple_xor_32_input[2]"
+        ]
+      }
+    ]
+  },
+  "state_names": [
+    "input_limb_0_col0",
+    "input_limb_1_col1",
+    "input_limb_2_col2",
+    "input_limb_3_col3",
+    "input_limb_4_col4",
+    "input_limb_5_col5",
+    "ms_8_bits_col6",
+    "ms_8_bits_col7",
+    "ms_8_bits_col8",
+    "ms_8_bits_col9",
+    "ms_8_bits_col10",
+    "ms_8_bits_col11",
+    "xor_col12",
+    "xor_col13",
+    "xor_col14",
+    "xor_col15",
+    "xor_col16",
+    "xor_col17",
+    "xor_col18",
+    "xor_col19"
+  ],
+  "multiplicity_col_index": 20,
+  "lookup_names": [
+    "verify_bitwise_xor_8"
+  ],
+  "n_lookup_terms": 9,
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": "input_limb_0_col0"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_8_bits_col6"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "input_limb_2_col2"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_8_bits_col8"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "xor_col12"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "xor_col12"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "input_limb_4_col4"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_8_bits_col10"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "xor_col13"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "ms_8_bits_col6"
+          },
+          {
+            "State": "ms_8_bits_col8"
+          },
+          {
+            "State": "xor_col14"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "xor_col14"
+          },
+          {
+            "State": "ms_8_bits_col10"
+          },
+          {
+            "State": "xor_col15"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": "input_limb_1_col1"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_8_bits_col7"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "input_limb_3_col3"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_8_bits_col9"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "xor_col16"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "xor_col16"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "input_limb_5_col5"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_8_bits_col11"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "xor_col17"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "ms_8_bits_col7"
+          },
+          {
+            "State": "ms_8_bits_col9"
+          },
+          {
+            "State": "xor_col18"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "xor_col18"
+          },
+          {
+            "State": "ms_8_bits_col11"
+          },
+          {
+            "State": "xor_col19"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "triple_xor32_output_tmp_298db_15_limb_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "xor_col13"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "xor_col15"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "triple_xor32_output_tmp_298db_15_limb_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "xor_col17"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "xor_col19"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "TripleXor32",
+        "felts": [
+          {
+            "State": "input_limb_0_col0"
+          },
+          {
+            "State": "input_limb_1_col1"
+          },
+          {
+            "State": "input_limb_2_col2"
+          },
+          {
+            "State": "input_limb_3_col3"
+          },
+          {
+            "State": "input_limb_4_col4"
+          },
+          {
+            "State": "input_limb_5_col5"
+          },
+          {
+            "Var": [
+              "M31",
+              "triple_xor32_output_tmp_298db_15_limb_0"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "triple_xor32_output_tmp_298db_15_limb_1"
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "input_tmp_298db_0",
+        "type": "[UInt32, UInt32, UInt32]",
+        "var": {
+          "Array": [
+            {
+              "Var": [
+                "UInt32",
+                "triple_xor_32_input[0]"
+              ]
+            },
+            {
+              "Var": [
+                "UInt32",
+                "triple_xor_32_input[1]"
+              ]
+            },
+            {
+              "Var": [
+                "UInt32",
+                "triple_xor_32_input[2]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "input_tmp_298db_0[0]"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "input_tmp_298db_0[0]"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "input_tmp_298db_0[1]"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "input_tmp_298db_0[1]"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "input_tmp_298db_0[2]"
+                ]
+              },
+              "low",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "UInt32",
+                  "input_tmp_298db_0[2]"
+                ]
+              },
+              "high",
+              []
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "ms_8_bits_tmp_298db_1",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "UInt32",
+                    "input_tmp_298db_0[0]"
+                  ]
+                },
+                "low",
+                []
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "8"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "ms_8_bits_tmp_298db_1"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "ms_8_bits_tmp_298db_2",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "UInt32",
+                    "input_tmp_298db_0[0]"
+                  ]
+                },
+                "high",
+                []
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "8"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "ms_8_bits_tmp_298db_2"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "ms_8_bits_tmp_298db_3",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "UInt32",
+                    "input_tmp_298db_0[1]"
+                  ]
+                },
+                "low",
+                []
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "8"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "ms_8_bits_tmp_298db_3"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "ms_8_bits_tmp_298db_4",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "UInt32",
+                    "input_tmp_298db_0[1]"
+                  ]
+                },
+                "high",
+                []
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "8"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "ms_8_bits_tmp_298db_4"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "ms_8_bits_tmp_298db_5",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "UInt32",
+                    "input_tmp_298db_0[2]"
+                  ]
+                },
+                "low",
+                []
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "8"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "ms_8_bits_tmp_298db_5"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "ms_8_bits_tmp_298db_6",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "UInt32",
+                    "input_tmp_298db_0[2]"
+                  ]
+                },
+                "high",
+                []
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "8"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "ms_8_bits_tmp_298db_6"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "Intermediate": {
+        "name": "xor_tmp_298db_7",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_0_col0"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "ms_8_bits_col6"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "256"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            "^",
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_2_col2"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "ms_8_bits_col8"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "256"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "xor_tmp_298db_7"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "verify_bitwise_xor_8",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_limb_0_col0"
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col6"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_limb_2_col2"
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col8"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "xor_col12"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": "input_limb_0_col0"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_8_bits_col6"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "input_limb_2_col2"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_8_bits_col8"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "xor_col12"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "Intermediate": {
+        "name": "xor_tmp_298db_8",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "xor_col12"
+                  }
+                ]
+              ]
+            },
+            "^",
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_4_col4"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "ms_8_bits_col10"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "256"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "xor_tmp_298db_8"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "verify_bitwise_xor_8",
+        "input": {
+          "Array": [
+            {
+              "State": "xor_col12"
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_limb_4_col4"
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col10"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "xor_col13"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "xor_col12"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "input_limb_4_col4"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_8_bits_col10"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "xor_col13"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "Intermediate": {
+        "name": "xor_tmp_298db_9",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "ms_8_bits_col6"
+                  }
+                ]
+              ]
+            },
+            "^",
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "ms_8_bits_col8"
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "xor_tmp_298db_9"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "verify_bitwise_xor_8",
+        "input": {
+          "Array": [
+            {
+              "State": "ms_8_bits_col6"
+            },
+            {
+              "State": "ms_8_bits_col8"
+            },
+            {
+              "State": "xor_col14"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "ms_8_bits_col6"
+          },
+          {
+            "State": "ms_8_bits_col8"
+          },
+          {
+            "State": "xor_col14"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "Intermediate": {
+        "name": "xor_tmp_298db_10",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "xor_col14"
+                  }
+                ]
+              ]
+            },
+            "^",
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "ms_8_bits_col10"
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "xor_tmp_298db_10"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "verify_bitwise_xor_8",
+        "input": {
+          "Array": [
+            {
+              "State": "xor_col14"
+            },
+            {
+              "State": "ms_8_bits_col10"
+            },
+            {
+              "State": "xor_col15"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "xor_col14"
+          },
+          {
+            "State": "ms_8_bits_col10"
+          },
+          {
+            "State": "xor_col15"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "Intermediate": {
+        "name": "xor_tmp_298db_11",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_1_col1"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "ms_8_bits_col7"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "256"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            "^",
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_3_col3"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "ms_8_bits_col9"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "256"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "xor_tmp_298db_11"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "verify_bitwise_xor_8",
+        "input": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_limb_1_col1"
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col7"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_limb_3_col3"
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col9"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "xor_col16"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": "input_limb_1_col1"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_8_bits_col7"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "input_limb_3_col3"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_8_bits_col9"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "xor_col16"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "Intermediate": {
+        "name": "xor_tmp_298db_12",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "xor_col16"
+                  }
+                ]
+              ]
+            },
+            "^",
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "input_limb_5_col5"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "ms_8_bits_col11"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "256"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "xor_tmp_298db_12"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "verify_bitwise_xor_8",
+        "input": {
+          "Array": [
+            {
+              "State": "xor_col16"
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_limb_5_col5"
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col11"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "xor_col17"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "xor_col16"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "input_limb_5_col5"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_8_bits_col11"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "256"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "xor_col17"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "Intermediate": {
+        "name": "xor_tmp_298db_13",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "ms_8_bits_col7"
+                  }
+                ]
+              ]
+            },
+            "^",
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "ms_8_bits_col9"
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "xor_tmp_298db_13"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "verify_bitwise_xor_8",
+        "input": {
+          "Array": [
+            {
+              "State": "ms_8_bits_col7"
+            },
+            {
+              "State": "ms_8_bits_col9"
+            },
+            {
+              "State": "xor_col18"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "ms_8_bits_col7"
+          },
+          {
+            "State": "ms_8_bits_col9"
+          },
+          {
+            "State": "xor_col18"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "Intermediate": {
+        "name": "xor_tmp_298db_14",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "xor_col18"
+                  }
+                ]
+              ]
+            },
+            "^",
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "State": "ms_8_bits_col11"
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "xor_tmp_298db_14"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "verify_bitwise_xor_8",
+        "input": {
+          "Array": [
+            {
+              "State": "xor_col18"
+            },
+            {
+              "State": "ms_8_bits_col11"
+            },
+            {
+              "State": "xor_col19"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "xor_col18"
+          },
+          {
+            "State": "ms_8_bits_col11"
+          },
+          {
+            "State": "xor_col19"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "triple_xor32_output_tmp_298db_15",
+        "type": "UInt32",
+        "var": {
+          "StaticCall": [
+            "UInt32::from_limbs",
+            [
+              {
+                "BinaryOp": [
+                  {
+                    "State": "xor_col13"
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "xor_col15"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "256"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "BinaryOp": [
+                  {
+                    "State": "xor_col17"
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "xor_col19"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "256"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "triple_xor32_output_tmp_298db_15_limb_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "xor_col13"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "xor_col15"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "triple_xor32_output_tmp_298db_15_limb_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "xor_col17"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "xor_col19"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "TripleXor32",
+        "felts": [
+          {
+            "State": "input_limb_0_col0"
+          },
+          {
+            "State": "input_limb_1_col1"
+          },
+          {
+            "State": "input_limb_2_col2"
+          },
+          {
+            "State": "input_limb_3_col3"
+          },
+          {
+            "State": "input_limb_4_col4"
+          },
+          {
+            "State": "input_limb_5_col5"
+          },
+          {
+            "Var": [
+              "M31",
+              "triple_xor32_output_tmp_298db_15_limb_0"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "triple_xor32_output_tmp_298db_15_limb_1"
+            ]
+          }
+        ],
+        "use_or_yield": "Yield"
+      }
+    }
+  ]
+}
