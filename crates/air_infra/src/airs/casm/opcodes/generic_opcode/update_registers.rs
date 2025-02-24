@@ -75,11 +75,13 @@ impl AirFn for UpdateRegisters {
         );
 
         // Calcualte npc for jnz
-        let dst_sum = dst
+        let mut dst_sum = dst
             .as_felts()
             .clone()
             .into_iter()
             .fold(const_expr!(0), |acc, x| acc + x);
+        dst_sum = air_builder.let_(dst_sum, "dst_sum");
+
         let dst_is_zero =
             air_builder.let_for_deduction(dst_sum.clone().eq(const_expr!(0)), "dst_is_zero");
         // If dst_sum is 0, then sum_inv = 1

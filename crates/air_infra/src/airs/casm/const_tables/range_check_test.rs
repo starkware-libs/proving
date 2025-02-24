@@ -17,12 +17,7 @@ impl AirFn for SmallAdd {
     type In = [FeltExpr; 2];
     type Out = FeltExpr;
 
-    fn call(
-        &self,
-        air_builder: &mut crate::core::air_fn::AirBuilder,
-        _: (),
-        [mut a, mut b]: Self::In,
-    ) -> Self::Out {
+    fn call(&self, air_builder: &mut AirBuilder, _: (), [mut a, mut b]: Self::In) -> Self::Out {
         air_builder.deduce(&mut a, "");
         air_builder.deduce(&mut b, "");
 
