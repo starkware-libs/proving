@@ -1,3 +1,4 @@
+use compiled_casm_air::relations::MEMORY_RELATION_NAME;
 use inst_def::InstDef;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
@@ -8,10 +9,9 @@ use crate::core::expressions::felt_expr::*;
 use crate::core::memory::*;
 use crate::core::variables::*;
 
-pub const SMALL_MEM_VALUE_N_FELTS: usize = 8;
-
 const STWO_COMPONENT_TYPE_MEM_ID_FOR_BIG: &str = "MemoryIdForBig";
 
+/// External table for the memory big value IDs.
 #[derive(Debug, Clone, Default)]
 pub struct MemIdForBig {}
 
@@ -36,6 +36,8 @@ impl IsMemory<MemIdForBig, Felt252Expr> for MemoryIdToBig {
     }
 }
 
+/// A table with 29 columns. The first is the external column 'MemIdForBig' represents the ID,
+/// and the other 28 felts represent the corresponding big memory value.
 impl AirFn for MemoryIdToBig {
     type ExtIn = MemIdForBig;
     type In = ();
@@ -63,6 +65,10 @@ impl AirFn for MemoryIdToBig {
 
     fn trace_type(&self) -> TraceType {
         TraceType::Memory
+    }
+
+    fn relation_name(&self) -> Option<String> {
+        Some(MEMORY_RELATION_NAME.to_string())
     }
 }
 

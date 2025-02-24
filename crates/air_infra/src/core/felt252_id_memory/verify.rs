@@ -28,7 +28,7 @@ impl AirFn for MemVerify {
                 .unwrap_or("id".to_string()),
         );
         air_builder.mem_verify(&self.memory.address_to_id, &address, id.clone());
-        air_builder.mem_verify(&self.memory.id_to_value, &id, value);
+        air_builder.mem_verify(&self.memory.id_to_big, &id, value);
     }
 }
 
@@ -55,7 +55,7 @@ impl<const N: usize> AirFn for MemVerifyAll<N> {
                 .unwrap_or("id".to_string()),
         );
         air_builder.mem_verify(&self.memory.address_to_id, &addresses[0], id.clone());
-        air_builder.mem_verify(&self.memory.id_to_value, &id, value);
+        air_builder.mem_verify(&self.memory.id_to_big, &id, value);
 
         for address in addresses.iter().skip(1) {
             air_builder.mem_verify(&self.memory.address_to_id, address, id.clone());

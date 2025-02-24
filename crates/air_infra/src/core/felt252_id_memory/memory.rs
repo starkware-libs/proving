@@ -3,6 +3,7 @@ use std::collections::BTreeMap;
 
 use super::address_to_id::*;
 use super::id_to_big::*;
+use super::id_to_small::*;
 use super::read_positive::*;
 use super::read_small::*;
 use crate::airs::casm::casm_state::*;
@@ -19,9 +20,9 @@ use crate::core::variables::*;
 #[cfg(test)]
 use crate::core::Felt;
 
-/// Stores an address -> Felt252 mapping using two components: 1. address -> ID table and
-/// 2. ID -> Felt252 table. The ID is a single M31 felt and it is guaranteed that different
-/// Felt252 values have different IDs.
+/// Stores an address -> Felt252 mapping using three components: address -> ID,
+/// ID -> small memory value and ID -> big memory value (felt252). The ID is a single M31 felt and
+/// it is guaranteed that different Felt252 values have different IDs.
 ///
 /// This representation allows to verify that two addresses contain the same value by
 /// performing a lookup just in component (1), which requires deducing just three felts
@@ -29,7 +30,9 @@ use crate::core::Felt;
 #[derive(Debug, Clone, Default)]
 pub struct Felt252IdMemory {
     pub(super) address_to_id: MemoryAddressToId,
-    pub(super) id_to_value: MemoryIdToBig,
+    pub(super) id_to_big: MemoryIdToBig,
+    #[allow(dead_code)]
+    pub(super) id_to_small: MemoryIdToSmall,
 }
 
 impl Felt252IdMemory {
@@ -45,7 +48,7 @@ impl Felt252IdMemory {
             // If it is a new value, create a new ID
             if !value_to_id.contains_key(&limbs) {
                 value_to_id.insert(limbs.clone(), id);
-                result.id_to_value.mem_mut().set(const_expr!(id), felt252);
+                result.id_to_big.mem_mut().set(const_expr!(id), felt252);
                 id += 1;
             }
 
@@ -66,7 +69,7 @@ impl Felt252IdMemory {
         address: &CasmAddress,
     ) -> (Felt252Expr, FeltExpr) {
         let id = air_builder.mem_read_unverified(&self.address_to_id, address);
-        let value = air_builder.mem_read_unverified(&self.id_to_value, &id);
+        let value = air_builder.mem_read_unverified(&self.id_to_big, &id);
         (value, id)
     }
 
