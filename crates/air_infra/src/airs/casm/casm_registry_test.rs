@@ -285,10 +285,9 @@ fn add_entry_statistics(
     let num_lookup_cols: usize = lookup_use_cols.iter().map(|(_, count)| count).sum();
 
     let total_num_trace_cols = num_state_cols
-        + (TRACE_COLUMNS_PER_LOGUP * num_lookup_cols)
-        + ((num_lookup_cols % 2) * TRACE_COLUMNS_PER_LOGUP)
-        + (lookup_multiplicity as usize)
-        + (TRACE_COLUMNS_PER_LOGUP * (lookup_yield as usize));
+        + (TRACE_COLUMNS_PER_LOGUP * (num_lookup_cols + lookup_yield as usize))
+        + (((num_lookup_cols + lookup_yield as usize) % 2) * TRACE_COLUMNS_PER_LOGUP)
+        + (lookup_multiplicity as usize);
 
     // An upper bound on the number of cells added to the trace for each `AddInput`
     // to this component. Includes rows added to other lookup components called by
