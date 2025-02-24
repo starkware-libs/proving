@@ -450,7 +450,7 @@ impl_air_var!((CasmAddress, UInt32Expr));
 // CreateBlakeRoundInput
 impl_air_var!((CasmAddress, UInt32Expr, BoolExpr));
 // CreateBlakeOutput
-impl_air_var!((H, BlakeState));
+impl_air_var!((BlakeH, BlakeState));
 // DecodeBlakeOpcode
 impl_air_var!((BlakePointers, UInt32Expr, BlakeFlags));
 // PartialECMul

@@ -6,7 +6,7 @@ use crate::airs::casm::opcodes::blake::xor_rot32::*;
 use crate::core::air_fn::*;
 use crate::core::expressions::uint32_expr::*;
 
-pub type H = [UInt32Expr; 8];
+pub type BlakeH = [UInt32Expr; 8];
 #[derive(Debug, InstDef)]
 pub struct CreateBlakeOutput {}
 
@@ -14,8 +14,8 @@ pub struct CreateBlakeOutput {}
 /// BlakeState as output by the round.
 impl AirFn for CreateBlakeOutput {
     type ExtIn = ();
-    type In = (H, BlakeState);
-    type Out = H;
+    type In = (BlakeH, BlakeState);
+    type Out = BlakeH;
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), (h, state): Self::In) -> Self::Out {
         let bitwise_xor = &XorRot32 { r: 0 };
