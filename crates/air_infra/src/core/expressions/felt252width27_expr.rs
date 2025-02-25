@@ -108,3 +108,12 @@ impl Default for Felt252Width27Expr {
         }))
     }
 }
+
+#[macro_export]
+macro_rules! const_felt252_width27 {
+    ($value:expr) => {
+        Felt252Width27Expr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
+            $value,
+        ))
+    };
+}
