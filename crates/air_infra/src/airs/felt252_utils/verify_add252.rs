@@ -32,14 +32,13 @@ impl AirFn for VerifyAdd252 {
         // Therefore, sub_p_bit can be extracted as the least significant bit of
         // a[0] + b[0] - c[0] mod 2**FELT252_BITS_PER_WORD, or equivalently as the LSB of
         // a[0] ^ b[0] ^ c[0], when taken as UInt16Expr-s.
-        let mut sub_p_bit_u16 = const_u16_expr!(1)
+        let mut sub_p_bit = const_u16_expr!(1)
             & (UInt16Expr::from(a.get_felt(0))
                 ^ UInt16Expr::from(b.get_felt(0))
                 ^ UInt16Expr::from(c.get_felt(0)));
-        sub_p_bit_u16 = air_builder.let_for_deduction(sub_p_bit_u16, "sub_p_bit");
-        let sub_p_bit = air_builder.deduce(sub_p_bit_u16.as_felt_mut(), "sub_p_bit");
+        sub_p_bit = air_builder.deduce_air_var(sub_p_bit, "sub_p_bit");
         air_builder.constrain(
-            sub_p_bit.clone() * (sub_p_bit.clone() - const_expr!(1)),
+            sub_p_bit.as_felt() * (sub_p_bit.as_felt() - const_expr!(1)),
             "sub_p_bit is a bit",
         );
 
@@ -47,7 +46,7 @@ impl AirFn for VerifyAdd252 {
         for (i, &p_felt) in P_FELTS.iter().enumerate().take(FELT252_N_WORDS - 1) {
             let mut carry = a.get_felt(i) + b.get_felt(i) + prev_carry
                 - c.get_felt(i)
-                - const_expr!(p_felt) * sub_p_bit.clone();
+                - const_expr!(p_felt) * sub_p_bit.as_felt();
             carry = air_builder.let_for_constraint(carry * shift_inverse.clone(), "carry");
             air_builder.constrain(
                 carry.clone() * (carry.clone() * carry.clone() - const_expr!(1)),
@@ -59,7 +58,7 @@ impl AirFn for VerifyAdd252 {
         air_builder.constrain(
             a.get_felt(i) + b.get_felt(i) + prev_carry
                 - c.get_felt(i)
-                - const_expr!(P_FELTS[i]) * sub_p_bit,
+                - const_expr!(P_FELTS[i]) * sub_p_bit.as_felt(),
             "",
         );
     }

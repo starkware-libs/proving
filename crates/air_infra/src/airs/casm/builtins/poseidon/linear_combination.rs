@@ -10,7 +10,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt252width27_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
-use crate::core::variables::*;
 use crate::{const_expr, const_felt252_expr};
 
 /// Computes and verifies small linear combinations of packed felts.
@@ -110,10 +109,7 @@ impl<const N: usize> AirFn for LinearCombination<N> {
 
         // Deduce the linear combination result in packed form.
         let mut res: Felt252Width27Expr = res.into();
-        res = air_builder.let_for_deduction(res, "combination_result");
-        for (i, limb) in res.as_felts_mut().into_iter().enumerate() {
-            air_builder.deduce(limb, &format!("combination_limb_{}", i));
-        }
+        res = air_builder.deduce_air_var(res, "combination");
 
         let shift = const_expr!(1 << FELT252WIDTH27_BITS_PER_WORD);
         let shift_inverse = const_expr!(1) / shift.clone();

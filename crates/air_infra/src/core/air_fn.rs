@@ -361,6 +361,13 @@ impl AirBuilder {
     where
         V: AirVar,
     {
+        let mut felts = var.as_felts_mut();
+
+        if felts.len() == 1 {
+            self.deduce(felts[0], desc);
+            return;
+        }
+
         if let Some(descs) = var.get_felt_descriptions() {
             for (felt, felt_desc) in var.as_felts_mut().into_iter().zip(descs) {
                 self.deduce(felt, &format!("{}_{}", desc, felt_desc));

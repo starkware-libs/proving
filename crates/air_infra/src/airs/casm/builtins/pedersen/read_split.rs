@@ -38,16 +38,14 @@ impl AirFn for ReadSplit {
 
         // Deduce the most significant limb split into two parts
         let ms_limb = UInt16Expr::from(value.get_felt(FELT252_N_WORDS - 1));
-        let mut ms_limb_low = air_builder.let_for_deduction(
+        let ms_limb_low = air_builder.deduce_air_var(
             ms_limb.clone() & const_u16_expr!((1 << LOW_BITS_IN_MS_LIMB) - 1),
             "ms_limb_low",
         );
-        let mut ms_limb_high = air_builder.let_for_deduction(
+        let ms_limb_high = air_builder.deduce_air_var(
             ms_limb >> const_u16_expr!(LOW_BITS_IN_MS_LIMB),
             "ms_limb_high",
         );
-        let ms_limb_low_felt = air_builder.deduce(ms_limb_low.as_felt_mut(), "ms_limb_low");
-        let ms_limb_high_felt = air_builder.deduce(ms_limb_high.as_felt_mut(), "ms_limb_high");
 
         // Range check the parts
         range_check(
@@ -56,15 +54,14 @@ impl AirFn for ReadSplit {
                 LOW_BITS_IN_MS_LIMB,
                 TryInto::<u16>::try_into(FELT252_BITS_PER_WORD).unwrap() - LOW_BITS_IN_MS_LIMB,
             ],
-            &[ms_limb_low_felt.clone(), ms_limb_high_felt.clone()],
+            &[ms_limb_low.as_felt(), ms_limb_high.as_felt()],
         );
 
         // Build the original value from the deduced parts and verify that it is indeed the value
         // in the memory.
         let mut memory_value_felts: Vec<_> = value.as_felts()[0..FELT252_N_WORDS - 1].into();
         memory_value_felts.push(
-            ms_limb_high_felt.clone() * const_expr!(1 << LOW_BITS_IN_MS_LIMB)
-                + ms_limb_low_felt.clone(),
+            ms_limb_high.as_felt() * const_expr!(1 << LOW_BITS_IN_MS_LIMB) + ms_limb_low.as_felt(),
         );
 
         air_builder.call(
@@ -76,9 +73,9 @@ impl AirFn for ReadSplit {
 
         // Build the low and high parts from the deduced felts.
         let mut low_felts: Vec<_> = value.as_felts()[0..FELT252_N_WORDS - 1].into();
-        low_felts.push(ms_limb_low_felt);
+        low_felts.push(ms_limb_low.as_felt());
 
-        let high_felts = vec![ms_limb_high_felt];
+        let high_felts = vec![ms_limb_high.as_felt()];
 
         [
             low_felts.into(),

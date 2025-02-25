@@ -33,62 +33,54 @@ impl AirFn for EncodeOffsets {
 
         // Deduce the parts of offset0.
         let off0 = UInt16Expr::from(off0_f.clone());
-        let mut low0 = ab.let_for_deduction(off0.clone() & const_u16_expr!(0x1FF), "offset0_low");
-        let low0_f = ab.deduce(low0.as_felt_mut(), "offset0_low");
-        let mut mid0 = ab.let_for_deduction(off0 >> const_u16_expr!(9), "offset0_mid");
-        let mid0_f = ab.deduce(mid0.as_felt_mut(), "offset0_mid");
+        let low0 = ab.deduce_air_var(off0.clone() & const_u16_expr!(0x1FF), "offset0_low");
+        let mid0 = ab.deduce_air_var(off0 >> const_u16_expr!(9), "offset0_mid");
 
         // Reconstruct offset0 as felt from the middle and low parts.
-        let new_off0_f = low0_f.clone() + (mid0_f.clone() * const_expr!(1 << 9));
+        let new_off0_f = low0.as_felt() + (mid0.as_felt() * const_expr!(1 << 9));
         ab.constrain(new_off0_f - off0_f, "Reconstructed offset0 is correct");
 
         // Deduce the parts of offset1.
         let off1 = UInt16Expr::from(off1_f.clone());
-        let mut low1 = ab.let_for_deduction(off1.clone() & const_u16_expr!(0x3), "offset1_low");
-        let low1_f = ab.deduce(low1.as_felt_mut(), "offset1_low");
-        let mut mid1 = ab.let_for_deduction(
+        let low1 = ab.deduce_air_var(off1.clone() & const_u16_expr!(0x3), "offset1_low");
+        let mid1 = ab.deduce_air_var(
             (off1.clone() >> const_u16_expr!(2)) & const_u16_expr!(0x1FF),
             "offset1_mid",
         );
-        let mid1_f = ab.deduce(mid1.as_felt_mut(), "offset1_mid");
-        let mut high1 = ab.let_for_deduction(off1 >> const_u16_expr!(11), "offset1_high");
-        let high1_f = ab.deduce(high1.as_felt_mut(), "offset1_high");
+        let high1 = ab.deduce_air_var(off1 >> const_u16_expr!(11), "offset1_high");
 
         // Reconstruct offset1 as felt from the high, middle and low parts.
-        let new_off1_f = (low1_f.clone() + (mid1_f.clone() * const_expr!(1 << 2)))
-            + (high1_f.clone() * const_expr!(1 << 11));
+        let new_off1_f = (low1.as_felt() + (mid1.as_felt() * const_expr!(1 << 2)))
+            + (high1.as_felt() * const_expr!(1 << 11));
         ab.constrain(new_off1_f - off1_f, "Reconstructed offset1 is correct");
 
         // Deduce the parts of offset2.
         let off2 = UInt16Expr::from(off2_f.clone());
-        let mut low2 = ab.let_for_deduction(off2.clone() & const_u16_expr!(0xF), "offset2_low");
-        let low2_f = ab.deduce(low2.as_felt_mut(), "offset2_low");
-        let mut mid2 = ab.let_for_deduction(
+        let low2 = ab.deduce_air_var(off2.clone() & const_u16_expr!(0xF), "offset2_low");
+        let mid2 = ab.deduce_air_var(
             (off2.clone() >> const_u16_expr!(4)) & const_u16_expr!(0x1FF),
             "offset2_mid",
         );
-        let mid2_f = ab.deduce(mid2.as_felt_mut(), "offset2_mid");
-        let mut high2 = ab.let_for_deduction(off2 >> const_u16_expr!(13), "offset2_high");
-        let high2_f = ab.deduce(high2.as_felt_mut(), "offset2_high");
+        let high2 = ab.deduce_air_var(off2 >> const_u16_expr!(13), "offset2_high");
 
         // Reconstruct offset2 as felt from the high, middle and low parts.
-        let new_off2_f = (low2_f.clone() + (mid2_f.clone() * const_expr!(1 << 4)))
-            + (high2_f.clone() * const_expr!(1 << 13));
+        let new_off2_f = (low2.as_felt() + (mid2.as_felt() * const_expr!(1 << 4)))
+            + (high2.as_felt() * const_expr!(1 << 13));
         ab.constrain(new_off2_f - off2_f, "Reconstructed offset2 is correct");
 
         range_check(
             ab,
             &[7, 2, 5],
-            &[mid0_f.clone(), low1_f.clone(), high1_f.clone()],
+            &[mid0.as_felt(), low1.as_felt(), high1.as_felt()],
         );
-        range_check(ab, &[4, 3], &[low2_f.clone(), high2_f.clone()]);
+        range_check(ab, &[4, 3], &[low2.as_felt(), high2.as_felt()]);
 
-        let felt0 = low0_f;
-        let felt1 = mid0_f + (low1_f * const_expr!(1 << 7));
-        let felt2 = mid1_f;
-        let felt3 = high1_f + (low2_f * const_expr!(1 << 5));
-        let felt4 = mid2_f;
-        let felt5 = high2_f;
+        let felt0 = low0.as_felt();
+        let felt1 = mid0.as_felt() + (low1.as_felt() * const_expr!(1 << 7));
+        let felt2 = mid1.as_felt();
+        let felt3 = high1.as_felt() + (low2.as_felt() * const_expr!(1 << 5));
+        let felt4 = mid2.as_felt();
+        let felt5 = high2.as_felt();
 
         [felt0, felt1, felt2, felt3, felt4, felt5]
     }

@@ -124,6 +124,10 @@ impl AirVar for UInt32Expr {
             }
         }
     }
+
+    fn get_felt_descriptions(&self) -> Option<Vec<String>> {
+        Some(vec!["low".to_string(), "high".to_string()])
+    }
 }
 
 #[macro_export]

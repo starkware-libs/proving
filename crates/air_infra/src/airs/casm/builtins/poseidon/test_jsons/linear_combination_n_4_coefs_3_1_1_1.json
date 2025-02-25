@@ -25,14 +25,14 @@
     }
   ],
   "output": {
-    "name": "combination_result_tmp_29897_0",
+    "name": "combination_tmp_29897_0",
     "type": "Felt252Width27"
   },
   "trace_type": "Inline",
   "air_body": [
     {
       "Intermediate": [
-        "combination_result_tmp_29897_0",
+        "combination_tmp_29897_0",
         "Felt252Width27",
         {
           "name": "Felt252Width27::from_felt252((((([0, 0, 0, 0] + ([3, 0, 0, 0] * Felt252::from_felt252width27(linear_combination_n_4_coefs_3_1_1_1_input[0]))) + ([1, 0, 0, 0] * Felt252::from_felt252width27(linear_combination_n_4_coefs_3_1_1_1_input[1]))) + ([1, 0, 0, 0] * Felt252::from_felt252width27(linear_combination_n_4_coefs_3_1_1_1_input[2]))) + ([1, 0, 0, 0] * Felt252::from_felt252width27(linear_combination_n_4_coefs_3_1_1_1_input[3]))))",
@@ -46,61 +46,61 @@
     },
     {
       "Deduction": [
-        "combination_result_tmp_29897_0.get_m31(0)",
+        "combination_tmp_29897_0.get_m31(0)",
         "combination_limb_0"
       ]
     },
     {
       "Deduction": [
-        "combination_result_tmp_29897_0.get_m31(1)",
+        "combination_tmp_29897_0.get_m31(1)",
         "combination_limb_1"
       ]
     },
     {
       "Deduction": [
-        "combination_result_tmp_29897_0.get_m31(2)",
+        "combination_tmp_29897_0.get_m31(2)",
         "combination_limb_2"
       ]
     },
     {
       "Deduction": [
-        "combination_result_tmp_29897_0.get_m31(3)",
+        "combination_tmp_29897_0.get_m31(3)",
         "combination_limb_3"
       ]
     },
     {
       "Deduction": [
-        "combination_result_tmp_29897_0.get_m31(4)",
+        "combination_tmp_29897_0.get_m31(4)",
         "combination_limb_4"
       ]
     },
     {
       "Deduction": [
-        "combination_result_tmp_29897_0.get_m31(5)",
+        "combination_tmp_29897_0.get_m31(5)",
         "combination_limb_5"
       ]
     },
     {
       "Deduction": [
-        "combination_result_tmp_29897_0.get_m31(6)",
+        "combination_tmp_29897_0.get_m31(6)",
         "combination_limb_6"
       ]
     },
     {
       "Deduction": [
-        "combination_result_tmp_29897_0.get_m31(7)",
+        "combination_tmp_29897_0.get_m31(7)",
         "combination_limb_7"
       ]
     },
     {
       "Deduction": [
-        "combination_result_tmp_29897_0.get_m31(8)",
+        "combination_tmp_29897_0.get_m31(8)",
         "combination_limb_8"
       ]
     },
     {
       "Deduction": [
-        "combination_result_tmp_29897_0.get_m31(9)",
+        "combination_tmp_29897_0.get_m31(9)",
         "combination_limb_9"
       ]
     },

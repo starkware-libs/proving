@@ -18,14 +18,11 @@ impl AirFn for TripleSum32 {
     type Out = UInt32Expr;
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), [a, b, c]: Self::In) -> Self::Out {
-        let mut s =
-            air_builder.let_for_deduction(a.clone() + b.clone() + c.clone(), "triple_sum32_res");
-        let sl = air_builder.deduce(s.low_mut().as_felt_mut(), "triple_sum32_res_low");
-        let sh = air_builder.deduce(s.high_mut().as_felt_mut(), "triple_sum32_res_high");
+        let s = air_builder.deduce_air_var(a.clone() + b.clone() + c.clone(), "triple_sum32_res");
 
         // Verify addition of the low halves
         let carry_low = air_builder.let_for_constraint(
-            ((a.low().as_felt() + b.low().as_felt() + c.low().as_felt()) - sl.clone())
+            ((a.low().as_felt() + b.low().as_felt() + c.low().as_felt()) - s.low().as_felt())
                 * (const_expr!(1 << 16).inverse()),
             "carry_low",
         );
@@ -39,7 +36,7 @@ impl AirFn for TripleSum32 {
         // Verify addition of the high halves
         let carry_high = air_builder.let_for_constraint(
             ((a.high().as_felt() + b.high().as_felt() + c.high().as_felt() + carry_low)
-                - sh.clone())
+                - s.high().as_felt())
                 * (const_expr!(1 << 16).inverse()),
             "carry_high",
         );
@@ -50,6 +47,6 @@ impl AirFn for TripleSum32 {
             "carry high is 0 or 1 or 2",
         );
 
-        air_builder.let_(vec![sl, sh].into(), "triple_sum32_res")
+        s
     }
 }

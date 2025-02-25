@@ -78,25 +78,22 @@ impl AirFn for DecodeInstruction {
             Self::decode_instruction(instruction);
 
         // Deduce the non-constant offsets
-        let off0_f = if let Some(off) = self.const_offsets[0] {
-            const_expr!(offset_as_u16(off) as u32)
+        off0 = if let Some(off) = self.const_offsets[0] {
+            const_u16_expr!(offset_as_u16(off))
         } else {
-            off0 = ab.let_for_deduction(off0, "offset0");
-            ab.deduce(off0.as_felt_mut(), "offset0")
+            ab.deduce_air_var(off0, "offset0")
         };
 
-        let off1_f = if let Some(off) = self.const_offsets[1] {
-            const_expr!(offset_as_u16(off) as u32)
+        off1 = if let Some(off) = self.const_offsets[1] {
+            const_u16_expr!(offset_as_u16(off))
         } else {
-            off1 = ab.let_for_deduction(off1, "offset1");
-            ab.deduce(off1.as_felt_mut(), "offset1")
+            ab.deduce_air_var(off1, "offset1")
         };
 
-        let off2_f = if let Some(off) = self.const_offsets[2] {
-            const_expr!(offset_as_u16(off) as u32)
+        off2 = if let Some(off) = self.const_offsets[2] {
+            const_u16_expr!(offset_as_u16(off))
         } else {
-            off2 = ab.let_for_deduction(off2, "offset2");
-            ab.deduce(off2.as_felt_mut(), "offset2")
+            ab.deduce_air_var(off2, "offset2")
         };
 
         // Build a map that maps the last flag of each set in flag_sets_of_sum_1 to the rest of that
@@ -139,16 +136,15 @@ impl AirFn for DecodeInstruction {
             } else {
                 // Deduced flag - read from the instruction and deduced.
                 // Needs to be constrained to be a bit.
-                let mut flag = ab.let_for_deduction(
+                let flag = ab.deduce_air_var(
                     (flags.clone() >> const_u16_expr!(i as u16)) & const_u16_expr!(1),
                     FLAG_NAMES[i],
                 );
-                let flag_deduced = ab.deduce(flag.as_felt_mut(), FLAG_NAMES[i]);
                 ab.constrain(
-                    flag_deduced.clone() * (const_expr!(1) - flag_deduced.clone()),
+                    flag.as_felt() * (const_expr!(1) - flag.as_felt()),
                     &format!("Flag {} is a bit", FLAG_NAMES[i]),
                 );
-                flag_deduced
+                flag.as_felt()
             };
             flags_vec.push(flag_to_push);
         }
@@ -171,7 +167,7 @@ impl AirFn for DecodeInstruction {
             (),
             (
                 pc.clone(),
-                [off0_f.clone(), off1_f.clone(), off2_f.clone()],
+                [off0.as_felt(), off1.as_felt(), off2.as_felt()],
                 [felt5_high, felt6],
                 opcode_extnesion.clone(),
             ),
@@ -179,9 +175,9 @@ impl AirFn for DecodeInstruction {
 
         (
             [
-                offset_as_signed(off0_f),
-                offset_as_signed(off1_f),
-                offset_as_signed(off2_f),
+                offset_as_signed(off0.as_felt()),
+                offset_as_signed(off1.as_felt()),
+                offset_as_signed(off2.as_felt()),
             ],
             flags_array,
             opcode_extnesion,
