@@ -100,23 +100,6 @@ pub enum AirBodyComponent {
 pub struct AirBody(Vec<AirBodyComponent>);
 
 impl AirBody {
-    pub fn get_prev_chain_id(&self, chain_round_name: &str) -> Option<FeltExpr> {
-        for component in self.0.iter().rev() {
-            match component {
-                AirBodyComponent::LookupCall(LookupCall {
-                    air_fn_name, input, ..
-                }) if air_fn_name == chain_round_name => {
-                    if let Some(AirVarImpl::Tuple(vars)) = input {
-                        return Some(vars[0].as_felt());
-                    }
-                    panic!("Expected tuple input for chain round lookup call");
-                }
-                _ => {}
-            }
-        }
-        None
-    }
-
     // Checks visibility and in_state status of the variables in the new component and adds it.
     pub fn push(&mut self, component: AirBodyComponent) {
         match &component {

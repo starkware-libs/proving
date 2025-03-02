@@ -2,7 +2,7 @@ use compiled_casm_air::relations::MEMORY_RELATION_NAME;
 use inst_def::InstDef;
 
 use crate::core::air_fn::*;
-use crate::core::expressions::felt252_expr::Felt252Expr;
+use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::felt252_id_memory::id_to_big::*;
 use crate::core::memory::*;
@@ -49,7 +49,7 @@ impl AirFn for MemoryIdToSmall {
 
     fn call(&self, air_builder: &mut AirBuilder, _id: FeltExpr, _: ()) -> Self::Out {
         #[allow(unused_mut)]
-        let mut value_in_state = air_builder.state().get_felts();
+        let mut value_in_state = air_builder.component_context.state().get_felts();
 
         #[cfg(test)]
         if air_builder.is_run_mode() {

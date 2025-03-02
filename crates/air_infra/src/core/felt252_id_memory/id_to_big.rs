@@ -45,7 +45,8 @@ impl AirFn for MemoryIdToBig {
 
     fn call(&self, air_builder: &mut AirBuilder, _id: FeltExpr, _: ()) -> Self::Out {
         #[allow(unused_mut)]
-        let mut value_in_state: Felt252Expr = air_builder.state().get_felts().into();
+        let mut value_in_state: Felt252Expr =
+            air_builder.component_context.state().get_felts().into();
 
         #[cfg(test)]
         if air_builder.is_run_mode() {

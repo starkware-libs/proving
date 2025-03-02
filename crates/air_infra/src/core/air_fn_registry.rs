@@ -184,7 +184,7 @@ impl AirFnRegistry {
         assert!(self.air_fns.borrow().get(&air_fn.name()).is_some());
 
         let mut air_builder = AirBuilder {
-            state: State::default(),
+            component_context: Default::default(),
             air_body: AirBody::default(),
             row_number: Some(row_number),
             run: true,
@@ -211,7 +211,8 @@ impl AirFnRegistry {
             }
         };
 
-        (air_builder.state, output)
+        let state = air_builder.component_context.state().clone();
+        (state, output)
     }
 
     // Builds the air function on a default input in order to create an air function entry for it.
@@ -237,7 +238,7 @@ impl AirFnRegistry {
         }
 
         let mut air_builder = AirBuilder {
-            state: State::default(),
+            component_context: Default::default(),
             air_body: AirBody::default(),
 
             // The row number doesn't influence the generated air_body.
@@ -278,13 +279,8 @@ impl AirFnRegistry {
             "Output must be in the trace"
         );
 
-        (
-            air_builder.air_body,
-            air_builder.state,
-            ext_input,
-            input,
-            output,
-        )
+        let state = air_builder.component_context.state().clone();
+        (air_builder.air_body, state, ext_input, input, output)
     }
 
     #[cfg(test)]
