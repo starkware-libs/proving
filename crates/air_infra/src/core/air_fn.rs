@@ -417,52 +417,89 @@ impl AirBuilder {
     // known only in deductions.
     // For a felt expression, creates a single intermediate variable visible in constraints and
     // deductions.
-    pub fn let_<O>(&mut self, mut expr: O, desc: &str) -> O
+    pub fn let_<O>(&mut self, expr: O, desc: &str) -> O
     where
         O: AirVar,
     {
+        if O::is_empty() {
+            return expr;
+        }
+
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
 
-        if expr.clone().into().prover_type() != Felt::r#type() {
-            // We have to create the variable for <expr> before its felts, because <let_> creates
-            // the felts as well. Then, we recreate the felts from their original expressions
-            // (<felts_before>) and update <expr>.
-            self.air_body.push(AirBodyComponent::Intermediate(
-                name.clone(),
-                expr.clone().into().prover_type(),
-                expr.clone().into(),
-                Visibility {
-                    in_deductions: true,
-                    in_constraints: false,
-                },
-            ));
-            let felts_before = expr.as_felts();
-            expr = expr.let_(name.clone(), true, true);
-
-            for (i, (felt_before, felt)) in felts_before.iter().zip(expr.as_felts_mut()).enumerate()
-            {
-                if felt_before.is_const() || felt_before.is_directly_in_state() {
-                    *felt = felt_before.clone();
-                    continue;
+        let air_var_impl: AirVarImpl = expr.clone().into();
+        match air_var_impl {
+            AirVarImpl::Array(vars) | AirVarImpl::Tuple(vars) => {
+                if !vars
+                    .into_iter()
+                    .all(|var| var.prover_type() == Felt::r#type())
+                {
+                    todo!("Support collection types in let_");
+                } else {
+                    self.let_and_set_complex_felts(expr.clone(), expr.as_felts(), name)
                 }
-
-                let felt_name = format!("{}_limb_{}", name, i);
+            }
+            // When the expression evaluates to a single felt, let_complex unnecessarily creates two
+            // identical intermediate variables - one for the expression and one for its
+            // single felt. Treat this case separately to avoid these duplications.
+            AirVarImpl::Expr(e) if e.prover_type() == Felt::r#type() => {
                 self.air_body.push(AirBodyComponent::Intermediate(
-                    felt_name.clone(),
+                    name.clone(),
                     Felt::r#type(),
-                    felt_before.clone().into(),
+                    expr.clone().into(),
                     Visibility::default(),
                 ));
-                *felt = felt_before.let_(felt_name, true, true);
+                expr.let_(name, true, true)
             }
-        } else {
+            AirVarImpl::Struct { .. } => self.let_complex(expr, name),
+            AirVarImpl::Expr(_) => self.let_complex(expr, name),
+        }
+    }
+
+    fn let_complex<O>(&mut self, mut expr: O, name: String) -> O
+    where
+        O: AirVar,
+    {
+        // We have to create the variable for <expr> before its felts, because <let_> creates
+        // the felts as well. Then, we recreate the felts from their original expressions
+        // (<felts_before>) and update <expr>.
+        self.air_body.push(AirBodyComponent::Intermediate(
+            name.clone(),
+            expr.clone().into().prover_type(),
+            expr.clone().into(),
+            Visibility {
+                in_deductions: true,
+                in_constraints: false,
+            },
+        ));
+        let felts_before = expr.as_felts();
+        expr = expr.let_(name.clone(), true, true);
+        self.let_and_set_complex_felts(expr, felts_before, name)
+    }
+
+    fn let_and_set_complex_felts<O>(
+        &mut self,
+        mut expr: O,
+        new_felts: Vec<FeltExpr>,
+        name: String,
+    ) -> O
+    where
+        O: AirVar,
+    {
+        for (i, (new_felt, felt)) in new_felts.into_iter().zip(expr.as_felts_mut()).enumerate() {
+            if new_felt.is_const() || new_felt.is_directly_in_state() {
+                *felt = new_felt;
+                continue;
+            }
+
+            let felt_name = format!("{}_limb_{}", name, i);
             self.air_body.push(AirBodyComponent::Intermediate(
-                name.clone(),
+                felt_name.clone(),
                 Felt::r#type(),
-                expr.clone().into(),
+                new_felt.clone().into(),
                 Visibility::default(),
             ));
-            expr = expr.let_(name, true, true);
+            *felt = new_felt.let_(felt_name, true, true);
         }
 
         expr

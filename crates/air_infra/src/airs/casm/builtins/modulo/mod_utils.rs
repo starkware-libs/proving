@@ -61,11 +61,16 @@ impl AirFn for ModUtils {
             "is_instance_0 is 0 when instance_num is not 0.",
         );
         // Calculate the starting address of the previous instance and the current one.
-        let input_var_addr_start_prev = first_addr.var.clone()
-            + const_expr!(N_VAR_INPUTS as u32)
-                * (instance_num.clone() - const_expr!(1) + is_instance_0.as_felt());
-        let input_var_addr_start =
-            first_addr.var + const_expr!(N_VAR_INPUTS as u32) * instance_num.clone();
+        let input_var_addr_start_prev = ab.let_(
+            first_addr.var.clone()
+                + const_expr!(N_VAR_INPUTS as u32)
+                    * (instance_num.clone() - const_expr!(1) + is_instance_0.as_felt()),
+            "prev_instance_addr",
+        );
+        let input_var_addr_start = ab.let_(
+            first_addr.var + const_expr!(N_VAR_INPUTS as u32) * instance_num.clone(),
+            "instance_addr",
+        );
 
         let (p_addr_prev, p_addr): (Vec<CasmAddress>, Vec<CasmAddress>) = (0..MOD_BUILTIN_N_WORDS)
             .map(|i| {
@@ -104,7 +109,6 @@ impl AirFn for ModUtils {
             },
             CasmAddress::new(values_ptr_addr, "values_ptr"),
         );
-        let values_ptr_val = felt252_to_m31(values_ptr_val_felt252, ADDRESS_BITS);
         let [offsets_ptr_val, offsets_ptr_val_prev, n_val, n_val_prev_nominal] = [
             (offsets_ptr_addr, "offsets_ptr"),
             (offsets_ptr_addr_prev, "offsets_ptr_prev"),
@@ -123,13 +127,14 @@ impl AirFn for ModUtils {
         .expect("Conversion to array failed.");
 
         // If instance 0, then n_val_prev = 1, else n_val_prev = n_val_prev_nominal
-        let n_val_prev = ab.let_for_constraint(
+        let n_val_prev = ab.let_(
             n_val_prev_nominal * (const_expr!(1) - is_instance_0.as_felt())
                 + is_instance_0.as_felt(),
             "n_val_prev",
         );
         // Condition for block reset, i.e. when the input variables can progress arbitrarily.
-        let block_reset_condition = n_val_prev.clone() - const_expr!(1);
+        let block_reset_condition =
+            ab.let_(n_val_prev.clone() - const_expr!(1), "block_reset_condition");
         // Constrain the values of n, offsets_ptr, values_ptr to be consistent with the previous
         // instance.
         ab.constrain(
@@ -167,7 +172,7 @@ impl AirFn for ModUtils {
         }
 
         // Read the offsets and values of a,b,c.
-        let offsets_val: [FeltExpr; 3] = from_fn(|j| {
+        let mut offsets_val: [FeltExpr; 3] = from_fn(|j| {
             self.memory.read_rel_imm(
                 ab,
                 CasmAddress::new(
@@ -176,7 +181,12 @@ impl AirFn for ModUtils {
                 ),
             )
         });
+        offsets_val = ab.let_(offsets_val, "offsets_val");
 
+        let values_ptr_val = ab.let_(
+            felt252_to_m31(values_ptr_val_felt252, ADDRESS_BITS),
+            "values_ptr",
+        );
         let vars_val: [[Felt252Expr; MOD_BUILTIN_N_WORDS]; 3] = from_fn(|j| {
             from_fn(|k| {
                 ab.call(

@@ -94,9 +94,10 @@ impl AirFn for AddModBuiltin {
             "make sure sub_p_bit is 0 or 1.",
         );
 
-        let [p_felts, a_felts, b_felts, c_felts] = from_fn(|i| {
-            to_felt_array_padded([p.clone(), a.clone(), b.clone(), c.clone()][i].clone())
-        });
+        let p_felts = to_felt_array_padded(p);
+        let a_felts = to_felt_array_padded(a);
+        let b_felts = to_felt_array_padded(b);
+        let c_felts = to_felt_array_padded(c);
 
         let mut carry = const_expr!(0);
         for i in 0..TOTAL_SUBWORD_BUNDLES {

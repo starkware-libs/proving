@@ -68,8 +68,16 @@ impl AirFn for MulModBuiltin {
             range_check(ab, &[MUL_MOD_LIMB_SIZE as u16], &[k_limb]);
         }
 
-        let [p_12bits, a_12bits, b_12bits, c_12bits] =
-            [p, a, b, c].map(|x| mod_value_to_12bit_array(ab, x));
+        let [p_12bits, a_12bits, b_12bits, c_12bits] = [(p, "p"), (a, "a"), (b, "b"), (c, "c")]
+            .map(|(x, desc)| {
+                let res: [FeltExpr; MUL_MOD_NUM_LIMBS] = x
+                    .into_iter()
+                    .flat_map(|v| ab.call(&ModWordTo12BitArray {}, v))
+                    .collect::<Vec<_>>()
+                    .try_into()
+                    .expect("Expected MUL_MOD_NUM_LIMBS limbs.");
+                ab.let_(res, desc)
+            });
 
         // TODO(ohadn): move BoundedFeltExpr to a neutral file and use it here.
         let mut limb_accumulator = const_expr!(0u32);
@@ -128,18 +136,6 @@ impl AirFn for MulModBuiltin {
     }
 }
 
-pub fn mod_value_to_12bit_array(
-    ab: &mut AirBuilder,
-    mod_val: [Felt252Expr; MOD_BUILTIN_N_WORDS],
-) -> [FeltExpr; MUL_MOD_NUM_LIMBS] {
-    let mut result: [FeltExpr; MUL_MOD_NUM_LIMBS] = Default::default();
-    for i in 0..MOD_BUILTIN_N_WORDS {
-        result[NUM_12BIT_LIMBS_PER_WORD * i..NUM_12BIT_LIMBS_PER_WORD * (i + 1)]
-            .clone_from_slice(&ab.call(&ModWordTo12BitArray {}, mod_val[i].clone()));
-    }
-    result
-}
-
 #[derive(Debug, InstDef, Default)]
 pub struct ModWordTo12BitArray {}
 
@@ -154,94 +150,60 @@ impl AirFn for ModWordTo12BitArray {
             from_fn(|i| UInt16Expr::from(mod_word.get_felt(i)));
 
         // TODO(ohadn): Consider using a loop here.
-        let limb1b = ab.deduce_air_var(
-            mod_word_u16_arr[1].clone() >> const_u16_expr!(3),
-            "limb1b_u16",
-        );
-        let limb1a = mod_word.get_felt(1) - (limb1b.as_felt() * const_expr!(1 << 3));
-
-        result[0] = ab.let_(
-            mod_word.get_felt(0) + const_expr!(1 << 9) * limb1a.clone(),
-            "res0",
+        let limb1b = ab.deduce_air_var(mod_word_u16_arr[1].clone() >> const_u16_expr!(3), "limb1b");
+        let limb1a = ab.let_(
+            mod_word.get_felt(1) - (limb1b.as_felt() * const_expr!(1 << 3)),
+            "limb1a",
         );
 
-        let limb2b = ab.deduce_air_var(
-            mod_word_u16_arr[2].clone() >> const_u16_expr!(6),
-            "limb2b_u16",
+        result[0] = mod_word.get_felt(0) + const_expr!(1 << 9) * limb1a.clone();
+
+        let limb2b = ab.deduce_air_var(mod_word_u16_arr[2].clone() >> const_u16_expr!(6), "limb2b");
+        let limb2a = ab.let_(
+            mod_word.get_felt(2) - (limb2b.as_felt() * const_expr!(1 << 6)),
+            "limb2a",
         );
-        let limb2a = mod_word.get_felt(2) - (limb2b.as_felt() * const_expr!(1 << 6));
-        result[1] = ab.let_(
-            limb1b.as_felt() + const_expr!(1 << 6) * limb2a.clone(),
-            "res1",
-        );
-        result[2] = ab.let_(
-            limb2b.as_felt() + const_expr!(1 << 3) * mod_word.get_felt(3),
-            "res2",
-        );
+        result[1] = limb1b.as_felt() + const_expr!(1 << 6) * limb2a.clone();
+        result[2] = limb2b.as_felt() + const_expr!(1 << 3) * mod_word.get_felt(3);
 
         range_check(
             ab,
             &[3, 6, 6, 3],
-            &[
-                limb1a.clone(),
-                limb1b.as_felt(),
-                limb2a.clone(),
-                limb2b.as_felt(),
-            ],
+            &[limb1a, limb1b.as_felt(), limb2a, limb2b.as_felt()],
         );
 
-        let limb5b = ab.deduce_air_var(
-            mod_word_u16_arr[5].clone() >> const_u16_expr!(3),
-            "limb5b_u16",
+        let limb5b = ab.deduce_air_var(mod_word_u16_arr[5].clone() >> const_u16_expr!(3), "limb5b");
+        let limb5a = ab.let_(
+            mod_word.get_felt(5) - (limb5b.as_felt() * const_expr!(1 << 3)),
+            "limb5a",
         );
-        let limb5a = mod_word.get_felt(5) - (limb5b.as_felt() * const_expr!(1 << 3));
-        result[3] = ab.let_(
-            mod_word.get_felt(4) + const_expr!(1 << 9) * limb5a.clone(),
-            "res3",
-        );
+        result[3] = mod_word.get_felt(4) + const_expr!(1 << 9) * limb5a.clone();
 
-        let limb6b = ab.deduce_air_var(
-            mod_word_u16_arr[6].clone() >> const_u16_expr!(6),
-            "limb6b_u16",
+        let limb6b = ab.deduce_air_var(mod_word_u16_arr[6].clone() >> const_u16_expr!(6), "limb6b");
+        let limb6a = ab.let_(
+            mod_word.get_felt(6) - (limb6b.as_felt() * const_expr!(1 << 6)),
+            "limb6a",
         );
-        let limb6a = mod_word.get_felt(6) - (limb6b.as_felt() * const_expr!(1 << 6));
-        result[4] = ab.let_(
-            limb5b.as_felt() + const_expr!(1 << 6) * limb6a.clone(),
-            "res4",
-        );
-        result[5] = ab.let_(
-            limb6b.as_felt() + const_expr!(1 << 3) * mod_word.get_felt(7),
-            "res5",
-        );
+        result[4] = limb5b.as_felt() + const_expr!(1 << 6) * limb6a.clone();
+        result[5] = limb6b.as_felt() + const_expr!(1 << 3) * mod_word.get_felt(7);
 
         range_check(
             ab,
             &[3, 6, 6, 3],
-            &[
-                limb5a.clone(),
-                limb5b.as_felt(),
-                limb6a.clone(),
-                limb6b.as_felt(),
-            ],
+            &[limb5a, limb5b.as_felt(), limb6a, limb6b.as_felt()],
         );
 
-        let limb9b = ab.deduce_air_var(
-            mod_word_u16_arr[9].clone() >> const_u16_expr!(3),
-            "limb9b_u16",
+        let limb9b = ab.deduce_air_var(mod_word_u16_arr[9].clone() >> const_u16_expr!(3), "limb9b");
+        let limb9a = ab.let_(
+            mod_word.get_felt(9) - (limb9b.as_felt() * const_expr!(1 << 3)),
+            "limb9a",
         );
-        let limb9a = mod_word.get_felt(9) - (limb9b.as_felt() * const_expr!(1 << 3));
 
-        result[6] = ab.let_(
-            mod_word.get_felt(8) + const_expr!(1 << 9) * limb9a.clone(),
-            "res6",
-        );
-        result[7] = ab.let_(
-            limb9b.as_felt() + const_expr!(1 << 6) * mod_word.get_felt(10),
-            "res7",
-        );
+        result[6] = mod_word.get_felt(8) + const_expr!(1 << 9) * limb9a.clone();
+        result[7] = limb9b.as_felt() + const_expr!(1 << 6) * mod_word.get_felt(10);
 
         // TODO(OhadN): Consider batching these into [3, 6, 6, 3] range checks.
-        range_check(ab, &[3, 6], &[limb9a.clone(), limb9b.as_felt()]);
+        range_check(ab, &[3, 6], &[limb9a, limb9b.as_felt()]);
 
         result
     }
