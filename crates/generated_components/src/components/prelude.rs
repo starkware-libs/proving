@@ -18,14 +18,13 @@ pub mod proving {
     pub use stwo_prover::core::fields::m31::M31;
     pub use stwo_prover::core::fields::FieldExpOps;
     pub use stwo_prover::core::pcs::TreeBuilder;
-    pub use stwo_prover::core::utils::bit_reverse_coset_to_circle_domain_order;
 
-    pub use crate::components::pack_values;
+    pub use crate::components::{pack_values, Enabler};
     pub use crate::preprocessed::*;
     pub use crate::relations;
 }
 
-pub mod constraints_eval {
+pub mod constraint_eval {
     pub use num_traits::One;
     pub use serde::{Deserialize, Serialize};
     pub use stwo_cairo_serialize::CairoSerialize;

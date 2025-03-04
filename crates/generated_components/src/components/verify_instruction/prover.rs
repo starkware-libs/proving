@@ -33,14 +33,8 @@ impl ClaimGenerator {
         let n_rows = self.inputs.len();
         assert_ne!(n_rows, 0);
         let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
-        let need_padding = n_rows != size;
         let log_size = size.ilog2();
-
-        if need_padding {
-            self.inputs.resize(size, *self.inputs.first().unwrap());
-            bit_reverse_coset_to_circle_domain_order(&mut self.inputs);
-        }
-
+        self.inputs.resize(size, *self.inputs.first().unwrap());
         let packed_inputs = pack_values(&self.inputs);
 
         let (trace, lookup_data) = write_trace_simd(

@@ -1,4 +1,5 @@
 use stwo_prover::core::backend::simd::conversion::Pack;
+use stwo_prover::core::backend::simd::m31::PackedM31;
 
 pub mod add_ap_opcode_imm;
 pub mod jnz_opcode_taken_dst_base_fp;
@@ -16,4 +17,18 @@ pub mod wide_fib_num_narrow_8_narrow_size_20;
 // TODO(Ohad): remove.
 pub fn pack_values<T: Pack>(_values: &[T]) -> Vec<T::SimdType> {
     unimplemented!()
+}
+
+#[derive(Debug, Clone)]
+pub struct Enabler {
+    pub padding_offset: usize,
+}
+impl Enabler {
+    pub const fn new(padding_offset: usize) -> Self {
+        unimplemented!()
+    }
+
+    pub fn packed_at(&self, vec_row: usize) -> PackedM31 {
+        unimplemented!()
+    }
 }

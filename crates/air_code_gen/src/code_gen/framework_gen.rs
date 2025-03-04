@@ -11,7 +11,6 @@ use itertools::chain;
 use super::utils::{get_const_name, replace_generics_with_turbofish};
 use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
 use crate::code_gen::utils::{block_doc, unique_constraint_relations};
-use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
 pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
@@ -31,7 +30,7 @@ pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
 
 fn imports() -> rust::Tokens {
     quote! {
-        use crate::components::prelude::constraints_eval::*;
+        use crate::components::prelude::constraint_eval::*;
     }
 }
 
@@ -85,14 +84,20 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
             quote!(SECURE_EXTENSION_DEGREE * $(n_batches))
         }
     };
+
+    // TODO(Ohad): this is temporary, delete along a larger refactor.
+    let n_trace_cells = if lists.name.contains("opcode") {
+        lists.state_names.len() + 1
+    } else {
+        lists.state_names.len()
+    };
     let impl_code = quote! {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-                let trace_log_sizes = vec![self.log_size; $(lists.state_names.len())];
+                let trace_log_sizes = vec![self.log_size; $(n_trace_cells)];
                 let interaction_log_sizes = vec![self.log_size; $(n_logup_columns)];
-                let preprocessed_log_sizes = vec![self.log_size];
                 TreeVec::new(vec![
-                    preprocessed_log_sizes,
+                    vec![],
                     trace_log_sizes,
                     interaction_log_sizes,
                 ])
@@ -177,10 +182,6 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     }
 
     for (name, args) in &lists.external_states {
-        assert!(
-            SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
-            "unsupported {name}",
-        );
         // Seq is the only preprocessed column that is of unfixed size.
         if name == "Seq" {
             code.append(quote! {
@@ -200,6 +201,15 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             code.append(quote! {
                 let $name = eval.next_trace_mask();
             });
+        }
+
+        // Opcodes have a masked lookup into the "Opcodes" relation.
+        if lists.name.contains("opcode") {
+            code.append(quote! {
+                let padding = eval.next_trace_mask();
+                // Check padding column is a bit.
+                eval.add_constraint(padding.clone() * padding.clone() - padding.clone());
+            })
         }
     }
 

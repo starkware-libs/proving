@@ -21,6 +21,7 @@ pub enum Mode {
 
 pub struct RustProverGen {
     lists: CompiledAirFn,
+    n_state_cells: usize,
     public_params: Vec<PublicParam>,
     write_trace_context: Vec<String>,
     constants: Vec<(String, String)>,
@@ -45,8 +46,13 @@ impl RustProverGen {
             (true, true) => panic!("unsupported mode"),
         };
 
+        let n_state_cells = match mode {
+            Mode::Opcode => lists.state_names.len() + 1,
+            _ => lists.state_names.len(),
+        };
+
         let public_params = lists.public_params.iter().cloned().collect_vec();
-        let write_trace_context = unique_add_input_calls(&lists.deductions);
+        let write_trace_context = context(&lists.deductions);
         let constants = deduction_consts(&lists.deductions);
         let lookup_terms = filter_lookup_terms(&lists.deductions);
         let relation_calls = unique_relation_calls(&lookup_terms);
@@ -55,6 +61,7 @@ impl RustProverGen {
             lists,
             mode,
             public_params,
+            n_state_cells,
             write_trace_context,
             constants,
             relation_calls,
@@ -64,13 +71,13 @@ impl RustProverGen {
 
     pub fn generate_simd_claim_prover(&self) -> rust::Tokens {
         let attributes = self.attributes();
-        let imports_code = generate_imports_code(&self.lists.deductions);
+        let imports_code = self.generate_imports_code();
         let typedefs = self.generate_input_output_typedefs();
-        let n_trace_cols = generate_n_trace_columns(&self.lists);
+        let n_trace_cols = self.generate_n_trace_columns();
         let lookup_data_code = self.generate_lookup_data_struct();
         let claim_generator_code = self.generate_claim_generator_struct();
         let claim_generator_impl_code = self.generate_claim_generator_impl();
-        let interaction_struct = interaction_prover_struct();
+        let interaction_struct = interaction_prover_struct(&self.mode);
         let interaction_impl = self.generate_interaction_impl();
         let write_trace_code = self.generate_simd_write_trace_code();
         quote! {
@@ -105,6 +112,11 @@ impl RustProverGen {
                 }
             }
         }
+    }
+
+    fn generate_n_trace_columns(&self) -> rust::Tokens {
+        // Opcodes relation gets masked with an "Enabler" column.
+        quote!(const N_TRACE_COLUMNS: usize = $(self.n_state_cells);)
     }
 
     fn attributes(&self) -> rust::Tokens {
@@ -217,19 +229,17 @@ impl RustProverGen {
                 let n_rows = self.inputs.len();
                 assert_ne!(n_rows, 0);
                 let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
-                let need_padding = n_rows != size;
                 let log_size = size.ilog2();
-
-                if need_padding {
-                    self.inputs.resize(size, *self.inputs.first().unwrap());
-                    bit_reverse_coset_to_circle_domain_order(&mut self.inputs);
-                }
-
+                self.inputs.resize(size, *self.inputs.first().unwrap());
                 let packed_inputs = pack_values(&self.inputs);
             },
             _ => quote! {
                let log_size = self.log_size;
             },
+        };
+        let n_rows = match self.mode {
+            Mode::Opcode => quote! { n_rows, },
+            _ => quote! {},
         };
         quote! {
             $(init_code)
@@ -244,6 +254,7 @@ impl RustProverGen {
                 $(claim_fields)
             },
             InteractionClaimGenerator {
+                $(n_rows)
                 log_size,
                 lookup_data,
             },
@@ -356,6 +367,11 @@ impl RustProverGen {
             ),
         };
 
+        let opcode_mask = match self.mode {
+            Mode::Opcode => quote!(let padding = Enabler::new(n_rows);),
+            _ => quote!(),
+        };
+
         let mut code = rust::Tokens::new();
         code.extend(quote! {
             // TODO(Ohad): attempt to remove this.
@@ -376,6 +392,8 @@ impl RustProverGen {
                 };
 
                 $(constants_def_code)
+
+                $(opcode_mask)
 
                 trace
                 .par_iter_mut()
@@ -488,6 +506,15 @@ impl RustProverGen {
                 }
             }
         }
+
+        // Padding code.
+        write_trace_body.extend(match self.mode {
+            Mode::Opcode => quote! {
+                *row[$(offset)] = padding.packed_at(row_index);
+            },
+            _ => quote!(),
+        });
+
         write_trace_body.extend(quote!(
             $['\n']$("// Add sub-components inputs.\n")
         ));
@@ -509,6 +536,12 @@ impl RustProverGen {
                 tokens.extend(next);
                 tokens
             });
+
+        let padding = if let Mode::Opcode = self.mode {
+            quote!(let padding_col = Enabler::new(self.n_rows);)
+        } else {
+            quote!()
+        };
         quote! {
             impl InteractionClaimGenerator {
                 // TODO(Ohad): use partial sums.
@@ -521,6 +554,7 @@ impl RustProverGen {
                     SimdBackend: BackendForChannel<MC>
                 {
                     let mut logup_gen = LogupTraceGenerator::new(self.log_size);
+                    $(padding)
 
                     $(self.generate_write_interaction_trace_body())
                     let (trace, claimed_sum) = logup_gen.finalize_last();
@@ -560,6 +594,8 @@ impl RustProverGen {
             let relation1 = &term1.relation_name;
             let relation_0_snake_case = &relation0.to_case(Case::Snake);
             let relation_1_snake_case = &relation1.to_case(Case::Snake);
+            let masked_denom_0 = "denom0".to_owned() + mask_opcode_relation(relation1);
+            let masked_denom_1 = "denom1".to_owned() + mask_opcode_relation(relation0);
 
             let relation0_offset = relation_data_offsets.get_mut(relation0).unwrap();
             let term0_offset = *relation0_offset;
@@ -572,10 +608,18 @@ impl RustProverGen {
             // Projective fraction addition (with numerator +-1).
             let (numerator, denom) = (
                 match (term0.use_or_yield, term1.use_or_yield) {
-                    (UseOrYield::Use, UseOrYield::Use) => "denom0 + denom1",
-                    (UseOrYield::Use, UseOrYield::Yield) => "denom1 - denom0",
-                    (UseOrYield::Yield, UseOrYield::Use) => "denom - denom1",
-                    (UseOrYield::Yield, UseOrYield::Yield) => "-(denom0 + denom1)",
+                    (UseOrYield::Use, UseOrYield::Use) => {
+                        format!("{masked_denom_0} + {masked_denom_1}")
+                    }
+                    (UseOrYield::Use, UseOrYield::Yield) => {
+                        format!("{masked_denom_1} - {masked_denom_0}")
+                    }
+                    (UseOrYield::Yield, UseOrYield::Use) => {
+                        format!("{masked_denom_0} - {masked_denom_1}")
+                    }
+                    (UseOrYield::Yield, UseOrYield::Yield) => {
+                        format!("-({masked_denom_0}+ {masked_denom_1})")
+                    }
                 },
                 "denom0 * denom1",
             );
@@ -617,7 +661,10 @@ impl RustProverGen {
                         .$(relation_name.to_case(Case::Snake))_$(*term_offset).iter().enumerate() {
                         let denom =
                             $(&relation_name.to_case(Case::Snake)).combine(values);
-                        col_gen.write_frac(i, $(sign)PackedQM31::one(), denom);
+                        col_gen.write_frac(
+                            i, $(sign)PackedQM31::one()$(mask_opcode_relation(&relation_name)),
+                            denom
+                        );
                     }
                     col_gen.finalize_col();
                     $['\n']
@@ -625,6 +672,20 @@ impl RustProverGen {
             *term_offset += 1;
         }
         code
+    }
+
+    fn generate_imports_code(&self) -> rust::Tokens {
+        let mut sub_component_imports = rust::Tokens::new();
+        self.write_trace_context.iter().for_each(|fn_name| {
+            sub_component_imports.extend(quote! {
+                use crate::components::$(fn_name);
+            })
+        });
+        quote! {
+            use crate::components::prelude::proving::*;
+            use super::component::{Claim, InteractionClaim};
+            $(sub_component_imports)
+        }
     }
 }
 
@@ -660,14 +721,16 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
         .collect()
 }
 
-fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
-    quote!(const N_TRACE_COLUMNS: usize = $(lists.state_names.len());)
-}
-
-fn interaction_prover_struct() -> rust::Tokens {
+fn interaction_prover_struct(mode: &Mode) -> rust::Tokens {
+    // Opcodes mask is determined by the number of "real" instances.
+    // Both log_size and n_rows is needed because padding might not be to the next power of 2.
+    let n_rows = match mode {
+        Mode::Opcode => quote! { n_rows: usize, },
+        _ => quote! {},
+    };
     quote! {
-
         pub struct InteractionClaimGenerator {
+            $(n_rows)
             log_size: u32,
             lookup_data: LookupData,
         }
@@ -700,37 +763,6 @@ fn write_trace_args(context: &[String]) -> rust::Tokens {
 fn add_input_simd_body() -> rust::Tokens {
     quote! {
         unimplemented!("Implement manually");
-    }
-}
-
-pub fn generate_sub_component_imports(deductions: &[TraceGenStep]) -> rust::Tokens {
-    let mut code = rust::Tokens::new();
-    let mut seen_functions = HashSet::new();
-    for deduction in deductions {
-        match deduction {
-            TraceGenStep::LookupTerm(..) => {}
-            TraceGenStep::StartBlock(_) => {}
-            TraceGenStep::EndBlock => {}
-            TraceGenStep::Deduction(..) => {}
-            TraceGenStep::Intermediate(..) => {}
-            // TODO
-            TraceGenStep::LookupAddInput { fn_name, .. } => {
-                if seen_functions.insert(fn_name) {
-                    code.extend(quote! {
-                        use crate::components::$(fn_name);
-                    });
-                }
-            }
-        }
-    }
-    code
-}
-
-fn generate_imports_code(deductions: &[TraceGenStep]) -> rust::Tokens {
-    quote! {
-        use crate::components::prelude::proving::*;
-        use super::component::{Claim, InteractionClaim};
-        $(generate_sub_component_imports(deductions))
     }
 }
 
@@ -914,15 +946,25 @@ fn filter_lookup_terms(deductions: &[TraceGenStep]) -> Vec<LookupTerm> {
         .collect()
 }
 
-fn unique_add_input_calls(deductions: &[TraceGenStep]) -> Vec<String> {
+// Returns the context of the write_trace function.
+// e.g. opcodes needs `memory_address_to_id`.
+fn context(deductions: &[TraceGenStep]) -> Vec<String> {
     deductions
         .iter()
-        .filter_map(|d| {
-            if let TraceGenStep::LookupAddInput { fn_name, .. } = d {
-                Some(fn_name.to_string())
-            } else {
-                None
+        .filter_map(|d| match d {
+            TraceGenStep::Deduction(CompiledAirVar::StaticCall(fn_name, ..))
+            | TraceGenStep::Intermediate(Intermediate {
+                var: CompiledAirVar::StaticCall(fn_name, ..),
+                ..
+            }) => {
+                if fn_name.starts_with("Memory") {
+                    Some(fn_name.split("::").next().unwrap().to_case(Case::Snake))
+                } else {
+                    None
+                }
             }
+            TraceGenStep::LookupAddInput { fn_name, .. } => Some(fn_name.to_string()),
+            _ => None,
         })
         .sorted()
         .dedup()
@@ -936,4 +978,13 @@ fn unique_relation_calls(lookup_terms: &[LookupTerm]) -> Vec<String> {
         .sorted()
         .dedup()
         .collect()
+}
+
+pub fn mask_opcode_relation(relation_name: &str) -> &str {
+    let is_opcode_relation = relation_name.eq("Opcodes");
+    if is_opcode_relation {
+        " * padding_col.packed_at(i)"
+    } else {
+        ""
+    }
 }
