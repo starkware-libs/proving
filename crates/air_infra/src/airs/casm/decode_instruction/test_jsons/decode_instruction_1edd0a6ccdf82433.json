@@ -123,7 +123,6 @@
     {
       "Intermediate": [
         "offset1_tmp_1edd0_2",
-        "UInt16",
         {
           "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(1)) >> 7) + (UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(2)) << 2)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(3)) & 31) << 11))",
           "type": "UInt16"
@@ -143,7 +142,6 @@
     {
       "Intermediate": [
         "dst_base_fp_tmp_1edd0_3",
-        "UInt16",
         {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(6)) << 6)) >> 0) & 1)",
           "type": "UInt16"
@@ -169,7 +167,6 @@
     {
       "Intermediate": [
         "op1_imm_tmp_1edd0_4",
-        "UInt16",
         {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_1edd0_1.get_m31(6)) << 6)) >> 2) & 1)",
           "type": "UInt16"

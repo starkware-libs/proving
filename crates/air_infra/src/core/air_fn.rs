@@ -397,7 +397,6 @@ impl AirBuilder {
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
-            var.clone().into().prover_type(),
             var.clone().into(),
             Visibility {
                 in_deductions: true,
@@ -415,7 +414,6 @@ impl AirBuilder {
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
-            Felt::r#type(),
             expr.clone().into(),
             Visibility {
                 in_deductions: false,
@@ -458,7 +456,6 @@ impl AirBuilder {
             AirVarImpl::Expr(e) if e.prover_type() == Felt::r#type() => {
                 self.air_body.push(AirBodyComponent::Intermediate(
                     name.clone(),
-                    Felt::r#type(),
                     expr.clone().into(),
                     Visibility::default(),
                 ));
@@ -478,7 +475,6 @@ impl AirBuilder {
         // (<felts_before>) and update <expr>.
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
-            expr.clone().into().prover_type(),
             expr.clone().into(),
             Visibility {
                 in_deductions: true,
@@ -508,7 +504,6 @@ impl AirBuilder {
             let felt_name = format!("{}_limb_{}", name, i);
             self.air_body.push(AirBodyComponent::Intermediate(
                 felt_name.clone(),
-                Felt::r#type(),
                 new_felt.clone().into(),
                 Visibility::default(),
             ));

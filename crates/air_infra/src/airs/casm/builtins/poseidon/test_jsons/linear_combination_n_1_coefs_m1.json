@@ -21,7 +21,6 @@
     {
       "Intermediate": [
         "combination_tmp_d2b51_0",
-        "Felt252Width27",
         {
           "name": "Felt252Width27::from_felt252(([0, 0, 0, 0] - ([1, 0, 0, 0] * Felt252::from_felt252width27(linear_combination_n_1_coefs_m1_input[0]))))",
           "type": "Felt252Width27"
@@ -95,7 +94,6 @@
     {
       "Intermediate": [
         "biased_limb_accumulator_u32_tmp_d2b51_1",
-        "UInt32",
         {
           "name": "UInt32::from_m31((((0 - combination_limb_0_col0) - (1 * linear_combination_n_1_coefs_m1_input[0].get_m31(0))) + 134217729))",
           "type": "UInt32"
@@ -115,7 +113,6 @@
     {
       "Intermediate": [
         "carry_0_tmp_d2b51_2",
-        "M31",
         {
           "name": "((((0 - combination_limb_0_col0) - (1 * linear_combination_n_1_coefs_m1_input[0].get_m31(0))) - (p_coef_col10 * 1)) * 16)",
           "type": "M31"
@@ -129,7 +126,6 @@
     {
       "Intermediate": [
         "carry_1_tmp_d2b51_3",
-        "M31",
         {
           "name": "((((carry_0_tmp_d2b51_2 - combination_limb_1_col1) - (1 * linear_combination_n_1_coefs_m1_input[0].get_m31(1))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -143,7 +139,6 @@
     {
       "Intermediate": [
         "carry_2_tmp_d2b51_4",
-        "M31",
         {
           "name": "((((carry_1_tmp_d2b51_3 - combination_limb_2_col2) - (1 * linear_combination_n_1_coefs_m1_input[0].get_m31(2))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -157,7 +152,6 @@
     {
       "Intermediate": [
         "carry_3_tmp_d2b51_5",
-        "M31",
         {
           "name": "((((carry_2_tmp_d2b51_4 - combination_limb_3_col3) - (1 * linear_combination_n_1_coefs_m1_input[0].get_m31(3))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -171,7 +165,6 @@
     {
       "Intermediate": [
         "carry_4_tmp_d2b51_6",
-        "M31",
         {
           "name": "((((carry_3_tmp_d2b51_5 - combination_limb_4_col4) - (1 * linear_combination_n_1_coefs_m1_input[0].get_m31(4))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -185,7 +178,6 @@
     {
       "Intermediate": [
         "carry_5_tmp_d2b51_7",
-        "M31",
         {
           "name": "((((carry_4_tmp_d2b51_6 - combination_limb_5_col5) - (1 * linear_combination_n_1_coefs_m1_input[0].get_m31(5))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -199,7 +191,6 @@
     {
       "Intermediate": [
         "carry_6_tmp_d2b51_8",
-        "M31",
         {
           "name": "((((carry_5_tmp_d2b51_7 - combination_limb_6_col6) - (1 * linear_combination_n_1_coefs_m1_input[0].get_m31(6))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -213,7 +204,6 @@
     {
       "Intermediate": [
         "carry_7_tmp_d2b51_9",
-        "M31",
         {
           "name": "((((carry_6_tmp_d2b51_8 - combination_limb_7_col7) - (1 * linear_combination_n_1_coefs_m1_input[0].get_m31(7))) - (p_coef_col10 * 136)) * 16)",
           "type": "M31"
@@ -227,7 +217,6 @@
     {
       "Intermediate": [
         "carry_8_tmp_d2b51_10",
-        "M31",
         {
           "name": "((((carry_7_tmp_d2b51_9 - combination_limb_8_col8) - (1 * linear_combination_n_1_coefs_m1_input[0].get_m31(8))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -247,7 +236,6 @@
     {
       "Intermediate": [
         "biased_carry_0_tmp_d2b51_11",
-        "M31",
         {
           "name": "(p_coef_col10 + 1)",
           "type": "M31"
@@ -267,7 +255,6 @@
     {
       "Intermediate": [
         "biased_carry_1_tmp_d2b51_12",
-        "M31",
         {
           "name": "(carry_0_tmp_d2b51_2 + 1)",
           "type": "M31"
@@ -287,7 +274,6 @@
     {
       "Intermediate": [
         "biased_carry_2_tmp_d2b51_13",
-        "M31",
         {
           "name": "(carry_1_tmp_d2b51_3 + 1)",
           "type": "M31"
@@ -307,7 +293,6 @@
     {
       "Intermediate": [
         "biased_carry_3_tmp_d2b51_14",
-        "M31",
         {
           "name": "(carry_2_tmp_d2b51_4 + 1)",
           "type": "M31"
@@ -327,7 +312,6 @@
     {
       "Intermediate": [
         "biased_carry_4_tmp_d2b51_15",
-        "M31",
         {
           "name": "(carry_3_tmp_d2b51_5 + 1)",
           "type": "M31"
@@ -347,7 +331,6 @@
     {
       "Intermediate": [
         "biased_carry_5_tmp_d2b51_16",
-        "M31",
         {
           "name": "(carry_4_tmp_d2b51_6 + 1)",
           "type": "M31"
@@ -367,7 +350,6 @@
     {
       "Intermediate": [
         "biased_carry_6_tmp_d2b51_17",
-        "M31",
         {
           "name": "(carry_5_tmp_d2b51_7 + 1)",
           "type": "M31"
@@ -387,7 +369,6 @@
     {
       "Intermediate": [
         "biased_carry_7_tmp_d2b51_18",
-        "M31",
         {
           "name": "(carry_6_tmp_d2b51_8 + 1)",
           "type": "M31"
@@ -407,7 +388,6 @@
     {
       "Intermediate": [
         "biased_carry_8_tmp_d2b51_19",
-        "M31",
         {
           "name": "(carry_7_tmp_d2b51_9 + 1)",
           "type": "M31"
@@ -427,7 +407,6 @@
     {
       "Intermediate": [
         "biased_carry_9_tmp_d2b51_20",
-        "M31",
         {
           "name": "(carry_8_tmp_d2b51_10 + 1)",
           "type": "M31"

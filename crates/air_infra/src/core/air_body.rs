@@ -70,7 +70,7 @@ pub enum AirBodyComponent {
     // Create a new local variable in the generated code. The visibility controls whether
     // to create the variable in the trace generation code, constraint evaluation code
     // or both.
-    Intermediate(String, String, AirVarImpl, Visibility),
+    Intermediate(String, AirVarImpl, Visibility),
 
     // Call an inline air function. This component will be replaced by the air_body of
     // the callee during the compilation process.
@@ -131,7 +131,7 @@ impl AirBody {
                     "deduction must have only intermediate variables known in deductions"
                 );
             }
-            AirBodyComponent::Intermediate(_, _, var, visibility) => {
+            AirBodyComponent::Intermediate(_, var, visibility) => {
                 if visibility.in_constraints {
                     // We check that the variable is in_state since we don't want to create
                     // variables for constraints before deduction.
@@ -233,7 +233,7 @@ impl AirBody {
                     compiled.public_params.extend(deduction.public_params());
                     compiled.external_states.extend(deduction.external_states());
                 }
-                AirBodyComponent::Intermediate(name, var_ty, var, visibility) => {
+                AirBodyComponent::Intermediate(name, var, visibility) => {
                     assert!(
                         visibility.in_deductions || visibility.in_constraints,
                         "Visibility of intermediates must be set"
@@ -250,7 +250,7 @@ impl AirBody {
                             .constraints
                             .push(ConstraintEvalStep::Intermediate(Intermediate {
                                 name: name.clone(),
-                                r#type: var_ty.clone(),
+                                r#type: var.prover_type(),
                                 var: var.clone().into(),
                             }));
                     }
@@ -260,7 +260,7 @@ impl AirBody {
                             .deductions
                             .push(TraceGenStep::Intermediate(Intermediate {
                                 name,
-                                r#type: var_ty,
+                                r#type: var.prover_type(),
                                 var: var.clone().into(),
                             }));
                     }
@@ -434,7 +434,6 @@ impl AirBody {
                 }
                 AirBodyComponent::Intermediate(
                     name,
-                    _,
                     expr,
                     Visibility {
                         in_constraints: true,
