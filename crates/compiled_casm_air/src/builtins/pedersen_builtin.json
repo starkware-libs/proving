@@ -2,9 +2,11 @@
   "name": "pedersen_builtin",
   "relation_name": null,
   "description": "Pedersen Builtin",
-  "input": {
-    "Tuple": []
-  },
+  "input": [
+    "pedersen_builtin_input",
+    "()",
+    "()"
+  ],
   "state_names": [
     "limb_0_col0",
     "limb_1_col1",
@@ -8285,7 +8287,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_0_tmp_d00c6_15",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -8831,7 +8833,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_1_tmp_d00c6_16",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -9153,7 +9155,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_2_tmp_d00c6_17",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -9475,7 +9477,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_3_tmp_d00c6_18",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -9797,7 +9799,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_4_tmp_d00c6_19",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -10119,7 +10121,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_5_tmp_d00c6_20",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -10441,7 +10443,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_6_tmp_d00c6_21",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -10763,7 +10765,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_7_tmp_d00c6_22",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -11085,7 +11087,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_8_tmp_d00c6_23",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -11407,7 +11409,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_9_tmp_d00c6_24",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -11729,7 +11731,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_10_tmp_d00c6_25",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -12051,7 +12053,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_11_tmp_d00c6_26",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -12373,7 +12375,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_12_tmp_d00c6_27",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -12695,7 +12697,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_13_tmp_d00c6_28",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -14872,7 +14874,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_0_tmp_d00c6_29",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -17489,7 +17491,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_0_tmp_d00c6_30",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -18035,7 +18037,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_1_tmp_d00c6_31",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -18357,7 +18359,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_2_tmp_d00c6_32",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -18679,7 +18681,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_3_tmp_d00c6_33",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -19001,7 +19003,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_4_tmp_d00c6_34",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -19323,7 +19325,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_5_tmp_d00c6_35",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -19645,7 +19647,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_6_tmp_d00c6_36",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -19967,7 +19969,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_7_tmp_d00c6_37",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -20289,7 +20291,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_8_tmp_d00c6_38",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -20611,7 +20613,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_9_tmp_d00c6_39",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -20933,7 +20935,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_10_tmp_d00c6_40",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -21255,7 +21257,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_11_tmp_d00c6_41",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -21577,7 +21579,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_12_tmp_d00c6_42",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -21899,7 +21901,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_13_tmp_d00c6_43",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",
@@ -24076,7 +24078,7 @@
     {
       "Intermediate": {
         "name": "partial_ec_mul_output_round_0_tmp_d00c6_44",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "StaticCall": [
             "PartialEcMul::deduce_output",

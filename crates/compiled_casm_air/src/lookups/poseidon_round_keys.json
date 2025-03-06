@@ -2,18 +2,11 @@
   "name": "poseidon_round_keys",
   "relation_name": "PoseidonRoundKeys",
   "description": "Poseidon Round Keys",
-  "input": {
-    "Array": [
-      {
-        "ExternalState": [
-          "Seq",
-          [
-            "6"
-          ]
-        ]
-      }
-    ]
-  },
+  "input": [
+    "poseidon_round_keys_input",
+    "[M31; 1]",
+    "[PackedM31; 1]"
+  ],
   "state_names": [],
   "multiplicity_col_index": 0,
   "lookup_names": [],

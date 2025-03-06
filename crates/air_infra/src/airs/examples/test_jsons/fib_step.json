@@ -2,22 +2,11 @@
   "name": "fib_step",
   "relation_name": null,
   "description": "Fib Step",
-  "input": {
-    "Array": [
-      {
-        "Var": [
-          "M31",
-          "fib_step_input[0]"
-        ]
-      },
-      {
-        "Var": [
-          "M31",
-          "fib_step_input[1]"
-        ]
-      }
-    ]
-  },
+  "input": [
+    "fib_step_input",
+    "[M31; 2]",
+    "[PackedM31; 2]"
+  ],
   "state_names": [
     "col0"
   ],

@@ -2,18 +2,11 @@
   "name": "pedersen_points_table",
   "relation_name": "PedersenPointsTable",
   "description": "Pedersen Points Table",
-  "input": {
-    "Array": [
-      {
-        "ExternalState": [
-          "Seq",
-          [
-            "23"
-          ]
-        ]
-      }
-    ]
-  },
+  "input": [
+    "pedersen_points_table_input",
+    "[M31; 1]",
+    "[PackedM31; 1]"
+  ],
   "state_names": [],
   "multiplicity_col_index": 0,
   "lookup_names": [],

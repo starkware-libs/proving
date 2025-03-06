@@ -2,12 +2,11 @@
   "name": "cube_252",
   "relation_name": "Cube252",
   "description": "Cube 252",
-  "input": {
-    "Var": [
-      "Felt252Width27",
-      "cube_252_input"
-    ]
-  },
+  "input": [
+    "cube_252_input",
+    "Felt252Width27",
+    "PackedFelt252Width27"
+  ],
   "state_names": [
     "input_limb_0_col0",
     "input_limb_1_col1",

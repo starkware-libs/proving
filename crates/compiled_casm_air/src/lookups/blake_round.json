@@ -2,132 +2,11 @@
   "name": "blake_round",
   "relation_name": "BlakeRound",
   "description": "Blake Round",
-  "input": {
-    "Tuple": [
-      {
-        "Var": [
-          "M31",
-          "blake_round_input.0"
-        ]
-      },
-      {
-        "Var": [
-          "M31",
-          "blake_round_input.1"
-        ]
-      },
-      {
-        "Tuple": [
-          {
-            "Array": [
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[0]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[1]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[2]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[3]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[4]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[5]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[6]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[7]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[8]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[9]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[10]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[11]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[12]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[13]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[14]"
-                ]
-              },
-              {
-                "Var": [
-                  "UInt32",
-                  "blake_round_input.2.0[15]"
-                ]
-              }
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "blake_round_input.2.1"
-            ]
-          }
-        ]
-      }
-    ]
-  },
+  "input": [
+    "blake_round_input",
+    "(M31, M31, ([UInt32; 16], M31))",
+    "(PackedM31, PackedM31, ([PackedUInt32; 16], PackedM31))"
+  ],
   "state_names": [
     "input_limb_0_col0",
     "input_limb_1_col1",
@@ -6207,7 +6086,7 @@
     {
       "Intermediate": {
         "name": "input_tmp_92ff8_0",
-        "type": "(M31, M31, ([UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32], M31))",
+        "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "Tuple": [
             {
@@ -7015,7 +6894,7 @@
     {
       "Intermediate": {
         "name": "blake_round_sigma_output_tmp_92ff8_1",
-        "type": "[M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31]",
+        "type": "[M31; 16]",
         "var": {
           "StaticCall": [
             "BlakeRoundSigma::deduce_output",
@@ -20099,7 +19978,7 @@
     {
       "Intermediate": {
         "name": "blake_g_output_tmp_92ff8_130",
-        "type": "[UInt32, UInt32, UInt32, UInt32]",
+        "type": "[UInt32; 4]",
         "var": {
           "StaticCall": [
             "BlakeG::deduce_output",
@@ -20425,7 +20304,7 @@
     {
       "Intermediate": {
         "name": "blake_g_output_tmp_92ff8_131",
-        "type": "[UInt32, UInt32, UInt32, UInt32]",
+        "type": "[UInt32; 4]",
         "var": {
           "StaticCall": [
             "BlakeG::deduce_output",
@@ -20751,7 +20630,7 @@
     {
       "Intermediate": {
         "name": "blake_g_output_tmp_92ff8_132",
-        "type": "[UInt32, UInt32, UInt32, UInt32]",
+        "type": "[UInt32; 4]",
         "var": {
           "StaticCall": [
             "BlakeG::deduce_output",
@@ -21077,7 +20956,7 @@
     {
       "Intermediate": {
         "name": "blake_g_output_tmp_92ff8_133",
-        "type": "[UInt32, UInt32, UInt32, UInt32]",
+        "type": "[UInt32; 4]",
         "var": {
           "StaticCall": [
             "BlakeG::deduce_output",
@@ -21403,7 +21282,7 @@
     {
       "Intermediate": {
         "name": "blake_g_output_tmp_92ff8_134",
-        "type": "[UInt32, UInt32, UInt32, UInt32]",
+        "type": "[UInt32; 4]",
         "var": {
           "StaticCall": [
             "BlakeG::deduce_output",
@@ -21729,7 +21608,7 @@
     {
       "Intermediate": {
         "name": "blake_g_output_tmp_92ff8_135",
-        "type": "[UInt32, UInt32, UInt32, UInt32]",
+        "type": "[UInt32; 4]",
         "var": {
           "StaticCall": [
             "BlakeG::deduce_output",
@@ -22055,7 +21934,7 @@
     {
       "Intermediate": {
         "name": "blake_g_output_tmp_92ff8_136",
-        "type": "[UInt32, UInt32, UInt32, UInt32]",
+        "type": "[UInt32; 4]",
         "var": {
           "StaticCall": [
             "BlakeG::deduce_output",
@@ -22381,7 +22260,7 @@
     {
       "Intermediate": {
         "name": "blake_g_output_tmp_92ff8_137",
-        "type": "[UInt32, UInt32, UInt32, UInt32]",
+        "type": "[UInt32; 4]",
         "var": {
           "StaticCall": [
             "BlakeG::deduce_output",

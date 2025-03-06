@@ -2,12 +2,11 @@
   "name": "generic_opcode",
   "relation_name": "Opcodes",
   "description": "Generic Opcode",
-  "input": {
-    "Var": [
-      "CasmState",
-      "generic_opcode_input"
-    ]
-  },
+  "input": [
+    "generic_opcode_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",

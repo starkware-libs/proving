@@ -2,12 +2,11 @@
   "name": "add_ap_opcode",
   "relation_name": "Opcodes",
   "description": "Add Ap Opcode",
-  "input": {
-    "Var": [
-      "CasmState",
-      "add_ap_opcode_input"
-    ]
-  },
+  "input": [
+    "add_ap_opcode_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",

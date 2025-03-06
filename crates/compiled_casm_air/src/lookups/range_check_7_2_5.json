@@ -2,37 +2,11 @@
   "name": "range_check_7_2_5",
   "relation_name": "RangeCheck_7_2_5",
   "description": "Range Check 7 2 5",
-  "input": {
-    "Array": [
-      {
-        "ExternalState": [
-          "RangeCheck",
-          [
-            "[7,2,5]",
-            "0"
-          ]
-        ]
-      },
-      {
-        "ExternalState": [
-          "RangeCheck",
-          [
-            "[7,2,5]",
-            "1"
-          ]
-        ]
-      },
-      {
-        "ExternalState": [
-          "RangeCheck",
-          [
-            "[7,2,5]",
-            "2"
-          ]
-        ]
-      }
-    ]
-  },
+  "input": [
+    "range_check_7_2_5_input",
+    "[M31; 3]",
+    "[PackedM31; 3]"
+  ],
   "state_names": [],
   "multiplicity_col_index": 0,
   "lookup_names": [],

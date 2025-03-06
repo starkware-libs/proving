@@ -2,37 +2,11 @@
   "name": "verify_bitwise_xor_7",
   "relation_name": "VerifyBitwiseXor_7",
   "description": "Verify Bitwise Xor 7",
-  "input": {
-    "Array": [
-      {
-        "ExternalState": [
-          "BitwiseXor",
-          [
-            "7",
-            "0"
-          ]
-        ]
-      },
-      {
-        "ExternalState": [
-          "BitwiseXor",
-          [
-            "7",
-            "1"
-          ]
-        ]
-      },
-      {
-        "ExternalState": [
-          "BitwiseXor",
-          [
-            "7",
-            "2"
-          ]
-        ]
-      }
-    ]
-  },
+  "input": [
+    "verify_bitwise_xor_7_input",
+    "[M31; 3]",
+    "[PackedM31; 3]"
+  ],
   "state_names": [],
   "multiplicity_col_index": 0,
   "lookup_names": [],

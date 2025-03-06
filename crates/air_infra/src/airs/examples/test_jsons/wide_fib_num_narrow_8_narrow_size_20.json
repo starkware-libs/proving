@@ -2,12 +2,11 @@
   "name": "wide_fib_num_narrow_8_narrow_size_20",
   "relation_name": null,
   "description": "Wide Fib Num Narrow 8 Narrow Size 20",
-  "input": {
-    "Var": [
-      "M31",
-      "wide_fib_num_narrow_8_narrow_size_20_input"
-    ]
-  },
+  "input": [
+    "wide_fib_num_narrow_8_narrow_size_20_input",
+    "M31",
+    "PackedM31"
+  ],
   "state_names": [
     "col0",
     "narrow_fib_num_steps_20_output_limb_0_col1",
@@ -229,7 +228,7 @@
     {
       "Intermediate": {
         "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_0",
-        "type": "[M31, M31]",
+        "type": "[M31; 2]",
         "var": {
           "StaticCall": [
             "NarrowFibNumSteps20::deduce_output",
@@ -309,7 +308,7 @@
     {
       "Intermediate": {
         "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_1",
-        "type": "[M31, M31]",
+        "type": "[M31; 2]",
         "var": {
           "StaticCall": [
             "NarrowFibNumSteps20::deduce_output",
@@ -383,7 +382,7 @@
     {
       "Intermediate": {
         "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_2",
-        "type": "[M31, M31]",
+        "type": "[M31; 2]",
         "var": {
           "StaticCall": [
             "NarrowFibNumSteps20::deduce_output",
@@ -457,7 +456,7 @@
     {
       "Intermediate": {
         "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_3",
-        "type": "[M31, M31]",
+        "type": "[M31; 2]",
         "var": {
           "StaticCall": [
             "NarrowFibNumSteps20::deduce_output",
@@ -531,7 +530,7 @@
     {
       "Intermediate": {
         "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_4",
-        "type": "[M31, M31]",
+        "type": "[M31; 2]",
         "var": {
           "StaticCall": [
             "NarrowFibNumSteps20::deduce_output",
@@ -605,7 +604,7 @@
     {
       "Intermediate": {
         "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_5",
-        "type": "[M31, M31]",
+        "type": "[M31; 2]",
         "var": {
           "StaticCall": [
             "NarrowFibNumSteps20::deduce_output",
@@ -679,7 +678,7 @@
     {
       "Intermediate": {
         "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_6",
-        "type": "[M31, M31]",
+        "type": "[M31; 2]",
         "var": {
           "StaticCall": [
             "NarrowFibNumSteps20::deduce_output",
@@ -753,7 +752,7 @@
     {
       "Intermediate": {
         "name": "narrow_fib_num_steps_20_output_tmp_d7cf2_7",
-        "type": "[M31, M31]",
+        "type": "[M31; 2]",
         "var": {
           "StaticCall": [
             "NarrowFibNumSteps20::deduce_output",

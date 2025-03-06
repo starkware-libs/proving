@@ -2,28 +2,11 @@
   "name": "range_check_9_9",
   "relation_name": "RangeCheck_9_9",
   "description": "Range Check 9 9",
-  "input": {
-    "Array": [
-      {
-        "ExternalState": [
-          "RangeCheck",
-          [
-            "[9,9]",
-            "0"
-          ]
-        ]
-      },
-      {
-        "ExternalState": [
-          "RangeCheck",
-          [
-            "[9,9]",
-            "1"
-          ]
-        ]
-      }
-    ]
-  },
+  "input": [
+    "range_check_9_9_input",
+    "[M31; 2]",
+    "[PackedM31; 2]"
+  ],
   "state_names": [],
   "multiplicity_col_index": 0,
   "lookup_names": [],

@@ -10,7 +10,9 @@ pub struct CompiledAirFn {
     pub name: String,
     pub relation_name: Option<String>,
     pub description: String,
-    pub input: CompiledAirVar,
+    // The input to the air function. The first string is the name of the input, the second is its
+    // type, and the third is its packed type.
+    pub input: (String, String, String),
 
     pub state_names: Vec<String>,
 

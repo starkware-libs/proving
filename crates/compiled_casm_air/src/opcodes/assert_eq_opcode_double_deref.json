@@ -2,12 +2,11 @@
   "name": "assert_eq_opcode_double_deref",
   "relation_name": "Opcodes",
   "description": "Assert Eq Opcode Double Deref",
-  "input": {
-    "Var": [
-      "CasmState",
-      "assert_eq_opcode_double_deref_input"
-    ]
-  },
+  "input": [
+    "assert_eq_opcode_double_deref_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",

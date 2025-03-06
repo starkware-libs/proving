@@ -2,12 +2,11 @@
   "name": "mul_opcode_imm",
   "relation_name": "Opcodes",
   "description": "Mul Opcode Imm",
-  "input": {
-    "Var": [
-      "CasmState",
-      "mul_opcode_imm_input"
-    ]
-  },
+  "input": [
+    "mul_opcode_imm_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",

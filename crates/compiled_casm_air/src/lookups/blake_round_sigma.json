@@ -2,18 +2,11 @@
   "name": "blake_round_sigma",
   "relation_name": "BlakeRoundSigma",
   "description": "Blake Round Sigma",
-  "input": {
-    "Array": [
-      {
-        "ExternalState": [
-          "Seq",
-          [
-            "4"
-          ]
-        ]
-      }
-    ]
-  },
+  "input": [
+    "blake_round_sigma_input",
+    "[M31; 1]",
+    "[PackedM31; 1]"
+  ],
   "state_names": [],
   "multiplicity_col_index": 0,
   "lookup_names": [],

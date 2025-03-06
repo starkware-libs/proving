@@ -2,12 +2,11 @@
   "name": "memory_address_to_id",
   "relation_name": "MemoryAddressToId",
   "description": "Memory Address To Id",
-  "input": {
-    "ExternalState": [
-      "Seq",
-      []
-    ]
-  },
+  "input": [
+    "memory_address_to_id_input",
+    "M31",
+    "PackedM31"
+  ],
   "state_names": [
     "memory_address_to_id_output_col0"
   ],

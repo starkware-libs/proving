@@ -2,12 +2,11 @@
   "name": "jnz_opcode_dst_base_fp",
   "relation_name": "Opcodes",
   "description": "Jnz Opcode Dst Base Fp",
-  "input": {
-    "Var": [
-      "CasmState",
-      "jnz_opcode_dst_base_fp_input"
-    ]
-  },
+  "input": [
+    "jnz_opcode_dst_base_fp_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",

@@ -105,10 +105,10 @@ impl RustProverGen {
             // Builtins have no inputs.
             Mode::Builtin => quote!(),
             Mode::Opcode | Mode::View => {
-                let input = &self.lists.input;
+                let (_name, ty, packed_ty) = &self.lists.input;
                 quote! {
-                    pub type InputType = $(air_var_type(input, &mut |ty| quote!($ty)));
-                    pub type PackedInputType = $(air_var_type(input, &mut |ty| quote!(Packed$ty)));
+                    pub type InputType = $ty;
+                    pub type PackedInputType = $packed_ty;
                 }
             }
         }
@@ -874,48 +874,6 @@ fn simd_parse_air_var(
     }
 }
 
-pub fn air_var_type<F>(expr: &CompiledAirVar, append_type_prefix: &mut F) -> rust::Tokens
-where
-    F: FnMut(&str) -> rust::Tokens,
-{
-    match expr {
-        CompiledAirVar::Const(ty, _) => append_type_prefix(ty),
-        CompiledAirVar::Var(ty, _) => append_type_prefix(ty),
-        CompiledAirVar::State(_) => append_type_prefix("M31"),
-        CompiledAirVar::Tuple(tuple) => {
-            let member_types = tuple
-                .iter()
-                .map(|var| air_var_type(var, append_type_prefix))
-                .fold(rust::Tokens::new(), |mut member_types, t| {
-                    member_types.append(quote!($t,));
-                    member_types
-                });
-            quote!(($member_types))
-        }
-        CompiledAirVar::Array(arr) => {
-            let ty = air_var_type(&arr[0], append_type_prefix);
-            let len = arr.len();
-            quote!([$ty; $len])
-        }
-        CompiledAirVar::Struct { r#type, fields } => {
-            let members_code = fields
-                .iter()
-                .map(|(name, expr)| quote!($name: $(air_var_type(expr,append_type_prefix))))
-                .fold(rust::Tokens::new(), |mut members_code, t| {
-                    members_code.append(quote!($t,));
-                    members_code
-                });
-            quote! {
-                $(r#type) {
-                    $(members_code),
-                }
-            }
-        }
-        CompiledAirVar::ExternalState { .. } => append_type_prefix("M31"),
-        _ => unimplemented!(),
-    }
-}
-
 fn packed_name(ty: &str) -> String {
     format!("Packed{}", ty)
 }
@@ -926,11 +884,7 @@ fn vec_of_type(ty: &str) -> String {
 
 fn contains_inputs(lists: &CompiledAirFn) -> bool {
     // No inputs is defined by an empty tuple.
-    if let CompiledAirVar::Tuple(inputs) = &lists.input {
-        !inputs.is_empty()
-    } else {
-        true
-    }
+    lists.input.1 != "()"
 }
 
 fn filter_lookup_terms(deductions: &[TraceGenStep]) -> Vec<LookupTerm> {

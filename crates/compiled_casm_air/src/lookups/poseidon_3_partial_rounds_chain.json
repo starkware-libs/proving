@@ -2,50 +2,11 @@
   "name": "poseidon_3_partial_rounds_chain",
   "relation_name": "Poseidon3PartialRoundsChain",
   "description": "Poseidon 3 Partial Rounds Chain",
-  "input": {
-    "Tuple": [
-      {
-        "Var": [
-          "M31",
-          "poseidon_3_partial_rounds_chain_input.0"
-        ]
-      },
-      {
-        "Var": [
-          "M31",
-          "poseidon_3_partial_rounds_chain_input.1"
-        ]
-      },
-      {
-        "Array": [
-          {
-            "Var": [
-              "Felt252Width27",
-              "poseidon_3_partial_rounds_chain_input.2[0]"
-            ]
-          },
-          {
-            "Var": [
-              "Felt252Width27",
-              "poseidon_3_partial_rounds_chain_input.2[1]"
-            ]
-          },
-          {
-            "Var": [
-              "Felt252Width27",
-              "poseidon_3_partial_rounds_chain_input.2[2]"
-            ]
-          },
-          {
-            "Var": [
-              "Felt252Width27",
-              "poseidon_3_partial_rounds_chain_input.2[3]"
-            ]
-          }
-        ]
-      }
-    ]
-  },
+  "input": [
+    "poseidon_3_partial_rounds_chain_input",
+    "(M31, M31, [Felt252Width27; 4])",
+    "(PackedM31, PackedM31, [PackedFelt252Width27; 4])"
+  ],
   "state_names": [
     "input_limb_0_col0",
     "input_limb_1_col1",
@@ -10790,7 +10751,7 @@
     {
       "Intermediate": {
         "name": "input_tmp_44f04_0",
-        "type": "(M31, M31, [Felt252Width27, Felt252Width27, Felt252Width27, Felt252Width27])",
+        "type": "(M31, M31, [Felt252Width27; 4])",
         "var": {
           "Tuple": [
             {
@@ -11708,7 +11669,7 @@
     {
       "Intermediate": {
         "name": "poseidon_round_keys_output_tmp_44f04_1",
-        "type": "[Felt252Width27, Felt252Width27, Felt252Width27]",
+        "type": "[Felt252Width27; 3]",
         "var": {
           "StaticCall": [
             "PoseidonRoundKeys::deduce_output",

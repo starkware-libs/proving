@@ -2,9 +2,11 @@
   "name": "range_check_builtin_bits_128",
   "relation_name": null,
   "description": "Range Check Builtin Bits 128",
-  "input": {
-    "Tuple": []
-  },
+  "input": [
+    "range_check_builtin_bits_128_input",
+    "()",
+    "()"
+  ],
   "state_names": [
     "value_id_col0",
     "value_limb_0_col1",

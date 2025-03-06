@@ -2,37 +2,11 @@
   "name": "verify_bitwise_xor_9",
   "relation_name": "VerifyBitwiseXor_9",
   "description": "Verify Bitwise Xor 9",
-  "input": {
-    "Array": [
-      {
-        "ExternalState": [
-          "BitwiseXor",
-          [
-            "9",
-            "0"
-          ]
-        ]
-      },
-      {
-        "ExternalState": [
-          "BitwiseXor",
-          [
-            "9",
-            "1"
-          ]
-        ]
-      },
-      {
-        "ExternalState": [
-          "BitwiseXor",
-          [
-            "9",
-            "2"
-          ]
-        ]
-      }
-    ]
-  },
+  "input": [
+    "verify_bitwise_xor_9_input",
+    "[M31; 3]",
+    "[PackedM31; 3]"
+  ],
   "state_names": [],
   "multiplicity_col_index": 0,
   "lookup_names": [],

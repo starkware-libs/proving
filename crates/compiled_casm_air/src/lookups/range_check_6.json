@@ -2,18 +2,11 @@
   "name": "range_check_6",
   "relation_name": "RangeCheck_6",
   "description": "Range Check 6",
-  "input": {
-    "Array": [
-      {
-        "ExternalState": [
-          "Seq",
-          [
-            "6"
-          ]
-        ]
-      }
-    ]
-  },
+  "input": [
+    "range_check_6_input",
+    "[M31; 1]",
+    "[PackedM31; 1]"
+  ],
   "state_names": [],
   "multiplicity_col_index": 0,
   "lookup_names": [],

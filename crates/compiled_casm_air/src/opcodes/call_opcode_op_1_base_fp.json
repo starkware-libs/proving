@@ -2,12 +2,11 @@
   "name": "call_opcode_op_1_base_fp",
   "relation_name": "Opcodes",
   "description": "Call Opcode Op 1 Base Fp",
-  "input": {
-    "Var": [
-      "CasmState",
-      "call_opcode_op_1_base_fp_input"
-    ]
-  },
+  "input": [
+    "call_opcode_op_1_base_fp_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",
