@@ -940,32 +940,10 @@
   ],
   "deductions": [
     {
-      "Intermediate": {
-        "name": "input_tmp_1ddf3_0",
-        "type": "[M31; 2]",
-        "var": {
-          "Array": [
-            {
-              "Var": [
-                "M31",
-                "narrow_fib_num_steps_20_input[0]"
-              ]
-            },
-            {
-              "Var": [
-                "M31",
-                "narrow_fib_num_steps_20_input[1]"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_1ddf3_0[0]"
+          "narrow_fib_num_steps_20_input[0]"
         ]
       }
     },
@@ -973,7 +951,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_1ddf3_0[1]"
+          "narrow_fib_num_steps_20_input[1]"
         ]
       }
     },

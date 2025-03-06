@@ -34,43 +34,20 @@
   "trace_type": "ChainRound",
   "air_body": [
     {
-      "Intermediate": [
-        "input_tmp_d3037_0",
-        [
-          {
-            "name": "test_chain_round_input.0",
-            "type": "M31"
-          },
-          {
-            "name": "test_chain_round_input.1",
-            "type": "M31"
-          },
-          {
-            "name": "test_chain_round_input.2",
-            "type": "M31"
-          }
-        ],
-        {
-          "in_constraints": false,
-          "in_deductions": true
-        }
-      ]
-    },
-    {
       "Deduction": [
-        "input_tmp_d3037_0.0",
+        "test_chain_round_input.0",
         "input_limb_0"
       ]
     },
     {
       "Deduction": [
-        "input_tmp_d3037_0.1",
+        "test_chain_round_input.1",
         "input_limb_1"
       ]
     },
     {
       "Deduction": [
-        "input_tmp_d3037_0.2",
+        "test_chain_round_input.2",
         "input_limb_2"
       ]
     },

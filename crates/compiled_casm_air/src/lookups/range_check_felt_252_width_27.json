@@ -418,24 +418,12 @@
   ],
   "deductions": [
     {
-      "Intermediate": {
-        "name": "input_tmp_2405e_0",
-        "type": "Felt252Width27",
-        "var": {
-          "Var": [
-            "Felt252Width27",
-            "range_check_felt_252_width_27_input"
-          ]
-        }
-      }
-    },
-    {
       "Deduction": {
         "MethodCall": [
           {
             "Var": [
               "Felt252Width27",
-              "input_tmp_2405e_0"
+              "range_check_felt_252_width_27_input"
             ]
           },
           "get_m31",
@@ -456,7 +444,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "input_tmp_2405e_0"
+              "range_check_felt_252_width_27_input"
             ]
           },
           "get_m31",
@@ -477,7 +465,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "input_tmp_2405e_0"
+              "range_check_felt_252_width_27_input"
             ]
           },
           "get_m31",
@@ -498,7 +486,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "input_tmp_2405e_0"
+              "range_check_felt_252_width_27_input"
             ]
           },
           "get_m31",
@@ -519,7 +507,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "input_tmp_2405e_0"
+              "range_check_felt_252_width_27_input"
             ]
           },
           "get_m31",
@@ -540,7 +528,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "input_tmp_2405e_0"
+              "range_check_felt_252_width_27_input"
             ]
           },
           "get_m31",
@@ -561,7 +549,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "input_tmp_2405e_0"
+              "range_check_felt_252_width_27_input"
             ]
           },
           "get_m31",
@@ -582,7 +570,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "input_tmp_2405e_0"
+              "range_check_felt_252_width_27_input"
             ]
           },
           "get_m31",
@@ -603,7 +591,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "input_tmp_2405e_0"
+              "range_check_felt_252_width_27_input"
             ]
           },
           "get_m31",
@@ -624,7 +612,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "input_tmp_2405e_0"
+              "range_check_felt_252_width_27_input"
             ]
           },
           "get_m31",
@@ -641,7 +629,7 @@
     },
     {
       "Intermediate": {
-        "name": "input_as_felt252_tmp_2405e_1",
+        "name": "input_as_felt252_tmp_2405e_0",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -650,7 +638,7 @@
               {
                 "Var": [
                   "Felt252Width27",
-                  "input_tmp_2405e_0"
+                  "range_check_felt_252_width_27_input"
                 ]
               }
             ]
@@ -664,7 +652,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_1"
+              "input_as_felt252_tmp_2405e_0"
             ]
           },
           "get_m31",
@@ -685,7 +673,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_1"
+              "input_as_felt252_tmp_2405e_0"
             ]
           },
           "get_m31",
@@ -857,7 +845,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_1"
+              "input_as_felt252_tmp_2405e_0"
             ]
           },
           "get_m31",
@@ -878,7 +866,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_1"
+              "input_as_felt252_tmp_2405e_0"
             ]
           },
           "get_m31",
@@ -1050,7 +1038,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_1"
+              "input_as_felt252_tmp_2405e_0"
             ]
           },
           "get_m31",
@@ -1071,7 +1059,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_1"
+              "input_as_felt252_tmp_2405e_0"
             ]
           },
           "get_m31",
@@ -1243,7 +1231,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_1"
+              "input_as_felt252_tmp_2405e_0"
             ]
           },
           "get_m31",
@@ -1264,7 +1252,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_1"
+              "input_as_felt252_tmp_2405e_0"
             ]
           },
           "get_m31",
@@ -1436,7 +1424,7 @@
           {
             "Var": [
               "Felt252",
-              "input_as_felt252_tmp_2405e_1"
+              "input_as_felt252_tmp_2405e_0"
             ]
           },
           "get_m31",
