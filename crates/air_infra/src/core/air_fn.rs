@@ -16,6 +16,7 @@ use stwo_cairo_common::prover_types::cpu::ProverType;
 
 use super::air_body::*;
 use super::air_fn_registry::*;
+use super::expressions::expr::*;
 use super::expressions::felt_expr::*;
 use super::memory::*;
 use super::state::*;
@@ -383,6 +384,16 @@ impl AirBuilder {
     where
         V: AirVar,
     {
+        if V::is_empty() {
+            return var;
+        }
+
+        if let AirVarImpl::Expr(ExprImpl::Felt(f)) = var.clone().into() {
+            if f.is_directly_in_state() {
+                return var.clone();
+            }
+        }
+
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
@@ -397,6 +408,10 @@ impl AirBuilder {
     }
 
     pub fn let_for_constraint(&mut self, expr: FeltExpr, desc: &str) -> FeltExpr {
+        if expr.is_directly_in_state() {
+            return expr.clone();
+        }
+
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
         self.air_body.push(AirBodyComponent::Intermediate(
             name.clone(),
@@ -485,7 +500,7 @@ impl AirBuilder {
         O: AirVar,
     {
         for (i, (new_felt, felt)) in new_felts.into_iter().zip(expr.as_felts_mut()).enumerate() {
-            if new_felt.is_const() || new_felt.is_directly_in_state() {
+            if new_felt.is_directly_in_state() {
                 *felt = new_felt;
                 continue;
             }
