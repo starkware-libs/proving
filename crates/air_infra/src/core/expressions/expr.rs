@@ -1,3 +1,6 @@
+#[cfg(test)]
+use std::fmt::Display;
+
 use compiled_casm_air::compiled_structs::CompiledAirVar;
 use enum_dispatch::enum_dispatch;
 use serde::ser::SerializeStruct;
@@ -81,6 +84,19 @@ where
         match expr {
             Expr::Var(v) => v.into(),
             Expr::Op(o) => o.into(),
+        }
+    }
+}
+
+#[cfg(test)]
+impl<T> Display for Expr<T>
+where
+    T: ProverType,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            Expr::Var(v) => write!(f, "{}", CompiledAirVar::from(v.clone())),
+            Expr::Op(o) => write!(f, "{}", CompiledAirVar::from(o.clone())),
         }
     }
 }
