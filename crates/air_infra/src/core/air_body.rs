@@ -132,6 +132,16 @@ impl AirBody {
                 );
             }
             AirBodyComponent::Intermediate(_, var, visibility) => {
+                assert!(
+                    visibility.in_deductions || visibility.in_constraints,
+                    "Visibility of intermediates must be set"
+                );
+                if visibility.in_constraints {
+                    assert!(
+                        var.prover_type() == Felt::r#type(),
+                        "Only felts can be intermediates in constraints"
+                    );
+                }
                 if visibility.in_constraints {
                     // We check that the variable is in_state since we don't want to create
                     // variables for constraints before deduction.
@@ -193,117 +203,120 @@ impl AirBody {
         self.0.push(component);
     }
 
-    // Transforms the air body of an air function into the compiled air fn format.
-    pub fn compile(&self) -> CompiledAirBody {
-        let mut compiled = CompiledAirBody::default();
+    pub fn get_external_states(&self) -> BTreeSet<(String, Vec<String>)> {
+        let mut external_states = BTreeSet::<(String, Vec<String>)>::default();
 
         for component in self.0.clone() {
             match component {
-                AirBodyComponent::Constraint(constraint, desc) => {
-                    compiled.constraints.push(ConstraintEvalStep::Constraint(
-                        constraint.clone().into(),
-                        desc,
-                    ));
-                    compiled.public_params.extend(constraint.public_params());
-                    compiled
-                        .external_states
-                        .extend(constraint.external_states());
+                AirBodyComponent::Constraint(felt_expr, _)
+                | AirBodyComponent::Assignment {
+                    constraint: felt_expr,
+                    ..
                 }
-                AirBodyComponent::Assignment {
-                    constraint,
-                    deduction,
-                    desc,
-                } => {
-                    compiled.constraints.push(ConstraintEvalStep::Constraint(
-                        constraint.clone().into(),
-                        desc.clone(),
-                    ));
-                    compiled
-                        .deductions
-                        .push(TraceGenStep::Deduction(deduction.into()));
-                    compiled.public_params.extend(constraint.public_params());
-                    compiled
-                        .external_states
-                        .extend(constraint.external_states());
+                | AirBodyComponent::Deduction(felt_expr, _) => {
+                    external_states.extend(felt_expr.external_states());
                 }
-                AirBodyComponent::Deduction(deduction, _) => {
-                    compiled
-                        .deductions
-                        .push(TraceGenStep::Deduction(deduction.clone().into()));
-                    compiled.public_params.extend(deduction.public_params());
-                    compiled.external_states.extend(deduction.external_states());
-                }
-                AirBodyComponent::Intermediate(name, var, visibility) => {
-                    assert!(
-                        visibility.in_deductions || visibility.in_constraints,
-                        "Visibility of intermediates must be set"
-                    );
-                    if visibility.in_constraints {
-                        assert!(
-                            var.prover_type() == Felt::r#type(),
-                            "Only felts can be intermediates in constraints"
-                        );
-                    }
-
-                    if visibility.in_constraints {
-                        compiled
-                            .constraints
-                            .push(ConstraintEvalStep::Intermediate(Intermediate {
-                                name: name.clone(),
-                                r#type: var.prover_type(),
-                                var: var.clone().into(),
-                            }));
-                    }
-
-                    if visibility.in_deductions {
-                        compiled
-                            .deductions
-                            .push(TraceGenStep::Intermediate(Intermediate {
-                                name,
-                                r#type: var.prover_type(),
-                                var: var.clone().into(),
-                            }));
-                    }
-                    compiled.public_params.extend(var.public_params());
-                    compiled.external_states.extend(var.external_states());
+                AirBodyComponent::Intermediate(_, var, _) => {
+                    external_states.extend(var.external_states());
                 }
                 AirBodyComponent::Call(f) => {
-                    let f_air_body = f.air_body.compile();
-                    if !f_air_body.constraints.is_empty() {
-                        compiled
-                            .constraints
-                            .push(ConstraintEvalStep::StartBlock(f.air_fn_description.clone()));
-                        compiled.constraints.extend(f_air_body.constraints);
-                        compiled.constraints.push(ConstraintEvalStep::EndBlock);
+                    external_states.extend(f.air_body.get_external_states());
+                }
+                AirBodyComponent::LookupCall(_) => {}
+                AirBodyComponent::LookupAddInput { input, .. } => {
+                    if let Some(input) = input {
+                        external_states.extend(input.external_states());
                     }
-                    if !f_air_body.deductions.is_empty() {
-                        compiled
-                            .deductions
-                            .push(TraceGenStep::StartBlock(f.air_fn_description));
-                        compiled.deductions.extend(f_air_body.deductions);
-                        compiled.deductions.push(TraceGenStep::EndBlock);
+                }
+                AirBodyComponent::LookupTerm { felts, .. } => {
+                    external_states.extend(felts.iter().flat_map(|f| f.external_states()));
+                }
+            }
+        }
+
+        external_states
+    }
+
+    pub fn get_public_params(&self) -> BTreeSet<PublicParam> {
+        let mut public_params = BTreeSet::<PublicParam>::default();
+
+        for component in self.0.clone() {
+            match component {
+                AirBodyComponent::Constraint(felt_expr, _)
+                | AirBodyComponent::Assignment {
+                    constraint: felt_expr,
+                    ..
+                }
+                | AirBodyComponent::Deduction(felt_expr, _) => {
+                    public_params.extend(felt_expr.public_params());
+                }
+                AirBodyComponent::Intermediate(_, var, _) => {
+                    public_params.extend(var.public_params());
+                }
+                AirBodyComponent::Call(f) => {
+                    public_params.extend(f.air_body.get_public_params());
+                }
+                AirBodyComponent::LookupCall(_) => {}
+                AirBodyComponent::LookupAddInput { input, .. } => {
+                    if let Some(input) = input {
+                        public_params.extend(input.public_params());
                     }
-                    compiled.public_params.extend(f_air_body.public_params);
-                    compiled.external_states.extend(f_air_body.external_states);
+                }
+                AirBodyComponent::LookupTerm { felts, .. } => {
+                    public_params.extend(felts.iter().flat_map(|f| f.public_params()));
+                }
+            }
+        }
+
+        public_params
+    }
+
+    // Transforms the air body of an air function into the compiled deductions air fn format.
+    pub fn compile_for_deductions(&self) -> Vec<TraceGenStep> {
+        let mut deductions = vec![];
+
+        for component in self.0.clone() {
+            match component {
+                AirBodyComponent::Constraint(..) => {}
+                AirBodyComponent::Assignment { deduction, .. } => {
+                    deductions.push(TraceGenStep::Deduction(deduction.into()));
+                }
+                AirBodyComponent::Deduction(deduction, _) => {
+                    deductions.push(TraceGenStep::Deduction(deduction.into()));
+                }
+                AirBodyComponent::Intermediate(name, var, visibility) => {
+                    if visibility.in_deductions {
+                        deductions.push(TraceGenStep::Intermediate(Intermediate {
+                            name,
+                            r#type: var.prover_type(),
+                            var: var.into(),
+                        }));
+                    }
+                }
+                AirBodyComponent::Call(f) => {
+                    let f_deductions = f.air_body.compile_for_deductions();
+                    if !f_deductions.is_empty() {
+                        deductions.push(TraceGenStep::StartBlock(f.air_fn_description));
+                        deductions.extend(f_deductions);
+                        deductions.push(TraceGenStep::EndBlock);
+                    }
                 }
                 AirBodyComponent::LookupCall(call) => {
-                    compiled
-                        .deductions
-                        .push(TraceGenStep::Intermediate(Intermediate {
-                            name: call.output_name,
-                            r#type: call.output_type,
-                            var: CompiledAirVar::StaticCall(
-                                call.method_name,
-                                vec![AirFnEntry::generate_input(call.ext_input, call.input).into()],
-                            ),
-                        }));
+                    deductions.push(TraceGenStep::Intermediate(Intermediate {
+                        name: call.output_name,
+                        r#type: call.output_type,
+                        var: CompiledAirVar::StaticCall(
+                            call.method_name,
+                            vec![AirFnEntry::generate_input(call.ext_input, call.input).into()],
+                        ),
+                    }));
                 }
                 AirBodyComponent::LookupAddInput {
                     air_fn_name,
                     ext_input,
                     input,
                 } => {
-                    compiled.deductions.push(TraceGenStep::LookupAddInput {
+                    deductions.push(TraceGenStep::LookupAddInput {
                         fn_name: air_fn_name,
                         input: AirFnEntry::generate_input(ext_input, input).into(),
                     });
@@ -313,31 +326,67 @@ impl AirBody {
                     felts,
                     use_or_yield,
                 } => {
-                    compiled
-                        .constraints
-                        .push(ConstraintEvalStep::LookupTerm(LookupTerm {
-                            relation_name: relation_name.clone(),
-                            felts: felts.clone().into_iter().map(|f| f.into()).collect(),
-                            use_or_yield,
-                        }));
-                    compiled
-                        .deductions
-                        .push(TraceGenStep::LookupTerm(LookupTerm {
-                            relation_name,
-                            felts: felts.clone().into_iter().map(|f| f.into()).collect(),
-                            use_or_yield,
-                        }));
-                    compiled
-                        .public_params
-                        .extend(felts.iter().flat_map(|f| f.public_params()));
-                    compiled
-                        .external_states
-                        .extend(felts.iter().flat_map(|f| f.external_states()));
+                    deductions.push(TraceGenStep::LookupTerm(LookupTerm {
+                        relation_name,
+                        felts: felts.into_iter().map(|f| f.into()).collect(),
+                        use_or_yield,
+                    }));
                 }
             }
         }
 
-        compiled
+        deductions
+    }
+
+    // Transforms the air body of an air function into the compiled constraints air fn format.
+    pub fn compile_for_constraints(&self) -> Vec<ConstraintEvalStep> {
+        let mut constraints = vec![];
+
+        for component in self.0.clone() {
+            match component {
+                AirBodyComponent::Constraint(constraint, desc) => {
+                    constraints.push(ConstraintEvalStep::Constraint(constraint.into(), desc));
+                }
+                AirBodyComponent::Assignment {
+                    constraint, desc, ..
+                } => {
+                    constraints.push(ConstraintEvalStep::Constraint(constraint.into(), desc));
+                }
+                AirBodyComponent::Deduction(..) => {}
+                AirBodyComponent::Intermediate(name, var, visibility) => {
+                    if visibility.in_constraints {
+                        constraints.push(ConstraintEvalStep::Intermediate(Intermediate {
+                            name,
+                            r#type: var.prover_type(),
+                            var: var.into(),
+                        }));
+                    }
+                }
+                AirBodyComponent::Call(f) => {
+                    let f_constraints = f.air_body.compile_for_constraints();
+                    if !f_constraints.is_empty() {
+                        constraints.push(ConstraintEvalStep::StartBlock(f.air_fn_description));
+                        constraints.extend(f_constraints);
+                        constraints.push(ConstraintEvalStep::EndBlock);
+                    }
+                }
+                AirBodyComponent::LookupCall(..) => {}
+                AirBodyComponent::LookupAddInput { .. } => {}
+                AirBodyComponent::LookupTerm {
+                    relation_name,
+                    felts,
+                    use_or_yield,
+                } => {
+                    constraints.push(ConstraintEvalStep::LookupTerm(LookupTerm {
+                        relation_name,
+                        felts: felts.into_iter().map(|f| f.into()).collect(),
+                        use_or_yield,
+                    }));
+                }
+            }
+        }
+
+        constraints
     }
 
     // Returns the names of the lookup relations used and lookup components called by the air
@@ -478,12 +527,4 @@ pub struct Constraints {
     pub intermediates: Vec<(String, String)>,
     pub constraints: Vec<String>,
     pub lookups: Vec<(String, String)>,
-}
-
-#[derive(Debug, Clone, Serialize, Default)]
-pub struct CompiledAirBody {
-    pub deductions: Vec<TraceGenStep>,
-    pub constraints: Vec<ConstraintEvalStep>,
-    pub public_params: BTreeSet<PublicParam>,
-    pub external_states: BTreeSet<(String, Vec<String>)>,
 }
