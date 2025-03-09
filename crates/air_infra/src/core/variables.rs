@@ -29,6 +29,7 @@ use crate::airs::casm::opcodes::blake::create_blake_output::*;
 use crate::airs::casm::opcodes::blake::decode_blake_opcode::*;
 use crate::airs::casm::opcodes::blake::round::*;
 use crate::airs::casm::opcodes::generic_opcode::generic_opcode::*;
+use crate::airs::convolution_utils::bounded_felt::*;
 #[cfg(test)]
 use crate::core::Felt;
 // Macros
@@ -484,6 +485,8 @@ impl_air_var!((FeltExpr, RoundNumVar, TestState));
 
 // SingleKaratsuba + DoubleKaratsuba
 impl_air_var!([[FeltExpr]]);
+// DoubleKaratsuba
+impl_air_var!([BoundedFeltExpr]);
 // MemVerify
 impl_air_var!((CasmAddress, Felt252Expr));
 // ReadPositive + CondDecodeSmallSign + CondFelt252AsAddr + CondFelt252AsRelImm

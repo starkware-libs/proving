@@ -24,6 +24,7 @@ pub const MUL_MOD_NUM_LIMBS: usize =
     (MOD_BUILTIN_N_WORDS * MOD_BUILTIN_WORD_BIT_LEN).div_ceil(MUL_MOD_LIMB_SIZE);
 // We assume MOD_BUILTIN_WORD_BIT_LEN is a multiple of MUL_MOD_LIMB_SIZE.
 pub const NUM_12BIT_LIMBS_PER_WORD: usize = MOD_BUILTIN_WORD_BIT_LEN.div_ceil(MUL_MOD_LIMB_SIZE);
+pub const MUL_MOD_MAX_LIMB: i32 = (1 << MUL_MOD_LIMB_SIZE) - 1;
 
 #[derive(Debug, InstDef, Default)]
 pub struct MulModBuiltin {
@@ -83,11 +84,10 @@ impl AirFn for MulModBuiltin {
         let mut limb_accumulator = const_expr!(0u32);
         let mut min_bound_acc = 0_i32;
         let mut max_bound_acc = 0_i32;
-        const MAX_WORD: i32 = (1 << MUL_MOD_LIMB_SIZE) - 1;
         for i in 0..(2 * MUL_MOD_NUM_LIMBS - 2) {
             if i < MUL_MOD_NUM_LIMBS {
                 limb_accumulator = limb_accumulator - c_12bits[i].clone();
-                min_bound_acc -= MAX_WORD;
+                min_bound_acc -= MUL_MOD_MAX_LIMB;
             }
             let convolution_start = max(i, MUL_MOD_NUM_LIMBS - 1) - (MUL_MOD_NUM_LIMBS - 1);
             let convolution_end = min(i, MUL_MOD_NUM_LIMBS - 1);
@@ -95,8 +95,8 @@ impl AirFn for MulModBuiltin {
                 limb_accumulator = limb_accumulator
                     + (a_12bits[j].clone() * b_12bits[i - j].clone()
                         - k_384.get_felt(j) * p_12bits[i - j].clone());
-                max_bound_acc += MAX_WORD * MAX_WORD;
-                min_bound_acc -= MAX_WORD * MAX_WORD;
+                max_bound_acc += MUL_MOD_MAX_LIMB * MUL_MOD_MAX_LIMB;
+                min_bound_acc -= MUL_MOD_MAX_LIMB * MUL_MOD_MAX_LIMB;
             }
             let carry = ab.assign(
                 &mut (limb_accumulator.clone() * shift_inverse.clone()),
