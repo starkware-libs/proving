@@ -33,7 +33,6 @@
     {
       "Intermediate": [
         "combination_tmp_29897_0",
-        "Felt252Width27",
         {
           "name": "Felt252Width27::from_felt252((((([0, 0, 0, 0] + ([3, 0, 0, 0] * Felt252::from_felt252width27(linear_combination_n_4_coefs_3_1_1_1_input[0]))) + ([1, 0, 0, 0] * Felt252::from_felt252width27(linear_combination_n_4_coefs_3_1_1_1_input[1]))) + ([1, 0, 0, 0] * Felt252::from_felt252width27(linear_combination_n_4_coefs_3_1_1_1_input[2]))) + ([1, 0, 0, 0] * Felt252::from_felt252width27(linear_combination_n_4_coefs_3_1_1_1_input[3]))))",
           "type": "Felt252Width27"
@@ -107,7 +106,6 @@
     {
       "Intermediate": [
         "biased_limb_accumulator_u32_tmp_29897_1",
-        "UInt32",
         {
           "name": "UInt32::from_m31(((((((0 - combination_limb_0_col0) + (3 * linear_combination_n_4_coefs_3_1_1_1_input[0].get_m31(0))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[1].get_m31(0))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[2].get_m31(0))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[3].get_m31(0))) + 134217729))",
           "type": "UInt32"
@@ -127,7 +125,6 @@
     {
       "Intermediate": [
         "carry_0_tmp_29897_2",
-        "M31",
         {
           "name": "(((((((0 - combination_limb_0_col0) + (3 * linear_combination_n_4_coefs_3_1_1_1_input[0].get_m31(0))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[1].get_m31(0))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[2].get_m31(0))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[3].get_m31(0))) - (p_coef_col10 * 1)) * 16)",
           "type": "M31"
@@ -141,7 +138,6 @@
     {
       "Intermediate": [
         "carry_1_tmp_29897_3",
-        "M31",
         {
           "name": "(((((((carry_0_tmp_29897_2 - combination_limb_1_col1) + (3 * linear_combination_n_4_coefs_3_1_1_1_input[0].get_m31(1))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[1].get_m31(1))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[2].get_m31(1))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[3].get_m31(1))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -155,7 +151,6 @@
     {
       "Intermediate": [
         "carry_2_tmp_29897_4",
-        "M31",
         {
           "name": "(((((((carry_1_tmp_29897_3 - combination_limb_2_col2) + (3 * linear_combination_n_4_coefs_3_1_1_1_input[0].get_m31(2))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[1].get_m31(2))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[2].get_m31(2))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[3].get_m31(2))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -169,7 +164,6 @@
     {
       "Intermediate": [
         "carry_3_tmp_29897_5",
-        "M31",
         {
           "name": "(((((((carry_2_tmp_29897_4 - combination_limb_3_col3) + (3 * linear_combination_n_4_coefs_3_1_1_1_input[0].get_m31(3))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[1].get_m31(3))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[2].get_m31(3))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[3].get_m31(3))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -183,7 +177,6 @@
     {
       "Intermediate": [
         "carry_4_tmp_29897_6",
-        "M31",
         {
           "name": "(((((((carry_3_tmp_29897_5 - combination_limb_4_col4) + (3 * linear_combination_n_4_coefs_3_1_1_1_input[0].get_m31(4))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[1].get_m31(4))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[2].get_m31(4))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[3].get_m31(4))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -197,7 +190,6 @@
     {
       "Intermediate": [
         "carry_5_tmp_29897_7",
-        "M31",
         {
           "name": "(((((((carry_4_tmp_29897_6 - combination_limb_5_col5) + (3 * linear_combination_n_4_coefs_3_1_1_1_input[0].get_m31(5))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[1].get_m31(5))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[2].get_m31(5))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[3].get_m31(5))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -211,7 +203,6 @@
     {
       "Intermediate": [
         "carry_6_tmp_29897_8",
-        "M31",
         {
           "name": "(((((((carry_5_tmp_29897_7 - combination_limb_6_col6) + (3 * linear_combination_n_4_coefs_3_1_1_1_input[0].get_m31(6))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[1].get_m31(6))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[2].get_m31(6))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[3].get_m31(6))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
@@ -225,7 +216,6 @@
     {
       "Intermediate": [
         "carry_7_tmp_29897_9",
-        "M31",
         {
           "name": "(((((((carry_6_tmp_29897_8 - combination_limb_7_col7) + (3 * linear_combination_n_4_coefs_3_1_1_1_input[0].get_m31(7))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[1].get_m31(7))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[2].get_m31(7))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[3].get_m31(7))) - (p_coef_col10 * 136)) * 16)",
           "type": "M31"
@@ -239,7 +229,6 @@
     {
       "Intermediate": [
         "carry_8_tmp_29897_10",
-        "M31",
         {
           "name": "(((((((carry_7_tmp_29897_9 - combination_limb_8_col8) + (3 * linear_combination_n_4_coefs_3_1_1_1_input[0].get_m31(8))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[1].get_m31(8))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[2].get_m31(8))) + (1 * linear_combination_n_4_coefs_3_1_1_1_input[3].get_m31(8))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
