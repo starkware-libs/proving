@@ -33,7 +33,7 @@ impl Default for CasmAddress {
 
 impl StructVarTrait for CasmStateVar {
     fn new_from_name(name: String, in_state: bool) -> Self {
-        StructVar {
+        Self {
             name: Some(name.clone()),
             fields: IndexMap::from([
                 (
@@ -60,7 +60,7 @@ impl StructVarTrait for CasmStateVar {
 
 impl CasmStateVar {
     pub fn new(pc: FeltExpr, ap: FeltExpr, fp: FeltExpr) -> Self {
-        StructVar {
+        Self {
             name: None,
             fields: IndexMap::from([
                 ("pc".to_string(), CasmAddress::new(pc, "pc")),

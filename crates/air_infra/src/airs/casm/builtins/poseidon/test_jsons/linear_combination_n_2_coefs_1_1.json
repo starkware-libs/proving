@@ -23,17 +23,17 @@
   "trace_type": "Inline",
   "air_body": [
     {
-      "Intermediate": [
-        "combination_tmp_df416_0",
-        {
+      "Intermediate": {
+        "name": "combination_tmp_df416_0",
+        "var": {
           "name": "Felt252Width27::from_felt252((([0, 0, 0, 0] + ([1, 0, 0, 0] * Felt252::from_felt252width27(linear_combination_n_2_coefs_1_1_input[0]))) + ([1, 0, 0, 0] * Felt252::from_felt252width27(linear_combination_n_2_coefs_1_1_input[1]))))",
           "type": "Felt252Width27"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -96,17 +96,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "biased_limb_accumulator_u32_tmp_df416_1",
-        {
+      "Intermediate": {
+        "name": "biased_limb_accumulator_u32_tmp_df416_1",
+        "var": {
           "name": "UInt32::from_m31(((((0 - combination_limb_0_col0) + (1 * linear_combination_n_2_coefs_1_1_input[0].get_m31(0))) + (1 * linear_combination_n_2_coefs_1_1_input[1].get_m31(0))) + 134217729))",
           "type": "UInt32"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -115,121 +115,121 @@
       ]
     },
     {
-      "Intermediate": [
-        "carry_0_tmp_df416_2",
-        {
+      "Intermediate": {
+        "name": "carry_0_tmp_df416_2",
+        "var": {
           "name": "(((((0 - combination_limb_0_col0) + (1 * linear_combination_n_2_coefs_1_1_input[0].get_m31(0))) + (1 * linear_combination_n_2_coefs_1_1_input[1].get_m31(0))) - (p_coef_col10 * 1)) * 16)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
-      "Intermediate": [
-        "carry_1_tmp_df416_3",
-        {
+      "Intermediate": {
+        "name": "carry_1_tmp_df416_3",
+        "var": {
           "name": "(((((carry_0_tmp_df416_2 - combination_limb_1_col1) + (1 * linear_combination_n_2_coefs_1_1_input[0].get_m31(1))) + (1 * linear_combination_n_2_coefs_1_1_input[1].get_m31(1))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
-      "Intermediate": [
-        "carry_2_tmp_df416_4",
-        {
+      "Intermediate": {
+        "name": "carry_2_tmp_df416_4",
+        "var": {
           "name": "(((((carry_1_tmp_df416_3 - combination_limb_2_col2) + (1 * linear_combination_n_2_coefs_1_1_input[0].get_m31(2))) + (1 * linear_combination_n_2_coefs_1_1_input[1].get_m31(2))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
-      "Intermediate": [
-        "carry_3_tmp_df416_5",
-        {
+      "Intermediate": {
+        "name": "carry_3_tmp_df416_5",
+        "var": {
           "name": "(((((carry_2_tmp_df416_4 - combination_limb_3_col3) + (1 * linear_combination_n_2_coefs_1_1_input[0].get_m31(3))) + (1 * linear_combination_n_2_coefs_1_1_input[1].get_m31(3))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
-      "Intermediate": [
-        "carry_4_tmp_df416_6",
-        {
+      "Intermediate": {
+        "name": "carry_4_tmp_df416_6",
+        "var": {
           "name": "(((((carry_3_tmp_df416_5 - combination_limb_4_col4) + (1 * linear_combination_n_2_coefs_1_1_input[0].get_m31(4))) + (1 * linear_combination_n_2_coefs_1_1_input[1].get_m31(4))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
-      "Intermediate": [
-        "carry_5_tmp_df416_7",
-        {
+      "Intermediate": {
+        "name": "carry_5_tmp_df416_7",
+        "var": {
           "name": "(((((carry_4_tmp_df416_6 - combination_limb_5_col5) + (1 * linear_combination_n_2_coefs_1_1_input[0].get_m31(5))) + (1 * linear_combination_n_2_coefs_1_1_input[1].get_m31(5))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
-      "Intermediate": [
-        "carry_6_tmp_df416_8",
-        {
+      "Intermediate": {
+        "name": "carry_6_tmp_df416_8",
+        "var": {
           "name": "(((((carry_5_tmp_df416_7 - combination_limb_6_col6) + (1 * linear_combination_n_2_coefs_1_1_input[0].get_m31(6))) + (1 * linear_combination_n_2_coefs_1_1_input[1].get_m31(6))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
-      "Intermediate": [
-        "carry_7_tmp_df416_9",
-        {
+      "Intermediate": {
+        "name": "carry_7_tmp_df416_9",
+        "var": {
           "name": "(((((carry_6_tmp_df416_8 - combination_limb_7_col7) + (1 * linear_combination_n_2_coefs_1_1_input[0].get_m31(7))) + (1 * linear_combination_n_2_coefs_1_1_input[1].get_m31(7))) - (p_coef_col10 * 136)) * 16)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
-      "Intermediate": [
-        "carry_8_tmp_df416_10",
-        {
+      "Intermediate": {
+        "name": "carry_8_tmp_df416_10",
+        "var": {
           "name": "(((((carry_7_tmp_df416_9 - combination_limb_8_col8) + (1 * linear_combination_n_2_coefs_1_1_input[0].get_m31(8))) + (1 * linear_combination_n_2_coefs_1_1_input[1].get_m31(8))) - (p_coef_col10 * 0)) * 16)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Constraint": [
@@ -238,17 +238,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "biased_carry_0_tmp_df416_11",
-        {
+      "Intermediate": {
+        "name": "biased_carry_0_tmp_df416_11",
+        "var": {
           "name": "((p_coef_col10 + 1) - 1)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": false
         }
-      ]
+      }
     },
     {
       "Constraint": [
@@ -257,17 +257,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "biased_carry_1_tmp_df416_12",
-        {
+      "Intermediate": {
+        "name": "biased_carry_1_tmp_df416_12",
+        "var": {
           "name": "((carry_0_tmp_df416_2 + 1) - 1)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": false
         }
-      ]
+      }
     },
     {
       "Constraint": [
@@ -276,17 +276,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "biased_carry_2_tmp_df416_13",
-        {
+      "Intermediate": {
+        "name": "biased_carry_2_tmp_df416_13",
+        "var": {
           "name": "((carry_1_tmp_df416_3 + 1) - 1)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": false
         }
-      ]
+      }
     },
     {
       "Constraint": [
@@ -295,17 +295,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "biased_carry_3_tmp_df416_14",
-        {
+      "Intermediate": {
+        "name": "biased_carry_3_tmp_df416_14",
+        "var": {
           "name": "((carry_2_tmp_df416_4 + 1) - 1)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": false
         }
-      ]
+      }
     },
     {
       "Constraint": [
@@ -314,17 +314,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "biased_carry_4_tmp_df416_15",
-        {
+      "Intermediate": {
+        "name": "biased_carry_4_tmp_df416_15",
+        "var": {
           "name": "((carry_3_tmp_df416_5 + 1) - 1)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": false
         }
-      ]
+      }
     },
     {
       "Constraint": [
@@ -333,17 +333,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "biased_carry_5_tmp_df416_16",
-        {
+      "Intermediate": {
+        "name": "biased_carry_5_tmp_df416_16",
+        "var": {
           "name": "((carry_4_tmp_df416_6 + 1) - 1)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": false
         }
-      ]
+      }
     },
     {
       "Constraint": [
@@ -352,17 +352,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "biased_carry_6_tmp_df416_17",
-        {
+      "Intermediate": {
+        "name": "biased_carry_6_tmp_df416_17",
+        "var": {
           "name": "((carry_5_tmp_df416_7 + 1) - 1)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": false
         }
-      ]
+      }
     },
     {
       "Constraint": [
@@ -371,17 +371,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "biased_carry_7_tmp_df416_18",
-        {
+      "Intermediate": {
+        "name": "biased_carry_7_tmp_df416_18",
+        "var": {
           "name": "((carry_6_tmp_df416_8 + 1) - 1)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": false
         }
-      ]
+      }
     },
     {
       "Constraint": [
@@ -390,17 +390,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "biased_carry_8_tmp_df416_19",
-        {
+      "Intermediate": {
+        "name": "biased_carry_8_tmp_df416_19",
+        "var": {
           "name": "((carry_7_tmp_df416_9 + 1) - 1)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": false
         }
-      ]
+      }
     },
     {
       "Constraint": [
@@ -409,17 +409,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "biased_carry_9_tmp_df416_20",
-        {
+      "Intermediate": {
+        "name": "biased_carry_9_tmp_df416_20",
+        "var": {
           "name": "((carry_8_tmp_df416_10 + 1) - 1)",
           "type": "M31"
         },
-        {
+        "visibility": {
           "in_constraints": true,
           "in_deductions": false
         }
-      ]
+      }
     },
     {
       "Constraint": [

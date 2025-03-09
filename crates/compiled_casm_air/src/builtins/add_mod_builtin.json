@@ -14049,10 +14049,10 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "offsets_val_tmp_c1b19_40_limb_0",
-        "type": "M31",
+        "name": "offsets_val_tmp_c1b19_40",
+        "type": "[M31; 3]",
         "var": {
-          "BinaryOp": [
+          "Array": [
             {
               "BinaryOp": [
                 {
@@ -14060,73 +14060,67 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "offsets_a_limb_0_col77"
+                          "BinaryOp": [
+                            {
+                              "State": "offsets_a_limb_0_col77"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "offsets_a_limb_1_col78"
+                                },
+                                "*",
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "512"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
                         },
                         "+",
                         {
                           "BinaryOp": [
                             {
-                              "State": "offsets_a_limb_1_col78"
+                              "State": "offsets_a_limb_2_col79"
                             },
                             "*",
                             {
                               "Const": [
                                 "M31",
-                                "512"
+                                "262144"
                               ]
                             }
                           ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "BinaryOp": [
-                        {
-                          "State": "offsets_a_limb_2_col79"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "262144"
-                          ]
-                        }
-                      ]
+                      "State": "msb_col75"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "msb_col75"
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "134217728"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": "mid_limbs_set_col76"
+                    }
+                  ]
                 }
               ]
             },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "Const": [
-                    "M31",
-                    "134217728"
-                  ]
-                },
-                "*",
-                {
-                  "State": "mid_limbs_set_col76"
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "offsets_val_tmp_c1b19_40_limb_1",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
             {
               "BinaryOp": [
                 {
@@ -14134,73 +14128,67 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "offsets_b_limb_0_col83"
+                          "BinaryOp": [
+                            {
+                              "State": "offsets_b_limb_0_col83"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "offsets_b_limb_1_col84"
+                                },
+                                "*",
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "512"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
                         },
                         "+",
                         {
                           "BinaryOp": [
                             {
-                              "State": "offsets_b_limb_1_col84"
+                              "State": "offsets_b_limb_2_col85"
                             },
                             "*",
                             {
                               "Const": [
                                 "M31",
-                                "512"
+                                "262144"
                               ]
                             }
                           ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "BinaryOp": [
-                        {
-                          "State": "offsets_b_limb_2_col85"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "262144"
-                          ]
-                        }
-                      ]
+                      "State": "msb_col81"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "msb_col81"
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "134217728"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": "mid_limbs_set_col82"
+                    }
+                  ]
                 }
               ]
             },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "Const": [
-                    "M31",
-                    "134217728"
-                  ]
-                },
-                "*",
-                {
-                  "State": "mid_limbs_set_col82"
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "offsets_val_tmp_c1b19_40_limb_2",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
             {
               "BinaryOp": [
                 {
@@ -14208,60 +14196,64 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "offsets_c_limb_0_col89"
+                          "BinaryOp": [
+                            {
+                              "State": "offsets_c_limb_0_col89"
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "offsets_c_limb_1_col90"
+                                },
+                                "*",
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "512"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
                         },
                         "+",
                         {
                           "BinaryOp": [
                             {
-                              "State": "offsets_c_limb_1_col90"
+                              "State": "offsets_c_limb_2_col91"
                             },
                             "*",
                             {
                               "Const": [
                                 "M31",
-                                "512"
+                                "262144"
                               ]
                             }
                           ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "BinaryOp": [
-                        {
-                          "State": "offsets_c_limb_2_col91"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "262144"
-                          ]
-                        }
-                      ]
+                      "State": "msb_col87"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "msb_col87"
-                }
-              ]
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "Const": [
-                    "M31",
-                    "134217728"
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "134217728"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": "mid_limbs_set_col88"
+                    }
                   ]
-                },
-                "*",
-                {
-                  "State": "mid_limbs_set_col88"
                 }
               ]
             }
@@ -14341,7 +14333,7 @@
                       {
                         "Var": [
                           "M31",
-                          "offsets_val_tmp_c1b19_40_limb_0"
+                          "offsets_val_tmp_c1b19_40[0]"
                         ]
                       }
                     ]
@@ -14404,7 +14396,7 @@
                 {
                   "Var": [
                     "M31",
-                    "offsets_val_tmp_c1b19_40_limb_0"
+                    "offsets_val_tmp_c1b19_40[0]"
                   ]
                 }
               ]
@@ -14438,7 +14430,7 @@
                   {
                     "Var": [
                       "M31",
-                      "offsets_val_tmp_c1b19_40_limb_0"
+                      "offsets_val_tmp_c1b19_40[0]"
                     ]
                   }
                 ]
@@ -14870,7 +14862,7 @@
                       {
                         "Var": [
                           "M31",
-                          "offsets_val_tmp_c1b19_40_limb_0"
+                          "offsets_val_tmp_c1b19_40[0]"
                         ]
                       }
                     ]
@@ -14933,7 +14925,7 @@
                 {
                   "Var": [
                     "M31",
-                    "offsets_val_tmp_c1b19_40_limb_0"
+                    "offsets_val_tmp_c1b19_40[0]"
                   ]
                 }
               ]
@@ -14967,7 +14959,7 @@
                   {
                     "Var": [
                       "M31",
-                      "offsets_val_tmp_c1b19_40_limb_0"
+                      "offsets_val_tmp_c1b19_40[0]"
                     ]
                   }
                 ]
@@ -15399,7 +15391,7 @@
                       {
                         "Var": [
                           "M31",
-                          "offsets_val_tmp_c1b19_40_limb_0"
+                          "offsets_val_tmp_c1b19_40[0]"
                         ]
                       }
                     ]
@@ -15462,7 +15454,7 @@
                 {
                   "Var": [
                     "M31",
-                    "offsets_val_tmp_c1b19_40_limb_0"
+                    "offsets_val_tmp_c1b19_40[0]"
                   ]
                 }
               ]
@@ -15496,7 +15488,7 @@
                   {
                     "Var": [
                       "M31",
-                      "offsets_val_tmp_c1b19_40_limb_0"
+                      "offsets_val_tmp_c1b19_40[0]"
                     ]
                   }
                 ]
@@ -15928,7 +15920,7 @@
                       {
                         "Var": [
                           "M31",
-                          "offsets_val_tmp_c1b19_40_limb_0"
+                          "offsets_val_tmp_c1b19_40[0]"
                         ]
                       }
                     ]
@@ -15991,7 +15983,7 @@
                 {
                   "Var": [
                     "M31",
-                    "offsets_val_tmp_c1b19_40_limb_0"
+                    "offsets_val_tmp_c1b19_40[0]"
                   ]
                 }
               ]
@@ -16025,7 +16017,7 @@
                   {
                     "Var": [
                       "M31",
-                      "offsets_val_tmp_c1b19_40_limb_0"
+                      "offsets_val_tmp_c1b19_40[0]"
                     ]
                   }
                 ]
@@ -16457,7 +16449,7 @@
                       {
                         "Var": [
                           "M31",
-                          "offsets_val_tmp_c1b19_40_limb_1"
+                          "offsets_val_tmp_c1b19_40[1]"
                         ]
                       }
                     ]
@@ -16520,7 +16512,7 @@
                 {
                   "Var": [
                     "M31",
-                    "offsets_val_tmp_c1b19_40_limb_1"
+                    "offsets_val_tmp_c1b19_40[1]"
                   ]
                 }
               ]
@@ -16554,7 +16546,7 @@
                   {
                     "Var": [
                       "M31",
-                      "offsets_val_tmp_c1b19_40_limb_1"
+                      "offsets_val_tmp_c1b19_40[1]"
                     ]
                   }
                 ]
@@ -16986,7 +16978,7 @@
                       {
                         "Var": [
                           "M31",
-                          "offsets_val_tmp_c1b19_40_limb_1"
+                          "offsets_val_tmp_c1b19_40[1]"
                         ]
                       }
                     ]
@@ -17049,7 +17041,7 @@
                 {
                   "Var": [
                     "M31",
-                    "offsets_val_tmp_c1b19_40_limb_1"
+                    "offsets_val_tmp_c1b19_40[1]"
                   ]
                 }
               ]
@@ -17083,7 +17075,7 @@
                   {
                     "Var": [
                       "M31",
-                      "offsets_val_tmp_c1b19_40_limb_1"
+                      "offsets_val_tmp_c1b19_40[1]"
                     ]
                   }
                 ]
@@ -17515,7 +17507,7 @@
                       {
                         "Var": [
                           "M31",
-                          "offsets_val_tmp_c1b19_40_limb_1"
+                          "offsets_val_tmp_c1b19_40[1]"
                         ]
                       }
                     ]
@@ -17578,7 +17570,7 @@
                 {
                   "Var": [
                     "M31",
-                    "offsets_val_tmp_c1b19_40_limb_1"
+                    "offsets_val_tmp_c1b19_40[1]"
                   ]
                 }
               ]
@@ -17612,7 +17604,7 @@
                   {
                     "Var": [
                       "M31",
-                      "offsets_val_tmp_c1b19_40_limb_1"
+                      "offsets_val_tmp_c1b19_40[1]"
                     ]
                   }
                 ]
@@ -18044,7 +18036,7 @@
                       {
                         "Var": [
                           "M31",
-                          "offsets_val_tmp_c1b19_40_limb_1"
+                          "offsets_val_tmp_c1b19_40[1]"
                         ]
                       }
                     ]
@@ -18107,7 +18099,7 @@
                 {
                   "Var": [
                     "M31",
-                    "offsets_val_tmp_c1b19_40_limb_1"
+                    "offsets_val_tmp_c1b19_40[1]"
                   ]
                 }
               ]
@@ -18141,7 +18133,7 @@
                   {
                     "Var": [
                       "M31",
-                      "offsets_val_tmp_c1b19_40_limb_1"
+                      "offsets_val_tmp_c1b19_40[1]"
                     ]
                   }
                 ]
@@ -18573,7 +18565,7 @@
                       {
                         "Var": [
                           "M31",
-                          "offsets_val_tmp_c1b19_40_limb_2"
+                          "offsets_val_tmp_c1b19_40[2]"
                         ]
                       }
                     ]
@@ -18636,7 +18628,7 @@
                 {
                   "Var": [
                     "M31",
-                    "offsets_val_tmp_c1b19_40_limb_2"
+                    "offsets_val_tmp_c1b19_40[2]"
                   ]
                 }
               ]
@@ -18670,7 +18662,7 @@
                   {
                     "Var": [
                       "M31",
-                      "offsets_val_tmp_c1b19_40_limb_2"
+                      "offsets_val_tmp_c1b19_40[2]"
                     ]
                   }
                 ]
@@ -19102,7 +19094,7 @@
                       {
                         "Var": [
                           "M31",
-                          "offsets_val_tmp_c1b19_40_limb_2"
+                          "offsets_val_tmp_c1b19_40[2]"
                         ]
                       }
                     ]
@@ -19165,7 +19157,7 @@
                 {
                   "Var": [
                     "M31",
-                    "offsets_val_tmp_c1b19_40_limb_2"
+                    "offsets_val_tmp_c1b19_40[2]"
                   ]
                 }
               ]
@@ -19199,7 +19191,7 @@
                   {
                     "Var": [
                       "M31",
-                      "offsets_val_tmp_c1b19_40_limb_2"
+                      "offsets_val_tmp_c1b19_40[2]"
                     ]
                   }
                 ]
@@ -19631,7 +19623,7 @@
                       {
                         "Var": [
                           "M31",
-                          "offsets_val_tmp_c1b19_40_limb_2"
+                          "offsets_val_tmp_c1b19_40[2]"
                         ]
                       }
                     ]
@@ -19694,7 +19686,7 @@
                 {
                   "Var": [
                     "M31",
-                    "offsets_val_tmp_c1b19_40_limb_2"
+                    "offsets_val_tmp_c1b19_40[2]"
                   ]
                 }
               ]
@@ -19728,7 +19720,7 @@
                   {
                     "Var": [
                       "M31",
-                      "offsets_val_tmp_c1b19_40_limb_2"
+                      "offsets_val_tmp_c1b19_40[2]"
                     ]
                   }
                 ]
@@ -20160,7 +20152,7 @@
                       {
                         "Var": [
                           "M31",
-                          "offsets_val_tmp_c1b19_40_limb_2"
+                          "offsets_val_tmp_c1b19_40[2]"
                         ]
                       }
                     ]
@@ -20223,7 +20215,7 @@
                 {
                   "Var": [
                     "M31",
-                    "offsets_val_tmp_c1b19_40_limb_2"
+                    "offsets_val_tmp_c1b19_40[2]"
                   ]
                 }
               ]
@@ -20257,7 +20249,7 @@
                   {
                     "Var": [
                       "M31",
-                      "offsets_val_tmp_c1b19_40_limb_2"
+                      "offsets_val_tmp_c1b19_40[2]"
                     ]
                   }
                 ]

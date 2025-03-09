@@ -3,6 +3,7 @@ use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
 use serde::{Serialize, Serializer};
 
+use super::super::air_body::*;
 use super::super::state::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -32,10 +33,12 @@ pub enum StateInfo {
     ExtTableState(String, Vec<String>),
     // The felt is one of the public parameters.
     PublicParam(PublicParam),
+    // The felt is an intermediate variable used in constraints.
+    ConstraintIntermediate(String),
 }
 
 impl VarExprUpdate for VarExpr<Felt> {
-    fn create_children(&mut self, _in_deductions: bool, _felts_in_constraints: bool) {
+    fn create_children(&mut self) {
         // Felt does not have children.
     }
     fn update_children(&mut self) {
@@ -56,38 +59,53 @@ impl FeltExpr {
                 format!("{}({})", name.to_case(Case::Snake), args.join(", "))
             }
             StateInfo::PublicParam(public_param) => public_param.name(),
+            StateInfo::ConstraintIntermediate(_) => {
+                panic!("to_state shouldn't be used to make a FeltExpr a ConstraintIntermediate")
+            }
         };
         let value = self.value();
+        let is_const = self.is_const();
 
         match self {
             FeltExpr::Var(v) => {
                 v.name = name;
                 v.complex_or_felt = ComplexOrFelt::Felt(new_state_info);
-                // A felt expression that is written to the trace is no longer an intermediate
-                // variable.
-                v.visibility = Visibility::default();
             }
             _ => {
-                let mut v = VarExpr::new(name, value, false, true, true, true);
+                let mut v = VarExpr::new(name, value, is_const, true);
                 v.complex_or_felt = ComplexOrFelt::Felt(new_state_info);
                 *self = Self::Var(v);
             }
         }
     }
 
-    // Felt is directly in state if it's written to the state (has a state index), in an external
-    // state (a preprocessed column), a public param, or a const felt.
     pub fn is_directly_in_state(&self) -> bool {
         if self.is_const() {
             return true;
         }
 
         match self {
-            FeltExpr::Var(v) => !matches!(
-                v.complex_or_felt,
-                ComplexOrFelt::Felt(StateInfo::IsPolyOfState(_))
-            ),
+            FeltExpr::Var(v) => v.is_directly_in_state(),
             _ => false,
+        }
+    }
+
+    pub fn let_for_constraint(&mut self, name: String) {
+        match self {
+            FeltExpr::Var(v) => {
+                v.complex_or_felt = ComplexOrFelt::Felt(StateInfo::ConstraintIntermediate(name));
+            }
+            _ => {
+                let mut v = VarExpr::new(name.clone(), self.value(), self.is_const(), true);
+                v.complex_or_felt = ComplexOrFelt::Felt(StateInfo::ConstraintIntermediate(name));
+                *self = Self::Var(v);
+            }
+        }
+    }
+
+    pub fn copy_parent(&mut self, copy_from: &FeltExpr) {
+        if let Expr::Var(v) = copy_from {
+            self.as_var_mut().parent = v.parent.clone();
         }
     }
 }
@@ -111,7 +129,7 @@ impl Serialize for FeltExpr {
     where
         S: Serializer,
     {
-        let var: CompiledAirVar = self.clone().into();
+        let var: CompiledAirVar = self.clone().compile(CompileFor::Deductions);
         serializer.collect_str(&var.to_string())
     }
 }
@@ -133,8 +151,6 @@ macro_rules! expr {
             Some($crate::core::Felt::from($val)),
             false,
             false,
-            true,
-            true,
         ))
     };
 }

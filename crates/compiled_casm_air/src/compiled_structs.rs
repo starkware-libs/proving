@@ -46,12 +46,11 @@ pub enum TraceGenStep {
     // The argument is a polynomial in in-state values.
     Deduction(CompiledAirVar),
 
-    Intermediate(Intermediate),
+    Intermediate(CompiledIntermediate),
 
     // Adds the input to the lookup table or updates multiplicity.
     LookupAddInput {
         fn_name: String,
-        // TODO(AnatG): Add row index.
         input: CompiledAirVar,
     },
 
@@ -75,7 +74,7 @@ pub enum ConstraintEvalStep {
     // constraints on the accumulated sum (the logup).
     LookupTerm(LookupTerm),
 
-    Intermediate(Intermediate),
+    Intermediate(CompiledIntermediate),
 }
 
 // Air variables as represented in the deductions and constrains lists.
@@ -113,7 +112,7 @@ pub enum CompiledAirVar {
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
-pub struct Intermediate {
+pub struct CompiledIntermediate {
     pub name: String,
     pub r#type: String,
     pub var: CompiledAirVar,

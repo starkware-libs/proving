@@ -121,17 +121,17 @@
       }
     },
     {
-      "Intermediate": [
-        "offset0_tmp_e0ab3_2",
-        {
+      "Intermediate": {
+        "name": "offset0_tmp_e0ab3_2",
+        "var": {
           "name": "(UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(0)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(1)) & 127) << 9))",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -140,17 +140,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "offset1_tmp_e0ab3_3",
-        {
+      "Intermediate": {
+        "name": "offset1_tmp_e0ab3_3",
+        "var": {
           "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(1)) >> 7) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(2)) << 2)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(3)) & 31) << 11))",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -159,17 +159,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "offset2_tmp_e0ab3_4",
-        {
+      "Intermediate": {
+        "name": "offset2_tmp_e0ab3_4",
+        "var": {
           "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(3)) >> 5) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(4)) << 4)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) & 7) << 13))",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -178,17 +178,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "dst_base_fp_tmp_e0ab3_5",
-        {
+      "Intermediate": {
+        "name": "dst_base_fp_tmp_e0ab3_5",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 0) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -203,17 +203,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "op0_base_fp_tmp_e0ab3_6",
-        {
+      "Intermediate": {
+        "name": "op0_base_fp_tmp_e0ab3_6",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 1) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -228,17 +228,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "op1_imm_tmp_e0ab3_7",
-        {
+      "Intermediate": {
+        "name": "op1_imm_tmp_e0ab3_7",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 2) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -253,17 +253,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "op1_base_fp_tmp_e0ab3_8",
-        {
+      "Intermediate": {
+        "name": "op1_base_fp_tmp_e0ab3_8",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 3) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -278,17 +278,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "op1_base_ap_tmp_e0ab3_9",
-        {
+      "Intermediate": {
+        "name": "op1_base_ap_tmp_e0ab3_9",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 4) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -303,17 +303,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "res_add_tmp_e0ab3_10",
-        {
+      "Intermediate": {
+        "name": "res_add_tmp_e0ab3_10",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 5) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -328,17 +328,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "res_mul_tmp_e0ab3_11",
-        {
+      "Intermediate": {
+        "name": "res_mul_tmp_e0ab3_11",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 6) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -353,17 +353,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "pc_update_jump_tmp_e0ab3_12",
-        {
+      "Intermediate": {
+        "name": "pc_update_jump_tmp_e0ab3_12",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 7) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -378,17 +378,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "pc_update_jump_rel_tmp_e0ab3_13",
-        {
+      "Intermediate": {
+        "name": "pc_update_jump_rel_tmp_e0ab3_13",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 8) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -403,17 +403,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "pc_update_jnz_tmp_e0ab3_14",
-        {
+      "Intermediate": {
+        "name": "pc_update_jnz_tmp_e0ab3_14",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 9) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -428,17 +428,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "ap_update_add_tmp_e0ab3_15",
-        {
+      "Intermediate": {
+        "name": "ap_update_add_tmp_e0ab3_15",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 10) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -453,17 +453,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "ap_update_add_1_tmp_e0ab3_16",
-        {
+      "Intermediate": {
+        "name": "ap_update_add_1_tmp_e0ab3_16",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 11) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -478,17 +478,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "opcode_call_tmp_e0ab3_17",
-        {
+      "Intermediate": {
+        "name": "opcode_call_tmp_e0ab3_17",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 12) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -503,17 +503,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "opcode_ret_tmp_e0ab3_18",
-        {
+      "Intermediate": {
+        "name": "opcode_ret_tmp_e0ab3_18",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 13) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -528,17 +528,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "opcode_assert_eq_tmp_e0ab3_19",
-        {
+      "Intermediate": {
+        "name": "opcode_assert_eq_tmp_e0ab3_19",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_e0ab3_1.get_m31(6)) << 6)) >> 14) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [

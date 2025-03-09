@@ -29,14 +29,12 @@ impl VarExpr<Bool> {
 }
 
 impl VarExprUpdate for VarExpr<Bool> {
-    fn create_children(&mut self, in_deductions: bool, felts_in_constraints: bool) {
+    fn create_children(&mut self) {
         let child = VarExpr::new(
             CHILD_NAME.to_string(),
             self.value.map(|v| v.as_m31()),
             self.is_const,
             self.in_state(),
-            in_deductions,
-            felts_in_constraints,
         );
         self.complex_or_felt = ComplexOrFelt::Complex(vec![FeltExpr::Var(child).into()]);
     }
@@ -95,8 +93,6 @@ macro_rules! bool_expr {
             Some(Bool::from($val)),
             false,
             false,
-            true,
-            true,
         ))
     };
 }

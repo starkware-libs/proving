@@ -20,17 +20,17 @@
   "trace_type": "Inline",
   "air_body": [
     {
-      "Intermediate": [
-        "mul_res_tmp_e0e72_0",
-        {
+      "Intermediate": {
+        "name": "mul_res_tmp_e0e72_0",
+        "var": {
           "name": "(mul_252_input[0] * mul_252_input[1])",
           "type": "Felt252"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [

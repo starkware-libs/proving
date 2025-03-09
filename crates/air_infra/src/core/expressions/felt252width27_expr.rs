@@ -41,7 +41,7 @@ impl VarExpr<Felt252Width27> {
 }
 
 impl VarExprUpdate for VarExpr<Felt252Width27> {
-    fn create_children(&mut self, in_deductions: bool, felts_in_constraints: bool) {
+    fn create_children(&mut self) {
         let children = (0..FELT252WIDTH27_N_WORDS)
             .map(|i| {
                 FeltExpr::Var(VarExpr::new(
@@ -49,8 +49,6 @@ impl VarExprUpdate for VarExpr<Felt252Width27> {
                     self.value.map(|v| v.get_m31(i)),
                     self.is_const,
                     self.in_state(),
-                    in_deductions,
-                    felts_in_constraints,
                 ))
                 .into()
             })

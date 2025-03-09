@@ -12,7 +12,6 @@ use convert_case::{Case, Casing};
 use indexmap::IndexMap;
 use regex::Regex;
 use serde::{Deserialize, Serialize};
-use stwo_cairo_common::prover_types::cpu::ProverType;
 
 use super::air_body::*;
 use super::air_fn_registry::*;
@@ -23,7 +22,6 @@ use super::state::*;
 use super::variables::*;
 use crate::airs::casm::const_tables::seq::*;
 use crate::const_expr;
-use crate::core::Felt;
 
 pub const MAX_NAME_LEN: usize = 50;
 
@@ -198,7 +196,7 @@ pub trait AirFn: Debug + InstDefTrait {
             if air_builder.is_run_mode() {
                 // In run mode the input might not be a variable - make it a variable.
                 // The name is irrelevant in run mode.
-                input = input.let_("".to_string(), true, false);
+                input = input.let_("".to_string());
             }
             air_builder.deduce_intermediate_var(&mut input, "input");
         }
@@ -378,6 +376,10 @@ impl AirBuilder {
                 self.deduce(felt, &format!("{}_{}", desc, felt_desc));
             }
         } else {
+            assert!(
+                !desc.is_empty(),
+                "Intermediate variable description is required for deducing multiple felts"
+            );
             // TODO: When there's a better way to refer to the items of arrays and tuples, use it
             // here instead of 'limbs'.
             for (i, felt) in var.as_felts_mut().into_iter().enumerate() {
@@ -401,32 +403,29 @@ impl AirBuilder {
         }
 
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
-        self.air_body.push(AirBodyComponent::Intermediate(
-            name.clone(),
-            var.clone().into(),
-            Visibility {
-                in_deductions: true,
-                in_constraints: false,
-            },
-        ));
-        var.let_(name, true, false)
+        self.air_body
+            .push(AirBodyComponent::Intermediate(Intermediate {
+                name: name.clone(),
+                var: var.clone().into(),
+                visibility: Visibility::new(true, false),
+            }));
+        var.let_(name)
     }
 
-    pub fn let_for_constraint(&mut self, expr: FeltExpr, desc: &str) -> FeltExpr {
+    pub fn let_for_constraint(&mut self, mut expr: FeltExpr, desc: &str) -> FeltExpr {
         if expr.is_directly_in_state() {
             return expr.clone();
         }
 
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
-        self.air_body.push(AirBodyComponent::Intermediate(
-            name.clone(),
-            expr.clone().into(),
-            Visibility {
-                in_deductions: false,
-                in_constraints: true,
-            },
-        ));
-        expr.let_(name, false, true)
+        self.air_body
+            .push(AirBodyComponent::Intermediate(Intermediate {
+                name: name.clone(),
+                var: expr.clone().into(),
+                visibility: Visibility::new(false, true),
+            }));
+        expr.let_for_constraint(name);
+        expr
     }
 
     // For complex expressions, creates intermediate variables visible in constraints and deductions
@@ -443,80 +442,12 @@ impl AirBuilder {
         }
 
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
-
-        let air_var_impl: AirVarImpl = expr.clone().into();
-        match air_var_impl {
-            AirVarImpl::Array(vars) | AirVarImpl::Tuple(vars) => {
-                if !vars
-                    .into_iter()
-                    .all(|var| var.prover_type() == Felt::r#type())
-                {
-                    todo!("Support collection types in let_");
-                } else {
-                    self.let_and_set_complex_felts(expr.clone(), expr.as_felts(), name)
-                }
-            }
-            // When the expression evaluates to a single felt, let_complex unnecessarily creates two
-            // identical intermediate variables - one for the expression and one for its
-            // single felt. Treat this case separately to avoid these duplications.
-            AirVarImpl::Expr(e) if e.prover_type() == Felt::r#type() => {
-                self.air_body.push(AirBodyComponent::Intermediate(
-                    name.clone(),
-                    expr.clone().into(),
-                    Visibility::default(),
-                ));
-                expr.let_(name, true, true)
-            }
-            AirVarImpl::Struct { .. } => self.let_complex(expr, name),
-            AirVarImpl::Expr(_) => self.let_complex(expr, name),
-        }
-    }
-
-    fn let_complex<O>(&mut self, mut expr: O, name: String) -> O
-    where
-        O: AirVar,
-    {
-        // We have to create the variable for <expr> before its felts, because <let_> creates
-        // the felts as well. Then, we recreate the felts from their original expressions
-        // (<felts_before>) and update <expr>.
-        self.air_body.push(AirBodyComponent::Intermediate(
-            name.clone(),
-            expr.clone().into(),
-            Visibility {
-                in_deductions: true,
-                in_constraints: false,
-            },
-        ));
-        let felts_before = expr.as_felts();
-        expr = expr.let_(name.clone(), true, true);
-        self.let_and_set_complex_felts(expr, felts_before, name)
-    }
-
-    fn let_and_set_complex_felts<O>(
-        &mut self,
-        mut expr: O,
-        new_felts: Vec<FeltExpr>,
-        name: String,
-    ) -> O
-    where
-        O: AirVar,
-    {
-        for (i, (new_felt, felt)) in new_felts.into_iter().zip(expr.as_felts_mut()).enumerate() {
-            if new_felt.is_directly_in_state() {
-                *felt = new_felt;
-                continue;
-            }
-
-            let felt_name = format!("{}_limb_{}", name, i);
-            self.air_body.push(AirBodyComponent::Intermediate(
-                felt_name.clone(),
-                new_felt.clone().into(),
-                Visibility::default(),
-            ));
-            *felt = new_felt.let_(felt_name, true, true);
+        let (new_expr, vars) = expr.rec_let(name.clone());
+        for var in vars {
+            self.air_body.push(AirBodyComponent::Intermediate(var));
         }
 
-        expr
+        new_expr
     }
 
     pub fn call<I, O>(&mut self, air_fn: &dyn AirFn<ExtIn = (), In = I, Out = O>, input: I) -> O
@@ -598,7 +529,7 @@ impl AirBuilder {
 
         // Deduce the output if it is not empty.
         if !O::is_empty() {
-            output = output.let_(output_name.expect("Output name not set"), true, false);
+            output = output.let_(output_name.expect("Output name not set"));
             self.deduce_intermediate_var(&mut output, &format!("{}_output", air_fn.name()));
         }
 
@@ -665,7 +596,8 @@ impl AirBuilder {
             use_or_yield: UseOrYield::Yield,
         });
 
-        // TODO(AnatG): Add all inputs to the lookup component together in one LookupAddInput.
+        // TODO(AnatG): Consider adding all inputs to the lookup component together in one
+        // LookupAddInput.
         for _ in 0..num_of_rounds {
             output_name = self.get_intermediate_name(Some(format!(
                 "{}_output_round_{}",
@@ -689,7 +621,7 @@ impl AirBuilder {
 
         // TODO(AnatG): Consider not deducing the const parts of the output.
         // Deduce the output of the last round.
-        output = output.let_(output_name, true, false);
+        output = output.let_(output_name);
         self.deduce_intermediate_var(&mut output, &format!("{}_output", air_fn.name()));
 
         // Use the output of the last round.
@@ -799,7 +731,7 @@ impl AirBuilder {
             value = memory.lookup_call(&mut air_builder, key.clone(), ());
         }
 
-        value.let_(value_name, true, false)
+        value.let_(value_name)
     }
 
     // Assumes the key and value are in the state (of the caller). Adds a lookup constraint

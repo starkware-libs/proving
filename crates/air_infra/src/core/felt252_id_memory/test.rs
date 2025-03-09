@@ -52,9 +52,9 @@ fn test_read_small() {
         (0, "id"),
         (0, "msb"),
         (0, "mid_limbs_set"),
-        (7, "limb_0"),
-        (0, "limb_1"),
-        (0, "limb_2"),
+        (7, "value_limb_0"),
+        (0, "value_limb_1"),
+        (0, "value_limb_2"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -65,9 +65,9 @@ fn test_read_small() {
         (0, "id"),
         (0, "msb"),
         (0, "mid_limbs_set"),
-        (7, "limb_0"),
-        (0, "limb_1"),
-        (0, "limb_2"),
+        (7, "value_limb_0"),
+        (0, "value_limb_1"),
+        (0, "value_limb_2"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -78,9 +78,9 @@ fn test_read_small() {
         (1, "id"),
         (1, "msb"),
         (0, "mid_limbs_set"),
-        (0, "limb_0"),
-        (0, "limb_1"),
-        (0, "limb_2"),
+        (0, "value_limb_0"),
+        (0, "value_limb_1"),
+        (0, "value_limb_2"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -91,9 +91,9 @@ fn test_read_small() {
         (2, "id"),
         (1, "msb"),
         (1, "mid_limbs_set"),
-        (511, "limb_0"),
-        (511, "limb_1"),
-        (511, "limb_2"),
+        (511, "value_limb_0"),
+        (511, "value_limb_1"),
+        (511, "value_limb_2"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -104,9 +104,9 @@ fn test_read_small() {
         (3, "id"),
         (1, "msb"),
         (0, "mid_limbs_set"),
-        (1, "limb_0"),
-        (0, "limb_1"),
-        (0, "limb_2"),
+        (1, "value_limb_0"),
+        (0, "value_limb_1"),
+        (0, "value_limb_2"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -117,9 +117,9 @@ fn test_read_small() {
         (4, "id"),
         (1, "msb"),
         (0, "mid_limbs_set"),
-        (2, "limb_0"),
-        (0, "limb_1"),
-        (0, "limb_2"),
+        (2, "value_limb_0"),
+        (0, "value_limb_1"),
+        (0, "value_limb_2"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);

@@ -3059,62 +3059,6 @@
         }
       }
     },
-    {
-      "Intermediate": {
-        "name": "xor_rot_16_output_tmp_f72c8_11_limb_0",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col20"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col21"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "256"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "xor_rot_16_output_tmp_f72c8_11_limb_1",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col18"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col19"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "256"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
     "EndBlock",
     {
       "StartBlock": "Triple Sum 32"
@@ -4006,62 +3950,6 @@
         }
       }
     },
-    {
-      "Intermediate": {
-        "name": "xor_rot_12_output_tmp_f72c8_23_limb_0",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col29"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col30"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "16"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "xor_rot_12_output_tmp_f72c8_23_limb_1",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col31"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col28"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "16"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
     "EndBlock",
     {
       "StartBlock": "Triple Sum 32"
@@ -4378,9 +4266,21 @@
                   {
                     "BinaryOp": [
                       {
-                        "Var": [
-                          "M31",
-                          "xor_rot_16_output_tmp_f72c8_11_limb_0"
+                        "MethodCall": [
+                          {
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "UInt32",
+                                  "xor_rot_16_output_tmp_f72c8_11"
+                                ]
+                              },
+                              "low",
+                              []
+                            ]
+                          },
+                          "as_m31",
+                          []
                         ]
                       },
                       "-",
@@ -4451,9 +4351,21 @@
             {
               "BinaryOp": [
                 {
-                  "Var": [
-                    "M31",
-                    "xor_rot_16_output_tmp_f72c8_11_limb_0"
+                  "MethodCall": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "UInt32",
+                            "xor_rot_16_output_tmp_f72c8_11"
+                          ]
+                        },
+                        "low",
+                        []
+                      ]
+                    },
+                    "as_m31",
+                    []
                   ]
                 },
                 "-",
@@ -4509,9 +4421,21 @@
           {
             "BinaryOp": [
               {
-                "Var": [
-                  "M31",
-                  "xor_rot_16_output_tmp_f72c8_11_limb_0"
+                "MethodCall": [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "UInt32",
+                          "xor_rot_16_output_tmp_f72c8_11"
+                        ]
+                      },
+                      "low",
+                      []
+                    ]
+                  },
+                  "as_m31",
+                  []
                 ]
               },
               "-",
@@ -4669,9 +4593,21 @@
                   {
                     "BinaryOp": [
                       {
-                        "Var": [
-                          "M31",
-                          "xor_rot_16_output_tmp_f72c8_11_limb_1"
+                        "MethodCall": [
+                          {
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "UInt32",
+                                  "xor_rot_16_output_tmp_f72c8_11"
+                                ]
+                              },
+                              "high",
+                              []
+                            ]
+                          },
+                          "as_m31",
+                          []
                         ]
                       },
                       "-",
@@ -4742,9 +4678,21 @@
             {
               "BinaryOp": [
                 {
-                  "Var": [
-                    "M31",
-                    "xor_rot_16_output_tmp_f72c8_11_limb_1"
+                  "MethodCall": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "UInt32",
+                            "xor_rot_16_output_tmp_f72c8_11"
+                          ]
+                        },
+                        "high",
+                        []
+                      ]
+                    },
+                    "as_m31",
+                    []
                   ]
                 },
                 "-",
@@ -4800,9 +4748,21 @@
           {
             "BinaryOp": [
               {
-                "Var": [
-                  "M31",
-                  "xor_rot_16_output_tmp_f72c8_11_limb_1"
+                "MethodCall": [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "UInt32",
+                          "xor_rot_16_output_tmp_f72c8_11"
+                        ]
+                      },
+                      "high",
+                      []
+                    ]
+                  },
+                  "as_m31",
+                  []
                 ]
               },
               "-",
@@ -4967,62 +4927,6 @@
                 ]
               }
             ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "xor_rot_8_output_tmp_f72c8_35_limb_0",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col39"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col40"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "256"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "xor_rot_8_output_tmp_f72c8_35_limb_1",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col41"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col38"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "256"
-                  ]
-                }
-              ]
-            }
           ]
         }
       }
@@ -5313,9 +5217,21 @@
                   {
                     "BinaryOp": [
                       {
-                        "Var": [
-                          "M31",
-                          "xor_rot_12_output_tmp_f72c8_23_limb_0"
+                        "MethodCall": [
+                          {
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "UInt32",
+                                  "xor_rot_12_output_tmp_f72c8_23"
+                                ]
+                              },
+                              "low",
+                              []
+                            ]
+                          },
+                          "as_m31",
+                          []
                         ]
                       },
                       "-",
@@ -5394,9 +5310,21 @@
             {
               "BinaryOp": [
                 {
-                  "Var": [
-                    "M31",
-                    "xor_rot_12_output_tmp_f72c8_23_limb_0"
+                  "MethodCall": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "UInt32",
+                            "xor_rot_12_output_tmp_f72c8_23"
+                          ]
+                        },
+                        "low",
+                        []
+                      ]
+                    },
+                    "as_m31",
+                    []
                   ]
                 },
                 "-",
@@ -5452,9 +5380,21 @@
           {
             "BinaryOp": [
               {
-                "Var": [
-                  "M31",
-                  "xor_rot_12_output_tmp_f72c8_23_limb_0"
+                "MethodCall": [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "UInt32",
+                          "xor_rot_12_output_tmp_f72c8_23"
+                        ]
+                      },
+                      "low",
+                      []
+                    ]
+                  },
+                  "as_m31",
+                  []
                 ]
               },
               "-",
@@ -5604,9 +5544,21 @@
                   {
                     "BinaryOp": [
                       {
-                        "Var": [
-                          "M31",
-                          "xor_rot_12_output_tmp_f72c8_23_limb_1"
+                        "MethodCall": [
+                          {
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "UInt32",
+                                  "xor_rot_12_output_tmp_f72c8_23"
+                                ]
+                              },
+                              "high",
+                              []
+                            ]
+                          },
+                          "as_m31",
+                          []
                         ]
                       },
                       "-",
@@ -5685,9 +5637,21 @@
             {
               "BinaryOp": [
                 {
-                  "Var": [
-                    "M31",
-                    "xor_rot_12_output_tmp_f72c8_23_limb_1"
+                  "MethodCall": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "UInt32",
+                            "xor_rot_12_output_tmp_f72c8_23"
+                          ]
+                        },
+                        "high",
+                        []
+                      ]
+                    },
+                    "as_m31",
+                    []
                   ]
                 },
                 "-",
@@ -5743,9 +5707,21 @@
           {
             "BinaryOp": [
               {
-                "Var": [
-                  "M31",
-                  "xor_rot_12_output_tmp_f72c8_23_limb_1"
+                "MethodCall": [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "UInt32",
+                          "xor_rot_12_output_tmp_f72c8_23"
+                        ]
+                      },
+                      "high",
+                      []
+                    ]
+                  },
+                  "as_m31",
+                  []
                 ]
               },
               "-",
@@ -5936,62 +5912,6 @@
         }
       }
     },
-    {
-      "Intermediate": {
-        "name": "xor_rot_7_output_tmp_f72c8_47_limb_0",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col49"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col50"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "512"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "xor_rot_7_output_tmp_f72c8_47_limb_1",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col51"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col48"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "512"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
     "EndBlock",
     {
       "LookupTerm": {
@@ -6040,15 +5960,39 @@
             "State": "triple_sum32_res_high_col33"
           },
           {
-            "Var": [
-              "M31",
-              "xor_rot_7_output_tmp_f72c8_47_limb_0"
+            "MethodCall": [
+              {
+                "MethodCall": [
+                  {
+                    "Var": [
+                      "UInt32",
+                      "xor_rot_7_output_tmp_f72c8_47"
+                    ]
+                  },
+                  "low",
+                  []
+                ]
+              },
+              "as_m31",
+              []
             ]
           },
           {
-            "Var": [
-              "M31",
-              "xor_rot_7_output_tmp_f72c8_47_limb_1"
+            "MethodCall": [
+              {
+                "MethodCall": [
+                  {
+                    "Var": [
+                      "UInt32",
+                      "xor_rot_7_output_tmp_f72c8_47"
+                    ]
+                  },
+                  "high",
+                  []
+                ]
+              },
+              "as_m31",
+              []
             ]
           },
           {
@@ -6058,15 +6002,39 @@
             "State": "triple_sum32_res_high_col43"
           },
           {
-            "Var": [
-              "M31",
-              "xor_rot_8_output_tmp_f72c8_35_limb_0"
+            "MethodCall": [
+              {
+                "MethodCall": [
+                  {
+                    "Var": [
+                      "UInt32",
+                      "xor_rot_8_output_tmp_f72c8_35"
+                    ]
+                  },
+                  "low",
+                  []
+                ]
+              },
+              "as_m31",
+              []
             ]
           },
           {
-            "Var": [
-              "M31",
-              "xor_rot_8_output_tmp_f72c8_35_limb_1"
+            "MethodCall": [
+              {
+                "MethodCall": [
+                  {
+                    "Var": [
+                      "UInt32",
+                      "xor_rot_8_output_tmp_f72c8_35"
+                    ]
+                  },
+                  "high",
+                  []
+                ]
+              },
+              "as_m31",
+              []
             ]
           }
         ],

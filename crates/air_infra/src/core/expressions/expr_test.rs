@@ -1,7 +1,7 @@
-use compiled_casm_air::compiled_structs::CompiledAirVar;
 use compiled_casm_air::utils::INTERMEDIATE_VAR_SUFFIX;
 use stwo_cairo_common::prover_types::cpu::{BigUInt, Bool, Felt252, UInt32, UInt64, PRIME};
 
+use super::super::air_body::*;
 use super::super::variables::*;
 use super::biguint_expr::*;
 use super::bool_expr::*;
@@ -201,7 +201,7 @@ fn test_conversion_felt_to_bool() {
     assert_eq!(&b.as_felt().to_string(), "x");
     assert_eq!(&b.to_string(), "Bool::from_m31(x)");
 
-    let f = f.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX), true, true);
+    let f = f.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX));
     let b: BoolExpr = f.into();
     assert_eq!(b.calc(), "true");
     assert_eq!(&b.as_felt().to_string(), "tmp0");
@@ -218,7 +218,7 @@ fn test_bad_felt_to_bool() {
 #[test]
 fn test_conversion_bool_to_uint16() {
     let mut b: BoolExpr = bool_expr!("x", true);
-    b = b.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX), true, true);
+    b = b.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX));
     let i: UInt16Expr = b.clone().into();
     assert_eq!(i.calc(), "1");
     assert_eq!(&i.as_felt().to_string(), "tmp0.as_m31()");
@@ -229,9 +229,7 @@ fn test_conversion_bool_to_uint16() {
     assert_eq!(&i.as_felt().to_string(), "col0");
     assert_eq!(&i.to_string(), "UInt16::from_bool(tmp0)");
 
-    let f = b
-        .as_felt()
-        .let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX), true, true);
+    let f = b.as_felt().let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX));
     i = Into::<BoolExpr>::into(f).into();
     assert_eq!(&i.as_felt().to_string(), "tmp0");
 }
@@ -239,7 +237,7 @@ fn test_conversion_bool_to_uint16() {
 #[test]
 fn test_conversion_felt_to_uint16() {
     let mut f = expr!("x", 0xFF);
-    f = f.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX), true, true);
+    f = f.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX));
     let i: UInt16Expr = f.clone().into();
     assert_eq!(i.calc(), "255");
     assert_eq!(&i.as_felt().to_string(), "tmp0");
@@ -250,7 +248,7 @@ fn test_conversion_felt_to_uint16() {
     assert_eq!(&i.as_felt().to_string(), "col0");
     assert_eq!(&i.to_string(), "UInt16::from_m31(col0)");
 
-    let f = f.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX), true, true);
+    let f = f.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX));
     i = f.into();
     assert_eq!(&i.as_felt().to_string(), "tmp0");
     assert_eq!(&i.to_string(), "UInt16::from_m31(tmp0)");
@@ -283,7 +281,7 @@ fn test_conversion_felts_to_felt252() {
     assert_eq!(&e.get_felt_mut(1).to_string(), "x2");
     assert_eq!(&e.to_string(), "Felt252::from_limbs(zero_extend([1, x2]))");
 
-    f2 = f2.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX), true, true);
+    f2 = f2.let_(format!("{}0", INTERMEDIATE_VAR_SUFFIX));
     let mut e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
     assert_eq!(&e.as_felts_mut()[0].to_string(), "1");
     assert_eq!(&e.get_felt_mut(1).to_string(), "tmp0");
@@ -360,7 +358,7 @@ fn test_biguint384() {
     assert_eq!(
         format!(
             "{:?}",
-            CompiledAirVar::from(bigu384_expr!("v".to_string(), 1, 0, 1, 0, 0, 0))
+            bigu384_expr!("v".to_string(), 1, 0, 1, 0, 0, 0).compile(CompileFor::Deductions)
         ),
         "Var(\"BigUInt<384, 6, 32>\", \"v\")"
     );
@@ -378,7 +376,7 @@ fn test_biguint384() {
     );
 
     let felt1 = bigu384_expr!("x", 1, 0, 1, 0, 0, 1).as_felts_mut()[0].clone();
-    assert_eq!(&felt1.clone().to_string(), "x.get_m31(0)");
+    assert_eq!(&felt1.to_string(), "x.get_m31(0)");
     let felt2 = const_bigu384_expr!(1, 0, 1, 0, 0, 1).get_felt(0);
     assert_eq!(felt1.value(), felt2.value());
 }

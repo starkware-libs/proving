@@ -20,17 +20,17 @@
   "trace_type": "Inline",
   "air_body": [
     {
-      "Intermediate": [
-        "sub_res_tmp_fda18_0",
-        {
+      "Intermediate": {
+        "name": "sub_res_tmp_fda18_0",
+        "var": {
           "name": "(sub_252_input[0] - sub_252_input[1])",
           "type": "Felt252"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [

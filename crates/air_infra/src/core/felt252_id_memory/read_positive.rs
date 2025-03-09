@@ -58,7 +58,7 @@ impl AirFn for ReadPositive {
                     .extra_info
                     .clone()
                     .map(|s| format!("{}_limb_{}", s, i))
-                    .unwrap_or(format!("limb_{}", i)),
+                    .unwrap_or(format!("value_limb_{}", i)),
             );
         }
 
