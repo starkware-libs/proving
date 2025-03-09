@@ -1189,22 +1189,10 @@
   ],
   "deductions": [
     {
-      "Intermediate": {
-        "name": "input_tmp_4997f_0",
-        "type": "CasmState",
-        "var": {
-          "Var": [
-            "CasmState",
-            "call_opcode_rel_input"
-          ]
-        }
-      }
-    },
-    {
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_4997f_0.pc"
+          "call_opcode_rel_input.pc"
         ]
       }
     },
@@ -1212,7 +1200,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_4997f_0.ap"
+          "call_opcode_rel_input.ap"
         ]
       }
     },
@@ -1220,7 +1208,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_4997f_0.fp"
+          "call_opcode_rel_input.fp"
         ]
       }
     },
@@ -1229,7 +1217,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_4997f_1",
+        "name": "memory_address_to_id_value_tmp_4997f_0",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -1245,7 +1233,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_4997f_2",
+        "name": "memory_id_to_big_value_tmp_4997f_1",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -1254,7 +1242,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_4997f_1"
+                  "memory_address_to_id_value_tmp_4997f_0"
                 ]
               }
             ]
@@ -1371,7 +1359,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_4997f_3",
+        "name": "memory_address_to_id_value_tmp_4997f_2",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -1387,7 +1375,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_4997f_4",
+        "name": "memory_id_to_big_value_tmp_4997f_3",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -1396,7 +1384,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_4997f_3"
+                  "memory_address_to_id_value_tmp_4997f_2"
                 ]
               }
             ]
@@ -1408,7 +1396,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_4997f_3"
+          "memory_address_to_id_value_tmp_4997f_2"
         ]
       }
     },
@@ -1440,7 +1428,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_4997f_4"
+              "memory_id_to_big_value_tmp_4997f_3"
             ]
           },
           "get_m31",
@@ -1461,7 +1449,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_4997f_4"
+              "memory_id_to_big_value_tmp_4997f_3"
             ]
           },
           "get_m31",
@@ -1482,7 +1470,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_4997f_4"
+              "memory_id_to_big_value_tmp_4997f_3"
             ]
           },
           "get_m31",
@@ -1681,7 +1669,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_4997f_5",
+        "name": "memory_address_to_id_value_tmp_4997f_4",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -1708,7 +1696,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_4997f_6",
+        "name": "memory_id_to_big_value_tmp_4997f_5",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -1717,7 +1705,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_4997f_5"
+                  "memory_address_to_id_value_tmp_4997f_4"
                 ]
               }
             ]
@@ -1729,7 +1717,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_4997f_5"
+          "memory_address_to_id_value_tmp_4997f_4"
         ]
       }
     },
@@ -1783,7 +1771,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_4997f_6"
+              "memory_id_to_big_value_tmp_4997f_5"
             ]
           },
           "get_m31",
@@ -1804,7 +1792,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_4997f_6"
+              "memory_id_to_big_value_tmp_4997f_5"
             ]
           },
           "get_m31",
@@ -1825,7 +1813,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_4997f_6"
+              "memory_id_to_big_value_tmp_4997f_5"
             ]
           },
           "get_m31",
@@ -2024,7 +2012,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_4997f_7",
+        "name": "memory_address_to_id_value_tmp_4997f_6",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -2051,7 +2039,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_4997f_8",
+        "name": "memory_id_to_big_value_tmp_4997f_7",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -2060,7 +2048,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_4997f_7"
+                  "memory_address_to_id_value_tmp_4997f_6"
                 ]
               }
             ]
@@ -2072,7 +2060,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_4997f_7"
+          "memory_address_to_id_value_tmp_4997f_6"
         ]
       }
     },
@@ -2125,7 +2113,7 @@
     },
     {
       "Intermediate": {
-        "name": "msb_tmp_4997f_9",
+        "name": "msb_tmp_4997f_8",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -2134,7 +2122,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "memory_id_to_big_value_tmp_4997f_8"
+                    "memory_id_to_big_value_tmp_4997f_7"
                   ]
                 },
                 "get_m31",
@@ -2167,7 +2155,7 @@
           {
             "Var": [
               "Bool",
-              "msb_tmp_4997f_9"
+              "msb_tmp_4997f_8"
             ]
           },
           "as_m31",
@@ -2177,7 +2165,7 @@
     },
     {
       "Intermediate": {
-        "name": "mid_limbs_set_tmp_4997f_10",
+        "name": "mid_limbs_set_tmp_4997f_9",
         "type": "Bool",
         "var": {
           "MethodCall": [
@@ -2186,7 +2174,7 @@
                 {
                   "Var": [
                     "Felt252",
-                    "memory_id_to_big_value_tmp_4997f_8"
+                    "memory_id_to_big_value_tmp_4997f_7"
                   ]
                 },
                 "get_m31",
@@ -2219,7 +2207,7 @@
           {
             "Var": [
               "Bool",
-              "mid_limbs_set_tmp_4997f_10"
+              "mid_limbs_set_tmp_4997f_9"
             ]
           },
           "as_m31",
@@ -2234,7 +2222,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_4997f_8"
+              "memory_id_to_big_value_tmp_4997f_7"
             ]
           },
           "get_m31",
@@ -2255,7 +2243,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_4997f_8"
+              "memory_id_to_big_value_tmp_4997f_7"
             ]
           },
           "get_m31",
@@ -2276,7 +2264,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_4997f_8"
+              "memory_id_to_big_value_tmp_4997f_7"
             ]
           },
           "get_m31",

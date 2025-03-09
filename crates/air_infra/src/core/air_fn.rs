@@ -194,7 +194,13 @@ pub trait AirFn: Debug + InstDefTrait {
             }
         } else {
             // Anything else - deduce input
-            input = air_builder.deduce_air_var(input, "input");
+            #[cfg(test)]
+            if air_builder.is_run_mode() {
+                // In run mode the input might not be a variable - make it a variable.
+                // The name is irrelevant in run mode.
+                input = input.let_("".to_string(), true, false);
+            }
+            air_builder.deduce_intermediate_var(&mut input, "input");
         }
 
         // Perform AirFn logic
@@ -356,7 +362,7 @@ impl AirBuilder {
         var
     }
 
-    fn deduce_intermediate_var<V>(&mut self, var: &mut V, desc: &str)
+    pub(super) fn deduce_intermediate_var<V>(&mut self, var: &mut V, desc: &str)
     where
         V: AirVar,
     {

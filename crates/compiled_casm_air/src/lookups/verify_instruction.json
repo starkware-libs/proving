@@ -465,70 +465,10 @@
   ],
   "deductions": [
     {
-      "Intermediate": {
-        "name": "input_tmp_16a4f_0",
-        "type": "(M31, [M31; 3], [M31; 2], M31)",
-        "var": {
-          "Tuple": [
-            {
-              "Var": [
-                "M31",
-                "verify_instruction_input.0"
-              ]
-            },
-            {
-              "Array": [
-                {
-                  "Var": [
-                    "M31",
-                    "verify_instruction_input.1[0]"
-                  ]
-                },
-                {
-                  "Var": [
-                    "M31",
-                    "verify_instruction_input.1[1]"
-                  ]
-                },
-                {
-                  "Var": [
-                    "M31",
-                    "verify_instruction_input.1[2]"
-                  ]
-                }
-              ]
-            },
-            {
-              "Array": [
-                {
-                  "Var": [
-                    "M31",
-                    "verify_instruction_input.2[0]"
-                  ]
-                },
-                {
-                  "Var": [
-                    "M31",
-                    "verify_instruction_input.2[1]"
-                  ]
-                }
-              ]
-            },
-            {
-              "Var": [
-                "M31",
-                "verify_instruction_input.3"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_16a4f_0.0"
+          "verify_instruction_input.0"
         ]
       }
     },
@@ -536,7 +476,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_16a4f_0.1[0]"
+          "verify_instruction_input.1[0]"
         ]
       }
     },
@@ -544,7 +484,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_16a4f_0.1[1]"
+          "verify_instruction_input.1[1]"
         ]
       }
     },
@@ -552,7 +492,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_16a4f_0.1[2]"
+          "verify_instruction_input.1[2]"
         ]
       }
     },
@@ -560,7 +500,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_16a4f_0.2[0]"
+          "verify_instruction_input.2[0]"
         ]
       }
     },
@@ -568,7 +508,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_16a4f_0.2[1]"
+          "verify_instruction_input.2[1]"
         ]
       }
     },
@@ -576,7 +516,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "input_tmp_16a4f_0.3"
+          "verify_instruction_input.3"
         ]
       }
     },
@@ -585,7 +525,7 @@
     },
     {
       "Intermediate": {
-        "name": "offset0_low_tmp_16a4f_1",
+        "name": "offset0_low_tmp_16a4f_0",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -616,7 +556,7 @@
           {
             "Var": [
               "UInt16",
-              "offset0_low_tmp_16a4f_1"
+              "offset0_low_tmp_16a4f_0"
             ]
           },
           "as_m31",
@@ -626,7 +566,7 @@
     },
     {
       "Intermediate": {
-        "name": "offset0_mid_tmp_16a4f_2",
+        "name": "offset0_mid_tmp_16a4f_1",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -657,7 +597,7 @@
           {
             "Var": [
               "UInt16",
-              "offset0_mid_tmp_16a4f_2"
+              "offset0_mid_tmp_16a4f_1"
             ]
           },
           "as_m31",
@@ -667,7 +607,7 @@
     },
     {
       "Intermediate": {
-        "name": "offset1_low_tmp_16a4f_3",
+        "name": "offset1_low_tmp_16a4f_2",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -698,7 +638,7 @@
           {
             "Var": [
               "UInt16",
-              "offset1_low_tmp_16a4f_3"
+              "offset1_low_tmp_16a4f_2"
             ]
           },
           "as_m31",
@@ -708,7 +648,7 @@
     },
     {
       "Intermediate": {
-        "name": "offset1_mid_tmp_16a4f_4",
+        "name": "offset1_mid_tmp_16a4f_3",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -750,7 +690,7 @@
           {
             "Var": [
               "UInt16",
-              "offset1_mid_tmp_16a4f_4"
+              "offset1_mid_tmp_16a4f_3"
             ]
           },
           "as_m31",
@@ -760,7 +700,7 @@
     },
     {
       "Intermediate": {
-        "name": "offset1_high_tmp_16a4f_5",
+        "name": "offset1_high_tmp_16a4f_4",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -791,7 +731,7 @@
           {
             "Var": [
               "UInt16",
-              "offset1_high_tmp_16a4f_5"
+              "offset1_high_tmp_16a4f_4"
             ]
           },
           "as_m31",
@@ -801,7 +741,7 @@
     },
     {
       "Intermediate": {
-        "name": "offset2_low_tmp_16a4f_6",
+        "name": "offset2_low_tmp_16a4f_5",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -832,7 +772,7 @@
           {
             "Var": [
               "UInt16",
-              "offset2_low_tmp_16a4f_6"
+              "offset2_low_tmp_16a4f_5"
             ]
           },
           "as_m31",
@@ -842,7 +782,7 @@
     },
     {
       "Intermediate": {
-        "name": "offset2_mid_tmp_16a4f_7",
+        "name": "offset2_mid_tmp_16a4f_6",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -884,7 +824,7 @@
           {
             "Var": [
               "UInt16",
-              "offset2_mid_tmp_16a4f_7"
+              "offset2_mid_tmp_16a4f_6"
             ]
           },
           "as_m31",
@@ -894,7 +834,7 @@
     },
     {
       "Intermediate": {
-        "name": "offset2_high_tmp_16a4f_8",
+        "name": "offset2_high_tmp_16a4f_7",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -925,7 +865,7 @@
           {
             "Var": [
               "UInt16",
-              "offset2_high_tmp_16a4f_8"
+              "offset2_high_tmp_16a4f_7"
             ]
           },
           "as_m31",
@@ -1003,7 +943,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_16a4f_9",
+        "name": "memory_address_to_id_value_tmp_16a4f_8",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -1021,7 +961,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_16a4f_9"
+          "memory_address_to_id_value_tmp_16a4f_8"
         ]
       }
     },
