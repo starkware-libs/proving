@@ -2,9 +2,11 @@
   "name": "bitwise_builtin",
   "relation_name": null,
   "description": "Bitwise Builtin",
-  "input": {
-    "Tuple": []
-  },
+  "input": [
+    "bitwise_builtin_input",
+    "()",
+    "()"
+  ],
   "state_names": [
     "op0_id_col0",
     "op0_limb_0_col1",

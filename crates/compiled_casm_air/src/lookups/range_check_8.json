@@ -2,18 +2,11 @@
   "name": "range_check_8",
   "relation_name": "RangeCheck_8",
   "description": "Range Check 8",
-  "input": {
-    "Array": [
-      {
-        "ExternalState": [
-          "Seq",
-          [
-            "8"
-          ]
-        ]
-      }
-    ]
-  },
+  "input": [
+    "range_check_8_input",
+    "[M31; 1]",
+    "[PackedM31; 1]"
+  ],
   "state_names": [],
   "multiplicity_col_index": 0,
   "lookup_names": [],

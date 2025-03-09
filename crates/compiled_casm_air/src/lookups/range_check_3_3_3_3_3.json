@@ -2,55 +2,11 @@
   "name": "range_check_3_3_3_3_3",
   "relation_name": "RangeCheck_3_3_3_3_3",
   "description": "Range Check 3 3 3 3 3",
-  "input": {
-    "Array": [
-      {
-        "ExternalState": [
-          "RangeCheck",
-          [
-            "[3,3,3,3,3]",
-            "0"
-          ]
-        ]
-      },
-      {
-        "ExternalState": [
-          "RangeCheck",
-          [
-            "[3,3,3,3,3]",
-            "1"
-          ]
-        ]
-      },
-      {
-        "ExternalState": [
-          "RangeCheck",
-          [
-            "[3,3,3,3,3]",
-            "2"
-          ]
-        ]
-      },
-      {
-        "ExternalState": [
-          "RangeCheck",
-          [
-            "[3,3,3,3,3]",
-            "3"
-          ]
-        ]
-      },
-      {
-        "ExternalState": [
-          "RangeCheck",
-          [
-            "[3,3,3,3,3]",
-            "4"
-          ]
-        ]
-      }
-    ]
-  },
+  "input": [
+    "range_check_3_3_3_3_3_input",
+    "[M31; 5]",
+    "[PackedM31; 5]"
+  ],
   "state_names": [],
   "multiplicity_col_index": 0,
   "lookup_names": [],

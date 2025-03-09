@@ -290,6 +290,26 @@ impl AirVarImpl {
             _ => panic!("Cannot convert to felts"),
         }
     }
+
+    // Returns the prover type with a "Packed" prefix.
+    pub fn packed_prover_type(&self) -> String {
+        match self {
+            AirVarImpl::Expr(expr) => format!("Packed{}", expr.prover_type()),
+            AirVarImpl::Tuple(vars) => {
+                format!(
+                    "({})",
+                    vars.iter()
+                        .map(|v| v.packed_prover_type())
+                        .collect::<Vec<_>>()
+                        .join(", ")
+                )
+            }
+            AirVarImpl::Array(vars) => {
+                format!("[{}; {}]", vars[0].packed_prover_type(), vars.len())
+            }
+            AirVarImpl::Struct { r#type, .. } => format!("Packed{}", r#type),
+        }
+    }
 }
 
 impl InternalAirVarInfo for AirVarImpl {
@@ -320,13 +340,7 @@ impl InternalAirVarInfo for AirVarImpl {
                 )
             }
             AirVarImpl::Array(vars) => {
-                format!(
-                    "[{}]",
-                    vars.iter()
-                        .map(|v| v.prover_type())
-                        .collect::<Vec<_>>()
-                        .join(", ")
-                )
+                format!("[{}; {}]", vars[0].prover_type(), vars.len())
             }
             AirVarImpl::Struct {
                 name: _,

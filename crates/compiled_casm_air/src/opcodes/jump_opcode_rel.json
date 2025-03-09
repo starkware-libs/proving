@@ -2,12 +2,11 @@
   "name": "jump_opcode_rel",
   "relation_name": "Opcodes",
   "description": "Jump Opcode Rel",
-  "input": {
-    "Var": [
-      "CasmState",
-      "jump_opcode_rel_input"
-    ]
-  },
+  "input": [
+    "jump_opcode_rel_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",

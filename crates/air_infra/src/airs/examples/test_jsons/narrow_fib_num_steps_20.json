@@ -2,22 +2,11 @@
   "name": "narrow_fib_num_steps_20",
   "relation_name": "NarrowFibNumSteps20",
   "description": "Narrow Fib Num Steps 20",
-  "input": {
-    "Array": [
-      {
-        "Var": [
-          "M31",
-          "narrow_fib_num_steps_20_input[0]"
-        ]
-      },
-      {
-        "Var": [
-          "M31",
-          "narrow_fib_num_steps_20_input[1]"
-        ]
-      }
-    ]
-  },
+  "input": [
+    "narrow_fib_num_steps_20_input",
+    "[M31; 2]",
+    "[PackedM31; 2]"
+  ],
   "state_names": [
     "input_limb_0_col0",
     "input_limb_1_col1",
@@ -953,7 +942,7 @@
     {
       "Intermediate": {
         "name": "input_tmp_1ddf3_0",
-        "type": "[M31, M31]",
+        "type": "[M31; 2]",
         "var": {
           "Array": [
             {

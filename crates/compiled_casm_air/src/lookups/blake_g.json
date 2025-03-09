@@ -2,46 +2,11 @@
   "name": "blake_g",
   "relation_name": "BlakeG",
   "description": "Blake G",
-  "input": {
-    "Array": [
-      {
-        "Var": [
-          "UInt32",
-          "blake_g_input[0]"
-        ]
-      },
-      {
-        "Var": [
-          "UInt32",
-          "blake_g_input[1]"
-        ]
-      },
-      {
-        "Var": [
-          "UInt32",
-          "blake_g_input[2]"
-        ]
-      },
-      {
-        "Var": [
-          "UInt32",
-          "blake_g_input[3]"
-        ]
-      },
-      {
-        "Var": [
-          "UInt32",
-          "blake_g_input[4]"
-        ]
-      },
-      {
-        "Var": [
-          "UInt32",
-          "blake_g_input[5]"
-        ]
-      }
-    ]
-  },
+  "input": [
+    "blake_g_input",
+    "[UInt32; 6]",
+    "[PackedUInt32; 6]"
+  ],
   "state_names": [
     "input_limb_0_col0",
     "input_limb_1_col1",
@@ -1967,7 +1932,7 @@
     {
       "Intermediate": {
         "name": "input_tmp_f72c8_0",
-        "type": "[UInt32, UInt32, UInt32, UInt32, UInt32, UInt32]",
+        "type": "[UInt32; 6]",
         "var": {
           "Array": [
             {

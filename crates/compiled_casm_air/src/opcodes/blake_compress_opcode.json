@@ -2,12 +2,11 @@
   "name": "blake_compress_opcode",
   "relation_name": "Opcodes",
   "description": "Blake Compress Opcode",
-  "input": {
-    "Var": [
-      "CasmState",
-      "blake_compress_opcode_input"
-    ]
-  },
+  "input": [
+    "blake_compress_opcode_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",
@@ -20756,7 +20755,7 @@
     {
       "Intermediate": {
         "name": "blake_round_output_round_0_tmp_53f39_95",
-        "type": "(M31, M31, ([UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32], M31))",
+        "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
             "BlakeRound::deduce_output",
@@ -21283,7 +21282,7 @@
     {
       "Intermediate": {
         "name": "blake_round_output_round_1_tmp_53f39_96",
-        "type": "(M31, M31, ([UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32], M31))",
+        "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
             "BlakeRound::deduce_output",
@@ -21597,7 +21596,7 @@
     {
       "Intermediate": {
         "name": "blake_round_output_round_2_tmp_53f39_97",
-        "type": "(M31, M31, ([UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32], M31))",
+        "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
             "BlakeRound::deduce_output",
@@ -21911,7 +21910,7 @@
     {
       "Intermediate": {
         "name": "blake_round_output_round_3_tmp_53f39_98",
-        "type": "(M31, M31, ([UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32], M31))",
+        "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
             "BlakeRound::deduce_output",
@@ -22225,7 +22224,7 @@
     {
       "Intermediate": {
         "name": "blake_round_output_round_4_tmp_53f39_99",
-        "type": "(M31, M31, ([UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32], M31))",
+        "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
             "BlakeRound::deduce_output",
@@ -22539,7 +22538,7 @@
     {
       "Intermediate": {
         "name": "blake_round_output_round_5_tmp_53f39_100",
-        "type": "(M31, M31, ([UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32], M31))",
+        "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
             "BlakeRound::deduce_output",
@@ -22853,7 +22852,7 @@
     {
       "Intermediate": {
         "name": "blake_round_output_round_6_tmp_53f39_101",
-        "type": "(M31, M31, ([UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32], M31))",
+        "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
             "BlakeRound::deduce_output",
@@ -23167,7 +23166,7 @@
     {
       "Intermediate": {
         "name": "blake_round_output_round_7_tmp_53f39_102",
-        "type": "(M31, M31, ([UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32], M31))",
+        "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
             "BlakeRound::deduce_output",
@@ -23481,7 +23480,7 @@
     {
       "Intermediate": {
         "name": "blake_round_output_round_8_tmp_53f39_103",
-        "type": "(M31, M31, ([UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32], M31))",
+        "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
             "BlakeRound::deduce_output",
@@ -23795,7 +23794,7 @@
     {
       "Intermediate": {
         "name": "blake_round_output_round_9_tmp_53f39_104",
-        "type": "(M31, M31, ([UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32, UInt32], M31))",
+        "type": "(M31, M31, ([UInt32; 16], M31))",
         "var": {
           "StaticCall": [
             "BlakeRound::deduce_output",

@@ -2,12 +2,11 @@
   "name": "assert_eq_opcode_imm",
   "relation_name": "Opcodes",
   "description": "Assert Eq Opcode Imm",
-  "input": {
-    "Var": [
-      "CasmState",
-      "assert_eq_opcode_imm_input"
-    ]
-  },
+  "input": [
+    "assert_eq_opcode_imm_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",

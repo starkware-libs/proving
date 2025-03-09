@@ -2,12 +2,11 @@
   "name": "jnz_opcode_taken",
   "relation_name": "Opcodes",
   "description": "Jnz Opcode Taken",
-  "input": {
-    "Var": [
-      "CasmState",
-      "jnz_opcode_taken_input"
-    ]
-  },
+  "input": [
+    "jnz_opcode_taken_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",

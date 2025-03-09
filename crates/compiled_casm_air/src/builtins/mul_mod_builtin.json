@@ -2,9 +2,11 @@
   "name": "mul_mod_builtin",
   "relation_name": null,
   "description": "Mul Mod Builtin",
-  "input": {
-    "Tuple": []
-  },
+  "input": [
+    "mul_mod_builtin_input",
+    "()",
+    "()"
+  ],
   "state_names": [
     "is_instance_0_col0",
     "p0_id_col1",

@@ -2,12 +2,11 @@
   "name": "qm_31_add_mul_opcode",
   "relation_name": "Opcodes",
   "description": "Qm 31 Add Mul Opcode",
-  "input": {
-    "Var": [
-      "CasmState",
-      "qm_31_add_mul_opcode_input"
-    ]
-  },
+  "input": [
+    "qm_31_add_mul_opcode_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",

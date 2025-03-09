@@ -2,12 +2,11 @@
   "name": "memory_id_to_big",
   "relation_name": "MemoryIdToBig",
   "description": "Memory Id To Big",
-  "input": {
-    "ExternalState": [
-      "MemoryIdForBig",
-      []
-    ]
-  },
+  "input": [
+    "memory_id_to_big_input",
+    "M31",
+    "PackedM31"
+  ],
   "state_names": [
     "memory_id_to_big_output_col0",
     "memory_id_to_big_output_col1",

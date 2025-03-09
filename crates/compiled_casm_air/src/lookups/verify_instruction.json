@@ -2,60 +2,11 @@
   "name": "verify_instruction",
   "relation_name": "VerifyInstruction",
   "description": "Verify Instruction",
-  "input": {
-    "Tuple": [
-      {
-        "Var": [
-          "M31",
-          "verify_instruction_input.0"
-        ]
-      },
-      {
-        "Array": [
-          {
-            "Var": [
-              "M31",
-              "verify_instruction_input.1[0]"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "verify_instruction_input.1[1]"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "verify_instruction_input.1[2]"
-            ]
-          }
-        ]
-      },
-      {
-        "Array": [
-          {
-            "Var": [
-              "M31",
-              "verify_instruction_input.2[0]"
-            ]
-          },
-          {
-            "Var": [
-              "M31",
-              "verify_instruction_input.2[1]"
-            ]
-          }
-        ]
-      },
-      {
-        "Var": [
-          "M31",
-          "verify_instruction_input.3"
-        ]
-      }
-    ]
-  },
+  "input": [
+    "verify_instruction_input",
+    "(M31, [M31; 3], [M31; 2], M31)",
+    "(PackedM31, [PackedM31; 3], [PackedM31; 2], PackedM31)"
+  ],
   "state_names": [
     "input_limb_0_col0",
     "input_limb_1_col1",
@@ -516,7 +467,7 @@
     {
       "Intermediate": {
         "name": "input_tmp_16a4f_0",
-        "type": "(M31, [M31, M31, M31], [M31, M31], M31)",
+        "type": "(M31, [M31; 3], [M31; 2], M31)",
         "var": {
           "Tuple": [
             {

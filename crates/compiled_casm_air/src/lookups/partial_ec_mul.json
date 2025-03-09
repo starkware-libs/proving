@@ -2,136 +2,11 @@
   "name": "partial_ec_mul",
   "relation_name": "PartialEcMul",
   "description": "Partial Ec Mul",
-  "input": {
-    "Tuple": [
-      {
-        "Var": [
-          "M31",
-          "partial_ec_mul_input.0"
-        ]
-      },
-      {
-        "Var": [
-          "M31",
-          "partial_ec_mul_input.1"
-        ]
-      },
-      {
-        "Tuple": [
-          {
-            "Var": [
-              "M31",
-              "partial_ec_mul_input.2.0"
-            ]
-          },
-          {
-            "Array": [
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[0]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[1]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[2]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[3]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[4]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[5]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[6]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[7]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[8]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[9]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[10]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[11]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[12]"
-                ]
-              },
-              {
-                "Var": [
-                  "M31",
-                  "partial_ec_mul_input.2.1[13]"
-                ]
-              }
-            ]
-          },
-          {
-            "Array": [
-              {
-                "Var": [
-                  "Felt252",
-                  "partial_ec_mul_input.2.2[0]"
-                ]
-              },
-              {
-                "Var": [
-                  "Felt252",
-                  "partial_ec_mul_input.2.2[1]"
-                ]
-              }
-            ]
-          }
-        ]
-      }
-    ]
-  },
+  "input": [
+    "partial_ec_mul_input",
+    "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
+    "(PackedM31, PackedM31, (PackedM31, [PackedM31; 14], [PackedFelt252; 2]))"
+  ],
   "state_names": [
     "input_limb_0_col0",
     "input_limb_1_col1",
@@ -75126,7 +75001,7 @@
     {
       "Intermediate": {
         "name": "input_tmp_71feb_0",
-        "type": "(M31, M31, (M31, [M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31, M31], [Felt252, Felt252]))",
+        "type": "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
         "var": {
           "Tuple": [
             {
@@ -76613,7 +76488,7 @@
     {
       "Intermediate": {
         "name": "pedersen_points_table_output_tmp_71feb_1",
-        "type": "[Felt252, Felt252]",
+        "type": "[Felt252; 2]",
         "var": {
           "StaticCall": [
             "PedersenPointsTable::deduce_output",

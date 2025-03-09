@@ -2,28 +2,11 @@
   "name": "triple_xor_32",
   "relation_name": "TripleXor32",
   "description": "Triple Xor 32",
-  "input": {
-    "Array": [
-      {
-        "Var": [
-          "UInt32",
-          "triple_xor_32_input[0]"
-        ]
-      },
-      {
-        "Var": [
-          "UInt32",
-          "triple_xor_32_input[1]"
-        ]
-      },
-      {
-        "Var": [
-          "UInt32",
-          "triple_xor_32_input[2]"
-        ]
-      }
-    ]
-  },
+  "input": [
+    "triple_xor_32_input",
+    "[UInt32; 3]",
+    "[PackedUInt32; 3]"
+  ],
   "state_names": [
     "input_limb_0_col0",
     "input_limb_1_col1",
@@ -435,7 +418,7 @@
     {
       "Intermediate": {
         "name": "input_tmp_298db_0",
-        "type": "[UInt32, UInt32, UInt32]",
+        "type": "[UInt32; 3]",
         "var": {
           "Array": [
             {

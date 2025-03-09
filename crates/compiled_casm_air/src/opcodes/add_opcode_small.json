@@ -2,12 +2,11 @@
   "name": "add_opcode_small",
   "relation_name": "Opcodes",
   "description": "Add Opcode Small",
-  "input": {
-    "Var": [
-      "CasmState",
-      "add_opcode_small_input"
-    ]
-  },
+  "input": [
+    "add_opcode_small_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",

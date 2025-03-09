@@ -294,7 +294,7 @@ impl AirBody {
                             r#type: call.output_type,
                             var: CompiledAirVar::StaticCall(
                                 call.method_name,
-                                vec![AirFnEntry::generate_input(call.ext_input, call.input)],
+                                vec![AirFnEntry::generate_input(call.ext_input, call.input).into()],
                             ),
                         }));
                 }
@@ -305,7 +305,7 @@ impl AirBody {
                 } => {
                     compiled.deductions.push(TraceGenStep::LookupAddInput {
                         fn_name: air_fn_name,
-                        input: AirFnEntry::generate_input(ext_input, input),
+                        input: AirFnEntry::generate_input(ext_input, input).into(),
                     });
                 }
                 AirBodyComponent::LookupTerm {

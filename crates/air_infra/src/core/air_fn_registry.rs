@@ -2,7 +2,7 @@ use std::cell::RefCell;
 use std::collections::HashSet;
 use std::rc::Rc;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar};
+use compiled_casm_air::compiled_structs::CompiledAirFn;
 use compiled_casm_air::utils::INPUT_VAR_SUFFIX;
 use indexmap::IndexMap;
 use serde::Serialize;
@@ -38,12 +38,17 @@ impl AirFnEntry {
             TraceType::Component | TraceType::Memory => Some(self.state.get_state_names().len()),
             _ => None,
         };
+        let input = Self::generate_input(self.ext_input, self.input);
 
         CompiledAirFn {
-            name: self.name,
+            name: self.name.clone(),
             relation_name: self.relation_name,
             description: self.description,
-            input: Self::generate_input(self.ext_input, self.input),
+            input: (
+                format!("{}_{}", self.name, INPUT_VAR_SUFFIX),
+                input.prover_type(),
+                input.packed_prover_type(),
+            ),
             state_names: self.state.get_state_names(),
             lookup_names: self.air_body.get_lookup_names(),
             constraints: compiled_air_body.constraints,
@@ -55,17 +60,12 @@ impl AirFnEntry {
         }
     }
 
-    pub fn generate_input(
-        ext_input: Option<AirVarImpl>,
-        input: Option<AirVarImpl>,
-    ) -> CompiledAirVar {
+    pub fn generate_input(ext_input: Option<AirVarImpl>, input: Option<AirVarImpl>) -> AirVarImpl {
         match (ext_input, input) {
-            (Some(ext_input), None) => ext_input.into(),
-            (None, Some(input)) => input.into(),
-            (Some(ext_input), Some(input)) => {
-                CompiledAirVar::Tuple(vec![ext_input.into(), input.into()])
-            }
-            (None, None) => CompiledAirVar::Tuple(vec![]),
+            (Some(ext_input), None) => ext_input,
+            (None, Some(input)) => input,
+            (Some(ext_input), Some(input)) => AirVarImpl::Tuple(vec![ext_input, input]),
+            (None, None) => AirVarImpl::Tuple(vec![]),
         }
     }
 }

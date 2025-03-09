@@ -2,12 +2,11 @@
   "name": "ret_opcode",
   "relation_name": "Opcodes",
   "description": "Ret Opcode",
-  "input": {
-    "Var": [
-      "CasmState",
-      "ret_opcode_input"
-    ]
-  },
+  "input": [
+    "ret_opcode_input",
+    "CasmState",
+    "PackedCasmState"
+  ],
   "state_names": [
     "input_pc_col0",
     "input_ap_col1",

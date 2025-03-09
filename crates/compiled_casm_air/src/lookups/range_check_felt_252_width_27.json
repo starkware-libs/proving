@@ -2,12 +2,11 @@
   "name": "range_check_felt_252_width_27",
   "relation_name": "RangeCheckFelt252Width27",
   "description": "Range Check Felt 252 Width 27",
-  "input": {
-    "Var": [
-      "Felt252Width27",
-      "range_check_felt_252_width_27_input"
-    ]
-  },
+  "input": [
+    "range_check_felt_252_width_27_input",
+    "Felt252Width27",
+    "PackedFelt252Width27"
+  ],
   "state_names": [
     "input_limb_0_col0",
     "input_limb_1_col1",
