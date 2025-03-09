@@ -9,10 +9,12 @@ use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use convert_case::{Case, Casing};
 use indexmap::IndexMap;
 use serde::Serialize;
+use stwo_cairo_common::prover_types::cpu::ProverType;
 
 use super::air_fn_registry::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
+use crate::core::Felt;
 
 // A Call is an air_body component that represents a call to another air function.
 // It contains the name of the air function, the input argument, the output of the call
@@ -231,8 +233,19 @@ impl AirBody {
                     compiled.public_params.extend(deduction.public_params());
                     compiled.external_states.extend(deduction.external_states());
                 }
-                AirBodyComponent::Intermediate(name, var_ty, var, ty) => {
-                    if ty.in_constraints {
+                AirBodyComponent::Intermediate(name, var_ty, var, visibility) => {
+                    assert!(
+                        visibility.in_deductions || visibility.in_constraints,
+                        "Visibility of intermediates must be set"
+                    );
+                    if visibility.in_constraints {
+                        assert!(
+                            var.prover_type() == Felt::r#type(),
+                            "Only felts can be intermediates in constraints"
+                        );
+                    }
+
+                    if visibility.in_constraints {
                         compiled
                             .constraints
                             .push(ConstraintEvalStep::Intermediate(Intermediate {
@@ -242,7 +255,7 @@ impl AirBody {
                             }));
                     }
 
-                    if ty.in_deductions {
+                    if visibility.in_deductions {
                         compiled
                             .deductions
                             .push(TraceGenStep::Intermediate(Intermediate {

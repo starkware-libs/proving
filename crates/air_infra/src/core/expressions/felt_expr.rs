@@ -76,8 +76,12 @@ impl FeltExpr {
     }
 
     // Felt is directly in state if it's written to the state (has a state index), in an external
-    // state (a preprocessed column), or a public param.
+    // state (a preprocessed column), a public param, or a const felt.
     pub fn is_directly_in_state(&self) -> bool {
+        if self.is_const() {
+            return true;
+        }
+
         match self {
             FeltExpr::Var(v) => !matches!(
                 v.complex_or_felt,
