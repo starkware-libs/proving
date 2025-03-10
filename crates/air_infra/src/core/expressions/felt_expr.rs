@@ -16,6 +16,13 @@ use crate::core::Felt;
 pub type FeltOperation = OpExpr<Felt>;
 pub type FeltExpr = Expr<Felt>;
 
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct FeltInfo {
+    pub state_info: StateInfo,
+    // If some, the felt is an intermediate variable used in constraints.
+    pub constraint_intermediate: Option<String>,
+}
+
 // Describes where in the state this FeltExpr resides
 #[derive(Clone, Debug, PartialEq, Eq)]
 pub enum StateInfo {
@@ -33,8 +40,6 @@ pub enum StateInfo {
     ExtTableState(String, Vec<String>),
     // The felt is one of the public parameters.
     PublicParam(PublicParam),
-    // The felt is an intermediate variable used in constraints.
-    ConstraintIntermediate(String),
 }
 
 impl VarExprUpdate for VarExpr<Felt> {
@@ -59,54 +64,57 @@ impl FeltExpr {
                 format!("{}({})", name.to_case(Case::Snake), args.join(", "))
             }
             StateInfo::PublicParam(public_param) => public_param.name(),
-            StateInfo::ConstraintIntermediate(_) => {
-                panic!("to_state shouldn't be used to make a FeltExpr a ConstraintIntermediate")
-            }
         };
-        let value = self.value();
-        let is_const = self.is_const();
 
         match self {
             FeltExpr::Var(v) => {
                 v.name = name;
-                v.complex_or_felt = ComplexOrFelt::Felt(new_state_info);
             }
             _ => {
-                let mut v = VarExpr::new(name, value, is_const, true);
-                v.complex_or_felt = ComplexOrFelt::Felt(new_state_info);
-                *self = Self::Var(v);
+                *self = VarExpr::new_from(name, self).into();
             }
         }
+        self.as_var_mut()
+            .complex_or_felt
+            .as_felt_info_mut()
+            .state_info = new_state_info;
+        self.as_var_mut().visibility.in_constraints = true;
+        self.as_var_mut().visibility.in_deductions = true;
     }
 
+    // Felt is directly in state if it's written to the state (has a state index), in an external
+    // state (a preprocessed column), a public param, or a const felt.
     pub fn is_directly_in_state(&self) -> bool {
         if self.is_const() {
             return true;
         }
 
         match self {
-            FeltExpr::Var(v) => v.is_directly_in_state(),
+            FeltExpr::Var(v) => matches!(
+                v.complex_or_felt.as_felt_info().state_info,
+                StateInfo::StateIndex(..)
+                    | StateInfo::ExtTableState { .. }
+                    | StateInfo::PublicParam(_)
+            ),
             _ => false,
         }
     }
 
     pub fn let_for_constraint(&mut self, name: String) {
-        match self {
-            FeltExpr::Var(v) => {
-                v.complex_or_felt = ComplexOrFelt::Felt(StateInfo::ConstraintIntermediate(name));
-            }
-            _ => {
-                let mut v = VarExpr::new(name.clone(), self.value(), self.is_const(), true);
-                v.complex_or_felt = ComplexOrFelt::Felt(StateInfo::ConstraintIntermediate(name));
-                *self = Self::Var(v);
-            }
+        if let FeltExpr::Op(_) = self {
+            let mut var = VarExpr::new_from(name.clone(), self);
+            var.visibility.in_deductions = false;
+            *self = var.into();
         }
+        self.as_var_mut()
+            .complex_or_felt
+            .as_felt_info_mut()
+            .constraint_intermediate = Some(name);
+        self.as_var_mut().visibility.in_constraints = true;
     }
 
     pub fn copy_parent(&mut self, copy_from: &FeltExpr) {
-        if let Expr::Var(v) = copy_from {
-            self.as_var_mut().parent = v.parent.clone();
-        }
+        self.as_var_mut().parent = copy_from.as_var().parent.clone();
     }
 }
 

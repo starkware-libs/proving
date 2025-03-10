@@ -196,7 +196,7 @@ pub trait AirFn: Debug + InstDefTrait {
             if air_builder.is_run_mode() {
                 // In run mode the input might not be a variable - make it a variable.
                 // The name is irrelevant in run mode.
-                input = input.let_("".to_string());
+                input = input.let_for_deduction("".to_string());
             }
             air_builder.deduce_intermediate_var(&mut input, "input");
         }
@@ -376,6 +376,8 @@ impl AirBuilder {
                 self.deduce(felt, &format!("{}_{}", desc, felt_desc));
             }
         } else {
+            // Make sure there are no state variables named "limb_col0" because it's not clear what
+            // the "limb" refers to.
             assert!(
                 !desc.is_empty(),
                 "Intermediate variable description is required for deducing multiple felts"
@@ -409,7 +411,7 @@ impl AirBuilder {
                 var: var.clone().into(),
                 visibility: Visibility::new(true, false),
             }));
-        var.let_(name)
+        var.let_for_deduction(name)
     }
 
     pub fn let_for_constraint(&mut self, mut expr: FeltExpr, desc: &str) -> FeltExpr {
@@ -529,7 +531,7 @@ impl AirBuilder {
 
         // Deduce the output if it is not empty.
         if !O::is_empty() {
-            output = output.let_(output_name.expect("Output name not set"));
+            output = output.let_for_deduction(output_name.expect("Output name not set"));
             self.deduce_intermediate_var(&mut output, &format!("{}_output", air_fn.name()));
         }
 
@@ -621,7 +623,7 @@ impl AirBuilder {
 
         // TODO(AnatG): Consider not deducing the const parts of the output.
         // Deduce the output of the last round.
-        output = output.let_(output_name);
+        output = output.let_for_deduction(output_name);
         self.deduce_intermediate_var(&mut output, &format!("{}_output", air_fn.name()));
 
         // Use the output of the last round.
@@ -731,7 +733,7 @@ impl AirBuilder {
             value = memory.lookup_call(&mut air_builder, key.clone(), ());
         }
 
-        value.let_(value_name)
+        value.let_for_deduction(value_name)
     }
 
     // Assumes the key and value are in the state (of the caller). Adds a lookup constraint

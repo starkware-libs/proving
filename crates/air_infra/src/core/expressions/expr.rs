@@ -71,12 +71,9 @@ where
         VarExpr::new(name, None, false, in_state).into()
     }
 
-    fn let_(&self, name: String) -> Self {
-        let mut var = VarExpr::new(name, self.value(), self.is_const(), self.in_state());
+    fn let_for_deduction(&self, name: String) -> Self {
+        let mut var = VarExpr::new_from(name, self);
         var.is_deduction_intermediate = true;
-        if let Expr::Var(v) = self {
-            var.parent = v.parent.clone();
-        }
         var.into()
     }
 }

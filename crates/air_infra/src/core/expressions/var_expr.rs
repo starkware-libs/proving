@@ -26,6 +26,8 @@ where
     pub(super) parent: Option<ParentExpr>,
     pub(super) complex_or_felt: ComplexOrFelt,
     pub(super) is_deduction_intermediate: bool,
+    // Every variable can be <in_deductions>, but only felts can be <in_constraints>.
+    pub(super) visibility: Visibility,
 }
 
 impl<T> VarExpr<T>
@@ -45,12 +47,35 @@ where
             value,
             is_const,
             parent: None,
-            complex_or_felt: ComplexOrFelt::Felt(StateInfo::IsPolyOfState(in_state)),
+            complex_or_felt: ComplexOrFelt::Felt(FeltInfo {
+                state_info: StateInfo::IsPolyOfState(in_state),
+                constraint_intermediate: None,
+            }),
             is_deduction_intermediate: false,
+            visibility: Visibility {
+                in_deductions: true,
+                in_constraints: is_const && T::r#type() == Felt::r#type(),
+            },
         };
         var.create_children();
         var.update_children();
         var
+    }
+
+    // Copies everything from <from> except the <name>, <complex_or_felt>,
+    // <is_deductions_intermediate> and <visibility>. <state_info> becomes
+    // <IsPolyOfState(from.in_state())>, and the rest are set as in a new variable.
+    // These are later updated by the caller if necessary (see <Expr::let_for_deduction>,
+    // <FeltExpr::to_state>, and <FeltExpr::let_for_constraint>).
+    pub fn new_from(name: String, from: &Expr<T>) -> Self
+    where
+        Self: VarExprUpdate,
+    {
+        let mut res = Self::new(name, from.value(), from.is_const(), from.in_state());
+        if let Expr::Var(v) = from {
+            res.parent = v.parent.clone();
+        }
+        res
     }
 
     pub fn new_const(value: T) -> Self
@@ -71,26 +96,10 @@ where
             parent: parent_var.parent.clone().map(Box::new),
             index,
             child_name: self.name.clone(),
-            is_deduction_intermediate: parent_var.is_deduction_intermediate,
         };
 
         self.parent = Some(parent);
         self.update_children();
-    }
-
-    // Variable is directly in state if it's written to the state (has a state index), in an
-    // external state (a preprocessed column), a public param or a const felt.
-    pub fn is_directly_in_state(&self) -> bool {
-        if self.is_const && T::r#type() == Felt::r#type() {
-            return true;
-        }
-
-        matches!(
-            self.complex_or_felt,
-            ComplexOrFelt::Felt(StateInfo::StateIndex(..))
-                | ComplexOrFelt::Felt(StateInfo::ExtTableState { .. })
-                | ComplexOrFelt::Felt(StateInfo::PublicParam(_))
-        )
     }
 
     pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
@@ -103,17 +112,29 @@ where
         }
 
         // self was written to the trace
-        if let ComplexOrFelt::Felt(StateInfo::StateIndex(i, desc)) = self.complex_or_felt {
+        if let ComplexOrFelt::Felt(FeltInfo {
+            state_info: StateInfo::StateIndex(i, desc),
+            constraint_intermediate: _,
+        }) = self.complex_or_felt
+        {
             return CompiledAirVar::State(State::get_cell_name(i, &desc));
         }
 
         // self was written to the trace of an external const table
-        if let ComplexOrFelt::Felt(StateInfo::ExtTableState(name, args)) = self.complex_or_felt {
+        if let ComplexOrFelt::Felt(FeltInfo {
+            state_info: StateInfo::ExtTableState(name, args),
+            constraint_intermediate: _,
+        }) = self.complex_or_felt
+        {
             return CompiledAirVar::ExternalState(name, args);
         }
 
         // self is a public param
-        if let ComplexOrFelt::Felt(StateInfo::PublicParam(param)) = self.complex_or_felt {
+        if let ComplexOrFelt::Felt(FeltInfo {
+            state_info: StateInfo::PublicParam(param),
+            constraint_intermediate: _,
+        }) = self.complex_or_felt
+        {
             return CompiledAirVar::PublicParam(param.name());
         }
 
@@ -125,8 +146,10 @@ where
         } else {
             // <compile_for> == CompileFor::Constraints
             // self is an intermediate visible in constraints
-            if let ComplexOrFelt::Felt(StateInfo::ConstraintIntermediate(name)) =
-                self.complex_or_felt
+            if let ComplexOrFelt::Felt(FeltInfo {
+                state_info: _,
+                constraint_intermediate: Some(name),
+            }) = self.complex_or_felt
             {
                 return CompiledAirVar::Var(T::r#type(), name);
             }
@@ -156,47 +179,47 @@ where
     T: ProverType,
 {
     fn get_info(&self) -> HashSet<AirVarInfo> {
-        let in_state = if self.is_directly_in_state() {
+        let in_state = if self.is_const {
             true
         } else {
             match &self.complex_or_felt {
-                ComplexOrFelt::Felt(StateInfo::IsPolyOfState(b)) => *b,
-                ComplexOrFelt::Felt(StateInfo::ConstraintIntermediate(_)) => true,
+                ComplexOrFelt::Felt(FeltInfo {
+                    state_info: StateInfo::StateIndex(..),
+                    constraint_intermediate: _,
+                }) => true,
+                ComplexOrFelt::Felt(FeltInfo {
+                    state_info: StateInfo::IsPolyOfState(b),
+                    constraint_intermediate: _,
+                }) => *b,
+                ComplexOrFelt::Felt(FeltInfo {
+                    state_info: StateInfo::ExtTableState { .. },
+                    constraint_intermediate: _,
+                }) => true,
+                ComplexOrFelt::Felt(FeltInfo {
+                    state_info: StateInfo::PublicParam(_),
+                    constraint_intermediate: _,
+                }) => true,
                 ComplexOrFelt::Complex(children) => children.iter().all(|c| c.in_state()),
-                _ => unreachable!("Other cases of complex_or_felt are directly in state"),
             }
-        };
-
-        let is_constraint_intermediate = matches!(
-            self.complex_or_felt,
-            ComplexOrFelt::Felt(StateInfo::ConstraintIntermediate(_))
-        );
-
-        let visibility = Visibility {
-            // A variable is visible in deductions if it's an intermediate in deductions, has no
-            // intermediates, or if it has a parent (since all parents are visibile in deductions)
-            in_deductions: self.is_deduction_intermediate
-                || self.is_directly_in_state()
-                || self.parent.is_some()
-                || !is_constraint_intermediate,
-            // A variables is visible in constraints if it's an intermediate in constraints, or if
-            // it's directly in state
-            in_constraints: is_constraint_intermediate || self.is_directly_in_state(),
         };
 
         let info = AirVarInfo {
             in_state,
             is_const: self.is_const,
-            visibility,
-            public_param: if let ComplexOrFelt::Felt(StateInfo::PublicParam(ref p)) =
-                self.complex_or_felt
+            visibility: self.visibility,
+            public_param: if let ComplexOrFelt::Felt(FeltInfo {
+                state_info: StateInfo::PublicParam(ref p),
+                constraint_intermediate: _,
+            }) = self.complex_or_felt
             {
                 Some(p.clone())
             } else {
                 None
             },
-            external_state: if let ComplexOrFelt::Felt(StateInfo::ExtTableState(name, args)) =
-                self.complex_or_felt.clone()
+            external_state: if let ComplexOrFelt::Felt(FeltInfo {
+                state_info: StateInfo::ExtTableState(name, args),
+                constraint_intermediate: _,
+            }) = self.complex_or_felt.clone()
             {
                 Some((name, args))
             } else {
@@ -218,7 +241,6 @@ pub(super) struct ParentExpr {
     pub(super) parent: Option<Box<ParentExpr>>,
     pub(super) index: Option<usize>,
     pub(super) child_name: String,
-    pub(super) is_deduction_intermediate: bool,
 }
 
 impl ParentExpr {
@@ -236,10 +258,6 @@ impl ParentExpr {
 
 impl From<ParentExpr> for CompiledAirVar {
     fn from(expr: ParentExpr) -> CompiledAirVar {
-        if expr.is_deduction_intermediate {
-            return CompiledAirVar::Var(expr.r#type, expr.name);
-        }
-
         if let Some(parent) = expr.parent {
             return parent.get_compiled_child();
         }
@@ -253,7 +271,7 @@ impl From<ParentExpr> for CompiledAirVar {
 #[derive(Clone, Debug)]
 pub(super) enum ComplexOrFelt {
     Complex(Vec<ExprImpl>),
-    Felt(StateInfo),
+    Felt(FeltInfo),
 }
 
 impl ComplexOrFelt {
@@ -269,5 +287,19 @@ impl ComplexOrFelt {
             return children;
         }
         panic!("Expected complex expression");
+    }
+
+    pub(super) fn as_felt_info_mut(&mut self) -> &mut FeltInfo {
+        if let ComplexOrFelt::Felt(felt) = self {
+            return felt;
+        }
+        panic!("Expected felt expression");
+    }
+
+    pub(super) fn as_felt_info(&self) -> &FeltInfo {
+        if let ComplexOrFelt::Felt(felt) = self {
+            return felt;
+        }
+        panic!("Expected felt expression");
     }
 }
