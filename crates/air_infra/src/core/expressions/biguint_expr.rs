@@ -17,33 +17,8 @@ pub type BigUInt768Expr = BigUIntExpr<768, 12, 64>;
 
 const CHILD_NAME: &str = "get_m31";
 
-impl<const B: usize, const L: usize, const F: usize> VarExpr<BigUInt<B, L, F>> {
-    fn get_children(&mut self) -> [&mut FeltExpr; F] {
-        self.complex_or_felt
-            .as_complex_mut()
-            .iter_mut()
-            .map(|c| c.as_felt_mut())
-            .collect::<Vec<_>>()
-            .try_into()
-            .unwrap_or_else(|_| panic!("BigUint var must have {F} felt children."))
-    }
-
-    fn get_child_mut(&mut self, index: usize) -> &mut FeltExpr {
-        self.complex_or_felt
-            .as_complex_mut()
-            .get_mut(index)
-            .expect("Invalid index")
-            .as_felt_mut()
-    }
-
-    fn get_child(&self, index: usize) -> FeltExpr {
-        self.complex_or_felt
-            .as_complex()
-            .get(index)
-            .expect("Invalid index")
-            .as_felt()
-    }
-}
+impl TryIntoFeltExpr for BigUInt384Expr {}
+impl TryIntoFeltExpr for BigUInt768Expr {}
 
 impl<const B: usize, const L: usize, const F: usize> VarExprUpdate for VarExpr<BigUInt<B, L, F>> {
     fn create_children(&mut self) {
@@ -63,28 +38,9 @@ impl<const B: usize, const L: usize, const F: usize> VarExprUpdate for VarExpr<B
 
     fn update_children(&mut self) {
         let parent_var = &self.clone();
-        for (index, felt) in self.get_children().into_iter().enumerate() {
+        for (index, felt) in self.get_felt_children().into_iter().enumerate() {
             felt.as_var_mut().set_parent(parent_var, Some(index));
         }
-    }
-}
-
-impl<const B: usize, const L: usize, const F: usize> BigUIntExpr<B, L, F> {
-    pub fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
-        self.as_var_mut().get_child_mut(index)
-    }
-
-    pub fn get_felt(&self, index: usize) -> FeltExpr {
-        self.as_var().get_child(index)
-    }
-}
-
-impl<const B: usize, const L: usize, const F: usize> AirVar for BigUIntExpr<B, L, F>
-where
-    Self: Into<ExprImpl>,
-{
-    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        self.as_var_mut().get_children().into_iter().collect()
     }
 }
 

@@ -3011,43 +3011,47 @@
             "UInt32::from_limbs",
             [
               {
-                "BinaryOp": [
-                  {
-                    "State": "xor_col20"
-                  },
-                  "+",
+                "Array": [
                   {
                     "BinaryOp": [
                       {
-                        "State": "xor_col21"
+                        "State": "xor_col20"
                       },
-                      "*",
+                      "+",
                       {
-                        "Const": [
-                          "M31",
-                          "256"
+                        "BinaryOp": [
+                          {
+                            "State": "xor_col21"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "256"
+                            ]
+                          }
                         ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "State": "xor_col18"
                   },
-                  "+",
                   {
                     "BinaryOp": [
                       {
-                        "State": "xor_col19"
+                        "State": "xor_col18"
                       },
-                      "*",
+                      "+",
                       {
-                        "Const": [
-                          "M31",
-                          "256"
+                        "BinaryOp": [
+                          {
+                            "State": "xor_col19"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "256"
+                            ]
+                          }
                         ]
                       }
                     ]
@@ -3902,43 +3906,47 @@
             "UInt32::from_limbs",
             [
               {
-                "BinaryOp": [
-                  {
-                    "State": "xor_col29"
-                  },
-                  "+",
+                "Array": [
                   {
                     "BinaryOp": [
                       {
-                        "State": "xor_col30"
+                        "State": "xor_col29"
                       },
-                      "*",
+                      "+",
                       {
-                        "Const": [
-                          "M31",
-                          "16"
+                        "BinaryOp": [
+                          {
+                            "State": "xor_col30"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "16"
+                            ]
+                          }
                         ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "State": "xor_col31"
                   },
-                  "+",
                   {
                     "BinaryOp": [
                       {
-                        "State": "xor_col28"
+                        "State": "xor_col31"
                       },
-                      "*",
+                      "+",
                       {
-                        "Const": [
-                          "M31",
-                          "16"
+                        "BinaryOp": [
+                          {
+                            "State": "xor_col28"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "16"
+                            ]
+                          }
                         ]
                       }
                     ]
@@ -4883,43 +4891,47 @@
             "UInt32::from_limbs",
             [
               {
-                "BinaryOp": [
-                  {
-                    "State": "xor_col39"
-                  },
-                  "+",
+                "Array": [
                   {
                     "BinaryOp": [
                       {
-                        "State": "xor_col40"
+                        "State": "xor_col39"
                       },
-                      "*",
+                      "+",
                       {
-                        "Const": [
-                          "M31",
-                          "256"
+                        "BinaryOp": [
+                          {
+                            "State": "xor_col40"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "256"
+                            ]
+                          }
                         ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "State": "xor_col41"
                   },
-                  "+",
                   {
                     "BinaryOp": [
                       {
-                        "State": "xor_col38"
+                        "State": "xor_col41"
                       },
-                      "*",
+                      "+",
                       {
-                        "Const": [
-                          "M31",
-                          "256"
+                        "BinaryOp": [
+                          {
+                            "State": "xor_col38"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "256"
+                            ]
+                          }
                         ]
                       }
                     ]
@@ -5864,43 +5876,47 @@
             "UInt32::from_limbs",
             [
               {
-                "BinaryOp": [
-                  {
-                    "State": "xor_col49"
-                  },
-                  "+",
+                "Array": [
                   {
                     "BinaryOp": [
                       {
-                        "State": "xor_col50"
+                        "State": "xor_col49"
                       },
-                      "*",
+                      "+",
                       {
-                        "Const": [
-                          "M31",
-                          "512"
+                        "BinaryOp": [
+                          {
+                            "State": "xor_col50"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
                         ]
                       }
                     ]
-                  }
-                ]
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "State": "xor_col51"
                   },
-                  "+",
                   {
                     "BinaryOp": [
                       {
-                        "State": "xor_col48"
+                        "State": "xor_col51"
                       },
-                      "*",
+                      "+",
                       {
-                        "Const": [
-                          "M31",
-                          "512"
+                        "BinaryOp": [
+                          {
+                            "State": "xor_col48"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
                         ]
                       }
                     ]

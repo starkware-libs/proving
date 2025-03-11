@@ -39,7 +39,12 @@ pub type ChainIdVar = FeltExpr;
 
 #[allow(private_bounds)]
 /// Every input and output of an air function is an AirVar.
-pub trait AirVar: InternalAirVarActions + Debug {
+pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
+    fn new(name: String, in_state: bool) -> Self;
+
+    // TODO(AnatG): Consider returning a tuple of Self and the new Intermediate.
+    fn let_for_deduction(&self, name: String) -> Self;
+
     fn get_felt_descriptions(&self) -> Option<Vec<String>> {
         None
     }
@@ -178,13 +183,6 @@ pub trait InternalAirVarInfo {
             .filter_map(|i| i.external_state.clone())
             .collect()
     }
-}
-
-// Actions on air variables used by the air builder.
-pub(crate) trait InternalAirVarActions: Clone + Into<AirVarImpl> {
-    fn new(name: String, in_state: bool) -> Self;
-    // TODO(AnatG): Consider returning a tuple of Self and the new Intermediate.
-    fn let_for_deduction(&self, name: String) -> Self;
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
@@ -336,23 +334,21 @@ impl AirVarImpl {
 
     pub fn get_felt(&self, index: usize) -> FeltExpr {
         match self {
+            // Note that this implementation is not suitable for AirVarImpl::Tuple because a
+            // tuple might have elements that are larger than a single felt, so the i'th felt
+            // isn't neccessarily in the i'th position.
             AirVarImpl::Array(arr) => arr.get(index).expect("Invalid index").as_felt(),
-            _ => panic!("Cannot convert to a Felt"),
+            _ => panic!("Cannot get a Felt"),
         }
     }
 
     pub fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
         match self {
+            // Note that this implementation is not suitable for AirVarImpl::Tuple because a
+            // tuple might have elements that are larger than a single felt, so the i'th felt
+            // isn't neccessarily in the i'th position.
             AirVarImpl::Array(arr) => arr.get_mut(index).expect("Invalid index").as_felt_mut(),
-            _ => panic!("Cannot convert to a Felt"),
-        }
-    }
-
-    pub fn get_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        match self {
-            AirVarImpl::Array(arr) => arr.iter_mut().map(|v| v.as_felt_mut()).collect(),
-            AirVarImpl::Tuple(vars) => vars.iter_mut().map(|v| v.as_felt_mut()).collect(),
-            _ => panic!("Cannot convert to felts"),
+            _ => panic!("Cannot get a Felt"),
         }
     }
 
@@ -455,13 +451,9 @@ impl AirVar for () {
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         vec![]
     }
-
     fn is_empty() -> bool {
         true
     }
-}
-
-impl InternalAirVarActions for () {
     fn new(_name: String, _in_state: bool) -> Self {}
     fn let_for_deduction(&self, _name: String) -> Self {}
 }
@@ -568,9 +560,6 @@ macro_rules! impl_air_var {
             fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
                 self.into_iter().flat_map(|s| s.as_felts_mut()).collect()
             }
-        }
-
-        impl<const N:usize, const M:usize> InternalAirVarActions for [[$s;N];M] where $s: InternalAirVarActions {
             fn let_for_deduction(&self, name: String) -> Self {
                 let mut res = self.clone();
                 for (i, s) in res.iter_mut().enumerate() {
@@ -579,7 +568,7 @@ macro_rules! impl_air_var {
                 res
             }
             fn new(name: String, in_state: bool) -> Self {
-                from_fn(|j| from_fn(|i| <$s as InternalAirVarActions>::new(format!("{}_{}[{}]", name, j, i), in_state)))
+                from_fn(|j| from_fn(|i| <$s as AirVar>::new(format!("{}_{}[{}]", name, j, i), in_state)))
             }
         }
 
@@ -596,14 +585,11 @@ macro_rules! impl_air_var {
             fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
                 self.into_iter().flat_map(|s| s.as_felts_mut()).collect()
             }
-        }
-
-        impl<const N:usize> InternalAirVarActions for [$s;N] where $s: InternalAirVarActions {
             fn let_for_deduction(&self, name: String) -> Self {
                 from_fn(|i| self[i].let_for_deduction(format!("{}[{}]", name, i)))
             }
             fn new(name: String, in_state: bool) -> Self {
-                from_fn(|i| <$s as InternalAirVarActions>::new(format!("{}[{}]", name, i), in_state))
+                from_fn(|i| <$s as AirVar>::new(format!("{}[{}]", name, i), in_state))
             }
         }
 
@@ -625,11 +611,6 @@ macro_rules! impl_air_var {
                 $(res.extend($s.as_felts_mut());)+
                 res
             }
-        }
-
-        impl $($(<$(const $lt$(: $clt )?),+>)?)+ InternalAirVarActions for ($($s$(< $( $lt ),+ >)?),+)
-            where $($s$(< $( $lt ),+ >)?: InternalAirVarActions),+
-        {
             fn let_for_deduction(&self, name: String) -> Self {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
@@ -638,7 +619,7 @@ macro_rules! impl_air_var {
             }
             fn new(name: String, in_state: bool) -> Self {
                 let mut i = 0;
-                ($(<$s$(< $( $lt ),+ >)? as InternalAirVarActions>::new(format!("{}.{}", name, { i += 1; i - 1 }), in_state),)+)
+                ($(<$s$(< $( $lt ),+ >)? as AirVar>::new(format!("{}.{}", name, { i += 1; i - 1 }), in_state),)+)
             }
         }
 

@@ -53,6 +53,38 @@ where
         }
     }
 
+    // <as_felt_mut> and <as_felt> work for expressions that are represented by a single felt, for
+    // example, Uint16 or Bool.
+    pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
+        match self {
+            Expr::Var(v) => v.as_felt_mut(),
+            Expr::Op(o) => o.as_felt_mut(),
+        }
+    }
+
+    pub fn as_felt(&self) -> FeltExpr {
+        match self {
+            Expr::Var(v) => v.as_felt(),
+            Expr::Op(o) => o.as_felt(),
+        }
+    }
+
+    // <get_felt_mut> and <get_felt> work for expressions that their children are felts, for
+    // example, Felt252 or BigUint.
+    pub fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
+        match self {
+            Expr::Var(v) => v.get_felt_mut(index),
+            Expr::Op(o) => o.get_felt_mut(index),
+        }
+    }
+
+    pub fn get_felt(&self, index: usize) -> FeltExpr {
+        match self {
+            Expr::Var(v) => v.get_felt(index),
+            Expr::Op(o) => o.get_felt(index),
+        }
+    }
+
     pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
         match self {
             Expr::Var(v) => v.compile(compile_for),
@@ -61,10 +93,16 @@ where
     }
 }
 
-impl<T> InternalAirVarActions for Expr<T>
+pub trait TryIntoFeltExpr {
+    fn try_into_felt(&mut self) -> Option<&mut FeltExpr> {
+        None
+    }
+}
+
+impl<T> AirVar for Expr<T>
 where
     T: ProverType,
-    Self: Into<ExprImpl>,
+    Self: Into<ExprImpl> + TryIntoFeltExpr,
     VarExpr<T>: VarExprUpdate,
 {
     fn new(name: String, in_state: bool) -> Self {
@@ -75,6 +113,30 @@ where
         let mut var = VarExpr::new_from(name, self);
         var.is_deduction_intermediate = true;
         var.into()
+    }
+
+    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        if self.try_into_felt().is_some() {
+            return vec![self.try_into_felt().unwrap()];
+        }
+
+        match self {
+            Expr::Var(v) => v
+                .complex_or_felt
+                .as_complex_mut()
+                .iter_mut()
+                .flat_map(|c| c.as_felts_mut())
+                .collect(),
+            Expr::Op(o) => o.as_felts_mut(),
+        }
+    }
+
+    fn get_felt_descriptions(&self) -> Option<Vec<String>> {
+        if T::r#type() == UInt32::r#type() {
+            return Some(vec!["low".to_string(), "high".to_string()]);
+        }
+
+        None
     }
 }
 
@@ -136,6 +198,20 @@ impl ExprImpl {
             ExprImpl::Bool(b) => b.as_felt(),
             ExprImpl::UInt16(u) => u.as_felt(),
             _ => panic!("Cannot convert to Felt"),
+        }
+    }
+
+    pub fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        match self {
+            ExprImpl::Felt(f) => vec![f],
+            ExprImpl::Bool(b) => vec![b.as_felt_mut()],
+            ExprImpl::UInt16(u) => vec![u.as_felt_mut()],
+            ExprImpl::UInt32(u) => u.as_felts_mut(),
+            ExprImpl::UInt64(u) => u.as_felts_mut(),
+            ExprImpl::Felt252(f) => f.as_felts_mut(),
+            ExprImpl::Felt252Width27(f) => f.as_felts_mut(),
+            ExprImpl::BigUInt384(b) => b.as_felts_mut(),
+            ExprImpl::BigUInt768(b) => b.as_felts_mut(),
         }
     }
 

@@ -2,7 +2,6 @@ use stwo_cairo_common::prover_types::cpu::UInt64;
 
 use super::super::variables::*;
 use super::expr::*;
-use super::felt_expr::*;
 use super::op_expr::*;
 use super::uint32_expr::*;
 use super::var_expr::*;
@@ -12,20 +11,9 @@ pub type UInt64Expr = Expr<UInt64>;
 const LOW_NAME: &str = "low";
 const HIGH_NAME: &str = "high";
 
-impl VarExpr<UInt64> {
-    fn get_children(&mut self) -> [&mut UInt32Expr; 2] {
-        self.complex_or_felt
-            .as_complex_mut()
-            .iter_mut()
-            .map(|c| match c {
-                ExprImpl::UInt32(e) => e,
-                _ => panic!("Invalid child type"),
-            })
-            .collect::<Vec<_>>()
-            .try_into()
-            .expect("UInt64 var must have 2 uint32 children.")
-    }
+impl TryIntoFeltExpr for UInt64Expr {}
 
+impl VarExpr<UInt64> {
     fn get_child_mut(&mut self, index: usize) -> &mut UInt32Expr {
         match self
             .complex_or_felt
@@ -97,16 +85,6 @@ impl UInt64Expr {
 
     pub fn high(&self) -> UInt32Expr {
         self.as_var().get_child(1)
-    }
-}
-
-impl AirVar for UInt64Expr {
-    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        self.as_var_mut()
-            .get_children()
-            .into_iter()
-            .flat_map(|e| e.as_felts_mut())
-            .collect()
     }
 }
 

@@ -10,23 +10,7 @@ pub type UInt16Operation = OpExpr<UInt16>;
 pub type UInt16Expr = Expr<UInt16>;
 const CHILD_NAME: &str = "as_m31";
 
-impl VarExpr<UInt16> {
-    fn get_child_mut(&mut self) -> &mut FeltExpr {
-        self.complex_or_felt
-            .as_complex_mut()
-            .get_mut(0)
-            .expect("Uint16 var must have a felt child.")
-            .as_felt_mut()
-    }
-
-    fn get_child(&self) -> FeltExpr {
-        self.complex_or_felt
-            .as_complex()
-            .first()
-            .expect("Uint16 var must have a felt child.")
-            .as_felt()
-    }
-}
+impl TryIntoFeltExpr for UInt16Expr {}
 
 impl VarExprUpdate for VarExpr<UInt16> {
     fn create_children(&mut self) {
@@ -41,39 +25,9 @@ impl VarExprUpdate for VarExpr<UInt16> {
 
     fn update_children(&mut self) {
         let parent_var = &self.clone();
-        self.get_child_mut()
+        self.get_felt_mut(0)
             .as_var_mut()
             .set_parent(parent_var, None);
-    }
-}
-
-impl UInt16Expr {
-    pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
-        match self {
-            UInt16Expr::Var(v) => v.get_child_mut(),
-            UInt16Expr::Op(op) => match op.op {
-                Operation::UInt16FromFelt => op.children[0].as_felt_mut(),
-                Operation::UInt16FromBool => op.children[0].as_felt_mut(),
-                _ => panic!("Cannot convert to a Felt"),
-            },
-        }
-    }
-
-    pub fn as_felt(&self) -> FeltExpr {
-        match self {
-            UInt16Expr::Var(v) => v.get_child(),
-            UInt16Expr::Op(op) => match op.op {
-                Operation::UInt16FromFelt => op.children[0].as_felt(),
-                Operation::UInt16FromBool => op.children[0].as_felt(),
-                _ => panic!("Cannot convert to a Felt"),
-            },
-        }
-    }
-}
-
-impl AirVar for UInt16Expr {
-    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        vec![self.as_felt_mut()]
     }
 }
 

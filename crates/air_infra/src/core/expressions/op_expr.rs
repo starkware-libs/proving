@@ -72,6 +72,45 @@ where
             _ => panic!("Invalid number of children for operation"),
         }
     }
+
+    pub fn as_felt(&self) -> FeltExpr {
+        if !self.op.is_from_felts() {
+            panic!("Operation {:?} does not allow extracting felts", self.op);
+        }
+        self.children[0].as_felt()
+    }
+
+    pub fn as_felt_mut(&mut self) -> &mut FeltExpr {
+        if !self.op.is_from_felts() {
+            panic!("Operation {:?} does not allow extracting felts", self.op);
+        }
+        self.children[0].as_felt_mut()
+    }
+
+    pub fn get_felt(&self, index: usize) -> FeltExpr {
+        if !self.op.is_from_felts() {
+            panic!("Operation {:?} does not allow extracting felts", self.op);
+        }
+        self.children[0].get_felt(index)
+    }
+
+    pub fn get_felt_mut(&mut self, index: usize) -> &mut FeltExpr {
+        if !self.op.is_from_felts() {
+            panic!("Operation {:?} does not allow extracting felts", self.op);
+        }
+        self.children[0].get_felt_mut(index)
+    }
+
+    pub fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        if !self.op.is_from_felts() {
+            panic!("Operation {:?} does not allow extracting felts", self.op);
+        }
+        match &mut self.children[0] {
+            AirVarImpl::Expr(expr) => vec![expr.as_felt_mut()],
+            AirVarImpl::Array(arr) => arr.iter_mut().map(|v| v.as_felt_mut()).collect(),
+            _ => panic!("Cannot convert to felts"),
+        }
+    }
 }
 
 impl<T> AsProverType<T> for OpExpr<T>
@@ -129,6 +168,22 @@ pub enum Operation {
     BigUInt768FromFelt252,
     BigUInt384FromFelt252Array,
     Inverse,
+}
+
+impl Operation {
+    // Returns true if one can collect felt expressions directly from the children of the operation.
+    pub(super) fn is_from_felts(&self) -> bool {
+        matches!(
+            self,
+            Operation::BoolFromFelt
+                | Operation::UInt16FromFelt
+                | Operation::Felt252FromFeltsArray
+                | Operation::Felt252FromFelt
+                | Operation::Felt252Width27FromFeltsArray
+                | Operation::UInt32FromFeltsPair
+                | Operation::UInt32FromFelt
+        )
+    }
 }
 
 // Note that all operations from the same type should have different names for the code generation.
@@ -336,7 +391,10 @@ impl From<Vec<FeltExpr>> for UInt32Expr {
 
         UInt32Expr::Op(OpExpr::new(
             Operation::UInt32FromFeltsPair,
-            vec![felts[0].clone().into(), felts[1].clone().into()],
+            vec![AirVarImpl::Array(vec![
+                felts[0].clone().into(),
+                felts[1].clone().into(),
+            ])],
             value,
         ))
     }

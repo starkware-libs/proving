@@ -2,7 +2,6 @@ use stwo_cairo_common::prover_types::cpu::UInt32;
 
 use super::super::variables::*;
 use super::expr::*;
-use super::felt_expr::*;
 use super::op_expr::*;
 use super::uint16_expr::*;
 use super::var_expr::*;
@@ -12,20 +11,9 @@ pub type UInt32Expr = Expr<UInt32>;
 const LOW_NAME: &str = "low";
 const HIGH_NAME: &str = "high";
 
-impl VarExpr<UInt32> {
-    fn get_children(&mut self) -> [&mut UInt16Expr; 2] {
-        self.complex_or_felt
-            .as_complex_mut()
-            .iter_mut()
-            .map(|c| match c {
-                ExprImpl::UInt16(e) => e,
-                _ => panic!("Invalid child type"),
-            })
-            .collect::<Vec<_>>()
-            .try_into()
-            .expect("UInt32 var must have 2 uint16 children.")
-    }
+impl TryIntoFeltExpr for UInt32Expr {}
 
+impl VarExpr<UInt32> {
     fn get_child_mut(&mut self, index: usize) -> &mut UInt16Expr {
         match self
             .complex_or_felt
@@ -97,32 +85,6 @@ impl UInt32Expr {
 
     pub fn high(&self) -> UInt16Expr {
         self.as_var().get_child(1)
-    }
-}
-
-impl AirVar for UInt32Expr {
-    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        match self {
-            UInt32Expr::Var(v) => v
-                .get_children()
-                .into_iter()
-                .flat_map(|e| e.as_felts_mut())
-                .collect(),
-            UInt32Expr::Op(op) => {
-                if op.op == Operation::UInt32FromFeltsPair {
-                    if let [AirVarImpl::Expr(ExprImpl::Felt(felt1)), AirVarImpl::Expr(ExprImpl::Felt(felt2))] =
-                        &mut op.children[..]
-                    {
-                        return vec![felt1, felt2];
-                    }
-                }
-                panic!("Cannot convert to felts");
-            }
-        }
-    }
-
-    fn get_felt_descriptions(&self) -> Option<Vec<String>> {
-        Some(vec!["low".to_string(), "high".to_string()])
     }
 }
 

@@ -11141,10 +11141,14 @@
             "UInt32::from_limbs",
             [
               {
-                "State": "low_16_bits_col27"
-              },
-              {
-                "State": "high_16_bits_col28"
+                "Array": [
+                  {
+                    "State": "low_16_bits_col27"
+                  },
+                  {
+                    "State": "high_16_bits_col28"
+                  }
+                ]
               }
             ]
           ]
@@ -12021,10 +12025,14 @@
             "UInt32::from_limbs",
             [
               {
-                "State": "low_16_bits_col33"
-              },
-              {
-                "State": "high_16_bits_col34"
+                "Array": [
+                  {
+                    "State": "low_16_bits_col33"
+                  },
+                  {
+                    "State": "high_16_bits_col34"
+                  }
+                ]
               }
             ]
           ]
@@ -12987,10 +12995,14 @@
             "UInt32::from_limbs",
             [
               {
-                "State": "low_16_bits_col39"
-              },
-              {
-                "State": "high_16_bits_col40"
+                "Array": [
+                  {
+                    "State": "low_16_bits_col39"
+                  },
+                  {
+                    "State": "high_16_bits_col40"
+                  }
+                ]
               }
             ]
           ]
@@ -13953,10 +13965,14 @@
             "UInt32::from_limbs",
             [
               {
-                "State": "low_16_bits_col45"
-              },
-              {
-                "State": "high_16_bits_col46"
+                "Array": [
+                  {
+                    "State": "low_16_bits_col45"
+                  },
+                  {
+                    "State": "high_16_bits_col46"
+                  }
+                ]
               }
             ]
           ]
@@ -14919,10 +14935,14 @@
             "UInt32::from_limbs",
             [
               {
-                "State": "low_16_bits_col51"
-              },
-              {
-                "State": "high_16_bits_col52"
+                "Array": [
+                  {
+                    "State": "low_16_bits_col51"
+                  },
+                  {
+                    "State": "high_16_bits_col52"
+                  }
+                ]
               }
             ]
           ]
@@ -15885,10 +15905,14 @@
             "UInt32::from_limbs",
             [
               {
-                "State": "low_16_bits_col57"
-              },
-              {
-                "State": "high_16_bits_col58"
+                "Array": [
+                  {
+                    "State": "low_16_bits_col57"
+                  },
+                  {
+                    "State": "high_16_bits_col58"
+                  }
+                ]
               }
             ]
           ]
@@ -16851,10 +16875,14 @@
             "UInt32::from_limbs",
             [
               {
-                "State": "low_16_bits_col63"
-              },
-              {
-                "State": "high_16_bits_col64"
+                "Array": [
+                  {
+                    "State": "low_16_bits_col63"
+                  },
+                  {
+                    "State": "high_16_bits_col64"
+                  }
+                ]
               }
             ]
           ]
@@ -17817,10 +17845,14 @@
             "UInt32::from_limbs",
             [
               {
-                "State": "low_16_bits_col69"
-              },
-              {
-                "State": "high_16_bits_col70"
+                "Array": [
+                  {
+                    "State": "low_16_bits_col69"
+                  },
+                  {
+                    "State": "high_16_bits_col70"
+                  }
+                ]
               }
             ]
           ]
@@ -18783,10 +18815,14 @@
             "UInt32::from_limbs",
             [
               {
-                "State": "low_16_bits_col75"
-              },
-              {
-                "State": "high_16_bits_col76"
+                "Array": [
+                  {
+                    "State": "low_16_bits_col75"
+                  },
+                  {
+                    "State": "high_16_bits_col76"
+                  }
+                ]
               }
             ]
           ]
@@ -20494,43 +20530,47 @@
                         "UInt32::from_limbs",
                         [
                           {
-                            "BinaryOp": [
-                              {
-                                "State": "xor_col83"
-                              },
-                              "+",
+                            "Array": [
                               {
                                 "BinaryOp": [
                                   {
-                                    "State": "xor_col84"
+                                    "State": "xor_col83"
                                   },
-                                  "*",
+                                  "+",
                                   {
-                                    "Const": [
-                                      "M31",
-                                      "256"
+                                    "BinaryOp": [
+                                      {
+                                        "State": "xor_col84"
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "256"
+                                        ]
+                                      }
                                     ]
                                   }
                                 ]
-                              }
-                            ]
-                          },
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": "xor_col85"
                               },
-                              "+",
                               {
                                 "BinaryOp": [
                                   {
-                                    "State": "xor_col86"
+                                    "State": "xor_col85"
                                   },
-                                  "*",
+                                  "+",
                                   {
-                                    "Const": [
-                                      "M31",
-                                      "256"
+                                    "BinaryOp": [
+                                      {
+                                        "State": "xor_col86"
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "256"
+                                        ]
+                                      }
                                     ]
                                   }
                                 ]
@@ -20551,44 +20591,11 @@
                         "UInt32::from_limbs",
                         [
                           {
-                            "BinaryOp": [
+                            "Array": [
                               {
                                 "BinaryOp": [
                                   {
                                     "BinaryOp": [
-                                      {
-                                        "State": "opcode_extension_col11"
-                                      },
-                                      "-",
-                                      {
-                                        "Const": [
-                                          "M31",
-                                          "1"
-                                        ]
-                                      }
-                                    ]
-                                  },
-                                  "*",
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "9812"
-                                    ]
-                                  }
-                                ]
-                              },
-                              "+",
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "BinaryOp": [
-                                      {
-                                        "Const": [
-                                          "M31",
-                                          "1"
-                                        ]
-                                      },
-                                      "-",
                                       {
                                         "BinaryOp": [
                                           {
@@ -20602,59 +20609,59 @@
                                             ]
                                           }
                                         ]
-                                      }
-                                    ]
-                                  },
-                                  "*",
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "55723"
-                                    ]
-                                  }
-                                ]
-                              }
-                            ]
-                          },
-                          {
-                            "BinaryOp": [
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "BinaryOp": [
-                                      {
-                                        "State": "opcode_extension_col11"
                                       },
-                                      "-",
+                                      "*",
                                       {
                                         "Const": [
                                           "M31",
-                                          "1"
+                                          "9812"
                                         ]
                                       }
                                     ]
                                   },
-                                  "*",
+                                  "+",
                                   {
-                                    "Const": [
-                                      "M31",
-                                      "57468"
+                                    "BinaryOp": [
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "Const": [
+                                              "M31",
+                                              "1"
+                                            ]
+                                          },
+                                          "-",
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "State": "opcode_extension_col11"
+                                              },
+                                              "-",
+                                              {
+                                                "Const": [
+                                                  "M31",
+                                                  "1"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "55723"
+                                        ]
+                                      }
                                     ]
                                   }
                                 ]
                               },
-                              "+",
                               {
                                 "BinaryOp": [
                                   {
                                     "BinaryOp": [
-                                      {
-                                        "Const": [
-                                          "M31",
-                                          "1"
-                                        ]
-                                      },
-                                      "-",
                                       {
                                         "BinaryOp": [
                                           {
@@ -20668,14 +20675,51 @@
                                             ]
                                           }
                                         ]
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "57468"
+                                        ]
                                       }
                                     ]
                                   },
-                                  "*",
+                                  "+",
                                   {
-                                    "Const": [
-                                      "M31",
-                                      "8067"
+                                    "BinaryOp": [
+                                      {
+                                        "BinaryOp": [
+                                          {
+                                            "Const": [
+                                              "M31",
+                                              "1"
+                                            ]
+                                          },
+                                          "-",
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "State": "opcode_extension_col11"
+                                              },
+                                              "-",
+                                              {
+                                                "Const": [
+                                                  "M31",
+                                                  "1"
+                                                ]
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      },
+                                      "*",
+                                      {
+                                        "Const": [
+                                          "M31",
+                                          "8067"
+                                        ]
+                                      }
                                     ]
                                   }
                                 ]
@@ -20865,43 +20909,47 @@
                               "UInt32::from_limbs",
                               [
                                 {
-                                  "BinaryOp": [
-                                    {
-                                      "State": "xor_col83"
-                                    },
-                                    "+",
+                                  "Array": [
                                     {
                                       "BinaryOp": [
                                         {
-                                          "State": "xor_col84"
+                                          "State": "xor_col83"
                                         },
-                                        "*",
+                                        "+",
                                         {
-                                          "Const": [
-                                            "M31",
-                                            "256"
+                                          "BinaryOp": [
+                                            {
+                                              "State": "xor_col84"
+                                            },
+                                            "*",
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "256"
+                                              ]
+                                            }
                                           ]
                                         }
                                       ]
-                                    }
-                                  ]
-                                },
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "State": "xor_col85"
                                     },
-                                    "+",
                                     {
                                       "BinaryOp": [
                                         {
-                                          "State": "xor_col86"
+                                          "State": "xor_col85"
                                         },
-                                        "*",
+                                        "+",
                                         {
-                                          "Const": [
-                                            "M31",
-                                            "256"
+                                          "BinaryOp": [
+                                            {
+                                              "State": "xor_col86"
+                                            },
+                                            "*",
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "256"
+                                              ]
+                                            }
                                           ]
                                         }
                                       ]
@@ -20922,44 +20970,11 @@
                               "UInt32::from_limbs",
                               [
                                 {
-                                  "BinaryOp": [
+                                  "Array": [
                                     {
                                       "BinaryOp": [
                                         {
                                           "BinaryOp": [
-                                            {
-                                              "State": "opcode_extension_col11"
-                                            },
-                                            "-",
-                                            {
-                                              "Const": [
-                                                "M31",
-                                                "1"
-                                              ]
-                                            }
-                                          ]
-                                        },
-                                        "*",
-                                        {
-                                          "Const": [
-                                            "M31",
-                                            "9812"
-                                          ]
-                                        }
-                                      ]
-                                    },
-                                    "+",
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "Const": [
-                                                "M31",
-                                                "1"
-                                              ]
-                                            },
-                                            "-",
                                             {
                                               "BinaryOp": [
                                                 {
@@ -20973,59 +20988,59 @@
                                                   ]
                                                 }
                                               ]
-                                            }
-                                          ]
-                                        },
-                                        "*",
-                                        {
-                                          "Const": [
-                                            "M31",
-                                            "55723"
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                },
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "State": "opcode_extension_col11"
                                             },
-                                            "-",
+                                            "*",
                                             {
                                               "Const": [
                                                 "M31",
-                                                "1"
+                                                "9812"
                                               ]
                                             }
                                           ]
                                         },
-                                        "*",
+                                        "+",
                                         {
-                                          "Const": [
-                                            "M31",
-                                            "57468"
+                                          "BinaryOp": [
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "Const": [
+                                                    "M31",
+                                                    "1"
+                                                  ]
+                                                },
+                                                "-",
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "State": "opcode_extension_col11"
+                                                    },
+                                                    "-",
+                                                    {
+                                                      "Const": [
+                                                        "M31",
+                                                        "1"
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "55723"
+                                              ]
+                                            }
                                           ]
                                         }
                                       ]
                                     },
-                                    "+",
                                     {
                                       "BinaryOp": [
                                         {
                                           "BinaryOp": [
-                                            {
-                                              "Const": [
-                                                "M31",
-                                                "1"
-                                              ]
-                                            },
-                                            "-",
                                             {
                                               "BinaryOp": [
                                                 {
@@ -21039,14 +21054,51 @@
                                                   ]
                                                 }
                                               ]
+                                            },
+                                            "*",
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "57468"
+                                              ]
                                             }
                                           ]
                                         },
-                                        "*",
+                                        "+",
                                         {
-                                          "Const": [
-                                            "M31",
-                                            "8067"
+                                          "BinaryOp": [
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "Const": [
+                                                    "M31",
+                                                    "1"
+                                                  ]
+                                                },
+                                                "-",
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "State": "opcode_extension_col11"
+                                                    },
+                                                    "-",
+                                                    {
+                                                      "Const": [
+                                                        "M31",
+                                                        "1"
+                                                      ]
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "8067"
+                                              ]
+                                            }
                                           ]
                                         }
                                       ]
