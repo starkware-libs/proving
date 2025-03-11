@@ -151,6 +151,15 @@ macro_rules! const_expr {
     };
 }
 
+#[macro_export]
+macro_rules! const_expr_from_m31 {
+    ($val:expr) => {
+        FeltExpr::Var($crate::core::expressions::var_expr::VarExpr::new_const(
+            $val,
+        ))
+    };
+}
+
 #[cfg(test)]
 macro_rules! expr {
     ($name:expr, $val:expr) => {

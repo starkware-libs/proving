@@ -123,57 +123,24 @@
           {
             "BinaryOp": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
-                              "8"
-                            ]
-                          },
-                          "+",
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": "ap_update_add_1_col4"
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "32"
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      "+",
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  }
+                "Const": [
+                  "M31",
+                  "8"
                 ]
               },
               "+",
               {
-                "Const": [
-                  "M31",
-                  "0"
+                "BinaryOp": [
+                  {
+                    "State": "ap_update_add_1_col4"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "32"
+                    ]
+                  }
                 ]
               }
             ]
@@ -382,18 +349,7 @@
                                                                                                                         {
                                                                                                                           "BinaryOp": [
                                                                                                                             {
-                                                                                                                              "BinaryOp": [
-                                                                                                                                {
-                                                                                                                                  "Const": [
-                                                                                                                                    "M31",
-                                                                                                                                    "0"
-                                                                                                                                  ]
-                                                                                                                                },
-                                                                                                                                "+",
-                                                                                                                                {
-                                                                                                                                  "State": "dst_limb_0_col6"
-                                                                                                                                }
-                                                                                                                              ]
+                                                                                                                              "State": "dst_limb_0_col6"
                                                                                                                             },
                                                                                                                             "+",
                                                                                                                             {
@@ -698,27 +654,16 @@
                                                                                                                             {
                                                                                                                               "BinaryOp": [
                                                                                                                                 {
-                                                                                                                                  "Const": [
+                                                                                                                                  "Var": [
                                                                                                                                     "M31",
-                                                                                                                                    "0"
+                                                                                                                                    "diff_from_p_tmp_65b05_6"
                                                                                                                                   ]
                                                                                                                                 },
-                                                                                                                                "+",
+                                                                                                                                "*",
                                                                                                                                 {
-                                                                                                                                  "BinaryOp": [
-                                                                                                                                    {
-                                                                                                                                      "Var": [
-                                                                                                                                        "M31",
-                                                                                                                                        "diff_from_p_tmp_65b05_6"
-                                                                                                                                      ]
-                                                                                                                                    },
-                                                                                                                                    "*",
-                                                                                                                                    {
-                                                                                                                                      "Var": [
-                                                                                                                                        "M31",
-                                                                                                                                        "diff_from_p_tmp_65b05_6"
-                                                                                                                                      ]
-                                                                                                                                    }
+                                                                                                                                  "Var": [
+                                                                                                                                    "M31",
+                                                                                                                                    "diff_from_p_tmp_65b05_6"
                                                                                                                                   ]
                                                                                                                                 }
                                                                                                                               ]
@@ -1021,18 +966,7 @@
         {
           "BinaryOp": [
             {
-              "BinaryOp": [
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                },
-                "*",
-                {
-                  "State": "mid_limbs_set_col38"
-                }
-              ]
+              "State": "mid_limbs_set_col38"
             },
             "*",
             {
@@ -1831,57 +1765,24 @@
                 {
                   "BinaryOp": [
                     {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "8"
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "State": "ap_update_add_1_col4"
-                                    },
-                                    "*",
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "32"
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "Const": [
-                                "M31",
-                                "0"
-                              ]
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "Const": [
-                            "M31",
-                            "0"
-                          ]
-                        }
+                      "Const": [
+                        "M31",
+                        "8"
                       ]
                     },
                     "+",
                     {
-                      "Const": [
-                        "M31",
-                        "0"
+                      "BinaryOp": [
+                        {
+                          "State": "ap_update_add_1_col4"
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "32"
+                          ]
+                        }
                       ]
                     }
                   ]
@@ -1929,57 +1830,24 @@
           {
             "BinaryOp": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
-                              "8"
-                            ]
-                          },
-                          "+",
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": "ap_update_add_1_col4"
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "32"
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      "+",
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  }
+                "Const": [
+                  "M31",
+                  "8"
                 ]
               },
               "+",
               {
-                "Const": [
-                  "M31",
-                  "0"
+                "BinaryOp": [
+                  {
+                    "State": "ap_update_add_1_col4"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "32"
+                    ]
+                  }
                 ]
               }
             ]
@@ -2870,18 +2738,7 @@
                                                                                                                   {
                                                                                                                     "BinaryOp": [
                                                                                                                       {
-                                                                                                                        "BinaryOp": [
-                                                                                                                          {
-                                                                                                                            "Const": [
-                                                                                                                              "M31",
-                                                                                                                              "0"
-                                                                                                                            ]
-                                                                                                                          },
-                                                                                                                          "+",
-                                                                                                                          {
-                                                                                                                            "State": "dst_limb_0_col6"
-                                                                                                                          }
-                                                                                                                        ]
+                                                                                                                        "State": "dst_limb_0_col6"
                                                                                                                       },
                                                                                                                       "+",
                                                                                                                       {
@@ -3170,27 +3027,16 @@
                                                                                                                       {
                                                                                                                         "BinaryOp": [
                                                                                                                           {
-                                                                                                                            "Const": [
+                                                                                                                            "Var": [
                                                                                                                               "M31",
-                                                                                                                              "0"
+                                                                                                                              "diff_from_p_tmp_65b05_6"
                                                                                                                             ]
                                                                                                                           },
-                                                                                                                          "+",
+                                                                                                                          "*",
                                                                                                                           {
-                                                                                                                            "BinaryOp": [
-                                                                                                                              {
-                                                                                                                                "Var": [
-                                                                                                                                  "M31",
-                                                                                                                                  "diff_from_p_tmp_65b05_6"
-                                                                                                                                ]
-                                                                                                                              },
-                                                                                                                              "*",
-                                                                                                                              {
-                                                                                                                                "Var": [
-                                                                                                                                  "M31",
-                                                                                                                                  "diff_from_p_tmp_65b05_6"
-                                                                                                                                ]
-                                                                                                                              }
+                                                                                                                            "Var": [
+                                                                                                                              "M31",
+                                                                                                                              "diff_from_p_tmp_65b05_6"
                                                                                                                             ]
                                                                                                                           }
                                                                                                                         ]

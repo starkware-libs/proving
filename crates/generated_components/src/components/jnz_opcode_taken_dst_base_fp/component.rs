@@ -124,10 +124,7 @@ impl FrameworkEval for Eval {
                 M31_32767.clone(),
                 M31_32769.clone(),
                 M31_56.clone(),
-                ((((M31_8.clone() + (ap_update_add_1_col4.clone() * M31_32.clone()))
-                    + M31_0.clone())
-                    + M31_0.clone())
-                    + M31_0.clone()),
+                (M31_8.clone() + (ap_update_add_1_col4.clone() * M31_32.clone())),
             ],
         ));
 
@@ -180,8 +177,7 @@ impl FrameworkEval for Eval {
 
         // dst doesn't equal 0.
         eval.add_constraint(
-            ((((((((((((((((((((((((((((((M31_0.clone()
-                + dst_limb_0_col6.clone())
+            (((((((((((((((((((((((((((((dst_limb_0_col6.clone()
                 + dst_limb_1_col7.clone())
                 + dst_limb_2_col8.clone())
                 + dst_limb_3_col9.clone())
@@ -220,9 +216,9 @@ impl FrameworkEval for Eval {
             eval.add_intermediate((dst_limb_27_col33.clone() - M31_256.clone()));
         // dst doesn't equal P.
         eval.add_constraint(
-            ((((((((((((((((((((((((((((((M31_0.clone()
-                + (diff_from_p_tmp_8b848_6.clone()
-                    * diff_from_p_tmp_8b848_6.clone()))
+            ((((((((((((((((((((((((((((((diff_from_p_tmp_8b848_6
+                .clone()
+                * diff_from_p_tmp_8b848_6.clone())
                 + dst_limb_1_col7.clone())
                 + dst_limb_2_col8.clone())
                 + dst_limb_3_col9.clone())
@@ -274,9 +270,7 @@ impl FrameworkEval for Eval {
             (mid_limbs_set_col38.clone() * (mid_limbs_set_col38.clone() - M31_1.clone())),
         );
         // Cannot have msb equals 0 and mid_limbs_set equals 1.
-        eval.add_constraint(
-            ((M31_1.clone() * mid_limbs_set_col38.clone()) * (msb_col37.clone() - M31_1.clone())),
-        );
+        eval.add_constraint((mid_limbs_set_col38.clone() * (msb_col37.clone() - M31_1.clone())));
 
         eval.add_to_relation(RelationEntry::new(
             &self.memory_id_to_big_lookup_elements,

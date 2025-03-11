@@ -163,74 +163,30 @@
                   {
                     "BinaryOp": [
                       {
-                        "BinaryOp": [
-                          {
-                            "BinaryOp": [
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  "+",
-                                  {
-                                    "BinaryOp": [
-                                      {
-                                        "State": "dst_base_fp_col5"
-                                      },
-                                      "*",
-                                      {
-                                        "Const": [
-                                          "M31",
-                                          "8"
-                                        ]
-                                      }
-                                    ]
-                                  }
-                                ]
-                              },
-                              "+",
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "State": "op0_base_fp_col6"
-                                  },
-                                  "*",
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "16"
-                                    ]
-                                  }
-                                ]
-                              }
-                            ]
-                          },
-                          "+",
-                          {
-                            "Const": [
-                              "M31",
-                              "32"
-                            ]
-                          }
-                        ]
+                        "State": "dst_base_fp_col5"
                       },
-                      "+",
+                      "*",
                       {
                         "Const": [
                           "M31",
-                          "0"
+                          "8"
                         ]
                       }
                     ]
                   },
                   "+",
                   {
-                    "Const": [
-                      "M31",
-                      "0"
+                    "BinaryOp": [
+                      {
+                        "State": "op0_base_fp_col6"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "16"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -239,7 +195,7 @@
               {
                 "Const": [
                   "M31",
-                  "0"
+                  "32"
                 ]
               }
             ]
@@ -249,46 +205,24 @@
               {
                 "BinaryOp": [
                   {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
-                              "1"
-                            ]
-                          },
-                          "+",
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": "ap_update_add_1_col7"
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "32"
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      "+",
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      }
+                    "Const": [
+                      "M31",
+                      "1"
                     ]
                   },
                   "+",
                   {
-                    "Const": [
-                      "M31",
-                      "0"
+                    "BinaryOp": [
+                      {
+                        "State": "ap_update_add_1_col7"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "32"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -1051,50 +985,17 @@
                             {
                               "BinaryOp": [
                                 {
-                                  "Const": [
-                                    "M31",
-                                    "0"
-                                  ]
+                                  "State": "op0_limb_0_col20"
                                 },
-                                "+",
+                                "*",
                                 {
-                                  "BinaryOp": [
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "State": "op0_limb_0_col20"
-                                        },
-                                        "*",
-                                        {
-                                          "State": "op1_limb_0_col25"
-                                        }
-                                      ]
-                                    },
-                                    "*",
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "1"
-                                      ]
-                                    }
-                                  ]
+                                  "State": "op1_limb_0_col25"
                                 }
                               ]
                             },
                             "-",
                             {
-                              "BinaryOp": [
-                                {
-                                  "State": "dst_limb_0_col11"
-                                },
-                                "*",
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "1"
-                                  ]
-                                }
-                              ]
+                              "State": "dst_limb_0_col11"
                             }
                           ]
                         },
@@ -1225,22 +1126,11 @@
                                                 {
                                                   "BinaryOp": [
                                                     {
-                                                      "BinaryOp": [
-                                                        {
-                                                          "State": "op0_limb_0_col20"
-                                                        },
-                                                        "*",
-                                                        {
-                                                          "State": "op1_limb_2_col27"
-                                                        }
-                                                      ]
+                                                      "State": "op0_limb_0_col20"
                                                     },
                                                     "*",
                                                     {
-                                                      "Const": [
-                                                        "M31",
-                                                        "1"
-                                                      ]
+                                                      "State": "op1_limb_2_col27"
                                                     }
                                                   ]
                                                 }
@@ -1250,22 +1140,11 @@
                                             {
                                               "BinaryOp": [
                                                 {
-                                                  "BinaryOp": [
-                                                    {
-                                                      "State": "op0_limb_1_col21"
-                                                    },
-                                                    "*",
-                                                    {
-                                                      "State": "op1_limb_1_col26"
-                                                    }
-                                                  ]
+                                                  "State": "op0_limb_1_col21"
                                                 },
                                                 "*",
                                                 {
-                                                  "Const": [
-                                                    "M31",
-                                                    "1"
-                                                  ]
+                                                  "State": "op1_limb_1_col26"
                                                 }
                                               ]
                                             }
@@ -1275,22 +1154,11 @@
                                         {
                                           "BinaryOp": [
                                             {
-                                              "BinaryOp": [
-                                                {
-                                                  "State": "op0_limb_2_col22"
-                                                },
-                                                "*",
-                                                {
-                                                  "State": "op1_limb_0_col25"
-                                                }
-                                              ]
+                                              "State": "op0_limb_2_col22"
                                             },
                                             "*",
                                             {
-                                              "Const": [
-                                                "M31",
-                                                "1"
-                                              ]
+                                              "State": "op1_limb_0_col25"
                                             }
                                           ]
                                         }
@@ -1298,18 +1166,7 @@
                                     },
                                     "-",
                                     {
-                                      "BinaryOp": [
-                                        {
-                                          "State": "dst_limb_2_col13"
-                                        },
-                                        "*",
-                                        {
-                                          "Const": [
-                                            "M31",
-                                            "1"
-                                          ]
-                                        }
-                                      ]
+                                      "State": "dst_limb_2_col13"
                                     }
                                   ]
                                 },
@@ -1486,22 +1343,11 @@
                                         {
                                           "BinaryOp": [
                                             {
-                                              "BinaryOp": [
-                                                {
-                                                  "State": "op0_limb_1_col21"
-                                                },
-                                                "*",
-                                                {
-                                                  "State": "op1_limb_3_col28"
-                                                }
-                                              ]
+                                              "State": "op0_limb_1_col21"
                                             },
                                             "*",
                                             {
-                                              "Const": [
-                                                "M31",
-                                                "1"
-                                              ]
+                                              "State": "op1_limb_3_col28"
                                             }
                                           ]
                                         }
@@ -1511,22 +1357,11 @@
                                     {
                                       "BinaryOp": [
                                         {
-                                          "BinaryOp": [
-                                            {
-                                              "State": "op0_limb_2_col22"
-                                            },
-                                            "*",
-                                            {
-                                              "State": "op1_limb_2_col27"
-                                            }
-                                          ]
+                                          "State": "op0_limb_2_col22"
                                         },
                                         "*",
                                         {
-                                          "Const": [
-                                            "M31",
-                                            "1"
-                                          ]
+                                          "State": "op1_limb_2_col27"
                                         }
                                       ]
                                     }
@@ -1536,22 +1371,11 @@
                                 {
                                   "BinaryOp": [
                                     {
-                                      "BinaryOp": [
-                                        {
-                                          "State": "op0_limb_3_col23"
-                                        },
-                                        "*",
-                                        {
-                                          "State": "op1_limb_1_col26"
-                                        }
-                                      ]
+                                      "State": "op0_limb_3_col23"
                                     },
                                     "*",
                                     {
-                                      "Const": [
-                                        "M31",
-                                        "1"
-                                      ]
+                                      "State": "op1_limb_1_col26"
                                     }
                                   ]
                                 }
@@ -1559,18 +1383,7 @@
                             },
                             "-",
                             {
-                              "BinaryOp": [
-                                {
-                                  "State": "dst_limb_4_col15"
-                                },
-                                "*",
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "1"
-                                  ]
-                                }
-                              ]
+                              "State": "dst_limb_4_col15"
                             }
                           ]
                         },
@@ -2462,74 +2275,30 @@
                         {
                           "BinaryOp": [
                             {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "Const": [
-                                            "M31",
-                                            "0"
-                                          ]
-                                        },
-                                        "+",
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "State": "dst_base_fp_col5"
-                                            },
-                                            "*",
-                                            {
-                                              "Const": [
-                                                "M31",
-                                                "8"
-                                              ]
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    },
-                                    "+",
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "State": "op0_base_fp_col6"
-                                        },
-                                        "*",
-                                        {
-                                          "Const": [
-                                            "M31",
-                                            "16"
-                                          ]
-                                        }
-                                      ]
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "32"
-                                  ]
-                                }
-                              ]
+                              "State": "dst_base_fp_col5"
                             },
-                            "+",
+                            "*",
                             {
                               "Const": [
                                 "M31",
-                                "0"
+                                "8"
                               ]
                             }
                           ]
                         },
                         "+",
                         {
-                          "Const": [
-                            "M31",
-                            "0"
+                          "BinaryOp": [
+                            {
+                              "State": "op0_base_fp_col6"
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "16"
+                              ]
+                            }
                           ]
                         }
                       ]
@@ -2538,7 +2307,7 @@
                     {
                       "Const": [
                         "M31",
-                        "0"
+                        "32"
                       ]
                     }
                   ]
@@ -2548,46 +2317,24 @@
                     {
                       "BinaryOp": [
                         {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "1"
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "State": "ap_update_add_1_col7"
-                                    },
-                                    "*",
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "32"
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "Const": [
-                                "M31",
-                                "0"
-                              ]
-                            }
+                          "Const": [
+                            "M31",
+                            "1"
                           ]
                         },
                         "+",
                         {
-                          "Const": [
-                            "M31",
-                            "0"
+                          "BinaryOp": [
+                            {
+                              "State": "ap_update_add_1_col7"
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "32"
+                              ]
+                            }
                           ]
                         }
                       ]
@@ -2639,74 +2386,30 @@
                   {
                     "BinaryOp": [
                       {
-                        "BinaryOp": [
-                          {
-                            "BinaryOp": [
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  "+",
-                                  {
-                                    "BinaryOp": [
-                                      {
-                                        "State": "dst_base_fp_col5"
-                                      },
-                                      "*",
-                                      {
-                                        "Const": [
-                                          "M31",
-                                          "8"
-                                        ]
-                                      }
-                                    ]
-                                  }
-                                ]
-                              },
-                              "+",
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "State": "op0_base_fp_col6"
-                                  },
-                                  "*",
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "16"
-                                    ]
-                                  }
-                                ]
-                              }
-                            ]
-                          },
-                          "+",
-                          {
-                            "Const": [
-                              "M31",
-                              "32"
-                            ]
-                          }
-                        ]
+                        "State": "dst_base_fp_col5"
                       },
-                      "+",
+                      "*",
                       {
                         "Const": [
                           "M31",
-                          "0"
+                          "8"
                         ]
                       }
                     ]
                   },
                   "+",
                   {
-                    "Const": [
-                      "M31",
-                      "0"
+                    "BinaryOp": [
+                      {
+                        "State": "op0_base_fp_col6"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "16"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -2715,7 +2418,7 @@
               {
                 "Const": [
                   "M31",
-                  "0"
+                  "32"
                 ]
               }
             ]
@@ -2725,46 +2428,24 @@
               {
                 "BinaryOp": [
                   {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
-                              "1"
-                            ]
-                          },
-                          "+",
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": "ap_update_add_1_col7"
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "32"
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      "+",
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      }
+                    "Const": [
+                      "M31",
+                      "1"
                     ]
                   },
                   "+",
                   {
-                    "Const": [
-                      "M31",
-                      "0"
+                    "BinaryOp": [
+                      {
+                        "State": "ap_update_add_1_col7"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "32"
+                        ]
+                      }
                     ]
                   }
                 ]
@@ -4089,50 +3770,17 @@
                           {
                             "BinaryOp": [
                               {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
+                                "State": "op0_limb_0_col20"
                               },
-                              "+",
+                              "*",
                               {
-                                "BinaryOp": [
-                                  {
-                                    "BinaryOp": [
-                                      {
-                                        "State": "op0_limb_0_col20"
-                                      },
-                                      "*",
-                                      {
-                                        "State": "op1_limb_0_col25"
-                                      }
-                                    ]
-                                  },
-                                  "*",
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "1"
-                                    ]
-                                  }
-                                ]
+                                "State": "op1_limb_0_col25"
                               }
                             ]
                           },
                           "-",
                           {
-                            "BinaryOp": [
-                              {
-                                "State": "dst_limb_0_col11"
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "1"
-                                ]
-                              }
-                            ]
+                            "State": "dst_limb_0_col11"
                           }
                         ]
                       },
@@ -4264,22 +3912,11 @@
                                               {
                                                 "BinaryOp": [
                                                   {
-                                                    "BinaryOp": [
-                                                      {
-                                                        "State": "op0_limb_0_col20"
-                                                      },
-                                                      "*",
-                                                      {
-                                                        "State": "op1_limb_2_col27"
-                                                      }
-                                                    ]
+                                                    "State": "op0_limb_0_col20"
                                                   },
                                                   "*",
                                                   {
-                                                    "Const": [
-                                                      "M31",
-                                                      "1"
-                                                    ]
+                                                    "State": "op1_limb_2_col27"
                                                   }
                                                 ]
                                               }
@@ -4289,22 +3926,11 @@
                                           {
                                             "BinaryOp": [
                                               {
-                                                "BinaryOp": [
-                                                  {
-                                                    "State": "op0_limb_1_col21"
-                                                  },
-                                                  "*",
-                                                  {
-                                                    "State": "op1_limb_1_col26"
-                                                  }
-                                                ]
+                                                "State": "op0_limb_1_col21"
                                               },
                                               "*",
                                               {
-                                                "Const": [
-                                                  "M31",
-                                                  "1"
-                                                ]
+                                                "State": "op1_limb_1_col26"
                                               }
                                             ]
                                           }
@@ -4314,22 +3940,11 @@
                                       {
                                         "BinaryOp": [
                                           {
-                                            "BinaryOp": [
-                                              {
-                                                "State": "op0_limb_2_col22"
-                                              },
-                                              "*",
-                                              {
-                                                "State": "op1_limb_0_col25"
-                                              }
-                                            ]
+                                            "State": "op0_limb_2_col22"
                                           },
                                           "*",
                                           {
-                                            "Const": [
-                                              "M31",
-                                              "1"
-                                            ]
+                                            "State": "op1_limb_0_col25"
                                           }
                                         ]
                                       }
@@ -4337,18 +3952,7 @@
                                   },
                                   "-",
                                   {
-                                    "BinaryOp": [
-                                      {
-                                        "State": "dst_limb_2_col13"
-                                      },
-                                      "*",
-                                      {
-                                        "Const": [
-                                          "M31",
-                                          "1"
-                                        ]
-                                      }
-                                    ]
+                                    "State": "dst_limb_2_col13"
                                   }
                                 ]
                               },
@@ -4526,22 +4130,11 @@
                                       {
                                         "BinaryOp": [
                                           {
-                                            "BinaryOp": [
-                                              {
-                                                "State": "op0_limb_1_col21"
-                                              },
-                                              "*",
-                                              {
-                                                "State": "op1_limb_3_col28"
-                                              }
-                                            ]
+                                            "State": "op0_limb_1_col21"
                                           },
                                           "*",
                                           {
-                                            "Const": [
-                                              "M31",
-                                              "1"
-                                            ]
+                                            "State": "op1_limb_3_col28"
                                           }
                                         ]
                                       }
@@ -4551,22 +4144,11 @@
                                   {
                                     "BinaryOp": [
                                       {
-                                        "BinaryOp": [
-                                          {
-                                            "State": "op0_limb_2_col22"
-                                          },
-                                          "*",
-                                          {
-                                            "State": "op1_limb_2_col27"
-                                          }
-                                        ]
+                                        "State": "op0_limb_2_col22"
                                       },
                                       "*",
                                       {
-                                        "Const": [
-                                          "M31",
-                                          "1"
-                                        ]
+                                        "State": "op1_limb_2_col27"
                                       }
                                     ]
                                   }
@@ -4576,22 +4158,11 @@
                               {
                                 "BinaryOp": [
                                   {
-                                    "BinaryOp": [
-                                      {
-                                        "State": "op0_limb_3_col23"
-                                      },
-                                      "*",
-                                      {
-                                        "State": "op1_limb_1_col26"
-                                      }
-                                    ]
+                                    "State": "op0_limb_3_col23"
                                   },
                                   "*",
                                   {
-                                    "Const": [
-                                      "M31",
-                                      "1"
-                                    ]
+                                    "State": "op1_limb_1_col26"
                                   }
                                 ]
                               }
@@ -4599,18 +4170,7 @@
                           },
                           "-",
                           {
-                            "BinaryOp": [
-                              {
-                                "State": "dst_limb_4_col15"
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "1"
-                                ]
-                              }
-                            ]
+                            "State": "dst_limb_4_col15"
                           }
                         ]
                       },

@@ -97,7 +97,7 @@
       "LookupTerm": {
         "relation_name": "PoseidonFullRoundChain",
         "felts": [
-          "((seq() * 2) + 0)",
+          "(seq() * 2)",
           "0",
           "combination_limb_0_col0",
           "combination_limb_1_col1",
@@ -138,7 +138,7 @@
         "air_fn_name": "poseidon_full_round_chain",
         "input": [
           {
-            "name": "((seq() * 2) + 0)",
+            "name": "(seq() * 2)",
             "type": "M31"
           },
           {
@@ -168,7 +168,7 @@
         "method_name": "PoseidonFullRoundChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 2) + 0)",
+            "name": "(seq() * 2)",
             "type": "M31"
           },
           {
@@ -199,7 +199,7 @@
         "air_fn_name": "poseidon_full_round_chain",
         "input": [
           {
-            "name": "((seq() * 2) + 0)",
+            "name": "(seq() * 2)",
             "type": "M31"
           },
           {
@@ -229,7 +229,7 @@
         "method_name": "PoseidonFullRoundChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 2) + 0)",
+            "name": "(seq() * 2)",
             "type": "M31"
           },
           {
@@ -260,7 +260,7 @@
         "air_fn_name": "poseidon_full_round_chain",
         "input": [
           {
-            "name": "((seq() * 2) + 0)",
+            "name": "(seq() * 2)",
             "type": "M31"
           },
           {
@@ -290,7 +290,7 @@
         "method_name": "PoseidonFullRoundChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 2) + 0)",
+            "name": "(seq() * 2)",
             "type": "M31"
           },
           {
@@ -321,7 +321,7 @@
         "air_fn_name": "poseidon_full_round_chain",
         "input": [
           {
-            "name": "((seq() * 2) + 0)",
+            "name": "(seq() * 2)",
             "type": "M31"
           },
           {
@@ -351,7 +351,7 @@
         "method_name": "PoseidonFullRoundChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 2) + 0)",
+            "name": "(seq() * 2)",
             "type": "M31"
           },
           {
@@ -941,7 +941,7 @@
       "LookupTerm": {
         "relation_name": "Poseidon3PartialRoundsChain",
         "felts": [
-          "((seq() * 1) + 0)",
+          "seq()",
           "4",
           "cube_252_output_limb_0_col65",
           "cube_252_output_limb_1_col66",
@@ -992,7 +992,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1026,7 +1026,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1061,7 +1061,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1095,7 +1095,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1130,7 +1130,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1164,7 +1164,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1199,7 +1199,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1233,7 +1233,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1268,7 +1268,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1302,7 +1302,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1337,7 +1337,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1371,7 +1371,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1406,7 +1406,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1440,7 +1440,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1475,7 +1475,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1509,7 +1509,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1544,7 +1544,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1578,7 +1578,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1613,7 +1613,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1647,7 +1647,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1682,7 +1682,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1716,7 +1716,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1751,7 +1751,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1785,7 +1785,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1820,7 +1820,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1854,7 +1854,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1889,7 +1889,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1923,7 +1923,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1958,7 +1958,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -1992,7 +1992,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2027,7 +2027,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2061,7 +2061,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2096,7 +2096,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2130,7 +2130,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2165,7 +2165,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2199,7 +2199,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2234,7 +2234,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2268,7 +2268,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2303,7 +2303,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2337,7 +2337,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2372,7 +2372,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2406,7 +2406,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2441,7 +2441,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2475,7 +2475,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2510,7 +2510,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2544,7 +2544,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2579,7 +2579,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2613,7 +2613,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2648,7 +2648,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2682,7 +2682,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2717,7 +2717,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2751,7 +2751,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2786,7 +2786,7 @@
         "air_fn_name": "poseidon_3_partial_rounds_chain",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {
@@ -2820,7 +2820,7 @@
         "method_name": "Poseidon3PartialRoundsChain::deduce_output",
         "input": [
           {
-            "name": "((seq() * 1) + 0)",
+            "name": "seq()",
             "type": "M31"
           },
           {

@@ -325,11 +325,11 @@
           ],
           [
             {
-              "name": "((((((0 + (dst_base_fp_col1 * 8)) + 16) + (op1_imm_col2 * 32)) + (op1_base_fp_col3 * 64)) + (((1 - op1_imm_col2) - op1_base_fp_col3) * 128)) + 0)",
+              "name": "(((((dst_base_fp_col1 * 8) + 16) + (op1_imm_col2 * 32)) + (op1_base_fp_col3 * 64)) + (((1 - op1_imm_col2) - op1_base_fp_col3) * 128))",
               "type": "M31"
             },
             {
-              "name": "((((((((0 + (pc_update_jump_col4 * 2)) + 0) + 8) + 16) + 0) + (opcode_call_col5 * 64)) + (opcode_ret_col6 * 128)) + (((1 - opcode_call_col5) - opcode_ret_col6) * 256))",
+              "name": "((((((pc_update_jump_col4 * 2) + 8) + 16) + (opcode_call_col5 * 64)) + (opcode_ret_col6 * 128)) + (((1 - opcode_call_col5) - opcode_ret_col6) * 256))",
               "type": "M31"
             }
           ],
@@ -348,8 +348,8 @@
           "49953",
           "offset1_col0",
           "36026",
-          "((((((0 + (dst_base_fp_col1 * 8)) + 16) + (op1_imm_col2 * 32)) + (op1_base_fp_col3 * 64)) + (((1 - op1_imm_col2) - op1_base_fp_col3) * 128)) + 0)",
-          "((((((((0 + (pc_update_jump_col4 * 2)) + 0) + 8) + 16) + 0) + (opcode_call_col5 * 64)) + (opcode_ret_col6 * 128)) + (((1 - opcode_call_col5) - opcode_ret_col6) * 256))",
+          "(((((dst_base_fp_col1 * 8) + 16) + (op1_imm_col2 * 32)) + (op1_base_fp_col3 * 64)) + (((1 - op1_imm_col2) - op1_base_fp_col3) * 128))",
+          "((((((pc_update_jump_col4 * 2) + 8) + 16) + (opcode_call_col5 * 64)) + (opcode_ret_col6 * 128)) + (((1 - opcode_call_col5) - opcode_ret_col6) * 256))",
           "0"
         ],
         "use_or_yield": "Use"

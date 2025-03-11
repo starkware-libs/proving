@@ -520,24 +520,13 @@
                 {
                   "BinaryOp": [
                     {
-                      "BinaryOp": [
-                        {
-                          "State": "input_limb_4_col4"
-                        },
-                        "+",
-                        {
-                          "Var": [
-                            "M31",
-                            "xor_rot_16_output_tmp_f72c8_11_limb_0"
-                          ]
-                        }
-                      ]
+                      "State": "input_limb_4_col4"
                     },
                     "+",
                     {
-                      "Const": [
+                      "Var": [
                         "M31",
-                        "0"
+                        "xor_rot_16_output_tmp_f72c8_11_limb_0"
                       ]
                     }
                   ]
@@ -627,24 +616,13 @@
                     {
                       "BinaryOp": [
                         {
-                          "BinaryOp": [
-                            {
-                              "State": "input_limb_5_col5"
-                            },
-                            "+",
-                            {
-                              "Var": [
-                                "M31",
-                                "xor_rot_16_output_tmp_f72c8_11_limb_1"
-                              ]
-                            }
-                          ]
+                          "State": "input_limb_5_col5"
                         },
                         "+",
                         {
-                          "Const": [
+                          "Var": [
                             "M31",
-                            "0"
+                            "xor_rot_16_output_tmp_f72c8_11_limb_1"
                           ]
                         }
                       ]
@@ -1410,24 +1388,13 @@
                 {
                   "BinaryOp": [
                     {
-                      "BinaryOp": [
-                        {
-                          "State": "triple_sum32_res_low_col22"
-                        },
-                        "+",
-                        {
-                          "Var": [
-                            "M31",
-                            "xor_rot_8_output_tmp_f72c8_35_limb_0"
-                          ]
-                        }
-                      ]
+                      "State": "triple_sum32_res_low_col22"
                     },
                     "+",
                     {
-                      "Const": [
+                      "Var": [
                         "M31",
-                        "0"
+                        "xor_rot_8_output_tmp_f72c8_35_limb_0"
                       ]
                     }
                   ]
@@ -1517,24 +1484,13 @@
                     {
                       "BinaryOp": [
                         {
-                          "BinaryOp": [
-                            {
-                              "State": "triple_sum32_res_high_col23"
-                            },
-                            "+",
-                            {
-                              "Var": [
-                                "M31",
-                                "xor_rot_8_output_tmp_f72c8_35_limb_1"
-                              ]
-                            }
-                          ]
+                          "State": "triple_sum32_res_high_col23"
                         },
                         "+",
                         {
-                          "Const": [
+                          "Var": [
                             "M31",
-                            "0"
+                            "xor_rot_8_output_tmp_f72c8_35_limb_1"
                           ]
                         }
                       ]

@@ -22,7 +22,7 @@
   "air_body": [
     {
       "Deduction": [
-        "((((((0 + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(0)) * 1)) - (verify_mul_small_input[2].get_m31(0) * 1)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(1) * 512)) * 8192)",
+        "((((((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(0)) - verify_mul_small_input[2].get_m31(0)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(1) * 512)) * 8192)",
         "carry_1"
       ]
     },
@@ -48,13 +48,13 @@
     },
     {
       "Constraint": [
-        "((carry_1_col0 * 262144) - (((((0 + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(0)) * 1)) - (verify_mul_small_input[2].get_m31(0) * 1)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(1) * 512)))",
+        "((carry_1_col0 * 262144) - (((((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(0)) - verify_mul_small_input[2].get_m31(0)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(1) * 512)))",
         "carry 1 definition"
       ]
     },
     {
       "Deduction": [
-        "((((((((((carry_1_col0 + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(2)) * 1)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(1)) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(0)) * 1)) - (verify_mul_small_input[2].get_m31(2) * 1)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(2)) * 512)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(3) * 512)) * 8192)",
+        "((((((((((carry_1_col0 + (verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(2))) + (verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(1))) + (verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(0))) - verify_mul_small_input[2].get_m31(2)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(2)) * 512)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(3) * 512)) * 8192)",
         "carry_3"
       ]
     },
@@ -80,13 +80,13 @@
     },
     {
       "Constraint": [
-        "((carry_3_col1 * 262144) - (((((((((carry_1_col0 + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(2)) * 1)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(1)) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(0)) * 1)) - (verify_mul_small_input[2].get_m31(2) * 1)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(2)) * 512)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(3) * 512)))",
+        "((carry_3_col1 * 262144) - (((((((((carry_1_col0 + (verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(2))) + (verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(1))) + (verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(0))) - verify_mul_small_input[2].get_m31(2)) + ((verify_mul_small_input[0].get_m31(0) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(2)) * 512)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(1)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(0)) * 512)) - (verify_mul_small_input[2].get_m31(3) * 512)))",
         "carry 3 definition"
       ]
     },
     {
       "Deduction": [
-        "((((((((carry_3_col1 + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(3)) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(2)) * 1)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(1)) * 1)) - (verify_mul_small_input[2].get_m31(4) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(2)) * 512)) - (verify_mul_small_input[2].get_m31(5) * 512)) * 8192)",
+        "((((((((carry_3_col1 + (verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(3))) + (verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(2))) + (verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(1))) - verify_mul_small_input[2].get_m31(4)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(2)) * 512)) - (verify_mul_small_input[2].get_m31(5) * 512)) * 8192)",
         "carry_5"
       ]
     },
@@ -112,7 +112,7 @@
     },
     {
       "Constraint": [
-        "((carry_5_col2 * 262144) - (((((((carry_3_col1 + ((verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(3)) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(2)) * 1)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(1)) * 1)) - (verify_mul_small_input[2].get_m31(4) * 1)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(2)) * 512)) - (verify_mul_small_input[2].get_m31(5) * 512)))",
+        "((carry_5_col2 * 262144) - (((((((carry_3_col1 + (verify_mul_small_input[0].get_m31(1) * verify_mul_small_input[1].get_m31(3))) + (verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(2))) + (verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(1))) - verify_mul_small_input[2].get_m31(4)) + ((verify_mul_small_input[0].get_m31(2) * verify_mul_small_input[1].get_m31(3)) * 512)) + ((verify_mul_small_input[0].get_m31(3) * verify_mul_small_input[1].get_m31(2)) * 512)) - (verify_mul_small_input[2].get_m31(5) * 512)))",
         "carry 5 definition"
       ]
     },

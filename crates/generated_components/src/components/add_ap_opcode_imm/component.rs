@@ -107,9 +107,7 @@ impl FrameworkEval for Eval {
             (mid_limbs_set_col5.clone() * (mid_limbs_set_col5.clone() - M31_1.clone())),
         );
         // Cannot have msb equals 0 and mid_limbs_set equals 1.
-        eval.add_constraint(
-            ((M31_1.clone() * mid_limbs_set_col5.clone()) * (msb_col4.clone() - M31_1.clone())),
-        );
+        eval.add_constraint((mid_limbs_set_col5.clone() * (msb_col4.clone() - M31_1.clone())));
 
         eval.add_to_relation(RelationEntry::new(
             &self.memory_id_to_big_lookup_elements,
