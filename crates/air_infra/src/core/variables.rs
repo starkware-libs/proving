@@ -419,6 +419,8 @@ impl_air_var!((FeltExpr, RoundNumVar, TestState));
 
 // Inline airs
 
+// SingleKaratsuba + DoubleKaratsuba
+impl_air_var!([[FeltExpr]]);
 // MemVerify
 impl_air_var!((CasmAddress, Felt252Expr));
 // ReadPositive + CondDecodeSmallSign + CondFelt252AsAddr + CondFelt252AsRelImm
@@ -494,9 +496,37 @@ type PoseidonPartialRoundState = [Felt252Width27Expr; 4];
 impl_air_var!((PoseidonPartialRoundState, Felt252Width27Expr));
 impl_air_var!((ChainIdVar, RoundNumVar, PoseidonPartialRoundState));
 
-// Implements AirVar for arrays and tuples of air vars.
+// Implements AirVar for arrays, tuples and arrays of arrays of air vars.
 #[macro_export]
 macro_rules! impl_air_var {
+    ( [[$s:ty]] ) => {
+        impl<const N:usize, const M:usize> AirVar for [[$s;N];M] where $s: AirVar
+        {
+            fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+                self.into_iter().flat_map(|s| s.as_felts_mut()).collect()
+            }
+        }
+
+        impl<const N:usize, const M:usize> InternalAirVarActions for [[$s;N];M] where $s: InternalAirVarActions {
+            fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self {
+                let mut res = self.clone();
+                for (i, s) in res.iter_mut().enumerate() {
+                    *s = s.let_(format!("{}[{}]", name, i), in_deductions, felts_in_constraints);
+                }
+                res
+            }
+            fn new(name: String, in_state: bool) -> Self {
+                from_fn(|j| from_fn(|i| <$s as InternalAirVarActions>::new(format!("{}_{}[{}]", name, j, i), in_state)))
+            }
+        }
+
+        impl<const N:usize, const M:usize> From<[[$s;N];M]> for AirVarImpl {
+            fn from(array: [[$s;N];M]) -> AirVarImpl {
+                AirVarImpl::Array(array.into_iter().map(|s| s.into()).collect())
+            }
+        }
+    };
+
     ( [$s:ty] ) => {
         impl<const N:usize> AirVar for [$s;N] where $s: AirVar
         {
