@@ -194,46 +194,46 @@
   },
   "read_positive_num_bits_252": {
     "state_names": [
-      "read_positive_num_bits_252_input_id_col0",
-      "read_positive_num_bits_252_input_limb_0_col1",
-      "read_positive_num_bits_252_input_limb_1_col2",
-      "read_positive_num_bits_252_input_limb_2_col3",
-      "read_positive_num_bits_252_input_limb_3_col4",
-      "read_positive_num_bits_252_input_limb_4_col5",
-      "read_positive_num_bits_252_input_limb_5_col6",
-      "read_positive_num_bits_252_input_limb_6_col7",
-      "read_positive_num_bits_252_input_limb_7_col8",
-      "read_positive_num_bits_252_input_limb_8_col9",
-      "read_positive_num_bits_252_input_limb_9_col10",
-      "read_positive_num_bits_252_input_limb_10_col11",
-      "read_positive_num_bits_252_input_limb_11_col12",
-      "read_positive_num_bits_252_input_limb_12_col13",
-      "read_positive_num_bits_252_input_limb_13_col14",
-      "read_positive_num_bits_252_input_limb_14_col15",
-      "read_positive_num_bits_252_input_limb_15_col16",
-      "read_positive_num_bits_252_input_limb_16_col17",
-      "read_positive_num_bits_252_input_limb_17_col18",
-      "read_positive_num_bits_252_input_limb_18_col19",
-      "read_positive_num_bits_252_input_limb_19_col20",
-      "read_positive_num_bits_252_input_limb_20_col21",
-      "read_positive_num_bits_252_input_limb_21_col22",
-      "read_positive_num_bits_252_input_limb_22_col23",
-      "read_positive_num_bits_252_input_limb_23_col24",
-      "read_positive_num_bits_252_input_limb_24_col25",
-      "read_positive_num_bits_252_input_limb_25_col26",
-      "read_positive_num_bits_252_input_limb_26_col27",
-      "read_positive_num_bits_252_input_limb_27_col28"
+      "id_col0",
+      "limb_0_col1",
+      "limb_1_col2",
+      "limb_2_col3",
+      "limb_3_col4",
+      "limb_4_col5",
+      "limb_5_col6",
+      "limb_6_col7",
+      "limb_7_col8",
+      "limb_8_col9",
+      "limb_9_col10",
+      "limb_10_col11",
+      "limb_11_col12",
+      "limb_12_col13",
+      "limb_13_col14",
+      "limb_14_col15",
+      "limb_15_col16",
+      "limb_16_col17",
+      "limb_17_col18",
+      "limb_18_col19",
+      "limb_19_col20",
+      "limb_20_col21",
+      "limb_21_col22",
+      "limb_22_col23",
+      "limb_23_col24",
+      "limb_24_col25",
+      "limb_25_col26",
+      "limb_26_col27",
+      "limb_27_col28"
     ],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "MemoryAddressToId",
-        "read_positive_num_bits_252_input, read_positive_num_bits_252_input_id_col0"
+        "read_positive_num_bits_252_input, id_col0"
       ],
       [
         "MemoryIdToBig",
-        "read_positive_num_bits_252_input_id_col0, read_positive_num_bits_252_input_limb_0_col1, read_positive_num_bits_252_input_limb_1_col2, read_positive_num_bits_252_input_limb_2_col3, read_positive_num_bits_252_input_limb_3_col4, read_positive_num_bits_252_input_limb_4_col5, read_positive_num_bits_252_input_limb_5_col6, read_positive_num_bits_252_input_limb_6_col7, read_positive_num_bits_252_input_limb_7_col8, read_positive_num_bits_252_input_limb_8_col9, read_positive_num_bits_252_input_limb_9_col10, read_positive_num_bits_252_input_limb_10_col11, read_positive_num_bits_252_input_limb_11_col12, read_positive_num_bits_252_input_limb_12_col13, read_positive_num_bits_252_input_limb_13_col14, read_positive_num_bits_252_input_limb_14_col15, read_positive_num_bits_252_input_limb_15_col16, read_positive_num_bits_252_input_limb_16_col17, read_positive_num_bits_252_input_limb_17_col18, read_positive_num_bits_252_input_limb_18_col19, read_positive_num_bits_252_input_limb_19_col20, read_positive_num_bits_252_input_limb_20_col21, read_positive_num_bits_252_input_limb_21_col22, read_positive_num_bits_252_input_limb_22_col23, read_positive_num_bits_252_input_limb_23_col24, read_positive_num_bits_252_input_limb_24_col25, read_positive_num_bits_252_input_limb_25_col26, read_positive_num_bits_252_input_limb_26_col27, read_positive_num_bits_252_input_limb_27_col28"
+        "id_col0, limb_0_col1, limb_1_col2, limb_2_col3, limb_3_col4, limb_4_col5, limb_5_col6, limb_6_col7, limb_7_col8, limb_8_col9, limb_9_col10, limb_10_col11, limb_11_col12, limb_12_col13, limb_13_col14, limb_14_col15, limb_15_col16, limb_16_col17, limb_17_col18, limb_18_col19, limb_19_col20, limb_20_col21, limb_21_col22, limb_22_col23, limb_23_col24, limb_24_col25, limb_25_col26, limb_26_col27, limb_27_col28"
       ]
     ]
   },
@@ -264,18 +264,18 @@
   },
   "mem_verify": {
     "state_names": [
-      "mem_verify_input.0_id_col0"
+      "id_col0"
     ],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "MemoryAddressToId",
-        "mem_verify_input.0, mem_verify_input.0_id_col0"
+        "mem_verify_input.0, id_col0"
       ],
       [
         "MemoryIdToBig",
-        "mem_verify_input.0_id_col0, mem_verify_input.1.get_m31(0), mem_verify_input.1.get_m31(1), mem_verify_input.1.get_m31(2), mem_verify_input.1.get_m31(3), mem_verify_input.1.get_m31(4), mem_verify_input.1.get_m31(5), mem_verify_input.1.get_m31(6), mem_verify_input.1.get_m31(7), mem_verify_input.1.get_m31(8), mem_verify_input.1.get_m31(9), mem_verify_input.1.get_m31(10), mem_verify_input.1.get_m31(11), mem_verify_input.1.get_m31(12), mem_verify_input.1.get_m31(13), mem_verify_input.1.get_m31(14), mem_verify_input.1.get_m31(15), mem_verify_input.1.get_m31(16), mem_verify_input.1.get_m31(17), mem_verify_input.1.get_m31(18), mem_verify_input.1.get_m31(19), mem_verify_input.1.get_m31(20), mem_verify_input.1.get_m31(21), mem_verify_input.1.get_m31(22), mem_verify_input.1.get_m31(23), mem_verify_input.1.get_m31(24), mem_verify_input.1.get_m31(25), mem_verify_input.1.get_m31(26), mem_verify_input.1.get_m31(27)"
+        "id_col0, mem_verify_input.1.get_m31(0), mem_verify_input.1.get_m31(1), mem_verify_input.1.get_m31(2), mem_verify_input.1.get_m31(3), mem_verify_input.1.get_m31(4), mem_verify_input.1.get_m31(5), mem_verify_input.1.get_m31(6), mem_verify_input.1.get_m31(7), mem_verify_input.1.get_m31(8), mem_verify_input.1.get_m31(9), mem_verify_input.1.get_m31(10), mem_verify_input.1.get_m31(11), mem_verify_input.1.get_m31(12), mem_verify_input.1.get_m31(13), mem_verify_input.1.get_m31(14), mem_verify_input.1.get_m31(15), mem_verify_input.1.get_m31(16), mem_verify_input.1.get_m31(17), mem_verify_input.1.get_m31(18), mem_verify_input.1.get_m31(19), mem_verify_input.1.get_m31(20), mem_verify_input.1.get_m31(21), mem_verify_input.1.get_m31(22), mem_verify_input.1.get_m31(23), mem_verify_input.1.get_m31(24), mem_verify_input.1.get_m31(25), mem_verify_input.1.get_m31(26), mem_verify_input.1.get_m31(27)"
       ]
     ]
   },
@@ -659,28 +659,28 @@
   },
   "read_positive_num_bits_128": {
     "state_names": [
-      "read_positive_num_bits_128_input_id_col0",
-      "read_positive_num_bits_128_input_limb_0_col1",
-      "read_positive_num_bits_128_input_limb_1_col2",
-      "read_positive_num_bits_128_input_limb_2_col3",
-      "read_positive_num_bits_128_input_limb_3_col4",
-      "read_positive_num_bits_128_input_limb_4_col5",
-      "read_positive_num_bits_128_input_limb_5_col6",
-      "read_positive_num_bits_128_input_limb_6_col7",
-      "read_positive_num_bits_128_input_limb_7_col8",
-      "read_positive_num_bits_128_input_limb_8_col9",
-      "read_positive_num_bits_128_input_limb_9_col10",
-      "read_positive_num_bits_128_input_limb_10_col11",
-      "read_positive_num_bits_128_input_limb_11_col12",
-      "read_positive_num_bits_128_input_limb_12_col13",
-      "read_positive_num_bits_128_input_limb_13_col14",
-      "read_positive_num_bits_128_input_limb_14_col15",
+      "id_col0",
+      "limb_0_col1",
+      "limb_1_col2",
+      "limb_2_col3",
+      "limb_3_col4",
+      "limb_4_col5",
+      "limb_5_col6",
+      "limb_6_col7",
+      "limb_7_col8",
+      "limb_8_col9",
+      "limb_9_col10",
+      "limb_10_col11",
+      "limb_11_col12",
+      "limb_12_col13",
+      "limb_13_col14",
+      "limb_14_col15",
       "msb_col16"
     ],
     "intermediates": [
       [
         "bit_before_msb_tmp_49cd3_3",
-        "(read_positive_num_bits_128_input_limb_14_col15 - (msb_col16 * 2))"
+        "(limb_14_col15 - (msb_col16 * 2))"
       ]
     ],
     "constraints": [
@@ -690,11 +690,11 @@
     "lookups": [
       [
         "MemoryAddressToId",
-        "read_positive_num_bits_128_input, read_positive_num_bits_128_input_id_col0"
+        "read_positive_num_bits_128_input, id_col0"
       ],
       [
         "MemoryIdToBig",
-        "read_positive_num_bits_128_input_id_col0, read_positive_num_bits_128_input_limb_0_col1, read_positive_num_bits_128_input_limb_1_col2, read_positive_num_bits_128_input_limb_2_col3, read_positive_num_bits_128_input_limb_3_col4, read_positive_num_bits_128_input_limb_4_col5, read_positive_num_bits_128_input_limb_5_col6, read_positive_num_bits_128_input_limb_6_col7, read_positive_num_bits_128_input_limb_7_col8, read_positive_num_bits_128_input_limb_8_col9, read_positive_num_bits_128_input_limb_9_col10, read_positive_num_bits_128_input_limb_10_col11, read_positive_num_bits_128_input_limb_11_col12, read_positive_num_bits_128_input_limb_12_col13, read_positive_num_bits_128_input_limb_13_col14, read_positive_num_bits_128_input_limb_14_col15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "id_col0, limb_0_col1, limb_1_col2, limb_2_col3, limb_3_col4, limb_4_col5, limb_5_col6, limb_6_col7, limb_7_col8, limb_8_col9, limb_9_col10, limb_10_col11, limb_11_col12, limb_12_col13, limb_13_col14, limb_14_col15, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
@@ -764,33 +764,33 @@
   },
   "read_positive_num_bits_96": {
     "state_names": [
-      "read_positive_num_bits_96_input_id_col0",
-      "read_positive_num_bits_96_input_limb_0_col1",
-      "read_positive_num_bits_96_input_limb_1_col2",
-      "read_positive_num_bits_96_input_limb_2_col3",
-      "read_positive_num_bits_96_input_limb_3_col4",
-      "read_positive_num_bits_96_input_limb_4_col5",
-      "read_positive_num_bits_96_input_limb_5_col6",
-      "read_positive_num_bits_96_input_limb_6_col7",
-      "read_positive_num_bits_96_input_limb_7_col8",
-      "read_positive_num_bits_96_input_limb_8_col9",
-      "read_positive_num_bits_96_input_limb_9_col10",
-      "read_positive_num_bits_96_input_limb_10_col11"
+      "id_col0",
+      "limb_0_col1",
+      "limb_1_col2",
+      "limb_2_col3",
+      "limb_3_col4",
+      "limb_4_col5",
+      "limb_5_col6",
+      "limb_6_col7",
+      "limb_7_col8",
+      "limb_8_col9",
+      "limb_9_col10",
+      "limb_10_col11"
     ],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "MemoryAddressToId",
-        "read_positive_num_bits_96_input, read_positive_num_bits_96_input_id_col0"
+        "read_positive_num_bits_96_input, id_col0"
       ],
       [
         "RangeCheck_6",
-        "read_positive_num_bits_96_input_limb_10_col11"
+        "limb_10_col11"
       ],
       [
         "MemoryIdToBig",
-        "read_positive_num_bits_96_input_id_col0, read_positive_num_bits_96_input_limb_0_col1, read_positive_num_bits_96_input_limb_1_col2, read_positive_num_bits_96_input_limb_2_col3, read_positive_num_bits_96_input_limb_3_col4, read_positive_num_bits_96_input_limb_4_col5, read_positive_num_bits_96_input_limb_5_col6, read_positive_num_bits_96_input_limb_6_col7, read_positive_num_bits_96_input_limb_7_col8, read_positive_num_bits_96_input_limb_8_col9, read_positive_num_bits_96_input_limb_9_col10, read_positive_num_bits_96_input_limb_10_col11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "id_col0, limb_0_col1, limb_1_col2, limb_2_col3, limb_3_col4, limb_4_col5, limb_5_col6, limb_6_col7, limb_7_col8, limb_8_col9, limb_9_col10, limb_10_col11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
@@ -828,64 +828,64 @@
   },
   "read_positive_num_bits_99": {
     "state_names": [
-      "read_positive_num_bits_99_input_id_col0",
-      "read_positive_num_bits_99_input_limb_0_col1",
-      "read_positive_num_bits_99_input_limb_1_col2",
-      "read_positive_num_bits_99_input_limb_2_col3",
-      "read_positive_num_bits_99_input_limb_3_col4",
-      "read_positive_num_bits_99_input_limb_4_col5",
-      "read_positive_num_bits_99_input_limb_5_col6",
-      "read_positive_num_bits_99_input_limb_6_col7",
-      "read_positive_num_bits_99_input_limb_7_col8",
-      "read_positive_num_bits_99_input_limb_8_col9",
-      "read_positive_num_bits_99_input_limb_9_col10",
-      "read_positive_num_bits_99_input_limb_10_col11"
+      "id_col0",
+      "limb_0_col1",
+      "limb_1_col2",
+      "limb_2_col3",
+      "limb_3_col4",
+      "limb_4_col5",
+      "limb_5_col6",
+      "limb_6_col7",
+      "limb_7_col8",
+      "limb_8_col9",
+      "limb_9_col10",
+      "limb_10_col11"
     ],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "MemoryAddressToId",
-        "read_positive_num_bits_99_input, read_positive_num_bits_99_input_id_col0"
+        "read_positive_num_bits_99_input, id_col0"
       ],
       [
         "MemoryIdToBig",
-        "read_positive_num_bits_99_input_id_col0, read_positive_num_bits_99_input_limb_0_col1, read_positive_num_bits_99_input_limb_1_col2, read_positive_num_bits_99_input_limb_2_col3, read_positive_num_bits_99_input_limb_3_col4, read_positive_num_bits_99_input_limb_4_col5, read_positive_num_bits_99_input_limb_5_col6, read_positive_num_bits_99_input_limb_6_col7, read_positive_num_bits_99_input_limb_7_col8, read_positive_num_bits_99_input_limb_8_col9, read_positive_num_bits_99_input_limb_9_col10, read_positive_num_bits_99_input_limb_10_col11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "id_col0, limb_0_col1, limb_1_col2, limb_2_col3, limb_3_col4, limb_4_col5, limb_5_col6, limb_6_col7, limb_7_col8, limb_8_col9, limb_9_col10, limb_10_col11, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
   "read_positive_num_bits_27": {
     "state_names": [
-      "read_positive_num_bits_27_input_id_col0",
-      "read_positive_num_bits_27_input_limb_0_col1",
-      "read_positive_num_bits_27_input_limb_1_col2",
-      "read_positive_num_bits_27_input_limb_2_col3"
+      "id_col0",
+      "limb_0_col1",
+      "limb_1_col2",
+      "limb_2_col3"
     ],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "MemoryAddressToId",
-        "read_positive_num_bits_27_input, read_positive_num_bits_27_input_id_col0"
+        "read_positive_num_bits_27_input, id_col0"
       ],
       [
         "MemoryIdToBig",
-        "read_positive_num_bits_27_input_id_col0, read_positive_num_bits_27_input_limb_0_col1, read_positive_num_bits_27_input_limb_1_col2, read_positive_num_bits_27_input_limb_2_col3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "id_col0, limb_0_col1, limb_1_col2, limb_2_col3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
   "mem_cond_verify_equal_known_id": {
     "state_names": [
-      "mem_cond_verify_equal_known_id_input.0_id_col0"
+      "id_col0"
     ],
     "intermediates": [],
     "constraints": [
-      "((mem_cond_verify_equal_known_id_input.0_id_col0 - mem_cond_verify_equal_known_id_input.1) * mem_cond_verify_equal_known_id_input.2)"
+      "((id_col0 - mem_cond_verify_equal_known_id_input.1) * mem_cond_verify_equal_known_id_input.2)"
     ],
     "lookups": [
       [
         "MemoryAddressToId",
-        "mem_cond_verify_equal_known_id_input.0, mem_cond_verify_equal_known_id_input.0_id_col0"
+        "mem_cond_verify_equal_known_id_input.0, id_col0"
       ]
     ]
   },
@@ -904,12 +904,12 @@
   },
   "read_small": {
     "state_names": [
-      "read_small_input_id_col0",
+      "id_col0",
       "msb_col1",
       "mid_limbs_set_col2",
-      "read_small_input_limb_0_col3",
-      "read_small_input_limb_1_col4",
-      "read_small_input_limb_2_col5"
+      "limb_0_col3",
+      "limb_1_col4",
+      "limb_2_col5"
     ],
     "intermediates": [],
     "constraints": [
@@ -920,11 +920,11 @@
     "lookups": [
       [
         "MemoryAddressToId",
-        "read_small_input, read_small_input_id_col0"
+        "read_small_input, id_col0"
       ],
       [
         "MemoryIdToBig",
-        "read_small_input_id_col0, read_small_input_limb_0_col3, read_small_input_limb_1_col4, read_small_input_limb_2_col5, (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), ((136 * msb_col1) - mid_limbs_set_col2), 0, 0, 0, 0, 0, (msb_col1 * 256)"
+        "id_col0, limb_0_col3, limb_1_col4, limb_2_col5, (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), (mid_limbs_set_col2 * 511), ((136 * msb_col1) - mid_limbs_set_col2), 0, 0, 0, 0, 0, (msb_col1 * 256)"
       ]
     ]
   },
@@ -10205,7 +10205,7 @@
       "limb_26_col26",
       "ms_limb_low_col27",
       "ms_limb_high_col28",
-      "read_split_input_id_col29"
+      "id_col29"
     ],
     "intermediates": [],
     "constraints": [],
@@ -10216,11 +10216,11 @@
       ],
       [
         "MemoryAddressToId",
-        "read_split_input, read_split_input_id_col29"
+        "read_split_input, id_col29"
       ],
       [
         "MemoryIdToBig",
-        "read_split_input_id_col29, limb_0_col0, limb_1_col1, limb_2_col2, limb_3_col3, limb_4_col4, limb_5_col5, limb_6_col6, limb_7_col7, limb_8_col8, limb_9_col9, limb_10_col10, limb_11_col11, limb_12_col12, limb_13_col13, limb_14_col14, limb_15_col15, limb_16_col16, limb_17_col17, limb_18_col18, limb_19_col19, limb_20_col20, limb_21_col21, limb_22_col22, limb_23_col23, limb_24_col24, limb_25_col25, limb_26_col26, ((ms_limb_high_col28 * 32) + ms_limb_low_col27)"
+        "id_col29, limb_0_col0, limb_1_col1, limb_2_col2, limb_3_col3, limb_4_col4, limb_5_col5, limb_6_col6, limb_7_col7, limb_8_col8, limb_9_col9, limb_10_col10, limb_11_col11, limb_12_col12, limb_13_col13, limb_14_col14, limb_15_col15, limb_16_col16, limb_17_col17, limb_18_col18, limb_19_col19, limb_20_col20, limb_21_col21, limb_22_col22, limb_23_col23, limb_24_col24, limb_25_col25, limb_26_col26, ((ms_limb_high_col28 * 32) + ms_limb_low_col27)"
       ]
     ]
   },
@@ -22097,18 +22097,18 @@
   },
   "mem_verify_equal": {
     "state_names": [
-      "mem_verify_equal_input[0]_id_col0"
+      "id_col0"
     ],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "MemoryAddressToId",
-        "mem_verify_equal_input[0], mem_verify_equal_input[0]_id_col0"
+        "mem_verify_equal_input[0], id_col0"
       ],
       [
         "MemoryAddressToId",
-        "mem_verify_equal_input[1], mem_verify_equal_input[0]_id_col0"
+        "mem_verify_equal_input[1], id_col0"
       ]
     ]
   },
@@ -23064,47 +23064,47 @@
   },
   "read_positive_num_bits_72": {
     "state_names": [
-      "read_positive_num_bits_72_input_id_col0",
-      "read_positive_num_bits_72_input_limb_0_col1",
-      "read_positive_num_bits_72_input_limb_1_col2",
-      "read_positive_num_bits_72_input_limb_2_col3",
-      "read_positive_num_bits_72_input_limb_3_col4",
-      "read_positive_num_bits_72_input_limb_4_col5",
-      "read_positive_num_bits_72_input_limb_5_col6",
-      "read_positive_num_bits_72_input_limb_6_col7",
-      "read_positive_num_bits_72_input_limb_7_col8"
+      "id_col0",
+      "limb_0_col1",
+      "limb_1_col2",
+      "limb_2_col3",
+      "limb_3_col4",
+      "limb_4_col5",
+      "limb_5_col6",
+      "limb_6_col7",
+      "limb_7_col8"
     ],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "MemoryAddressToId",
-        "read_positive_num_bits_72_input, read_positive_num_bits_72_input_id_col0"
+        "read_positive_num_bits_72_input, id_col0"
       ],
       [
         "MemoryIdToBig",
-        "read_positive_num_bits_72_input_id_col0, read_positive_num_bits_72_input_limb_0_col1, read_positive_num_bits_72_input_limb_1_col2, read_positive_num_bits_72_input_limb_2_col3, read_positive_num_bits_72_input_limb_3_col4, read_positive_num_bits_72_input_limb_4_col5, read_positive_num_bits_72_input_limb_5_col6, read_positive_num_bits_72_input_limb_6_col7, read_positive_num_bits_72_input_limb_7_col8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "id_col0, limb_0_col1, limb_1_col2, limb_2_col3, limb_3_col4, limb_4_col5, limb_5_col6, limb_6_col7, limb_7_col8, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
   "read_positive_num_bits_36": {
     "state_names": [
-      "read_positive_num_bits_36_input_id_col0",
-      "read_positive_num_bits_36_input_limb_0_col1",
-      "read_positive_num_bits_36_input_limb_1_col2",
-      "read_positive_num_bits_36_input_limb_2_col3",
-      "read_positive_num_bits_36_input_limb_3_col4"
+      "id_col0",
+      "limb_0_col1",
+      "limb_1_col2",
+      "limb_2_col3",
+      "limb_3_col4"
     ],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "MemoryAddressToId",
-        "read_positive_num_bits_36_input, read_positive_num_bits_36_input_id_col0"
+        "read_positive_num_bits_36_input, id_col0"
       ],
       [
         "MemoryIdToBig",
-        "read_positive_num_bits_36_input_id_col0, read_positive_num_bits_36_input_limb_0_col1, read_positive_num_bits_36_input_limb_1_col2, read_positive_num_bits_36_input_limb_2_col3, read_positive_num_bits_36_input_limb_3_col4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "id_col0, limb_0_col1, limb_1_col2, limb_2_col3, limb_3_col4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
@@ -24731,76 +24731,76 @@
   },
   "read_positive_num_bits_144": {
     "state_names": [
-      "read_positive_num_bits_144_input_id_col0",
-      "read_positive_num_bits_144_input_limb_0_col1",
-      "read_positive_num_bits_144_input_limb_1_col2",
-      "read_positive_num_bits_144_input_limb_2_col3",
-      "read_positive_num_bits_144_input_limb_3_col4",
-      "read_positive_num_bits_144_input_limb_4_col5",
-      "read_positive_num_bits_144_input_limb_5_col6",
-      "read_positive_num_bits_144_input_limb_6_col7",
-      "read_positive_num_bits_144_input_limb_7_col8",
-      "read_positive_num_bits_144_input_limb_8_col9",
-      "read_positive_num_bits_144_input_limb_9_col10",
-      "read_positive_num_bits_144_input_limb_10_col11",
-      "read_positive_num_bits_144_input_limb_11_col12",
-      "read_positive_num_bits_144_input_limb_12_col13",
-      "read_positive_num_bits_144_input_limb_13_col14",
-      "read_positive_num_bits_144_input_limb_14_col15",
-      "read_positive_num_bits_144_input_limb_15_col16"
+      "id_col0",
+      "limb_0_col1",
+      "limb_1_col2",
+      "limb_2_col3",
+      "limb_3_col4",
+      "limb_4_col5",
+      "limb_5_col6",
+      "limb_6_col7",
+      "limb_7_col8",
+      "limb_8_col9",
+      "limb_9_col10",
+      "limb_10_col11",
+      "limb_11_col12",
+      "limb_12_col13",
+      "limb_13_col14",
+      "limb_14_col15",
+      "limb_15_col16"
     ],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "MemoryAddressToId",
-        "read_positive_num_bits_144_input, read_positive_num_bits_144_input_id_col0"
+        "read_positive_num_bits_144_input, id_col0"
       ],
       [
         "MemoryIdToBig",
-        "read_positive_num_bits_144_input_id_col0, read_positive_num_bits_144_input_limb_0_col1, read_positive_num_bits_144_input_limb_1_col2, read_positive_num_bits_144_input_limb_2_col3, read_positive_num_bits_144_input_limb_3_col4, read_positive_num_bits_144_input_limb_4_col5, read_positive_num_bits_144_input_limb_5_col6, read_positive_num_bits_144_input_limb_6_col7, read_positive_num_bits_144_input_limb_7_col8, read_positive_num_bits_144_input_limb_8_col9, read_positive_num_bits_144_input_limb_9_col10, read_positive_num_bits_144_input_limb_10_col11, read_positive_num_bits_144_input_limb_11_col12, read_positive_num_bits_144_input_limb_12_col13, read_positive_num_bits_144_input_limb_13_col14, read_positive_num_bits_144_input_limb_14_col15, read_positive_num_bits_144_input_limb_15_col16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "id_col0, limb_0_col1, limb_1_col2, limb_2_col3, limb_3_col4, limb_4_col5, limb_5_col6, limb_6_col7, limb_7_col8, limb_8_col9, limb_9_col10, limb_10_col11, limb_11_col12, limb_12_col13, limb_13_col14, limb_14_col15, limb_15_col16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
   "qm_31_read_reduced": {
     "state_names": [
-      "qm_31_read_reduced_input_id_col0",
-      "qm_31_read_reduced_input_limb_0_col1",
-      "qm_31_read_reduced_input_limb_1_col2",
-      "qm_31_read_reduced_input_limb_2_col3",
-      "qm_31_read_reduced_input_limb_3_col4",
-      "qm_31_read_reduced_input_limb_4_col5",
-      "qm_31_read_reduced_input_limb_5_col6",
-      "qm_31_read_reduced_input_limb_6_col7",
-      "qm_31_read_reduced_input_limb_7_col8",
-      "qm_31_read_reduced_input_limb_8_col9",
-      "qm_31_read_reduced_input_limb_9_col10",
-      "qm_31_read_reduced_input_limb_10_col11",
-      "qm_31_read_reduced_input_limb_11_col12",
-      "qm_31_read_reduced_input_limb_12_col13",
-      "qm_31_read_reduced_input_limb_13_col14",
-      "qm_31_read_reduced_input_limb_14_col15",
-      "qm_31_read_reduced_input_limb_15_col16",
-      "qm_31_read_reduced_input_delta_ab_inv_col17",
-      "qm_31_read_reduced_input_delta_cd_inv_col18"
+      "id_col0",
+      "limb_0_col1",
+      "limb_1_col2",
+      "limb_2_col3",
+      "limb_3_col4",
+      "limb_4_col5",
+      "limb_5_col6",
+      "limb_6_col7",
+      "limb_7_col8",
+      "limb_8_col9",
+      "limb_9_col10",
+      "limb_10_col11",
+      "limb_11_col12",
+      "limb_12_col13",
+      "limb_13_col14",
+      "limb_14_col15",
+      "limb_15_col16",
+      "delta_ab_inv_col17",
+      "delta_cd_inv_col18"
     ],
     "intermediates": [],
     "constraints": [
-      "(((((((qm_31_read_reduced_input_limb_0_col1 + qm_31_read_reduced_input_limb_1_col2) + qm_31_read_reduced_input_limb_2_col3) + qm_31_read_reduced_input_limb_3_col4) - 1548) * ((((qm_31_read_reduced_input_limb_4_col5 + qm_31_read_reduced_input_limb_5_col6) + qm_31_read_reduced_input_limb_6_col7) + qm_31_read_reduced_input_limb_7_col8) - 1548)) * qm_31_read_reduced_input_delta_ab_inv_col17) - 1)",
-      "(((((((qm_31_read_reduced_input_limb_8_col9 + qm_31_read_reduced_input_limb_9_col10) + qm_31_read_reduced_input_limb_10_col11) + qm_31_read_reduced_input_limb_11_col12) - 1548) * ((((qm_31_read_reduced_input_limb_12_col13 + qm_31_read_reduced_input_limb_13_col14) + qm_31_read_reduced_input_limb_14_col15) + qm_31_read_reduced_input_limb_15_col16) - 1548)) * qm_31_read_reduced_input_delta_cd_inv_col18) - 1)"
+      "(((((((limb_0_col1 + limb_1_col2) + limb_2_col3) + limb_3_col4) - 1548) * ((((limb_4_col5 + limb_5_col6) + limb_6_col7) + limb_7_col8) - 1548)) * delta_ab_inv_col17) - 1)",
+      "(((((((limb_8_col9 + limb_9_col10) + limb_10_col11) + limb_11_col12) - 1548) * ((((limb_12_col13 + limb_13_col14) + limb_14_col15) + limb_15_col16) - 1548)) * delta_cd_inv_col18) - 1)"
     ],
     "lookups": [
       [
         "MemoryAddressToId",
-        "qm_31_read_reduced_input, qm_31_read_reduced_input_id_col0"
+        "qm_31_read_reduced_input, id_col0"
       ],
       [
         "MemoryIdToBig",
-        "qm_31_read_reduced_input_id_col0, qm_31_read_reduced_input_limb_0_col1, qm_31_read_reduced_input_limb_1_col2, qm_31_read_reduced_input_limb_2_col3, qm_31_read_reduced_input_limb_3_col4, qm_31_read_reduced_input_limb_4_col5, qm_31_read_reduced_input_limb_5_col6, qm_31_read_reduced_input_limb_6_col7, qm_31_read_reduced_input_limb_7_col8, qm_31_read_reduced_input_limb_8_col9, qm_31_read_reduced_input_limb_9_col10, qm_31_read_reduced_input_limb_10_col11, qm_31_read_reduced_input_limb_11_col12, qm_31_read_reduced_input_limb_12_col13, qm_31_read_reduced_input_limb_13_col14, qm_31_read_reduced_input_limb_14_col15, qm_31_read_reduced_input_limb_15_col16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "id_col0, limb_0_col1, limb_1_col2, limb_2_col3, limb_3_col4, limb_4_col5, limb_5_col6, limb_6_col7, limb_7_col8, limb_8_col9, limb_9_col10, limb_10_col11, limb_11_col12, limb_12_col13, limb_13_col14, limb_14_col15, limb_15_col16, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_4_4_4_4",
-        "qm_31_read_reduced_input_limb_3_col4, qm_31_read_reduced_input_limb_7_col8, qm_31_read_reduced_input_limb_11_col12, qm_31_read_reduced_input_limb_15_col16"
+        "limb_3_col4, limb_7_col8, limb_11_col12, limb_15_col16"
       ]
     ]
   },
@@ -24978,7 +24978,7 @@
       "low_7_ms_bits_col0",
       "high_14_ms_bits_col1",
       "high_5_ms_bits_col2",
-      "verify_blake_word_input.0_id_col3"
+      "id_col3"
     ],
     "intermediates": [],
     "constraints": [],
@@ -24989,11 +24989,11 @@
       ],
       [
         "MemoryAddressToId",
-        "verify_blake_word_input.0, verify_blake_word_input.0_id_col3"
+        "verify_blake_word_input.0, id_col3"
       ],
       [
         "MemoryIdToBig",
-        "verify_blake_word_input.0_id_col3, (verify_blake_word_input.1.low().as_m31() - (low_7_ms_bits_col0 * 512)), (low_7_ms_bits_col0 + ((verify_blake_word_input.1.high().as_m31() - (high_14_ms_bits_col1 * 4)) * 128)), (high_14_ms_bits_col1 - (high_5_ms_bits_col2 * 512)), high_5_ms_bits_col2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "id_col3, (verify_blake_word_input.1.low().as_m31() - (low_7_ms_bits_col0 * 512)), (low_7_ms_bits_col0 + ((verify_blake_word_input.1.high().as_m31() - (high_14_ms_bits_col1 * 4)) * 128)), (high_14_ms_bits_col1 - (high_5_ms_bits_col2 * 512)), high_5_ms_bits_col2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },
@@ -25004,7 +25004,7 @@
       "low_7_ms_bits_col2",
       "high_14_ms_bits_col3",
       "high_5_ms_bits_col4",
-      "read_blake_word_input_id_col5"
+      "id_col5"
     ],
     "intermediates": [],
     "constraints": [],
@@ -25015,11 +25015,11 @@
       ],
       [
         "MemoryAddressToId",
-        "read_blake_word_input, read_blake_word_input_id_col5"
+        "read_blake_word_input, id_col5"
       ],
       [
         "MemoryIdToBig",
-        "read_blake_word_input_id_col5, (low_16_bits_col0 - (low_7_ms_bits_col2 * 512)), (low_7_ms_bits_col2 + ((high_16_bits_col1 - (high_14_ms_bits_col3 * 4)) * 128)), (high_14_ms_bits_col3 - (high_5_ms_bits_col4 * 512)), high_5_ms_bits_col4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "id_col5, (low_16_bits_col0 - (low_7_ms_bits_col2 * 512)), (low_7_ms_bits_col2 + ((high_16_bits_col1 - (high_14_ms_bits_col3 * 4)) * 128)), (high_14_ms_bits_col3 - (high_5_ms_bits_col4 * 512)), high_5_ms_bits_col4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   },

@@ -22,7 +22,7 @@ impl AirFn for MemVerify {
         air_builder.deduce(
             &mut id,
             &address
-                .desc
+                .extra_info
                 .clone()
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),
@@ -49,7 +49,7 @@ impl<const N: usize> AirFn for MemVerifyAll<N> {
         air_builder.deduce(
             &mut id,
             &addresses[0]
-                .desc
+                .extra_info
                 .clone()
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),

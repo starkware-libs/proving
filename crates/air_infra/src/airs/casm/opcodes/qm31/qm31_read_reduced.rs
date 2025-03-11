@@ -61,7 +61,7 @@ impl AirFn for QM31ReadReduced {
         let delta_ab = deltas[0].clone() * deltas[1].clone();
         let delta_cd = deltas[2].clone() * deltas[3].clone();
         let delta_prefix = addr
-            .desc
+            .extra_info
             .clone()
             .map(|s| format!("{}_delta_", s))
             .unwrap_or("delta_".to_string());

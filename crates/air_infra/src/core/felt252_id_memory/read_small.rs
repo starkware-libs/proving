@@ -139,7 +139,7 @@ impl AirFn for ReadSmall {
         air_builder.deduce(
             &mut id,
             &address
-                .desc
+                .extra_info
                 .clone()
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),
@@ -157,7 +157,7 @@ impl AirFn for ReadSmall {
                 air_builder.deduce(
                     value.get_felt_mut(i),
                     &address
-                        .desc
+                        .extra_info
                         .clone()
                         .map(|s| format!("{}_limb_{}", s, i))
                         .unwrap_or(format!("limb_{}", i)),
