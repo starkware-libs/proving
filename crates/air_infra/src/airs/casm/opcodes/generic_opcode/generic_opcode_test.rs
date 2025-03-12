@@ -95,6 +95,7 @@ fn test_generic_consistency_rel_call() {
         (1, "opcode_call"),
         (0, "opcode_ret"),
         (0, "opcode_assert_eq"),
+        (200, "dst_src"),
         (2, "dst_id"),
         (150, "dst_limb_0"),
         (0, "dst_limb_1"),
@@ -124,6 +125,7 @@ fn test_generic_consistency_rel_call() {
         (0, "dst_limb_25"),
         (0, "dst_limb_26"),
         (0, "dst_limb_27"),
+        (200, "op0_src"),
         (3, "op0_id"),
         (52, "op0_limb_0"),
         (0, "op0_limb_1"),
@@ -153,6 +155,7 @@ fn test_generic_consistency_rel_call() {
         (0, "op0_limb_25"),
         (0, "op0_limb_26"),
         (0, "op0_limb_27"),
+        (50, "op1_src"),
         (1, "op1_id"),
         (299, "op1_limb_0"),
         (0, "op1_limb_1"),
@@ -303,6 +306,9 @@ fn test_generic_consistency_rel_call() {
         (0, "msb"),
         (0, "mid_limbs_set"),
         (349, "next_pc_jnz"),
+        (349, "next_pc"),
+        (202, "next_ap"),
+        (202, "next_fp"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -473,6 +479,7 @@ fn test_generic_consistency_ret() {
         (0, "opcode_call"),
         (1, "opcode_ret"),
         (0, "opcode_assert_eq"),
+        (6, "dst_src"),
         (2, "dst_id"),
         (4, "dst_limb_0"),
         (0, "dst_limb_1"),
@@ -502,6 +509,7 @@ fn test_generic_consistency_ret() {
         (0, "dst_limb_25"),
         (0, "dst_limb_26"),
         (0, "dst_limb_27"),
+        (6, "op0_src"),
         (1, "op0_id"),
         (1, "op0_limb_0"),
         (0, "op0_limb_1"),
@@ -531,6 +539,7 @@ fn test_generic_consistency_ret() {
         (0, "op0_limb_25"),
         (0, "op0_limb_26"),
         (0, "op0_limb_27"),
+        (6, "op1_src"),
         (1, "op1_id"),
         (1, "op1_limb_0"),
         (0, "op1_limb_1"),
@@ -681,6 +690,9 @@ fn test_generic_consistency_ret() {
         (0, "msb"),
         (0, "mid_limbs_set"),
         (4, "next_pc_jnz"),
+        (1, "next_pc"),
+        (11, "next_ap"),
+        (4, "next_fp"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -776,6 +788,7 @@ fn test_generic_consistency_assert_equal() {
         (0, "opcode_call"),
         (0, "opcode_ret"),
         (1, "opcode_assert_eq"),
+        (11, "dst_src"),
         (1, "dst_id"),
         (3, "dst_limb_0"),
         (0, "dst_limb_1"),
@@ -805,6 +818,7 @@ fn test_generic_consistency_assert_equal() {
         (0, "dst_limb_25"),
         (0, "dst_limb_26"),
         (0, "dst_limb_27"),
+        (6, "op0_src"),
         (2, "op0_id"),
         (0, "op0_limb_0"),
         (0, "op0_limb_1"),
@@ -834,6 +848,7 @@ fn test_generic_consistency_assert_equal() {
         (0, "op0_limb_25"),
         (0, "op0_limb_26"),
         (0, "op0_limb_27"),
+        (6, "op1_src"),
         (1, "op1_id"),
         (3, "op1_limb_0"),
         (0, "op1_limb_1"),
@@ -984,6 +999,9 @@ fn test_generic_consistency_assert_equal() {
         (0, "msb"),
         (0, "mid_limbs_set"),
         (6, "next_pc_jnz"),
+        (4, "next_pc"),
+        (11, "next_ap"),
+        (6, "next_fp"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -1073,6 +1091,7 @@ fn test_generic_consistency_jump() {
         (0, "opcode_call"),
         (0, "opcode_ret"),
         (0, "opcode_assert_eq"),
+        (6, "dst_src"),
         (2, "dst_id"),
         (0, "dst_limb_0"),
         (0, "dst_limb_1"),
@@ -1102,6 +1121,7 @@ fn test_generic_consistency_jump() {
         (0, "dst_limb_25"),
         (0, "dst_limb_26"),
         (0, "dst_limb_27"),
+        (6, "op0_src"),
         (2, "op0_id"),
         (0, "op0_limb_0"),
         (0, "op0_limb_1"),
@@ -1131,6 +1151,7 @@ fn test_generic_consistency_jump() {
         (0, "op0_limb_25"),
         (0, "op0_limb_26"),
         (0, "op0_limb_27"),
+        (6, "op1_src"),
         (1, "op1_id"),
         (5, "op1_limb_0"),
         (0, "op1_limb_1"),
@@ -1281,6 +1302,9 @@ fn test_generic_consistency_jump() {
         (0, "msb"),
         (0, "mid_limbs_set"),
         (4, "next_pc_jnz"),
+        (5, "next_pc"),
+        (11, "next_ap"),
+        (6, "next_fp"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -1481,6 +1505,7 @@ fn test_generic_consistency_jnz_taken() {
         (0, "opcode_call"),
         (0, "opcode_ret"),
         (0, "opcode_assert_eq"),
+        (200, "dst_src"),
         (2, "dst_id"),
         (123, "dst_limb_0"),
         (0, "dst_limb_1"),
@@ -1510,6 +1535,7 @@ fn test_generic_consistency_jnz_taken() {
         (0, "dst_limb_25"),
         (0, "dst_limb_26"),
         (0, "dst_limb_27"),
+        (150, "op0_src"),
         (3, "op0_id"),
         (0, "op0_limb_0"),
         (0, "op0_limb_1"),
@@ -1539,6 +1565,7 @@ fn test_generic_consistency_jnz_taken() {
         (0, "op0_limb_25"),
         (0, "op0_limb_26"),
         (0, "op0_limb_27"),
+        (50, "op1_src"),
         (1, "op1_id"),
         (15, "op1_limb_0"),
         (0, "op1_limb_1"),
@@ -1689,6 +1716,9 @@ fn test_generic_consistency_jnz_taken() {
         (0, "msb"),
         (0, "mid_limbs_set"),
         (65, "next_pc_jnz"),
+        (65, "next_pc"),
+        (200, "next_ap"),
+        (150, "next_fp"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -1775,6 +1805,7 @@ fn test_generic_consistency_jnz_not_taken() {
         (0, "opcode_call"),
         (0, "opcode_ret"),
         (0, "opcode_assert_eq"),
+        (200, "dst_src"),
         (2, "dst_id"),
         (0, "dst_limb_0"),
         (0, "dst_limb_1"),
@@ -1804,6 +1835,7 @@ fn test_generic_consistency_jnz_not_taken() {
         (0, "dst_limb_25"),
         (0, "dst_limb_26"),
         (0, "dst_limb_27"),
+        (150, "op0_src"),
         (2, "op0_id"),
         (0, "op0_limb_0"),
         (0, "op0_limb_1"),
@@ -1833,6 +1865,7 @@ fn test_generic_consistency_jnz_not_taken() {
         (0, "op0_limb_25"),
         (0, "op0_limb_26"),
         (0, "op0_limb_27"),
+        (50, "op1_src"),
         (1, "op1_id"),
         (15, "op1_limb_0"),
         (0, "op1_limb_1"),
@@ -1983,6 +2016,9 @@ fn test_generic_consistency_jnz_not_taken() {
         (0, "msb"),
         (0, "mid_limbs_set"),
         (52, "next_pc_jnz"),
+        (52, "next_pc"),
+        (200, "next_ap"),
+        (150, "next_fp"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);

@@ -117,23 +117,26 @@ impl AirFn for UpdateRegisters {
         );
 
         // Update pc
-        let next_pc = flags[FLAG_PC_UPDATE_REGULAR_INDEX].clone()
+        let mut next_pc = flags[FLAG_PC_UPDATE_REGULAR_INDEX].clone()
             * (casm_state.pc().var + flags[INSTRUCTION_SIZE_INDEX].clone())
             + flags[FLAG_PC_UPDATE_JUMP_INDEX].clone() * res_as_addr.var
             + flags[FLAG_PC_UPDATE_JUMP_REL_INDEX].clone()
                 * (casm_state.pc().var + res_as_rel_imm.clone())
             + flags[FLAG_PC_UPDATE_JNZ_INDEX].clone() * npc_jnz;
+        air_builder.assign(&mut next_pc, "next_pc");
 
         // Update ap
-        let next_ap = casm_state.ap().var
+        let mut next_ap = casm_state.ap().var
             + flags[FLAG_AP_UPDATE_ADD_INDEX].clone() * res_as_rel_imm
             + flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone() * const_expr!(1)
             + flags[FLAG_OPCODE_CALL_INDEX].clone() * const_expr!(2);
+        air_builder.assign(&mut next_ap, "next_ap");
 
         // Update fp
-        let next_fp = flags[FLAG_FP_UPDATE_REGULAR_INDEX].clone() * casm_state.fp().var
+        let mut next_fp = flags[FLAG_FP_UPDATE_REGULAR_INDEX].clone() * casm_state.fp().var
             + flags[FLAG_OPCODE_RET_INDEX].clone() * dst_as_addr.var
             + flags[FLAG_OPCODE_CALL_INDEX].clone() * (casm_state.ap().var + const_expr!(2));
+        air_builder.assign(&mut next_fp, "next_fp");
 
         CasmStateVar::new(next_pc, next_ap, next_fp)
     }
