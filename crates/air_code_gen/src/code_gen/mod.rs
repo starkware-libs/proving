@@ -1,6 +1,6 @@
-pub mod framework_gen;
+pub mod constraints;
 pub mod parse;
-pub mod simd_prover_gen;
+pub mod trace_gen;
 pub mod utils;
 
 /// Preprocessed Columns that can be generated because their only variable is log_size.

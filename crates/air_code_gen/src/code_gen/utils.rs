@@ -11,8 +11,8 @@ use itertools::Itertools;
 use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
-use super::framework_gen::generate_component_code;
-use super::simd_prover_gen::RustProverGen;
+use super::constraints::generate_component_code;
+use super::trace_gen::RustProverGen;
 
 pub fn project_root() -> PathBuf {
     std::path::PathBuf::from(std::env::var("CARGO_MANIFEST_DIR").unwrap())
