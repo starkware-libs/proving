@@ -16,17 +16,17 @@
   "trace_type": "Inline",
   "air_body": [
     {
-      "Intermediate": [
-        "input_as_felt252_tmp_da0b0_0",
-        {
+      "Intermediate": {
+        "name": "input_as_felt252_tmp_da0b0_0",
+        "var": {
           "name": "Felt252::from_felt252width27(felt_252_unpack_from_27_range_check_output_input)",
           "type": "Felt252"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [

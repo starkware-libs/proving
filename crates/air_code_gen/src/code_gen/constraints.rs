@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, ConstraintEvalStep, Intermediate, LookupTerm,
+    CompiledAirFn, CompiledIntermediate, ConstraintEvalStep, LookupTerm,
 };
 use convert_case::{Case, Casing};
 use genco::lang::rust;
@@ -227,7 +227,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                     );
                 });
             }
-            ConstraintEvalStep::Intermediate(Intermediate { name, r#type, var }) => {
+            ConstraintEvalStep::Intermediate(CompiledIntermediate { name, r#type, var }) => {
                 if r#type == "M31" {
                     code.extend(quote! {
                         let $(name) = eval.add_intermediate(

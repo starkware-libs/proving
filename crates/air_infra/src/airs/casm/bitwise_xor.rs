@@ -21,11 +21,7 @@ impl AirFn for BitwiseXor {
             UInt16Expr::from(a.clone()) ^ UInt16Expr::from(b.clone()),
             "xor",
         );
-        verify_bitwise_xor(
-            air_builder,
-            self.num_bits as u16,
-            [a.clone(), b.clone(), a_xor_b.as_felt()],
-        );
+        verify_bitwise_xor(air_builder, self.num_bits as u16, [a, b, a_xor_b.as_felt()]);
         a_xor_b.as_felt()
     }
 }

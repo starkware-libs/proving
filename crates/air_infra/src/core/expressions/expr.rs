@@ -9,6 +9,7 @@ use stwo_cairo_common::prover_types::cpu::{
     BigUInt, Bool, Felt252, Felt252Width27, ProverType, UInt16, UInt32, UInt64,
 };
 
+use super::super::air_body::*;
 use super::super::variables::*;
 use super::biguint_expr::*;
 use super::bool_expr::*;
@@ -51,6 +52,13 @@ where
             _ => panic!("Cannot convert non-variable to Var"),
         }
     }
+
+    pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
+        match self {
+            Expr::Var(v) => v.compile(compile_for),
+            Expr::Op(o) => o.compile(compile_for),
+        }
+    }
 }
 
 impl<T> InternalAirVarActions for Expr<T>
@@ -60,31 +68,13 @@ where
     VarExpr<T>: VarExprUpdate,
 {
     fn new(name: String, in_state: bool) -> Self {
-        VarExpr::new(name, None, false, in_state, true, in_state).into()
+        VarExpr::new(name, None, false, in_state).into()
     }
 
-    fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self {
-        VarExpr::new(
-            name,
-            self.value(),
-            self.is_const(),
-            self.in_state(),
-            in_deductions,
-            felts_in_constraints,
-        )
-        .into()
-    }
-}
-
-impl<T> From<Expr<T>> for CompiledAirVar
-where
-    T: ProverType,
-{
-    fn from(expr: Expr<T>) -> CompiledAirVar {
-        match expr {
-            Expr::Var(v) => v.into(),
-            Expr::Op(o) => o.into(),
-        }
+    fn let_for_deduction(&self, name: String) -> Self {
+        let mut var = VarExpr::new_from(name, self);
+        var.is_deduction_intermediate = true;
+        var.into()
     }
 }
 
@@ -95,8 +85,8 @@ where
 {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
-            Expr::Var(v) => write!(f, "{}", CompiledAirVar::from(v.clone())),
-            Expr::Op(o) => write!(f, "{}", CompiledAirVar::from(o.clone())),
+            Expr::Var(v) => write!(f, "{}", v.clone().compile(CompileFor::Deductions)),
+            Expr::Op(o) => write!(f, "{}", o.clone().compile(CompileFor::Deductions)),
         }
     }
 }
@@ -148,6 +138,20 @@ impl ExprImpl {
             _ => panic!("Cannot convert to Felt"),
         }
     }
+
+    pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
+        match self {
+            ExprImpl::Felt(f) => f.compile(compile_for),
+            ExprImpl::UInt16(u) => u.compile(compile_for),
+            ExprImpl::Bool(b) => b.compile(compile_for),
+            ExprImpl::UInt32(u) => u.compile(compile_for),
+            ExprImpl::UInt64(u) => u.compile(compile_for),
+            ExprImpl::Felt252(f) => f.compile(compile_for),
+            ExprImpl::Felt252Width27(f) => f.compile(compile_for),
+            ExprImpl::BigUInt384(b) => b.compile(compile_for),
+            ExprImpl::BigUInt768(b) => b.compile(compile_for),
+        }
+    }
 }
 
 impl<E> From<E> for AirVarImpl
@@ -165,24 +169,11 @@ impl Serialize for ExprImpl {
         S: Serializer,
     {
         let mut expr = serializer.serialize_struct("Expr", 2)?;
-        expr.serialize_field("name", &CompiledAirVar::from(self.clone()).to_string())?;
+        expr.serialize_field(
+            "name",
+            &self.clone().compile(CompileFor::Deductions).to_string(),
+        )?;
         expr.serialize_field("type", &self.r#type())?;
         expr.end()
-    }
-}
-
-impl From<ExprImpl> for CompiledAirVar {
-    fn from(expr: ExprImpl) -> CompiledAirVar {
-        match expr {
-            ExprImpl::Felt(f) => f.into(),
-            ExprImpl::UInt16(u) => u.into(),
-            ExprImpl::Bool(b) => b.into(),
-            ExprImpl::UInt32(u) => u.into(),
-            ExprImpl::UInt64(u) => u.into(),
-            ExprImpl::Felt252(f) => f.into(),
-            ExprImpl::Felt252Width27(f) => f.into(),
-            ExprImpl::BigUInt384(b) => b.into(),
-            ExprImpl::BigUInt768(b) => b.into(),
-        }
     }
 }

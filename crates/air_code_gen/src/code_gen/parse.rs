@@ -3,7 +3,7 @@
 use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirVar, ConstraintEvalStep, Intermediate, LookupTerm, UseOrYield,
+    CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, LookupTerm, UseOrYield,
 };
 use convert_case::{Case, Casing};
 use genco::lang::rust;
@@ -29,7 +29,7 @@ pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> Vec<(String, Str
                     let felts = remove_trailing_zeroes(felts);
                     const_defs.extend(felts.iter().flat_map(seek_consts))
                 }
-                ConstraintEvalStep::Intermediate(Intermediate {
+                ConstraintEvalStep::Intermediate(CompiledIntermediate {
                     name: _,
                     r#type: _,
                     var,

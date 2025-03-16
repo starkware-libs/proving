@@ -229,11 +229,10 @@ impl AirFnRegistry {
         let input_name = format!("{}_{}", air_fn.name(), INPUT_VAR_SUFFIX);
         // If input_in_trace is None, we put the input in the trace so air_builder checks don't
         // fail.
-        let mut input = I::new(input_name.clone(), true);
-        if let Some(input_in_trace) = air_fn.input_in_trace() {
-            if !input_in_trace {
-                input = I::new(input_name, false);
-            }
+        let in_state = air_fn.input_in_trace().is_none() || air_fn.input_in_trace().unwrap();
+        let mut input = I::new(input_name.clone(), in_state);
+        if in_state {
+            input = input.rec_let(input_name).0;
         }
 
         let mut air_builder = AirBuilder {

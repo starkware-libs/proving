@@ -9,7 +9,7 @@
   },
   "output": [
     {
-      "name": "((((limb_0_col3 + (limb_1_col4 * 512)) + (limb_2_col5 * 262144)) - msb_col1) - (134217728 * mid_limbs_set_col2))",
+      "name": "((((value_limb_0_col3 + (value_limb_1_col4 * 512)) + (value_limb_2_col5 * 262144)) - msb_col1) - (134217728 * mid_limbs_set_col2))",
       "type": "M31"
     },
     {
@@ -97,19 +97,19 @@
     {
       "Deduction": [
         "memory_id_to_big_value_tmp_ceaaf_1.get_m31(0)",
-        "limb_0"
+        "value_limb_0"
       ]
     },
     {
       "Deduction": [
         "memory_id_to_big_value_tmp_ceaaf_1.get_m31(1)",
-        "limb_1"
+        "value_limb_1"
       ]
     },
     {
       "Deduction": [
         "memory_id_to_big_value_tmp_ceaaf_1.get_m31(2)",
-        "limb_2"
+        "value_limb_2"
       ]
     },
     {
@@ -126,9 +126,9 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           "id_col0",
-          "limb_0_col3",
-          "limb_1_col4",
-          "limb_2_col5",
+          "value_limb_0_col3",
+          "value_limb_1_col4",
+          "value_limb_2_col5",
           "(mid_limbs_set_col2 * 511)",
           "(mid_limbs_set_col2 * 511)",
           "(mid_limbs_set_col2 * 511)",
@@ -174,16 +174,16 @@
         "mid_limbs_set"
       ],
       [
-        "limb_0_col3",
-        "limb_0"
+        "value_limb_0_col3",
+        "value_limb_0"
       ],
       [
-        "limb_1_col4",
-        "limb_1"
+        "value_limb_1_col4",
+        "value_limb_1"
       ],
       [
-        "limb_2_col5",
-        "limb_2"
+        "value_limb_2_col5",
+        "value_limb_2"
       ]
     ]
   }

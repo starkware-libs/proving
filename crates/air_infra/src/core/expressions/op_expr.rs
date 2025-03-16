@@ -19,6 +19,7 @@ use super::uint16_expr::*;
 use super::uint32_expr::*;
 use super::uint64_expr::*;
 use super::var_expr::*;
+use crate::core::air_body::*;
 use crate::core::Felt;
 // Macros
 use crate::impl_binary_op;
@@ -46,6 +47,31 @@ where
             op,
         }
     }
+
+    pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
+        match self.children.len() {
+            1 => {
+                let child = self.children[0].clone().compile(compile_for);
+                match self.op.into() {
+                    OpType::Op(op) => CompiledAirVar::UnaryOp(op, Box::new(child)),
+                    OpType::Method(op) => CompiledAirVar::MethodCall(Box::new(child), op, vec![]),
+                    OpType::Static(op) => CompiledAirVar::StaticCall(op, vec![child]),
+                }
+            }
+            2 => {
+                let left = self.children[0].clone().compile(compile_for);
+                let right = self.children[1].clone().compile(compile_for);
+                match self.op.into() {
+                    OpType::Op(op) => CompiledAirVar::BinaryOp(Box::new(left), op, Box::new(right)),
+                    OpType::Method(op) => {
+                        CompiledAirVar::MethodCall(Box::new(left), op, vec![right])
+                    }
+                    OpType::Static(op) => CompiledAirVar::StaticCall(op, vec![left, right]),
+                }
+            }
+            _ => panic!("Invalid number of children for operation"),
+        }
+    }
 }
 
 impl<T> AsProverType<T> for OpExpr<T>
@@ -67,36 +93,6 @@ where
 
     fn prover_type(&self) -> String {
         T::r#type()
-    }
-}
-
-impl<T> From<OpExpr<T>> for CompiledAirVar
-where
-    T: ProverType,
-{
-    fn from(expr: OpExpr<T>) -> CompiledAirVar {
-        match expr.children.len() {
-            1 => {
-                let child = expr.children[0].clone().into();
-                match expr.op.into() {
-                    OpType::Op(op) => CompiledAirVar::UnaryOp(op, Box::new(child)),
-                    OpType::Method(op) => CompiledAirVar::MethodCall(Box::new(child), op, vec![]),
-                    OpType::Static(op) => CompiledAirVar::StaticCall(op, vec![child]),
-                }
-            }
-            2 => {
-                let left = expr.children[0].clone().into();
-                let right = expr.children[1].clone().into();
-                match expr.op.into() {
-                    OpType::Op(op) => CompiledAirVar::BinaryOp(Box::new(left), op, Box::new(right)),
-                    OpType::Method(op) => {
-                        CompiledAirVar::MethodCall(Box::new(left), op, vec![right])
-                    }
-                    OpType::Static(op) => CompiledAirVar::StaticCall(op, vec![left, right]),
-                }
-            }
-            _ => panic!("Invalid number of children for operation"),
-        }
     }
 }
 
@@ -178,6 +174,7 @@ impl Display for Operation {
         }
     }
 }
+
 impl From<Operation> for OpType {
     fn from(op: Operation) -> OpType {
         match op {

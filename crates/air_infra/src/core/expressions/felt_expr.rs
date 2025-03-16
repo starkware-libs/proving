@@ -3,6 +3,7 @@ use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
 use serde::{Serialize, Serializer};
 
+use super::super::air_body::*;
 use super::super::state::*;
 use super::super::variables::*;
 use super::expr::*;
@@ -14,6 +15,13 @@ use crate::core::Felt;
 
 pub type FeltOperation = OpExpr<Felt>;
 pub type FeltExpr = Expr<Felt>;
+
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub struct FeltInfo {
+    pub state_info: StateInfo,
+    // If some, the felt is an intermediate variable used in constraints.
+    pub constraint_intermediate: Option<String>,
+}
 
 // Describes where in the state this FeltExpr resides
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -35,7 +43,7 @@ pub enum StateInfo {
 }
 
 impl VarExprUpdate for VarExpr<Felt> {
-    fn create_children(&mut self, _in_deductions: bool, _felts_in_constraints: bool) {
+    fn create_children(&mut self) {
         // Felt does not have children.
     }
     fn update_children(&mut self) {
@@ -57,22 +65,21 @@ impl FeltExpr {
             }
             StateInfo::PublicParam(public_param) => public_param.name(),
         };
-        let value = self.value();
 
         match self {
             FeltExpr::Var(v) => {
                 v.name = name;
-                v.complex_or_felt = ComplexOrFelt::Felt(new_state_info);
-                // A felt expression that is written to the trace is no longer an intermediate
-                // variable.
-                v.visibility = Visibility::default();
             }
             _ => {
-                let mut v = VarExpr::new(name, value, false, true, true, true);
-                v.complex_or_felt = ComplexOrFelt::Felt(new_state_info);
-                *self = Self::Var(v);
+                *self = VarExpr::new_from(name, self).into();
             }
         }
+        self.as_var_mut()
+            .complex_or_felt
+            .as_felt_info_mut()
+            .state_info = new_state_info;
+        self.as_var_mut().visibility.in_constraints = true;
+        self.as_var_mut().visibility.in_deductions = true;
     }
 
     // Felt is directly in state if it's written to the state (has a state index), in an external
@@ -83,12 +90,31 @@ impl FeltExpr {
         }
 
         match self {
-            FeltExpr::Var(v) => !matches!(
-                v.complex_or_felt,
-                ComplexOrFelt::Felt(StateInfo::IsPolyOfState(_))
+            FeltExpr::Var(v) => matches!(
+                v.complex_or_felt.as_felt_info().state_info,
+                StateInfo::StateIndex(..)
+                    | StateInfo::ExtTableState { .. }
+                    | StateInfo::PublicParam(_)
             ),
             _ => false,
         }
+    }
+
+    pub fn let_for_constraint(&mut self, name: String) {
+        if let FeltExpr::Op(_) = self {
+            let mut var = VarExpr::new_from(name.clone(), self);
+            var.visibility.in_deductions = false;
+            *self = var.into();
+        }
+        self.as_var_mut()
+            .complex_or_felt
+            .as_felt_info_mut()
+            .constraint_intermediate = Some(name);
+        self.as_var_mut().visibility.in_constraints = true;
+    }
+
+    pub fn copy_parent(&mut self, copy_from: &FeltExpr) {
+        self.as_var_mut().parent = copy_from.as_var().parent.clone();
     }
 }
 
@@ -111,7 +137,7 @@ impl Serialize for FeltExpr {
     where
         S: Serializer,
     {
-        let var: CompiledAirVar = self.clone().into();
+        let var: CompiledAirVar = self.clone().compile(CompileFor::Deductions);
         serializer.collect_str(&var.to_string())
     }
 }
@@ -133,8 +159,6 @@ macro_rules! expr {
             Some($crate::core::Felt::from($val)),
             false,
             false,
-            true,
-            true,
         ))
     };
 }

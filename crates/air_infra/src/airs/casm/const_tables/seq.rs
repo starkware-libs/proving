@@ -27,8 +27,6 @@ impl ExtTable for Seq {
                 Some(Felt::from(row_number as u32)),
                 true,
                 true,
-                true,
-                true,
             ));
         }
 

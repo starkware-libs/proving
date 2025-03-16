@@ -33,7 +33,7 @@ impl AirFn for ReadSplit {
 
         // Deduce the low limbs as-is
         for i in 0..(FELT252_N_WORDS - 1) {
-            air_builder.deduce(value.get_felt_mut(i), &format!("limb_{}", i));
+            air_builder.deduce(value.get_felt_mut(i), &format!("value_limb_{}", i));
         }
 
         // Deduce the most significant limb split into two parts

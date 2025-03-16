@@ -121,17 +121,17 @@
       }
     },
     {
-      "Intermediate": [
-        "offset1_tmp_faa83_2",
-        {
+      "Intermediate": {
+        "name": "offset1_tmp_faa83_2",
+        "var": {
           "name": "(((UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(1)) >> 7) + (UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(2)) << 2)) + ((UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(3)) & 31) << 11))",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -140,17 +140,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "dst_base_fp_tmp_faa83_3",
-        {
+      "Intermediate": {
+        "name": "dst_base_fp_tmp_faa83_3",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(6)) << 6)) >> 0) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -165,17 +165,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "op1_imm_tmp_faa83_4",
-        {
+      "Intermediate": {
+        "name": "op1_imm_tmp_faa83_4",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(6)) << 6)) >> 2) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -190,17 +190,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "op1_base_fp_tmp_faa83_5",
-        {
+      "Intermediate": {
+        "name": "op1_base_fp_tmp_faa83_5",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(6)) << 6)) >> 3) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -221,17 +221,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "pc_update_jump_tmp_faa83_6",
-        {
+      "Intermediate": {
+        "name": "pc_update_jump_tmp_faa83_6",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(6)) << 6)) >> 7) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -246,17 +246,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "opcode_call_tmp_faa83_7",
-        {
+      "Intermediate": {
+        "name": "opcode_call_tmp_faa83_7",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(6)) << 6)) >> 12) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [
@@ -271,17 +271,17 @@
       ]
     },
     {
-      "Intermediate": [
-        "opcode_ret_tmp_faa83_8",
-        {
+      "Intermediate": {
+        "name": "opcode_ret_tmp_faa83_8",
+        "var": {
           "name": "((((UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(5)) >> 3) + (UInt16::from_m31(memory_id_to_big_value_tmp_faa83_1.get_m31(6)) << 6)) >> 13) & 1)",
           "type": "UInt16"
         },
-        {
+        "visibility": {
           "in_constraints": false,
           "in_deductions": true
         }
-      ]
+      }
     },
     {
       "Deduction": [

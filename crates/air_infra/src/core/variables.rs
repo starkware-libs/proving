@@ -9,6 +9,7 @@ use inst_def::InstDef;
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::ProverType;
 
+use super::air_body::*;
 use super::air_fn::*;
 use super::expressions::biguint_expr::*;
 use super::expressions::bool_expr::*;
@@ -64,6 +65,61 @@ pub trait AirVar: InternalAirVarActions + Debug {
             .map(|f| f.value())
             .collect::<Option<Vec<_>>>()
     }
+
+    // Defines a new variable for the top level variable, visibile in deductions, and a variable for
+    // each felt, visible in constraints.
+    fn rec_let(&self, name: String) -> (Self, Vec<Intermediate>) {
+        let mut res = self.let_for_deduction(name.clone());
+
+        // When the expression is a single felt, create an intermediate known both in deductions and
+        // constraints.
+        if let AirVarImpl::Expr(ExprImpl::Felt(f)) = self.clone().into() {
+            if f.is_directly_in_state() {
+                return (self.clone(), vec![]);
+            }
+            let var = self.clone().into();
+            // Cast <res> into a mut felt expression.
+            let res_as_felt = res.as_felts_mut().into_iter().next().expect("No felts");
+            res_as_felt.let_for_constraint(name.clone());
+            return (
+                res,
+                vec![Intermediate {
+                    name,
+                    var,
+                    visibility: Visibility::new(true, true),
+                }],
+            );
+        }
+
+        // We have to create the variable for <self> before its felts, because <let_> creates
+        // the felts as well. Then, we recreate the felts from their original expressions
+        // (<orig_felts>) and update <res>.
+        let mut orig_felts = self.as_felts();
+        let mut vars = vec![Intermediate {
+            name: name.clone(),
+            var: self.clone().into(),
+            visibility: Visibility::new(true, false),
+        }];
+
+        for (i, (orig_felt, felt)) in orig_felts.iter_mut().zip(res.as_felts_mut()).enumerate() {
+            let parent_source = felt.clone();
+            if orig_felt.is_directly_in_state() {
+                *felt = orig_felt.clone();
+                felt.copy_parent(&parent_source);
+                continue;
+            }
+
+            let felt_name = format!("{}_limb_{}", name, i);
+            vars.push(Intermediate {
+                name: felt_name.clone(),
+                var: AirVarImpl::Expr(orig_felt.clone().into()),
+                visibility: Visibility::new(false, true),
+            });
+            felt.let_for_constraint(felt_name);
+        }
+
+        (res, vars)
+    }
 }
 
 // Information about air variables used by the air builder.
@@ -91,11 +147,12 @@ pub trait InternalAirVarInfo {
         self.get_info().iter().all(|i| i.is_const)
     }
 
-    // An AirVar is in_constraints if each of its intermediate variables was created with
-    // let_for_constraint or with let_. Similarly, an AirVar is in_deductions if each of its
-    // intermediate variables was created with let_for_deduction or with let_.
-    // If it has no intermediate variables, it is both in_constraints and in_deductions.
-    // Used to verify that intermediate variables are used in the correct context.
+    // An AirVar is visible in constraints if it's a felt and each of its intermediate variables is
+    // in constraints. An AirVar is visible in deductions if each of its intermediate variables is
+    // in deductions, if it has no intermediate variables, or if you can create it from a parent
+    // variable (see VarExpr). Felts that are directly in the state (see FeltExpr) are visible
+    // in constraints and in deductions. Used to verify that variables are used in the correct
+    // context.
     fn visibility(&self) -> Visibility {
         let visibilities = self
             .get_info()
@@ -126,7 +183,8 @@ pub trait InternalAirVarInfo {
 // Actions on air variables used by the air builder.
 pub(crate) trait InternalAirVarActions: Clone + Into<AirVarImpl> {
     fn new(name: String, in_state: bool) -> Self;
-    fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self;
+    // TODO(AnatG): Consider returning a tuple of Self and the new Intermediate.
+    fn let_for_deduction(&self, name: String) -> Self;
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Hash)]
@@ -138,19 +196,26 @@ pub struct AirVarInfo {
     pub external_state: Option<(String, Vec<String>)>,
 }
 
-#[derive(Clone, Copy, Debug, Serialize, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, Debug, Serialize, PartialEq, Eq, Hash, Default)]
 pub struct Visibility {
     pub in_constraints: bool,
     pub in_deductions: bool,
 }
 
-impl Default for Visibility {
-    fn default() -> Self {
-        Visibility {
-            in_constraints: true,
-            in_deductions: true,
+impl Visibility {
+    pub fn new(in_deductions: bool, in_constraints: bool) -> Self {
+        Self {
+            in_constraints,
+            in_deductions,
         }
     }
+}
+
+#[derive(Clone, Debug, Serialize)]
+pub struct Intermediate {
+    pub name: String,
+    pub var: AirVarImpl,
+    pub visibility: Visibility,
 }
 
 // Describes an external preprocessed table and its type as used in the air infra.
@@ -291,6 +356,35 @@ impl AirVarImpl {
         }
     }
 
+    pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
+        match self {
+            AirVarImpl::Expr(expr) => expr.compile(compile_for),
+            AirVarImpl::Tuple(v) => {
+                CompiledAirVar::Tuple(v.into_iter().map(|v| v.compile(compile_for)).collect())
+            }
+            AirVarImpl::Array(v) => {
+                CompiledAirVar::Array(v.into_iter().map(|v| v.compile(compile_for)).collect())
+            }
+            AirVarImpl::Struct {
+                name,
+                r#type,
+                fields,
+            } => {
+                if let Some(n) = name {
+                    CompiledAirVar::Var(r#type, n)
+                } else {
+                    CompiledAirVar::Struct {
+                        r#type,
+                        fields: fields
+                            .into_iter()
+                            .map(|(name, v)| (name, v.compile(compile_for)))
+                            .collect(),
+                    }
+                }
+            }
+        }
+    }
+
     // Returns the prover type with a "Packed" prefix.
     pub fn packed_prover_type(&self) -> String {
         match self {
@@ -351,37 +445,6 @@ impl InternalAirVarInfo for AirVarImpl {
     }
 }
 
-impl From<AirVarImpl> for CompiledAirVar {
-    fn from(var: AirVarImpl) -> CompiledAirVar {
-        match var {
-            AirVarImpl::Expr(expr) => expr.into(),
-            AirVarImpl::Tuple(v) => {
-                CompiledAirVar::Tuple(v.into_iter().map(|v| v.into()).collect())
-            }
-            AirVarImpl::Array(v) => {
-                CompiledAirVar::Array(v.into_iter().map(|v| v.into()).collect())
-            }
-            AirVarImpl::Struct {
-                name,
-                r#type,
-                fields,
-            } => {
-                if let Some(n) = name {
-                    CompiledAirVar::Var(r#type, n)
-                } else {
-                    CompiledAirVar::Struct {
-                        r#type,
-                        fields: fields
-                            .into_iter()
-                            .map(|(name, v)| (name, v.into()))
-                            .collect(),
-                    }
-                }
-            }
-        }
-    }
-}
-
 impl From<()> for AirVarImpl {
     fn from(_value: ()) -> Self {
         AirVarImpl::Tuple(vec![])
@@ -400,7 +463,7 @@ impl AirVar for () {
 
 impl InternalAirVarActions for () {
     fn new(_name: String, _in_state: bool) -> Self {}
-    fn let_(&self, _name: String, _in_deductions: bool, _felts_in_constraints: bool) -> Self {}
+    fn let_for_deduction(&self, _name: String) -> Self {}
 }
 
 impl ExtTable for () {
@@ -508,10 +571,10 @@ macro_rules! impl_air_var {
         }
 
         impl<const N:usize, const M:usize> InternalAirVarActions for [[$s;N];M] where $s: InternalAirVarActions {
-            fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self {
+            fn let_for_deduction(&self, name: String) -> Self {
                 let mut res = self.clone();
                 for (i, s) in res.iter_mut().enumerate() {
-                    *s = s.let_(format!("{}[{}]", name, i), in_deductions, felts_in_constraints);
+                    *s = s.let_for_deduction(format!("{}[{}]", name, i));
                 }
                 res
             }
@@ -536,12 +599,8 @@ macro_rules! impl_air_var {
         }
 
         impl<const N:usize> InternalAirVarActions for [$s;N] where $s: InternalAirVarActions {
-            fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self {
-                let mut res = self.clone();
-                for (i, s) in res.iter_mut().enumerate() {
-                    *s = s.let_(format!("{}[{}]", name, i), in_deductions, felts_in_constraints);
-                }
-                res
+            fn let_for_deduction(&self, name: String) -> Self {
+                from_fn(|i| self[i].let_for_deduction(format!("{}[{}]", name, i)))
             }
             fn new(name: String, in_state: bool) -> Self {
                 from_fn(|i| <$s as InternalAirVarActions>::new(format!("{}[{}]", name, i), in_state))
@@ -571,11 +630,11 @@ macro_rules! impl_air_var {
         impl $($(<$(const $lt$(: $clt )?),+>)?)+ InternalAirVarActions for ($($s$(< $( $lt ),+ >)?),+)
             where $($s$(< $( $lt ),+ >)?: InternalAirVarActions),+
         {
-            fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self {
+            fn let_for_deduction(&self, name: String) -> Self {
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
                 let mut i = 0;
-                ($($s.let_(format!("{}.{}", name, { i += 1; i - 1 }), in_deductions, felts_in_constraints),)+)
+                ($($s.let_for_deduction(format!("{}.{}", name, { i += 1; i - 1 })),)+)
             }
             fn new(name: String, in_state: bool) -> Self {
                 let mut i = 0;

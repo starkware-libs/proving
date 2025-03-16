@@ -1,7 +1,7 @@
 use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, Intermediate, LookupTerm, TraceGenStep, UseOrYield,
+    CompiledAirFn, CompiledAirVar, CompiledIntermediate, LookupTerm, TraceGenStep, UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
@@ -468,7 +468,7 @@ impl RustProverGen {
                     });
                     offset += 1;
                 }
-                TraceGenStep::Intermediate(Intermediate {
+                TraceGenStep::Intermediate(CompiledIntermediate {
                     name,
                     r#type: _,
                     var,
@@ -712,7 +712,7 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
                 TraceGenStep::Deduction(expr, ..) => {
                     const_defs.extend(seek_consts(expr));
                 }
-                TraceGenStep::Intermediate(Intermediate {
+                TraceGenStep::Intermediate(CompiledIntermediate {
                     name: _,
                     r#type: _,
                     var,
@@ -922,7 +922,7 @@ fn context(deductions: &[TraceGenStep]) -> Vec<String> {
         .iter()
         .filter_map(|d| match d {
             TraceGenStep::Deduction(CompiledAirVar::StaticCall(fn_name, ..))
-            | TraceGenStep::Intermediate(Intermediate {
+            | TraceGenStep::Intermediate(CompiledIntermediate {
                 var: CompiledAirVar::StaticCall(fn_name, ..),
                 ..
             }) => {
