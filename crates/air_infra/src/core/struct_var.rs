@@ -92,22 +92,13 @@ where
 
 // VarWrapper wraps an air var with an optional description.
 // It is compiled by compiling its field. See for example CasmAddress.
-#[derive(Clone, Debug, Default)]
-pub struct VarWrapper<V: AirVar> {
+#[derive(Clone, Debug)]
+pub struct VarWrapper<V: AirVar, D: Clone + Debug> {
     pub var: V,
-    pub desc: Option<String>,
+    pub extra_info: Option<D>,
 }
 
-impl<V: AirVar> VarWrapper<V> {
-    pub fn new(var: V, desc: &str) -> Self {
-        Self {
-            var,
-            desc: (!desc.is_empty()).then(|| desc.to_string()),
-        }
-    }
-}
-
-impl<V: AirVar, T: ProverType> AsProverType<T> for VarWrapper<V>
+impl<V: AirVar, T: ProverType, D: Clone + Debug> AsProverType<T> for VarWrapper<V, D>
 where
     V: AsProverType<T>,
 {
@@ -116,29 +107,29 @@ where
     }
 }
 
-impl<V: AirVar> From<VarWrapper<V>> for AirVarImpl {
-    fn from(v: VarWrapper<V>) -> AirVarImpl {
+impl<V: AirVar, D: Clone + Debug> From<VarWrapper<V, D>> for AirVarImpl {
+    fn from(v: VarWrapper<V, D>) -> AirVarImpl {
         v.var.into()
     }
 }
 
-impl<V: AirVar> InternalAirVarActions for VarWrapper<V> {
+impl<V: AirVar, D: Clone + Debug> InternalAirVarActions for VarWrapper<V, D> {
     fn let_(&self, name: String, in_deductions: bool, felts_in_constraints: bool) -> Self {
         Self {
             var: self.var.let_(name, in_deductions, felts_in_constraints),
-            desc: self.desc.clone(),
+            extra_info: self.extra_info.clone(),
         }
     }
 
     fn new(name: String, in_state: bool) -> Self {
         Self {
             var: V::new(name.clone(), in_state),
-            desc: Some(name),
+            extra_info: None,
         }
     }
 }
 
-impl<V: AirVar> AirVar for VarWrapper<V> {
+impl<V: AirVar, D: Clone + Debug> AirVar for VarWrapper<V, D> {
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         self.var.as_felts_mut()
     }

@@ -22,7 +22,7 @@ impl AirFn for MemVerifyEqual {
         air_builder.deduce(
             &mut id,
             &addr1
-                .desc
+                .extra_info
                 .clone()
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),
@@ -51,7 +51,7 @@ impl AirFn for MemCondVerifyEqualKnownId {
         air_builder.deduce(
             &mut id1,
             &addr1
-                .desc
+                .extra_info
                 .clone()
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),

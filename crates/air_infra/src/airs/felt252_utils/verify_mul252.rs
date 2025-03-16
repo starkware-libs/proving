@@ -1,11 +1,11 @@
 use std::array::from_fn;
 use std::cmp::{max, min};
-use std::ops::{Add, AddAssign, Mul, Sub, SubAssign};
 
 use inst_def::InstDef;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::const_tables::range_check::*;
+use crate::airs::convolution_utils::bounded_felt::*;
 // Macros
 use crate::const_expr;
 use crate::const_u32_expr;
@@ -52,7 +52,7 @@ impl AirFn for VerifyMul252 {
             for j in convolution_start..=convolution_end {
                 conv += (a.get_felt(j) * b.get_felt(i - j), MAX_WORD * MAX_WORD, 0).into()
             }
-            conv.expr = air_builder.let_(conv.expr, "conv");
+            conv.var = air_builder.let_(conv.var, "conv");
             conv_tmps[i] = conv;
         }
 
@@ -90,7 +90,7 @@ impl AirFn for VerifyMul252 {
         }
         // Save the reduced convolution elements as temp variables.
         for conv_mod in conv_mod_tmps.iter_mut() {
-            conv_mod.expr = air_builder.let_(conv_mod.expr.clone(), "conv_mod");
+            conv_mod.var = air_builder.let_(conv_mod.var.clone(), "conv_mod");
         }
 
         // Compute and deduce k: the coefficient of P in the equation
@@ -107,9 +107,9 @@ impl AirFn for VerifyMul252 {
         // (-2**16, 2**16), we add 2**16 to the Uint before the modulo, and subtract it again after
         // the conversion to felt.
         let k_high_mod_2_9 =
-            UInt32Expr::from(conv_mod_tmps[1].expr.clone() + const_expr!(1u32 << 27))
+            UInt32Expr::from(conv_mod_tmps[1].var.clone() + const_expr!(1u32 << 27))
                 & const_u32_expr!((1u32 << 9) - 1);
-        let k_low = UInt32Expr::from(conv_mod_tmps[0].expr.clone() + const_expr!(1u32 << 27));
+        let k_low = UInt32Expr::from(conv_mod_tmps[0].var.clone() + const_expr!(1u32 << 27));
         let mut k_mod_2_18_biased =
             (k_low + (k_high_mod_2_9 << const_u32_expr!(9u32)) + const_u32_expr!(1u32 << 16))
                 & const_u32_expr!((1u32 << 18) - 1);
@@ -128,11 +128,11 @@ impl AirFn for VerifyMul252 {
         );
 
         // Bounds on k based on the range check constraint.
-        let k = BoundedFeltExpr {
-            expr: k_expr,
-            max_bound: (1i32 << MUL_RANGE_CHECKS) - (1i32 << 18) - 1,
-            min_bound: -(1i32 << 18),
-        };
+        let k = BoundedFeltExpr::new(
+            k_expr,
+            (1i32 << MUL_RANGE_CHECKS) - (1i32 << 18) - 1,
+            -(1i32 << 18),
+        );
 
         // Subtract k*P from the reduced convolution. P has only three non-zero limbs.
         for (coef, i) in [(1, 0), (136, 21), (256, 27)] {
@@ -143,98 +143,36 @@ impl AirFn for VerifyMul252 {
         let mut carry = BoundedFeltExpr::default();
         for (i, conv_mod) in conv_mod_tmps.iter().take(FELT252_N_WORDS - 1).enumerate() {
             let shifted_carry = conv_mod.clone() + carry;
-            carry = BoundedFeltExpr {
-                expr: air_builder.deduce(
-                    &mut (shifted_carry.expr.clone() * shift_inverse.clone()),
+            carry = BoundedFeltExpr::new(
+                air_builder.deduce(
+                    &mut (shifted_carry.var.clone() * shift_inverse.clone()),
                     &format!("carry_{}", i),
                 ),
-                max_bound: shifted_carry.max_bound >> FELT252_BITS_PER_WORD,
-                min_bound: shifted_carry.min_bound >> FELT252_BITS_PER_WORD,
-            };
-            air_builder.constrain(carry.expr.clone() * shift.clone() - shifted_carry.expr, "");
+                shifted_carry.max_bound() >> FELT252_BITS_PER_WORD,
+                shifted_carry.min_bound() >> FELT252_BITS_PER_WORD,
+            );
+            air_builder.constrain(carry.var.clone() * shift.clone() - shifted_carry.var, "");
 
             // All carries fit inside the range (-2**17, 2**19 - 2**17), and are range-checked
             // correspondigly. This range is nearly sharp for the largest carries, and in particular
             // a range of size 2**18 is insufficient.
-            assert!(carry.max_bound < (1i32 << MUL_RANGE_CHECKS) - (1i32 << 17));
-            assert!(carry.min_bound >= -(1i32 << 17));
+            assert!(carry.max_bound() < (1i32 << MUL_RANGE_CHECKS) - (1i32 << 17));
+            assert!(carry.min_bound() >= -(1i32 << 17));
 
             range_check(
                 air_builder,
                 &[MUL_RANGE_CHECKS],
-                &[carry.expr.clone() + const_expr!(1u32 << 17)],
+                &[carry.var.clone() + const_expr!(1u32 << 17)],
             );
 
             // Bounds on the carry based on the range-check constraint.
-            carry.max_bound = (1i32 << MUL_RANGE_CHECKS) - (1i32 << 17) - 1;
-            carry.min_bound = -(1i32 << 17);
+            carry.set_max_bound((1i32 << MUL_RANGE_CHECKS) - (1i32 << 17) - 1);
+            carry.set_min_bound(-(1i32 << 17));
         }
         // For the final limb, the computation must yield zero with no further carry.
         air_builder.constrain(
-            conv_mod_tmps[FELT252_N_WORDS - 1].expr.clone() + carry.expr,
+            conv_mod_tmps[FELT252_N_WORDS - 1].var.clone() + carry.var,
             "",
         );
-    }
-}
-
-#[derive(Clone, Debug, Default)]
-struct BoundedFeltExpr {
-    pub expr: FeltExpr,
-    pub max_bound: i32,
-    pub min_bound: i32,
-}
-
-impl Add for BoundedFeltExpr {
-    type Output = Self;
-    fn add(self, other: Self) -> Self {
-        Self {
-            expr: self.expr + other.expr,
-            max_bound: self.max_bound + other.max_bound,
-            min_bound: self.min_bound + other.min_bound,
-        }
-    }
-}
-
-impl AddAssign for BoundedFeltExpr {
-    fn add_assign(&mut self, other: Self) {
-        *self = self.clone() + other;
-    }
-}
-
-impl Sub for BoundedFeltExpr {
-    type Output = Self;
-    fn sub(self, other: Self) -> Self {
-        Self {
-            expr: self.expr - other.expr,
-            max_bound: self.max_bound - other.min_bound,
-            min_bound: self.min_bound - other.max_bound,
-        }
-    }
-}
-
-impl SubAssign for BoundedFeltExpr {
-    fn sub_assign(&mut self, other: Self) {
-        *self = self.clone() - other;
-    }
-}
-
-impl Mul<u32> for BoundedFeltExpr {
-    type Output = Self;
-    fn mul(self, other: u32) -> Self {
-        Self {
-            expr: const_expr!(other) * self.expr,
-            max_bound: (other as i32) * self.max_bound,
-            min_bound: (other as i32) * self.min_bound,
-        }
-    }
-}
-
-impl From<(FeltExpr, i32, i32)> for BoundedFeltExpr {
-    fn from((expr, max_bound, min_bound): (FeltExpr, i32, i32)) -> Self {
-        Self {
-            expr,
-            max_bound,
-            min_bound,
-        }
     }
 }

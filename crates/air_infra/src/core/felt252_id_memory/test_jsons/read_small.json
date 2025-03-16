@@ -9,11 +9,11 @@
   },
   "output": [
     {
-      "name": "((((read_small_input_limb_0_col3 + (read_small_input_limb_1_col4 * 512)) + (read_small_input_limb_2_col5 * 262144)) - msb_col1) - (134217728 * mid_limbs_set_col2))",
+      "name": "((((limb_0_col3 + (limb_1_col4 * 512)) + (limb_2_col5 * 262144)) - msb_col1) - (134217728 * mid_limbs_set_col2))",
       "type": "M31"
     },
     {
-      "name": "read_small_input_id_col0",
+      "name": "id_col0",
       "type": "M31"
     }
   ],
@@ -46,7 +46,7 @@
     {
       "Deduction": [
         "memory_address_to_id_value_tmp_ceaaf_0",
-        "read_small_input_id"
+        "id"
       ]
     },
     {
@@ -63,7 +63,7 @@
         "relation_name": "MemoryAddressToId",
         "felts": [
           "read_small_input",
-          "read_small_input_id_col0"
+          "id_col0"
         ],
         "use_or_yield": "Use"
       }
@@ -97,26 +97,26 @@
     {
       "Deduction": [
         "memory_id_to_big_value_tmp_ceaaf_1.get_m31(0)",
-        "read_small_input_limb_0"
+        "limb_0"
       ]
     },
     {
       "Deduction": [
         "memory_id_to_big_value_tmp_ceaaf_1.get_m31(1)",
-        "read_small_input_limb_1"
+        "limb_1"
       ]
     },
     {
       "Deduction": [
         "memory_id_to_big_value_tmp_ceaaf_1.get_m31(2)",
-        "read_small_input_limb_2"
+        "limb_2"
       ]
     },
     {
       "LookupAddInput": {
         "air_fn_name": "memory_id_to_big",
         "ext_input": {
-          "name": "read_small_input_id_col0",
+          "name": "id_col0",
           "type": "M31"
         }
       }
@@ -125,10 +125,10 @@
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",
         "felts": [
-          "read_small_input_id_col0",
-          "read_small_input_limb_0_col3",
-          "read_small_input_limb_1_col4",
-          "read_small_input_limb_2_col5",
+          "id_col0",
+          "limb_0_col3",
+          "limb_1_col4",
+          "limb_2_col5",
           "(mid_limbs_set_col2 * 511)",
           "(mid_limbs_set_col2 * 511)",
           "(mid_limbs_set_col2 * 511)",
@@ -162,8 +162,8 @@
   "state": {
     "row": [
       [
-        "read_small_input_id_col0",
-        "read_small_input_id"
+        "id_col0",
+        "id"
       ],
       [
         "msb_col1",
@@ -174,16 +174,16 @@
         "mid_limbs_set"
       ],
       [
-        "read_small_input_limb_0_col3",
-        "read_small_input_limb_0"
+        "limb_0_col3",
+        "limb_0"
       ],
       [
-        "read_small_input_limb_1_col4",
-        "read_small_input_limb_1"
+        "limb_1_col4",
+        "limb_1"
       ],
       [
-        "read_small_input_limb_2_col5",
-        "read_small_input_limb_2"
+        "limb_2_col5",
+        "limb_2"
       ]
     ]
   }

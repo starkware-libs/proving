@@ -110,7 +110,7 @@ impl Default for Felt252Expr {
 #[macro_export]
 macro_rules! const_felt252_expr {
     ($low:expr) => {
-        if $low == -1 {
+        if ($low as i128) == -1 {
             const_felt252_expr!(0, 0x8000000000000110000000000000000)
         } else if $low >= 0 {
             const_felt252_expr!($low as u128, 0)

@@ -34,7 +34,7 @@ impl AirFn for ReadPositive {
         air_builder.deduce(
             &mut id,
             &address
-                .desc
+                .extra_info
                 .clone()
                 .map(|s| format!("{}_id", s))
                 .unwrap_or("id".to_string()),
@@ -55,7 +55,7 @@ impl AirFn for ReadPositive {
             air_builder.deduce(
                 limb,
                 &address
-                    .desc
+                    .extra_info
                     .clone()
                     .map(|s| format!("{}_limb_{}", s, i))
                     .unwrap_or(format!("limb_{}", i)),
