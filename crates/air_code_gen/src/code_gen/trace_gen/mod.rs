@@ -164,15 +164,13 @@ impl RustProverGen {
                 quote! { inputs, },
                 quote! { inputs: Vec<InputType>, },
                 quote! {
-                    pub fn add_input(&self, input: &InputType,) {
+                    pub fn add_packed_input(&self, input: &PackedInputType,) {
                         $(add_input_simd_body())
                     }
 
                     // TODO(Ohad): consider removing this.
-                    pub fn add_inputs (&self, inputs: &[InputType]) {
-                        for input in inputs {
-                            self.add_input(input);
-                        }
+                    pub fn add_packed_inputs (&self, inputs: &[PackedInputType]) {
+                        $(add_input_simd_body())
                     }
                 },
                 quote! {mut self, },
@@ -508,11 +506,11 @@ impl RustProverGen {
                     if input != &CompiledAirVar::Tuple(vec![]) {
                         write_trace_body.extend(quote! {
                             let $(fn_name)$(INPUTS_SUFFIX)_$(offset.to_string()) =
-                                $(simd_parse_air_var(input, const_names)).unpack();
+                                $(simd_parse_air_var(input, const_names));
 
                         });
                         add_inputs_lambda.extend(quote! {
-                            $(fn_name)_state.add_inputs(
+                            $(fn_name)_state.add_packed_input(
                                 &$(fn_name)$(INPUTS_SUFFIX)_$(offset.to_string())
                             );
                         });

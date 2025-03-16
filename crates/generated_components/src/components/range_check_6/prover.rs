@@ -44,14 +44,12 @@ impl ClaimGenerator {
         )
     }
 
-    pub fn add_input(&self, input: &InputType) {
+    pub fn add_packed_input(&self, input: &PackedInputType) {
         unimplemented!("Implement manually");
     }
 
-    pub fn add_inputs(&self, inputs: &[InputType]) {
-        for input in inputs {
-            self.add_input(input);
-        }
+    pub fn add_packed_inputs(&self, inputs: &[PackedInputType]) {
+        unimplemented!("Implement manually");
     }
 }
 

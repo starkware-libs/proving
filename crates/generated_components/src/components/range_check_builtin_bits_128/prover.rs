@@ -90,8 +90,7 @@ fn write_trace_simd(
             let value_id_col0 = memory_address_to_id_value_tmp_c9e8f_0;
             *row[0] = value_id_col0;
             let memory_address_to_id_inputs_0 =
-                ((PackedM31::broadcast(M31::from(range_check_builtin_segment_start))) + (seq))
-                    .unpack();
+                ((PackedM31::broadcast(M31::from(range_check_builtin_segment_start))) + (seq));
             *lookup_data.memory_address_to_id_0 = [
                 ((PackedM31::broadcast(M31::from(range_check_builtin_segment_start))) + (seq)),
                 value_id_col0,
@@ -134,7 +133,7 @@ fn write_trace_simd(
             let msb_col16 = msb_tmp_c9e8f_2.as_m31();
             *row[16] = msb_col16;
 
-            let memory_id_to_big_inputs_0 = value_id_col0.unpack();
+            let memory_id_to_big_inputs_0 = value_id_col0;
             *lookup_data.memory_id_to_big_0 = [
                 value_id_col0,
                 value_limb_0_col1,
@@ -168,8 +167,8 @@ fn write_trace_simd(
             ];
 
             // Add sub-components inputs.
-            memory_address_to_id_state.add_inputs(&memory_address_to_id_inputs_0);
-            memory_id_to_big_state.add_inputs(&memory_id_to_big_inputs_0);
+            memory_address_to_id_state.add_packed_input(&memory_address_to_id_inputs_0);
+            memory_id_to_big_state.add_packed_input(&memory_id_to_big_inputs_0);
         });
 
     (trace, lookup_data)
