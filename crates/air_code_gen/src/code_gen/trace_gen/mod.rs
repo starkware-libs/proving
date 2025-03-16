@@ -349,23 +349,43 @@ impl RustProverGen {
             });
         }
 
-        let (log_size_code, zip_inputs, for_each_variables) = match self.mode {
-            Mode::Builtin => (
-                quote! {
-                    let log_n_packed_rows = log_size - LOG_N_LANES;
-                },
-                quote! {},
-                quote! { (row_index, row) },
-            ),
-            _ => (
-                quote! {
-                    let log_n_packed_rows = inputs.len().ilog2();
-                    let log_size = log_n_packed_rows + LOG_N_LANES;
-                },
-                quote! { .zip(inputs.into_par_iter()) },
-                quote! { ((row_index, row), $(&self.lists.name)_input) },
-            ),
+        let prelude_code = match self.mode {
+            Mode::Builtin => quote! {
+            let log_n_packed_rows = log_size - LOG_N_LANES;
+            },
+            _ => quote! {
+            let log_n_packed_rows = inputs.len().ilog2();
+            let log_size = log_n_packed_rows + LOG_N_LANES;
+            },
         };
+
+        let init_code = (
+            quote! { mut trace, mut lookup_data},
+            quote! {
+                ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
+                LookupData::uninitialized(log_n_packed_rows),
+            },
+        );
+
+        let mut lambda_producer = (
+            quote! {
+                trace.par_iter_mut(),
+                lookup_data.par_iter_mut(),
+            },
+            quote! {mut row, lookup_data,},
+        );
+
+        match self.mode {
+            Mode::Opcode | Mode::View => {
+                lambda_producer.0.extend(quote! {
+                   inputs.into_par_iter(),
+                });
+                lambda_producer
+                    .1
+                    .extend(quote! { $(&self.lists.name)_input });
+            }
+            Mode::Builtin => {}
+        }
 
         let opcode_mask = match self.mode {
             Mode::Opcode => quote!(let padding = Enabler::new(n_rows);),
@@ -383,25 +403,20 @@ impl RustProverGen {
                 $(self.generate_write_trace_simd_params())
             ) -> (ComponentTrace<N_TRACE_COLUMNS>,
                 LookupData) {
-                $(log_size_code)
-                let (mut trace, mut lookup_data) = unsafe {
-                    (
-                        ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
-                        LookupData::uninitialized(log_n_packed_rows),
-                    )
+                $(prelude_code)
+                let ($(init_code.0)) = unsafe {
+                    ($(init_code.1))
                 };
 
                 $(constants_def_code)
 
                 $(opcode_mask)
 
-                trace
-                .par_iter_mut()
+                ($(lambda_producer.0))
+                .into_par_iter()
                 .enumerate()
-                $(zip_inputs)
-                .zip(lookup_data.par_iter_mut())
                 .for_each(
-                    |($(for_each_variables), lookup_data)| {
+                    |(row_index,($(lambda_producer.1)))| {
                         $(self.write_trace_lambda())
                     });
 

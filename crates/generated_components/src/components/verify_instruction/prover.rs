@@ -101,13 +101,15 @@ fn write_trace_simd(
     let UInt16_511 = PackedUInt16::broadcast(UInt16::from(511));
     let UInt16_9 = PackedUInt16::broadcast(UInt16::from(9));
 
-    trace
-        .par_iter_mut()
+    (
+        trace.par_iter_mut(),
+        lookup_data.par_iter_mut(),
+        inputs.into_par_iter(),
+    )
+        .into_par_iter()
         .enumerate()
-        .zip(inputs.into_par_iter())
-        .zip(lookup_data.par_iter_mut())
         .for_each(
-            |(((row_index, row), verify_instruction_input), lookup_data)| {
+            |(row_index, (mut row, lookup_data, verify_instruction_input))| {
                 let input_limb_0_col0 = verify_instruction_input.0;
                 *row[0] = input_limb_0_col0;
                 let input_limb_1_col1 = verify_instruction_input.1[0];

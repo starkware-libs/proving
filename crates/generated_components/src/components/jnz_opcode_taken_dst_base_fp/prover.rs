@@ -98,13 +98,15 @@ fn write_trace_simd(
 
     let padding = Enabler::new(n_rows);
 
-    trace
-        .par_iter_mut()
+    (
+        trace.par_iter_mut(),
+        lookup_data.par_iter_mut(),
+        inputs.into_par_iter(),
+    )
+        .into_par_iter()
         .enumerate()
-        .zip(inputs.into_par_iter())
-        .zip(lookup_data.par_iter_mut())
         .for_each(
-            |(((row_index, row), jnz_opcode_taken_dst_base_fp_input), lookup_data)| {
+            |(row_index, (mut row, lookup_data, jnz_opcode_taken_dst_base_fp_input))| {
                 let input_pc_col0 = jnz_opcode_taken_dst_base_fp_input.pc;
                 *row[0] = input_pc_col0;
                 let input_ap_col1 = jnz_opcode_taken_dst_base_fp_input.ap;
