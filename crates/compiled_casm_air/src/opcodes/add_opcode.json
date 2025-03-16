@@ -17,99 +17,98 @@
     "dst_base_fp_col6",
     "op0_base_fp_col7",
     "op1_base_fp_col8",
-    "op1_base_ap_col9",
-    "ap_update_add_1_col10",
-    "mem_dst_base_col11",
-    "mem0_base_col12",
-    "mem1_base_col13",
-    "dst_id_col14",
-    "dst_limb_0_col15",
-    "dst_limb_1_col16",
-    "dst_limb_2_col17",
-    "dst_limb_3_col18",
-    "dst_limb_4_col19",
-    "dst_limb_5_col20",
-    "dst_limb_6_col21",
-    "dst_limb_7_col22",
-    "dst_limb_8_col23",
-    "dst_limb_9_col24",
-    "dst_limb_10_col25",
-    "dst_limb_11_col26",
-    "dst_limb_12_col27",
-    "dst_limb_13_col28",
-    "dst_limb_14_col29",
-    "dst_limb_15_col30",
-    "dst_limb_16_col31",
-    "dst_limb_17_col32",
-    "dst_limb_18_col33",
-    "dst_limb_19_col34",
-    "dst_limb_20_col35",
-    "dst_limb_21_col36",
-    "dst_limb_22_col37",
-    "dst_limb_23_col38",
-    "dst_limb_24_col39",
-    "dst_limb_25_col40",
-    "dst_limb_26_col41",
-    "dst_limb_27_col42",
-    "op0_id_col43",
-    "op0_limb_0_col44",
-    "op0_limb_1_col45",
-    "op0_limb_2_col46",
-    "op0_limb_3_col47",
-    "op0_limb_4_col48",
-    "op0_limb_5_col49",
-    "op0_limb_6_col50",
-    "op0_limb_7_col51",
-    "op0_limb_8_col52",
-    "op0_limb_9_col53",
-    "op0_limb_10_col54",
-    "op0_limb_11_col55",
-    "op0_limb_12_col56",
-    "op0_limb_13_col57",
-    "op0_limb_14_col58",
-    "op0_limb_15_col59",
-    "op0_limb_16_col60",
-    "op0_limb_17_col61",
-    "op0_limb_18_col62",
-    "op0_limb_19_col63",
-    "op0_limb_20_col64",
-    "op0_limb_21_col65",
-    "op0_limb_22_col66",
-    "op0_limb_23_col67",
-    "op0_limb_24_col68",
-    "op0_limb_25_col69",
-    "op0_limb_26_col70",
-    "op0_limb_27_col71",
-    "op1_id_col72",
-    "op1_limb_0_col73",
-    "op1_limb_1_col74",
-    "op1_limb_2_col75",
-    "op1_limb_3_col76",
-    "op1_limb_4_col77",
-    "op1_limb_5_col78",
-    "op1_limb_6_col79",
-    "op1_limb_7_col80",
-    "op1_limb_8_col81",
-    "op1_limb_9_col82",
-    "op1_limb_10_col83",
-    "op1_limb_11_col84",
-    "op1_limb_12_col85",
-    "op1_limb_13_col86",
-    "op1_limb_14_col87",
-    "op1_limb_15_col88",
-    "op1_limb_16_col89",
-    "op1_limb_17_col90",
-    "op1_limb_18_col91",
-    "op1_limb_19_col92",
-    "op1_limb_20_col93",
-    "op1_limb_21_col94",
-    "op1_limb_22_col95",
-    "op1_limb_23_col96",
-    "op1_limb_24_col97",
-    "op1_limb_25_col98",
-    "op1_limb_26_col99",
-    "op1_limb_27_col100",
-    "sub_p_bit_col101"
+    "ap_update_add_1_col9",
+    "mem_dst_base_col10",
+    "mem0_base_col11",
+    "mem1_base_col12",
+    "dst_id_col13",
+    "dst_limb_0_col14",
+    "dst_limb_1_col15",
+    "dst_limb_2_col16",
+    "dst_limb_3_col17",
+    "dst_limb_4_col18",
+    "dst_limb_5_col19",
+    "dst_limb_6_col20",
+    "dst_limb_7_col21",
+    "dst_limb_8_col22",
+    "dst_limb_9_col23",
+    "dst_limb_10_col24",
+    "dst_limb_11_col25",
+    "dst_limb_12_col26",
+    "dst_limb_13_col27",
+    "dst_limb_14_col28",
+    "dst_limb_15_col29",
+    "dst_limb_16_col30",
+    "dst_limb_17_col31",
+    "dst_limb_18_col32",
+    "dst_limb_19_col33",
+    "dst_limb_20_col34",
+    "dst_limb_21_col35",
+    "dst_limb_22_col36",
+    "dst_limb_23_col37",
+    "dst_limb_24_col38",
+    "dst_limb_25_col39",
+    "dst_limb_26_col40",
+    "dst_limb_27_col41",
+    "op0_id_col42",
+    "op0_limb_0_col43",
+    "op0_limb_1_col44",
+    "op0_limb_2_col45",
+    "op0_limb_3_col46",
+    "op0_limb_4_col47",
+    "op0_limb_5_col48",
+    "op0_limb_6_col49",
+    "op0_limb_7_col50",
+    "op0_limb_8_col51",
+    "op0_limb_9_col52",
+    "op0_limb_10_col53",
+    "op0_limb_11_col54",
+    "op0_limb_12_col55",
+    "op0_limb_13_col56",
+    "op0_limb_14_col57",
+    "op0_limb_15_col58",
+    "op0_limb_16_col59",
+    "op0_limb_17_col60",
+    "op0_limb_18_col61",
+    "op0_limb_19_col62",
+    "op0_limb_20_col63",
+    "op0_limb_21_col64",
+    "op0_limb_22_col65",
+    "op0_limb_23_col66",
+    "op0_limb_24_col67",
+    "op0_limb_25_col68",
+    "op0_limb_26_col69",
+    "op0_limb_27_col70",
+    "op1_id_col71",
+    "op1_limb_0_col72",
+    "op1_limb_1_col73",
+    "op1_limb_2_col74",
+    "op1_limb_3_col75",
+    "op1_limb_4_col76",
+    "op1_limb_5_col77",
+    "op1_limb_6_col78",
+    "op1_limb_7_col79",
+    "op1_limb_8_col80",
+    "op1_limb_9_col81",
+    "op1_limb_10_col82",
+    "op1_limb_11_col83",
+    "op1_limb_12_col84",
+    "op1_limb_13_col85",
+    "op1_limb_14_col86",
+    "op1_limb_15_col87",
+    "op1_limb_16_col88",
+    "op1_limb_17_col89",
+    "op1_limb_18_col90",
+    "op1_limb_19_col91",
+    "op1_limb_20_col92",
+    "op1_limb_21_col93",
+    "op1_limb_22_col94",
+    "op1_limb_23_col95",
+    "op1_limb_24_col96",
+    "op1_limb_25_col97",
+    "op1_limb_26_col98",
+    "op1_limb_27_col99",
+    "sub_p_bit_col100"
   ],
   "multiplicity_col_index": null,
   "lookup_names": [
@@ -211,7 +210,7 @@
         {
           "BinaryOp": [
             {
-              "State": "op1_base_ap_col9"
+              "State": "ap_update_add_1_col9"
             },
             "*",
             {
@@ -224,34 +223,7 @@
                 },
                 "-",
                 {
-                  "State": "op1_base_ap_col9"
-                }
-              ]
-            }
-          ]
-        },
-        "Flag op1_base_ap is a bit"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ap_update_add_1_col10"
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                },
-                "-",
-                {
-                  "State": "ap_update_add_1_col10"
+                  "State": "ap_update_add_1_col9"
                 }
               ]
             }
@@ -336,7 +308,18 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "op1_base_ap_col9"
+                        "BinaryOp": [
+                          {
+                            "Const": [
+                              "M31",
+                              "1"
+                            ]
+                          },
+                          "-",
+                          {
+                            "State": "op1_base_fp_col8"
+                          }
+                        ]
                       },
                       "*",
                       {
@@ -363,7 +346,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "ap_update_add_1_col10"
+                    "State": "ap_update_add_1_col9"
                   },
                   "*",
                   {
@@ -399,7 +382,7 @@
         {
           "BinaryOp": [
             {
-              "State": "mem_dst_base_col11"
+              "State": "mem_dst_base_col10"
             },
             "-",
             {
@@ -450,7 +433,7 @@
         {
           "BinaryOp": [
             {
-              "State": "mem0_base_col12"
+              "State": "mem0_base_col11"
             },
             "-",
             {
@@ -501,34 +484,7 @@
         {
           "BinaryOp": [
             {
-              "BinaryOp": [
-                {
-                  "State": "op1_base_fp_col8"
-                },
-                "+",
-                {
-                  "State": "op1_base_ap_col9"
-                }
-              ]
-            },
-            "-",
-            {
-              "Const": [
-                "M31",
-                "1"
-              ]
-            }
-          ]
-        },
-        "Either flag op1_base_fp is on or flag op1_base_ap is on"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "mem1_base_col13"
+              "State": "mem1_base_col12"
             },
             "-",
             {
@@ -548,7 +504,18 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "op1_base_ap_col9"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "1"
+                          ]
+                        },
+                        "-",
+                        {
+                          "State": "op1_base_fp_col8"
+                        }
+                      ]
                     },
                     "*",
                     {
@@ -573,7 +540,7 @@
           {
             "BinaryOp": [
               {
-                "State": "mem_dst_base_col11"
+                "State": "mem_dst_base_col10"
               },
               "+",
               {
@@ -593,7 +560,7 @@
             ]
           },
           {
-            "State": "dst_id_col14"
+            "State": "dst_id_col13"
           }
         ],
         "use_or_yield": "Use"
@@ -604,91 +571,91 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "State": "dst_id_col14"
+            "State": "dst_id_col13"
           },
           {
-            "State": "dst_limb_0_col15"
+            "State": "dst_limb_0_col14"
           },
           {
-            "State": "dst_limb_1_col16"
+            "State": "dst_limb_1_col15"
           },
           {
-            "State": "dst_limb_2_col17"
+            "State": "dst_limb_2_col16"
           },
           {
-            "State": "dst_limb_3_col18"
+            "State": "dst_limb_3_col17"
           },
           {
-            "State": "dst_limb_4_col19"
+            "State": "dst_limb_4_col18"
           },
           {
-            "State": "dst_limb_5_col20"
+            "State": "dst_limb_5_col19"
           },
           {
-            "State": "dst_limb_6_col21"
+            "State": "dst_limb_6_col20"
           },
           {
-            "State": "dst_limb_7_col22"
+            "State": "dst_limb_7_col21"
           },
           {
-            "State": "dst_limb_8_col23"
+            "State": "dst_limb_8_col22"
           },
           {
-            "State": "dst_limb_9_col24"
+            "State": "dst_limb_9_col23"
           },
           {
-            "State": "dst_limb_10_col25"
+            "State": "dst_limb_10_col24"
           },
           {
-            "State": "dst_limb_11_col26"
+            "State": "dst_limb_11_col25"
           },
           {
-            "State": "dst_limb_12_col27"
+            "State": "dst_limb_12_col26"
           },
           {
-            "State": "dst_limb_13_col28"
+            "State": "dst_limb_13_col27"
           },
           {
-            "State": "dst_limb_14_col29"
+            "State": "dst_limb_14_col28"
           },
           {
-            "State": "dst_limb_15_col30"
+            "State": "dst_limb_15_col29"
           },
           {
-            "State": "dst_limb_16_col31"
+            "State": "dst_limb_16_col30"
           },
           {
-            "State": "dst_limb_17_col32"
+            "State": "dst_limb_17_col31"
           },
           {
-            "State": "dst_limb_18_col33"
+            "State": "dst_limb_18_col32"
           },
           {
-            "State": "dst_limb_19_col34"
+            "State": "dst_limb_19_col33"
           },
           {
-            "State": "dst_limb_20_col35"
+            "State": "dst_limb_20_col34"
           },
           {
-            "State": "dst_limb_21_col36"
+            "State": "dst_limb_21_col35"
           },
           {
-            "State": "dst_limb_22_col37"
+            "State": "dst_limb_22_col36"
           },
           {
-            "State": "dst_limb_23_col38"
+            "State": "dst_limb_23_col37"
           },
           {
-            "State": "dst_limb_24_col39"
+            "State": "dst_limb_24_col38"
           },
           {
-            "State": "dst_limb_25_col40"
+            "State": "dst_limb_25_col39"
           },
           {
-            "State": "dst_limb_26_col41"
+            "State": "dst_limb_26_col40"
           },
           {
-            "State": "dst_limb_27_col42"
+            "State": "dst_limb_27_col41"
           }
         ],
         "use_or_yield": "Use"
@@ -705,7 +672,7 @@
           {
             "BinaryOp": [
               {
-                "State": "mem0_base_col12"
+                "State": "mem0_base_col11"
               },
               "+",
               {
@@ -725,7 +692,7 @@
             ]
           },
           {
-            "State": "op0_id_col43"
+            "State": "op0_id_col42"
           }
         ],
         "use_or_yield": "Use"
@@ -736,91 +703,91 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "State": "op0_id_col43"
+            "State": "op0_id_col42"
           },
           {
-            "State": "op0_limb_0_col44"
+            "State": "op0_limb_0_col43"
           },
           {
-            "State": "op0_limb_1_col45"
+            "State": "op0_limb_1_col44"
           },
           {
-            "State": "op0_limb_2_col46"
+            "State": "op0_limb_2_col45"
           },
           {
-            "State": "op0_limb_3_col47"
+            "State": "op0_limb_3_col46"
           },
           {
-            "State": "op0_limb_4_col48"
+            "State": "op0_limb_4_col47"
           },
           {
-            "State": "op0_limb_5_col49"
+            "State": "op0_limb_5_col48"
           },
           {
-            "State": "op0_limb_6_col50"
+            "State": "op0_limb_6_col49"
           },
           {
-            "State": "op0_limb_7_col51"
+            "State": "op0_limb_7_col50"
           },
           {
-            "State": "op0_limb_8_col52"
+            "State": "op0_limb_8_col51"
           },
           {
-            "State": "op0_limb_9_col53"
+            "State": "op0_limb_9_col52"
           },
           {
-            "State": "op0_limb_10_col54"
+            "State": "op0_limb_10_col53"
           },
           {
-            "State": "op0_limb_11_col55"
+            "State": "op0_limb_11_col54"
           },
           {
-            "State": "op0_limb_12_col56"
+            "State": "op0_limb_12_col55"
           },
           {
-            "State": "op0_limb_13_col57"
+            "State": "op0_limb_13_col56"
           },
           {
-            "State": "op0_limb_14_col58"
+            "State": "op0_limb_14_col57"
           },
           {
-            "State": "op0_limb_15_col59"
+            "State": "op0_limb_15_col58"
           },
           {
-            "State": "op0_limb_16_col60"
+            "State": "op0_limb_16_col59"
           },
           {
-            "State": "op0_limb_17_col61"
+            "State": "op0_limb_17_col60"
           },
           {
-            "State": "op0_limb_18_col62"
+            "State": "op0_limb_18_col61"
           },
           {
-            "State": "op0_limb_19_col63"
+            "State": "op0_limb_19_col62"
           },
           {
-            "State": "op0_limb_20_col64"
+            "State": "op0_limb_20_col63"
           },
           {
-            "State": "op0_limb_21_col65"
+            "State": "op0_limb_21_col64"
           },
           {
-            "State": "op0_limb_22_col66"
+            "State": "op0_limb_22_col65"
           },
           {
-            "State": "op0_limb_23_col67"
+            "State": "op0_limb_23_col66"
           },
           {
-            "State": "op0_limb_24_col68"
+            "State": "op0_limb_24_col67"
           },
           {
-            "State": "op0_limb_25_col69"
+            "State": "op0_limb_25_col68"
           },
           {
-            "State": "op0_limb_26_col70"
+            "State": "op0_limb_26_col69"
           },
           {
-            "State": "op0_limb_27_col71"
+            "State": "op0_limb_27_col70"
           }
         ],
         "use_or_yield": "Use"
@@ -837,7 +804,7 @@
           {
             "BinaryOp": [
               {
-                "State": "mem1_base_col13"
+                "State": "mem1_base_col12"
               },
               "+",
               {
@@ -857,7 +824,7 @@
             ]
           },
           {
-            "State": "op1_id_col72"
+            "State": "op1_id_col71"
           }
         ],
         "use_or_yield": "Use"
@@ -868,91 +835,91 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "State": "op1_id_col72"
+            "State": "op1_id_col71"
           },
           {
-            "State": "op1_limb_0_col73"
+            "State": "op1_limb_0_col72"
           },
           {
-            "State": "op1_limb_1_col74"
+            "State": "op1_limb_1_col73"
           },
           {
-            "State": "op1_limb_2_col75"
+            "State": "op1_limb_2_col74"
           },
           {
-            "State": "op1_limb_3_col76"
+            "State": "op1_limb_3_col75"
           },
           {
-            "State": "op1_limb_4_col77"
+            "State": "op1_limb_4_col76"
           },
           {
-            "State": "op1_limb_5_col78"
+            "State": "op1_limb_5_col77"
           },
           {
-            "State": "op1_limb_6_col79"
+            "State": "op1_limb_6_col78"
           },
           {
-            "State": "op1_limb_7_col80"
+            "State": "op1_limb_7_col79"
           },
           {
-            "State": "op1_limb_8_col81"
+            "State": "op1_limb_8_col80"
           },
           {
-            "State": "op1_limb_9_col82"
+            "State": "op1_limb_9_col81"
           },
           {
-            "State": "op1_limb_10_col83"
+            "State": "op1_limb_10_col82"
           },
           {
-            "State": "op1_limb_11_col84"
+            "State": "op1_limb_11_col83"
           },
           {
-            "State": "op1_limb_12_col85"
+            "State": "op1_limb_12_col84"
           },
           {
-            "State": "op1_limb_13_col86"
+            "State": "op1_limb_13_col85"
           },
           {
-            "State": "op1_limb_14_col87"
+            "State": "op1_limb_14_col86"
           },
           {
-            "State": "op1_limb_15_col88"
+            "State": "op1_limb_15_col87"
           },
           {
-            "State": "op1_limb_16_col89"
+            "State": "op1_limb_16_col88"
           },
           {
-            "State": "op1_limb_17_col90"
+            "State": "op1_limb_17_col89"
           },
           {
-            "State": "op1_limb_18_col91"
+            "State": "op1_limb_18_col90"
           },
           {
-            "State": "op1_limb_19_col92"
+            "State": "op1_limb_19_col91"
           },
           {
-            "State": "op1_limb_20_col93"
+            "State": "op1_limb_20_col92"
           },
           {
-            "State": "op1_limb_21_col94"
+            "State": "op1_limb_21_col93"
           },
           {
-            "State": "op1_limb_22_col95"
+            "State": "op1_limb_22_col94"
           },
           {
-            "State": "op1_limb_23_col96"
+            "State": "op1_limb_23_col95"
           },
           {
-            "State": "op1_limb_24_col97"
+            "State": "op1_limb_24_col96"
           },
           {
-            "State": "op1_limb_25_col98"
+            "State": "op1_limb_25_col97"
           },
           {
-            "State": "op1_limb_26_col99"
+            "State": "op1_limb_26_col98"
           },
           {
-            "State": "op1_limb_27_col100"
+            "State": "op1_limb_27_col99"
           }
         ],
         "use_or_yield": "Use"
@@ -967,13 +934,13 @@
         {
           "BinaryOp": [
             {
-              "State": "sub_p_bit_col101"
+              "State": "sub_p_bit_col100"
             },
             "*",
             {
               "BinaryOp": [
                 {
-                  "State": "sub_p_bit_col101"
+                  "State": "sub_p_bit_col100"
                 },
                 "-",
                 {
@@ -991,6 +958,94 @@
     },
     {
       "Intermediate": {
+        "name": "carry_tmp_3fa46_16",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "op0_limb_0_col43"
+                        },
+                        "+",
+                        {
+                          "State": "op1_limb_0_col72"
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": "dst_limb_0_col14"
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "sub_p_bit_col100"
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_3fa46_16"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_3fa46_16"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_3fa46_16"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
         "name": "carry_tmp_3fa46_17",
         "type": "M31",
         "var": {
@@ -1002,23 +1057,26 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_0_col44"
+                          "State": "op0_limb_1_col44"
                         },
                         "+",
                         {
-                          "State": "op1_limb_0_col73"
+                          "State": "op1_limb_1_col73"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "dst_limb_0_col15"
+                      "Var": [
+                        "M31",
+                        "carry_tmp_3fa46_16"
+                      ]
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "sub_p_bit_col101"
+                  "State": "dst_limb_1_col15"
                 }
               ]
             },
@@ -1090,11 +1148,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_1_col45"
+                          "State": "op0_limb_2_col45"
                         },
                         "+",
                         {
-                          "State": "op1_limb_1_col74"
+                          "State": "op1_limb_2_col74"
                         }
                       ]
                     },
@@ -1109,7 +1167,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_1_col16"
+                  "State": "dst_limb_2_col16"
                 }
               ]
             },
@@ -1181,11 +1239,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_2_col46"
+                          "State": "op0_limb_3_col46"
                         },
                         "+",
                         {
-                          "State": "op1_limb_2_col75"
+                          "State": "op1_limb_3_col75"
                         }
                       ]
                     },
@@ -1200,7 +1258,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_2_col17"
+                  "State": "dst_limb_3_col17"
                 }
               ]
             },
@@ -1272,11 +1330,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_3_col47"
+                          "State": "op0_limb_4_col47"
                         },
                         "+",
                         {
-                          "State": "op1_limb_3_col76"
+                          "State": "op1_limb_4_col76"
                         }
                       ]
                     },
@@ -1291,7 +1349,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_3_col18"
+                  "State": "dst_limb_4_col18"
                 }
               ]
             },
@@ -1363,11 +1421,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_4_col48"
+                          "State": "op0_limb_5_col48"
                         },
                         "+",
                         {
-                          "State": "op1_limb_4_col77"
+                          "State": "op1_limb_5_col77"
                         }
                       ]
                     },
@@ -1382,7 +1440,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_4_col19"
+                  "State": "dst_limb_5_col19"
                 }
               ]
             },
@@ -1454,11 +1512,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_5_col49"
+                          "State": "op0_limb_6_col49"
                         },
                         "+",
                         {
-                          "State": "op1_limb_5_col78"
+                          "State": "op1_limb_6_col78"
                         }
                       ]
                     },
@@ -1473,7 +1531,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_5_col20"
+                  "State": "dst_limb_6_col20"
                 }
               ]
             },
@@ -1545,11 +1603,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_6_col50"
+                          "State": "op0_limb_7_col50"
                         },
                         "+",
                         {
-                          "State": "op1_limb_6_col79"
+                          "State": "op1_limb_7_col79"
                         }
                       ]
                     },
@@ -1564,7 +1622,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_6_col21"
+                  "State": "dst_limb_7_col21"
                 }
               ]
             },
@@ -1636,11 +1694,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_7_col51"
+                          "State": "op0_limb_8_col51"
                         },
                         "+",
                         {
-                          "State": "op1_limb_7_col80"
+                          "State": "op1_limb_8_col80"
                         }
                       ]
                     },
@@ -1655,7 +1713,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_7_col22"
+                  "State": "dst_limb_8_col22"
                 }
               ]
             },
@@ -1727,11 +1785,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_8_col52"
+                          "State": "op0_limb_9_col52"
                         },
                         "+",
                         {
-                          "State": "op1_limb_8_col81"
+                          "State": "op1_limb_9_col81"
                         }
                       ]
                     },
@@ -1746,7 +1804,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_8_col23"
+                  "State": "dst_limb_9_col23"
                 }
               ]
             },
@@ -1818,11 +1876,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_9_col53"
+                          "State": "op0_limb_10_col53"
                         },
                         "+",
                         {
-                          "State": "op1_limb_9_col82"
+                          "State": "op1_limb_10_col82"
                         }
                       ]
                     },
@@ -1837,7 +1895,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_9_col24"
+                  "State": "dst_limb_10_col24"
                 }
               ]
             },
@@ -1909,11 +1967,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_10_col54"
+                          "State": "op0_limb_11_col54"
                         },
                         "+",
                         {
-                          "State": "op1_limb_10_col83"
+                          "State": "op1_limb_11_col83"
                         }
                       ]
                     },
@@ -1928,7 +1986,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_10_col25"
+                  "State": "dst_limb_11_col25"
                 }
               ]
             },
@@ -2000,11 +2058,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_11_col55"
+                          "State": "op0_limb_12_col55"
                         },
                         "+",
                         {
-                          "State": "op1_limb_11_col84"
+                          "State": "op1_limb_12_col84"
                         }
                       ]
                     },
@@ -2019,7 +2077,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_11_col26"
+                  "State": "dst_limb_12_col26"
                 }
               ]
             },
@@ -2091,11 +2149,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_12_col56"
+                          "State": "op0_limb_13_col56"
                         },
                         "+",
                         {
-                          "State": "op1_limb_12_col85"
+                          "State": "op1_limb_13_col85"
                         }
                       ]
                     },
@@ -2110,7 +2168,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_12_col27"
+                  "State": "dst_limb_13_col27"
                 }
               ]
             },
@@ -2182,11 +2240,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_13_col57"
+                          "State": "op0_limb_14_col57"
                         },
                         "+",
                         {
-                          "State": "op1_limb_13_col86"
+                          "State": "op1_limb_14_col86"
                         }
                       ]
                     },
@@ -2201,7 +2259,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_13_col28"
+                  "State": "dst_limb_14_col28"
                 }
               ]
             },
@@ -2273,11 +2331,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_14_col58"
+                          "State": "op0_limb_15_col58"
                         },
                         "+",
                         {
-                          "State": "op1_limb_14_col87"
+                          "State": "op1_limb_15_col87"
                         }
                       ]
                     },
@@ -2292,7 +2350,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_14_col29"
+                  "State": "dst_limb_15_col29"
                 }
               ]
             },
@@ -2364,11 +2422,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_15_col59"
+                          "State": "op0_limb_16_col59"
                         },
                         "+",
                         {
-                          "State": "op1_limb_15_col88"
+                          "State": "op1_limb_16_col88"
                         }
                       ]
                     },
@@ -2383,7 +2441,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_15_col30"
+                  "State": "dst_limb_16_col30"
                 }
               ]
             },
@@ -2455,11 +2513,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_16_col60"
+                          "State": "op0_limb_17_col60"
                         },
                         "+",
                         {
-                          "State": "op1_limb_16_col89"
+                          "State": "op1_limb_17_col89"
                         }
                       ]
                     },
@@ -2474,7 +2532,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_16_col31"
+                  "State": "dst_limb_17_col31"
                 }
               ]
             },
@@ -2546,11 +2604,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_17_col61"
+                          "State": "op0_limb_18_col61"
                         },
                         "+",
                         {
-                          "State": "op1_limb_17_col90"
+                          "State": "op1_limb_18_col90"
                         }
                       ]
                     },
@@ -2565,7 +2623,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_17_col32"
+                  "State": "dst_limb_18_col32"
                 }
               ]
             },
@@ -2637,11 +2695,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_18_col62"
+                          "State": "op0_limb_19_col62"
                         },
                         "+",
                         {
-                          "State": "op1_limb_18_col91"
+                          "State": "op1_limb_19_col91"
                         }
                       ]
                     },
@@ -2656,7 +2714,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_18_col33"
+                  "State": "dst_limb_19_col33"
                 }
               ]
             },
@@ -2728,11 +2786,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_19_col63"
+                          "State": "op0_limb_20_col63"
                         },
                         "+",
                         {
-                          "State": "op1_limb_19_col92"
+                          "State": "op1_limb_20_col92"
                         }
                       ]
                     },
@@ -2747,7 +2805,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_19_col34"
+                  "State": "dst_limb_20_col34"
                 }
               ]
             },
@@ -2819,26 +2877,45 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_20_col64"
+                          "BinaryOp": [
+                            {
+                              "State": "op0_limb_21_col64"
+                            },
+                            "+",
+                            {
+                              "State": "op1_limb_21_col93"
+                            }
+                          ]
                         },
                         "+",
                         {
-                          "State": "op1_limb_20_col93"
+                          "Var": [
+                            "M31",
+                            "carry_tmp_3fa46_36"
+                          ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "Var": [
-                        "M31",
-                        "carry_tmp_3fa46_36"
-                      ]
+                      "State": "dst_limb_21_col35"
                     }
                   ]
                 },
                 "-",
                 {
-                  "State": "dst_limb_20_col35"
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "136"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": "sub_p_bit_col100"
+                    }
+                  ]
                 }
               ]
             },
@@ -2910,45 +2987,26 @@
                     {
                       "BinaryOp": [
                         {
-                          "BinaryOp": [
-                            {
-                              "State": "op0_limb_21_col65"
-                            },
-                            "+",
-                            {
-                              "State": "op1_limb_21_col94"
-                            }
-                          ]
+                          "State": "op0_limb_22_col65"
                         },
                         "+",
                         {
-                          "Var": [
-                            "M31",
-                            "carry_tmp_3fa46_37"
-                          ]
+                          "State": "op1_limb_22_col94"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "dst_limb_21_col36"
+                      "Var": [
+                        "M31",
+                        "carry_tmp_3fa46_37"
+                      ]
                     }
                   ]
                 },
                 "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "136"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "sub_p_bit_col101"
-                    }
-                  ]
+                  "State": "dst_limb_22_col36"
                 }
               ]
             },
@@ -3020,11 +3078,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_22_col66"
+                          "State": "op0_limb_23_col66"
                         },
                         "+",
                         {
-                          "State": "op1_limb_22_col95"
+                          "State": "op1_limb_23_col95"
                         }
                       ]
                     },
@@ -3039,7 +3097,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_22_col37"
+                  "State": "dst_limb_23_col37"
                 }
               ]
             },
@@ -3111,11 +3169,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_23_col67"
+                          "State": "op0_limb_24_col67"
                         },
                         "+",
                         {
-                          "State": "op1_limb_23_col96"
+                          "State": "op1_limb_24_col96"
                         }
                       ]
                     },
@@ -3130,7 +3188,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_23_col38"
+                  "State": "dst_limb_24_col38"
                 }
               ]
             },
@@ -3202,11 +3260,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_24_col68"
+                          "State": "op0_limb_25_col68"
                         },
                         "+",
                         {
-                          "State": "op1_limb_24_col97"
+                          "State": "op1_limb_25_col97"
                         }
                       ]
                     },
@@ -3221,7 +3279,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_24_col39"
+                  "State": "dst_limb_25_col39"
                 }
               ]
             },
@@ -3293,11 +3351,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_25_col69"
+                          "State": "op0_limb_26_col69"
                         },
                         "+",
                         {
-                          "State": "op1_limb_25_col98"
+                          "State": "op1_limb_26_col98"
                         }
                       ]
                     },
@@ -3312,7 +3370,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_25_col40"
+                  "State": "dst_limb_26_col40"
                 }
               ]
             },
@@ -3372,10 +3430,8 @@
       ]
     },
     {
-      "Intermediate": {
-        "name": "carry_tmp_3fa46_43",
-        "type": "M31",
-        "var": {
+      "Constraint": [
+        {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -3384,11 +3440,11 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "op0_limb_26_col70"
+                          "State": "op0_limb_27_col70"
                         },
                         "+",
                         {
-                          "State": "op1_limb_26_col99"
+                          "State": "op1_limb_27_col99"
                         }
                       ]
                     },
@@ -3403,96 +3459,7 @@
                 },
                 "-",
                 {
-                  "State": "dst_limb_26_col41"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "4194304"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "Var": [
-                "M31",
-                "carry_tmp_3fa46_43"
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_tmp_3fa46_43"
-                      ]
-                    },
-                    "*",
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_tmp_3fa46_43"
-                      ]
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        null
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "op0_limb_27_col71"
-                        },
-                        "+",
-                        {
-                          "State": "op1_limb_27_col100"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_tmp_3fa46_43"
-                      ]
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "dst_limb_27_col42"
+                  "State": "dst_limb_27_col41"
                 }
               ]
             },
@@ -3507,7 +3474,7 @@
                 },
                 "*",
                 {
-                  "State": "sub_p_bit_col101"
+                  "State": "sub_p_bit_col100"
                 }
               ]
             }
@@ -3559,7 +3526,7 @@
               },
               "+",
               {
-                "State": "ap_update_add_1_col10"
+                "State": "ap_update_add_1_col9"
               }
             ]
           },
@@ -4402,128 +4369,7 @@
     },
     {
       "Intermediate": {
-        "name": "op1_base_ap_tmp_3fa46_8",
-        "type": "UInt16",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "StaticCall": [
-                            "UInt16::from_m31",
-                            [
-                              {
-                                "MethodCall": [
-                                  {
-                                    "Var": [
-                                      "Felt252",
-                                      "memory_id_to_big_value_tmp_3fa46_1"
-                                    ]
-                                  },
-                                  "get_m31",
-                                  [
-                                    {
-                                      "Const": [
-                                        "usize",
-                                        "5"
-                                      ]
-                                    }
-                                  ]
-                                ]
-                              }
-                            ]
-                          ]
-                        },
-                        ">>",
-                        {
-                          "Const": [
-                            "UInt16",
-                            "3"
-                          ]
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "BinaryOp": [
-                        {
-                          "StaticCall": [
-                            "UInt16::from_m31",
-                            [
-                              {
-                                "MethodCall": [
-                                  {
-                                    "Var": [
-                                      "Felt252",
-                                      "memory_id_to_big_value_tmp_3fa46_1"
-                                    ]
-                                  },
-                                  "get_m31",
-                                  [
-                                    {
-                                      "Const": [
-                                        "usize",
-                                        "6"
-                                      ]
-                                    }
-                                  ]
-                                ]
-                              }
-                            ]
-                          ]
-                        },
-                        "<<",
-                        {
-                          "Const": [
-                            "UInt16",
-                            "6"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                ">>",
-                {
-                  "Const": [
-                    "UInt16",
-                    "4"
-                  ]
-                }
-              ]
-            },
-            "&",
-            {
-              "Const": [
-                "UInt16",
-                "1"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Deduction": {
-        "MethodCall": [
-          {
-            "Var": [
-              "UInt16",
-              "op1_base_ap_tmp_3fa46_8"
-            ]
-          },
-          "as_m31",
-          []
-        ]
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "ap_update_add_1_tmp_3fa46_9",
+        "name": "ap_update_add_1_tmp_3fa46_8",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -4634,7 +4480,7 @@
           {
             "Var": [
               "UInt16",
-              "ap_update_add_1_tmp_3fa46_9"
+              "ap_update_add_1_tmp_3fa46_8"
             ]
           },
           "as_m31",
@@ -4725,7 +4571,18 @@
                         {
                           "BinaryOp": [
                             {
-                              "State": "op1_base_ap_col9"
+                              "BinaryOp": [
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "1"
+                                  ]
+                                },
+                                "-",
+                                {
+                                  "State": "op1_base_fp_col8"
+                                }
+                              ]
                             },
                             "*",
                             {
@@ -4752,7 +4609,7 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "ap_update_add_1_col10"
+                          "State": "ap_update_add_1_col9"
                         },
                         "*",
                         {
@@ -4860,7 +4717,18 @@
                   {
                     "BinaryOp": [
                       {
-                        "State": "op1_base_ap_col9"
+                        "BinaryOp": [
+                          {
+                            "Const": [
+                              "M31",
+                              "1"
+                            ]
+                          },
+                          "-",
+                          {
+                            "State": "op1_base_fp_col8"
+                          }
+                        ]
                       },
                       "*",
                       {
@@ -4887,7 +4755,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "ap_update_add_1_col10"
+                    "State": "ap_update_add_1_col9"
                   },
                   "*",
                   {
@@ -5016,7 +4884,18 @@
           {
             "BinaryOp": [
               {
-                "State": "op1_base_ap_col9"
+                "BinaryOp": [
+                  {
+                    "Const": [
+                      "M31",
+                      "1"
+                    ]
+                  },
+                  "-",
+                  {
+                    "State": "op1_base_fp_col8"
+                  }
+                ]
               },
               "*",
               {
@@ -5032,7 +4911,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_3fa46_10",
+        "name": "memory_address_to_id_value_tmp_3fa46_9",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -5041,7 +4920,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "mem_dst_base_col11"
+                    "State": "mem_dst_base_col10"
                   },
                   "+",
                   {
@@ -5067,7 +4946,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_3fa46_11",
+        "name": "memory_id_to_big_value_tmp_3fa46_10",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -5076,7 +4955,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_3fa46_10"
+                  "memory_address_to_id_value_tmp_3fa46_9"
                 ]
               }
             ]
@@ -5088,7 +4967,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_3fa46_10"
+          "memory_address_to_id_value_tmp_3fa46_9"
         ]
       }
     },
@@ -5098,7 +4977,7 @@
         "input": {
           "BinaryOp": [
             {
-              "State": "mem_dst_base_col11"
+              "State": "mem_dst_base_col10"
             },
             "+",
             {
@@ -5126,7 +5005,7 @@
           {
             "BinaryOp": [
               {
-                "State": "mem_dst_base_col11"
+                "State": "mem_dst_base_col10"
               },
               "+",
               {
@@ -5146,7 +5025,7 @@
             ]
           },
           {
-            "State": "dst_id_col14"
+            "State": "dst_id_col13"
           }
         ],
         "use_or_yield": "Use"
@@ -5158,7 +5037,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5179,7 +5058,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5200,7 +5079,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5221,7 +5100,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5242,7 +5121,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5263,7 +5142,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5284,7 +5163,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5305,7 +5184,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5326,7 +5205,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5347,7 +5226,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5368,7 +5247,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5389,7 +5268,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5410,7 +5289,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5431,7 +5310,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5452,7 +5331,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5473,7 +5352,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5494,7 +5373,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5515,7 +5394,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5536,7 +5415,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5557,7 +5436,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5578,7 +5457,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5599,7 +5478,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5620,7 +5499,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5641,7 +5520,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5662,7 +5541,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5683,7 +5562,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5704,7 +5583,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5725,7 +5604,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_11"
+              "memory_id_to_big_value_tmp_3fa46_10"
             ]
           },
           "get_m31",
@@ -5744,7 +5623,7 @@
       "LookupAddInput": {
         "fn_name": "memory_id_to_big",
         "input": {
-          "State": "dst_id_col14"
+          "State": "dst_id_col13"
         }
       }
     },
@@ -5753,91 +5632,91 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "State": "dst_id_col14"
+            "State": "dst_id_col13"
           },
           {
-            "State": "dst_limb_0_col15"
+            "State": "dst_limb_0_col14"
           },
           {
-            "State": "dst_limb_1_col16"
+            "State": "dst_limb_1_col15"
           },
           {
-            "State": "dst_limb_2_col17"
+            "State": "dst_limb_2_col16"
           },
           {
-            "State": "dst_limb_3_col18"
+            "State": "dst_limb_3_col17"
           },
           {
-            "State": "dst_limb_4_col19"
+            "State": "dst_limb_4_col18"
           },
           {
-            "State": "dst_limb_5_col20"
+            "State": "dst_limb_5_col19"
           },
           {
-            "State": "dst_limb_6_col21"
+            "State": "dst_limb_6_col20"
           },
           {
-            "State": "dst_limb_7_col22"
+            "State": "dst_limb_7_col21"
           },
           {
-            "State": "dst_limb_8_col23"
+            "State": "dst_limb_8_col22"
           },
           {
-            "State": "dst_limb_9_col24"
+            "State": "dst_limb_9_col23"
           },
           {
-            "State": "dst_limb_10_col25"
+            "State": "dst_limb_10_col24"
           },
           {
-            "State": "dst_limb_11_col26"
+            "State": "dst_limb_11_col25"
           },
           {
-            "State": "dst_limb_12_col27"
+            "State": "dst_limb_12_col26"
           },
           {
-            "State": "dst_limb_13_col28"
+            "State": "dst_limb_13_col27"
           },
           {
-            "State": "dst_limb_14_col29"
+            "State": "dst_limb_14_col28"
           },
           {
-            "State": "dst_limb_15_col30"
+            "State": "dst_limb_15_col29"
           },
           {
-            "State": "dst_limb_16_col31"
+            "State": "dst_limb_16_col30"
           },
           {
-            "State": "dst_limb_17_col32"
+            "State": "dst_limb_17_col31"
           },
           {
-            "State": "dst_limb_18_col33"
+            "State": "dst_limb_18_col32"
           },
           {
-            "State": "dst_limb_19_col34"
+            "State": "dst_limb_19_col33"
           },
           {
-            "State": "dst_limb_20_col35"
+            "State": "dst_limb_20_col34"
           },
           {
-            "State": "dst_limb_21_col36"
+            "State": "dst_limb_21_col35"
           },
           {
-            "State": "dst_limb_22_col37"
+            "State": "dst_limb_22_col36"
           },
           {
-            "State": "dst_limb_23_col38"
+            "State": "dst_limb_23_col37"
           },
           {
-            "State": "dst_limb_24_col39"
+            "State": "dst_limb_24_col38"
           },
           {
-            "State": "dst_limb_25_col40"
+            "State": "dst_limb_25_col39"
           },
           {
-            "State": "dst_limb_26_col41"
+            "State": "dst_limb_26_col40"
           },
           {
-            "State": "dst_limb_27_col42"
+            "State": "dst_limb_27_col41"
           }
         ],
         "use_or_yield": "Use"
@@ -5849,7 +5728,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_3fa46_12",
+        "name": "memory_address_to_id_value_tmp_3fa46_11",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -5858,7 +5737,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "mem0_base_col12"
+                    "State": "mem0_base_col11"
                   },
                   "+",
                   {
@@ -5884,7 +5763,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_3fa46_13",
+        "name": "memory_id_to_big_value_tmp_3fa46_12",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -5893,7 +5772,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_3fa46_12"
+                  "memory_address_to_id_value_tmp_3fa46_11"
                 ]
               }
             ]
@@ -5905,7 +5784,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_3fa46_12"
+          "memory_address_to_id_value_tmp_3fa46_11"
         ]
       }
     },
@@ -5915,7 +5794,7 @@
         "input": {
           "BinaryOp": [
             {
-              "State": "mem0_base_col12"
+              "State": "mem0_base_col11"
             },
             "+",
             {
@@ -5943,7 +5822,7 @@
           {
             "BinaryOp": [
               {
-                "State": "mem0_base_col12"
+                "State": "mem0_base_col11"
               },
               "+",
               {
@@ -5963,7 +5842,7 @@
             ]
           },
           {
-            "State": "op0_id_col43"
+            "State": "op0_id_col42"
           }
         ],
         "use_or_yield": "Use"
@@ -5975,7 +5854,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -5996,7 +5875,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6017,7 +5896,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6038,7 +5917,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6059,7 +5938,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6080,7 +5959,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6101,7 +5980,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6122,7 +6001,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6143,7 +6022,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6164,7 +6043,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6185,7 +6064,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6206,7 +6085,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6227,7 +6106,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6248,7 +6127,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6269,7 +6148,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6290,7 +6169,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6311,7 +6190,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6332,7 +6211,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6353,7 +6232,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6374,7 +6253,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6395,7 +6274,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6416,7 +6295,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6437,7 +6316,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6458,7 +6337,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6479,7 +6358,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6500,7 +6379,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6521,7 +6400,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6542,7 +6421,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_13"
+              "memory_id_to_big_value_tmp_3fa46_12"
             ]
           },
           "get_m31",
@@ -6561,7 +6440,7 @@
       "LookupAddInput": {
         "fn_name": "memory_id_to_big",
         "input": {
-          "State": "op0_id_col43"
+          "State": "op0_id_col42"
         }
       }
     },
@@ -6570,91 +6449,91 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "State": "op0_id_col43"
+            "State": "op0_id_col42"
           },
           {
-            "State": "op0_limb_0_col44"
+            "State": "op0_limb_0_col43"
           },
           {
-            "State": "op0_limb_1_col45"
+            "State": "op0_limb_1_col44"
           },
           {
-            "State": "op0_limb_2_col46"
+            "State": "op0_limb_2_col45"
           },
           {
-            "State": "op0_limb_3_col47"
+            "State": "op0_limb_3_col46"
           },
           {
-            "State": "op0_limb_4_col48"
+            "State": "op0_limb_4_col47"
           },
           {
-            "State": "op0_limb_5_col49"
+            "State": "op0_limb_5_col48"
           },
           {
-            "State": "op0_limb_6_col50"
+            "State": "op0_limb_6_col49"
           },
           {
-            "State": "op0_limb_7_col51"
+            "State": "op0_limb_7_col50"
           },
           {
-            "State": "op0_limb_8_col52"
+            "State": "op0_limb_8_col51"
           },
           {
-            "State": "op0_limb_9_col53"
+            "State": "op0_limb_9_col52"
           },
           {
-            "State": "op0_limb_10_col54"
+            "State": "op0_limb_10_col53"
           },
           {
-            "State": "op0_limb_11_col55"
+            "State": "op0_limb_11_col54"
           },
           {
-            "State": "op0_limb_12_col56"
+            "State": "op0_limb_12_col55"
           },
           {
-            "State": "op0_limb_13_col57"
+            "State": "op0_limb_13_col56"
           },
           {
-            "State": "op0_limb_14_col58"
+            "State": "op0_limb_14_col57"
           },
           {
-            "State": "op0_limb_15_col59"
+            "State": "op0_limb_15_col58"
           },
           {
-            "State": "op0_limb_16_col60"
+            "State": "op0_limb_16_col59"
           },
           {
-            "State": "op0_limb_17_col61"
+            "State": "op0_limb_17_col60"
           },
           {
-            "State": "op0_limb_18_col62"
+            "State": "op0_limb_18_col61"
           },
           {
-            "State": "op0_limb_19_col63"
+            "State": "op0_limb_19_col62"
           },
           {
-            "State": "op0_limb_20_col64"
+            "State": "op0_limb_20_col63"
           },
           {
-            "State": "op0_limb_21_col65"
+            "State": "op0_limb_21_col64"
           },
           {
-            "State": "op0_limb_22_col66"
+            "State": "op0_limb_22_col65"
           },
           {
-            "State": "op0_limb_23_col67"
+            "State": "op0_limb_23_col66"
           },
           {
-            "State": "op0_limb_24_col68"
+            "State": "op0_limb_24_col67"
           },
           {
-            "State": "op0_limb_25_col69"
+            "State": "op0_limb_25_col68"
           },
           {
-            "State": "op0_limb_26_col70"
+            "State": "op0_limb_26_col69"
           },
           {
-            "State": "op0_limb_27_col71"
+            "State": "op0_limb_27_col70"
           }
         ],
         "use_or_yield": "Use"
@@ -6666,7 +6545,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_3fa46_14",
+        "name": "memory_address_to_id_value_tmp_3fa46_13",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -6675,7 +6554,7 @@
               {
                 "BinaryOp": [
                   {
-                    "State": "mem1_base_col13"
+                    "State": "mem1_base_col12"
                   },
                   "+",
                   {
@@ -6701,7 +6580,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_3fa46_15",
+        "name": "memory_id_to_big_value_tmp_3fa46_14",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -6710,7 +6589,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_3fa46_14"
+                  "memory_address_to_id_value_tmp_3fa46_13"
                 ]
               }
             ]
@@ -6722,7 +6601,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_3fa46_14"
+          "memory_address_to_id_value_tmp_3fa46_13"
         ]
       }
     },
@@ -6732,7 +6611,7 @@
         "input": {
           "BinaryOp": [
             {
-              "State": "mem1_base_col13"
+              "State": "mem1_base_col12"
             },
             "+",
             {
@@ -6760,7 +6639,7 @@
           {
             "BinaryOp": [
               {
-                "State": "mem1_base_col13"
+                "State": "mem1_base_col12"
               },
               "+",
               {
@@ -6780,7 +6659,7 @@
             ]
           },
           {
-            "State": "op1_id_col72"
+            "State": "op1_id_col71"
           }
         ],
         "use_or_yield": "Use"
@@ -6792,7 +6671,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -6813,7 +6692,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -6834,7 +6713,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -6855,7 +6734,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -6876,7 +6755,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -6897,7 +6776,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -6918,7 +6797,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -6939,7 +6818,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -6960,7 +6839,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -6981,7 +6860,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7002,7 +6881,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7023,7 +6902,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7044,7 +6923,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7065,7 +6944,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7086,7 +6965,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7107,7 +6986,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7128,7 +7007,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7149,7 +7028,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7170,7 +7049,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7191,7 +7070,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7212,7 +7091,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7233,7 +7112,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7254,7 +7133,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7275,7 +7154,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7296,7 +7175,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7317,7 +7196,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7338,7 +7217,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7359,7 +7238,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_3fa46_15"
+              "memory_id_to_big_value_tmp_3fa46_14"
             ]
           },
           "get_m31",
@@ -7378,7 +7257,7 @@
       "LookupAddInput": {
         "fn_name": "memory_id_to_big",
         "input": {
-          "State": "op1_id_col72"
+          "State": "op1_id_col71"
         }
       }
     },
@@ -7387,91 +7266,91 @@
         "relation_name": "MemoryIdToBig",
         "felts": [
           {
-            "State": "op1_id_col72"
+            "State": "op1_id_col71"
           },
           {
-            "State": "op1_limb_0_col73"
+            "State": "op1_limb_0_col72"
           },
           {
-            "State": "op1_limb_1_col74"
+            "State": "op1_limb_1_col73"
           },
           {
-            "State": "op1_limb_2_col75"
+            "State": "op1_limb_2_col74"
           },
           {
-            "State": "op1_limb_3_col76"
+            "State": "op1_limb_3_col75"
           },
           {
-            "State": "op1_limb_4_col77"
+            "State": "op1_limb_4_col76"
           },
           {
-            "State": "op1_limb_5_col78"
+            "State": "op1_limb_5_col77"
           },
           {
-            "State": "op1_limb_6_col79"
+            "State": "op1_limb_6_col78"
           },
           {
-            "State": "op1_limb_7_col80"
+            "State": "op1_limb_7_col79"
           },
           {
-            "State": "op1_limb_8_col81"
+            "State": "op1_limb_8_col80"
           },
           {
-            "State": "op1_limb_9_col82"
+            "State": "op1_limb_9_col81"
           },
           {
-            "State": "op1_limb_10_col83"
+            "State": "op1_limb_10_col82"
           },
           {
-            "State": "op1_limb_11_col84"
+            "State": "op1_limb_11_col83"
           },
           {
-            "State": "op1_limb_12_col85"
+            "State": "op1_limb_12_col84"
           },
           {
-            "State": "op1_limb_13_col86"
+            "State": "op1_limb_13_col85"
           },
           {
-            "State": "op1_limb_14_col87"
+            "State": "op1_limb_14_col86"
           },
           {
-            "State": "op1_limb_15_col88"
+            "State": "op1_limb_15_col87"
           },
           {
-            "State": "op1_limb_16_col89"
+            "State": "op1_limb_16_col88"
           },
           {
-            "State": "op1_limb_17_col90"
+            "State": "op1_limb_17_col89"
           },
           {
-            "State": "op1_limb_18_col91"
+            "State": "op1_limb_18_col90"
           },
           {
-            "State": "op1_limb_19_col92"
+            "State": "op1_limb_19_col91"
           },
           {
-            "State": "op1_limb_20_col93"
+            "State": "op1_limb_20_col92"
           },
           {
-            "State": "op1_limb_21_col94"
+            "State": "op1_limb_21_col93"
           },
           {
-            "State": "op1_limb_22_col95"
+            "State": "op1_limb_22_col94"
           },
           {
-            "State": "op1_limb_23_col96"
+            "State": "op1_limb_23_col95"
           },
           {
-            "State": "op1_limb_24_col97"
+            "State": "op1_limb_24_col96"
           },
           {
-            "State": "op1_limb_25_col98"
+            "State": "op1_limb_25_col97"
           },
           {
-            "State": "op1_limb_26_col99"
+            "State": "op1_limb_26_col98"
           },
           {
-            "State": "op1_limb_27_col100"
+            "State": "op1_limb_27_col99"
           }
         ],
         "use_or_yield": "Use"
@@ -7483,7 +7362,7 @@
     },
     {
       "Intermediate": {
-        "name": "sub_p_bit_tmp_3fa46_16",
+        "name": "sub_p_bit_tmp_3fa46_15",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -7503,7 +7382,7 @@
                         "UInt16::from_m31",
                         [
                           {
-                            "State": "op0_limb_0_col44"
+                            "State": "op0_limb_0_col43"
                           }
                         ]
                       ]
@@ -7514,7 +7393,7 @@
                         "UInt16::from_m31",
                         [
                           {
-                            "State": "op1_limb_0_col73"
+                            "State": "op1_limb_0_col72"
                           }
                         ]
                       ]
@@ -7527,7 +7406,7 @@
                     "UInt16::from_m31",
                     [
                       {
-                        "State": "dst_limb_0_col15"
+                        "State": "dst_limb_0_col14"
                       }
                     ]
                   ]
@@ -7544,7 +7423,7 @@
           {
             "Var": [
               "UInt16",
-              "sub_p_bit_tmp_3fa46_16"
+              "sub_p_bit_tmp_3fa46_15"
             ]
           },
           "as_m31",
@@ -7595,7 +7474,7 @@
               },
               "+",
               {
-                "State": "ap_update_add_1_col10"
+                "State": "ap_update_add_1_col9"
               }
             ]
           },
