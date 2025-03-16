@@ -2,10 +2,41 @@
   "name": "narrow_fib_num_steps_20",
   "relation_name": "NarrowFibNumSteps20",
   "description": "Narrow Fib Num Steps 20",
-  "input": [
+  "prover_input": [
     "narrow_fib_num_steps_20_input",
     "[M31; 2]",
     "[PackedM31; 2]"
+  ],
+  "verifier_input": [
+    "[narrow_fib_num_steps_20_input_limb_0, narrow_fib_num_steps_20_input_limb_1]",
+    "[M31; 2]"
+  ],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "State": "col20"
+        },
+        {
+          "State": "col21"
+        }
+      ]
+    },
+    "[M31; 2]",
+    "[PackedM31; 2]"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "State": "col20"
+        },
+        {
+          "State": "col21"
+        }
+      ]
+    },
+    "[M31; 2]"
   ],
   "state_names": [
     "input_limb_0_col0",

@@ -215,6 +215,20 @@ impl ExprImpl {
         }
     }
 
+    pub fn as_felts(&self) -> Vec<FeltExpr> {
+        match self {
+            ExprImpl::Felt(f) => vec![f.clone()],
+            ExprImpl::Bool(b) => vec![b.as_felt()],
+            ExprImpl::UInt16(u) => vec![u.as_felt()],
+            ExprImpl::UInt32(u) => u.as_felts(),
+            ExprImpl::UInt64(u) => u.as_felts(),
+            ExprImpl::Felt252(f) => f.as_felts(),
+            ExprImpl::Felt252Width27(f) => f.as_felts(),
+            ExprImpl::BigUInt384(b) => b.as_felts(),
+            ExprImpl::BigUInt768(b) => b.as_felts(),
+        }
+    }
+
     pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
         match self {
             ExprImpl::Felt(f) => f.compile(compile_for),

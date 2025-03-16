@@ -66,15 +66,9 @@ fn test_with_matching_memory(
         memory,
     };
 
-    let (registry, entry) = AirFnRegistry::new(&air_fn);
+    let (registry, _) = AirFnRegistry::new(&air_fn);
     let (state, (offsets_output, flags_output, _)) =
         registry.run_air(&air_fn, (), CasmAddress::new(pc, "pc"));
-
-    // Check entry
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_DECODE_INSTRUCTION_DIR, entry.name),
-    );
 
     assert_expected_state(&state, &expected_state);
 

@@ -13,10 +13,12 @@ use super::compiled_structs::*;
 pub const JSONS_OPCODES_DIR: &str = "../compiled_casm_air/src/opcodes/";
 pub const JSONS_BUILTINS_DIR: &str = "../compiled_casm_air/src/builtins/";
 pub const JSONS_LOOKUPS_DIR: &str = "../compiled_casm_air/src/lookups/";
+pub const JSONS_INLINE_DIR: &str = "../compiled_casm_air/src/inlines/";
 
 pub const INTERMEDIATE_VAR_SUFFIX: &str = "tmp";
 pub const STATE_VAR_SUFFIX: &str = "col";
 pub const INPUT_VAR_SUFFIX: &str = "input";
+pub const OUTPUT_VAR_SUFFIX: &str = "output";
 
 impl Display for CompiledAirVar {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {

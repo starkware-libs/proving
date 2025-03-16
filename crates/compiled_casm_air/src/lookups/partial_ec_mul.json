@@ -2,10 +2,351 @@
   "name": "partial_ec_mul",
   "relation_name": "PartialEcMul",
   "description": "Partial Ec Mul",
-  "input": [
+  "prover_input": [
     "partial_ec_mul_input",
     "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
     "(PackedM31, PackedM31, (PackedM31, [PackedM31; 14], [PackedFelt252; 2]))"
+  ],
+  "verifier_input": [
+    "[partial_ec_mul_input_limb_0, partial_ec_mul_input_limb_1, partial_ec_mul_input_limb_2, partial_ec_mul_input_limb_3, partial_ec_mul_input_limb_4, partial_ec_mul_input_limb_5, partial_ec_mul_input_limb_6, partial_ec_mul_input_limb_7, partial_ec_mul_input_limb_8, partial_ec_mul_input_limb_9, partial_ec_mul_input_limb_10, partial_ec_mul_input_limb_11, partial_ec_mul_input_limb_12, partial_ec_mul_input_limb_13, partial_ec_mul_input_limb_14, partial_ec_mul_input_limb_15, partial_ec_mul_input_limb_16, partial_ec_mul_input_limb_17, partial_ec_mul_input_limb_18, partial_ec_mul_input_limb_19, partial_ec_mul_input_limb_20, partial_ec_mul_input_limb_21, partial_ec_mul_input_limb_22, partial_ec_mul_input_limb_23, partial_ec_mul_input_limb_24, partial_ec_mul_input_limb_25, partial_ec_mul_input_limb_26, partial_ec_mul_input_limb_27, partial_ec_mul_input_limb_28, partial_ec_mul_input_limb_29, partial_ec_mul_input_limb_30, partial_ec_mul_input_limb_31, partial_ec_mul_input_limb_32, partial_ec_mul_input_limb_33, partial_ec_mul_input_limb_34, partial_ec_mul_input_limb_35, partial_ec_mul_input_limb_36, partial_ec_mul_input_limb_37, partial_ec_mul_input_limb_38, partial_ec_mul_input_limb_39, partial_ec_mul_input_limb_40, partial_ec_mul_input_limb_41, partial_ec_mul_input_limb_42, partial_ec_mul_input_limb_43, partial_ec_mul_input_limb_44, partial_ec_mul_input_limb_45, partial_ec_mul_input_limb_46, partial_ec_mul_input_limb_47, partial_ec_mul_input_limb_48, partial_ec_mul_input_limb_49, partial_ec_mul_input_limb_50, partial_ec_mul_input_limb_51, partial_ec_mul_input_limb_52, partial_ec_mul_input_limb_53, partial_ec_mul_input_limb_54, partial_ec_mul_input_limb_55, partial_ec_mul_input_limb_56, partial_ec_mul_input_limb_57, partial_ec_mul_input_limb_58, partial_ec_mul_input_limb_59, partial_ec_mul_input_limb_60, partial_ec_mul_input_limb_61, partial_ec_mul_input_limb_62, partial_ec_mul_input_limb_63, partial_ec_mul_input_limb_64, partial_ec_mul_input_limb_65, partial_ec_mul_input_limb_66, partial_ec_mul_input_limb_67, partial_ec_mul_input_limb_68, partial_ec_mul_input_limb_69, partial_ec_mul_input_limb_70, partial_ec_mul_input_limb_71, partial_ec_mul_input_limb_72]",
+    "[M31; 73]"
+  ],
+  "prover_output": [
+    {
+      "Tuple": [
+        {
+          "State": "input_limb_0_col0"
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "input_limb_1_col1"
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        {
+          "Tuple": [
+            {
+              "State": "input_limb_2_col2"
+            },
+            {
+              "Array": [
+                {
+                  "State": "input_limb_4_col4"
+                },
+                {
+                  "State": "input_limb_5_col5"
+                },
+                {
+                  "State": "input_limb_6_col6"
+                },
+                {
+                  "State": "input_limb_7_col7"
+                },
+                {
+                  "State": "input_limb_8_col8"
+                },
+                {
+                  "State": "input_limb_9_col9"
+                },
+                {
+                  "State": "input_limb_10_col10"
+                },
+                {
+                  "State": "input_limb_11_col11"
+                },
+                {
+                  "State": "input_limb_12_col12"
+                },
+                {
+                  "State": "input_limb_13_col13"
+                },
+                {
+                  "State": "input_limb_14_col14"
+                },
+                {
+                  "State": "input_limb_15_col15"
+                },
+                {
+                  "State": "input_limb_16_col16"
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                }
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "sub_res_tmp_71feb_128"
+                  ]
+                },
+                {
+                  "Var": [
+                    "Felt252",
+                    "sub_res_tmp_71feb_206"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "(M31, M31, (M31, [M31; 14], [Felt252; 2]))",
+    "(PackedM31, PackedM31, (PackedM31, [PackedM31; 14], [PackedFelt252; 2]))"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "State": "input_limb_0_col0"
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "input_limb_1_col1"
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        {
+          "State": "input_limb_2_col2"
+        },
+        {
+          "State": "input_limb_4_col4"
+        },
+        {
+          "State": "input_limb_5_col5"
+        },
+        {
+          "State": "input_limb_6_col6"
+        },
+        {
+          "State": "input_limb_7_col7"
+        },
+        {
+          "State": "input_limb_8_col8"
+        },
+        {
+          "State": "input_limb_9_col9"
+        },
+        {
+          "State": "input_limb_10_col10"
+        },
+        {
+          "State": "input_limb_11_col11"
+        },
+        {
+          "State": "input_limb_12_col12"
+        },
+        {
+          "State": "input_limb_13_col13"
+        },
+        {
+          "State": "input_limb_14_col14"
+        },
+        {
+          "State": "input_limb_15_col15"
+        },
+        {
+          "State": "input_limb_16_col16"
+        },
+        {
+          "Const": [
+            "M31",
+            "0"
+          ]
+        },
+        {
+          "State": "sub_res_limb_0_col328"
+        },
+        {
+          "State": "sub_res_limb_1_col329"
+        },
+        {
+          "State": "sub_res_limb_2_col330"
+        },
+        {
+          "State": "sub_res_limb_3_col331"
+        },
+        {
+          "State": "sub_res_limb_4_col332"
+        },
+        {
+          "State": "sub_res_limb_5_col333"
+        },
+        {
+          "State": "sub_res_limb_6_col334"
+        },
+        {
+          "State": "sub_res_limb_7_col335"
+        },
+        {
+          "State": "sub_res_limb_8_col336"
+        },
+        {
+          "State": "sub_res_limb_9_col337"
+        },
+        {
+          "State": "sub_res_limb_10_col338"
+        },
+        {
+          "State": "sub_res_limb_11_col339"
+        },
+        {
+          "State": "sub_res_limb_12_col340"
+        },
+        {
+          "State": "sub_res_limb_13_col341"
+        },
+        {
+          "State": "sub_res_limb_14_col342"
+        },
+        {
+          "State": "sub_res_limb_15_col343"
+        },
+        {
+          "State": "sub_res_limb_16_col344"
+        },
+        {
+          "State": "sub_res_limb_17_col345"
+        },
+        {
+          "State": "sub_res_limb_18_col346"
+        },
+        {
+          "State": "sub_res_limb_19_col347"
+        },
+        {
+          "State": "sub_res_limb_20_col348"
+        },
+        {
+          "State": "sub_res_limb_21_col349"
+        },
+        {
+          "State": "sub_res_limb_22_col350"
+        },
+        {
+          "State": "sub_res_limb_23_col351"
+        },
+        {
+          "State": "sub_res_limb_24_col352"
+        },
+        {
+          "State": "sub_res_limb_25_col353"
+        },
+        {
+          "State": "sub_res_limb_26_col354"
+        },
+        {
+          "State": "sub_res_limb_27_col355"
+        },
+        {
+          "State": "sub_res_limb_0_col442"
+        },
+        {
+          "State": "sub_res_limb_1_col443"
+        },
+        {
+          "State": "sub_res_limb_2_col444"
+        },
+        {
+          "State": "sub_res_limb_3_col445"
+        },
+        {
+          "State": "sub_res_limb_4_col446"
+        },
+        {
+          "State": "sub_res_limb_5_col447"
+        },
+        {
+          "State": "sub_res_limb_6_col448"
+        },
+        {
+          "State": "sub_res_limb_7_col449"
+        },
+        {
+          "State": "sub_res_limb_8_col450"
+        },
+        {
+          "State": "sub_res_limb_9_col451"
+        },
+        {
+          "State": "sub_res_limb_10_col452"
+        },
+        {
+          "State": "sub_res_limb_11_col453"
+        },
+        {
+          "State": "sub_res_limb_12_col454"
+        },
+        {
+          "State": "sub_res_limb_13_col455"
+        },
+        {
+          "State": "sub_res_limb_14_col456"
+        },
+        {
+          "State": "sub_res_limb_15_col457"
+        },
+        {
+          "State": "sub_res_limb_16_col458"
+        },
+        {
+          "State": "sub_res_limb_17_col459"
+        },
+        {
+          "State": "sub_res_limb_18_col460"
+        },
+        {
+          "State": "sub_res_limb_19_col461"
+        },
+        {
+          "State": "sub_res_limb_20_col462"
+        },
+        {
+          "State": "sub_res_limb_21_col463"
+        },
+        {
+          "State": "sub_res_limb_22_col464"
+        },
+        {
+          "State": "sub_res_limb_23_col465"
+        },
+        {
+          "State": "sub_res_limb_24_col466"
+        },
+        {
+          "State": "sub_res_limb_25_col467"
+        },
+        {
+          "State": "sub_res_limb_26_col468"
+        },
+        {
+          "State": "sub_res_limb_27_col469"
+        }
+      ]
+    },
+    "[M31; 73]"
   ],
   "state_names": [
     "input_limb_0_col0",

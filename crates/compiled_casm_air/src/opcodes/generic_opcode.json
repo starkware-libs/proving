@@ -2,10 +2,59 @@
   "name": "generic_opcode",
   "relation_name": "Opcodes",
   "description": "Generic Opcode",
-  "input": [
+  "prover_input": [
     "generic_opcode_input",
     "CasmState",
     "PackedCasmState"
+  ],
+  "verifier_input": [
+    "[generic_opcode_input_limb_0, generic_opcode_input_limb_1, generic_opcode_input_limb_2]",
+    "[M31; 3]"
+  ],
+  "prover_output": [
+    {
+      "Struct": {
+        "type": "CasmState",
+        "fields": [
+          [
+            "pc",
+            {
+              "State": "next_pc_col232"
+            }
+          ],
+          [
+            "ap",
+            {
+              "State": "next_ap_col233"
+            }
+          ],
+          [
+            "fp",
+            {
+              "State": "next_fp_col234"
+            }
+          ]
+        ]
+      }
+    },
+    "CasmState",
+    "PackedCasmState"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "State": "next_pc_col232"
+        },
+        {
+          "State": "next_ap_col233"
+        },
+        {
+          "State": "next_fp_col234"
+        }
+      ]
+    },
+    "[M31; 3]"
   ],
   "state_names": [
     "input_pc_col0",

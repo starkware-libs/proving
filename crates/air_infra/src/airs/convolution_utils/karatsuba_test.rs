@@ -14,34 +14,6 @@ pub const FELT252_MAX_LIMB: i32 = (1 << FELT252_BITS_PER_WORD) - 1;
 pub const MUL252_KARATSUBA_N: usize = FELT252_N_WORDS / 4;
 
 #[test]
-fn test_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&SingleKaratsuba::<MUL_MOD_KARATSUBA_N> {});
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_CONVOLUTIONS_DIR, entry.name),
-    );
-    let (_, entry) = AirFnRegistry::new(&DoubleKaratsuba::<MUL_MOD_KARATSUBA_N> {
-        limb_max_bound: MUL_MOD_MAX_LIMB,
-    });
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_CONVOLUTIONS_DIR, entry.name),
-    );
-    let (_, entry) = AirFnRegistry::new(&SingleKaratsuba::<MUL252_KARATSUBA_N> {});
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_CONVOLUTIONS_DIR, entry.name),
-    );
-    let (_, entry) = AirFnRegistry::new(&DoubleKaratsuba::<MUL252_KARATSUBA_N> {
-        limb_max_bound: FELT252_MAX_LIMB,
-    });
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_CONVOLUTIONS_DIR, entry.name),
-    );
-}
-
-#[test]
 fn test_single_karatsuba_input_len_16() {
     let air_fn = SingleKaratsuba::<MUL_MOD_KARATSUBA_N> {};
     let (registry, _) = AirFnRegistry::new(&air_fn);

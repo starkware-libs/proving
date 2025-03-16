@@ -2,10 +2,27 @@
   "name": "verify_instruction",
   "relation_name": "VerifyInstruction",
   "description": "Verify Instruction",
-  "input": [
+  "prover_input": [
     "verify_instruction_input",
     "(M31, [M31; 3], [M31; 2], M31)",
     "(PackedM31, [PackedM31; 3], [PackedM31; 2], PackedM31)"
+  ],
+  "verifier_input": [
+    "[verify_instruction_input_limb_0, verify_instruction_input_limb_1, verify_instruction_input_limb_2, verify_instruction_input_limb_3, verify_instruction_input_limb_4, verify_instruction_input_limb_5, verify_instruction_input_limb_6]",
+    "[M31; 7]"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
+    "()"
   ],
   "state_names": [
     "input_limb_0_col0",

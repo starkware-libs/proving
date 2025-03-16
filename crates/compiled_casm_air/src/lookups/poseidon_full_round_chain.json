@@ -2,10 +2,175 @@
   "name": "poseidon_full_round_chain",
   "relation_name": "PoseidonFullRoundChain",
   "description": "Poseidon Full Round Chain",
-  "input": [
+  "prover_input": [
     "poseidon_full_round_chain_input",
     "(M31, M31, [Felt252Width27; 3])",
     "(PackedM31, PackedM31, [PackedFelt252Width27; 3])"
+  ],
+  "verifier_input": [
+    "[poseidon_full_round_chain_input_limb_0, poseidon_full_round_chain_input_limb_1, poseidon_full_round_chain_input_limb_2, poseidon_full_round_chain_input_limb_3, poseidon_full_round_chain_input_limb_4, poseidon_full_round_chain_input_limb_5, poseidon_full_round_chain_input_limb_6, poseidon_full_round_chain_input_limb_7, poseidon_full_round_chain_input_limb_8, poseidon_full_round_chain_input_limb_9, poseidon_full_round_chain_input_limb_10, poseidon_full_round_chain_input_limb_11, poseidon_full_round_chain_input_limb_12, poseidon_full_round_chain_input_limb_13, poseidon_full_round_chain_input_limb_14, poseidon_full_round_chain_input_limb_15, poseidon_full_round_chain_input_limb_16, poseidon_full_round_chain_input_limb_17, poseidon_full_round_chain_input_limb_18, poseidon_full_round_chain_input_limb_19, poseidon_full_round_chain_input_limb_20, poseidon_full_round_chain_input_limb_21, poseidon_full_round_chain_input_limb_22, poseidon_full_round_chain_input_limb_23, poseidon_full_round_chain_input_limb_24, poseidon_full_round_chain_input_limb_25, poseidon_full_round_chain_input_limb_26, poseidon_full_round_chain_input_limb_27, poseidon_full_round_chain_input_limb_28, poseidon_full_round_chain_input_limb_29, poseidon_full_round_chain_input_limb_30, poseidon_full_round_chain_input_limb_31]",
+    "[M31; 32]"
+  ],
+  "prover_output": [
+    {
+      "Tuple": [
+        {
+          "State": "input_limb_0_col0"
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "input_limb_1_col1"
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        {
+          "Array": [
+            {
+              "Var": [
+                "Felt252Width27",
+                "combination_tmp_f9fbc_4"
+              ]
+            },
+            {
+              "Var": [
+                "Felt252Width27",
+                "combination_tmp_f9fbc_15"
+              ]
+            },
+            {
+              "Var": [
+                "Felt252Width27",
+                "combination_tmp_f9fbc_26"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "(M31, M31, [Felt252Width27; 3])",
+    "(PackedM31, PackedM31, [PackedFelt252Width27; 3])"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "State": "input_limb_0_col0"
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "input_limb_1_col1"
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        {
+          "State": "combination_limb_0_col92"
+        },
+        {
+          "State": "combination_limb_1_col93"
+        },
+        {
+          "State": "combination_limb_2_col94"
+        },
+        {
+          "State": "combination_limb_3_col95"
+        },
+        {
+          "State": "combination_limb_4_col96"
+        },
+        {
+          "State": "combination_limb_5_col97"
+        },
+        {
+          "State": "combination_limb_6_col98"
+        },
+        {
+          "State": "combination_limb_7_col99"
+        },
+        {
+          "State": "combination_limb_8_col100"
+        },
+        {
+          "State": "combination_limb_9_col101"
+        },
+        {
+          "State": "combination_limb_0_col103"
+        },
+        {
+          "State": "combination_limb_1_col104"
+        },
+        {
+          "State": "combination_limb_2_col105"
+        },
+        {
+          "State": "combination_limb_3_col106"
+        },
+        {
+          "State": "combination_limb_4_col107"
+        },
+        {
+          "State": "combination_limb_5_col108"
+        },
+        {
+          "State": "combination_limb_6_col109"
+        },
+        {
+          "State": "combination_limb_7_col110"
+        },
+        {
+          "State": "combination_limb_8_col111"
+        },
+        {
+          "State": "combination_limb_9_col112"
+        },
+        {
+          "State": "combination_limb_0_col114"
+        },
+        {
+          "State": "combination_limb_1_col115"
+        },
+        {
+          "State": "combination_limb_2_col116"
+        },
+        {
+          "State": "combination_limb_3_col117"
+        },
+        {
+          "State": "combination_limb_4_col118"
+        },
+        {
+          "State": "combination_limb_5_col119"
+        },
+        {
+          "State": "combination_limb_6_col120"
+        },
+        {
+          "State": "combination_limb_7_col121"
+        },
+        {
+          "State": "combination_limb_8_col122"
+        },
+        {
+          "State": "combination_limb_9_col123"
+        }
+      ]
+    },
+    "[M31; 32]"
   ],
   "state_names": [
     "input_limb_0_col0",

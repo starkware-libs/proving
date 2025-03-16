@@ -38,15 +38,24 @@ impl AirFnEntry {
             _ => None,
         };
         let input = Self::generate_input(self.ext_input, self.input);
+        let input_name = format!("{}_{}", self.name, INPUT_VAR_SUFFIX);
+        let (verifier_input, verifier_input_name) = input.as_verifier_var(input_name.clone());
+        let (verifier_output, _) = self.output.as_verifier_var("".to_string());
 
         CompiledAirFn {
             name: self.name.clone(),
             relation_name: self.relation_name,
             description: self.description,
-            input: (
-                format!("{}_{}", self.name, INPUT_VAR_SUFFIX),
-                input.prover_type(),
-                input.packed_prover_type(),
+            prover_input: (input_name, input.prover_type(), input.packed_prover_type()),
+            verifier_input: (verifier_input_name, verifier_input.prover_type()),
+            prover_output: (
+                self.output.clone().compile(CompileFor::Deductions),
+                self.output.prover_type(),
+                self.output.packed_prover_type(),
+            ),
+            verifier_output: (
+                verifier_output.clone().compile(CompileFor::Constraints),
+                verifier_output.prover_type(),
             ),
             state_names: self.state.get_state_names(),
             lookup_names: self.air_body.get_lookup_names(),

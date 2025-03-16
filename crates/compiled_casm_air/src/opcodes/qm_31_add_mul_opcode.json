@@ -2,10 +2,113 @@
   "name": "qm_31_add_mul_opcode",
   "relation_name": "Opcodes",
   "description": "Qm 31 Add Mul Opcode",
-  "input": [
+  "prover_input": [
     "qm_31_add_mul_opcode_input",
     "CasmState",
     "PackedCasmState"
+  ],
+  "verifier_input": [
+    "[qm_31_add_mul_opcode_input_limb_0, qm_31_add_mul_opcode_input_limb_1, qm_31_add_mul_opcode_input_limb_2]",
+    "[M31; 3]"
+  ],
+  "prover_output": [
+    {
+      "Struct": {
+        "type": "CasmState",
+        "fields": [
+          [
+            "pc",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "input_pc_col0"
+                    },
+                    "+",
+                    {
+                      "Const": [
+                        "M31",
+                        "1"
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "State": "op1_imm_col8"
+                }
+              ]
+            }
+          ],
+          [
+            "ap",
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_ap_col1"
+                },
+                "+",
+                {
+                  "State": "ap_update_add_1_col11"
+                }
+              ]
+            }
+          ],
+          [
+            "fp",
+            {
+              "State": "input_fp_col2"
+            }
+          ]
+        ]
+      }
+    },
+    "CasmState",
+    "PackedCasmState"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_pc_col0"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "State": "op1_imm_col8"
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "input_ap_col1"
+            },
+            "+",
+            {
+              "State": "ap_update_add_1_col11"
+            }
+          ]
+        },
+        {
+          "State": "input_fp_col2"
+        }
+      ]
+    },
+    "[M31; 3]"
   ],
   "state_names": [
     "input_pc_col0",

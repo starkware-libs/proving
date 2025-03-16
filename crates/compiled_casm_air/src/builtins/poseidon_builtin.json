@@ -2,9 +2,26 @@
   "name": "poseidon_builtin",
   "relation_name": null,
   "description": "Poseidon Builtin",
-  "input": [
+  "prover_input": [
     "poseidon_builtin_input",
     "()",
+    "()"
+  ],
+  "verifier_input": [
+    "()",
+    "()"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
     "()"
   ],
   "state_names": [

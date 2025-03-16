@@ -125,15 +125,6 @@ fn test_read_small() {
     assert_expected_state(&state, &expected_state);
 }
 
-#[test]
-fn test_read_small_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&ReadSmall::default());
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_MEMORY_DIR, entry.name),
-    );
-}
-
 fn test_read_positive(value: Felt252Expr, num_bits: usize) {
     let memory = Felt252IdMemory::new_with_data(vec![(const_expr!(0), value.clone())]);
 
@@ -144,18 +135,6 @@ fn test_read_positive(value: Felt252Expr, num_bits: usize) {
         registry.run_air(&read_positive, (), CasmAddress::new(const_expr!(0), ""));
 
     assert_eq!(output.0.calc(), value.calc());
-}
-
-#[test]
-fn test_read_positive_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&ReadPositive {
-        num_bits: 36,
-        memory: Felt252IdMemory::default(),
-    });
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_MEMORY_DIR, entry.name),
-    );
 }
 
 #[test]

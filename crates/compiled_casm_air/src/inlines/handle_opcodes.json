@@ -1,0 +1,2453 @@
+{
+  "name": "handle_opcodes",
+  "relation_name": null,
+  "description": "Handle Opcodes",
+  "prover_input": [
+    "handle_opcodes_input",
+    "(CasmState, [M31; 20], [M31; 3], [Felt252; 3])",
+    "(PackedCasmState, [PackedM31; 20], [PackedM31; 3], [PackedFelt252; 3])"
+  ],
+  "verifier_input": [
+    "[handle_opcodes_input_limb_0, handle_opcodes_input_limb_1, handle_opcodes_input_limb_2, handle_opcodes_input_limb_3, handle_opcodes_input_limb_4, handle_opcodes_input_limb_5, handle_opcodes_input_limb_6, handle_opcodes_input_limb_7, handle_opcodes_input_limb_8, handle_opcodes_input_limb_9, handle_opcodes_input_limb_10, handle_opcodes_input_limb_11, handle_opcodes_input_limb_12, handle_opcodes_input_limb_13, handle_opcodes_input_limb_14, handle_opcodes_input_limb_15, handle_opcodes_input_limb_16, handle_opcodes_input_limb_17, handle_opcodes_input_limb_18, handle_opcodes_input_limb_19, handle_opcodes_input_limb_20, handle_opcodes_input_limb_21, handle_opcodes_input_limb_22, handle_opcodes_input_limb_23, handle_opcodes_input_limb_24, handle_opcodes_input_limb_25, handle_opcodes_input_limb_26, handle_opcodes_input_limb_27, handle_opcodes_input_limb_28, handle_opcodes_input_limb_29, handle_opcodes_input_limb_30, handle_opcodes_input_limb_31, handle_opcodes_input_limb_32, handle_opcodes_input_limb_33, handle_opcodes_input_limb_34, handle_opcodes_input_limb_35, handle_opcodes_input_limb_36, handle_opcodes_input_limb_37, handle_opcodes_input_limb_38, handle_opcodes_input_limb_39, handle_opcodes_input_limb_40, handle_opcodes_input_limb_41, handle_opcodes_input_limb_42, handle_opcodes_input_limb_43, handle_opcodes_input_limb_44, handle_opcodes_input_limb_45, handle_opcodes_input_limb_46, handle_opcodes_input_limb_47, handle_opcodes_input_limb_48, handle_opcodes_input_limb_49, handle_opcodes_input_limb_50, handle_opcodes_input_limb_51, handle_opcodes_input_limb_52, handle_opcodes_input_limb_53, handle_opcodes_input_limb_54, handle_opcodes_input_limb_55, handle_opcodes_input_limb_56, handle_opcodes_input_limb_57, handle_opcodes_input_limb_58, handle_opcodes_input_limb_59, handle_opcodes_input_limb_60, handle_opcodes_input_limb_61, handle_opcodes_input_limb_62, handle_opcodes_input_limb_63, handle_opcodes_input_limb_64, handle_opcodes_input_limb_65, handle_opcodes_input_limb_66, handle_opcodes_input_limb_67, handle_opcodes_input_limb_68, handle_opcodes_input_limb_69, handle_opcodes_input_limb_70, handle_opcodes_input_limb_71, handle_opcodes_input_limb_72, handle_opcodes_input_limb_73, handle_opcodes_input_limb_74, handle_opcodes_input_limb_75, handle_opcodes_input_limb_76, handle_opcodes_input_limb_77, handle_opcodes_input_limb_78, handle_opcodes_input_limb_79, handle_opcodes_input_limb_80, handle_opcodes_input_limb_81, handle_opcodes_input_limb_82, handle_opcodes_input_limb_83, handle_opcodes_input_limb_84, handle_opcodes_input_limb_85, handle_opcodes_input_limb_86, handle_opcodes_input_limb_87, handle_opcodes_input_limb_88, handle_opcodes_input_limb_89, handle_opcodes_input_limb_90, handle_opcodes_input_limb_91, handle_opcodes_input_limb_92, handle_opcodes_input_limb_93, handle_opcodes_input_limb_94, handle_opcodes_input_limb_95, handle_opcodes_input_limb_96, handle_opcodes_input_limb_97, handle_opcodes_input_limb_98, handle_opcodes_input_limb_99, handle_opcodes_input_limb_100, handle_opcodes_input_limb_101, handle_opcodes_input_limb_102, handle_opcodes_input_limb_103, handle_opcodes_input_limb_104, handle_opcodes_input_limb_105, handle_opcodes_input_limb_106, handle_opcodes_input_limb_107, handle_opcodes_input_limb_108, handle_opcodes_input_limb_109]",
+    "[M31; 110]"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
+    "()"
+  ],
+  "state_names": [],
+  "multiplicity_col_index": null,
+  "lookup_names": [],
+  "n_lookup_terms": 0,
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_82"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_26"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_83"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_27"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_84"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_28"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_85"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_29"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_86"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_30"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_87"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_31"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_88"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_32"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_89"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_33"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_90"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_34"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_91"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_35"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_92"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_36"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_93"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_37"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_94"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_38"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_95"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_39"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_96"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_40"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_97"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_41"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_98"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_42"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_99"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_43"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_100"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_44"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_101"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_45"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_102"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_46"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_103"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_47"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_104"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_48"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_105"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_49"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_106"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_50"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_107"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_51"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_108"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_52"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_109"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_53"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_16"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_23"
+                  ]
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "ret opcode offset0 equals -2"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_16"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_25"
+                  ]
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "ret opcode offset2 equals -1"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_16"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "4"
+                              ]
+                            },
+                            "-",
+                            {
+                              "Var": [
+                                "M31",
+                                "handle_opcodes_input_limb_10"
+                              ]
+                            }
+                          ]
+                        },
+                        "-",
+                        {
+                          "Var": [
+                            "M31",
+                            "handle_opcodes_input_limb_3"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "Var": [
+                        "M31",
+                        "handle_opcodes_input_limb_6"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_19"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "ret opcode flags pc_update_jump and dst_base_fp and op1_base_fp_and_res_op1 are on"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_23"
+              ]
+            }
+          ]
+        },
+        "call opcode offset0 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_24"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "call opcode offset1 equals 1"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_4"
+                  ]
+                },
+                "+",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_3"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "call opcode flags op0_base_fp and dst_base_fp are off"
+      ]
+    },
+    {
+      "StartBlock": "Cond Felt 252 As Addr"
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_29"
+              ]
+            }
+          ]
+        },
+        "Address limb 3 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_30"
+              ]
+            }
+          ]
+        },
+        "Address limb 4 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_31"
+              ]
+            }
+          ]
+        },
+        "Address limb 5 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_32"
+              ]
+            }
+          ]
+        },
+        "Address limb 6 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_33"
+              ]
+            }
+          ]
+        },
+        "Address limb 7 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_34"
+              ]
+            }
+          ]
+        },
+        "Address limb 8 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_35"
+              ]
+            }
+          ]
+        },
+        "Address limb 9 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_36"
+              ]
+            }
+          ]
+        },
+        "Address limb 10 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_37"
+              ]
+            }
+          ]
+        },
+        "Address limb 11 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_38"
+              ]
+            }
+          ]
+        },
+        "Address limb 12 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_39"
+              ]
+            }
+          ]
+        },
+        "Address limb 13 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_40"
+              ]
+            }
+          ]
+        },
+        "Address limb 14 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_41"
+              ]
+            }
+          ]
+        },
+        "Address limb 15 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_42"
+              ]
+            }
+          ]
+        },
+        "Address limb 16 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_43"
+              ]
+            }
+          ]
+        },
+        "Address limb 17 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_44"
+              ]
+            }
+          ]
+        },
+        "Address limb 18 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_45"
+              ]
+            }
+          ]
+        },
+        "Address limb 19 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_46"
+              ]
+            }
+          ]
+        },
+        "Address limb 20 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_47"
+              ]
+            }
+          ]
+        },
+        "Address limb 21 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_48"
+              ]
+            }
+          ]
+        },
+        "Address limb 22 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_49"
+              ]
+            }
+          ]
+        },
+        "Address limb 23 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_50"
+              ]
+            }
+          ]
+        },
+        "Address limb 24 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_51"
+              ]
+            }
+          ]
+        },
+        "Address limb 25 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_52"
+              ]
+            }
+          ]
+        },
+        "Address limb 26 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_53"
+              ]
+            }
+          ]
+        },
+        "Address limb 27 equals 0"
+      ]
+    },
+    "EndBlock",
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "handle_opcodes_input_limb_26"
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Var": [
+                                "M31",
+                                "handle_opcodes_input_limb_27"
+                              ]
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "handle_opcodes_input_limb_28"
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_2"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "StartBlock": "Cond Felt 252 As Addr"
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_57"
+              ]
+            }
+          ]
+        },
+        "Address limb 3 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_58"
+              ]
+            }
+          ]
+        },
+        "Address limb 4 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_59"
+              ]
+            }
+          ]
+        },
+        "Address limb 5 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_60"
+              ]
+            }
+          ]
+        },
+        "Address limb 6 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_61"
+              ]
+            }
+          ]
+        },
+        "Address limb 7 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_62"
+              ]
+            }
+          ]
+        },
+        "Address limb 8 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_63"
+              ]
+            }
+          ]
+        },
+        "Address limb 9 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_64"
+              ]
+            }
+          ]
+        },
+        "Address limb 10 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_65"
+              ]
+            }
+          ]
+        },
+        "Address limb 11 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_66"
+              ]
+            }
+          ]
+        },
+        "Address limb 12 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_67"
+              ]
+            }
+          ]
+        },
+        "Address limb 13 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_68"
+              ]
+            }
+          ]
+        },
+        "Address limb 14 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_69"
+              ]
+            }
+          ]
+        },
+        "Address limb 15 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_70"
+              ]
+            }
+          ]
+        },
+        "Address limb 16 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_71"
+              ]
+            }
+          ]
+        },
+        "Address limb 17 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_72"
+              ]
+            }
+          ]
+        },
+        "Address limb 18 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_73"
+              ]
+            }
+          ]
+        },
+        "Address limb 19 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_74"
+              ]
+            }
+          ]
+        },
+        "Address limb 20 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_75"
+              ]
+            }
+          ]
+        },
+        "Address limb 21 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_76"
+              ]
+            }
+          ]
+        },
+        "Address limb 22 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_77"
+              ]
+            }
+          ]
+        },
+        "Address limb 23 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_78"
+              ]
+            }
+          ]
+        },
+        "Address limb 24 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_79"
+              ]
+            }
+          ]
+        },
+        "Address limb 25 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_80"
+              ]
+            }
+          ]
+        },
+        "Address limb 26 equals 0"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_81"
+              ]
+            }
+          ]
+        },
+        "Address limb 27 equals 0"
+      ]
+    },
+    "EndBlock",
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "handle_opcodes_input_limb_15"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "handle_opcodes_input_limb_54"
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "Var": [
+                                "M31",
+                                "handle_opcodes_input_limb_55"
+                              ]
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "handle_opcodes_input_limb_56"
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "262144"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "handle_opcodes_input_limb_0"
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "handle_opcodes_input_limb_22"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    }
+  ],
+  "deductions": []
+}

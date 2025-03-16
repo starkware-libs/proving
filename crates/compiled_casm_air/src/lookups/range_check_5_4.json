@@ -2,10 +2,27 @@
   "name": "range_check_5_4",
   "relation_name": "RangeCheck_5_4",
   "description": "Range Check 5 4",
-  "input": [
+  "prover_input": [
     "range_check_5_4_input",
     "[M31; 2]",
     "[PackedM31; 2]"
+  ],
+  "verifier_input": [
+    "[range_check_5_4_input_limb_0, range_check_5_4_input_limb_1]",
+    "[M31; 2]"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
+    "()"
   ],
   "state_names": [],
   "multiplicity_col_index": 0,

@@ -2,9 +2,26 @@
   "name": "add_mod_builtin",
   "relation_name": null,
   "description": "Add Mod Builtin",
-  "input": [
+  "prover_input": [
     "add_mod_builtin_input",
     "()",
+    "()"
+  ],
+  "verifier_input": [
+    "()",
+    "()"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
     "()"
   ],
   "state_names": [

@@ -7,15 +7,6 @@ use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
 #[test]
-fn test_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&PoseidonHadesPermutation {});
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
-    );
-}
-
-#[test]
 fn test_poseidon() {
     let air_fn = PoseidonHadesPermutation {};
     let (registry, _) = AirFnRegistry::new(&air_fn);

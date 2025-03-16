@@ -2,10 +2,27 @@
   "name": "memory_address_to_id",
   "relation_name": "MemoryAddressToId",
   "description": "Memory Address To Id",
-  "input": [
+  "prover_input": [
     "memory_address_to_id_input",
     "M31",
     "PackedM31"
+  ],
+  "verifier_input": [
+    "memory_address_to_id_input",
+    "M31"
+  ],
+  "prover_output": [
+    {
+      "State": "memory_address_to_id_output_col0"
+    },
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_output": [
+    {
+      "State": "memory_address_to_id_output_col0"
+    },
+    "M31"
   ],
   "state_names": [
     "memory_address_to_id_output_col0"

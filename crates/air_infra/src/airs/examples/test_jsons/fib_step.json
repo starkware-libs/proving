@@ -2,10 +2,27 @@
   "name": "fib_step",
   "relation_name": null,
   "description": "Fib Step",
-  "input": [
+  "prover_input": [
     "fib_step_input",
     "[M31; 2]",
     "[PackedM31; 2]"
+  ],
+  "verifier_input": [
+    "[fib_step_input_limb_0, fib_step_input_limb_1]",
+    "[M31; 2]"
+  ],
+  "prover_output": [
+    {
+      "State": "col0"
+    },
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_output": [
+    {
+      "State": "col0"
+    },
+    "M31"
   ],
   "state_names": [
     "col0"

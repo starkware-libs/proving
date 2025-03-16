@@ -7,15 +7,6 @@ use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
 #[test]
-fn test_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&Add252 {});
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_FELT252_DIR, entry.name),
-    );
-}
-
-#[test]
 fn test_add252_no_overflow() {
     let air_fn = Add252 {};
     let (registry, _) = AirFnRegistry::new(&air_fn);

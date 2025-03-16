@@ -24,6 +24,7 @@ pub struct Call {
     pub air_fn_name: String,
     pub air_fn_description: String,
     pub input: AirVarImpl,
+    pub output_name: String,
     pub output: AirVarImpl,
     #[serde(skip)]
     pub air_body: AirBody,
@@ -39,7 +40,7 @@ pub struct LookupCall {
     #[serde(skip_serializing_if = "Option::is_none")]
     pub input: Option<AirVarImpl>,
     pub output_name: String,
-    pub output_type: String,
+    pub output: AirVarImpl,
 }
 
 // Each air function has an air_body, which is a vector of AirBodyComponent.
@@ -316,7 +317,7 @@ impl AirBody {
                 AirBodyComponent::LookupCall(call) => {
                     deductions.push(TraceGenStep::Intermediate(CompiledIntermediate {
                         name: call.output_name,
-                        r#type: call.output_type,
+                        r#type: call.output.prover_type(),
                         var: CompiledAirVar::StaticCall(
                             call.method_name,
                             vec![AirFnEntry::generate_input(call.ext_input, call.input)
@@ -382,6 +383,7 @@ impl AirBody {
                     visibility,
                 }) => {
                     if visibility.in_constraints {
+                        // These are only felt expressions (see assert in <push>).
                         constraints.push(ConstraintEvalStep::Intermediate(CompiledIntermediate {
                             name,
                             r#type: var.prover_type(),

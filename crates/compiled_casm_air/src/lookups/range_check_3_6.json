@@ -2,10 +2,14 @@
   "name": "range_check_3_6",
   "relation_name": "RangeCheck_3_6",
   "description": "Range Check 3 6",
-  "input": [
+  "prover_input": [
     "range_check_3_6_input",
     "[M31; 2]",
     "[PackedM31; 2]"
+  ],
+  "verifier_input": [
+    "[range_check_3_6_input_limb_0, range_check_3_6_input_limb_1, ]",
+    "[M31; 2]"
   ],
   "state_names": [],
   "multiplicity_col_index": 0,

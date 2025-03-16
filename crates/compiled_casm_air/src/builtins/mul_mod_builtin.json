@@ -2,9 +2,26 @@
   "name": "mul_mod_builtin",
   "relation_name": null,
   "description": "Mul Mod Builtin",
-  "input": [
+  "prover_input": [
     "mul_mod_builtin_input",
     "()",
+    "()"
+  ],
+  "verifier_input": [
+    "()",
+    "()"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
     "()"
   ],
   "state_names": [

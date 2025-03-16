@@ -1,0 +1,1369 @@
+{
+  "name": "cond_felt_252_as_rel_imm",
+  "relation_name": null,
+  "description": "Cond Felt 252 As Rel Imm",
+  "prover_input": [
+    "cond_felt_252_as_rel_imm_input",
+    "(Felt252, M31)",
+    "(PackedFelt252, PackedM31)"
+  ],
+  "verifier_input": [
+    "[cond_felt_252_as_rel_imm_input_limb_0, cond_felt_252_as_rel_imm_input_limb_1, cond_felt_252_as_rel_imm_input_limb_2, cond_felt_252_as_rel_imm_input_limb_3, cond_felt_252_as_rel_imm_input_limb_4, cond_felt_252_as_rel_imm_input_limb_5, cond_felt_252_as_rel_imm_input_limb_6, cond_felt_252_as_rel_imm_input_limb_7, cond_felt_252_as_rel_imm_input_limb_8, cond_felt_252_as_rel_imm_input_limb_9, cond_felt_252_as_rel_imm_input_limb_10, cond_felt_252_as_rel_imm_input_limb_11, cond_felt_252_as_rel_imm_input_limb_12, cond_felt_252_as_rel_imm_input_limb_13, cond_felt_252_as_rel_imm_input_limb_14, cond_felt_252_as_rel_imm_input_limb_15, cond_felt_252_as_rel_imm_input_limb_16, cond_felt_252_as_rel_imm_input_limb_17, cond_felt_252_as_rel_imm_input_limb_18, cond_felt_252_as_rel_imm_input_limb_19, cond_felt_252_as_rel_imm_input_limb_20, cond_felt_252_as_rel_imm_input_limb_21, cond_felt_252_as_rel_imm_input_limb_22, cond_felt_252_as_rel_imm_input_limb_23, cond_felt_252_as_rel_imm_input_limb_24, cond_felt_252_as_rel_imm_input_limb_25, cond_felt_252_as_rel_imm_input_limb_26, cond_felt_252_as_rel_imm_input_limb_27, cond_felt_252_as_rel_imm_input_limb_28]",
+    "[M31; 29]"
+  ],
+  "prover_output": [
+    {
+      "BinaryOp": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252",
+                            "cond_felt_252_as_rel_imm_input.0"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "0"
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252",
+                                "cond_felt_252_as_rel_imm_input.0"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "1"
+                                ]
+                              }
+                            ]
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252",
+                            "cond_felt_252_as_rel_imm_input.0"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "2"
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "262144"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "msb_col0"
+            }
+          ]
+        },
+        "-",
+        {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "134217728"
+              ]
+            },
+            "*",
+            {
+              "State": "mid_limbs_set_col1"
+            }
+          ]
+        }
+      ]
+    },
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_output": [
+    {
+      "BinaryOp": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "cond_felt_252_as_rel_imm_input_limb_0"
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "cond_felt_252_as_rel_imm_input_limb_1"
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "cond_felt_252_as_rel_imm_input_limb_2"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "262144"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "msb_col0"
+            }
+          ]
+        },
+        "-",
+        {
+          "BinaryOp": [
+            {
+              "Const": [
+                "M31",
+                "134217728"
+              ]
+            },
+            "*",
+            {
+              "State": "mid_limbs_set_col1"
+            }
+          ]
+        }
+      ]
+    },
+    "M31"
+  ],
+  "state_names": [
+    "msb_col0",
+    "mid_limbs_set_col1"
+  ],
+  "multiplicity_col_index": null,
+  "lookup_names": [],
+  "n_lookup_terms": 0,
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "StartBlock": "Cond Decode Small Sign"
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "msb_col0"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col0"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "msb is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col1"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col1"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "mid_limbs_set is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_28"
+                  ]
+                },
+                "*",
+                {
+                  "State": "mid_limbs_set_col1"
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col0"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Cannot have msb equals 0 and mid_limbs_set equals 1"
+      ]
+    },
+    "EndBlock",
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_3"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 3 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_4"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 4 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_5"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 5 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_6"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 6 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_7"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 7 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_8"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 8 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_9"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 9 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_10"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 10 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_11"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 11 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_12"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 12 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_13"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 13 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_14"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 14 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_15"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 15 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_16"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 16 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_17"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 17 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_18"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 18 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_19"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 19 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_20"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mid_limbs_set_col1"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "511"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 20 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_21"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "136"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "msb_col0"
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "State": "mid_limbs_set_col1"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 21 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_22"
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 22 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_23"
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 23 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_24"
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 24 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_25"
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 25 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_26"
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 26 is fixed"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "cond_felt_252_as_rel_imm_input_limb_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_rel_imm_input_limb_27"
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "msb_col0"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "rel_imm limb 27 is fixed"
+      ]
+    }
+  ],
+  "deductions": [
+    {
+      "StartBlock": "Cond Decode Small Sign"
+    },
+    {
+      "Intermediate": {
+        "name": "msb_tmp_1e9bf_0",
+        "type": "Bool",
+        "var": {
+          "MethodCall": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "cond_felt_252_as_rel_imm_input.0"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "27"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "eq",
+            [
+              {
+                "Const": [
+                  "M31",
+                  "256"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Bool",
+              "msb_tmp_1e9bf_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "mid_limbs_set_tmp_1e9bf_1",
+        "type": "Bool",
+        "var": {
+          "MethodCall": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "cond_felt_252_as_rel_imm_input.0"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "20"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "eq",
+            [
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Bool",
+              "mid_limbs_set_tmp_1e9bf_1"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    "EndBlock"
+  ]
+}
