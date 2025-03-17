@@ -35,15 +35,17 @@ impl AirFn for EvalOperands {
     ) -> Self::Out {
         // Read 252 bits since we don't know for what purpose is the reading
         // Read dst
-        let dst_src = flags[FLAG_DST_BASE_FP_INDEX].clone() * casm_state.fp().var
+        let mut dst_src = flags[FLAG_DST_BASE_FP_INDEX].clone() * casm_state.fp().var
             + (const_expr!(1) - flags[FLAG_DST_BASE_FP_INDEX].clone()) * casm_state.ap().var;
+        air_builder.assign(&mut dst_src, "dst_src");
         let dst = self
             .memory
             .read_felt252(air_builder, CasmAddress::new(dst_src + offset0, "dst"));
 
         // Read op0
-        let op0_src = flags[FLAG_OP0_BASE_FP_INDEX].clone() * casm_state.fp().var
+        let mut op0_src = flags[FLAG_OP0_BASE_FP_INDEX].clone() * casm_state.fp().var
             + (const_expr!(1) - flags[FLAG_OP0_BASE_FP_INDEX].clone()) * casm_state.ap().var;
+        air_builder.assign(&mut op0_src, "op0_src");
         let op0 = self
             .memory
             .read_felt252(air_builder, CasmAddress::new(op0_src + offset1, "op0"));
@@ -54,10 +56,11 @@ impl AirFn for EvalOperands {
             (op0.clone(), flags[FLAG_OP1_BASE_OP0_INDEX].clone()),
         );
 
-        let op1_src = flags[FLAG_OP1_BASE_FP_INDEX].clone() * casm_state.fp().var
+        let mut op1_src = flags[FLAG_OP1_BASE_FP_INDEX].clone() * casm_state.fp().var
             + flags[FLAG_OP1_BASE_AP_INDEX].clone() * casm_state.ap().var
             + flags[FLAG_OP1_IMM_INDEX].clone() * casm_state.pc().var
             + flags[FLAG_OP1_BASE_OP0_INDEX].clone() * op0_as_addr.var;
+        air_builder.assign(&mut op1_src, "op1_src");
         let op1 = self
             .memory
             .read_felt252(air_builder, CasmAddress::new(op1_src + offset2, "op1"));

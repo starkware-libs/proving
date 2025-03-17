@@ -452,7 +452,7 @@
   },
   "generic_opcode": {
     "trace_type": "Opcode",
-    "num_state_cols": 229,
+    "num_state_cols": 235,
     "lookup_use_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -470,8 +470,8 @@
     },
     "lookup_yield": true,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 361,
-    "trace_cells_upper_bound": 361
+    "total_num_trace_cols": 367,
+    "trace_cells_upper_bound": 367
   },
   "add_ap_opcode": {
     "trace_type": "Opcode",
