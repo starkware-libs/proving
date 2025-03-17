@@ -576,7 +576,7 @@ impl ModInstance {
 }
 
 #[test]
-fn test_mul_mod_builtin_on_abcq_bank() {
+fn test_mul_mod_builtin_on_abcp_bank() {
     let mut instances = sequence_from_bank(0, 4, VALID_ABCP_BANK[0].1.len(), 600, 1000);
     instances.extend(sequence_from_bank(1, 0, 4, 3400, 3900));
     run_mul_mod_builtin(instances, None);
@@ -584,7 +584,7 @@ fn test_mul_mod_builtin_on_abcq_bank() {
 
 #[test]
 #[should_panic(expected = "RangeCheck failed on element 0: RangeCheck18 on input 130154037")]
-fn test_mul_mod_builtin_on_distorted_abcq() {
+fn test_mul_mod_builtin_on_distorted_abcp() {
     let mut instances = sequence_from_bank(0, 5, 6, 600, 1000);
     instances[0].distort("a", 1, 2);
     run_mul_mod_builtin(instances, None);

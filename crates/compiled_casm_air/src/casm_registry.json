@@ -141,16 +141,6 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
   },
-  "range_check_3_6": {
-    "trace_type": "Component",
-    "num_state_cols": 0,
-    "lookup_use_cols": {},
-    "lookup_rows": {},
-    "lookup_yield": true,
-    "lookup_multiplicity": true,
-    "total_num_trace_cols": 5,
-    "trace_cells_upper_bound": 5
-  },
   "range_check_18": {
     "trace_type": "Component",
     "num_state_cols": 0,
@@ -168,22 +158,20 @@
       "MemoryAddressToId": 29,
       "MemoryIdToBig": 24,
       "RangeCheck_12": 32,
-      "RangeCheck_3_6_6_3": 32,
-      "RangeCheck_3_6": 16,
+      "RangeCheck_3_6_6_3": 40,
       "RangeCheck_18": 62
     },
     "lookup_rows": {
       "memory_address_to_id": 29,
       "memory_id_to_big": 24,
       "range_check_12": 32,
-      "range_check_3_6_6_3": 32,
-      "range_check_3_6": 16,
+      "range_check_3_6_6_3": 40,
       "range_check_18": 62
     },
     "lookup_yield": false,
     "lookup_multiplicity": false,
-    "total_num_trace_cols": 802,
-    "trace_cells_upper_bound": 802
+    "total_num_trace_cols": 786,
+    "trace_cells_upper_bound": 786
   },
   "range_check_19": {
     "trace_type": "Component",
