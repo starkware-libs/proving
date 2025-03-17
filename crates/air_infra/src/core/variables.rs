@@ -43,8 +43,7 @@ pub type ChainIdVar = FeltExpr;
 pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
     fn new(name: String, in_state: bool) -> Self;
 
-    // TODO(AnatG): Consider returning a tuple of Self and the new Intermediate.
-    fn let_for_deduction(&self, name: String) -> Self;
+    fn let_for_deduction(&self, name: String) -> (Self, Intermediate);
 
     fn get_felt_descriptions(&self) -> Option<Vec<String>> {
         None
@@ -75,7 +74,7 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
     // Defines a new variable for the top level variable, visibile in deductions, and a variable for
     // each felt, visible in constraints.
     fn rec_let(&self, name: String) -> (Self, Vec<Intermediate>) {
-        let mut res = self.let_for_deduction(name.clone());
+        let (mut res, mut interm0) = self.let_for_deduction(name.clone());
 
         // When the expression is a single felt, create an intermediate known both in deductions and
         // constraints.
@@ -83,29 +82,18 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
             if f.is_directly_in_state() {
                 return (self.clone(), vec![]);
             }
-            let var = self.clone().into();
             // Cast <res> into a mut felt expression.
             let res_as_felt = res.as_felts_mut().into_iter().next().expect("No felts");
             res_as_felt.let_for_constraint(name.clone());
-            return (
-                res,
-                vec![Intermediate {
-                    name,
-                    var,
-                    visibility: Visibility::new(true, true),
-                }],
-            );
+            interm0.visibility.in_constraints = true;
+            return (res, vec![interm0]);
         }
 
         // We have to create the variable for <self> before its felts, because <let_> creates
         // the felts as well. Then, we recreate the felts from their original expressions
         // (<orig_felts>) and update <res>.
         let mut orig_felts = self.as_felts();
-        let mut vars = vec![Intermediate {
-            name: name.clone(),
-            var: self.clone().into(),
-            visibility: Visibility::new(true, false),
-        }];
+        let mut vars = vec![interm0];
 
         for (i, (orig_felt, felt)) in orig_felts.iter_mut().zip(res.as_felts_mut()).enumerate() {
             let parent_source = felt.clone();
@@ -116,11 +104,7 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
             }
 
             let felt_name = format!("{}_limb_{}", name, i);
-            vars.push(Intermediate {
-                name: felt_name.clone(),
-                var: AirVarImpl::Expr(orig_felt.clone().into()),
-                visibility: Visibility::new(false, true),
-            });
+            vars.push(Intermediate::new_for_constraint(&felt_name, orig_felt));
             felt.let_for_constraint(felt_name);
         }
 
@@ -215,6 +199,30 @@ pub struct Intermediate {
     pub name: String,
     pub var: AirVarImpl,
     pub visibility: Visibility,
+}
+
+impl Intermediate {
+    pub fn new_for_deduction<V>(name: &str, var: &V) -> Self
+    where
+        V: Into<AirVarImpl> + Clone,
+    {
+        Self {
+            name: name.to_string(),
+            var: var.clone().into(),
+            visibility: Visibility::new(true, false),
+        }
+    }
+
+    pub fn new_for_constraint<V>(name: &str, var: &V) -> Self
+    where
+        V: Into<AirVarImpl> + Clone,
+    {
+        Self {
+            name: name.to_string(),
+            var: var.clone().into(),
+            visibility: Visibility::new(false, true),
+        }
+    }
 }
 
 // Describes an external preprocessed table and its type as used in the air infra.
@@ -456,7 +464,9 @@ impl AirVar for () {
         true
     }
     fn new(_name: String, _in_state: bool) -> Self {}
-    fn let_for_deduction(&self, _name: String) -> Self {}
+    fn let_for_deduction(&self, _name: String) -> (Self, Intermediate) {
+        ((), Intermediate::new_for_deduction("", self))
+    }
 }
 
 impl ExtTable for () {
@@ -563,12 +573,13 @@ macro_rules! impl_air_var {
             fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
                 self.into_iter().flat_map(|s| s.as_felts_mut()).collect()
             }
-            fn let_for_deduction(&self, name: String) -> Self {
+            fn let_for_deduction(&self, name: String) -> (Self, Intermediate) {
+                let interm = Intermediate::new_for_deduction(&name, self);
                 let mut res = self.clone();
                 for (i, s) in res.iter_mut().enumerate() {
-                    *s = s.let_for_deduction(format!("{}[{}]", name, i));
+                    (*s, _) = s.let_for_deduction(format!("{}[{}]", name, i));
                 }
-                res
+                (res, interm)
             }
             fn new(name: String, in_state: bool) -> Self {
                 from_fn(|j| from_fn(|i| <$s as AirVar>::new(format!("{}_{}[{}]", name, j, i), in_state)))
@@ -588,8 +599,9 @@ macro_rules! impl_air_var {
             fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
                 self.into_iter().flat_map(|s| s.as_felts_mut()).collect()
             }
-            fn let_for_deduction(&self, name: String) -> Self {
-                from_fn(|i| self[i].let_for_deduction(format!("{}[{}]", name, i)))
+            fn let_for_deduction(&self, name: String) -> (Self, Intermediate) {
+                let interm = Intermediate::new_for_deduction(&name, self);
+                (from_fn(|i| self[i].let_for_deduction(format!("{}[{}]", name, i)).0), interm)
             }
             fn new(name: String, in_state: bool) -> Self {
                 from_fn(|i| <$s as AirVar>::new(format!("{}[{}]", name, i), in_state))
@@ -614,11 +626,12 @@ macro_rules! impl_air_var {
                 $(res.extend($s.as_felts_mut());)+
                 res
             }
-            fn let_for_deduction(&self, name: String) -> Self {
+            fn let_for_deduction(&self, name: String) -> (Self, Intermediate) {
+                let interm = Intermediate::new_for_deduction(&name, self);
                 #[allow(non_snake_case)]
                 let ($($s),+) = self;
                 let mut i = 0;
-                ($($s.let_for_deduction(format!("{}.{}", name, { i += 1; i - 1 })),)+)
+                (($($s.let_for_deduction(format!("{}.{}", name, { i += 1; i - 1 })).0,)+), interm)
             }
             fn new(name: String, in_state: bool) -> Self {
                 let mut i = 0;

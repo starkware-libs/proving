@@ -231,7 +231,7 @@ impl AirFnRegistry {
         // fail.
         let in_state = air_fn.input_in_trace().is_none() || air_fn.input_in_trace().unwrap();
         let mut input = I::new(input_name.clone(), in_state);
-        if in_state {
+        if in_state && !I::is_empty() {
             input = input.rec_let(input_name).0;
         }
 

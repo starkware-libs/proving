@@ -36,16 +36,18 @@ impl<F: AirVar, T: ProverType> AirVar for StructVar<F, T>
 where
     Self: StructVarTrait,
 {
-    fn let_for_deduction(&self, name: String) -> Self {
-        Self {
+    fn let_for_deduction(&self, name: String) -> (Self, Intermediate) {
+        let interm = Intermediate::new_for_deduction(&name, self);
+        let res = Self {
             name: Some(name.clone()),
             fields: self
                 .fields
                 .iter()
-                .map(|(n, f)| (n.clone(), f.let_for_deduction(format!("{}.{}", name, n))))
+                .map(|(n, f)| (n.clone(), f.let_for_deduction(format!("{}.{}", name, n)).0))
                 .collect(),
             r#type: PhantomData,
-        }
+        };
+        (res, interm)
     }
 
     fn new(name: String, in_state: bool) -> Self {
@@ -100,11 +102,13 @@ impl<V: AirVar, D: Clone + Debug> From<VarWrapper<V, D>> for AirVarImpl {
 }
 
 impl<V: AirVar, D: Clone + Debug> AirVar for VarWrapper<V, D> {
-    fn let_for_deduction(&self, name: String) -> Self {
-        Self {
-            var: self.var.let_for_deduction(name),
+    fn let_for_deduction(&self, name: String) -> (Self, Intermediate) {
+        let interm = Intermediate::new_for_deduction(&name, self);
+        let res = Self {
+            var: self.var.let_for_deduction(name).0,
             extra_info: self.extra_info.clone(),
-        }
+        };
+        (res, interm)
     }
 
     fn new(name: String, in_state: bool) -> Self {

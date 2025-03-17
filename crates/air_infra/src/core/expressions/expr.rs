@@ -109,10 +109,11 @@ where
         VarExpr::new(name, None, false, in_state).into()
     }
 
-    fn let_for_deduction(&self, name: String) -> Self {
+    fn let_for_deduction(&self, name: String) -> (Self, Intermediate) {
+        let interm = Intermediate::new_for_deduction(&name, self);
         let mut var = VarExpr::new_from(name, self);
         var.is_deduction_intermediate = true;
-        var.into()
+        (var.into(), interm)
     }
 
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
