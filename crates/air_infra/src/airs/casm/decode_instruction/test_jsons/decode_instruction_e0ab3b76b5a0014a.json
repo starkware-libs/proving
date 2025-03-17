@@ -576,11 +576,11 @@
           ],
           [
             {
-              "name": "((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + (op1_imm_col5 * 32)) + (op1_base_fp_col6 * 64)) + (op1_base_ap_col7 * 128)) + (res_add_col8 * 256))",
+              "name": "((((((dst_base_fp_col3 * 8) + (op0_base_fp_col4 * 16)) + (op1_imm_col5 * 32)) + (op1_base_fp_col6 * 64)) + (op1_base_ap_col7 * 128)) + (res_add_col8 * 256))",
               "type": "M31"
             },
             {
-              "name": "(((((((((0 + (res_mul_col9 * 1)) + (pc_update_jump_col10 * 2)) + (pc_update_jump_rel_col11 * 4)) + (pc_update_jnz_col12 * 8)) + (ap_update_add_col13 * 16)) + (ap_update_add_1_col14 * 32)) + (opcode_call_col15 * 64)) + (opcode_ret_col16 * 128)) + (opcode_assert_eq_col17 * 256))",
+              "name": "((((((((res_mul_col9 + (pc_update_jump_col10 * 2)) + (pc_update_jump_rel_col11 * 4)) + (pc_update_jnz_col12 * 8)) + (ap_update_add_col13 * 16)) + (ap_update_add_1_col14 * 32)) + (opcode_call_col15 * 64)) + (opcode_ret_col16 * 128)) + (opcode_assert_eq_col17 * 256))",
               "type": "M31"
             }
           ],
@@ -599,8 +599,8 @@
           "offset0_col0",
           "offset1_col1",
           "offset2_col2",
-          "((((((0 + (dst_base_fp_col3 * 8)) + (op0_base_fp_col4 * 16)) + (op1_imm_col5 * 32)) + (op1_base_fp_col6 * 64)) + (op1_base_ap_col7 * 128)) + (res_add_col8 * 256))",
-          "(((((((((0 + (res_mul_col9 * 1)) + (pc_update_jump_col10 * 2)) + (pc_update_jump_rel_col11 * 4)) + (pc_update_jnz_col12 * 8)) + (ap_update_add_col13 * 16)) + (ap_update_add_1_col14 * 32)) + (opcode_call_col15 * 64)) + (opcode_ret_col16 * 128)) + (opcode_assert_eq_col17 * 256))",
+          "((((((dst_base_fp_col3 * 8) + (op0_base_fp_col4 * 16)) + (op1_imm_col5 * 32)) + (op1_base_fp_col6 * 64)) + (op1_base_ap_col7 * 128)) + (res_add_col8 * 256))",
+          "((((((((res_mul_col9 + (pc_update_jump_col10 * 2)) + (pc_update_jump_rel_col11 * 4)) + (pc_update_jnz_col12 * 8)) + (ap_update_add_col13 * 16)) + (ap_update_add_1_col14 * 32)) + (opcode_call_col15 * 64)) + (opcode_ret_col16 * 128)) + (opcode_assert_eq_col17 * 256))",
           "0"
         ],
         "use_or_yield": "Use"

@@ -141,11 +141,7 @@ fn write_trace_simd(
                 let verify_instruction_inputs_0 = (
                     input_pc_col0,
                     [offset0_col3, M31_32767, M31_32769],
-                    [
-                        M31_56,
-                        (((((M31_8) + ((ap_update_add_1_col4) * (M31_32))) + (M31_0)) + (M31_0))
-                            + (M31_0)),
-                    ],
+                    [M31_56, ((M31_8) + ((ap_update_add_1_col4) * (M31_32)))],
                     M31_0,
                 )
                     .unpack();
@@ -155,8 +151,7 @@ fn write_trace_simd(
                     M31_32767,
                     M31_32769,
                     M31_56,
-                    (((((M31_8) + ((ap_update_add_1_col4) * (M31_32))) + (M31_0)) + (M31_0))
-                        + (M31_0)),
+                    ((M31_8) + ((ap_update_add_1_col4) * (M31_32))),
                     M31_0,
                 ];
 
@@ -263,8 +258,7 @@ fn write_trace_simd(
                     dst_limb_27_col33,
                 ];
 
-                let res_col34 = (((((((((((((((((((((((((((((M31_0)
-                    + (dst_limb_0_col6))
+                let res_col34 = ((((((((((((((((((((((((((((dst_limb_0_col6)
                     + (dst_limb_1_col7))
                     + (dst_limb_2_col8))
                     + (dst_limb_3_col9))
@@ -297,9 +291,8 @@ fn write_trace_simd(
                 let diff_from_p_tmp_8b848_6 = ((dst_limb_0_col6) - (M31_1));
                 let diff_from_p_tmp_8b848_7 = ((dst_limb_21_col27) - (M31_136));
                 let diff_from_p_tmp_8b848_8 = ((dst_limb_27_col33) - (M31_256));
-                let res_squares_col35 = (((((((((((((((((((((((((((((M31_0)
-                    + ((diff_from_p_tmp_8b848_6)
-                        * (diff_from_p_tmp_8b848_6)))
+                let res_squares_col35 = (((((((((((((((((((((((((((((diff_from_p_tmp_8b848_6)
+                    * (diff_from_p_tmp_8b848_6))
                     + (dst_limb_1_col7))
                     + (dst_limb_2_col8))
                     + (dst_limb_3_col9))

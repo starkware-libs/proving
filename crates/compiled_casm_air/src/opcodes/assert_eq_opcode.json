@@ -143,63 +143,22 @@
                       {
                         "BinaryOp": [
                           {
-                            "BinaryOp": [
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  "+",
-                                  {
-                                    "BinaryOp": [
-                                      {
-                                        "State": "dst_base_fp_col5"
-                                      },
-                                      "*",
-                                      {
-                                        "Const": [
-                                          "M31",
-                                          "8"
-                                        ]
-                                      }
-                                    ]
-                                  }
-                                ]
-                              },
-                              "+",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "16"
-                                ]
-                              }
-                            ]
+                            "State": "dst_base_fp_col5"
                           },
-                          "+",
+                          "*",
                           {
                             "Const": [
                               "M31",
-                              "0"
+                              "8"
                             ]
                           }
                         ]
                       },
                       "+",
                       {
-                        "BinaryOp": [
-                          {
-                            "State": "op1_base_fp_col6"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "64"
-                            ]
-                          }
+                        "Const": [
+                          "M31",
+                          "16"
                         ]
                       }
                     ]
@@ -208,24 +167,13 @@
                   {
                     "BinaryOp": [
                       {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
-                              "1"
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "op1_base_fp_col6"
-                          }
-                        ]
+                        "State": "op1_base_fp_col6"
                       },
                       "*",
                       {
                         "Const": [
                           "M31",
-                          "128"
+                          "64"
                         ]
                       }
                     ]
@@ -234,9 +182,28 @@
               },
               "+",
               {
-                "Const": [
-                  "M31",
-                  "0"
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "Const": [
+                          "M31",
+                          "1"
+                        ]
+                      },
+                      "-",
+                      {
+                        "State": "op1_base_fp_col6"
+                      }
+                    ]
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
                 ]
               }
             ]
@@ -246,46 +213,13 @@
               {
                 "BinaryOp": [
                   {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
-                              "0"
-                            ]
-                          },
-                          "+",
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": "ap_update_add_1_col7"
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "32"
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      "+",
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      }
-                    ]
+                    "State": "ap_update_add_1_col7"
                   },
-                  "+",
+                  "*",
                   {
                     "Const": [
                       "M31",
-                      "0"
+                      "32"
                     ]
                   }
                 ]
@@ -1248,63 +1182,22 @@
                             {
                               "BinaryOp": [
                                 {
-                                  "BinaryOp": [
-                                    {
-                                      "BinaryOp": [
-                                        {
-                                          "Const": [
-                                            "M31",
-                                            "0"
-                                          ]
-                                        },
-                                        "+",
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "State": "dst_base_fp_col5"
-                                            },
-                                            "*",
-                                            {
-                                              "Const": [
-                                                "M31",
-                                                "8"
-                                              ]
-                                            }
-                                          ]
-                                        }
-                                      ]
-                                    },
-                                    "+",
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "16"
-                                      ]
-                                    }
-                                  ]
+                                  "State": "dst_base_fp_col5"
                                 },
-                                "+",
+                                "*",
                                 {
                                   "Const": [
                                     "M31",
-                                    "0"
+                                    "8"
                                   ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "State": "op1_base_fp_col6"
-                                },
-                                "*",
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "64"
-                                  ]
-                                }
+                              "Const": [
+                                "M31",
+                                "16"
                               ]
                             }
                           ]
@@ -1313,24 +1206,13 @@
                         {
                           "BinaryOp": [
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "1"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "op1_base_fp_col6"
-                                }
-                              ]
+                              "State": "op1_base_fp_col6"
                             },
                             "*",
                             {
                               "Const": [
                                 "M31",
-                                "128"
+                                "64"
                               ]
                             }
                           ]
@@ -1339,9 +1221,28 @@
                     },
                     "+",
                     {
-                      "Const": [
-                        "M31",
-                        "0"
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "1"
+                              ]
+                            },
+                            "-",
+                            {
+                              "State": "op1_base_fp_col6"
+                            }
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "128"
+                          ]
+                        }
                       ]
                     }
                   ]
@@ -1351,46 +1252,13 @@
                     {
                       "BinaryOp": [
                         {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "0"
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "State": "ap_update_add_1_col7"
-                                    },
-                                    "*",
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "32"
-                                      ]
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "Const": [
-                                "M31",
-                                "0"
-                              ]
-                            }
-                          ]
+                          "State": "ap_update_add_1_col7"
                         },
-                        "+",
+                        "*",
                         {
                           "Const": [
                             "M31",
-                            "0"
+                            "32"
                           ]
                         }
                       ]
@@ -1444,63 +1312,22 @@
                       {
                         "BinaryOp": [
                           {
-                            "BinaryOp": [
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "0"
-                                    ]
-                                  },
-                                  "+",
-                                  {
-                                    "BinaryOp": [
-                                      {
-                                        "State": "dst_base_fp_col5"
-                                      },
-                                      "*",
-                                      {
-                                        "Const": [
-                                          "M31",
-                                          "8"
-                                        ]
-                                      }
-                                    ]
-                                  }
-                                ]
-                              },
-                              "+",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "16"
-                                ]
-                              }
-                            ]
+                            "State": "dst_base_fp_col5"
                           },
-                          "+",
+                          "*",
                           {
                             "Const": [
                               "M31",
-                              "0"
+                              "8"
                             ]
                           }
                         ]
                       },
                       "+",
                       {
-                        "BinaryOp": [
-                          {
-                            "State": "op1_base_fp_col6"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "64"
-                            ]
-                          }
+                        "Const": [
+                          "M31",
+                          "16"
                         ]
                       }
                     ]
@@ -1509,24 +1336,13 @@
                   {
                     "BinaryOp": [
                       {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
-                              "1"
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "op1_base_fp_col6"
-                          }
-                        ]
+                        "State": "op1_base_fp_col6"
                       },
                       "*",
                       {
                         "Const": [
                           "M31",
-                          "128"
+                          "64"
                         ]
                       }
                     ]
@@ -1535,9 +1351,28 @@
               },
               "+",
               {
-                "Const": [
-                  "M31",
-                  "0"
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "Const": [
+                          "M31",
+                          "1"
+                        ]
+                      },
+                      "-",
+                      {
+                        "State": "op1_base_fp_col6"
+                      }
+                    ]
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
                 ]
               }
             ]
@@ -1547,46 +1382,13 @@
               {
                 "BinaryOp": [
                   {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
-                              "0"
-                            ]
-                          },
-                          "+",
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": "ap_update_add_1_col7"
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "32"
-                                ]
-                              }
-                            ]
-                          }
-                        ]
-                      },
-                      "+",
-                      {
-                        "Const": [
-                          "M31",
-                          "0"
-                        ]
-                      }
-                    ]
+                    "State": "ap_update_add_1_col7"
                   },
-                  "+",
+                  "*",
                   {
                     "Const": [
                       "M31",
-                      "0"
+                      "32"
                     ]
                   }
                 ]

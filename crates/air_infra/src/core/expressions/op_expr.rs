@@ -22,8 +22,7 @@ use super::var_expr::*;
 use crate::core::air_body::*;
 use crate::core::Felt;
 // Macros
-use crate::impl_binary_op;
-use crate::impl_unary_op;
+use crate::{const_expr, const_expr_from_m31, impl_binary_op, impl_unary_op};
 
 /// Binary expressions - results of binary operations on expressions.
 #[derive(Clone, Debug, Default)]
@@ -216,9 +215,6 @@ impl_unary_op!(from UInt16FromBool, from_bool, BoolExpr, UInt16Expr, UInt16);
 impl_unary_op!(ops Not, not, BoolExpr);
 impl_unary_op!(Inverse, inverse, inverse, FeltExpr, FeltExpr);
 
-impl_binary_op!(ops Add, add, FeltExpr, FeltOperation);
-impl_binary_op!(ops Sub, sub, FeltExpr, FeltOperation);
-impl_binary_op!(ops Mul, mul, FeltExpr, FeltOperation);
 impl_binary_op!(Eq, eq, FeltExpr, BoolExpr, BoolOperation);
 impl_unary_op!(from BoolFromFelt, from_m31, FeltExpr, BoolExpr, Bool);
 impl_unary_op!(from UInt16FromFelt, from_m31, FeltExpr, UInt16Expr, UInt16);
@@ -439,6 +435,93 @@ impl Div for FeltExpr {
 
         FeltExpr::Op(FeltOperation::new(
             Operation::Div,
+            vec![self.into(), other.into()],
+            value,
+        ))
+    }
+}
+
+impl Add for FeltExpr {
+    type Output = FeltExpr;
+
+    fn add(self, other: FeltExpr) -> FeltExpr {
+        let value = self.value().zip(other.value()).map(|(l, r)| l.add(r));
+        if self.is_const() && other.is_const() {
+            return const_expr_from_m31!(value.unwrap());
+        }
+
+        if let Some(val) = self.value() {
+            if val == 0.into() {
+                return other;
+            }
+        }
+
+        if let Some(val) = other.value() {
+            if val == 0.into() {
+                return self;
+            }
+        }
+
+        FeltExpr::Op(FeltOperation::new(
+            Operation::Add,
+            vec![self.into(), other.into()],
+            value,
+        ))
+    }
+}
+
+impl Sub for FeltExpr {
+    type Output = FeltExpr;
+
+    fn sub(self, other: FeltExpr) -> FeltExpr {
+        let value = self.value().zip(other.value()).map(|(l, r)| l.sub(r));
+        if self.is_const() && other.is_const() {
+            return const_expr_from_m31!(value.unwrap());
+        }
+
+        if let Some(val) = other.value() {
+            if val == 0.into() {
+                return self;
+            }
+        }
+
+        FeltExpr::Op(FeltOperation::new(
+            Operation::Sub,
+            vec![self.into(), other.into()],
+            value,
+        ))
+    }
+}
+
+impl Mul for FeltExpr {
+    type Output = FeltExpr;
+
+    fn mul(self, other: FeltExpr) -> FeltExpr {
+        let value = self.value().zip(other.value()).map(|(l, r)| l.mul(r));
+        if self.is_const() && other.is_const() {
+            return const_expr_from_m31!(value.unwrap());
+        }
+
+        if let Some(val) = self.value() {
+            if val == 1.into() {
+                return other;
+            }
+            if val == 0.into() {
+                return const_expr!(0);
+            }
+        }
+
+        if let Some(val) = other.value() {
+            if val == 1.into() {
+                return self;
+            }
+            if val == 0.into() {
+                return const_expr!(0);
+            }
+        }
+
+        FeltExpr::Op(FeltOperation::new(
+            Operation::Mul,
             vec![self.into(), other.into()],
             value,
         ))

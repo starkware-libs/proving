@@ -399,3 +399,25 @@ fn test_from252_vec() {
     let x: BigUInt384Expr = vec![x0.clone(), x1.clone(), x2.clone(), x3.clone()].into();
     assert_eq!(x.calc(), "[1, 8589934592, 0, 0, 1, 1]".to_string());
 }
+
+#[test]
+fn test_felt_expr_binary_ops_with_const0_and_const1() {
+    let x = expr!("x", 7);
+
+    assert_eq!("(x + 1)", &(x.clone() + const_expr!(1)).to_string());
+    assert_eq!("(1 + x)", &(const_expr!(1) + x.clone()).to_string());
+    assert_eq!("x", &(x.clone() + const_expr!(0)).to_string());
+    assert_eq!("x", &(const_expr!(0) + x.clone()).to_string());
+
+    assert_eq!("(x - 1)", &(x.clone() - const_expr!(1)).to_string());
+    assert_eq!("(1 - x)", &(const_expr!(1) - x.clone()).to_string());
+    assert_eq!("x", &(x.clone() - const_expr!(0)).to_string());
+    assert_eq!("(0 - x)", &(const_expr!(0) - x.clone()).to_string());
+
+    assert_eq!("(x * 2)", &(x.clone() * const_expr!(2)).to_string());
+    assert_eq!("(2 * x)", &(const_expr!(2) * x.clone()).to_string());
+    assert_eq!("x", &(x.clone() * const_expr!(1)).to_string());
+    assert_eq!("x", &(const_expr!(1) * x.clone()).to_string());
+    assert_eq!("0", &(x.clone() * const_expr!(0)).to_string());
+    assert_eq!("0", &(const_expr!(0) * x.clone()).to_string());
+}
