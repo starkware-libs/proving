@@ -1,11 +1,11 @@
 use std::array::from_fn;
-use std::cmp::{max, min};
 
 use inst_def::InstDef;
 use stwo_cairo_common::prover_types::cpu::{FELT252_BITS_PER_WORD, FELT252_N_WORDS};
 
 use crate::airs::casm::const_tables::range_check::*;
 use crate::airs::convolution_utils::bounded_felt::*;
+use crate::airs::convolution_utils::karatsuba::*;
 // Macros
 use crate::const_expr;
 use crate::const_u32_expr;
@@ -13,6 +13,7 @@ use crate::core::air_fn::*;
 use crate::core::expressions::felt252_expr::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::expressions::uint32_expr::*;
+use crate::core::variables::*;
 
 /// Verifying that two 252-bit felts multiply to a third.
 /// The function assumes all inputs have range-checked limbs.
@@ -36,25 +37,25 @@ impl AirFn for VerifyMul252 {
 
         // Compute the limbs of a * b - c in long-form: limb i holds the i-th coefficient of the
         // convolution of a and b, minus the i-th coefficient of c (where i < FELT252_N_WORDS).
-        // TODO: Optimize the convolution: e.g. using Karatsuba, Toom-Cook, or even NTT.
-        // TODO: Optimize the arithmetic in the convolution: M31 muls and adds are slower than u32s,
-        // because of the modulo operations, which are not necessary since the limbs are small.
-        let mut conv_tmps: [BoundedFeltExpr; CONV_LEN] = from_fn(|_| BoundedFeltExpr::default());
+
+        // Compute the convolution a * b using Karatsuba.
+        let karatsuba = DoubleKaratsuba::<{ FELT252_N_WORDS / 4 }> {
+            limb_max_bound: MAX_WORD,
+        };
+        let error_message = &format!("felt252 should have {} limbs", FELT252_N_WORDS);
+        let mut conv_tmps = air_builder.call(
+            &karatsuba,
+            [
+                a.as_felts().try_into().expect(error_message),
+                b.as_felts().try_into().expect(error_message),
+            ],
+        );
 
         #[allow(clippy::needless_range_loop)]
-        for i in 0..CONV_LEN {
-            let mut conv = BoundedFeltExpr::default();
-            if i < FELT252_N_WORDS {
-                conv -= (c.get_felt(i), MAX_WORD, 0).into();
-            }
-            let convolution_start = max(i, FELT252_N_WORDS - 1) - (FELT252_N_WORDS - 1);
-            let convolution_end = min(i, FELT252_N_WORDS - 1);
-            for j in convolution_start..=convolution_end {
-                conv += (a.get_felt(j) * b.get_felt(i - j), MAX_WORD * MAX_WORD, 0).into()
-            }
-            conv.var = air_builder.let_(conv.var, "conv");
-            conv_tmps[i] = conv;
+        for i in 0..FELT252_N_WORDS {
+            conv_tmps[i] -= (c.get_felt(i), MAX_WORD, 0).into();
         }
+        conv_tmps = air_builder.let_(conv_tmps, "conv");
 
         // Compute the limbs of -4 * 2**(-21 * 9) * (a * b - c), partially reduced modulo P.
         // The partial reduction is performed by reducing the coefficients of the limbs, but not
@@ -89,9 +90,7 @@ impl AirFn for VerifyMul252 {
             }
         }
         // Save the reduced convolution elements as temp variables.
-        for conv_mod in conv_mod_tmps.iter_mut() {
-            conv_mod.var = air_builder.let_(conv_mod.var.clone(), "conv_mod");
-        }
+        conv_mod_tmps = air_builder.let_(conv_mod_tmps, "conv_mod");
 
         // Compute and deduce k: the coefficient of P in the equation
         //   PR := PartialReduction(-4 * 2**(-21 * 9) * (a * b - c)) = k * P.
@@ -114,6 +113,7 @@ impl AirFn for VerifyMul252 {
             (k_low + (k_high_mod_2_9 << const_u32_expr!(9u32)) + const_u32_expr!(1u32 << 16))
                 & const_u32_expr!((1u32 << 18) - 1);
         k_mod_2_18_biased = air_builder.let_for_deduction(k_mod_2_18_biased, "k_mod_2_18_biased");
+
         let k_expr = air_builder.deduce(
             &mut (k_mod_2_18_biased.low().as_felt()
                 + (k_mod_2_18_biased.high().as_felt() - const_expr!(1)) * const_expr!(1u32 << 16)),
