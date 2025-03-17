@@ -1,5 +1,4 @@
 use core::array::from_fn;
-use std::cmp::{max, min};
 
 use compiled_casm_air::public_params::PublicParam;
 use inst_def::InstDef;
@@ -8,6 +7,8 @@ use super::mod_utils::*;
 use crate::airs::casm::casm_state::*;
 use crate::airs::casm::const_tables::range_check::*;
 use crate::airs::casm::const_tables::seq::*;
+use crate::airs::convolution_utils::bounded_felt::*;
+use crate::airs::convolution_utils::karatsuba::*;
 // Macros
 use crate::const_expr;
 use crate::const_u16_expr;
@@ -20,11 +21,22 @@ use crate::core::felt252_id_memory::memory::*;
 use crate::core::variables::*;
 
 pub const MUL_MOD_LIMB_SIZE: usize = 12;
-pub const MUL_MOD_NUM_LIMBS: usize =
-    (MOD_BUILTIN_N_WORDS * MOD_BUILTIN_WORD_BIT_LEN).div_ceil(MUL_MOD_LIMB_SIZE);
-// We assume MOD_BUILTIN_WORD_BIT_LEN is a multiple of MUL_MOD_LIMB_SIZE.
+pub const MUL_MOD_NUM_LIMBS: usize = {
+    assert!(
+        MOD_BUILTIN_WORD_BIT_LEN % MUL_MOD_LIMB_SIZE == 0,
+        "Mul mod word bit length must be divisible by mul mod limb size"
+    );
+    MOD_BUILTIN_N_WORDS * MOD_BUILTIN_WORD_BIT_LEN / MUL_MOD_LIMB_SIZE
+};
 pub const NUM_12BIT_LIMBS_PER_WORD: usize = MOD_BUILTIN_WORD_BIT_LEN.div_ceil(MUL_MOD_LIMB_SIZE);
 pub const MUL_MOD_MAX_LIMB: i32 = (1 << MUL_MOD_LIMB_SIZE) - 1;
+pub const MUL_MOD_KARATSUBA_N: usize = {
+    assert!(
+        MUL_MOD_NUM_LIMBS % 4 == 0,
+        "Mul mod number of limbs must be divisible by 4"
+    );
+    MUL_MOD_NUM_LIMBS / 4
+};
 
 #[derive(Debug, InstDef, Default)]
 pub struct MulModBuiltin {
@@ -80,53 +92,59 @@ impl AirFn for MulModBuiltin {
                 ab.let_(res, desc)
             });
 
-        // TODO(ohadn): move BoundedFeltExpr to a neutral file and use it here.
-        let mut limb_accumulator = const_expr!(0u32);
-        let mut min_bound_acc = 0_i32;
-        let mut max_bound_acc = 0_i32;
+        let mut limb_accumulator = BoundedFeltExpr::default();
+
+        // Compute the convolutions a * b and k * p using Karatsuba.
+        let karatsuba = DoubleKaratsuba::<{ MUL_MOD_NUM_LIMBS / 4 }> {
+            limb_max_bound: MUL_MOD_MAX_LIMB,
+        };
+
+        let a_mul_b_array = ab.call(&karatsuba, [a_12bits, b_12bits]);
+        let k_mul_p_array = ab.call(
+            &karatsuba,
+            [
+                k_384
+                    .as_felts()
+                    .try_into()
+                    .unwrap_or_else(|_| panic!("k_384 should be of length {}", MUL_MOD_NUM_LIMBS)),
+                p_12bits,
+            ],
+        );
+
         for i in 0..(2 * MUL_MOD_NUM_LIMBS - 2) {
             if i < MUL_MOD_NUM_LIMBS {
-                limb_accumulator = limb_accumulator - c_12bits[i].clone();
-                min_bound_acc -= MUL_MOD_MAX_LIMB;
+                limb_accumulator -= (c_12bits[i].clone(), MUL_MOD_MAX_LIMB, 0).into();
             }
-            let convolution_start = max(i, MUL_MOD_NUM_LIMBS - 1) - (MUL_MOD_NUM_LIMBS - 1);
-            let convolution_end = min(i, MUL_MOD_NUM_LIMBS - 1);
-            for j in convolution_start..=convolution_end {
-                limb_accumulator = limb_accumulator
-                    + (a_12bits[j].clone() * b_12bits[i - j].clone()
-                        - k_384.get_felt(j) * p_12bits[i - j].clone());
-                max_bound_acc += MUL_MOD_MAX_LIMB * MUL_MOD_MAX_LIMB;
-                min_bound_acc -= MUL_MOD_MAX_LIMB * MUL_MOD_MAX_LIMB;
-            }
-            let carry = ab.assign(
-                &mut (limb_accumulator.clone() * shift_inverse.clone()),
-                "carry",
-            );
-            assert!(
-                max_bound_acc < 1i32 << (2 * MUL_MOD_LIMB_SIZE + 5),
-                "max_bound_acc exceeds 1 << (2 * MUL_MOD_LIMB_SIZE + 5)"
-            );
-            assert!(
-                min_bound_acc >= -(1i32 << (2 * MUL_MOD_LIMB_SIZE + 5)),
-                "abs(min_bound_acc) exceeds 1 << (2 * MUL_MOD_LIMB_SIZE + 5)"
+            limb_accumulator += a_mul_b_array[i].clone() - k_mul_p_array[i].clone();
+
+            let mut carry = BoundedFeltExpr::new(
+                ab.assign(
+                    &mut (limb_accumulator.var.clone() * shift_inverse.clone()),
+                    &format!("carry_{}", i),
+                ),
+                limb_accumulator.max_bound() >> MUL_MOD_LIMB_SIZE,
+                limb_accumulator.min_bound() >> MUL_MOD_LIMB_SIZE,
             );
 
             // carry is possibly negative yet should be bound by 1u32 << (FELT252_BITS_PER_WORD + 5)
             // in absolute value
+            assert!(carry.max_bound() < (1i32 << (MUL_MOD_LIMB_SIZE + 5)));
+            assert!(carry.min_bound() >= -(1i32 << (MUL_MOD_LIMB_SIZE + 5)));
             range_check(
                 ab,
                 &[(MUL_MOD_LIMB_SIZE + 6) as u16],
-                &[carry.clone() + const_expr!(1u32 << (MUL_MOD_LIMB_SIZE + 5))],
+                &[carry.var.clone() + const_expr!(1u32 << (MUL_MOD_LIMB_SIZE + 5))],
             );
+
+            // Bounds on the carry based on the range-check constraint.
+            carry.set_max_bound((1i32 << (MUL_MOD_LIMB_SIZE + 5)) - 1);
+            carry.set_min_bound(1i32 << (MUL_MOD_LIMB_SIZE + 5));
+
             limb_accumulator = carry;
-            // Maximal values of the carry that could satisfy the range check.
-            max_bound_acc = (1i32 << (MUL_MOD_LIMB_SIZE + 5)) - 1;
-            min_bound_acc = -(1i32 << (MUL_MOD_LIMB_SIZE + 5));
         }
         ab.constrain(
-            a_12bits[MUL_MOD_NUM_LIMBS - 1].clone() * b_12bits[MUL_MOD_NUM_LIMBS - 1].clone()
-                + limb_accumulator
-                - k_384.get_felt(MUL_MOD_NUM_LIMBS - 1) * p_12bits[MUL_MOD_NUM_LIMBS - 1].clone(),
+            a_mul_b_array[2 * MUL_MOD_NUM_LIMBS - 2].var.clone() + limb_accumulator.var
+                - k_mul_p_array[2 * MUL_MOD_NUM_LIMBS - 2].var.clone(),
             "final limb constraint",
         );
     }

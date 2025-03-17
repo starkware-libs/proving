@@ -1,13 +1,11 @@
 use super::karatsuba::*;
-use crate::airs::casm::builtins::modulo::mul_mod::{MUL_MOD_MAX_LIMB, MUL_MOD_NUM_LIMBS};
+use crate::airs::casm::builtins::modulo::mul_mod::{MUL_MOD_KARATSUBA_N, MUL_MOD_MAX_LIMB};
 // Macros
 use crate::const_expr;
 use crate::core::air_fn_registry::*;
 use crate::core::expressions::felt_expr::*;
 use crate::core::variables::*;
 use crate::utils::test_utils::*;
-
-const MUL_MOD_KARATSUBA_N: usize = MUL_MOD_NUM_LIMBS / 4;
 
 #[test]
 fn test_entry_json() {
