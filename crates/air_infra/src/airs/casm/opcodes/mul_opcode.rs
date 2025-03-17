@@ -57,10 +57,16 @@ impl AirFn for MulOpcode {
     type Out = CasmStateVar;
 
     fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
-        let const_offsets = if self.imm {
-            [None, None, Some(1)]
+        let (const_offsets, flag_sets_of_sum_1) = if self.imm {
+            ([None, None, Some(1)], BTreeSet::new())
         } else {
-            [None, None, None]
+            (
+                [None, None, None],
+                BTreeSet::from([BTreeSet::from([
+                    FLAG_OP1_BASE_FP_INDEX,
+                    FLAG_OP1_BASE_AP_INDEX,
+                ])]),
+            )
         };
         // Check the instruction.
         let ([offset0, offset1, offset2], flags, _) = ab.call(
@@ -68,7 +74,7 @@ impl AirFn for MulOpcode {
                 const_offsets,
                 const_flags: self.get_flags(),
                 const_opcode_extension: Some(OpcodeExtension::Stone),
-                flag_sets_of_sum_1: BTreeSet::new(),
+                flag_sets_of_sum_1,
                 memory: self.memory.clone(),
             },
             casm_state.pc().clone(),
@@ -94,10 +100,6 @@ impl AirFn for MulOpcode {
         let mem1_base = if self.imm {
             casm_state.pc().var
         } else {
-            ab.constrain(
-                flag_op1_base_fp.clone() + flag_op1_base_ap.clone() - const_expr!(1),
-                "Either flag op1_base_fp is on or flag op1_base_ap is on",
-            );
             ab.assign(
                 &mut (flag_op1_base_fp * casm_state.fp().var
                     + flag_op1_base_ap * casm_state.ap().var),
