@@ -118,9 +118,9 @@ impl FeltExpr {
     }
 }
 
-impl AirVar for FeltExpr {
-    fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
-        vec![self]
+impl TryIntoFeltExpr for FeltExpr {
+    fn try_into_felt(&mut self) -> Option<&mut FeltExpr> {
+        Some(self)
     }
 }
 

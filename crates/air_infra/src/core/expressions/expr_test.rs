@@ -216,24 +216,23 @@ fn test_bad_felt_to_bool() {
 }
 
 #[test]
+#[should_panic(expected = "Operation Eq does not allow extracting felts")]
+fn test_bad_bool_as_felt() {
+    let b = const_expr!(1).eq(const_expr!(2));
+    let _f = b.as_felt();
+}
+
+#[test]
 fn test_conversion_bool_to_uint16() {
     let mut b: BoolExpr = bool_expr!("x", true);
     b = b.let_for_deduction(format!("{}0", INTERMEDIATE_VAR_SUFFIX));
     let i: UInt16Expr = b.clone().into();
     assert_eq!(i.calc(), "1");
-    assert_eq!(&i.as_felt().to_string(), "tmp0.as_m31()");
-
-    b.as_felt_mut().to_state(StateInfo::StateIndex(0, None));
-    let mut i: UInt16Expr = b.clone().into();
-    assert!(i.in_state());
-    assert_eq!(&i.as_felt().to_string(), "col0");
     assert_eq!(&i.to_string(), "UInt16::from_bool(tmp0)");
 
-    let f = b
-        .as_felt()
-        .let_for_deduction(format!("{}0", INTERMEDIATE_VAR_SUFFIX));
-    i = Into::<BoolExpr>::into(f).into();
-    assert_eq!(&i.as_felt().to_string(), "tmp0");
+    b.as_felt_mut().to_state(StateInfo::StateIndex(0, None));
+    let i: UInt16Expr = b.clone().into();
+    assert!(i.in_state());
 }
 
 #[test]

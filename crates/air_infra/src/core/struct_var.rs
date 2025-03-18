@@ -32,7 +32,7 @@ impl<F: AirVar, T: ProverType> From<StructVar<F, T>> for AirVarImpl {
     }
 }
 
-impl<F: AirVar, T: ProverType> InternalAirVarActions for StructVar<F, T>
+impl<F: AirVar, T: ProverType> AirVar for StructVar<F, T>
 where
     Self: StructVarTrait,
 {
@@ -51,12 +51,7 @@ where
     fn new(name: String, in_state: bool) -> Self {
         Self::new_from_name(name, in_state)
     }
-}
 
-impl<F: AirVar, T: ProverType> AirVar for StructVar<F, T>
-where
-    Self: StructVarTrait,
-{
     fn get_felt_descriptions(&self) -> Option<Vec<String>> {
         Some(
             self.fields
@@ -104,7 +99,7 @@ impl<V: AirVar, D: Clone + Debug> From<VarWrapper<V, D>> for AirVarImpl {
     }
 }
 
-impl<V: AirVar, D: Clone + Debug> InternalAirVarActions for VarWrapper<V, D> {
+impl<V: AirVar, D: Clone + Debug> AirVar for VarWrapper<V, D> {
     fn let_for_deduction(&self, name: String) -> Self {
         Self {
             var: self.var.let_for_deduction(name),
@@ -118,9 +113,7 @@ impl<V: AirVar, D: Clone + Debug> InternalAirVarActions for VarWrapper<V, D> {
             extra_info: None,
         }
     }
-}
 
-impl<V: AirVar, D: Clone + Debug> AirVar for VarWrapper<V, D> {
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         self.var.as_felts_mut()
     }
