@@ -57,7 +57,10 @@ where
         CompiledAirVar::State(..) => f(expr),
         CompiledAirVar::ExternalState { .. } => f(expr),
         CompiledAirVar::StaticCall(_, vars) => iter_many(vars),
-        CompiledAirVar::MethodCall(_, _, vars) => iter_many(vars),
+        CompiledAirVar::MethodCall(self_var, _, vars) => {
+            iter_many(vars);
+            expr_iterator(self_var, f);
+        }
         CompiledAirVar::BinaryOp(lhs, _, rhs) => iter_many(&[*lhs.clone(), *rhs.clone()]),
         CompiledAirVar::UnaryOp(_, var) => f(var),
         CompiledAirVar::Tuple(vars) => iter_many(vars),
