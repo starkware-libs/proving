@@ -5,7 +5,7 @@ pub mod component;
 pub mod prover;
 
 pub use component::{Claim, InteractionClaim};
-pub use prover::{ClaimGenerator, InputType, InteractionClaimGenerator};
+pub use prover::{ClaimGenerator, InputType, InteractionClaimGenerator, PackedInputType};
 
 pub fn deduce_output(input: [PackedM31; 2]) -> [PackedM31; 2] {
     let mut state = input;

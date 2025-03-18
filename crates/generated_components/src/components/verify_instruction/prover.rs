@@ -36,7 +36,7 @@ impl ClaimGenerator {
         self.inputs.resize(size, *self.inputs.first().unwrap());
         let packed_inputs = pack_values(&self.inputs);
 
-        let (trace, lookup_data) = write_trace_simd(
+        let (trace, lookup_data, sub_component_inputs) = write_trace_simd(
             n_rows,
             packed_inputs,
             memory_address_to_id_state,
@@ -44,6 +44,30 @@ impl ClaimGenerator {
             range_check_4_3_state,
             range_check_7_2_5_state,
         );
+        sub_component_inputs
+            .range_check_7_2_5
+            .iter()
+            .for_each(|inputs| {
+                range_check_7_2_5_state.add_packed_inputs(inputs);
+            });
+        sub_component_inputs
+            .range_check_4_3
+            .iter()
+            .for_each(|inputs| {
+                range_check_4_3_state.add_packed_inputs(inputs);
+            });
+        sub_component_inputs
+            .memory_address_to_id
+            .iter()
+            .for_each(|inputs| {
+                memory_address_to_id_state.add_packed_inputs(inputs);
+            });
+        sub_component_inputs
+            .memory_id_to_big
+            .iter()
+            .for_each(|inputs| {
+                memory_id_to_big_state.add_packed_inputs(inputs);
+            });
         tree_builder.extend_evals(trace.to_evals());
 
         (
@@ -64,6 +88,14 @@ impl ClaimGenerator {
     }
 }
 
+#[derive(Uninitialized, IterMut, ParIterMut)]
+struct SubComponentInputs {
+    range_check_7_2_5: [Vec<range_check_7_2_5::PackedInputType>; 1],
+    range_check_4_3: [Vec<range_check_4_3::PackedInputType>; 1],
+    memory_address_to_id: [Vec<memory_address_to_id::PackedInputType>; 1],
+    memory_id_to_big: [Vec<memory_id_to_big::PackedInputType>; 1],
+}
+
 #[allow(clippy::useless_conversion)]
 #[allow(unused_variables)]
 #[allow(clippy::double_parens)]
@@ -75,13 +107,18 @@ fn write_trace_simd(
     memory_id_to_big_state: &memory_id_to_big::ClaimGenerator,
     range_check_4_3_state: &range_check_4_3::ClaimGenerator,
     range_check_7_2_5_state: &range_check_7_2_5::ClaimGenerator,
-) -> (ComponentTrace<N_TRACE_COLUMNS>, LookupData) {
+) -> (
+    ComponentTrace<N_TRACE_COLUMNS>,
+    LookupData,
+    SubComponentInputs,
+) {
     let log_n_packed_rows = inputs.len().ilog2();
     let log_size = log_n_packed_rows + LOG_N_LANES;
-    let (mut trace, mut lookup_data) = unsafe {
+    let (mut trace, mut lookup_data, mut sub_component_inputs) = unsafe {
         (
             ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
             LookupData::uninitialized(log_n_packed_rows),
+            SubComponentInputs::uninitialized(log_n_packed_rows),
         )
     };
 
@@ -100,12 +137,16 @@ fn write_trace_simd(
     (
         trace.par_iter_mut(),
         lookup_data.par_iter_mut(),
+        sub_component_inputs.par_iter_mut(),
         inputs.into_par_iter(),
     )
         .into_par_iter()
         .enumerate()
         .for_each(
-            |(row_index, (mut row, lookup_data, verify_instruction_input))| {
+            |(
+                row_index,
+                (mut row, lookup_data, sub_component_inputs, verify_instruction_input),
+            )| {
                 let input_limb_0_col0 = verify_instruction_input.0;
                 *row[0] = input_limb_0_col0;
                 let input_limb_1_col1 = verify_instruction_input.1[0];
@@ -155,11 +196,11 @@ fn write_trace_simd(
                     ((PackedUInt16::from_m31(input_limb_3_col3)) >> (UInt16_13));
                 let offset2_high_col14 = offset2_high_tmp_16a4f_7.as_m31();
                 *row[14] = offset2_high_col14;
-                let range_check_7_2_5_inputs_0 =
+                *sub_component_inputs.range_check_7_2_5[0] =
                     [offset0_mid_col8, offset1_low_col9, offset1_high_col11];
                 *lookup_data.range_check_7_2_5_0 =
                     [offset0_mid_col8, offset1_low_col9, offset1_high_col11];
-                let range_check_4_3_inputs_0 = [offset2_low_col12, offset2_high_col14];
+                *sub_component_inputs.range_check_4_3[0] = [offset2_low_col12, offset2_high_col14];
                 *lookup_data.range_check_4_3_0 = [offset2_low_col12, offset2_high_col14];
 
                 // Mem Verify.
@@ -168,9 +209,9 @@ fn write_trace_simd(
                     memory_address_to_id_state.deduce_output(input_limb_0_col0);
                 let instruction_id_col15 = memory_address_to_id_value_tmp_16a4f_8;
                 *row[15] = instruction_id_col15;
-                let memory_address_to_id_inputs_0 = input_limb_0_col0;
+                *sub_component_inputs.memory_address_to_id[0] = input_limb_0_col0;
                 *lookup_data.memory_address_to_id_0 = [input_limb_0_col0, instruction_id_col15];
-                let memory_id_to_big_inputs_0 = instruction_id_col15;
+                *sub_component_inputs.memory_id_to_big[0] = instruction_id_col15;
                 *lookup_data.memory_id_to_big_0 = [
                     instruction_id_col15,
                     offset0_low_col7,
@@ -212,16 +253,10 @@ fn write_trace_simd(
                     input_limb_5_col5,
                     input_limb_6_col6,
                 ];
-
-                // Add sub-components inputs.
-                range_check_7_2_5_state.add_packed_input(&range_check_7_2_5_inputs_0);
-                range_check_4_3_state.add_packed_input(&range_check_4_3_inputs_0);
-                memory_address_to_id_state.add_packed_input(&memory_address_to_id_inputs_0);
-                memory_id_to_big_state.add_packed_input(&memory_id_to_big_inputs_0);
             },
         );
 
-    (trace, lookup_data)
+    (trace, lookup_data, sub_component_inputs)
 }
 
 #[derive(Uninitialized, IterMut, ParIterMut)]

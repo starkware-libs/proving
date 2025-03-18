@@ -7,6 +7,7 @@ use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
 use genco::lang::{rust, Rust};
 use genco::quote;
+use indexmap::IndexMap;
 use itertools::Itertools;
 
 use super::parse::seek_consts;
@@ -26,6 +27,7 @@ pub struct RustProverGen {
     write_trace_context: Vec<String>,
     constants: Vec<(String, String)>,
     relation_calls: Vec<String>,
+    add_input_mults: IndexMap<String, usize>,
     lookup_terms: Vec<LookupTerm>,
     mode: Mode,
 }
@@ -54,6 +56,7 @@ impl RustProverGen {
         let public_params = lists.public_params.iter().cloned().collect_vec();
         let write_trace_context = context(&lists.deductions);
         let constants = deduction_consts(&lists.deductions);
+        let add_input_mults = add_inputs_mults(&lists.deductions);
         let lookup_terms = filter_lookup_terms(&lists.deductions);
         let relation_calls = unique_relation_calls(&lookup_terms);
 
@@ -63,6 +66,7 @@ impl RustProverGen {
             public_params,
             n_state_cells,
             write_trace_context,
+            add_input_mults,
             constants,
             relation_calls,
             lookup_terms,
@@ -75,6 +79,7 @@ impl RustProverGen {
         let typedefs = self.generate_input_output_typedefs();
         let n_trace_cols = self.generate_n_trace_columns();
         let lookup_data_code = self.generate_lookup_data_struct();
+        let sub_component_inputs_struct = self.generate_sub_component_inputs_struct();
         let claim_generator_code = self.generate_claim_generator_struct();
         let claim_generator_impl_code = self.generate_claim_generator_impl();
         let interaction_struct = interaction_prover_struct(&self.mode);
@@ -89,6 +94,8 @@ impl RustProverGen {
             $['\n']
             $(claim_generator_code)
             $(claim_generator_impl_code)
+            $['\n']
+            $sub_component_inputs_struct
             $['\n']
             $(write_trace_code)
             $['\n']
@@ -133,6 +140,32 @@ impl RustProverGen {
         };
 
         attributes
+    }
+
+    fn generate_sub_component_inputs_struct(&self) -> rust::Tokens {
+        if self.add_input_mults.is_empty() {
+            return quote!(
+                struct SubComponentInputs {}
+            );
+        };
+
+        let members = self
+            .add_input_mults
+            .iter()
+            .map(|(component_name, &mult)| {
+                let component_name = component_name.to_lowercase();
+                quote! {
+                    $(&component_name): [Vec<$component_name::PackedInputType>; $mult],
+                }
+            })
+            .collect_vec();
+
+        quote! {
+            #[derive(Uninitialized, IterMut, ParIterMut)]
+            struct SubComponentInputs {
+                $members
+            }
+        }
     }
 
     fn generate_claim_generator_struct(&self) -> rust::Tokens {
@@ -238,11 +271,23 @@ impl RustProverGen {
             Mode::Opcode => quote! { n_rows, },
             _ => quote! {},
         };
+
+        let add_inputs = self
+            .add_input_mults
+            .iter()
+            .map(|(component_name, ..)| {
+                let component_name = component_name.to_lowercase();
+                quote! { sub_component_inputs.$(&component_name).iter().for_each(|inputs| {
+                    $component_name$STATE_SUFFIX.add_packed_inputs(inputs);
+                });}
+            })
+            .collect_vec();
         quote! {
             $(init_code)
 
-            let (trace, lookup_data) =
+            let (trace, lookup_data, sub_component_inputs) =
                     write_trace_simd($(self.generate_write_trace_simd_args()));
+            $add_inputs
             tree_builder.extend_evals(trace.to_evals());
 
             (
@@ -328,7 +373,7 @@ impl RustProverGen {
                 fn write_trace_simd(
                     $(self.generate_write_trace_simd_params())
                 ) -> (ComponentTrace<N_TRACE_COLUMNS>,
-                    LookupData) {
+                    LookupData, SubComponentInputs) {
                 unimplemented!()
             }};
         }
@@ -356,10 +401,11 @@ impl RustProverGen {
         };
 
         let init_code = (
-            quote! { mut trace, mut lookup_data},
+            quote! { mut trace, mut lookup_data, mut sub_component_inputs},
             quote! {
                 ComponentTrace::<N_TRACE_COLUMNS>::uninitialized(log_size),
                 LookupData::uninitialized(log_n_packed_rows),
+                SubComponentInputs::uninitialized(log_n_packed_rows),
             },
         );
 
@@ -367,8 +413,9 @@ impl RustProverGen {
             quote! {
                 trace.par_iter_mut(),
                 lookup_data.par_iter_mut(),
+                sub_component_inputs.par_iter_mut(),
             },
-            quote! {mut row, lookup_data,},
+            quote! {mut row, lookup_data, sub_component_inputs,},
         );
 
         match self.mode {
@@ -398,7 +445,7 @@ impl RustProverGen {
             fn write_trace_simd(
                 $(self.generate_write_trace_simd_params())
             ) -> (ComponentTrace<N_TRACE_COLUMNS>,
-                LookupData) {
+                LookupData, SubComponentInputs) {
                 $(prelude_code)
                 let ($(init_code.0)) = unsafe {
                     ($(init_code.1))
@@ -415,7 +462,7 @@ impl RustProverGen {
                         $(self.write_trace_lambda())
                     });
 
-                (trace, lookup_data)
+                (trace, lookup_data, sub_component_inputs)
             }
             $['\n']
         });
@@ -451,8 +498,6 @@ impl RustProverGen {
         for relation in &self.relation_calls {
             relation_data_offsets.insert(relation, 0);
         }
-
-        let mut add_inputs_lambda = rust::Tokens::new();
         for deduction in &self.lists.deductions {
             match deduction {
                 TraceGenStep::Deduction(expr) => {
@@ -502,14 +547,9 @@ impl RustProverGen {
                     let offset = add_inputs_offsets.get_mut(fn_name).unwrap();
                     if input != &CompiledAirVar::Tuple(vec![]) {
                         write_trace_body.extend(quote! {
-                            let $(fn_name)$(INPUTS_SUFFIX)_$(offset.to_string()) =
+                            *sub_component_inputs.$(fn_name)[$(offset.to_string())] =
                                 $(simd_parse_air_var(input, const_names));
 
-                        });
-                        add_inputs_lambda.extend(quote! {
-                            $(fn_name)_state.add_packed_input(
-                                &$(fn_name)$(INPUTS_SUFFIX)_$(offset.to_string())
-                            );
                         });
                     }
                     *offset += 1;
@@ -524,11 +564,6 @@ impl RustProverGen {
             },
             _ => quote!(),
         });
-
-        write_trace_body.extend(quote!(
-            $['\n']$("// Add sub-components inputs.\n")
-        ));
-        write_trace_body.extend(add_inputs_lambda);
 
         write_trace_body
     }
@@ -747,7 +782,6 @@ fn interaction_prover_struct(mode: &Mode) -> rust::Tokens {
     }
 }
 
-const INPUTS_SUFFIX: &str = "_inputs";
 const STATE_SUFFIX: &str = "_state";
 fn write_trace_params(context: &[String]) -> rust::Tokens {
     let mut params = rust::Tokens::new();
@@ -954,4 +988,17 @@ pub fn mask_opcode_relation(relation_name: &str) -> &str {
     } else {
         ""
     }
+}
+
+fn add_inputs_mults(deductions: &[TraceGenStep]) -> IndexMap<String, usize> {
+    let mut add_input_mults = IndexMap::new();
+    for deduction in deductions {
+        if let TraceGenStep::LookupAddInput { fn_name, .. } = deduction {
+            add_input_mults
+                .entry(fn_name.clone())
+                .and_modify(|e| *e += 1)
+                .or_insert(1);
+        }
+    }
+    add_input_mults
 }
