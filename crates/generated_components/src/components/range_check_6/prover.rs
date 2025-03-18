@@ -1,5 +1,4 @@
 #![allow(unused_parens)]
-#![allow(unused_imports)]
 #![allow(dead_code)]
 use super::component::{Claim, InteractionClaim};
 use crate::components::prelude::proving::*;
@@ -32,7 +31,6 @@ impl ClaimGenerator {
         let packed_inputs = pack_values(&self.inputs);
 
         let (trace, lookup_data) = write_trace_simd(n_rows, packed_inputs);
-
         tree_builder.extend_evals(trace.to_evals());
 
         (

@@ -1,5 +1,4 @@
 #![allow(unused_parens)]
-#![allow(unused_imports)]
 use super::component::{Claim, InteractionClaim};
 use crate::components::prelude::proving::*;
 use crate::components::{
@@ -45,7 +44,6 @@ impl ClaimGenerator {
             range_check_4_3_state,
             range_check_7_2_5_state,
         );
-
         tree_builder.extend_evals(trace.to_evals());
 
         (
