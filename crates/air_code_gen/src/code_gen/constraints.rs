@@ -16,6 +16,8 @@ pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
         $(imports())
         $['\n']
+        $(generate_n_trace_columns(lists))
+        $['\n']
         $(generate_component_structs(&lists.constraints))
         $['\n']
         $(generate_claim_struct(lists))
@@ -31,6 +33,19 @@ pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
 fn imports() -> rust::Tokens {
     quote! {
         use crate::components::prelude::constraint_eval::*;
+    }
+}
+
+fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
+    // TODO(Gali): Add mults column support.
+    if lists.name.contains("opcode") {
+        quote! {
+            pub(super) const N_TRACE_COLUMNS: usize = $(lists.state_names.len() + 1);
+        }
+    } else {
+        quote! {
+            pub(super) const N_TRACE_COLUMNS: usize = $(lists.state_names.len());
+        }
     }
 }
 
@@ -85,16 +100,10 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
         }
     };
 
-    // TODO(Ohad): this is temporary, delete along a larger refactor.
-    let n_trace_cells = if lists.name.contains("opcode") {
-        lists.state_names.len() + 1
-    } else {
-        lists.state_names.len()
-    };
     let impl_code = quote! {
         impl Claim {
             pub fn log_sizes(&self) -> TreeVec<Vec<u32>> {
-                let trace_log_sizes = vec![self.log_size; $(n_trace_cells)];
+                let trace_log_sizes = vec![self.log_size; N_TRACE_COLUMNS];
                 let interaction_log_sizes = vec![self.log_size; $(n_logup_columns)];
                 TreeVec::new(vec![
                     vec![],

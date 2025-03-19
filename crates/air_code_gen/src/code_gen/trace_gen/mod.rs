@@ -21,7 +21,6 @@ pub enum Mode {
 
 pub struct RustProverGen {
     lists: CompiledAirFn,
-    n_state_cells: usize,
     public_params: Vec<PublicParam>,
     write_trace_context: Vec<String>,
     constants: Vec<(String, String)>,
@@ -46,11 +45,6 @@ impl RustProverGen {
             (true, true) => panic!("unsupported mode"),
         };
 
-        let n_state_cells = match mode {
-            Mode::Opcode => lists.state_names.len() + 1,
-            _ => lists.state_names.len(),
-        };
-
         let public_params = lists.public_params.iter().cloned().collect_vec();
         let write_trace_context = context(&lists.deductions);
         let constants = deduction_consts(&lists.deductions);
@@ -61,7 +55,6 @@ impl RustProverGen {
             lists,
             mode,
             public_params,
-            n_state_cells,
             write_trace_context,
             constants,
             relation_calls,
@@ -73,7 +66,6 @@ impl RustProverGen {
         let attributes = self.attributes();
         let imports_code = self.generate_imports_code();
         let typedefs = self.generate_input_output_typedefs();
-        let n_trace_cols = self.generate_n_trace_columns();
         let lookup_data_code = self.generate_lookup_data_struct();
         let claim_generator_code = self.generate_claim_generator_struct();
         let claim_generator_impl_code = self.generate_claim_generator_impl();
@@ -85,7 +77,6 @@ impl RustProverGen {
             $(imports_code)
             $['\n']
             $(typedefs)
-            $(n_trace_cols)
             $['\n']
             $(claim_generator_code)
             $(claim_generator_impl_code)
@@ -112,11 +103,6 @@ impl RustProverGen {
                 }
             }
         }
-    }
-
-    fn generate_n_trace_columns(&self) -> rust::Tokens {
-        // Opcodes relation gets masked with an "Enabler" column.
-        quote!(const N_TRACE_COLUMNS: usize = $(self.n_state_cells);)
     }
 
     fn attributes(&self) -> rust::Tokens {
@@ -693,7 +679,7 @@ impl RustProverGen {
         });
         quote! {
             use crate::components::prelude::proving::*;
-            use super::component::{Claim, InteractionClaim};
+            use super::component::{Claim, InteractionClaim, N_TRACE_COLUMNS};
             $(sub_component_imports)
         }
     }
