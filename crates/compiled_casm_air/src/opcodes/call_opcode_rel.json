@@ -2,6 +2,7 @@
   "name": "call_opcode_rel",
   "relation_name": "Opcodes",
   "description": "Call Opcode Rel",
+  "type": "Opcode",
   "prover_input": [
     "call_opcode_rel_input",
     "CasmState",
@@ -265,7 +266,7 @@
     "distance_to_next_pc_limb_1_col15",
     "distance_to_next_pc_limb_2_col16"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

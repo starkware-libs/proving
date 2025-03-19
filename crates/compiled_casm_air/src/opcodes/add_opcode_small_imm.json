@@ -2,6 +2,7 @@
   "name": "add_opcode_small_imm",
   "relation_name": "Opcodes",
   "description": "Add Opcode Small Imm",
+  "type": "Opcode",
   "prover_input": [
     "add_opcode_small_imm_input",
     "CasmState",
@@ -124,7 +125,7 @@
     "op1_limb_1_col26",
     "op1_limb_2_col27"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

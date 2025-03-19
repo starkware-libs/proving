@@ -2,6 +2,7 @@
   "name": "read_small",
   "relation_name": null,
   "description": "Read Small",
+  "type": "Inline",
   "prover_input": [
     "read_small_input",
     "M31",
@@ -176,7 +177,7 @@
     "value_limb_1_col4",
     "value_limb_2_col5"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big"

@@ -2,7 +2,7 @@ use std::cell::RefCell;
 use std::collections::HashSet;
 use std::rc::Rc;
 
-use compiled_casm_air::compiled_structs::CompiledAirFn;
+use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
 use compiled_casm_air::utils::INPUT_VAR_SUFFIX;
 use indexmap::IndexMap;
 use serde::Serialize;
@@ -33,9 +33,13 @@ pub struct AirFnEntry {
 impl AirFnEntry {
     // Compiles the air function entry into a compiled air function.
     pub(crate) fn compile(self) -> CompiledAirFn {
-        let multiplicity_col_index = match self.trace_type {
-            TraceType::Component | TraceType::Memory => Some(self.state.get_state_names().len()),
-            _ => None,
+        let padding_type = match self.trace_type {
+            TraceType::Builtin | TraceType::Const | TraceType::Inline => PaddingType::None,
+            TraceType::Opcode | TraceType::ChainRound => PaddingType::Enabler,
+            TraceType::Memory => PaddingType::Multiplicity,
+            TraceType::Component if self.name == "verify_instruction" => PaddingType::Multiplicity,
+            TraceType::Component if self.ext_input.is_some() => PaddingType::Multiplicity,
+            _ => PaddingType::Enabler,
         };
         let input = Self::generate_input(self.ext_input, self.input);
         let input_name = format!("{}_{}", self.name, INPUT_VAR_SUFFIX);
@@ -46,6 +50,8 @@ impl AirFnEntry {
             name: self.name.clone(),
             relation_name: self.relation_name,
             description: self.description,
+            r#type: self.trace_type,
+
             prover_input: (input_name, input.prover_type(), input.packed_prover_type()),
             verifier_input: (verifier_input_name, verifier_input.prover_type()),
             prover_output: (
@@ -61,7 +67,7 @@ impl AirFnEntry {
             lookup_names: self.air_body.get_lookup_names(),
             constraints: self.air_body.compile_for_constraints(),
             deductions: self.air_body.compile_for_deductions(),
-            multiplicity_col_index,
+            padding_type,
             n_lookup_terms: self.air_body.get_n_lookup_terms(),
             public_params: self.air_body.get_public_params(),
             external_states: self.air_body.get_external_states(),

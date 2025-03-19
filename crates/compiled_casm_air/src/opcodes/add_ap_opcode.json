@@ -2,6 +2,7 @@
   "name": "add_ap_opcode",
   "relation_name": "Opcodes",
   "description": "Add Ap Opcode",
+  "type": "Opcode",
   "prover_input": [
     "add_ap_opcode_input",
     "CasmState",
@@ -236,7 +237,7 @@
     "op1_limb_1_col8",
     "op1_limb_2_col9"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

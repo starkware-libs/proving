@@ -2,6 +2,7 @@
   "name": "pedersen_builtin",
   "relation_name": null,
   "description": "Pedersen Builtin",
+  "type": "Builtin",
   "prover_input": [
     "pedersen_builtin_input",
     "()",
@@ -385,7 +386,7 @@
     "partial_ec_mul_output_limb_72_col357",
     "pedersen_result_id_col358"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

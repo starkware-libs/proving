@@ -2,6 +2,7 @@
   "name": "blake_round_sigma",
   "relation_name": "BlakeRoundSigma",
   "description": "Blake Round Sigma",
+  "type": "Component",
   "prover_input": [
     "blake_round_sigma_input",
     "[M31; 1]",
@@ -283,7 +284,7 @@
     "[M31; 16]"
   ],
   "state_names": [],
-  "multiplicity_col_index": 0,
+  "padding_type": "Multiplicity",
   "lookup_names": [],
   "n_lookup_terms": 1,
   "public_params": [],

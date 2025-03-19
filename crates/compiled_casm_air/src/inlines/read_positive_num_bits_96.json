@@ -2,6 +2,7 @@
   "name": "read_positive_num_bits_96",
   "relation_name": null,
   "description": "Read Positive Num Bits 96",
+  "type": "Inline",
   "prover_input": [
     "read_positive_num_bits_96_input",
     "M31",
@@ -327,7 +328,7 @@
     "value_limb_9_col10",
     "value_limb_10_col11"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

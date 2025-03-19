@@ -2,6 +2,7 @@
   "name": "jump_opcode_double_deref",
   "relation_name": "Opcodes",
   "description": "Jump Opcode Double Deref",
+  "type": "Opcode",
   "prover_input": [
     "jump_opcode_double_deref_input",
     "CasmState",
@@ -166,7 +167,7 @@
     "next_pc_limb_1_col14",
     "next_pc_limb_2_col15"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

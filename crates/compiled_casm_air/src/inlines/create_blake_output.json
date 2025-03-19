@@ -2,6 +2,7 @@
   "name": "create_blake_output",
   "relation_name": null,
   "description": "Create Blake Output",
+  "type": "Inline",
   "prover_input": [
     "create_blake_output_input",
     "([UInt32; 8], [UInt32; 16])",
@@ -140,7 +141,7 @@
     "triple_xor_32_output_low_col14",
     "triple_xor_32_output_high_col15"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "triple_xor_32"
   ],

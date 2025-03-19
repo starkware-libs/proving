@@ -1,3 +1,4 @@
+use compiled_casm_air::compiled_structs::TraceType;
 use inst_def::InstDef;
 
 use crate::airs::felt252_utils::felt252_packing27::*;

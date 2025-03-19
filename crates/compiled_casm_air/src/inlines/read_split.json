@@ -2,6 +2,7 @@
   "name": "read_split",
   "relation_name": null,
   "description": "Read Split",
+  "type": "Inline",
   "prover_input": [
     "read_split_input",
     "M31",
@@ -795,7 +796,7 @@
     "ms_limb_high_col28",
     "id_col29"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

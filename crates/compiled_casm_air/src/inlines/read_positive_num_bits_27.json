@@ -2,6 +2,7 @@
   "name": "read_positive_num_bits_27",
   "relation_name": null,
   "description": "Read Positive Num Bits 27",
+  "type": "Inline",
   "prover_input": [
     "read_positive_num_bits_27_input",
     "M31",
@@ -367,7 +368,7 @@
     "value_limb_1_col2",
     "value_limb_2_col3"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big"

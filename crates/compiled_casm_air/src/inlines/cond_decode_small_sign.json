@@ -2,6 +2,7 @@
   "name": "cond_decode_small_sign",
   "relation_name": null,
   "description": "Cond Decode Small Sign",
+  "type": "Inline",
   "prover_input": [
     "cond_decode_small_sign_input",
     "(Felt252, M31)",
@@ -42,7 +43,7 @@
     "msb_col0",
     "mid_limbs_set_col1"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [],
   "n_lookup_terms": 0,
   "public_params": [],

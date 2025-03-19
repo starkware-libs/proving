@@ -2,6 +2,7 @@
   "name": "verify_add_252",
   "relation_name": null,
   "description": "Verify Add 252",
+  "type": "Inline",
   "prover_input": [
     "verify_add_252_input",
     "[Felt252; 3]",
@@ -27,7 +28,7 @@
   "state_names": [
     "sub_p_bit_col0"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [],
   "n_lookup_terms": 0,
   "public_params": [],

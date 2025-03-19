@@ -1,3 +1,4 @@
+use compiled_casm_air::compiled_structs::TraceType;
 use inst_def::InstDef;
 
 use crate::airs::casm::casm_state::*;

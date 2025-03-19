@@ -2,6 +2,7 @@
   "name": "jnz_opcode",
   "relation_name": "Opcodes",
   "description": "Jnz Opcode",
+  "type": "Opcode",
   "prover_input": [
     "jnz_opcode_input",
     "CasmState",
@@ -130,7 +131,7 @@
     "dst_limb_26_col32",
     "dst_limb_27_col33"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

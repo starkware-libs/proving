@@ -2,6 +2,7 @@
   "name": "generic_opcode",
   "relation_name": "Opcodes",
   "description": "Generic Opcode",
+  "type": "Opcode",
   "prover_input": [
     "generic_opcode_input",
     "CasmState",
@@ -293,7 +294,7 @@
     "next_ap_col233",
     "next_fp_col234"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

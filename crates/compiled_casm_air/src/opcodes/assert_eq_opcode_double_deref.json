@@ -2,6 +2,7 @@
   "name": "assert_eq_opcode_double_deref",
   "relation_name": "Opcodes",
   "description": "Assert Eq Opcode Double Deref",
+  "type": "Opcode",
   "prover_input": [
     "assert_eq_opcode_double_deref_input",
     "CasmState",
@@ -112,7 +113,7 @@
     "mem1_base_limb_2_col14",
     "dst_id_col15"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

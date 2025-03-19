@@ -2,6 +2,7 @@
   "name": "qm_31_add_mul_opcode",
   "relation_name": "Opcodes",
   "description": "Qm 31 Add Mul Opcode",
+  "type": "Opcode",
   "prover_input": [
     "qm_31_add_mul_opcode_input",
     "CasmState",
@@ -184,7 +185,7 @@
     "op1_delta_ab_inv_col70",
     "op1_delta_cd_inv_col71"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

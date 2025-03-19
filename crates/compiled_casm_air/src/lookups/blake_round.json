@@ -2,6 +2,7 @@
   "name": "blake_round",
   "relation_name": "BlakeRound",
   "description": "Blake Round",
+  "type": "ChainRound",
   "prover_input": [
     "blake_round_input",
     "(M31, M31, ([UInt32; 16], M31))",
@@ -479,7 +480,7 @@
     "blake_g_output_limb_6_col209",
     "blake_g_output_limb_7_col210"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "blake_g",
     "blake_round",

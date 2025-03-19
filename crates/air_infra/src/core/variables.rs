@@ -2,7 +2,7 @@ use std::array::from_fn;
 use std::collections::{BTreeSet, HashSet};
 use std::fmt::Debug;
 
-use compiled_casm_air::compiled_structs::CompiledAirVar;
+use compiled_casm_air::compiled_structs::{CompiledAirVar, TraceType};
 use compiled_casm_air::public_params::PublicParam;
 use enum_dispatch::enum_dispatch;
 use inst_def::InstDef;

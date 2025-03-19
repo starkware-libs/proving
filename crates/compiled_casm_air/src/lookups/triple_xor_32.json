@@ -2,6 +2,7 @@
   "name": "triple_xor_32",
   "relation_name": "TripleXor32",
   "description": "Triple Xor 32",
+  "type": "Component",
   "prover_input": [
     "triple_xor_32_input",
     "[UInt32; 3]",
@@ -62,7 +63,7 @@
     "xor_col18",
     "xor_col19"
   ],
-  "multiplicity_col_index": 20,
+  "padding_type": "Enabler",
   "lookup_names": [
     "verify_bitwise_xor_8"
   ],

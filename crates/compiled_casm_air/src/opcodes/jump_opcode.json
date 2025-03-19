@@ -2,6 +2,7 @@
   "name": "jump_opcode",
   "relation_name": "Opcodes",
   "description": "Jump Opcode",
+  "type": "Opcode",
   "prover_input": [
     "jump_opcode_input",
     "CasmState",
@@ -162,7 +163,7 @@
     "next_pc_limb_1_col10",
     "next_pc_limb_2_col11"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

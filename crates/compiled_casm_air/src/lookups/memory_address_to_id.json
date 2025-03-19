@@ -2,6 +2,7 @@
   "name": "memory_address_to_id",
   "relation_name": "MemoryAddressToId",
   "description": "Memory Address To Id",
+  "type": "Memory",
   "prover_input": [
     "memory_address_to_id_input",
     "M31",
@@ -27,7 +28,7 @@
   "state_names": [
     "memory_address_to_id_output_col0"
   ],
-  "multiplicity_col_index": 1,
+  "padding_type": "Multiplicity",
   "lookup_names": [],
   "n_lookup_terms": 1,
   "public_params": [],

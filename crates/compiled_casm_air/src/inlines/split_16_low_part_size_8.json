@@ -2,6 +2,7 @@
   "name": "split_16_low_part_size_8",
   "relation_name": null,
   "description": "Split 16 Low Part Size 8",
+  "type": "Inline",
   "prover_input": [
     "split_16_low_part_size_8_input",
     "UInt16",
@@ -91,7 +92,7 @@
   "state_names": [
     "ms_8_bits_col0"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [],
   "n_lookup_terms": 0,
   "public_params": [],

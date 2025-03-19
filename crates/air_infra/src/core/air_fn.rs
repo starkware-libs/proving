@@ -4,14 +4,13 @@ use std::fmt::Debug;
 use std::hash::{DefaultHasher, Hash, Hasher};
 use std::rc::Rc;
 
-use compiled_casm_air::compiled_structs::UseOrYield;
+use compiled_casm_air::compiled_structs::{TraceType, UseOrYield};
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
 use compiled_casm_air::utils::{INTERMEDIATE_VAR_SUFFIX, OUTPUT_VAR_SUFFIX};
 use convert_case::{Case, Casing};
 use indexmap::IndexMap;
 use regex::Regex;
-use serde::{Deserialize, Serialize};
 
 use super::air_body::*;
 use super::air_fn_registry::*;
@@ -24,53 +23,6 @@ use crate::airs::casm::const_tables::seq::*;
 use crate::const_expr;
 
 pub const MAX_NAME_LEN: usize = 50;
-
-#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
-pub enum TraceType {
-    // Doesn't have its own component in the trace, always inlined into its caller.
-    // Can be called only with call.
-    Inline,
-
-    // Has its own component in the trace. Each call generates a new row in that component.
-    // Can be called only with lookup_call. Yields lookup data.
-    Component,
-
-    // Has its own component in the trace. The trace for this component is pre-filled with rows
-    // for all possible inputs by external means. Doesn't generate deductions or constraints.
-    // Has no input, only output. Can be called only with call_external_table. Doesn't yield
-    // lookup data.
-    Const,
-
-    // Has its own component in the trace. Has no input and no output. Cannot be called from
-    // another component. Doesn't yield lookup data.
-    Builtin,
-
-    // Has its own component in the trace. Its input and output are casm states.
-    // Cannot be called from another component. Doesn't yield multiplicity column.
-    // Generates accumulated sum column where the input
-    // is used and the output is yielded (chain lookup constraint).
-    // Their chain lookup relation is called OPCODES_RELATION_NAME.
-    Opcode,
-
-    // Memory components are pre-filled. Their trace consists of only input and output columns, or
-    // only output columns, if the input is const. They don't generate deductions. They can
-    // generate constraints, and they yield lookup data. They implement the IsMemory trait.
-    Memory,
-
-    // Has its own component in the trace. Its input and output are of the same type ([FeltExpr;
-    // 2], S), where S is some AirVar. Doesn't yield multiplicity column.
-    // Generates accumulated sum column where the input
-    // is used and the output is yielded (chain lookup constraint).
-    //
-    // Important:
-    // - A ChainRound can be called from a single caller. This is because we use the caller Seq
-    //   column to identify the chain (see chain_lookup_call).
-    // - A ChainRound must have consts per round that are returned from a lookup component with a
-    //   const round number column in its external input. Without this the chain lookup is not
-    //   sound (for example, a malicious prover can run for more rounds than intended by
-    //   overflowing the round number).
-    ChainRound,
-}
 
 // An air function should define a struct that implements the AirFn trait.
 // The AirFn trait has two associated types, In and Out, which are the input and output types of the

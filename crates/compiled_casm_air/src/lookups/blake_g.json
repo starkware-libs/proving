@@ -2,6 +2,7 @@
   "name": "blake_g",
   "relation_name": "BlakeG",
   "description": "Blake G",
+  "type": "Component",
   "prover_input": [
     "blake_g_input",
     "[UInt32; 6]",
@@ -140,7 +141,7 @@
     "xor_col50",
     "xor_col51"
   ],
-  "multiplicity_col_index": 52,
+  "padding_type": "Enabler",
   "lookup_names": [
     "verify_bitwise_xor_12",
     "verify_bitwise_xor_4",

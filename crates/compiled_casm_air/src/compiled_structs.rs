@@ -10,6 +10,7 @@ pub struct CompiledAirFn {
     pub name: String,
     pub relation_name: Option<String>,
     pub description: String,
+    pub r#type: TraceType,
 
     // The input to the air function for write trace.
     // The first string is the name of the input, the second is its prover type, and the third is
@@ -27,7 +28,7 @@ pub struct CompiledAirFn {
 
     // The index of the multiplicity column in the lookup table that is used / yielded.
     // None for chain lookup relations, such as "Opcodes".
-    pub multiplicity_col_index: Option<usize>,
+    pub padding_type: PaddingType,
 
     // The names of the lookup relations used and lookup components called.
     pub lookup_names: BTreeSet<String>,
@@ -43,6 +44,67 @@ pub struct CompiledAirFn {
 
     pub constraints: Vec<ConstraintEvalStep>,
     pub deductions: Vec<TraceGenStep>,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub enum PaddingType {
+    // The multiplicity column is used to pad the lookups to const columns, memory, and verify
+    // instruction.
+    Multiplicity,
+    // The enabler column is used to pad the chain lookups, as "Opcodes" and "BlakeRound", and
+    // every lookup with no multiplicity.
+    Enabler,
+    // For air functions that are not a component in the trace, as inline air functions.
+    None,
+    // For builtins (not implemented yet)
+    Both,
+}
+
+#[derive(Debug, Clone, PartialEq, Eq, Serialize, Deserialize)]
+pub enum TraceType {
+    // Doesn't have its own component in the trace, always inlined into its caller.
+    // Can be called only with call.
+    Inline,
+
+    // Has its own component in the trace. Each call generates a new row in that component.
+    // Can be called only with lookup_call. Yields lookup data.
+    Component,
+
+    // Has its own component in the trace. The trace for this component is pre-filled with rows
+    // for all possible inputs by external means. Doesn't generate deductions or constraints.
+    // Has no input, only output. Can be called only with call_external_table. Doesn't yield
+    // lookup data.
+    Const,
+
+    // Has its own component in the trace. Has no input and no output. Cannot be called from
+    // another component. Doesn't yield lookup data.
+    Builtin,
+
+    // Has its own component in the trace. Its input and output are casm states.
+    // Cannot be called from another component. Doesn't yield multiplicity column.
+    // Generates accumulated sum column where the input
+    // is used and the output is yielded (chain lookup constraint).
+    // Their chain lookup relation is called OPCODES_RELATION_NAME.
+    Opcode,
+
+    // Memory components are pre-filled. Their trace consists of only input and output columns, or
+    // only output columns, if the input is const. They don't generate deductions. They can
+    // generate constraints, and they yield lookup data. They implement the IsMemory trait.
+    Memory,
+
+    // Has its own component in the trace. Its input and output are of the same type ([FeltExpr;
+    // 2], S), where S is some AirVar. Doesn't yield multiplicity column.
+    // Generates accumulated sum column where the input
+    // is used and the output is yielded (chain lookup constraint).
+    //
+    // Important:
+    // - A ChainRound can be called from a single caller. This is because we use the caller Seq
+    //   column to identify the chain (see chain_lookup_call).
+    // - A ChainRound must have consts per round that are returned from a lookup component with a
+    //   const round number column in its external input. Without this the chain lookup is not
+    //   sound (for example, a malicious prover can run for more rounds than intended by
+    //   overflowing the round number).
+    ChainRound,
 }
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
@@ -148,7 +210,7 @@ pub struct CompiledAirFnStat {
     pub lookup_use_cols: IndexMap<String, usize>,
     pub lookup_rows: IndexMap<String, usize>,
     pub lookup_yield: bool,
-    pub lookup_multiplicity: bool,
+    pub padding_type: PaddingType,
     pub total_num_trace_cols: usize,
     // To this we should add the number of trace cells in:
     // - Const tables and their corresponding lookup components (multiplicity and logup columns)

@@ -2,6 +2,7 @@
   "name": "jnz_opcode_taken_dst_base_fp",
   "relation_name": "Opcodes",
   "description": "Jnz Opcode Taken Dst Base Fp",
+  "type": "Opcode",
   "prover_input": [
     "jnz_opcode_taken_dst_base_fp_input",
     "CasmState",
@@ -262,7 +263,7 @@
     "next_pc_limb_1_col40",
     "next_pc_limb_2_col41"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

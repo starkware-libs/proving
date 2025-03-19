@@ -2,6 +2,7 @@
   "name": "encode_offsets",
   "relation_name": null,
   "description": "Encode Offsets",
+  "type": "Inline",
   "prover_input": [
     "encode_offsets_input",
     "[M31; 3]",
@@ -148,7 +149,7 @@
     "offset2_mid_col6",
     "offset2_high_col7"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "range_check_4_3",
     "range_check_7_2_5"

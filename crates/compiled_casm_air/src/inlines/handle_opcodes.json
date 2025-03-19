@@ -2,6 +2,7 @@
   "name": "handle_opcodes",
   "relation_name": null,
   "description": "Handle Opcodes",
+  "type": "Inline",
   "prover_input": [
     "handle_opcodes_input",
     "(CasmState, [M31; 20], [M31; 3], [Felt252; 3])",
@@ -25,7 +26,7 @@
     "()"
   ],
   "state_names": [],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [],
   "n_lookup_terms": 0,
   "public_params": [],

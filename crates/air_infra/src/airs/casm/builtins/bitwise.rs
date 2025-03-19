@@ -1,3 +1,4 @@
+use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::public_params::PublicParam;
 use inst_def::InstDef;
 use stwo_cairo_common::prover_types::cpu::FELT252_BITS_PER_WORD;
