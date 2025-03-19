@@ -1,5 +1,4 @@
 #![allow(unused_parens)]
-#![allow(unused_imports)]
 use super::component::{Claim, InteractionClaim};
 use crate::components::prelude::proving::*;
 use crate::components::{memory_address_to_id, memory_id_to_big, verify_instruction};
@@ -41,7 +40,6 @@ impl ClaimGenerator {
             memory_id_to_big_state,
             verify_instruction_state,
         );
-
         tree_builder.extend_evals(trace.to_evals());
 
         (
@@ -88,8 +86,7 @@ fn write_trace_simd(
     let M31_511 = PackedM31::broadcast(M31::from(511));
     let M31_512 = PackedM31::broadcast(M31::from(512));
     let M31_56 = PackedM31::broadcast(M31::from(56));
-
-    let padding = Enabler::new(n_rows);
+    let padding_col = Enabler::new(n_rows);
 
     (
         trace.par_iter_mut(),
@@ -200,7 +197,7 @@ fn write_trace_simd(
                             - ((M31_134217728) * (mid_limbs_set_col5)))),
                     input_fp_col2,
                 ];
-                *row[9] = padding.packed_at(row_index);
+                *row[9] = padding_col.packed_at(row_index);
 
                 // Add sub-components inputs.
                 verify_instruction_state.add_inputs(&verify_instruction_inputs_0);
@@ -238,8 +235,8 @@ impl InteractionClaimGenerator {
     where
         SimdBackend: BackendForChannel<MC>,
     {
-        let mut logup_gen = LogupTraceGenerator::new(self.log_size);
         let padding_col = Enabler::new(self.n_rows);
+        let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
         // Sum logup terms in pairs.
         let mut col_gen = logup_gen.new_col();

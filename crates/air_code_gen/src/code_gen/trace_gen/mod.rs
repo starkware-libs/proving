@@ -122,7 +122,6 @@ impl RustProverGen {
     fn attributes(&self) -> rust::Tokens {
         let mut attributes = quote! {};
         attributes.append(quote!(#![allow(unused_parens)]));
-        attributes.append(quote! { #![allow(unused_imports)] });
         if self.lists.name.contains("generic_opcode") {
             attributes.extend(quote! {
                 #![cfg_attr(rustfmt, rustfmt_skip)]
@@ -246,7 +245,6 @@ impl RustProverGen {
 
             let (trace, lookup_data) =
                     write_trace_simd($(self.generate_write_trace_simd_args()));
-
             tree_builder.extend_evals(trace.to_evals());
 
             (
@@ -388,7 +386,7 @@ impl RustProverGen {
         }
 
         let opcode_mask = match self.mode {
-            Mode::Opcode => quote!(let padding = Enabler::new(n_rows);),
+            Mode::Opcode => quote!(let padding_col = Enabler::new(n_rows);),
             _ => quote!(),
         };
 
@@ -409,7 +407,6 @@ impl RustProverGen {
                 };
 
                 $(constants_def_code)
-
                 $(opcode_mask)
 
                 ($(lambda_producer.0))
@@ -525,7 +522,7 @@ impl RustProverGen {
         // Padding code.
         write_trace_body.extend(match self.mode {
             Mode::Opcode => quote! {
-                *row[$(offset)] = padding.packed_at(row_index);
+                *row[$(offset)] = padding_col.packed_at(row_index);
             },
             _ => quote!(),
         });
@@ -568,8 +565,8 @@ impl RustProverGen {
                 where
                     SimdBackend: BackendForChannel<MC>
                 {
-                    let mut logup_gen = LogupTraceGenerator::new(self.log_size);
                     $(padding)
+                    let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
                     $(self.generate_write_interaction_trace_body())
                     let (trace, claimed_sum) = logup_gen.finalize_last();
@@ -795,7 +792,10 @@ fn simd_parse_air_var(
                 .iter()
                 .find(|((t, v), _)| t == ty && v == val)
                 .map(|(_, name)| name.clone())
-                .unwrap(),
+                .unwrap_or_else(|| {
+                    let name = get_const_name(ty, val);
+                    panic!("const_{}", name)
+                }),
         },
         CompiledAirVar::Var(_, id) => id.clone(),
         CompiledAirVar::State(name) => name.clone(),
