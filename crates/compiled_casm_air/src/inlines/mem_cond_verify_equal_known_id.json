@@ -1,0 +1,143 @@
+{
+  "name": "mem_cond_verify_equal_known_id",
+  "relation_name": null,
+  "description": "Mem Cond Verify Equal Known Id",
+  "prover_input": [
+    "mem_cond_verify_equal_known_id_input",
+    "(M31, M31, M31)",
+    "(PackedM31, PackedM31, PackedM31)"
+  ],
+  "verifier_input": [
+    "[mem_cond_verify_equal_known_id_input_limb_0, mem_cond_verify_equal_known_id_input_limb_1, mem_cond_verify_equal_known_id_input_limb_2]",
+    "[M31; 3]"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
+    "()"
+  ],
+  "state_names": [
+    "id_col0"
+  ],
+  "multiplicity_col_index": null,
+  "lookup_names": [
+    "memory_address_to_id"
+  ],
+  "n_lookup_terms": 1,
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "mem_cond_verify_equal_known_id_input_limb_0"
+            ]
+          },
+          {
+            "State": "id_col0"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "id_col0"
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "mem_cond_verify_equal_known_id_input_limb_1"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "mem_cond_verify_equal_known_id_input_limb_2"
+              ]
+            }
+          ]
+        },
+        "The two ids are equal if the condition is met"
+      ]
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "memory_address_to_id_value_tmp_b27bf_0",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "MemoryAddressToId::deduce_output",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "mem_cond_verify_equal_known_id_input.0"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "Var": [
+          "M31",
+          "memory_address_to_id_value_tmp_b27bf_0"
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "memory_address_to_id",
+        "input": {
+          "Var": [
+            "M31",
+            "mem_cond_verify_equal_known_id_input.0"
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "mem_cond_verify_equal_known_id_input.0"
+            ]
+          },
+          {
+            "State": "id_col0"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ]
+}

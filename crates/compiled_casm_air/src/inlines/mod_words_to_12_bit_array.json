@@ -1,0 +1,2759 @@
+{
+  "name": "mod_words_to_12_bit_array",
+  "relation_name": null,
+  "description": "Mod Words To 12 Bit Array",
+  "prover_input": [
+    "mod_words_to_12_bit_array_input",
+    "[Felt252; 2]",
+    "[PackedFelt252; 2]"
+  ],
+  "verifier_input": [
+    "[mod_words_to_12_bit_array_input_limb_0, mod_words_to_12_bit_array_input_limb_1, mod_words_to_12_bit_array_input_limb_2, mod_words_to_12_bit_array_input_limb_3, mod_words_to_12_bit_array_input_limb_4, mod_words_to_12_bit_array_input_limb_5, mod_words_to_12_bit_array_input_limb_6, mod_words_to_12_bit_array_input_limb_7, mod_words_to_12_bit_array_input_limb_8, mod_words_to_12_bit_array_input_limb_9, mod_words_to_12_bit_array_input_limb_10, mod_words_to_12_bit_array_input_limb_11, mod_words_to_12_bit_array_input_limb_12, mod_words_to_12_bit_array_input_limb_13, mod_words_to_12_bit_array_input_limb_14, mod_words_to_12_bit_array_input_limb_15, mod_words_to_12_bit_array_input_limb_16, mod_words_to_12_bit_array_input_limb_17, mod_words_to_12_bit_array_input_limb_18, mod_words_to_12_bit_array_input_limb_19, mod_words_to_12_bit_array_input_limb_20, mod_words_to_12_bit_array_input_limb_21, mod_words_to_12_bit_array_input_limb_22, mod_words_to_12_bit_array_input_limb_23, mod_words_to_12_bit_array_input_limb_24, mod_words_to_12_bit_array_input_limb_25, mod_words_to_12_bit_array_input_limb_26, mod_words_to_12_bit_array_input_limb_27, mod_words_to_12_bit_array_input_limb_28, mod_words_to_12_bit_array_input_limb_29, mod_words_to_12_bit_array_input_limb_30, mod_words_to_12_bit_array_input_limb_31, mod_words_to_12_bit_array_input_limb_32, mod_words_to_12_bit_array_input_limb_33, mod_words_to_12_bit_array_input_limb_34, mod_words_to_12_bit_array_input_limb_35, mod_words_to_12_bit_array_input_limb_36, mod_words_to_12_bit_array_input_limb_37, mod_words_to_12_bit_array_input_limb_38, mod_words_to_12_bit_array_input_limb_39, mod_words_to_12_bit_array_input_limb_40, mod_words_to_12_bit_array_input_limb_41, mod_words_to_12_bit_array_input_limb_42, mod_words_to_12_bit_array_input_limb_43, mod_words_to_12_bit_array_input_limb_44, mod_words_to_12_bit_array_input_limb_45, mod_words_to_12_bit_array_input_limb_46, mod_words_to_12_bit_array_input_limb_47, mod_words_to_12_bit_array_input_limb_48, mod_words_to_12_bit_array_input_limb_49, mod_words_to_12_bit_array_input_limb_50, mod_words_to_12_bit_array_input_limb_51, mod_words_to_12_bit_array_input_limb_52, mod_words_to_12_bit_array_input_limb_53, mod_words_to_12_bit_array_input_limb_54, mod_words_to_12_bit_array_input_limb_55]",
+    "[M31; 56]"
+  ],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[0]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "0"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb1a_0_tmp_f4497_1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb1b_0_col0"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb2a_0_tmp_f4497_3"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb2b_0_col1"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                },
+                "*",
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "mod_words_to_12_bit_array_input[0]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "3"
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[0]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "4"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb5a_0_tmp_f4497_5"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb5b_0_col2"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb6a_0_tmp_f4497_7"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb6b_0_col3"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                },
+                "*",
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "mod_words_to_12_bit_array_input[0]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "7"
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[0]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "8"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb9a_0_tmp_f4497_9"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb9b_0_col4"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                },
+                "*",
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "mod_words_to_12_bit_array_input[0]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "10"
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[1]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "0"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb1a_1_tmp_f4497_11"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb1b_1_col5"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb2a_1_tmp_f4497_13"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb2b_1_col6"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                },
+                "*",
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "mod_words_to_12_bit_array_input[1]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "3"
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[1]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "4"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb5a_1_tmp_f4497_15"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb5b_1_col7"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb6a_1_tmp_f4497_17"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb6b_1_col8"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                },
+                "*",
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "mod_words_to_12_bit_array_input[1]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "7"
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[1]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "8"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb9a_1_tmp_f4497_19"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb9b_1_col9"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                },
+                "*",
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "mod_words_to_12_bit_array_input[1]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "10"
+                        ]
+                      }
+                    ]
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "[M31; 16]",
+    "[PackedM31; 16]"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_0"
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb1a_0_tmp_f4497_1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb1b_0_col0"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb2a_0_tmp_f4497_3"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb2b_0_col1"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "mod_words_to_12_bit_array_input_limb_3"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_4"
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb5a_0_tmp_f4497_5"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb5b_0_col2"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb6a_0_tmp_f4497_7"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb6b_0_col3"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "mod_words_to_12_bit_array_input_limb_7"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_8"
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb9a_0_tmp_f4497_9"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb9b_0_col4"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "mod_words_to_12_bit_array_input_limb_10"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_28"
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb1a_1_tmp_f4497_11"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb1b_1_col5"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb2a_1_tmp_f4497_13"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb2b_1_col6"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "mod_words_to_12_bit_array_input_limb_31"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_32"
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb5a_1_tmp_f4497_15"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb5b_1_col7"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb6a_1_tmp_f4497_17"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb6b_1_col8"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "mod_words_to_12_bit_array_input_limb_35"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_36"
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "512"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "limb9a_1_tmp_f4497_19"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "limb9b_1_col9"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                },
+                "*",
+                {
+                  "Var": [
+                    "M31",
+                    "mod_words_to_12_bit_array_input_limb_38"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "[M31; 16]"
+  ],
+  "state_names": [
+    "limb1b_0_col0",
+    "limb2b_0_col1",
+    "limb5b_0_col2",
+    "limb6b_0_col3",
+    "limb9b_0_col4",
+    "limb1b_1_col5",
+    "limb2b_1_col6",
+    "limb5b_1_col7",
+    "limb6b_1_col8",
+    "limb9b_1_col9"
+  ],
+  "multiplicity_col_index": null,
+  "lookup_names": [
+    "range_check_3_6_6_3"
+  ],
+  "n_lookup_terms": 5,
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "name": "limb1a_0_tmp_f4497_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_1"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb1b_0_col0"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb2a_0_tmp_f4497_3",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_2"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb2b_0_col1"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb1a_0_tmp_f4497_1"
+            ]
+          },
+          {
+            "State": "limb1b_0_col0"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb2a_0_tmp_f4497_3"
+            ]
+          },
+          {
+            "State": "limb2b_0_col1"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb5a_0_tmp_f4497_5",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_5"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb5b_0_col2"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb6a_0_tmp_f4497_7",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_6"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb6b_0_col3"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb5a_0_tmp_f4497_5"
+            ]
+          },
+          {
+            "State": "limb5b_0_col2"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb6a_0_tmp_f4497_7"
+            ]
+          },
+          {
+            "State": "limb6b_0_col3"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb9a_0_tmp_f4497_9",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_9"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb9b_0_col4"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb1a_1_tmp_f4497_11",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_29"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb1b_1_col5"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb2a_1_tmp_f4497_13",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_30"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb2b_1_col6"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb1a_1_tmp_f4497_11"
+            ]
+          },
+          {
+            "State": "limb1b_1_col5"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb2a_1_tmp_f4497_13"
+            ]
+          },
+          {
+            "State": "limb2b_1_col6"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb5a_1_tmp_f4497_15",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_33"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb5b_1_col7"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb6a_1_tmp_f4497_17",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_34"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb6b_1_col8"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb5a_1_tmp_f4497_15"
+            ]
+          },
+          {
+            "State": "limb5b_1_col7"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb6a_1_tmp_f4497_17"
+            ]
+          },
+          {
+            "State": "limb6b_1_col8"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb9a_1_tmp_f4497_19",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_words_to_12_bit_array_input_limb_37"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb9b_1_col9"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb9a_0_tmp_f4497_9"
+            ]
+          },
+          {
+            "State": "limb9b_0_col4"
+          },
+          {
+            "State": "limb9b_1_col9"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb9a_1_tmp_f4497_19"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "limb1b_0_tmp_f4497_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_words_to_12_bit_array_input[0]"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "1"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb1b_0_tmp_f4497_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb1a_0_tmp_f4497_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[0]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "1"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb1b_0_col0"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb2b_0_tmp_f4497_2",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_words_to_12_bit_array_input[0]"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "2"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "6"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb2b_0_tmp_f4497_2"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb2a_0_tmp_f4497_3",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[0]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "2"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb2b_0_col1"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_3_6_6_3",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "limb1a_0_tmp_f4497_1"
+              ]
+            },
+            {
+              "State": "limb1b_0_col0"
+            },
+            {
+              "Var": [
+                "M31",
+                "limb2a_0_tmp_f4497_3"
+              ]
+            },
+            {
+              "State": "limb2b_0_col1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb1a_0_tmp_f4497_1"
+            ]
+          },
+          {
+            "State": "limb1b_0_col0"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb2a_0_tmp_f4497_3"
+            ]
+          },
+          {
+            "State": "limb2b_0_col1"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb5b_0_tmp_f4497_4",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_words_to_12_bit_array_input[0]"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "5"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb5b_0_tmp_f4497_4"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb5a_0_tmp_f4497_5",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[0]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "5"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb5b_0_col2"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb6b_0_tmp_f4497_6",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_words_to_12_bit_array_input[0]"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "6"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "6"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb6b_0_tmp_f4497_6"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb6a_0_tmp_f4497_7",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[0]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "6"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb6b_0_col3"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_3_6_6_3",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "limb5a_0_tmp_f4497_5"
+              ]
+            },
+            {
+              "State": "limb5b_0_col2"
+            },
+            {
+              "Var": [
+                "M31",
+                "limb6a_0_tmp_f4497_7"
+              ]
+            },
+            {
+              "State": "limb6b_0_col3"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb5a_0_tmp_f4497_5"
+            ]
+          },
+          {
+            "State": "limb5b_0_col2"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb6a_0_tmp_f4497_7"
+            ]
+          },
+          {
+            "State": "limb6b_0_col3"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb9b_0_tmp_f4497_8",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_words_to_12_bit_array_input[0]"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "9"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb9b_0_tmp_f4497_8"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb9a_0_tmp_f4497_9",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[0]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "9"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb9b_0_col4"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb1b_1_tmp_f4497_10",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_words_to_12_bit_array_input[1]"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "1"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb1b_1_tmp_f4497_10"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb1a_1_tmp_f4497_11",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[1]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "1"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb1b_1_col5"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb2b_1_tmp_f4497_12",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_words_to_12_bit_array_input[1]"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "2"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "6"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb2b_1_tmp_f4497_12"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb2a_1_tmp_f4497_13",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[1]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "2"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb2b_1_col6"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_3_6_6_3",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "limb1a_1_tmp_f4497_11"
+              ]
+            },
+            {
+              "State": "limb1b_1_col5"
+            },
+            {
+              "Var": [
+                "M31",
+                "limb2a_1_tmp_f4497_13"
+              ]
+            },
+            {
+              "State": "limb2b_1_col6"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb1a_1_tmp_f4497_11"
+            ]
+          },
+          {
+            "State": "limb1b_1_col5"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb2a_1_tmp_f4497_13"
+            ]
+          },
+          {
+            "State": "limb2b_1_col6"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb5b_1_tmp_f4497_14",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_words_to_12_bit_array_input[1]"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "5"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb5b_1_tmp_f4497_14"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb5a_1_tmp_f4497_15",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[1]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "5"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb5b_1_col7"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb6b_1_tmp_f4497_16",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_words_to_12_bit_array_input[1]"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "6"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "6"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb6b_1_tmp_f4497_16"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb6a_1_tmp_f4497_17",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[1]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "6"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb6b_1_col8"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_3_6_6_3",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "limb5a_1_tmp_f4497_15"
+              ]
+            },
+            {
+              "State": "limb5b_1_col7"
+            },
+            {
+              "Var": [
+                "M31",
+                "limb6a_1_tmp_f4497_17"
+              ]
+            },
+            {
+              "State": "limb6b_1_col8"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb5a_1_tmp_f4497_15"
+            ]
+          },
+          {
+            "State": "limb5b_1_col7"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb6a_1_tmp_f4497_17"
+            ]
+          },
+          {
+            "State": "limb6b_1_col8"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb9b_1_tmp_f4497_18",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_words_to_12_bit_array_input[1]"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "9"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb9b_1_tmp_f4497_18"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb9a_1_tmp_f4497_19",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_words_to_12_bit_array_input[1]"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "9"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb9b_1_col9"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_3_6_6_3",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "limb9a_0_tmp_f4497_9"
+              ]
+            },
+            {
+              "State": "limb9b_0_col4"
+            },
+            {
+              "State": "limb9b_1_col9"
+            },
+            {
+              "Var": [
+                "M31",
+                "limb9a_1_tmp_f4497_19"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb9a_0_tmp_f4497_9"
+            ]
+          },
+          {
+            "State": "limb9b_0_col4"
+          },
+          {
+            "State": "limb9b_1_col9"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb9a_1_tmp_f4497_19"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ]
+}

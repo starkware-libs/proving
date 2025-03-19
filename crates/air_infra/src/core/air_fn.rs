@@ -7,7 +7,7 @@ use std::rc::Rc;
 use compiled_casm_air::compiled_structs::UseOrYield;
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
-use compiled_casm_air::utils::INTERMEDIATE_VAR_SUFFIX;
+use compiled_casm_air::utils::{INTERMEDIATE_VAR_SUFFIX, OUTPUT_VAR_SUFFIX};
 use convert_case::{Case, Casing};
 use indexmap::IndexMap;
 use regex::Regex;
@@ -490,10 +490,12 @@ impl AirBuilder {
             intermediate_id: self.intermediate_id.clone(),
         };
         let output = air_fn.call(&mut air_builder, (), input.clone());
+        let output_name = format!("{}_{}", air_fn.name(), OUTPUT_VAR_SUFFIX);
         self.air_body.push(AirBodyComponent::Call(Call {
             air_fn_name: air_fn.name(),
             air_fn_description: air_fn.description(),
             input: input.into(),
+            output_name,
             output: output.clone().into(),
             air_body: air_builder.air_body,
         }));
@@ -685,7 +687,7 @@ impl AirBuilder {
                 ext_input: ext_input_option,
                 input: input_option,
                 output_name: output_name.expect("Output name not set"),
-                output_type: <O as Into<AirVarImpl>>::into(output.clone()).prover_type(),
+                output: output.clone().into(),
             }));
         }
 
@@ -715,7 +717,7 @@ impl AirBuilder {
             ext_input: Some(key.clone().into()),
             input: None,
             output_name: value_name.clone(),
-            output_type: <V as Into<AirVarImpl>>::into(value.clone()).prover_type(),
+            output: value.clone().into(),
         }));
 
         #[cfg(test)]

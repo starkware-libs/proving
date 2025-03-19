@@ -1,0 +1,903 @@
+{
+  "name": "mod_word_to_12_bit_array",
+  "relation_name": null,
+  "description": "Mod Word To 12 Bit Array",
+  "prover_input": [
+    "mod_word_to_12_bit_array_input",
+    "Felt252",
+    "PackedFelt252"
+  ],
+  "verifier_input": [
+    "[mod_word_to_12_bit_array_input_limb_0, mod_word_to_12_bit_array_input_limb_1, mod_word_to_12_bit_array_input_limb_2, mod_word_to_12_bit_array_input_limb_3, mod_word_to_12_bit_array_input_limb_4, mod_word_to_12_bit_array_input_limb_5, mod_word_to_12_bit_array_input_limb_6, mod_word_to_12_bit_array_input_limb_7, mod_word_to_12_bit_array_input_limb_8, mod_word_to_12_bit_array_input_limb_9, mod_word_to_12_bit_array_input_limb_10, mod_word_to_12_bit_array_input_limb_11, mod_word_to_12_bit_array_input_limb_12, mod_word_to_12_bit_array_input_limb_13, mod_word_to_12_bit_array_input_limb_14, mod_word_to_12_bit_array_input_limb_15, mod_word_to_12_bit_array_input_limb_16, mod_word_to_12_bit_array_input_limb_17, mod_word_to_12_bit_array_input_limb_18, mod_word_to_12_bit_array_input_limb_19, mod_word_to_12_bit_array_input_limb_20, mod_word_to_12_bit_array_input_limb_21, mod_word_to_12_bit_array_input_limb_22, mod_word_to_12_bit_array_input_limb_23, mod_word_to_12_bit_array_input_limb_24, mod_word_to_12_bit_array_input_limb_25, mod_word_to_12_bit_array_input_limb_26, mod_word_to_12_bit_array_input_limb_27, ]",
+    "[M31; 28]"
+  ],
+  "state_names": [
+    "limb1b_col0",
+    "limb2b_col1",
+    "limb5b_col2",
+    "limb6b_col3",
+    "limb9b_col4"
+  ],
+  "multiplicity_col_index": null,
+  "lookup_names": [
+    "range_check_3_6",
+    "range_check_3_6_6_3"
+  ],
+  "n_lookup_terms": 3,
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "name": "limb1a_tmp_3ec3c_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_word_to_12_bit_array_input_limb_1"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb1b_col0"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb2a_tmp_3ec3c_3",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_word_to_12_bit_array_input_limb_2"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb2b_col1"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb1a_tmp_3ec3c_1"
+            ]
+          },
+          {
+            "State": "limb1b_col0"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb2a_tmp_3ec3c_3"
+            ]
+          },
+          {
+            "State": "limb2b_col1"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb5a_tmp_3ec3c_5",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_word_to_12_bit_array_input_limb_5"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb5b_col2"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb6a_tmp_3ec3c_7",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_word_to_12_bit_array_input_limb_6"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb6b_col3"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb5a_tmp_3ec3c_5"
+            ]
+          },
+          {
+            "State": "limb5b_col2"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb6a_tmp_3ec3c_7"
+            ]
+          },
+          {
+            "State": "limb6b_col3"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb9a_tmp_3ec3c_9",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "mod_word_to_12_bit_array_input_limb_9"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb9b_col4"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb9a_tmp_3ec3c_9"
+            ]
+          },
+          {
+            "State": "limb9b_col4"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "limb1b_tmp_3ec3c_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_word_to_12_bit_array_input"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "1"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb1b_tmp_3ec3c_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb1a_tmp_3ec3c_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_word_to_12_bit_array_input"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "1"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb1b_col0"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb2b_tmp_3ec3c_2",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_word_to_12_bit_array_input"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "2"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "6"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb2b_tmp_3ec3c_2"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb2a_tmp_3ec3c_3",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_word_to_12_bit_array_input"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "2"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb2b_col1"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_3_6_6_3",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "limb1a_tmp_3ec3c_1"
+              ]
+            },
+            {
+              "State": "limb1b_col0"
+            },
+            {
+              "Var": [
+                "M31",
+                "limb2a_tmp_3ec3c_3"
+              ]
+            },
+            {
+              "State": "limb2b_col1"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb1a_tmp_3ec3c_1"
+            ]
+          },
+          {
+            "State": "limb1b_col0"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb2a_tmp_3ec3c_3"
+            ]
+          },
+          {
+            "State": "limb2b_col1"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb5b_tmp_3ec3c_4",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_word_to_12_bit_array_input"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "5"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb5b_tmp_3ec3c_4"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb5a_tmp_3ec3c_5",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_word_to_12_bit_array_input"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "5"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb5b_col2"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb6b_tmp_3ec3c_6",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_word_to_12_bit_array_input"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "6"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "6"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb6b_tmp_3ec3c_6"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb6a_tmp_3ec3c_7",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_word_to_12_bit_array_input"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "6"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb6b_col3"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "64"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_3_6_6_3",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "limb5a_tmp_3ec3c_5"
+              ]
+            },
+            {
+              "State": "limb5b_col2"
+            },
+            {
+              "Var": [
+                "M31",
+                "limb6a_tmp_3ec3c_7"
+              ]
+            },
+            {
+              "State": "limb6b_col3"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6_6_3",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb5a_tmp_3ec3c_5"
+            ]
+          },
+          {
+            "State": "limb5b_col2"
+          },
+          {
+            "Var": [
+              "M31",
+              "limb6a_tmp_3ec3c_7"
+            ]
+          },
+          {
+            "State": "limb6b_col3"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb9b_tmp_3ec3c_8",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252",
+                          "mod_word_to_12_bit_array_input"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "9"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "3"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "limb9b_tmp_3ec3c_8"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "limb9a_tmp_3ec3c_9",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "mod_word_to_12_bit_array_input"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "9"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "limb9b_col4"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "8"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_3_6",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "limb9a_tmp_3ec3c_9"
+              ]
+            },
+            {
+              "State": "limb9b_col4"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_3_6",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "limb9a_tmp_3ec3c_9"
+            ]
+          },
+          {
+            "State": "limb9b_col4"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ]
+}

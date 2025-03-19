@@ -2,9 +2,26 @@
   "name": "pedersen_builtin",
   "relation_name": null,
   "description": "Pedersen Builtin",
-  "input": [
+  "prover_input": [
     "pedersen_builtin_input",
     "()",
+    "()"
+  ],
+  "verifier_input": [
+    "()",
+    "()"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
     "()"
   ],
   "state_names": [

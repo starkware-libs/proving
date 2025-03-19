@@ -1,6 +1,5 @@
 use inst_def::InstDef;
 
-use super::super::utils::test_utils::*;
 use super::air_fn::*;
 use super::air_fn_registry::*;
 use super::expressions::felt252_expr::*;
@@ -153,17 +152,7 @@ impl AirFn for TestChainLookupCall {
 #[test]
 fn test_chain_lookup_call() {
     let func = TestChainLookupCall {};
-    let (mut registry, mut entry) = AirFnRegistry::new(&func);
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_CORE_DIR, entry.name),
-    );
+    let (registry, _) = AirFnRegistry::new(&func);
     let (_, out) = registry.run_air(&func, (), const_expr!(2));
     assert_eq!(out.calc(), "16");
-
-    entry = registry.add_entry(&TestChainRound {});
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_CORE_DIR, entry.name),
-    );
 }

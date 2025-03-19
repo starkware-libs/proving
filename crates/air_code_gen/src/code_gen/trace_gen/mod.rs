@@ -103,7 +103,7 @@ impl RustProverGen {
             // Builtins have no inputs.
             Mode::Builtin => quote!(),
             Mode::Opcode | Mode::View => {
-                let (_name, ty, packed_ty) = &self.lists.input;
+                let (_name, ty, packed_ty) = &self.lists.prover_input;
                 quote! {
                     pub type InputType = $ty;
                     pub type PackedInputType = $packed_ty;
@@ -917,7 +917,7 @@ fn vec_of_type(ty: &str) -> String {
 
 fn contains_inputs(lists: &CompiledAirFn) -> bool {
     // No inputs is defined by an empty tuple.
-    lists.input.1 != "()"
+    lists.prover_input.1 != "()"
 }
 
 fn filter_lookup_terms(deductions: &[TraceGenStep]) -> Vec<LookupTerm> {

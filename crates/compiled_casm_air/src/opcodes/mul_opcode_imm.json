@@ -2,10 +2,97 @@
   "name": "mul_opcode_imm",
   "relation_name": "Opcodes",
   "description": "Mul Opcode Imm",
-  "input": [
+  "prover_input": [
     "mul_opcode_imm_input",
     "CasmState",
     "PackedCasmState"
+  ],
+  "verifier_input": [
+    "[mul_opcode_imm_input_limb_0, mul_opcode_imm_input_limb_1, mul_opcode_imm_input_limb_2]",
+    "[M31; 3]"
+  ],
+  "prover_output": [
+    {
+      "Struct": {
+        "type": "CasmState",
+        "fields": [
+          [
+            "pc",
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_pc_col0"
+                },
+                "+",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
+          ],
+          [
+            "ap",
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_ap_col1"
+                },
+                "+",
+                {
+                  "State": "ap_update_add_1_col7"
+                }
+              ]
+            }
+          ],
+          [
+            "fp",
+            {
+              "State": "input_fp_col2"
+            }
+          ]
+        ]
+      }
+    },
+    "CasmState",
+    "PackedCasmState"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "BinaryOp": [
+            {
+              "State": "input_pc_col0"
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "2"
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "input_ap_col1"
+            },
+            "+",
+            {
+              "State": "ap_update_add_1_col7"
+            }
+          ]
+        },
+        {
+          "State": "input_fp_col2"
+        }
+      ]
+    },
+    "[M31; 3]"
   ],
   "state_names": [
     "input_pc_col0",

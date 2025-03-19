@@ -2,10 +2,89 @@
   "name": "blake_g",
   "relation_name": "BlakeG",
   "description": "Blake G",
-  "input": [
+  "prover_input": [
     "blake_g_input",
     "[UInt32; 6]",
     "[PackedUInt32; 6]"
+  ],
+  "verifier_input": [
+    "[blake_g_input_limb_0, blake_g_input_limb_1, blake_g_input_limb_2, blake_g_input_limb_3, blake_g_input_limb_4, blake_g_input_limb_5, blake_g_input_limb_6, blake_g_input_limb_7, blake_g_input_limb_8, blake_g_input_limb_9, blake_g_input_limb_10, blake_g_input_limb_11]",
+    "[M31; 12]"
+  ],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "Var": [
+            "UInt32",
+            "triple_sum32_res_tmp_f72c8_24"
+          ]
+        },
+        {
+          "Var": [
+            "UInt32",
+            "xor_rot_7_output_tmp_f72c8_47"
+          ]
+        },
+        {
+          "Var": [
+            "UInt32",
+            "triple_sum32_res_tmp_f72c8_36"
+          ]
+        },
+        {
+          "Var": [
+            "UInt32",
+            "xor_rot_8_output_tmp_f72c8_35"
+          ]
+        }
+      ]
+    },
+    "[UInt32; 4]",
+    "[PackedUInt32; 4]"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "State": "triple_sum32_res_low_col32"
+        },
+        {
+          "State": "triple_sum32_res_high_col33"
+        },
+        {
+          "Var": [
+            "M31",
+            "xor_rot_7_output_tmp_f72c8_47_limb_0"
+          ]
+        },
+        {
+          "Var": [
+            "M31",
+            "xor_rot_7_output_tmp_f72c8_47_limb_1"
+          ]
+        },
+        {
+          "State": "triple_sum32_res_low_col42"
+        },
+        {
+          "State": "triple_sum32_res_high_col43"
+        },
+        {
+          "Var": [
+            "M31",
+            "xor_rot_8_output_tmp_f72c8_35_limb_0"
+          ]
+        },
+        {
+          "Var": [
+            "M31",
+            "xor_rot_8_output_tmp_f72c8_35_limb_1"
+          ]
+        }
+      ]
+    },
+    "[M31; 8]"
   ],
   "state_names": [
     "input_limb_0_col0",

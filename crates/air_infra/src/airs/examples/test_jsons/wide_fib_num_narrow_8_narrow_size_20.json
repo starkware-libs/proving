@@ -2,10 +2,27 @@
   "name": "wide_fib_num_narrow_8_narrow_size_20",
   "relation_name": null,
   "description": "Wide Fib Num Narrow 8 Narrow Size 20",
-  "input": [
+  "prover_input": [
     "wide_fib_num_narrow_8_narrow_size_20_input",
     "M31",
     "PackedM31"
+  ],
+  "verifier_input": [
+    "wide_fib_num_narrow_8_narrow_size_20_input",
+    "M31"
+  ],
+  "prover_output": [
+    {
+      "State": "narrow_fib_num_steps_20_output_limb_1_col16"
+    },
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_output": [
+    {
+      "State": "narrow_fib_num_steps_20_output_limb_1_col16"
+    },
+    "M31"
   ],
   "state_names": [
     "col0",

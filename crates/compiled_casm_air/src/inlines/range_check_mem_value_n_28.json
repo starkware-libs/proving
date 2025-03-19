@@ -1,0 +1,893 @@
+{
+  "name": "range_check_mem_value_n_28",
+  "relation_name": null,
+  "description": "Range Check Mem Value N 28",
+  "prover_input": [
+    "range_check_mem_value_n_28_input",
+    "[M31; 28]",
+    "[PackedM31; 28]"
+  ],
+  "verifier_input": [
+    "[range_check_mem_value_n_28_input_limb_0, range_check_mem_value_n_28_input_limb_1, range_check_mem_value_n_28_input_limb_2, range_check_mem_value_n_28_input_limb_3, range_check_mem_value_n_28_input_limb_4, range_check_mem_value_n_28_input_limb_5, range_check_mem_value_n_28_input_limb_6, range_check_mem_value_n_28_input_limb_7, range_check_mem_value_n_28_input_limb_8, range_check_mem_value_n_28_input_limb_9, range_check_mem_value_n_28_input_limb_10, range_check_mem_value_n_28_input_limb_11, range_check_mem_value_n_28_input_limb_12, range_check_mem_value_n_28_input_limb_13, range_check_mem_value_n_28_input_limb_14, range_check_mem_value_n_28_input_limb_15, range_check_mem_value_n_28_input_limb_16, range_check_mem_value_n_28_input_limb_17, range_check_mem_value_n_28_input_limb_18, range_check_mem_value_n_28_input_limb_19, range_check_mem_value_n_28_input_limb_20, range_check_mem_value_n_28_input_limb_21, range_check_mem_value_n_28_input_limb_22, range_check_mem_value_n_28_input_limb_23, range_check_mem_value_n_28_input_limb_24, range_check_mem_value_n_28_input_limb_25, range_check_mem_value_n_28_input_limb_26, range_check_mem_value_n_28_input_limb_27]",
+    "[M31; 28]"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
+    "()"
+  ],
+  "state_names": [],
+  "multiplicity_col_index": null,
+  "lookup_names": [
+    "range_check_9_9"
+  ],
+  "n_lookup_terms": 14,
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_0"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_1"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_2"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_3"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_4"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_5"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_6"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_7"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_8"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_9"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_10"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_11"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_12"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_13"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_14"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_15"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_16"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_17"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_18"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_19"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_20"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_21"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_22"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_23"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_24"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_25"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_26"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input_limb_27"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[0]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[1]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[0]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[1]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[2]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[3]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[2]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[3]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[4]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[5]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[4]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[5]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[6]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[7]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[6]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[7]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[8]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[9]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[8]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[9]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[10]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[11]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[10]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[11]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[12]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[13]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[12]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[13]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[14]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[15]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[14]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[15]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[16]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[17]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[16]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[17]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[18]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[19]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[18]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[19]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[20]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[21]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[20]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[21]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[22]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[23]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[22]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[23]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[24]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[25]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[24]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[25]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "range_check_9_9",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[26]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "range_check_mem_value_n_28_input[27]"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[26]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "range_check_mem_value_n_28_input[27]"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ]
+}

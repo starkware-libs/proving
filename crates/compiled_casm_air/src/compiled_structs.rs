@@ -10,9 +10,18 @@ pub struct CompiledAirFn {
     pub name: String,
     pub relation_name: Option<String>,
     pub description: String,
-    // The input to the air function. The first string is the name of the input, the second is its
-    // type, and the third is its packed type.
-    pub input: (String, String, String),
+
+    // The input to the air function for write trace.
+    // The first string is the name of the input, the second is its prover type, and the third is
+    // its packed prover type.
+    pub prover_input: (String, String, String),
+    // The input to the air function for the constraints evaluation.
+    // The first string is the name of the input, and the second is its type (M31 or an array of
+    // M31s).
+    pub verifier_input: (String, String),
+
+    pub prover_output: (CompiledAirVar, String, String),
+    pub verifier_output: (CompiledAirVar, String),
 
     pub state_names: Vec<String>,
 

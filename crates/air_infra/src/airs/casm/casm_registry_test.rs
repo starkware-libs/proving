@@ -2,7 +2,9 @@ use std::cell::Ref;
 
 use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat, LeanCompare};
 use compiled_casm_air::public_params::PublicParam;
-use compiled_casm_air::utils::{JSONS_BUILTINS_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR};
+use compiled_casm_air::utils::{
+    JSONS_BUILTINS_DIR, JSONS_INLINE_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR,
+};
 use indexmap::IndexMap;
 
 // Builtins
@@ -239,7 +241,8 @@ fn test_casm_registry() {
             TraceType::Opcode => JSONS_OPCODES_DIR,
             TraceType::Component | TraceType::Memory | TraceType::ChainRound => JSONS_LOOKUPS_DIR,
             TraceType::Builtin => JSONS_BUILTINS_DIR,
-            TraceType::Const | TraceType::Inline => "",
+            TraceType::Inline => JSONS_INLINE_DIR,
+            TraceType::Const => "",
         };
 
         // Collect preprocessed columns.
@@ -247,15 +250,17 @@ fn test_casm_registry() {
             const_tables.insert(name, compiled_entry.external_states.clone());
         }
 
-        // Inline and const functions are not compiled.
-        if entry.trace_type == TraceType::Const || entry.trace_type == TraceType::Inline {
+        // Const functions are not compiled.
+        if entry.trace_type == TraceType::Const {
             continue;
         }
 
         // Check the compiled entry json.
         compare_json(compiled_entry, &format!("{}{}.json", dir, name));
         // Collect statistics.
-        add_entry_statistics(&fns, compiled_entry, &mut stat);
+        if entry.trace_type != TraceType::Inline {
+            add_entry_statistics(&fns, compiled_entry, &mut stat);
+        }
     }
 
     compare_json(

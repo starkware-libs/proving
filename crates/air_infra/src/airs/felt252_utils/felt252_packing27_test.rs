@@ -7,17 +7,6 @@ use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
 #[test]
-fn test_entry_json_unpack() {
-    let (_, entry) = AirFnRegistry::new(&Felt252UnpackFrom27 {
-        range_check_output: true,
-    });
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_FELT252_DIR, entry.name),
-    );
-}
-
-#[test]
 fn test_verify_felt252pack_into27() {
     let unpacked = const_felt252_expr!(
         0x01234567_89abcdef_fedcba98_76543210u128,

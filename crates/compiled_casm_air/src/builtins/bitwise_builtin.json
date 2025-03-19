@@ -2,9 +2,26 @@
   "name": "bitwise_builtin",
   "relation_name": null,
   "description": "Bitwise Builtin",
-  "input": [
+  "prover_input": [
     "bitwise_builtin_input",
     "()",
+    "()"
+  ],
+  "verifier_input": [
+    "()",
+    "()"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
     "()"
   ],
   "state_names": [

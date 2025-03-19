@@ -2,10 +2,269 @@
   "name": "blake_round",
   "relation_name": "BlakeRound",
   "description": "Blake Round",
-  "input": [
+  "prover_input": [
     "blake_round_input",
     "(M31, M31, ([UInt32; 16], M31))",
     "(PackedM31, PackedM31, ([PackedUInt32; 16], PackedM31))"
+  ],
+  "verifier_input": [
+    "[blake_round_input_limb_0, blake_round_input_limb_1, blake_round_input_limb_2, blake_round_input_limb_3, blake_round_input_limb_4, blake_round_input_limb_5, blake_round_input_limb_6, blake_round_input_limb_7, blake_round_input_limb_8, blake_round_input_limb_9, blake_round_input_limb_10, blake_round_input_limb_11, blake_round_input_limb_12, blake_round_input_limb_13, blake_round_input_limb_14, blake_round_input_limb_15, blake_round_input_limb_16, blake_round_input_limb_17, blake_round_input_limb_18, blake_round_input_limb_19, blake_round_input_limb_20, blake_round_input_limb_21, blake_round_input_limb_22, blake_round_input_limb_23, blake_round_input_limb_24, blake_round_input_limb_25, blake_round_input_limb_26, blake_round_input_limb_27, blake_round_input_limb_28, blake_round_input_limb_29, blake_round_input_limb_30, blake_round_input_limb_31, blake_round_input_limb_32, blake_round_input_limb_33, blake_round_input_limb_34]",
+    "[M31; 35]"
+  ],
+  "prover_output": [
+    {
+      "Tuple": [
+        {
+          "State": "input_limb_0_col0"
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "input_limb_1_col1"
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        {
+          "Tuple": [
+            {
+              "Array": [
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_133[0]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_134[0]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_135[0]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_136[0]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_136[1]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_133[1]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_134[1]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_135[1]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_135[2]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_136[2]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_133[2]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_134[2]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_134[3]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_135[3]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_136[3]"
+                  ]
+                },
+                {
+                  "Var": [
+                    "UInt32",
+                    "blake_g_output_tmp_92ff8_133[3]"
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "input_limb_34_col34"
+            }
+          ]
+        }
+      ]
+    },
+    "(M31, M31, ([UInt32; 16], M31))",
+    "(PackedM31, PackedM31, ([PackedUInt32; 16], PackedM31))"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "State": "input_limb_0_col0"
+        },
+        {
+          "BinaryOp": [
+            {
+              "State": "input_limb_1_col1"
+            },
+            "+",
+            {
+              "Const": [
+                "M31",
+                "1"
+              ]
+            }
+          ]
+        },
+        {
+          "State": "blake_g_output_limb_0_col179"
+        },
+        {
+          "State": "blake_g_output_limb_1_col180"
+        },
+        {
+          "State": "blake_g_output_limb_0_col187"
+        },
+        {
+          "State": "blake_g_output_limb_1_col188"
+        },
+        {
+          "State": "blake_g_output_limb_0_col195"
+        },
+        {
+          "State": "blake_g_output_limb_1_col196"
+        },
+        {
+          "State": "blake_g_output_limb_0_col203"
+        },
+        {
+          "State": "blake_g_output_limb_1_col204"
+        },
+        {
+          "State": "blake_g_output_limb_2_col205"
+        },
+        {
+          "State": "blake_g_output_limb_3_col206"
+        },
+        {
+          "State": "blake_g_output_limb_2_col181"
+        },
+        {
+          "State": "blake_g_output_limb_3_col182"
+        },
+        {
+          "State": "blake_g_output_limb_2_col189"
+        },
+        {
+          "State": "blake_g_output_limb_3_col190"
+        },
+        {
+          "State": "blake_g_output_limb_2_col197"
+        },
+        {
+          "State": "blake_g_output_limb_3_col198"
+        },
+        {
+          "State": "blake_g_output_limb_4_col199"
+        },
+        {
+          "State": "blake_g_output_limb_5_col200"
+        },
+        {
+          "State": "blake_g_output_limb_4_col207"
+        },
+        {
+          "State": "blake_g_output_limb_5_col208"
+        },
+        {
+          "State": "blake_g_output_limb_4_col183"
+        },
+        {
+          "State": "blake_g_output_limb_5_col184"
+        },
+        {
+          "State": "blake_g_output_limb_4_col191"
+        },
+        {
+          "State": "blake_g_output_limb_5_col192"
+        },
+        {
+          "State": "blake_g_output_limb_6_col193"
+        },
+        {
+          "State": "blake_g_output_limb_7_col194"
+        },
+        {
+          "State": "blake_g_output_limb_6_col201"
+        },
+        {
+          "State": "blake_g_output_limb_7_col202"
+        },
+        {
+          "State": "blake_g_output_limb_6_col209"
+        },
+        {
+          "State": "blake_g_output_limb_7_col210"
+        },
+        {
+          "State": "blake_g_output_limb_6_col185"
+        },
+        {
+          "State": "blake_g_output_limb_7_col186"
+        },
+        {
+          "State": "input_limb_34_col34"
+        }
+      ]
+    },
+    "[M31; 35]"
   ],
   "state_names": [
     "input_limb_0_col0",

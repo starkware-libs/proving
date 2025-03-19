@@ -7,55 +7,6 @@ use crate::core::variables::*;
 use crate::utils::test_utils::*;
 
 #[test]
-fn test_entry_json_large() {
-    let (_, entry) = AirFnRegistry::new(&LinearCombination {
-        coefs: [2, 1, 4, 3, -1, 1],
-    });
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
-    );
-}
-
-#[test]
-fn test_entry_json_mid() {
-    let (_, entry) = AirFnRegistry::new(&LinearCombination {
-        coefs: [3, 1, 1, 1],
-    });
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
-    );
-}
-
-#[test]
-fn test_entry_json_small() {
-    let (_, entry) = AirFnRegistry::new(&LinearCombination { coefs: [2, 1] });
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
-    );
-}
-
-#[test]
-fn test_entry_json_add() {
-    let (_, entry) = AirFnRegistry::new(&LinearCombination { coefs: [1, 1] });
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
-    );
-}
-
-#[test]
-fn test_entry_json_neg() {
-    let (_, entry) = AirFnRegistry::new(&LinearCombination { coefs: [-1] });
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_POSEIDON_DIR, entry.name),
-    );
-}
-
-#[test]
 fn test_linear_combination_for_x() {
     let air_fn = LinearCombination {
         coefs: [-3, 1, 1, 1],

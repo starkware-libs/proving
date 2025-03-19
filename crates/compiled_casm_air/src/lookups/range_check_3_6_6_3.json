@@ -2,10 +2,27 @@
   "name": "range_check_3_6_6_3",
   "relation_name": "RangeCheck_3_6_6_3",
   "description": "Range Check 3 6 6 3",
-  "input": [
+  "prover_input": [
     "range_check_3_6_6_3_input",
     "[M31; 4]",
     "[PackedM31; 4]"
+  ],
+  "verifier_input": [
+    "[range_check_3_6_6_3_input_limb_0, range_check_3_6_6_3_input_limb_1, range_check_3_6_6_3_input_limb_2, range_check_3_6_6_3_input_limb_3]",
+    "[M31; 4]"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
+    "()"
   ],
   "state_names": [],
   "multiplicity_col_index": 0,

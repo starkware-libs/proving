@@ -1,0 +1,250 @@
+{
+  "name": "cond_decode_small_sign",
+  "relation_name": null,
+  "description": "Cond Decode Small Sign",
+  "prover_input": [
+    "cond_decode_small_sign_input",
+    "(Felt252, M31)",
+    "(PackedFelt252, PackedM31)"
+  ],
+  "verifier_input": [
+    "[cond_decode_small_sign_input_limb_0, cond_decode_small_sign_input_limb_1, cond_decode_small_sign_input_limb_2, cond_decode_small_sign_input_limb_3, cond_decode_small_sign_input_limb_4, cond_decode_small_sign_input_limb_5, cond_decode_small_sign_input_limb_6, cond_decode_small_sign_input_limb_7, cond_decode_small_sign_input_limb_8, cond_decode_small_sign_input_limb_9, cond_decode_small_sign_input_limb_10, cond_decode_small_sign_input_limb_11, cond_decode_small_sign_input_limb_12, cond_decode_small_sign_input_limb_13, cond_decode_small_sign_input_limb_14, cond_decode_small_sign_input_limb_15, cond_decode_small_sign_input_limb_16, cond_decode_small_sign_input_limb_17, cond_decode_small_sign_input_limb_18, cond_decode_small_sign_input_limb_19, cond_decode_small_sign_input_limb_20, cond_decode_small_sign_input_limb_21, cond_decode_small_sign_input_limb_22, cond_decode_small_sign_input_limb_23, cond_decode_small_sign_input_limb_24, cond_decode_small_sign_input_limb_25, cond_decode_small_sign_input_limb_26, cond_decode_small_sign_input_limb_27, cond_decode_small_sign_input_limb_28]",
+    "[M31; 29]"
+  ],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "State": "msb_col0"
+        },
+        {
+          "State": "mid_limbs_set_col1"
+        }
+      ]
+    },
+    "[M31; 2]",
+    "[PackedM31; 2]"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "State": "msb_col0"
+        },
+        {
+          "State": "mid_limbs_set_col1"
+        }
+      ]
+    },
+    "[M31; 2]"
+  ],
+  "state_names": [
+    "msb_col0",
+    "mid_limbs_set_col1"
+  ],
+  "multiplicity_col_index": null,
+  "lookup_names": [],
+  "n_lookup_terms": 0,
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "msb_col0"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col0"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "msb is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col1"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col1"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "mid_limbs_set is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "cond_decode_small_sign_input_limb_28"
+                  ]
+                },
+                "*",
+                {
+                  "State": "mid_limbs_set_col1"
+                }
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col0"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Cannot have msb equals 0 and mid_limbs_set equals 1"
+      ]
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "msb_tmp_b841e_0",
+        "type": "Bool",
+        "var": {
+          "MethodCall": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "cond_decode_small_sign_input.0"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "27"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "eq",
+            [
+              {
+                "Const": [
+                  "M31",
+                  "256"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Bool",
+              "msb_tmp_b841e_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "mid_limbs_set_tmp_b841e_1",
+        "type": "Bool",
+        "var": {
+          "MethodCall": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "cond_decode_small_sign_input.0"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "20"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "eq",
+            [
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "Bool",
+              "mid_limbs_set_tmp_b841e_1"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    }
+  ]
+}

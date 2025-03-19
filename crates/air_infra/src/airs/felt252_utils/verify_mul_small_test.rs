@@ -6,15 +6,6 @@ use crate::core::expressions::felt252_expr::*;
 use crate::utils::test_utils::*;
 
 #[test]
-fn test_entry_json() {
-    let (_, entry) = AirFnRegistry::new(&VerifyMulSmall {});
-    compare_json(
-        &entry,
-        &format!("{}{}.json", TEST_JSONS_FELT252_DIR, entry.name),
-    );
-}
-
-#[test]
 fn test_verify_mul_small_simple() {
     let air_fn = VerifyMulSmall {};
     let (registry, _) = AirFnRegistry::new(&air_fn);

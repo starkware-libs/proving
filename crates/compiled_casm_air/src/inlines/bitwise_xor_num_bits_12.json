@@ -1,0 +1,162 @@
+{
+  "name": "bitwise_xor_num_bits_12",
+  "relation_name": null,
+  "description": "Bitwise Xor Num Bits 12",
+  "prover_input": [
+    "bitwise_xor_num_bits_12_input",
+    "[M31; 2]",
+    "[PackedM31; 2]"
+  ],
+  "verifier_input": [
+    "[bitwise_xor_num_bits_12_input_limb_0, bitwise_xor_num_bits_12_input_limb_1]",
+    "[M31; 2]"
+  ],
+  "prover_output": [
+    {
+      "State": "xor_col0"
+    },
+    "M31",
+    "PackedM31"
+  ],
+  "verifier_output": [
+    {
+      "State": "xor_col0"
+    },
+    "M31"
+  ],
+  "state_names": [
+    "xor_col0"
+  ],
+  "multiplicity_col_index": null,
+  "lookup_names": [
+    "verify_bitwise_xor_12"
+  ],
+  "n_lookup_terms": 1,
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_12",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "bitwise_xor_num_bits_12_input_limb_0"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "bitwise_xor_num_bits_12_input_limb_1"
+            ]
+          },
+          {
+            "State": "xor_col0"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ],
+  "deductions": [
+    {
+      "Intermediate": {
+        "name": "xor_tmp_ff341_0",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "bitwise_xor_num_bits_12_input[0]"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "^",
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "bitwise_xor_num_bits_12_input[1]"
+                    ]
+                  }
+                ]
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "xor_tmp_ff341_0"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "verify_bitwise_xor_12",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "bitwise_xor_num_bits_12_input[0]"
+              ]
+            },
+            {
+              "Var": [
+                "M31",
+                "bitwise_xor_num_bits_12_input[1]"
+              ]
+            },
+            {
+              "State": "xor_col0"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_12",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "bitwise_xor_num_bits_12_input[0]"
+            ]
+          },
+          {
+            "Var": [
+              "M31",
+              "bitwise_xor_num_bits_12_input[1]"
+            ]
+          },
+          {
+            "State": "xor_col0"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    }
+  ]
+}

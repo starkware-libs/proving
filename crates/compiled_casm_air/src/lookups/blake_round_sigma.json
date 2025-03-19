@@ -2,10 +2,285 @@
   "name": "blake_round_sigma",
   "relation_name": "BlakeRoundSigma",
   "description": "Blake Round Sigma",
-  "input": [
+  "prover_input": [
     "blake_round_sigma_input",
     "[M31; 1]",
     "[PackedM31; 1]"
+  ],
+  "verifier_input": [
+    "[blake_round_sigma_input_limb_0]",
+    "[M31; 1]"
+  ],
+  "prover_output": [
+    {
+      "Array": [
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "0"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "1"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "2"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "3"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "4"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "5"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "6"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "7"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "8"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "9"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "10"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "11"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "12"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "13"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "14"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "15"
+            ]
+          ]
+        }
+      ]
+    },
+    "[M31; 16]",
+    "[PackedM31; 16]"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "0"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "1"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "2"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "3"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "4"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "5"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "6"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "7"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "8"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "9"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "10"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "11"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "12"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "13"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "14"
+            ]
+          ]
+        },
+        {
+          "ExternalState": [
+            "BlakeSigma",
+            [
+              "15"
+            ]
+          ]
+        }
+      ]
+    },
+    "[M31; 16]"
   ],
   "state_names": [],
   "multiplicity_col_index": 0,

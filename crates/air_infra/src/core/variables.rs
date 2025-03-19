@@ -353,6 +353,49 @@ impl AirVarImpl {
         }
     }
 
+    pub fn as_verifier_var(&self, name: String) -> (Self, String) {
+        if let AirVarImpl::Expr(ExprImpl::Felt(_)) = self {
+            return (self.clone(), name);
+        }
+
+        if self.as_felts().is_empty() {
+            return (self.clone(), "()".to_string());
+        }
+
+        let var = Self::Array(self.as_felts().into_iter().map(|f| f.into()).collect());
+        let name = format!(
+            "[{}]",
+            (0..self.as_felts().len())
+                .map(|i| format!("{}_limb_{}", name, i))
+                .collect::<Vec<_>>()
+                .join(", ")
+        );
+        (var, name)
+    }
+
+    pub fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
+        match self {
+            AirVarImpl::Expr(expr) => expr.as_felts_mut(),
+            AirVarImpl::Tuple(vars) => vars.iter_mut().flat_map(|v| v.as_felts_mut()).collect(),
+            AirVarImpl::Array(vars) => vars.iter_mut().flat_map(|v| v.as_felts_mut()).collect(),
+            AirVarImpl::Struct { fields, .. } => fields
+                .iter_mut()
+                .flat_map(|(_, v)| v.as_felts_mut())
+                .collect(),
+        }
+    }
+
+    pub fn as_felts(&self) -> Vec<FeltExpr> {
+        match self {
+            AirVarImpl::Expr(expr) => expr.as_felts(),
+            AirVarImpl::Tuple(vars) => vars.iter().flat_map(|v| v.as_felts()).collect(),
+            AirVarImpl::Array(vars) => vars.iter().flat_map(|v| v.as_felts()).collect(),
+            AirVarImpl::Struct { fields, .. } => {
+                fields.iter().flat_map(|(_, v)| v.as_felts()).collect()
+            }
+        }
+    }
+
     pub fn compile(self, compile_for: CompileFor) -> CompiledAirVar {
         match self {
             AirVarImpl::Expr(expr) => expr.compile(compile_for),
@@ -396,6 +439,10 @@ impl AirVarImpl {
                 )
             }
             AirVarImpl::Array(vars) => {
+                if vars.is_empty() {
+                    return "()".to_string();
+                }
+
                 format!("[{}; {}]", vars[0].packed_prover_type(), vars.len())
             }
             AirVarImpl::Struct { r#type, .. } => format!("Packed{}", r#type),
@@ -431,6 +478,10 @@ impl InternalAirVarInfo for AirVarImpl {
                 )
             }
             AirVarImpl::Array(vars) => {
+                if vars.is_empty() {
+                    return "()".to_string();
+                }
+
                 format!("[{}; {}]", vars[0].prover_type(), vars.len())
             }
             AirVarImpl::Struct {

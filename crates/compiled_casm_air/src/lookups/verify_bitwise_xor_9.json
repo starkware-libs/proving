@@ -2,10 +2,27 @@
   "name": "verify_bitwise_xor_9",
   "relation_name": "VerifyBitwiseXor_9",
   "description": "Verify Bitwise Xor 9",
-  "input": [
+  "prover_input": [
     "verify_bitwise_xor_9_input",
     "[M31; 3]",
     "[PackedM31; 3]"
+  ],
+  "verifier_input": [
+    "[verify_bitwise_xor_9_input_limb_0, verify_bitwise_xor_9_input_limb_1, verify_bitwise_xor_9_input_limb_2]",
+    "[M31; 3]"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
+    "()"
   ],
   "state_names": [],
   "multiplicity_col_index": 0,

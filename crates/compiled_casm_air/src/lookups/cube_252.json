@@ -2,10 +2,780 @@
   "name": "cube_252",
   "relation_name": "Cube252",
   "description": "Cube 252",
-  "input": [
+  "prover_input": [
     "cube_252_input",
     "Felt252Width27",
     "PackedFelt252Width27"
+  ],
+  "verifier_input": [
+    "[cube_252_input_limb_0, cube_252_input_limb_1, cube_252_input_limb_2, cube_252_input_limb_3, cube_252_input_limb_4, cube_252_input_limb_5, cube_252_input_limb_6, cube_252_input_limb_7, cube_252_input_limb_8, cube_252_input_limb_9]",
+    "[M31; 10]"
+  ],
+  "prover_output": [
+    {
+      "StaticCall": [
+        "Felt252Width27::from_limbs",
+        [
+          {
+            "Array": [
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_0_col84"
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "mul_res_limb_1_col85"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_2_col86"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "262144"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_3_col87"
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "mul_res_limb_4_col88"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_5_col89"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "262144"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_6_col90"
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "mul_res_limb_7_col91"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_8_col92"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "262144"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_9_col93"
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "mul_res_limb_10_col94"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_11_col95"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "262144"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_12_col96"
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "mul_res_limb_13_col97"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_14_col98"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "262144"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_15_col99"
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "mul_res_limb_16_col100"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_17_col101"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "262144"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_18_col102"
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "mul_res_limb_19_col103"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_20_col104"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "262144"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_21_col105"
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "mul_res_limb_22_col106"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_23_col107"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "262144"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_24_col108"
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "mul_res_limb_25_col109"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "512"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mul_res_limb_26_col110"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "262144"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "State": "mul_res_limb_27_col111"
+              }
+            ]
+          }
+        ]
+      ]
+    },
+    "Felt252Width27",
+    "PackedFelt252Width27"
+  ],
+  "verifier_output": [
+    {
+      "Array": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_0_col84"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mul_res_limb_1_col85"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_2_col86"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_3_col87"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mul_res_limb_4_col88"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_5_col89"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_6_col90"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mul_res_limb_7_col91"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_8_col92"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_9_col93"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mul_res_limb_10_col94"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_11_col95"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_12_col96"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mul_res_limb_13_col97"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_14_col98"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_15_col99"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mul_res_limb_16_col100"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_17_col101"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_18_col102"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mul_res_limb_19_col103"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_20_col104"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_21_col105"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mul_res_limb_22_col106"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_23_col107"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_24_col108"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "mul_res_limb_25_col109"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mul_res_limb_26_col110"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "State": "mul_res_limb_27_col111"
+        }
+      ]
+    },
+    "[M31; 10]"
   ],
   "state_names": [
     "input_limb_0_col0",

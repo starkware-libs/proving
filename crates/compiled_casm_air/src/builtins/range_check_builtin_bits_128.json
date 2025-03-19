@@ -2,9 +2,26 @@
   "name": "range_check_builtin_bits_128",
   "relation_name": null,
   "description": "Range Check Builtin Bits 128",
-  "input": [
+  "prover_input": [
     "range_check_builtin_bits_128_input",
     "()",
+    "()"
+  ],
+  "verifier_input": [
+    "()",
+    "()"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
     "()"
   ],
   "state_names": [

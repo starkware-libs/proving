@@ -2,10 +2,27 @@
   "name": "range_check_12",
   "relation_name": "RangeCheck_12",
   "description": "Range Check 12",
-  "input": [
+  "prover_input": [
     "range_check_12_input",
     "[M31; 1]",
     "[PackedM31; 1]"
+  ],
+  "verifier_input": [
+    "[range_check_12_input_limb_0]",
+    "[M31; 1]"
+  ],
+  "prover_output": [
+    {
+      "Tuple": []
+    },
+    "()",
+    "()"
+  ],
+  "verifier_output": [
+    {
+      "Tuple": []
+    },
+    "()"
   ],
   "state_names": [],
   "multiplicity_col_index": 0,
