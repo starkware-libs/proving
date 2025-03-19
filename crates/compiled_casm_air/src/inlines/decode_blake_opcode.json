@@ -2,6 +2,7 @@
   "name": "decode_blake_opcode",
   "relation_name": null,
   "description": "Decode Blake Opcode",
+  "type": "Inline",
   "prover_input": [
     "decode_blake_opcode_input",
     "CasmState",
@@ -372,7 +373,7 @@
     "high_5_ms_bits_col28",
     "dst_id_col29"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

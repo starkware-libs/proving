@@ -2,6 +2,7 @@
   "name": "range_check_builtin_bits_96",
   "relation_name": null,
   "description": "Range Check Builtin Bits 96",
+  "type": "Builtin",
   "prover_input": [
     "range_check_builtin_bits_96_input",
     "()",
@@ -38,7 +39,7 @@
     "value_limb_9_col10",
     "value_limb_10_col11"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

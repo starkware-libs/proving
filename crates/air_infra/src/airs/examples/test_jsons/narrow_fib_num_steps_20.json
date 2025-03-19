@@ -2,6 +2,7 @@
   "name": "narrow_fib_num_steps_20",
   "relation_name": "NarrowFibNumSteps20",
   "description": "Narrow Fib Num Steps 20",
+  "type": "Component",
   "prover_input": [
     "narrow_fib_num_steps_20_input",
     "[M31; 2]",
@@ -62,7 +63,7 @@
     "col20",
     "col21"
   ],
-  "multiplicity_col_index": 22,
+  "padding_type": "Enabler",
   "lookup_names": [],
   "n_lookup_terms": 1,
   "public_params": [],

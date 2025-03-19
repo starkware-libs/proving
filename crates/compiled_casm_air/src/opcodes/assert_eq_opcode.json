@@ -2,6 +2,7 @@
   "name": "assert_eq_opcode",
   "relation_name": "Opcodes",
   "description": "Assert Eq Opcode",
+  "type": "Opcode",
   "prover_input": [
     "assert_eq_opcode_input",
     "CasmState",
@@ -107,7 +108,7 @@
     "mem1_base_col9",
     "dst_id_col10"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

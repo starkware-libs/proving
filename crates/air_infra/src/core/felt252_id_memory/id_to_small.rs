@@ -1,3 +1,4 @@
+use compiled_casm_air::compiled_structs::TraceType;
 use compiled_casm_air::relations::MEMORY_RELATION_NAME;
 use inst_def::InstDef;
 

@@ -2,6 +2,7 @@
   "name": "poseidon_hades_permutation",
   "relation_name": null,
   "description": "Poseidon Hades Permutation",
+  "type": "Inline",
   "prover_input": [
     "poseidon_hades_permutation_input",
     "[Felt252Width27; 3]",
@@ -339,7 +340,7 @@
     "poseidon_full_round_chain_output_limb_30_col201",
     "poseidon_full_round_chain_output_limb_31_col202"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "cube_252",
     "poseidon_3_partial_rounds_chain",

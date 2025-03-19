@@ -2,6 +2,7 @@
   "name": "verify_bitwise_xor_4",
   "relation_name": "VerifyBitwiseXor_4",
   "description": "Verify Bitwise Xor 4",
+  "type": "Component",
   "prover_input": [
     "verify_bitwise_xor_4_input",
     "[M31; 3]",
@@ -25,7 +26,7 @@
     "()"
   ],
   "state_names": [],
-  "multiplicity_col_index": 0,
+  "padding_type": "Multiplicity",
   "lookup_names": [],
   "n_lookup_terms": 1,
   "public_params": [],

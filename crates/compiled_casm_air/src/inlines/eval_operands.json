@@ -2,6 +2,7 @@
   "name": "eval_operands",
   "relation_name": null,
   "description": "Eval Operands",
+  "type": "Inline",
   "prover_input": [
     "eval_operands_input",
     "(CasmState, [M31; 20], [M31; 3])",
@@ -858,7 +859,7 @@
     "res_limb_26_col201",
     "res_limb_27_col202"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

@@ -2,6 +2,7 @@
   "name": "decode_instruction_d0bdb4b05b77c536",
   "relation_name": null,
   "description": "Decode Instruction",
+  "type": "Inline",
   "prover_input": [
     "decode_instruction_d0bdb4b05b77c536_input",
     "M31",
@@ -276,7 +277,7 @@
     "offset0_col0",
     "ap_update_add_1_col1"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

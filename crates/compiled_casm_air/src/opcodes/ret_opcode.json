@@ -2,6 +2,7 @@
   "name": "ret_opcode",
   "relation_name": "Opcodes",
   "description": "Ret Opcode",
+  "type": "Opcode",
   "prover_input": [
     "ret_opcode_input",
     "CasmState",
@@ -221,7 +222,7 @@
     "next_fp_limb_1_col9",
     "next_fp_limb_2_col10"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

@@ -2,6 +2,7 @@
   "name": "create_blake_round_input",
   "relation_name": null,
   "description": "Create Blake Round Input",
+  "type": "Inline",
   "prover_input": [
     "create_blake_round_input_input",
     "(M31, UInt32, Bool)",
@@ -620,7 +621,7 @@
     "xor_col52",
     "xor_col53"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

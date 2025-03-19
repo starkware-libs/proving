@@ -2,6 +2,7 @@
   "name": "memory_id_to_big",
   "relation_name": "MemoryIdToBig",
   "description": "Memory Id To Big",
+  "type": "Memory",
   "prover_input": [
     "memory_id_to_big_input",
     "M31",
@@ -231,7 +232,7 @@
     "memory_id_to_big_output_col26",
     "memory_id_to_big_output_col27"
   ],
-  "multiplicity_col_index": 28,
+  "padding_type": "Multiplicity",
   "lookup_names": [
     "range_check_9_9"
   ],

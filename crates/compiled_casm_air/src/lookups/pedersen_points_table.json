@@ -2,6 +2,7 @@
   "name": "pedersen_points_table",
   "relation_name": "PedersenPointsTable",
   "description": "Pedersen Points Table",
+  "type": "Component",
   "prover_input": [
     "pedersen_points_table_input",
     "[M31; 1]",
@@ -487,7 +488,7 @@
     "[M31; 56]"
   ],
   "state_names": [],
-  "multiplicity_col_index": 0,
+  "padding_type": "Multiplicity",
   "lookup_names": [],
   "n_lookup_terms": 1,
   "public_params": [],

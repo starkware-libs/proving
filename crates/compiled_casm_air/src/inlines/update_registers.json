@@ -2,6 +2,7 @@
   "name": "update_registers",
   "relation_name": null,
   "description": "Update Registers",
+  "type": "Inline",
   "prover_input": [
     "update_registers_input",
     "(CasmState, [M31; 20], [Felt252; 3])",
@@ -69,7 +70,7 @@
     "next_ap_col9",
     "next_fp_col10"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [],
   "n_lookup_terms": 0,
   "public_params": [],

@@ -2,6 +2,7 @@
   "name": "range_check_felt_252_width_27",
   "relation_name": "RangeCheckFelt252Width27",
   "description": "Range Check Felt 252 Width 27",
+  "type": "Component",
   "prover_input": [
     "range_check_felt_252_width_27_input",
     "Felt252Width27",
@@ -45,7 +46,7 @@
     "limb_7_low_part_col17",
     "limb_8_high_part_col18"
   ],
-  "multiplicity_col_index": 19,
+  "padding_type": "Enabler",
   "lookup_names": [
     "range_check_18",
     "range_check_9_9"

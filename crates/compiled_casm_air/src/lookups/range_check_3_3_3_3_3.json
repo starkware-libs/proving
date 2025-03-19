@@ -2,6 +2,7 @@
   "name": "range_check_3_3_3_3_3",
   "relation_name": "RangeCheck_3_3_3_3_3",
   "description": "Range Check 3 3 3 3 3",
+  "type": "Component",
   "prover_input": [
     "range_check_3_3_3_3_3_input",
     "[M31; 5]",
@@ -25,7 +26,7 @@
     "()"
   ],
   "state_names": [],
-  "multiplicity_col_index": 0,
+  "padding_type": "Multiplicity",
   "lookup_names": [],
   "n_lookup_terms": 1,
   "public_params": [],

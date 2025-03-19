@@ -2,6 +2,7 @@
   "name": "fib_step",
   "relation_name": null,
   "description": "Fib Step",
+  "type": "Inline",
   "prover_input": [
     "fib_step_input",
     "[M31; 2]",
@@ -27,7 +28,7 @@
   "state_names": [
     "col0"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [],
   "n_lookup_terms": 0,
   "public_params": [],

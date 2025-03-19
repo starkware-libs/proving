@@ -2,6 +2,7 @@
   "name": "xor_rot_32_r_16",
   "relation_name": null,
   "description": "Xor Rot 32 R 16",
+  "type": "Inline",
   "prover_input": [
     "xor_rot_32_r_16_input",
     "[UInt32; 2]",
@@ -50,7 +51,7 @@
     "xor_col6",
     "xor_col7"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "verify_bitwise_xor_8"
   ],

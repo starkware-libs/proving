@@ -1,6 +1,8 @@
 use std::cell::Ref;
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirFnStat, LeanCompare};
+use compiled_casm_air::compiled_structs::{
+    CompiledAirFn, CompiledAirFnStat, LeanCompare, PaddingType, TraceType,
+};
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::utils::{
     JSONS_BUILTINS_DIR, JSONS_INLINE_DIR, JSONS_LOOKUPS_DIR, JSONS_OPCODES_DIR,
@@ -26,7 +28,6 @@ use super::opcodes::jump_opcode::*;
 use super::opcodes::mul_opcode::*;
 use super::opcodes::qm31::qm31_add_mul_opcode::*;
 use super::opcodes::ret_opcode::*;
-use crate::core::air_fn::*;
 use crate::core::air_fn_registry::*;
 use crate::core::felt252_id_memory::memory::*;
 use crate::utils::test_utils::*;
@@ -284,7 +285,8 @@ fn add_entry_statistics(
 
     // Bulitins don't have yield columns.
     let lookup_yield = entry.trace_type != TraceType::Builtin;
-    let lookup_multiplicity = compiled_entry.multiplicity_col_index.is_some();
+    let padding = compiled_entry.padding_type == PaddingType::Multiplicity
+        || compiled_entry.padding_type == PaddingType::Enabler;
     let num_state_cols = compiled_entry.state_names.len();
     let lookup_use_cols = entry.air_body.get_lookup_n_use_cols();
     let num_lookup_cols: usize = lookup_use_cols.iter().map(|(_, count)| count).sum();
@@ -292,7 +294,7 @@ fn add_entry_statistics(
     let total_num_trace_cols = num_state_cols
         + (TRACE_COLUMNS_PER_LOGUP * (num_lookup_cols + lookup_yield as usize))
         + (((num_lookup_cols + lookup_yield as usize) % 2) * TRACE_COLUMNS_PER_LOGUP)
-        + (lookup_multiplicity as usize);
+        + (padding as usize);
 
     // An upper bound on the number of cells added to the trace for each `AddInput`
     // to this component. Includes rows added to other lookup components called by
@@ -328,7 +330,7 @@ fn add_entry_statistics(
             lookup_use_cols,
             lookup_rows,
             lookup_yield,
-            lookup_multiplicity,
+            padding_type: compiled_entry.padding_type.clone(),
             total_num_trace_cols,
             trace_cells_upper_bound,
         },

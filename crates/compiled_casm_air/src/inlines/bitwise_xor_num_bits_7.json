@@ -2,6 +2,7 @@
   "name": "bitwise_xor_num_bits_7",
   "relation_name": null,
   "description": "Bitwise Xor Num Bits 7",
+  "type": "Inline",
   "prover_input": [
     "bitwise_xor_num_bits_7_input",
     "[M31; 2]",
@@ -27,7 +28,7 @@
   "state_names": [
     "xor_col0"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "None",
   "lookup_names": [
     "verify_bitwise_xor_7"
   ],

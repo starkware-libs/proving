@@ -2,6 +2,7 @@
   "name": "verify_instruction",
   "relation_name": "VerifyInstruction",
   "description": "Verify Instruction",
+  "type": "Component",
   "prover_input": [
     "verify_instruction_input",
     "(M31, [M31; 3], [M31; 2], M31)",
@@ -42,7 +43,7 @@
     "offset2_high_col14",
     "instruction_id_col15"
   ],
-  "multiplicity_col_index": 16,
+  "padding_type": "Multiplicity",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

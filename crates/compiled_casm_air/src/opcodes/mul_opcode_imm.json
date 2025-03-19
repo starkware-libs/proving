@@ -2,6 +2,7 @@
   "name": "mul_opcode_imm",
   "relation_name": "Opcodes",
   "description": "Mul Opcode Imm",
+  "type": "Opcode",
   "prover_input": [
     "mul_opcode_imm_input",
     "CasmState",
@@ -221,7 +222,7 @@
     "carry_25_col123",
     "carry_26_col124"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "memory_address_to_id",
     "memory_id_to_big",

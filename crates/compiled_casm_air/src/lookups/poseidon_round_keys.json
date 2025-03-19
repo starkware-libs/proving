@@ -2,6 +2,7 @@
   "name": "poseidon_round_keys",
   "relation_name": "PoseidonRoundKeys",
   "description": "Poseidon Round Keys",
+  "type": "Component",
   "prover_input": [
     "poseidon_round_keys_input",
     "[M31; 1]",
@@ -285,7 +286,7 @@
     "[M31; 30]"
   ],
   "state_names": [],
-  "multiplicity_col_index": 0,
+  "padding_type": "Multiplicity",
   "lookup_names": [],
   "n_lookup_terms": 1,
   "public_params": [],

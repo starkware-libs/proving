@@ -2,6 +2,7 @@
   "name": "blake_compress_opcode",
   "relation_name": "Opcodes",
   "description": "Blake Compress Opcode",
+  "type": "Opcode",
   "prover_input": [
     "blake_compress_opcode_input",
     "CasmState",
@@ -266,7 +267,7 @@
     "high_5_ms_bits_col168",
     "new_state_7_id_col169"
   ],
-  "multiplicity_col_index": null,
+  "padding_type": "Enabler",
   "lookup_names": [
     "blake_round",
     "memory_address_to_id",
