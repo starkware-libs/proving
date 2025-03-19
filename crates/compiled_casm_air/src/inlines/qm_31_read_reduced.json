@@ -554,157 +554,24 @@
   "external_states": [],
   "constraints": [
     {
-      "StartBlock": "Read Positive Num Bits 144"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryAddressToId",
-        "felts": [
-          {
-            "Var": [
-              "M31",
-              "qm_31_read_reduced_input"
+      "Intermediate": {
+        "name": "[read_positive_num_bits_144_output_limb_0, read_positive_num_bits_144_output_limb_1, read_positive_num_bits_144_output_limb_2, read_positive_num_bits_144_output_limb_3, read_positive_num_bits_144_output_limb_4, read_positive_num_bits_144_output_limb_5, read_positive_num_bits_144_output_limb_6, read_positive_num_bits_144_output_limb_7, read_positive_num_bits_144_output_limb_8, read_positive_num_bits_144_output_limb_9, read_positive_num_bits_144_output_limb_10, read_positive_num_bits_144_output_limb_11, read_positive_num_bits_144_output_limb_12, read_positive_num_bits_144_output_limb_13, read_positive_num_bits_144_output_limb_14, read_positive_num_bits_144_output_limb_15, read_positive_num_bits_144_output_limb_16, read_positive_num_bits_144_output_limb_17, read_positive_num_bits_144_output_limb_18, read_positive_num_bits_144_output_limb_19, read_positive_num_bits_144_output_limb_20, read_positive_num_bits_144_output_limb_21, read_positive_num_bits_144_output_limb_22, read_positive_num_bits_144_output_limb_23, read_positive_num_bits_144_output_limb_24, read_positive_num_bits_144_output_limb_25, read_positive_num_bits_144_output_limb_26, read_positive_num_bits_144_output_limb_27, read_positive_num_bits_144_output_limb_28]",
+        "type": "[M31; 29]",
+        "var": {
+          "StaticCall": [
+            "read_positive_num_bits_144::evaluate",
+            [
+              {
+                "Var": [
+                  "M31",
+                  "qm_31_read_reduced_input"
+                ]
+              }
             ]
-          },
-          {
-            "State": "id_col0"
-          }
-        ],
-        "use_or_yield": "Use"
+          ]
+        }
       }
     },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryIdToBig",
-        "felts": [
-          {
-            "State": "id_col0"
-          },
-          {
-            "State": "value_limb_0_col1"
-          },
-          {
-            "State": "value_limb_1_col2"
-          },
-          {
-            "State": "value_limb_2_col3"
-          },
-          {
-            "State": "value_limb_3_col4"
-          },
-          {
-            "State": "value_limb_4_col5"
-          },
-          {
-            "State": "value_limb_5_col6"
-          },
-          {
-            "State": "value_limb_6_col7"
-          },
-          {
-            "State": "value_limb_7_col8"
-          },
-          {
-            "State": "value_limb_8_col9"
-          },
-          {
-            "State": "value_limb_9_col10"
-          },
-          {
-            "State": "value_limb_10_col11"
-          },
-          {
-            "State": "value_limb_11_col12"
-          },
-          {
-            "State": "value_limb_12_col13"
-          },
-          {
-            "State": "value_limb_13_col14"
-          },
-          {
-            "State": "value_limb_14_col15"
-          },
-          {
-            "State": "value_limb_15_col16"
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
     {
       "LookupTerm": {
         "relation_name": "RangeCheck_4_4_4_4",

@@ -1,4 +1,5 @@
 use crate::components::prelude::constraint_eval::*;
+use crate::components::read_positive_num_bits_128::component::ReadPositiveNumBits128;
 
 pub(super) const N_TRACE_COLUMNS: usize = 17;
 
@@ -50,9 +51,8 @@ impl FrameworkEval for Eval {
     #[allow(unused_parens)]
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
+    #[allow(clippy::unused_unit)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_1 = E::F::from(M31::from(1));
-        let M31_2 = E::F::from(M31::from(2));
         let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
         let value_id_col0 = eval.next_trace_mask();
         let value_limb_0_col1 = eval.next_trace_mask();
@@ -72,52 +72,13 @@ impl FrameworkEval for Eval {
         let value_limb_14_col15 = eval.next_trace_mask();
         let msb_col16 = eval.next_trace_mask();
 
-        // Read Positive Num Bits 128.
-
-        eval.add_to_relation(RelationEntry::new(
-            &self.memory_address_to_id_lookup_elements,
-            E::EF::one(),
-            &[
+        let [read_positive_num_bits_128_output_limb_0, read_positive_num_bits_128_output_limb_1, read_positive_num_bits_128_output_limb_2, read_positive_num_bits_128_output_limb_3, read_positive_num_bits_128_output_limb_4, read_positive_num_bits_128_output_limb_5, read_positive_num_bits_128_output_limb_6, read_positive_num_bits_128_output_limb_7, read_positive_num_bits_128_output_limb_8, read_positive_num_bits_128_output_limb_9, read_positive_num_bits_128_output_limb_10, read_positive_num_bits_128_output_limb_11, read_positive_num_bits_128_output_limb_12, read_positive_num_bits_128_output_limb_13, read_positive_num_bits_128_output_limb_14, read_positive_num_bits_128_output_limb_15, read_positive_num_bits_128_output_limb_16, read_positive_num_bits_128_output_limb_17, read_positive_num_bits_128_output_limb_18, read_positive_num_bits_128_output_limb_19, read_positive_num_bits_128_output_limb_20, read_positive_num_bits_128_output_limb_21, read_positive_num_bits_128_output_limb_22, read_positive_num_bits_128_output_limb_23, read_positive_num_bits_128_output_limb_24, read_positive_num_bits_128_output_limb_25, read_positive_num_bits_128_output_limb_26, read_positive_num_bits_128_output_limb_27, read_positive_num_bits_128_output_limb_28] =
+            ReadPositiveNumBits128::evaluate(
                 (E::F::from(M31::from(self.claim.range_check_builtin_segment_start)) + seq.clone()),
-                value_id_col0.clone(),
-            ],
-        ));
-
-        // Range Check Last Limb Bits In Ms Limb 2.
-
-        // msb is a bit.
-        eval.add_constraint((msb_col16.clone() * (M31_1.clone() - msb_col16.clone())));
-        let bit_before_msb_tmp_c9e8f_3 = eval
-            .add_intermediate((value_limb_14_col15.clone() - (msb_col16.clone() * M31_2.clone())));
-        // bit before msb is a bit.
-        eval.add_constraint(
-            (bit_before_msb_tmp_c9e8f_3.clone()
-                * (M31_1.clone() - bit_before_msb_tmp_c9e8f_3.clone())),
-        );
-
-        eval.add_to_relation(RelationEntry::new(
-            &self.memory_id_to_big_lookup_elements,
-            E::EF::one(),
-            &[
-                value_id_col0.clone(),
-                value_limb_0_col1.clone(),
-                value_limb_1_col2.clone(),
-                value_limb_2_col3.clone(),
-                value_limb_3_col4.clone(),
-                value_limb_4_col5.clone(),
-                value_limb_5_col6.clone(),
-                value_limb_6_col7.clone(),
-                value_limb_7_col8.clone(),
-                value_limb_8_col9.clone(),
-                value_limb_9_col10.clone(),
-                value_limb_10_col11.clone(),
-                value_limb_11_col12.clone(),
-                value_limb_12_col13.clone(),
-                value_limb_13_col14.clone(),
-                value_limb_14_col15.clone(),
-            ],
-        ));
-
+                &mut eval,
+                &self.memory_address_to_id_lookup_elements,
+                &self.memory_id_to_big_lookup_elements,
+            );
         eval.finalize_logup_in_pairs();
         eval
     }

@@ -17,17 +17,15 @@ fn print_statistics(air_fn_name: &str, compiled_fn: CompiledAirFn) {
                 num_lookup_constraints += 1;
             }
             ConstraintEvalStep::Intermediate(..) => {}
-            ConstraintEvalStep::StartBlock(_) => {}
-            ConstraintEvalStep::EndBlock => {}
         }
     }
 
     for deduction in compiled_fn.deductions {
         match deduction {
-            TraceGenStep::Deduction(_) => trace_cells_used += 1,
-            TraceGenStep::Intermediate(..) => {}
             TraceGenStep::StartBlock(_) => {}
             TraceGenStep::EndBlock => {}
+            TraceGenStep::Deduction(_) => trace_cells_used += 1,
+            TraceGenStep::Intermediate(..) => {}
             TraceGenStep::LookupTerm(_) => {}
             TraceGenStep::LookupAddInput {
                 fn_name: _,

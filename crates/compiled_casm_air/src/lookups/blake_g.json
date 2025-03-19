@@ -171,1735 +171,303 @@
   "external_states": [],
   "constraints": [
     {
-      "StartBlock": "Triple Sum 32"
-    },
-    {
       "Intermediate": {
-        "name": "carry_low_tmp_f72c8_1",
-        "type": "M31",
+        "name": "[triple_sum_32_output_limb_0, triple_sum_32_output_limb_1]",
+        "type": "[M31; 2]",
         "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "input_limb_0_col0"
-                        },
-                        "+",
-                        {
-                          "State": "input_limb_2_col2"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "input_limb_8_col8"
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "triple_sum32_res_low_col12"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "32768"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_low_tmp_f72c8_1"
-                  ]
-                },
-                "*",
-                {
-                  "BinaryOp": [
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_low_tmp_f72c8_1"
-                      ]
-                    },
-                    "-",
-                    {
-                      "Const": [
-                        "M31",
-                        "1"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_low_tmp_f72c8_1"
-                  ]
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "2"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "carry low is 0 or 1 or 2"
-      ]
-    },
-    {
-      "Intermediate": {
-        "name": "carry_high_tmp_f72c8_2",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "State": "input_limb_1_col1"
-                            },
-                            "+",
-                            {
-                              "State": "input_limb_3_col3"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "input_limb_9_col9"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_low_tmp_f72c8_1"
-                      ]
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "triple_sum32_res_high_col13"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "32768"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_high_tmp_f72c8_2"
-                  ]
-                },
-                "*",
-                {
-                  "BinaryOp": [
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_high_tmp_f72c8_2"
-                      ]
-                    },
-                    "-",
-                    {
-                      "Const": [
-                        "M31",
-                        "1"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_high_tmp_f72c8_2"
-                  ]
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "2"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "carry high is 0 or 1 or 2"
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Xor Rot 32 R 16"
-    },
-    {
-      "StartBlock": "Bitwise Xor Num Bits 8"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_8",
-        "felts": [
-          {
-            "BinaryOp": [
+          "StaticCall": [
+            "triple_sum_32::evaluate",
+            [
               {
-                "State": "triple_sum32_res_low_col12"
-              },
-              "-",
-              {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "ms_8_bits_col14"
+                    "State": "input_limb_0_col0"
                   },
-                  "*",
                   {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
+                    "State": "input_limb_1_col1"
+                  },
+                  {
+                    "State": "input_limb_2_col2"
+                  },
+                  {
+                    "State": "input_limb_3_col3"
+                  },
+                  {
+                    "State": "input_limb_8_col8"
+                  },
+                  {
+                    "State": "input_limb_9_col9"
                   }
                 ]
               }
             ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "State": "input_limb_6_col6"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col16"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "State": "xor_col18"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 8"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_8",
-        "felts": [
-          {
-            "State": "ms_8_bits_col14"
-          },
-          {
-            "State": "ms_8_bits_col16"
-          },
-          {
-            "State": "xor_col19"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 8"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_8",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "State": "triple_sum32_res_high_col13"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col15"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "State": "input_limb_7_col7"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col17"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "State": "xor_col20"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 8"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_8",
-        "felts": [
-          {
-            "State": "ms_8_bits_col15"
-          },
-          {
-            "State": "ms_8_bits_col17"
-          },
-          {
-            "State": "xor_col21"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "Intermediate": {
-        "name": "xor_rot_16_output_tmp_f72c8_11_limb_0",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col20"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col21"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "256"
-                  ]
-                }
-              ]
-            }
           ]
         }
       }
     },
     {
       "Intermediate": {
-        "name": "xor_rot_16_output_tmp_f72c8_11_limb_1",
-        "type": "M31",
+        "name": "[xor_rot_32_r_16_output_limb_0, xor_rot_32_r_16_output_limb_1]",
+        "type": "[M31; 2]",
         "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col18"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col19"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "256"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Triple Sum 32"
-    },
-    {
-      "Intermediate": {
-        "name": "carry_low_tmp_f72c8_13",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "input_limb_4_col4"
-                    },
-                    "+",
-                    {
-                      "Var": [
-                        "M31",
-                        "xor_rot_16_output_tmp_f72c8_11_limb_0"
-                      ]
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "triple_sum32_res_low_col22"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "32768"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_low_tmp_f72c8_13"
-                  ]
-                },
-                "*",
-                {
-                  "BinaryOp": [
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_low_tmp_f72c8_13"
-                      ]
-                    },
-                    "-",
-                    {
-                      "Const": [
-                        "M31",
-                        "1"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_low_tmp_f72c8_13"
-                  ]
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "2"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "carry low is 0 or 1 or 2"
-      ]
-    },
-    {
-      "Intermediate": {
-        "name": "carry_high_tmp_f72c8_14",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "input_limb_5_col5"
-                        },
-                        "+",
-                        {
-                          "Var": [
-                            "M31",
-                            "xor_rot_16_output_tmp_f72c8_11_limb_1"
-                          ]
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_low_tmp_f72c8_13"
-                      ]
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "triple_sum32_res_high_col23"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "32768"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_high_tmp_f72c8_14"
-                  ]
-                },
-                "*",
-                {
-                  "BinaryOp": [
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_high_tmp_f72c8_14"
-                      ]
-                    },
-                    "-",
-                    {
-                      "Const": [
-                        "M31",
-                        "1"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_high_tmp_f72c8_14"
-                  ]
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "2"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "carry high is 0 or 1 or 2"
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Xor Rot 32 R 12"
-    },
-    {
-      "StartBlock": "Bitwise Xor Num Bits 12"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_12",
-        "felts": [
-          {
-            "BinaryOp": [
+          "StaticCall": [
+            "xor_rot_32_r_16::evaluate",
+            [
               {
-                "State": "input_limb_2_col2"
-              },
-              "-",
-              {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "ms_4_bits_col24"
+                    "State": "triple_sum32_res_low_col12"
                   },
-                  "*",
                   {
-                    "Const": [
-                      "M31",
-                      "4096"
-                    ]
+                    "State": "triple_sum32_res_high_col13"
+                  },
+                  {
+                    "State": "input_limb_6_col6"
+                  },
+                  {
+                    "State": "input_limb_7_col7"
                   }
                 ]
               }
             ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "State": "triple_sum32_res_low_col22"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_4_bits_col26"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "4096"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "State": "xor_col28"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 4"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_4",
-        "felts": [
-          {
-            "State": "ms_4_bits_col24"
-          },
-          {
-            "State": "ms_4_bits_col26"
-          },
-          {
-            "State": "xor_col29"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 12"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_12",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "State": "input_limb_3_col3"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_4_bits_col25"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "4096"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "State": "triple_sum32_res_high_col23"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_4_bits_col27"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "4096"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "State": "xor_col30"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 4"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_4",
-        "felts": [
-          {
-            "State": "ms_4_bits_col25"
-          },
-          {
-            "State": "ms_4_bits_col27"
-          },
-          {
-            "State": "xor_col31"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "Intermediate": {
-        "name": "xor_rot_12_output_tmp_f72c8_23_limb_0",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col29"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col30"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "16"
-                  ]
-                }
-              ]
-            }
           ]
         }
       }
     },
     {
       "Intermediate": {
-        "name": "xor_rot_12_output_tmp_f72c8_23_limb_1",
-        "type": "M31",
+        "name": "[triple_sum_32_output_limb_0, triple_sum_32_output_limb_1]",
+        "type": "[M31; 2]",
         "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col31"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col28"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "16"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Triple Sum 32"
-    },
-    {
-      "Intermediate": {
-        "name": "carry_low_tmp_f72c8_25",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "triple_sum32_res_low_col12"
-                        },
-                        "+",
-                        {
-                          "Var": [
-                            "M31",
-                            "xor_rot_12_output_tmp_f72c8_23_limb_0"
-                          ]
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "input_limb_10_col10"
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "triple_sum32_res_low_col32"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "32768"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_low_tmp_f72c8_25"
-                  ]
-                },
-                "*",
-                {
-                  "BinaryOp": [
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_low_tmp_f72c8_25"
-                      ]
-                    },
-                    "-",
-                    {
-                      "Const": [
-                        "M31",
-                        "1"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_low_tmp_f72c8_25"
-                  ]
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "2"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "carry low is 0 or 1 or 2"
-      ]
-    },
-    {
-      "Intermediate": {
-        "name": "carry_high_tmp_f72c8_26",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "State": "triple_sum32_res_high_col13"
-                            },
-                            "+",
-                            {
-                              "Var": [
-                                "M31",
-                                "xor_rot_12_output_tmp_f72c8_23_limb_1"
-                              ]
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "input_limb_11_col11"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_low_tmp_f72c8_25"
-                      ]
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "triple_sum32_res_high_col33"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "32768"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_high_tmp_f72c8_26"
-                  ]
-                },
-                "*",
-                {
-                  "BinaryOp": [
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_high_tmp_f72c8_26"
-                      ]
-                    },
-                    "-",
-                    {
-                      "Const": [
-                        "M31",
-                        "1"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_high_tmp_f72c8_26"
-                  ]
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "2"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "carry high is 0 or 1 or 2"
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Xor Rot 32 R 8"
-    },
-    {
-      "StartBlock": "Bitwise Xor Num Bits 8"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_8",
-        "felts": [
-          {
-            "BinaryOp": [
+          "StaticCall": [
+            "triple_sum_32::evaluate",
+            [
               {
-                "State": "triple_sum32_res_low_col32"
-              },
-              "-",
-              {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "ms_8_bits_col34"
+                    "State": "input_limb_4_col4"
                   },
-                  "*",
+                  {
+                    "State": "input_limb_5_col5"
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "xor_rot_16_output_tmp_f72c8_11_limb_0"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "xor_rot_16_output_tmp_f72c8_11_limb_1"
+                    ]
+                  },
                   {
                     "Const": [
                       "M31",
-                      "256"
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
                     ]
                   }
                 ]
               }
             ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "xor_rot_16_output_tmp_f72c8_11_limb_0"
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col36"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "State": "xor_col38"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 8"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_8",
-        "felts": [
-          {
-            "State": "ms_8_bits_col34"
-          },
-          {
-            "State": "ms_8_bits_col36"
-          },
-          {
-            "State": "xor_col39"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 8"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_8",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "State": "triple_sum32_res_high_col33"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col35"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "xor_rot_16_output_tmp_f72c8_11_limb_1"
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col37"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "State": "xor_col40"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 8"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_8",
-        "felts": [
-          {
-            "State": "ms_8_bits_col35"
-          },
-          {
-            "State": "ms_8_bits_col37"
-          },
-          {
-            "State": "xor_col41"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "Intermediate": {
-        "name": "xor_rot_8_output_tmp_f72c8_35_limb_0",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col39"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col40"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "256"
-                  ]
-                }
-              ]
-            }
           ]
         }
       }
     },
     {
       "Intermediate": {
-        "name": "xor_rot_8_output_tmp_f72c8_35_limb_1",
-        "type": "M31",
+        "name": "[xor_rot_32_r_12_output_limb_0, xor_rot_32_r_12_output_limb_1]",
+        "type": "[M31; 2]",
         "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col41"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col38"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "256"
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Triple Sum 32"
-    },
-    {
-      "Intermediate": {
-        "name": "carry_low_tmp_f72c8_37",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "triple_sum32_res_low_col22"
-                    },
-                    "+",
-                    {
-                      "Var": [
-                        "M31",
-                        "xor_rot_8_output_tmp_f72c8_35_limb_0"
-                      ]
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "triple_sum32_res_low_col42"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "32768"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_low_tmp_f72c8_37"
-                  ]
-                },
-                "*",
-                {
-                  "BinaryOp": [
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_low_tmp_f72c8_37"
-                      ]
-                    },
-                    "-",
-                    {
-                      "Const": [
-                        "M31",
-                        "1"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_low_tmp_f72c8_37"
-                  ]
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "2"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "carry low is 0 or 1 or 2"
-      ]
-    },
-    {
-      "Intermediate": {
-        "name": "carry_high_tmp_f72c8_38",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "triple_sum32_res_high_col23"
-                        },
-                        "+",
-                        {
-                          "Var": [
-                            "M31",
-                            "xor_rot_8_output_tmp_f72c8_35_limb_1"
-                          ]
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_low_tmp_f72c8_37"
-                      ]
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "triple_sum32_res_high_col43"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "32768"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_high_tmp_f72c8_38"
-                  ]
-                },
-                "*",
-                {
-                  "BinaryOp": [
-                    {
-                      "Var": [
-                        "M31",
-                        "carry_high_tmp_f72c8_38"
-                      ]
-                    },
-                    "-",
-                    {
-                      "Const": [
-                        "M31",
-                        "1"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "carry_high_tmp_f72c8_38"
-                  ]
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "2"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "carry high is 0 or 1 or 2"
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Xor Rot 32 R 7"
-    },
-    {
-      "StartBlock": "Bitwise Xor Num Bits 7"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_7",
-        "felts": [
-          {
-            "BinaryOp": [
+          "StaticCall": [
+            "xor_rot_32_r_12::evaluate",
+            [
               {
-                "Var": [
-                  "M31",
-                  "xor_rot_12_output_tmp_f72c8_23_limb_0"
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
+                "Array": [
                   {
-                    "State": "ms_9_bits_col44"
+                    "State": "input_limb_2_col2"
                   },
-                  "*",
                   {
-                    "Const": [
-                      "M31",
-                      "128"
-                    ]
+                    "State": "input_limb_3_col3"
+                  },
+                  {
+                    "State": "triple_sum32_res_low_col22"
+                  },
+                  {
+                    "State": "triple_sum32_res_high_col23"
                   }
                 ]
               }
             ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "State": "triple_sum32_res_low_col42"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_9_bits_col46"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "128"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "State": "xor_col48"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "ms_9_bits_col44"
-          },
-          {
-            "State": "ms_9_bits_col46"
-          },
-          {
-            "State": "xor_col49"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 7"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_7",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "xor_rot_12_output_tmp_f72c8_23_limb_1"
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_9_bits_col45"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "128"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "State": "triple_sum32_res_high_col43"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_9_bits_col47"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "128"
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "State": "xor_col50"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 9"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyBitwiseXor_9",
-        "felts": [
-          {
-            "State": "ms_9_bits_col45"
-          },
-          {
-            "State": "ms_9_bits_col47"
-          },
-          {
-            "State": "xor_col51"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "Intermediate": {
-        "name": "xor_rot_7_output_tmp_f72c8_47_limb_0",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col49"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col50"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "512"
-                  ]
-                }
-              ]
-            }
           ]
         }
       }
     },
     {
       "Intermediate": {
-        "name": "xor_rot_7_output_tmp_f72c8_47_limb_1",
-        "type": "M31",
+        "name": "[triple_sum_32_output_limb_0, triple_sum_32_output_limb_1]",
+        "type": "[M31; 2]",
         "var": {
-          "BinaryOp": [
-            {
-              "State": "xor_col51"
-            },
-            "+",
-            {
-              "BinaryOp": [
-                {
-                  "State": "xor_col48"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "512"
-                  ]
-                }
-              ]
-            }
+          "StaticCall": [
+            "triple_sum_32::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "triple_sum32_res_low_col12"
+                  },
+                  {
+                    "State": "triple_sum32_res_high_col13"
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "xor_rot_12_output_tmp_f72c8_23_limb_0"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "xor_rot_12_output_tmp_f72c8_23_limb_1"
+                    ]
+                  },
+                  {
+                    "State": "input_limb_10_col10"
+                  },
+                  {
+                    "State": "input_limb_11_col11"
+                  }
+                ]
+              }
+            ]
           ]
         }
       }
     },
-    "EndBlock",
+    {
+      "Intermediate": {
+        "name": "[xor_rot_32_r_8_output_limb_0, xor_rot_32_r_8_output_limb_1]",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "xor_rot_32_r_8::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "triple_sum32_res_low_col32"
+                  },
+                  {
+                    "State": "triple_sum32_res_high_col33"
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "xor_rot_16_output_tmp_f72c8_11_limb_0"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "xor_rot_16_output_tmp_f72c8_11_limb_1"
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "[triple_sum_32_output_limb_0, triple_sum_32_output_limb_1]",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "triple_sum_32::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "triple_sum32_res_low_col22"
+                  },
+                  {
+                    "State": "triple_sum32_res_high_col23"
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "xor_rot_8_output_tmp_f72c8_35_limb_0"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "xor_rot_8_output_tmp_f72c8_35_limb_1"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  },
+                  {
+                    "Const": [
+                      "M31",
+                      "0"
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "[xor_rot_32_r_7_output_limb_0, xor_rot_32_r_7_output_limb_1]",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "xor_rot_32_r_7::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "xor_rot_12_output_tmp_f72c8_23_limb_0"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "xor_rot_12_output_tmp_f72c8_23_limb_1"
+                    ]
+                  },
+                  {
+                    "State": "triple_sum32_res_low_col42"
+                  },
+                  {
+                    "State": "triple_sum32_res_high_col43"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
     {
       "LookupTerm": {
         "relation_name": "BlakeG",

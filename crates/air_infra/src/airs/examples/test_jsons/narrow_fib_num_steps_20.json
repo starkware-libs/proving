@@ -74,885 +74,465 @@
   "external_states": [],
   "constraints": [
     {
-      "StartBlock": "Fib Step"
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col2"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "input_limb_0_col0"
-                    },
-                    "*",
-                    {
-                      "State": "input_limb_0_col0"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "input_limb_1_col1"
-                    },
-                    "*",
-                    {
-                      "State": "input_limb_1_col1"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "input_limb_0_col0"
+                  },
+                  {
+                    "State": "input_limb_1_col1"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col3"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "input_limb_1_col1"
-                    },
-                    "*",
-                    {
-                      "State": "input_limb_1_col1"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col2"
-                    },
-                    "*",
-                    {
-                      "State": "col2"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "input_limb_1_col1"
+                  },
+                  {
+                    "State": "col2"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col4"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col2"
-                    },
-                    "*",
-                    {
-                      "State": "col2"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col3"
-                    },
-                    "*",
-                    {
-                      "State": "col3"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col2"
+                  },
+                  {
+                    "State": "col3"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col5"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col3"
-                    },
-                    "*",
-                    {
-                      "State": "col3"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col4"
-                    },
-                    "*",
-                    {
-                      "State": "col4"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col3"
+                  },
+                  {
+                    "State": "col4"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col6"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col4"
-                    },
-                    "*",
-                    {
-                      "State": "col4"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col5"
-                    },
-                    "*",
-                    {
-                      "State": "col5"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col4"
+                  },
+                  {
+                    "State": "col5"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col7"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col5"
-                    },
-                    "*",
-                    {
-                      "State": "col5"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col6"
-                    },
-                    "*",
-                    {
-                      "State": "col6"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col5"
+                  },
+                  {
+                    "State": "col6"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col8"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col6"
-                    },
-                    "*",
-                    {
-                      "State": "col6"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col7"
-                    },
-                    "*",
-                    {
-                      "State": "col7"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col6"
+                  },
+                  {
+                    "State": "col7"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col9"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col7"
-                    },
-                    "*",
-                    {
-                      "State": "col7"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col8"
-                    },
-                    "*",
-                    {
-                      "State": "col8"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col7"
+                  },
+                  {
+                    "State": "col8"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col10"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col8"
-                    },
-                    "*",
-                    {
-                      "State": "col8"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col9"
-                    },
-                    "*",
-                    {
-                      "State": "col9"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col8"
+                  },
+                  {
+                    "State": "col9"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col11"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col9"
-                    },
-                    "*",
-                    {
-                      "State": "col9"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col10"
-                    },
-                    "*",
-                    {
-                      "State": "col10"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col9"
+                  },
+                  {
+                    "State": "col10"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col12"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col10"
-                    },
-                    "*",
-                    {
-                      "State": "col10"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col11"
-                    },
-                    "*",
-                    {
-                      "State": "col11"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col10"
+                  },
+                  {
+                    "State": "col11"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col13"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col11"
-                    },
-                    "*",
-                    {
-                      "State": "col11"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col12"
-                    },
-                    "*",
-                    {
-                      "State": "col12"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col11"
+                  },
+                  {
+                    "State": "col12"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col14"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col12"
-                    },
-                    "*",
-                    {
-                      "State": "col12"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col13"
-                    },
-                    "*",
-                    {
-                      "State": "col13"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col12"
+                  },
+                  {
+                    "State": "col13"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col15"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col13"
-                    },
-                    "*",
-                    {
-                      "State": "col13"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col14"
-                    },
-                    "*",
-                    {
-                      "State": "col14"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col13"
+                  },
+                  {
+                    "State": "col14"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col16"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col14"
-                    },
-                    "*",
-                    {
-                      "State": "col14"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col15"
-                    },
-                    "*",
-                    {
-                      "State": "col15"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col14"
+                  },
+                  {
+                    "State": "col15"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col17"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col15"
-                    },
-                    "*",
-                    {
-                      "State": "col15"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col16"
-                    },
-                    "*",
-                    {
-                      "State": "col16"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col15"
+                  },
+                  {
+                    "State": "col16"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col18"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col16"
-                    },
-                    "*",
-                    {
-                      "State": "col16"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col17"
-                    },
-                    "*",
-                    {
-                      "State": "col17"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col16"
+                  },
+                  {
+                    "State": "col17"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col19"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col17"
-                    },
-                    "*",
-                    {
-                      "State": "col17"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col18"
-                    },
-                    "*",
-                    {
-                      "State": "col18"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col17"
+                  },
+                  {
+                    "State": "col18"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col20"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col18"
-                    },
-                    "*",
-                    {
-                      "State": "col18"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col19"
-                    },
-                    "*",
-                    {
-                      "State": "col19"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col18"
+                  },
+                  {
+                    "State": "col19"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Fib Step"
+        }
+      }
     },
     {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "col21"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col19"
-                    },
-                    "*",
-                    {
-                      "State": "col19"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "col20"
-                    },
-                    "*",
-                    {
-                      "State": "col20"
-                    }
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "fib_step_output",
+        "type": "M31",
+        "var": {
+          "StaticCall": [
+            "fib_step::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "col19"
+                  },
+                  {
+                    "State": "col20"
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        null
-      ]
+        }
+      }
     },
-    "EndBlock",
     {
       "LookupTerm": {
         "relation_name": "NarrowFibNumSteps20",

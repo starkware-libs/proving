@@ -20,6 +20,9 @@ pub const STATE_VAR_SUFFIX: &str = "col";
 pub const INPUT_VAR_SUFFIX: &str = "input";
 pub const OUTPUT_VAR_SUFFIX: &str = "output";
 
+pub const WRITE_TRACE_FUNCTION_NAME: &str = "write_trace";
+pub const CONSTRAINT_EVAL_FUNCTION_NAME: &str = "evaluate";
+
 impl Display for CompiledAirVar {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {

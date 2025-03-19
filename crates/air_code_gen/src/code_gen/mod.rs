@@ -16,6 +16,15 @@ mod tests {
     use crate::code_gen::utils::{compare_contents_or_fix_with_path, project_root};
 
     fn generate_component_code(air_fn: CompiledAirFn) {
+        for inline_fn in air_fn.inline_calls.keys() {
+            let serialized_inline_air_fn = read_json(&format!(
+                "../compiled_casm_air/src/inlines/{}.json",
+                inline_fn
+            ));
+            let inline_air_fn: CompiledAirFn = from_value(serialized_inline_air_fn).unwrap();
+            generate_component_code(inline_air_fn);
+        }
+
         const COMPONENTS_DIR: &str = "../generated_components/src/components";
         let folder_path = project_root().join(COMPONENTS_DIR);
         compare_contents_or_fix_with_path(air_fn, &folder_path);

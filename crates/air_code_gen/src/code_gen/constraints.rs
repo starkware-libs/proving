@@ -1,20 +1,20 @@
 use std::collections::HashMap;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledIntermediate, ConstraintEvalStep, LookupTerm,
+    CompiledAirFn, CompiledIntermediate, ConstraintEvalStep, LookupTerm, TraceType,
 };
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
 use itertools::chain;
 
+use super::parse::seek_consts;
 use super::utils::{get_const_name, replace_generics_with_turbofish};
 use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
-use crate::code_gen::utils::block_doc;
 
 pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
-        $(imports())
+        $(imports(lists))
         $['\n']
         $(generate_n_trace_columns(lists))
         $['\n']
@@ -30,10 +30,56 @@ pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn imports() -> rust::Tokens {
+pub fn generate_inline_code(lists: &CompiledAirFn) -> rust::Tokens {
+    let name = lists.name.to_case(Case::Pascal);
+    let input_name = lists.verifier_input.0.clone();
+    let input_type = lists.verifier_input.1.clone();
+    let output_type = lists.verifier_output.1.clone().replace("M31", "E::F");
+
     quote! {
-        use crate::components::prelude::constraint_eval::*;
+        $(imports(lists))
+        $['\n']
+        #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
+        pub struct $(name.clone()) {}
+        $['\n']
+        impl $(name) {
+            #[allow(unused_parens)]
+            #[allow(clippy::double_parens)]
+            #[allow(non_snake_case)]
+            #[allow(clippy::unused_unit)]
+                pub fn evaluate<E: EvalAtRow>(
+                    $(input_name.clone()): $(input_type.clone().replace("M31", "E::F")),
+                    eval: &mut E,
+                    $(get_lookup_elements(lists))
+            ) -> $(output_type)
+            {
+                $(generate_evaluate(lists))
+            }
+        }
     }
+}
+
+fn get_lookup_elements(lists: &CompiledAirFn) -> rust::Tokens {
+    let mut code = rust::Tokens::new();
+    for relation in lists.lookup_names.keys() {
+        code.append(quote! {
+            $(relation.to_case(Case::Snake))_lookup_elements: &relations::$(relation),
+        });
+    }
+    code
+}
+
+fn imports(lists: &CompiledAirFn) -> rust::Tokens {
+    let mut res = rust::Tokens::new();
+    res.append(quote! {
+        use crate::components::prelude::constraint_eval::*;
+    });
+    for (inline_fn, _) in &lists.inline_calls {
+        res.append(quote! {
+            use crate::components::$(inline_fn)::component::$(inline_fn.to_case(Case::Pascal));
+        });
+    }
+    res
 }
 
 fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
@@ -163,6 +209,7 @@ fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
             #[allow(unused_parens)]
             #[allow(clippy::double_parens)]
             #[allow(non_snake_case)]
+            #[allow(clippy::unused_unit)]
             fn evaluate<E: EvalAtRow>(&self, mut eval:E) -> E{
                 $(generate_evaluate(lists))
             }
@@ -175,7 +222,8 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     let mut code = rust::Tokens::new();
 
     // Constants.
-    let constants = constraint_consts(&lists.constraints);
+    let mut constants = constraint_consts(&lists.constraints);
+    constants.extend(seek_consts(&lists.verifier_output.0));
     let mut const_names = HashMap::new();
     for (ty, val) in constants.into_iter() {
         let name = get_const_name(&ty, &val);
@@ -223,7 +271,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         }
     }
 
-    code.extend(quote! { $("\n") });
+    code.extend(quote! { $("\n\n") });
 
     for constraint in lists.constraints.iter() {
         match constraint {
@@ -235,7 +283,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 }
                 code.extend(quote! {
                     eval.add_constraint(
-                        $(parse_eval_constraint(expr,&const_names))
+                        $(parse_eval_constraint(lists, expr,&const_names))
                     );
                 });
             }
@@ -243,14 +291,14 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 if r#type == "M31" {
                     code.extend(quote! {
                         let $(name) = eval.add_intermediate(
-                            $(parse_eval_constraint(var,&const_names))
+                            $(parse_eval_constraint(lists, var,&const_names))
                         );
                     });
                 } else {
                     // TODO(alont) consdier producing a warning to indicate that the intermediate
                     // does not translate into expression efficiency.
                     code.extend(quote! {
-                        let $(name) = $(parse_eval_constraint(var,&const_names));
+                        let $(name) = $(parse_eval_constraint(lists, var,&const_names));
                     });
                 }
             }
@@ -261,18 +309,11 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 use_or_yield,
             }) => {
                 code.extend(parse_lookup_constraint(
+                    lists,
                     relation_name,
                     felts,
                     use_or_yield,
                     &const_names,
-                ));
-            }
-            ConstraintEvalStep::StartBlock(msg) => {
-                code.extend(block_doc(msg));
-            }
-            ConstraintEvalStep::EndBlock => {
-                code.extend(quote!(
-                    $['\n']
                 ));
             }
         }
@@ -280,10 +321,18 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             $("\n")
         });
     }
-    code.extend(quote! {
+    if lists.r#type == TraceType::Inline {
+        code.extend(quote! {
 
-        eval.finalize_logup_in_pairs();
-        eval
-    });
+            eval.finalize_logup_in_pairs();
+            $(parse_eval_constraint(lists, &lists.verifier_output.0, &const_names))
+        });
+    } else {
+        code.extend(quote! {
+
+            eval.finalize_logup_in_pairs();
+            eval
+        });
+    }
     code
 }
