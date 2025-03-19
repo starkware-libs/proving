@@ -622,13 +622,23 @@
     "xor_col53"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "range_check_7_2_5",
-    "verify_bitwise_xor_8"
-  ],
-  "n_lookup_terms": 28,
+  "lookup_names": {
+    "RangeCheck_7_2_5": 8,
+    "MemoryAddressToId": 8,
+    "MemoryIdToBig": 8,
+    "VerifyBitwiseXor_8": 4
+  },
+  "inline_calls": {
+    "bitwise_xor_num_bits_8": [
+      "VerifyBitwiseXor_8"
+    ],
+    "read_blake_word": [
+      "MemoryAddressToId",
+      "MemoryIdToBig",
+      "RangeCheck_7_2_5"
+    ],
+    "split_16_low_part_size_8": []
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

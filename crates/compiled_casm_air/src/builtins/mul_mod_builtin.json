@@ -438,14 +438,23 @@
     "carry_61_col409"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "range_check_12",
-    "range_check_18",
-    "range_check_3_6_6_3"
-  ],
-  "n_lookup_terms": 187,
+  "lookup_names": {
+    "MemoryAddressToId": 29,
+    "MemoryIdToBig": 24,
+    "RangeCheck_12": 32,
+    "RangeCheck_3_6_6_3": 40,
+    "RangeCheck_18": 62
+  },
+  "inline_calls": {
+    "double_karatsuba_n_8_limb_max_bound_4095": [],
+    "mod_utils": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ],
+    "mod_words_to_12_bit_array": [
+      "RangeCheck_3_6_6_3"
+    ]
+  },
   "public_params": [
     "MulModBuiltinSegmentStart"
   ],

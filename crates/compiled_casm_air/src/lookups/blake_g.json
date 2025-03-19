@@ -142,14 +142,31 @@
     "xor_col51"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "verify_bitwise_xor_12",
-    "verify_bitwise_xor_4",
-    "verify_bitwise_xor_7",
-    "verify_bitwise_xor_8",
-    "verify_bitwise_xor_9"
-  ],
-  "n_lookup_terms": 17,
+  "lookup_names": {
+    "VerifyBitwiseXor_8": 8,
+    "VerifyBitwiseXor_12": 2,
+    "VerifyBitwiseXor_4": 2,
+    "VerifyBitwiseXor_7": 2,
+    "VerifyBitwiseXor_9": 2,
+    "BlakeG": 1
+  },
+  "inline_calls": {
+    "triple_sum_32": [],
+    "xor_rot_32_r_12": [
+      "VerifyBitwiseXor_12",
+      "VerifyBitwiseXor_4"
+    ],
+    "xor_rot_32_r_16": [
+      "VerifyBitwiseXor_8"
+    ],
+    "xor_rot_32_r_7": [
+      "VerifyBitwiseXor_7",
+      "VerifyBitwiseXor_9"
+    ],
+    "xor_rot_32_r_8": [
+      "VerifyBitwiseXor_8"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

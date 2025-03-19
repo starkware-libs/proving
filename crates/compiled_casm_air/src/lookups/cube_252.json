@@ -921,11 +921,20 @@
     "carry_26_col139"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "range_check_19",
-    "range_check_9_9"
-  ],
-  "n_lookup_terms": 99,
+  "lookup_names": {
+    "RangeCheck_9_9": 42,
+    "RangeCheck_19": 56,
+    "Cube252": 1
+  },
+  "inline_calls": {
+    "felt_252_unpack_from_27_range_check_output": [
+      "RangeCheck_9_9"
+    ],
+    "mul_252": [
+      "RangeCheck_19",
+      "RangeCheck_9_9"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

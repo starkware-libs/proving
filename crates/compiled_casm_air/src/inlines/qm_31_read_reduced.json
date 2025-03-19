@@ -539,12 +539,17 @@
     "delta_cd_inv_col18"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "range_check_4_4_4_4"
-  ],
-  "n_lookup_terms": 3,
+  "lookup_names": {
+    "MemoryAddressToId": 1,
+    "MemoryIdToBig": 1,
+    "RangeCheck_4_4_4_4": 1
+  },
+  "inline_calls": {
+    "read_positive_num_bits_144": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

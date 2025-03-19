@@ -4778,11 +4778,27 @@
     "c3_limb_10_col235"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big"
-  ],
-  "n_lookup_terms": 53,
+  "lookup_names": {
+    "MemoryAddressToId": 29,
+    "MemoryIdToBig": 24
+  },
+  "inline_calls": {
+    "mem_cond_verify_equal_known_id": [
+      "MemoryAddressToId"
+    ],
+    "read_positive_num_bits_27": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ],
+    "read_positive_num_bits_99": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ],
+    "read_small": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

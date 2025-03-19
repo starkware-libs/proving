@@ -30,11 +30,11 @@ pub struct CompiledAirFn {
     // None for chain lookup relations, such as "Opcodes".
     pub padding_type: PaddingType,
 
-    // The names of the lookup relations used and lookup components called.
-    pub lookup_names: BTreeSet<String>,
+    // The names of the lookup relations used/yielded and the number of terms per relation.
+    pub lookup_names: IndexMap<String, usize>,
 
-    // The number of lookup terms (use or yield) in the air function.
-    pub n_lookup_terms: usize,
+    // The names of the air functions that are inlined into this one, and their lookup names.
+    pub inline_calls: IndexMap<String, BTreeSet<String>>,
 
     // The set of public parameters used in the air function.
     pub public_params: BTreeSet<PublicParam>,

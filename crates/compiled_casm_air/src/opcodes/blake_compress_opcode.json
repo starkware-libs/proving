@@ -268,17 +268,38 @@
     "new_state_7_id_col169"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "blake_round",
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "opcodes",
-    "range_check_7_2_5",
-    "triple_xor_32",
-    "verify_bitwise_xor_8",
-    "verify_instruction"
-  ],
-  "n_lookup_terms": 74,
+  "lookup_names": {
+    "VerifyInstruction": 1,
+    "MemoryAddressToId": 20,
+    "MemoryIdToBig": 20,
+    "RangeCheck_7_2_5": 17,
+    "VerifyBitwiseXor_8": 4,
+    "BlakeRound": 2,
+    "TripleXor32": 8,
+    "Opcodes": 2
+  },
+  "inline_calls": {
+    "create_blake_output": [
+      "TripleXor32"
+    ],
+    "create_blake_round_input": [
+      "MemoryAddressToId",
+      "MemoryIdToBig",
+      "RangeCheck_7_2_5",
+      "VerifyBitwiseXor_8"
+    ],
+    "decode_blake_opcode": [
+      "MemoryAddressToId",
+      "MemoryIdToBig",
+      "RangeCheck_7_2_5",
+      "VerifyInstruction"
+    ],
+    "verify_blake_word": [
+      "MemoryAddressToId",
+      "MemoryIdToBig",
+      "RangeCheck_7_2_5"
+    ]
+  },
   "public_params": [],
   "external_states": [
     [

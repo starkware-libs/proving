@@ -375,18 +375,37 @@
     "output_state_2_id_col346"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "cube_252",
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "poseidon_3_partial_rounds_chain",
-    "poseidon_full_round_chain",
-    "range_check_3_3_3_3_3",
-    "range_check_4_4",
-    "range_check_4_4_4_4",
-    "range_check_felt_252_width_27"
-  ],
-  "n_lookup_terms": 33,
+  "lookup_names": {
+    "MemoryAddressToId": 6,
+    "MemoryIdToBig": 6,
+    "PoseidonFullRoundChain": 4,
+    "RangeCheckFelt252Width27": 2,
+    "Cube252": 2,
+    "RangeCheck_3_3_3_3_3": 2,
+    "RangeCheck_4_4_4_4": 6,
+    "RangeCheck_4_4": 3,
+    "Poseidon3PartialRoundsChain": 2
+  },
+  "inline_calls": {
+    "felt_252_unpack_from_27": [],
+    "mem_verify": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ],
+    "poseidon_hades_permutation": [
+      "Cube252",
+      "Poseidon3PartialRoundsChain",
+      "PoseidonFullRoundChain",
+      "RangeCheckFelt252Width27",
+      "RangeCheck_3_3_3_3_3",
+      "RangeCheck_4_4",
+      "RangeCheck_4_4_4_4"
+    ],
+    "read_positive_num_bits_252": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ]
+  },
   "public_params": [
     "PoseidonBuiltinSegmentStart"
   ],

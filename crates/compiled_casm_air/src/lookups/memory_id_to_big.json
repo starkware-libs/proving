@@ -233,10 +233,15 @@
     "memory_id_to_big_output_col27"
   ],
   "padding_type": "Multiplicity",
-  "lookup_names": [
-    "range_check_9_9"
-  ],
-  "n_lookup_terms": 15,
+  "lookup_names": {
+    "RangeCheck_9_9": 14,
+    "MemoryIdToBig": 1
+  },
+  "inline_calls": {
+    "range_check_mem_value_n_28": [
+      "RangeCheck_9_9"
+    ]
+  },
   "public_params": [],
   "external_states": [
     [

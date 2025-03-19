@@ -44,12 +44,18 @@
     "id_col5"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "range_check_7_2_5"
-  ],
-  "n_lookup_terms": 3,
+  "lookup_names": {
+    "RangeCheck_7_2_5": 1,
+    "MemoryAddressToId": 1,
+    "MemoryIdToBig": 1
+  },
+  "inline_calls": {
+    "verify_blake_word": [
+      "MemoryAddressToId",
+      "MemoryIdToBig",
+      "RangeCheck_7_2_5"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

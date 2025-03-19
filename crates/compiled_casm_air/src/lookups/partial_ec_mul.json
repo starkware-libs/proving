@@ -823,13 +823,18 @@
     "sub_p_bit_col470"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "partial_ec_mul",
-    "pedersen_points_table",
-    "range_check_19",
-    "range_check_9_9"
-  ],
-  "n_lookup_terms": 213,
+  "lookup_names": {
+    "PedersenPointsTable": 1,
+    "RangeCheck_9_9": 126,
+    "RangeCheck_19": 84,
+    "PartialEcMul": 2
+  },
+  "inline_calls": {
+    "ec_add": [
+      "RangeCheck_19",
+      "RangeCheck_9_9"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

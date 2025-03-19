@@ -6,7 +6,6 @@ use compiled_casm_air::compiled_structs::{
 };
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
-use convert_case::{Case, Casing};
 use indexmap::IndexMap;
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::ProverType;
@@ -421,27 +420,25 @@ impl AirBody {
         constraints
     }
 
-    // Returns the names of the lookup relations used and lookup components called by the air
-    // function.
-    pub fn get_lookup_names(&self) -> BTreeSet<String> {
-        let mut lookup_calls = BTreeSet::new();
-        // for deduction in deductions {
+    // Returns the names of the lookup relations used or yielded by the air function, and the number
+    // of terms per relation.
+    pub fn get_lookup_names(&self) -> IndexMap<String, usize> {
+        let mut lookup_calls = IndexMap::new();
         for component in &self.0 {
             match component {
                 AirBodyComponent::Call(f) => {
-                    lookup_calls.extend(f.air_body.get_lookup_names());
-                }
-                AirBodyComponent::LookupCall(LookupCall { air_fn_name, .. }) => {
-                    lookup_calls.insert(air_fn_name.clone());
+                    for (relation_name, n_uses) in f.air_body.get_lookup_names() {
+                        let v = lookup_calls.entry(relation_name.clone()).or_insert(0);
+                        *v += n_uses;
+                    }
                 }
                 AirBodyComponent::LookupTerm {
                     relation_name,
-                    use_or_yield,
+                    use_or_yield: _,
                     ..
                 } => {
-                    if *use_or_yield == UseOrYield::Use {
-                        lookup_calls.insert(relation_name.to_case(Case::Snake));
-                    }
+                    let v = lookup_calls.entry(relation_name.clone()).or_insert(0);
+                    *v += 1;
                 }
                 _ => (),
             }
@@ -449,16 +446,14 @@ impl AirBody {
         lookup_calls
     }
 
-    // Sums the number of uses and yields.
-    pub fn get_n_lookup_terms(&self) -> usize {
-        self.0
-            .iter()
-            .map(|comp| match comp {
-                AirBodyComponent::Call(f) => f.air_body.get_n_lookup_terms(),
-                AirBodyComponent::LookupTerm { .. } => 1,
-                _ => 0,
-            })
-            .sum()
+    pub fn get_inline_calls(&self) -> BTreeSet<String> {
+        let mut inline_calls = BTreeSet::new();
+        for component in &self.0 {
+            if let AirBodyComponent::Call(call) = component {
+                inline_calls.insert(call.air_fn_name.clone());
+            }
+        }
+        inline_calls
     }
 
     // Counts the inputs added per lookup. This is an upper bound on the number of rows.

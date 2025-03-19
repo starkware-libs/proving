@@ -797,12 +797,17 @@
     "id_col29"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "range_check_5_4"
-  ],
-  "n_lookup_terms": 3,
+  "lookup_names": {
+    "RangeCheck_5_4": 1,
+    "MemoryAddressToId": 1,
+    "MemoryIdToBig": 1
+  },
+  "inline_calls": {
+    "mem_verify": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

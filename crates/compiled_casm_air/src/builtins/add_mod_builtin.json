@@ -279,11 +279,16 @@
     "carry_13_col250"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big"
-  ],
-  "n_lookup_terms": 53,
+  "lookup_names": {
+    "MemoryAddressToId": 29,
+    "MemoryIdToBig": 24
+  },
+  "inline_calls": {
+    "mod_utils": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ]
+  },
   "public_params": [
     "AddModBuiltinSegmentStart"
   ],

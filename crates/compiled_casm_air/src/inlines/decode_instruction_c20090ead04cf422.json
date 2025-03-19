@@ -268,12 +268,10 @@
     "ap_update_add_1_col3"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "verify_instruction"
-  ],
-  "n_lookup_terms": 1,
+  "lookup_names": {
+    "VerifyInstruction": 1
+  },
+  "inline_calls": {},
   "public_params": [],
   "external_states": [],
   "constraints": [

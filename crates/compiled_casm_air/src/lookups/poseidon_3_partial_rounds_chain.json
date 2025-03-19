@@ -380,15 +380,22 @@
     "p_coef_col167"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "cube_252",
-    "poseidon_3_partial_rounds_chain",
-    "poseidon_round_keys",
-    "range_check_4_4",
-    "range_check_4_4_4_4",
-    "range_check_felt_252_width_27"
-  ],
-  "n_lookup_terms": 18,
+  "lookup_names": {
+    "PoseidonRoundKeys": 1,
+    "Cube252": 3,
+    "RangeCheck_4_4_4_4": 6,
+    "RangeCheck_4_4": 3,
+    "RangeCheckFelt252Width27": 3,
+    "Poseidon3PartialRoundsChain": 2
+  },
+  "inline_calls": {
+    "poseidon_partial_round": [
+      "Cube252",
+      "RangeCheckFelt252Width27",
+      "RangeCheck_4_4",
+      "RangeCheck_4_4_4_4"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

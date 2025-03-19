@@ -64,10 +64,16 @@
     "xor_col19"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "verify_bitwise_xor_8"
-  ],
-  "n_lookup_terms": 9,
+  "lookup_names": {
+    "VerifyBitwiseXor_8": 8,
+    "TripleXor32": 1
+  },
+  "inline_calls": {
+    "bitwise_xor_num_bits_8": [
+      "VerifyBitwiseXor_8"
+    ],
+    "split_16_low_part_size_8": []
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

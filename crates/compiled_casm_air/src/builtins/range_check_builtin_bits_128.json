@@ -45,11 +45,16 @@
     "msb_col16"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big"
-  ],
-  "n_lookup_terms": 2,
+  "lookup_names": {
+    "MemoryAddressToId": 1,
+    "MemoryIdToBig": 1
+  },
+  "inline_calls": {
+    "read_positive_num_bits_128": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ]
+  },
   "public_params": [
     "RangeCheckBuiltinSegmentStart"
   ],

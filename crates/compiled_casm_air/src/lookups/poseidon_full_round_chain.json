@@ -301,13 +301,23 @@
     "p_coef_col124"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "cube_252",
-    "poseidon_full_round_chain",
-    "poseidon_round_keys",
-    "range_check_3_3_3_3_3"
-  ],
-  "n_lookup_terms": 12,
+  "lookup_names": {
+    "Cube252": 3,
+    "PoseidonRoundKeys": 1,
+    "RangeCheck_3_3_3_3_3": 6,
+    "PoseidonFullRoundChain": 2
+  },
+  "inline_calls": {
+    "linear_combination_n_4_coefs_1_1_m2_1": [
+      "RangeCheck_3_3_3_3_3"
+    ],
+    "linear_combination_n_4_coefs_1_m1_1_1": [
+      "RangeCheck_3_3_3_3_3"
+    ],
+    "linear_combination_n_4_coefs_3_1_1_1": [
+      "RangeCheck_3_3_3_3_3"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

@@ -52,7 +52,7 @@ impl RustProverGen {
         let constants = deduction_consts(&lists.deductions);
         let add_input_mults = add_inputs_mults(&lists.deductions);
         let lookup_terms = filter_lookup_terms(&lists.deductions);
-        let relation_calls = unique_relation_calls(&lookup_terms);
+        let relation_calls = lists.lookup_names.keys().cloned().collect::<Vec<_>>();
 
         Self {
             lists,
@@ -953,15 +953,6 @@ fn context(deductions: &[TraceGenStep]) -> Vec<String> {
             TraceGenStep::LookupAddInput { fn_name, .. } => Some(fn_name.to_string()),
             _ => None,
         })
-        .sorted()
-        .dedup()
-        .collect()
-}
-
-fn unique_relation_calls(lookup_terms: &[LookupTerm]) -> Vec<String> {
-    lookup_terms
-        .iter()
-        .map(|lookup_term| lookup_term.relation_name.clone())
         .sorted()
         .dedup()
         .collect()

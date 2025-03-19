@@ -226,14 +226,25 @@
     "carry_26_col127"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "opcodes",
-    "range_check_19",
-    "verify_instruction"
-  ],
-  "n_lookup_terms": 37,
+  "lookup_names": {
+    "VerifyInstruction": 1,
+    "MemoryAddressToId": 3,
+    "MemoryIdToBig": 3,
+    "RangeCheck_19": 28,
+    "Opcodes": 2
+  },
+  "inline_calls": {
+    "decode_instruction_47e4acf59800d76c": [
+      "VerifyInstruction"
+    ],
+    "read_positive_num_bits_252": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ],
+    "verify_mul_252": [
+      "RangeCheck_19"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

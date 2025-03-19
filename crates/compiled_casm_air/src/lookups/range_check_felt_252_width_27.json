@@ -47,11 +47,12 @@
     "limb_8_high_part_col18"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "range_check_18",
-    "range_check_9_9"
-  ],
-  "n_lookup_terms": 15,
+  "lookup_names": {
+    "RangeCheck_9_9": 5,
+    "RangeCheck_18": 9,
+    "RangeCheckFelt252Width27": 1
+  },
+  "inline_calls": {},
   "public_params": [],
   "external_states": [],
   "constraints": [

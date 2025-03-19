@@ -52,11 +52,19 @@
     "xor_col7"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "verify_bitwise_xor_12",
-    "verify_bitwise_xor_4"
-  ],
-  "n_lookup_terms": 4,
+  "lookup_names": {
+    "VerifyBitwiseXor_12": 2,
+    "VerifyBitwiseXor_4": 2
+  },
+  "inline_calls": {
+    "bitwise_xor_num_bits_12": [
+      "VerifyBitwiseXor_12"
+    ],
+    "bitwise_xor_num_bits_4": [
+      "VerifyBitwiseXor_4"
+    ],
+    "split_16_low_part_size_12": []
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

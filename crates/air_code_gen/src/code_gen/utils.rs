@@ -1,10 +1,7 @@
-use std::collections::HashSet;
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, ConstraintEvalStep, LookupTerm,
-};
+use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar};
 use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
@@ -113,29 +110,6 @@ pub fn remove_trailing_zeroes(felts: &[CompiledAirVar]) -> Vec<CompiledAirVar> {
         felts.pop();
     }
     felts
-}
-
-pub fn relation_calls_from_constraints(constraints: &[ConstraintEvalStep]) -> Vec<String> {
-    constraints
-        .iter()
-        .filter_map(|constraint| {
-            if let ConstraintEvalStep::LookupTerm(LookupTerm { relation_name, .. }) = constraint {
-                Some(relation_name.clone())
-            } else {
-                None
-            }
-        })
-        .collect()
-}
-
-pub fn unique_constraint_relations(constraints: &[ConstraintEvalStep]) -> Vec<String> {
-    let relations = relation_calls_from_constraints(constraints);
-    let mut seen_relation = HashSet::new();
-    relations
-        .into_iter()
-        .filter(|relation| seen_relation.insert(relation.clone()))
-        .sorted()
-        .collect()
 }
 
 pub fn get_const_name(ty: &str, val: &str) -> String {
