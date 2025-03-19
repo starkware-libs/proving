@@ -1,5 +1,5 @@
 #![allow(unused_parens)]
-use super::component::{Claim, InteractionClaim};
+use super::component::{Claim, InteractionClaim, N_TRACE_COLUMNS};
 use crate::components::prelude::proving::*;
 use crate::components::{
     memory_address_to_id, memory_id_to_big, range_check_4_3, range_check_7_2_5,
@@ -7,7 +7,6 @@ use crate::components::{
 
 pub type InputType = (M31, [M31; 3], [M31; 2], M31);
 pub type PackedInputType = (PackedM31, [PackedM31; 3], [PackedM31; 2], PackedM31);
-const N_TRACE_COLUMNS: usize = 16;
 
 #[derive(Default)]
 pub struct ClaimGenerator {
