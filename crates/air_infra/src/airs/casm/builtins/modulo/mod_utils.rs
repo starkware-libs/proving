@@ -109,7 +109,7 @@ impl AirFn for ModUtils {
             },
             CasmAddress::new(values_ptr_addr, "values_ptr"),
         );
-        let [offsets_ptr_val, offsets_ptr_val_prev, n_val, n_val_prev_nominal] = [
+        let [offsets_ptr_val, offsets_ptr_val_prev, n_val, n_val_prev] = [
             (offsets_ptr_addr, "offsets_ptr"),
             (offsets_ptr_addr_prev, "offsets_ptr_prev"),
             // n is not an address, but it should be no greater than the maximal address.
@@ -126,15 +126,11 @@ impl AirFn for ModUtils {
         .try_into()
         .expect("Conversion to array failed.");
 
-        // If instance 0, then n_val_prev = 1, else n_val_prev = n_val_prev_nominal
-        let n_val_prev = ab.let_(
-            n_val_prev_nominal * (const_expr!(1) - is_instance_0.as_felt())
-                + is_instance_0.as_felt(),
-            "n_val_prev",
-        );
         // Condition for block reset, i.e. when the input variables can progress arbitrarily.
-        let block_reset_condition =
-            ab.let_(n_val_prev.clone() - const_expr!(1), "block_reset_condition");
+        let block_reset_condition = ab.let_(
+            (n_val_prev.clone() - const_expr!(1)) * (is_instance_0.as_felt() - const_expr!(1)),
+            "block_reset_condition",
+        );
         // Constrain the values of n, offsets_ptr, values_ptr to be consistent with the previous
         // instance.
         ab.constrain(
