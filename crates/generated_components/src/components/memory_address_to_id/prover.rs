@@ -17,11 +17,11 @@ impl ClaimGenerator {
         todo!()
     }
 
-    pub fn add_inputs(&self, addresses: &[InputType]) {
+    pub fn add_packed_inputs(&self, addresses: &[PackedInputType]) {
         todo!()
     }
 
-    pub fn add_input(&self, input: &InputType) {
+    pub fn add_packed_input(&self, input: &PackedInputType) {
         todo!()
     }
 

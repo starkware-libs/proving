@@ -9,7 +9,6 @@ pub mod proving {
     pub use stwo_air_utils_derive::{IterMut, ParIterMut, Uninitialized};
     pub use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
     pub use stwo_prover::constraint_framework::Relation;
-    pub use stwo_prover::core::backend::simd::conversion::Unpack;
     pub use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
     pub use stwo_prover::core::backend::simd::qm31::PackedQM31;
     pub use stwo_prover::core::backend::simd::SimdBackend;

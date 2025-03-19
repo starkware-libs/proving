@@ -115,8 +115,7 @@ fn write_trace_simd(
                     [M31_32767, M31_32767, M31_32769],
                     [M31_56, M31_16],
                     M31_0,
-                )
-                    .unpack();
+                );
                 *lookup_data.verify_instruction_0 = [
                     input_pc_col0,
                     M31_32767,
@@ -135,7 +134,7 @@ fn write_trace_simd(
                     memory_id_to_big_state.deduce_output(memory_address_to_id_value_tmp_f4f1f_2);
                 let op1_id_col3 = memory_address_to_id_value_tmp_f4f1f_2;
                 *row[3] = op1_id_col3;
-                let memory_address_to_id_inputs_0 = ((input_pc_col0) + (M31_1)).unpack();
+                let memory_address_to_id_inputs_0 = ((input_pc_col0) + (M31_1));
                 *lookup_data.memory_address_to_id_0 = [((input_pc_col0) + (M31_1)), op1_id_col3];
 
                 // Cond Decode Small Sign.
@@ -154,7 +153,7 @@ fn write_trace_simd(
                 *row[7] = op1_limb_1_col7;
                 let op1_limb_2_col8 = memory_id_to_big_value_tmp_f4f1f_3.get_m31(2);
                 *row[8] = op1_limb_2_col8;
-                let memory_id_to_big_inputs_0 = op1_id_col3.unpack();
+                let memory_id_to_big_inputs_0 = op1_id_col3;
                 *lookup_data.memory_id_to_big_0 = [
                     op1_id_col3,
                     op1_limb_0_col6,
@@ -200,9 +199,9 @@ fn write_trace_simd(
                 *row[9] = padding_col.packed_at(row_index);
 
                 // Add sub-components inputs.
-                verify_instruction_state.add_inputs(&verify_instruction_inputs_0);
-                memory_address_to_id_state.add_inputs(&memory_address_to_id_inputs_0);
-                memory_id_to_big_state.add_inputs(&memory_id_to_big_inputs_0);
+                verify_instruction_state.add_packed_input(&verify_instruction_inputs_0);
+                memory_address_to_id_state.add_packed_input(&memory_address_to_id_inputs_0);
+                memory_id_to_big_state.add_packed_input(&memory_id_to_big_inputs_0);
             },
         );
 

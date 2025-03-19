@@ -55,14 +55,12 @@ impl ClaimGenerator {
         )
     }
 
-    pub fn add_input(&self, input: &InputType) {
+    pub fn add_packed_input(&self, input: &PackedInputType) {
         unimplemented!("Implement manually");
     }
 
-    pub fn add_inputs(&self, inputs: &[InputType]) {
-        for input in inputs {
-            self.add_input(input);
-        }
+    pub fn add_packed_inputs(&self, inputs: &[PackedInputType]) {
+        unimplemented!("Implement manually");
     }
 }
 
@@ -158,10 +156,10 @@ fn write_trace_simd(
                 let offset2_high_col14 = offset2_high_tmp_16a4f_7.as_m31();
                 *row[14] = offset2_high_col14;
                 let range_check_7_2_5_inputs_0 =
-                    [offset0_mid_col8, offset1_low_col9, offset1_high_col11].unpack();
+                    [offset0_mid_col8, offset1_low_col9, offset1_high_col11];
                 *lookup_data.range_check_7_2_5_0 =
                     [offset0_mid_col8, offset1_low_col9, offset1_high_col11];
-                let range_check_4_3_inputs_0 = [offset2_low_col12, offset2_high_col14].unpack();
+                let range_check_4_3_inputs_0 = [offset2_low_col12, offset2_high_col14];
                 *lookup_data.range_check_4_3_0 = [offset2_low_col12, offset2_high_col14];
 
                 // Mem Verify.
@@ -170,9 +168,9 @@ fn write_trace_simd(
                     memory_address_to_id_state.deduce_output(input_limb_0_col0);
                 let instruction_id_col15 = memory_address_to_id_value_tmp_16a4f_8;
                 *row[15] = instruction_id_col15;
-                let memory_address_to_id_inputs_0 = input_limb_0_col0.unpack();
+                let memory_address_to_id_inputs_0 = input_limb_0_col0;
                 *lookup_data.memory_address_to_id_0 = [input_limb_0_col0, instruction_id_col15];
-                let memory_id_to_big_inputs_0 = instruction_id_col15.unpack();
+                let memory_id_to_big_inputs_0 = instruction_id_col15;
                 *lookup_data.memory_id_to_big_0 = [
                     instruction_id_col15,
                     offset0_low_col7,
@@ -216,10 +214,10 @@ fn write_trace_simd(
                 ];
 
                 // Add sub-components inputs.
-                range_check_7_2_5_state.add_inputs(&range_check_7_2_5_inputs_0);
-                range_check_4_3_state.add_inputs(&range_check_4_3_inputs_0);
-                memory_address_to_id_state.add_inputs(&memory_address_to_id_inputs_0);
-                memory_id_to_big_state.add_inputs(&memory_id_to_big_inputs_0);
+                range_check_7_2_5_state.add_packed_input(&range_check_7_2_5_inputs_0);
+                range_check_4_3_state.add_packed_input(&range_check_4_3_inputs_0);
+                memory_address_to_id_state.add_packed_input(&memory_address_to_id_inputs_0);
+                memory_id_to_big_state.add_packed_input(&memory_id_to_big_inputs_0);
             },
         );
 
