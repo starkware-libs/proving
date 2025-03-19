@@ -29,7 +29,7 @@ impl ClaimGenerator {
         self.inputs.resize(size, *self.inputs.first().unwrap());
         let packed_inputs = pack_values(&self.inputs);
 
-        let (trace, lookup_data) = write_trace_simd(n_rows, packed_inputs);
+        let (trace, lookup_data, sub_component_inputs) = write_trace_simd(n_rows, packed_inputs);
         tree_builder.extend_evals(trace.to_evals());
 
         (
@@ -50,10 +50,16 @@ impl ClaimGenerator {
     }
 }
 
+struct SubComponentInputs {}
+
 fn write_trace_simd(
     n_rows: usize,
     inputs: Vec<PackedInputType>,
-) -> (ComponentTrace<N_TRACE_COLUMNS>, LookupData) {
+) -> (
+    ComponentTrace<N_TRACE_COLUMNS>,
+    LookupData,
+    SubComponentInputs,
+) {
     unimplemented!()
 }
 
