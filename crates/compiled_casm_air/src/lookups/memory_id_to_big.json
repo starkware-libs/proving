@@ -251,205 +251,106 @@
   ],
   "constraints": [
     {
-      "StartBlock": "Range Check Mem Value N 28"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col0"
-          },
-          {
-            "State": "memory_id_to_big_output_col1"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "()",
+        "type": "()",
+        "var": {
+          "StaticCall": [
+            "range_check_mem_value_n_28::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "memory_id_to_big_output_col0"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col1"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col2"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col3"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col4"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col5"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col6"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col7"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col8"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col9"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col10"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col11"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col12"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col13"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col14"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col15"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col16"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col17"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col18"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col19"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col20"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col21"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col22"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col23"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col24"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col25"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col26"
+                  },
+                  {
+                    "State": "memory_id_to_big_output_col27"
+                  }
+                ]
+              }
+            ]
+          ]
+        }
       }
     },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col2"
-          },
-          {
-            "State": "memory_id_to_big_output_col3"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col4"
-          },
-          {
-            "State": "memory_id_to_big_output_col5"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col6"
-          },
-          {
-            "State": "memory_id_to_big_output_col7"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col8"
-          },
-          {
-            "State": "memory_id_to_big_output_col9"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col10"
-          },
-          {
-            "State": "memory_id_to_big_output_col11"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col12"
-          },
-          {
-            "State": "memory_id_to_big_output_col13"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col14"
-          },
-          {
-            "State": "memory_id_to_big_output_col15"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col16"
-          },
-          {
-            "State": "memory_id_to_big_output_col17"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col18"
-          },
-          {
-            "State": "memory_id_to_big_output_col19"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col20"
-          },
-          {
-            "State": "memory_id_to_big_output_col21"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col22"
-          },
-          {
-            "State": "memory_id_to_big_output_col23"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col24"
-          },
-          {
-            "State": "memory_id_to_big_output_col25"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_9_9",
-        "felts": [
-          {
-            "State": "memory_id_to_big_output_col26"
-          },
-          {
-            "State": "memory_id_to_big_output_col27"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
     {
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",

@@ -627,2778 +627,416 @@
       }
     },
     {
-      "StartBlock": "Linear Combination N 4 Coefs 3 1 1 1"
-    },
-    {
       "Intermediate": {
-        "name": "carry_0_tmp_f9fbc_6",
-        "type": "M31",
+        "name": "[linear_combination_n_4_coefs_3_1_1_1_output_limb_0, linear_combination_n_4_coefs_3_1_1_1_output_limb_1, linear_combination_n_4_coefs_3_1_1_1_output_limb_2, linear_combination_n_4_coefs_3_1_1_1_output_limb_3, linear_combination_n_4_coefs_3_1_1_1_output_limb_4, linear_combination_n_4_coefs_3_1_1_1_output_limb_5, linear_combination_n_4_coefs_3_1_1_1_output_limb_6, linear_combination_n_4_coefs_3_1_1_1_output_limb_7, linear_combination_n_4_coefs_3_1_1_1_output_limb_8, linear_combination_n_4_coefs_3_1_1_1_output_limb_9]",
+        "type": "[M31; 10]",
         "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "0"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "combination_limb_0_col92"
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "3"
-                                      ]
-                                    },
-                                    "*",
-                                    {
-                                      "State": "cube_252_output_limb_0_col32"
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_0_col42"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_0_col52"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "poseidon_round_keys_output_limb_0_col62"
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "p_coef_col102"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
+          "StaticCall": [
+            "linear_combination_n_4_coefs_3_1_1_1::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "cube_252_output_limb_0_col32"
+                  },
+                  {
+                    "State": "cube_252_output_limb_1_col33"
+                  },
+                  {
+                    "State": "cube_252_output_limb_2_col34"
+                  },
+                  {
+                    "State": "cube_252_output_limb_3_col35"
+                  },
+                  {
+                    "State": "cube_252_output_limb_4_col36"
+                  },
+                  {
+                    "State": "cube_252_output_limb_5_col37"
+                  },
+                  {
+                    "State": "cube_252_output_limb_6_col38"
+                  },
+                  {
+                    "State": "cube_252_output_limb_7_col39"
+                  },
+                  {
+                    "State": "cube_252_output_limb_8_col40"
+                  },
+                  {
+                    "State": "cube_252_output_limb_9_col41"
+                  },
+                  {
+                    "State": "cube_252_output_limb_0_col42"
+                  },
+                  {
+                    "State": "cube_252_output_limb_1_col43"
+                  },
+                  {
+                    "State": "cube_252_output_limb_2_col44"
+                  },
+                  {
+                    "State": "cube_252_output_limb_3_col45"
+                  },
+                  {
+                    "State": "cube_252_output_limb_4_col46"
+                  },
+                  {
+                    "State": "cube_252_output_limb_5_col47"
+                  },
+                  {
+                    "State": "cube_252_output_limb_6_col48"
+                  },
+                  {
+                    "State": "cube_252_output_limb_7_col49"
+                  },
+                  {
+                    "State": "cube_252_output_limb_8_col50"
+                  },
+                  {
+                    "State": "cube_252_output_limb_9_col51"
+                  },
+                  {
+                    "State": "cube_252_output_limb_0_col52"
+                  },
+                  {
+                    "State": "cube_252_output_limb_1_col53"
+                  },
+                  {
+                    "State": "cube_252_output_limb_2_col54"
+                  },
+                  {
+                    "State": "cube_252_output_limb_3_col55"
+                  },
+                  {
+                    "State": "cube_252_output_limb_4_col56"
+                  },
+                  {
+                    "State": "cube_252_output_limb_5_col57"
+                  },
+                  {
+                    "State": "cube_252_output_limb_6_col58"
+                  },
+                  {
+                    "State": "cube_252_output_limb_7_col59"
+                  },
+                  {
+                    "State": "cube_252_output_limb_8_col60"
+                  },
+                  {
+                    "State": "cube_252_output_limb_9_col61"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_0_col62"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_1_col63"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_2_col64"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_3_col65"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_4_col66"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_5_col67"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_6_col68"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_7_col69"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_8_col70"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_9_col71"
+                  }
+                ]
+              }
+            ]
           ]
         }
       }
     },
     {
       "Intermediate": {
-        "name": "carry_1_tmp_f9fbc_7",
-        "type": "M31",
+        "name": "[linear_combination_n_4_coefs_1_m1_1_1_output_limb_0, linear_combination_n_4_coefs_1_m1_1_1_output_limb_1, linear_combination_n_4_coefs_1_m1_1_1_output_limb_2, linear_combination_n_4_coefs_1_m1_1_1_output_limb_3, linear_combination_n_4_coefs_1_m1_1_1_output_limb_4, linear_combination_n_4_coefs_1_m1_1_1_output_limb_5, linear_combination_n_4_coefs_1_m1_1_1_output_limb_6, linear_combination_n_4_coefs_1_m1_1_1_output_limb_7, linear_combination_n_4_coefs_1_m1_1_1_output_limb_8, linear_combination_n_4_coefs_1_m1_1_1_output_limb_9]",
+        "type": "[M31; 10]",
         "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_0_tmp_f9fbc_6"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_1_col93"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_1_col33"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_1_col43"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_1_col53"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_1_col63"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
+          "StaticCall": [
+            "linear_combination_n_4_coefs_1_m1_1_1::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "cube_252_output_limb_0_col32"
+                  },
+                  {
+                    "State": "cube_252_output_limb_1_col33"
+                  },
+                  {
+                    "State": "cube_252_output_limb_2_col34"
+                  },
+                  {
+                    "State": "cube_252_output_limb_3_col35"
+                  },
+                  {
+                    "State": "cube_252_output_limb_4_col36"
+                  },
+                  {
+                    "State": "cube_252_output_limb_5_col37"
+                  },
+                  {
+                    "State": "cube_252_output_limb_6_col38"
+                  },
+                  {
+                    "State": "cube_252_output_limb_7_col39"
+                  },
+                  {
+                    "State": "cube_252_output_limb_8_col40"
+                  },
+                  {
+                    "State": "cube_252_output_limb_9_col41"
+                  },
+                  {
+                    "State": "cube_252_output_limb_0_col42"
+                  },
+                  {
+                    "State": "cube_252_output_limb_1_col43"
+                  },
+                  {
+                    "State": "cube_252_output_limb_2_col44"
+                  },
+                  {
+                    "State": "cube_252_output_limb_3_col45"
+                  },
+                  {
+                    "State": "cube_252_output_limb_4_col46"
+                  },
+                  {
+                    "State": "cube_252_output_limb_5_col47"
+                  },
+                  {
+                    "State": "cube_252_output_limb_6_col48"
+                  },
+                  {
+                    "State": "cube_252_output_limb_7_col49"
+                  },
+                  {
+                    "State": "cube_252_output_limb_8_col50"
+                  },
+                  {
+                    "State": "cube_252_output_limb_9_col51"
+                  },
+                  {
+                    "State": "cube_252_output_limb_0_col52"
+                  },
+                  {
+                    "State": "cube_252_output_limb_1_col53"
+                  },
+                  {
+                    "State": "cube_252_output_limb_2_col54"
+                  },
+                  {
+                    "State": "cube_252_output_limb_3_col55"
+                  },
+                  {
+                    "State": "cube_252_output_limb_4_col56"
+                  },
+                  {
+                    "State": "cube_252_output_limb_5_col57"
+                  },
+                  {
+                    "State": "cube_252_output_limb_6_col58"
+                  },
+                  {
+                    "State": "cube_252_output_limb_7_col59"
+                  },
+                  {
+                    "State": "cube_252_output_limb_8_col60"
+                  },
+                  {
+                    "State": "cube_252_output_limb_9_col61"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_10_col72"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_11_col73"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_12_col74"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_13_col75"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_14_col76"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_15_col77"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_16_col78"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_17_col79"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_18_col80"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_19_col81"
+                  }
+                ]
+              }
+            ]
           ]
         }
       }
     },
     {
       "Intermediate": {
-        "name": "carry_2_tmp_f9fbc_8",
-        "type": "M31",
+        "name": "[linear_combination_n_4_coefs_1_1_m2_1_output_limb_0, linear_combination_n_4_coefs_1_1_m2_1_output_limb_1, linear_combination_n_4_coefs_1_1_m2_1_output_limb_2, linear_combination_n_4_coefs_1_1_m2_1_output_limb_3, linear_combination_n_4_coefs_1_1_m2_1_output_limb_4, linear_combination_n_4_coefs_1_1_m2_1_output_limb_5, linear_combination_n_4_coefs_1_1_m2_1_output_limb_6, linear_combination_n_4_coefs_1_1_m2_1_output_limb_7, linear_combination_n_4_coefs_1_1_m2_1_output_limb_8, linear_combination_n_4_coefs_1_1_m2_1_output_limb_9]",
+        "type": "[M31; 10]",
         "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_1_tmp_f9fbc_7"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_2_col94"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_2_col34"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_2_col44"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_2_col54"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_2_col64"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
+          "StaticCall": [
+            "linear_combination_n_4_coefs_1_1_m2_1::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "cube_252_output_limb_0_col32"
+                  },
+                  {
+                    "State": "cube_252_output_limb_1_col33"
+                  },
+                  {
+                    "State": "cube_252_output_limb_2_col34"
+                  },
+                  {
+                    "State": "cube_252_output_limb_3_col35"
+                  },
+                  {
+                    "State": "cube_252_output_limb_4_col36"
+                  },
+                  {
+                    "State": "cube_252_output_limb_5_col37"
+                  },
+                  {
+                    "State": "cube_252_output_limb_6_col38"
+                  },
+                  {
+                    "State": "cube_252_output_limb_7_col39"
+                  },
+                  {
+                    "State": "cube_252_output_limb_8_col40"
+                  },
+                  {
+                    "State": "cube_252_output_limb_9_col41"
+                  },
+                  {
+                    "State": "cube_252_output_limb_0_col42"
+                  },
+                  {
+                    "State": "cube_252_output_limb_1_col43"
+                  },
+                  {
+                    "State": "cube_252_output_limb_2_col44"
+                  },
+                  {
+                    "State": "cube_252_output_limb_3_col45"
+                  },
+                  {
+                    "State": "cube_252_output_limb_4_col46"
+                  },
+                  {
+                    "State": "cube_252_output_limb_5_col47"
+                  },
+                  {
+                    "State": "cube_252_output_limb_6_col48"
+                  },
+                  {
+                    "State": "cube_252_output_limb_7_col49"
+                  },
+                  {
+                    "State": "cube_252_output_limb_8_col50"
+                  },
+                  {
+                    "State": "cube_252_output_limb_9_col51"
+                  },
+                  {
+                    "State": "cube_252_output_limb_0_col52"
+                  },
+                  {
+                    "State": "cube_252_output_limb_1_col53"
+                  },
+                  {
+                    "State": "cube_252_output_limb_2_col54"
+                  },
+                  {
+                    "State": "cube_252_output_limb_3_col55"
+                  },
+                  {
+                    "State": "cube_252_output_limb_4_col56"
+                  },
+                  {
+                    "State": "cube_252_output_limb_5_col57"
+                  },
+                  {
+                    "State": "cube_252_output_limb_6_col58"
+                  },
+                  {
+                    "State": "cube_252_output_limb_7_col59"
+                  },
+                  {
+                    "State": "cube_252_output_limb_8_col60"
+                  },
+                  {
+                    "State": "cube_252_output_limb_9_col61"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_20_col82"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_21_col83"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_22_col84"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_23_col85"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_24_col86"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_25_col87"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_26_col88"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_27_col89"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_28_col90"
+                  },
+                  {
+                    "State": "poseidon_round_keys_output_limb_29_col91"
+                  }
+                ]
+              }
+            ]
           ]
         }
       }
     },
-    {
-      "Intermediate": {
-        "name": "carry_3_tmp_f9fbc_9",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_2_tmp_f9fbc_8"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_3_col95"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_3_col35"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_3_col45"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_3_col55"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_3_col65"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_4_tmp_f9fbc_10",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_3_tmp_f9fbc_9"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_4_col96"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_4_col36"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_4_col46"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_4_col56"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_4_col66"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_5_tmp_f9fbc_11",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_4_tmp_f9fbc_10"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_5_col97"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_5_col37"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_5_col47"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_5_col57"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_5_col67"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_6_tmp_f9fbc_12",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_5_tmp_f9fbc_11"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_6_col98"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_6_col38"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_6_col48"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_6_col58"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_6_col68"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_7_tmp_f9fbc_13",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Var": [
-                                        "M31",
-                                        "carry_6_tmp_f9fbc_12"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "combination_limb_7_col99"
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "3"
-                                      ]
-                                    },
-                                    "*",
-                                    {
-                                      "State": "cube_252_output_limb_7_col39"
-                                    }
-                                  ]
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_7_col49"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_7_col59"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "poseidon_round_keys_output_limb_7_col69"
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "p_coef_col102"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "136"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_8_tmp_f9fbc_14",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_7_tmp_f9fbc_13"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_8_col100"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_8_col40"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_8_col50"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_8_col60"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_8_col70"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_8_tmp_f9fbc_14"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_9_col101"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_9_col41"
-                                }
-                              ]
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_9_col51"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_9_col61"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_9_col71"
-                }
-              ]
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "State": "p_coef_col102"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "256"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "final limb constraint"
-      ]
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_3_3_3_3_3",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "State": "p_coef_col102"
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_0_tmp_f9fbc_6"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_1_tmp_f9fbc_7"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_2_tmp_f9fbc_8"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_3_tmp_f9fbc_9"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_3_3_3_3_3",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_4_tmp_f9fbc_10"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_5_tmp_f9fbc_11"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_6_tmp_f9fbc_12"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_7_tmp_f9fbc_13"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_8_tmp_f9fbc_14"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Linear Combination N 4 Coefs 1 M 1 1 1"
-    },
-    {
-      "Intermediate": {
-        "name": "carry_0_tmp_f9fbc_17",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "0"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "combination_limb_0_col103"
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "State": "cube_252_output_limb_0_col32"
-                                }
-                              ]
-                            },
-                            "-",
-                            {
-                              "State": "cube_252_output_limb_0_col42"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_0_col52"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "poseidon_round_keys_output_limb_10_col72"
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "p_coef_col113"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_1_tmp_f9fbc_18",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_0_tmp_f9fbc_17"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_1_col104"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_1_col33"
-                            }
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "cube_252_output_limb_1_col43"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_1_col53"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_11_col73"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_2_tmp_f9fbc_19",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_1_tmp_f9fbc_18"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_2_col105"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_2_col34"
-                            }
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "cube_252_output_limb_2_col44"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_2_col54"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_12_col74"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_3_tmp_f9fbc_20",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_2_tmp_f9fbc_19"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_3_col106"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_3_col35"
-                            }
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "cube_252_output_limb_3_col45"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_3_col55"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_13_col75"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_4_tmp_f9fbc_21",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_3_tmp_f9fbc_20"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_4_col107"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_4_col36"
-                            }
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "cube_252_output_limb_4_col46"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_4_col56"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_14_col76"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_5_tmp_f9fbc_22",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_4_tmp_f9fbc_21"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_5_col108"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_5_col37"
-                            }
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "cube_252_output_limb_5_col47"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_5_col57"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_15_col77"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_6_tmp_f9fbc_23",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_5_tmp_f9fbc_22"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_6_col109"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_6_col38"
-                            }
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "cube_252_output_limb_6_col48"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_6_col58"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_16_col78"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_7_tmp_f9fbc_24",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Var": [
-                                        "M31",
-                                        "carry_6_tmp_f9fbc_23"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "combination_limb_7_col110"
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "State": "cube_252_output_limb_7_col39"
-                                }
-                              ]
-                            },
-                            "-",
-                            {
-                              "State": "cube_252_output_limb_7_col49"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_7_col59"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "poseidon_round_keys_output_limb_17_col79"
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "p_coef_col113"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "136"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_8_tmp_f9fbc_25",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_7_tmp_f9fbc_24"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_8_col111"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_8_col40"
-                            }
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "cube_252_output_limb_8_col50"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_8_col60"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_18_col80"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_8_tmp_f9fbc_25"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_9_col112"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_9_col41"
-                            }
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "cube_252_output_limb_9_col51"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "cube_252_output_limb_9_col61"
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_19_col81"
-                }
-              ]
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "State": "p_coef_col113"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "256"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "final limb constraint"
-      ]
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_3_3_3_3_3",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "State": "p_coef_col113"
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_0_tmp_f9fbc_17"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_1_tmp_f9fbc_18"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_2_tmp_f9fbc_19"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_3_tmp_f9fbc_20"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_3_3_3_3_3",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_4_tmp_f9fbc_21"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_5_tmp_f9fbc_22"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_6_tmp_f9fbc_23"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_7_tmp_f9fbc_24"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_8_tmp_f9fbc_25"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "2"
-                ]
-              }
-            ]
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Linear Combination N 4 Coefs 1 1 M 2 1"
-    },
-    {
-      "Intermediate": {
-        "name": "carry_0_tmp_f9fbc_28",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "0"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "combination_limb_0_col114"
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "State": "cube_252_output_limb_0_col32"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_0_col42"
-                            }
-                          ]
-                        },
-                        "-",
-                        {
-                          "BinaryOp": [
-                            {
-                              "Const": [
-                                "M31",
-                                "2"
-                              ]
-                            },
-                            "*",
-                            {
-                              "State": "cube_252_output_limb_0_col52"
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "poseidon_round_keys_output_limb_20_col82"
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "State": "p_coef_col124"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_1_tmp_f9fbc_29",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_0_tmp_f9fbc_28"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_1_col115"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_1_col33"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_1_col43"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_1_col53"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_21_col83"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_2_tmp_f9fbc_30",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_1_tmp_f9fbc_29"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_2_col116"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_2_col34"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_2_col44"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_2_col54"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_22_col84"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_3_tmp_f9fbc_31",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_2_tmp_f9fbc_30"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_3_col117"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_3_col35"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_3_col45"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_3_col55"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_23_col85"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_4_tmp_f9fbc_32",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_3_tmp_f9fbc_31"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_4_col118"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_4_col36"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_4_col46"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_4_col56"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_24_col86"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_5_tmp_f9fbc_33",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_4_tmp_f9fbc_32"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_5_col119"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_5_col37"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_5_col47"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_5_col57"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_25_col87"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_6_tmp_f9fbc_34",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_5_tmp_f9fbc_33"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_6_col120"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_6_col38"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_6_col48"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_6_col58"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_26_col88"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_7_tmp_f9fbc_35",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Var": [
-                                        "M31",
-                                        "carry_6_tmp_f9fbc_34"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "combination_limb_7_col121"
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "State": "cube_252_output_limb_7_col39"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_7_col49"
-                            }
-                          ]
-                        },
-                        "-",
-                        {
-                          "BinaryOp": [
-                            {
-                              "Const": [
-                                "M31",
-                                "2"
-                              ]
-                            },
-                            "*",
-                            {
-                              "State": "cube_252_output_limb_7_col59"
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "State": "poseidon_round_keys_output_limb_27_col89"
-                    }
-                  ]
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "p_coef_col124"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "136"
-                      ]
-                    }
-                  ]
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "carry_8_tmp_f9fbc_36",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_7_tmp_f9fbc_35"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_8_col122"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_8_col40"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_8_col50"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_8_col60"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_28_col90"
-                }
-              ]
-            },
-            "*",
-            {
-              "Const": [
-                "M31",
-                "16"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "BinaryOp": [
-                            {
-                              "BinaryOp": [
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "carry_8_tmp_f9fbc_36"
-                                  ]
-                                },
-                                "-",
-                                {
-                                  "State": "combination_limb_9_col123"
-                                }
-                              ]
-                            },
-                            "+",
-                            {
-                              "State": "cube_252_output_limb_9_col41"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
-                          "State": "cube_252_output_limb_9_col51"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_9_col61"
-                        }
-                      ]
-                    }
-                  ]
-                },
-                "+",
-                {
-                  "State": "poseidon_round_keys_output_limb_29_col91"
-                }
-              ]
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "State": "p_coef_col124"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "256"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "final limb constraint"
-      ]
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_3_3_3_3_3",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "State": "p_coef_col124"
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "3"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_0_tmp_f9fbc_28"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "3"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_1_tmp_f9fbc_29"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "3"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_2_tmp_f9fbc_30"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "3"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_3_tmp_f9fbc_31"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "3"
-                ]
-              }
-            ]
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_3_3_3_3_3",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_4_tmp_f9fbc_32"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "3"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_5_tmp_f9fbc_33"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "3"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_6_tmp_f9fbc_34"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "3"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_7_tmp_f9fbc_35"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "3"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "carry_8_tmp_f9fbc_36"
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "3"
-                ]
-              }
-            ]
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
     {
       "LookupTerm": {
         "relation_name": "PoseidonFullRoundChain",

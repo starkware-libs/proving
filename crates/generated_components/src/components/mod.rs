@@ -2,7 +2,12 @@ use stwo_prover::core::backend::simd::conversion::Pack;
 use stwo_prover::core::backend::simd::m31::PackedM31;
 
 pub mod add_ap_opcode_imm;
+pub mod cond_decode_small_sign;
+pub mod decode_instruction_8ad7e540e219b042;
+pub mod decode_instruction_e03055818c3f043;
+pub mod encode_offsets;
 pub mod jnz_opcode_taken_dst_base_fp;
+pub mod mem_verify;
 pub mod memory_address_to_id;
 pub mod memory_id_to_big;
 pub mod narrow_fib_num_steps_20;
@@ -11,6 +16,10 @@ pub mod range_check_4_3;
 pub mod range_check_6;
 pub mod range_check_7_2_5;
 pub mod range_check_builtin_bits_128;
+pub mod range_check_last_limb_bits_in_ms_limb_2;
+pub mod read_positive_num_bits_128;
+pub mod read_positive_num_bits_252;
+pub mod read_small;
 pub mod verify_instruction;
 pub mod wide_fib_num_narrow_8_narrow_size_20;
 

@@ -1,10 +1,12 @@
 //! Parsing logic to extract information from [`CompiledAirFn`].
 
-use std::collections::{HashMap, HashSet};
+use std::collections::{BTreeSet, HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, LookupTerm, UseOrYield,
+    CompiledAirFn, CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, LookupTerm, TraceType,
+    UseOrYield,
 };
+use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use convert_case::{Case, Casing};
 use genco::lang::rust;
 use genco::quote;
@@ -13,7 +15,7 @@ use itertools::Itertools;
 use crate::code_gen::utils::remove_trailing_zeroes;
 
 // TODO(Ohad): Optimize small constantF252 values initialization.
-pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> Vec<(String, String)> {
+pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> BTreeSet<(String, String)> {
     constraints
         .iter()
         .fold(HashSet::new(), |mut const_defs, constraint| {
@@ -34,8 +36,6 @@ pub fn constraint_consts(constraints: &[ConstraintEvalStep]) -> Vec<(String, Str
                     r#type: _,
                     var,
                 }) => const_defs.extend(seek_consts(var)),
-                ConstraintEvalStep::StartBlock(_) => {}
-                ConstraintEvalStep::EndBlock => {}
             };
             const_defs
         })
@@ -72,8 +72,8 @@ where
     }
 }
 
-pub fn seek_consts(expr: &CompiledAirVar) -> HashSet<(String, String)> {
-    let mut hashset = HashSet::new();
+pub fn seek_consts(expr: &CompiledAirVar) -> BTreeSet<(String, String)> {
+    let mut hashset = BTreeSet::new();
     let mut insert = |expr: &CompiledAirVar| {
         if let CompiledAirVar::Const(ty, val) = expr {
             // Usize are used for array indexing, handled differently.
@@ -87,6 +87,7 @@ pub fn seek_consts(expr: &CompiledAirVar) -> HashSet<(String, String)> {
 }
 
 pub fn parse_eval_constraint(
+    lists: &CompiledAirFn,
     expr: &CompiledAirVar,
     constant_names: &HashMap<(String, String), String>,
 ) -> String {
@@ -105,7 +106,36 @@ pub fn parse_eval_constraint(
                 if i > 0 {
                     arg_str.push_str(", ");
                 }
-                arg_str.push_str(&parse_eval_constraint(arg, constant_names));
+                arg_str.push_str(&parse_eval_constraint(lists, arg, constant_names));
+            }
+            if id.ends_with(CONSTRAINT_EVAL_FUNCTION_NAME) {
+                if lists.r#type == TraceType::Inline {
+                    arg_str.push_str(", eval");
+                } else {
+                    arg_str.push_str(", &mut eval");
+                }
+                let inline_fn =
+                    id.trim_end_matches(&format!("::{}", CONSTRAINT_EVAL_FUNCTION_NAME));
+                let relations = lists.inline_calls.get(inline_fn).unwrap();
+                for relation in relations {
+                    if lists.r#type == TraceType::Inline {
+                        arg_str.push_str(&format!(
+                            ", {}_lookup_elements",
+                            relation.to_case(Case::Snake)
+                        ));
+                    } else {
+                        arg_str.push_str(&format!(
+                            ", &self.{}_lookup_elements",
+                            relation.to_case(Case::Snake)
+                        ));
+                    }
+                }
+                return format!(
+                    "{}::{}({})",
+                    inline_fn.to_case(Case::Pascal),
+                    CONSTRAINT_EVAL_FUNCTION_NAME,
+                    arg_str
+                );
             }
             format!("{}({})", id, arg_str)
         }
@@ -115,11 +145,11 @@ pub fn parse_eval_constraint(
                 if i > 0 {
                     arg_str.push_str(", ");
                 }
-                arg_str.push_str(&parse_eval_constraint(arg, constant_names));
+                arg_str.push_str(&parse_eval_constraint(lists, arg, constant_names));
             }
             format!(
                 "{}.{}({})",
-                parse_eval_constraint(id, constant_names),
+                parse_eval_constraint(lists, id, constant_names),
                 func,
                 arg_str
             )
@@ -128,15 +158,35 @@ pub fn parse_eval_constraint(
         CompiledAirVar::BinaryOp(lhs, op, rhs) => {
             format!(
                 "({} {op} {})",
-                parse_eval_constraint(lhs, constant_names),
-                parse_eval_constraint(rhs, constant_names)
+                parse_eval_constraint(lists, lhs, constant_names),
+                parse_eval_constraint(lists, rhs, constant_names)
             )
         }
         CompiledAirVar::UnaryOp(op, expr) => {
-            format!("({op}{})", parse_eval_constraint(expr, constant_names))
+            format!(
+                "({op}{})",
+                parse_eval_constraint(lists, expr, constant_names)
+            )
         }
-        CompiledAirVar::Tuple(_) => unimplemented!(),
-        CompiledAirVar::Array(_) => unimplemented!(),
+        CompiledAirVar::Tuple(vars) => {
+            let vars_str = vars
+                .iter()
+                .map(|var| parse_eval_constraint(lists, var, constant_names))
+                .collect_vec()
+                .join(", ");
+            format!("({vars_str})")
+        }
+        CompiledAirVar::Array(vars) => {
+            if vars.is_empty() {
+                return "()".to_string();
+            }
+            let vars_str = vars
+                .iter()
+                .map(|var| parse_eval_constraint(lists, var, constant_names))
+                .collect_vec()
+                .join(", ");
+            format!("[{vars_str}]")
+        }
         CompiledAirVar::Struct { .. } => {
             todo!()
         }
@@ -148,6 +198,7 @@ pub fn parse_eval_constraint(
 }
 
 pub fn parse_lookup_constraint(
+    lists: &CompiledAirFn,
     relation_name: &str,
     felts: &[CompiledAirVar],
     use_or_yield: &UseOrYield,
@@ -155,7 +206,7 @@ pub fn parse_lookup_constraint(
 ) -> rust::Tokens {
     let lookup_values = remove_trailing_zeroes(felts)
         .iter()
-        .map(|felt| parse_eval_constraint(felt, constant_defs))
+        .map(|felt| parse_eval_constraint(lists, felt, constant_defs))
         .collect_vec();
     let sign = match use_or_yield {
         UseOrYield::Use => "",
@@ -166,9 +217,17 @@ pub fn parse_lookup_constraint(
     } else {
         quote! {E::EF::one()}
     };
-    quote! {
-        eval.add_to_relation(RelationEntry::new(&self.
-            $(relation_name.to_case(Case::Snake))_lookup_elements,
-            $(sign)$numerator, &[$(lookup_values.join(","))]));
+    if lists.r#type == TraceType::Inline {
+        quote! {
+            eval.add_to_relation(RelationEntry::new(
+                $(relation_name.to_case(Case::Snake))_lookup_elements,
+                $(sign)$numerator, &[$(lookup_values.join(","))]));
+        }
+    } else {
+        quote! {
+            eval.add_to_relation(RelationEntry::new(&self.
+                $(relation_name.to_case(Case::Snake))_lookup_elements,
+                $(sign)$numerator, &[$(lookup_values.join(","))]));
+        }
     }
 }

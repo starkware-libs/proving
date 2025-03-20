@@ -360,20 +360,21 @@
       }
     },
     {
-      "StartBlock": "Range Check Last Limb Bits In Ms Limb 6"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "RangeCheck_6",
-        "felts": [
-          {
-            "State": "value_limb_10_col11"
-          }
-        ],
-        "use_or_yield": "Use"
+      "Intermediate": {
+        "name": "()",
+        "type": "()",
+        "var": {
+          "StaticCall": [
+            "range_check_last_limb_bits_in_ms_limb_6::evaluate",
+            [
+              {
+                "State": "value_limb_10_col11"
+              }
+            ]
+          ]
+        }
       }
     },
-    "EndBlock",
     {
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",

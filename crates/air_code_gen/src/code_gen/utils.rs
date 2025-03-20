@@ -1,14 +1,14 @@
 use std::fs;
 use std::path::{Path, PathBuf};
 
-use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar};
+use compiled_casm_air::compiled_structs::{CompiledAirFn, CompiledAirVar, TraceType};
 use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
 use tempfile::tempdir;
 use xshell::{cmd, Shell};
 
-use super::constraints::generate_component_code;
+use super::constraints::{generate_component_code, generate_inline_code};
 use super::trace_gen::RustProverGen;
 
 pub fn project_root() -> PathBuf {
@@ -37,8 +37,15 @@ pub fn reformat_rust_code_inner(code_text: String) -> String {
 // Generates the prover & verifier code.
 pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
     let rust_codegen = RustProverGen::new(air_fn.clone());
-    let claim_provers = rust_codegen.generate_simd_claim_prover();
-    let eval_tokens = generate_component_code(&air_fn);
+
+    let (eval_tokens, claim_provers) = if air_fn.r#type == TraceType::Inline {
+        (generate_inline_code(&air_fn), quote!())
+    } else {
+        (
+            generate_component_code(&air_fn),
+            rust_codegen.generate_simd_claim_prover(),
+        )
+    };
 
     // Write the generated code to files.
     let text = reformat_rust_code(claim_provers.to_string().unwrap());
@@ -49,13 +56,17 @@ pub fn dump_component_code(air_fn: CompiledAirFn, folder_path: &Path) {
     // Generate mod.rs, if it does not exist.
     let mod_rs_path = folder_path.join("mod.rs");
     if !std::path::Path::new(&mod_rs_path).exists() {
-        let mod_rs_code: rust::Tokens = quote! {
+        let mut mod_rs_code: rust::Tokens = quote! {
             pub mod component;
             pub mod prover;
-
-            pub use component::{Claim, InteractionClaim, Component, Eval};
-            pub use prover::{ClaimGenerator, InteractionClaimGenerator};
         };
+        if air_fn.r#type != TraceType::Inline {
+            mod_rs_code.append(quote!(
+                pub use component::{Claim, InteractionClaim, Component, Eval};
+                pub use prover::{ClaimGenerator, InteractionClaimGenerator};
+            ));
+        }
+
         let text = reformat_rust_code(mod_rs_code.to_string().unwrap());
         fs::write(mod_rs_path, text).unwrap();
     }

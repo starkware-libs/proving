@@ -225,101 +225,196 @@
   "external_states": [],
   "constraints": [
     {
-      "StartBlock": "Cond Decode Small Sign"
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "msb_col0"
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "State": "msb_col0"
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                }
-              ]
-            }
+      "Intermediate": {
+        "name": "[cond_decode_small_sign_output_limb_0, cond_decode_small_sign_output_limb_1]",
+        "type": "[M31; 2]",
+        "var": {
+          "StaticCall": [
+            "cond_decode_small_sign::evaluate",
+            [
+              {
+                "Array": [
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_0"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_1"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_2"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_3"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_4"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_5"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_6"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_7"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_8"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_9"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_10"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_11"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_12"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_13"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_14"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_15"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_16"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_17"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_18"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_19"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_20"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_21"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_22"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_23"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_24"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_25"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_26"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_27"
+                    ]
+                  },
+                  {
+                    "Var": [
+                      "M31",
+                      "cond_felt_252_as_rel_imm_input_limb_28"
+                    ]
+                  }
+                ]
+              }
+            ]
           ]
-        },
-        "msb is a bit"
-      ]
+        }
+      }
     },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "mid_limbs_set_col1"
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "State": "mid_limbs_set_col1"
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "mid_limbs_set is a bit"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "BinaryOp": [
-                {
-                  "Var": [
-                    "M31",
-                    "cond_felt_252_as_rel_imm_input_limb_28"
-                  ]
-                },
-                "*",
-                {
-                  "State": "mid_limbs_set_col1"
-                }
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "State": "msb_col0"
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "Cannot have msb equals 0 and mid_limbs_set equals 1"
-      ]
-    },
-    "EndBlock",
     {
       "Constraint": [
         {

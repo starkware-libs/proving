@@ -47,8 +47,10 @@ impl FrameworkEval for Eval {
     #[allow(unused_parens)]
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
+    #[allow(clippy::unused_unit)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
         let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
+
         eval.add_to_relation(RelationEntry::new(
             &self.range_check_6_lookup_elements,
             -E::EF::one(),
