@@ -64,8 +64,12 @@
     "col21"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [],
-  "n_lookup_terms": 1,
+  "lookup_names": {
+    "NarrowFibNumSteps20": 1
+  },
+  "inline_calls": {
+    "fib_step": []
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

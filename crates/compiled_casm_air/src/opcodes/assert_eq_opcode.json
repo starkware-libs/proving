@@ -109,13 +109,19 @@
     "dst_id_col10"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "opcodes",
-    "verify_instruction"
-  ],
-  "n_lookup_terms": 5,
+  "lookup_names": {
+    "VerifyInstruction": 1,
+    "MemoryAddressToId": 2,
+    "Opcodes": 2
+  },
+  "inline_calls": {
+    "decode_instruction_8779984a10576d8": [
+      "VerifyInstruction"
+    ],
+    "mem_verify_equal": [
+      "MemoryAddressToId"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

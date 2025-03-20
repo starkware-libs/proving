@@ -52,7 +52,7 @@ pub fn print_fn_sizes() {
         op1_base_fp: false,
         memory: Default::default(),
     };
-    let compiled = registry.add_entry(&func).compile();
+    let compiled = registry.add_entry(&func).compile(registry.air_fns.borrow());
     print_statistics("call abs [ap]", compiled);
 
     let func = CallOpcode {
@@ -60,7 +60,7 @@ pub fn print_fn_sizes() {
         op1_base_fp: false,
         memory: Default::default(),
     };
-    let compiled = registry.add_entry(&func).compile();
+    let compiled = registry.add_entry(&func).compile(registry.air_fns.borrow());
     print_statistics("call rel [ap]", compiled);
 
     let func = JumpOpcode {
@@ -69,7 +69,7 @@ pub fn print_fn_sizes() {
         double_deref: false,
         memory: Default::default(),
     };
-    let compiled = registry.add_entry(&func).compile();
+    let compiled = registry.add_entry(&func).compile(registry.air_fns.borrow());
     print_statistics("jump abs [ap/fp]", compiled);
 
     let func = JumpOpcode {
@@ -78,12 +78,12 @@ pub fn print_fn_sizes() {
         double_deref: false,
         memory: Default::default(),
     };
-    let compiled = registry.add_entry(&func).compile();
+    let compiled = registry.add_entry(&func).compile(registry.air_fns.borrow());
     print_statistics("jump rel [ap]", compiled);
 
     let func = RetOpcode {
         memory: Default::default(),
     };
-    let compiled = registry.add_entry(&func).compile();
+    let compiled = registry.add_entry(&func).compile(registry.air_fns.borrow());
     print_statistics("ret", compiled);
 }

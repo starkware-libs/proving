@@ -44,13 +44,23 @@
     "instruction_id_col15"
   ],
   "padding_type": "Multiplicity",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "range_check_4_3",
-    "range_check_7_2_5"
-  ],
-  "n_lookup_terms": 5,
+  "lookup_names": {
+    "RangeCheck_7_2_5": 1,
+    "RangeCheck_4_3": 1,
+    "MemoryAddressToId": 1,
+    "MemoryIdToBig": 1,
+    "VerifyInstruction": 1
+  },
+  "inline_calls": {
+    "encode_offsets": [
+      "RangeCheck_4_3",
+      "RangeCheck_7_2_5"
+    ],
+    "mem_verify": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

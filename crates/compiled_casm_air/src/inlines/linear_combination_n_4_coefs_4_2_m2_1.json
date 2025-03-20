@@ -73,11 +73,11 @@
     "p_coef_col10"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "range_check_4_4",
-    "range_check_4_4_4_4"
-  ],
-  "n_lookup_terms": 3,
+  "lookup_names": {
+    "RangeCheck_4_4_4_4": 2,
+    "RangeCheck_4_4": 1
+  },
+  "inline_calls": {},
   "public_params": [],
   "external_states": [],
   "constraints": [

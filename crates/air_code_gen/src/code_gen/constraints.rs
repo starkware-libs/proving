@@ -10,7 +10,7 @@ use itertools::chain;
 
 use super::utils::{get_const_name, replace_generics_with_turbofish};
 use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
-use crate::code_gen::utils::{block_doc, unique_constraint_relations};
+use crate::code_gen::utils::block_doc;
 
 pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
@@ -18,7 +18,7 @@ pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
         $['\n']
         $(generate_n_trace_columns(lists))
         $['\n']
-        $(generate_component_structs(&lists.constraints))
+        $(generate_component_structs(lists))
         $['\n']
         $(generate_claim_struct(lists))
         $['\n']
@@ -49,7 +49,7 @@ fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
     }
 }
 
-fn generate_component_structs(constraints: &[ConstraintEvalStep]) -> rust::Tokens {
+fn generate_component_structs(lists: &CompiledAirFn) -> rust::Tokens {
     let mut members = rust::Tokens::new();
 
     // Claims.
@@ -58,7 +58,7 @@ fn generate_component_structs(constraints: &[ConstraintEvalStep]) -> rust::Token
     });
 
     // Sub-components Lookup elements.
-    for relation in unique_constraint_relations(constraints) {
+    for relation in lists.lookup_names.keys() {
         members.append(quote! {
             pub $(&relation.to_case(Case::Snake))_lookup_elements: relations::$(relation),
         });
@@ -91,11 +91,12 @@ fn generate_claim_struct(lists: &CompiledAirFn) -> rust::Tokens {
         }
     };
 
-    let n_logup_columns = match lists.n_lookup_terms {
+    let n_lookup_terms: usize = lists.lookup_names.values().sum();
+    let n_logup_columns = match n_lookup_terms {
         0 => unimplemented!(),
         1..=2 => quote!(SECURE_EXTENSION_DEGREE),
-        _ => {
-            let n_batches = lists.n_lookup_terms.div_ceil(2);
+        n => {
+            let n_batches = n.div_ceil(2);
             quote!(SECURE_EXTENSION_DEGREE * $(n_batches))
         }
     };
@@ -221,6 +222,8 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
             })
         }
     }
+
+    code.extend(quote! { $("\n") });
 
     for constraint in lists.constraints.iter() {
         match constraint {

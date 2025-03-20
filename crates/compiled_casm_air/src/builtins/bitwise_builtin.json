@@ -117,12 +117,24 @@
     "or_id_col88"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "verify_bitwise_xor_9"
-  ],
-  "n_lookup_terms": 38,
+  "lookup_names": {
+    "MemoryAddressToId": 5,
+    "MemoryIdToBig": 5,
+    "VerifyBitwiseXor_9": 28
+  },
+  "inline_calls": {
+    "bitwise_xor_num_bits_9": [
+      "VerifyBitwiseXor_9"
+    ],
+    "mem_verify": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ],
+    "read_positive_num_bits_252": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ]
+  },
   "public_params": [
     "BitwiseBuiltinSegmentStart"
   ],

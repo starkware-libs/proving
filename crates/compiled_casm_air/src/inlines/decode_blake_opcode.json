@@ -374,13 +374,26 @@
     "dst_id_col29"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "range_check_7_2_5",
-    "verify_instruction"
-  ],
-  "n_lookup_terms": 10,
+  "lookup_names": {
+    "VerifyInstruction": 1,
+    "MemoryAddressToId": 4,
+    "MemoryIdToBig": 4,
+    "RangeCheck_7_2_5": 1
+  },
+  "inline_calls": {
+    "decode_instruction_275ccfe81e8aa6ca": [
+      "VerifyInstruction"
+    ],
+    "read_blake_word": [
+      "MemoryAddressToId",
+      "MemoryIdToBig",
+      "RangeCheck_7_2_5"
+    ],
+    "read_positive_num_bits_27": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

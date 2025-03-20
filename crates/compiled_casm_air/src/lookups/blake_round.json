@@ -481,15 +481,21 @@
     "blake_g_output_limb_7_col210"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "blake_g",
-    "blake_round",
-    "blake_round_sigma",
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "range_check_7_2_5"
-  ],
-  "n_lookup_terms": 59,
+  "lookup_names": {
+    "BlakeRoundSigma": 1,
+    "RangeCheck_7_2_5": 16,
+    "MemoryAddressToId": 16,
+    "MemoryIdToBig": 16,
+    "BlakeG": 8,
+    "BlakeRound": 2
+  },
+  "inline_calls": {
+    "read_blake_word": [
+      "MemoryAddressToId",
+      "MemoryIdToBig",
+      "RangeCheck_7_2_5"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

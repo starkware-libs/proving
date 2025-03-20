@@ -52,10 +52,15 @@
     "xor_col7"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "verify_bitwise_xor_8"
-  ],
-  "n_lookup_terms": 4,
+  "lookup_names": {
+    "VerifyBitwiseXor_8": 4
+  },
+  "inline_calls": {
+    "bitwise_xor_num_bits_8": [
+      "VerifyBitwiseXor_8"
+    ],
+    "split_16_low_part_size_8": []
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

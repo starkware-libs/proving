@@ -1,5 +1,5 @@
-use std::cell::RefCell;
-use std::collections::HashSet;
+use std::cell::{Ref, RefCell};
+use std::collections::{BTreeSet, HashSet};
 use std::rc::Rc;
 
 use compiled_casm_air::compiled_structs::{CompiledAirFn, PaddingType, TraceType};
@@ -32,7 +32,10 @@ pub struct AirFnEntry {
 
 impl AirFnEntry {
     // Compiles the air function entry into a compiled air function.
-    pub(crate) fn compile(self) -> CompiledAirFn {
+    pub(crate) fn compile(
+        self,
+        called_fns: Ref<'_, IndexMap<String, AirFnEntry>>,
+    ) -> CompiledAirFn {
         let padding_type = match self.trace_type {
             TraceType::Builtin | TraceType::Const | TraceType::Inline => PaddingType::None,
             TraceType::Opcode | TraceType::ChainRound => PaddingType::Enabler,
@@ -45,13 +48,30 @@ impl AirFnEntry {
         let input_name = format!("{}_{}", self.name, INPUT_VAR_SUFFIX);
         let (verifier_input, verifier_input_name) = input.as_verifier_var(input_name.clone());
         let (verifier_output, _) = self.output.as_verifier_var("".to_string());
+        let inline_calls = self
+            .air_body
+            .get_inline_calls()
+            .into_iter()
+            .map(|n| {
+                (
+                    n.clone(),
+                    called_fns
+                        .get(&n)
+                        .expect("Cannot find called air function")
+                        .air_body
+                        .get_lookup_names()
+                        .keys()
+                        .cloned()
+                        .collect::<BTreeSet<String>>(),
+                )
+            })
+            .collect();
 
         CompiledAirFn {
             name: self.name.clone(),
             relation_name: self.relation_name,
             description: self.description,
             r#type: self.trace_type,
-
             prover_input: (input_name, input.prover_type(), input.packed_prover_type()),
             verifier_input: (verifier_input_name, verifier_input.prover_type()),
             prover_output: (
@@ -65,10 +85,10 @@ impl AirFnEntry {
             ),
             state_names: self.state.get_state_names(),
             lookup_names: self.air_body.get_lookup_names(),
+            inline_calls,
             constraints: self.air_body.compile_for_constraints(),
             deductions: self.air_body.compile_for_deductions(),
             padding_type,
-            n_lookup_terms: self.air_body.get_n_lookup_terms(),
             public_params: self.air_body.get_public_params(),
             external_states: self.air_body.get_external_states(),
         }
@@ -301,7 +321,7 @@ impl AirFnRegistry {
         self.air_fns
             .borrow()
             .iter()
-            .map(|(name, entry)| (name.clone(), entry.clone().compile()))
+            .map(|(name, entry)| (name.clone(), entry.clone().compile(self.air_fns.borrow())))
             .collect()
     }
 }

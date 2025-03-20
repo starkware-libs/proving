@@ -172,11 +172,18 @@
     "carry_26_col55"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "range_check_19",
-    "range_check_9_9"
-  ],
-  "n_lookup_terms": 42,
+  "lookup_names": {
+    "RangeCheck_9_9": 14,
+    "RangeCheck_19": 28
+  },
+  "inline_calls": {
+    "range_check_mem_value_n_28": [
+      "RangeCheck_9_9"
+    ],
+    "verify_mul_252": [
+      "RangeCheck_19"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

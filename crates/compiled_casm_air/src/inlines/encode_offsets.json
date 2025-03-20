@@ -150,11 +150,11 @@
     "offset2_high_col7"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "range_check_4_3",
-    "range_check_7_2_5"
-  ],
-  "n_lookup_terms": 2,
+  "lookup_names": {
+    "RangeCheck_7_2_5": 1,
+    "RangeCheck_4_3": 1
+  },
+  "inline_calls": {},
   "public_params": [],
   "external_states": [],
   "constraints": [

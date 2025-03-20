@@ -56,10 +56,12 @@
     "carry_26_col27"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "range_check_19"
-  ],
-  "n_lookup_terms": 28,
+  "lookup_names": {
+    "RangeCheck_19": 28
+  },
+  "inline_calls": {
+    "double_karatsuba_n_7_limb_max_bound_511": []
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

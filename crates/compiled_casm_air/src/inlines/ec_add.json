@@ -552,11 +552,26 @@
     "sub_p_bit_col341"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "range_check_19",
-    "range_check_9_9"
-  ],
-  "n_lookup_terms": 210,
+  "lookup_names": {
+    "RangeCheck_9_9": 126,
+    "RangeCheck_19": 84
+  },
+  "inline_calls": {
+    "add_252": [
+      "RangeCheck_9_9"
+    ],
+    "div_252": [
+      "RangeCheck_19",
+      "RangeCheck_9_9"
+    ],
+    "mul_252": [
+      "RangeCheck_19",
+      "RangeCheck_9_9"
+    ],
+    "sub_252": [
+      "RangeCheck_9_9"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

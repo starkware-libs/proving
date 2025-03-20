@@ -295,15 +295,27 @@
     "next_fp_col234"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "opcodes",
-    "range_check_19",
-    "range_check_9_9",
-    "verify_instruction"
-  ],
-  "n_lookup_terms": 65,
+  "lookup_names": {
+    "VerifyInstruction": 1,
+    "MemoryAddressToId": 3,
+    "MemoryIdToBig": 3,
+    "RangeCheck_9_9": 28,
+    "RangeCheck_19": 28,
+    "Opcodes": 2
+  },
+  "inline_calls": {
+    "decode_generic_instruction": [
+      "VerifyInstruction"
+    ],
+    "eval_operands": [
+      "MemoryAddressToId",
+      "MemoryIdToBig",
+      "RangeCheck_19",
+      "RangeCheck_9_9"
+    ],
+    "handle_opcodes": [],
+    "update_registers": []
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

@@ -40,12 +40,18 @@
     "value_limb_10_col11"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "range_check_6"
-  ],
-  "n_lookup_terms": 3,
+  "lookup_names": {
+    "MemoryAddressToId": 1,
+    "RangeCheck_6": 1,
+    "MemoryIdToBig": 1
+  },
+  "inline_calls": {
+    "read_positive_num_bits_96": [
+      "MemoryAddressToId",
+      "MemoryIdToBig",
+      "RangeCheck_6"
+    ]
+  },
   "public_params": [
     "RangeCheck96BuiltinSegmentStart"
   ],

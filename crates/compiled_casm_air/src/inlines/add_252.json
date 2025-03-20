@@ -145,10 +145,15 @@
     "sub_p_bit_col28"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "range_check_9_9"
-  ],
-  "n_lookup_terms": 14,
+  "lookup_names": {
+    "RangeCheck_9_9": 14
+  },
+  "inline_calls": {
+    "range_check_mem_value_n_28": [
+      "RangeCheck_9_9"
+    ],
+    "verify_add_252": []
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

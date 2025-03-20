@@ -196,13 +196,22 @@
     "sub_p_bit_col97"
   ],
   "padding_type": "Enabler",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "opcodes",
-    "verify_instruction"
-  ],
-  "n_lookup_terms": 9,
+  "lookup_names": {
+    "VerifyInstruction": 1,
+    "MemoryAddressToId": 3,
+    "MemoryIdToBig": 3,
+    "Opcodes": 2
+  },
+  "inline_calls": {
+    "decode_instruction_ceccedab6d42d5b5": [
+      "VerifyInstruction"
+    ],
+    "read_positive_num_bits_252": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ],
+    "verify_add_252": []
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [

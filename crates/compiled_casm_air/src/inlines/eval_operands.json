@@ -860,13 +860,26 @@
     "res_limb_27_col202"
   ],
   "padding_type": "None",
-  "lookup_names": [
-    "memory_address_to_id",
-    "memory_id_to_big",
-    "range_check_19",
-    "range_check_9_9"
-  ],
-  "n_lookup_terms": 62,
+  "lookup_names": {
+    "MemoryAddressToId": 3,
+    "MemoryIdToBig": 3,
+    "RangeCheck_9_9": 28,
+    "RangeCheck_19": 28
+  },
+  "inline_calls": {
+    "add_252": [
+      "RangeCheck_9_9"
+    ],
+    "cond_felt_252_as_addr": [],
+    "mul_252": [
+      "RangeCheck_19",
+      "RangeCheck_9_9"
+    ],
+    "read_positive_num_bits_252": [
+      "MemoryAddressToId",
+      "MemoryIdToBig"
+    ]
+  },
   "public_params": [],
   "external_states": [],
   "constraints": [
