@@ -15,13 +15,10 @@ impl ClaimGenerator {
         Self { inputs }
     }
 
-    pub fn write_trace<MC: MerkleChannel>(
+    pub fn write_trace(
         mut self,
-        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
-    ) -> (Claim, InteractionClaimGenerator)
-    where
-        SimdBackend: BackendForChannel<MC>,
-    {
+        tree_builder: &mut impl TreeBuilder<SimdBackend>,
+    ) -> (Claim, InteractionClaimGenerator) {
         let n_rows = self.inputs.len();
         assert_ne!(n_rows, 0);
         let size = std::cmp::max(n_rows.next_power_of_two(), N_LANES);
@@ -73,14 +70,11 @@ pub struct InteractionClaimGenerator {
     lookup_data: LookupData,
 }
 impl InteractionClaimGenerator {
-    pub fn write_interaction_trace<MC: MerkleChannel>(
+    pub fn write_interaction_trace(
         self,
-        tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
+        tree_builder: &mut impl TreeBuilder<SimdBackend>,
         range_check_6: &relations::RangeCheck_6,
-    ) -> InteractionClaim
-    where
-        SimdBackend: BackendForChannel<MC>,
-    {
+    ) -> InteractionClaim {
         let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
         // Sum last logup term.

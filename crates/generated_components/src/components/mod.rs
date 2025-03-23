@@ -1,5 +1,10 @@
 use stwo_prover::core::backend::simd::conversion::Pack;
 use stwo_prover::core::backend::simd::m31::PackedM31;
+use stwo_prover::core::backend::Backend;
+use stwo_prover::core::fields::m31::M31;
+use stwo_prover::core::pcs::TreeSubspan;
+use stwo_prover::core::poly::circle::CircleEvaluation;
+use stwo_prover::core::poly::BitReversedOrder;
 
 pub mod add_ap_opcode_imm;
 pub mod cond_decode_small_sign;
@@ -40,4 +45,11 @@ impl Enabler {
     pub fn packed_at(&self, vec_row: usize) -> PackedM31 {
         unimplemented!()
     }
+}
+
+pub trait TreeBuilder<B: Backend> {
+    fn extend_evals(
+        &mut self,
+        columns: impl IntoIterator<Item = CircleEvaluation<B, M31, BitReversedOrder>>,
+    ) -> TreeSubspan;
 }
