@@ -63,7 +63,6 @@ impl EncodeOffsets {
             &[offset2_low_col5.clone(), offset2_high_col7.clone()],
         ));
 
-        eval.finalize_logup_in_pairs();
         [
             offset0_low_col0.clone(),
             (offset0_mid_col1.clone() + (offset1_low_col2.clone() * M31_128.clone())),

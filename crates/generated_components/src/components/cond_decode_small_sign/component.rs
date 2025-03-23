@@ -27,7 +27,6 @@ impl CondDecodeSmallSign {
             ((cond_decode_small_sign_input_limb_28.clone() * mid_limbs_set_col1.clone())
                 * (msb_col0.clone() - M31_1.clone())),
         );
-        eval.finalize_logup_in_pairs();
         [msb_col0.clone(), mid_limbs_set_col1.clone()]
     }
 }

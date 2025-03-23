@@ -27,7 +27,6 @@ impl RangeCheckLastLimbBitsInMsLimb2 {
             (bit_before_msb_tmp_ca841_1.clone()
                 * (M31_1.clone() - bit_before_msb_tmp_ca841_1.clone())),
         );
-        eval.finalize_logup_in_pairs();
         ()
     }
 }

@@ -64,7 +64,6 @@ impl ReadPositiveNumBits128 {
             ],
         ));
 
-        eval.finalize_logup_in_pairs();
         [
             value_limb_0_col1.clone(),
             value_limb_1_col2.clone(),
