@@ -12,13 +12,11 @@ pub mod proving {
     pub use stwo_prover::core::backend::simd::m31::{PackedM31, LOG_N_LANES, N_LANES};
     pub use stwo_prover::core::backend::simd::qm31::PackedQM31;
     pub use stwo_prover::core::backend::simd::SimdBackend;
-    pub use stwo_prover::core::backend::{BackendForChannel, Column};
-    pub use stwo_prover::core::channel::MerkleChannel;
+    pub use stwo_prover::core::backend::Column;
     pub use stwo_prover::core::fields::m31::M31;
     pub use stwo_prover::core::fields::FieldExpOps;
-    pub use stwo_prover::core::pcs::TreeBuilder;
 
-    pub use crate::components::{pack_values, Enabler};
+    pub use crate::components::{pack_values, Enabler, TreeBuilder};
     pub use crate::preprocessed::*;
     pub use crate::relations;
 }

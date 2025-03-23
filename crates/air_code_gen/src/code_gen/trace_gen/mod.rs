@@ -216,13 +216,11 @@ impl RustProverGen {
                     Self { $(claim_generator_fields) }
                 }
 
-                pub fn write_trace<MC: MerkleChannel>(
+                pub fn write_trace(
                     $(self_param)
-                    tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
+                    tree_builder: &mut impl TreeBuilder<SimdBackend>,
                     $(write_trace_params(&self.write_trace_context))
                 ) -> (Claim, InteractionClaimGenerator)
-                where
-                    SimdBackend: BackendForChannel<MC>
                 {
                     $(self.write_trace_body_simd())
                 }
@@ -576,13 +574,11 @@ impl RustProverGen {
         quote! {
             impl InteractionClaimGenerator {
                 // TODO(Ohad): use partial sums.
-                pub fn write_interaction_trace<MC: MerkleChannel>(
+                pub fn write_interaction_trace(
                     self,
-                    tree_builder: &mut TreeBuilder<'_, '_, SimdBackend, MC>,
+                    tree_builder: &mut impl TreeBuilder<SimdBackend>,
                     $(lookup_elements)
                 ) -> InteractionClaim
-                where
-                    SimdBackend: BackendForChannel<MC>
                 {
                     $(padding)
                     let mut logup_gen = LogupTraceGenerator::new(self.log_size);
