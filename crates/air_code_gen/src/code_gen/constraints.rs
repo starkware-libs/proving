@@ -324,7 +324,6 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     if lists.r#type == TraceType::Inline {
         code.extend(quote! {
 
-            eval.finalize_logup_in_pairs();
             $(parse_eval_constraint(lists, &lists.verifier_output.0, &const_names))
         });
     } else {

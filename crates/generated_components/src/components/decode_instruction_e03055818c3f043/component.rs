@@ -42,7 +42,6 @@ impl DecodeInstructionE03055818C3F043 {
             ],
         ));
 
-        eval.finalize_logup_in_pairs();
         [
             (offset0_col0.clone() - M31_32768.clone()),
             M31_2147483646.clone(),

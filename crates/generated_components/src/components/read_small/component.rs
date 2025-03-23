@@ -107,7 +107,6 @@ impl ReadSmall {
             ],
         ));
 
-        eval.finalize_logup_in_pairs();
         [
             ((((value_limb_0_col3.clone() + (value_limb_1_col4.clone() * M31_512.clone()))
                 + (value_limb_2_col5.clone() * M31_262144.clone()))

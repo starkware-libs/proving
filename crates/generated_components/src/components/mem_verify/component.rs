@@ -58,7 +58,6 @@ impl MemVerify {
             ],
         ));
 
-        eval.finalize_logup_in_pairs();
         ()
     }
 }
