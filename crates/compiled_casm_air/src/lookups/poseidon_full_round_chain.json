@@ -650,21 +650,6 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "0"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "combination_limb_0_col92"
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
                                         "3"
                                       ]
                                     },
@@ -673,24 +658,28 @@
                                       "State": "cube_252_output_limb_0_col32"
                                     }
                                   ]
+                                },
+                                "+",
+                                {
+                                  "State": "cube_252_output_limb_0_col42"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_0_col42"
+                              "State": "cube_252_output_limb_0_col52"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_0_col52"
+                          "State": "poseidon_round_keys_output_limb_0_col62"
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "State": "poseidon_round_keys_output_limb_0_col62"
+                      "State": "combination_limb_0_col92"
                     }
                   ]
                 },
@@ -733,44 +722,44 @@
                                     "carry_0_tmp_f9fbc_6"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_1_col93"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_1_col33"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_1_col33"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_1_col43"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_1_col43"
+                          "State": "cube_252_output_limb_1_col53"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_1_col53"
+                      "State": "poseidon_round_keys_output_limb_1_col63"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_1_col63"
+                  "State": "combination_limb_1_col93"
                 }
               ]
             },
@@ -807,44 +796,44 @@
                                     "carry_1_tmp_f9fbc_7"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_2_col94"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_2_col34"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_2_col34"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_2_col44"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_2_col44"
+                          "State": "cube_252_output_limb_2_col54"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_2_col54"
+                      "State": "poseidon_round_keys_output_limb_2_col64"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_2_col64"
+                  "State": "combination_limb_2_col94"
                 }
               ]
             },
@@ -881,44 +870,44 @@
                                     "carry_2_tmp_f9fbc_8"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_3_col95"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_3_col35"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_3_col35"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_3_col45"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_3_col45"
+                          "State": "cube_252_output_limb_3_col55"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_3_col55"
+                      "State": "poseidon_round_keys_output_limb_3_col65"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_3_col65"
+                  "State": "combination_limb_3_col95"
                 }
               ]
             },
@@ -955,44 +944,44 @@
                                     "carry_3_tmp_f9fbc_9"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_4_col96"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_4_col36"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_4_col36"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_4_col46"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_4_col46"
+                          "State": "cube_252_output_limb_4_col56"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_4_col56"
+                      "State": "poseidon_round_keys_output_limb_4_col66"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_4_col66"
+                  "State": "combination_limb_4_col96"
                 }
               ]
             },
@@ -1029,44 +1018,44 @@
                                     "carry_4_tmp_f9fbc_10"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_5_col97"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_5_col37"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_5_col37"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_5_col47"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_5_col47"
+                          "State": "cube_252_output_limb_5_col57"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_5_col57"
+                      "State": "poseidon_round_keys_output_limb_5_col67"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_5_col67"
+                  "State": "combination_limb_5_col97"
                 }
               ]
             },
@@ -1103,44 +1092,44 @@
                                     "carry_5_tmp_f9fbc_11"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_6_col98"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_6_col38"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_6_col38"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_6_col48"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_6_col48"
+                          "State": "cube_252_output_limb_6_col58"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_6_col58"
+                      "State": "poseidon_round_keys_output_limb_6_col68"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_6_col68"
+                  "State": "combination_limb_6_col98"
                 }
               ]
             },
@@ -1179,44 +1168,44 @@
                                         "carry_6_tmp_f9fbc_12"
                                       ]
                                     },
-                                    "-",
+                                    "+",
                                     {
-                                      "State": "combination_limb_7_col99"
+                                      "BinaryOp": [
+                                        {
+                                          "Const": [
+                                            "M31",
+                                            "3"
+                                          ]
+                                        },
+                                        "*",
+                                        {
+                                          "State": "cube_252_output_limb_7_col39"
+                                        }
+                                      ]
                                     }
                                   ]
                                 },
                                 "+",
                                 {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "3"
-                                      ]
-                                    },
-                                    "*",
-                                    {
-                                      "State": "cube_252_output_limb_7_col39"
-                                    }
-                                  ]
+                                  "State": "cube_252_output_limb_7_col49"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_7_col49"
+                              "State": "cube_252_output_limb_7_col59"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_7_col59"
+                          "State": "poseidon_round_keys_output_limb_7_col69"
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "State": "poseidon_round_keys_output_limb_7_col69"
+                      "State": "combination_limb_7_col99"
                     }
                   ]
                 },
@@ -1270,44 +1259,44 @@
                                     "carry_7_tmp_f9fbc_13"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_8_col100"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_8_col40"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_8_col40"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_8_col50"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_8_col50"
+                          "State": "cube_252_output_limb_8_col60"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_8_col60"
+                      "State": "poseidon_round_keys_output_limb_8_col70"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_8_col70"
+                  "State": "combination_limb_8_col100"
                 }
               ]
             },
@@ -1342,44 +1331,44 @@
                                     "carry_8_tmp_f9fbc_14"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_9_col101"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_9_col41"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_9_col41"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_9_col51"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_9_col51"
+                          "State": "cube_252_output_limb_9_col61"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_9_col61"
+                      "State": "poseidon_round_keys_output_limb_9_col71"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_9_col71"
+                  "State": "combination_limb_9_col101"
                 }
               ]
             },
@@ -1607,40 +1596,29 @@
                             {
                               "BinaryOp": [
                                 {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "0"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "combination_limb_0_col103"
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
                                   "State": "cube_252_output_limb_0_col32"
+                                },
+                                "-",
+                                {
+                                  "State": "cube_252_output_limb_0_col42"
                                 }
                               ]
                             },
-                            "-",
+                            "+",
                             {
-                              "State": "cube_252_output_limb_0_col42"
+                              "State": "cube_252_output_limb_0_col52"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_0_col52"
+                          "State": "poseidon_round_keys_output_limb_10_col72"
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "State": "poseidon_round_keys_output_limb_10_col72"
+                      "State": "combination_limb_0_col103"
                     }
                   ]
                 },
@@ -1683,33 +1661,33 @@
                                     "carry_0_tmp_f9fbc_18"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_1_col104"
+                                  "State": "cube_252_output_limb_1_col33"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_1_col33"
+                              "State": "cube_252_output_limb_1_col43"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_1_col43"
+                          "State": "cube_252_output_limb_1_col53"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_1_col53"
+                      "State": "poseidon_round_keys_output_limb_11_col73"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_11_col73"
+                  "State": "combination_limb_1_col104"
                 }
               ]
             },
@@ -1746,33 +1724,33 @@
                                     "carry_1_tmp_f9fbc_19"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_2_col105"
+                                  "State": "cube_252_output_limb_2_col34"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_2_col34"
+                              "State": "cube_252_output_limb_2_col44"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_2_col44"
+                          "State": "cube_252_output_limb_2_col54"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_2_col54"
+                      "State": "poseidon_round_keys_output_limb_12_col74"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_12_col74"
+                  "State": "combination_limb_2_col105"
                 }
               ]
             },
@@ -1809,33 +1787,33 @@
                                     "carry_2_tmp_f9fbc_20"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_3_col106"
+                                  "State": "cube_252_output_limb_3_col35"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_3_col35"
+                              "State": "cube_252_output_limb_3_col45"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_3_col45"
+                          "State": "cube_252_output_limb_3_col55"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_3_col55"
+                      "State": "poseidon_round_keys_output_limb_13_col75"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_13_col75"
+                  "State": "combination_limb_3_col106"
                 }
               ]
             },
@@ -1872,33 +1850,33 @@
                                     "carry_3_tmp_f9fbc_21"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_4_col107"
+                                  "State": "cube_252_output_limb_4_col36"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_4_col36"
+                              "State": "cube_252_output_limb_4_col46"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_4_col46"
+                          "State": "cube_252_output_limb_4_col56"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_4_col56"
+                      "State": "poseidon_round_keys_output_limb_14_col76"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_14_col76"
+                  "State": "combination_limb_4_col107"
                 }
               ]
             },
@@ -1935,33 +1913,33 @@
                                     "carry_4_tmp_f9fbc_22"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_5_col108"
+                                  "State": "cube_252_output_limb_5_col37"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_5_col37"
+                              "State": "cube_252_output_limb_5_col47"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_5_col47"
+                          "State": "cube_252_output_limb_5_col57"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_5_col57"
+                      "State": "poseidon_round_keys_output_limb_15_col77"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_15_col77"
+                  "State": "combination_limb_5_col108"
                 }
               ]
             },
@@ -1998,33 +1976,33 @@
                                     "carry_5_tmp_f9fbc_23"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_6_col109"
+                                  "State": "cube_252_output_limb_6_col38"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_6_col38"
+                              "State": "cube_252_output_limb_6_col48"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_6_col48"
+                          "State": "cube_252_output_limb_6_col58"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_6_col58"
+                      "State": "poseidon_round_keys_output_limb_16_col78"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_16_col78"
+                  "State": "combination_limb_6_col109"
                 }
               ]
             },
@@ -2063,33 +2041,33 @@
                                         "carry_6_tmp_f9fbc_24"
                                       ]
                                     },
-                                    "-",
+                                    "+",
                                     {
-                                      "State": "combination_limb_7_col110"
+                                      "State": "cube_252_output_limb_7_col39"
                                     }
                                   ]
                                 },
-                                "+",
+                                "-",
                                 {
-                                  "State": "cube_252_output_limb_7_col39"
+                                  "State": "cube_252_output_limb_7_col49"
                                 }
                               ]
                             },
-                            "-",
+                            "+",
                             {
-                              "State": "cube_252_output_limb_7_col49"
+                              "State": "cube_252_output_limb_7_col59"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_7_col59"
+                          "State": "poseidon_round_keys_output_limb_17_col79"
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "State": "poseidon_round_keys_output_limb_17_col79"
+                      "State": "combination_limb_7_col110"
                     }
                   ]
                 },
@@ -2143,33 +2121,33 @@
                                     "carry_7_tmp_f9fbc_25"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_8_col111"
+                                  "State": "cube_252_output_limb_8_col40"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_8_col40"
+                              "State": "cube_252_output_limb_8_col50"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_8_col50"
+                          "State": "cube_252_output_limb_8_col60"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_8_col60"
+                      "State": "poseidon_round_keys_output_limb_18_col80"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_18_col80"
+                  "State": "combination_limb_8_col111"
                 }
               ]
             },
@@ -2204,33 +2182,33 @@
                                     "carry_8_tmp_f9fbc_26"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_9_col112"
+                                  "State": "cube_252_output_limb_9_col41"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_9_col41"
+                              "State": "cube_252_output_limb_9_col51"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_9_col51"
+                          "State": "cube_252_output_limb_9_col61"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_9_col61"
+                      "State": "poseidon_round_keys_output_limb_19_col81"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_19_col81"
+                  "State": "combination_limb_9_col112"
                 }
               ]
             },
@@ -2458,51 +2436,40 @@
                             {
                               "BinaryOp": [
                                 {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "0"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "combination_limb_0_col114"
-                                    }
-                                  ]
+                                  "State": "cube_252_output_limb_0_col32"
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_0_col32"
+                                  "State": "cube_252_output_limb_0_col42"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_0_col42"
+                              "BinaryOp": [
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "2"
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "State": "cube_252_output_limb_0_col52"
+                                }
+                              ]
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "BinaryOp": [
-                            {
-                              "Const": [
-                                "M31",
-                                "2"
-                              ]
-                            },
-                            "*",
-                            {
-                              "State": "cube_252_output_limb_0_col52"
-                            }
-                          ]
+                          "State": "poseidon_round_keys_output_limb_20_col82"
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "State": "poseidon_round_keys_output_limb_20_col82"
+                      "State": "combination_limb_0_col114"
                     }
                   ]
                 },
@@ -2545,44 +2512,44 @@
                                     "carry_0_tmp_f9fbc_30"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_1_col115"
+                                  "State": "cube_252_output_limb_1_col33"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_1_col33"
+                              "State": "cube_252_output_limb_1_col43"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_1_col43"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_1_col53"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_1_col53"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_21_col83"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_21_col83"
+                  "State": "combination_limb_1_col115"
                 }
               ]
             },
@@ -2619,44 +2586,44 @@
                                     "carry_1_tmp_f9fbc_31"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_2_col116"
+                                  "State": "cube_252_output_limb_2_col34"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_2_col34"
+                              "State": "cube_252_output_limb_2_col44"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_2_col44"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_2_col54"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_2_col54"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_22_col84"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_22_col84"
+                  "State": "combination_limb_2_col116"
                 }
               ]
             },
@@ -2693,44 +2660,44 @@
                                     "carry_2_tmp_f9fbc_32"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_3_col117"
+                                  "State": "cube_252_output_limb_3_col35"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_3_col35"
+                              "State": "cube_252_output_limb_3_col45"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_3_col45"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_3_col55"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_3_col55"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_23_col85"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_23_col85"
+                  "State": "combination_limb_3_col117"
                 }
               ]
             },
@@ -2767,44 +2734,44 @@
                                     "carry_3_tmp_f9fbc_33"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_4_col118"
+                                  "State": "cube_252_output_limb_4_col36"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_4_col36"
+                              "State": "cube_252_output_limb_4_col46"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_4_col46"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_4_col56"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_4_col56"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_24_col86"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_24_col86"
+                  "State": "combination_limb_4_col118"
                 }
               ]
             },
@@ -2841,44 +2808,44 @@
                                     "carry_4_tmp_f9fbc_34"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_5_col119"
+                                  "State": "cube_252_output_limb_5_col37"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_5_col37"
+                              "State": "cube_252_output_limb_5_col47"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_5_col47"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_5_col57"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_5_col57"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_25_col87"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_25_col87"
+                  "State": "combination_limb_5_col119"
                 }
               ]
             },
@@ -2915,44 +2882,44 @@
                                     "carry_5_tmp_f9fbc_35"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_6_col120"
+                                  "State": "cube_252_output_limb_6_col38"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_6_col38"
+                              "State": "cube_252_output_limb_6_col48"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_6_col48"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_6_col58"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_6_col58"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_26_col88"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_26_col88"
+                  "State": "combination_limb_6_col120"
                 }
               ]
             },
@@ -2991,44 +2958,44 @@
                                         "carry_6_tmp_f9fbc_36"
                                       ]
                                     },
-                                    "-",
+                                    "+",
                                     {
-                                      "State": "combination_limb_7_col121"
+                                      "State": "cube_252_output_limb_7_col39"
                                     }
                                   ]
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_7_col39"
+                                  "State": "cube_252_output_limb_7_col49"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_7_col49"
+                              "BinaryOp": [
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "2"
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "State": "cube_252_output_limb_7_col59"
+                                }
+                              ]
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "BinaryOp": [
-                            {
-                              "Const": [
-                                "M31",
-                                "2"
-                              ]
-                            },
-                            "*",
-                            {
-                              "State": "cube_252_output_limb_7_col59"
-                            }
-                          ]
+                          "State": "poseidon_round_keys_output_limb_27_col89"
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "State": "poseidon_round_keys_output_limb_27_col89"
+                      "State": "combination_limb_7_col121"
                     }
                   ]
                 },
@@ -3082,44 +3049,44 @@
                                     "carry_7_tmp_f9fbc_37"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_8_col122"
+                                  "State": "cube_252_output_limb_8_col40"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_8_col40"
+                              "State": "cube_252_output_limb_8_col50"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_8_col50"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_8_col60"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_8_col60"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_28_col90"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_28_col90"
+                  "State": "combination_limb_8_col122"
                 }
               ]
             },
@@ -3154,44 +3121,44 @@
                                     "carry_8_tmp_f9fbc_38"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_9_col123"
+                                  "State": "cube_252_output_limb_9_col41"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_9_col41"
+                              "State": "cube_252_output_limb_9_col51"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_9_col51"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_9_col61"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_9_col61"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_29_col91"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_29_col91"
+                  "State": "combination_limb_9_col123"
                 }
               ]
             },
@@ -6324,21 +6291,6 @@
                                       {
                                         "Const": [
                                           "M31",
-                                          "0"
-                                        ]
-                                      },
-                                      "-",
-                                      {
-                                        "State": "combination_limb_0_col92"
-                                      }
-                                    ]
-                                  },
-                                  "+",
-                                  {
-                                    "BinaryOp": [
-                                      {
-                                        "Const": [
-                                          "M31",
                                           "3"
                                         ]
                                       },
@@ -6347,24 +6299,28 @@
                                         "State": "cube_252_output_limb_0_col32"
                                       }
                                     ]
+                                  },
+                                  "+",
+                                  {
+                                    "State": "cube_252_output_limb_0_col42"
                                   }
                                 ]
                               },
                               "+",
                               {
-                                "State": "cube_252_output_limb_0_col42"
+                                "State": "cube_252_output_limb_0_col52"
                               }
                             ]
                           },
                           "+",
                           {
-                            "State": "cube_252_output_limb_0_col52"
+                            "State": "poseidon_round_keys_output_limb_0_col62"
                           }
                         ]
                       },
-                      "+",
+                      "-",
                       {
-                        "State": "poseidon_round_keys_output_limb_0_col62"
+                        "State": "combination_limb_0_col92"
                       }
                     ]
                   },
@@ -6434,21 +6390,6 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "0"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "combination_limb_0_col92"
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
                                         "3"
                                       ]
                                     },
@@ -6457,24 +6398,28 @@
                                       "State": "cube_252_output_limb_0_col32"
                                     }
                                   ]
+                                },
+                                "+",
+                                {
+                                  "State": "cube_252_output_limb_0_col42"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_0_col42"
+                              "State": "cube_252_output_limb_0_col52"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_0_col52"
+                          "State": "poseidon_round_keys_output_limb_0_col62"
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "State": "poseidon_round_keys_output_limb_0_col62"
+                      "State": "combination_limb_0_col92"
                     }
                   ]
                 },
@@ -6517,44 +6462,44 @@
                                     "carry_0_tmp_f9fbc_6"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_1_col93"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_1_col33"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_1_col33"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_1_col43"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_1_col43"
+                          "State": "cube_252_output_limb_1_col53"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_1_col53"
+                      "State": "poseidon_round_keys_output_limb_1_col63"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_1_col63"
+                  "State": "combination_limb_1_col93"
                 }
               ]
             },
@@ -6591,44 +6536,44 @@
                                     "carry_1_tmp_f9fbc_7"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_2_col94"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_2_col34"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_2_col34"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_2_col44"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_2_col44"
+                          "State": "cube_252_output_limb_2_col54"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_2_col54"
+                      "State": "poseidon_round_keys_output_limb_2_col64"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_2_col64"
+                  "State": "combination_limb_2_col94"
                 }
               ]
             },
@@ -6665,44 +6610,44 @@
                                     "carry_2_tmp_f9fbc_8"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_3_col95"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_3_col35"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_3_col35"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_3_col45"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_3_col45"
+                          "State": "cube_252_output_limb_3_col55"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_3_col55"
+                      "State": "poseidon_round_keys_output_limb_3_col65"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_3_col65"
+                  "State": "combination_limb_3_col95"
                 }
               ]
             },
@@ -6739,44 +6684,44 @@
                                     "carry_3_tmp_f9fbc_9"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_4_col96"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_4_col36"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_4_col36"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_4_col46"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_4_col46"
+                          "State": "cube_252_output_limb_4_col56"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_4_col56"
+                      "State": "poseidon_round_keys_output_limb_4_col66"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_4_col66"
+                  "State": "combination_limb_4_col96"
                 }
               ]
             },
@@ -6813,44 +6758,44 @@
                                     "carry_4_tmp_f9fbc_10"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_5_col97"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_5_col37"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_5_col37"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_5_col47"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_5_col47"
+                          "State": "cube_252_output_limb_5_col57"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_5_col57"
+                      "State": "poseidon_round_keys_output_limb_5_col67"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_5_col67"
+                  "State": "combination_limb_5_col97"
                 }
               ]
             },
@@ -6887,44 +6832,44 @@
                                     "carry_5_tmp_f9fbc_11"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_6_col98"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_6_col38"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_6_col38"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_6_col48"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_6_col48"
+                          "State": "cube_252_output_limb_6_col58"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_6_col58"
+                      "State": "poseidon_round_keys_output_limb_6_col68"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_6_col68"
+                  "State": "combination_limb_6_col98"
                 }
               ]
             },
@@ -6963,44 +6908,44 @@
                                         "carry_6_tmp_f9fbc_12"
                                       ]
                                     },
-                                    "-",
+                                    "+",
                                     {
-                                      "State": "combination_limb_7_col99"
+                                      "BinaryOp": [
+                                        {
+                                          "Const": [
+                                            "M31",
+                                            "3"
+                                          ]
+                                        },
+                                        "*",
+                                        {
+                                          "State": "cube_252_output_limb_7_col39"
+                                        }
+                                      ]
                                     }
                                   ]
                                 },
                                 "+",
                                 {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "3"
-                                      ]
-                                    },
-                                    "*",
-                                    {
-                                      "State": "cube_252_output_limb_7_col39"
-                                    }
-                                  ]
+                                  "State": "cube_252_output_limb_7_col49"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_7_col49"
+                              "State": "cube_252_output_limb_7_col59"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_7_col59"
+                          "State": "poseidon_round_keys_output_limb_7_col69"
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "State": "poseidon_round_keys_output_limb_7_col69"
+                      "State": "combination_limb_7_col99"
                     }
                   ]
                 },
@@ -7054,44 +6999,44 @@
                                     "carry_7_tmp_f9fbc_13"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_8_col100"
+                                  "BinaryOp": [
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "3"
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "State": "cube_252_output_limb_8_col40"
+                                    }
+                                  ]
                                 }
                               ]
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "State": "cube_252_output_limb_8_col40"
-                                }
-                              ]
+                              "State": "cube_252_output_limb_8_col50"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_8_col50"
+                          "State": "cube_252_output_limb_8_col60"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_8_col60"
+                      "State": "poseidon_round_keys_output_limb_8_col70"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_8_col70"
+                  "State": "combination_limb_8_col100"
                 }
               ]
             },
@@ -7854,40 +7799,29 @@
                               {
                                 "BinaryOp": [
                                   {
-                                    "BinaryOp": [
-                                      {
-                                        "Const": [
-                                          "M31",
-                                          "0"
-                                        ]
-                                      },
-                                      "-",
-                                      {
-                                        "State": "combination_limb_0_col103"
-                                      }
-                                    ]
-                                  },
-                                  "+",
-                                  {
                                     "State": "cube_252_output_limb_0_col32"
+                                  },
+                                  "-",
+                                  {
+                                    "State": "cube_252_output_limb_0_col42"
                                   }
                                 ]
                               },
-                              "-",
+                              "+",
                               {
-                                "State": "cube_252_output_limb_0_col42"
+                                "State": "cube_252_output_limb_0_col52"
                               }
                             ]
                           },
                           "+",
                           {
-                            "State": "cube_252_output_limb_0_col52"
+                            "State": "poseidon_round_keys_output_limb_10_col72"
                           }
                         ]
                       },
-                      "+",
+                      "-",
                       {
-                        "State": "poseidon_round_keys_output_limb_10_col72"
+                        "State": "combination_limb_0_col103"
                       }
                     ]
                   },
@@ -7953,40 +7887,29 @@
                             {
                               "BinaryOp": [
                                 {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "0"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "combination_limb_0_col103"
-                                    }
-                                  ]
-                                },
-                                "+",
-                                {
                                   "State": "cube_252_output_limb_0_col32"
+                                },
+                                "-",
+                                {
+                                  "State": "cube_252_output_limb_0_col42"
                                 }
                               ]
                             },
-                            "-",
+                            "+",
                             {
-                              "State": "cube_252_output_limb_0_col42"
+                              "State": "cube_252_output_limb_0_col52"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_0_col52"
+                          "State": "poseidon_round_keys_output_limb_10_col72"
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "State": "poseidon_round_keys_output_limb_10_col72"
+                      "State": "combination_limb_0_col103"
                     }
                   ]
                 },
@@ -8029,33 +7952,33 @@
                                     "carry_0_tmp_f9fbc_18"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_1_col104"
+                                  "State": "cube_252_output_limb_1_col33"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_1_col33"
+                              "State": "cube_252_output_limb_1_col43"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_1_col43"
+                          "State": "cube_252_output_limb_1_col53"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_1_col53"
+                      "State": "poseidon_round_keys_output_limb_11_col73"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_11_col73"
+                  "State": "combination_limb_1_col104"
                 }
               ]
             },
@@ -8092,33 +8015,33 @@
                                     "carry_1_tmp_f9fbc_19"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_2_col105"
+                                  "State": "cube_252_output_limb_2_col34"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_2_col34"
+                              "State": "cube_252_output_limb_2_col44"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_2_col44"
+                          "State": "cube_252_output_limb_2_col54"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_2_col54"
+                      "State": "poseidon_round_keys_output_limb_12_col74"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_12_col74"
+                  "State": "combination_limb_2_col105"
                 }
               ]
             },
@@ -8155,33 +8078,33 @@
                                     "carry_2_tmp_f9fbc_20"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_3_col106"
+                                  "State": "cube_252_output_limb_3_col35"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_3_col35"
+                              "State": "cube_252_output_limb_3_col45"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_3_col45"
+                          "State": "cube_252_output_limb_3_col55"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_3_col55"
+                      "State": "poseidon_round_keys_output_limb_13_col75"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_13_col75"
+                  "State": "combination_limb_3_col106"
                 }
               ]
             },
@@ -8218,33 +8141,33 @@
                                     "carry_3_tmp_f9fbc_21"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_4_col107"
+                                  "State": "cube_252_output_limb_4_col36"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_4_col36"
+                              "State": "cube_252_output_limb_4_col46"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_4_col46"
+                          "State": "cube_252_output_limb_4_col56"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_4_col56"
+                      "State": "poseidon_round_keys_output_limb_14_col76"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_14_col76"
+                  "State": "combination_limb_4_col107"
                 }
               ]
             },
@@ -8281,33 +8204,33 @@
                                     "carry_4_tmp_f9fbc_22"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_5_col108"
+                                  "State": "cube_252_output_limb_5_col37"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_5_col37"
+                              "State": "cube_252_output_limb_5_col47"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_5_col47"
+                          "State": "cube_252_output_limb_5_col57"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_5_col57"
+                      "State": "poseidon_round_keys_output_limb_15_col77"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_15_col77"
+                  "State": "combination_limb_5_col108"
                 }
               ]
             },
@@ -8344,33 +8267,33 @@
                                     "carry_5_tmp_f9fbc_23"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_6_col109"
+                                  "State": "cube_252_output_limb_6_col38"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_6_col38"
+                              "State": "cube_252_output_limb_6_col48"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_6_col48"
+                          "State": "cube_252_output_limb_6_col58"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_6_col58"
+                      "State": "poseidon_round_keys_output_limb_16_col78"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_16_col78"
+                  "State": "combination_limb_6_col109"
                 }
               ]
             },
@@ -8409,33 +8332,33 @@
                                         "carry_6_tmp_f9fbc_24"
                                       ]
                                     },
-                                    "-",
+                                    "+",
                                     {
-                                      "State": "combination_limb_7_col110"
+                                      "State": "cube_252_output_limb_7_col39"
                                     }
                                   ]
                                 },
-                                "+",
+                                "-",
                                 {
-                                  "State": "cube_252_output_limb_7_col39"
+                                  "State": "cube_252_output_limb_7_col49"
                                 }
                               ]
                             },
-                            "-",
+                            "+",
                             {
-                              "State": "cube_252_output_limb_7_col49"
+                              "State": "cube_252_output_limb_7_col59"
                             }
                           ]
                         },
                         "+",
                         {
-                          "State": "cube_252_output_limb_7_col59"
+                          "State": "poseidon_round_keys_output_limb_17_col79"
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "State": "poseidon_round_keys_output_limb_17_col79"
+                      "State": "combination_limb_7_col110"
                     }
                   ]
                 },
@@ -8489,33 +8412,33 @@
                                     "carry_7_tmp_f9fbc_25"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_8_col111"
+                                  "State": "cube_252_output_limb_8_col40"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_8_col40"
+                              "State": "cube_252_output_limb_8_col50"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_8_col50"
+                          "State": "cube_252_output_limb_8_col60"
                         }
                       ]
                     },
                     "+",
                     {
-                      "State": "cube_252_output_limb_8_col60"
+                      "State": "poseidon_round_keys_output_limb_18_col80"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_18_col80"
+                  "State": "combination_limb_8_col111"
                 }
               ]
             },
@@ -9278,51 +9201,40 @@
                               {
                                 "BinaryOp": [
                                   {
-                                    "BinaryOp": [
-                                      {
-                                        "Const": [
-                                          "M31",
-                                          "0"
-                                        ]
-                                      },
-                                      "-",
-                                      {
-                                        "State": "combination_limb_0_col114"
-                                      }
-                                    ]
+                                    "State": "cube_252_output_limb_0_col32"
                                   },
                                   "+",
                                   {
-                                    "State": "cube_252_output_limb_0_col32"
+                                    "State": "cube_252_output_limb_0_col42"
                                   }
                                 ]
                               },
-                              "+",
+                              "-",
                               {
-                                "State": "cube_252_output_limb_0_col42"
+                                "BinaryOp": [
+                                  {
+                                    "Const": [
+                                      "M31",
+                                      "2"
+                                    ]
+                                  },
+                                  "*",
+                                  {
+                                    "State": "cube_252_output_limb_0_col52"
+                                  }
+                                ]
                               }
                             ]
                           },
-                          "-",
+                          "+",
                           {
-                            "BinaryOp": [
-                              {
-                                "Const": [
-                                  "M31",
-                                  "2"
-                                ]
-                              },
-                              "*",
-                              {
-                                "State": "cube_252_output_limb_0_col52"
-                              }
-                            ]
+                            "State": "poseidon_round_keys_output_limb_20_col82"
                           }
                         ]
                       },
-                      "+",
+                      "-",
                       {
-                        "State": "poseidon_round_keys_output_limb_20_col82"
+                        "State": "combination_limb_0_col114"
                       }
                     ]
                   },
@@ -9388,51 +9300,40 @@
                             {
                               "BinaryOp": [
                                 {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "0"
-                                      ]
-                                    },
-                                    "-",
-                                    {
-                                      "State": "combination_limb_0_col114"
-                                    }
-                                  ]
+                                  "State": "cube_252_output_limb_0_col32"
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_0_col32"
+                                  "State": "cube_252_output_limb_0_col42"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_0_col42"
+                              "BinaryOp": [
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "2"
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "State": "cube_252_output_limb_0_col52"
+                                }
+                              ]
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "BinaryOp": [
-                            {
-                              "Const": [
-                                "M31",
-                                "2"
-                              ]
-                            },
-                            "*",
-                            {
-                              "State": "cube_252_output_limb_0_col52"
-                            }
-                          ]
+                          "State": "poseidon_round_keys_output_limb_20_col82"
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "State": "poseidon_round_keys_output_limb_20_col82"
+                      "State": "combination_limb_0_col114"
                     }
                   ]
                 },
@@ -9475,44 +9376,44 @@
                                     "carry_0_tmp_f9fbc_30"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_1_col115"
+                                  "State": "cube_252_output_limb_1_col33"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_1_col33"
+                              "State": "cube_252_output_limb_1_col43"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_1_col43"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_1_col53"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_1_col53"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_21_col83"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_21_col83"
+                  "State": "combination_limb_1_col115"
                 }
               ]
             },
@@ -9549,44 +9450,44 @@
                                     "carry_1_tmp_f9fbc_31"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_2_col116"
+                                  "State": "cube_252_output_limb_2_col34"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_2_col34"
+                              "State": "cube_252_output_limb_2_col44"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_2_col44"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_2_col54"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_2_col54"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_22_col84"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_22_col84"
+                  "State": "combination_limb_2_col116"
                 }
               ]
             },
@@ -9623,44 +9524,44 @@
                                     "carry_2_tmp_f9fbc_32"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_3_col117"
+                                  "State": "cube_252_output_limb_3_col35"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_3_col35"
+                              "State": "cube_252_output_limb_3_col45"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_3_col45"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_3_col55"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_3_col55"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_23_col85"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_23_col85"
+                  "State": "combination_limb_3_col117"
                 }
               ]
             },
@@ -9697,44 +9598,44 @@
                                     "carry_3_tmp_f9fbc_33"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_4_col118"
+                                  "State": "cube_252_output_limb_4_col36"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_4_col36"
+                              "State": "cube_252_output_limb_4_col46"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_4_col46"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_4_col56"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_4_col56"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_24_col86"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_24_col86"
+                  "State": "combination_limb_4_col118"
                 }
               ]
             },
@@ -9771,44 +9672,44 @@
                                     "carry_4_tmp_f9fbc_34"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_5_col119"
+                                  "State": "cube_252_output_limb_5_col37"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_5_col37"
+                              "State": "cube_252_output_limb_5_col47"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_5_col47"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_5_col57"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_5_col57"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_25_col87"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_25_col87"
+                  "State": "combination_limb_5_col119"
                 }
               ]
             },
@@ -9845,44 +9746,44 @@
                                     "carry_5_tmp_f9fbc_35"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_6_col120"
+                                  "State": "cube_252_output_limb_6_col38"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_6_col38"
+                              "State": "cube_252_output_limb_6_col48"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_6_col48"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_6_col58"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_6_col58"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_26_col88"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_26_col88"
+                  "State": "combination_limb_6_col120"
                 }
               ]
             },
@@ -9921,44 +9822,44 @@
                                         "carry_6_tmp_f9fbc_36"
                                       ]
                                     },
-                                    "-",
+                                    "+",
                                     {
-                                      "State": "combination_limb_7_col121"
+                                      "State": "cube_252_output_limb_7_col39"
                                     }
                                   ]
                                 },
                                 "+",
                                 {
-                                  "State": "cube_252_output_limb_7_col39"
+                                  "State": "cube_252_output_limb_7_col49"
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "State": "cube_252_output_limb_7_col49"
+                              "BinaryOp": [
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "2"
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "State": "cube_252_output_limb_7_col59"
+                                }
+                              ]
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "BinaryOp": [
-                            {
-                              "Const": [
-                                "M31",
-                                "2"
-                              ]
-                            },
-                            "*",
-                            {
-                              "State": "cube_252_output_limb_7_col59"
-                            }
-                          ]
+                          "State": "poseidon_round_keys_output_limb_27_col89"
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "State": "poseidon_round_keys_output_limb_27_col89"
+                      "State": "combination_limb_7_col121"
                     }
                   ]
                 },
@@ -10012,44 +9913,44 @@
                                     "carry_7_tmp_f9fbc_37"
                                   ]
                                 },
-                                "-",
+                                "+",
                                 {
-                                  "State": "combination_limb_8_col122"
+                                  "State": "cube_252_output_limb_8_col40"
                                 }
                               ]
                             },
                             "+",
                             {
-                              "State": "cube_252_output_limb_8_col40"
+                              "State": "cube_252_output_limb_8_col50"
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "State": "cube_252_output_limb_8_col50"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "cube_252_output_limb_8_col60"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "cube_252_output_limb_8_col60"
-                        }
-                      ]
+                      "State": "poseidon_round_keys_output_limb_28_col90"
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "State": "poseidon_round_keys_output_limb_28_col90"
+                  "State": "combination_limb_8_col122"
                 }
               ]
             },

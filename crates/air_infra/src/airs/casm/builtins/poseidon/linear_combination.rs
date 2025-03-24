@@ -118,7 +118,6 @@ impl<const N: usize> AirFn for LinearCombination<N> {
         let mut carry_vec = Vec::new();
         let mut p_coef = const_expr!(0);
         for (i, &p_felt) in P_PACKED27_FELTS.iter().enumerate() {
-            limb_accumulator = limb_accumulator - res.get_felt(i);
             for (j, &c) in self.coefs.iter().enumerate() {
                 limb_accumulator = if c > 0 {
                     limb_accumulator + const_expr!(c as u32) * inputs[j].get_felt(i)
@@ -126,6 +125,7 @@ impl<const N: usize> AirFn for LinearCombination<N> {
                     limb_accumulator - const_expr!((-c) as u32) * inputs[j].get_felt(i)
                 };
             }
+            limb_accumulator = limb_accumulator - res.get_felt(i);
             if i == 0 {
                 // The first limb allows us to extract p_coef, using the fact that p = 1 (mod
                 // 2**27). The value that limb accumulator currently holds therefore equals

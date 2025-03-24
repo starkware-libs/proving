@@ -408,12 +408,15 @@
                                             {
                                               "Const": [
                                                 "M31",
-                                                "0"
+                                                "4"
                                               ]
                                             },
-                                            "-",
+                                            "*",
                                             {
-                                              "State": "combination_limb_0_col10"
+                                              "Var": [
+                                                "M31",
+                                                "poseidon_partial_round_input_limb_0"
+                                              ]
                                             }
                                           ]
                                         },
@@ -423,14 +426,14 @@
                                             {
                                               "Const": [
                                                 "M31",
-                                                "4"
+                                                "2"
                                               ]
                                             },
                                             "*",
                                             {
                                               "Var": [
                                                 "M31",
-                                                "poseidon_partial_round_input_limb_0"
+                                                "poseidon_partial_round_input_limb_10"
                                               ]
                                             }
                                           ]
@@ -443,14 +446,14 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "2"
+                                            "3"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "poseidon_partial_round_input_limb_10"
+                                            "poseidon_partial_round_input_limb_20"
                                           ]
                                         }
                                       ]
@@ -459,45 +462,31 @@
                                 },
                                 "+",
                                 {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "3"
-                                      ]
-                                    },
-                                    "*",
-                                    {
-                                      "Var": [
-                                        "M31",
-                                        "poseidon_partial_round_input_limb_20"
-                                      ]
-                                    }
+                                  "Var": [
+                                    "M31",
+                                    "poseidon_partial_round_input_limb_30"
                                   ]
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "Var": [
-                                "M31",
-                                "poseidon_partial_round_input_limb_30"
-                              ]
+                              "State": "cube_252_output_limb_0_col0"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_0_col0"
+                          "Var": [
+                            "M31",
+                            "poseidon_partial_round_input_limb_40"
+                          ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "Var": [
-                        "M31",
-                        "poseidon_partial_round_input_limb_40"
-                      ]
+                      "State": "combination_limb_0_col10"
                     }
                   ]
                 },
@@ -544,9 +533,23 @@
                                             "carry_0_tmp_1c8d0_3"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_1_col11"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "Var": [
+                                                "M31",
+                                                "poseidon_partial_round_input_limb_1"
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -556,14 +559,14 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "poseidon_partial_round_input_limb_1"
+                                            "poseidon_partial_round_input_limb_11"
                                           ]
                                         }
                                       ]
@@ -576,14 +579,14 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "poseidon_partial_round_input_limb_11"
+                                        "poseidon_partial_round_input_limb_21"
                                       ]
                                     }
                                   ]
@@ -592,45 +595,31 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "poseidon_partial_round_input_limb_21"
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "poseidon_partial_round_input_limb_31"
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "Var": [
-                            "M31",
-                            "poseidon_partial_round_input_limb_31"
-                          ]
+                          "State": "cube_252_output_limb_1_col1"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_1_col1"
+                      "Var": [
+                        "M31",
+                        "poseidon_partial_round_input_limb_41"
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "poseidon_partial_round_input_limb_41"
-                  ]
+                  "State": "combination_limb_1_col11"
                 }
               ]
             },
@@ -671,9 +660,23 @@
                                             "carry_1_tmp_1c8d0_4"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_2_col12"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "Var": [
+                                                "M31",
+                                                "poseidon_partial_round_input_limb_2"
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -683,14 +686,14 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "poseidon_partial_round_input_limb_2"
+                                            "poseidon_partial_round_input_limb_12"
                                           ]
                                         }
                                       ]
@@ -703,14 +706,14 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "poseidon_partial_round_input_limb_12"
+                                        "poseidon_partial_round_input_limb_22"
                                       ]
                                     }
                                   ]
@@ -719,45 +722,31 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "poseidon_partial_round_input_limb_22"
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "poseidon_partial_round_input_limb_32"
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "Var": [
-                            "M31",
-                            "poseidon_partial_round_input_limb_32"
-                          ]
+                          "State": "cube_252_output_limb_2_col2"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_2_col2"
+                      "Var": [
+                        "M31",
+                        "poseidon_partial_round_input_limb_42"
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "poseidon_partial_round_input_limb_42"
-                  ]
+                  "State": "combination_limb_2_col12"
                 }
               ]
             },
@@ -798,9 +787,23 @@
                                             "carry_2_tmp_1c8d0_5"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_3_col13"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "Var": [
+                                                "M31",
+                                                "poseidon_partial_round_input_limb_3"
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -810,14 +813,14 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "poseidon_partial_round_input_limb_3"
+                                            "poseidon_partial_round_input_limb_13"
                                           ]
                                         }
                                       ]
@@ -830,14 +833,14 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "poseidon_partial_round_input_limb_13"
+                                        "poseidon_partial_round_input_limb_23"
                                       ]
                                     }
                                   ]
@@ -846,45 +849,31 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "poseidon_partial_round_input_limb_23"
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "poseidon_partial_round_input_limb_33"
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "Var": [
-                            "M31",
-                            "poseidon_partial_round_input_limb_33"
-                          ]
+                          "State": "cube_252_output_limb_3_col3"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_3_col3"
+                      "Var": [
+                        "M31",
+                        "poseidon_partial_round_input_limb_43"
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "poseidon_partial_round_input_limb_43"
-                  ]
+                  "State": "combination_limb_3_col13"
                 }
               ]
             },
@@ -925,9 +914,23 @@
                                             "carry_3_tmp_1c8d0_6"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_4_col14"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "Var": [
+                                                "M31",
+                                                "poseidon_partial_round_input_limb_4"
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -937,14 +940,14 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "poseidon_partial_round_input_limb_4"
+                                            "poseidon_partial_round_input_limb_14"
                                           ]
                                         }
                                       ]
@@ -957,14 +960,14 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "poseidon_partial_round_input_limb_14"
+                                        "poseidon_partial_round_input_limb_24"
                                       ]
                                     }
                                   ]
@@ -973,45 +976,31 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "poseidon_partial_round_input_limb_24"
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "poseidon_partial_round_input_limb_34"
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "Var": [
-                            "M31",
-                            "poseidon_partial_round_input_limb_34"
-                          ]
+                          "State": "cube_252_output_limb_4_col4"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_4_col4"
+                      "Var": [
+                        "M31",
+                        "poseidon_partial_round_input_limb_44"
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "poseidon_partial_round_input_limb_44"
-                  ]
+                  "State": "combination_limb_4_col14"
                 }
               ]
             },
@@ -1052,9 +1041,23 @@
                                             "carry_4_tmp_1c8d0_7"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_5_col15"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "Var": [
+                                                "M31",
+                                                "poseidon_partial_round_input_limb_5"
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -1064,14 +1067,14 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "poseidon_partial_round_input_limb_5"
+                                            "poseidon_partial_round_input_limb_15"
                                           ]
                                         }
                                       ]
@@ -1084,14 +1087,14 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "poseidon_partial_round_input_limb_15"
+                                        "poseidon_partial_round_input_limb_25"
                                       ]
                                     }
                                   ]
@@ -1100,45 +1103,31 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "poseidon_partial_round_input_limb_25"
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "poseidon_partial_round_input_limb_35"
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "Var": [
-                            "M31",
-                            "poseidon_partial_round_input_limb_35"
-                          ]
+                          "State": "cube_252_output_limb_5_col5"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_5_col5"
+                      "Var": [
+                        "M31",
+                        "poseidon_partial_round_input_limb_45"
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "poseidon_partial_round_input_limb_45"
-                  ]
+                  "State": "combination_limb_5_col15"
                 }
               ]
             },
@@ -1179,9 +1168,23 @@
                                             "carry_5_tmp_1c8d0_8"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_6_col16"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "Var": [
+                                                "M31",
+                                                "poseidon_partial_round_input_limb_6"
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -1191,14 +1194,14 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "poseidon_partial_round_input_limb_6"
+                                            "poseidon_partial_round_input_limb_16"
                                           ]
                                         }
                                       ]
@@ -1211,14 +1214,14 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "poseidon_partial_round_input_limb_16"
+                                        "poseidon_partial_round_input_limb_26"
                                       ]
                                     }
                                   ]
@@ -1227,45 +1230,31 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "poseidon_partial_round_input_limb_26"
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "poseidon_partial_round_input_limb_36"
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "Var": [
-                            "M31",
-                            "poseidon_partial_round_input_limb_36"
-                          ]
+                          "State": "cube_252_output_limb_6_col6"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_6_col6"
+                      "Var": [
+                        "M31",
+                        "poseidon_partial_round_input_limb_46"
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "poseidon_partial_round_input_limb_46"
-                  ]
+                  "State": "combination_limb_6_col16"
                 }
               ]
             },
@@ -1308,9 +1297,23 @@
                                                 "carry_6_tmp_1c8d0_9"
                                               ]
                                             },
-                                            "-",
+                                            "+",
                                             {
-                                              "State": "combination_limb_7_col17"
+                                              "BinaryOp": [
+                                                {
+                                                  "Const": [
+                                                    "M31",
+                                                    "4"
+                                                  ]
+                                                },
+                                                "*",
+                                                {
+                                                  "Var": [
+                                                    "M31",
+                                                    "poseidon_partial_round_input_limb_7"
+                                                  ]
+                                                }
+                                              ]
                                             }
                                           ]
                                         },
@@ -1320,14 +1323,14 @@
                                             {
                                               "Const": [
                                                 "M31",
-                                                "4"
+                                                "2"
                                               ]
                                             },
                                             "*",
                                             {
                                               "Var": [
                                                 "M31",
-                                                "poseidon_partial_round_input_limb_7"
+                                                "poseidon_partial_round_input_limb_17"
                                               ]
                                             }
                                           ]
@@ -1340,14 +1343,14 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "2"
+                                            "3"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "poseidon_partial_round_input_limb_17"
+                                            "poseidon_partial_round_input_limb_27"
                                           ]
                                         }
                                       ]
@@ -1356,45 +1359,31 @@
                                 },
                                 "+",
                                 {
-                                  "BinaryOp": [
-                                    {
-                                      "Const": [
-                                        "M31",
-                                        "3"
-                                      ]
-                                    },
-                                    "*",
-                                    {
-                                      "Var": [
-                                        "M31",
-                                        "poseidon_partial_round_input_limb_27"
-                                      ]
-                                    }
+                                  "Var": [
+                                    "M31",
+                                    "poseidon_partial_round_input_limb_37"
                                   ]
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "Var": [
-                                "M31",
-                                "poseidon_partial_round_input_limb_37"
-                              ]
+                              "State": "cube_252_output_limb_7_col7"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_7_col7"
+                          "Var": [
+                            "M31",
+                            "poseidon_partial_round_input_limb_47"
+                          ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "Var": [
-                        "M31",
-                        "poseidon_partial_round_input_limb_47"
-                      ]
+                      "State": "combination_limb_7_col17"
                     }
                   ]
                 },
@@ -1452,9 +1441,23 @@
                                             "carry_7_tmp_1c8d0_10"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_8_col18"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "Var": [
+                                                "M31",
+                                                "poseidon_partial_round_input_limb_8"
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -1464,14 +1467,14 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "poseidon_partial_round_input_limb_8"
+                                            "poseidon_partial_round_input_limb_18"
                                           ]
                                         }
                                       ]
@@ -1484,14 +1487,14 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "poseidon_partial_round_input_limb_18"
+                                        "poseidon_partial_round_input_limb_28"
                                       ]
                                     }
                                   ]
@@ -1500,45 +1503,31 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "poseidon_partial_round_input_limb_28"
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "poseidon_partial_round_input_limb_38"
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "Var": [
-                            "M31",
-                            "poseidon_partial_round_input_limb_38"
-                          ]
+                          "State": "cube_252_output_limb_8_col8"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_8_col8"
+                      "Var": [
+                        "M31",
+                        "poseidon_partial_round_input_limb_48"
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "poseidon_partial_round_input_limb_48"
-                  ]
+                  "State": "combination_limb_8_col18"
                 }
               ]
             },
@@ -1577,9 +1566,23 @@
                                             "carry_8_tmp_1c8d0_11"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_9_col19"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "Var": [
+                                                "M31",
+                                                "poseidon_partial_round_input_limb_9"
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -1589,14 +1592,14 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
                                         {
                                           "Var": [
                                             "M31",
-                                            "poseidon_partial_round_input_limb_9"
+                                            "poseidon_partial_round_input_limb_19"
                                           ]
                                         }
                                       ]
@@ -1609,14 +1612,14 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
                                     {
                                       "Var": [
                                         "M31",
-                                        "poseidon_partial_round_input_limb_19"
+                                        "poseidon_partial_round_input_limb_29"
                                       ]
                                     }
                                   ]
@@ -1625,45 +1628,31 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
-                                {
-                                  "Const": [
-                                    "M31",
-                                    "3"
-                                  ]
-                                },
-                                "*",
-                                {
-                                  "Var": [
-                                    "M31",
-                                    "poseidon_partial_round_input_limb_29"
-                                  ]
-                                }
+                              "Var": [
+                                "M31",
+                                "poseidon_partial_round_input_limb_39"
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "Var": [
-                            "M31",
-                            "poseidon_partial_round_input_limb_39"
-                          ]
+                          "State": "cube_252_output_limb_9_col9"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_9_col9"
+                      "Var": [
+                        "M31",
+                        "poseidon_partial_round_input_limb_49"
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "poseidon_partial_round_input_limb_49"
-                  ]
+                  "State": "combination_limb_9_col19"
                 }
               ]
             },
@@ -1935,21 +1924,6 @@
                         {
                           "Const": [
                             "M31",
-                            "0"
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "combination_limb_0_col21"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
                             "2"
                           ]
                         },
@@ -1958,6 +1932,10 @@
                           "State": "combination_limb_0_col10"
                         }
                       ]
+                    },
+                    "-",
+                    {
+                      "State": "combination_limb_0_col21"
                     }
                   ]
                 },
@@ -1994,26 +1972,26 @@
                         "carry_0_tmp_1c8d0_15"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_1_col22"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_1_col11"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_1_col11"
-                    }
-                  ]
+                  "State": "combination_limb_1_col22"
                 }
               ]
             },
@@ -2044,26 +2022,26 @@
                         "carry_1_tmp_1c8d0_16"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_2_col23"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_2_col12"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_2_col12"
-                    }
-                  ]
+                  "State": "combination_limb_2_col23"
                 }
               ]
             },
@@ -2094,26 +2072,26 @@
                         "carry_2_tmp_1c8d0_17"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_3_col24"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_3_col13"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_3_col13"
-                    }
-                  ]
+                  "State": "combination_limb_3_col24"
                 }
               ]
             },
@@ -2144,26 +2122,26 @@
                         "carry_3_tmp_1c8d0_18"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_4_col25"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_4_col14"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_4_col14"
-                    }
-                  ]
+                  "State": "combination_limb_4_col25"
                 }
               ]
             },
@@ -2194,26 +2172,26 @@
                         "carry_4_tmp_1c8d0_19"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_5_col26"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_5_col15"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_5_col15"
-                    }
-                  ]
+                  "State": "combination_limb_5_col26"
                 }
               ]
             },
@@ -2244,26 +2222,26 @@
                         "carry_5_tmp_1c8d0_20"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_6_col27"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_6_col16"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_6_col16"
-                    }
-                  ]
+                  "State": "combination_limb_6_col27"
                 }
               ]
             },
@@ -2296,26 +2274,26 @@
                             "carry_6_tmp_1c8d0_21"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_7_col28"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "combination_limb_7_col17"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "combination_limb_7_col17"
-                        }
-                      ]
+                      "State": "combination_limb_7_col28"
                     }
                   ]
                 },
@@ -2363,26 +2341,26 @@
                         "carry_7_tmp_1c8d0_22"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_8_col29"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_8_col18"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_8_col18"
-                    }
-                  ]
+                  "State": "combination_limb_8_col29"
                 }
               ]
             },
@@ -2411,26 +2389,26 @@
                         "carry_8_tmp_1c8d0_23"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_9_col30"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_9_col19"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_9_col19"
-                    }
-                  ]
+                  "State": "combination_limb_9_col30"
                 }
               ]
             },
@@ -4135,21 +4113,6 @@
                                               {
                                                 "Const": [
                                                   "M31",
-                                                  "0"
-                                                ]
-                                              },
-                                              "-",
-                                              {
-                                                "State": "combination_limb_0_col10"
-                                              }
-                                            ]
-                                          },
-                                          "+",
-                                          {
-                                            "BinaryOp": [
-                                              {
-                                                "Const": [
-                                                  "M31",
                                                   "4"
                                                 ]
                                               },
@@ -4174,6 +4137,37 @@
                                                 ]
                                               }
                                             ]
+                                          },
+                                          "+",
+                                          {
+                                            "BinaryOp": [
+                                              {
+                                                "Const": [
+                                                  "M31",
+                                                  "2"
+                                                ]
+                                              },
+                                              "*",
+                                              {
+                                                "MethodCall": [
+                                                  {
+                                                    "Var": [
+                                                      "Felt252Width27",
+                                                      "poseidon_partial_round_input.0[1]"
+                                                    ]
+                                                  },
+                                                  "get_m31",
+                                                  [
+                                                    {
+                                                      "Const": [
+                                                        "usize",
+                                                        "0"
+                                                      ]
+                                                    }
+                                                  ]
+                                                ]
+                                              }
+                                            ]
                                           }
                                         ]
                                       },
@@ -4183,7 +4177,7 @@
                                           {
                                             "Const": [
                                               "M31",
-                                              "2"
+                                              "3"
                                             ]
                                           },
                                           "*",
@@ -4192,7 +4186,7 @@
                                               {
                                                 "Var": [
                                                   "Felt252Width27",
-                                                  "poseidon_partial_round_input.0[1]"
+                                                  "poseidon_partial_round_input.0[2]"
                                                 ]
                                               },
                                               "get_m31",
@@ -4212,84 +4206,57 @@
                                   },
                                   "+",
                                   {
-                                    "BinaryOp": [
+                                    "MethodCall": [
                                       {
-                                        "Const": [
-                                          "M31",
-                                          "3"
+                                        "Var": [
+                                          "Felt252Width27",
+                                          "poseidon_partial_round_input.0[3]"
                                         ]
                                       },
-                                      "*",
-                                      {
-                                        "MethodCall": [
-                                          {
-                                            "Var": [
-                                              "Felt252Width27",
-                                              "poseidon_partial_round_input.0[2]"
-                                            ]
-                                          },
-                                          "get_m31",
-                                          [
-                                            {
-                                              "Const": [
-                                                "usize",
-                                                "0"
-                                              ]
-                                            }
+                                      "get_m31",
+                                      [
+                                        {
+                                          "Const": [
+                                            "usize",
+                                            "0"
                                           ]
-                                        ]
-                                      }
+                                        }
+                                      ]
                                     ]
                                   }
                                 ]
                               },
-                              "+",
+                              "-",
                               {
-                                "MethodCall": [
-                                  {
-                                    "Var": [
-                                      "Felt252Width27",
-                                      "poseidon_partial_round_input.0[3]"
-                                    ]
-                                  },
-                                  "get_m31",
-                                  [
-                                    {
-                                      "Const": [
-                                        "usize",
-                                        "0"
-                                      ]
-                                    }
-                                  ]
-                                ]
+                                "State": "cube_252_output_limb_0_col0"
                               }
                             ]
                           },
-                          "-",
+                          "+",
                           {
-                            "State": "cube_252_output_limb_0_col0"
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "Felt252Width27",
+                                  "poseidon_partial_round_input.1"
+                                ]
+                              },
+                              "get_m31",
+                              [
+                                {
+                                  "Const": [
+                                    "usize",
+                                    "0"
+                                  ]
+                                }
+                              ]
+                            ]
                           }
                         ]
                       },
-                      "+",
+                      "-",
                       {
-                        "MethodCall": [
-                          {
-                            "Var": [
-                              "Felt252Width27",
-                              "poseidon_partial_round_input.1"
-                            ]
-                          },
-                          "get_m31",
-                          [
-                            {
-                              "Const": [
-                                "usize",
-                                "0"
-                              ]
-                            }
-                          ]
-                        ]
+                        "State": "combination_limb_0_col10"
                       }
                     ]
                   },
@@ -4363,21 +4330,6 @@
                                             {
                                               "Const": [
                                                 "M31",
-                                                "0"
-                                              ]
-                                            },
-                                            "-",
-                                            {
-                                              "State": "combination_limb_0_col10"
-                                            }
-                                          ]
-                                        },
-                                        "+",
-                                        {
-                                          "BinaryOp": [
-                                            {
-                                              "Const": [
-                                                "M31",
                                                 "4"
                                               ]
                                             },
@@ -4402,6 +4354,37 @@
                                               ]
                                             }
                                           ]
+                                        },
+                                        "+",
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "2"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "MethodCall": [
+                                                {
+                                                  "Var": [
+                                                    "Felt252Width27",
+                                                    "poseidon_partial_round_input.0[1]"
+                                                  ]
+                                                },
+                                                "get_m31",
+                                                [
+                                                  {
+                                                    "Const": [
+                                                      "usize",
+                                                      "0"
+                                                    ]
+                                                  }
+                                                ]
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -4411,7 +4394,7 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "2"
+                                            "3"
                                           ]
                                         },
                                         "*",
@@ -4420,7 +4403,7 @@
                                             {
                                               "Var": [
                                                 "Felt252Width27",
-                                                "poseidon_partial_round_input.0[1]"
+                                                "poseidon_partial_round_input.0[2]"
                                               ]
                                             },
                                             "get_m31",
@@ -4440,84 +4423,57 @@
                                 },
                                 "+",
                                 {
-                                  "BinaryOp": [
+                                  "MethodCall": [
                                     {
-                                      "Const": [
-                                        "M31",
-                                        "3"
+                                      "Var": [
+                                        "Felt252Width27",
+                                        "poseidon_partial_round_input.0[3]"
                                       ]
                                     },
-                                    "*",
-                                    {
-                                      "MethodCall": [
-                                        {
-                                          "Var": [
-                                            "Felt252Width27",
-                                            "poseidon_partial_round_input.0[2]"
-                                          ]
-                                        },
-                                        "get_m31",
-                                        [
-                                          {
-                                            "Const": [
-                                              "usize",
-                                              "0"
-                                            ]
-                                          }
+                                    "get_m31",
+                                    [
+                                      {
+                                        "Const": [
+                                          "usize",
+                                          "0"
                                         ]
-                                      ]
-                                    }
+                                      }
+                                    ]
                                   ]
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "MethodCall": [
-                                {
-                                  "Var": [
-                                    "Felt252Width27",
-                                    "poseidon_partial_round_input.0[3]"
-                                  ]
-                                },
-                                "get_m31",
-                                [
-                                  {
-                                    "Const": [
-                                      "usize",
-                                      "0"
-                                    ]
-                                  }
-                                ]
-                              ]
+                              "State": "cube_252_output_limb_0_col0"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_0_col0"
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252Width27",
+                                "poseidon_partial_round_input.1"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "0"
+                                ]
+                              }
+                            ]
+                          ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "Felt252Width27",
-                            "poseidon_partial_round_input.1"
-                          ]
-                        },
-                        "get_m31",
-                        [
-                          {
-                            "Const": [
-                              "usize",
-                              "0"
-                            ]
-                          }
-                        ]
-                      ]
+                      "State": "combination_limb_0_col10"
                     }
                   ]
                 },
@@ -4564,9 +4520,36 @@
                                             "carry_0_tmp_1c8d0_3"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_1_col11"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "MethodCall": [
+                                                {
+                                                  "Var": [
+                                                    "Felt252Width27",
+                                                    "poseidon_partial_round_input.0[0]"
+                                                  ]
+                                                },
+                                                "get_m31",
+                                                [
+                                                  {
+                                                    "Const": [
+                                                      "usize",
+                                                      "1"
+                                                    ]
+                                                  }
+                                                ]
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -4576,7 +4559,7 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
@@ -4585,7 +4568,7 @@
                                             {
                                               "Var": [
                                                 "Felt252Width27",
-                                                "poseidon_partial_round_input.0[0]"
+                                                "poseidon_partial_round_input.0[1]"
                                               ]
                                             },
                                             "get_m31",
@@ -4609,7 +4592,7 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
@@ -4618,7 +4601,7 @@
                                         {
                                           "Var": [
                                             "Felt252Width27",
-                                            "poseidon_partial_round_input.0[1]"
+                                            "poseidon_partial_round_input.0[2]"
                                           ]
                                         },
                                         "get_m31",
@@ -4638,84 +4621,57 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
+                              "MethodCall": [
                                 {
-                                  "Const": [
-                                    "M31",
-                                    "3"
+                                  "Var": [
+                                    "Felt252Width27",
+                                    "poseidon_partial_round_input.0[3]"
                                   ]
                                 },
-                                "*",
-                                {
-                                  "MethodCall": [
-                                    {
-                                      "Var": [
-                                        "Felt252Width27",
-                                        "poseidon_partial_round_input.0[2]"
-                                      ]
-                                    },
-                                    "get_m31",
-                                    [
-                                      {
-                                        "Const": [
-                                          "usize",
-                                          "1"
-                                        ]
-                                      }
+                                "get_m31",
+                                [
+                                  {
+                                    "Const": [
+                                      "usize",
+                                      "1"
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "poseidon_partial_round_input.0[3]"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "1"
-                                ]
-                              }
-                            ]
-                          ]
+                          "State": "cube_252_output_limb_1_col1"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_1_col1"
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252Width27",
+                            "poseidon_partial_round_input.1"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "1"
+                            ]
+                          }
+                        ]
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "poseidon_partial_round_input.1"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "1"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_1_col11"
                 }
               ]
             },
@@ -4756,9 +4712,36 @@
                                             "carry_1_tmp_1c8d0_4"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_2_col12"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "MethodCall": [
+                                                {
+                                                  "Var": [
+                                                    "Felt252Width27",
+                                                    "poseidon_partial_round_input.0[0]"
+                                                  ]
+                                                },
+                                                "get_m31",
+                                                [
+                                                  {
+                                                    "Const": [
+                                                      "usize",
+                                                      "2"
+                                                    ]
+                                                  }
+                                                ]
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -4768,7 +4751,7 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
@@ -4777,7 +4760,7 @@
                                             {
                                               "Var": [
                                                 "Felt252Width27",
-                                                "poseidon_partial_round_input.0[0]"
+                                                "poseidon_partial_round_input.0[1]"
                                               ]
                                             },
                                             "get_m31",
@@ -4801,7 +4784,7 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
@@ -4810,7 +4793,7 @@
                                         {
                                           "Var": [
                                             "Felt252Width27",
-                                            "poseidon_partial_round_input.0[1]"
+                                            "poseidon_partial_round_input.0[2]"
                                           ]
                                         },
                                         "get_m31",
@@ -4830,84 +4813,57 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
+                              "MethodCall": [
                                 {
-                                  "Const": [
-                                    "M31",
-                                    "3"
+                                  "Var": [
+                                    "Felt252Width27",
+                                    "poseidon_partial_round_input.0[3]"
                                   ]
                                 },
-                                "*",
-                                {
-                                  "MethodCall": [
-                                    {
-                                      "Var": [
-                                        "Felt252Width27",
-                                        "poseidon_partial_round_input.0[2]"
-                                      ]
-                                    },
-                                    "get_m31",
-                                    [
-                                      {
-                                        "Const": [
-                                          "usize",
-                                          "2"
-                                        ]
-                                      }
+                                "get_m31",
+                                [
+                                  {
+                                    "Const": [
+                                      "usize",
+                                      "2"
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "poseidon_partial_round_input.0[3]"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "2"
-                                ]
-                              }
-                            ]
-                          ]
+                          "State": "cube_252_output_limb_2_col2"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_2_col2"
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252Width27",
+                            "poseidon_partial_round_input.1"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "2"
+                            ]
+                          }
+                        ]
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "poseidon_partial_round_input.1"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "2"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_2_col12"
                 }
               ]
             },
@@ -4948,9 +4904,36 @@
                                             "carry_2_tmp_1c8d0_5"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_3_col13"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "MethodCall": [
+                                                {
+                                                  "Var": [
+                                                    "Felt252Width27",
+                                                    "poseidon_partial_round_input.0[0]"
+                                                  ]
+                                                },
+                                                "get_m31",
+                                                [
+                                                  {
+                                                    "Const": [
+                                                      "usize",
+                                                      "3"
+                                                    ]
+                                                  }
+                                                ]
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -4960,7 +4943,7 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
@@ -4969,7 +4952,7 @@
                                             {
                                               "Var": [
                                                 "Felt252Width27",
-                                                "poseidon_partial_round_input.0[0]"
+                                                "poseidon_partial_round_input.0[1]"
                                               ]
                                             },
                                             "get_m31",
@@ -4993,7 +4976,7 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
@@ -5002,7 +4985,7 @@
                                         {
                                           "Var": [
                                             "Felt252Width27",
-                                            "poseidon_partial_round_input.0[1]"
+                                            "poseidon_partial_round_input.0[2]"
                                           ]
                                         },
                                         "get_m31",
@@ -5022,84 +5005,57 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
+                              "MethodCall": [
                                 {
-                                  "Const": [
-                                    "M31",
-                                    "3"
+                                  "Var": [
+                                    "Felt252Width27",
+                                    "poseidon_partial_round_input.0[3]"
                                   ]
                                 },
-                                "*",
-                                {
-                                  "MethodCall": [
-                                    {
-                                      "Var": [
-                                        "Felt252Width27",
-                                        "poseidon_partial_round_input.0[2]"
-                                      ]
-                                    },
-                                    "get_m31",
-                                    [
-                                      {
-                                        "Const": [
-                                          "usize",
-                                          "3"
-                                        ]
-                                      }
+                                "get_m31",
+                                [
+                                  {
+                                    "Const": [
+                                      "usize",
+                                      "3"
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "poseidon_partial_round_input.0[3]"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "3"
-                                ]
-                              }
-                            ]
-                          ]
+                          "State": "cube_252_output_limb_3_col3"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_3_col3"
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252Width27",
+                            "poseidon_partial_round_input.1"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "3"
+                            ]
+                          }
+                        ]
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "poseidon_partial_round_input.1"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "3"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_3_col13"
                 }
               ]
             },
@@ -5140,9 +5096,36 @@
                                             "carry_3_tmp_1c8d0_6"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_4_col14"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "MethodCall": [
+                                                {
+                                                  "Var": [
+                                                    "Felt252Width27",
+                                                    "poseidon_partial_round_input.0[0]"
+                                                  ]
+                                                },
+                                                "get_m31",
+                                                [
+                                                  {
+                                                    "Const": [
+                                                      "usize",
+                                                      "4"
+                                                    ]
+                                                  }
+                                                ]
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -5152,7 +5135,7 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
@@ -5161,7 +5144,7 @@
                                             {
                                               "Var": [
                                                 "Felt252Width27",
-                                                "poseidon_partial_round_input.0[0]"
+                                                "poseidon_partial_round_input.0[1]"
                                               ]
                                             },
                                             "get_m31",
@@ -5185,7 +5168,7 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
@@ -5194,7 +5177,7 @@
                                         {
                                           "Var": [
                                             "Felt252Width27",
-                                            "poseidon_partial_round_input.0[1]"
+                                            "poseidon_partial_round_input.0[2]"
                                           ]
                                         },
                                         "get_m31",
@@ -5214,84 +5197,57 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
+                              "MethodCall": [
                                 {
-                                  "Const": [
-                                    "M31",
-                                    "3"
+                                  "Var": [
+                                    "Felt252Width27",
+                                    "poseidon_partial_round_input.0[3]"
                                   ]
                                 },
-                                "*",
-                                {
-                                  "MethodCall": [
-                                    {
-                                      "Var": [
-                                        "Felt252Width27",
-                                        "poseidon_partial_round_input.0[2]"
-                                      ]
-                                    },
-                                    "get_m31",
-                                    [
-                                      {
-                                        "Const": [
-                                          "usize",
-                                          "4"
-                                        ]
-                                      }
+                                "get_m31",
+                                [
+                                  {
+                                    "Const": [
+                                      "usize",
+                                      "4"
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "poseidon_partial_round_input.0[3]"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "4"
-                                ]
-                              }
-                            ]
-                          ]
+                          "State": "cube_252_output_limb_4_col4"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_4_col4"
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252Width27",
+                            "poseidon_partial_round_input.1"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "4"
+                            ]
+                          }
+                        ]
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "poseidon_partial_round_input.1"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "4"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_4_col14"
                 }
               ]
             },
@@ -5332,9 +5288,36 @@
                                             "carry_4_tmp_1c8d0_7"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_5_col15"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "MethodCall": [
+                                                {
+                                                  "Var": [
+                                                    "Felt252Width27",
+                                                    "poseidon_partial_round_input.0[0]"
+                                                  ]
+                                                },
+                                                "get_m31",
+                                                [
+                                                  {
+                                                    "Const": [
+                                                      "usize",
+                                                      "5"
+                                                    ]
+                                                  }
+                                                ]
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -5344,7 +5327,7 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
@@ -5353,7 +5336,7 @@
                                             {
                                               "Var": [
                                                 "Felt252Width27",
-                                                "poseidon_partial_round_input.0[0]"
+                                                "poseidon_partial_round_input.0[1]"
                                               ]
                                             },
                                             "get_m31",
@@ -5377,7 +5360,7 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
@@ -5386,7 +5369,7 @@
                                         {
                                           "Var": [
                                             "Felt252Width27",
-                                            "poseidon_partial_round_input.0[1]"
+                                            "poseidon_partial_round_input.0[2]"
                                           ]
                                         },
                                         "get_m31",
@@ -5406,84 +5389,57 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
+                              "MethodCall": [
                                 {
-                                  "Const": [
-                                    "M31",
-                                    "3"
+                                  "Var": [
+                                    "Felt252Width27",
+                                    "poseidon_partial_round_input.0[3]"
                                   ]
                                 },
-                                "*",
-                                {
-                                  "MethodCall": [
-                                    {
-                                      "Var": [
-                                        "Felt252Width27",
-                                        "poseidon_partial_round_input.0[2]"
-                                      ]
-                                    },
-                                    "get_m31",
-                                    [
-                                      {
-                                        "Const": [
-                                          "usize",
-                                          "5"
-                                        ]
-                                      }
+                                "get_m31",
+                                [
+                                  {
+                                    "Const": [
+                                      "usize",
+                                      "5"
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "poseidon_partial_round_input.0[3]"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "5"
-                                ]
-                              }
-                            ]
-                          ]
+                          "State": "cube_252_output_limb_5_col5"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_5_col5"
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252Width27",
+                            "poseidon_partial_round_input.1"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "5"
+                            ]
+                          }
+                        ]
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "poseidon_partial_round_input.1"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "5"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_5_col15"
                 }
               ]
             },
@@ -5524,9 +5480,36 @@
                                             "carry_5_tmp_1c8d0_8"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_6_col16"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "MethodCall": [
+                                                {
+                                                  "Var": [
+                                                    "Felt252Width27",
+                                                    "poseidon_partial_round_input.0[0]"
+                                                  ]
+                                                },
+                                                "get_m31",
+                                                [
+                                                  {
+                                                    "Const": [
+                                                      "usize",
+                                                      "6"
+                                                    ]
+                                                  }
+                                                ]
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -5536,7 +5519,7 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
@@ -5545,7 +5528,7 @@
                                             {
                                               "Var": [
                                                 "Felt252Width27",
-                                                "poseidon_partial_round_input.0[0]"
+                                                "poseidon_partial_round_input.0[1]"
                                               ]
                                             },
                                             "get_m31",
@@ -5569,7 +5552,7 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
@@ -5578,7 +5561,7 @@
                                         {
                                           "Var": [
                                             "Felt252Width27",
-                                            "poseidon_partial_round_input.0[1]"
+                                            "poseidon_partial_round_input.0[2]"
                                           ]
                                         },
                                         "get_m31",
@@ -5598,84 +5581,57 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
+                              "MethodCall": [
                                 {
-                                  "Const": [
-                                    "M31",
-                                    "3"
+                                  "Var": [
+                                    "Felt252Width27",
+                                    "poseidon_partial_round_input.0[3]"
                                   ]
                                 },
-                                "*",
-                                {
-                                  "MethodCall": [
-                                    {
-                                      "Var": [
-                                        "Felt252Width27",
-                                        "poseidon_partial_round_input.0[2]"
-                                      ]
-                                    },
-                                    "get_m31",
-                                    [
-                                      {
-                                        "Const": [
-                                          "usize",
-                                          "6"
-                                        ]
-                                      }
+                                "get_m31",
+                                [
+                                  {
+                                    "Const": [
+                                      "usize",
+                                      "6"
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "poseidon_partial_round_input.0[3]"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "6"
-                                ]
-                              }
-                            ]
-                          ]
+                          "State": "cube_252_output_limb_6_col6"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_6_col6"
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252Width27",
+                            "poseidon_partial_round_input.1"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "6"
+                            ]
+                          }
+                        ]
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "poseidon_partial_round_input.1"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "6"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_6_col16"
                 }
               ]
             },
@@ -5718,9 +5674,36 @@
                                                 "carry_6_tmp_1c8d0_9"
                                               ]
                                             },
-                                            "-",
+                                            "+",
                                             {
-                                              "State": "combination_limb_7_col17"
+                                              "BinaryOp": [
+                                                {
+                                                  "Const": [
+                                                    "M31",
+                                                    "4"
+                                                  ]
+                                                },
+                                                "*",
+                                                {
+                                                  "MethodCall": [
+                                                    {
+                                                      "Var": [
+                                                        "Felt252Width27",
+                                                        "poseidon_partial_round_input.0[0]"
+                                                      ]
+                                                    },
+                                                    "get_m31",
+                                                    [
+                                                      {
+                                                        "Const": [
+                                                          "usize",
+                                                          "7"
+                                                        ]
+                                                      }
+                                                    ]
+                                                  ]
+                                                }
+                                              ]
                                             }
                                           ]
                                         },
@@ -5730,7 +5713,7 @@
                                             {
                                               "Const": [
                                                 "M31",
-                                                "4"
+                                                "2"
                                               ]
                                             },
                                             "*",
@@ -5739,7 +5722,7 @@
                                                 {
                                                   "Var": [
                                                     "Felt252Width27",
-                                                    "poseidon_partial_round_input.0[0]"
+                                                    "poseidon_partial_round_input.0[1]"
                                                   ]
                                                 },
                                                 "get_m31",
@@ -5763,7 +5746,7 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "2"
+                                            "3"
                                           ]
                                         },
                                         "*",
@@ -5772,7 +5755,7 @@
                                             {
                                               "Var": [
                                                 "Felt252Width27",
-                                                "poseidon_partial_round_input.0[1]"
+                                                "poseidon_partial_round_input.0[2]"
                                               ]
                                             },
                                             "get_m31",
@@ -5792,84 +5775,57 @@
                                 },
                                 "+",
                                 {
-                                  "BinaryOp": [
+                                  "MethodCall": [
                                     {
-                                      "Const": [
-                                        "M31",
-                                        "3"
+                                      "Var": [
+                                        "Felt252Width27",
+                                        "poseidon_partial_round_input.0[3]"
                                       ]
                                     },
-                                    "*",
-                                    {
-                                      "MethodCall": [
-                                        {
-                                          "Var": [
-                                            "Felt252Width27",
-                                            "poseidon_partial_round_input.0[2]"
-                                          ]
-                                        },
-                                        "get_m31",
-                                        [
-                                          {
-                                            "Const": [
-                                              "usize",
-                                              "7"
-                                            ]
-                                          }
+                                    "get_m31",
+                                    [
+                                      {
+                                        "Const": [
+                                          "usize",
+                                          "7"
                                         ]
-                                      ]
-                                    }
+                                      }
+                                    ]
                                   ]
                                 }
                               ]
                             },
-                            "+",
+                            "-",
                             {
-                              "MethodCall": [
-                                {
-                                  "Var": [
-                                    "Felt252Width27",
-                                    "poseidon_partial_round_input.0[3]"
-                                  ]
-                                },
-                                "get_m31",
-                                [
-                                  {
-                                    "Const": [
-                                      "usize",
-                                      "7"
-                                    ]
-                                  }
-                                ]
-                              ]
+                              "State": "cube_252_output_limb_7_col7"
                             }
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "cube_252_output_limb_7_col7"
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252Width27",
+                                "poseidon_partial_round_input.1"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "7"
+                                ]
+                              }
+                            ]
+                          ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "Felt252Width27",
-                            "poseidon_partial_round_input.1"
-                          ]
-                        },
-                        "get_m31",
-                        [
-                          {
-                            "Const": [
-                              "usize",
-                              "7"
-                            ]
-                          }
-                        ]
-                      ]
+                      "State": "combination_limb_7_col17"
                     }
                   ]
                 },
@@ -5927,9 +5883,36 @@
                                             "carry_7_tmp_1c8d0_10"
                                           ]
                                         },
-                                        "-",
+                                        "+",
                                         {
-                                          "State": "combination_limb_8_col18"
+                                          "BinaryOp": [
+                                            {
+                                              "Const": [
+                                                "M31",
+                                                "4"
+                                              ]
+                                            },
+                                            "*",
+                                            {
+                                              "MethodCall": [
+                                                {
+                                                  "Var": [
+                                                    "Felt252Width27",
+                                                    "poseidon_partial_round_input.0[0]"
+                                                  ]
+                                                },
+                                                "get_m31",
+                                                [
+                                                  {
+                                                    "Const": [
+                                                      "usize",
+                                                      "8"
+                                                    ]
+                                                  }
+                                                ]
+                                              ]
+                                            }
+                                          ]
                                         }
                                       ]
                                     },
@@ -5939,7 +5922,7 @@
                                         {
                                           "Const": [
                                             "M31",
-                                            "4"
+                                            "2"
                                           ]
                                         },
                                         "*",
@@ -5948,7 +5931,7 @@
                                             {
                                               "Var": [
                                                 "Felt252Width27",
-                                                "poseidon_partial_round_input.0[0]"
+                                                "poseidon_partial_round_input.0[1]"
                                               ]
                                             },
                                             "get_m31",
@@ -5972,7 +5955,7 @@
                                     {
                                       "Const": [
                                         "M31",
-                                        "2"
+                                        "3"
                                       ]
                                     },
                                     "*",
@@ -5981,7 +5964,7 @@
                                         {
                                           "Var": [
                                             "Felt252Width27",
-                                            "poseidon_partial_round_input.0[1]"
+                                            "poseidon_partial_round_input.0[2]"
                                           ]
                                         },
                                         "get_m31",
@@ -6001,84 +5984,57 @@
                             },
                             "+",
                             {
-                              "BinaryOp": [
+                              "MethodCall": [
                                 {
-                                  "Const": [
-                                    "M31",
-                                    "3"
+                                  "Var": [
+                                    "Felt252Width27",
+                                    "poseidon_partial_round_input.0[3]"
                                   ]
                                 },
-                                "*",
-                                {
-                                  "MethodCall": [
-                                    {
-                                      "Var": [
-                                        "Felt252Width27",
-                                        "poseidon_partial_round_input.0[2]"
-                                      ]
-                                    },
-                                    "get_m31",
-                                    [
-                                      {
-                                        "Const": [
-                                          "usize",
-                                          "8"
-                                        ]
-                                      }
+                                "get_m31",
+                                [
+                                  {
+                                    "Const": [
+                                      "usize",
+                                      "8"
                                     ]
-                                  ]
-                                }
+                                  }
+                                ]
                               ]
                             }
                           ]
                         },
-                        "+",
+                        "-",
                         {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "poseidon_partial_round_input.0[3]"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "8"
-                                ]
-                              }
-                            ]
-                          ]
+                          "State": "cube_252_output_limb_8_col8"
                         }
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "cube_252_output_limb_8_col8"
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252Width27",
+                            "poseidon_partial_round_input.1"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "8"
+                            ]
+                          }
+                        ]
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "poseidon_partial_round_input.1"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "8"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_8_col18"
                 }
               ]
             },
@@ -6818,21 +6774,6 @@
                           {
                             "Const": [
                               "M31",
-                              "0"
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "combination_limb_0_col21"
-                          }
-                        ]
-                      },
-                      "+",
-                      {
-                        "BinaryOp": [
-                          {
-                            "Const": [
-                              "M31",
                               "2"
                             ]
                           },
@@ -6841,6 +6782,10 @@
                             "State": "combination_limb_0_col10"
                           }
                         ]
+                      },
+                      "-",
+                      {
+                        "State": "combination_limb_0_col21"
                       }
                     ]
                   },
@@ -6904,21 +6849,6 @@
                         {
                           "Const": [
                             "M31",
-                            "0"
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "combination_limb_0_col21"
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
                             "2"
                           ]
                         },
@@ -6927,6 +6857,10 @@
                           "State": "combination_limb_0_col10"
                         }
                       ]
+                    },
+                    "-",
+                    {
+                      "State": "combination_limb_0_col21"
                     }
                   ]
                 },
@@ -6963,26 +6897,26 @@
                         "carry_0_tmp_1c8d0_15"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_1_col22"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_1_col11"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_1_col11"
-                    }
-                  ]
+                  "State": "combination_limb_1_col22"
                 }
               ]
             },
@@ -7013,26 +6947,26 @@
                         "carry_1_tmp_1c8d0_16"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_2_col23"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_2_col12"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_2_col12"
-                    }
-                  ]
+                  "State": "combination_limb_2_col23"
                 }
               ]
             },
@@ -7063,26 +6997,26 @@
                         "carry_2_tmp_1c8d0_17"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_3_col24"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_3_col13"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_3_col13"
-                    }
-                  ]
+                  "State": "combination_limb_3_col24"
                 }
               ]
             },
@@ -7113,26 +7047,26 @@
                         "carry_3_tmp_1c8d0_18"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_4_col25"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_4_col14"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_4_col14"
-                    }
-                  ]
+                  "State": "combination_limb_4_col25"
                 }
               ]
             },
@@ -7163,26 +7097,26 @@
                         "carry_4_tmp_1c8d0_19"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_5_col26"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_5_col15"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_5_col15"
-                    }
-                  ]
+                  "State": "combination_limb_5_col26"
                 }
               ]
             },
@@ -7213,26 +7147,26 @@
                         "carry_5_tmp_1c8d0_20"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_6_col27"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_6_col16"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_6_col16"
-                    }
-                  ]
+                  "State": "combination_limb_6_col27"
                 }
               ]
             },
@@ -7265,26 +7199,26 @@
                             "carry_6_tmp_1c8d0_21"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_7_col28"
+                          "BinaryOp": [
+                            {
+                              "Const": [
+                                "M31",
+                                "2"
+                              ]
+                            },
+                            "*",
+                            {
+                              "State": "combination_limb_7_col17"
+                            }
+                          ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "BinaryOp": [
-                        {
-                          "Const": [
-                            "M31",
-                            "2"
-                          ]
-                        },
-                        "*",
-                        {
-                          "State": "combination_limb_7_col17"
-                        }
-                      ]
+                      "State": "combination_limb_7_col28"
                     }
                   ]
                 },
@@ -7332,26 +7266,26 @@
                         "carry_7_tmp_1c8d0_22"
                       ]
                     },
-                    "-",
+                    "+",
                     {
-                      "State": "combination_limb_8_col29"
+                      "BinaryOp": [
+                        {
+                          "Const": [
+                            "M31",
+                            "2"
+                          ]
+                        },
+                        "*",
+                        {
+                          "State": "combination_limb_8_col18"
+                        }
+                      ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "BinaryOp": [
-                    {
-                      "Const": [
-                        "M31",
-                        "2"
-                      ]
-                    },
-                    "*",
-                    {
-                      "State": "combination_limb_8_col18"
-                    }
-                  ]
+                  "State": "combination_limb_8_col29"
                 }
               ]
             },
