@@ -41,13 +41,14 @@ impl AirFn for PoseidonBuiltin {
         };
 
         let input_state: [Felt252Width27Expr; 3] = std::array::from_fn(|i| {
-            felt252_pack_into27(self.memory.read_felt252(
+            let packed_input_state = felt252_pack_into27(self.memory.read_felt252(
                 air_builder,
                 CasmAddress::new(
                     get_addr(segment_start.clone(), instance_num.clone(), i as u32),
                     &format!("input_state_{}", i),
                 ),
-            ))
+            ));
+            air_builder.let_(packed_input_state, &format!("packed_input_state_{}", i))
         });
 
         let output_state = air_builder.call(&PoseidonHadesPermutation {}, input_state);
