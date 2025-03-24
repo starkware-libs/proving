@@ -9,12 +9,12 @@ use genco::quote;
 use itertools::chain;
 
 use super::parse::seek_consts;
-use super::utils::{get_const_name, replace_generics_with_turbofish};
+use super::utils::{block_doc, get_const_name, replace_generics_with_turbofish};
 use crate::code_gen::parse::{constraint_consts, parse_eval_constraint, parse_lookup_constraint};
 
 pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
     quote! {
-        $(imports(lists))
+        $(imports())
         $['\n']
         $(generate_n_trace_columns(lists))
         $['\n']
@@ -37,7 +37,7 @@ pub fn generate_inline_code(lists: &CompiledAirFn) -> rust::Tokens {
     let output_type = lists.verifier_output.1.clone().replace("M31", "E::F");
 
     quote! {
-        $(imports(lists))
+        $(imports())
         $['\n']
         #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
         pub struct $(name.clone()) {}
@@ -69,17 +69,10 @@ fn get_lookup_elements(lists: &CompiledAirFn) -> rust::Tokens {
     code
 }
 
-fn imports(lists: &CompiledAirFn) -> rust::Tokens {
-    let mut res = rust::Tokens::new();
-    res.append(quote! {
+fn imports() -> rust::Tokens {
+    quote! {
         use crate::components::prelude::constraint_eval::*;
-    });
-    for (inline_fn, _) in &lists.inline_calls {
-        res.append(quote! {
-            use crate::components::$(inline_fn)::component::$(inline_fn.to_case(Case::Pascal));
-        });
     }
-    res
 }
 
 fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
@@ -209,7 +202,6 @@ fn generate_framework_impl(lists: &CompiledAirFn) -> rust::Tokens {
             #[allow(unused_parens)]
             #[allow(clippy::double_parens)]
             #[allow(non_snake_case)]
-            #[allow(clippy::unused_unit)]
             fn evaluate<E: EvalAtRow>(&self, mut eval:E) -> E{
                 $(generate_evaluate(lists))
             }
@@ -223,7 +215,9 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
 
     // Constants.
     let mut constants = constraint_consts(&lists.constraints);
-    constants.extend(seek_consts(&lists.verifier_output.0));
+    if lists.r#type == TraceType::Inline {
+        constants.extend(seek_consts(&lists.verifier_output.0));
+    }
     let mut const_names = HashMap::new();
     for (ty, val) in constants.into_iter() {
         let name = get_const_name(&ty, &val);
@@ -283,7 +277,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 }
                 code.extend(quote! {
                     eval.add_constraint(
-                        $(parse_eval_constraint(lists, expr,&const_names))
+                        $(parse_eval_constraint(expr,&const_names))
                     );
                 });
             }
@@ -291,14 +285,14 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 if r#type == "M31" {
                     code.extend(quote! {
                         let $(name) = eval.add_intermediate(
-                            $(parse_eval_constraint(lists, var,&const_names))
+                            $(parse_eval_constraint(var,&const_names))
                         );
                     });
                 } else {
                     // TODO(alont) consdier producing a warning to indicate that the intermediate
                     // does not translate into expression efficiency.
                     code.extend(quote! {
-                        let $(name) = $(parse_eval_constraint(lists, var,&const_names));
+                        let $(name) = $(parse_eval_constraint(var,&const_names));
                     });
                 }
             }
@@ -316,6 +310,14 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                     &const_names,
                 ));
             }
+            ConstraintEvalStep::StartBlock(msg) => {
+                code.extend(block_doc(msg));
+            }
+            ConstraintEvalStep::EndBlock => {
+                code.extend(quote!(
+                    $['\n']
+                ));
+            }
         }
         code.extend(quote! {
             $("\n")
@@ -324,7 +326,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     if lists.r#type == TraceType::Inline {
         code.extend(quote! {
 
-            $(parse_eval_constraint(lists, &lists.verifier_output.0, &const_names))
+            $(parse_eval_constraint(&lists.verifier_output.0, &const_names))
         });
     } else {
         code.extend(quote! {

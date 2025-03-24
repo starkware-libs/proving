@@ -160,21 +160,261 @@
   "external_states": [],
   "constraints": [
     {
-      "Intermediate": {
-        "name": "[decode_instruction_47e4acf59800d76c_output_limb_0, decode_instruction_47e4acf59800d76c_output_limb_1, decode_instruction_47e4acf59800d76c_output_limb_2, decode_instruction_47e4acf59800d76c_output_limb_3, decode_instruction_47e4acf59800d76c_output_limb_4, decode_instruction_47e4acf59800d76c_output_limb_5, decode_instruction_47e4acf59800d76c_output_limb_6, decode_instruction_47e4acf59800d76c_output_limb_7, decode_instruction_47e4acf59800d76c_output_limb_8, decode_instruction_47e4acf59800d76c_output_limb_9, decode_instruction_47e4acf59800d76c_output_limb_10, decode_instruction_47e4acf59800d76c_output_limb_11, decode_instruction_47e4acf59800d76c_output_limb_12, decode_instruction_47e4acf59800d76c_output_limb_13, decode_instruction_47e4acf59800d76c_output_limb_14, decode_instruction_47e4acf59800d76c_output_limb_15, decode_instruction_47e4acf59800d76c_output_limb_16, decode_instruction_47e4acf59800d76c_output_limb_17, decode_instruction_47e4acf59800d76c_output_limb_18]",
-        "type": "[M31; 19]",
-        "var": {
-          "StaticCall": [
-            "decode_instruction_47e4acf59800d76c::evaluate",
-            [
+      "StartBlock": "Decode Instruction"
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "dst_base_fp_col6"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "dst_base_fp_col6"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag dst_base_fp is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "op0_base_fp_col7"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "op0_base_fp_col7"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag op0_base_fp is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "op1_base_fp_col8"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "op1_base_fp_col8"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag op1_base_fp is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "ap_update_add_1_col9"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "ap_update_add_1_col9"
+                }
+              ]
+            }
+          ]
+        },
+        "Flag ap_update_add_1 is a bit"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyInstruction",
+        "felts": [
+          {
+            "State": "input_pc_col0"
+          },
+          {
+            "State": "offset0_col3"
+          },
+          {
+            "State": "offset1_col4"
+          },
+          {
+            "State": "offset2_col5"
+          },
+          {
+            "BinaryOp": [
               {
-                "State": "input_pc_col0"
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "dst_base_fp_col6"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "8"
+                            ]
+                          }
+                        ]
+                      },
+                      "+",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "op0_base_fp_col7"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "16"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "op1_base_fp_col8"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "64"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "Const": [
+                          "M31",
+                          "1"
+                        ]
+                      },
+                      "-",
+                      {
+                        "State": "op1_base_fp_col8"
+                      }
+                    ]
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Const": [
+                      "M31",
+                      "1"
+                    ]
+                  },
+                  "+",
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "ap_update_add_1_col9"
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "32"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "256"
+                ]
+              }
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
+    "EndBlock",
     {
       "Constraint": [
         {
@@ -329,583 +569,1175 @@
       ]
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_72_output_limb_0, read_positive_num_bits_72_output_limb_1, read_positive_num_bits_72_output_limb_2, read_positive_num_bits_72_output_limb_3, read_positive_num_bits_72_output_limb_4, read_positive_num_bits_72_output_limb_5, read_positive_num_bits_72_output_limb_6, read_positive_num_bits_72_output_limb_7, read_positive_num_bits_72_output_limb_8, read_positive_num_bits_72_output_limb_9, read_positive_num_bits_72_output_limb_10, read_positive_num_bits_72_output_limb_11, read_positive_num_bits_72_output_limb_12, read_positive_num_bits_72_output_limb_13, read_positive_num_bits_72_output_limb_14, read_positive_num_bits_72_output_limb_15, read_positive_num_bits_72_output_limb_16, read_positive_num_bits_72_output_limb_17, read_positive_num_bits_72_output_limb_18, read_positive_num_bits_72_output_limb_19, read_positive_num_bits_72_output_limb_20, read_positive_num_bits_72_output_limb_21, read_positive_num_bits_72_output_limb_22, read_positive_num_bits_72_output_limb_23, read_positive_num_bits_72_output_limb_24, read_positive_num_bits_72_output_limb_25, read_positive_num_bits_72_output_limb_26, read_positive_num_bits_72_output_limb_27, read_positive_num_bits_72_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_72::evaluate",
-            [
+      "StartBlock": "Read Positive Num Bits 72"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": "mem_dst_base_col10"
+              },
+              "+",
               {
                 "BinaryOp": [
                   {
-                    "State": "mem_dst_base_col10"
+                    "State": "offset0_col3"
                   },
-                  "+",
+                  "-",
                   {
-                    "BinaryOp": [
-                      {
-                        "State": "offset0_col3"
-                      },
-                      "-",
-                      {
-                        "Const": [
-                          "M31",
-                          "32768"
-                        ]
-                      }
+                    "Const": [
+                      "M31",
+                      "32768"
                     ]
                   }
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "dst_id_col13"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_36_output_limb_0, read_positive_num_bits_36_output_limb_1, read_positive_num_bits_36_output_limb_2, read_positive_num_bits_36_output_limb_3, read_positive_num_bits_36_output_limb_4, read_positive_num_bits_36_output_limb_5, read_positive_num_bits_36_output_limb_6, read_positive_num_bits_36_output_limb_7, read_positive_num_bits_36_output_limb_8, read_positive_num_bits_36_output_limb_9, read_positive_num_bits_36_output_limb_10, read_positive_num_bits_36_output_limb_11, read_positive_num_bits_36_output_limb_12, read_positive_num_bits_36_output_limb_13, read_positive_num_bits_36_output_limb_14, read_positive_num_bits_36_output_limb_15, read_positive_num_bits_36_output_limb_16, read_positive_num_bits_36_output_limb_17, read_positive_num_bits_36_output_limb_18, read_positive_num_bits_36_output_limb_19, read_positive_num_bits_36_output_limb_20, read_positive_num_bits_36_output_limb_21, read_positive_num_bits_36_output_limb_22, read_positive_num_bits_36_output_limb_23, read_positive_num_bits_36_output_limb_24, read_positive_num_bits_36_output_limb_25, read_positive_num_bits_36_output_limb_26, read_positive_num_bits_36_output_limb_27, read_positive_num_bits_36_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_36::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "dst_id_col13"
+          },
+          {
+            "State": "dst_limb_0_col14"
+          },
+          {
+            "State": "dst_limb_1_col15"
+          },
+          {
+            "State": "dst_limb_2_col16"
+          },
+          {
+            "State": "dst_limb_3_col17"
+          },
+          {
+            "State": "dst_limb_4_col18"
+          },
+          {
+            "State": "dst_limb_5_col19"
+          },
+          {
+            "State": "dst_limb_6_col20"
+          },
+          {
+            "State": "dst_limb_7_col21"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 36"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": "mem0_base_col11"
+              },
+              "+",
               {
                 "BinaryOp": [
                   {
-                    "State": "mem0_base_col11"
+                    "State": "offset1_col4"
                   },
-                  "+",
+                  "-",
                   {
-                    "BinaryOp": [
-                      {
-                        "State": "offset1_col4"
-                      },
-                      "-",
-                      {
-                        "Const": [
-                          "M31",
-                          "32768"
-                        ]
-                      }
+                    "Const": [
+                      "M31",
+                      "32768"
                     ]
                   }
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "op0_id_col22"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_36_output_limb_0, read_positive_num_bits_36_output_limb_1, read_positive_num_bits_36_output_limb_2, read_positive_num_bits_36_output_limb_3, read_positive_num_bits_36_output_limb_4, read_positive_num_bits_36_output_limb_5, read_positive_num_bits_36_output_limb_6, read_positive_num_bits_36_output_limb_7, read_positive_num_bits_36_output_limb_8, read_positive_num_bits_36_output_limb_9, read_positive_num_bits_36_output_limb_10, read_positive_num_bits_36_output_limb_11, read_positive_num_bits_36_output_limb_12, read_positive_num_bits_36_output_limb_13, read_positive_num_bits_36_output_limb_14, read_positive_num_bits_36_output_limb_15, read_positive_num_bits_36_output_limb_16, read_positive_num_bits_36_output_limb_17, read_positive_num_bits_36_output_limb_18, read_positive_num_bits_36_output_limb_19, read_positive_num_bits_36_output_limb_20, read_positive_num_bits_36_output_limb_21, read_positive_num_bits_36_output_limb_22, read_positive_num_bits_36_output_limb_23, read_positive_num_bits_36_output_limb_24, read_positive_num_bits_36_output_limb_25, read_positive_num_bits_36_output_limb_26, read_positive_num_bits_36_output_limb_27, read_positive_num_bits_36_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_36::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "op0_id_col22"
+          },
+          {
+            "State": "op0_limb_0_col23"
+          },
+          {
+            "State": "op0_limb_1_col24"
+          },
+          {
+            "State": "op0_limb_2_col25"
+          },
+          {
+            "State": "op0_limb_3_col26"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 36"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "State": "mem1_base_col12"
+              },
+              "+",
               {
                 "BinaryOp": [
                   {
-                    "State": "mem1_base_col12"
+                    "State": "offset2_col5"
                   },
-                  "+",
+                  "-",
                   {
-                    "BinaryOp": [
-                      {
-                        "State": "offset2_col5"
-                      },
-                      "-",
-                      {
-                        "Const": [
-                          "M31",
-                          "32768"
-                        ]
-                      }
+                    "Const": [
+                      "M31",
+                      "32768"
                     ]
                   }
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "op1_id_col27"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "()",
-        "type": "()",
-        "var": {
-          "StaticCall": [
-            "verify_mul_small::evaluate",
-            [
-              {
-                "Array": [
-                  {
-                    "State": "op0_limb_0_col23"
-                  },
-                  {
-                    "State": "op0_limb_1_col24"
-                  },
-                  {
-                    "State": "op0_limb_2_col25"
-                  },
-                  {
-                    "State": "op0_limb_3_col26"
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "State": "op1_limb_0_col28"
-                  },
-                  {
-                    "State": "op1_limb_1_col29"
-                  },
-                  {
-                    "State": "op1_limb_2_col30"
-                  },
-                  {
-                    "State": "op1_limb_3_col31"
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "State": "dst_limb_0_col14"
-                  },
-                  {
-                    "State": "dst_limb_1_col15"
-                  },
-                  {
-                    "State": "dst_limb_2_col16"
-                  },
-                  {
-                    "State": "dst_limb_3_col17"
-                  },
-                  {
-                    "State": "dst_limb_4_col18"
-                  },
-                  {
-                    "State": "dst_limb_5_col19"
-                  },
-                  {
-                    "State": "dst_limb_6_col20"
-                  },
-                  {
-                    "State": "dst_limb_7_col21"
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  }
-                ]
-              }
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "op1_id_col27"
+          },
+          {
+            "State": "op1_limb_0_col28"
+          },
+          {
+            "State": "op1_limb_1_col29"
+          },
+          {
+            "State": "op1_limb_2_col30"
+          },
+          {
+            "State": "op1_limb_3_col31"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
             ]
-          ]
-        }
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
+    "EndBlock",
+    {
+      "StartBlock": "Verify Mul Small"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_11",
+        "felts": [
+          {
+            "State": "carry_1_col32"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_1_col32"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "op0_limb_0_col23"
+                                },
+                                "*",
+                                {
+                                  "State": "op1_limb_0_col28"
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "State": "dst_limb_0_col14"
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "op0_limb_0_col23"
+                                },
+                                "*",
+                                {
+                                  "State": "op1_limb_1_col29"
+                                }
+                              ]
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "op0_limb_1_col24"
+                            },
+                            "*",
+                            {
+                              "State": "op1_limb_0_col28"
+                            }
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "dst_limb_1_col15"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry 1 definition"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_11",
+        "felts": [
+          {
+            "State": "carry_3_col33"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_3_col33"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "State": "carry_1_col32"
+                                                },
+                                                "+",
+                                                {
+                                                  "BinaryOp": [
+                                                    {
+                                                      "State": "op0_limb_0_col23"
+                                                    },
+                                                    "*",
+                                                    {
+                                                      "State": "op1_limb_2_col30"
+                                                    }
+                                                  ]
+                                                }
+                                              ]
+                                            },
+                                            "+",
+                                            {
+                                              "BinaryOp": [
+                                                {
+                                                  "State": "op0_limb_1_col24"
+                                                },
+                                                "*",
+                                                {
+                                                  "State": "op1_limb_1_col29"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        },
+                                        "+",
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "State": "op0_limb_2_col25"
+                                            },
+                                            "*",
+                                            {
+                                              "State": "op1_limb_0_col28"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "-",
+                                    {
+                                      "State": "dst_limb_2_col16"
+                                    }
+                                  ]
+                                },
+                                "+",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "op0_limb_0_col23"
+                                        },
+                                        "*",
+                                        {
+                                          "State": "op1_limb_3_col31"
+                                        }
+                                      ]
+                                    },
+                                    "*",
+                                    {
+                                      "Const": [
+                                        "M31",
+                                        "512"
+                                      ]
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "+",
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "op0_limb_1_col24"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "op1_limb_2_col30"
+                                    }
+                                  ]
+                                },
+                                "*",
+                                {
+                                  "Const": [
+                                    "M31",
+                                    "512"
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "op0_limb_2_col25"
+                                },
+                                "*",
+                                {
+                                  "State": "op1_limb_1_col29"
+                                }
+                              ]
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "op0_limb_3_col26"
+                            },
+                            "*",
+                            {
+                              "State": "op1_limb_0_col28"
+                            }
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "dst_limb_3_col17"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry 3 definition"
+      ]
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_11",
+        "felts": [
+          {
+            "State": "carry_5_col34"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "carry_5_col34"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "carry_3_col33"
+                                        },
+                                        "+",
+                                        {
+                                          "BinaryOp": [
+                                            {
+                                              "State": "op0_limb_1_col24"
+                                            },
+                                            "*",
+                                            {
+                                              "State": "op1_limb_3_col31"
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    "+",
+                                    {
+                                      "BinaryOp": [
+                                        {
+                                          "State": "op0_limb_2_col25"
+                                        },
+                                        "*",
+                                        {
+                                          "State": "op1_limb_2_col30"
+                                        }
+                                      ]
+                                    }
+                                  ]
+                                },
+                                "+",
+                                {
+                                  "BinaryOp": [
+                                    {
+                                      "State": "op0_limb_3_col26"
+                                    },
+                                    "*",
+                                    {
+                                      "State": "op1_limb_1_col29"
+                                    }
+                                  ]
+                                }
+                              ]
+                            },
+                            "-",
+                            {
+                              "State": "dst_limb_4_col18"
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "BinaryOp": [
+                            {
+                              "BinaryOp": [
+                                {
+                                  "State": "op0_limb_2_col25"
+                                },
+                                "*",
+                                {
+                                  "State": "op1_limb_3_col31"
+                                }
+                              ]
+                            },
+                            "*",
+                            {
+                              "Const": [
+                                "M31",
+                                "512"
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "State": "op0_limb_3_col26"
+                            },
+                            "*",
+                            {
+                              "State": "op1_limb_2_col30"
+                            }
+                          ]
+                        },
+                        "*",
+                        {
+                          "Const": [
+                            "M31",
+                            "512"
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "dst_limb_5_col19"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "carry 5 definition"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "carry_5_col34"
+                    },
+                    "+",
+                    {
+                      "BinaryOp": [
+                        {
+                          "State": "op0_limb_3_col26"
+                        },
+                        "*",
+                        {
+                          "State": "op1_limb_3_col31"
+                        }
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "dst_limb_7_col21"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "State": "dst_limb_6_col20"
+            }
+          ]
+        },
+        "final limb constraint"
+      ]
+    },
+    "EndBlock",
     {
       "LookupTerm": {
         "relation_name": "Opcodes",

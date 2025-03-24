@@ -86,266 +86,275 @@
       }
     },
     {
-      "Intermediate": {
-        "name": "()",
-        "type": "()",
-        "var": {
-          "StaticCall": [
-            "mem_verify::evaluate",
-            [
+      "StartBlock": "Mem Verify"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "verify_blake_word_input_limb_0"
+            ]
+          },
+          {
+            "State": "id_col3"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "id_col3"
+          },
+          {
+            "BinaryOp": [
               {
-                "Array": [
+                "Var": [
+                  "M31",
+                  "verify_blake_word_input_limb_1"
+                ]
+              },
+              "-",
+              {
+                "BinaryOp": [
                   {
-                    "Var": [
-                      "M31",
-                      "verify_blake_word_input_limb_0"
-                    ]
+                    "State": "low_7_ms_bits_col0"
                   },
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "verify_blake_word_input_limb_1"
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "low_7_ms_bits_col0"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "low_7_ms_bits_col0"
-                      },
-                      "+",
-                      {
-                        "BinaryOp": [
-                          {
-                            "BinaryOp": [
-                              {
-                                "Var": [
-                                  "M31",
-                                  "verify_blake_word_input_limb_2"
-                                ]
-                              },
-                              "-",
-                              {
-                                "BinaryOp": [
-                                  {
-                                    "State": "high_14_ms_bits_col1"
-                                  },
-                                  "*",
-                                  {
-                                    "Const": [
-                                      "M31",
-                                      "4"
-                                    ]
-                                  }
-                                ]
-                              }
-                            ]
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "128"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "high_14_ms_bits_col1"
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "high_5_ms_bits_col2"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "State": "high_5_ms_bits_col2"
-                  },
+                  "*",
                   {
                     "Const": [
                       "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
+                      "512"
                     ]
                   }
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_7_ms_bits_col0"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "Var": [
+                          "M31",
+                          "verify_blake_word_input_limb_2"
+                        ]
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "high_14_ms_bits_col1"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "4"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_14_ms_bits_col1"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_5_ms_bits_col2"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col2"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
       }
-    }
+    },
+    "EndBlock"
   ],
   "deductions": [
     {

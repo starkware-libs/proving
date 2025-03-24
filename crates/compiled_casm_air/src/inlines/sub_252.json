@@ -158,543 +158,2931 @@
   "external_states": [],
   "constraints": [
     {
+      "StartBlock": "Range Check Mem Value N 28"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_0_col0"
+          },
+          {
+            "State": "sub_res_limb_1_col1"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_2_col2"
+          },
+          {
+            "State": "sub_res_limb_3_col3"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_4_col4"
+          },
+          {
+            "State": "sub_res_limb_5_col5"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_6_col6"
+          },
+          {
+            "State": "sub_res_limb_7_col7"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_8_col8"
+          },
+          {
+            "State": "sub_res_limb_9_col9"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_10_col10"
+          },
+          {
+            "State": "sub_res_limb_11_col11"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_12_col12"
+          },
+          {
+            "State": "sub_res_limb_13_col13"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_14_col14"
+          },
+          {
+            "State": "sub_res_limb_15_col15"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_16_col16"
+          },
+          {
+            "State": "sub_res_limb_17_col17"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_18_col18"
+          },
+          {
+            "State": "sub_res_limb_19_col19"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_20_col20"
+          },
+          {
+            "State": "sub_res_limb_21_col21"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_22_col22"
+          },
+          {
+            "State": "sub_res_limb_23_col23"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_24_col24"
+          },
+          {
+            "State": "sub_res_limb_25_col25"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_9_9",
+        "felts": [
+          {
+            "State": "sub_res_limb_26_col26"
+          },
+          {
+            "State": "sub_res_limb_27_col27"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Verify Add 252"
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "sub_p_bit_col28"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "sub_p_bit_col28"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "sub_p_bit is a bit"
+      ]
+    },
+    {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "carry_tmp_fda18_2",
+        "type": "M31",
         "var": {
-          "StaticCall": [
-            "range_check_mem_value_n_28::evaluate",
-            [
-              {
-                "Array": [
-                  {
-                    "State": "sub_res_limb_0_col0"
-                  },
-                  {
-                    "State": "sub_res_limb_1_col1"
-                  },
-                  {
-                    "State": "sub_res_limb_2_col2"
-                  },
-                  {
-                    "State": "sub_res_limb_3_col3"
-                  },
-                  {
-                    "State": "sub_res_limb_4_col4"
-                  },
-                  {
-                    "State": "sub_res_limb_5_col5"
-                  },
-                  {
-                    "State": "sub_res_limb_6_col6"
-                  },
-                  {
-                    "State": "sub_res_limb_7_col7"
-                  },
-                  {
-                    "State": "sub_res_limb_8_col8"
-                  },
-                  {
-                    "State": "sub_res_limb_9_col9"
-                  },
-                  {
-                    "State": "sub_res_limb_10_col10"
-                  },
-                  {
-                    "State": "sub_res_limb_11_col11"
-                  },
-                  {
-                    "State": "sub_res_limb_12_col12"
-                  },
-                  {
-                    "State": "sub_res_limb_13_col13"
-                  },
-                  {
-                    "State": "sub_res_limb_14_col14"
-                  },
-                  {
-                    "State": "sub_res_limb_15_col15"
-                  },
-                  {
-                    "State": "sub_res_limb_16_col16"
-                  },
-                  {
-                    "State": "sub_res_limb_17_col17"
-                  },
-                  {
-                    "State": "sub_res_limb_18_col18"
-                  },
-                  {
-                    "State": "sub_res_limb_19_col19"
-                  },
-                  {
-                    "State": "sub_res_limb_20_col20"
-                  },
-                  {
-                    "State": "sub_res_limb_21_col21"
-                  },
-                  {
-                    "State": "sub_res_limb_22_col22"
-                  },
-                  {
-                    "State": "sub_res_limb_23_col23"
-                  },
-                  {
-                    "State": "sub_res_limb_24_col24"
-                  },
-                  {
-                    "State": "sub_res_limb_25_col25"
-                  },
-                  {
-                    "State": "sub_res_limb_26_col26"
-                  },
-                  {
-                    "State": "sub_res_limb_27_col27"
-                  }
-                ]
-              }
-            ]
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_28"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_0_col0"
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "Var": [
+                        "M31",
+                        "sub_252_input_limb_0"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "State": "sub_p_bit_col28"
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
           ]
         }
       }
     },
     {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_2"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_2"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_2"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "carry_tmp_fda18_3",
+        "type": "M31",
         "var": {
-          "StaticCall": [
-            "verify_add_252::evaluate",
-            [
-              {
-                "Array": [
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_28"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_29"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_30"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_31"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_32"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_33"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_34"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_35"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_36"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_37"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_38"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_39"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_40"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_41"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_42"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_43"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_44"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_45"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_46"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_47"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_48"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_49"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_50"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_51"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_52"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_53"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_54"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_55"
-                    ]
-                  },
-                  {
-                    "State": "sub_res_limb_0_col0"
-                  },
-                  {
-                    "State": "sub_res_limb_1_col1"
-                  },
-                  {
-                    "State": "sub_res_limb_2_col2"
-                  },
-                  {
-                    "State": "sub_res_limb_3_col3"
-                  },
-                  {
-                    "State": "sub_res_limb_4_col4"
-                  },
-                  {
-                    "State": "sub_res_limb_5_col5"
-                  },
-                  {
-                    "State": "sub_res_limb_6_col6"
-                  },
-                  {
-                    "State": "sub_res_limb_7_col7"
-                  },
-                  {
-                    "State": "sub_res_limb_8_col8"
-                  },
-                  {
-                    "State": "sub_res_limb_9_col9"
-                  },
-                  {
-                    "State": "sub_res_limb_10_col10"
-                  },
-                  {
-                    "State": "sub_res_limb_11_col11"
-                  },
-                  {
-                    "State": "sub_res_limb_12_col12"
-                  },
-                  {
-                    "State": "sub_res_limb_13_col13"
-                  },
-                  {
-                    "State": "sub_res_limb_14_col14"
-                  },
-                  {
-                    "State": "sub_res_limb_15_col15"
-                  },
-                  {
-                    "State": "sub_res_limb_16_col16"
-                  },
-                  {
-                    "State": "sub_res_limb_17_col17"
-                  },
-                  {
-                    "State": "sub_res_limb_18_col18"
-                  },
-                  {
-                    "State": "sub_res_limb_19_col19"
-                  },
-                  {
-                    "State": "sub_res_limb_20_col20"
-                  },
-                  {
-                    "State": "sub_res_limb_21_col21"
-                  },
-                  {
-                    "State": "sub_res_limb_22_col22"
-                  },
-                  {
-                    "State": "sub_res_limb_23_col23"
-                  },
-                  {
-                    "State": "sub_res_limb_24_col24"
-                  },
-                  {
-                    "State": "sub_res_limb_25_col25"
-                  },
-                  {
-                    "State": "sub_res_limb_26_col26"
-                  },
-                  {
-                    "State": "sub_res_limb_27_col27"
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_0"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_1"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_2"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_3"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_4"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_5"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_6"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_7"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_8"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_9"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_10"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_11"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_12"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_13"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_14"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_15"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_16"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_17"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_18"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_19"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_20"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_21"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_22"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_23"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_24"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_25"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_26"
-                    ]
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "sub_252_input_limb_27"
-                    ]
-                  }
-                ]
-              }
-            ]
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_29"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_1_col1"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_2"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_1"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
           ]
         }
       }
-    }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_3"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_3"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_3"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_4",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_30"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_2_col2"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_3"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_2"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_4"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_4"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_4"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_5",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_31"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_3_col3"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_4"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_3"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_5"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_5"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_5"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_6",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_32"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_4_col4"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_5"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_4"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_6"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_6"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_6"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_7",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_33"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_5_col5"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_6"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_5"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_7"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_7"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_7"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_8",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_34"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_6_col6"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_7"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_6"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_8"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_8"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_8"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_9",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_35"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_7_col7"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_8"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_7"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_9"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_9"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_9"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_10",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_36"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_8_col8"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_9"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_8"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_10"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_10"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_10"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_11",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_37"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_9_col9"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_10"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_9"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_11"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_11"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_11"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_12",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_38"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_10_col10"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_11"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_10"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_12"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_12"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_12"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_13",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_39"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_11_col11"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_12"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_11"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_13"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_13"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_13"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_14",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_40"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_12_col12"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_13"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_12"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_14"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_14"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_14"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_15",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_41"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_13_col13"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_14"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_13"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_15"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_15"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_15"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_16",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_42"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_14_col14"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_15"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_14"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_16"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_16"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_16"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_17",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_43"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_15_col15"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_16"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_15"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_17"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_17"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_17"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_18",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_44"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_16_col16"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_17"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_16"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_18"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_18"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_18"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_19",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_45"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_17_col17"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_18"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_17"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_19"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_19"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_19"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_20",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_46"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_18_col18"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_19"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_18"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_20"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_20"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_20"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_21",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_47"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_19_col19"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_20"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_19"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_21"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_21"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_21"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_22",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_48"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_20_col20"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_21"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_20"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_22"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_22"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_22"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_23",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "BinaryOp": [
+                            {
+                              "Var": [
+                                "M31",
+                                "sub_252_input_limb_49"
+                              ]
+                            },
+                            "+",
+                            {
+                              "State": "sub_res_limb_21_col21"
+                            }
+                          ]
+                        },
+                        "+",
+                        {
+                          "Var": [
+                            "M31",
+                            "carry_tmp_fda18_22"
+                          ]
+                        }
+                      ]
+                    },
+                    "-",
+                    {
+                      "Var": [
+                        "M31",
+                        "sub_252_input_limb_21"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "Const": [
+                        "M31",
+                        "136"
+                      ]
+                    },
+                    "*",
+                    {
+                      "State": "sub_p_bit_col28"
+                    }
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_23"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_23"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_23"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_24",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_50"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_22_col22"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_23"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_22"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_24"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_24"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_24"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_25",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_51"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_23_col23"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_24"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_23"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_25"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_25"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_25"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_26",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_52"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_24_col24"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_25"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_24"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_26"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_26"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_26"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_27",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_53"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_25_col25"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_26"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_25"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_27"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_27"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_27"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Intermediate": {
+        "name": "carry_tmp_fda18_28",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_54"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_26_col26"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_27"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_26"
+                  ]
+                }
+              ]
+            },
+            "*",
+            {
+              "Const": [
+                "M31",
+                "4194304"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "carry_tmp_fda18_28"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_28"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_28"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "BinaryOp": [
+                    {
+                      "BinaryOp": [
+                        {
+                          "Var": [
+                            "M31",
+                            "sub_252_input_limb_55"
+                          ]
+                        },
+                        "+",
+                        {
+                          "State": "sub_res_limb_27_col27"
+                        }
+                      ]
+                    },
+                    "+",
+                    {
+                      "Var": [
+                        "M31",
+                        "carry_tmp_fda18_28"
+                      ]
+                    }
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "sub_252_input_limb_27"
+                  ]
+                }
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                },
+                "*",
+                {
+                  "State": "sub_p_bit_col28"
+                }
+              ]
+            }
+          ]
+        },
+        null
+      ]
+    },
+    "EndBlock"
   ],
   "deductions": [
     {

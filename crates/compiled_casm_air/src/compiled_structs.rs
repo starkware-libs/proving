@@ -131,6 +131,11 @@ pub enum TraceGenStep {
 
 #[derive(Clone, Debug, PartialEq, Eq, Serialize, Deserialize, Hash)]
 pub enum ConstraintEvalStep {
+    // Constains a description of the following code block.
+    StartBlock(String),
+
+    EndBlock,
+
     // The first argument is a polynomial in in-state values. The constraint requires it
     // to evaluate to zero.
     // The second argument is the description of the constraint.
