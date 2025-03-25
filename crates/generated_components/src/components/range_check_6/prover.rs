@@ -79,10 +79,12 @@ impl InteractionClaimGenerator {
 
         // Sum last logup term.
         let mut col_gen = logup_gen.new_col();
-        for (i, values) in self.lookup_data.range_check_6_0.iter().enumerate() {
-            let denom = range_check_6.combine(values);
-            col_gen.write_frac(i, -PackedQM31::one(), denom);
-        }
+        (col_gen.par_iter_mut(), &self.lookup_data.range_check_6_0)
+            .into_par_iter()
+            .for_each(|(writer, values)| {
+                let denom = range_check_6.combine(values);
+                writer.write_frac(-PackedQM31::one(), denom);
+            });
         col_gen.finalize_col();
 
         let (trace, claimed_sum) = logup_gen.finalize_last();

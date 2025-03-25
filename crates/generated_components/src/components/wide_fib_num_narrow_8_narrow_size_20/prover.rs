@@ -4,13 +4,13 @@ use std::iter::zip;
 
 use itertools::{chain, zip_eq, Itertools};
 use num_traits::{One, Zero};
-use prover_types::cpu::*;
-use prover_types::simd::*;
 use rayon::iter::{
     IndexedParallelIterator, IntoParallelIterator, IntoParallelRefIterator, ParallelIterator,
 };
 use stwo_air_utils::trace::component_trace::ComponentTrace;
 use stwo_air_utils_derive::{IterMut, ParIterMut, Uninitialized};
+use stwo_cairo_common::prover_types::cpu::*;
+use stwo_cairo_common::prover_types::simd::*;
 use stwo_prover::constraint_framework::logup::LogupTraceGenerator;
 use stwo_prover::constraint_framework::Relation;
 use stwo_prover::core::air::Component;
@@ -118,7 +118,7 @@ fn write_trace_simd(
         .zip(inputs.into_par_iter())
         .zip(lookup_data.par_iter_mut())
         .for_each(
-            |(((row_index, row), wide_fib_num_narrow_8_narrow_size_20_input), lookup_data)| {
+            |(((row_index, mut row), wide_fib_num_narrow_8_narrow_size_20_input), lookup_data)| {
                 let col0 = wide_fib_num_narrow_8_narrow_size_20_input;
                 *row[0] = col0;
                 let narrow_fib_num_steps_20_inputs_0 = [M31_1, col0].unpack();
