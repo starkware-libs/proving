@@ -89,6 +89,7 @@ fn write_trace_simd(
     let M31_0 = PackedM31::broadcast(M31::from(0));
     let UInt16_1 = PackedUInt16::broadcast(UInt16::from(1));
     let UInt16_2 = PackedUInt16::broadcast(UInt16::from(2));
+    let seq = Seq::new(log_size);
 
     (
         trace.par_iter_mut(),
@@ -99,7 +100,7 @@ fn write_trace_simd(
         .enumerate()
         .for_each(
             |(row_index, (mut row, lookup_data, sub_component_inputs))| {
-                let seq = Seq::new(log_size).packed_at(row_index);
+                let seq = seq.packed_at(row_index);
 
                 // Read Positive Num Bits 128.
 

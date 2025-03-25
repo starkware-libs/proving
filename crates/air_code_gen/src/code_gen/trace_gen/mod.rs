@@ -374,6 +374,17 @@ impl RustProverGen {
             });
         }
 
+        let mut preprocessed_def_code = quote! {};
+        for (name, _) in &self.lists.external_states {
+            assert!(
+                SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
+                "unsupported {name}"
+            );
+            preprocessed_def_code.extend(quote! {
+                let $(&name.to_lowercase()) = $name::new(log_size);
+            });
+        }
+
         let prelude_code = match self.mode {
             Mode::Builtin => quote! {
             let log_n_packed_rows = log_size - LOG_N_LANES;
@@ -436,6 +447,7 @@ impl RustProverGen {
                 };
 
                 $(constants_def_code)
+                $(preprocessed_def_code)
                 $(opcode_mask)
 
                 ($(lambda_producer.0))
@@ -474,7 +486,7 @@ impl RustProverGen {
                 "unsupported {name}"
             );
             write_trace_body.append(quote! {
-                let $(&name.to_lowercase()) = $name::new(log_size).packed_at(row_index);
+                let $(&name.to_lowercase()) = $(&name.to_lowercase()).packed_at(row_index);
             });
         }
 
