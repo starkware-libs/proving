@@ -434,16 +434,21 @@ impl AirBuilder {
             registry: self.registry.clone(),
             intermediate_id: self.intermediate_id.clone(),
         };
+        let state_offset = self.component_context.state().get_state_names().len();
         let output = air_fn.call(&mut air_builder, (), input.clone());
+        let state_names_after = self.component_context.state().get_state_names();
         let output_name = format!("{}_{}", air_fn.name(), OUTPUT_VAR_SUFFIX);
+
         self.air_body.push(AirBodyComponent::Call(Call {
             air_fn_name: air_fn.name(),
             air_fn_description: air_fn.description(),
             input: input.into(),
             output_name,
             output: output.clone().into(),
+            state_names: state_names_after[state_offset..].to_vec(),
             air_body: air_builder.air_body,
         }));
+
         output
     }
 

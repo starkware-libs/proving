@@ -49,6 +49,7 @@ pub fn generate_inline_code(lists: &CompiledAirFn) -> rust::Tokens {
             #[allow(clippy::unused_unit)]
                 pub fn evaluate<E: EvalAtRow>(
                     $(input_name.clone()): $(input_type.clone().replace("M31", "E::F")),
+                    $(get_state_names(lists))
                     eval: &mut E,
                     $(get_lookup_elements(lists))
             ) -> $(output_type)
@@ -64,6 +65,16 @@ fn get_lookup_elements(lists: &CompiledAirFn) -> rust::Tokens {
     for relation in lists.lookup_names.keys() {
         code.append(quote! {
             $(relation.to_case(Case::Snake))_lookup_elements: &relations::$(relation),
+        });
+    }
+    code
+}
+
+fn get_state_names(lists: &CompiledAirFn) -> rust::Tokens {
+    let mut code = rust::Tokens::new();
+    for state_name in &lists.state_names {
+        code.append(quote! {
+            $(state_name): E::F,
         });
     }
     code
@@ -248,7 +259,7 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
     }
 
     // TODO(Ohad): handle next_trace_mask for external states.
-    if !lists.state_names.is_empty() {
+    if lists.r#type != TraceType::Inline && !lists.state_names.is_empty() {
         for name in &lists.state_names {
             code.append(quote! {
                 let $name = eval.next_trace_mask();

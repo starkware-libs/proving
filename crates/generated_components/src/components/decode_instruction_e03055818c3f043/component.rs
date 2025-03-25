@@ -10,6 +10,8 @@ impl DecodeInstructionE03055818C3F043 {
     #[allow(clippy::unused_unit)]
     pub fn evaluate<E: EvalAtRow>(
         decode_instruction_e03055818c3f043_input: E::F,
+        offset0_col0: E::F,
+        ap_update_add_1_col1: E::F,
         eval: &mut E,
         verify_instruction_lookup_elements: &relations::VerifyInstruction,
     ) -> [E::F; 19] {
@@ -22,8 +24,6 @@ impl DecodeInstructionE03055818C3F043 {
         let M31_32769 = E::F::from(M31::from(32769));
         let M31_56 = E::F::from(M31::from(56));
         let M31_8 = E::F::from(M31::from(8));
-        let offset0_col0 = eval.next_trace_mask();
-        let ap_update_add_1_col1 = eval.next_trace_mask();
 
         // Flag ap_update_add_1 is a bit.
         eval.add_constraint(
