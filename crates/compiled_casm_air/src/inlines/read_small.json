@@ -811,6 +811,22 @@
         ]
       }
     },
+    {
+      "Intermediate": {
+        "name": "cond_decode_small_sign_output_tmp_ceaaf_4",
+        "type": "[M31; 2]",
+        "var": {
+          "Array": [
+            {
+              "State": "msb_col1"
+            },
+            {
+              "State": "mid_limbs_set_col2"
+            }
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "Deduction": {

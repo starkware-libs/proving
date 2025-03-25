@@ -21,7 +21,7 @@
   ],
   "verifier_output": [
     {
-      "Tuple": []
+      "Array": []
     },
     "()"
   ],
@@ -1731,6 +1731,62 @@
         "Address limb 27 equals 0"
       ]
     },
+    {
+      "Intermediate": {
+        "name": "cond_felt_252_as_addr_output_tmp_aa5c5_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_26"
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "handle_opcodes_input_limb_27"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_28"
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "Constraint": [
@@ -1746,53 +1802,9 @@
             {
               "BinaryOp": [
                 {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "Var": [
-                            "M31",
-                            "handle_opcodes_input_limb_26"
-                          ]
-                        },
-                        "+",
-                        {
-                          "BinaryOp": [
-                            {
-                              "Var": [
-                                "M31",
-                                "handle_opcodes_input_limb_27"
-                              ]
-                            },
-                            "*",
-                            {
-                              "Const": [
-                                "M31",
-                                "512"
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "BinaryOp": [
-                        {
-                          "Var": [
-                            "M31",
-                            "handle_opcodes_input_limb_28"
-                          ]
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "262144"
-                          ]
-                        }
-                      ]
-                    }
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_addr_output_tmp_aa5c5_0"
                   ]
                 },
                 "-",
@@ -2362,6 +2374,62 @@
         "Address limb 27 equals 0"
       ]
     },
+    {
+      "Intermediate": {
+        "name": "cond_felt_252_as_addr_output_tmp_aa5c5_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_54"
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "Var": [
+                        "M31",
+                        "handle_opcodes_input_limb_55"
+                      ]
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "Var": [
+                    "M31",
+                    "handle_opcodes_input_limb_56"
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "Constraint": [
@@ -2377,53 +2445,9 @@
             {
               "BinaryOp": [
                 {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "Var": [
-                            "M31",
-                            "handle_opcodes_input_limb_54"
-                          ]
-                        },
-                        "+",
-                        {
-                          "BinaryOp": [
-                            {
-                              "Var": [
-                                "M31",
-                                "handle_opcodes_input_limb_55"
-                              ]
-                            },
-                            "*",
-                            {
-                              "Const": [
-                                "M31",
-                                "512"
-                              ]
-                            }
-                          ]
-                        }
-                      ]
-                    },
-                    "+",
-                    {
-                      "BinaryOp": [
-                        {
-                          "Var": [
-                            "M31",
-                            "handle_opcodes_input_limb_56"
-                          ]
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "262144"
-                          ]
-                        }
-                      ]
-                    }
+                  "Var": [
+                    "M31",
+                    "cond_felt_252_as_addr_output_tmp_aa5c5_1"
                   ]
                 },
                 "-",
@@ -2452,5 +2476,204 @@
       ]
     }
   ],
-  "deductions": []
+  "deductions": [
+    {
+      "StartBlock": "Cond Felt 252 As Addr"
+    },
+    {
+      "Intermediate": {
+        "name": "cond_felt_252_as_addr_output_tmp_aa5c5_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "handle_opcodes_input.3[0]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "0"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252",
+                            "handle_opcodes_input.3[0]"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "1"
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "handle_opcodes_input.3[0]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "2"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Cond Felt 252 As Addr"
+    },
+    {
+      "Intermediate": {
+        "name": "cond_felt_252_as_addr_output_tmp_aa5c5_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "handle_opcodes_input.3[1]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "0"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "Felt252",
+                            "handle_opcodes_input.3[1]"
+                          ]
+                        },
+                        "get_m31",
+                        [
+                          {
+                            "Const": [
+                              "usize",
+                              "1"
+                            ]
+                          }
+                        ]
+                      ]
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "512"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "MethodCall": [
+                    {
+                      "Var": [
+                        "Felt252",
+                        "handle_opcodes_input.3[1]"
+                      ]
+                    },
+                    "get_m31",
+                    [
+                      {
+                        "Const": [
+                          "usize",
+                          "2"
+                        ]
+                      }
+                    ]
+                  ]
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "262144"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock"
+  ]
 }

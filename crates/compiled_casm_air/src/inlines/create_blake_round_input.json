@@ -18,49 +18,49 @@
         {
           "Var": [
             "UInt32",
-            "expected_word_tmp_f95c3_3"
+            "read_blake_word_output_tmp_f95c3_8"
           ]
         },
         {
           "Var": [
             "UInt32",
-            "expected_word_tmp_f95c3_11"
+            "read_blake_word_output_tmp_f95c3_17"
           ]
         },
         {
           "Var": [
             "UInt32",
-            "expected_word_tmp_f95c3_19"
+            "read_blake_word_output_tmp_f95c3_26"
           ]
         },
         {
           "Var": [
             "UInt32",
-            "expected_word_tmp_f95c3_27"
+            "read_blake_word_output_tmp_f95c3_35"
           ]
         },
         {
           "Var": [
             "UInt32",
-            "expected_word_tmp_f95c3_35"
+            "read_blake_word_output_tmp_f95c3_44"
           ]
         },
         {
           "Var": [
             "UInt32",
-            "expected_word_tmp_f95c3_43"
+            "read_blake_word_output_tmp_f95c3_53"
           ]
         },
         {
           "Var": [
             "UInt32",
-            "expected_word_tmp_f95c3_51"
+            "read_blake_word_output_tmp_f95c3_62"
           ]
         },
         {
           "Var": [
             "UInt32",
-            "expected_word_tmp_f95c3_59"
+            "read_blake_word_output_tmp_f95c3_71"
           ]
         },
         {
@@ -3184,6 +3184,76 @@
     "EndBlock",
     "EndBlock",
     {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_f95c3_73_limb_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "create_blake_round_input_input_limb_1"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "ms_8_bits_col48"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_f95c3_75_limb_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "create_blake_round_input_input_limb_2"
+              ]
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "ms_8_bits_col49"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
       "StartBlock": "Bitwise Xor Num Bits 8"
     },
     {
@@ -3191,28 +3261,9 @@
         "relation_name": "VerifyBitwiseXor_8",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "create_blake_round_input_input_limb_1"
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col48"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_f95c3_73_limb_0"
             ]
           },
           {
@@ -3261,28 +3312,9 @@
         "relation_name": "VerifyBitwiseXor_8",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "Var": [
-                  "M31",
-                  "create_blake_round_input_input_limb_2"
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col49"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_f95c3_75_limb_0"
             ]
           },
           {
@@ -4110,13 +4142,25 @@
     },
     "EndBlock",
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "read_blake_word_output_tmp_f95c3_8",
+        "type": "UInt32",
+        "var": {
+          "Var": [
+            "UInt32",
+            "expected_word_tmp_f95c3_3"
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Read Blake Word"
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_8",
+        "name": "memory_address_to_id_value_tmp_f95c3_9",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -4146,7 +4190,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_f95c3_9",
+        "name": "memory_id_to_big_value_tmp_f95c3_10",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -4155,7 +4199,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_f95c3_8"
+                  "memory_address_to_id_value_tmp_f95c3_9"
                 ]
               }
             ]
@@ -4165,7 +4209,7 @@
     },
     {
       "Intermediate": {
-        "name": "tmp_f95c3_10",
+        "name": "tmp_f95c3_11",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -4178,7 +4222,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_9"
+                          "memory_id_to_big_value_tmp_f95c3_10"
                         ]
                       },
                       "get_m31",
@@ -4218,7 +4262,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_9"
+                          "memory_id_to_big_value_tmp_f95c3_10"
                         ]
                       },
                       "get_m31",
@@ -4240,7 +4284,7 @@
                           {
                             "Var": [
                               "UInt16",
-                              "tmp_f95c3_10"
+                              "tmp_f95c3_11"
                             ]
                           },
                           "as_m31",
@@ -4273,7 +4317,7 @@
               {
                 "Var": [
                   "Felt252",
-                  "memory_id_to_big_value_tmp_f95c3_9"
+                  "memory_id_to_big_value_tmp_f95c3_10"
                 ]
               },
               "get_m31",
@@ -4302,7 +4346,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_9"
+                          "memory_id_to_big_value_tmp_f95c3_10"
                         ]
                       },
                       "get_m31",
@@ -4333,7 +4377,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_9"
+                          "memory_id_to_big_value_tmp_f95c3_10"
                         ]
                       },
                       "get_m31",
@@ -4364,7 +4408,7 @@
               {
                 "Var": [
                   "UInt16",
-                  "tmp_f95c3_10"
+                  "tmp_f95c3_11"
                 ]
               },
               "as_m31",
@@ -4376,7 +4420,7 @@
     },
     {
       "Intermediate": {
-        "name": "expected_word_tmp_f95c3_11",
+        "name": "expected_word_tmp_f95c3_12",
         "type": "UInt32",
         "var": {
           "StaticCall": [
@@ -4402,7 +4446,7 @@
     },
     {
       "Intermediate": {
-        "name": "low_7_ms_bits_tmp_f95c3_12",
+        "name": "low_7_ms_bits_tmp_f95c3_13",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -4411,7 +4455,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_11"
+                    "expected_word_tmp_f95c3_12"
                   ]
                 },
                 "low",
@@ -4435,7 +4479,7 @@
           {
             "Var": [
               "UInt16",
-              "low_7_ms_bits_tmp_f95c3_12"
+              "low_7_ms_bits_tmp_f95c3_13"
             ]
           },
           "as_m31",
@@ -4445,7 +4489,7 @@
     },
     {
       "Intermediate": {
-        "name": "high_14_ms_bits_tmp_f95c3_13",
+        "name": "high_14_ms_bits_tmp_f95c3_14",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -4454,7 +4498,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_11"
+                    "expected_word_tmp_f95c3_12"
                   ]
                 },
                 "high",
@@ -4478,7 +4522,7 @@
           {
             "Var": [
               "UInt16",
-              "high_14_ms_bits_tmp_f95c3_13"
+              "high_14_ms_bits_tmp_f95c3_14"
             ]
           },
           "as_m31",
@@ -4488,14 +4532,14 @@
     },
     {
       "Intermediate": {
-        "name": "high_5_ms_bits_tmp_f95c3_14",
+        "name": "high_5_ms_bits_tmp_f95c3_15",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
             {
               "Var": [
                 "UInt16",
-                "high_14_ms_bits_tmp_f95c3_13"
+                "high_14_ms_bits_tmp_f95c3_14"
               ]
             },
             ">>",
@@ -4515,7 +4559,7 @@
           {
             "Var": [
               "UInt16",
-              "high_5_ms_bits_tmp_f95c3_14"
+              "high_5_ms_bits_tmp_f95c3_15"
             ]
           },
           "as_m31",
@@ -4601,7 +4645,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_15",
+        "name": "memory_address_to_id_value_tmp_f95c3_16",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -4633,7 +4677,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_f95c3_15"
+          "memory_address_to_id_value_tmp_f95c3_16"
         ]
       }
     },
@@ -4940,13 +4984,25 @@
     },
     "EndBlock",
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "read_blake_word_output_tmp_f95c3_17",
+        "type": "UInt32",
+        "var": {
+          "Var": [
+            "UInt32",
+            "expected_word_tmp_f95c3_12"
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Read Blake Word"
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_16",
+        "name": "memory_address_to_id_value_tmp_f95c3_18",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -4976,7 +5032,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_f95c3_17",
+        "name": "memory_id_to_big_value_tmp_f95c3_19",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -4985,7 +5041,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_f95c3_16"
+                  "memory_address_to_id_value_tmp_f95c3_18"
                 ]
               }
             ]
@@ -4995,7 +5051,7 @@
     },
     {
       "Intermediate": {
-        "name": "tmp_f95c3_18",
+        "name": "tmp_f95c3_20",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -5008,7 +5064,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_17"
+                          "memory_id_to_big_value_tmp_f95c3_19"
                         ]
                       },
                       "get_m31",
@@ -5048,7 +5104,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_17"
+                          "memory_id_to_big_value_tmp_f95c3_19"
                         ]
                       },
                       "get_m31",
@@ -5070,7 +5126,7 @@
                           {
                             "Var": [
                               "UInt16",
-                              "tmp_f95c3_18"
+                              "tmp_f95c3_20"
                             ]
                           },
                           "as_m31",
@@ -5103,7 +5159,7 @@
               {
                 "Var": [
                   "Felt252",
-                  "memory_id_to_big_value_tmp_f95c3_17"
+                  "memory_id_to_big_value_tmp_f95c3_19"
                 ]
               },
               "get_m31",
@@ -5132,7 +5188,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_17"
+                          "memory_id_to_big_value_tmp_f95c3_19"
                         ]
                       },
                       "get_m31",
@@ -5163,7 +5219,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_17"
+                          "memory_id_to_big_value_tmp_f95c3_19"
                         ]
                       },
                       "get_m31",
@@ -5194,7 +5250,7 @@
               {
                 "Var": [
                   "UInt16",
-                  "tmp_f95c3_18"
+                  "tmp_f95c3_20"
                 ]
               },
               "as_m31",
@@ -5206,7 +5262,7 @@
     },
     {
       "Intermediate": {
-        "name": "expected_word_tmp_f95c3_19",
+        "name": "expected_word_tmp_f95c3_21",
         "type": "UInt32",
         "var": {
           "StaticCall": [
@@ -5232,7 +5288,7 @@
     },
     {
       "Intermediate": {
-        "name": "low_7_ms_bits_tmp_f95c3_20",
+        "name": "low_7_ms_bits_tmp_f95c3_22",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -5241,7 +5297,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_19"
+                    "expected_word_tmp_f95c3_21"
                   ]
                 },
                 "low",
@@ -5265,7 +5321,7 @@
           {
             "Var": [
               "UInt16",
-              "low_7_ms_bits_tmp_f95c3_20"
+              "low_7_ms_bits_tmp_f95c3_22"
             ]
           },
           "as_m31",
@@ -5275,7 +5331,7 @@
     },
     {
       "Intermediate": {
-        "name": "high_14_ms_bits_tmp_f95c3_21",
+        "name": "high_14_ms_bits_tmp_f95c3_23",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -5284,7 +5340,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_19"
+                    "expected_word_tmp_f95c3_21"
                   ]
                 },
                 "high",
@@ -5308,7 +5364,7 @@
           {
             "Var": [
               "UInt16",
-              "high_14_ms_bits_tmp_f95c3_21"
+              "high_14_ms_bits_tmp_f95c3_23"
             ]
           },
           "as_m31",
@@ -5318,14 +5374,14 @@
     },
     {
       "Intermediate": {
-        "name": "high_5_ms_bits_tmp_f95c3_22",
+        "name": "high_5_ms_bits_tmp_f95c3_24",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
             {
               "Var": [
                 "UInt16",
-                "high_14_ms_bits_tmp_f95c3_21"
+                "high_14_ms_bits_tmp_f95c3_23"
               ]
             },
             ">>",
@@ -5345,7 +5401,7 @@
           {
             "Var": [
               "UInt16",
-              "high_5_ms_bits_tmp_f95c3_22"
+              "high_5_ms_bits_tmp_f95c3_24"
             ]
           },
           "as_m31",
@@ -5431,7 +5487,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_23",
+        "name": "memory_address_to_id_value_tmp_f95c3_25",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -5463,7 +5519,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_f95c3_23"
+          "memory_address_to_id_value_tmp_f95c3_25"
         ]
       }
     },
@@ -5770,13 +5826,25 @@
     },
     "EndBlock",
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "read_blake_word_output_tmp_f95c3_26",
+        "type": "UInt32",
+        "var": {
+          "Var": [
+            "UInt32",
+            "expected_word_tmp_f95c3_21"
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Read Blake Word"
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_24",
+        "name": "memory_address_to_id_value_tmp_f95c3_27",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -5806,7 +5874,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_f95c3_25",
+        "name": "memory_id_to_big_value_tmp_f95c3_28",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -5815,7 +5883,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_f95c3_24"
+                  "memory_address_to_id_value_tmp_f95c3_27"
                 ]
               }
             ]
@@ -5825,7 +5893,7 @@
     },
     {
       "Intermediate": {
-        "name": "tmp_f95c3_26",
+        "name": "tmp_f95c3_29",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -5838,7 +5906,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_25"
+                          "memory_id_to_big_value_tmp_f95c3_28"
                         ]
                       },
                       "get_m31",
@@ -5878,7 +5946,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_25"
+                          "memory_id_to_big_value_tmp_f95c3_28"
                         ]
                       },
                       "get_m31",
@@ -5900,7 +5968,7 @@
                           {
                             "Var": [
                               "UInt16",
-                              "tmp_f95c3_26"
+                              "tmp_f95c3_29"
                             ]
                           },
                           "as_m31",
@@ -5933,7 +6001,7 @@
               {
                 "Var": [
                   "Felt252",
-                  "memory_id_to_big_value_tmp_f95c3_25"
+                  "memory_id_to_big_value_tmp_f95c3_28"
                 ]
               },
               "get_m31",
@@ -5962,7 +6030,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_25"
+                          "memory_id_to_big_value_tmp_f95c3_28"
                         ]
                       },
                       "get_m31",
@@ -5993,7 +6061,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_25"
+                          "memory_id_to_big_value_tmp_f95c3_28"
                         ]
                       },
                       "get_m31",
@@ -6024,7 +6092,7 @@
               {
                 "Var": [
                   "UInt16",
-                  "tmp_f95c3_26"
+                  "tmp_f95c3_29"
                 ]
               },
               "as_m31",
@@ -6036,7 +6104,7 @@
     },
     {
       "Intermediate": {
-        "name": "expected_word_tmp_f95c3_27",
+        "name": "expected_word_tmp_f95c3_30",
         "type": "UInt32",
         "var": {
           "StaticCall": [
@@ -6062,7 +6130,7 @@
     },
     {
       "Intermediate": {
-        "name": "low_7_ms_bits_tmp_f95c3_28",
+        "name": "low_7_ms_bits_tmp_f95c3_31",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -6071,7 +6139,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_27"
+                    "expected_word_tmp_f95c3_30"
                   ]
                 },
                 "low",
@@ -6095,7 +6163,7 @@
           {
             "Var": [
               "UInt16",
-              "low_7_ms_bits_tmp_f95c3_28"
+              "low_7_ms_bits_tmp_f95c3_31"
             ]
           },
           "as_m31",
@@ -6105,7 +6173,7 @@
     },
     {
       "Intermediate": {
-        "name": "high_14_ms_bits_tmp_f95c3_29",
+        "name": "high_14_ms_bits_tmp_f95c3_32",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -6114,7 +6182,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_27"
+                    "expected_word_tmp_f95c3_30"
                   ]
                 },
                 "high",
@@ -6138,7 +6206,7 @@
           {
             "Var": [
               "UInt16",
-              "high_14_ms_bits_tmp_f95c3_29"
+              "high_14_ms_bits_tmp_f95c3_32"
             ]
           },
           "as_m31",
@@ -6148,14 +6216,14 @@
     },
     {
       "Intermediate": {
-        "name": "high_5_ms_bits_tmp_f95c3_30",
+        "name": "high_5_ms_bits_tmp_f95c3_33",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
             {
               "Var": [
                 "UInt16",
-                "high_14_ms_bits_tmp_f95c3_29"
+                "high_14_ms_bits_tmp_f95c3_32"
               ]
             },
             ">>",
@@ -6175,7 +6243,7 @@
           {
             "Var": [
               "UInt16",
-              "high_5_ms_bits_tmp_f95c3_30"
+              "high_5_ms_bits_tmp_f95c3_33"
             ]
           },
           "as_m31",
@@ -6261,7 +6329,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_31",
+        "name": "memory_address_to_id_value_tmp_f95c3_34",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -6293,7 +6361,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_f95c3_31"
+          "memory_address_to_id_value_tmp_f95c3_34"
         ]
       }
     },
@@ -6600,13 +6668,25 @@
     },
     "EndBlock",
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "read_blake_word_output_tmp_f95c3_35",
+        "type": "UInt32",
+        "var": {
+          "Var": [
+            "UInt32",
+            "expected_word_tmp_f95c3_30"
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Read Blake Word"
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_32",
+        "name": "memory_address_to_id_value_tmp_f95c3_36",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -6636,7 +6716,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_f95c3_33",
+        "name": "memory_id_to_big_value_tmp_f95c3_37",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -6645,7 +6725,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_f95c3_32"
+                  "memory_address_to_id_value_tmp_f95c3_36"
                 ]
               }
             ]
@@ -6655,7 +6735,7 @@
     },
     {
       "Intermediate": {
-        "name": "tmp_f95c3_34",
+        "name": "tmp_f95c3_38",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -6668,7 +6748,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_33"
+                          "memory_id_to_big_value_tmp_f95c3_37"
                         ]
                       },
                       "get_m31",
@@ -6708,7 +6788,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_33"
+                          "memory_id_to_big_value_tmp_f95c3_37"
                         ]
                       },
                       "get_m31",
@@ -6730,7 +6810,7 @@
                           {
                             "Var": [
                               "UInt16",
-                              "tmp_f95c3_34"
+                              "tmp_f95c3_38"
                             ]
                           },
                           "as_m31",
@@ -6763,7 +6843,7 @@
               {
                 "Var": [
                   "Felt252",
-                  "memory_id_to_big_value_tmp_f95c3_33"
+                  "memory_id_to_big_value_tmp_f95c3_37"
                 ]
               },
               "get_m31",
@@ -6792,7 +6872,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_33"
+                          "memory_id_to_big_value_tmp_f95c3_37"
                         ]
                       },
                       "get_m31",
@@ -6823,7 +6903,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_33"
+                          "memory_id_to_big_value_tmp_f95c3_37"
                         ]
                       },
                       "get_m31",
@@ -6854,7 +6934,7 @@
               {
                 "Var": [
                   "UInt16",
-                  "tmp_f95c3_34"
+                  "tmp_f95c3_38"
                 ]
               },
               "as_m31",
@@ -6866,7 +6946,7 @@
     },
     {
       "Intermediate": {
-        "name": "expected_word_tmp_f95c3_35",
+        "name": "expected_word_tmp_f95c3_39",
         "type": "UInt32",
         "var": {
           "StaticCall": [
@@ -6892,7 +6972,7 @@
     },
     {
       "Intermediate": {
-        "name": "low_7_ms_bits_tmp_f95c3_36",
+        "name": "low_7_ms_bits_tmp_f95c3_40",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -6901,7 +6981,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_35"
+                    "expected_word_tmp_f95c3_39"
                   ]
                 },
                 "low",
@@ -6925,7 +7005,7 @@
           {
             "Var": [
               "UInt16",
-              "low_7_ms_bits_tmp_f95c3_36"
+              "low_7_ms_bits_tmp_f95c3_40"
             ]
           },
           "as_m31",
@@ -6935,7 +7015,7 @@
     },
     {
       "Intermediate": {
-        "name": "high_14_ms_bits_tmp_f95c3_37",
+        "name": "high_14_ms_bits_tmp_f95c3_41",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -6944,7 +7024,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_35"
+                    "expected_word_tmp_f95c3_39"
                   ]
                 },
                 "high",
@@ -6968,7 +7048,7 @@
           {
             "Var": [
               "UInt16",
-              "high_14_ms_bits_tmp_f95c3_37"
+              "high_14_ms_bits_tmp_f95c3_41"
             ]
           },
           "as_m31",
@@ -6978,14 +7058,14 @@
     },
     {
       "Intermediate": {
-        "name": "high_5_ms_bits_tmp_f95c3_38",
+        "name": "high_5_ms_bits_tmp_f95c3_42",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
             {
               "Var": [
                 "UInt16",
-                "high_14_ms_bits_tmp_f95c3_37"
+                "high_14_ms_bits_tmp_f95c3_41"
               ]
             },
             ">>",
@@ -7005,7 +7085,7 @@
           {
             "Var": [
               "UInt16",
-              "high_5_ms_bits_tmp_f95c3_38"
+              "high_5_ms_bits_tmp_f95c3_42"
             ]
           },
           "as_m31",
@@ -7091,7 +7171,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_39",
+        "name": "memory_address_to_id_value_tmp_f95c3_43",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -7123,7 +7203,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_f95c3_39"
+          "memory_address_to_id_value_tmp_f95c3_43"
         ]
       }
     },
@@ -7430,13 +7510,25 @@
     },
     "EndBlock",
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "read_blake_word_output_tmp_f95c3_44",
+        "type": "UInt32",
+        "var": {
+          "Var": [
+            "UInt32",
+            "expected_word_tmp_f95c3_39"
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Read Blake Word"
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_40",
+        "name": "memory_address_to_id_value_tmp_f95c3_45",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -7466,7 +7558,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_f95c3_41",
+        "name": "memory_id_to_big_value_tmp_f95c3_46",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -7475,7 +7567,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_f95c3_40"
+                  "memory_address_to_id_value_tmp_f95c3_45"
                 ]
               }
             ]
@@ -7485,7 +7577,7 @@
     },
     {
       "Intermediate": {
-        "name": "tmp_f95c3_42",
+        "name": "tmp_f95c3_47",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -7498,7 +7590,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_41"
+                          "memory_id_to_big_value_tmp_f95c3_46"
                         ]
                       },
                       "get_m31",
@@ -7538,7 +7630,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_41"
+                          "memory_id_to_big_value_tmp_f95c3_46"
                         ]
                       },
                       "get_m31",
@@ -7560,7 +7652,7 @@
                           {
                             "Var": [
                               "UInt16",
-                              "tmp_f95c3_42"
+                              "tmp_f95c3_47"
                             ]
                           },
                           "as_m31",
@@ -7593,7 +7685,7 @@
               {
                 "Var": [
                   "Felt252",
-                  "memory_id_to_big_value_tmp_f95c3_41"
+                  "memory_id_to_big_value_tmp_f95c3_46"
                 ]
               },
               "get_m31",
@@ -7622,7 +7714,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_41"
+                          "memory_id_to_big_value_tmp_f95c3_46"
                         ]
                       },
                       "get_m31",
@@ -7653,7 +7745,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_41"
+                          "memory_id_to_big_value_tmp_f95c3_46"
                         ]
                       },
                       "get_m31",
@@ -7684,7 +7776,7 @@
               {
                 "Var": [
                   "UInt16",
-                  "tmp_f95c3_42"
+                  "tmp_f95c3_47"
                 ]
               },
               "as_m31",
@@ -7696,7 +7788,7 @@
     },
     {
       "Intermediate": {
-        "name": "expected_word_tmp_f95c3_43",
+        "name": "expected_word_tmp_f95c3_48",
         "type": "UInt32",
         "var": {
           "StaticCall": [
@@ -7722,7 +7814,7 @@
     },
     {
       "Intermediate": {
-        "name": "low_7_ms_bits_tmp_f95c3_44",
+        "name": "low_7_ms_bits_tmp_f95c3_49",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -7731,7 +7823,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_43"
+                    "expected_word_tmp_f95c3_48"
                   ]
                 },
                 "low",
@@ -7755,7 +7847,7 @@
           {
             "Var": [
               "UInt16",
-              "low_7_ms_bits_tmp_f95c3_44"
+              "low_7_ms_bits_tmp_f95c3_49"
             ]
           },
           "as_m31",
@@ -7765,7 +7857,7 @@
     },
     {
       "Intermediate": {
-        "name": "high_14_ms_bits_tmp_f95c3_45",
+        "name": "high_14_ms_bits_tmp_f95c3_50",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -7774,7 +7866,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_43"
+                    "expected_word_tmp_f95c3_48"
                   ]
                 },
                 "high",
@@ -7798,7 +7890,7 @@
           {
             "Var": [
               "UInt16",
-              "high_14_ms_bits_tmp_f95c3_45"
+              "high_14_ms_bits_tmp_f95c3_50"
             ]
           },
           "as_m31",
@@ -7808,14 +7900,14 @@
     },
     {
       "Intermediate": {
-        "name": "high_5_ms_bits_tmp_f95c3_46",
+        "name": "high_5_ms_bits_tmp_f95c3_51",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
             {
               "Var": [
                 "UInt16",
-                "high_14_ms_bits_tmp_f95c3_45"
+                "high_14_ms_bits_tmp_f95c3_50"
               ]
             },
             ">>",
@@ -7835,7 +7927,7 @@
           {
             "Var": [
               "UInt16",
-              "high_5_ms_bits_tmp_f95c3_46"
+              "high_5_ms_bits_tmp_f95c3_51"
             ]
           },
           "as_m31",
@@ -7921,7 +8013,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_47",
+        "name": "memory_address_to_id_value_tmp_f95c3_52",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -7953,7 +8045,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_f95c3_47"
+          "memory_address_to_id_value_tmp_f95c3_52"
         ]
       }
     },
@@ -8260,13 +8352,25 @@
     },
     "EndBlock",
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "read_blake_word_output_tmp_f95c3_53",
+        "type": "UInt32",
+        "var": {
+          "Var": [
+            "UInt32",
+            "expected_word_tmp_f95c3_48"
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Read Blake Word"
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_48",
+        "name": "memory_address_to_id_value_tmp_f95c3_54",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -8296,7 +8400,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_f95c3_49",
+        "name": "memory_id_to_big_value_tmp_f95c3_55",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -8305,7 +8409,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_f95c3_48"
+                  "memory_address_to_id_value_tmp_f95c3_54"
                 ]
               }
             ]
@@ -8315,7 +8419,7 @@
     },
     {
       "Intermediate": {
-        "name": "tmp_f95c3_50",
+        "name": "tmp_f95c3_56",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -8328,7 +8432,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_49"
+                          "memory_id_to_big_value_tmp_f95c3_55"
                         ]
                       },
                       "get_m31",
@@ -8368,7 +8472,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_49"
+                          "memory_id_to_big_value_tmp_f95c3_55"
                         ]
                       },
                       "get_m31",
@@ -8390,7 +8494,7 @@
                           {
                             "Var": [
                               "UInt16",
-                              "tmp_f95c3_50"
+                              "tmp_f95c3_56"
                             ]
                           },
                           "as_m31",
@@ -8423,7 +8527,7 @@
               {
                 "Var": [
                   "Felt252",
-                  "memory_id_to_big_value_tmp_f95c3_49"
+                  "memory_id_to_big_value_tmp_f95c3_55"
                 ]
               },
               "get_m31",
@@ -8452,7 +8556,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_49"
+                          "memory_id_to_big_value_tmp_f95c3_55"
                         ]
                       },
                       "get_m31",
@@ -8483,7 +8587,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_49"
+                          "memory_id_to_big_value_tmp_f95c3_55"
                         ]
                       },
                       "get_m31",
@@ -8514,7 +8618,7 @@
               {
                 "Var": [
                   "UInt16",
-                  "tmp_f95c3_50"
+                  "tmp_f95c3_56"
                 ]
               },
               "as_m31",
@@ -8526,7 +8630,7 @@
     },
     {
       "Intermediate": {
-        "name": "expected_word_tmp_f95c3_51",
+        "name": "expected_word_tmp_f95c3_57",
         "type": "UInt32",
         "var": {
           "StaticCall": [
@@ -8552,7 +8656,7 @@
     },
     {
       "Intermediate": {
-        "name": "low_7_ms_bits_tmp_f95c3_52",
+        "name": "low_7_ms_bits_tmp_f95c3_58",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -8561,7 +8665,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_51"
+                    "expected_word_tmp_f95c3_57"
                   ]
                 },
                 "low",
@@ -8585,7 +8689,7 @@
           {
             "Var": [
               "UInt16",
-              "low_7_ms_bits_tmp_f95c3_52"
+              "low_7_ms_bits_tmp_f95c3_58"
             ]
           },
           "as_m31",
@@ -8595,7 +8699,7 @@
     },
     {
       "Intermediate": {
-        "name": "high_14_ms_bits_tmp_f95c3_53",
+        "name": "high_14_ms_bits_tmp_f95c3_59",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -8604,7 +8708,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_51"
+                    "expected_word_tmp_f95c3_57"
                   ]
                 },
                 "high",
@@ -8628,7 +8732,7 @@
           {
             "Var": [
               "UInt16",
-              "high_14_ms_bits_tmp_f95c3_53"
+              "high_14_ms_bits_tmp_f95c3_59"
             ]
           },
           "as_m31",
@@ -8638,14 +8742,14 @@
     },
     {
       "Intermediate": {
-        "name": "high_5_ms_bits_tmp_f95c3_54",
+        "name": "high_5_ms_bits_tmp_f95c3_60",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
             {
               "Var": [
                 "UInt16",
-                "high_14_ms_bits_tmp_f95c3_53"
+                "high_14_ms_bits_tmp_f95c3_59"
               ]
             },
             ">>",
@@ -8665,7 +8769,7 @@
           {
             "Var": [
               "UInt16",
-              "high_5_ms_bits_tmp_f95c3_54"
+              "high_5_ms_bits_tmp_f95c3_60"
             ]
           },
           "as_m31",
@@ -8751,7 +8855,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_55",
+        "name": "memory_address_to_id_value_tmp_f95c3_61",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -8783,7 +8887,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_f95c3_55"
+          "memory_address_to_id_value_tmp_f95c3_61"
         ]
       }
     },
@@ -9090,13 +9194,25 @@
     },
     "EndBlock",
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "read_blake_word_output_tmp_f95c3_62",
+        "type": "UInt32",
+        "var": {
+          "Var": [
+            "UInt32",
+            "expected_word_tmp_f95c3_57"
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Read Blake Word"
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_56",
+        "name": "memory_address_to_id_value_tmp_f95c3_63",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -9126,7 +9242,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_f95c3_57",
+        "name": "memory_id_to_big_value_tmp_f95c3_64",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -9135,7 +9251,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_f95c3_56"
+                  "memory_address_to_id_value_tmp_f95c3_63"
                 ]
               }
             ]
@@ -9145,7 +9261,7 @@
     },
     {
       "Intermediate": {
-        "name": "tmp_f95c3_58",
+        "name": "tmp_f95c3_65",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -9158,7 +9274,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_57"
+                          "memory_id_to_big_value_tmp_f95c3_64"
                         ]
                       },
                       "get_m31",
@@ -9198,7 +9314,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_57"
+                          "memory_id_to_big_value_tmp_f95c3_64"
                         ]
                       },
                       "get_m31",
@@ -9220,7 +9336,7 @@
                           {
                             "Var": [
                               "UInt16",
-                              "tmp_f95c3_58"
+                              "tmp_f95c3_65"
                             ]
                           },
                           "as_m31",
@@ -9253,7 +9369,7 @@
               {
                 "Var": [
                   "Felt252",
-                  "memory_id_to_big_value_tmp_f95c3_57"
+                  "memory_id_to_big_value_tmp_f95c3_64"
                 ]
               },
               "get_m31",
@@ -9282,7 +9398,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_57"
+                          "memory_id_to_big_value_tmp_f95c3_64"
                         ]
                       },
                       "get_m31",
@@ -9313,7 +9429,7 @@
                       {
                         "Var": [
                           "Felt252",
-                          "memory_id_to_big_value_tmp_f95c3_57"
+                          "memory_id_to_big_value_tmp_f95c3_64"
                         ]
                       },
                       "get_m31",
@@ -9344,7 +9460,7 @@
               {
                 "Var": [
                   "UInt16",
-                  "tmp_f95c3_58"
+                  "tmp_f95c3_65"
                 ]
               },
               "as_m31",
@@ -9356,7 +9472,7 @@
     },
     {
       "Intermediate": {
-        "name": "expected_word_tmp_f95c3_59",
+        "name": "expected_word_tmp_f95c3_66",
         "type": "UInt32",
         "var": {
           "StaticCall": [
@@ -9382,7 +9498,7 @@
     },
     {
       "Intermediate": {
-        "name": "low_7_ms_bits_tmp_f95c3_60",
+        "name": "low_7_ms_bits_tmp_f95c3_67",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -9391,7 +9507,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_59"
+                    "expected_word_tmp_f95c3_66"
                   ]
                 },
                 "low",
@@ -9415,7 +9531,7 @@
           {
             "Var": [
               "UInt16",
-              "low_7_ms_bits_tmp_f95c3_60"
+              "low_7_ms_bits_tmp_f95c3_67"
             ]
           },
           "as_m31",
@@ -9425,7 +9541,7 @@
     },
     {
       "Intermediate": {
-        "name": "high_14_ms_bits_tmp_f95c3_61",
+        "name": "high_14_ms_bits_tmp_f95c3_68",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -9434,7 +9550,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "expected_word_tmp_f95c3_59"
+                    "expected_word_tmp_f95c3_66"
                   ]
                 },
                 "high",
@@ -9458,7 +9574,7 @@
           {
             "Var": [
               "UInt16",
-              "high_14_ms_bits_tmp_f95c3_61"
+              "high_14_ms_bits_tmp_f95c3_68"
             ]
           },
           "as_m31",
@@ -9468,14 +9584,14 @@
     },
     {
       "Intermediate": {
-        "name": "high_5_ms_bits_tmp_f95c3_62",
+        "name": "high_5_ms_bits_tmp_f95c3_69",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
             {
               "Var": [
                 "UInt16",
-                "high_14_ms_bits_tmp_f95c3_61"
+                "high_14_ms_bits_tmp_f95c3_68"
               ]
             },
             ">>",
@@ -9495,7 +9611,7 @@
           {
             "Var": [
               "UInt16",
-              "high_5_ms_bits_tmp_f95c3_62"
+              "high_5_ms_bits_tmp_f95c3_69"
             ]
           },
           "as_m31",
@@ -9581,7 +9697,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_f95c3_63",
+        "name": "memory_address_to_id_value_tmp_f95c3_70",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -9613,7 +9729,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_f95c3_63"
+          "memory_address_to_id_value_tmp_f95c3_70"
         ]
       }
     },
@@ -9920,13 +10036,25 @@
     },
     "EndBlock",
     "EndBlock",
+    {
+      "Intermediate": {
+        "name": "read_blake_word_output_tmp_f95c3_71",
+        "type": "UInt32",
+        "var": {
+          "Var": [
+            "UInt32",
+            "expected_word_tmp_f95c3_66"
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Split 16 Low Part Size 8"
     },
     {
       "Intermediate": {
-        "name": "ms_8_bits_tmp_f95c3_64",
+        "name": "ms_8_bits_tmp_f95c3_72",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -9959,144 +10087,19 @@
           {
             "Var": [
               "UInt16",
-              "ms_8_bits_tmp_f95c3_64"
+              "ms_8_bits_tmp_f95c3_72"
             ]
           },
           "as_m31",
           []
         ]
       }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Split 16 Low Part Size 8"
     },
     {
       "Intermediate": {
-        "name": "ms_8_bits_tmp_f95c3_65",
-        "type": "UInt16",
+        "name": "split_16_low_part_size_8_output_tmp_f95c3_73",
+        "type": "[M31; 2]",
         "var": {
-          "BinaryOp": [
-            {
-              "MethodCall": [
-                {
-                  "Var": [
-                    "UInt32",
-                    "create_blake_round_input_input.1"
-                  ]
-                },
-                "high",
-                []
-              ]
-            },
-            ">>",
-            {
-              "Const": [
-                "UInt16",
-                "8"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Deduction": {
-        "MethodCall": [
-          {
-            "Var": [
-              "UInt16",
-              "ms_8_bits_tmp_f95c3_65"
-            ]
-          },
-          "as_m31",
-          []
-        ]
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Bitwise Xor Num Bits 8"
-    },
-    {
-      "Intermediate": {
-        "name": "xor_tmp_f95c3_66",
-        "type": "UInt16",
-        "var": {
-          "BinaryOp": [
-            {
-              "StaticCall": [
-                "UInt16::from_m31",
-                [
-                  {
-                    "BinaryOp": [
-                      {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "create_blake_round_input_input.1"
-                                ]
-                              },
-                              "low",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_8_bits_col48"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "256"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              ]
-            },
-            "^",
-            {
-              "Const": [
-                "UInt16",
-                "127"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Deduction": {
-        "MethodCall": [
-          {
-            "Var": [
-              "UInt16",
-              "xor_tmp_f95c3_66"
-            ]
-          },
-          "as_m31",
-          []
-        ]
-      }
-    },
-    {
-      "LookupAddInput": {
-        "fn_name": "verify_bitwise_xor_8",
-        "input": {
           "Array": [
             {
               "BinaryOp": [
@@ -10136,6 +10139,169 @@
               ]
             },
             {
+              "State": "ms_8_bits_col48"
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "ms_8_bits_tmp_f95c3_74",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "UInt32",
+                    "create_blake_round_input_input.1"
+                  ]
+                },
+                "high",
+                []
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "8"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "ms_8_bits_tmp_f95c3_74"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_f95c3_75",
+        "type": "[M31; 2]",
+        "var": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "MethodCall": [
+                    {
+                      "MethodCall": [
+                        {
+                          "Var": [
+                            "UInt32",
+                            "create_blake_round_input_input.1"
+                          ]
+                        },
+                        "high",
+                        []
+                      ]
+                    },
+                    "as_m31",
+                    []
+                  ]
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col49"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "ms_8_bits_col49"
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "Intermediate": {
+        "name": "xor_tmp_f95c3_76",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "StaticCall": [
+                "UInt16::from_m31",
+                [
+                  {
+                    "Var": [
+                      "M31",
+                      "split_16_low_part_size_8_output_tmp_f95c3_73[0]"
+                    ]
+                  }
+                ]
+              ]
+            },
+            "^",
+            {
+              "Const": [
+                "UInt16",
+                "127"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "xor_tmp_f95c3_76"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "LookupAddInput": {
+        "fn_name": "verify_bitwise_xor_8",
+        "input": {
+          "Array": [
+            {
+              "Var": [
+                "M31",
+                "split_16_low_part_size_8_output_tmp_f95c3_73[0]"
+              ]
+            },
+            {
               "Const": [
                 "M31",
                 "127"
@@ -10153,40 +10319,9 @@
         "relation_name": "VerifyBitwiseXor_8",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "create_blake_round_input_input.1"
-                        ]
-                      },
-                      "low",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col48"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_f95c3_73[0]"
             ]
           },
           {
@@ -10208,7 +10343,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_f95c3_67",
+        "name": "xor_tmp_f95c3_78",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -10239,7 +10374,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_f95c3_67"
+              "xor_tmp_f95c3_78"
             ]
           },
           "as_m31",
@@ -10294,7 +10429,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_f95c3_68",
+        "name": "xor_tmp_f95c3_80",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -10303,40 +10438,9 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "BinaryOp": [
-                      {
-                        "MethodCall": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "UInt32",
-                                  "create_blake_round_input_input.1"
-                                ]
-                              },
-                              "high",
-                              []
-                            ]
-                          },
-                          "as_m31",
-                          []
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_8_bits_col49"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "256"
-                            ]
-                          }
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "split_16_low_part_size_8_output_tmp_f95c3_75[0]"
                     ]
                   }
                 ]
@@ -10359,7 +10463,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_f95c3_68"
+              "xor_tmp_f95c3_80"
             ]
           },
           "as_m31",
@@ -10373,40 +10477,9 @@
         "input": {
           "Array": [
             {
-              "BinaryOp": [
-                {
-                  "MethodCall": [
-                    {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "UInt32",
-                            "create_blake_round_input_input.1"
-                          ]
-                        },
-                        "high",
-                        []
-                      ]
-                    },
-                    "as_m31",
-                    []
-                  ]
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "ms_8_bits_col49"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "256"
-                      ]
-                    }
-                  ]
-                }
+              "Var": [
+                "M31",
+                "split_16_low_part_size_8_output_tmp_f95c3_75[0]"
               ]
             },
             {
@@ -10427,40 +10500,9 @@
         "relation_name": "VerifyBitwiseXor_8",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "MethodCall": [
-                  {
-                    "MethodCall": [
-                      {
-                        "Var": [
-                          "UInt32",
-                          "create_blake_round_input_input.1"
-                        ]
-                      },
-                      "high",
-                      []
-                    ]
-                  },
-                  "as_m31",
-                  []
-                ]
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col49"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_f95c3_75[0]"
             ]
           },
           {
@@ -10482,7 +10524,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_f95c3_69",
+        "name": "xor_tmp_f95c3_82",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -10513,7 +10555,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_f95c3_69"
+              "xor_tmp_f95c3_82"
             ]
           },
           "as_m31",

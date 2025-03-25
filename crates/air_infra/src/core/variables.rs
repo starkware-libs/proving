@@ -103,7 +103,7 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
                 continue;
             }
 
-            let felt_name = format!("{}_limb_{}", name, i);
+            let felt_name = AirVarImpl::get_limb_name(&name, i);
             vars.push(Intermediate::new_for_constraint(&felt_name, orig_felt));
             felt.let_for_constraint(felt_name);
         }
@@ -361,24 +361,41 @@ impl AirVarImpl {
         }
     }
 
-    pub fn as_verifier_var(&self, name: String) -> (Self, String) {
+    pub fn verifier_name(&self, name: String) -> String {
+        let limbs = self.as_limbs();
+        match limbs {
+            AirVarImpl::Expr(ExprImpl::Felt(_)) => name,
+            AirVarImpl::Array(vars) => {
+                if vars.is_empty() {
+                    return "()".to_string();
+                }
+                format!(
+                    "[{}]",
+                    vars.iter()
+                        .enumerate()
+                        .map(|(i, _)| Self::get_limb_name(&name, i))
+                        .collect::<Vec<_>>()
+                        .join(", ")
+                )
+            }
+            _ => panic!("Cannot get verifier name"),
+        }
+    }
+
+    pub fn get_limb_name(name: &String, index: usize) -> String {
+        format!("{}_limb_{}", name, index)
+    }
+
+    pub fn verifier_type(&self) -> String {
+        self.as_limbs().prover_type()
+    }
+
+    pub fn as_limbs(&self) -> Self {
         if let AirVarImpl::Expr(ExprImpl::Felt(_)) = self {
-            return (self.clone(), name);
+            return self.clone();
         }
 
-        if self.as_felts().is_empty() {
-            return (self.clone(), "()".to_string());
-        }
-
-        let var = Self::Array(self.as_felts().into_iter().map(|f| f.into()).collect());
-        let name = format!(
-            "[{}]",
-            (0..self.as_felts().len())
-                .map(|i| format!("{}_limb_{}", name, i))
-                .collect::<Vec<_>>()
-                .join(", ")
-        );
-        (var, name)
+        Self::Array(self.as_felts().into_iter().map(|f| f.into()).collect())
     }
 
     pub fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {

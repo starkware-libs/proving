@@ -24,13 +24,12 @@ impl AirFn for Cube252 {
     }
 
     fn call(&self, air_builder: &mut AirBuilder, _: (), x: Self::In) -> Self::Out {
-        let mut a = air_builder.call(
+        let a = air_builder.call(
             &Felt252UnpackFrom27 {
                 range_check_output: true,
             },
             x,
         );
-        a = air_builder.let_(a, "a");
         let a_squared = air_builder.call(&Mul252 {}, [a.clone(), a.clone()]);
         let a_cubed = air_builder.call(&Mul252 {}, [a, a_squared]);
 

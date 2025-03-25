@@ -16,7 +16,7 @@
     {
       "Var": [
         "UInt32",
-        "triple_xor32_output_tmp_298db_14"
+        "triple_xor32_output_tmp_298db_28"
       ]
     },
     "UInt32",
@@ -28,13 +28,13 @@
         {
           "Var": [
             "M31",
-            "triple_xor32_output_tmp_298db_14_limb_0"
+            "triple_xor32_output_tmp_298db_28_limb_0"
           ]
         },
         {
           "Var": [
             "M31",
-            "triple_xor32_output_tmp_298db_14_limb_1"
+            "triple_xor32_output_tmp_298db_28_limb_1"
           ]
         }
       ]
@@ -78,6 +78,198 @@
   "external_states": [],
   "constraints": [
     {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_298db_1_limb_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "input_limb_0_col0"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "ms_8_bits_col6"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_298db_3_limb_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "input_limb_1_col1"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "ms_8_bits_col7"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_298db_5_limb_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "input_limb_2_col2"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "ms_8_bits_col8"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_298db_7_limb_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "input_limb_3_col3"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "ms_8_bits_col9"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_298db_9_limb_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "input_limb_4_col4"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "ms_8_bits_col10"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_298db_11_limb_0",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "input_limb_5_col5"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "ms_8_bits_col11"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "256"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
       "StartBlock": "Bitwise Xor Num Bits 8"
     },
     {
@@ -85,47 +277,15 @@
         "relation_name": "VerifyBitwiseXor_8",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "State": "input_limb_0_col0"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col6"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_298db_1_limb_0"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "input_limb_2_col2"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col8"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_298db_5_limb_0"
             ]
           },
           {
@@ -147,25 +307,9 @@
             "State": "xor_col12"
           },
           {
-            "BinaryOp": [
-              {
-                "State": "input_limb_4_col4"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col10"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_298db_9_limb_0"
             ]
           },
           {
@@ -226,47 +370,15 @@
         "relation_name": "VerifyBitwiseXor_8",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "State": "input_limb_1_col1"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col7"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_298db_3_limb_0"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "input_limb_3_col3"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col9"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_298db_7_limb_0"
             ]
           },
           {
@@ -288,25 +400,9 @@
             "State": "xor_col16"
           },
           {
-            "BinaryOp": [
-              {
-                "State": "input_limb_5_col5"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col11"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_298db_11_limb_0"
             ]
           },
           {
@@ -361,7 +457,7 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "triple_xor32_output_tmp_298db_14_limb_0",
+        "name": "triple_xor32_output_tmp_298db_28_limb_0",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -389,7 +485,7 @@
     },
     {
       "Intermediate": {
-        "name": "triple_xor32_output_tmp_298db_14_limb_1",
+        "name": "triple_xor32_output_tmp_298db_28_limb_1",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -440,13 +536,13 @@
           {
             "Var": [
               "M31",
-              "triple_xor32_output_tmp_298db_14_limb_0"
+              "triple_xor32_output_tmp_298db_28_limb_0"
             ]
           },
           {
             "Var": [
               "M31",
-              "triple_xor32_output_tmp_298db_14_limb_1"
+              "triple_xor32_output_tmp_298db_28_limb_1"
             ]
           }
         ],
@@ -621,13 +717,48 @@
         ]
       }
     },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_298db_1",
+        "type": "[M31; 2]",
+        "var": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_limb_0_col0"
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col6"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "ms_8_bits_col6"
+            }
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Split 16 Low Part Size 8"
     },
     {
       "Intermediate": {
-        "name": "ms_8_bits_tmp_298db_1",
+        "name": "ms_8_bits_tmp_298db_2",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -660,53 +791,6 @@
           {
             "Var": [
               "UInt16",
-              "ms_8_bits_tmp_298db_1"
-            ]
-          },
-          "as_m31",
-          []
-        ]
-      }
-    },
-    "EndBlock",
-    {
-      "StartBlock": "Split 16 Low Part Size 8"
-    },
-    {
-      "Intermediate": {
-        "name": "ms_8_bits_tmp_298db_2",
-        "type": "UInt16",
-        "var": {
-          "BinaryOp": [
-            {
-              "MethodCall": [
-                {
-                  "Var": [
-                    "UInt32",
-                    "triple_xor_32_input[1]"
-                  ]
-                },
-                "low",
-                []
-              ]
-            },
-            ">>",
-            {
-              "Const": [
-                "UInt16",
-                "8"
-              ]
-            }
-          ]
-        }
-      }
-    },
-    {
-      "Deduction": {
-        "MethodCall": [
-          {
-            "Var": [
-              "UInt16",
               "ms_8_bits_tmp_298db_2"
             ]
           },
@@ -715,51 +799,39 @@
         ]
       }
     },
-    "EndBlock",
-    {
-      "StartBlock": "Split 16 Low Part Size 8"
-    },
     {
       "Intermediate": {
-        "name": "ms_8_bits_tmp_298db_3",
-        "type": "UInt16",
+        "name": "split_16_low_part_size_8_output_tmp_298db_3",
+        "type": "[M31; 2]",
         "var": {
-          "BinaryOp": [
+          "Array": [
             {
-              "MethodCall": [
+              "BinaryOp": [
                 {
-                  "Var": [
-                    "UInt32",
-                    "triple_xor_32_input[1]"
-                  ]
+                  "State": "input_limb_1_col1"
                 },
-                "high",
-                []
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col7"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
               ]
             },
-            ">>",
             {
-              "Const": [
-                "UInt16",
-                "8"
-              ]
+              "State": "ms_8_bits_col7"
             }
           ]
         }
-      }
-    },
-    {
-      "Deduction": {
-        "MethodCall": [
-          {
-            "Var": [
-              "UInt16",
-              "ms_8_bits_tmp_298db_3"
-            ]
-          },
-          "as_m31",
-          []
-        ]
       }
     },
     "EndBlock",
@@ -777,7 +849,7 @@
                 {
                   "Var": [
                     "UInt32",
-                    "triple_xor_32_input[2]"
+                    "triple_xor_32_input[1]"
                   ]
                 },
                 "low",
@@ -809,13 +881,212 @@
         ]
       }
     },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_298db_5",
+        "type": "[M31; 2]",
+        "var": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_limb_2_col2"
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col8"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "ms_8_bits_col8"
+            }
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Split 16 Low Part Size 8"
     },
     {
       "Intermediate": {
-        "name": "ms_8_bits_tmp_298db_5",
+        "name": "ms_8_bits_tmp_298db_6",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "UInt32",
+                    "triple_xor_32_input[1]"
+                  ]
+                },
+                "high",
+                []
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "8"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "ms_8_bits_tmp_298db_6"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_298db_7",
+        "type": "[M31; 2]",
+        "var": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_limb_3_col3"
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col9"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "ms_8_bits_col9"
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "ms_8_bits_tmp_298db_8",
+        "type": "UInt16",
+        "var": {
+          "BinaryOp": [
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "UInt32",
+                    "triple_xor_32_input[2]"
+                  ]
+                },
+                "low",
+                []
+              ]
+            },
+            ">>",
+            {
+              "Const": [
+                "UInt16",
+                "8"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Deduction": {
+        "MethodCall": [
+          {
+            "Var": [
+              "UInt16",
+              "ms_8_bits_tmp_298db_8"
+            ]
+          },
+          "as_m31",
+          []
+        ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_298db_9",
+        "type": "[M31; 2]",
+        "var": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_limb_4_col4"
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col10"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "ms_8_bits_col10"
+            }
+          ]
+        }
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Split 16 Low Part Size 8"
+    },
+    {
+      "Intermediate": {
+        "name": "ms_8_bits_tmp_298db_10",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -848,12 +1119,47 @@
           {
             "Var": [
               "UInt16",
-              "ms_8_bits_tmp_298db_5"
+              "ms_8_bits_tmp_298db_10"
             ]
           },
           "as_m31",
           []
         ]
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "split_16_low_part_size_8_output_tmp_298db_11",
+        "type": "[M31; 2]",
+        "var": {
+          "Array": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "input_limb_5_col5"
+                },
+                "-",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "ms_8_bits_col11"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "256"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "ms_8_bits_col11"
+            }
+          ]
+        }
       }
     },
     "EndBlock",
@@ -862,7 +1168,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_298db_6",
+        "name": "xor_tmp_298db_12",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -871,25 +1177,9 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "BinaryOp": [
-                      {
-                        "State": "input_limb_0_col0"
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_8_bits_col6"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "256"
-                            ]
-                          }
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "split_16_low_part_size_8_output_tmp_298db_1[0]"
                     ]
                   }
                 ]
@@ -901,25 +1191,9 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "BinaryOp": [
-                      {
-                        "State": "input_limb_2_col2"
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_8_bits_col8"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "256"
-                            ]
-                          }
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "split_16_low_part_size_8_output_tmp_298db_5[0]"
                     ]
                   }
                 ]
@@ -935,7 +1209,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_298db_6"
+              "xor_tmp_298db_12"
             ]
           },
           "as_m31",
@@ -949,47 +1223,15 @@
         "input": {
           "Array": [
             {
-              "BinaryOp": [
-                {
-                  "State": "input_limb_0_col0"
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "ms_8_bits_col6"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "256"
-                      ]
-                    }
-                  ]
-                }
+              "Var": [
+                "M31",
+                "split_16_low_part_size_8_output_tmp_298db_1[0]"
               ]
             },
             {
-              "BinaryOp": [
-                {
-                  "State": "input_limb_2_col2"
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "ms_8_bits_col8"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "256"
-                      ]
-                    }
-                  ]
-                }
+              "Var": [
+                "M31",
+                "split_16_low_part_size_8_output_tmp_298db_5[0]"
               ]
             },
             {
@@ -1004,47 +1246,15 @@
         "relation_name": "VerifyBitwiseXor_8",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "State": "input_limb_0_col0"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col6"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_298db_1[0]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "input_limb_2_col2"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col8"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_298db_5[0]"
             ]
           },
           {
@@ -1060,7 +1270,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_298db_7",
+        "name": "xor_tmp_298db_14",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1080,25 +1290,9 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "BinaryOp": [
-                      {
-                        "State": "input_limb_4_col4"
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_8_bits_col10"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "256"
-                            ]
-                          }
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "split_16_low_part_size_8_output_tmp_298db_9[0]"
                     ]
                   }
                 ]
@@ -1114,7 +1308,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_298db_7"
+              "xor_tmp_298db_14"
             ]
           },
           "as_m31",
@@ -1131,25 +1325,9 @@
               "State": "xor_col12"
             },
             {
-              "BinaryOp": [
-                {
-                  "State": "input_limb_4_col4"
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "ms_8_bits_col10"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "256"
-                      ]
-                    }
-                  ]
-                }
+              "Var": [
+                "M31",
+                "split_16_low_part_size_8_output_tmp_298db_9[0]"
               ]
             },
             {
@@ -1167,25 +1345,9 @@
             "State": "xor_col12"
           },
           {
-            "BinaryOp": [
-              {
-                "State": "input_limb_4_col4"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col10"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_298db_9[0]"
             ]
           },
           {
@@ -1201,7 +1363,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_298db_8",
+        "name": "xor_tmp_298db_16",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1236,7 +1398,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_298db_8"
+              "xor_tmp_298db_16"
             ]
           },
           "as_m31",
@@ -1285,7 +1447,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_298db_9",
+        "name": "xor_tmp_298db_18",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1320,7 +1482,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_298db_9"
+              "xor_tmp_298db_18"
             ]
           },
           "as_m31",
@@ -1369,7 +1531,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_298db_10",
+        "name": "xor_tmp_298db_20",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1378,25 +1540,9 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "BinaryOp": [
-                      {
-                        "State": "input_limb_1_col1"
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_8_bits_col7"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "256"
-                            ]
-                          }
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "split_16_low_part_size_8_output_tmp_298db_3[0]"
                     ]
                   }
                 ]
@@ -1408,25 +1554,9 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "BinaryOp": [
-                      {
-                        "State": "input_limb_3_col3"
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_8_bits_col9"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "256"
-                            ]
-                          }
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "split_16_low_part_size_8_output_tmp_298db_7[0]"
                     ]
                   }
                 ]
@@ -1442,7 +1572,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_298db_10"
+              "xor_tmp_298db_20"
             ]
           },
           "as_m31",
@@ -1456,47 +1586,15 @@
         "input": {
           "Array": [
             {
-              "BinaryOp": [
-                {
-                  "State": "input_limb_1_col1"
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "ms_8_bits_col7"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "256"
-                      ]
-                    }
-                  ]
-                }
+              "Var": [
+                "M31",
+                "split_16_low_part_size_8_output_tmp_298db_3[0]"
               ]
             },
             {
-              "BinaryOp": [
-                {
-                  "State": "input_limb_3_col3"
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "ms_8_bits_col9"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "256"
-                      ]
-                    }
-                  ]
-                }
+              "Var": [
+                "M31",
+                "split_16_low_part_size_8_output_tmp_298db_7[0]"
               ]
             },
             {
@@ -1511,47 +1609,15 @@
         "relation_name": "VerifyBitwiseXor_8",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "State": "input_limb_1_col1"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col7"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_298db_3[0]"
             ]
           },
           {
-            "BinaryOp": [
-              {
-                "State": "input_limb_3_col3"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col9"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_298db_7[0]"
             ]
           },
           {
@@ -1567,7 +1633,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_298db_11",
+        "name": "xor_tmp_298db_22",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1587,25 +1653,9 @@
                 "UInt16::from_m31",
                 [
                   {
-                    "BinaryOp": [
-                      {
-                        "State": "input_limb_5_col5"
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_8_bits_col11"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "256"
-                            ]
-                          }
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "split_16_low_part_size_8_output_tmp_298db_11[0]"
                     ]
                   }
                 ]
@@ -1621,7 +1671,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_298db_11"
+              "xor_tmp_298db_22"
             ]
           },
           "as_m31",
@@ -1638,25 +1688,9 @@
               "State": "xor_col16"
             },
             {
-              "BinaryOp": [
-                {
-                  "State": "input_limb_5_col5"
-                },
-                "-",
-                {
-                  "BinaryOp": [
-                    {
-                      "State": "ms_8_bits_col11"
-                    },
-                    "*",
-                    {
-                      "Const": [
-                        "M31",
-                        "256"
-                      ]
-                    }
-                  ]
-                }
+              "Var": [
+                "M31",
+                "split_16_low_part_size_8_output_tmp_298db_11[0]"
               ]
             },
             {
@@ -1674,25 +1708,9 @@
             "State": "xor_col16"
           },
           {
-            "BinaryOp": [
-              {
-                "State": "input_limb_5_col5"
-              },
-              "-",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ms_8_bits_col11"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "256"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "split_16_low_part_size_8_output_tmp_298db_11[0]"
             ]
           },
           {
@@ -1708,7 +1726,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_298db_12",
+        "name": "xor_tmp_298db_24",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1743,7 +1761,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_298db_12"
+              "xor_tmp_298db_24"
             ]
           },
           "as_m31",
@@ -1792,7 +1810,7 @@
     },
     {
       "Intermediate": {
-        "name": "xor_tmp_298db_13",
+        "name": "xor_tmp_298db_26",
         "type": "UInt16",
         "var": {
           "BinaryOp": [
@@ -1827,7 +1845,7 @@
           {
             "Var": [
               "UInt16",
-              "xor_tmp_298db_13"
+              "xor_tmp_298db_26"
             ]
           },
           "as_m31",
@@ -1873,7 +1891,7 @@
     "EndBlock",
     {
       "Intermediate": {
-        "name": "triple_xor32_output_tmp_298db_14",
+        "name": "triple_xor32_output_tmp_298db_28",
         "type": "UInt32",
         "var": {
           "StaticCall": [
@@ -1961,7 +1979,7 @@
                   {
                     "Var": [
                       "UInt32",
-                      "triple_xor32_output_tmp_298db_14"
+                      "triple_xor32_output_tmp_298db_28"
                     ]
                   },
                   "low",
@@ -1979,7 +1997,7 @@
                   {
                     "Var": [
                       "UInt32",
-                      "triple_xor32_output_tmp_298db_14"
+                      "triple_xor32_output_tmp_298db_28"
                     ]
                   },
                   "high",

@@ -21,7 +21,7 @@
   ],
   "verifier_output": [
     {
-      "Tuple": []
+      "Array": []
     },
     "()"
   ],
@@ -934,6 +934,153 @@
           }
         ],
         "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "read_positive_num_bits_128_output_tmp_c9e8f_4",
+        "type": "(Felt252, M31)",
+        "var": {
+          "Tuple": [
+            {
+              "StaticCall": [
+                "Felt252::from_limbs",
+                [
+                  {
+                    "Array": [
+                      {
+                        "State": "value_limb_0_col1"
+                      },
+                      {
+                        "State": "value_limb_1_col2"
+                      },
+                      {
+                        "State": "value_limb_2_col3"
+                      },
+                      {
+                        "State": "value_limb_3_col4"
+                      },
+                      {
+                        "State": "value_limb_4_col5"
+                      },
+                      {
+                        "State": "value_limb_5_col6"
+                      },
+                      {
+                        "State": "value_limb_6_col7"
+                      },
+                      {
+                        "State": "value_limb_7_col8"
+                      },
+                      {
+                        "State": "value_limb_8_col9"
+                      },
+                      {
+                        "State": "value_limb_9_col10"
+                      },
+                      {
+                        "State": "value_limb_10_col11"
+                      },
+                      {
+                        "State": "value_limb_11_col12"
+                      },
+                      {
+                        "State": "value_limb_12_col13"
+                      },
+                      {
+                        "State": "value_limb_13_col14"
+                      },
+                      {
+                        "State": "value_limb_14_col15"
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "State": "value_id_col0"
+            }
+          ]
+        }
       }
     },
     "EndBlock"

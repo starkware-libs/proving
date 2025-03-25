@@ -82,21 +82,20 @@ impl AirFn for MulModBuiltin {
             range_check(ab, &[MUL_MOD_LIMB_SIZE as u16], &[k_limb]);
         }
 
-        let [p_12bits, a_12bits, b_12bits, c_12bits] = [(p, "p"), (a, "a"), (b, "b"), (c, "c")]
-            .map(|(x, desc)| {
-                let res: [FeltExpr; MUL_MOD_NUM_LIMBS] = x
-                    .chunks(2)
-                    .flat_map(|chunk| {
-                        ab.call(
-                            &ModWordsTo12BitArray {},
-                            [chunk[0].clone(), chunk[1].clone()],
-                        )
-                    })
-                    .collect::<Vec<_>>()
-                    .try_into()
-                    .expect("Expected MUL_MOD_NUM_LIMBS limbs.");
-                ab.let_(res, desc)
-            });
+        let [p_12bits, a_12bits, b_12bits, c_12bits] = [p, a, b, c].map(|x| {
+            let res: [FeltExpr; MUL_MOD_NUM_LIMBS] = x
+                .chunks(2)
+                .flat_map(|chunk| {
+                    ab.call(
+                        &ModWordsTo12BitArray {},
+                        [chunk[0].clone(), chunk[1].clone()],
+                    )
+                })
+                .collect::<Vec<_>>()
+                .try_into()
+                .expect("Expected MUL_MOD_NUM_LIMBS limbs.");
+            res
+        });
 
         let mut limb_accumulator = BoundedFeltExpr::default();
 

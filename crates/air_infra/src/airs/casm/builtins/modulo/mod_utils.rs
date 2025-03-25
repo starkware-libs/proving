@@ -168,7 +168,7 @@ impl AirFn for ModUtils {
         }
 
         // Read the offsets and values of a,b,c.
-        let mut offsets_val: [FeltExpr; 3] = from_fn(|j| {
+        let offsets_val: [FeltExpr; 3] = from_fn(|j| {
             self.memory.read_rel_imm(
                 ab,
                 CasmAddress::new(
@@ -177,7 +177,6 @@ impl AirFn for ModUtils {
                 ),
             )
         });
-        offsets_val = ab.let_(offsets_val, "offsets_val");
 
         let values_ptr_val = ab.let_(
             felt252_to_m31(values_ptr_val_felt252, ADDRESS_BITS),
