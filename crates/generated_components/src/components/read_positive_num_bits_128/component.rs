@@ -10,6 +10,23 @@ impl ReadPositiveNumBits128 {
     #[allow(clippy::unused_unit)]
     pub fn evaluate<E: EvalAtRow>(
         read_positive_num_bits_128_input: E::F,
+        id_col0: E::F,
+        value_limb_0_col1: E::F,
+        value_limb_1_col2: E::F,
+        value_limb_2_col3: E::F,
+        value_limb_3_col4: E::F,
+        value_limb_4_col5: E::F,
+        value_limb_5_col6: E::F,
+        value_limb_6_col7: E::F,
+        value_limb_7_col8: E::F,
+        value_limb_8_col9: E::F,
+        value_limb_9_col10: E::F,
+        value_limb_10_col11: E::F,
+        value_limb_11_col12: E::F,
+        value_limb_12_col13: E::F,
+        value_limb_13_col14: E::F,
+        value_limb_14_col15: E::F,
+        msb_col16: E::F,
         eval: &mut E,
         memory_address_to_id_lookup_elements: &relations::MemoryAddressToId,
         memory_id_to_big_lookup_elements: &relations::MemoryIdToBig,
@@ -17,23 +34,6 @@ impl ReadPositiveNumBits128 {
         let M31_0 = E::F::from(M31::from(0));
         let M31_1 = E::F::from(M31::from(1));
         let M31_2 = E::F::from(M31::from(2));
-        let id_col0 = eval.next_trace_mask();
-        let value_limb_0_col1 = eval.next_trace_mask();
-        let value_limb_1_col2 = eval.next_trace_mask();
-        let value_limb_2_col3 = eval.next_trace_mask();
-        let value_limb_3_col4 = eval.next_trace_mask();
-        let value_limb_4_col5 = eval.next_trace_mask();
-        let value_limb_5_col6 = eval.next_trace_mask();
-        let value_limb_6_col7 = eval.next_trace_mask();
-        let value_limb_7_col8 = eval.next_trace_mask();
-        let value_limb_8_col9 = eval.next_trace_mask();
-        let value_limb_9_col10 = eval.next_trace_mask();
-        let value_limb_10_col11 = eval.next_trace_mask();
-        let value_limb_11_col12 = eval.next_trace_mask();
-        let value_limb_12_col13 = eval.next_trace_mask();
-        let value_limb_13_col14 = eval.next_trace_mask();
-        let value_limb_14_col15 = eval.next_trace_mask();
-        let msb_col16 = eval.next_trace_mask();
 
         eval.add_to_relation(RelationEntry::new(
             memory_address_to_id_lookup_elements,

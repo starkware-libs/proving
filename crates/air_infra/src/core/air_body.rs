@@ -25,6 +25,7 @@ pub struct Call {
     pub input: AirVarImpl,
     pub output_name: String,
     pub output: AirVarImpl,
+    pub state_names: Vec<String>,
     #[serde(skip)]
     pub air_body: AirBody,
 }

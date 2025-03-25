@@ -10,6 +10,12 @@ impl ReadSmall {
     #[allow(clippy::unused_unit)]
     pub fn evaluate<E: EvalAtRow>(
         read_small_input: E::F,
+        id_col0: E::F,
+        msb_col1: E::F,
+        mid_limbs_set_col2: E::F,
+        value_limb_0_col3: E::F,
+        value_limb_1_col4: E::F,
+        value_limb_2_col5: E::F,
         eval: &mut E,
         memory_address_to_id_lookup_elements: &relations::MemoryAddressToId,
         memory_id_to_big_lookup_elements: &relations::MemoryIdToBig,
@@ -22,12 +28,6 @@ impl ReadSmall {
         let M31_262144 = E::F::from(M31::from(262144));
         let M31_511 = E::F::from(M31::from(511));
         let M31_512 = E::F::from(M31::from(512));
-        let id_col0 = eval.next_trace_mask();
-        let msb_col1 = eval.next_trace_mask();
-        let mid_limbs_set_col2 = eval.next_trace_mask();
-        let value_limb_0_col3 = eval.next_trace_mask();
-        let value_limb_1_col4 = eval.next_trace_mask();
-        let value_limb_2_col5 = eval.next_trace_mask();
 
         eval.add_to_relation(RelationEntry::new(
             memory_address_to_id_lookup_elements,

@@ -10,6 +10,14 @@ impl EncodeOffsets {
     #[allow(clippy::unused_unit)]
     pub fn evaluate<E: EvalAtRow>(
         [encode_offsets_input_limb_0, encode_offsets_input_limb_1, encode_offsets_input_limb_2]: [E::F; 3],
+        offset0_low_col0: E::F,
+        offset0_mid_col1: E::F,
+        offset1_low_col2: E::F,
+        offset1_mid_col3: E::F,
+        offset1_high_col4: E::F,
+        offset2_low_col5: E::F,
+        offset2_mid_col6: E::F,
+        offset2_high_col7: E::F,
         eval: &mut E,
         range_check_4_3_lookup_elements: &relations::RangeCheck_4_3,
         range_check_7_2_5_lookup_elements: &relations::RangeCheck_7_2_5,
@@ -21,14 +29,6 @@ impl EncodeOffsets {
         let M31_4 = E::F::from(M31::from(4));
         let M31_512 = E::F::from(M31::from(512));
         let M31_8192 = E::F::from(M31::from(8192));
-        let offset0_low_col0 = eval.next_trace_mask();
-        let offset0_mid_col1 = eval.next_trace_mask();
-        let offset1_low_col2 = eval.next_trace_mask();
-        let offset1_mid_col3 = eval.next_trace_mask();
-        let offset1_high_col4 = eval.next_trace_mask();
-        let offset2_low_col5 = eval.next_trace_mask();
-        let offset2_mid_col6 = eval.next_trace_mask();
-        let offset2_high_col7 = eval.next_trace_mask();
 
         // Reconstructed offset0 is correct.
         eval.add_constraint(
