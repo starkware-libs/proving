@@ -21,7 +21,7 @@
   ],
   "verifier_output": [
     {
-      "Tuple": []
+      "Array": []
     },
     "()"
   ],
@@ -241,6 +241,62 @@
         "use_or_yield": "Use"
       }
     },
+    {
+      "Intermediate": {
+        "name": "encode_offsets_output_tmp_16a4f_8_limb_1",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "offset0_mid_col8"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "offset1_low_col9"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "128"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "encode_offsets_output_tmp_16a4f_8_limb_3",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "offset1_high_col11"
+            },
+            "+",
+            {
+              "BinaryOp": [
+                {
+                  "State": "offset2_low_col12"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "32"
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Mem Verify"
@@ -270,50 +326,18 @@
             "State": "offset0_low_col7"
           },
           {
-            "BinaryOp": [
-              {
-                "State": "offset0_mid_col8"
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "offset1_low_col9"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "128"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "encode_offsets_output_tmp_16a4f_8_limb_1"
             ]
           },
           {
             "State": "offset1_mid_col10"
           },
           {
-            "BinaryOp": [
-              {
-                "State": "offset1_high_col11"
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "offset2_low_col12"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "32"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "encode_offsets_output_tmp_16a4f_8_limb_3"
             ]
           },
           {
@@ -965,13 +989,79 @@
         "use_or_yield": "Use"
       }
     },
+    {
+      "Intermediate": {
+        "name": "encode_offsets_output_tmp_16a4f_8",
+        "type": "[M31; 6]",
+        "var": {
+          "Array": [
+            {
+              "State": "offset0_low_col7"
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "offset0_mid_col8"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "offset1_low_col9"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "128"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "offset1_mid_col10"
+            },
+            {
+              "BinaryOp": [
+                {
+                  "State": "offset1_high_col11"
+                },
+                "+",
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "offset2_low_col12"
+                    },
+                    "*",
+                    {
+                      "Const": [
+                        "M31",
+                        "32"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "State": "offset2_mid_col13"
+            },
+            {
+              "State": "offset2_high_col14"
+            }
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Mem Verify"
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_16a4f_8",
+        "name": "memory_address_to_id_value_tmp_16a4f_9",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -989,7 +1079,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_16a4f_8"
+          "memory_address_to_id_value_tmp_16a4f_9"
         ]
       }
     },
@@ -1034,50 +1124,18 @@
             "State": "offset0_low_col7"
           },
           {
-            "BinaryOp": [
-              {
-                "State": "offset0_mid_col8"
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "offset1_low_col9"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "128"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "encode_offsets_output_tmp_16a4f_8[1]"
             ]
           },
           {
             "State": "offset1_mid_col10"
           },
           {
-            "BinaryOp": [
-              {
-                "State": "offset1_high_col11"
-              },
-              "+",
-              {
-                "BinaryOp": [
-                  {
-                    "State": "offset2_low_col12"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "32"
-                    ]
-                  }
-                ]
-              }
+            "Var": [
+              "M31",
+              "encode_offsets_output_tmp_16a4f_8[3]"
             ]
           },
           {

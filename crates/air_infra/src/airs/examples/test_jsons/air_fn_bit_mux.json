@@ -8,7 +8,7 @@
     "type": "UInt16"
   },
   "output": {
-    "name": "Bool::from_m31(tmp_6ffde_1)",
+    "name": "div_2_output_tmp_6ffde_2.0",
     "type": "Bool"
   },
   "trace_type": "Inline",
@@ -26,14 +26,14 @@
           "name": "air_fn_bit_mux_input",
           "type": "UInt16"
         },
-        "output_name": "div_2_output",
+        "output_name": "div_2_output_tmp_6ffde_2",
         "output": [
           {
-            "name": "Bool::from_m31(tmp_6ffde_1)",
+            "name": "div_2_output_tmp_6ffde_2.0",
             "type": "Bool"
           },
           {
-            "name": "tmp_6ffde_0",
+            "name": "div_2_output_tmp_6ffde_2.1",
             "type": "UInt16"
           }
         ],
@@ -44,7 +44,7 @@
     },
     {
       "Constraint": [
-        "((tmp_6ffde_1 * col0) + ((1 - tmp_6ffde_1) * (col0 - 2)))"
+        "((div_2_output_tmp_6ffde_2.0.as_m31() * col0) + ((1 - div_2_output_tmp_6ffde_2.0.as_m31()) * (col0 - 2)))"
       ]
     }
   ],

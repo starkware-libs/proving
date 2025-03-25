@@ -37,19 +37,19 @@
             {
               "Var": [
                 "Felt252Width27",
-                "combination_tmp_f9fbc_4"
+                "linear_combination_n_4_coefs_3_1_1_1_output_tmp_f9fbc_15"
               ]
             },
             {
               "Var": [
                 "Felt252Width27",
-                "combination_tmp_f9fbc_15"
+                "linear_combination_n_4_coefs_1_m1_1_1_output_tmp_f9fbc_27"
               ]
             },
             {
               "Var": [
                 "Felt252Width27",
-                "combination_tmp_f9fbc_26"
+                "linear_combination_n_4_coefs_1_1_m2_1_output_tmp_f9fbc_39"
               ]
             }
           ]
@@ -1592,7 +1592,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_0_tmp_f9fbc_17",
+        "name": "carry_0_tmp_f9fbc_18",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -1663,7 +1663,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_1_tmp_f9fbc_18",
+        "name": "carry_1_tmp_f9fbc_19",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -1680,7 +1680,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_0_tmp_f9fbc_17"
+                                    "carry_0_tmp_f9fbc_18"
                                   ]
                                 },
                                 "-",
@@ -1726,7 +1726,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_2_tmp_f9fbc_19",
+        "name": "carry_2_tmp_f9fbc_20",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -1743,7 +1743,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_1_tmp_f9fbc_18"
+                                    "carry_1_tmp_f9fbc_19"
                                   ]
                                 },
                                 "-",
@@ -1789,7 +1789,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_3_tmp_f9fbc_20",
+        "name": "carry_3_tmp_f9fbc_21",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -1806,7 +1806,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_2_tmp_f9fbc_19"
+                                    "carry_2_tmp_f9fbc_20"
                                   ]
                                 },
                                 "-",
@@ -1852,7 +1852,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_4_tmp_f9fbc_21",
+        "name": "carry_4_tmp_f9fbc_22",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -1869,7 +1869,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_3_tmp_f9fbc_20"
+                                    "carry_3_tmp_f9fbc_21"
                                   ]
                                 },
                                 "-",
@@ -1915,7 +1915,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_5_tmp_f9fbc_22",
+        "name": "carry_5_tmp_f9fbc_23",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -1932,7 +1932,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_4_tmp_f9fbc_21"
+                                    "carry_4_tmp_f9fbc_22"
                                   ]
                                 },
                                 "-",
@@ -1978,7 +1978,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_6_tmp_f9fbc_23",
+        "name": "carry_6_tmp_f9fbc_24",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -1995,7 +1995,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_5_tmp_f9fbc_22"
+                                    "carry_5_tmp_f9fbc_23"
                                   ]
                                 },
                                 "-",
@@ -2041,7 +2041,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_7_tmp_f9fbc_24",
+        "name": "carry_7_tmp_f9fbc_25",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2060,7 +2060,7 @@
                                     {
                                       "Var": [
                                         "M31",
-                                        "carry_6_tmp_f9fbc_23"
+                                        "carry_6_tmp_f9fbc_24"
                                       ]
                                     },
                                     "-",
@@ -2123,7 +2123,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_8_tmp_f9fbc_25",
+        "name": "carry_8_tmp_f9fbc_26",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2140,7 +2140,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_7_tmp_f9fbc_24"
+                                    "carry_7_tmp_f9fbc_25"
                                   ]
                                 },
                                 "-",
@@ -2201,7 +2201,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_8_tmp_f9fbc_25"
+                                    "carry_8_tmp_f9fbc_26"
                                   ]
                                 },
                                 "-",
@@ -2277,7 +2277,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_0_tmp_f9fbc_17"
+                  "carry_0_tmp_f9fbc_18"
                 ]
               },
               "+",
@@ -2294,7 +2294,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_1_tmp_f9fbc_18"
+                  "carry_1_tmp_f9fbc_19"
                 ]
               },
               "+",
@@ -2311,7 +2311,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_2_tmp_f9fbc_19"
+                  "carry_2_tmp_f9fbc_20"
                 ]
               },
               "+",
@@ -2328,7 +2328,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_3_tmp_f9fbc_20"
+                  "carry_3_tmp_f9fbc_21"
                 ]
               },
               "+",
@@ -2353,7 +2353,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_4_tmp_f9fbc_21"
+                  "carry_4_tmp_f9fbc_22"
                 ]
               },
               "+",
@@ -2370,7 +2370,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_5_tmp_f9fbc_22"
+                  "carry_5_tmp_f9fbc_23"
                 ]
               },
               "+",
@@ -2387,7 +2387,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_6_tmp_f9fbc_23"
+                  "carry_6_tmp_f9fbc_24"
                 ]
               },
               "+",
@@ -2404,7 +2404,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_7_tmp_f9fbc_24"
+                  "carry_7_tmp_f9fbc_25"
                 ]
               },
               "+",
@@ -2421,7 +2421,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_8_tmp_f9fbc_25"
+                  "carry_8_tmp_f9fbc_26"
                 ]
               },
               "+",
@@ -2443,7 +2443,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_0_tmp_f9fbc_28",
+        "name": "carry_0_tmp_f9fbc_30",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2525,7 +2525,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_1_tmp_f9fbc_29",
+        "name": "carry_1_tmp_f9fbc_31",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2542,7 +2542,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_0_tmp_f9fbc_28"
+                                    "carry_0_tmp_f9fbc_30"
                                   ]
                                 },
                                 "-",
@@ -2599,7 +2599,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_2_tmp_f9fbc_30",
+        "name": "carry_2_tmp_f9fbc_32",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2616,7 +2616,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_1_tmp_f9fbc_29"
+                                    "carry_1_tmp_f9fbc_31"
                                   ]
                                 },
                                 "-",
@@ -2673,7 +2673,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_3_tmp_f9fbc_31",
+        "name": "carry_3_tmp_f9fbc_33",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2690,7 +2690,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_2_tmp_f9fbc_30"
+                                    "carry_2_tmp_f9fbc_32"
                                   ]
                                 },
                                 "-",
@@ -2747,7 +2747,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_4_tmp_f9fbc_32",
+        "name": "carry_4_tmp_f9fbc_34",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2764,7 +2764,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_3_tmp_f9fbc_31"
+                                    "carry_3_tmp_f9fbc_33"
                                   ]
                                 },
                                 "-",
@@ -2821,7 +2821,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_5_tmp_f9fbc_33",
+        "name": "carry_5_tmp_f9fbc_35",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2838,7 +2838,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_4_tmp_f9fbc_32"
+                                    "carry_4_tmp_f9fbc_34"
                                   ]
                                 },
                                 "-",
@@ -2895,7 +2895,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_6_tmp_f9fbc_34",
+        "name": "carry_6_tmp_f9fbc_36",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2912,7 +2912,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_5_tmp_f9fbc_33"
+                                    "carry_5_tmp_f9fbc_35"
                                   ]
                                 },
                                 "-",
@@ -2969,7 +2969,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_7_tmp_f9fbc_35",
+        "name": "carry_7_tmp_f9fbc_37",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -2988,7 +2988,7 @@
                                     {
                                       "Var": [
                                         "M31",
-                                        "carry_6_tmp_f9fbc_34"
+                                        "carry_6_tmp_f9fbc_36"
                                       ]
                                     },
                                     "-",
@@ -3062,7 +3062,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_8_tmp_f9fbc_36",
+        "name": "carry_8_tmp_f9fbc_38",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -3079,7 +3079,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_7_tmp_f9fbc_35"
+                                    "carry_7_tmp_f9fbc_37"
                                   ]
                                 },
                                 "-",
@@ -3151,7 +3151,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_8_tmp_f9fbc_36"
+                                    "carry_8_tmp_f9fbc_38"
                                   ]
                                 },
                                 "-",
@@ -3238,7 +3238,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_0_tmp_f9fbc_28"
+                  "carry_0_tmp_f9fbc_30"
                 ]
               },
               "+",
@@ -3255,7 +3255,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_1_tmp_f9fbc_29"
+                  "carry_1_tmp_f9fbc_31"
                 ]
               },
               "+",
@@ -3272,7 +3272,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_2_tmp_f9fbc_30"
+                  "carry_2_tmp_f9fbc_32"
                 ]
               },
               "+",
@@ -3289,7 +3289,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_3_tmp_f9fbc_31"
+                  "carry_3_tmp_f9fbc_33"
                 ]
               },
               "+",
@@ -3314,7 +3314,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_4_tmp_f9fbc_32"
+                  "carry_4_tmp_f9fbc_34"
                 ]
               },
               "+",
@@ -3331,7 +3331,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_5_tmp_f9fbc_33"
+                  "carry_5_tmp_f9fbc_35"
                 ]
               },
               "+",
@@ -3348,7 +3348,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_6_tmp_f9fbc_34"
+                  "carry_6_tmp_f9fbc_36"
                 ]
               },
               "+",
@@ -3365,7 +3365,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_7_tmp_f9fbc_35"
+                  "carry_7_tmp_f9fbc_37"
                 ]
               },
               "+",
@@ -3382,7 +3382,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_8_tmp_f9fbc_36"
+                  "carry_8_tmp_f9fbc_38"
                 ]
               },
               "+",
@@ -7474,13 +7474,25 @@
         "use_or_yield": "Use"
       }
     },
+    {
+      "Intermediate": {
+        "name": "linear_combination_n_4_coefs_3_1_1_1_output_tmp_f9fbc_15",
+        "type": "Felt252Width27",
+        "var": {
+          "Var": [
+            "Felt252Width27",
+            "combination_tmp_f9fbc_4"
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Linear Combination N 4 Coefs 1 M 1 1 1"
     },
     {
       "Intermediate": {
-        "name": "combination_tmp_f9fbc_15",
+        "name": "combination_tmp_f9fbc_16",
         "type": "Felt252Width27",
         "var": {
           "StaticCall": [
@@ -7619,7 +7631,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_15"
+              "combination_tmp_f9fbc_16"
             ]
           },
           "get_m31",
@@ -7640,7 +7652,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_15"
+              "combination_tmp_f9fbc_16"
             ]
           },
           "get_m31",
@@ -7661,7 +7673,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_15"
+              "combination_tmp_f9fbc_16"
             ]
           },
           "get_m31",
@@ -7682,7 +7694,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_15"
+              "combination_tmp_f9fbc_16"
             ]
           },
           "get_m31",
@@ -7703,7 +7715,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_15"
+              "combination_tmp_f9fbc_16"
             ]
           },
           "get_m31",
@@ -7724,7 +7736,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_15"
+              "combination_tmp_f9fbc_16"
             ]
           },
           "get_m31",
@@ -7745,7 +7757,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_15"
+              "combination_tmp_f9fbc_16"
             ]
           },
           "get_m31",
@@ -7766,7 +7778,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_15"
+              "combination_tmp_f9fbc_16"
             ]
           },
           "get_m31",
@@ -7787,7 +7799,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_15"
+              "combination_tmp_f9fbc_16"
             ]
           },
           "get_m31",
@@ -7808,7 +7820,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_15"
+              "combination_tmp_f9fbc_16"
             ]
           },
           "get_m31",
@@ -7825,7 +7837,7 @@
     },
     {
       "Intermediate": {
-        "name": "biased_limb_accumulator_u32_tmp_f9fbc_16",
+        "name": "biased_limb_accumulator_u32_tmp_f9fbc_17",
         "type": "UInt32",
         "var": {
           "StaticCall": [
@@ -7903,7 +7915,7 @@
                   {
                     "Var": [
                       "UInt32",
-                      "biased_limb_accumulator_u32_tmp_f9fbc_16"
+                      "biased_limb_accumulator_u32_tmp_f9fbc_17"
                     ]
                   },
                   "low",
@@ -7926,7 +7938,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_0_tmp_f9fbc_17",
+        "name": "carry_0_tmp_f9fbc_18",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -7997,7 +8009,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_1_tmp_f9fbc_18",
+        "name": "carry_1_tmp_f9fbc_19",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -8014,7 +8026,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_0_tmp_f9fbc_17"
+                                    "carry_0_tmp_f9fbc_18"
                                   ]
                                 },
                                 "-",
@@ -8060,7 +8072,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_2_tmp_f9fbc_19",
+        "name": "carry_2_tmp_f9fbc_20",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -8077,7 +8089,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_1_tmp_f9fbc_18"
+                                    "carry_1_tmp_f9fbc_19"
                                   ]
                                 },
                                 "-",
@@ -8123,7 +8135,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_3_tmp_f9fbc_20",
+        "name": "carry_3_tmp_f9fbc_21",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -8140,7 +8152,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_2_tmp_f9fbc_19"
+                                    "carry_2_tmp_f9fbc_20"
                                   ]
                                 },
                                 "-",
@@ -8186,7 +8198,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_4_tmp_f9fbc_21",
+        "name": "carry_4_tmp_f9fbc_22",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -8203,7 +8215,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_3_tmp_f9fbc_20"
+                                    "carry_3_tmp_f9fbc_21"
                                   ]
                                 },
                                 "-",
@@ -8249,7 +8261,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_5_tmp_f9fbc_22",
+        "name": "carry_5_tmp_f9fbc_23",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -8266,7 +8278,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_4_tmp_f9fbc_21"
+                                    "carry_4_tmp_f9fbc_22"
                                   ]
                                 },
                                 "-",
@@ -8312,7 +8324,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_6_tmp_f9fbc_23",
+        "name": "carry_6_tmp_f9fbc_24",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -8329,7 +8341,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_5_tmp_f9fbc_22"
+                                    "carry_5_tmp_f9fbc_23"
                                   ]
                                 },
                                 "-",
@@ -8375,7 +8387,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_7_tmp_f9fbc_24",
+        "name": "carry_7_tmp_f9fbc_25",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -8394,7 +8406,7 @@
                                     {
                                       "Var": [
                                         "M31",
-                                        "carry_6_tmp_f9fbc_23"
+                                        "carry_6_tmp_f9fbc_24"
                                       ]
                                     },
                                     "-",
@@ -8457,7 +8469,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_8_tmp_f9fbc_25",
+        "name": "carry_8_tmp_f9fbc_26",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -8474,7 +8486,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_7_tmp_f9fbc_24"
+                                    "carry_7_tmp_f9fbc_25"
                                   ]
                                 },
                                 "-",
@@ -8542,7 +8554,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_0_tmp_f9fbc_17"
+                    "carry_0_tmp_f9fbc_18"
                   ]
                 },
                 "+",
@@ -8559,7 +8571,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_1_tmp_f9fbc_18"
+                    "carry_1_tmp_f9fbc_19"
                   ]
                 },
                 "+",
@@ -8576,7 +8588,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_2_tmp_f9fbc_19"
+                    "carry_2_tmp_f9fbc_20"
                   ]
                 },
                 "+",
@@ -8593,7 +8605,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_3_tmp_f9fbc_20"
+                    "carry_3_tmp_f9fbc_21"
                   ]
                 },
                 "+",
@@ -8632,7 +8644,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_0_tmp_f9fbc_17"
+                  "carry_0_tmp_f9fbc_18"
                 ]
               },
               "+",
@@ -8649,7 +8661,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_1_tmp_f9fbc_18"
+                  "carry_1_tmp_f9fbc_19"
                 ]
               },
               "+",
@@ -8666,7 +8678,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_2_tmp_f9fbc_19"
+                  "carry_2_tmp_f9fbc_20"
                 ]
               },
               "+",
@@ -8683,7 +8695,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_3_tmp_f9fbc_20"
+                  "carry_3_tmp_f9fbc_21"
                 ]
               },
               "+",
@@ -8709,7 +8721,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_4_tmp_f9fbc_21"
+                    "carry_4_tmp_f9fbc_22"
                   ]
                 },
                 "+",
@@ -8726,7 +8738,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_5_tmp_f9fbc_22"
+                    "carry_5_tmp_f9fbc_23"
                   ]
                 },
                 "+",
@@ -8743,7 +8755,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_6_tmp_f9fbc_23"
+                    "carry_6_tmp_f9fbc_24"
                   ]
                 },
                 "+",
@@ -8760,7 +8772,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_7_tmp_f9fbc_24"
+                    "carry_7_tmp_f9fbc_25"
                   ]
                 },
                 "+",
@@ -8777,7 +8789,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_8_tmp_f9fbc_25"
+                    "carry_8_tmp_f9fbc_26"
                   ]
                 },
                 "+",
@@ -8802,7 +8814,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_4_tmp_f9fbc_21"
+                  "carry_4_tmp_f9fbc_22"
                 ]
               },
               "+",
@@ -8819,7 +8831,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_5_tmp_f9fbc_22"
+                  "carry_5_tmp_f9fbc_23"
                 ]
               },
               "+",
@@ -8836,7 +8848,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_6_tmp_f9fbc_23"
+                  "carry_6_tmp_f9fbc_24"
                 ]
               },
               "+",
@@ -8853,7 +8865,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_7_tmp_f9fbc_24"
+                  "carry_7_tmp_f9fbc_25"
                 ]
               },
               "+",
@@ -8870,7 +8882,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_8_tmp_f9fbc_25"
+                  "carry_8_tmp_f9fbc_26"
                 ]
               },
               "+",
@@ -8886,13 +8898,25 @@
         "use_or_yield": "Use"
       }
     },
+    {
+      "Intermediate": {
+        "name": "linear_combination_n_4_coefs_1_m1_1_1_output_tmp_f9fbc_27",
+        "type": "Felt252Width27",
+        "var": {
+          "Var": [
+            "Felt252Width27",
+            "combination_tmp_f9fbc_16"
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "StartBlock": "Linear Combination N 4 Coefs 1 1 M 2 1"
     },
     {
       "Intermediate": {
-        "name": "combination_tmp_f9fbc_26",
+        "name": "combination_tmp_f9fbc_28",
         "type": "Felt252Width27",
         "var": {
           "StaticCall": [
@@ -9031,7 +9055,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_26"
+              "combination_tmp_f9fbc_28"
             ]
           },
           "get_m31",
@@ -9052,7 +9076,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_26"
+              "combination_tmp_f9fbc_28"
             ]
           },
           "get_m31",
@@ -9073,7 +9097,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_26"
+              "combination_tmp_f9fbc_28"
             ]
           },
           "get_m31",
@@ -9094,7 +9118,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_26"
+              "combination_tmp_f9fbc_28"
             ]
           },
           "get_m31",
@@ -9115,7 +9139,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_26"
+              "combination_tmp_f9fbc_28"
             ]
           },
           "get_m31",
@@ -9136,7 +9160,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_26"
+              "combination_tmp_f9fbc_28"
             ]
           },
           "get_m31",
@@ -9157,7 +9181,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_26"
+              "combination_tmp_f9fbc_28"
             ]
           },
           "get_m31",
@@ -9178,7 +9202,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_26"
+              "combination_tmp_f9fbc_28"
             ]
           },
           "get_m31",
@@ -9199,7 +9223,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_26"
+              "combination_tmp_f9fbc_28"
             ]
           },
           "get_m31",
@@ -9220,7 +9244,7 @@
           {
             "Var": [
               "Felt252Width27",
-              "combination_tmp_f9fbc_26"
+              "combination_tmp_f9fbc_28"
             ]
           },
           "get_m31",
@@ -9237,7 +9261,7 @@
     },
     {
       "Intermediate": {
-        "name": "biased_limb_accumulator_u32_tmp_f9fbc_27",
+        "name": "biased_limb_accumulator_u32_tmp_f9fbc_29",
         "type": "UInt32",
         "var": {
           "StaticCall": [
@@ -9326,7 +9350,7 @@
                   {
                     "Var": [
                       "UInt32",
-                      "biased_limb_accumulator_u32_tmp_f9fbc_27"
+                      "biased_limb_accumulator_u32_tmp_f9fbc_29"
                     ]
                   },
                   "low",
@@ -9349,7 +9373,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_0_tmp_f9fbc_28",
+        "name": "carry_0_tmp_f9fbc_30",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -9431,7 +9455,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_1_tmp_f9fbc_29",
+        "name": "carry_1_tmp_f9fbc_31",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -9448,7 +9472,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_0_tmp_f9fbc_28"
+                                    "carry_0_tmp_f9fbc_30"
                                   ]
                                 },
                                 "-",
@@ -9505,7 +9529,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_2_tmp_f9fbc_30",
+        "name": "carry_2_tmp_f9fbc_32",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -9522,7 +9546,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_1_tmp_f9fbc_29"
+                                    "carry_1_tmp_f9fbc_31"
                                   ]
                                 },
                                 "-",
@@ -9579,7 +9603,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_3_tmp_f9fbc_31",
+        "name": "carry_3_tmp_f9fbc_33",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -9596,7 +9620,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_2_tmp_f9fbc_30"
+                                    "carry_2_tmp_f9fbc_32"
                                   ]
                                 },
                                 "-",
@@ -9653,7 +9677,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_4_tmp_f9fbc_32",
+        "name": "carry_4_tmp_f9fbc_34",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -9670,7 +9694,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_3_tmp_f9fbc_31"
+                                    "carry_3_tmp_f9fbc_33"
                                   ]
                                 },
                                 "-",
@@ -9727,7 +9751,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_5_tmp_f9fbc_33",
+        "name": "carry_5_tmp_f9fbc_35",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -9744,7 +9768,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_4_tmp_f9fbc_32"
+                                    "carry_4_tmp_f9fbc_34"
                                   ]
                                 },
                                 "-",
@@ -9801,7 +9825,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_6_tmp_f9fbc_34",
+        "name": "carry_6_tmp_f9fbc_36",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -9818,7 +9842,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_5_tmp_f9fbc_33"
+                                    "carry_5_tmp_f9fbc_35"
                                   ]
                                 },
                                 "-",
@@ -9875,7 +9899,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_7_tmp_f9fbc_35",
+        "name": "carry_7_tmp_f9fbc_37",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -9894,7 +9918,7 @@
                                     {
                                       "Var": [
                                         "M31",
-                                        "carry_6_tmp_f9fbc_34"
+                                        "carry_6_tmp_f9fbc_36"
                                       ]
                                     },
                                     "-",
@@ -9968,7 +9992,7 @@
     },
     {
       "Intermediate": {
-        "name": "carry_8_tmp_f9fbc_36",
+        "name": "carry_8_tmp_f9fbc_38",
         "type": "M31",
         "var": {
           "BinaryOp": [
@@ -9985,7 +10009,7 @@
                                 {
                                   "Var": [
                                     "M31",
-                                    "carry_7_tmp_f9fbc_35"
+                                    "carry_7_tmp_f9fbc_37"
                                   ]
                                 },
                                 "-",
@@ -10064,7 +10088,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_0_tmp_f9fbc_28"
+                    "carry_0_tmp_f9fbc_30"
                   ]
                 },
                 "+",
@@ -10081,7 +10105,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_1_tmp_f9fbc_29"
+                    "carry_1_tmp_f9fbc_31"
                   ]
                 },
                 "+",
@@ -10098,7 +10122,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_2_tmp_f9fbc_30"
+                    "carry_2_tmp_f9fbc_32"
                   ]
                 },
                 "+",
@@ -10115,7 +10139,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_3_tmp_f9fbc_31"
+                    "carry_3_tmp_f9fbc_33"
                   ]
                 },
                 "+",
@@ -10154,7 +10178,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_0_tmp_f9fbc_28"
+                  "carry_0_tmp_f9fbc_30"
                 ]
               },
               "+",
@@ -10171,7 +10195,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_1_tmp_f9fbc_29"
+                  "carry_1_tmp_f9fbc_31"
                 ]
               },
               "+",
@@ -10188,7 +10212,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_2_tmp_f9fbc_30"
+                  "carry_2_tmp_f9fbc_32"
                 ]
               },
               "+",
@@ -10205,7 +10229,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_3_tmp_f9fbc_31"
+                  "carry_3_tmp_f9fbc_33"
                 ]
               },
               "+",
@@ -10231,7 +10255,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_4_tmp_f9fbc_32"
+                    "carry_4_tmp_f9fbc_34"
                   ]
                 },
                 "+",
@@ -10248,7 +10272,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_5_tmp_f9fbc_33"
+                    "carry_5_tmp_f9fbc_35"
                   ]
                 },
                 "+",
@@ -10265,7 +10289,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_6_tmp_f9fbc_34"
+                    "carry_6_tmp_f9fbc_36"
                   ]
                 },
                 "+",
@@ -10282,7 +10306,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_7_tmp_f9fbc_35"
+                    "carry_7_tmp_f9fbc_37"
                   ]
                 },
                 "+",
@@ -10299,7 +10323,7 @@
                 {
                   "Var": [
                     "M31",
-                    "carry_8_tmp_f9fbc_36"
+                    "carry_8_tmp_f9fbc_38"
                   ]
                 },
                 "+",
@@ -10324,7 +10348,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_4_tmp_f9fbc_32"
+                  "carry_4_tmp_f9fbc_34"
                 ]
               },
               "+",
@@ -10341,7 +10365,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_5_tmp_f9fbc_33"
+                  "carry_5_tmp_f9fbc_35"
                 ]
               },
               "+",
@@ -10358,7 +10382,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_6_tmp_f9fbc_34"
+                  "carry_6_tmp_f9fbc_36"
                 ]
               },
               "+",
@@ -10375,7 +10399,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_7_tmp_f9fbc_35"
+                  "carry_7_tmp_f9fbc_37"
                 ]
               },
               "+",
@@ -10392,7 +10416,7 @@
               {
                 "Var": [
                   "M31",
-                  "carry_8_tmp_f9fbc_36"
+                  "carry_8_tmp_f9fbc_38"
                 ]
               },
               "+",
@@ -10406,6 +10430,18 @@
           }
         ],
         "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "linear_combination_n_4_coefs_1_1_m2_1_output_tmp_f9fbc_39",
+        "type": "Felt252Width27",
+        "var": {
+          "Var": [
+            "Felt252Width27",
+            "combination_tmp_f9fbc_28"
+          ]
+        }
       }
     },
     "EndBlock",

@@ -35,10 +35,8 @@ where
         let single_karatsuba = SingleKaratsuba::<N> {};
 
         // Compute the convolutions z0 = x0 * y0 and z2 = x1 * y1
-        let mut z0 = air_builder.call(&single_karatsuba, [x0.clone(), y0.clone()]);
-        let mut z2 = air_builder.call(&single_karatsuba, [x1.clone(), y1.clone()]);
-        z0 = air_builder.let_(z0, "z0");
-        z2 = air_builder.let_(z2, "z2");
+        let z0 = air_builder.call(&single_karatsuba, [x0.clone(), y0.clone()]);
+        let z2 = air_builder.call(&single_karatsuba, [x1.clone(), y1.clone()]);
 
         // Compute the pointwise additions x0 + x1 and y0 + y1 and save them to intermediates
         let mut x_sum = from_fn(|i| x0[i].clone() + x1[i].clone());

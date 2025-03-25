@@ -147,6 +147,13 @@ impl FrameworkEval for Eval {
             ],
         ));
 
+        let read_small_output_tmp_f4f1f_8_limb_0 = eval.add_intermediate(
+            ((((op1_limb_0_col6.clone() + (op1_limb_1_col7.clone() * M31_512.clone()))
+                + (op1_limb_2_col8.clone() * M31_262144.clone()))
+                - msb_col4.clone())
+                - (M31_134217728.clone() * mid_limbs_set_col5.clone())),
+        );
+
         eval.add_to_relation(RelationEntry::new(
             &self.opcodes_lookup_elements,
             E::EF::from(padding.clone()),
@@ -162,12 +169,7 @@ impl FrameworkEval for Eval {
             -E::EF::from(padding.clone()),
             &[
                 (input_pc_col0.clone() + M31_2.clone()),
-                (input_ap_col1.clone()
-                    + ((((op1_limb_0_col6.clone()
-                        + (op1_limb_1_col7.clone() * M31_512.clone()))
-                        + (op1_limb_2_col8.clone() * M31_262144.clone()))
-                        - msb_col4.clone())
-                        - (M31_134217728.clone() * mid_limbs_set_col5.clone()))),
+                (input_ap_col1.clone() + read_small_output_tmp_f4f1f_8_limb_0.clone()),
                 input_fp_col2.clone(),
             ],
         ));

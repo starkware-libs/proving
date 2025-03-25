@@ -111,6 +111,13 @@ impl FrameworkEval for Eval {
             &[offset2_low_col12.clone(), offset2_high_col14.clone()],
         ));
 
+        let encode_offsets_output_tmp_16a4f_8_limb_1 = eval.add_intermediate(
+            (offset0_mid_col8.clone() + (offset1_low_col9.clone() * M31_128.clone())),
+        );
+        let encode_offsets_output_tmp_16a4f_8_limb_3 = eval.add_intermediate(
+            (offset1_high_col11.clone() + (offset2_low_col12.clone() * M31_32.clone())),
+        );
+
         // Mem Verify.
 
         eval.add_to_relation(RelationEntry::new(
@@ -125,9 +132,9 @@ impl FrameworkEval for Eval {
             &[
                 instruction_id_col15.clone(),
                 offset0_low_col7.clone(),
-                (offset0_mid_col8.clone() + (offset1_low_col9.clone() * M31_128.clone())),
+                encode_offsets_output_tmp_16a4f_8_limb_1.clone(),
                 offset1_mid_col10.clone(),
-                (offset1_high_col11.clone() + (offset2_low_col12.clone() * M31_32.clone())),
+                encode_offsets_output_tmp_16a4f_8_limb_3.clone(),
                 offset2_mid_col13.clone(),
                 (offset2_high_col14.clone() + input_limb_4_col4.clone()),
                 input_limb_5_col5.clone(),

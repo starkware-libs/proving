@@ -130,13 +130,17 @@ impl FrameworkEval for Eval {
             ],
         ));
 
+        let decode_instruction_e03055818c3f043_output_tmp_8b848_4_limb_0 =
+            eval.add_intermediate((offset0_col3.clone() - M31_32768.clone()));
+
         // Read Positive Num Bits 252.
 
         eval.add_to_relation(RelationEntry::new(
             &self.memory_address_to_id_lookup_elements,
             E::EF::one(),
             &[
-                (input_fp_col2.clone() + (offset0_col3.clone() - M31_32768.clone())),
+                (input_fp_col2.clone()
+                    + decode_instruction_e03055818c3f043_output_tmp_8b848_4_limb_0.clone()),
                 dst_id_col5.clone(),
             ],
         ));
@@ -210,17 +214,17 @@ impl FrameworkEval for Eval {
                 * res_col34.clone())
                 - M31_1.clone()),
         );
-        let diff_from_p_tmp_8b848_6 =
-            eval.add_intermediate((dst_limb_0_col6.clone() - M31_1.clone()));
-        let diff_from_p_tmp_8b848_7 =
-            eval.add_intermediate((dst_limb_21_col27.clone() - M31_136.clone()));
         let diff_from_p_tmp_8b848_8 =
+            eval.add_intermediate((dst_limb_0_col6.clone() - M31_1.clone()));
+        let diff_from_p_tmp_8b848_9 =
+            eval.add_intermediate((dst_limb_21_col27.clone() - M31_136.clone()));
+        let diff_from_p_tmp_8b848_10 =
             eval.add_intermediate((dst_limb_27_col33.clone() - M31_256.clone()));
         // dst doesn't equal P.
         eval.add_constraint(
-            ((((((((((((((((((((((((((((((diff_from_p_tmp_8b848_6
+            ((((((((((((((((((((((((((((((diff_from_p_tmp_8b848_8
                 .clone()
-                * diff_from_p_tmp_8b848_6.clone())
+                * diff_from_p_tmp_8b848_8.clone())
                 + dst_limb_1_col7.clone())
                 + dst_limb_2_col8.clone())
                 + dst_limb_3_col9.clone())
@@ -241,13 +245,13 @@ impl FrameworkEval for Eval {
                 + dst_limb_18_col24.clone())
                 + dst_limb_19_col25.clone())
                 + dst_limb_20_col26.clone())
-                + (diff_from_p_tmp_8b848_7.clone() * diff_from_p_tmp_8b848_7.clone()))
+                + (diff_from_p_tmp_8b848_9.clone() * diff_from_p_tmp_8b848_9.clone()))
                 + dst_limb_22_col28.clone())
                 + dst_limb_23_col29.clone())
                 + dst_limb_24_col30.clone())
                 + dst_limb_25_col31.clone())
                 + dst_limb_26_col32.clone())
-                + (diff_from_p_tmp_8b848_8.clone() * diff_from_p_tmp_8b848_8.clone()))
+                + (diff_from_p_tmp_8b848_10.clone() * diff_from_p_tmp_8b848_10.clone()))
                 * res_squares_col35.clone())
                 - M31_1.clone()),
         );
@@ -310,6 +314,13 @@ impl FrameworkEval for Eval {
             ],
         ));
 
+        let read_small_output_tmp_8b848_16_limb_0 = eval.add_intermediate(
+            ((((next_pc_limb_0_col39.clone() + (next_pc_limb_1_col40.clone() * M31_512.clone()))
+                + (next_pc_limb_2_col41.clone() * M31_262144.clone()))
+                - msb_col37.clone())
+                - (M31_134217728.clone() * mid_limbs_set_col38.clone())),
+        );
+
         eval.add_to_relation(RelationEntry::new(
             &self.opcodes_lookup_elements,
             E::EF::from(padding.clone()),
@@ -324,12 +335,7 @@ impl FrameworkEval for Eval {
             &self.opcodes_lookup_elements,
             -E::EF::from(padding.clone()),
             &[
-                (input_pc_col0.clone()
-                    + ((((next_pc_limb_0_col39.clone()
-                        + (next_pc_limb_1_col40.clone() * M31_512.clone()))
-                        + (next_pc_limb_2_col41.clone() * M31_262144.clone()))
-                        - msb_col37.clone())
-                        - (M31_134217728.clone() * mid_limbs_set_col38.clone()))),
+                (input_pc_col0.clone() + read_small_output_tmp_8b848_16_limb_0.clone()),
                 (input_ap_col1.clone() + ap_update_add_1_col4.clone()),
                 input_fp_col2.clone(),
             ],

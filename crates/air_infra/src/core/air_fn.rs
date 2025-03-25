@@ -112,6 +112,16 @@ pub trait AirFn: Debug + InstDefTrait {
         input: Self::In,
     ) -> Self::Out;
 
+    fn call_wrapper(
+        &self,
+        air_builder: &mut AirBuilder,
+        ext_input: <Self::ExtIn as ExtTable>::T,
+        input: Self::In,
+    ) -> (Self::Out, String) {
+        let output = self.call(air_builder, ext_input, input);
+        air_builder.let_with_name(output, &format!("{}_{}", self.name(), OUTPUT_VAR_SUFFIX))
+    }
+
     fn lookup_call(
         &self,
         air_builder: &mut AirBuilder,
@@ -384,8 +394,15 @@ impl AirBuilder {
     where
         O: AirVar,
     {
+        self.let_with_name(expr, desc).0
+    }
+
+    pub(super) fn let_with_name<O>(&mut self, expr: O, desc: &str) -> (O, String)
+    where
+        O: AirVar,
+    {
         if O::is_empty() {
-            return expr;
+            return (expr, "()".to_string());
         }
 
         let name = self.get_intermediate_name((!desc.is_empty()).then(|| desc.to_string()));
@@ -394,7 +411,7 @@ impl AirBuilder {
             self.air_body.push(AirBodyComponent::Intermediate(var));
         }
 
-        new_expr
+        (new_expr, name)
     }
 
     pub fn call<I, O>(&mut self, air_fn: &dyn AirFn<ExtIn = (), In = I, Out = O>, input: I) -> O
@@ -435,9 +452,8 @@ impl AirBuilder {
             intermediate_id: self.intermediate_id.clone(),
         };
         let state_offset = self.component_context.state().get_state_names().len();
-        let output = air_fn.call(&mut air_builder, (), input.clone());
+        let (output, output_name) = air_fn.call_wrapper(&mut air_builder, (), input.clone());
         let state_names_after = self.component_context.state().get_state_names();
-        let output_name = format!("{}_{}", air_fn.name(), OUTPUT_VAR_SUFFIX);
 
         self.air_body.push(AirBodyComponent::Call(Call {
             air_fn_name: air_fn.name(),

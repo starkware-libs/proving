@@ -367,6 +367,26 @@
         "use_or_yield": "Use"
       }
     },
+    {
+      "Intermediate": {
+        "name": "decode_instruction_c20090ead04cf422_output_tmp_39ce3_6_limb_2",
+        "type": "M31",
+        "var": {
+          "BinaryOp": [
+            {
+              "State": "offset2_col3"
+            },
+            "-",
+            {
+              "Const": [
+                "M31",
+                "32768"
+              ]
+            }
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "Constraint": [
@@ -449,17 +469,9 @@
               },
               "+",
               {
-                "BinaryOp": [
-                  {
-                    "State": "offset2_col3"
-                  },
-                  "-",
-                  {
-                    "Const": [
-                      "M31",
-                      "32768"
-                    ]
-                  }
+                "Var": [
+                  "M31",
+                  "decode_instruction_c20090ead04cf422_output_tmp_39ce3_6_limb_2"
                 ]
               }
             ]
@@ -1512,6 +1524,137 @@
         "use_or_yield": "Use"
       }
     },
+    {
+      "Intermediate": {
+        "name": "decode_instruction_c20090ead04cf422_output_tmp_39ce3_6",
+        "type": "([M31; 3], [M31; 15], M31)",
+        "var": {
+          "Tuple": [
+            {
+              "Array": [
+                {
+                  "Const": [
+                    "M31",
+                    "2147483646"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "2147483646"
+                  ]
+                },
+                {
+                  "BinaryOp": [
+                    {
+                      "State": "offset2_col3"
+                    },
+                    "-",
+                    {
+                      "Const": [
+                        "M31",
+                        "32768"
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "Array": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "State": "op1_base_fp_col4"
+                },
+                {
+                  "State": "op1_base_ap_col5"
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "State": "ap_update_add_1_col6"
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                },
+                {
+                  "Const": [
+                    "M31",
+                    "0"
+                  ]
+                }
+              ]
+            },
+            {
+              "Const": [
+                "M31",
+                "0"
+              ]
+            }
+          ]
+        }
+      }
+    },
     "EndBlock",
     {
       "Deduction": {
@@ -1547,7 +1690,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_address_to_id_value_tmp_39ce3_6",
+        "name": "memory_address_to_id_value_tmp_39ce3_7",
         "type": "M31",
         "var": {
           "StaticCall": [
@@ -1560,17 +1703,9 @@
                   },
                   "+",
                   {
-                    "BinaryOp": [
-                      {
-                        "State": "offset2_col3"
-                      },
-                      "-",
-                      {
-                        "Const": [
-                          "M31",
-                          "32768"
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "decode_instruction_c20090ead04cf422_output_tmp_39ce3_6.0[2]"
                     ]
                   }
                 ]
@@ -1582,7 +1717,7 @@
     },
     {
       "Intermediate": {
-        "name": "memory_id_to_big_value_tmp_39ce3_7",
+        "name": "memory_id_to_big_value_tmp_39ce3_8",
         "type": "Felt252",
         "var": {
           "StaticCall": [
@@ -1591,7 +1726,7 @@
               {
                 "Var": [
                   "M31",
-                  "memory_address_to_id_value_tmp_39ce3_6"
+                  "memory_address_to_id_value_tmp_39ce3_7"
                 ]
               }
             ]
@@ -1603,7 +1738,7 @@
       "Deduction": {
         "Var": [
           "M31",
-          "memory_address_to_id_value_tmp_39ce3_6"
+          "memory_address_to_id_value_tmp_39ce3_7"
         ]
       }
     },
@@ -1617,17 +1752,9 @@
             },
             "+",
             {
-              "BinaryOp": [
-                {
-                  "State": "offset2_col3"
-                },
-                "-",
-                {
-                  "Const": [
-                    "M31",
-                    "32768"
-                  ]
-                }
+              "Var": [
+                "M31",
+                "decode_instruction_c20090ead04cf422_output_tmp_39ce3_6.0[2]"
               ]
             }
           ]
@@ -1645,17 +1772,9 @@
               },
               "+",
               {
-                "BinaryOp": [
-                  {
-                    "State": "offset2_col3"
-                  },
-                  "-",
-                  {
-                    "Const": [
-                      "M31",
-                      "32768"
-                    ]
-                  }
+                "Var": [
+                  "M31",
+                  "decode_instruction_c20090ead04cf422_output_tmp_39ce3_6.0[2]"
                 ]
               }
             ]
@@ -1673,7 +1792,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_39ce3_7"
+              "memory_id_to_big_value_tmp_39ce3_8"
             ]
           },
           "get_m31",
@@ -1694,7 +1813,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_39ce3_7"
+              "memory_id_to_big_value_tmp_39ce3_8"
             ]
           },
           "get_m31",
@@ -1715,7 +1834,7 @@
           {
             "Var": [
               "Felt252",
-              "memory_id_to_big_value_tmp_39ce3_7"
+              "memory_id_to_big_value_tmp_39ce3_8"
             ]
           },
           "get_m31",
@@ -1906,6 +2025,189 @@
           }
         ],
         "use_or_yield": "Use"
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "read_positive_num_bits_27_output_tmp_39ce3_9",
+        "type": "(Felt252, M31)",
+        "var": {
+          "Tuple": [
+            {
+              "StaticCall": [
+                "Felt252::from_limbs",
+                [
+                  {
+                    "Array": [
+                      {
+                        "State": "next_pc_limb_0_col9"
+                      },
+                      {
+                        "State": "next_pc_limb_1_col10"
+                      },
+                      {
+                        "State": "next_pc_limb_2_col11"
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      },
+                      {
+                        "Const": [
+                          "M31",
+                          "0"
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "State": "next_pc_id_col8"
+            }
+          ]
+        }
       }
     },
     "EndBlock",

@@ -11,19 +11,19 @@
   },
   "output": [
     {
-      "name": "Bool::from_m31(tmp_ee5bd_1)",
+      "name": "div_2_output_tmp_ee5bd_2.0",
       "type": "Bool"
     },
     {
-      "name": "Bool::from_m31(tmp_ee5bd_3)",
+      "name": "div_2_output_tmp_ee5bd_5.0",
       "type": "Bool"
     },
     {
-      "name": "Bool::from_m31(tmp_ee5bd_5)",
+      "name": "div_2_output_tmp_ee5bd_8.0",
       "type": "Bool"
     },
     {
-      "name": "Bool::from_m31(tmp_ee5bd_7)",
+      "name": "div_2_output_tmp_ee5bd_11.0",
       "type": "Bool"
     }
   ],
@@ -42,14 +42,14 @@
           "name": "bit_unpack_n_4_input",
           "type": "UInt16"
         },
-        "output_name": "div_2_output",
+        "output_name": "div_2_output_tmp_ee5bd_2",
         "output": [
           {
-            "name": "Bool::from_m31(tmp_ee5bd_1)",
+            "name": "div_2_output_tmp_ee5bd_2.0",
             "type": "Bool"
           },
           {
-            "name": "tmp_ee5bd_0",
+            "name": "div_2_output_tmp_ee5bd_2.1",
             "type": "UInt16"
           }
         ],
@@ -63,17 +63,17 @@
         "air_fn_name": "div_2",
         "air_fn_description": "Div 2",
         "input": {
-          "name": "tmp_ee5bd_0",
+          "name": "div_2_output_tmp_ee5bd_2.1",
           "type": "UInt16"
         },
-        "output_name": "div_2_output",
+        "output_name": "div_2_output_tmp_ee5bd_5",
         "output": [
           {
-            "name": "Bool::from_m31(tmp_ee5bd_3)",
+            "name": "div_2_output_tmp_ee5bd_5.0",
             "type": "Bool"
           },
           {
-            "name": "tmp_ee5bd_2",
+            "name": "div_2_output_tmp_ee5bd_5.1",
             "type": "UInt16"
           }
         ],
@@ -87,17 +87,17 @@
         "air_fn_name": "div_2",
         "air_fn_description": "Div 2",
         "input": {
-          "name": "tmp_ee5bd_2",
+          "name": "div_2_output_tmp_ee5bd_5.1",
           "type": "UInt16"
         },
-        "output_name": "div_2_output",
+        "output_name": "div_2_output_tmp_ee5bd_8",
         "output": [
           {
-            "name": "Bool::from_m31(tmp_ee5bd_5)",
+            "name": "div_2_output_tmp_ee5bd_8.0",
             "type": "Bool"
           },
           {
-            "name": "tmp_ee5bd_4",
+            "name": "div_2_output_tmp_ee5bd_8.1",
             "type": "UInt16"
           }
         ],
@@ -111,17 +111,17 @@
         "air_fn_name": "div_2",
         "air_fn_description": "Div 2",
         "input": {
-          "name": "tmp_ee5bd_4",
+          "name": "div_2_output_tmp_ee5bd_8.1",
           "type": "UInt16"
         },
-        "output_name": "div_2_output",
+        "output_name": "div_2_output_tmp_ee5bd_11",
         "output": [
           {
-            "name": "Bool::from_m31(tmp_ee5bd_7)",
+            "name": "div_2_output_tmp_ee5bd_11.0",
             "type": "Bool"
           },
           {
-            "name": "tmp_ee5bd_6",
+            "name": "div_2_output_tmp_ee5bd_11.1",
             "type": "UInt16"
           }
         ],

@@ -872,6 +872,9 @@ fn simd_parse_air_var(
             format!("({})", expr_str)
         }
         CompiledAirVar::Array(exprs) => {
+            if exprs.is_empty() {
+                return "()".to_string();
+            }
             let mut expr_str = String::new();
             for (i, expr) in exprs.iter().enumerate() {
                 if i > 0 {

@@ -198,12 +198,20 @@ fn write_trace_simd(
                     [offset0_mid_col8, offset1_low_col9, offset1_high_col11];
                 *sub_component_inputs.range_check_4_3[0] = [offset2_low_col12, offset2_high_col14];
                 *lookup_data.range_check_4_3_0 = [offset2_low_col12, offset2_high_col14];
+                let encode_offsets_output_tmp_16a4f_8 = [
+                    offset0_low_col7,
+                    ((offset0_mid_col8) + ((offset1_low_col9) * (M31_128))),
+                    offset1_mid_col10,
+                    ((offset1_high_col11) + ((offset2_low_col12) * (M31_32))),
+                    offset2_mid_col13,
+                    offset2_high_col14,
+                ];
 
                 // Mem Verify.
 
-                let memory_address_to_id_value_tmp_16a4f_8 =
+                let memory_address_to_id_value_tmp_16a4f_9 =
                     memory_address_to_id_state.deduce_output(input_limb_0_col0);
-                let instruction_id_col15 = memory_address_to_id_value_tmp_16a4f_8;
+                let instruction_id_col15 = memory_address_to_id_value_tmp_16a4f_9;
                 *row[15] = instruction_id_col15;
                 *sub_component_inputs.memory_address_to_id[0] = input_limb_0_col0;
                 *lookup_data.memory_address_to_id_0 = [input_limb_0_col0, instruction_id_col15];
@@ -211,9 +219,9 @@ fn write_trace_simd(
                 *lookup_data.memory_id_to_big_0 = [
                     instruction_id_col15,
                     offset0_low_col7,
-                    ((offset0_mid_col8) + ((offset1_low_col9) * (M31_128))),
+                    encode_offsets_output_tmp_16a4f_8[1],
                     offset1_mid_col10,
-                    ((offset1_high_col11) + ((offset2_low_col12) * (M31_32))),
+                    encode_offsets_output_tmp_16a4f_8[3],
                     offset2_mid_col13,
                     ((offset2_high_col14) + (input_limb_4_col4)),
                     input_limb_5_col5,
