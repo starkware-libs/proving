@@ -4936,264 +4936,1716 @@
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "instance_addr_tmp_7b599_2"
+            ]
+          },
+          {
+            "State": "p0_id_col1"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "p0_id_col1"
+          },
+          {
+            "State": "p0_limb_0_col2"
+          },
+          {
+            "State": "p0_limb_1_col3"
+          },
+          {
+            "State": "p0_limb_2_col4"
+          },
+          {
+            "State": "p0_limb_3_col5"
+          },
+          {
+            "State": "p0_limb_4_col6"
+          },
+          {
+            "State": "p0_limb_5_col7"
+          },
+          {
+            "State": "p0_limb_6_col8"
+          },
+          {
+            "State": "p0_limb_7_col9"
+          },
+          {
+            "State": "p0_limb_8_col10"
+          },
+          {
+            "State": "p0_limb_9_col11"
+          },
+          {
+            "State": "p0_limb_10_col12"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "Var": [
                   "M31",
                   "instance_addr_tmp_7b599_2"
                 ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+              },
+              "+",
               {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "instance_addr_tmp_7b599_2"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "1"
-                    ]
-                  }
+                "Const": [
+                  "M31",
+                  "1"
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "p1_id_col13"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "p1_id_col13"
+          },
+          {
+            "State": "p1_limb_0_col14"
+          },
+          {
+            "State": "p1_limb_1_col15"
+          },
+          {
+            "State": "p1_limb_2_col16"
+          },
+          {
+            "State": "p1_limb_3_col17"
+          },
+          {
+            "State": "p1_limb_4_col18"
+          },
+          {
+            "State": "p1_limb_5_col19"
+          },
+          {
+            "State": "p1_limb_6_col20"
+          },
+          {
+            "State": "p1_limb_7_col21"
+          },
+          {
+            "State": "p1_limb_8_col22"
+          },
+          {
+            "State": "p1_limb_9_col23"
+          },
+          {
+            "State": "p1_limb_10_col24"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "instance_addr_tmp_7b599_2"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "2"
-                    ]
-                  }
+                "Var": [
+                  "M31",
+                  "instance_addr_tmp_7b599_2"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "2"
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "p2_id_col25"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "p2_id_col25"
+          },
+          {
+            "State": "p2_limb_0_col26"
+          },
+          {
+            "State": "p2_limb_1_col27"
+          },
+          {
+            "State": "p2_limb_2_col28"
+          },
+          {
+            "State": "p2_limb_3_col29"
+          },
+          {
+            "State": "p2_limb_4_col30"
+          },
+          {
+            "State": "p2_limb_5_col31"
+          },
+          {
+            "State": "p2_limb_6_col32"
+          },
+          {
+            "State": "p2_limb_7_col33"
+          },
+          {
+            "State": "p2_limb_8_col34"
+          },
+          {
+            "State": "p2_limb_9_col35"
+          },
+          {
+            "State": "p2_limb_10_col36"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "instance_addr_tmp_7b599_2"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "3"
-                    ]
-                  }
+                "Var": [
+                  "M31",
+                  "instance_addr_tmp_7b599_2"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "3"
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "p3_id_col37"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_27_output_limb_0, read_positive_num_bits_27_output_limb_1, read_positive_num_bits_27_output_limb_2, read_positive_num_bits_27_output_limb_3, read_positive_num_bits_27_output_limb_4, read_positive_num_bits_27_output_limb_5, read_positive_num_bits_27_output_limb_6, read_positive_num_bits_27_output_limb_7, read_positive_num_bits_27_output_limb_8, read_positive_num_bits_27_output_limb_9, read_positive_num_bits_27_output_limb_10, read_positive_num_bits_27_output_limb_11, read_positive_num_bits_27_output_limb_12, read_positive_num_bits_27_output_limb_13, read_positive_num_bits_27_output_limb_14, read_positive_num_bits_27_output_limb_15, read_positive_num_bits_27_output_limb_16, read_positive_num_bits_27_output_limb_17, read_positive_num_bits_27_output_limb_18, read_positive_num_bits_27_output_limb_19, read_positive_num_bits_27_output_limb_20, read_positive_num_bits_27_output_limb_21, read_positive_num_bits_27_output_limb_22, read_positive_num_bits_27_output_limb_23, read_positive_num_bits_27_output_limb_24, read_positive_num_bits_27_output_limb_25, read_positive_num_bits_27_output_limb_26, read_positive_num_bits_27_output_limb_27, read_positive_num_bits_27_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_27::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "p3_id_col37"
+          },
+          {
+            "State": "p3_limb_0_col38"
+          },
+          {
+            "State": "p3_limb_1_col39"
+          },
+          {
+            "State": "p3_limb_2_col40"
+          },
+          {
+            "State": "p3_limb_3_col41"
+          },
+          {
+            "State": "p3_limb_4_col42"
+          },
+          {
+            "State": "p3_limb_5_col43"
+          },
+          {
+            "State": "p3_limb_6_col44"
+          },
+          {
+            "State": "p3_limb_7_col45"
+          },
+          {
+            "State": "p3_limb_8_col46"
+          },
+          {
+            "State": "p3_limb_9_col47"
+          },
+          {
+            "State": "p3_limb_10_col48"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 27"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "instance_addr_tmp_7b599_2"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "4"
-                    ]
-                  }
+                "Var": [
+                  "M31",
+                  "instance_addr_tmp_7b599_2"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "4"
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "values_ptr_id_col49"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_27_output_limb_0, read_positive_num_bits_27_output_limb_1, read_positive_num_bits_27_output_limb_2, read_positive_num_bits_27_output_limb_3, read_positive_num_bits_27_output_limb_4, read_positive_num_bits_27_output_limb_5, read_positive_num_bits_27_output_limb_6, read_positive_num_bits_27_output_limb_7, read_positive_num_bits_27_output_limb_8, read_positive_num_bits_27_output_limb_9, read_positive_num_bits_27_output_limb_10, read_positive_num_bits_27_output_limb_11, read_positive_num_bits_27_output_limb_12, read_positive_num_bits_27_output_limb_13, read_positive_num_bits_27_output_limb_14, read_positive_num_bits_27_output_limb_15, read_positive_num_bits_27_output_limb_16, read_positive_num_bits_27_output_limb_17, read_positive_num_bits_27_output_limb_18, read_positive_num_bits_27_output_limb_19, read_positive_num_bits_27_output_limb_20, read_positive_num_bits_27_output_limb_21, read_positive_num_bits_27_output_limb_22, read_positive_num_bits_27_output_limb_23, read_positive_num_bits_27_output_limb_24, read_positive_num_bits_27_output_limb_25, read_positive_num_bits_27_output_limb_26, read_positive_num_bits_27_output_limb_27, read_positive_num_bits_27_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_27::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "values_ptr_id_col49"
+          },
+          {
+            "State": "values_ptr_limb_0_col50"
+          },
+          {
+            "State": "values_ptr_limb_1_col51"
+          },
+          {
+            "State": "values_ptr_limb_2_col52"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 27"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "instance_addr_tmp_7b599_2"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "5"
-                    ]
-                  }
+                "Var": [
+                  "M31",
+                  "instance_addr_tmp_7b599_2"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "5"
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "offsets_ptr_id_col53"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_27_output_limb_0, read_positive_num_bits_27_output_limb_1, read_positive_num_bits_27_output_limb_2, read_positive_num_bits_27_output_limb_3, read_positive_num_bits_27_output_limb_4, read_positive_num_bits_27_output_limb_5, read_positive_num_bits_27_output_limb_6, read_positive_num_bits_27_output_limb_7, read_positive_num_bits_27_output_limb_8, read_positive_num_bits_27_output_limb_9, read_positive_num_bits_27_output_limb_10, read_positive_num_bits_27_output_limb_11, read_positive_num_bits_27_output_limb_12, read_positive_num_bits_27_output_limb_13, read_positive_num_bits_27_output_limb_14, read_positive_num_bits_27_output_limb_15, read_positive_num_bits_27_output_limb_16, read_positive_num_bits_27_output_limb_17, read_positive_num_bits_27_output_limb_18, read_positive_num_bits_27_output_limb_19, read_positive_num_bits_27_output_limb_20, read_positive_num_bits_27_output_limb_21, read_positive_num_bits_27_output_limb_22, read_positive_num_bits_27_output_limb_23, read_positive_num_bits_27_output_limb_24, read_positive_num_bits_27_output_limb_25, read_positive_num_bits_27_output_limb_26, read_positive_num_bits_27_output_limb_27, read_positive_num_bits_27_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_27::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "offsets_ptr_id_col53"
+          },
+          {
+            "State": "offsets_ptr_limb_0_col54"
+          },
+          {
+            "State": "offsets_ptr_limb_1_col55"
+          },
+          {
+            "State": "offsets_ptr_limb_2_col56"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 27"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "prev_instance_addr_tmp_7b599_1"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "5"
-                    ]
-                  }
+                "Var": [
+                  "M31",
+                  "prev_instance_addr_tmp_7b599_1"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "5"
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "offsets_ptr_prev_id_col57"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_27_output_limb_0, read_positive_num_bits_27_output_limb_1, read_positive_num_bits_27_output_limb_2, read_positive_num_bits_27_output_limb_3, read_positive_num_bits_27_output_limb_4, read_positive_num_bits_27_output_limb_5, read_positive_num_bits_27_output_limb_6, read_positive_num_bits_27_output_limb_7, read_positive_num_bits_27_output_limb_8, read_positive_num_bits_27_output_limb_9, read_positive_num_bits_27_output_limb_10, read_positive_num_bits_27_output_limb_11, read_positive_num_bits_27_output_limb_12, read_positive_num_bits_27_output_limb_13, read_positive_num_bits_27_output_limb_14, read_positive_num_bits_27_output_limb_15, read_positive_num_bits_27_output_limb_16, read_positive_num_bits_27_output_limb_17, read_positive_num_bits_27_output_limb_18, read_positive_num_bits_27_output_limb_19, read_positive_num_bits_27_output_limb_20, read_positive_num_bits_27_output_limb_21, read_positive_num_bits_27_output_limb_22, read_positive_num_bits_27_output_limb_23, read_positive_num_bits_27_output_limb_24, read_positive_num_bits_27_output_limb_25, read_positive_num_bits_27_output_limb_26, read_positive_num_bits_27_output_limb_27, read_positive_num_bits_27_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_27::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "offsets_ptr_prev_id_col57"
+          },
+          {
+            "State": "offsets_ptr_prev_limb_0_col58"
+          },
+          {
+            "State": "offsets_ptr_prev_limb_1_col59"
+          },
+          {
+            "State": "offsets_ptr_prev_limb_2_col60"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 27"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "instance_addr_tmp_7b599_2"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "6"
-                    ]
-                  }
+                "Var": [
+                  "M31",
+                  "instance_addr_tmp_7b599_2"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "6"
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "n_id_col61"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_27_output_limb_0, read_positive_num_bits_27_output_limb_1, read_positive_num_bits_27_output_limb_2, read_positive_num_bits_27_output_limb_3, read_positive_num_bits_27_output_limb_4, read_positive_num_bits_27_output_limb_5, read_positive_num_bits_27_output_limb_6, read_positive_num_bits_27_output_limb_7, read_positive_num_bits_27_output_limb_8, read_positive_num_bits_27_output_limb_9, read_positive_num_bits_27_output_limb_10, read_positive_num_bits_27_output_limb_11, read_positive_num_bits_27_output_limb_12, read_positive_num_bits_27_output_limb_13, read_positive_num_bits_27_output_limb_14, read_positive_num_bits_27_output_limb_15, read_positive_num_bits_27_output_limb_16, read_positive_num_bits_27_output_limb_17, read_positive_num_bits_27_output_limb_18, read_positive_num_bits_27_output_limb_19, read_positive_num_bits_27_output_limb_20, read_positive_num_bits_27_output_limb_21, read_positive_num_bits_27_output_limb_22, read_positive_num_bits_27_output_limb_23, read_positive_num_bits_27_output_limb_24, read_positive_num_bits_27_output_limb_25, read_positive_num_bits_27_output_limb_26, read_positive_num_bits_27_output_limb_27, read_positive_num_bits_27_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_27::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "n_id_col61"
+          },
+          {
+            "State": "n_limb_0_col62"
+          },
+          {
+            "State": "n_limb_1_col63"
+          },
+          {
+            "State": "n_limb_2_col64"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 27"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "prev_instance_addr_tmp_7b599_1"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "6"
-                    ]
-                  }
+                "Var": [
+                  "M31",
+                  "prev_instance_addr_tmp_7b599_1"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "6"
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "n_prev_id_col65"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "n_prev_id_col65"
+          },
+          {
+            "State": "n_prev_limb_0_col66"
+          },
+          {
+            "State": "n_prev_limb_1_col67"
+          },
+          {
+            "State": "n_prev_limb_2_col68"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
     {
       "Intermediate": {
         "name": "block_reset_condition_tmp_7b599_21",
@@ -5500,217 +6952,777 @@
       ]
     },
     {
-      "Intermediate": {
-        "name": "()",
-        "type": "()",
-        "var": {
-          "StaticCall": [
-            "mem_cond_verify_equal_known_id::evaluate",
-            [
+      "StartBlock": "Mem Cond Verify Equal Known Id"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
-                "Array": [
+                "Var": [
+                  "M31",
+                  "prev_instance_addr_tmp_7b599_1"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "4"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "values_ptr_prev_id_col69"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "values_ptr_prev_id_col69"
+                },
+                "-",
+                {
+                  "State": "values_ptr_id_col49"
+                }
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "block_reset_condition_tmp_7b599_21"
+              ]
+            }
+          ]
+        },
+        "The two ids are equal if the condition is met"
+      ]
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Mem Cond Verify Equal Known Id"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "prev_instance_addr_tmp_7b599_1"
+            ]
+          },
+          {
+            "State": "p_prev0_id_col70"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "p_prev0_id_col70"
+                },
+                "-",
+                {
+                  "State": "p0_id_col1"
+                }
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "block_reset_condition_tmp_7b599_21"
+              ]
+            }
+          ]
+        },
+        "The two ids are equal if the condition is met"
+      ]
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Mem Cond Verify Equal Known Id"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "prev_instance_addr_tmp_7b599_1"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "p_prev1_id_col71"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "p_prev1_id_col71"
+                },
+                "-",
+                {
+                  "State": "p1_id_col13"
+                }
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "block_reset_condition_tmp_7b599_21"
+              ]
+            }
+          ]
+        },
+        "The two ids are equal if the condition is met"
+      ]
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Mem Cond Verify Equal Known Id"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "prev_instance_addr_tmp_7b599_1"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "2"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "p_prev2_id_col72"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "p_prev2_id_col72"
+                },
+                "-",
+                {
+                  "State": "p2_id_col25"
+                }
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "block_reset_condition_tmp_7b599_21"
+              ]
+            }
+          ]
+        },
+        "The two ids are equal if the condition is met"
+      ]
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Mem Cond Verify Equal Known Id"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "prev_instance_addr_tmp_7b599_1"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "3"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "p_prev3_id_col73"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "BinaryOp": [
+                {
+                  "State": "p_prev3_id_col73"
+                },
+                "-",
+                {
+                  "State": "p3_id_col37"
+                }
+              ]
+            },
+            "*",
+            {
+              "Var": [
+                "M31",
+                "block_reset_condition_tmp_7b599_21"
+              ]
+            }
+          ]
+        },
+        "The two ids are equal if the condition is met"
+      ]
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Small"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "State": "offsets_ptr_limb_0_col54"
+                  },
+                  "+",
                   {
                     "BinaryOp": [
                       {
-                        "Var": [
-                          "M31",
-                          "prev_instance_addr_tmp_7b599_1"
-                        ]
+                        "State": "offsets_ptr_limb_1_col55"
                       },
-                      "+",
+                      "*",
                       {
                         "Const": [
                           "M31",
-                          "4"
+                          "512"
                         ]
                       }
                     ]
-                  },
-                  {
-                    "State": "values_ptr_id_col49"
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "block_reset_condition_tmp_7b599_21"
-                    ]
                   }
                 ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "()",
-        "type": "()",
-        "var": {
-          "StaticCall": [
-            "mem_cond_verify_equal_known_id::evaluate",
-            [
+              },
+              "+",
               {
-                "Array": [
+                "BinaryOp": [
                   {
-                    "Var": [
-                      "M31",
-                      "prev_instance_addr_tmp_7b599_1"
-                    ]
+                    "State": "offsets_ptr_limb_2_col56"
                   },
+                  "*",
                   {
-                    "State": "p0_id_col1"
-                  },
-                  {
-                    "Var": [
+                    "Const": [
                       "M31",
-                      "block_reset_condition_tmp_7b599_21"
+                      "262144"
                     ]
                   }
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "offsets_a_id_col74"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "()",
-        "type": "()",
-        "var": {
-          "StaticCall": [
-            "mem_cond_verify_equal_known_id::evaluate",
-            [
+      "StartBlock": "Cond Decode Small Sign"
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "msb_col75"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col75"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "msb is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col76"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col76"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "mid_limbs_set is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col76"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col75"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Cannot have msb equals 0 and mid_limbs_set equals 1"
+      ]
+    },
+    "EndBlock",
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "offsets_a_id_col74"
+          },
+          {
+            "State": "offsets_a_limb_0_col77"
+          },
+          {
+            "State": "offsets_a_limb_1_col78"
+          },
+          {
+            "State": "offsets_a_limb_2_col79"
+          },
+          {
+            "BinaryOp": [
               {
-                "Array": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "prev_instance_addr_tmp_7b599_1"
-                        ]
-                      },
-                      "+",
-                      {
-                        "Const": [
-                          "M31",
-                          "1"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "State": "p1_id_col13"
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "block_reset_condition_tmp_7b599_21"
-                    ]
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "()",
-        "type": "()",
-        "var": {
-          "StaticCall": [
-            "mem_cond_verify_equal_known_id::evaluate",
-            [
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
               {
-                "Array": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "prev_instance_addr_tmp_7b599_1"
-                        ]
-                      },
-                      "+",
-                      {
-                        "Const": [
-                          "M31",
-                          "2"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "State": "p2_id_col25"
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "block_reset_condition_tmp_7b599_21"
-                    ]
-                  }
+                "Const": [
+                  "M31",
+                  "511"
                 ]
               }
             ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "()",
-        "type": "()",
-        "var": {
-          "StaticCall": [
-            "mem_cond_verify_equal_known_id::evaluate",
-            [
+          },
+          {
+            "BinaryOp": [
               {
-                "Array": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "prev_instance_addr_tmp_7b599_1"
-                        ]
-                      },
-                      "+",
-                      {
-                        "Const": [
-                          "M31",
-                          "3"
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "State": "p3_id_col37"
-                  },
-                  {
-                    "Var": [
-                      "M31",
-                      "block_reset_condition_tmp_7b599_21"
-                    ]
-                  }
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col76"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Const": [
+                      "M31",
+                      "136"
+                    ]
+                  },
+                  "*",
+                  {
+                    "State": "msb_col75"
+                  }
+                ]
+              },
+              "-",
+              {
+                "State": "mid_limbs_set_col76"
+              }
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "msb_col75"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "256"
+                ]
+              }
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
+    "EndBlock",
     {
-      "Intermediate": {
-        "name": "[read_small_output_limb_0, read_small_output_limb_1]",
-        "type": "[M31; 2]",
-        "var": {
-          "StaticCall": [
-            "read_small::evaluate",
-            [
+      "StartBlock": "Read Small"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "BinaryOp": [
                   {
@@ -5751,57 +7763,474 @@
                     ]
                   }
                 ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "offsets_b_id_col80"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_small_output_limb_0, read_small_output_limb_1]",
-        "type": "[M31; 2]",
-        "var": {
-          "StaticCall": [
-            "read_small::evaluate",
-            [
+      "StartBlock": "Cond Decode Small Sign"
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "msb_col81"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col81"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "msb is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col82"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col82"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "mid_limbs_set is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col82"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col81"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Cannot have msb equals 0 and mid_limbs_set equals 1"
+      ]
+    },
+    "EndBlock",
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "offsets_b_id_col80"
+          },
+          {
+            "State": "offsets_b_limb_0_col83"
+          },
+          {
+            "State": "offsets_b_limb_1_col84"
+          },
+          {
+            "State": "offsets_b_limb_2_col85"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col82"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Const": [
+                      "M31",
+                      "136"
+                    ]
+                  },
+                  "*",
+                  {
+                    "State": "msb_col81"
+                  }
+                ]
+              },
+              "-",
+              {
+                "State": "mid_limbs_set_col82"
+              }
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "msb_col81"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "256"
+                ]
+              }
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Small"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "BinaryOp": [
                   {
                     "BinaryOp": [
                       {
-                        "BinaryOp": [
-                          {
-                            "State": "offsets_ptr_limb_0_col54"
-                          },
-                          "+",
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": "offsets_ptr_limb_1_col55"
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "512"
-                                ]
-                              }
-                            ]
-                          }
-                        ]
+                        "State": "offsets_ptr_limb_0_col54"
                       },
                       "+",
                       {
                         "BinaryOp": [
                           {
-                            "State": "offsets_ptr_limb_2_col56"
+                            "State": "offsets_ptr_limb_1_col55"
                           },
                           "*",
                           {
                             "Const": [
                               "M31",
-                              "262144"
+                              "512"
                             ]
                           }
                         ]
@@ -5810,83 +8239,461 @@
                   },
                   "+",
                   {
-                    "Const": [
-                      "M31",
-                      "1"
-                    ]
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "[read_small_output_limb_0, read_small_output_limb_1]",
-        "type": "[M31; 2]",
-        "var": {
-          "StaticCall": [
-            "read_small::evaluate",
-            [
-              {
-                "BinaryOp": [
-                  {
                     "BinaryOp": [
                       {
-                        "BinaryOp": [
-                          {
-                            "State": "offsets_ptr_limb_0_col54"
-                          },
-                          "+",
-                          {
-                            "BinaryOp": [
-                              {
-                                "State": "offsets_ptr_limb_1_col55"
-                              },
-                              "*",
-                              {
-                                "Const": [
-                                  "M31",
-                                  "512"
-                                ]
-                              }
-                            ]
-                          }
-                        ]
+                        "State": "offsets_ptr_limb_2_col56"
                       },
-                      "+",
+                      "*",
                       {
-                        "BinaryOp": [
-                          {
-                            "State": "offsets_ptr_limb_2_col56"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "262144"
-                            ]
-                          }
+                        "Const": [
+                          "M31",
+                          "262144"
                         ]
                       }
                     ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "2"
-                    ]
                   }
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "2"
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "offsets_c_id_col86"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
+    {
+      "StartBlock": "Cond Decode Small Sign"
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "msb_col87"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col87"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "msb is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col88"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col88"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "mid_limbs_set is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col88"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col87"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Cannot have msb equals 0 and mid_limbs_set equals 1"
+      ]
+    },
+    "EndBlock",
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "offsets_c_id_col86"
+          },
+          {
+            "State": "offsets_c_limb_0_col89"
+          },
+          {
+            "State": "offsets_c_limb_1_col90"
+          },
+          {
+            "State": "offsets_c_limb_2_col91"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "mid_limbs_set_col88"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "511"
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "BinaryOp": [
+                  {
+                    "Const": [
+                      "M31",
+                      "136"
+                    ]
+                  },
+                  "*",
+                  {
+                    "State": "msb_col87"
+                  }
+                ]
+              },
+              "-",
+              {
+                "State": "mid_limbs_set_col88"
+              }
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "msb_col87"
+              },
+              "*",
+              {
+                "Const": [
+                  "M31",
+                  "256"
+                ]
+              }
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
     {
       "Intermediate": {
         "name": "offsets_val_tmp_7b599_39_limb_0",
@@ -6157,13 +8964,192 @@
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "values_ptr_tmp_7b599_40"
+                ]
+              },
+              "+",
+              {
+                "Var": [
+                  "M31",
+                  "offsets_val_tmp_7b599_39_limb_0"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "a0_id_col92"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "a0_id_col92"
+          },
+          {
+            "State": "a0_limb_0_col93"
+          },
+          {
+            "State": "a0_limb_1_col94"
+          },
+          {
+            "State": "a0_limb_2_col95"
+          },
+          {
+            "State": "a0_limb_3_col96"
+          },
+          {
+            "State": "a0_limb_4_col97"
+          },
+          {
+            "State": "a0_limb_5_col98"
+          },
+          {
+            "State": "a0_limb_6_col99"
+          },
+          {
+            "State": "a0_limb_7_col100"
+          },
+          {
+            "State": "a0_limb_8_col101"
+          },
+          {
+            "State": "a0_limb_9_col102"
+          },
+          {
+            "State": "a0_limb_10_col103"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "BinaryOp": [
                   {
@@ -6180,143 +9166,735 @@
                     ]
                   }
                 ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "a1_id_col104"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "a1_id_col104"
+          },
+          {
+            "State": "a1_limb_0_col105"
+          },
+          {
+            "State": "a1_limb_1_col106"
+          },
+          {
+            "State": "a1_limb_2_col107"
+          },
+          {
+            "State": "a1_limb_3_col108"
+          },
+          {
+            "State": "a1_limb_4_col109"
+          },
+          {
+            "State": "a1_limb_5_col110"
+          },
+          {
+            "State": "a1_limb_6_col111"
+          },
+          {
+            "State": "a1_limb_7_col112"
+          },
+          {
+            "State": "a1_limb_8_col113"
+          },
+          {
+            "State": "a1_limb_9_col114"
+          },
+          {
+            "State": "a1_limb_10_col115"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "BinaryOp": [
                   {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "values_ptr_tmp_7b599_40"
-                        ]
-                      },
-                      "+",
-                      {
-                        "Var": [
-                          "M31",
-                          "offsets_val_tmp_7b599_39_limb_0"
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "values_ptr_tmp_7b599_40"
                     ]
                   },
                   "+",
                   {
-                    "Const": [
+                    "Var": [
                       "M31",
-                      "1"
+                      "offsets_val_tmp_7b599_39_limb_0"
                     ]
                   }
                 ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "2"
+                ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "a2_id_col116"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "a2_id_col116"
+          },
+          {
+            "State": "a2_limb_0_col117"
+          },
+          {
+            "State": "a2_limb_1_col118"
+          },
+          {
+            "State": "a2_limb_2_col119"
+          },
+          {
+            "State": "a2_limb_3_col120"
+          },
+          {
+            "State": "a2_limb_4_col121"
+          },
+          {
+            "State": "a2_limb_5_col122"
+          },
+          {
+            "State": "a2_limb_6_col123"
+          },
+          {
+            "State": "a2_limb_7_col124"
+          },
+          {
+            "State": "a2_limb_8_col125"
+          },
+          {
+            "State": "a2_limb_9_col126"
+          },
+          {
+            "State": "a2_limb_10_col127"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "BinaryOp": [
                   {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "values_ptr_tmp_7b599_40"
-                        ]
-                      },
-                      "+",
-                      {
-                        "Var": [
-                          "M31",
-                          "offsets_val_tmp_7b599_39_limb_0"
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "values_ptr_tmp_7b599_40"
                     ]
                   },
                   "+",
                   {
-                    "Const": [
+                    "Var": [
                       "M31",
-                      "2"
+                      "offsets_val_tmp_7b599_39_limb_0"
                     ]
                   }
                 ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+              },
+              "+",
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "values_ptr_tmp_7b599_40"
-                        ]
-                      },
-                      "+",
-                      {
-                        "Var": [
-                          "M31",
-                          "offsets_val_tmp_7b599_39_limb_0"
-                        ]
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "3"
-                    ]
-                  }
+                "Const": [
+                  "M31",
+                  "3"
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "a3_id_col128"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "a3_id_col128"
+          },
+          {
+            "State": "a3_limb_0_col129"
+          },
+          {
+            "State": "a3_limb_1_col130"
+          },
+          {
+            "State": "a3_limb_2_col131"
+          },
+          {
+            "State": "a3_limb_3_col132"
+          },
+          {
+            "State": "a3_limb_4_col133"
+          },
+          {
+            "State": "a3_limb_5_col134"
+          },
+          {
+            "State": "a3_limb_6_col135"
+          },
+          {
+            "State": "a3_limb_7_col136"
+          },
+          {
+            "State": "a3_limb_8_col137"
+          },
+          {
+            "State": "a3_limb_9_col138"
+          },
+          {
+            "State": "a3_limb_10_col139"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "values_ptr_tmp_7b599_40"
+                ]
+              },
+              "+",
+              {
+                "Var": [
+                  "M31",
+                  "offsets_val_tmp_7b599_39_limb_1"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "b0_id_col140"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "b0_id_col140"
+          },
+          {
+            "State": "b0_limb_0_col141"
+          },
+          {
+            "State": "b0_limb_1_col142"
+          },
+          {
+            "State": "b0_limb_2_col143"
+          },
+          {
+            "State": "b0_limb_3_col144"
+          },
+          {
+            "State": "b0_limb_4_col145"
+          },
+          {
+            "State": "b0_limb_5_col146"
+          },
+          {
+            "State": "b0_limb_6_col147"
+          },
+          {
+            "State": "b0_limb_7_col148"
+          },
+          {
+            "State": "b0_limb_8_col149"
+          },
+          {
+            "State": "b0_limb_9_col150"
+          },
+          {
+            "State": "b0_limb_10_col151"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "BinaryOp": [
                   {
@@ -6333,143 +9911,735 @@
                     ]
                   }
                 ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "b1_id_col152"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "b1_id_col152"
+          },
+          {
+            "State": "b1_limb_0_col153"
+          },
+          {
+            "State": "b1_limb_1_col154"
+          },
+          {
+            "State": "b1_limb_2_col155"
+          },
+          {
+            "State": "b1_limb_3_col156"
+          },
+          {
+            "State": "b1_limb_4_col157"
+          },
+          {
+            "State": "b1_limb_5_col158"
+          },
+          {
+            "State": "b1_limb_6_col159"
+          },
+          {
+            "State": "b1_limb_7_col160"
+          },
+          {
+            "State": "b1_limb_8_col161"
+          },
+          {
+            "State": "b1_limb_9_col162"
+          },
+          {
+            "State": "b1_limb_10_col163"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "BinaryOp": [
                   {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "values_ptr_tmp_7b599_40"
-                        ]
-                      },
-                      "+",
-                      {
-                        "Var": [
-                          "M31",
-                          "offsets_val_tmp_7b599_39_limb_1"
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "values_ptr_tmp_7b599_40"
                     ]
                   },
                   "+",
                   {
-                    "Const": [
+                    "Var": [
                       "M31",
-                      "1"
+                      "offsets_val_tmp_7b599_39_limb_1"
                     ]
                   }
                 ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "2"
+                ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "b2_id_col164"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "b2_id_col164"
+          },
+          {
+            "State": "b2_limb_0_col165"
+          },
+          {
+            "State": "b2_limb_1_col166"
+          },
+          {
+            "State": "b2_limb_2_col167"
+          },
+          {
+            "State": "b2_limb_3_col168"
+          },
+          {
+            "State": "b2_limb_4_col169"
+          },
+          {
+            "State": "b2_limb_5_col170"
+          },
+          {
+            "State": "b2_limb_6_col171"
+          },
+          {
+            "State": "b2_limb_7_col172"
+          },
+          {
+            "State": "b2_limb_8_col173"
+          },
+          {
+            "State": "b2_limb_9_col174"
+          },
+          {
+            "State": "b2_limb_10_col175"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "BinaryOp": [
                   {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "values_ptr_tmp_7b599_40"
-                        ]
-                      },
-                      "+",
-                      {
-                        "Var": [
-                          "M31",
-                          "offsets_val_tmp_7b599_39_limb_1"
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "values_ptr_tmp_7b599_40"
                     ]
                   },
                   "+",
                   {
-                    "Const": [
+                    "Var": [
                       "M31",
-                      "2"
+                      "offsets_val_tmp_7b599_39_limb_1"
                     ]
                   }
                 ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+              },
+              "+",
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "values_ptr_tmp_7b599_40"
-                        ]
-                      },
-                      "+",
-                      {
-                        "Var": [
-                          "M31",
-                          "offsets_val_tmp_7b599_39_limb_1"
-                        ]
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "3"
-                    ]
-                  }
+                "Const": [
+                  "M31",
+                  "3"
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "b3_id_col176"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "b3_id_col176"
+          },
+          {
+            "State": "b3_limb_0_col177"
+          },
+          {
+            "State": "b3_limb_1_col178"
+          },
+          {
+            "State": "b3_limb_2_col179"
+          },
+          {
+            "State": "b3_limb_3_col180"
+          },
+          {
+            "State": "b3_limb_4_col181"
+          },
+          {
+            "State": "b3_limb_5_col182"
+          },
+          {
+            "State": "b3_limb_6_col183"
+          },
+          {
+            "State": "b3_limb_7_col184"
+          },
+          {
+            "State": "b3_limb_8_col185"
+          },
+          {
+            "State": "b3_limb_9_col186"
+          },
+          {
+            "State": "b3_limb_10_col187"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "values_ptr_tmp_7b599_40"
+                ]
+              },
+              "+",
+              {
+                "Var": [
+                  "M31",
+                  "offsets_val_tmp_7b599_39_limb_2"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "c0_id_col188"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "c0_id_col188"
+          },
+          {
+            "State": "c0_limb_0_col189"
+          },
+          {
+            "State": "c0_limb_1_col190"
+          },
+          {
+            "State": "c0_limb_2_col191"
+          },
+          {
+            "State": "c0_limb_3_col192"
+          },
+          {
+            "State": "c0_limb_4_col193"
+          },
+          {
+            "State": "c0_limb_5_col194"
+          },
+          {
+            "State": "c0_limb_6_col195"
+          },
+          {
+            "State": "c0_limb_7_col196"
+          },
+          {
+            "State": "c0_limb_8_col197"
+          },
+          {
+            "State": "c0_limb_9_col198"
+          },
+          {
+            "State": "c0_limb_10_col199"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "BinaryOp": [
                   {
@@ -6486,135 +10656,548 @@
                     ]
                   }
                 ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "c1_id_col200"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "c1_id_col200"
+          },
+          {
+            "State": "c1_limb_0_col201"
+          },
+          {
+            "State": "c1_limb_1_col202"
+          },
+          {
+            "State": "c1_limb_2_col203"
+          },
+          {
+            "State": "c1_limb_3_col204"
+          },
+          {
+            "State": "c1_limb_4_col205"
+          },
+          {
+            "State": "c1_limb_5_col206"
+          },
+          {
+            "State": "c1_limb_6_col207"
+          },
+          {
+            "State": "c1_limb_7_col208"
+          },
+          {
+            "State": "c1_limb_8_col209"
+          },
+          {
+            "State": "c1_limb_9_col210"
+          },
+          {
+            "State": "c1_limb_10_col211"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "BinaryOp": [
                   {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "values_ptr_tmp_7b599_40"
-                        ]
-                      },
-                      "+",
-                      {
-                        "Var": [
-                          "M31",
-                          "offsets_val_tmp_7b599_39_limb_2"
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "values_ptr_tmp_7b599_40"
                     ]
                   },
                   "+",
                   {
-                    "Const": [
+                    "Var": [
                       "M31",
-                      "1"
+                      "offsets_val_tmp_7b599_39_limb_2"
                     ]
                   }
                 ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "2"
+                ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "c2_id_col212"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "c2_id_col212"
+          },
+          {
+            "State": "c2_limb_0_col213"
+          },
+          {
+            "State": "c2_limb_1_col214"
+          },
+          {
+            "State": "c2_limb_2_col215"
+          },
+          {
+            "State": "c2_limb_3_col216"
+          },
+          {
+            "State": "c2_limb_4_col217"
+          },
+          {
+            "State": "c2_limb_5_col218"
+          },
+          {
+            "State": "c2_limb_6_col219"
+          },
+          {
+            "State": "c2_limb_7_col220"
+          },
+          {
+            "State": "c2_limb_8_col221"
+          },
+          {
+            "State": "c2_limb_9_col222"
+          },
+          {
+            "State": "c2_limb_10_col223"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Read Positive Num Bits 99"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
                 "BinaryOp": [
                   {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "values_ptr_tmp_7b599_40"
-                        ]
-                      },
-                      "+",
-                      {
-                        "Var": [
-                          "M31",
-                          "offsets_val_tmp_7b599_39_limb_2"
-                        ]
-                      }
+                    "Var": [
+                      "M31",
+                      "values_ptr_tmp_7b599_40"
                     ]
                   },
                   "+",
                   {
-                    "Const": [
+                    "Var": [
                       "M31",
-                      "2"
+                      "offsets_val_tmp_7b599_39_limb_2"
                     ]
                   }
                 ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "3"
+                ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "c3_id_col224"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_positive_num_bits_99_output_limb_0, read_positive_num_bits_99_output_limb_1, read_positive_num_bits_99_output_limb_2, read_positive_num_bits_99_output_limb_3, read_positive_num_bits_99_output_limb_4, read_positive_num_bits_99_output_limb_5, read_positive_num_bits_99_output_limb_6, read_positive_num_bits_99_output_limb_7, read_positive_num_bits_99_output_limb_8, read_positive_num_bits_99_output_limb_9, read_positive_num_bits_99_output_limb_10, read_positive_num_bits_99_output_limb_11, read_positive_num_bits_99_output_limb_12, read_positive_num_bits_99_output_limb_13, read_positive_num_bits_99_output_limb_14, read_positive_num_bits_99_output_limb_15, read_positive_num_bits_99_output_limb_16, read_positive_num_bits_99_output_limb_17, read_positive_num_bits_99_output_limb_18, read_positive_num_bits_99_output_limb_19, read_positive_num_bits_99_output_limb_20, read_positive_num_bits_99_output_limb_21, read_positive_num_bits_99_output_limb_22, read_positive_num_bits_99_output_limb_23, read_positive_num_bits_99_output_limb_24, read_positive_num_bits_99_output_limb_25, read_positive_num_bits_99_output_limb_26, read_positive_num_bits_99_output_limb_27, read_positive_num_bits_99_output_limb_28]",
-        "type": "[M31; 29]",
-        "var": {
-          "StaticCall": [
-            "read_positive_num_bits_99::evaluate",
-            [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "values_ptr_tmp_7b599_40"
-                        ]
-                      },
-                      "+",
-                      {
-                        "Var": [
-                          "M31",
-                          "offsets_val_tmp_7b599_39_limb_2"
-                        ]
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "3"
-                    ]
-                  }
-                ]
-              }
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "c3_id_col224"
+          },
+          {
+            "State": "c3_limb_0_col225"
+          },
+          {
+            "State": "c3_limb_1_col226"
+          },
+          {
+            "State": "c3_limb_2_col227"
+          },
+          {
+            "State": "c3_limb_3_col228"
+          },
+          {
+            "State": "c3_limb_4_col229"
+          },
+          {
+            "State": "c3_limb_5_col230"
+          },
+          {
+            "State": "c3_limb_6_col231"
+          },
+          {
+            "State": "c3_limb_7_col232"
+          },
+          {
+            "State": "c3_limb_8_col233"
+          },
+          {
+            "State": "c3_limb_9_col234"
+          },
+          {
+            "State": "c3_limb_10_col235"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
             ]
-          ]
-        }
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
       }
-    }
+    },
+    "EndBlock"
   ],
   "deductions": [
     {

@@ -206,196 +206,90 @@
       }
     },
     {
-      "Intermediate": {
-        "name": "[cond_decode_small_sign_output_limb_0, cond_decode_small_sign_output_limb_1]",
-        "type": "[M31; 2]",
-        "var": {
-          "StaticCall": [
-            "cond_decode_small_sign::evaluate",
-            [
-              {
-                "Array": [
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "0"
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "1"
-                    ]
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      }
+      "StartBlock": "Cond Decode Small Sign"
     },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "msb_col1"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col1"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "msb is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col2"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "mid_limbs_set_col2"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "mid_limbs_set is a bit"
+      ]
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "mid_limbs_set_col2"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col1"
+                },
+                "-",
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "Cannot have msb equals 0 and mid_limbs_set equals 1"
+      ]
+    },
+    "EndBlock",
     {
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",

@@ -1,4 +1,3 @@
-use crate::components::cond_decode_small_sign::component::CondDecodeSmallSign;
 use crate::components::prelude::constraint_eval::*;
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
@@ -36,41 +35,17 @@ impl ReadSmall {
             &[read_small_input.clone(), id_col0.clone()],
         ));
 
-        let [cond_decode_small_sign_output_limb_0, cond_decode_small_sign_output_limb_1] =
-            CondDecodeSmallSign::evaluate(
-                [
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_0.clone(),
-                    M31_1.clone(),
-                ],
-                eval,
-            );
+        // Cond Decode Small Sign.
+
+        // msb is a bit.
+        eval.add_constraint((msb_col1.clone() * (msb_col1.clone() - M31_1.clone())));
+        // mid_limbs_set is a bit.
+        eval.add_constraint(
+            (mid_limbs_set_col2.clone() * (mid_limbs_set_col2.clone() - M31_1.clone())),
+        );
+        // Cannot have msb equals 0 and mid_limbs_set equals 1.
+        eval.add_constraint((mid_limbs_set_col2.clone() * (msb_col1.clone() - M31_1.clone())));
+
         eval.add_to_relation(RelationEntry::new(
             memory_id_to_big_lookup_elements,
             E::EF::one(),

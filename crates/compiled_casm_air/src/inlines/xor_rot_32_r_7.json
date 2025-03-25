@@ -69,185 +69,177 @@
   "external_states": [],
   "constraints": [
     {
-      "Intermediate": {
-        "name": "bitwise_xor_num_bits_7_output",
-        "type": "M31",
-        "var": {
-          "StaticCall": [
-            "bitwise_xor_num_bits_7::evaluate",
-            [
-              {
-                "Array": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "xor_rot_32_r_7_input_limb_0"
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_9_bits_col0"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "128"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "xor_rot_32_r_7_input_limb_2"
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_9_bits_col2"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "128"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      }
+      "StartBlock": "Bitwise Xor Num Bits 7"
     },
     {
-      "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output",
-        "type": "M31",
-        "var": {
-          "StaticCall": [
-            "bitwise_xor_num_bits_9::evaluate",
-            [
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_7",
+        "felts": [
+          {
+            "BinaryOp": [
               {
-                "Array": [
+                "Var": [
+                  "M31",
+                  "xor_rot_32_r_7_input_limb_0"
+                ]
+              },
+              "-",
+              {
+                "BinaryOp": [
                   {
                     "State": "ms_9_bits_col0"
                   },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "xor_rot_32_r_7_input_limb_2"
+                ]
+              },
+              "-",
+              {
+                "BinaryOp": [
                   {
                     "State": "ms_9_bits_col2"
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "bitwise_xor_num_bits_7_output",
-        "type": "M31",
-        "var": {
-          "StaticCall": [
-            "bitwise_xor_num_bits_7::evaluate",
-            [
-              {
-                "Array": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "xor_rot_32_r_7_input_limb_1"
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_9_bits_col1"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "128"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
                   },
+                  "*",
                   {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "xor_rot_32_r_7_input_limb_3"
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_9_bits_col3"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "128"
-                            ]
-                          }
-                        ]
-                      }
+                    "Const": [
+                      "M31",
+                      "128"
                     ]
                   }
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "xor_col4"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
+    "EndBlock",
     {
-      "Intermediate": {
-        "name": "bitwise_xor_num_bits_9_output",
-        "type": "M31",
-        "var": {
-          "StaticCall": [
-            "bitwise_xor_num_bits_9::evaluate",
-            [
+      "StartBlock": "Bitwise Xor Num Bits 9"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_9",
+        "felts": [
+          {
+            "State": "ms_9_bits_col0"
+          },
+          {
+            "State": "ms_9_bits_col2"
+          },
+          {
+            "State": "xor_col5"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 7"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_7",
+        "felts": [
+          {
+            "BinaryOp": [
               {
-                "Array": [
+                "Var": [
+                  "M31",
+                  "xor_rot_32_r_7_input_limb_1"
+                ]
+              },
+              "-",
+              {
+                "BinaryOp": [
                   {
                     "State": "ms_9_bits_col1"
                   },
+                  "*",
                   {
-                    "State": "ms_9_bits_col3"
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
                   }
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "xor_rot_32_r_7_input_limb_3"
+                ]
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "ms_9_bits_col3"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "xor_col6"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 9"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_9",
+        "felts": [
+          {
+            "State": "ms_9_bits_col1"
+          },
+          {
+            "State": "ms_9_bits_col3"
+          },
+          {
+            "State": "xor_col7"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
     {
       "Intermediate": {
         "name": "xor_rot_7_output_tmp_edf16_8_limb_0",

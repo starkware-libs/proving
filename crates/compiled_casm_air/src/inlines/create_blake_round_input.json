@@ -643,131 +643,30 @@
   "external_states": [],
   "constraints": [
     {
-      "Intermediate": {
-        "name": "[read_blake_word_output_limb_0, read_blake_word_output_limb_1]",
-        "type": "[M31; 2]",
-        "var": {
-          "StaticCall": [
-            "read_blake_word::evaluate",
-            [
-              {
-                "Var": [
-                  "M31",
-                  "create_blake_round_input_input_limb_0"
-                ]
-              }
-            ]
-          ]
-        }
-      }
+      "StartBlock": "Read Blake Word"
     },
     {
-      "Intermediate": {
-        "name": "[read_blake_word_output_limb_0, read_blake_word_output_limb_1]",
-        "type": "[M31; 2]",
-        "var": {
-          "StaticCall": [
-            "read_blake_word::evaluate",
-            [
+      "StartBlock": "Verify Blake Word"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_7_2_5",
+        "felts": [
+          {
+            "State": "low_7_ms_bits_col2"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_16_bits_col1"
+              },
+              "-",
               {
                 "BinaryOp": [
                   {
-                    "Var": [
-                      "M31",
-                      "create_blake_round_input_input_limb_0"
-                    ]
+                    "State": "high_14_ms_bits_col3"
                   },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "1"
-                    ]
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "[read_blake_word_output_limb_0, read_blake_word_output_limb_1]",
-        "type": "[M31; 2]",
-        "var": {
-          "StaticCall": [
-            "read_blake_word::evaluate",
-            [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "create_blake_round_input_input_limb_0"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "2"
-                    ]
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "[read_blake_word_output_limb_0, read_blake_word_output_limb_1]",
-        "type": "[M31; 2]",
-        "var": {
-          "StaticCall": [
-            "read_blake_word::evaluate",
-            [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "create_blake_round_input_input_limb_0"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "3"
-                    ]
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "[read_blake_word_output_limb_0, read_blake_word_output_limb_1]",
-        "type": "[M31; 2]",
-        "var": {
-          "StaticCall": [
-            "read_blake_word::evaluate",
-            [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "create_blake_round_input_input_limb_0"
-                    ]
-                  },
-                  "+",
+                  "*",
                   {
                     "Const": [
                       "M31",
@@ -777,248 +676,2653 @@
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "State": "high_5_ms_bits_col4"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "[read_blake_word_output_limb_0, read_blake_word_output_limb_1]",
-        "type": "[M31; 2]",
-        "var": {
-          "StaticCall": [
-            "read_blake_word::evaluate",
-            [
+      "StartBlock": "Mem Verify"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "Var": [
+              "M31",
+              "create_blake_round_input_input_limb_0"
+            ]
+          },
+          {
+            "State": "state_0_id_col5"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "state_0_id_col5"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_16_bits_col0"
+              },
+              "-",
               {
                 "BinaryOp": [
                   {
-                    "Var": [
-                      "M31",
-                      "create_blake_round_input_input_limb_0"
-                    ]
+                    "State": "low_7_ms_bits_col2"
                   },
-                  "+",
+                  "*",
                   {
                     "Const": [
                       "M31",
-                      "5"
+                      "512"
                     ]
                   }
                 ]
               }
             ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "[read_blake_word_output_limb_0, read_blake_word_output_limb_1]",
-        "type": "[M31; 2]",
-        "var": {
-          "StaticCall": [
-            "read_blake_word::evaluate",
-            [
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_7_ms_bits_col2"
+              },
+              "+",
               {
                 "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "create_blake_round_input_input_limb_0"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "6"
-                    ]
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "[read_blake_word_output_limb_0, read_blake_word_output_limb_1]",
-        "type": "[M31; 2]",
-        "var": {
-          "StaticCall": [
-            "read_blake_word::evaluate",
-            [
-              {
-                "BinaryOp": [
-                  {
-                    "Var": [
-                      "M31",
-                      "create_blake_round_input_input_limb_0"
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "7"
-                    ]
-                  }
-                ]
-              }
-            ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "bitwise_xor_num_bits_8_output",
-        "type": "M31",
-        "var": {
-          "StaticCall": [
-            "bitwise_xor_num_bits_8::evaluate",
-            [
-              {
-                "Array": [
                   {
                     "BinaryOp": [
                       {
-                        "Var": [
-                          "M31",
-                          "create_blake_round_input_input_limb_1"
-                        ]
+                        "State": "high_16_bits_col1"
                       },
                       "-",
                       {
                         "BinaryOp": [
                           {
-                            "State": "ms_8_bits_col48"
+                            "State": "high_14_ms_bits_col3"
                           },
                           "*",
                           {
                             "Const": [
                               "M31",
-                              "256"
+                              "4"
                             ]
                           }
                         ]
                       }
                     ]
                   },
+                  "*",
                   {
                     "Const": [
                       "M31",
-                      "127"
+                      "128"
                     ]
                   }
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_14_ms_bits_col3"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_5_ms_bits_col4"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col4"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    "EndBlock",
+    "EndBlock",
+    {
+      "StartBlock": "Read Blake Word"
+    },
+    {
+      "StartBlock": "Verify Blake Word"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_7_2_5",
+        "felts": [
+          {
+            "State": "low_7_ms_bits_col8"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_16_bits_col7"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_14_ms_bits_col9"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "4"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col10"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
     {
-      "Intermediate": {
-        "name": "bitwise_xor_num_bits_8_output",
-        "type": "M31",
-        "var": {
-          "StaticCall": [
-            "bitwise_xor_num_bits_8::evaluate",
-            [
+      "StartBlock": "Mem Verify"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
               {
-                "Array": [
+                "Var": [
+                  "M31",
+                  "create_blake_round_input_input_limb_0"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "1"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "state_1_id_col11"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "state_1_id_col11"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_16_bits_col6"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "low_7_ms_bits_col8"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_7_ms_bits_col8"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "high_16_bits_col7"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "high_14_ms_bits_col9"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "4"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_14_ms_bits_col9"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_5_ms_bits_col10"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col10"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    "EndBlock",
+    "EndBlock",
+    {
+      "StartBlock": "Read Blake Word"
+    },
+    {
+      "StartBlock": "Verify Blake Word"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_7_2_5",
+        "felts": [
+          {
+            "State": "low_7_ms_bits_col14"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_16_bits_col13"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_14_ms_bits_col15"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "4"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col16"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "StartBlock": "Mem Verify"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "create_blake_round_input_input_limb_0"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "2"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "state_2_id_col17"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "state_2_id_col17"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_16_bits_col12"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "low_7_ms_bits_col14"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_7_ms_bits_col14"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "high_16_bits_col13"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "high_14_ms_bits_col15"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "4"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_14_ms_bits_col15"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_5_ms_bits_col16"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col16"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    "EndBlock",
+    "EndBlock",
+    {
+      "StartBlock": "Read Blake Word"
+    },
+    {
+      "StartBlock": "Verify Blake Word"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_7_2_5",
+        "felts": [
+          {
+            "State": "low_7_ms_bits_col20"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_16_bits_col19"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_14_ms_bits_col21"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "4"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col22"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "StartBlock": "Mem Verify"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "create_blake_round_input_input_limb_0"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "3"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "state_3_id_col23"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "state_3_id_col23"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_16_bits_col18"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "low_7_ms_bits_col20"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_7_ms_bits_col20"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "high_16_bits_col19"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "high_14_ms_bits_col21"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "4"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_14_ms_bits_col21"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_5_ms_bits_col22"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col22"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    "EndBlock",
+    "EndBlock",
+    {
+      "StartBlock": "Read Blake Word"
+    },
+    {
+      "StartBlock": "Verify Blake Word"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_7_2_5",
+        "felts": [
+          {
+            "State": "low_7_ms_bits_col26"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_16_bits_col25"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_14_ms_bits_col27"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "4"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col28"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "StartBlock": "Mem Verify"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "create_blake_round_input_input_limb_0"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "4"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "state_4_id_col29"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "state_4_id_col29"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_16_bits_col24"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "low_7_ms_bits_col26"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_7_ms_bits_col26"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "high_16_bits_col25"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "high_14_ms_bits_col27"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "4"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_14_ms_bits_col27"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_5_ms_bits_col28"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col28"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    "EndBlock",
+    "EndBlock",
+    {
+      "StartBlock": "Read Blake Word"
+    },
+    {
+      "StartBlock": "Verify Blake Word"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_7_2_5",
+        "felts": [
+          {
+            "State": "low_7_ms_bits_col32"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_16_bits_col31"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_14_ms_bits_col33"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "4"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col34"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "StartBlock": "Mem Verify"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "create_blake_round_input_input_limb_0"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "5"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "state_5_id_col35"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "state_5_id_col35"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_16_bits_col30"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "low_7_ms_bits_col32"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_7_ms_bits_col32"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "high_16_bits_col31"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "high_14_ms_bits_col33"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "4"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_14_ms_bits_col33"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_5_ms_bits_col34"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col34"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    "EndBlock",
+    "EndBlock",
+    {
+      "StartBlock": "Read Blake Word"
+    },
+    {
+      "StartBlock": "Verify Blake Word"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_7_2_5",
+        "felts": [
+          {
+            "State": "low_7_ms_bits_col38"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_16_bits_col37"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_14_ms_bits_col39"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "4"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col40"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "StartBlock": "Mem Verify"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "create_blake_round_input_input_limb_0"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "6"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "state_6_id_col41"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "state_6_id_col41"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_16_bits_col36"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "low_7_ms_bits_col38"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_7_ms_bits_col38"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "high_16_bits_col37"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "high_14_ms_bits_col39"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "4"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_14_ms_bits_col39"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_5_ms_bits_col40"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col40"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    "EndBlock",
+    "EndBlock",
+    {
+      "StartBlock": "Read Blake Word"
+    },
+    {
+      "StartBlock": "Verify Blake Word"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "RangeCheck_7_2_5",
+        "felts": [
+          {
+            "State": "low_7_ms_bits_col44"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_16_bits_col43"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_14_ms_bits_col45"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "4"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col46"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "StartBlock": "Mem Verify"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryAddressToId",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "create_blake_round_input_input_limb_0"
+                ]
+              },
+              "+",
+              {
+                "Const": [
+                  "M31",
+                  "7"
+                ]
+              }
+            ]
+          },
+          {
+            "State": "state_7_id_col47"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "MemoryIdToBig",
+        "felts": [
+          {
+            "State": "state_7_id_col47"
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_16_bits_col42"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "low_7_ms_bits_col44"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "low_7_ms_bits_col44"
+              },
+              "+",
+              {
+                "BinaryOp": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "high_16_bits_col43"
+                      },
+                      "-",
+                      {
+                        "BinaryOp": [
+                          {
+                            "State": "high_14_ms_bits_col45"
+                          },
+                          "*",
+                          {
+                            "Const": [
+                              "M31",
+                              "4"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "128"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "BinaryOp": [
+              {
+                "State": "high_14_ms_bits_col45"
+              },
+              "-",
+              {
+                "BinaryOp": [
+                  {
+                    "State": "high_5_ms_bits_col46"
+                  },
+                  "*",
+                  {
+                    "Const": [
+                      "M31",
+                      "512"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "State": "high_5_ms_bits_col46"
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          },
+          {
+            "Const": [
+              "M31",
+              "0"
+            ]
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    "EndBlock",
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "BinaryOp": [
+              {
+                "Var": [
+                  "M31",
+                  "create_blake_round_input_input_limb_1"
+                ]
+              },
+              "-",
+              {
+                "BinaryOp": [
                   {
                     "State": "ms_8_bits_col48"
                   },
+                  "*",
                   {
                     "Const": [
                       "M31",
-                      "82"
+                      "256"
                     ]
                   }
                 ]
               }
             ]
-          ]
-        }
-      }
-    },
-    {
-      "Intermediate": {
-        "name": "bitwise_xor_num_bits_8_output",
-        "type": "M31",
-        "var": {
-          "StaticCall": [
-            "bitwise_xor_num_bits_8::evaluate",
-            [
-              {
-                "Array": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "create_blake_round_input_input_limb_2"
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "ms_8_bits_col49"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "256"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "Const": [
-                      "M31",
-                      "14"
-                    ]
-                  }
-                ]
-              }
+          },
+          {
+            "Const": [
+              "M31",
+              "127"
             ]
-          ]
-        }
+          },
+          {
+            "State": "xor_col50"
+          }
+        ],
+        "use_or_yield": "Use"
       }
     },
+    "EndBlock",
     {
-      "Intermediate": {
-        "name": "bitwise_xor_num_bits_8_output",
-        "type": "M31",
-        "var": {
-          "StaticCall": [
-            "bitwise_xor_num_bits_8::evaluate",
-            [
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "ms_8_bits_col48"
+          },
+          {
+            "Const": [
+              "M31",
+              "82"
+            ]
+          },
+          {
+            "State": "xor_col51"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "BinaryOp": [
               {
-                "Array": [
+                "Var": [
+                  "M31",
+                  "create_blake_round_input_input_limb_2"
+                ]
+              },
+              "-",
+              {
+                "BinaryOp": [
                   {
                     "State": "ms_8_bits_col49"
                   },
+                  "*",
                   {
                     "Const": [
                       "M31",
-                      "81"
+                      "256"
                     ]
                   }
                 ]
               }
             ]
-          ]
-        }
+          },
+          {
+            "Const": [
+              "M31",
+              "14"
+            ]
+          },
+          {
+            "State": "xor_col52"
+          }
+        ],
+        "use_or_yield": "Use"
       }
-    }
+    },
+    "EndBlock",
+    {
+      "StartBlock": "Bitwise Xor Num Bits 8"
+    },
+    {
+      "LookupTerm": {
+        "relation_name": "VerifyBitwiseXor_8",
+        "felts": [
+          {
+            "State": "ms_8_bits_col49"
+          },
+          {
+            "Const": [
+              "M31",
+              "81"
+            ]
+          },
+          {
+            "State": "xor_col53"
+          }
+        ],
+        "use_or_yield": "Use"
+      }
+    },
+    "EndBlock"
   ],
   "deductions": [
     {

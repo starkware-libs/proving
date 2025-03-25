@@ -1,5 +1,4 @@
 use crate::components::prelude::constraint_eval::*;
-use crate::components::range_check_last_limb_bits_in_ms_limb_2::component::RangeCheckLastLimbBitsInMsLimb2;
 
 #[derive(Copy, Clone, Serialize, Deserialize, CairoSerialize)]
 pub struct ReadPositiveNumBits128 {}
@@ -16,6 +15,8 @@ impl ReadPositiveNumBits128 {
         memory_id_to_big_lookup_elements: &relations::MemoryIdToBig,
     ) -> [E::F; 29] {
         let M31_0 = E::F::from(M31::from(0));
+        let M31_1 = E::F::from(M31::from(1));
+        let M31_2 = E::F::from(M31::from(2));
         let id_col0 = eval.next_trace_mask();
         let value_limb_0_col1 = eval.next_trace_mask();
         let value_limb_1_col2 = eval.next_trace_mask();
@@ -40,7 +41,18 @@ impl ReadPositiveNumBits128 {
             &[read_positive_num_bits_128_input.clone(), id_col0.clone()],
         ));
 
-        let () = RangeCheckLastLimbBitsInMsLimb2::evaluate(value_limb_14_col15.clone(), eval);
+        // Range Check Last Limb Bits In Ms Limb 2.
+
+        // msb is a bit.
+        eval.add_constraint((msb_col16.clone() * (M31_1.clone() - msb_col16.clone())));
+        let bit_before_msb_tmp_49cd3_3 = eval
+            .add_intermediate((value_limb_14_col15.clone() - (msb_col16.clone() * M31_2.clone())));
+        // bit before msb is a bit.
+        eval.add_constraint(
+            (bit_before_msb_tmp_49cd3_3.clone()
+                * (M31_1.clone() - bit_before_msb_tmp_49cd3_3.clone())),
+        );
+
         eval.add_to_relation(RelationEntry::new(
             memory_id_to_big_lookup_elements,
             E::EF::one(),

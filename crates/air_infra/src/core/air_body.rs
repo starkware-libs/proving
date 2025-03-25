@@ -6,7 +6,6 @@ use compiled_casm_air::compiled_structs::{
 };
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
-use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use indexmap::IndexMap;
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::ProverType;
@@ -14,7 +13,6 @@ use stwo_cairo_common::prover_types::cpu::ProverType;
 use super::air_fn_registry::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
-use crate::const_expr;
 use crate::core::Felt;
 
 // A Call is an air_body component that represents a call to another air function.
@@ -392,27 +390,12 @@ impl AirBody {
                         }));
                     }
                 }
-                AirBodyComponent::Call(mut call) => {
-                    let call_constraints = call.air_body.compile_for_constraints();
-                    if !call_constraints.is_empty() {
-                        // TODO(AnatG): Consider changing the signature of the function instead of
-                        // sending zeros.
-                        for f in call.input.as_felts_mut() {
-                            if !f.visibility().in_constraints {
-                                *f = const_expr!(0);
-                            }
-                        }
-
-                        let input = call.input.as_verifier_var("".to_string()).0;
-                        let (output, output_name) = call.output.as_verifier_var(call.output_name);
-                        constraints.push(ConstraintEvalStep::Intermediate(CompiledIntermediate {
-                            name: output_name,
-                            r#type: output.prover_type(),
-                            var: CompiledAirVar::StaticCall(
-                                format!("{}::{}", call.air_fn_name, CONSTRAINT_EVAL_FUNCTION_NAME),
-                                vec![input.compile(CompileFor::Constraints)],
-                            ),
-                        }));
+                AirBodyComponent::Call(f) => {
+                    let f_constraints = f.air_body.compile_for_constraints();
+                    if !f_constraints.is_empty() {
+                        constraints.push(ConstraintEvalStep::StartBlock(f.air_fn_description));
+                        constraints.extend(f_constraints);
+                        constraints.push(ConstraintEvalStep::EndBlock);
                     }
                 }
                 AirBodyComponent::LookupCall(..) => {}

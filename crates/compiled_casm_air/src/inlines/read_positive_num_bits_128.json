@@ -338,21 +338,97 @@
       }
     },
     {
+      "StartBlock": "Range Check Last Limb Bits In Ms Limb 2"
+    },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "State": "msb_col16"
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "State": "msb_col16"
+                }
+              ]
+            }
+          ]
+        },
+        "msb is a bit"
+      ]
+    },
+    {
       "Intermediate": {
-        "name": "()",
-        "type": "()",
+        "name": "bit_before_msb_tmp_49cd3_3",
+        "type": "M31",
         "var": {
-          "StaticCall": [
-            "range_check_last_limb_bits_in_ms_limb_2::evaluate",
-            [
-              {
-                "State": "value_limb_14_col15"
-              }
-            ]
+          "BinaryOp": [
+            {
+              "State": "value_limb_14_col15"
+            },
+            "-",
+            {
+              "BinaryOp": [
+                {
+                  "State": "msb_col16"
+                },
+                "*",
+                {
+                  "Const": [
+                    "M31",
+                    "2"
+                  ]
+                }
+              ]
+            }
           ]
         }
       }
     },
+    {
+      "Constraint": [
+        {
+          "BinaryOp": [
+            {
+              "Var": [
+                "M31",
+                "bit_before_msb_tmp_49cd3_3"
+              ]
+            },
+            "*",
+            {
+              "BinaryOp": [
+                {
+                  "Const": [
+                    "M31",
+                    "1"
+                  ]
+                },
+                "-",
+                {
+                  "Var": [
+                    "M31",
+                    "bit_before_msb_tmp_49cd3_3"
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "bit before msb is a bit"
+      ]
+    },
+    "EndBlock",
     {
       "LookupTerm": {
         "relation_name": "MemoryIdToBig",
