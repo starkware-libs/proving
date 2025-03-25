@@ -114,186 +114,48 @@
   },
   "inline_calls": {
     "decode_instruction_161c9": [
-      "VerifyInstruction"
+      [
+        "VerifyInstruction"
+      ],
+      [],
+      []
     ],
     "mem_verify_equal": [
-      "MemoryAddressToId"
+      [
+        "MemoryAddressToId"
+      ],
+      [],
+      []
     ]
   },
   "public_params": [],
   "external_states": [],
   "constraints": [
     {
-      "StartBlock": "Decode Instruction"
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "dst_base_fp_col4"
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                },
-                "-",
-                {
-                  "State": "dst_base_fp_col4"
-                }
-              ]
-            }
-          ]
-        },
-        "Flag dst_base_fp is a bit"
-      ]
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "ap_update_add_1_col5"
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                },
-                "-",
-                {
-                  "State": "ap_update_add_1_col5"
-                }
-              ]
-            }
-          ]
-        },
-        "Flag ap_update_add_1 is a bit"
-      ]
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "VerifyInstruction",
-        "felts": [
-          {
-            "State": "input_pc_col0"
-          },
-          {
-            "State": "offset0_col3"
-          },
-          {
-            "Const": [
-              "M31",
-              "32767"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "32769"
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "dst_base_fp_col4"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "8"
-                        ]
-                      }
-                    ]
-                  },
-                  "+",
-                  {
-                    "Const": [
-                      "M31",
-                      "16"
-                    ]
-                  }
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "32"
-                ]
-              }
-            ]
-          },
-          {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "State": "ap_update_add_1_col5"
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "32"
-                    ]
-                  }
-                ]
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "256"
-                ]
-              }
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
       "Intermediate": {
-        "name": "decode_instruction_161c9_output_tmp_bb09e_5_limb_0",
-        "type": "M31",
+        "name": "[decode_instruction_161c9_output_tmp_bb09e_5_limb_0, decode_instruction_161c9_output_tmp_bb09e_5_limb_1, decode_instruction_161c9_output_tmp_bb09e_5_limb_2, decode_instruction_161c9_output_tmp_bb09e_5_limb_3, decode_instruction_161c9_output_tmp_bb09e_5_limb_4, decode_instruction_161c9_output_tmp_bb09e_5_limb_5, decode_instruction_161c9_output_tmp_bb09e_5_limb_6, decode_instruction_161c9_output_tmp_bb09e_5_limb_7, decode_instruction_161c9_output_tmp_bb09e_5_limb_8, decode_instruction_161c9_output_tmp_bb09e_5_limb_9, decode_instruction_161c9_output_tmp_bb09e_5_limb_10, decode_instruction_161c9_output_tmp_bb09e_5_limb_11, decode_instruction_161c9_output_tmp_bb09e_5_limb_12, decode_instruction_161c9_output_tmp_bb09e_5_limb_13, decode_instruction_161c9_output_tmp_bb09e_5_limb_14, decode_instruction_161c9_output_tmp_bb09e_5_limb_15, decode_instruction_161c9_output_tmp_bb09e_5_limb_16, decode_instruction_161c9_output_tmp_bb09e_5_limb_17, decode_instruction_161c9_output_tmp_bb09e_5_limb_18]",
+        "type": "[M31; 19]",
         "var": {
-          "BinaryOp": [
-            {
-              "State": "offset0_col3"
-            },
-            "-",
-            {
-              "Const": [
-                "M31",
-                "32768"
-              ]
-            }
+          "StaticCall": [
+            "decode_instruction_161c9::evaluate",
+            [
+              {
+                "State": "input_pc_col0"
+              },
+              {
+                "State": "offset0_col3"
+              },
+              {
+                "State": "dst_base_fp_col4"
+              },
+              {
+                "State": "ap_update_add_1_col5"
+              }
+            ]
           ]
         }
       }
     },
-    "EndBlock",
     {
       "Constraint": [
         {
@@ -346,59 +208,53 @@
       ]
     },
     {
-      "StartBlock": "Mem Verify Equal"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryAddressToId",
-        "felts": [
-          {
-            "BinaryOp": [
+      "Intermediate": {
+        "name": "()",
+        "type": "()",
+        "var": {
+          "StaticCall": [
+            "mem_verify_equal::evaluate",
+            [
               {
-                "State": "mem_dst_base_col6"
-              },
-              "+",
-              {
-                "Var": [
-                  "M31",
-                  "decode_instruction_161c9_output_tmp_bb09e_5_limb_0"
+                "Array": [
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "mem_dst_base_col6"
+                      },
+                      "+",
+                      {
+                        "Var": [
+                          "M31",
+                          "decode_instruction_161c9_output_tmp_bb09e_5_limb_0"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "State": "input_pc_col0"
+                      },
+                      "+",
+                      {
+                        "Const": [
+                          "M31",
+                          "1"
+                        ]
+                      }
+                    ]
+                  }
                 ]
+              },
+              {
+                "State": "dst_id_col7"
               }
             ]
-          },
-          {
-            "State": "dst_id_col7"
-          }
-        ],
-        "use_or_yield": "Use"
+          ]
+        }
       }
     },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryAddressToId",
-        "felts": [
-          {
-            "BinaryOp": [
-              {
-                "State": "input_pc_col0"
-              },
-              "+",
-              {
-                "Const": [
-                  "M31",
-                  "1"
-                ]
-              }
-            ]
-          },
-          {
-            "State": "dst_id_col7"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock",
     {
       "LookupTerm": {
         "relation_name": "Opcodes",

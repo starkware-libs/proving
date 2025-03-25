@@ -6,6 +6,7 @@ use compiled_casm_air::compiled_structs::{
 };
 use compiled_casm_air::public_params::PublicParam;
 use compiled_casm_air::relations::OPCODES_RELATION_NAME;
+use compiled_casm_air::utils::CONSTRAINT_EVAL_FUNCTION_NAME;
 use indexmap::{IndexMap, IndexSet};
 use serde::Serialize;
 use stwo_cairo_common::prover_types::cpu::ProverType;
@@ -13,6 +14,7 @@ use stwo_cairo_common::prover_types::cpu::ProverType;
 use super::air_fn_registry::*;
 use super::expressions::felt_expr::*;
 use super::variables::*;
+use crate::const_expr;
 use crate::core::Felt;
 
 // A Call is an air_body component that represents a call to another air function.
@@ -391,12 +393,34 @@ impl AirBody {
                         }));
                     }
                 }
-                AirBodyComponent::Call(f) => {
-                    let f_constraints = f.air_body.compile_for_constraints();
-                    if !f_constraints.is_empty() {
-                        constraints.push(ConstraintEvalStep::StartBlock(f.air_fn_description));
-                        constraints.extend(f_constraints);
-                        constraints.push(ConstraintEvalStep::EndBlock);
+                AirBodyComponent::Call(mut call) => {
+                    let call_constraints = call.air_body.compile_for_constraints();
+                    if !call_constraints.is_empty() {
+                        // TODO(AnatG): Consider changing the signature of the function instead of
+                        // sending zeros.
+                        for f in call.input.as_felts_mut() {
+                            if !f.visibility().in_constraints {
+                                *f = const_expr!(0);
+                            }
+                        }
+
+                        let state_vars = call
+                            .state_names
+                            .iter()
+                            .map(|s| CompiledAirVar::State(s.clone()))
+                            .collect::<Vec<_>>();
+
+                        constraints.push(ConstraintEvalStep::Intermediate(CompiledIntermediate {
+                            name: call.output.verifier_name(call.output_name),
+                            r#type: call.output.verifier_type(),
+                            var: CompiledAirVar::StaticCall(
+                                format!("{}::{}", call.air_fn_name, CONSTRAINT_EVAL_FUNCTION_NAME),
+                                vec![call.input.as_limbs().compile(CompileFor::Constraints)]
+                                    .into_iter()
+                                    .chain(state_vars.into_iter())
+                                    .collect(),
+                            ),
+                        }));
                     }
                 }
                 AirBodyComponent::LookupCall(..) => {}

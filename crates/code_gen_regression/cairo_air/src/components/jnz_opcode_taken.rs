@@ -1,4 +1,7 @@
 use crate::components::prelude::*;
+use crate::components::subroutines::decode_instruction_de75a::DecodeInstructionDe75A;
+use crate::components::subroutines::read_positive_num_bits_252::ReadPositiveNumBits252;
+use crate::components::subroutines::read_small::ReadSmall;
 
 pub const N_TRACE_COLUMNS: usize = 45;
 
@@ -51,20 +54,9 @@ impl FrameworkEval for Eval {
     #[allow(clippy::double_parens)]
     #[allow(non_snake_case)]
     fn evaluate<E: EvalAtRow>(&self, mut eval: E) -> E {
-        let M31_0 = E::F::from(M31::from(0));
         let M31_1 = E::F::from(M31::from(1));
-        let M31_134217728 = E::F::from(M31::from(134217728));
         let M31_136 = E::F::from(M31::from(136));
-        let M31_16 = E::F::from(M31::from(16));
         let M31_256 = E::F::from(M31::from(256));
-        let M31_262144 = E::F::from(M31::from(262144));
-        let M31_32 = E::F::from(M31::from(32));
-        let M31_32767 = E::F::from(M31::from(32767));
-        let M31_32768 = E::F::from(M31::from(32768));
-        let M31_32769 = E::F::from(M31::from(32769));
-        let M31_511 = E::F::from(M31::from(511));
-        let M31_512 = E::F::from(M31::from(512));
-        let M31_8 = E::F::from(M31::from(8));
         let input_pc_col0 = eval.next_trace_mask();
         let input_ap_col1 = eval.next_trace_mask();
         let input_fp_col2 = eval.next_trace_mask();
@@ -113,55 +105,29 @@ impl FrameworkEval for Eval {
 
         eval.add_constraint(enabler.clone() * enabler.clone() - enabler.clone());
 
-        // Decode Instruction.
-
-        // Flag dst_base_fp is a bit.
-        eval.add_constraint(
-            (dst_base_fp_col4.clone() * (M31_1.clone() - dst_base_fp_col4.clone())),
-        );
-        // Flag ap_update_add_1 is a bit.
-        eval.add_constraint(
-            (ap_update_add_1_col5.clone() * (M31_1.clone() - ap_update_add_1_col5.clone())),
-        );
-        eval.add_to_relation(RelationEntry::new(
-            &self.verify_instruction_lookup_elements,
-            E::EF::one(),
-            &[
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [decode_instruction_de75a_output_tmp_f51a9_5_limb_0, decode_instruction_de75a_output_tmp_f51a9_5_limb_1, decode_instruction_de75a_output_tmp_f51a9_5_limb_2, decode_instruction_de75a_output_tmp_f51a9_5_limb_3, decode_instruction_de75a_output_tmp_f51a9_5_limb_4, decode_instruction_de75a_output_tmp_f51a9_5_limb_5, decode_instruction_de75a_output_tmp_f51a9_5_limb_6, decode_instruction_de75a_output_tmp_f51a9_5_limb_7, decode_instruction_de75a_output_tmp_f51a9_5_limb_8, decode_instruction_de75a_output_tmp_f51a9_5_limb_9, decode_instruction_de75a_output_tmp_f51a9_5_limb_10, decode_instruction_de75a_output_tmp_f51a9_5_limb_11, decode_instruction_de75a_output_tmp_f51a9_5_limb_12, decode_instruction_de75a_output_tmp_f51a9_5_limb_13, decode_instruction_de75a_output_tmp_f51a9_5_limb_14, decode_instruction_de75a_output_tmp_f51a9_5_limb_15, decode_instruction_de75a_output_tmp_f51a9_5_limb_16, decode_instruction_de75a_output_tmp_f51a9_5_limb_17, decode_instruction_de75a_output_tmp_f51a9_5_limb_18] =
+            DecodeInstructionDe75A::evaluate(
                 input_pc_col0.clone(),
                 offset0_col3.clone(),
-                M31_32767.clone(),
-                M31_32769.clone(),
-                (((dst_base_fp_col4.clone() * M31_8.clone()) + M31_16.clone()) + M31_32.clone()),
-                (M31_8.clone() + (ap_update_add_1_col5.clone() * M31_32.clone())),
-            ],
-        ));
-
-        let decode_instruction_de75a_output_tmp_f51a9_5_limb_0 =
-            eval.add_intermediate((offset0_col3.clone() - M31_32768.clone()));
-
+                dst_base_fp_col4.clone(),
+                ap_update_add_1_col5.clone(),
+                &mut eval,
+                &self.verify_instruction_lookup_elements,
+            );
         // mem_dst_base.
         eval.add_constraint(
             (mem_dst_base_col6.clone()
                 - ((dst_base_fp_col4.clone() * input_fp_col2.clone())
                     + ((M31_1.clone() - dst_base_fp_col4.clone()) * input_ap_col1.clone()))),
         );
-
-        // Read Positive Num Bits 252.
-
-        eval.add_to_relation(RelationEntry::new(
-            &self.memory_address_to_id_lookup_elements,
-            E::EF::one(),
-            &[
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [read_positive_num_bits_252_output_tmp_f51a9_8_limb_0, read_positive_num_bits_252_output_tmp_f51a9_8_limb_1, read_positive_num_bits_252_output_tmp_f51a9_8_limb_2, read_positive_num_bits_252_output_tmp_f51a9_8_limb_3, read_positive_num_bits_252_output_tmp_f51a9_8_limb_4, read_positive_num_bits_252_output_tmp_f51a9_8_limb_5, read_positive_num_bits_252_output_tmp_f51a9_8_limb_6, read_positive_num_bits_252_output_tmp_f51a9_8_limb_7, read_positive_num_bits_252_output_tmp_f51a9_8_limb_8, read_positive_num_bits_252_output_tmp_f51a9_8_limb_9, read_positive_num_bits_252_output_tmp_f51a9_8_limb_10, read_positive_num_bits_252_output_tmp_f51a9_8_limb_11, read_positive_num_bits_252_output_tmp_f51a9_8_limb_12, read_positive_num_bits_252_output_tmp_f51a9_8_limb_13, read_positive_num_bits_252_output_tmp_f51a9_8_limb_14, read_positive_num_bits_252_output_tmp_f51a9_8_limb_15, read_positive_num_bits_252_output_tmp_f51a9_8_limb_16, read_positive_num_bits_252_output_tmp_f51a9_8_limb_17, read_positive_num_bits_252_output_tmp_f51a9_8_limb_18, read_positive_num_bits_252_output_tmp_f51a9_8_limb_19, read_positive_num_bits_252_output_tmp_f51a9_8_limb_20, read_positive_num_bits_252_output_tmp_f51a9_8_limb_21, read_positive_num_bits_252_output_tmp_f51a9_8_limb_22, read_positive_num_bits_252_output_tmp_f51a9_8_limb_23, read_positive_num_bits_252_output_tmp_f51a9_8_limb_24, read_positive_num_bits_252_output_tmp_f51a9_8_limb_25, read_positive_num_bits_252_output_tmp_f51a9_8_limb_26, read_positive_num_bits_252_output_tmp_f51a9_8_limb_27, read_positive_num_bits_252_output_tmp_f51a9_8_limb_28] =
+            ReadPositiveNumBits252::evaluate(
                 (mem_dst_base_col6.clone()
                     + decode_instruction_de75a_output_tmp_f51a9_5_limb_0.clone()),
-                dst_id_col7.clone(),
-            ],
-        ));
-
-        eval.add_to_relation(RelationEntry::new(
-            &self.memory_id_to_big_lookup_elements,
-            E::EF::one(),
-            &[
                 dst_id_col7.clone(),
                 dst_limb_0_col8.clone(),
                 dst_limb_1_col9.clone(),
@@ -191,9 +157,10 @@ impl FrameworkEval for Eval {
                 dst_limb_25_col33.clone(),
                 dst_limb_26_col34.clone(),
                 dst_limb_27_col35.clone(),
-            ],
-        ));
-
+                &mut eval,
+                &self.memory_address_to_id_lookup_elements,
+                &self.memory_id_to_big_lookup_elements,
+            );
         // dst doesn't equal 0.
         eval.add_constraint(
             (((((((((((((((((((((((((((((dst_limb_0_col8.clone()
@@ -268,72 +235,21 @@ impl FrameworkEval for Eval {
                 * res_squares_col37.clone())
                 - M31_1.clone()),
         );
-
-        // Read Small.
-
-        eval.add_to_relation(RelationEntry::new(
-            &self.memory_address_to_id_lookup_elements,
-            E::EF::one(),
-            &[
+        #[allow(clippy::unused_unit)]
+        #[allow(unused_variables)]
+        let [read_small_output_tmp_f51a9_17_limb_0, read_small_output_tmp_f51a9_17_limb_1] =
+            ReadSmall::evaluate(
                 (input_pc_col0.clone() + M31_1.clone()),
                 next_pc_id_col38.clone(),
-            ],
-        ));
-
-        // Cond Decode Small Sign.
-
-        // msb is a bit.
-        eval.add_constraint((msb_col39.clone() * (msb_col39.clone() - M31_1.clone())));
-        // mid_limbs_set is a bit.
-        eval.add_constraint(
-            (mid_limbs_set_col40.clone() * (mid_limbs_set_col40.clone() - M31_1.clone())),
-        );
-        // Cannot have msb equals 0 and mid_limbs_set equals 1.
-        eval.add_constraint((mid_limbs_set_col40.clone() * (msb_col39.clone() - M31_1.clone())));
-
-        eval.add_to_relation(RelationEntry::new(
-            &self.memory_id_to_big_lookup_elements,
-            E::EF::one(),
-            &[
-                next_pc_id_col38.clone(),
+                msb_col39.clone(),
+                mid_limbs_set_col40.clone(),
                 next_pc_limb_0_col41.clone(),
                 next_pc_limb_1_col42.clone(),
                 next_pc_limb_2_col43.clone(),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                (mid_limbs_set_col40.clone() * M31_511.clone()),
-                ((M31_136.clone() * msb_col39.clone()) - mid_limbs_set_col40.clone()),
-                M31_0.clone(),
-                M31_0.clone(),
-                M31_0.clone(),
-                M31_0.clone(),
-                M31_0.clone(),
-                (msb_col39.clone() * M31_256.clone()),
-            ],
-        ));
-
-        let read_small_output_tmp_f51a9_17_limb_0 = eval.add_intermediate(
-            ((((next_pc_limb_0_col41.clone() + (next_pc_limb_1_col42.clone() * M31_512.clone()))
-                + (next_pc_limb_2_col43.clone() * M31_262144.clone()))
-                - msb_col39.clone())
-                - (M31_134217728.clone() * mid_limbs_set_col40.clone())),
-        );
-
+                &mut eval,
+                &self.memory_address_to_id_lookup_elements,
+                &self.memory_id_to_big_lookup_elements,
+            );
         eval.add_to_relation(RelationEntry::new(
             &self.opcodes_lookup_elements,
             E::EF::from(enabler.clone()),

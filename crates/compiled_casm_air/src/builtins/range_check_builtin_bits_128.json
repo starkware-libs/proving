@@ -52,8 +52,12 @@
   },
   "inline_calls": {
     "read_positive_num_bits_128": [
-      "MemoryAddressToId",
-      "MemoryIdToBig"
+      [
+        "MemoryAddressToId",
+        "MemoryIdToBig"
+      ],
+      [],
+      []
     ]
   },
   "public_params": [
@@ -67,260 +71,83 @@
   ],
   "constraints": [
     {
-      "StartBlock": "Read Positive Num Bits 128"
-    },
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryAddressToId",
-        "felts": [
-          {
-            "BinaryOp": [
+      "Intermediate": {
+        "name": "[read_positive_num_bits_128_output_tmp_66b3a_4_limb_0, read_positive_num_bits_128_output_tmp_66b3a_4_limb_1, read_positive_num_bits_128_output_tmp_66b3a_4_limb_2, read_positive_num_bits_128_output_tmp_66b3a_4_limb_3, read_positive_num_bits_128_output_tmp_66b3a_4_limb_4, read_positive_num_bits_128_output_tmp_66b3a_4_limb_5, read_positive_num_bits_128_output_tmp_66b3a_4_limb_6, read_positive_num_bits_128_output_tmp_66b3a_4_limb_7, read_positive_num_bits_128_output_tmp_66b3a_4_limb_8, read_positive_num_bits_128_output_tmp_66b3a_4_limb_9, read_positive_num_bits_128_output_tmp_66b3a_4_limb_10, read_positive_num_bits_128_output_tmp_66b3a_4_limb_11, read_positive_num_bits_128_output_tmp_66b3a_4_limb_12, read_positive_num_bits_128_output_tmp_66b3a_4_limb_13, read_positive_num_bits_128_output_tmp_66b3a_4_limb_14, read_positive_num_bits_128_output_tmp_66b3a_4_limb_15, read_positive_num_bits_128_output_tmp_66b3a_4_limb_16, read_positive_num_bits_128_output_tmp_66b3a_4_limb_17, read_positive_num_bits_128_output_tmp_66b3a_4_limb_18, read_positive_num_bits_128_output_tmp_66b3a_4_limb_19, read_positive_num_bits_128_output_tmp_66b3a_4_limb_20, read_positive_num_bits_128_output_tmp_66b3a_4_limb_21, read_positive_num_bits_128_output_tmp_66b3a_4_limb_22, read_positive_num_bits_128_output_tmp_66b3a_4_limb_23, read_positive_num_bits_128_output_tmp_66b3a_4_limb_24, read_positive_num_bits_128_output_tmp_66b3a_4_limb_25, read_positive_num_bits_128_output_tmp_66b3a_4_limb_26, read_positive_num_bits_128_output_tmp_66b3a_4_limb_27, read_positive_num_bits_128_output_tmp_66b3a_4_limb_28]",
+        "type": "[M31; 29]",
+        "var": {
+          "StaticCall": [
+            "read_positive_num_bits_128::evaluate",
+            [
               {
-                "PublicParam": "range_check_builtin_segment_start"
-              },
-              "+",
-              {
-                "ExternalState": [
-                  "Seq",
-                  []
+                "BinaryOp": [
+                  {
+                    "PublicParam": "range_check_builtin_segment_start"
+                  },
+                  "+",
+                  {
+                    "ExternalState": [
+                      "Seq",
+                      []
+                    ]
+                  }
                 ]
+              },
+              {
+                "State": "value_id_col0"
+              },
+              {
+                "State": "value_limb_0_col1"
+              },
+              {
+                "State": "value_limb_1_col2"
+              },
+              {
+                "State": "value_limb_2_col3"
+              },
+              {
+                "State": "value_limb_3_col4"
+              },
+              {
+                "State": "value_limb_4_col5"
+              },
+              {
+                "State": "value_limb_5_col6"
+              },
+              {
+                "State": "value_limb_6_col7"
+              },
+              {
+                "State": "value_limb_7_col8"
+              },
+              {
+                "State": "value_limb_8_col9"
+              },
+              {
+                "State": "value_limb_9_col10"
+              },
+              {
+                "State": "value_limb_10_col11"
+              },
+              {
+                "State": "value_limb_11_col12"
+              },
+              {
+                "State": "value_limb_12_col13"
+              },
+              {
+                "State": "value_limb_13_col14"
+              },
+              {
+                "State": "value_limb_14_col15"
+              },
+              {
+                "State": "msb_col16"
               }
             ]
-          },
-          {
-            "State": "value_id_col0"
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    {
-      "StartBlock": "Range Check Last Limb Bits In Ms Limb 2"
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "State": "msb_col16"
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                },
-                "-",
-                {
-                  "State": "msb_col16"
-                }
-              ]
-            }
-          ]
-        },
-        "msb is a bit"
-      ]
-    },
-    {
-      "Intermediate": {
-        "name": "bit_before_msb_tmp_66b3a_3",
-        "type": "M31",
-        "var": {
-          "BinaryOp": [
-            {
-              "State": "value_limb_14_col15"
-            },
-            "-",
-            {
-              "BinaryOp": [
-                {
-                  "State": "msb_col16"
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "2"
-                  ]
-                }
-              ]
-            }
           ]
         }
       }
-    },
-    {
-      "Constraint": [
-        {
-          "BinaryOp": [
-            {
-              "Var": [
-                "M31",
-                "bit_before_msb_tmp_66b3a_3"
-              ]
-            },
-            "*",
-            {
-              "BinaryOp": [
-                {
-                  "Const": [
-                    "M31",
-                    "1"
-                  ]
-                },
-                "-",
-                {
-                  "Var": [
-                    "M31",
-                    "bit_before_msb_tmp_66b3a_3"
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        "bit before msb is a bit"
-      ]
-    },
-    "EndBlock",
-    {
-      "LookupTerm": {
-        "relation_name": "MemoryIdToBig",
-        "felts": [
-          {
-            "State": "value_id_col0"
-          },
-          {
-            "State": "value_limb_0_col1"
-          },
-          {
-            "State": "value_limb_1_col2"
-          },
-          {
-            "State": "value_limb_2_col3"
-          },
-          {
-            "State": "value_limb_3_col4"
-          },
-          {
-            "State": "value_limb_4_col5"
-          },
-          {
-            "State": "value_limb_5_col6"
-          },
-          {
-            "State": "value_limb_6_col7"
-          },
-          {
-            "State": "value_limb_7_col8"
-          },
-          {
-            "State": "value_limb_8_col9"
-          },
-          {
-            "State": "value_limb_9_col10"
-          },
-          {
-            "State": "value_limb_10_col11"
-          },
-          {
-            "State": "value_limb_11_col12"
-          },
-          {
-            "State": "value_limb_12_col13"
-          },
-          {
-            "State": "value_limb_13_col14"
-          },
-          {
-            "State": "value_limb_14_col15"
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          },
-          {
-            "Const": [
-              "M31",
-              "0"
-            ]
-          }
-        ],
-        "use_or_yield": "Use"
-      }
-    },
-    "EndBlock"
+    }
   ],
   "deductions": [
     {

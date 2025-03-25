@@ -7,19 +7,10 @@ use stwo_prover::core::poly::circle::CircleEvaluation;
 use stwo_prover::core::poly::BitReversedOrder;
 
 pub mod add_ap_opcode;
-pub mod cond_decode_small_sign;
 pub mod constraints_regression_test_values;
-pub mod decode_instruction_d2a10;
-pub mod decode_instruction_de75a;
-pub mod double_karatsuba_n_8_limb_max_bound_4095;
-pub mod encode_offsets;
 pub mod jnz_opcode_taken;
-pub mod mem_cond_verify_equal_known_id;
-pub mod mem_verify;
 pub mod memory_address_to_id;
 pub mod memory_id_to_big;
-pub mod mod_utils;
-pub mod mod_words_to_12_bit_array;
 pub mod mul_mod_builtin;
 pub mod prelude;
 pub mod range_check_12;
@@ -29,13 +20,7 @@ pub mod range_check_4_3;
 pub mod range_check_6;
 pub mod range_check_7_2_5;
 pub mod range_check_builtin_bits_128;
-pub mod range_check_last_limb_bits_in_ms_limb_2;
-pub mod read_positive_num_bits_128;
-pub mod read_positive_num_bits_252;
-pub mod read_positive_num_bits_27;
-pub mod read_positive_num_bits_99;
-pub mod read_small;
-pub mod single_karatsuba_n_8;
+pub mod subroutines;
 pub mod verify_instruction;
 
 // TODO(Ohad): remove.
