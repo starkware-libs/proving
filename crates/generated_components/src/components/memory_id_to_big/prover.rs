@@ -1,6 +1,6 @@
 #![allow(unused_variables)]
 
-use prover_types::simd::PackedFelt252;
+use stwo_cairo_common::prover_types::simd::PackedFelt252;
 use stwo_prover::core::backend::simd::m31::PackedM31;
 use stwo_prover::core::backend::simd::SimdBackend;
 use stwo_prover::core::fields::m31::M31;

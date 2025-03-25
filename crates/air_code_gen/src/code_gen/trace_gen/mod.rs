@@ -621,8 +621,8 @@ impl RustProverGen {
             let relation1 = &term1.relation_name;
             let relation_0_snake_case = &relation0.to_case(Case::Snake);
             let relation_1_snake_case = &relation1.to_case(Case::Snake);
-            let masked_denom_0 = "denom0".to_owned() + mask_opcode_relation(relation1);
-            let masked_denom_1 = "denom1".to_owned() + mask_opcode_relation(relation0);
+            let masked_denom_0 = "denom0".to_owned() + mask_relation(relation1);
+            let masked_denom_1 = "denom1".to_owned() + mask_relation(relation0);
 
             let relation0_offset = relation_data_offsets.get_mut(relation0).unwrap();
             let term0_offset = *relation0_offset;
@@ -650,20 +650,25 @@ impl RustProverGen {
                 },
                 "denom0 * denom1",
             );
+            let (for_each, enumerate) =
+                if is_masked_relation(relation0) || is_masked_relation(relation1) {
+                    (
+                        quote! { (i, (writer, values0, values1)) },
+                        quote! {.enumerate()},
+                    )
+                } else {
+                    (quote! { (writer, values0, values1)}, quote! {})
+                };
             code.extend(quote! {
                 let mut col_gen = logup_gen.new_col();
-                for (i, (values0, values1)) in zip(
-                    &self.lookup_data
-                                .$(relation_0_snake_case)_$(term0_offset),
-                    &self.lookup_data
-                                .$(relation_1_snake_case)_$(term1_offset),
-                )
-                .enumerate()
-                {
-                    let denom0: PackedQM31 = $(relation_0_snake_case).combine(values0);
-                    let denom1: PackedQM31 = $(relation_1_snake_case).combine(values1);
-                    col_gen.write_frac(i,$(numerator), $(denom));
-                }
+                (col_gen.par_iter_mut(),
+                &self.lookup_data.$(relation_0_snake_case)_$(term0_offset),
+                &self.lookup_data.$(relation_1_snake_case)_$(term1_offset))
+                .into_par_iter()$enumerate.for_each(|$for_each| {
+                let denom0: PackedQM31 = $(relation_0_snake_case).combine(values0);
+                let denom1: PackedQM31 = $(relation_1_snake_case).combine(values1);
+                writer.write_frac($(numerator), $(denom));
+                });
                 col_gen.finalize_col();
                 $['\n']
             });
@@ -681,18 +686,25 @@ impl RustProverGen {
                 UseOrYield::Use => "",
                 UseOrYield::Yield => "-",
             };
+            let (for_each, enumerate) = if is_masked_relation(&relation_name) {
+                (quote! { (i, (writer, values)) }, quote! {.enumerate()})
+            } else {
+                (quote! { (writer, values)}, quote! {})
+            };
             code.extend(quote! {
                     $['\n']$("//")$(format!("Sum last logup term."))
                     let mut col_gen = logup_gen.new_col();
-                    for (i, values) in self.lookup_data
-                        .$(relation_name.to_case(Case::Snake))_$(*term_offset).iter().enumerate() {
+                    (col_gen.par_iter_mut(),
+                        &self.lookup_data
+                        .$(relation_name.to_case(Case::Snake))_$(*term_offset))
+                        .into_par_iter()$enumerate.for_each(|$for_each| {
                         let denom =
                             $(&relation_name.to_case(Case::Snake)).combine(values);
-                        col_gen.write_frac(
-                            i, $(sign)PackedQM31::one()$(mask_opcode_relation(&relation_name)),
+                        writer.write_frac(
+                            $(sign)PackedQM31::one()$(mask_relation(&relation_name)),
                             denom
                         );
-                    }
+                    });
                     col_gen.finalize_col();
                     $['\n']
             });
@@ -954,9 +966,13 @@ fn context(deductions: &[TraceGenStep]) -> Vec<String> {
         .collect()
 }
 
-pub fn mask_opcode_relation(relation_name: &str) -> &str {
-    let is_opcode_relation = relation_name.eq("Opcodes");
-    if is_opcode_relation {
+pub fn is_masked_relation(relation_name: &str) -> bool {
+    // TODO(Gali): Support enabler in views.
+    relation_name.eq("Opcodes")
+}
+
+pub fn mask_relation(relation_name: &str) -> &str {
+    if is_masked_relation(relation_name) {
         " * padding_col.packed_at(i)"
     } else {
         ""
