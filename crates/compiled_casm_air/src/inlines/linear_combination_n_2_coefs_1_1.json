@@ -91,34 +91,23 @@
                     {
                       "BinaryOp": [
                         {
-                          "BinaryOp": [
-                            {
-                              "Const": [
-                                "M31",
-                                "0"
-                              ]
-                            },
-                            "-",
-                            {
-                              "State": "combination_limb_0_col0"
-                            }
+                          "Var": [
+                            "M31",
+                            "linear_combination_n_2_coefs_1_1_input_limb_0"
                           ]
                         },
                         "+",
                         {
                           "Var": [
                             "M31",
-                            "linear_combination_n_2_coefs_1_1_input_limb_0"
+                            "linear_combination_n_2_coefs_1_1_input_limb_10"
                           ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "Var": [
-                        "M31",
-                        "linear_combination_n_2_coefs_1_1_input_limb_10"
-                      ]
+                      "State": "combination_limb_0_col0"
                     }
                   ]
                 },
@@ -157,9 +146,12 @@
                             "carry_0_tmp_df416_2"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_1_col1"
+                          "Var": [
+                            "M31",
+                            "linear_combination_n_2_coefs_1_1_input_limb_1"
+                          ]
                         }
                       ]
                     },
@@ -167,17 +159,14 @@
                     {
                       "Var": [
                         "M31",
-                        "linear_combination_n_2_coefs_1_1_input_limb_1"
+                        "linear_combination_n_2_coefs_1_1_input_limb_11"
                       ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "linear_combination_n_2_coefs_1_1_input_limb_11"
-                  ]
+                  "State": "combination_limb_1_col1"
                 }
               ]
             },
@@ -210,9 +199,12 @@
                             "carry_1_tmp_df416_3"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_2_col2"
+                          "Var": [
+                            "M31",
+                            "linear_combination_n_2_coefs_1_1_input_limb_2"
+                          ]
                         }
                       ]
                     },
@@ -220,17 +212,14 @@
                     {
                       "Var": [
                         "M31",
-                        "linear_combination_n_2_coefs_1_1_input_limb_2"
+                        "linear_combination_n_2_coefs_1_1_input_limb_12"
                       ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "linear_combination_n_2_coefs_1_1_input_limb_12"
-                  ]
+                  "State": "combination_limb_2_col2"
                 }
               ]
             },
@@ -263,9 +252,12 @@
                             "carry_2_tmp_df416_4"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_3_col3"
+                          "Var": [
+                            "M31",
+                            "linear_combination_n_2_coefs_1_1_input_limb_3"
+                          ]
                         }
                       ]
                     },
@@ -273,17 +265,14 @@
                     {
                       "Var": [
                         "M31",
-                        "linear_combination_n_2_coefs_1_1_input_limb_3"
+                        "linear_combination_n_2_coefs_1_1_input_limb_13"
                       ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "linear_combination_n_2_coefs_1_1_input_limb_13"
-                  ]
+                  "State": "combination_limb_3_col3"
                 }
               ]
             },
@@ -316,9 +305,12 @@
                             "carry_3_tmp_df416_5"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_4_col4"
+                          "Var": [
+                            "M31",
+                            "linear_combination_n_2_coefs_1_1_input_limb_4"
+                          ]
                         }
                       ]
                     },
@@ -326,17 +318,14 @@
                     {
                       "Var": [
                         "M31",
-                        "linear_combination_n_2_coefs_1_1_input_limb_4"
+                        "linear_combination_n_2_coefs_1_1_input_limb_14"
                       ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "linear_combination_n_2_coefs_1_1_input_limb_14"
-                  ]
+                  "State": "combination_limb_4_col4"
                 }
               ]
             },
@@ -369,9 +358,12 @@
                             "carry_4_tmp_df416_6"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_5_col5"
+                          "Var": [
+                            "M31",
+                            "linear_combination_n_2_coefs_1_1_input_limb_5"
+                          ]
                         }
                       ]
                     },
@@ -379,17 +371,14 @@
                     {
                       "Var": [
                         "M31",
-                        "linear_combination_n_2_coefs_1_1_input_limb_5"
+                        "linear_combination_n_2_coefs_1_1_input_limb_15"
                       ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "linear_combination_n_2_coefs_1_1_input_limb_15"
-                  ]
+                  "State": "combination_limb_5_col5"
                 }
               ]
             },
@@ -422,9 +411,12 @@
                             "carry_5_tmp_df416_7"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_6_col6"
+                          "Var": [
+                            "M31",
+                            "linear_combination_n_2_coefs_1_1_input_limb_6"
+                          ]
                         }
                       ]
                     },
@@ -432,17 +424,14 @@
                     {
                       "Var": [
                         "M31",
-                        "linear_combination_n_2_coefs_1_1_input_limb_6"
+                        "linear_combination_n_2_coefs_1_1_input_limb_16"
                       ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "linear_combination_n_2_coefs_1_1_input_limb_16"
-                  ]
+                  "State": "combination_limb_6_col6"
                 }
               ]
             },
@@ -477,9 +466,12 @@
                                 "carry_6_tmp_df416_8"
                               ]
                             },
-                            "-",
+                            "+",
                             {
-                              "State": "combination_limb_7_col7"
+                              "Var": [
+                                "M31",
+                                "linear_combination_n_2_coefs_1_1_input_limb_7"
+                              ]
                             }
                           ]
                         },
@@ -487,17 +479,14 @@
                         {
                           "Var": [
                             "M31",
-                            "linear_combination_n_2_coefs_1_1_input_limb_7"
+                            "linear_combination_n_2_coefs_1_1_input_limb_17"
                           ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "Var": [
-                        "M31",
-                        "linear_combination_n_2_coefs_1_1_input_limb_17"
-                      ]
+                      "State": "combination_limb_7_col7"
                     }
                   ]
                 },
@@ -547,9 +536,12 @@
                             "carry_7_tmp_df416_9"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_8_col8"
+                          "Var": [
+                            "M31",
+                            "linear_combination_n_2_coefs_1_1_input_limb_8"
+                          ]
                         }
                       ]
                     },
@@ -557,17 +549,14 @@
                     {
                       "Var": [
                         "M31",
-                        "linear_combination_n_2_coefs_1_1_input_limb_8"
+                        "linear_combination_n_2_coefs_1_1_input_limb_18"
                       ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "linear_combination_n_2_coefs_1_1_input_limb_18"
-                  ]
+                  "State": "combination_limb_8_col8"
                 }
               ]
             },
@@ -598,9 +587,12 @@
                             "carry_8_tmp_df416_10"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_9_col9"
+                          "Var": [
+                            "M31",
+                            "linear_combination_n_2_coefs_1_1_input_limb_9"
+                          ]
                         }
                       ]
                     },
@@ -608,17 +600,14 @@
                     {
                       "Var": [
                         "M31",
-                        "linear_combination_n_2_coefs_1_1_input_limb_9"
+                        "linear_combination_n_2_coefs_1_1_input_limb_19"
                       ]
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "Var": [
-                    "M31",
-                    "linear_combination_n_2_coefs_1_1_input_limb_19"
-                  ]
+                  "State": "combination_limb_9_col9"
                 }
               ]
             },
@@ -1723,21 +1712,6 @@
                       {
                         "BinaryOp": [
                           {
-                            "BinaryOp": [
-                              {
-                                "Const": [
-                                  "M31",
-                                  "0"
-                                ]
-                              },
-                              "-",
-                              {
-                                "State": "combination_limb_0_col0"
-                              }
-                            ]
-                          },
-                          "+",
-                          {
                             "MethodCall": [
                               {
                                 "Var": [
@@ -1755,28 +1729,32 @@
                                 }
                               ]
                             ]
+                          },
+                          "+",
+                          {
+                            "MethodCall": [
+                              {
+                                "Var": [
+                                  "Felt252Width27",
+                                  "linear_combination_n_2_coefs_1_1_input[1]"
+                                ]
+                              },
+                              "get_m31",
+                              [
+                                {
+                                  "Const": [
+                                    "usize",
+                                    "0"
+                                  ]
+                                }
+                              ]
+                            ]
                           }
                         ]
                       },
-                      "+",
+                      "-",
                       {
-                        "MethodCall": [
-                          {
-                            "Var": [
-                              "Felt252Width27",
-                              "linear_combination_n_2_coefs_1_1_input[1]"
-                            ]
-                          },
-                          "get_m31",
-                          [
-                            {
-                              "Const": [
-                                "usize",
-                                "0"
-                              ]
-                            }
-                          ]
-                        ]
+                        "State": "combination_limb_0_col0"
                       }
                     ]
                   },
@@ -1838,21 +1816,6 @@
                     {
                       "BinaryOp": [
                         {
-                          "BinaryOp": [
-                            {
-                              "Const": [
-                                "M31",
-                                "0"
-                              ]
-                            },
-                            "-",
-                            {
-                              "State": "combination_limb_0_col0"
-                            }
-                          ]
-                        },
-                        "+",
-                        {
                           "MethodCall": [
                             {
                               "Var": [
@@ -1870,28 +1833,32 @@
                               }
                             ]
                           ]
+                        },
+                        "+",
+                        {
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252Width27",
+                                "linear_combination_n_2_coefs_1_1_input[1]"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "0"
+                                ]
+                              }
+                            ]
+                          ]
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "Felt252Width27",
-                            "linear_combination_n_2_coefs_1_1_input[1]"
-                          ]
-                        },
-                        "get_m31",
-                        [
-                          {
-                            "Const": [
-                              "usize",
-                              "0"
-                            ]
-                          }
-                        ]
-                      ]
+                      "State": "combination_limb_0_col0"
                     }
                   ]
                 },
@@ -1930,9 +1897,25 @@
                             "carry_0_tmp_df416_2"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_1_col1"
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252Width27",
+                                "linear_combination_n_2_coefs_1_1_input[0]"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "1"
+                                ]
+                              }
+                            ]
+                          ]
                         }
                       ]
                     },
@@ -1942,7 +1925,7 @@
                         {
                           "Var": [
                             "Felt252Width27",
-                            "linear_combination_n_2_coefs_1_1_input[0]"
+                            "linear_combination_n_2_coefs_1_1_input[1]"
                           ]
                         },
                         "get_m31",
@@ -1958,25 +1941,9 @@
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "linear_combination_n_2_coefs_1_1_input[1]"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "1"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_1_col1"
                 }
               ]
             },
@@ -2009,9 +1976,25 @@
                             "carry_1_tmp_df416_3"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_2_col2"
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252Width27",
+                                "linear_combination_n_2_coefs_1_1_input[0]"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "2"
+                                ]
+                              }
+                            ]
+                          ]
                         }
                       ]
                     },
@@ -2021,7 +2004,7 @@
                         {
                           "Var": [
                             "Felt252Width27",
-                            "linear_combination_n_2_coefs_1_1_input[0]"
+                            "linear_combination_n_2_coefs_1_1_input[1]"
                           ]
                         },
                         "get_m31",
@@ -2037,25 +2020,9 @@
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "linear_combination_n_2_coefs_1_1_input[1]"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "2"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_2_col2"
                 }
               ]
             },
@@ -2088,9 +2055,25 @@
                             "carry_2_tmp_df416_4"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_3_col3"
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252Width27",
+                                "linear_combination_n_2_coefs_1_1_input[0]"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "3"
+                                ]
+                              }
+                            ]
+                          ]
                         }
                       ]
                     },
@@ -2100,7 +2083,7 @@
                         {
                           "Var": [
                             "Felt252Width27",
-                            "linear_combination_n_2_coefs_1_1_input[0]"
+                            "linear_combination_n_2_coefs_1_1_input[1]"
                           ]
                         },
                         "get_m31",
@@ -2116,25 +2099,9 @@
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "linear_combination_n_2_coefs_1_1_input[1]"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "3"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_3_col3"
                 }
               ]
             },
@@ -2167,9 +2134,25 @@
                             "carry_3_tmp_df416_5"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_4_col4"
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252Width27",
+                                "linear_combination_n_2_coefs_1_1_input[0]"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "4"
+                                ]
+                              }
+                            ]
+                          ]
                         }
                       ]
                     },
@@ -2179,7 +2162,7 @@
                         {
                           "Var": [
                             "Felt252Width27",
-                            "linear_combination_n_2_coefs_1_1_input[0]"
+                            "linear_combination_n_2_coefs_1_1_input[1]"
                           ]
                         },
                         "get_m31",
@@ -2195,25 +2178,9 @@
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "linear_combination_n_2_coefs_1_1_input[1]"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "4"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_4_col4"
                 }
               ]
             },
@@ -2246,9 +2213,25 @@
                             "carry_4_tmp_df416_6"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_5_col5"
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252Width27",
+                                "linear_combination_n_2_coefs_1_1_input[0]"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "5"
+                                ]
+                              }
+                            ]
+                          ]
                         }
                       ]
                     },
@@ -2258,7 +2241,7 @@
                         {
                           "Var": [
                             "Felt252Width27",
-                            "linear_combination_n_2_coefs_1_1_input[0]"
+                            "linear_combination_n_2_coefs_1_1_input[1]"
                           ]
                         },
                         "get_m31",
@@ -2274,25 +2257,9 @@
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "linear_combination_n_2_coefs_1_1_input[1]"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "5"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_5_col5"
                 }
               ]
             },
@@ -2325,9 +2292,25 @@
                             "carry_5_tmp_df416_7"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_6_col6"
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252Width27",
+                                "linear_combination_n_2_coefs_1_1_input[0]"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "6"
+                                ]
+                              }
+                            ]
+                          ]
                         }
                       ]
                     },
@@ -2337,7 +2320,7 @@
                         {
                           "Var": [
                             "Felt252Width27",
-                            "linear_combination_n_2_coefs_1_1_input[0]"
+                            "linear_combination_n_2_coefs_1_1_input[1]"
                           ]
                         },
                         "get_m31",
@@ -2353,25 +2336,9 @@
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "linear_combination_n_2_coefs_1_1_input[1]"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "6"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_6_col6"
                 }
               ]
             },
@@ -2406,9 +2373,25 @@
                                 "carry_6_tmp_df416_8"
                               ]
                             },
-                            "-",
+                            "+",
                             {
-                              "State": "combination_limb_7_col7"
+                              "MethodCall": [
+                                {
+                                  "Var": [
+                                    "Felt252Width27",
+                                    "linear_combination_n_2_coefs_1_1_input[0]"
+                                  ]
+                                },
+                                "get_m31",
+                                [
+                                  {
+                                    "Const": [
+                                      "usize",
+                                      "7"
+                                    ]
+                                  }
+                                ]
+                              ]
                             }
                           ]
                         },
@@ -2418,7 +2401,7 @@
                             {
                               "Var": [
                                 "Felt252Width27",
-                                "linear_combination_n_2_coefs_1_1_input[0]"
+                                "linear_combination_n_2_coefs_1_1_input[1]"
                               ]
                             },
                             "get_m31",
@@ -2434,25 +2417,9 @@
                         }
                       ]
                     },
-                    "+",
+                    "-",
                     {
-                      "MethodCall": [
-                        {
-                          "Var": [
-                            "Felt252Width27",
-                            "linear_combination_n_2_coefs_1_1_input[1]"
-                          ]
-                        },
-                        "get_m31",
-                        [
-                          {
-                            "Const": [
-                              "usize",
-                              "7"
-                            ]
-                          }
-                        ]
-                      ]
+                      "State": "combination_limb_7_col7"
                     }
                   ]
                 },
@@ -2502,9 +2469,25 @@
                             "carry_7_tmp_df416_9"
                           ]
                         },
-                        "-",
+                        "+",
                         {
-                          "State": "combination_limb_8_col8"
+                          "MethodCall": [
+                            {
+                              "Var": [
+                                "Felt252Width27",
+                                "linear_combination_n_2_coefs_1_1_input[0]"
+                              ]
+                            },
+                            "get_m31",
+                            [
+                              {
+                                "Const": [
+                                  "usize",
+                                  "8"
+                                ]
+                              }
+                            ]
+                          ]
                         }
                       ]
                     },
@@ -2514,7 +2497,7 @@
                         {
                           "Var": [
                             "Felt252Width27",
-                            "linear_combination_n_2_coefs_1_1_input[0]"
+                            "linear_combination_n_2_coefs_1_1_input[1]"
                           ]
                         },
                         "get_m31",
@@ -2530,25 +2513,9 @@
                     }
                   ]
                 },
-                "+",
+                "-",
                 {
-                  "MethodCall": [
-                    {
-                      "Var": [
-                        "Felt252Width27",
-                        "linear_combination_n_2_coefs_1_1_input[1]"
-                      ]
-                    },
-                    "get_m31",
-                    [
-                      {
-                        "Const": [
-                          "usize",
-                          "8"
-                        ]
-                      }
-                    ]
-                  ]
+                  "State": "combination_limb_8_col8"
                 }
               ]
             },

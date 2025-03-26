@@ -53,10 +53,12 @@ impl AirFn for Felt252UnpackFrom27 {
         }
         // The final limb is the same between the two forms, so does not need to be deduced again.
         v.push(packed.get_felt(FELT252WIDTH27_N_WORDS - 1));
-        let unpacked: Felt252Expr = v.into();
+        let mut unpacked: Felt252Expr = v.into();
 
         if self.range_check_output {
-            // Range check the unpacked form.
+            // Range check the unpacked form. We apply "let_" here so that the logic isn't
+            // duplicated between the rangecheck lookups and the return value.
+            unpacked = air_builder.let_(unpacked, "unpacked");
             air_builder.call(
                 &RangeCheckMemValue::<FELT252_N_WORDS> {},
                 unpacked

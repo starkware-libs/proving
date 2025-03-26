@@ -14,600 +14,9 @@
   ],
   "prover_output": [
     {
-      "StaticCall": [
-        "Felt252::from_limbs",
-        [
-          {
-            "Array": [
-              {
-                "State": "unpacked_limb_0_col0"
-              },
-              {
-                "State": "unpacked_limb_1_col1"
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252Width27",
-                                  "felt_252_unpack_from_27_range_check_output_input"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "0"
-                                  ]
-                                }
-                              ]
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "unpacked_limb_0_col0"
-                          }
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "unpacked_limb_1_col1"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "8192"
-                    ]
-                  }
-                ]
-              },
-              {
-                "State": "unpacked_limb_3_col2"
-              },
-              {
-                "State": "unpacked_limb_4_col3"
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252Width27",
-                                  "felt_252_unpack_from_27_range_check_output_input"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "1"
-                                  ]
-                                }
-                              ]
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "unpacked_limb_3_col2"
-                          }
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "unpacked_limb_4_col3"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "8192"
-                    ]
-                  }
-                ]
-              },
-              {
-                "State": "unpacked_limb_6_col4"
-              },
-              {
-                "State": "unpacked_limb_7_col5"
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252Width27",
-                                  "felt_252_unpack_from_27_range_check_output_input"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "2"
-                                  ]
-                                }
-                              ]
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "unpacked_limb_6_col4"
-                          }
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "unpacked_limb_7_col5"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "8192"
-                    ]
-                  }
-                ]
-              },
-              {
-                "State": "unpacked_limb_9_col6"
-              },
-              {
-                "State": "unpacked_limb_10_col7"
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252Width27",
-                                  "felt_252_unpack_from_27_range_check_output_input"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "3"
-                                  ]
-                                }
-                              ]
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "unpacked_limb_9_col6"
-                          }
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "unpacked_limb_10_col7"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "8192"
-                    ]
-                  }
-                ]
-              },
-              {
-                "State": "unpacked_limb_12_col8"
-              },
-              {
-                "State": "unpacked_limb_13_col9"
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252Width27",
-                                  "felt_252_unpack_from_27_range_check_output_input"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "4"
-                                  ]
-                                }
-                              ]
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "unpacked_limb_12_col8"
-                          }
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "unpacked_limb_13_col9"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "8192"
-                    ]
-                  }
-                ]
-              },
-              {
-                "State": "unpacked_limb_15_col10"
-              },
-              {
-                "State": "unpacked_limb_16_col11"
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252Width27",
-                                  "felt_252_unpack_from_27_range_check_output_input"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "5"
-                                  ]
-                                }
-                              ]
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "unpacked_limb_15_col10"
-                          }
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "unpacked_limb_16_col11"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "8192"
-                    ]
-                  }
-                ]
-              },
-              {
-                "State": "unpacked_limb_18_col12"
-              },
-              {
-                "State": "unpacked_limb_19_col13"
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252Width27",
-                                  "felt_252_unpack_from_27_range_check_output_input"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "6"
-                                  ]
-                                }
-                              ]
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "unpacked_limb_18_col12"
-                          }
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "unpacked_limb_19_col13"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "8192"
-                    ]
-                  }
-                ]
-              },
-              {
-                "State": "unpacked_limb_21_col14"
-              },
-              {
-                "State": "unpacked_limb_22_col15"
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252Width27",
-                                  "felt_252_unpack_from_27_range_check_output_input"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "7"
-                                  ]
-                                }
-                              ]
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "unpacked_limb_21_col14"
-                          }
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "unpacked_limb_22_col15"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "8192"
-                    ]
-                  }
-                ]
-              },
-              {
-                "State": "unpacked_limb_24_col16"
-              },
-              {
-                "State": "unpacked_limb_25_col17"
-              },
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "BinaryOp": [
-                          {
-                            "MethodCall": [
-                              {
-                                "Var": [
-                                  "Felt252Width27",
-                                  "felt_252_unpack_from_27_range_check_output_input"
-                                ]
-                              },
-                              "get_m31",
-                              [
-                                {
-                                  "Const": [
-                                    "usize",
-                                    "8"
-                                  ]
-                                }
-                              ]
-                            ]
-                          },
-                          "-",
-                          {
-                            "State": "unpacked_limb_24_col16"
-                          }
-                        ]
-                      },
-                      "-",
-                      {
-                        "BinaryOp": [
-                          {
-                            "State": "unpacked_limb_25_col17"
-                          },
-                          "*",
-                          {
-                            "Const": [
-                              "M31",
-                              "512"
-                            ]
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  "*",
-                  {
-                    "Const": [
-                      "M31",
-                      "8192"
-                    ]
-                  }
-                ]
-              },
-              {
-                "MethodCall": [
-                  {
-                    "Var": [
-                      "Felt252Width27",
-                      "felt_252_unpack_from_27_range_check_output_input"
-                    ]
-                  },
-                  "get_m31",
-                  [
-                    {
-                      "Const": [
-                        "usize",
-                        "9"
-                      ]
-                    }
-                  ]
-                ]
-              }
-            ]
-          }
-        ]
+      "Var": [
+        "Felt252",
+        "unpacked_tmp_da0b0_1"
       ]
     },
     "Felt252",
@@ -623,6 +32,154 @@
           "State": "unpacked_limb_1_col1"
         },
         {
+          "Var": [
+            "M31",
+            "unpacked_tmp_da0b0_1_limb_2"
+          ]
+        },
+        {
+          "State": "unpacked_limb_3_col2"
+        },
+        {
+          "State": "unpacked_limb_4_col3"
+        },
+        {
+          "Var": [
+            "M31",
+            "unpacked_tmp_da0b0_1_limb_5"
+          ]
+        },
+        {
+          "State": "unpacked_limb_6_col4"
+        },
+        {
+          "State": "unpacked_limb_7_col5"
+        },
+        {
+          "Var": [
+            "M31",
+            "unpacked_tmp_da0b0_1_limb_8"
+          ]
+        },
+        {
+          "State": "unpacked_limb_9_col6"
+        },
+        {
+          "State": "unpacked_limb_10_col7"
+        },
+        {
+          "Var": [
+            "M31",
+            "unpacked_tmp_da0b0_1_limb_11"
+          ]
+        },
+        {
+          "State": "unpacked_limb_12_col8"
+        },
+        {
+          "State": "unpacked_limb_13_col9"
+        },
+        {
+          "Var": [
+            "M31",
+            "unpacked_tmp_da0b0_1_limb_14"
+          ]
+        },
+        {
+          "State": "unpacked_limb_15_col10"
+        },
+        {
+          "State": "unpacked_limb_16_col11"
+        },
+        {
+          "Var": [
+            "M31",
+            "unpacked_tmp_da0b0_1_limb_17"
+          ]
+        },
+        {
+          "State": "unpacked_limb_18_col12"
+        },
+        {
+          "State": "unpacked_limb_19_col13"
+        },
+        {
+          "Var": [
+            "M31",
+            "unpacked_tmp_da0b0_1_limb_20"
+          ]
+        },
+        {
+          "State": "unpacked_limb_21_col14"
+        },
+        {
+          "State": "unpacked_limb_22_col15"
+        },
+        {
+          "Var": [
+            "M31",
+            "unpacked_tmp_da0b0_1_limb_23"
+          ]
+        },
+        {
+          "State": "unpacked_limb_24_col16"
+        },
+        {
+          "State": "unpacked_limb_25_col17"
+        },
+        {
+          "Var": [
+            "M31",
+            "unpacked_tmp_da0b0_1_limb_26"
+          ]
+        },
+        {
+          "Var": [
+            "M31",
+            "unpacked_tmp_da0b0_1_limb_27"
+          ]
+        }
+      ]
+    },
+    "[M31; 28]"
+  ],
+  "state_names": [
+    "unpacked_limb_0_col0",
+    "unpacked_limb_1_col1",
+    "unpacked_limb_3_col2",
+    "unpacked_limb_4_col3",
+    "unpacked_limb_6_col4",
+    "unpacked_limb_7_col5",
+    "unpacked_limb_9_col6",
+    "unpacked_limb_10_col7",
+    "unpacked_limb_12_col8",
+    "unpacked_limb_13_col9",
+    "unpacked_limb_15_col10",
+    "unpacked_limb_16_col11",
+    "unpacked_limb_18_col12",
+    "unpacked_limb_19_col13",
+    "unpacked_limb_21_col14",
+    "unpacked_limb_22_col15",
+    "unpacked_limb_24_col16",
+    "unpacked_limb_25_col17"
+  ],
+  "padding_type": "None",
+  "lookup_names": {
+    "RangeCheck_9_9": 14
+  },
+  "inline_calls": {
+    "range_check_mem_value_n_28": [
+      "RangeCheck_9_9"
+    ]
+  },
+  "public_params": [],
+  "external_states": [],
+  "constraints": [
+    {
+      "Intermediate": {
+        "name": "unpacked_tmp_da0b0_1_limb_2",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -665,14 +222,14 @@
               ]
             }
           ]
-        },
-        {
-          "State": "unpacked_limb_3_col2"
-        },
-        {
-          "State": "unpacked_limb_4_col3"
-        },
-        {
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "unpacked_tmp_da0b0_1_limb_5",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -715,14 +272,14 @@
               ]
             }
           ]
-        },
-        {
-          "State": "unpacked_limb_6_col4"
-        },
-        {
-          "State": "unpacked_limb_7_col5"
-        },
-        {
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "unpacked_tmp_da0b0_1_limb_8",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -765,14 +322,14 @@
               ]
             }
           ]
-        },
-        {
-          "State": "unpacked_limb_9_col6"
-        },
-        {
-          "State": "unpacked_limb_10_col7"
-        },
-        {
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "unpacked_tmp_da0b0_1_limb_11",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -815,14 +372,14 @@
               ]
             }
           ]
-        },
-        {
-          "State": "unpacked_limb_12_col8"
-        },
-        {
-          "State": "unpacked_limb_13_col9"
-        },
-        {
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "unpacked_tmp_da0b0_1_limb_14",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -865,14 +422,14 @@
               ]
             }
           ]
-        },
-        {
-          "State": "unpacked_limb_15_col10"
-        },
-        {
-          "State": "unpacked_limb_16_col11"
-        },
-        {
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "unpacked_tmp_da0b0_1_limb_17",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -915,14 +472,14 @@
               ]
             }
           ]
-        },
-        {
-          "State": "unpacked_limb_18_col12"
-        },
-        {
-          "State": "unpacked_limb_19_col13"
-        },
-        {
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "unpacked_tmp_da0b0_1_limb_20",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -965,14 +522,14 @@
               ]
             }
           ]
-        },
-        {
-          "State": "unpacked_limb_21_col14"
-        },
-        {
-          "State": "unpacked_limb_22_col15"
-        },
-        {
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "unpacked_tmp_da0b0_1_limb_23",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1015,14 +572,14 @@
               ]
             }
           ]
-        },
-        {
-          "State": "unpacked_limb_24_col16"
-        },
-        {
-          "State": "unpacked_limb_25_col17"
-        },
-        {
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "unpacked_tmp_da0b0_1_limb_26",
+        "type": "M31",
+        "var": {
           "BinaryOp": [
             {
               "BinaryOp": [
@@ -1065,49 +622,21 @@
               ]
             }
           ]
-        },
-        {
+        }
+      }
+    },
+    {
+      "Intermediate": {
+        "name": "unpacked_tmp_da0b0_1_limb_27",
+        "type": "M31",
+        "var": {
           "Var": [
             "M31",
             "felt_252_unpack_from_27_range_check_output_input_limb_9"
           ]
         }
-      ]
+      }
     },
-    "[M31; 28]"
-  ],
-  "state_names": [
-    "unpacked_limb_0_col0",
-    "unpacked_limb_1_col1",
-    "unpacked_limb_3_col2",
-    "unpacked_limb_4_col3",
-    "unpacked_limb_6_col4",
-    "unpacked_limb_7_col5",
-    "unpacked_limb_9_col6",
-    "unpacked_limb_10_col7",
-    "unpacked_limb_12_col8",
-    "unpacked_limb_13_col9",
-    "unpacked_limb_15_col10",
-    "unpacked_limb_16_col11",
-    "unpacked_limb_18_col12",
-    "unpacked_limb_19_col13",
-    "unpacked_limb_21_col14",
-    "unpacked_limb_22_col15",
-    "unpacked_limb_24_col16",
-    "unpacked_limb_25_col17"
-  ],
-  "padding_type": "None",
-  "lookup_names": {
-    "RangeCheck_9_9": 14
-  },
-  "inline_calls": {
-    "range_check_mem_value_n_28": [
-      "RangeCheck_9_9"
-    ]
-  },
-  "public_params": [],
-  "external_states": [],
-  "constraints": [
     {
       "StartBlock": "Range Check Mem Value N 28"
     },
@@ -1130,47 +659,9 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "felt_252_unpack_from_27_range_check_output_input_limb_0"
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_0_col0"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_1_col1"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+            "Var": [
+              "M31",
+              "unpacked_tmp_da0b0_1_limb_2"
             ]
           },
           {
@@ -1188,47 +679,9 @@
             "State": "unpacked_limb_4_col3"
           },
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "felt_252_unpack_from_27_range_check_output_input_limb_1"
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_3_col2"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_4_col3"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+            "Var": [
+              "M31",
+              "unpacked_tmp_da0b0_1_limb_5"
             ]
           }
         ],
@@ -1254,47 +707,9 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "felt_252_unpack_from_27_range_check_output_input_limb_2"
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_6_col4"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_7_col5"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+            "Var": [
+              "M31",
+              "unpacked_tmp_da0b0_1_limb_8"
             ]
           },
           {
@@ -1312,47 +727,9 @@
             "State": "unpacked_limb_10_col7"
           },
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "felt_252_unpack_from_27_range_check_output_input_limb_3"
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_9_col6"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_10_col7"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+            "Var": [
+              "M31",
+              "unpacked_tmp_da0b0_1_limb_11"
             ]
           }
         ],
@@ -1378,47 +755,9 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "felt_252_unpack_from_27_range_check_output_input_limb_4"
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_12_col8"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_13_col9"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+            "Var": [
+              "M31",
+              "unpacked_tmp_da0b0_1_limb_14"
             ]
           },
           {
@@ -1436,47 +775,9 @@
             "State": "unpacked_limb_16_col11"
           },
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "felt_252_unpack_from_27_range_check_output_input_limb_5"
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_15_col10"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_16_col11"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+            "Var": [
+              "M31",
+              "unpacked_tmp_da0b0_1_limb_17"
             ]
           }
         ],
@@ -1502,47 +803,9 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "felt_252_unpack_from_27_range_check_output_input_limb_6"
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_18_col12"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_19_col13"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+            "Var": [
+              "M31",
+              "unpacked_tmp_da0b0_1_limb_20"
             ]
           },
           {
@@ -1560,47 +823,9 @@
             "State": "unpacked_limb_22_col15"
           },
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "felt_252_unpack_from_27_range_check_output_input_limb_7"
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_21_col14"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_22_col15"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+            "Var": [
+              "M31",
+              "unpacked_tmp_da0b0_1_limb_23"
             ]
           }
         ],
@@ -1626,53 +851,15 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "Var": [
-                          "M31",
-                          "felt_252_unpack_from_27_range_check_output_input_limb_8"
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_24_col16"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_25_col17"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+            "Var": [
+              "M31",
+              "unpacked_tmp_da0b0_1_limb_26"
             ]
           },
           {
             "Var": [
               "M31",
-              "felt_252_unpack_from_27_range_check_output_input_limb_9"
+              "unpacked_tmp_da0b0_1_limb_27"
             ]
           }
         ],
@@ -2080,6 +1267,609 @@
       }
     },
     {
+      "Intermediate": {
+        "name": "unpacked_tmp_da0b0_1",
+        "type": "Felt252",
+        "var": {
+          "StaticCall": [
+            "Felt252::from_limbs",
+            [
+              {
+                "Array": [
+                  {
+                    "State": "unpacked_limb_0_col0"
+                  },
+                  {
+                    "State": "unpacked_limb_1_col1"
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252Width27",
+                                      "felt_252_unpack_from_27_range_check_output_input"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "0"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              },
+                              "-",
+                              {
+                                "State": "unpacked_limb_0_col0"
+                              }
+                            ]
+                          },
+                          "-",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "unpacked_limb_1_col1"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "512"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "8192"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "State": "unpacked_limb_3_col2"
+                  },
+                  {
+                    "State": "unpacked_limb_4_col3"
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252Width27",
+                                      "felt_252_unpack_from_27_range_check_output_input"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "1"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              },
+                              "-",
+                              {
+                                "State": "unpacked_limb_3_col2"
+                              }
+                            ]
+                          },
+                          "-",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "unpacked_limb_4_col3"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "512"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "8192"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "State": "unpacked_limb_6_col4"
+                  },
+                  {
+                    "State": "unpacked_limb_7_col5"
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252Width27",
+                                      "felt_252_unpack_from_27_range_check_output_input"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "2"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              },
+                              "-",
+                              {
+                                "State": "unpacked_limb_6_col4"
+                              }
+                            ]
+                          },
+                          "-",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "unpacked_limb_7_col5"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "512"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "8192"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "State": "unpacked_limb_9_col6"
+                  },
+                  {
+                    "State": "unpacked_limb_10_col7"
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252Width27",
+                                      "felt_252_unpack_from_27_range_check_output_input"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "3"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              },
+                              "-",
+                              {
+                                "State": "unpacked_limb_9_col6"
+                              }
+                            ]
+                          },
+                          "-",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "unpacked_limb_10_col7"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "512"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "8192"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "State": "unpacked_limb_12_col8"
+                  },
+                  {
+                    "State": "unpacked_limb_13_col9"
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252Width27",
+                                      "felt_252_unpack_from_27_range_check_output_input"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "4"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              },
+                              "-",
+                              {
+                                "State": "unpacked_limb_12_col8"
+                              }
+                            ]
+                          },
+                          "-",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "unpacked_limb_13_col9"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "512"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "8192"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "State": "unpacked_limb_15_col10"
+                  },
+                  {
+                    "State": "unpacked_limb_16_col11"
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252Width27",
+                                      "felt_252_unpack_from_27_range_check_output_input"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "5"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              },
+                              "-",
+                              {
+                                "State": "unpacked_limb_15_col10"
+                              }
+                            ]
+                          },
+                          "-",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "unpacked_limb_16_col11"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "512"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "8192"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "State": "unpacked_limb_18_col12"
+                  },
+                  {
+                    "State": "unpacked_limb_19_col13"
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252Width27",
+                                      "felt_252_unpack_from_27_range_check_output_input"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "6"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              },
+                              "-",
+                              {
+                                "State": "unpacked_limb_18_col12"
+                              }
+                            ]
+                          },
+                          "-",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "unpacked_limb_19_col13"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "512"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "8192"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "State": "unpacked_limb_21_col14"
+                  },
+                  {
+                    "State": "unpacked_limb_22_col15"
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252Width27",
+                                      "felt_252_unpack_from_27_range_check_output_input"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "7"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              },
+                              "-",
+                              {
+                                "State": "unpacked_limb_21_col14"
+                              }
+                            ]
+                          },
+                          "-",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "unpacked_limb_22_col15"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "512"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "8192"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "State": "unpacked_limb_24_col16"
+                  },
+                  {
+                    "State": "unpacked_limb_25_col17"
+                  },
+                  {
+                    "BinaryOp": [
+                      {
+                        "BinaryOp": [
+                          {
+                            "BinaryOp": [
+                              {
+                                "MethodCall": [
+                                  {
+                                    "Var": [
+                                      "Felt252Width27",
+                                      "felt_252_unpack_from_27_range_check_output_input"
+                                    ]
+                                  },
+                                  "get_m31",
+                                  [
+                                    {
+                                      "Const": [
+                                        "usize",
+                                        "8"
+                                      ]
+                                    }
+                                  ]
+                                ]
+                              },
+                              "-",
+                              {
+                                "State": "unpacked_limb_24_col16"
+                              }
+                            ]
+                          },
+                          "-",
+                          {
+                            "BinaryOp": [
+                              {
+                                "State": "unpacked_limb_25_col17"
+                              },
+                              "*",
+                              {
+                                "Const": [
+                                  "M31",
+                                  "512"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      "*",
+                      {
+                        "Const": [
+                          "M31",
+                          "8192"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "MethodCall": [
+                      {
+                        "Var": [
+                          "Felt252Width27",
+                          "felt_252_unpack_from_27_range_check_output_input"
+                        ]
+                      },
+                      "get_m31",
+                      [
+                        {
+                          "Const": [
+                            "usize",
+                            "9"
+                          ]
+                        }
+                      ]
+                    ]
+                  }
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    },
+    {
       "StartBlock": "Range Check Mem Value N 28"
     },
     {
@@ -2117,60 +1907,22 @@
         "input": {
           "Array": [
             {
-              "BinaryOp": [
+              "MethodCall": [
                 {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "felt_252_unpack_from_27_range_check_output_input"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "0"
-                                ]
-                              }
-                            ]
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "unpacked_limb_0_col0"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "unpacked_limb_1_col1"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "512"
-                          ]
-                        }
-                      ]
-                    }
+                  "Var": [
+                    "Felt252",
+                    "unpacked_tmp_da0b0_1"
                   ]
                 },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "8192"
-                  ]
-                }
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "2"
+                    ]
+                  }
+                ]
               ]
             },
             {
@@ -2185,60 +1937,22 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "BinaryOp": [
+            "MethodCall": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "MethodCall": [
-                          {
-                            "Var": [
-                              "Felt252Width27",
-                              "felt_252_unpack_from_27_range_check_output_input"
-                            ]
-                          },
-                          "get_m31",
-                          [
-                            {
-                              "Const": [
-                                "usize",
-                                "0"
-                              ]
-                            }
-                          ]
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_0_col0"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_1_col1"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
+                "Var": [
+                  "Felt252",
+                  "unpacked_tmp_da0b0_1"
                 ]
               },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "2"
+                  ]
+                }
+              ]
             ]
           },
           {
@@ -2257,60 +1971,22 @@
               "State": "unpacked_limb_4_col3"
             },
             {
-              "BinaryOp": [
+              "MethodCall": [
                 {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "felt_252_unpack_from_27_range_check_output_input"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "1"
-                                ]
-                              }
-                            ]
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "unpacked_limb_3_col2"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "unpacked_limb_4_col3"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "512"
-                          ]
-                        }
-                      ]
-                    }
+                  "Var": [
+                    "Felt252",
+                    "unpacked_tmp_da0b0_1"
                   ]
                 },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "8192"
-                  ]
-                }
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "5"
+                    ]
+                  }
+                ]
               ]
             }
           ]
@@ -2325,60 +2001,22 @@
             "State": "unpacked_limb_4_col3"
           },
           {
-            "BinaryOp": [
+            "MethodCall": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "MethodCall": [
-                          {
-                            "Var": [
-                              "Felt252Width27",
-                              "felt_252_unpack_from_27_range_check_output_input"
-                            ]
-                          },
-                          "get_m31",
-                          [
-                            {
-                              "Const": [
-                                "usize",
-                                "1"
-                              ]
-                            }
-                          ]
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_3_col2"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_4_col3"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
+                "Var": [
+                  "Felt252",
+                  "unpacked_tmp_da0b0_1"
                 ]
               },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "5"
+                  ]
+                }
+              ]
             ]
           }
         ],
@@ -2420,60 +2058,22 @@
         "input": {
           "Array": [
             {
-              "BinaryOp": [
+              "MethodCall": [
                 {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "felt_252_unpack_from_27_range_check_output_input"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "2"
-                                ]
-                              }
-                            ]
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "unpacked_limb_6_col4"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "unpacked_limb_7_col5"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "512"
-                          ]
-                        }
-                      ]
-                    }
+                  "Var": [
+                    "Felt252",
+                    "unpacked_tmp_da0b0_1"
                   ]
                 },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "8192"
-                  ]
-                }
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "8"
+                    ]
+                  }
+                ]
               ]
             },
             {
@@ -2488,60 +2088,22 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "BinaryOp": [
+            "MethodCall": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "MethodCall": [
-                          {
-                            "Var": [
-                              "Felt252Width27",
-                              "felt_252_unpack_from_27_range_check_output_input"
-                            ]
-                          },
-                          "get_m31",
-                          [
-                            {
-                              "Const": [
-                                "usize",
-                                "2"
-                              ]
-                            }
-                          ]
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_6_col4"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_7_col5"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
+                "Var": [
+                  "Felt252",
+                  "unpacked_tmp_da0b0_1"
                 ]
               },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "8"
+                  ]
+                }
+              ]
             ]
           },
           {
@@ -2560,60 +2122,22 @@
               "State": "unpacked_limb_10_col7"
             },
             {
-              "BinaryOp": [
+              "MethodCall": [
                 {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "felt_252_unpack_from_27_range_check_output_input"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "3"
-                                ]
-                              }
-                            ]
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "unpacked_limb_9_col6"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "unpacked_limb_10_col7"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "512"
-                          ]
-                        }
-                      ]
-                    }
+                  "Var": [
+                    "Felt252",
+                    "unpacked_tmp_da0b0_1"
                   ]
                 },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "8192"
-                  ]
-                }
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "11"
+                    ]
+                  }
+                ]
               ]
             }
           ]
@@ -2628,60 +2152,22 @@
             "State": "unpacked_limb_10_col7"
           },
           {
-            "BinaryOp": [
+            "MethodCall": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "MethodCall": [
-                          {
-                            "Var": [
-                              "Felt252Width27",
-                              "felt_252_unpack_from_27_range_check_output_input"
-                            ]
-                          },
-                          "get_m31",
-                          [
-                            {
-                              "Const": [
-                                "usize",
-                                "3"
-                              ]
-                            }
-                          ]
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_9_col6"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_10_col7"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
+                "Var": [
+                  "Felt252",
+                  "unpacked_tmp_da0b0_1"
                 ]
               },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "11"
+                  ]
+                }
+              ]
             ]
           }
         ],
@@ -2723,60 +2209,22 @@
         "input": {
           "Array": [
             {
-              "BinaryOp": [
+              "MethodCall": [
                 {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "felt_252_unpack_from_27_range_check_output_input"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "4"
-                                ]
-                              }
-                            ]
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "unpacked_limb_12_col8"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "unpacked_limb_13_col9"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "512"
-                          ]
-                        }
-                      ]
-                    }
+                  "Var": [
+                    "Felt252",
+                    "unpacked_tmp_da0b0_1"
                   ]
                 },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "8192"
-                  ]
-                }
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "14"
+                    ]
+                  }
+                ]
               ]
             },
             {
@@ -2791,60 +2239,22 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "BinaryOp": [
+            "MethodCall": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "MethodCall": [
-                          {
-                            "Var": [
-                              "Felt252Width27",
-                              "felt_252_unpack_from_27_range_check_output_input"
-                            ]
-                          },
-                          "get_m31",
-                          [
-                            {
-                              "Const": [
-                                "usize",
-                                "4"
-                              ]
-                            }
-                          ]
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_12_col8"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_13_col9"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
+                "Var": [
+                  "Felt252",
+                  "unpacked_tmp_da0b0_1"
                 ]
               },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "14"
+                  ]
+                }
+              ]
             ]
           },
           {
@@ -2863,60 +2273,22 @@
               "State": "unpacked_limb_16_col11"
             },
             {
-              "BinaryOp": [
+              "MethodCall": [
                 {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "felt_252_unpack_from_27_range_check_output_input"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "5"
-                                ]
-                              }
-                            ]
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "unpacked_limb_15_col10"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "unpacked_limb_16_col11"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "512"
-                          ]
-                        }
-                      ]
-                    }
+                  "Var": [
+                    "Felt252",
+                    "unpacked_tmp_da0b0_1"
                   ]
                 },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "8192"
-                  ]
-                }
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "17"
+                    ]
+                  }
+                ]
               ]
             }
           ]
@@ -2931,60 +2303,22 @@
             "State": "unpacked_limb_16_col11"
           },
           {
-            "BinaryOp": [
+            "MethodCall": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "MethodCall": [
-                          {
-                            "Var": [
-                              "Felt252Width27",
-                              "felt_252_unpack_from_27_range_check_output_input"
-                            ]
-                          },
-                          "get_m31",
-                          [
-                            {
-                              "Const": [
-                                "usize",
-                                "5"
-                              ]
-                            }
-                          ]
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_15_col10"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_16_col11"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
+                "Var": [
+                  "Felt252",
+                  "unpacked_tmp_da0b0_1"
                 ]
               },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "17"
+                  ]
+                }
+              ]
             ]
           }
         ],
@@ -3026,60 +2360,22 @@
         "input": {
           "Array": [
             {
-              "BinaryOp": [
+              "MethodCall": [
                 {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "felt_252_unpack_from_27_range_check_output_input"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "6"
-                                ]
-                              }
-                            ]
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "unpacked_limb_18_col12"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "unpacked_limb_19_col13"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "512"
-                          ]
-                        }
-                      ]
-                    }
+                  "Var": [
+                    "Felt252",
+                    "unpacked_tmp_da0b0_1"
                   ]
                 },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "8192"
-                  ]
-                }
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "20"
+                    ]
+                  }
+                ]
               ]
             },
             {
@@ -3094,60 +2390,22 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "BinaryOp": [
+            "MethodCall": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "MethodCall": [
-                          {
-                            "Var": [
-                              "Felt252Width27",
-                              "felt_252_unpack_from_27_range_check_output_input"
-                            ]
-                          },
-                          "get_m31",
-                          [
-                            {
-                              "Const": [
-                                "usize",
-                                "6"
-                              ]
-                            }
-                          ]
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_18_col12"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_19_col13"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
+                "Var": [
+                  "Felt252",
+                  "unpacked_tmp_da0b0_1"
                 ]
               },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "20"
+                  ]
+                }
+              ]
             ]
           },
           {
@@ -3166,60 +2424,22 @@
               "State": "unpacked_limb_22_col15"
             },
             {
-              "BinaryOp": [
+              "MethodCall": [
                 {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "felt_252_unpack_from_27_range_check_output_input"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "7"
-                                ]
-                              }
-                            ]
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "unpacked_limb_21_col14"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "unpacked_limb_22_col15"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "512"
-                          ]
-                        }
-                      ]
-                    }
+                  "Var": [
+                    "Felt252",
+                    "unpacked_tmp_da0b0_1"
                   ]
                 },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "8192"
-                  ]
-                }
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "23"
+                    ]
+                  }
+                ]
               ]
             }
           ]
@@ -3234,60 +2454,22 @@
             "State": "unpacked_limb_22_col15"
           },
           {
-            "BinaryOp": [
+            "MethodCall": [
               {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "MethodCall": [
-                          {
-                            "Var": [
-                              "Felt252Width27",
-                              "felt_252_unpack_from_27_range_check_output_input"
-                            ]
-                          },
-                          "get_m31",
-                          [
-                            {
-                              "Const": [
-                                "usize",
-                                "7"
-                              ]
-                            }
-                          ]
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_21_col14"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_22_col15"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
+                "Var": [
+                  "Felt252",
+                  "unpacked_tmp_da0b0_1"
                 ]
               },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "23"
+                  ]
+                }
+              ]
             ]
           }
         ],
@@ -3329,68 +2511,11 @@
         "input": {
           "Array": [
             {
-              "BinaryOp": [
-                {
-                  "BinaryOp": [
-                    {
-                      "BinaryOp": [
-                        {
-                          "MethodCall": [
-                            {
-                              "Var": [
-                                "Felt252Width27",
-                                "felt_252_unpack_from_27_range_check_output_input"
-                              ]
-                            },
-                            "get_m31",
-                            [
-                              {
-                                "Const": [
-                                  "usize",
-                                  "8"
-                                ]
-                              }
-                            ]
-                          ]
-                        },
-                        "-",
-                        {
-                          "State": "unpacked_limb_24_col16"
-                        }
-                      ]
-                    },
-                    "-",
-                    {
-                      "BinaryOp": [
-                        {
-                          "State": "unpacked_limb_25_col17"
-                        },
-                        "*",
-                        {
-                          "Const": [
-                            "M31",
-                            "512"
-                          ]
-                        }
-                      ]
-                    }
-                  ]
-                },
-                "*",
-                {
-                  "Const": [
-                    "M31",
-                    "8192"
-                  ]
-                }
-              ]
-            },
-            {
               "MethodCall": [
                 {
                   "Var": [
-                    "Felt252Width27",
-                    "felt_252_unpack_from_27_range_check_output_input"
+                    "Felt252",
+                    "unpacked_tmp_da0b0_1"
                   ]
                 },
                 "get_m31",
@@ -3398,7 +2523,26 @@
                   {
                     "Const": [
                       "usize",
-                      "9"
+                      "26"
+                    ]
+                  }
+                ]
+              ]
+            },
+            {
+              "MethodCall": [
+                {
+                  "Var": [
+                    "Felt252",
+                    "unpacked_tmp_da0b0_1"
+                  ]
+                },
+                "get_m31",
+                [
+                  {
+                    "Const": [
+                      "usize",
+                      "27"
                     ]
                   }
                 ]
@@ -3413,68 +2557,11 @@
         "relation_name": "RangeCheck_9_9",
         "felts": [
           {
-            "BinaryOp": [
-              {
-                "BinaryOp": [
-                  {
-                    "BinaryOp": [
-                      {
-                        "MethodCall": [
-                          {
-                            "Var": [
-                              "Felt252Width27",
-                              "felt_252_unpack_from_27_range_check_output_input"
-                            ]
-                          },
-                          "get_m31",
-                          [
-                            {
-                              "Const": [
-                                "usize",
-                                "8"
-                              ]
-                            }
-                          ]
-                        ]
-                      },
-                      "-",
-                      {
-                        "State": "unpacked_limb_24_col16"
-                      }
-                    ]
-                  },
-                  "-",
-                  {
-                    "BinaryOp": [
-                      {
-                        "State": "unpacked_limb_25_col17"
-                      },
-                      "*",
-                      {
-                        "Const": [
-                          "M31",
-                          "512"
-                        ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              "*",
-              {
-                "Const": [
-                  "M31",
-                  "8192"
-                ]
-              }
-            ]
-          },
-          {
             "MethodCall": [
               {
                 "Var": [
-                  "Felt252Width27",
-                  "felt_252_unpack_from_27_range_check_output_input"
+                  "Felt252",
+                  "unpacked_tmp_da0b0_1"
                 ]
               },
               "get_m31",
@@ -3482,7 +2569,26 @@
                 {
                   "Const": [
                     "usize",
-                    "9"
+                    "26"
+                  ]
+                }
+              ]
+            ]
+          },
+          {
+            "MethodCall": [
+              {
+                "Var": [
+                  "Felt252",
+                  "unpacked_tmp_da0b0_1"
+                ]
+              },
+              "get_m31",
+              [
+                {
+                  "Const": [
+                    "usize",
+                    "27"
                   ]
                 }
               ]
