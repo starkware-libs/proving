@@ -120,7 +120,7 @@ fn write_trace_simd(
     let UInt16_3 = PackedUInt16::broadcast(UInt16::from(3));
     let UInt16_6 = PackedUInt16::broadcast(UInt16::from(6));
     let UInt16_9 = PackedUInt16::broadcast(UInt16::from(9));
-    let padding_col = Enabler::new(n_rows);
+    let enabler_col = Enabler::new(n_rows);
 
     (
         trace.par_iter_mut(),
@@ -483,7 +483,7 @@ fn write_trace_simd(
                     ((input_ap_col1) + (ap_update_add_1_col4)),
                     input_fp_col2,
                 ];
-                *row[42] = padding_col.packed_at(row_index);
+                *row[42] = enabler_col.packed_at(row_index);
             },
         );
 
@@ -515,7 +515,7 @@ impl InteractionClaimGenerator {
         opcodes: &relations::Opcodes,
         verify_instruction: &relations::VerifyInstruction,
     ) -> InteractionClaim {
-        let padding_col = Enabler::new(self.n_rows);
+        let enabler_col = Enabler::new(self.n_rows);
         let mut logup_gen = LogupTraceGenerator::new(self.log_size);
 
         // Sum logup terms in pairs.
@@ -558,7 +558,7 @@ impl InteractionClaimGenerator {
             .for_each(|(i, (writer, values0, values1))| {
                 let denom0: PackedQM31 = memory_id_to_big.combine(values0);
                 let denom1: PackedQM31 = opcodes.combine(values1);
-                writer.write_frac(denom0 * padding_col.packed_at(i) + denom1, denom0 * denom1);
+                writer.write_frac(denom0 * enabler_col.packed_at(i) + denom1, denom0 * denom1);
             });
         col_gen.finalize_col();
 
@@ -569,7 +569,7 @@ impl InteractionClaimGenerator {
             .enumerate()
             .for_each(|(i, (writer, values))| {
                 let denom = opcodes.combine(values);
-                writer.write_frac(-PackedQM31::one() * padding_col.packed_at(i), denom);
+                writer.write_frac(-PackedQM31::one() * enabler_col.packed_at(i), denom);
             });
         col_gen.finalize_col();
 
