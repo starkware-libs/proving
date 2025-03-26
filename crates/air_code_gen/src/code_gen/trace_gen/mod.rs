@@ -210,9 +210,18 @@ impl RustProverGen {
             claim_generator_fields.extend(quote! { $(public_param.name()), });
             claim_generator_parameters.extend(quote! { $(public_param.name()): u32, });
         }
+        let builtins_assertion = match self.mode {
+            Mode::Builtin => {
+                quote! {assert!(log_size >= LOG_N_LANES);}
+            }
+            _ => {
+                quote! {}
+            }
+        };
         quote! {
             impl ClaimGenerator {
                 pub fn new($(claim_generator_parameters)) -> Self {
+                    $builtins_assertion
                     Self { $(claim_generator_fields) }
                 }
 
