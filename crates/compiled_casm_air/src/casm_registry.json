@@ -866,30 +866,9 @@
     "total_num_trace_cols": 5,
     "trace_cells_upper_bound": 5
   },
-  "mul_opcode_small_imm": {
-    "trace_type": "Opcode",
-    "num_state_cols": 32,
-    "lookup_use_cols": {
-      "VerifyInstruction": 1,
-      "MemoryAddressToId": 3,
-      "MemoryIdToBig": 3,
-      "RangeCheck_11": 3,
-      "Opcodes": 1
-    },
-    "lookup_rows": {
-      "verify_instruction": 1,
-      "memory_address_to_id": 3,
-      "memory_id_to_big": 3,
-      "range_check_11": 3
-    },
-    "lookup_yield": true,
-    "padding_type": "Enabler",
-    "total_num_trace_cols": 57,
-    "trace_cells_upper_bound": 57
-  },
   "mul_opcode_small": {
     "trace_type": "Opcode",
-    "num_state_cols": 35,
+    "num_state_cols": 36,
     "lookup_use_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -905,12 +884,12 @@
     },
     "lookup_yield": true,
     "padding_type": "Enabler",
-    "total_num_trace_cols": 60,
-    "trace_cells_upper_bound": 60
+    "total_num_trace_cols": 61,
+    "trace_cells_upper_bound": 61
   },
   "mul_opcode": {
     "trace_type": "Opcode",
-    "num_state_cols": 128,
+    "num_state_cols": 129,
     "lookup_use_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 3,
@@ -926,29 +905,8 @@
     },
     "lookup_yield": true,
     "padding_type": "Enabler",
-    "total_num_trace_cols": 205,
-    "trace_cells_upper_bound": 205
-  },
-  "mul_opcode_imm": {
-    "trace_type": "Opcode",
-    "num_state_cols": 125,
-    "lookup_use_cols": {
-      "VerifyInstruction": 1,
-      "MemoryAddressToId": 3,
-      "MemoryIdToBig": 3,
-      "RangeCheck_19": 28,
-      "Opcodes": 1
-    },
-    "lookup_rows": {
-      "verify_instruction": 1,
-      "memory_address_to_id": 3,
-      "memory_id_to_big": 3,
-      "range_check_19": 28
-    },
-    "lookup_yield": true,
-    "padding_type": "Enabler",
-    "total_num_trace_cols": 202,
-    "trace_cells_upper_bound": 202
+    "total_num_trace_cols": 206,
+    "trace_cells_upper_bound": 206
   },
   "ret_opcode": {
     "trace_type": "Opcode",
