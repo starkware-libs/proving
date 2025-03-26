@@ -84,22 +84,10 @@ fn test_casm_registry() {
     // Add opcode
     reg.add_entry(&AddOpcode {
         small: true,
-        imm: true,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&AddOpcode {
         small: false,
-        imm: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&AddOpcode {
-        small: true,
-        imm: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&AddOpcode {
-        small: false,
-        imm: true,
         memory: Felt252IdMemory::default(),
     });
     // AssertEq opcode

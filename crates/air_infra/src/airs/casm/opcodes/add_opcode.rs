@@ -24,7 +24,6 @@ use crate::core::felt252_id_memory::read_small::*;
 #[derive(Clone, Debug, InstDef)]
 pub struct AddOpcode {
     pub small: bool,
-    pub imm: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
@@ -34,9 +33,9 @@ impl AddOpcode {
         Flags {
             dst_base_fp: None,
             op0_base_fp: None,
-            op1_imm: Some(self.imm),
-            op1_base_fp: if !self.imm { None } else { Some(false) },
-            op1_base_ap: if !self.imm { None } else { Some(false) },
+            op1_imm: None,
+            op1_base_fp: None,
+            op1_base_ap: None,
             res_add: Some(true),
             res_mul: Some(false),
             pc_update_jump: Some(false),
@@ -57,21 +56,15 @@ impl AirFn for AddOpcode {
     type Out = CasmStateVar;
 
     fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
-        let (const_offsets, flag_sets_of_sum_1) = if self.imm {
-            ([None, None, Some(1)], BTreeSet::new())
-        } else {
-            (
-                [None, None, None],
-                BTreeSet::from([BTreeSet::from([
-                    FLAG_OP1_BASE_FP_INDEX,
-                    FLAG_OP1_BASE_AP_INDEX,
-                ])]),
-            )
-        };
+        let flag_sets_of_sum_1 = BTreeSet::from([BTreeSet::from([
+            FLAG_OP1_IMM_INDEX,
+            FLAG_OP1_BASE_FP_INDEX,
+            FLAG_OP1_BASE_AP_INDEX,
+        ])]);
         // Check the instruction.
         let ([offset0, offset1, offset2], flags, _) = ab.call(
             &DecodeInstruction {
-                const_offsets,
+                const_offsets: [None, None, None],
                 const_flags: self.get_flags(),
                 const_opcode_extension: Some(OpcodeExtension::Stone),
                 flag_sets_of_sum_1,
@@ -83,9 +76,15 @@ impl AirFn for AddOpcode {
         // Read the non-constant flags
         let flag_dst_base_fp = flags[FLAG_DST_BASE_FP_INDEX].clone();
         let flag_op0_base_fp = flags[FLAG_OP0_BASE_FP_INDEX].clone();
+        let flag_op1_imm = flags[FLAG_OP1_IMM_INDEX].clone();
         let flag_op1_base_fp = flags[FLAG_OP1_BASE_FP_INDEX].clone();
         let flag_op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].clone();
         let flag_ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
+
+        ab.constrain(
+            flag_op1_imm.clone() * (const_expr!(1) - offset2.clone()),
+            "if imm then offset2 is 1",
+        );
 
         let mem_dst_base = ab.assign(
             &mut (flag_dst_base_fp.clone() * casm_state.fp().var
@@ -97,15 +96,12 @@ impl AirFn for AddOpcode {
                 + (const_expr!(1) - flag_op0_base_fp) * casm_state.ap().var),
             "mem0_base",
         );
-        let mem1_base = if self.imm {
-            casm_state.pc().var
-        } else {
-            ab.assign(
-                &mut (flag_op1_base_fp * casm_state.fp().var
-                    + flag_op1_base_ap * casm_state.ap().var),
-                "mem1_base",
-            )
-        };
+        let mem1_base = ab.assign(
+            &mut (flag_op1_imm.clone() * casm_state.pc().var
+                + flag_op1_base_fp * casm_state.fp().var
+                + flag_op1_base_ap * casm_state.ap().var),
+            "mem1_base",
+        );
 
         // Add Small
         if self.small {
@@ -147,11 +143,7 @@ impl AirFn for AddOpcode {
         let next_ap = casm_state.ap().var + flag_ap_update_add_1;
 
         // Calculate the next pc
-        let next_pc = if self.imm {
-            casm_state.pc().var + const_expr!(2)
-        } else {
-            casm_state.pc().var + const_expr!(1)
-        };
+        let next_pc = casm_state.pc().var + const_expr!(1) + flag_op1_imm;
 
         CasmStateVar::new(next_pc, next_ap, casm_state.fp().var)
     }
