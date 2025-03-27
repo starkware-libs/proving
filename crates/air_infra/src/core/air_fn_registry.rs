@@ -264,13 +264,8 @@ impl AirFnRegistry {
     {
         let ext_input = E::new();
         let input_name = format!("{}_{}", air_fn.name(), INPUT_VAR_SUFFIX);
-        // If input_in_trace is None, we put the input in the trace so air_builder checks don't
-        // fail.
-        let in_state = air_fn.input_in_trace().is_none() || air_fn.input_in_trace().unwrap();
-        let mut input = I::new(input_name.clone(), in_state);
-        if in_state && !I::is_empty() {
-            input = input.rec_let(input_name).0;
-        }
+        let mut input = I::new(input_name.clone(), true);
+        input = input.rec_let(input_name).0;
 
         let mut air_builder = AirBuilder {
             component_context: Default::default(),
@@ -307,11 +302,11 @@ impl AirFnRegistry {
         };
 
         // Make sure that the output is a variable or a felt expression.
-        let _output_felts = output.as_felts();
+        let output_felts = output.as_felts();
         // Make sure that the output is in the state.
         assert!(
-            output.clone().into().in_state(),
-            "Output must be in the trace"
+            output_felts.iter().all(|felt| felt.in_state()),
+            "Output felts must be in the trace"
         );
 
         let state = air_builder.component_context.state().clone();
