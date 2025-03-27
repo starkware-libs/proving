@@ -33,6 +33,8 @@ impl PreProcessedColumn for Seq {
         unimplemented!()
     }
     fn id(&self) -> PreProcessedColumnId {
-        unimplemented!()
+        PreProcessedColumnId {
+            id: format!("Seq_{}", self.log_size),
+        }
     }
 }
