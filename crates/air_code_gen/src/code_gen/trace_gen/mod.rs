@@ -865,6 +865,9 @@ fn simd_parse_air_var(
             let id = id
                 .replace("from_felt252", "from_packed_felt252")
                 .replace("from_biguint", "from_packed_biguint");
+            if id.ends_with("from_packed_felt252_array") {
+                return format!("Packed{}(&{})", id, arg_str);
+            }
             format!("Packed{}({})", id, arg_str)
         }
         CompiledAirVar::MethodCall(id, func, args) => {
