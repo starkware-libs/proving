@@ -390,9 +390,8 @@ impl RustProverGen {
                     let seq = Seq::new(log_size);
                 });
             } else {
-                let args = args.join(", ");
                 preprocessed_def_code.extend(quote! {
-                    let $(&name.to_lowercase()) = $name::new($args);
+                    let $(&name.to_lowercase())_$(args.join("_")) = $name::new($(args.join(", ")));
                 });
             }
         }
@@ -492,10 +491,16 @@ impl RustProverGen {
                 add_inputs_offsets.insert(fn_name, 0);
             }
         }
-        for (name, _) in &self.lists.external_states {
-            write_trace_body.append(quote! {
-                let $(&name.to_lowercase()) = $(&name.to_lowercase()).packed_at(row_index);
-            });
+        for (name, args) in &self.lists.external_states {
+            if name == "Seq" {
+                write_trace_body.append(quote! {
+                    let $(&name.to_lowercase()) = $(&name.to_lowercase()).packed_at(row_index);
+                });
+            } else {
+                write_trace_body.append(quote! {
+                let $(&name.to_lowercase())_$(args.join("_")) = $(&name.to_lowercase())_$(args.join("_")).packed_at(row_index);
+                });
+            }
         }
 
         let mut relation_data_offsets = HashMap::new();
@@ -937,7 +942,14 @@ fn simd_parse_air_var(
             };
             quote.to_string().unwrap()
         }
-        CompiledAirVar::ExternalState(name, ..) => name.to_lowercase(),
+        CompiledAirVar::ExternalState(name, args) => {
+            if name == "Seq" {
+                name.to_lowercase()
+            } else {
+                let args = &args.join("_");
+                name.to_lowercase() + "_" + args
+            }
+        }
         CompiledAirVar::PublicParam(public_param) => {
             format!("PackedM31::broadcast(M31::from({public_param}))")
         }
