@@ -251,9 +251,8 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
                 let seq = eval.get_preprocessed_column(Seq::new(self.log_size()).id());
             });
         } else {
-            let args = args.join(", ");
             code.append(quote! {
-                let $(&name.to_lowercase()) = eval.get_preprocessed_column(($name::new($args)).id());
+                let $(&name.to_lowercase())_$(args.join("_")) = eval.get_preprocessed_column(($name::new($(args.join(", ")))).id());
             });
         }
     }

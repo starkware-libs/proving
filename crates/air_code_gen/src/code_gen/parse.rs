@@ -158,7 +158,14 @@ pub fn parse_eval_constraint(
         CompiledAirVar::Struct { .. } => {
             todo!()
         }
-        CompiledAirVar::ExternalState(name, ..) => name.to_lowercase() + ".clone()",
+        CompiledAirVar::ExternalState(name, args) => {
+            if name == "Seq" {
+                name.to_lowercase() + ".clone()"
+            } else {
+                let args = &args.join("_");
+                name.to_lowercase() + "_" + args + ".clone()"
+            }
+        }
         CompiledAirVar::PublicParam(public_param) => {
             format!("E::F::from(M31::from(self.claim.{public_param}))")
         }
