@@ -32,7 +32,6 @@ fn test_mul(
     // Create the air function
     let mut mul_small_opcode = MulOpcode {
         small: mul_small,
-        imm: flag_op1_imm,
         memory: Felt252IdMemory::default(),
     };
 
@@ -45,18 +44,15 @@ fn test_mul(
     let ap = const_expr!(ap_value);
     let fp = const_expr!(fp_value);
 
-    // Cretae the non-constant flags
-    let non_consts_flags = if flag_op1_imm {
-        vec![flag_dst_base_fp, flag_op0_base_fp, flag_ap_update_add_1]
-    } else {
-        vec![
-            flag_dst_base_fp,
-            flag_op0_base_fp,
-            flag_op1_base_fp,
-            flag_op1_base_ap,
-            flag_ap_update_add_1,
-        ]
-    };
+    // Create the non-constant flags
+    let non_consts_flags = vec![
+        flag_dst_base_fp,
+        flag_op0_base_fp,
+        flag_op1_imm,
+        flag_op1_base_fp,
+        flag_op1_base_ap,
+        flag_ap_update_add_1,
+    ];
 
     // Fill memory
     let mut memory_values = vec![(
@@ -135,6 +131,7 @@ fn test_mul_small_not_imm() {
             (32775, "offset2"),
             (1, "dst_base_fp"),
             (0, "op0_base_fp"),
+            (0, "op1_imm"),
             (0, "op1_base_fp"),
             (0, "ap_update_add_1"),
             (100, "mem_dst_base"),
@@ -207,11 +204,15 @@ fn test_mul_small_imm() {
             (100, "input_fp"),
             (32765, "offset0"),
             (32763, "offset1"),
+            (32769, "offset2"),
             (1, "dst_base_fp"),
             (0, "op0_base_fp"),
+            (1, "op1_imm"),
+            (0, "op1_base_fp"),
             (0, "ap_update_add_1"),
             (100, "mem_dst_base"),
             (50, "mem0_base"),
+            (10, "mem1_base"),
             (1, "dst_id"),
             (56, "dst_limb_0"),
             (0, "dst_limb_1"),
@@ -253,11 +254,15 @@ fn test_mul_big_imm_no_overflow() {
             (100, "input_fp"),
             (32765, "offset0"),
             (32763, "offset1"),
+            (32769, "offset2"),
             (1, "dst_base_fp"),
             (0, "op0_base_fp"),
+            (1, "op1_imm"),
+            (0, "op1_base_fp"),
             (0, "ap_update_add_1"),
             (100, "mem_dst_base"),
             (50, "mem0_base"),
+            (10, "mem1_base"),
             (1, "dst_id"),
             (1, "dst_limb_0"),
             (0, "dst_limb_1"),
@@ -398,6 +403,7 @@ fn test_mul_big_with_overflow() {
             (32769, "offset2"),
             (0, "dst_base_fp"),
             (1, "op0_base_fp"),
+            (0, "op1_imm"),
             (0, "op1_base_fp"),
             (1, "ap_update_add_1"),
             (50, "mem_dst_base"),

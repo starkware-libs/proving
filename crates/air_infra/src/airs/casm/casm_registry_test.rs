@@ -183,22 +183,10 @@ fn test_casm_registry() {
     // Mul opcode
     reg.add_entry(&MulOpcode {
         small: true,
-        imm: true,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&MulOpcode {
-        small: true,
-        imm: false,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&MulOpcode {
         small: false,
-        imm: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&MulOpcode {
-        small: false,
-        imm: true,
         memory: Felt252IdMemory::default(),
     });
     // Ret opcode
