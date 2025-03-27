@@ -3,10 +3,6 @@ pub mod parse;
 pub mod trace_gen;
 pub mod utils;
 
-/// Preprocessed Columns that can be generated because their only variable is log_size.
-/// TODO(Gali): Remove once air_infra provides the preprocessed columns with their variables.
-const SUPPORTED_PREPROCESSED_COLUMNS: [&str; 2] = ["Seq", "IsFirst"];
-
 #[cfg(test)]
 mod tests {
     use compiled_casm_air::compiled_structs::CompiledAirFn;
