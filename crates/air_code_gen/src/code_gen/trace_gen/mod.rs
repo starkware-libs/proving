@@ -12,7 +12,6 @@ use itertools::Itertools;
 
 use super::parse::seek_consts;
 use super::utils::{block_doc, get_const_name, replace_generics_with_turbofish};
-use crate::code_gen::SUPPORTED_PREPROCESSED_COLUMNS;
 
 pub enum Mode {
     Opcode,
@@ -375,14 +374,18 @@ impl RustProverGen {
         }
 
         let mut preprocessed_def_code = quote! {};
-        for (name, _) in &self.lists.external_states {
-            assert!(
-                SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
-                "unsupported {name}"
-            );
-            preprocessed_def_code.extend(quote! {
-                let $(&name.to_lowercase()) = $name::new(log_size);
-            });
+        for (name, args) in &self.lists.external_states {
+            // Seq is the only preprocessed column that is of unfixed size.
+            if name == "Seq" {
+                preprocessed_def_code.extend(quote! {
+                    let seq = Seq::new(log_size);
+                });
+            } else {
+                let args = args.join(", ");
+                preprocessed_def_code.extend(quote! {
+                    let $(&name.to_lowercase()) = $name::new($args);
+                });
+            }
         }
 
         let prelude_code = match self.mode {
@@ -481,10 +484,6 @@ impl RustProverGen {
             }
         }
         for (name, _) in &self.lists.external_states {
-            assert!(
-                SUPPORTED_PREPROCESSED_COLUMNS.contains(&name.as_str()),
-                "unsupported {name}"
-            );
             write_trace_body.append(quote! {
                 let $(&name.to_lowercase()) = $(&name.to_lowercase()).packed_at(row_index);
             });
