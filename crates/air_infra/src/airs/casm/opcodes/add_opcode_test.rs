@@ -32,7 +32,6 @@ fn test_add_opcode(
     // Create the air function
     let mut add_small_opcode = AddOpcode {
         small: add_small,
-        imm: flag_op1_imm,
         memory: Felt252IdMemory::default(),
     };
 
@@ -45,18 +44,15 @@ fn test_add_opcode(
     let ap = const_expr!(ap_value);
     let fp = const_expr!(fp_value);
 
-    // Cretae the non-constant flags
-    let non_consts_flags = if flag_op1_imm {
-        vec![flag_dst_base_fp, flag_op0_base_fp, flag_ap_update_add_1]
-    } else {
-        vec![
-            flag_dst_base_fp,
-            flag_op0_base_fp,
-            flag_op1_base_fp,
-            flag_op1_base_ap,
-            flag_ap_update_add_1,
-        ]
-    };
+    // Create the non-constant flags
+    let non_consts_flags = vec![
+        flag_dst_base_fp,
+        flag_op0_base_fp,
+        flag_op1_imm,
+        flag_op1_base_fp,
+        flag_op1_base_ap,
+        flag_ap_update_add_1,
+    ];
 
     // Fill memory
     let mut memory_values = vec![(
@@ -134,6 +130,7 @@ fn test_add_small_not_imm() {
             (32775, "offset2"),
             (1, "dst_base_fp"),
             (0, "op0_base_fp"),
+            (0, "op1_imm"),
             (0, "op1_base_fp"),
             (0, "ap_update_add_1"),
             (100, "mem_dst_base"),
@@ -191,7 +188,7 @@ fn test_add_small_over_27bit() {
 #[test]
 fn test_add_small_neg_imm() {
     test_add_opcode(
-        [true, true, false, true, false, true, false],
+        [true, true, false, true, false, false, false],
         [-3, -5, 1],
         const_felt252_expr!(-2687280i128),
         const_felt252_expr!(-2662632i128),
@@ -202,11 +199,15 @@ fn test_add_small_neg_imm() {
             (100, "input_fp"),
             (32765, "offset0"),
             (32763, "offset1"),
+            (32769, "offset2"),
             (1, "dst_base_fp"),
             (0, "op0_base_fp"),
+            (1, "op1_imm"),
+            (0, "op1_base_fp"),
             (0, "ap_update_add_1"),
             (100, "mem_dst_base"),
             (50, "mem0_base"),
+            (10, "mem1_base"),
             (1, "dst_id"),
             (1, "msb"),
             (1, "mid_limbs_set"),
@@ -247,6 +248,7 @@ fn test_add_big_not_imm() {
             (32775, "offset2"),
             (0, "dst_base_fp"),
             (1, "op0_base_fp"),
+            (0, "op1_imm"),
             (0, "op1_base_fp"),
             (0, "ap_update_add_1"),
             (50, "mem_dst_base"),
@@ -372,11 +374,15 @@ fn test_add_big_imm() {
             (100, "input_fp"),
             (32771, "offset0"),
             (32773, "offset1"),
+            (32769, "offset2"),
             (0, "dst_base_fp"),
             (1, "op0_base_fp"),
+            (1, "op1_imm"),
+            (0, "op1_base_fp"),
             (1, "ap_update_add_1"),
             (50, "mem_dst_base"),
             (100, "mem0_base"),
+            (10, "mem1_base"),
             (1, "dst_id"),
             (2, "dst_limb_0"),
             (0, "dst_limb_1"),
@@ -487,11 +493,15 @@ fn test_add_big_with_overflow() {
             (100, "input_fp"),
             (32771, "offset0"),
             (32773, "offset1"),
+            (32769, "offset2"),
             (0, "dst_base_fp"),
             (1, "op0_base_fp"),
+            (1, "op1_imm"),
+            (0, "op1_base_fp"),
             (1, "ap_update_add_1"),
             (50, "mem_dst_base"),
             (100, "mem0_base"),
+            (10, "mem1_base"),
             (1, "dst_id"),
             (511, "dst_limb_0"),
             (511, "dst_limb_1"),
