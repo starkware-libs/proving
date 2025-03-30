@@ -18,28 +18,18 @@ use crate::core::felt252_id_memory::memory::*;
 /// - ap += [fp/ap + offset]
 #[derive(Clone, Debug, InstDef)]
 pub struct AddApOpcode {
-    pub imm: bool,
-    pub op1_base_fp: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
 
 impl AddApOpcode {
     pub fn get_flags(&self) -> Flags {
-        assert!(
-            !self.imm || !self.op1_base_fp,
-            "FLAG_OP1_IMM and FLAG_OP1_BASE_FP cannot be set at the same time."
-        );
         Flags {
             dst_base_fp: Some(true),
             op0_base_fp: Some(true),
-            op1_imm: if self.imm { Some(true) } else { Some(false) },
-            op1_base_fp: Some(self.op1_base_fp),
-            op1_base_ap: if self.imm {
-                Some(false)
-            } else {
-                Some(!self.op1_base_fp)
-            },
+            op1_imm: None,
+            op1_base_fp: None,
+            op1_base_ap: None,
             res_add: Some(false),
             res_mul: Some(false),
             pc_update_jump: Some(false),
@@ -61,35 +51,44 @@ impl AirFn for AddApOpcode {
 
     fn call(&self, ab: &mut AirBuilder, _: (), casm_state: Self::In) -> Self::Out {
         // Decode the instruction.
-        let offset2 = if self.imm { Some(1) } else { None };
-        let ([_, _, offset2], ..) = ab.call(
+        let flag_sets_of_sum_1 = BTreeSet::from([BTreeSet::from([
+            FLAG_OP1_IMM_INDEX,
+            FLAG_OP1_BASE_FP_INDEX,
+            FLAG_OP1_BASE_AP_INDEX,
+        ])]);
+        let ([_, _, offset2], flags, _) = ab.call(
             &DecodeInstruction {
-                const_offsets: [Some(-1), Some(-1), offset2],
+                const_offsets: [Some(-1), Some(-1), None],
                 const_flags: self.get_flags(),
                 const_opcode_extension: Some(OpcodeExtension::Stone),
-                flag_sets_of_sum_1: BTreeSet::new(),
+                flag_sets_of_sum_1,
                 memory: self.memory.clone(),
             },
             casm_state.pc().clone(),
         );
 
-        let op1 = if self.imm {
-            self.memory.read_rel_imm(
-                ab,
-                CasmAddress::new(casm_state.pc().var + const_expr!(1), "op1"),
-            )
-        } else {
-            let mem1_base = if self.op1_base_fp {
-                casm_state.fp().var
-            } else {
-                casm_state.ap().var
-            };
-            self.memory
-                .read_rel_imm(ab, CasmAddress::new(mem1_base + offset2, "op1"))
-        };
+        let flag_op1_imm = flags[FLAG_OP1_IMM_INDEX].clone();
+        let flag_op1_base_fp = flags[FLAG_OP1_BASE_FP_INDEX].clone();
+        let flag_op1_base_ap = flags[FLAG_OP1_BASE_AP_INDEX].clone();
+
+        ab.constrain(
+            flag_op1_imm.clone() * (const_expr!(1) - offset2.clone()),
+            "if imm then offset2 is 1",
+        );
+
+        let mem1_base = ab.assign(
+            &mut (flag_op1_imm.clone() * casm_state.pc().var
+                + flag_op1_base_fp * casm_state.fp().var
+                + flag_op1_base_ap * casm_state.ap().var),
+            "mem1_base",
+        );
+
+        let op1 = self
+            .memory
+            .read_rel_imm(ab, CasmAddress::new(mem1_base + offset2, "op1"));
 
         CasmStateVar::new(
-            casm_state.pc().var + (const_expr!(1) + const_expr!(self.imm as u32)),
+            casm_state.pc().var + (const_expr!(1) + flag_op1_imm),
             casm_state.ap().var + op1,
             casm_state.fp().var,
         )

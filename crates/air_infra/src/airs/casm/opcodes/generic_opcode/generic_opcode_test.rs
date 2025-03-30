@@ -2157,14 +2157,13 @@ fn test_generic_jnz_deref_not_taken() {
 fn test_generic_add_ap_double_deref() {
     let mut generic_opcode = GenericOpcode::default();
     let add_ap = AddApOpcode {
-        imm: false,
-        op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
 
     // Create flags
-    let mut flags = add_ap.get_flags();
-    flags.op1_base_ap = Some(false);
+    let non_consts_flags = vec![false, false, true];
+    let mut flags = add_ap.get_flags().non_constants_to_arr(&non_consts_flags);
+    flags[FLAG_OP1_BASE_AP_INDEX] = false;
 
     // Register values at opcode start
     let [pc, ap, fp] = [50, 5458, 150];
@@ -2178,13 +2177,7 @@ fn test_generic_add_ap_double_deref() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(
-                    -1,
-                    offset1,
-                    offset2,
-                    flags.clone().into(),
-                    OpcodeExtension::Stone
-                ),
+                assemble_instruction(-1, offset1, offset2, flags, OpcodeExtension::Stone),
                 0
             ),
         ),
@@ -2220,15 +2213,14 @@ fn test_generic_add_ap_double_deref() {
 fn test_generic_add_ap_res_mul() {
     let mut generic_opcode = GenericOpcode::default();
     let add_ap = AddApOpcode {
-        imm: false,
-        op1_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
 
     // Create flags
-    let mut flags = add_ap.get_flags();
-    flags.op1_base_ap = Some(true);
-    flags.res_mul = Some(true);
+    let non_consts_flags = vec![false, false, true];
+    let mut flags = add_ap.get_flags().non_constants_to_arr(&non_consts_flags);
+    flags[FLAG_OP1_BASE_AP_INDEX] = true;
+    flags[FLAG_RES_MUL_INDEX] = true;
 
     // Register values at opcode start
     let [pc, ap, fp] = [50, 5458, 150];
@@ -2242,13 +2234,7 @@ fn test_generic_add_ap_res_mul() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(
-                    -1,
-                    offset1,
-                    offset2,
-                    flags.clone().into(),
-                    OpcodeExtension::Stone
-                ),
+                assemble_instruction(-1, offset1, offset2, flags, OpcodeExtension::Stone),
                 0
             ),
         ),
@@ -2284,15 +2270,14 @@ fn test_generic_add_ap_res_mul() {
 fn test_generic_add_ap_res_add() {
     let mut generic_opcode = GenericOpcode::default();
     let add_ap = AddApOpcode {
-        imm: false,
-        op1_base_fp: true,
         memory: Felt252IdMemory::default(),
     };
 
     // Create flags
-    let mut flags = add_ap.get_flags();
-    flags.op0_base_fp = Some(false);
-    flags.res_add = Some(true);
+    let non_consts_flags = vec![false, true, false];
+    let mut flags = add_ap.get_flags().non_constants_to_arr(&non_consts_flags);
+    flags[FLAG_OP0_BASE_FP_INDEX] = false;
+    flags[FLAG_RES_ADD_INDEX] = true;
 
     // Register values at opcode start
     let [pc, ap, fp] = [454, 7888, 5656];
@@ -2306,13 +2291,7 @@ fn test_generic_add_ap_res_add() {
         (
             const_expr!(pc),
             const_felt252_expr!(
-                assemble_instruction(
-                    -1,
-                    offset1,
-                    offset2,
-                    flags.clone().into(),
-                    OpcodeExtension::Stone
-                ),
+                assemble_instruction(-1, offset1, offset2, flags, OpcodeExtension::Stone),
                 0
             ),
         ),
