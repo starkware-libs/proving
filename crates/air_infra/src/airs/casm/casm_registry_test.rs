@@ -125,22 +125,10 @@ fn test_casm_registry() {
     // Jnz opcode
     reg.add_entry(&JnzOpcode {
         taken: true,
-        dst_base_fp: true,
         memory: Felt252IdMemory::default(),
     });
     reg.add_entry(&JnzOpcode {
         taken: false,
-        dst_base_fp: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&JnzOpcode {
-        taken: true,
-        dst_base_fp: false,
-        memory: Felt252IdMemory::default(),
-    });
-    reg.add_entry(&JnzOpcode {
-        taken: false,
-        dst_base_fp: true,
         memory: Felt252IdMemory::default(),
     });
     // Jump opcode

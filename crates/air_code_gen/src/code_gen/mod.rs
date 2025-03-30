@@ -71,8 +71,7 @@ mod tests {
 
     #[test]
     fn jnz_code_gen() {
-        let serialized_air_fn =
-            read_json("../compiled_casm_air/src/opcodes/jnz_opcode_taken_dst_base_fp.json");
+        let serialized_air_fn = read_json("../compiled_casm_air/src/opcodes/jnz_opcode_taken.json");
         let air_fn: CompiledAirFn = from_value(serialized_air_fn).unwrap();
         generate_component_code(air_fn);
     }

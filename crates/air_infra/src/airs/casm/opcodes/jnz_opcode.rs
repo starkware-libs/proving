@@ -22,7 +22,6 @@ use crate::core::variables::*;
 #[derive(Clone, Debug, InstDef)]
 pub struct JnzOpcode {
     pub taken: bool,
-    pub dst_base_fp: bool,
     #[instdef(skip)]
     pub memory: Felt252IdMemory,
 }
@@ -30,7 +29,7 @@ pub struct JnzOpcode {
 impl JnzOpcode {
     pub fn get_flags(&self) -> Flags {
         Flags {
-            dst_base_fp: Some(self.dst_base_fp),
+            dst_base_fp: None,
             op0_base_fp: Some(true),
             op1_imm: Some(true),
             op1_base_fp: Some(false),
@@ -68,15 +67,15 @@ impl AirFn for JnzOpcode {
         );
 
         // Read non-constant flags
+        let flag_dst_base_fp = flags[FLAG_DST_BASE_FP_INDEX].clone();
         let ap_update_add_1 = flags[FLAG_AP_UPDATE_ADD_1_INDEX].clone();
 
         // Fetch dst - the value upon which the jump is conditioned.
-        let mem_dst_base = if self.dst_base_fp {
-            casm_state.fp().var
-        } else {
-            casm_state.ap().var
-        };
-
+        let mem_dst_base = ab.assign(
+            &mut (flag_dst_base_fp.clone() * casm_state.fp().var
+                + (const_expr!(1) - flag_dst_base_fp) * casm_state.ap().var),
+            "mem_dst_base",
+        );
         let dst = self
             .memory
             .read_felt252(ab, CasmAddress::new(mem_dst_base + offset_dst, "dst"))

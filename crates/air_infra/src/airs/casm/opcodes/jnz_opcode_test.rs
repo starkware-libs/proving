@@ -26,7 +26,6 @@ fn build_and_test(
 
     let mut jnz_opcode = JnzOpcode {
         taken,
-        dst_base_fp,
         memory: Felt252IdMemory::default(),
     };
 
@@ -40,7 +39,7 @@ fn build_and_test(
                 1,
                 jnz_opcode
                     .get_flags()
-                    .non_constants_to_arr(&[ap_update_add_1]),
+                    .non_constants_to_arr(&[dst_base_fp, ap_update_add_1]),
                 OpcodeExtension::Stone
             ),
             0
@@ -105,7 +104,9 @@ fn test_jnz_not_taken_base_ap() {
             (200, "input_ap"),
             (150, "input_fp"),
             (32755, "offset0"),
+            (0, "dst_base_fp"),
             (0, "ap_update_add_1"),
+            (200, "mem_dst_base"),
             (2, "dst_id"),
             (0, "dst_limb_0"),
             (0, "dst_limb_1"),
@@ -152,7 +153,9 @@ fn test_jnz_taken_base_ap() {
             (200, "input_ap"),
             (150, "input_fp"),
             (32755, "offset0"),
+            (0, "dst_base_fp"),
             (0, "ap_update_add_1"),
+            (200, "mem_dst_base"),
             (2, "dst_id"),
             (123, "dst_limb_0"),
             (0, "dst_limb_1"),
@@ -243,7 +246,9 @@ fn test_jnz_taken_negative_op1() {
             (200, "input_ap"),
             (150, "input_fp"),
             (32755, "offset0"),
+            (1, "dst_base_fp"),
             (0, "ap_update_add_1"),
+            (150, "mem_dst_base"),
             (2, "dst_id"),
             (123, "dst_limb_0"),
             (0, "dst_limb_1"),

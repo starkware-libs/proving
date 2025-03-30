@@ -666,9 +666,9 @@
     "total_num_trace_cols": 37,
     "trace_cells_upper_bound": 37
   },
-  "jnz_opcode_taken_dst_base_fp": {
+  "jnz_opcode_taken": {
     "trace_type": "Opcode",
-    "num_state_cols": 42,
+    "num_state_cols": 44,
     "lookup_use_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 2,
@@ -682,12 +682,12 @@
     },
     "lookup_yield": true,
     "padding_type": "Enabler",
-    "total_num_trace_cols": 59,
-    "trace_cells_upper_bound": 59
+    "total_num_trace_cols": 61,
+    "trace_cells_upper_bound": 61
   },
   "jnz_opcode": {
     "trace_type": "Opcode",
-    "num_state_cols": 34,
+    "num_state_cols": 36,
     "lookup_use_cols": {
       "VerifyInstruction": 1,
       "MemoryAddressToId": 1,
@@ -701,46 +701,8 @@
     },
     "lookup_yield": true,
     "padding_type": "Enabler",
-    "total_num_trace_cols": 47,
-    "trace_cells_upper_bound": 47
-  },
-  "jnz_opcode_taken": {
-    "trace_type": "Opcode",
-    "num_state_cols": 42,
-    "lookup_use_cols": {
-      "VerifyInstruction": 1,
-      "MemoryAddressToId": 2,
-      "MemoryIdToBig": 2,
-      "Opcodes": 1
-    },
-    "lookup_rows": {
-      "verify_instruction": 1,
-      "memory_address_to_id": 2,
-      "memory_id_to_big": 2
-    },
-    "lookup_yield": true,
-    "padding_type": "Enabler",
-    "total_num_trace_cols": 59,
-    "trace_cells_upper_bound": 59
-  },
-  "jnz_opcode_dst_base_fp": {
-    "trace_type": "Opcode",
-    "num_state_cols": 34,
-    "lookup_use_cols": {
-      "VerifyInstruction": 1,
-      "MemoryAddressToId": 1,
-      "MemoryIdToBig": 1,
-      "Opcodes": 1
-    },
-    "lookup_rows": {
-      "verify_instruction": 1,
-      "memory_address_to_id": 1,
-      "memory_id_to_big": 1
-    },
-    "lookup_yield": true,
-    "padding_type": "Enabler",
-    "total_num_trace_cols": 47,
-    "trace_cells_upper_bound": 47
+    "total_num_trace_cols": 49,
+    "trace_cells_upper_bound": 49
   },
   "jump_opcode_rel_imm": {
     "trace_type": "Opcode",
