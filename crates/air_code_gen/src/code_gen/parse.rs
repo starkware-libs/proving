@@ -11,6 +11,7 @@ use genco::lang::rust;
 use genco::quote;
 use itertools::Itertools;
 
+use super::utils::get_variable_name;
 use crate::code_gen::utils::remove_trailing_zeroes;
 
 // TODO(Ohad): Optimize small constantF252 values initialization.
@@ -162,8 +163,8 @@ pub fn parse_eval_constraint(
             if name == "Seq" {
                 name.to_lowercase() + ".clone()"
             } else {
-                let args = &args.join("_");
-                name.to_lowercase() + "_" + args + ".clone()"
+                let args = args.join("_").to_string() + ".clone()";
+                get_variable_name(name.to_lowercase().as_str(), args.as_str())
             }
         }
         CompiledAirVar::PublicParam(public_param) => {

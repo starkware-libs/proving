@@ -12,7 +12,7 @@ use indexmap::IndexMap;
 use itertools::Itertools;
 
 use super::parse::{is_masked_relation, seek_consts};
-use super::utils::{block_doc, get_const_name, replace_generics_with_turbofish};
+use super::utils::{block_doc, get_variable_name, replace_generics_with_turbofish};
 
 pub enum Mode {
     Opcode,
@@ -375,7 +375,7 @@ impl RustProverGen {
         let mut constants_def_code = quote! {};
         let constants = deduction_consts(&self.lists.deductions);
         for (ty, val) in constants.into_iter() {
-            let name = get_const_name(&ty, &val);
+            let name = get_variable_name(&ty, &val);
             constants_def_code.extend(quote! {
                 let $(name) = $(replace_generics_with_turbofish(&packed_name(&ty)))::broadcast(
                     $(replace_generics_with_turbofish(&ty))::from($(val))
@@ -392,7 +392,7 @@ impl RustProverGen {
                 });
             } else {
                 preprocessed_def_code.extend(quote! {
-                    let $(&name.to_lowercase())_$(args.join("_")) = $name::new($(args.join(", ")));
+                    let $(&get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())) = $name::new($(args.join(", ")));
                 });
             }
         }
@@ -482,7 +482,7 @@ impl RustProverGen {
         let const_names = &self
             .constants
             .iter()
-            .map(|(ty, value)| ((ty.clone(), value.clone()), get_const_name(ty, value)))
+            .map(|(ty, value)| ((ty.clone(), value.clone()), get_variable_name(ty, value)))
             .collect_vec();
         let mut write_trace_body = rust::Tokens::new();
         let mut offset = 0;
@@ -499,7 +499,7 @@ impl RustProverGen {
                 });
             } else {
                 write_trace_body.append(quote! {
-                let $(&name.to_lowercase())_$(args.join("_")) = $(&name.to_lowercase())_$(args.join("_")).packed_at(row_index);
+                let $(&get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())) = $(&get_variable_name(name.to_lowercase().as_str(), args.join("_").as_str())).packed_at(row_index);
                 });
             }
         }
@@ -849,7 +849,7 @@ fn simd_parse_air_var(
                 .find(|((t, v), _)| t == ty && v == val)
                 .map(|(_, name)| name.clone())
                 .unwrap_or_else(|| {
-                    let name = get_const_name(ty, val);
+                    let name = get_variable_name(ty, val);
                     panic!("const_{}", name)
                 }),
         },
@@ -952,7 +952,7 @@ fn simd_parse_air_var(
                 name.to_lowercase()
             } else {
                 let args = &args.join("_");
-                name.to_lowercase() + "_" + args
+                get_variable_name(name.to_lowercase().as_str(), args.as_str())
             }
         }
         CompiledAirVar::PublicParam(public_param) => {
