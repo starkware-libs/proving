@@ -941,7 +941,7 @@ fn simd_parse_air_var(
                 .collect::<Vec<_>>()
                 .join(", ");
             let quote: genco::Tokens<Rust> = quote! {
-                $(r#type) {
+                $(packed_name(r#type)) {
                     $(members_code),
                 }
             };
