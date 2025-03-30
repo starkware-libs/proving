@@ -23,8 +23,8 @@ fn test_triple_sum1() {
 
     // Check state
     let expected_state = vec![
-        (18329, "triple_sum32_res_low"),
-        (65120, "triple_sum32_res_high"),
+        (18329, "triple_sum32_res_limb_0"),
+        (65120, "triple_sum32_res_limb_1"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -47,8 +47,8 @@ fn test_triple_sum2() {
 
     // Check state
     let expected_state = vec![
-        (32768, "triple_sum32_res_low"),
-        (32769, "triple_sum32_res_high"),
+        (32768, "triple_sum32_res_limb_0"),
+        (32769, "triple_sum32_res_limb_1"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -71,8 +71,8 @@ fn test_triple_sum3() {
 
     // Check state
     let expected_state = vec![
-        (65533, "triple_sum32_res_low"),
-        (65535, "triple_sum32_res_high"),
+        (65533, "triple_sum32_res_limb_0"),
+        (65535, "triple_sum32_res_limb_1"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);
@@ -95,8 +95,8 @@ fn test_pair_sum() {
 
     // Check state
     let expected_state = vec![
-        (30548, "triple_sum32_res_low"),
-        (2437, "triple_sum32_res_high"),
+        (30548, "triple_sum32_res_limb_0"),
+        (2437, "triple_sum32_res_limb_1"),
     ]
     .into();
     assert_expected_state(&state, &expected_state);

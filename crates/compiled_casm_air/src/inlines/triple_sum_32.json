@@ -26,18 +26,18 @@
     {
       "Array": [
         {
-          "State": "triple_sum32_res_low_col0"
+          "State": "triple_sum32_res_limb_0_col0"
         },
         {
-          "State": "triple_sum32_res_high_col1"
+          "State": "triple_sum32_res_limb_1_col1"
         }
       ]
     },
     "[M31; 2]"
   ],
   "state_names": [
-    "triple_sum32_res_low_col0",
-    "triple_sum32_res_high_col1"
+    "triple_sum32_res_limb_0_col0",
+    "triple_sum32_res_limb_1_col1"
   ],
   "padding_type": "None",
   "lookup_names": {},
@@ -83,7 +83,7 @@
                 },
                 "-",
                 {
-                  "State": "triple_sum32_res_low_col0"
+                  "State": "triple_sum32_res_limb_0_col0"
                 }
               ]
             },
@@ -202,7 +202,7 @@
                 },
                 "-",
                 {
-                  "State": "triple_sum32_res_high_col1"
+                  "State": "triple_sum32_res_limb_1_col1"
                 }
               ]
             },

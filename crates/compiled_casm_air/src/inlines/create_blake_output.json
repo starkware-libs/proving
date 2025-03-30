@@ -72,74 +72,74 @@
     {
       "Array": [
         {
-          "State": "triple_xor_32_output_low_col0"
+          "State": "triple_xor_32_output_limb_0_col0"
         },
         {
-          "State": "triple_xor_32_output_high_col1"
+          "State": "triple_xor_32_output_limb_1_col1"
         },
         {
-          "State": "triple_xor_32_output_low_col2"
+          "State": "triple_xor_32_output_limb_0_col2"
         },
         {
-          "State": "triple_xor_32_output_high_col3"
+          "State": "triple_xor_32_output_limb_1_col3"
         },
         {
-          "State": "triple_xor_32_output_low_col4"
+          "State": "triple_xor_32_output_limb_0_col4"
         },
         {
-          "State": "triple_xor_32_output_high_col5"
+          "State": "triple_xor_32_output_limb_1_col5"
         },
         {
-          "State": "triple_xor_32_output_low_col6"
+          "State": "triple_xor_32_output_limb_0_col6"
         },
         {
-          "State": "triple_xor_32_output_high_col7"
+          "State": "triple_xor_32_output_limb_1_col7"
         },
         {
-          "State": "triple_xor_32_output_low_col8"
+          "State": "triple_xor_32_output_limb_0_col8"
         },
         {
-          "State": "triple_xor_32_output_high_col9"
+          "State": "triple_xor_32_output_limb_1_col9"
         },
         {
-          "State": "triple_xor_32_output_low_col10"
+          "State": "triple_xor_32_output_limb_0_col10"
         },
         {
-          "State": "triple_xor_32_output_high_col11"
+          "State": "triple_xor_32_output_limb_1_col11"
         },
         {
-          "State": "triple_xor_32_output_low_col12"
+          "State": "triple_xor_32_output_limb_0_col12"
         },
         {
-          "State": "triple_xor_32_output_high_col13"
+          "State": "triple_xor_32_output_limb_1_col13"
         },
         {
-          "State": "triple_xor_32_output_low_col14"
+          "State": "triple_xor_32_output_limb_0_col14"
         },
         {
-          "State": "triple_xor_32_output_high_col15"
+          "State": "triple_xor_32_output_limb_1_col15"
         }
       ]
     },
     "[M31; 16]"
   ],
   "state_names": [
-    "triple_xor_32_output_low_col0",
-    "triple_xor_32_output_high_col1",
-    "triple_xor_32_output_low_col2",
-    "triple_xor_32_output_high_col3",
-    "triple_xor_32_output_low_col4",
-    "triple_xor_32_output_high_col5",
-    "triple_xor_32_output_low_col6",
-    "triple_xor_32_output_high_col7",
-    "triple_xor_32_output_low_col8",
-    "triple_xor_32_output_high_col9",
-    "triple_xor_32_output_low_col10",
-    "triple_xor_32_output_high_col11",
-    "triple_xor_32_output_low_col12",
-    "triple_xor_32_output_high_col13",
-    "triple_xor_32_output_low_col14",
-    "triple_xor_32_output_high_col15"
+    "triple_xor_32_output_limb_0_col0",
+    "triple_xor_32_output_limb_1_col1",
+    "triple_xor_32_output_limb_0_col2",
+    "triple_xor_32_output_limb_1_col3",
+    "triple_xor_32_output_limb_0_col4",
+    "triple_xor_32_output_limb_1_col5",
+    "triple_xor_32_output_limb_0_col6",
+    "triple_xor_32_output_limb_1_col7",
+    "triple_xor_32_output_limb_0_col8",
+    "triple_xor_32_output_limb_1_col9",
+    "triple_xor_32_output_limb_0_col10",
+    "triple_xor_32_output_limb_1_col11",
+    "triple_xor_32_output_limb_0_col12",
+    "triple_xor_32_output_limb_1_col13",
+    "triple_xor_32_output_limb_0_col14",
+    "triple_xor_32_output_limb_1_col15"
   ],
   "padding_type": "None",
   "lookup_names": {
@@ -190,10 +190,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col0"
+            "State": "triple_xor_32_output_limb_0_col0"
           },
           {
-            "State": "triple_xor_32_output_high_col1"
+            "State": "triple_xor_32_output_limb_1_col1"
           }
         ],
         "use_or_yield": "Use"
@@ -240,10 +240,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col2"
+            "State": "triple_xor_32_output_limb_0_col2"
           },
           {
-            "State": "triple_xor_32_output_high_col3"
+            "State": "triple_xor_32_output_limb_1_col3"
           }
         ],
         "use_or_yield": "Use"
@@ -290,10 +290,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col4"
+            "State": "triple_xor_32_output_limb_0_col4"
           },
           {
-            "State": "triple_xor_32_output_high_col5"
+            "State": "triple_xor_32_output_limb_1_col5"
           }
         ],
         "use_or_yield": "Use"
@@ -340,10 +340,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col6"
+            "State": "triple_xor_32_output_limb_0_col6"
           },
           {
-            "State": "triple_xor_32_output_high_col7"
+            "State": "triple_xor_32_output_limb_1_col7"
           }
         ],
         "use_or_yield": "Use"
@@ -390,10 +390,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col8"
+            "State": "triple_xor_32_output_limb_0_col8"
           },
           {
-            "State": "triple_xor_32_output_high_col9"
+            "State": "triple_xor_32_output_limb_1_col9"
           }
         ],
         "use_or_yield": "Use"
@@ -440,10 +440,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col10"
+            "State": "triple_xor_32_output_limb_0_col10"
           },
           {
-            "State": "triple_xor_32_output_high_col11"
+            "State": "triple_xor_32_output_limb_1_col11"
           }
         ],
         "use_or_yield": "Use"
@@ -490,10 +490,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col12"
+            "State": "triple_xor_32_output_limb_0_col12"
           },
           {
-            "State": "triple_xor_32_output_high_col13"
+            "State": "triple_xor_32_output_limb_1_col13"
           }
         ],
         "use_or_yield": "Use"
@@ -540,10 +540,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col14"
+            "State": "triple_xor_32_output_limb_0_col14"
           },
           {
-            "State": "triple_xor_32_output_high_col15"
+            "State": "triple_xor_32_output_limb_1_col15"
           }
         ],
         "use_or_yield": "Use"
@@ -766,10 +766,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col0"
+            "State": "triple_xor_32_output_limb_0_col0"
           },
           {
-            "State": "triple_xor_32_output_high_col1"
+            "State": "triple_xor_32_output_limb_1_col1"
           }
         ],
         "use_or_yield": "Use"
@@ -990,10 +990,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col2"
+            "State": "triple_xor_32_output_limb_0_col2"
           },
           {
-            "State": "triple_xor_32_output_high_col3"
+            "State": "triple_xor_32_output_limb_1_col3"
           }
         ],
         "use_or_yield": "Use"
@@ -1214,10 +1214,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col4"
+            "State": "triple_xor_32_output_limb_0_col4"
           },
           {
-            "State": "triple_xor_32_output_high_col5"
+            "State": "triple_xor_32_output_limb_1_col5"
           }
         ],
         "use_or_yield": "Use"
@@ -1438,10 +1438,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col6"
+            "State": "triple_xor_32_output_limb_0_col6"
           },
           {
-            "State": "triple_xor_32_output_high_col7"
+            "State": "triple_xor_32_output_limb_1_col7"
           }
         ],
         "use_or_yield": "Use"
@@ -1662,10 +1662,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col8"
+            "State": "triple_xor_32_output_limb_0_col8"
           },
           {
-            "State": "triple_xor_32_output_high_col9"
+            "State": "triple_xor_32_output_limb_1_col9"
           }
         ],
         "use_or_yield": "Use"
@@ -1886,10 +1886,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col10"
+            "State": "triple_xor_32_output_limb_0_col10"
           },
           {
-            "State": "triple_xor_32_output_high_col11"
+            "State": "triple_xor_32_output_limb_1_col11"
           }
         ],
         "use_or_yield": "Use"
@@ -2110,10 +2110,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col12"
+            "State": "triple_xor_32_output_limb_0_col12"
           },
           {
-            "State": "triple_xor_32_output_high_col13"
+            "State": "triple_xor_32_output_limb_1_col13"
           }
         ],
         "use_or_yield": "Use"
@@ -2334,10 +2334,10 @@
             ]
           },
           {
-            "State": "triple_xor_32_output_low_col14"
+            "State": "triple_xor_32_output_limb_0_col14"
           },
           {
-            "State": "triple_xor_32_output_high_col15"
+            "State": "triple_xor_32_output_limb_1_col15"
           }
         ],
         "use_or_yield": "Use"

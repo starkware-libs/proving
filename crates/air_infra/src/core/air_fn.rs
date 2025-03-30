@@ -333,7 +333,7 @@ impl AirBuilder {
             return;
         }
 
-        if let Some(descs) = var.get_felt_descriptions() {
+        if let Some(descs) = var.clone().into().felt_descriptions() {
             for (felt, felt_desc) in var.as_felts_mut().into_iter().zip(descs) {
                 self.deduce(felt, &format!("{}_{}", desc, felt_desc));
             }
@@ -344,8 +344,6 @@ impl AirBuilder {
                 !desc.is_empty(),
                 "Intermediate variable description is required for deducing multiple felts"
             );
-            // TODO: When there's a better way to refer to the items of arrays and tuples, use it
-            // here instead of 'limbs'.
             for (i, felt) in var.as_felts_mut().into_iter().enumerate() {
                 self.deduce(felt, &format!("{}_limb_{}", desc, i));
             }

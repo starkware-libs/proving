@@ -54,22 +54,6 @@ where
         Self::new_from_name(name, in_state)
     }
 
-    fn get_felt_descriptions(&self) -> Option<Vec<String>> {
-        Some(
-            self.fields
-                .iter()
-                .flat_map(|(n, f)| {
-                    if let Some(descs) = f.get_felt_descriptions() {
-                        descs.iter().map(|d| format!("{}_{}", n, d)).collect()
-                    } else {
-                        let n_felts = f.as_felts().len();
-                        vec![n.clone(); n_felts]
-                    }
-                })
-                .collect(),
-        )
-    }
-
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr> {
         self.fields
             .iter_mut()
