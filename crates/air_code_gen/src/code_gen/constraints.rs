@@ -1,7 +1,7 @@
 use std::collections::HashMap;
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledIntermediate, ConstraintEvalStep, LookupTerm, TraceType,
+    CompiledAirFn, CompiledIntermediate, ConstraintEvalStep, LookupTerm, PaddingType, TraceType,
 };
 use convert_case::{Case, Casing};
 use genco::lang::rust;
@@ -146,7 +146,7 @@ fn imports() -> rust::Tokens {
 
 fn generate_n_trace_columns(lists: &CompiledAirFn) -> rust::Tokens {
     // TODO(Gali): Add mults column support.
-    if lists.name.contains("opcode") {
+    if lists.padding_type == PaddingType::Enabler {
         quote! {
             pub(super) const N_TRACE_COLUMNS: usize = $(lists.state_names.len() + 1);
         }
@@ -315,22 +315,21 @@ fn generate_evaluate(lists: &CompiledAirFn) -> rust::Tokens {
         }
     }
 
-    // TODO(Ohad): handle next_trace_mask for external states.
     if lists.r#type != TraceType::Inline && !lists.state_names.is_empty() {
         for name in &lists.state_names {
             code.append(quote! {
                 let $name = eval.next_trace_mask();
             });
         }
+    }
 
-        // Opcodes have a masked lookup into the "Opcodes" relation.
-        if lists.name.contains("opcode") {
-            code.append(quote! {
-                let padding = eval.next_trace_mask();
-                // Check padding column is a bit.
-                eval.add_constraint(padding.clone() * padding.clone() - padding.clone());
-            })
-        }
+    if lists.padding_type == PaddingType::Enabler {
+        // Add enabler column to the trace
+        code.append(quote! {
+            let enabler = eval.next_trace_mask();
+            // Check enabler column is a bit.
+            eval.add_constraint(enabler.clone() * enabler.clone() - enabler.clone());
+        })
     }
 
     code.extend(quote! { $("\n\n") });

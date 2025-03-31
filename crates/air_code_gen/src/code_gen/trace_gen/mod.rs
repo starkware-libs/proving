@@ -1,7 +1,8 @@
 use std::collections::{HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, CompiledIntermediate, LookupTerm, TraceGenStep, UseOrYield,
+    CompiledAirFn, CompiledAirVar, CompiledIntermediate, LookupTerm, PaddingType, TraceGenStep,
+    UseOrYield,
 };
 use compiled_casm_air::public_params::PublicParam;
 use convert_case::{Case, Casing};
@@ -10,7 +11,7 @@ use genco::quote;
 use indexmap::IndexMap;
 use itertools::Itertools;
 
-use super::parse::seek_consts;
+use super::parse::{is_masked_relation, seek_consts};
 use super::utils::{block_doc, get_const_name, replace_generics_with_turbofish};
 
 pub enum Mode {
@@ -73,7 +74,7 @@ impl RustProverGen {
         let sub_component_inputs_struct = self.generate_sub_component_inputs_struct();
         let claim_generator_code = self.generate_claim_generator_struct();
         let claim_generator_impl_code = self.generate_claim_generator_impl();
-        let interaction_struct = interaction_prover_struct(&self.mode);
+        let interaction_struct = interaction_prover_struct(&self.lists.padding_type);
         let interaction_impl = self.generate_interaction_impl();
         let write_trace_code = self.generate_simd_write_trace_code();
         quote! {
@@ -259,8 +260,8 @@ impl RustProverGen {
                let log_size = self.log_size;
             },
         };
-        let n_rows = match self.mode {
-            Mode::Opcode => quote! { n_rows, },
+        let n_rows = match self.lists.padding_type {
+            PaddingType::Enabler => quote! { n_rows, },
             _ => quote! {},
         };
 
@@ -436,8 +437,8 @@ impl RustProverGen {
             Mode::Builtin => {}
         }
 
-        let opcode_mask = match self.mode {
-            Mode::Opcode => quote!(let padding_col = Enabler::new(n_rows);),
+        let padding = match self.lists.padding_type {
+            PaddingType::Enabler => quote!(let enabler_col = Enabler::new(n_rows);),
             _ => quote!(),
         };
 
@@ -459,7 +460,7 @@ impl RustProverGen {
 
                 $(constants_def_code)
                 $(preprocessed_def_code)
-                $(opcode_mask)
+                $(padding)
 
                 ($(lambda_producer.0))
                 .into_par_iter()
@@ -567,9 +568,9 @@ impl RustProverGen {
         }
 
         // Padding code.
-        write_trace_body.extend(match self.mode {
-            Mode::Opcode => quote! {
-                *row[$(offset)] = padding_col.packed_at(row_index);
+        write_trace_body.extend(match self.lists.padding_type {
+            PaddingType::Enabler => quote! {
+                *row[$(offset)] = enabler_col.packed_at(row_index);
             },
             _ => quote!(),
         });
@@ -591,8 +592,8 @@ impl RustProverGen {
                 tokens
             });
 
-        let padding = if let Mode::Opcode = self.mode {
-            quote!(let padding_col = Enabler::new(self.n_rows);)
+        let padding = if let PaddingType::Enabler = self.lists.padding_type {
+            quote!(let enabler_col = Enabler::new(self.n_rows);)
         } else {
             quote!()
         };
@@ -646,8 +647,8 @@ impl RustProverGen {
             let relation1 = &term1.relation_name;
             let relation_0_snake_case = &relation0.to_case(Case::Snake);
             let relation_1_snake_case = &relation1.to_case(Case::Snake);
-            let masked_denom_0 = "denom0".to_owned() + mask_relation(relation1);
-            let masked_denom_1 = "denom1".to_owned() + mask_relation(relation0);
+            let masked_denom_0 = quote! {denom0 $(mask_relation(&self.lists, relation1))};
+            let masked_denom_1 = quote! {denom1 $(mask_relation(&self.lists, relation0))};
 
             let relation0_offset = relation_data_offsets.get_mut(relation0).unwrap();
             let term0_offset = *relation0_offset;
@@ -661,29 +662,31 @@ impl RustProverGen {
             let (numerator, denom) = (
                 match (term0.use_or_yield, term1.use_or_yield) {
                     (UseOrYield::Use, UseOrYield::Use) => {
-                        format!("{masked_denom_0} + {masked_denom_1}")
+                        quote! {$masked_denom_0 + $masked_denom_1}
                     }
                     (UseOrYield::Use, UseOrYield::Yield) => {
-                        format!("{masked_denom_1} - {masked_denom_0}")
+                        quote! {$masked_denom_1 - $masked_denom_0}
                     }
                     (UseOrYield::Yield, UseOrYield::Use) => {
-                        format!("{masked_denom_0} - {masked_denom_1}")
+                        quote! {$masked_denom_0 - $masked_denom_1}
                     }
                     (UseOrYield::Yield, UseOrYield::Yield) => {
-                        format!("-({masked_denom_0}+ {masked_denom_1})")
+                        quote! {-($masked_denom_0 + $masked_denom_1)}
                     }
                 },
                 "denom0 * denom1",
             );
-            let (for_each, enumerate) =
-                if is_masked_relation(relation0) || is_masked_relation(relation1) {
-                    (
-                        quote! { (i, (writer, values0, values1)) },
-                        quote! {.enumerate()},
-                    )
-                } else {
-                    (quote! { (writer, values0, values1)}, quote! {})
-                };
+            let (for_each, enumerate) = if self.lists.padding_type == PaddingType::Enabler
+                && (is_masked_relation(&self.lists, relation0)
+                    || is_masked_relation(&self.lists, relation1))
+            {
+                (
+                    quote! { (i, (writer, values0, values1)) },
+                    quote! {.enumerate()},
+                )
+            } else {
+                (quote! { (writer, values0, values1)}, quote! {})
+            };
             code.extend(quote! {
                 let mut col_gen = logup_gen.new_col();
                 (col_gen.par_iter_mut(),
@@ -711,7 +714,9 @@ impl RustProverGen {
                 UseOrYield::Use => "",
                 UseOrYield::Yield => "-",
             };
-            let (for_each, enumerate) = if is_masked_relation(&relation_name) {
+            let (for_each, enumerate) = if self.lists.padding_type == PaddingType::Enabler
+                && is_masked_relation(&self.lists, &relation_name)
+            {
                 (quote! { (i, (writer, values)) }, quote! {.enumerate()})
             } else {
                 (quote! { (writer, values)}, quote! {})
@@ -726,7 +731,7 @@ impl RustProverGen {
                         let denom =
                             $(&relation_name.to_case(Case::Snake)).combine(values);
                         writer.write_frac(
-                            $(sign)PackedQM31::one()$(mask_relation(&relation_name)),
+                            $(sign)PackedQM31::one()$(mask_relation(&self.lists, &relation_name)),
                             denom
                         );
                     });
@@ -785,11 +790,11 @@ fn deduction_consts(deductions: &[TraceGenStep]) -> Vec<(String, String)> {
         .collect()
 }
 
-fn interaction_prover_struct(mode: &Mode) -> rust::Tokens {
+fn interaction_prover_struct(padding_type: &PaddingType) -> rust::Tokens {
     // Opcodes mask is determined by the number of "real" instances.
     // Both log_size and n_rows is needed because padding might not be to the next power of 2.
-    let n_rows = match mode {
-        Mode::Opcode => quote! { n_rows: usize, },
+    let n_rows = match padding_type {
+        PaddingType::Enabler => quote! { n_rows: usize, },
         _ => quote! {},
     };
     quote! {
@@ -1007,16 +1012,12 @@ fn context(deductions: &[TraceGenStep]) -> Vec<String> {
         .collect()
 }
 
-pub fn is_masked_relation(relation_name: &str) -> bool {
-    // TODO(Gali): Support enabler in views.
-    relation_name.eq("Opcodes")
-}
-
-pub fn mask_relation(relation_name: &str) -> &str {
-    if is_masked_relation(relation_name) {
-        " * padding_col.packed_at(i)"
-    } else {
-        ""
+/// Determines if a relation is masked in the interaction trace and returns the proper mask.
+pub fn mask_relation(lists: &CompiledAirFn, relation_name: &str) -> rust::Tokens {
+    let is_masked = is_masked_relation(lists, relation_name);
+    match lists.padding_type {
+        PaddingType::Enabler if is_masked => quote! { * enabler_col.packed_at(i)},
+        _ => quote! {},
     }
 }
 

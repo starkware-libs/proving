@@ -3,8 +3,8 @@
 use std::collections::{BTreeSet, HashMap, HashSet};
 
 use compiled_casm_air::compiled_structs::{
-    CompiledAirFn, CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, LookupTerm, TraceType,
-    UseOrYield,
+    CompiledAirFn, CompiledAirVar, CompiledIntermediate, ConstraintEvalStep, LookupTerm,
+    PaddingType, TraceType, UseOrYield,
 };
 use convert_case::{Case, Casing};
 use genco::lang::rust;
@@ -172,6 +172,13 @@ pub fn parse_eval_constraint(
     }
 }
 
+/// Checks if the relation should be masked, meaning it's numerator should be altered.
+/// A relation is masked when and the relation name matches it's component's relation name (it's
+/// component must contain an enabler/multiplicity columns).
+pub fn is_masked_relation(lists: &CompiledAirFn, relation_name: &str) -> bool {
+    lists.relation_name.is_some() && relation_name.eq(&lists.relation_name.clone().unwrap())
+}
+
 pub fn parse_lookup_constraint(
     lists: &CompiledAirFn,
     relation_name: &str,
@@ -187,10 +194,10 @@ pub fn parse_lookup_constraint(
         UseOrYield::Use => "",
         UseOrYield::Yield => "-",
     };
-    let numerator = if relation_name.eq("Opcodes") {
-        quote! {E::EF::from(padding.clone())}
-    } else {
-        quote! {E::EF::one()}
+    let is_masked = is_masked_relation(lists, relation_name);
+    let numerator = match lists.padding_type {
+        PaddingType::Enabler if is_masked => quote! {E::EF::from(enabler.clone())},
+        _ => quote! {E::EF::one()},
     };
     if lists.r#type == TraceType::Inline {
         quote! {

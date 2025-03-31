@@ -107,9 +107,9 @@ impl FrameworkEval for Eval {
         let next_pc_limb_0_col39 = eval.next_trace_mask();
         let next_pc_limb_1_col40 = eval.next_trace_mask();
         let next_pc_limb_2_col41 = eval.next_trace_mask();
-        let padding = eval.next_trace_mask();
+        let enabler = eval.next_trace_mask();
 
-        eval.add_constraint(padding.clone() * padding.clone() - padding.clone());
+        eval.add_constraint(enabler.clone() * enabler.clone() - enabler.clone());
 
         // Decode Instruction.
 
@@ -323,7 +323,7 @@ impl FrameworkEval for Eval {
 
         eval.add_to_relation(RelationEntry::new(
             &self.opcodes_lookup_elements,
-            E::EF::from(padding.clone()),
+            E::EF::from(enabler.clone()),
             &[
                 input_pc_col0.clone(),
                 input_ap_col1.clone(),
@@ -333,7 +333,7 @@ impl FrameworkEval for Eval {
 
         eval.add_to_relation(RelationEntry::new(
             &self.opcodes_lookup_elements,
-            -E::EF::from(padding.clone()),
+            -E::EF::from(enabler.clone()),
             &[
                 (input_pc_col0.clone() + read_small_output_tmp_8b848_16_limb_0.clone()),
                 (input_ap_col1.clone() + ap_update_add_1_col4.clone()),
