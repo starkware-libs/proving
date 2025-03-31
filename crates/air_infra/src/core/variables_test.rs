@@ -23,11 +23,20 @@ fn test_expr_array() {
     assert_eq!(array[1].clone().to_string(), format!("{}{}", prefix, "[1]"));
 
     // Expressions should be marked as "in state" only if *all* of its elements changed to state.
-    assert!(!AirVarImpl::from(array.clone()).in_state());
+    assert!(!AirVarImpl::from(array.clone())
+        .as_felts()
+        .iter()
+        .all(|f| f.in_state()));
     array[0].to_state(StateInfo::StateIndex(0, None));
-    assert!(!AirVarImpl::from(array.clone()).in_state());
+    assert!(!AirVarImpl::from(array.clone())
+        .as_felts()
+        .iter()
+        .all(|f| f.in_state()));
     array[1].to_state(StateInfo::StateIndex(1, None));
-    assert!(AirVarImpl::from(array.clone()).in_state());
+    assert!(AirVarImpl::from(array.clone())
+        .as_felts()
+        .iter()
+        .all(|f| f.in_state()));
 
     // As felts should return the same expression elements as felts.
     let val0 = array[0].calc();
@@ -41,11 +50,22 @@ fn test_expr_array() {
 fn test_expr_tuple() {
     // Tuples should be marked as "in state" only if *all* of its elements changed to state.
     let mut tup = (bool_expr!("y", true), expr!("x", 5));
-    assert!(!(AirVarImpl::from(tup.clone()).in_state()));
+    assert!(
+        !(AirVarImpl::from(tup.clone())
+            .as_felts()
+            .iter()
+            .all(|f| f.in_state()))
+    );
     tup.0.as_felt_mut().to_state(StateInfo::StateIndex(0, None));
-    assert!(!AirVarImpl::from(tup.clone()).in_state());
+    assert!(!AirVarImpl::from(tup.clone())
+        .as_felts()
+        .iter()
+        .all(|f| f.in_state()));
     tup.1.to_state(StateInfo::StateIndex(1, None));
-    assert!(AirVarImpl::from(tup.clone()).in_state());
+    assert!(AirVarImpl::from(tup.clone())
+        .as_felts()
+        .iter()
+        .all(|f| f.in_state()));
 
     // Assert let for deduction changes the element's names.
     let mut tup = (bool_expr!("y", true), expr!("x", 5));

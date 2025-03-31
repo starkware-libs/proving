@@ -66,7 +66,7 @@ fn test_uint32_deduce() {
     let (registry, _) = AirFnRegistry::new(&func);
 
     let (_, out) = registry.run_air(&func, (), const_u32_expr!(5));
-    assert!(out.in_state());
+    assert!(out.as_felts().iter().all(|f| f.in_state()));
     assert!(out.calc() == "9");
 }
 

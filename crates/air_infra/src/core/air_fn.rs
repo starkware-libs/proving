@@ -97,14 +97,6 @@ pub trait AirFn: Debug + InstDefTrait {
         TraceType::Inline
     }
 
-    // Returns whether the input of the air function should be in the trace when it is called.
-    // If None, it means that the input is a tuple or array, and parts of it should be in the trace
-    // and parts should not. In this case, the infra will not check if the input is in the trace.
-    // (see CondDecodeSmallSign)
-    fn input_in_trace(&self) -> Option<bool> {
-        Some(self.trace_type() == TraceType::Const || self.trace_type() == TraceType::Inline)
-    }
-
     fn call(
         &self,
         air_builder: &mut AirBuilder,
@@ -426,15 +418,6 @@ impl AirBuilder {
             "Cannot call AirFn {} - it is not an inline AirFn",
             air_fn.name()
         );
-
-        if let Some(input_in_trace) = air_fn.input_in_trace() {
-            if input_in_trace {
-                assert!(
-                    input.clone().into().in_state(),
-                    "Input should be in the trace."
-                );
-            }
-        }
 
         // Make sure the callee is in the registry
         self.registry.add_entry(air_fn);

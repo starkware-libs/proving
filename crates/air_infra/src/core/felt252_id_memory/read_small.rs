@@ -61,11 +61,6 @@ impl AirFn for CondDecodeSmallSign {
 
         [msb.as_felt(), mid_limbs_set.as_felt()]
     }
-
-    fn input_in_trace(&self) -> Option<bool> {
-        // The value doesn't have to be in trace, but the condition does.
-        None
-    }
 }
 
 // Receives a Felt252 and its sign bits, and returns it as a relative immediate felt.

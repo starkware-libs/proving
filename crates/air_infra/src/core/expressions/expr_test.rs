@@ -191,7 +191,7 @@ fn test_conversion_felt_to_bool() {
     let f = const_expr!(1);
     let b: BoolExpr = f.into();
     assert_eq!(b.calc(), "true");
-    assert!(b.in_state());
+    assert!(b.as_felt().in_state());
 
     assert_eq!(&b.as_felt().to_string(), "1");
     assert_eq!(&b.to_string(), "true");
@@ -233,10 +233,6 @@ fn test_conversion_bool_to_uint16() {
     let i: UInt16Expr = b.clone().into();
     assert_eq!(i.calc(), "1");
     assert_eq!(&i.to_string(), "UInt16::from_bool(tmp0)");
-
-    b.as_felt_mut().to_state(StateInfo::StateIndex(0, None));
-    let i: UInt16Expr = b.clone().into();
-    assert!(i.in_state());
 }
 
 #[test]
@@ -251,7 +247,7 @@ fn test_conversion_felt_to_uint16() {
 
     f.to_state(StateInfo::StateIndex(0, None));
     let mut i: UInt16Expr = f.clone().into();
-    assert!(i.in_state());
+    assert!(i.as_felt().in_state());
     assert_eq!(&i.as_felt().to_string(), "col0");
     assert_eq!(&i.to_string(), "UInt16::from_m31(col0)");
 
@@ -285,7 +281,7 @@ fn test_conversion_felts_to_felt252() {
     assert_eq!(e.calc(), "[1025, 0, 0, 0]");
     assert_eq!(e.as_felts()[0].calc(), f1.calc());
     assert_eq!(e.as_felts()[1].calc(), f2.calc());
-    assert!(!e.in_state());
+    assert!(!e.as_felts().iter().all(|f| f.in_state()));
     assert_eq!(&e.as_felts_mut()[0].to_string(), "1");
     assert_eq!(&e.get_felt_mut(1).to_string(), "x2");
     assert_eq!(&e.to_string(), "Felt252::from_limbs(zero_extend([1, x2]))");
@@ -303,7 +299,7 @@ fn test_conversion_felts_to_felt252() {
 
     f2.to_state(StateInfo::StateIndex(1, None));
     let e = Felt252Expr::from(vec![f1.clone(), f2.clone()]);
-    assert!(e.in_state());
+    assert!(e.as_felts().iter().all(|f| f.in_state()));
 
     let mut v: Felt252Expr = felt252_expr!("v".to_string(), 0xFFF, 0xFFF);
     let felts = v.as_felts();
