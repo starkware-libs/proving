@@ -1429,7 +1429,6 @@ fn test_generic_consistency_jnz_taken() {
     let mut generic_opcode = GenericOpcode::default();
     let mut jnz_opcode = JnzOpcode {
         taken: true,
-        dst_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
 
@@ -1447,7 +1446,7 @@ fn test_generic_consistency_jnz_taken() {
                     offset_dst,
                     -1,
                     1,
-                    jnz_opcode.get_flags().non_constants_to_arr(&[false]),
+                    jnz_opcode.get_flags().non_constants_to_arr(&[false, false]),
                     OpcodeExtension::Stone
                 ),
                 0
@@ -1729,7 +1728,6 @@ fn test_generic_consistency_jnz_not_taken() {
     let mut generic_opcode = GenericOpcode::default();
     let mut jnz_opcode = JnzOpcode {
         taken: false,
-        dst_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
 
@@ -1747,7 +1745,7 @@ fn test_generic_consistency_jnz_not_taken() {
                     offset_dst,
                     -1,
                     1,
-                    jnz_opcode.get_flags().non_constants_to_arr(&[false]),
+                    jnz_opcode.get_flags().non_constants_to_arr(&[false, false]),
                     OpcodeExtension::Stone
                 ),
                 0
@@ -2029,12 +2027,12 @@ fn test_generic_jnz_deref_taken() {
     let mut generic_opcode = GenericOpcode::default();
     let jnz_opcode = JnzOpcode {
         taken: true,
-        dst_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
 
     // Create flags
     let mut flags = jnz_opcode.get_flags();
+    flags.dst_base_fp = Some(false);
     flags.op1_imm = Some(false);
     flags.op1_base_ap = Some(true);
     flags.ap_update_add_1 = Some(true);
@@ -2096,12 +2094,12 @@ fn test_generic_jnz_deref_not_taken() {
     let mut generic_opcode = GenericOpcode::default();
     let jnz_opcode = JnzOpcode {
         taken: true,
-        dst_base_fp: true,
         memory: Felt252IdMemory::default(),
     };
 
     // Create flags
     let mut flags = jnz_opcode.get_flags();
+    flags.dst_base_fp = Some(true);
     flags.op1_imm = Some(false);
     flags.op1_base_fp = Some(true);
     flags.ap_update_add_1 = Some(false);
@@ -2496,7 +2494,6 @@ fn test_generic_soundness_jnz_dst_p() {
     let mut generic_opcode = GenericOpcode::default();
     let jnz_opcode = JnzOpcode {
         taken: false,
-        dst_base_fp: false,
         memory: Felt252IdMemory::default(),
     };
 
@@ -2514,7 +2511,7 @@ fn test_generic_soundness_jnz_dst_p() {
                     offset_dst,
                     -1,
                     1,
-                    jnz_opcode.get_flags().non_constants_to_arr(&[false]),
+                    jnz_opcode.get_flags().non_constants_to_arr(&[false, false]),
                     OpcodeExtension::Stone
                 ),
                 0

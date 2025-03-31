@@ -42355,195 +42355,21 @@
       ]
     ]
   },
-  "decode_instruction_e03055818c3f043": {
+  "decode_instruction_82fc79ef08936af9": {
     "state_names": [
       "offset0_col0",
-      "ap_update_add_1_col1"
+      "dst_base_fp_col1",
+      "ap_update_add_1_col2"
     ],
     "intermediates": [],
     "constraints": [
-      "(ap_update_add_1_col1 * (1 - ap_update_add_1_col1))"
+      "(dst_base_fp_col1 * (1 - dst_base_fp_col1))",
+      "(ap_update_add_1_col2 * (1 - ap_update_add_1_col2))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_instruction_e03055818c3f043_input, offset0_col0, 32767, 32769, 56, (8 + (ap_update_add_1_col1 * 32)), 0"
-      ]
-    ]
-  },
-  "jnz_opcode_taken_dst_base_fp": {
-    "state_names": [
-      "input_pc_col0",
-      "input_ap_col1",
-      "input_fp_col2",
-      "offset0_col3",
-      "ap_update_add_1_col4",
-      "dst_id_col5",
-      "dst_limb_0_col6",
-      "dst_limb_1_col7",
-      "dst_limb_2_col8",
-      "dst_limb_3_col9",
-      "dst_limb_4_col10",
-      "dst_limb_5_col11",
-      "dst_limb_6_col12",
-      "dst_limb_7_col13",
-      "dst_limb_8_col14",
-      "dst_limb_9_col15",
-      "dst_limb_10_col16",
-      "dst_limb_11_col17",
-      "dst_limb_12_col18",
-      "dst_limb_13_col19",
-      "dst_limb_14_col20",
-      "dst_limb_15_col21",
-      "dst_limb_16_col22",
-      "dst_limb_17_col23",
-      "dst_limb_18_col24",
-      "dst_limb_19_col25",
-      "dst_limb_20_col26",
-      "dst_limb_21_col27",
-      "dst_limb_22_col28",
-      "dst_limb_23_col29",
-      "dst_limb_24_col30",
-      "dst_limb_25_col31",
-      "dst_limb_26_col32",
-      "dst_limb_27_col33",
-      "res_col34",
-      "res_squares_col35",
-      "next_pc_id_col36",
-      "msb_col37",
-      "mid_limbs_set_col38",
-      "next_pc_limb_0_col39",
-      "next_pc_limb_1_col40",
-      "next_pc_limb_2_col41"
-    ],
-    "intermediates": [
-      [
-        "decode_instruction_e03055818c3f043_output_tmp_8b848_4_limb_0",
-        "(offset0_col3 - 32768)"
-      ],
-      [
-        "diff_from_p_tmp_8b848_8",
-        "(dst_limb_0_col6 - 1)"
-      ],
-      [
-        "diff_from_p_tmp_8b848_9",
-        "(dst_limb_21_col27 - 136)"
-      ],
-      [
-        "diff_from_p_tmp_8b848_10",
-        "(dst_limb_27_col33 - 256)"
-      ],
-      [
-        "read_small_output_tmp_8b848_16_limb_0",
-        "((((next_pc_limb_0_col39 + (next_pc_limb_1_col40 * 512)) + (next_pc_limb_2_col41 * 262144)) - msb_col37) - (134217728 * mid_limbs_set_col38))"
-      ]
-    ],
-    "constraints": [
-      "(ap_update_add_1_col4 * (1 - ap_update_add_1_col4))",
-      "(((((((((((((((((((((((((((((dst_limb_0_col6 + dst_limb_1_col7) + dst_limb_2_col8) + dst_limb_3_col9) + dst_limb_4_col10) + dst_limb_5_col11) + dst_limb_6_col12) + dst_limb_7_col13) + dst_limb_8_col14) + dst_limb_9_col15) + dst_limb_10_col16) + dst_limb_11_col17) + dst_limb_12_col18) + dst_limb_13_col19) + dst_limb_14_col20) + dst_limb_15_col21) + dst_limb_16_col22) + dst_limb_17_col23) + dst_limb_18_col24) + dst_limb_19_col25) + dst_limb_20_col26) + dst_limb_21_col27) + dst_limb_22_col28) + dst_limb_23_col29) + dst_limb_24_col30) + dst_limb_25_col31) + dst_limb_26_col32) + dst_limb_27_col33) * res_col34) - 1)",
-      "((((((((((((((((((((((((((((((diff_from_p_tmp_8b848_8 * diff_from_p_tmp_8b848_8) + dst_limb_1_col7) + dst_limb_2_col8) + dst_limb_3_col9) + dst_limb_4_col10) + dst_limb_5_col11) + dst_limb_6_col12) + dst_limb_7_col13) + dst_limb_8_col14) + dst_limb_9_col15) + dst_limb_10_col16) + dst_limb_11_col17) + dst_limb_12_col18) + dst_limb_13_col19) + dst_limb_14_col20) + dst_limb_15_col21) + dst_limb_16_col22) + dst_limb_17_col23) + dst_limb_18_col24) + dst_limb_19_col25) + dst_limb_20_col26) + (diff_from_p_tmp_8b848_9 * diff_from_p_tmp_8b848_9)) + dst_limb_22_col28) + dst_limb_23_col29) + dst_limb_24_col30) + dst_limb_25_col31) + dst_limb_26_col32) + (diff_from_p_tmp_8b848_10 * diff_from_p_tmp_8b848_10)) * res_squares_col35) - 1)",
-      "(msb_col37 * (msb_col37 - 1))",
-      "(mid_limbs_set_col38 * (mid_limbs_set_col38 - 1))",
-      "(mid_limbs_set_col38 * (msb_col37 - 1))"
-    ],
-    "lookups": [
-      [
-        "VerifyInstruction",
-        "input_pc_col0, offset0_col3, 32767, 32769, 56, (8 + (ap_update_add_1_col4 * 32)), 0"
-      ],
-      [
-        "MemoryAddressToId",
-        "(input_fp_col2 + decode_instruction_e03055818c3f043_output_tmp_8b848_4_limb_0), dst_id_col5"
-      ],
-      [
-        "MemoryIdToBig",
-        "dst_id_col5, dst_limb_0_col6, dst_limb_1_col7, dst_limb_2_col8, dst_limb_3_col9, dst_limb_4_col10, dst_limb_5_col11, dst_limb_6_col12, dst_limb_7_col13, dst_limb_8_col14, dst_limb_9_col15, dst_limb_10_col16, dst_limb_11_col17, dst_limb_12_col18, dst_limb_13_col19, dst_limb_14_col20, dst_limb_15_col21, dst_limb_16_col22, dst_limb_17_col23, dst_limb_18_col24, dst_limb_19_col25, dst_limb_20_col26, dst_limb_21_col27, dst_limb_22_col28, dst_limb_23_col29, dst_limb_24_col30, dst_limb_25_col31, dst_limb_26_col32, dst_limb_27_col33"
-      ],
-      [
-        "MemoryAddressToId",
-        "(input_pc_col0 + 1), next_pc_id_col36"
-      ],
-      [
-        "MemoryIdToBig",
-        "next_pc_id_col36, next_pc_limb_0_col39, next_pc_limb_1_col40, next_pc_limb_2_col41, (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), ((136 * msb_col37) - mid_limbs_set_col38), 0, 0, 0, 0, 0, (msb_col37 * 256)"
-      ]
-    ]
-  },
-  "decode_instruction_d0bdb4b05b77c536": {
-    "state_names": [
-      "offset0_col0",
-      "ap_update_add_1_col1"
-    ],
-    "intermediates": [],
-    "constraints": [
-      "(ap_update_add_1_col1 * (1 - ap_update_add_1_col1))"
-    ],
-    "lookups": [
-      [
-        "VerifyInstruction",
-        "decode_instruction_d0bdb4b05b77c536_input, offset0_col0, 32767, 32769, 48, (8 + (ap_update_add_1_col1 * 32)), 0"
-      ]
-    ]
-  },
-  "jnz_opcode": {
-    "state_names": [
-      "input_pc_col0",
-      "input_ap_col1",
-      "input_fp_col2",
-      "offset0_col3",
-      "ap_update_add_1_col4",
-      "dst_id_col5",
-      "dst_limb_0_col6",
-      "dst_limb_1_col7",
-      "dst_limb_2_col8",
-      "dst_limb_3_col9",
-      "dst_limb_4_col10",
-      "dst_limb_5_col11",
-      "dst_limb_6_col12",
-      "dst_limb_7_col13",
-      "dst_limb_8_col14",
-      "dst_limb_9_col15",
-      "dst_limb_10_col16",
-      "dst_limb_11_col17",
-      "dst_limb_12_col18",
-      "dst_limb_13_col19",
-      "dst_limb_14_col20",
-      "dst_limb_15_col21",
-      "dst_limb_16_col22",
-      "dst_limb_17_col23",
-      "dst_limb_18_col24",
-      "dst_limb_19_col25",
-      "dst_limb_20_col26",
-      "dst_limb_21_col27",
-      "dst_limb_22_col28",
-      "dst_limb_23_col29",
-      "dst_limb_24_col30",
-      "dst_limb_25_col31",
-      "dst_limb_26_col32",
-      "dst_limb_27_col33"
-    ],
-    "intermediates": [
-      [
-        "decode_instruction_d0bdb4b05b77c536_output_tmp_e1597_4_limb_0",
-        "(offset0_col3 - 32768)"
-      ]
-    ],
-    "constraints": [
-      "(ap_update_add_1_col4 * (1 - ap_update_add_1_col4))",
-      "(((((((((((((((((((((((((((dst_limb_0_col6 + dst_limb_1_col7) + dst_limb_2_col8) + dst_limb_3_col9) + dst_limb_4_col10) + dst_limb_5_col11) + dst_limb_6_col12) + dst_limb_7_col13) + dst_limb_8_col14) + dst_limb_9_col15) + dst_limb_10_col16) + dst_limb_11_col17) + dst_limb_12_col18) + dst_limb_13_col19) + dst_limb_14_col20) + dst_limb_15_col21) + dst_limb_16_col22) + dst_limb_17_col23) + dst_limb_18_col24) + dst_limb_19_col25) + dst_limb_20_col26) + dst_limb_21_col27) + dst_limb_22_col28) + dst_limb_23_col29) + dst_limb_24_col30) + dst_limb_25_col31) + dst_limb_26_col32) + dst_limb_27_col33)"
-    ],
-    "lookups": [
-      [
-        "VerifyInstruction",
-        "input_pc_col0, offset0_col3, 32767, 32769, 48, (8 + (ap_update_add_1_col4 * 32)), 0"
-      ],
-      [
-        "MemoryAddressToId",
-        "(input_ap_col1 + decode_instruction_d0bdb4b05b77c536_output_tmp_e1597_4_limb_0), dst_id_col5"
-      ],
-      [
-        "MemoryIdToBig",
-        "dst_id_col5, dst_limb_0_col6, dst_limb_1_col7, dst_limb_2_col8, dst_limb_3_col9, dst_limb_4_col10, dst_limb_5_col11, dst_limb_6_col12, dst_limb_7_col13, dst_limb_8_col14, dst_limb_9_col15, dst_limb_10_col16, dst_limb_11_col17, dst_limb_12_col18, dst_limb_13_col19, dst_limb_14_col20, dst_limb_15_col21, dst_limb_16_col22, dst_limb_17_col23, dst_limb_18_col24, dst_limb_19_col25, dst_limb_20_col26, dst_limb_21_col27, dst_limb_22_col28, dst_limb_23_col29, dst_limb_24_col30, dst_limb_25_col31, dst_limb_26_col32, dst_limb_27_col33"
+        "decode_instruction_82fc79ef08936af9_input, offset0_col0, 32767, 32769, (((dst_base_fp_col1 * 8) + 16) + 32), (8 + (ap_update_add_1_col2 * 32)), 0"
       ]
     ]
   },
@@ -42553,157 +42379,165 @@
       "input_ap_col1",
       "input_fp_col2",
       "offset0_col3",
-      "ap_update_add_1_col4",
-      "dst_id_col5",
-      "dst_limb_0_col6",
-      "dst_limb_1_col7",
-      "dst_limb_2_col8",
-      "dst_limb_3_col9",
-      "dst_limb_4_col10",
-      "dst_limb_5_col11",
-      "dst_limb_6_col12",
-      "dst_limb_7_col13",
-      "dst_limb_8_col14",
-      "dst_limb_9_col15",
-      "dst_limb_10_col16",
-      "dst_limb_11_col17",
-      "dst_limb_12_col18",
-      "dst_limb_13_col19",
-      "dst_limb_14_col20",
-      "dst_limb_15_col21",
-      "dst_limb_16_col22",
-      "dst_limb_17_col23",
-      "dst_limb_18_col24",
-      "dst_limb_19_col25",
-      "dst_limb_20_col26",
-      "dst_limb_21_col27",
-      "dst_limb_22_col28",
-      "dst_limb_23_col29",
-      "dst_limb_24_col30",
-      "dst_limb_25_col31",
-      "dst_limb_26_col32",
-      "dst_limb_27_col33",
-      "res_col34",
-      "res_squares_col35",
-      "next_pc_id_col36",
-      "msb_col37",
-      "mid_limbs_set_col38",
-      "next_pc_limb_0_col39",
-      "next_pc_limb_1_col40",
-      "next_pc_limb_2_col41"
+      "dst_base_fp_col4",
+      "ap_update_add_1_col5",
+      "mem_dst_base_col6",
+      "dst_id_col7",
+      "dst_limb_0_col8",
+      "dst_limb_1_col9",
+      "dst_limb_2_col10",
+      "dst_limb_3_col11",
+      "dst_limb_4_col12",
+      "dst_limb_5_col13",
+      "dst_limb_6_col14",
+      "dst_limb_7_col15",
+      "dst_limb_8_col16",
+      "dst_limb_9_col17",
+      "dst_limb_10_col18",
+      "dst_limb_11_col19",
+      "dst_limb_12_col20",
+      "dst_limb_13_col21",
+      "dst_limb_14_col22",
+      "dst_limb_15_col23",
+      "dst_limb_16_col24",
+      "dst_limb_17_col25",
+      "dst_limb_18_col26",
+      "dst_limb_19_col27",
+      "dst_limb_20_col28",
+      "dst_limb_21_col29",
+      "dst_limb_22_col30",
+      "dst_limb_23_col31",
+      "dst_limb_24_col32",
+      "dst_limb_25_col33",
+      "dst_limb_26_col34",
+      "dst_limb_27_col35",
+      "res_col36",
+      "res_squares_col37",
+      "next_pc_id_col38",
+      "msb_col39",
+      "mid_limbs_set_col40",
+      "next_pc_limb_0_col41",
+      "next_pc_limb_1_col42",
+      "next_pc_limb_2_col43"
     ],
     "intermediates": [
       [
-        "decode_instruction_d0bdb4b05b77c536_output_tmp_65b05_4_limb_0",
+        "decode_instruction_82fc79ef08936af9_output_tmp_65b05_5_limb_0",
         "(offset0_col3 - 32768)"
       ],
       [
-        "diff_from_p_tmp_65b05_8",
-        "(dst_limb_0_col6 - 1)"
-      ],
-      [
         "diff_from_p_tmp_65b05_9",
-        "(dst_limb_21_col27 - 136)"
+        "(dst_limb_0_col8 - 1)"
       ],
       [
         "diff_from_p_tmp_65b05_10",
-        "(dst_limb_27_col33 - 256)"
+        "(dst_limb_21_col29 - 136)"
       ],
       [
-        "read_small_output_tmp_65b05_16_limb_0",
-        "((((next_pc_limb_0_col39 + (next_pc_limb_1_col40 * 512)) + (next_pc_limb_2_col41 * 262144)) - msb_col37) - (134217728 * mid_limbs_set_col38))"
+        "diff_from_p_tmp_65b05_11",
+        "(dst_limb_27_col35 - 256)"
+      ],
+      [
+        "read_small_output_tmp_65b05_17_limb_0",
+        "((((next_pc_limb_0_col41 + (next_pc_limb_1_col42 * 512)) + (next_pc_limb_2_col43 * 262144)) - msb_col39) - (134217728 * mid_limbs_set_col40))"
       ]
     ],
     "constraints": [
-      "(ap_update_add_1_col4 * (1 - ap_update_add_1_col4))",
-      "(((((((((((((((((((((((((((((dst_limb_0_col6 + dst_limb_1_col7) + dst_limb_2_col8) + dst_limb_3_col9) + dst_limb_4_col10) + dst_limb_5_col11) + dst_limb_6_col12) + dst_limb_7_col13) + dst_limb_8_col14) + dst_limb_9_col15) + dst_limb_10_col16) + dst_limb_11_col17) + dst_limb_12_col18) + dst_limb_13_col19) + dst_limb_14_col20) + dst_limb_15_col21) + dst_limb_16_col22) + dst_limb_17_col23) + dst_limb_18_col24) + dst_limb_19_col25) + dst_limb_20_col26) + dst_limb_21_col27) + dst_limb_22_col28) + dst_limb_23_col29) + dst_limb_24_col30) + dst_limb_25_col31) + dst_limb_26_col32) + dst_limb_27_col33) * res_col34) - 1)",
-      "((((((((((((((((((((((((((((((diff_from_p_tmp_65b05_8 * diff_from_p_tmp_65b05_8) + dst_limb_1_col7) + dst_limb_2_col8) + dst_limb_3_col9) + dst_limb_4_col10) + dst_limb_5_col11) + dst_limb_6_col12) + dst_limb_7_col13) + dst_limb_8_col14) + dst_limb_9_col15) + dst_limb_10_col16) + dst_limb_11_col17) + dst_limb_12_col18) + dst_limb_13_col19) + dst_limb_14_col20) + dst_limb_15_col21) + dst_limb_16_col22) + dst_limb_17_col23) + dst_limb_18_col24) + dst_limb_19_col25) + dst_limb_20_col26) + (diff_from_p_tmp_65b05_9 * diff_from_p_tmp_65b05_9)) + dst_limb_22_col28) + dst_limb_23_col29) + dst_limb_24_col30) + dst_limb_25_col31) + dst_limb_26_col32) + (diff_from_p_tmp_65b05_10 * diff_from_p_tmp_65b05_10)) * res_squares_col35) - 1)",
-      "(msb_col37 * (msb_col37 - 1))",
-      "(mid_limbs_set_col38 * (mid_limbs_set_col38 - 1))",
-      "(mid_limbs_set_col38 * (msb_col37 - 1))"
+      "(dst_base_fp_col4 * (1 - dst_base_fp_col4))",
+      "(ap_update_add_1_col5 * (1 - ap_update_add_1_col5))",
+      "(mem_dst_base_col6 - ((dst_base_fp_col4 * input_fp_col2) + ((1 - dst_base_fp_col4) * input_ap_col1)))",
+      "(((((((((((((((((((((((((((((dst_limb_0_col8 + dst_limb_1_col9) + dst_limb_2_col10) + dst_limb_3_col11) + dst_limb_4_col12) + dst_limb_5_col13) + dst_limb_6_col14) + dst_limb_7_col15) + dst_limb_8_col16) + dst_limb_9_col17) + dst_limb_10_col18) + dst_limb_11_col19) + dst_limb_12_col20) + dst_limb_13_col21) + dst_limb_14_col22) + dst_limb_15_col23) + dst_limb_16_col24) + dst_limb_17_col25) + dst_limb_18_col26) + dst_limb_19_col27) + dst_limb_20_col28) + dst_limb_21_col29) + dst_limb_22_col30) + dst_limb_23_col31) + dst_limb_24_col32) + dst_limb_25_col33) + dst_limb_26_col34) + dst_limb_27_col35) * res_col36) - 1)",
+      "((((((((((((((((((((((((((((((diff_from_p_tmp_65b05_9 * diff_from_p_tmp_65b05_9) + dst_limb_1_col9) + dst_limb_2_col10) + dst_limb_3_col11) + dst_limb_4_col12) + dst_limb_5_col13) + dst_limb_6_col14) + dst_limb_7_col15) + dst_limb_8_col16) + dst_limb_9_col17) + dst_limb_10_col18) + dst_limb_11_col19) + dst_limb_12_col20) + dst_limb_13_col21) + dst_limb_14_col22) + dst_limb_15_col23) + dst_limb_16_col24) + dst_limb_17_col25) + dst_limb_18_col26) + dst_limb_19_col27) + dst_limb_20_col28) + (diff_from_p_tmp_65b05_10 * diff_from_p_tmp_65b05_10)) + dst_limb_22_col30) + dst_limb_23_col31) + dst_limb_24_col32) + dst_limb_25_col33) + dst_limb_26_col34) + (diff_from_p_tmp_65b05_11 * diff_from_p_tmp_65b05_11)) * res_squares_col37) - 1)",
+      "(msb_col39 * (msb_col39 - 1))",
+      "(mid_limbs_set_col40 * (mid_limbs_set_col40 - 1))",
+      "(mid_limbs_set_col40 * (msb_col39 - 1))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "input_pc_col0, offset0_col3, 32767, 32769, 48, (8 + (ap_update_add_1_col4 * 32)), 0"
+        "input_pc_col0, offset0_col3, 32767, 32769, (((dst_base_fp_col4 * 8) + 16) + 32), (8 + (ap_update_add_1_col5 * 32)), 0"
       ],
       [
         "MemoryAddressToId",
-        "(input_ap_col1 + decode_instruction_d0bdb4b05b77c536_output_tmp_65b05_4_limb_0), dst_id_col5"
+        "(mem_dst_base_col6 + decode_instruction_82fc79ef08936af9_output_tmp_65b05_5_limb_0), dst_id_col7"
       ],
       [
         "MemoryIdToBig",
-        "dst_id_col5, dst_limb_0_col6, dst_limb_1_col7, dst_limb_2_col8, dst_limb_3_col9, dst_limb_4_col10, dst_limb_5_col11, dst_limb_6_col12, dst_limb_7_col13, dst_limb_8_col14, dst_limb_9_col15, dst_limb_10_col16, dst_limb_11_col17, dst_limb_12_col18, dst_limb_13_col19, dst_limb_14_col20, dst_limb_15_col21, dst_limb_16_col22, dst_limb_17_col23, dst_limb_18_col24, dst_limb_19_col25, dst_limb_20_col26, dst_limb_21_col27, dst_limb_22_col28, dst_limb_23_col29, dst_limb_24_col30, dst_limb_25_col31, dst_limb_26_col32, dst_limb_27_col33"
+        "dst_id_col7, dst_limb_0_col8, dst_limb_1_col9, dst_limb_2_col10, dst_limb_3_col11, dst_limb_4_col12, dst_limb_5_col13, dst_limb_6_col14, dst_limb_7_col15, dst_limb_8_col16, dst_limb_9_col17, dst_limb_10_col18, dst_limb_11_col19, dst_limb_12_col20, dst_limb_13_col21, dst_limb_14_col22, dst_limb_15_col23, dst_limb_16_col24, dst_limb_17_col25, dst_limb_18_col26, dst_limb_19_col27, dst_limb_20_col28, dst_limb_21_col29, dst_limb_22_col30, dst_limb_23_col31, dst_limb_24_col32, dst_limb_25_col33, dst_limb_26_col34, dst_limb_27_col35"
       ],
       [
         "MemoryAddressToId",
-        "(input_pc_col0 + 1), next_pc_id_col36"
+        "(input_pc_col0 + 1), next_pc_id_col38"
       ],
       [
         "MemoryIdToBig",
-        "next_pc_id_col36, next_pc_limb_0_col39, next_pc_limb_1_col40, next_pc_limb_2_col41, (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), (mid_limbs_set_col38 * 511), ((136 * msb_col37) - mid_limbs_set_col38), 0, 0, 0, 0, 0, (msb_col37 * 256)"
+        "next_pc_id_col38, next_pc_limb_0_col41, next_pc_limb_1_col42, next_pc_limb_2_col43, (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), (mid_limbs_set_col40 * 511), ((136 * msb_col39) - mid_limbs_set_col40), 0, 0, 0, 0, 0, (msb_col39 * 256)"
       ]
     ]
   },
-  "jnz_opcode_dst_base_fp": {
+  "jnz_opcode": {
     "state_names": [
       "input_pc_col0",
       "input_ap_col1",
       "input_fp_col2",
       "offset0_col3",
-      "ap_update_add_1_col4",
-      "dst_id_col5",
-      "dst_limb_0_col6",
-      "dst_limb_1_col7",
-      "dst_limb_2_col8",
-      "dst_limb_3_col9",
-      "dst_limb_4_col10",
-      "dst_limb_5_col11",
-      "dst_limb_6_col12",
-      "dst_limb_7_col13",
-      "dst_limb_8_col14",
-      "dst_limb_9_col15",
-      "dst_limb_10_col16",
-      "dst_limb_11_col17",
-      "dst_limb_12_col18",
-      "dst_limb_13_col19",
-      "dst_limb_14_col20",
-      "dst_limb_15_col21",
-      "dst_limb_16_col22",
-      "dst_limb_17_col23",
-      "dst_limb_18_col24",
-      "dst_limb_19_col25",
-      "dst_limb_20_col26",
-      "dst_limb_21_col27",
-      "dst_limb_22_col28",
-      "dst_limb_23_col29",
-      "dst_limb_24_col30",
-      "dst_limb_25_col31",
-      "dst_limb_26_col32",
-      "dst_limb_27_col33"
+      "dst_base_fp_col4",
+      "ap_update_add_1_col5",
+      "mem_dst_base_col6",
+      "dst_id_col7",
+      "dst_limb_0_col8",
+      "dst_limb_1_col9",
+      "dst_limb_2_col10",
+      "dst_limb_3_col11",
+      "dst_limb_4_col12",
+      "dst_limb_5_col13",
+      "dst_limb_6_col14",
+      "dst_limb_7_col15",
+      "dst_limb_8_col16",
+      "dst_limb_9_col17",
+      "dst_limb_10_col18",
+      "dst_limb_11_col19",
+      "dst_limb_12_col20",
+      "dst_limb_13_col21",
+      "dst_limb_14_col22",
+      "dst_limb_15_col23",
+      "dst_limb_16_col24",
+      "dst_limb_17_col25",
+      "dst_limb_18_col26",
+      "dst_limb_19_col27",
+      "dst_limb_20_col28",
+      "dst_limb_21_col29",
+      "dst_limb_22_col30",
+      "dst_limb_23_col31",
+      "dst_limb_24_col32",
+      "dst_limb_25_col33",
+      "dst_limb_26_col34",
+      "dst_limb_27_col35"
     ],
     "intermediates": [
       [
-        "decode_instruction_e03055818c3f043_output_tmp_4ef17_4_limb_0",
+        "decode_instruction_82fc79ef08936af9_output_tmp_e1597_5_limb_0",
         "(offset0_col3 - 32768)"
       ]
     ],
     "constraints": [
-      "(ap_update_add_1_col4 * (1 - ap_update_add_1_col4))",
-      "(((((((((((((((((((((((((((dst_limb_0_col6 + dst_limb_1_col7) + dst_limb_2_col8) + dst_limb_3_col9) + dst_limb_4_col10) + dst_limb_5_col11) + dst_limb_6_col12) + dst_limb_7_col13) + dst_limb_8_col14) + dst_limb_9_col15) + dst_limb_10_col16) + dst_limb_11_col17) + dst_limb_12_col18) + dst_limb_13_col19) + dst_limb_14_col20) + dst_limb_15_col21) + dst_limb_16_col22) + dst_limb_17_col23) + dst_limb_18_col24) + dst_limb_19_col25) + dst_limb_20_col26) + dst_limb_21_col27) + dst_limb_22_col28) + dst_limb_23_col29) + dst_limb_24_col30) + dst_limb_25_col31) + dst_limb_26_col32) + dst_limb_27_col33)"
+      "(dst_base_fp_col4 * (1 - dst_base_fp_col4))",
+      "(ap_update_add_1_col5 * (1 - ap_update_add_1_col5))",
+      "(mem_dst_base_col6 - ((dst_base_fp_col4 * input_fp_col2) + ((1 - dst_base_fp_col4) * input_ap_col1)))",
+      "(((((((((((((((((((((((((((dst_limb_0_col8 + dst_limb_1_col9) + dst_limb_2_col10) + dst_limb_3_col11) + dst_limb_4_col12) + dst_limb_5_col13) + dst_limb_6_col14) + dst_limb_7_col15) + dst_limb_8_col16) + dst_limb_9_col17) + dst_limb_10_col18) + dst_limb_11_col19) + dst_limb_12_col20) + dst_limb_13_col21) + dst_limb_14_col22) + dst_limb_15_col23) + dst_limb_16_col24) + dst_limb_17_col25) + dst_limb_18_col26) + dst_limb_19_col27) + dst_limb_20_col28) + dst_limb_21_col29) + dst_limb_22_col30) + dst_limb_23_col31) + dst_limb_24_col32) + dst_limb_25_col33) + dst_limb_26_col34) + dst_limb_27_col35)"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "input_pc_col0, offset0_col3, 32767, 32769, 56, (8 + (ap_update_add_1_col4 * 32)), 0"
+        "input_pc_col0, offset0_col3, 32767, 32769, (((dst_base_fp_col4 * 8) + 16) + 32), (8 + (ap_update_add_1_col5 * 32)), 0"
       ],
       [
         "MemoryAddressToId",
-        "(input_fp_col2 + decode_instruction_e03055818c3f043_output_tmp_4ef17_4_limb_0), dst_id_col5"
+        "(mem_dst_base_col6 + decode_instruction_82fc79ef08936af9_output_tmp_e1597_5_limb_0), dst_id_col7"
       ],
       [
         "MemoryIdToBig",
-        "dst_id_col5, dst_limb_0_col6, dst_limb_1_col7, dst_limb_2_col8, dst_limb_3_col9, dst_limb_4_col10, dst_limb_5_col11, dst_limb_6_col12, dst_limb_7_col13, dst_limb_8_col14, dst_limb_9_col15, dst_limb_10_col16, dst_limb_11_col17, dst_limb_12_col18, dst_limb_13_col19, dst_limb_14_col20, dst_limb_15_col21, dst_limb_16_col22, dst_limb_17_col23, dst_limb_18_col24, dst_limb_19_col25, dst_limb_20_col26, dst_limb_21_col27, dst_limb_22_col28, dst_limb_23_col29, dst_limb_24_col30, dst_limb_25_col31, dst_limb_26_col32, dst_limb_27_col33"
+        "dst_id_col7, dst_limb_0_col8, dst_limb_1_col9, dst_limb_2_col10, dst_limb_3_col11, dst_limb_4_col12, dst_limb_5_col13, dst_limb_6_col14, dst_limb_7_col15, dst_limb_8_col16, dst_limb_9_col17, dst_limb_10_col18, dst_limb_11_col19, dst_limb_12_col20, dst_limb_13_col21, dst_limb_14_col22, dst_limb_15_col23, dst_limb_16_col24, dst_limb_17_col25, dst_limb_18_col26, dst_limb_19_col27, dst_limb_20_col28, dst_limb_21_col29, dst_limb_22_col30, dst_limb_23_col31, dst_limb_24_col32, dst_limb_25_col33, dst_limb_26_col34, dst_limb_27_col35"
       ]
     ]
   },
