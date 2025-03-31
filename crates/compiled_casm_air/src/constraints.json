@@ -45500,14 +45500,14 @@
       "(ap_update_add_1_col7 * (1 - ap_update_add_1_col7))",
       "((op1_base_fp_col5 + op1_base_ap_col6) - 1)",
       "((opcode_extension_col8 - 1) * (opcode_extension_col8 - 2))",
-      "(mem0_base_col9 - ((op0_base_fp_col4 * decode_blake_opcode_input_limb_2) + ((1 - op0_base_fp_col4) * decode_blake_opcode_input_limb_1)))",
-      "(mem1_base_col14 - ((op1_base_fp_col5 * decode_blake_opcode_input_limb_2) + (op1_base_ap_col6 * decode_blake_opcode_input_limb_1)))",
-      "(mem_dst_base_col23 - ((dst_base_fp_col3 * decode_blake_opcode_input_limb_2) + ((1 - dst_base_fp_col3) * decode_blake_opcode_input_limb_1)))"
+      "(mem0_base_col9 - ((op0_base_fp_col4 * decode_blake_opcode_input_fp) + ((1 - op0_base_fp_col4) * decode_blake_opcode_input_ap)))",
+      "(mem1_base_col14 - ((op1_base_fp_col5 * decode_blake_opcode_input_fp) + (op1_base_ap_col6 * decode_blake_opcode_input_ap)))",
+      "(mem_dst_base_col23 - ((dst_base_fp_col3 * decode_blake_opcode_input_fp) + ((1 - dst_base_fp_col3) * decode_blake_opcode_input_ap)))"
     ],
     "lookups": [
       [
         "VerifyInstruction",
-        "decode_blake_opcode_input_limb_0, offset0_col0, offset1_col1, offset2_col2, ((((dst_base_fp_col3 * 8) + (op0_base_fp_col4 * 16)) + (op1_base_fp_col5 * 64)) + (op1_base_ap_col6 * 128)), (ap_update_add_1_col7 * 32), opcode_extension_col8"
+        "decode_blake_opcode_input_pc, offset0_col0, offset1_col1, offset2_col2, ((((dst_base_fp_col3 * 8) + (op0_base_fp_col4 * 16)) + (op1_base_fp_col5 * 64)) + (op1_base_ap_col6 * 128)), (ap_update_add_1_col7 * 32), opcode_extension_col8"
       ],
       [
         "MemoryAddressToId",
@@ -45527,7 +45527,7 @@
       ],
       [
         "MemoryAddressToId",
-        "decode_blake_opcode_input_limb_1, ap_id_col19"
+        "decode_blake_opcode_input_ap, ap_id_col19"
       ],
       [
         "MemoryIdToBig",
@@ -45783,17 +45783,17 @@
   },
   "triple_sum_32": {
     "state_names": [
-      "triple_sum32_res_low_col0",
-      "triple_sum32_res_high_col1"
+      "triple_sum32_res_limb_0_col0",
+      "triple_sum32_res_limb_1_col1"
     ],
     "intermediates": [
       [
         "carry_low_tmp_541fa_1",
-        "((((triple_sum_32_input_limb_0 + triple_sum_32_input_limb_2) + triple_sum_32_input_limb_4) - triple_sum32_res_low_col0) * 32768)"
+        "((((triple_sum_32_input_limb_0 + triple_sum_32_input_limb_2) + triple_sum_32_input_limb_4) - triple_sum32_res_limb_0_col0) * 32768)"
       ],
       [
         "carry_high_tmp_541fa_2",
-        "(((((triple_sum_32_input_limb_1 + triple_sum_32_input_limb_3) + triple_sum_32_input_limb_5) + carry_low_tmp_541fa_1) - triple_sum32_res_high_col1) * 32768)"
+        "(((((triple_sum_32_input_limb_1 + triple_sum_32_input_limb_3) + triple_sum_32_input_limb_5) + carry_low_tmp_541fa_1) - triple_sum32_res_limb_1_col1) * 32768)"
       ]
     ],
     "constraints": [
@@ -46135,8 +46135,8 @@
       "input_limb_9_col9",
       "input_limb_10_col10",
       "input_limb_11_col11",
-      "triple_sum32_res_low_col12",
-      "triple_sum32_res_high_col13",
+      "triple_sum32_res_limb_0_col12",
+      "triple_sum32_res_limb_1_col13",
       "ms_8_bits_col14",
       "ms_8_bits_col15",
       "ms_8_bits_col16",
@@ -46145,8 +46145,8 @@
       "xor_col19",
       "xor_col20",
       "xor_col21",
-      "triple_sum32_res_low_col22",
-      "triple_sum32_res_high_col23",
+      "triple_sum32_res_limb_0_col22",
+      "triple_sum32_res_limb_1_col23",
       "ms_4_bits_col24",
       "ms_4_bits_col25",
       "ms_4_bits_col26",
@@ -46155,8 +46155,8 @@
       "xor_col29",
       "xor_col30",
       "xor_col31",
-      "triple_sum32_res_low_col32",
-      "triple_sum32_res_high_col33",
+      "triple_sum32_res_limb_0_col32",
+      "triple_sum32_res_limb_1_col33",
       "ms_8_bits_col34",
       "ms_8_bits_col35",
       "ms_8_bits_col36",
@@ -46165,8 +46165,8 @@
       "xor_col39",
       "xor_col40",
       "xor_col41",
-      "triple_sum32_res_low_col42",
-      "triple_sum32_res_high_col43",
+      "triple_sum32_res_limb_0_col42",
+      "triple_sum32_res_limb_1_col43",
       "ms_9_bits_col44",
       "ms_9_bits_col45",
       "ms_9_bits_col46",
@@ -46179,19 +46179,19 @@
     "intermediates": [
       [
         "carry_low_tmp_f72c8_1",
-        "((((input_limb_0_col0 + input_limb_2_col2) + input_limb_8_col8) - triple_sum32_res_low_col12) * 32768)"
+        "((((input_limb_0_col0 + input_limb_2_col2) + input_limb_8_col8) - triple_sum32_res_limb_0_col12) * 32768)"
       ],
       [
         "carry_high_tmp_f72c8_2",
-        "(((((input_limb_1_col1 + input_limb_3_col3) + input_limb_9_col9) + carry_low_tmp_f72c8_1) - triple_sum32_res_high_col13) * 32768)"
+        "(((((input_limb_1_col1 + input_limb_3_col3) + input_limb_9_col9) + carry_low_tmp_f72c8_1) - triple_sum32_res_limb_1_col13) * 32768)"
       ],
       [
         "split_16_low_part_size_8_output_tmp_f72c8_5_limb_0",
-        "(triple_sum32_res_low_col12 - (ms_8_bits_col14 * 256))"
+        "(triple_sum32_res_limb_0_col12 - (ms_8_bits_col14 * 256))"
       ],
       [
         "split_16_low_part_size_8_output_tmp_f72c8_7_limb_0",
-        "(triple_sum32_res_high_col13 - (ms_8_bits_col15 * 256))"
+        "(triple_sum32_res_limb_1_col13 - (ms_8_bits_col15 * 256))"
       ],
       [
         "split_16_low_part_size_8_output_tmp_f72c8_9_limb_0",
@@ -46219,11 +46219,11 @@
       ],
       [
         "carry_low_tmp_f72c8_23",
-        "(((input_limb_4_col4 + xor_rot_32_r_16_output_tmp_f72c8_21_limb_0) - triple_sum32_res_low_col22) * 32768)"
+        "(((input_limb_4_col4 + xor_rot_32_r_16_output_tmp_f72c8_21_limb_0) - triple_sum32_res_limb_0_col22) * 32768)"
       ],
       [
         "carry_high_tmp_f72c8_24",
-        "((((input_limb_5_col5 + xor_rot_32_r_16_output_tmp_f72c8_21_limb_1) + carry_low_tmp_f72c8_23) - triple_sum32_res_high_col23) * 32768)"
+        "((((input_limb_5_col5 + xor_rot_32_r_16_output_tmp_f72c8_21_limb_1) + carry_low_tmp_f72c8_23) - triple_sum32_res_limb_1_col23) * 32768)"
       ],
       [
         "split_16_low_part_size_12_output_tmp_f72c8_27_limb_0",
@@ -46235,11 +46235,11 @@
       ],
       [
         "split_16_low_part_size_12_output_tmp_f72c8_31_limb_0",
-        "(triple_sum32_res_low_col22 - (ms_4_bits_col26 * 4096))"
+        "(triple_sum32_res_limb_0_col22 - (ms_4_bits_col26 * 4096))"
       ],
       [
         "split_16_low_part_size_12_output_tmp_f72c8_33_limb_0",
-        "(triple_sum32_res_high_col23 - (ms_4_bits_col27 * 4096))"
+        "(triple_sum32_res_limb_1_col23 - (ms_4_bits_col27 * 4096))"
       ],
       [
         "xor_rot_12_output_tmp_f72c8_42_limb_0",
@@ -46259,19 +46259,19 @@
       ],
       [
         "carry_low_tmp_f72c8_45",
-        "((((triple_sum32_res_low_col12 + xor_rot_32_r_12_output_tmp_f72c8_43_limb_0) + input_limb_10_col10) - triple_sum32_res_low_col32) * 32768)"
+        "((((triple_sum32_res_limb_0_col12 + xor_rot_32_r_12_output_tmp_f72c8_43_limb_0) + input_limb_10_col10) - triple_sum32_res_limb_0_col32) * 32768)"
       ],
       [
         "carry_high_tmp_f72c8_46",
-        "(((((triple_sum32_res_high_col13 + xor_rot_32_r_12_output_tmp_f72c8_43_limb_1) + input_limb_11_col11) + carry_low_tmp_f72c8_45) - triple_sum32_res_high_col33) * 32768)"
+        "(((((triple_sum32_res_limb_1_col13 + xor_rot_32_r_12_output_tmp_f72c8_43_limb_1) + input_limb_11_col11) + carry_low_tmp_f72c8_45) - triple_sum32_res_limb_1_col33) * 32768)"
       ],
       [
         "split_16_low_part_size_8_output_tmp_f72c8_49_limb_0",
-        "(triple_sum32_res_low_col32 - (ms_8_bits_col34 * 256))"
+        "(triple_sum32_res_limb_0_col32 - (ms_8_bits_col34 * 256))"
       ],
       [
         "split_16_low_part_size_8_output_tmp_f72c8_51_limb_0",
-        "(triple_sum32_res_high_col33 - (ms_8_bits_col35 * 256))"
+        "(triple_sum32_res_limb_1_col33 - (ms_8_bits_col35 * 256))"
       ],
       [
         "split_16_low_part_size_8_output_tmp_f72c8_53_limb_0",
@@ -46299,11 +46299,11 @@
       ],
       [
         "carry_low_tmp_f72c8_67",
-        "(((triple_sum32_res_low_col22 + xor_rot_32_r_8_output_tmp_f72c8_65_limb_0) - triple_sum32_res_low_col42) * 32768)"
+        "(((triple_sum32_res_limb_0_col22 + xor_rot_32_r_8_output_tmp_f72c8_65_limb_0) - triple_sum32_res_limb_0_col42) * 32768)"
       ],
       [
         "carry_high_tmp_f72c8_68",
-        "((((triple_sum32_res_high_col23 + xor_rot_32_r_8_output_tmp_f72c8_65_limb_1) + carry_low_tmp_f72c8_67) - triple_sum32_res_high_col43) * 32768)"
+        "((((triple_sum32_res_limb_1_col23 + xor_rot_32_r_8_output_tmp_f72c8_65_limb_1) + carry_low_tmp_f72c8_67) - triple_sum32_res_limb_1_col43) * 32768)"
       ],
       [
         "split_16_low_part_size_7_output_tmp_f72c8_71_limb_0",
@@ -46315,11 +46315,11 @@
       ],
       [
         "split_16_low_part_size_7_output_tmp_f72c8_75_limb_0",
-        "(triple_sum32_res_low_col42 - (ms_9_bits_col46 * 128))"
+        "(triple_sum32_res_limb_0_col42 - (ms_9_bits_col46 * 128))"
       ],
       [
         "split_16_low_part_size_7_output_tmp_f72c8_77_limb_0",
-        "(triple_sum32_res_high_col43 - (ms_9_bits_col47 * 128))"
+        "(triple_sum32_res_limb_1_col43 - (ms_9_bits_col47 * 128))"
       ],
       [
         "xor_rot_7_output_tmp_f72c8_86_limb_0",
@@ -46961,57 +46961,57 @@
   },
   "create_blake_output": {
     "state_names": [
-      "triple_xor_32_output_low_col0",
-      "triple_xor_32_output_high_col1",
-      "triple_xor_32_output_low_col2",
-      "triple_xor_32_output_high_col3",
-      "triple_xor_32_output_low_col4",
-      "triple_xor_32_output_high_col5",
-      "triple_xor_32_output_low_col6",
-      "triple_xor_32_output_high_col7",
-      "triple_xor_32_output_low_col8",
-      "triple_xor_32_output_high_col9",
-      "triple_xor_32_output_low_col10",
-      "triple_xor_32_output_high_col11",
-      "triple_xor_32_output_low_col12",
-      "triple_xor_32_output_high_col13",
-      "triple_xor_32_output_low_col14",
-      "triple_xor_32_output_high_col15"
+      "triple_xor_32_output_limb_0_col0",
+      "triple_xor_32_output_limb_1_col1",
+      "triple_xor_32_output_limb_0_col2",
+      "triple_xor_32_output_limb_1_col3",
+      "triple_xor_32_output_limb_0_col4",
+      "triple_xor_32_output_limb_1_col5",
+      "triple_xor_32_output_limb_0_col6",
+      "triple_xor_32_output_limb_1_col7",
+      "triple_xor_32_output_limb_0_col8",
+      "triple_xor_32_output_limb_1_col9",
+      "triple_xor_32_output_limb_0_col10",
+      "triple_xor_32_output_limb_1_col11",
+      "triple_xor_32_output_limb_0_col12",
+      "triple_xor_32_output_limb_1_col13",
+      "triple_xor_32_output_limb_0_col14",
+      "triple_xor_32_output_limb_1_col15"
     ],
     "intermediates": [],
     "constraints": [],
     "lookups": [
       [
         "TripleXor32",
-        "create_blake_output_input_limb_16, create_blake_output_input_limb_17, create_blake_output_input_limb_32, create_blake_output_input_limb_33, create_blake_output_input_limb_0, create_blake_output_input_limb_1, triple_xor_32_output_low_col0, triple_xor_32_output_high_col1"
+        "create_blake_output_input_limb_16, create_blake_output_input_limb_17, create_blake_output_input_limb_32, create_blake_output_input_limb_33, create_blake_output_input_limb_0, create_blake_output_input_limb_1, triple_xor_32_output_limb_0_col0, triple_xor_32_output_limb_1_col1"
       ],
       [
         "TripleXor32",
-        "create_blake_output_input_limb_18, create_blake_output_input_limb_19, create_blake_output_input_limb_34, create_blake_output_input_limb_35, create_blake_output_input_limb_2, create_blake_output_input_limb_3, triple_xor_32_output_low_col2, triple_xor_32_output_high_col3"
+        "create_blake_output_input_limb_18, create_blake_output_input_limb_19, create_blake_output_input_limb_34, create_blake_output_input_limb_35, create_blake_output_input_limb_2, create_blake_output_input_limb_3, triple_xor_32_output_limb_0_col2, triple_xor_32_output_limb_1_col3"
       ],
       [
         "TripleXor32",
-        "create_blake_output_input_limb_20, create_blake_output_input_limb_21, create_blake_output_input_limb_36, create_blake_output_input_limb_37, create_blake_output_input_limb_4, create_blake_output_input_limb_5, triple_xor_32_output_low_col4, triple_xor_32_output_high_col5"
+        "create_blake_output_input_limb_20, create_blake_output_input_limb_21, create_blake_output_input_limb_36, create_blake_output_input_limb_37, create_blake_output_input_limb_4, create_blake_output_input_limb_5, triple_xor_32_output_limb_0_col4, triple_xor_32_output_limb_1_col5"
       ],
       [
         "TripleXor32",
-        "create_blake_output_input_limb_22, create_blake_output_input_limb_23, create_blake_output_input_limb_38, create_blake_output_input_limb_39, create_blake_output_input_limb_6, create_blake_output_input_limb_7, triple_xor_32_output_low_col6, triple_xor_32_output_high_col7"
+        "create_blake_output_input_limb_22, create_blake_output_input_limb_23, create_blake_output_input_limb_38, create_blake_output_input_limb_39, create_blake_output_input_limb_6, create_blake_output_input_limb_7, triple_xor_32_output_limb_0_col6, triple_xor_32_output_limb_1_col7"
       ],
       [
         "TripleXor32",
-        "create_blake_output_input_limb_24, create_blake_output_input_limb_25, create_blake_output_input_limb_40, create_blake_output_input_limb_41, create_blake_output_input_limb_8, create_blake_output_input_limb_9, triple_xor_32_output_low_col8, triple_xor_32_output_high_col9"
+        "create_blake_output_input_limb_24, create_blake_output_input_limb_25, create_blake_output_input_limb_40, create_blake_output_input_limb_41, create_blake_output_input_limb_8, create_blake_output_input_limb_9, triple_xor_32_output_limb_0_col8, triple_xor_32_output_limb_1_col9"
       ],
       [
         "TripleXor32",
-        "create_blake_output_input_limb_26, create_blake_output_input_limb_27, create_blake_output_input_limb_42, create_blake_output_input_limb_43, create_blake_output_input_limb_10, create_blake_output_input_limb_11, triple_xor_32_output_low_col10, triple_xor_32_output_high_col11"
+        "create_blake_output_input_limb_26, create_blake_output_input_limb_27, create_blake_output_input_limb_42, create_blake_output_input_limb_43, create_blake_output_input_limb_10, create_blake_output_input_limb_11, triple_xor_32_output_limb_0_col10, triple_xor_32_output_limb_1_col11"
       ],
       [
         "TripleXor32",
-        "create_blake_output_input_limb_28, create_blake_output_input_limb_29, create_blake_output_input_limb_44, create_blake_output_input_limb_45, create_blake_output_input_limb_12, create_blake_output_input_limb_13, triple_xor_32_output_low_col12, triple_xor_32_output_high_col13"
+        "create_blake_output_input_limb_28, create_blake_output_input_limb_29, create_blake_output_input_limb_44, create_blake_output_input_limb_45, create_blake_output_input_limb_12, create_blake_output_input_limb_13, triple_xor_32_output_limb_0_col12, triple_xor_32_output_limb_1_col13"
       ],
       [
         "TripleXor32",
-        "create_blake_output_input_limb_30, create_blake_output_input_limb_31, create_blake_output_input_limb_46, create_blake_output_input_limb_47, create_blake_output_input_limb_14, create_blake_output_input_limb_15, triple_xor_32_output_low_col14, triple_xor_32_output_high_col15"
+        "create_blake_output_input_limb_30, create_blake_output_input_limb_31, create_blake_output_input_limb_46, create_blake_output_input_limb_47, create_blake_output_input_limb_14, create_blake_output_input_limb_15, triple_xor_32_output_limb_0_col14, triple_xor_32_output_limb_1_col15"
       ]
     ]
   },
@@ -47139,22 +47139,22 @@
       "blake_round_output_limb_32_col119",
       "blake_round_output_limb_33_col120",
       "blake_round_output_limb_34_col121",
-      "triple_xor_32_output_low_col122",
-      "triple_xor_32_output_high_col123",
-      "triple_xor_32_output_low_col124",
-      "triple_xor_32_output_high_col125",
-      "triple_xor_32_output_low_col126",
-      "triple_xor_32_output_high_col127",
-      "triple_xor_32_output_low_col128",
-      "triple_xor_32_output_high_col129",
-      "triple_xor_32_output_low_col130",
-      "triple_xor_32_output_high_col131",
-      "triple_xor_32_output_low_col132",
-      "triple_xor_32_output_high_col133",
-      "triple_xor_32_output_low_col134",
-      "triple_xor_32_output_high_col135",
-      "triple_xor_32_output_low_col136",
-      "triple_xor_32_output_high_col137",
+      "triple_xor_32_output_limb_0_col122",
+      "triple_xor_32_output_limb_1_col123",
+      "triple_xor_32_output_limb_0_col124",
+      "triple_xor_32_output_limb_1_col125",
+      "triple_xor_32_output_limb_0_col126",
+      "triple_xor_32_output_limb_1_col127",
+      "triple_xor_32_output_limb_0_col128",
+      "triple_xor_32_output_limb_1_col129",
+      "triple_xor_32_output_limb_0_col130",
+      "triple_xor_32_output_limb_1_col131",
+      "triple_xor_32_output_limb_0_col132",
+      "triple_xor_32_output_limb_1_col133",
+      "triple_xor_32_output_limb_0_col134",
+      "triple_xor_32_output_limb_1_col135",
+      "triple_xor_32_output_limb_0_col136",
+      "triple_xor_32_output_limb_1_col137",
       "low_7_ms_bits_col138",
       "high_14_ms_bits_col139",
       "high_5_ms_bits_col140",
@@ -47413,39 +47413,39 @@
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_2_col89, blake_round_output_limb_3_col90, blake_round_output_limb_18_col105, blake_round_output_limb_19_col106, low_16_bits_col33, high_16_bits_col34, triple_xor_32_output_low_col122, triple_xor_32_output_high_col123"
+        "blake_round_output_limb_2_col89, blake_round_output_limb_3_col90, blake_round_output_limb_18_col105, blake_round_output_limb_19_col106, low_16_bits_col33, high_16_bits_col34, triple_xor_32_output_limb_0_col122, triple_xor_32_output_limb_1_col123"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_4_col91, blake_round_output_limb_5_col92, blake_round_output_limb_20_col107, blake_round_output_limb_21_col108, low_16_bits_col39, high_16_bits_col40, triple_xor_32_output_low_col124, triple_xor_32_output_high_col125"
+        "blake_round_output_limb_4_col91, blake_round_output_limb_5_col92, blake_round_output_limb_20_col107, blake_round_output_limb_21_col108, low_16_bits_col39, high_16_bits_col40, triple_xor_32_output_limb_0_col124, triple_xor_32_output_limb_1_col125"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_6_col93, blake_round_output_limb_7_col94, blake_round_output_limb_22_col109, blake_round_output_limb_23_col110, low_16_bits_col45, high_16_bits_col46, triple_xor_32_output_low_col126, triple_xor_32_output_high_col127"
+        "blake_round_output_limb_6_col93, blake_round_output_limb_7_col94, blake_round_output_limb_22_col109, blake_round_output_limb_23_col110, low_16_bits_col45, high_16_bits_col46, triple_xor_32_output_limb_0_col126, triple_xor_32_output_limb_1_col127"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_8_col95, blake_round_output_limb_9_col96, blake_round_output_limb_24_col111, blake_round_output_limb_25_col112, low_16_bits_col51, high_16_bits_col52, triple_xor_32_output_low_col128, triple_xor_32_output_high_col129"
+        "blake_round_output_limb_8_col95, blake_round_output_limb_9_col96, blake_round_output_limb_24_col111, blake_round_output_limb_25_col112, low_16_bits_col51, high_16_bits_col52, triple_xor_32_output_limb_0_col128, triple_xor_32_output_limb_1_col129"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_10_col97, blake_round_output_limb_11_col98, blake_round_output_limb_26_col113, blake_round_output_limb_27_col114, low_16_bits_col57, high_16_bits_col58, triple_xor_32_output_low_col130, triple_xor_32_output_high_col131"
+        "blake_round_output_limb_10_col97, blake_round_output_limb_11_col98, blake_round_output_limb_26_col113, blake_round_output_limb_27_col114, low_16_bits_col57, high_16_bits_col58, triple_xor_32_output_limb_0_col130, triple_xor_32_output_limb_1_col131"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_12_col99, blake_round_output_limb_13_col100, blake_round_output_limb_28_col115, blake_round_output_limb_29_col116, low_16_bits_col63, high_16_bits_col64, triple_xor_32_output_low_col132, triple_xor_32_output_high_col133"
+        "blake_round_output_limb_12_col99, blake_round_output_limb_13_col100, blake_round_output_limb_28_col115, blake_round_output_limb_29_col116, low_16_bits_col63, high_16_bits_col64, triple_xor_32_output_limb_0_col132, triple_xor_32_output_limb_1_col133"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_14_col101, blake_round_output_limb_15_col102, blake_round_output_limb_30_col117, blake_round_output_limb_31_col118, low_16_bits_col69, high_16_bits_col70, triple_xor_32_output_low_col134, triple_xor_32_output_high_col135"
+        "blake_round_output_limb_14_col101, blake_round_output_limb_15_col102, blake_round_output_limb_30_col117, blake_round_output_limb_31_col118, low_16_bits_col69, high_16_bits_col70, triple_xor_32_output_limb_0_col134, triple_xor_32_output_limb_1_col135"
       ],
       [
         "TripleXor32",
-        "blake_round_output_limb_16_col103, blake_round_output_limb_17_col104, blake_round_output_limb_32_col119, blake_round_output_limb_33_col120, low_16_bits_col75, high_16_bits_col76, triple_xor_32_output_low_col136, triple_xor_32_output_high_col137"
+        "blake_round_output_limb_16_col103, blake_round_output_limb_17_col104, blake_round_output_limb_32_col119, blake_round_output_limb_33_col120, low_16_bits_col75, high_16_bits_col76, triple_xor_32_output_limb_0_col136, triple_xor_32_output_limb_1_col137"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col138, (triple_xor_32_output_high_col123 - (high_14_ms_bits_col139 * 4)), high_5_ms_bits_col140"
+        "low_7_ms_bits_col138, (triple_xor_32_output_limb_1_col123 - (high_14_ms_bits_col139 * 4)), high_5_ms_bits_col140"
       ],
       [
         "MemoryAddressToId",
@@ -47453,11 +47453,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_0_id_col141, (triple_xor_32_output_low_col122 - (low_7_ms_bits_col138 * 512)), (low_7_ms_bits_col138 + ((triple_xor_32_output_high_col123 - (high_14_ms_bits_col139 * 4)) * 128)), (high_14_ms_bits_col139 - (high_5_ms_bits_col140 * 512)), high_5_ms_bits_col140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_0_id_col141, (triple_xor_32_output_limb_0_col122 - (low_7_ms_bits_col138 * 512)), (low_7_ms_bits_col138 + ((triple_xor_32_output_limb_1_col123 - (high_14_ms_bits_col139 * 4)) * 128)), (high_14_ms_bits_col139 - (high_5_ms_bits_col140 * 512)), high_5_ms_bits_col140, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col142, (triple_xor_32_output_high_col125 - (high_14_ms_bits_col143 * 4)), high_5_ms_bits_col144"
+        "low_7_ms_bits_col142, (triple_xor_32_output_limb_1_col125 - (high_14_ms_bits_col143 * 4)), high_5_ms_bits_col144"
       ],
       [
         "MemoryAddressToId",
@@ -47465,11 +47465,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_1_id_col145, (triple_xor_32_output_low_col124 - (low_7_ms_bits_col142 * 512)), (low_7_ms_bits_col142 + ((triple_xor_32_output_high_col125 - (high_14_ms_bits_col143 * 4)) * 128)), (high_14_ms_bits_col143 - (high_5_ms_bits_col144 * 512)), high_5_ms_bits_col144, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_1_id_col145, (triple_xor_32_output_limb_0_col124 - (low_7_ms_bits_col142 * 512)), (low_7_ms_bits_col142 + ((triple_xor_32_output_limb_1_col125 - (high_14_ms_bits_col143 * 4)) * 128)), (high_14_ms_bits_col143 - (high_5_ms_bits_col144 * 512)), high_5_ms_bits_col144, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col146, (triple_xor_32_output_high_col127 - (high_14_ms_bits_col147 * 4)), high_5_ms_bits_col148"
+        "low_7_ms_bits_col146, (triple_xor_32_output_limb_1_col127 - (high_14_ms_bits_col147 * 4)), high_5_ms_bits_col148"
       ],
       [
         "MemoryAddressToId",
@@ -47477,11 +47477,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_2_id_col149, (triple_xor_32_output_low_col126 - (low_7_ms_bits_col146 * 512)), (low_7_ms_bits_col146 + ((triple_xor_32_output_high_col127 - (high_14_ms_bits_col147 * 4)) * 128)), (high_14_ms_bits_col147 - (high_5_ms_bits_col148 * 512)), high_5_ms_bits_col148, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_2_id_col149, (triple_xor_32_output_limb_0_col126 - (low_7_ms_bits_col146 * 512)), (low_7_ms_bits_col146 + ((triple_xor_32_output_limb_1_col127 - (high_14_ms_bits_col147 * 4)) * 128)), (high_14_ms_bits_col147 - (high_5_ms_bits_col148 * 512)), high_5_ms_bits_col148, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col150, (triple_xor_32_output_high_col129 - (high_14_ms_bits_col151 * 4)), high_5_ms_bits_col152"
+        "low_7_ms_bits_col150, (triple_xor_32_output_limb_1_col129 - (high_14_ms_bits_col151 * 4)), high_5_ms_bits_col152"
       ],
       [
         "MemoryAddressToId",
@@ -47489,11 +47489,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_3_id_col153, (triple_xor_32_output_low_col128 - (low_7_ms_bits_col150 * 512)), (low_7_ms_bits_col150 + ((triple_xor_32_output_high_col129 - (high_14_ms_bits_col151 * 4)) * 128)), (high_14_ms_bits_col151 - (high_5_ms_bits_col152 * 512)), high_5_ms_bits_col152, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_3_id_col153, (triple_xor_32_output_limb_0_col128 - (low_7_ms_bits_col150 * 512)), (low_7_ms_bits_col150 + ((triple_xor_32_output_limb_1_col129 - (high_14_ms_bits_col151 * 4)) * 128)), (high_14_ms_bits_col151 - (high_5_ms_bits_col152 * 512)), high_5_ms_bits_col152, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col154, (triple_xor_32_output_high_col131 - (high_14_ms_bits_col155 * 4)), high_5_ms_bits_col156"
+        "low_7_ms_bits_col154, (triple_xor_32_output_limb_1_col131 - (high_14_ms_bits_col155 * 4)), high_5_ms_bits_col156"
       ],
       [
         "MemoryAddressToId",
@@ -47501,11 +47501,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_4_id_col157, (triple_xor_32_output_low_col130 - (low_7_ms_bits_col154 * 512)), (low_7_ms_bits_col154 + ((triple_xor_32_output_high_col131 - (high_14_ms_bits_col155 * 4)) * 128)), (high_14_ms_bits_col155 - (high_5_ms_bits_col156 * 512)), high_5_ms_bits_col156, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_4_id_col157, (triple_xor_32_output_limb_0_col130 - (low_7_ms_bits_col154 * 512)), (low_7_ms_bits_col154 + ((triple_xor_32_output_limb_1_col131 - (high_14_ms_bits_col155 * 4)) * 128)), (high_14_ms_bits_col155 - (high_5_ms_bits_col156 * 512)), high_5_ms_bits_col156, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col158, (triple_xor_32_output_high_col133 - (high_14_ms_bits_col159 * 4)), high_5_ms_bits_col160"
+        "low_7_ms_bits_col158, (triple_xor_32_output_limb_1_col133 - (high_14_ms_bits_col159 * 4)), high_5_ms_bits_col160"
       ],
       [
         "MemoryAddressToId",
@@ -47513,11 +47513,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_5_id_col161, (triple_xor_32_output_low_col132 - (low_7_ms_bits_col158 * 512)), (low_7_ms_bits_col158 + ((triple_xor_32_output_high_col133 - (high_14_ms_bits_col159 * 4)) * 128)), (high_14_ms_bits_col159 - (high_5_ms_bits_col160 * 512)), high_5_ms_bits_col160, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_5_id_col161, (triple_xor_32_output_limb_0_col132 - (low_7_ms_bits_col158 * 512)), (low_7_ms_bits_col158 + ((triple_xor_32_output_limb_1_col133 - (high_14_ms_bits_col159 * 4)) * 128)), (high_14_ms_bits_col159 - (high_5_ms_bits_col160 * 512)), high_5_ms_bits_col160, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col162, (triple_xor_32_output_high_col135 - (high_14_ms_bits_col163 * 4)), high_5_ms_bits_col164"
+        "low_7_ms_bits_col162, (triple_xor_32_output_limb_1_col135 - (high_14_ms_bits_col163 * 4)), high_5_ms_bits_col164"
       ],
       [
         "MemoryAddressToId",
@@ -47525,11 +47525,11 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_6_id_col165, (triple_xor_32_output_low_col134 - (low_7_ms_bits_col162 * 512)), (low_7_ms_bits_col162 + ((triple_xor_32_output_high_col135 - (high_14_ms_bits_col163 * 4)) * 128)), (high_14_ms_bits_col163 - (high_5_ms_bits_col164 * 512)), high_5_ms_bits_col164, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_6_id_col165, (triple_xor_32_output_limb_0_col134 - (low_7_ms_bits_col162 * 512)), (low_7_ms_bits_col162 + ((triple_xor_32_output_limb_1_col135 - (high_14_ms_bits_col163 * 4)) * 128)), (high_14_ms_bits_col163 - (high_5_ms_bits_col164 * 512)), high_5_ms_bits_col164, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ],
       [
         "RangeCheck_7_2_5",
-        "low_7_ms_bits_col166, (triple_xor_32_output_high_col137 - (high_14_ms_bits_col167 * 4)), high_5_ms_bits_col168"
+        "low_7_ms_bits_col166, (triple_xor_32_output_limb_1_col137 - (high_14_ms_bits_col167 * 4)), high_5_ms_bits_col168"
       ],
       [
         "MemoryAddressToId",
@@ -47537,7 +47537,7 @@
       ],
       [
         "MemoryIdToBig",
-        "new_state_7_id_col169, (triple_xor_32_output_low_col136 - (low_7_ms_bits_col166 * 512)), (low_7_ms_bits_col166 + ((triple_xor_32_output_high_col137 - (high_14_ms_bits_col167 * 4)) * 128)), (high_14_ms_bits_col167 - (high_5_ms_bits_col168 * 512)), high_5_ms_bits_col168, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
+        "new_state_7_id_col169, (triple_xor_32_output_limb_0_col136 - (low_7_ms_bits_col166 * 512)), (low_7_ms_bits_col166 + ((triple_xor_32_output_limb_1_col137 - (high_14_ms_bits_col167 * 4)) * 128)), (high_14_ms_bits_col167 - (high_5_ms_bits_col168 * 512)), high_5_ms_bits_col168, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0"
       ]
     ]
   }

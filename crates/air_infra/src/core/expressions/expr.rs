@@ -131,14 +131,6 @@ where
             Expr::Op(o) => o.as_felts_mut(),
         }
     }
-
-    fn get_felt_descriptions(&self) -> Option<Vec<String>> {
-        if T::r#type() == UInt32::r#type() {
-            return Some(vec!["low".to_string(), "high".to_string()]);
-        }
-
-        None
-    }
 }
 
 #[cfg(test)]

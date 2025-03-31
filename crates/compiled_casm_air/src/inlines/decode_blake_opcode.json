@@ -9,7 +9,7 @@
     "PackedCasmState"
   ],
   "verifier_input": [
-    "[decode_blake_opcode_input_limb_0, decode_blake_opcode_input_limb_1, decode_blake_opcode_input_limb_2]",
+    "[decode_blake_opcode_input_pc, decode_blake_opcode_input_ap, decode_blake_opcode_input_fp]",
     "[M31; 3]"
   ],
   "prover_output": [
@@ -542,7 +542,7 @@
           {
             "Var": [
               "M31",
-              "decode_blake_opcode_input_limb_0"
+              "decode_blake_opcode_input_pc"
             ]
           },
           {
@@ -791,7 +791,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_blake_opcode_input_limb_2"
+                        "decode_blake_opcode_input_fp"
                       ]
                     }
                   ]
@@ -817,7 +817,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_blake_opcode_input_limb_1"
+                        "decode_blake_opcode_input_ap"
                       ]
                     }
                   ]
@@ -1047,7 +1047,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_blake_opcode_input_limb_2"
+                        "decode_blake_opcode_input_fp"
                       ]
                     }
                   ]
@@ -1062,7 +1062,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_blake_opcode_input_limb_1"
+                        "decode_blake_opcode_input_ap"
                       ]
                     }
                   ]
@@ -1283,7 +1283,7 @@
           {
             "Var": [
               "M31",
-              "decode_blake_opcode_input_limb_1"
+              "decode_blake_opcode_input_ap"
             ]
           },
           {
@@ -1483,7 +1483,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_blake_opcode_input_limb_2"
+                        "decode_blake_opcode_input_fp"
                       ]
                     }
                   ]
@@ -1509,7 +1509,7 @@
                     {
                       "Var": [
                         "M31",
-                        "decode_blake_opcode_input_limb_1"
+                        "decode_blake_opcode_input_ap"
                       ]
                     }
                   ]

@@ -48,10 +48,10 @@
     {
       "Array": [
         {
-          "State": "triple_sum32_res_low_col32"
+          "State": "triple_sum32_res_limb_0_col32"
         },
         {
-          "State": "triple_sum32_res_high_col33"
+          "State": "triple_sum32_res_limb_1_col33"
         },
         {
           "Var": [
@@ -66,10 +66,10 @@
           ]
         },
         {
-          "State": "triple_sum32_res_low_col42"
+          "State": "triple_sum32_res_limb_0_col42"
         },
         {
-          "State": "triple_sum32_res_high_col43"
+          "State": "triple_sum32_res_limb_1_col43"
         },
         {
           "Var": [
@@ -100,8 +100,8 @@
     "input_limb_9_col9",
     "input_limb_10_col10",
     "input_limb_11_col11",
-    "triple_sum32_res_low_col12",
-    "triple_sum32_res_high_col13",
+    "triple_sum32_res_limb_0_col12",
+    "triple_sum32_res_limb_1_col13",
     "ms_8_bits_col14",
     "ms_8_bits_col15",
     "ms_8_bits_col16",
@@ -110,8 +110,8 @@
     "xor_col19",
     "xor_col20",
     "xor_col21",
-    "triple_sum32_res_low_col22",
-    "triple_sum32_res_high_col23",
+    "triple_sum32_res_limb_0_col22",
+    "triple_sum32_res_limb_1_col23",
     "ms_4_bits_col24",
     "ms_4_bits_col25",
     "ms_4_bits_col26",
@@ -120,8 +120,8 @@
     "xor_col29",
     "xor_col30",
     "xor_col31",
-    "triple_sum32_res_low_col32",
-    "triple_sum32_res_high_col33",
+    "triple_sum32_res_limb_0_col32",
+    "triple_sum32_res_limb_1_col33",
     "ms_8_bits_col34",
     "ms_8_bits_col35",
     "ms_8_bits_col36",
@@ -130,8 +130,8 @@
     "xor_col39",
     "xor_col40",
     "xor_col41",
-    "triple_sum32_res_low_col42",
-    "triple_sum32_res_high_col43",
+    "triple_sum32_res_limb_0_col42",
+    "triple_sum32_res_limb_1_col43",
     "ms_9_bits_col44",
     "ms_9_bits_col45",
     "ms_9_bits_col46",
@@ -202,7 +202,7 @@
                 },
                 "-",
                 {
-                  "State": "triple_sum32_res_low_col12"
+                  "State": "triple_sum32_res_limb_0_col12"
                 }
               ]
             },
@@ -312,7 +312,7 @@
                 },
                 "-",
                 {
-                  "State": "triple_sum32_res_high_col13"
+                  "State": "triple_sum32_res_limb_1_col13"
                 }
               ]
             },
@@ -396,7 +396,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "triple_sum32_res_low_col12"
+              "State": "triple_sum32_res_limb_0_col12"
             },
             "-",
             {
@@ -428,7 +428,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "triple_sum32_res_high_col13"
+              "State": "triple_sum32_res_limb_1_col13"
             },
             "-",
             {
@@ -718,7 +718,7 @@
                 },
                 "-",
                 {
-                  "State": "triple_sum32_res_low_col22"
+                  "State": "triple_sum32_res_limb_0_col22"
                 }
               ]
             },
@@ -823,7 +823,7 @@
                 },
                 "-",
                 {
-                  "State": "triple_sum32_res_high_col23"
+                  "State": "triple_sum32_res_limb_1_col23"
                 }
               ]
             },
@@ -971,7 +971,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "triple_sum32_res_low_col22"
+              "State": "triple_sum32_res_limb_0_col22"
             },
             "-",
             {
@@ -1003,7 +1003,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "triple_sum32_res_high_col23"
+              "State": "triple_sum32_res_limb_1_col23"
             },
             "-",
             {
@@ -1218,7 +1218,7 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "triple_sum32_res_low_col12"
+                          "State": "triple_sum32_res_limb_0_col12"
                         },
                         "+",
                         {
@@ -1237,7 +1237,7 @@
                 },
                 "-",
                 {
-                  "State": "triple_sum32_res_low_col32"
+                  "State": "triple_sum32_res_limb_0_col32"
                 }
               ]
             },
@@ -1322,7 +1322,7 @@
                         {
                           "BinaryOp": [
                             {
-                              "State": "triple_sum32_res_high_col13"
+                              "State": "triple_sum32_res_limb_1_col13"
                             },
                             "+",
                             {
@@ -1350,7 +1350,7 @@
                 },
                 "-",
                 {
-                  "State": "triple_sum32_res_high_col33"
+                  "State": "triple_sum32_res_limb_1_col33"
                 }
               ]
             },
@@ -1434,7 +1434,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "triple_sum32_res_low_col32"
+              "State": "triple_sum32_res_limb_0_col32"
             },
             "-",
             {
@@ -1466,7 +1466,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "triple_sum32_res_high_col33"
+              "State": "triple_sum32_res_limb_1_col33"
             },
             "-",
             {
@@ -1749,7 +1749,7 @@
                 {
                   "BinaryOp": [
                     {
-                      "State": "triple_sum32_res_low_col22"
+                      "State": "triple_sum32_res_limb_0_col22"
                     },
                     "+",
                     {
@@ -1762,7 +1762,7 @@
                 },
                 "-",
                 {
-                  "State": "triple_sum32_res_low_col42"
+                  "State": "triple_sum32_res_limb_0_col42"
                 }
               ]
             },
@@ -1845,7 +1845,7 @@
                     {
                       "BinaryOp": [
                         {
-                          "State": "triple_sum32_res_high_col23"
+                          "State": "triple_sum32_res_limb_1_col23"
                         },
                         "+",
                         {
@@ -1867,7 +1867,7 @@
                 },
                 "-",
                 {
-                  "State": "triple_sum32_res_high_col43"
+                  "State": "triple_sum32_res_limb_1_col43"
                 }
               ]
             },
@@ -2021,7 +2021,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "triple_sum32_res_low_col42"
+              "State": "triple_sum32_res_limb_0_col42"
             },
             "-",
             {
@@ -2053,7 +2053,7 @@
         "var": {
           "BinaryOp": [
             {
-              "State": "triple_sum32_res_high_col43"
+              "State": "triple_sum32_res_limb_1_col43"
             },
             "-",
             {
@@ -2293,10 +2293,10 @@
             "State": "input_limb_11_col11"
           },
           {
-            "State": "triple_sum32_res_low_col32"
+            "State": "triple_sum32_res_limb_0_col32"
           },
           {
-            "State": "triple_sum32_res_high_col33"
+            "State": "triple_sum32_res_limb_1_col33"
           },
           {
             "Var": [
@@ -2311,10 +2311,10 @@
             ]
           },
           {
-            "State": "triple_sum32_res_low_col42"
+            "State": "triple_sum32_res_limb_0_col42"
           },
           {
-            "State": "triple_sum32_res_high_col43"
+            "State": "triple_sum32_res_limb_1_col43"
           },
           {
             "Var": [
@@ -2722,7 +2722,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_sum32_res_low_col12"
+                  "State": "triple_sum32_res_limb_0_col12"
                 },
                 "-",
                 {
@@ -2804,7 +2804,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_sum32_res_high_col13"
+                  "State": "triple_sum32_res_limb_1_col13"
                 },
                 "-",
                 {
@@ -3753,7 +3753,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_sum32_res_low_col22"
+                  "State": "triple_sum32_res_limb_0_col22"
                 },
                 "-",
                 {
@@ -3835,7 +3835,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_sum32_res_high_col23"
+                  "State": "triple_sum32_res_limb_1_col23"
                 },
                 "-",
                 {
@@ -4456,7 +4456,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_sum32_res_low_col32"
+                  "State": "triple_sum32_res_limb_0_col32"
                 },
                 "-",
                 {
@@ -4538,7 +4538,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_sum32_res_high_col33"
+                  "State": "triple_sum32_res_limb_1_col33"
                 },
                 "-",
                 {
@@ -5547,7 +5547,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_sum32_res_low_col42"
+                  "State": "triple_sum32_res_limb_0_col42"
                 },
                 "-",
                 {
@@ -5629,7 +5629,7 @@
             {
               "BinaryOp": [
                 {
-                  "State": "triple_sum32_res_high_col43"
+                  "State": "triple_sum32_res_limb_1_col43"
                 },
                 "-",
                 {
@@ -6143,10 +6143,10 @@
             "State": "input_limb_11_col11"
           },
           {
-            "State": "triple_sum32_res_low_col32"
+            "State": "triple_sum32_res_limb_0_col32"
           },
           {
-            "State": "triple_sum32_res_high_col33"
+            "State": "triple_sum32_res_limb_1_col33"
           },
           {
             "MethodCall": [
@@ -6185,10 +6185,10 @@
             ]
           },
           {
-            "State": "triple_sum32_res_low_col42"
+            "State": "triple_sum32_res_limb_0_col42"
           },
           {
-            "State": "triple_sum32_res_high_col43"
+            "State": "triple_sum32_res_limb_1_col43"
           },
           {
             "MethodCall": [

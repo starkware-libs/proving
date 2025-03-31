@@ -45,10 +45,6 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
 
     fn let_for_deduction(&self, name: String) -> (Self, Intermediate);
 
-    fn get_felt_descriptions(&self) -> Option<Vec<String>> {
-        None
-    }
-
     fn as_felts_mut(&mut self) -> Vec<&mut FeltExpr>;
 
     fn as_felts(&self) -> Vec<FeltExpr> {
@@ -103,7 +99,7 @@ pub trait AirVar: Clone + Debug + Into<AirVarImpl> {
                 continue;
             }
 
-            let felt_name = AirVarImpl::get_limb_name(&name, i);
+            let felt_name = self.clone().into().get_limb_name(&name, i);
             vars.push(Intermediate::new_for_constraint(&felt_name, orig_felt));
             felt.let_for_constraint(felt_name);
         }
@@ -118,6 +114,10 @@ pub trait InternalAirVarInfo {
     fn get_info(&self) -> HashSet<AirVarInfo>;
 
     fn prover_type(&self) -> String;
+
+    fn felt_descriptions(&self) -> Option<Vec<String>> {
+        None
+    }
 
     // An AirVar is in_state if it is stored in a trace cell or a polynomial of felts stored in
     // trace cells. Used to verify that expressions of constraints are polynomials of felts
@@ -373,7 +373,7 @@ impl AirVarImpl {
                     "[{}]",
                     vars.iter()
                         .enumerate()
-                        .map(|(i, _)| Self::get_limb_name(&name, i))
+                        .map(|(i, _)| self.get_limb_name(&name, i))
                         .collect::<Vec<_>>()
                         .join(", ")
                 )
@@ -382,7 +382,10 @@ impl AirVarImpl {
         }
     }
 
-    pub fn get_limb_name(name: &String, index: usize) -> String {
+    pub fn get_limb_name(&self, name: &String, index: usize) -> String {
+        if let Some(descs) = self.felt_descriptions() {
+            return format!("{}_{}", name, descs[index]);
+        }
         format!("{}_limb_{}", name, index)
     }
 
@@ -514,6 +517,34 @@ impl InternalAirVarInfo for AirVarImpl {
                 r#type,
                 fields: _,
             } => r#type.to_string(),
+        }
+    }
+
+    fn felt_descriptions(&self) -> Option<Vec<String>> {
+        match self {
+            AirVarImpl::Expr(expr) => expr.felt_descriptions(),
+            AirVarImpl::Array(vars) | AirVarImpl::Tuple(vars) => vars
+                .iter()
+                .map(|v| v.felt_descriptions())
+                .collect::<Option<Vec<_>>>()
+                .map(|v| v.into_iter().flatten().collect()),
+            AirVarImpl::Struct {
+                name: _,
+                r#type: _,
+                fields,
+            } => Some(
+                fields
+                    .iter()
+                    .flat_map(|(n, f)| {
+                        if let Some(descs) = f.felt_descriptions() {
+                            descs.iter().map(|d| format!("{}_{}", n, d)).collect()
+                        } else {
+                            let n_felts = f.as_felts().len();
+                            vec![n.clone(); n_felts]
+                        }
+                    })
+                    .collect(),
+            ),
         }
     }
 }
