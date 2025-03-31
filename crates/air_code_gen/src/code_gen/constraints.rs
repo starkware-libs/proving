@@ -27,7 +27,65 @@ pub fn generate_component_code(lists: &CompiledAirFn) -> rust::Tokens {
         $(generate_component_type_def())
         $['\n']
         $(generate_framework_impl(lists))
+        $['\n']
+        $(generate_tests(lists))
     }
+}
+
+pub fn generate_tests(air_fn: &CompiledAirFn) -> rust::Tokens {
+    quote! {
+        #[cfg(test)]
+        mod tests {
+            use num_traits::Zero;
+            use rand::rngs::SmallRng;
+            use rand::{Rng, SeedableRng};
+            use stwo_prover::constraint_framework::expr::ExprEvaluator;
+            use stwo_prover::core::fields::qm31::QM31;
+
+            use super::*;
+            use crate::components::constraints_regression_test_values::$(air_fn.name.to_case(Case::UpperSnake));
+
+            #[test]
+            fn $(air_fn.name.clone())_constraints_regression() {
+                let eval = Eval {
+                    claim: Claim {
+                        log_size: 4,
+                        $(get_dummy_public_params(air_fn))
+                    },
+                    $(get_dummy_lookup_elements(air_fn))
+                };
+
+                let expr_eval = eval.evaluate(ExprEvaluator::new());
+                let mut rng = SmallRng::seed_from_u64(0);
+                let mut sum = QM31::zero();
+                for c in expr_eval.constraints {
+                    sum += c.random_eval() * rng.gen::<QM31>();
+                }
+
+                assert_eq!(sum, $(air_fn.name.to_case(Case::UpperSnake)));
+            }
+        }
+    }
+}
+
+fn get_dummy_lookup_elements(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let mut code = rust::Tokens::new();
+    for relation in air_fn.lookup_names.keys() {
+        code.append(quote! {
+            $(relation.to_case(Case::Snake))_lookup_elements: relations::$(relation)::dummy(),
+        });
+    }
+    code
+}
+
+fn get_dummy_public_params(air_fn: &CompiledAirFn) -> rust::Tokens {
+    let mut code = rust::Tokens::new();
+    for param in &air_fn.public_params {
+        code.append(quote! {
+         $(param.name()): 0u32,
+        });
+    }
+    code
 }
 
 pub fn generate_inline_code(lists: &CompiledAirFn) -> rust::Tokens {

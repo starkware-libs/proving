@@ -8,6 +8,7 @@ use stwo_prover::core::poly::BitReversedOrder;
 
 pub mod add_ap_opcode_imm;
 pub mod cond_decode_small_sign;
+pub mod constraints_regression_test_values;
 pub mod decode_instruction_8ad7e540e219b042;
 pub mod decode_instruction_e03055818c3f043;
 pub mod encode_offsets;
